@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/nextcloud-deck.iml" filepath="$PROJECT_DIR$/nextcloud-deck.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/nc_deck.iml" filepath="$PROJECT_DIR$/.idea/nc_deck.iml" />
     </modules>
   </component>
 </project>
