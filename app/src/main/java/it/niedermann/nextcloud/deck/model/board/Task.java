@@ -22,7 +22,7 @@ public class Task implements Serializable {
     private String order;
     private boolean archived;
     private String dueDate;
-    private int id;
+    private long id;
     private String overdue;
 
 

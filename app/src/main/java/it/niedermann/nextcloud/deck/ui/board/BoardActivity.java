@@ -18,9 +18,22 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.board.Board;
 
 public class BoardActivity extends AppCompatActivity {
+
+    private ArrayList<Board> boards = new ArrayList<>();
+
+    public BoardActivity(){
+
+    }
+
+    public BoardActivity(ArrayList<Board> boards){
+        this.boards = boards;
+    }
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -140,8 +153,7 @@ public class BoardActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            return boards.size();
         }
     }
 }
