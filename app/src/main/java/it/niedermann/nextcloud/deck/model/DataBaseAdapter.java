@@ -129,6 +129,36 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
         return new Account(id, accoutName);
     }
 
+    public void deleteAccount(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ACCOUNTS, "ID=?", new String[]{String.valueOf(id)});
+    }
+
+    public void updateAccount(Account account) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("ACCOUNT_NAME", account.getName());
+        db.update(TABLE_ACCOUNTS, values, "ID=?",
+                new String[]{String.valueOf(account.getId())});
+    }
+    public Account readAccount(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_ACCOUNTS, new String[]{"ACCOUNT_NAME"}, "ID=?",
+                new String[]{String.valueOf(id)}, null, null, null);
+        cursor.moveToFirst();
+        return new Account(id, cursor.getString(0));
+    }
+    public List<Account> readAccounts(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_ACCOUNTS, null, null,
+                null, null, null, null);
+        List<Account> accountList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            accountList.add(new Account(cursor.getLong(0), cursor.getString(1)));
+        }
+        return accountList;
+    }
+
     @NonNull
     @WorkerThread
     public Map<Long, Long> getIdMap() {
