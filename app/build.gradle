@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
-        minSdkVersion 14
+        minSdkVersion 28
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -19,6 +19,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation "com.github.nextcloud:android-SingleSignOn:0.1.2"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])

@@ -148,7 +148,7 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
         cursor.moveToFirst();
         return new Account(id, cursor.getString(0));
     }
-    public List<Account> readAccounts(long id) {
+    public List<Account> readAccounts() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_ACCOUNTS, null, null,
                 null, null, null, null);
@@ -157,6 +157,15 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
             accountList.add(new Account(cursor.getLong(0), cursor.getString(1)));
         }
         return accountList;
+    }
+
+    public boolean hasAccounts() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_ACCOUNTS, new String[]{"COUNT(ID)"}, null,
+                null, null, null, null);
+        List<Account> accountList = new ArrayList<>();
+        cursor.moveToFirst();
+        return cursor.getInt(0) > 0;
     }
 
     @NonNull
@@ -180,10 +189,10 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
      * @param id            long - ID of the Note that should be deleted.
      * @param forceDBStatus DBStatus, e.g., if Note was marked as LOCAL_DELETED (for DataBaseAdapter.SyncTask.pushLocalChanges()) or is unchanged VOID (for DataBaseAdapter.SyncTask.pullRemoteChanges())
      */
-    void deleteNote(long id, @NonNull DBStatus forceDBStatus) {
+    //void deleteNote(long id, @NonNull DBStatus forceDBStatus) {
         SQLiteDatabase db = this.getWritableDatabase();
 //        db.delete(table_notes,
 //                key_id + " = ? AND " + key_status + " = ?",
-                new String[]{String.valueOf(id), forceDBStatus.getTitle()});
-    }
+     //           new String[]{String.valueOf(id), forceDBStatus.getTitle()});
+    //}
 }
