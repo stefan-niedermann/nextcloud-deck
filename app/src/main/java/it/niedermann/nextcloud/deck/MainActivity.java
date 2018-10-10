@@ -16,8 +16,10 @@ import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotSupportedException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
@@ -70,8 +72,7 @@ public class MainActivity extends AppCompatActivity
             SingleSignOnAccount account = null;
             try {
                 account = SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext());
-                //SingleSignOnAccount ssoAccount =
-                //        AccountImporter.getAuthTokenInSeparateThread(context, account);
+                AccountImporter.requestAuthToken(this, getIntent());
                 mNextcloudAPI = new NextcloudAPI(getApplicationContext(), account, new Gson(), new NextcloudAPI.ApiConnectedListener() {
 
                     @Override
@@ -98,6 +99,8 @@ public class MainActivity extends AppCompatActivity
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 e.printStackTrace();
             } catch (NoCurrentAccountSelectedException e) {
+                e.printStackTrace();
+            } catch (NextcloudFilesAppNotSupportedException e) {
                 e.printStackTrace();
             }
 
