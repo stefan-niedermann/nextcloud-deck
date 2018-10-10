@@ -1,0 +1,3 @@
+[submodule "Android-SingleSignOn"]
+	path = Android-SingleSignOn
+	url = https://github.com/nextcloud/Android-SingleSignOn.git
