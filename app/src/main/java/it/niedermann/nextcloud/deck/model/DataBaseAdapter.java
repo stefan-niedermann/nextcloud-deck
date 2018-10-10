@@ -34,7 +34,9 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
             "(" +
             "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "ACCOUNT_ID INTEGER NOT NULL, " +
+            "REMOTE_ID INTEGER NOT NULL DEFAULT 0, " +
             "BOARD_NAME TEXT NOT NULL UNIQUE, " +
+            "STATUS INTEGER NOT NULL DEFAULT 1, " +
             "FOREIGN KEY (ACCOUNT_ID) REFERENCES ACCOUNTS(ID)" +
             " )";
 
