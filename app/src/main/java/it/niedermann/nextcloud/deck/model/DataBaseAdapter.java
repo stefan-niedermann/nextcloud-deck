@@ -167,32 +167,4 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
         cursor.moveToFirst();
         return cursor.getInt(0) > 0;
     }
-
-    @NonNull
-    @WorkerThread
-    public Map<Long, Long> getIdMap() {
-        Map<Long, Long> result = new HashMap<>();
-//        SQLiteDatabase db = getReadableDatabase();
-//        Cursor cursor = db.query(table_notes, new String[]{key_remote_id, key_id}, key_status + " != ?", new String[]{DBStatus.LOCAL_DELETED.getTitle()}, null, null, null);
-//        while (cursor.moveToNext()) {
-//            result.put(cursor.getLong(0), cursor.getLong(1));
-//        }
-//        cursor.close();
-        return result;
-    }
-
-
-    /**
-     * Delete a single Note from the Database, if it has a specific DBStatus.
-     * Thereby, an optimistic concurrency control is realized in order to prevent conflicts arising due to parallel changes from the UI and synchronization.
-     *
-     * @param id            long - ID of the Note that should be deleted.
-     * @param forceDBStatus DBStatus, e.g., if Note was marked as LOCAL_DELETED (for DataBaseAdapter.SyncTask.pushLocalChanges()) or is unchanged VOID (for DataBaseAdapter.SyncTask.pullRemoteChanges())
-     */
-    //void deleteNote(long id, @NonNull DBStatus forceDBStatus) {
-        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(table_notes,
-//                key_id + " = ? AND " + key_status + " = ?",
-     //           new String[]{String.valueOf(id), forceDBStatus.getTitle()});
-    //}
 }

@@ -9,48 +9,49 @@ public enum DBStatus {
     /**
      * VOID means, that the Note was not modified locally
      */
-    UP_TO_DATE(""),
+    UP_TO_DATE(1),
 
     /**
      * LOCAL_CREATED is not used anymore, since a newly created note has REMOTE_ID=0
      */
     @Deprecated
-    LOCAL_CREATED("LOCAL_CREATED"),
+    LOCAL_CREATED(2),
 
     /**
      * LOCAL_EDITED means that a Note was created and/or changed since the last successful synchronization.
      * If it was newly created, then REMOTE_ID is 0
      */
-    LOCAL_EDITED("LOCAL_EDITED"),
+    LOCAL_EDITED(3),
 
     /**
      * LOCAL_DELETED means that the Note was deleted locally, but this information was not yet synchronized.
      * Therefore, the Note have to be kept locally until the synchronization has succeeded.
      * However, Notes with this status should not be displayed in the UI.
      */
-    LOCAL_DELETED("LOCAL_DELETED");
+    LOCAL_DELETED(4);
 
-    private final String title;
+    private final int id;
 
-    public String getTitle() {
-        return title;
+    public int getId() {
+        return id;
     }
 
-    DBStatus(String title) {
-        this.title = title;
+    DBStatus(int id) {
+        this.id = id;
     }
 
     /**
      * Parse a String an get the appropriate DBStatus enum element.
      *
-     * @param str The String containing the DBStatus identifier. Must not null.
+     * @param id The String containing the DBStatus identifier. Must not null.
      * @return The DBStatus fitting to the String.
      */
-    public static DBStatus parse(String str) {
-        if (str.isEmpty()) {
-            return DBStatus.UP_TO_DATE;
-        } else {
-            return DBStatus.valueOf(str);
+    public static DBStatus parse(int id) {
+        for (DBStatus s : DBStatus.values()){
+            if (s.getId() == id) {
+                return s;
+            }
         }
+        throw new IllegalArgumentException("unknown DBStatus key");
     }
 }
