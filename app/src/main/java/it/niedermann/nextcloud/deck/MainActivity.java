@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.nextcloud.android.sso.api.NextcloudAPI;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
@@ -82,7 +83,12 @@ public class MainActivity extends AppCompatActivity
                             provider.getAPI().boards().subscribe(consumer, new Consumer<Throwable>() {
                                 @Override
                                 public void accept(Throwable throwable) throws Exception {
-                                    throwable.printStackTrace();
+                                    if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                        NextcloudHttpRequestFailedException e = (NextcloudHttpRequestFailedException) throwable;
+                                        e.getMessage(getApplicationContext());
+                                        e.printStackTrace();
+                                    }
+                                    //throwable.printStackTrace();
                                 }
                             });
                         }
