@@ -75,7 +75,19 @@ public class MainActivity extends AppCompatActivity
                             Log.e("Deck", "" + boards.size());
                         }
                     };
-                    provider.getAPI().boards().subscribe(consumer);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            provider.getAPI().boards().subscribe(consumer, new Consumer<Throwable>() {
+                                @Override
+                                public void accept(Throwable throwable) throws Exception {
+                                    throwable.printStackTrace();
+                                }
+                            });
+                        }
+                    }).start();
+
                 }
 
                 @Override
