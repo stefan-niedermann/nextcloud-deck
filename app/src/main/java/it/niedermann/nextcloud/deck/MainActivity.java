@@ -2,41 +2,38 @@ package it.niedermann.nextcloud.deck;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.api.NextcloudAPI;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotSupportedException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
+import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.DeckAPI;
 import it.niedermann.nextcloud.deck.api.DeckAPI_SSO;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.DataBaseAdapter;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, NextcloudAPI.ApiConnectedListener {
     private NextcloudAPI mNextcloudAPI;
     private DataBaseAdapter dataBaseAdapter;
     private LoginDialogFragment loginDialogFragment;
+    private SingleSignOnAccount account = null;
+    ApiProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,41 +65,41 @@ public class MainActivity extends AppCompatActivity
 
             String accountName = dataBaseAdapter.readAccounts().get(0).getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
-
-            SingleSignOnAccount account = null;
-            try {
-                account = SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext());
-                AccountImporter.requestAuthToken(this, getIntent());
-                mNextcloudAPI = new NextcloudAPI(getApplicationContext(), account, new Gson(), new NextcloudAPI.ApiConnectedListener() {
-
-                    @Override
-                    public void onConnected() {
-                        try{
-                            DeckAPI mApi = new DeckAPI_SSO(mNextcloudAPI);
-                            mApi.boards().subscribe(new Consumer<List<Board>>() {
-                                @Override
-                                public void accept(List<Board> boards) throws Exception {
-                                    Log.v("Deck", "=============================================================");
-                                    Log.v("Deck", "" + boards.size());
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
+            provider = new ApiProvider(getApplicationContext(), new NextcloudAPI.ApiConnectedListener() {
+                @Override
+                public void onConnected() {
+                    final Consumer<List<Board>> consumer = new Consumer<List<Board>>() {
+                        @Override
+                        public void accept(List<Board> boards) throws Exception {
+                            Log.e("Deck", "=============================================================");
+                            Log.e("Deck", "" + boards.size());
                         }
-                    }
+                    };
+                    provider.getAPI().boards().subscribe(consumer);
+                }
 
-                    @Override
-                    public void onError(Exception e) {
-                    }
-                });
+                @Override
+                public void onError(Exception ex) {
 
-            } catch (NextcloudFilesAppAccountNotFoundException e) {
-                e.printStackTrace();
-            } catch (NoCurrentAccountSelectedException e) {
-                e.printStackTrace();
-            } catch (NextcloudFilesAppNotSupportedException e) {
-                e.printStackTrace();
-            }
+                }
+            });
+
+//
+//            String accountName = dataBaseAdapter.readAccounts().get(0).getName();
+//            SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
+//
+//            try {
+//                //account = SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext());
+//                account = AccountImporter.getSingleSignOnAccount(getApplicationContext(), accountName);
+//                Log.e("Deck", "=============================================================");
+//                Log.e("Deck", account.name);
+////                AccountImporter.requestAuthToken(this, getIntent());
+//
+//                mNextcloudAPI = new NextcloudAPI(getApplicationContext(), account, new Gson(), this);
+//
+//            } catch (NextcloudFilesAppAccountNotFoundException e) {
+//                e.printStackTrace();
+//            }
 
         } else {
             loginDialogFragment = new LoginDialogFragment();
@@ -170,5 +167,26 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onConnected() {
+        try{
+            DeckAPI mApi = new DeckAPI_SSO(mNextcloudAPI);
+            mApi.boards().subscribe(new Consumer<List<Board>>() {
+                @Override
+                public void accept(List<Board> boards) throws Exception {
+                    Log.e("Deck", "=============================================================");
+                    Log.e("Deck", "" + boards.size());
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onError(Exception ex) {
+        ex.printStackTrace();
     }
 }

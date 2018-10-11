@@ -21,6 +21,7 @@ public class LoginDialogFragment extends DialogFragment {
         try {
             AccountImporter.pickNewAccount(this);
         } catch (NextcloudFilesAppNotInstalledException e) {
+            Log.e("Deck", "=============================================================");
             Log.e("Deck", "Nextcloud app is not installed. Cannot choose account");
             // ToDo redirect to Play Store
             e.printStackTrace();
