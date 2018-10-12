@@ -11,12 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
@@ -24,14 +22,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.functions.Consumer;
+import io.reactivex.Observable;
+import it.niedermann.nextcloud.deck.api.ApiCalls;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
-import it.niedermann.nextcloud.deck.persistence.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.persistence.DataBaseAdapter;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NextcloudAPI.ApiConnectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
@@ -69,8 +68,19 @@ public class MainActivity extends AppCompatActivity
         if(this.dataBaseAdapter.hasAccounts()) {
             String accountName = dataBaseAdapter.readAccounts().get(0).getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
-            provider = new ApiProvider(getApplicationContext(), this);
+            provider = new ApiProvider(getApplicationContext());
 
+            RequestHelper.request(this, provider, ApiCalls.getBoardsCall(), new RequestHelper.ResponseCallback<List<Board>>() {
+                @Override
+                public void onResponse(List<Board> boards) {
+                    adapter.setBoardList(boards);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            });
         } else {
             loginDialogFragment = new LoginDialogFragment();
             loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
@@ -133,25 +143,5 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onConnected() {
-        RequestHelper.request(this, provider.getAPI().boards(), new RequestHelper.ResponseCallback<List<Board>>() {
-            @Override
-            public void onResponse(List<Board> boards) {
-                adapter.setBoardList(boards);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-
-            }
-        });
-    }
-
-    @Override
-    public void onError(Exception e) {
-        e.printStackTrace();
     }
 }

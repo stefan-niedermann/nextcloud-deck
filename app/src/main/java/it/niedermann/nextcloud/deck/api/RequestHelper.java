@@ -2,15 +2,61 @@ package it.niedermann.nextcloud.deck.api;
 
 import android.app.Activity;
 
-import java.util.List;
+import com.nextcloud.android.sso.api.NextcloudAPI;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.LinkedTransferQueue;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
-import it.niedermann.nextcloud.deck.model.Board;
 
 public class RequestHelper {
+    private static Queue<PendingRequest> requestQueue = new LinkedBlockingQueue<>();
 
-    public static <T> void request(final Activity sourceActivity, final Observable<T> request, final ResponseCallback<T> callback){
+    public static <T> void request(final Activity sourceActivity, final ApiProvider provider, final ApiCalls.ApiCall call, final ResponseCallback<T> callback){
+
+        if (!provider.isConnected()){
+            provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
+                @Override
+                public void onConnected() {
+                    call.setData(provider, new ApiCalls.ApiCallable() {
+                        @Override
+                        public void onCallable(Observable request) {
+                            requestQueue.add(new PendingRequest(sourceActivity, request, callback));
+                            while (!requestQueue.isEmpty()){
+                                PendingRequest pendingRequest = requestQueue.poll();
+                                runRequest(pendingRequest.getSourceActivity(), pendingRequest.getRequest(), pendingRequest.getCallback());
+                            }
+                        }
+                    });
+                    new Thread(call).start();
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    callback.onError(e);
+                }
+            });
+        } else {
+            call.setData(provider, new ApiCalls.ApiCallable() {
+                @Override
+                public void onCallable(Observable request) {
+                    requestQueue.add(new PendingRequest(sourceActivity, request, callback));
+                    while (!requestQueue.isEmpty()){
+                        PendingRequest pendingRequest = requesxtQueue.poll();
+                        runRequest(pendingRequest.getSourceActivity(), pendingRequest.getRequest(), pendingRequest.getCallback());
+                    }
+                }
+            });
+            new Thread(call).start();
+        }
+    }
+
+    private static <T> void runRequest(final Activity sourceActivity, final Observable<T> request, final ResponseCallback<T> callback){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -20,6 +66,29 @@ public class RequestHelper {
         }).start();
     }
 
+    private static class PendingRequest  <T> {
+        private Observable<T> request;
+        private Activity sourceActivity;
+        private ResponseCallback<T> callback;
+
+        public PendingRequest(Activity sourceActivity, Observable<T> request, ResponseCallback<T> callback) {
+            this.request = request;
+            this.callback = callback;
+            this.sourceActivity = sourceActivity;
+        }
+
+        public Observable<T> getRequest() {
+            return request;
+        }
+
+        public ResponseCallback<T> getCallback() {
+            return callback;
+        }
+
+        public Activity getSourceActivity() {
+            return sourceActivity;
+        }
+    }
 
     public interface ResponseCallback<T> {
         void onResponse(T response);

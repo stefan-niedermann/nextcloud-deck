@@ -25,25 +25,22 @@ public class ApiProvider {
     private static final String TAG = ApiProvider.class.getCanonicalName();
     private DeckAPI mApi;
     private Context context;
+    private boolean connected = false;
     NextcloudAPI nextcloudAPI = null;
 
 
-    public ApiProvider(Context context, NextcloudAPI.ApiConnectedListener callback) {
+    public ApiProvider(Context context) {
         this.context = context;
-        initApi(callback);
     }
 
-    public void initApi(@NonNull NextcloudAPI.ApiConnectedListener apiConnectedListener) {
-            initSsoApi(apiConnectedListener);
-    }
-
-    private void initSsoApi(final NextcloudAPI.ApiConnectedListener callback) {
+    public void initSsoApi(final NextcloudAPI.ApiConnectedListener callback) {
 
         try {
             SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
             nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.GetGson(), new NextcloudAPI.ApiConnectedListener() {
                 @Override
                 public void onConnected() {
+                    connected = true;
                     mApi = new DeckAPI_SSO(nextcloudAPI);
                     callback.onConnected();
                 }
@@ -59,7 +56,9 @@ public class ApiProvider {
         }
     }
 
-
+    public boolean isConnected() {
+        return connected;
+    }
 
     public DeckAPI getAPI() {
         return mApi;
