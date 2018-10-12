@@ -27,6 +27,11 @@ public class Card extends RemoteEntity {
     private int overdue;
     private int commentsUnread;
 
+    public Card(long remoteId, String title) {
+        super(remoteId);
+        this.title = title;
+    }
+
     public String getTitle() {
         return title;
     }

@@ -9,7 +9,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import it.niedermann.nextcloud.deck.model.board.Board;
-import it.niedermann.nextcloud.deck.model.board.Task;
+import it.niedermann.nextcloud.deck.model.board.Card;
 
 public class DeckAPI_SSO implements DeckAPI {
 
@@ -52,7 +52,7 @@ public class DeckAPI_SSO implements DeckAPI {
     }
 
     @Override
-    public Observable<List<Task>> getTasks() {
+    public Observable<List<Card>> getTasks() {
         NextcloudRequest request = new NextcloudRequest.Builder()
                 .setMethod("GET")
                 .setUrl(mApiEndpoint + "boards")

@@ -81,7 +81,11 @@ public class MainActivity extends AppCompatActivity
                                 }
                             });
                             Log.d("Deck", "================= Lade Boards ====================");
-                            Log.d("Deck", "" + boards.get(0).getTitle());
+                            if(boards != null) {
+                                for(Board board: boards) {
+                                    Log.d("Deck", "" + board.getTitle());
+                                }
+                            }
                         }
                     };
 
