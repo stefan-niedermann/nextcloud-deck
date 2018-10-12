@@ -14,7 +14,7 @@ public class Card extends RemoteEntity {
     private LocalDate createdAt;
     private LocalDate deletedAt;
     private List<Label> labels = new ArrayList<>();
-    private List<User> assignedUsers;
+    private List<User> assignedUsers = new ArrayList<>();
     private String attachments;
     private int attachmentCount;
     private String owner;

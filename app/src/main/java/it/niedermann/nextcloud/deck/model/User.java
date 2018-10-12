@@ -2,8 +2,6 @@ package it.niedermann.nextcloud.deck.model;
 
 import java.io.Serializable;
 
-import it.niedermann.nextcloud.deck.model.RemoteEntity;
-
 public class User implements Serializable {
 
     private String primaryKey;

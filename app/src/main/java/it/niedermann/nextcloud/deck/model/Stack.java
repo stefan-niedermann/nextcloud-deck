@@ -7,7 +7,6 @@ public class Stack extends RemoteEntity {
     private long boardId;
     private LocalDate deletedAt;
     private int order;
-    private DBStatus status = DBStatus.UP_TO_DATE;
 
     public Stack() {
         super();
@@ -43,13 +42,5 @@ public class Stack extends RemoteEntity {
 
     public void setOrder(int order) {
         this.order = order;
-    }
-
-    public DBStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(DBStatus status) {
-        this.status = status;
     }
 }

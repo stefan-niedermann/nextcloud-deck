@@ -1,9 +1,22 @@
 package it.niedermann.nextcloud.deck.model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board extends RemoteEntity {
     private long accountId;
     private String title;
-    private DBStatus status = DBStatus.UP_TO_DATE;
+    private User owner;
+    private String color;
+    private boolean archived;
+    private List<Label> labels = new ArrayList<>();
+    private String acl;
+    private List<Permissions> permissions = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
+    private int shared;
+    private LocalDate deletedAt;
+
 
     public Board(long accountId, long remoteId, String title) {
         super(remoteId);

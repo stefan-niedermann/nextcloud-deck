@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class RemoteEntity implements Serializable {
     protected long remoteId = 0;
     protected long id = 0;
-    private DBStatus status = DBStatus.UP_TO_DATE;
+    protected DBStatus status = DBStatus.UP_TO_DATE;
 
     public RemoteEntity() {
     }
