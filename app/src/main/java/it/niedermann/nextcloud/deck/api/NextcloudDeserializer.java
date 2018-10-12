@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.board.Board;
+import it.niedermann.nextcloud.deck.model.board.Task;
 
 /**
  * Created by david on 24.05.17.
@@ -36,8 +37,11 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
 
         List<T> items = new ArrayList<>();
         for(int i = 0; i < jArr.size(); i++) {
+            JsonObject obj = jArr.get(i).getAsJsonObject();
             if(mType == Board.class) {
-                items.add((T) parseBoard(jArr.get(i).getAsJsonObject()));
+                items.add((T) parseBoard(obj));
+            } else if (mType == Task.class) {
+                items.add((T) parseTask(obj));
             }
         }
 
@@ -46,10 +50,12 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
 
 
     private Board parseBoard(JsonObject e) {
-        return new Board(e.get("id").getAsLong(), getNullAsEmptyString(e.get("title")));
+        return new Board(0, e.get("id").getAsLong(), getNullAsEmptyString(e.get("title")));
     }
 
-
+    private Task parseTask(JsonObject e) {
+        return new Task(getNullAsEmptyString(e.get("title")), 0,e.get("id").getAsLong());
+    }
 
     private String getNullAsEmptyString(JsonElement jsonElement) {
         return jsonElement.isJsonNull() ? "" : jsonElement.getAsString();

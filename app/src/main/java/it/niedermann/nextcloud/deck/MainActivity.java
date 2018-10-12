@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -20,49 +22,50 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
-import it.niedermann.nextcloud.deck.api.DeckAPI;
-import it.niedermann.nextcloud.deck.api.DeckAPI_SSO;
 import it.niedermann.nextcloud.deck.model.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.model.board.Board;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NextcloudAPI.ApiConnectedListener {
-    private NextcloudAPI mNextcloudAPI;
+        implements NavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+
     private DataBaseAdapter dataBaseAdapter;
     private LoginDialogFragment loginDialogFragment;
-    private SingleSignOnAccount account = null;
-    ApiProvider provider;
+    private ApiProvider provider;
+    private BoardAdapter adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Creating new Boards is not yet supported", Snackbar.LENGTH_LONG).show();
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        initRecyclerView();
         this.dataBaseAdapter = DataBaseAdapter.getInstance(this.getApplicationContext());
         if(this.dataBaseAdapter.hasAccounts()) {
-
             String accountName = dataBaseAdapter.readAccounts().get(0).getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
             provider = new ApiProvider(getApplicationContext(), new NextcloudAPI.ApiConnectedListener() {
@@ -70,9 +73,15 @@ public class MainActivity extends AppCompatActivity
                 public void onConnected() {
                     final Consumer<List<Board>> consumer = new Consumer<List<Board>>() {
                         @Override
-                        public void accept(List<Board> boards) throws Exception {
-                            Log.e("Deck", "=============================================================");
-                            Log.e("Deck", "" + boards.get(0).getTitle());
+                        public void accept(final List<Board> boards) throws Exception {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.setBoardList(boards);
+                                }
+                            });
+                            Log.d("Deck", "================= Lade Boards ====================");
+                            Log.d("Deck", "" + boards.get(0).getTitle());
                         }
                     };
 
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onError(Exception ex) {
-
+                    ex.printStackTrace();
                 }
             });
 
@@ -100,6 +109,12 @@ public class MainActivity extends AppCompatActivity
             loginDialogFragment = new LoginDialogFragment();
             loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public void onAccountChoose(SingleSignOnAccount account) {
@@ -107,9 +122,14 @@ public class MainActivity extends AppCompatActivity
         this.dataBaseAdapter.createAccount(account.name);
     }
 
+    public void initRecyclerView() {
+        adapter = new BoardAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -159,29 +179,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onConnected() {
-        try{
-            DeckAPI mApi = new DeckAPI_SSO(mNextcloudAPI);
-            mApi.boards().subscribe(new Consumer<List<Board>>() {
-                @Override
-                public void accept(List<Board> boards) throws Exception {
-                    Log.e("Deck", "=============================================================");
-                    Log.e("Deck", "" + boards.size());
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onError(Exception ex) {
-        ex.printStackTrace();
     }
 }

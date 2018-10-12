@@ -9,6 +9,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import it.niedermann.nextcloud.deck.model.board.Board;
+import it.niedermann.nextcloud.deck.model.board.Task;
 
 public class DeckAPI_SSO implements DeckAPI {
 
@@ -21,12 +22,42 @@ public class DeckAPI_SSO implements DeckAPI {
 
     @Override
     public Observable<List<Board>> boards() {
-        final Type type = Board.class;
         NextcloudRequest request = new NextcloudRequest.Builder()
                 .setMethod("GET")
                 .setUrl(mApiEndpoint + "boards")
                 .setFollowRedirects(true)
                 .build();
-        return nextcloudAPI.performRequestObservable(type, request);
+        return nextcloudAPI.performRequestObservable(Board.class, request);
+    }
+
+    @Override
+    public Observable createBoard(Board board) {
+        NextcloudRequest request = new NextcloudRequest.Builder()
+                .setMethod("GET")
+                .setUrl(mApiEndpoint + "boards")
+                .setFollowRedirects(true)
+                .setRequestBody(GsonConfig.GetGson().toJson(board))
+                .build();
+        return nextcloudAPI.performRequestObservable(Board.class, request);
+    }
+
+    @Override
+    public Observable<Board> getBoard(long id) {
+        NextcloudRequest request = new NextcloudRequest.Builder()
+                .setMethod("GET")
+                .setUrl(mApiEndpoint + "boards/" + id)
+                .setFollowRedirects(true)
+                .build();
+        return nextcloudAPI.performRequestObservable(Board.class, request);
+    }
+
+    @Override
+    public Observable<List<Task>> getTasks() {
+        NextcloudRequest request = new NextcloudRequest.Builder()
+                .setMethod("GET")
+                .setUrl(mApiEndpoint + "boards")
+                .setFollowRedirects(true)
+                .build();
+        return nextcloudAPI.performRequestObservable(Board.class, request);
     }
 }
