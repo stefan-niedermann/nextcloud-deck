@@ -21,7 +21,7 @@ class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_board_item, viewGroup, false);
         return new BoardViewHolder(v);
     }
