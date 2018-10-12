@@ -35,7 +35,7 @@ captures/
 # IntelliJ
 *.iml
 .idea/workspace.xml
-.idea/tasks.xml
+.idea/stacks.xml
 .idea/gradle.xml
 .idea/assetWizardSettings.xml
 .idea/dictionaries

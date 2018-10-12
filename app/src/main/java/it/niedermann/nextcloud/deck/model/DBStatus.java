@@ -40,7 +40,7 @@ public enum DBStatus {
      * @param id The String containing the DBStatus identifier. Must not null.
      * @return The DBStatus fitting to the String.
      */
-    public static DBStatus parse(int id) {
+    public static DBStatus findById(int id) {
         for (DBStatus s : DBStatus.values()){
             if (s.getId() == id) {
                 return s;

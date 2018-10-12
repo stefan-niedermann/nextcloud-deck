@@ -1,37 +1,25 @@
 package it.niedermann.nextcloud.deck.model.board;
 
-import java.util.ArrayList;
-
 import it.niedermann.nextcloud.deck.model.DBStatus;
+import it.niedermann.nextcloud.deck.model.RemoteEntity;
 
-public class Board {
-    private long id;
-    private long remoteId;
+public class Board extends RemoteEntity {
     private long accountId;
     private String title;
     private DBStatus status = DBStatus.UP_TO_DATE;
-    private ArrayList<Task> tasks;
 
     public Board(long accountId, long remoteId, String title) {
+        super(remoteId);
         this.accountId = accountId;
-        this.remoteId = remoteId;
         this.title = title;
     }
 
     public Board(long accountId, long id, String title, DBStatus status) {
+        super();
         this.accountId = accountId;
         this.id = id;
         this.title = title;
         this.status = status;
-    }
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public long getRemoteId() {
@@ -64,13 +52,5 @@ public class Board {
 
     public void setStatus(DBStatus status) {
         this.status = status;
-    }
-
-    public ArrayList<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(ArrayList<Task> tasks) {
-        this.tasks = tasks;
     }
 }
