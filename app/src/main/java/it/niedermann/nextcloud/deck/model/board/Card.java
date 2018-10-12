@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.model.DBStatus;
 import it.niedermann.nextcloud.deck.model.RemoteEntity;
 
 public class Card extends RemoteEntity {
@@ -17,7 +16,7 @@ public class Card extends RemoteEntity {
     private LocalDate createdAt;
     private LocalDate deletedAt;
     private List<Label> labels = new ArrayList<>();
-    private String assignedUsers;
+    private List<User> assignedUsers;
     private String attachments;
     private int attachmentCount;
     private String owner;
@@ -100,12 +99,16 @@ public class Card extends RemoteEntity {
         this.labels.add(label);
     }
 
-    public String getAssignedUsers() {
+    public List<User> getAssignedUsers() {
         return assignedUsers;
     }
 
-    public void setAssignedUsers(String assignedUsers) {
+    public void setAssignedUsers(List<User> assignedUsers) {
         this.assignedUsers = assignedUsers;
+    }
+
+    public void addAssignedUser(User user) {
+        this.assignedUsers.add(user);
     }
 
     public String getAttachments() {
