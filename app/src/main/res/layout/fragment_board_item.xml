@@ -3,16 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/mtrl_card_spacing">
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/mtrl_card_spacing">
 
         <TextView
             android:id="@+id/board_title"
             android:padding="@dimen/mtrl_card_spacing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>
