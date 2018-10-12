@@ -41,26 +41,26 @@ public class DeckAPI_SSO implements DeckAPI {
     @Override
     public Observable<Label> getLabel(long boardId, long labelId) {
         NextcloudRequest request = buildRequest(GET, "boards/"+boardId+"labels/"+labelId).build();
-        return nextcloudAPI.performRequestObservable(Board.class, request);
+        return nextcloudAPI.performRequestObservable(Label.class, request);
     }
 
     @Override
     public Observable<Label> updateLabel(long boardId, long labelId, Label label) {
-        NextcloudRequest request = buildRequest(PUT, "boards/"+boardId+"labels/"+labelId)
+        NextcloudRequest request = buildRequest(PUT, "boards/"+boardId+"/labels/"+labelId)
                 .setRequestBody(GsonConfig.GetGson().toJson(label)).build();
-        return nextcloudAPI.performRequestObservable(Board.class, request);
+        return nextcloudAPI.performRequestObservable(Label.class, request);
     }
 
     @Override
     public Observable<Label> createLabel(long boardId, Label label) {
-        NextcloudRequest request = buildRequest(POST, "boards/"+boardId+"labels")
+        NextcloudRequest request = buildRequest(POST, "boards/"+boardId+"/labels")
                 .setRequestBody(GsonConfig.GetGson().toJson(label)).build();
-        return nextcloudAPI.performRequestObservable(Board.class, request);
+        return nextcloudAPI.performRequestObservable(Label.class, request);
     }
 
     @Override
     public Observable<Label> deleteLabel(long boardId, long labelId) {
-        NextcloudRequest request = buildRequest(DELETE, "boards/"+boardId+"labels/"+labelId).build();
+        NextcloudRequest request = buildRequest(DELETE, "boards/"+boardId+"/labels/"+labelId).build();
         return nextcloudAPI.performRequestObservable(Board.class, request);
     }
 

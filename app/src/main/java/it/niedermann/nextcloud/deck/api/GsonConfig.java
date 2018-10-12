@@ -8,6 +8,8 @@ import java.lang.reflect.Type;
 
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.Stack;
 
 /**
  * Created by david on 27.06.17.
@@ -17,12 +19,16 @@ public class GsonConfig {
 
     public static Gson GetGson() {
         Type boardList = new TypeToken<Board>() {}.getType();
-        Type taskList = new TypeToken<Card>() {}.getType();
+        Type cardList = new TypeToken<Card>() {}.getType();
+        Type labelList = new TypeToken<Label>() {}.getType();
+        Type stackList = new TypeToken<Stack>() {}.getType();
 
         return new GsonBuilder()
                 .setLenient()
                 .registerTypeAdapter(boardList,     new NextcloudDeserializer<>("boards", Board.class))
-                .registerTypeAdapter(taskList,     new NextcloudDeserializer<>("tasks", Card.class))
+                .registerTypeAdapter(cardList,     new NextcloudDeserializer<>("cards", Card.class))
+                .registerTypeAdapter(labelList,     new NextcloudDeserializer<>("labels", Label.class))
+                .registerTypeAdapter(stackList,     new NextcloudDeserializer<>("stacks", Stack.class))
                 .create();
     }
 

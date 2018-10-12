@@ -13,6 +13,8 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.Stack;
 
 /**
  * Created by david on 24.05.17.
@@ -42,6 +44,10 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
                 items.add((T) parseBoard(obj));
             } else if (mType == Card.class) {
                 items.add((T) parseCard(obj));
+            } else if (mType == Stack.class) {
+                items.add((T) parseStack(obj));
+            } else if (mType == Label.class) {
+                items.add((T) parseLabel(obj));
             }
         }
 
@@ -55,6 +61,18 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
 
     private Card parseCard(JsonObject e) {
         return new Card(e.get("id").getAsLong(), getNullAsEmptyString(e.get("title")));
+    }
+    private Stack parseStack(JsonObject e) {
+        //TODO: impl
+        Stack stack = new Stack();
+        stack.setTitle("not implemented yet...  (in NextcloudDeserializer.java)");
+        return stack;
+    }
+    private Label parseLabel(JsonObject e) {
+        //TODO: impl
+        Label label = new Label();
+        label.setTitle("implement meeeee! (in NextcloudDeserializer.java)");
+        return label;
     }
 
     private String getNullAsEmptyString(JsonElement jsonElement) {
