@@ -12,6 +12,12 @@ public class Board {
     private DBStatus status;
     private ArrayList<Task> tasks;
 
+    public Board(long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
+
     public long getId() {
         return id;
     }

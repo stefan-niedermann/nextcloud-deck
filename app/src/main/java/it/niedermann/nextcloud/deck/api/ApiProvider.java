@@ -44,8 +44,6 @@ public class ApiProvider {
             nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.GetGson(), new NextcloudAPI.ApiConnectedListener() {
                 @Override
                 public void onConnected() {
-                    Log.e("deck", "################## Connected");
-
                     mApi = new DeckAPI_SSO(nextcloudAPI);
                     callback.onConnected();
                 }

@@ -5,9 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
-import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.board.Board;
 
 /**
  * Created by david on 27.06.17.
@@ -16,7 +15,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 public class GsonConfig {
 
     public static Gson GetGson() {
-        Type boardList = new TypeToken<List<Board>>() {}.getType();
+        Type boardList = new TypeToken<Board>() {}.getType();
 
         return new GsonBuilder()
                 .setLenient()

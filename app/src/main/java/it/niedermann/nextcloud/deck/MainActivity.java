@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.nextcloud.android.sso.api.NextcloudAPI;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
@@ -25,8 +24,8 @@ import io.reactivex.functions.Consumer;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.DeckAPI;
 import it.niedermann.nextcloud.deck.api.DeckAPI_SSO;
-import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.model.board.Board;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NextcloudAPI.ApiConnectedListener {
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void accept(List<Board> boards) throws Exception {
                             Log.e("Deck", "=============================================================");
-                            Log.e("Deck", "" + boards.size());
+                            Log.e("Deck", "" + boards.get(0).getTitle());
                         }
                     };
 
@@ -83,12 +82,7 @@ public class MainActivity extends AppCompatActivity
                             provider.getAPI().boards().subscribe(consumer, new Consumer<Throwable>() {
                                 @Override
                                 public void accept(Throwable throwable) throws Exception {
-                                    if (throwable instanceof NextcloudHttpRequestFailedException) {
-                                        NextcloudHttpRequestFailedException e = (NextcloudHttpRequestFailedException) throwable;
-                                        e.getMessage(getApplicationContext());
-                                        e.printStackTrace();
-                                    }
-                                    //throwable.printStackTrace();
+                                    throwable.printStackTrace();
                                 }
                             });
                         }
@@ -101,23 +95,6 @@ public class MainActivity extends AppCompatActivity
 
                 }
             });
-
-//
-//            String accountName = dataBaseAdapter.readAccounts().get(0).getName();
-//            SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
-//
-//            try {
-//                //account = SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext());
-//                account = AccountImporter.getSingleSignOnAccount(getApplicationContext(), accountName);
-//                Log.e("Deck", "=============================================================");
-//                Log.e("Deck", account.name);
-////                AccountImporter.requestAuthToken(this, getIntent());
-//
-//                mNextcloudAPI = new NextcloudAPI(getApplicationContext(), account, new Gson(), this);
-//
-//            } catch (NextcloudFilesAppAccountNotFoundException e) {
-//                e.printStackTrace();
-//            }
 
         } else {
             loginDialogFragment = new LoginDialogFragment();

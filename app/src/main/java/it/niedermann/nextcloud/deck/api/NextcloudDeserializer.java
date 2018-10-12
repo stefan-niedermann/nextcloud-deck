@@ -10,7 +10,8 @@ import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import it.niedermann.nextcloud.deck.model.Board;
+
+import it.niedermann.nextcloud.deck.model.board.Board;
 
 /**
  * Created by david on 24.05.17.
@@ -31,7 +32,7 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
 
     @Override
     public List<T> deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-        JsonArray jArr = json.getAsJsonObject().getAsJsonArray(mKey);
+        JsonArray jArr = json.getAsJsonArray();
 
         List<T> items = new ArrayList<>();
         for(int i = 0; i < jArr.size(); i++) {

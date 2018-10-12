@@ -8,11 +8,11 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import io.reactivex.Observable;
-import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.board.Board;
 
 public class DeckAPI_SSO implements DeckAPI {
 
-    private static final String mApiEndpoint = "/index.php/apps/deck/";
+    private static final String mApiEndpoint = "/index.php/apps/deck/api/v1.0/";
     private NextcloudAPI nextcloudAPI;
 
     public DeckAPI_SSO(NextcloudAPI nextcloudAPI) {
@@ -25,6 +25,7 @@ public class DeckAPI_SSO implements DeckAPI {
         NextcloudRequest request = new NextcloudRequest.Builder()
                 .setMethod("GET")
                 .setUrl(mApiEndpoint + "boards")
+                .setFollowRedirects(true)
                 .build();
         return nextcloudAPI.performRequestObservable(type, request);
     }
