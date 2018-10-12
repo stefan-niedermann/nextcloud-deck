@@ -24,7 +24,11 @@ public class Task implements Serializable {
     private String dueDate;
     private long id;
     private String overdue;
+    private long remoteId;
 
-
-
+    public Task(String title, long id, long remoteId) {
+        this.title = title;
+        this.id = id;
+        this.remoteId = remoteId;
+    }
 }
