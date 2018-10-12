@@ -26,11 +26,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
+import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.persistence.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.model.Board;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, NextcloudAPI.ApiConnectedListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
@@ -68,46 +69,7 @@ public class MainActivity extends AppCompatActivity
         if(this.dataBaseAdapter.hasAccounts()) {
             String accountName = dataBaseAdapter.readAccounts().get(0).getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
-            provider = new ApiProvider(getApplicationContext(), new NextcloudAPI.ApiConnectedListener() {
-                @Override
-                public void onConnected() {
-                    final Consumer<List<Board>> consumer = new Consumer<List<Board>>() {
-                        @Override
-                        public void accept(final List<Board> boards) throws Exception {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    adapter.setBoardList(boards);
-                                }
-                            });
-                            Log.d("Deck", "================= Lade Boards ====================");
-                            if(boards != null) {
-                                for(Board board: boards) {
-                                    Log.d("Deck", "" + board.getTitle());
-                                }
-                            }
-                        }
-                    };
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            provider.getAPI().boards().subscribe(consumer, new Consumer<Throwable>() {
-                                @Override
-                                public void accept(Throwable throwable) throws Exception {
-                                    throwable.printStackTrace();
-                                }
-                            });
-                        }
-                    }).start();
-
-                }
-
-                @Override
-                public void onError(Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
+            provider = new ApiProvider(getApplicationContext(), this);
 
         } else {
             loginDialogFragment = new LoginDialogFragment();
@@ -169,8 +131,27 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onConnected() {
+        RequestHelper.request(this, provider.getAPI().boards(), new RequestHelper.ResponseCallback<List<Board>>() {
+            @Override
+            public void onResponse(List<Board> boards) {
+                adapter.setBoardList(boards);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onError(Exception e) {
+        e.printStackTrace();
     }
 }
