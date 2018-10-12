@@ -1,22 +1,15 @@
-package it.niedermann.nextcloud.deck.model;
+package it.niedermann.nextcloud.deck.persistence;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
-import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import it.niedermann.nextcloud.deck.model.Account;
 
 public class DataBaseAdapter extends SQLiteOpenHelper {
 

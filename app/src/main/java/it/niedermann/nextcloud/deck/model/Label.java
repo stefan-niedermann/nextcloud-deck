@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.model;
 
-import it.niedermann.nextcloud.deck.model.RemoteEntity;
-
 public class Label extends RemoteEntity {
     private String title;
     private String color;

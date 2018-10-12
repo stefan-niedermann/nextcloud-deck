@@ -1,8 +1,5 @@
 package it.niedermann.nextcloud.deck.model;
 
-import it.niedermann.nextcloud.deck.model.DBStatus;
-import it.niedermann.nextcloud.deck.model.RemoteEntity;
-
 public class Board extends RemoteEntity {
     private long accountId;
     private String title;

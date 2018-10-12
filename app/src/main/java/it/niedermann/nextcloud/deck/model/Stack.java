@@ -1,10 +1,6 @@
 package it.niedermann.nextcloud.deck.model;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-
-import it.niedermann.nextcloud.deck.model.DBStatus;
-import it.niedermann.nextcloud.deck.model.RemoteEntity;
 
 public class Stack extends RemoteEntity {
     private String title;

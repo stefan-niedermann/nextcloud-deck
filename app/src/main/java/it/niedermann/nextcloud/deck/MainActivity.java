@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
-import it.niedermann.nextcloud.deck.model.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.model.Board;
 
 public class MainActivity extends AppCompatActivity
