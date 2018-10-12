@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -30,16 +32,16 @@ import it.niedermann.nextcloud.deck.model.board.Board;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
-    private NextcloudAPI mNextcloudAPI;
     private DataBaseAdapter dataBaseAdapter;
     private LoginDialogFragment loginDialogFragment;
-    ApiProvider provider;
+    private ApiProvider provider;
+    private BoardAdapter adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Creating new Boards is not yet supported", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -62,8 +63,8 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
+        initRecyclerView();
         this.dataBaseAdapter = DataBaseAdapter.getInstance(this.getApplicationContext());
-
         if(this.dataBaseAdapter.hasAccounts()) {
             String accountName = dataBaseAdapter.readAccounts().get(0).getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
@@ -72,9 +73,15 @@ public class MainActivity extends AppCompatActivity
                 public void onConnected() {
                     final Consumer<List<Board>> consumer = new Consumer<List<Board>>() {
                         @Override
-                        public void accept(List<Board> boards) throws Exception {
-                            Log.e("Deck", "================= Boards ============================================");
-                            Log.e("Deck", "" + boards.get(0).getTitle());
+                        public void accept(final List<Board> boards) throws Exception {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.setBoardList(boards);
+                                }
+                            });
+                            Log.d("Deck", "================= Lade Boards ====================");
+                            Log.d("Deck", "" + boards.get(0).getTitle());
                         }
                     };
 
@@ -113,6 +120,12 @@ public class MainActivity extends AppCompatActivity
     public void onAccountChoose(SingleSignOnAccount account) {
         getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
         this.dataBaseAdapter.createAccount(account.name);
+    }
+
+    public void initRecyclerView() {
+        adapter = new BoardAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
