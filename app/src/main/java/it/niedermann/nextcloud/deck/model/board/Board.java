@@ -9,12 +9,20 @@ public class Board {
     private long remoteId;
     private long accountId;
     private String title;
-    private DBStatus status;
+    private DBStatus status = DBStatus.UP_TO_DATE;
     private ArrayList<Task> tasks;
 
-    public Board(long id, String title) {
+    public Board(long accountId, long remoteId, String title) {
+        this.accountId = accountId;
+        this.remoteId = remoteId;
+        this.title = title;
+    }
+
+    public Board(long accountId, long id, String title, DBStatus status) {
+        this.accountId = accountId;
         this.id = id;
         this.title = title;
+        this.status = status;
     }
 
 
