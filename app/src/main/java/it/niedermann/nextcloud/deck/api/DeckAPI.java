@@ -4,8 +4,8 @@ package it.niedermann.nextcloud.deck.api;
 import java.util.List;
 
 import io.reactivex.Observable;
-import it.niedermann.nextcloud.deck.model.board.Board;
-import it.niedermann.nextcloud.deck.model.board.Card;
+import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 

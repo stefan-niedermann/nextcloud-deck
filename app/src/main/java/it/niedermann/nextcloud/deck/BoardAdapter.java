@@ -12,7 +12,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.model.board.Board;
+import it.niedermann.nextcloud.deck.model.Board;
 
 class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

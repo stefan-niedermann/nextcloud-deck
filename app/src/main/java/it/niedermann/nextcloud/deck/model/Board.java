@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.model.board;
+package it.niedermann.nextcloud.deck.model;
 
 import it.niedermann.nextcloud.deck.model.DBStatus;
 import it.niedermann.nextcloud.deck.model.RemoteEntity;

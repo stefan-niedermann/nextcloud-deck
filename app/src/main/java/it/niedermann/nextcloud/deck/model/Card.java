@@ -1,10 +1,8 @@
-package it.niedermann.nextcloud.deck.model.board;
+package it.niedermann.nextcloud.deck.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import it.niedermann.nextcloud.deck.model.RemoteEntity;
 
 public class Card extends RemoteEntity {
 

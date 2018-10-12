@@ -11,8 +11,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.model.board.Board;
-import it.niedermann.nextcloud.deck.model.board.Card;
+import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
 
 /**
  * Created by david on 24.05.17.

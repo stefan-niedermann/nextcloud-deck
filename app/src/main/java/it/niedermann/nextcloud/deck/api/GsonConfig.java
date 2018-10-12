@@ -6,8 +6,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-import it.niedermann.nextcloud.deck.model.board.Board;
-import it.niedermann.nextcloud.deck.model.board.Card;
+import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
 
 /**
  * Created by david on 27.06.17.

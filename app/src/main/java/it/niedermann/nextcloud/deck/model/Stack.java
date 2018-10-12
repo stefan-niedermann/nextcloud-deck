@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.model.board;
+package it.niedermann.nextcloud.deck.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;

@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
@@ -28,7 +27,7 @@ import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.model.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.model.board.Board;
+import it.niedermann.nextcloud.deck.model.Board;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

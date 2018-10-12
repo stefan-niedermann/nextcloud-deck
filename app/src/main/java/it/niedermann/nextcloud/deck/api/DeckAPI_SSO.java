@@ -4,12 +4,11 @@ package it.niedermann.nextcloud.deck.api;
 import com.nextcloud.android.sso.aidl.NextcloudRequest;
 import com.nextcloud.android.sso.api.NextcloudAPI;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 import io.reactivex.Observable;
-import it.niedermann.nextcloud.deck.model.board.Board;
-import it.niedermann.nextcloud.deck.model.board.Card;
+import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
 
 public class DeckAPI_SSO implements DeckAPI {
 
