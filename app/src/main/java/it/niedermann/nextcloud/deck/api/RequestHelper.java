@@ -17,23 +17,17 @@ import io.reactivex.functions.Consumer;
 public class RequestHelper {
     private static Queue<PendingRequest> requestQueue = new LinkedBlockingQueue<>();
 
-    public static <T> void request(final Activity sourceActivity, final ApiProvider provider, final ApiCalls.ApiCall call, final ResponseCallback<T> callback){
+    public static <T> void request(final Activity sourceActivity, final ApiProvider provider, final ObservableProvider<T> call, final ResponseCallback<T> callback){
 
         if (!provider.isConnected()){
             provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
                 @Override
                 public void onConnected() {
-                    call.setData(provider, new ApiCalls.ApiCallable() {
-                        @Override
-                        public void onCallable(Observable request) {
-                            requestQueue.add(new PendingRequest(sourceActivity, request, callback));
-                            while (!requestQueue.isEmpty()){
-                                PendingRequest pendingRequest = requestQueue.poll();
-                                runRequest(pendingRequest.getSourceActivity(), pendingRequest.getRequest(), pendingRequest.getCallback());
-                            }
-                        }
-                    });
-                    new Thread(call).start();
+                    requestQueue.add(new PendingRequest(sourceActivity, call.getObservableFromCall(), callback));
+                    while (!requestQueue.isEmpty()){
+                        PendingRequest pendingRequest = requestQueue.poll();
+                        runRequest(pendingRequest.getSourceActivity(), pendingRequest.getRequest(), pendingRequest.getCallback());
+                    }
                 }
 
                 @Override
@@ -42,17 +36,7 @@ public class RequestHelper {
                 }
             });
         } else {
-            call.setData(provider, new ApiCalls.ApiCallable() {
-                @Override
-                public void onCallable(Observable request) {
-                    requestQueue.add(new PendingRequest(sourceActivity, request, callback));
-                    while (!requestQueue.isEmpty()){
-                        PendingRequest pendingRequest = requestQueue.poll();
-                        runRequest(pendingRequest.getSourceActivity(), pendingRequest.getRequest(), pendingRequest.getCallback());
-                    }
-                }
-            });
-            new Thread(call).start();
+            runRequest(sourceActivity, call.getObservableFromCall(), callback);
         }
     }
 
@@ -93,6 +77,10 @@ public class RequestHelper {
     public interface ResponseCallback<T> {
         void onResponse(T response);
         void onError(Throwable throwable);
+    }
+
+    public interface ObservableProvider <T> {
+        Observable<T> getObservableFromCall();
     }
 
     public static class ResponseConsumer<T> implements Consumer<T> {
