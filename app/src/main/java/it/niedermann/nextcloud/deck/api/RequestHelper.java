@@ -47,7 +47,7 @@ public class RequestHelper {
                 public void onCallable(Observable request) {
                     requestQueue.add(new PendingRequest(sourceActivity, request, callback));
                     while (!requestQueue.isEmpty()){
-                        PendingRequest pendingRequest = requesxtQueue.poll();
+                        PendingRequest pendingRequest = requestQueue.poll();
                         runRequest(pendingRequest.getSourceActivity(), pendingRequest.getRequest(), pendingRequest.getCallback());
                     }
                 }
