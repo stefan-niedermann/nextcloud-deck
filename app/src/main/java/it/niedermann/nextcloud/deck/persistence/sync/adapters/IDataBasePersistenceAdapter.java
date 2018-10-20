@@ -16,4 +16,5 @@ public interface IDataBasePersistenceAdapter extends IPersistenceAdapter {
     Account readAccount(long id);
 
     List<Account> readAccounts();
+
 }

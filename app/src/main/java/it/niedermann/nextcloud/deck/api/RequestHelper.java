@@ -4,12 +4,8 @@ import android.app.Activity;
 
 import com.nextcloud.android.sso.api.NextcloudAPI;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.LinkedTransferQueue;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
@@ -17,7 +13,7 @@ import io.reactivex.functions.Consumer;
 public class RequestHelper {
     private static Queue<PendingRequest> requestQueue = new LinkedBlockingQueue<>();
 
-    public static <T> void request(final Activity sourceActivity, final ApiProvider provider, final ObservableProvider<T> call, final ResponseCallback<T> callback){
+    public static <T> void request(final Activity sourceActivity, final ApiProvider provider, final ObservableProvider<T> call, final IResponseCallback<T> callback){
 
         if (!provider.isConnected()){
             provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
@@ -40,7 +36,7 @@ public class RequestHelper {
         }
     }
 
-    private static <T> void runRequest(final Activity sourceActivity, final Observable<T> request, final ResponseCallback<T> callback){
+    private static <T> void runRequest(final Activity sourceActivity, final Observable<T> request, final IResponseCallback<T> callback){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -53,9 +49,9 @@ public class RequestHelper {
     private static class PendingRequest  <T> {
         private Observable<T> request;
         private Activity sourceActivity;
-        private ResponseCallback<T> callback;
+        private IResponseCallback<T> callback;
 
-        public PendingRequest(Activity sourceActivity, Observable<T> request, ResponseCallback<T> callback) {
+        public PendingRequest(Activity sourceActivity, Observable<T> request, IResponseCallback<T> callback) {
             this.request = request;
             this.callback = callback;
             this.sourceActivity = sourceActivity;
@@ -65,7 +61,7 @@ public class RequestHelper {
             return request;
         }
 
-        public ResponseCallback<T> getCallback() {
+        public IResponseCallback<T> getCallback() {
             return callback;
         }
 
@@ -74,10 +70,7 @@ public class RequestHelper {
         }
     }
 
-    public interface ResponseCallback<T> {
-        void onResponse(T response);
-        void onError(Throwable throwable);
-    }
+
 
     public interface ObservableProvider <T> {
         Observable<T> getObservableFromCall();
@@ -86,7 +79,7 @@ public class RequestHelper {
     public static class ResponseConsumer<T> implements Consumer<T> {
 
         private Activity sourceActivity;
-        private ResponseCallback<T> callback;
+        private IResponseCallback<T> callback;
         private Consumer<Throwable> exceptionConsumer = new Consumer<Throwable>() {
             @Override
             public void accept(final Throwable throwable) throws Exception {
@@ -99,7 +92,7 @@ public class RequestHelper {
             }
         };
 
-        public ResponseConsumer(Activity sourceActivity, ResponseCallback<T> callback) {
+        public ResponseConsumer(Activity sourceActivity, IResponseCallback<T> callback) {
             this.sourceActivity = sourceActivity;
             this.callback = callback;
         }

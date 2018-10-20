@@ -4,7 +4,9 @@ import android.content.Context;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.persistence.DeckDataBase;
 
 public class DataBaseAdapter implements IDataBasePersistenceAdapter {
@@ -45,5 +47,10 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
     @Override
     public List<Account> readAccounts() {
         return deckDataBase.readAccounts();
+    }
+
+    @Override
+    public void getBoards(IResponseCallback<List<Board>> responseCallback) {
+        // TODO implement
     }
 }

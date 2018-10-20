@@ -22,7 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.api.ApiProvider;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private LoginDialogFragment loginDialogFragment;
-    private ApiProvider provider;
     private BoardAdapter adapter = null;
     private SyncManager syncManager;
 
@@ -62,13 +61,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         initRecyclerView();
-        syncManager = new SyncManager(getApplicationContext());
+        syncManager = new SyncManager(getApplicationContext(), this);
         if(this.syncManager.hasAccounts()) {
             String accountName = syncManager.readAccounts().get(0).getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
-            provider = new ApiProvider(getApplicationContext());
 
-            RequestHelper.request(this, provider, () -> provider.getAPI().boards(), new RequestHelper.ResponseCallback<List<Board>>() {
+            syncManager.getBoards(new IResponseCallback<List<Board>>() {
                 @Override
                 public void onResponse(List<Board> boards) {
                     adapter.setBoardList(boards);
