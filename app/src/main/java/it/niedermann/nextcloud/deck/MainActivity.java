@@ -22,8 +22,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import it.niedermann.nextcloud.deck.api.ApiCalls;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -70,7 +68,10 @@ public class MainActivity extends AppCompatActivity
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
             provider = new ApiProvider(getApplicationContext());
 
-            RequestHelper.request(this, provider, ApiCalls.getBoardsCall(), new RequestHelper.ResponseCallback<List<Board>>() {
+            // ## hope this works...
+            RequestHelper.request(this, provider, () -> provider.getAPI().boards(), new RequestHelper.ResponseCallback<List<Board>>() {
+            // ## the one below could end up as nullpointer... not sure, cant test for now
+            //RequestHelper.request(this, provider, provider.getAPI()::boards, new RequestHelper.ResponseCallback<List<Board>>() {
                 @Override
                 public void onResponse(List<Board> boards) {
                     adapter.setBoardList(boards);
