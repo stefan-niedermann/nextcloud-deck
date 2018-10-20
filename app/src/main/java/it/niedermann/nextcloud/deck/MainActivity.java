@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.persistence.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,10 +36,10 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
-    private DataBaseAdapter dataBaseAdapter;
     private LoginDialogFragment loginDialogFragment;
     private ApiProvider provider;
     private BoardAdapter adapter = null;
+    private SyncManager syncManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +62,13 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         initRecyclerView();
-        this.dataBaseAdapter = DataBaseAdapter.getInstance(this.getApplicationContext());
-        if(this.dataBaseAdapter.hasAccounts()) {
-            String accountName = dataBaseAdapter.readAccounts().get(0).getName();
+        syncManager = new SyncManager(getApplicationContext());
+        if(this.syncManager.hasAccounts()) {
+            String accountName = syncManager.readAccounts().get(0).getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
             provider = new ApiProvider(getApplicationContext());
 
-            // ## hope this works...
             RequestHelper.request(this, provider, () -> provider.getAPI().boards(), new RequestHelper.ResponseCallback<List<Board>>() {
-            // ## the one below could end up as nullpointer... not sure, cant test for now
-            //RequestHelper.request(this, provider, provider.getAPI()::boards, new RequestHelper.ResponseCallback<List<Board>>() {
                 @Override
                 public void onResponse(List<Board> boards) {
                     adapter.setBoardList(boards);
@@ -96,7 +93,7 @@ public class MainActivity extends AppCompatActivity
 
     public void onAccountChoose(SingleSignOnAccount account) {
         getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
-        this.dataBaseAdapter.createAccount(account.name);
+        this.syncManager.createAccount(account.name);
     }
 
     public void initRecyclerView() {

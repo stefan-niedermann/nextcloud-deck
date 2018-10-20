@@ -11,7 +11,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Account;
 
-public class DataBaseAdapter extends SQLiteOpenHelper {
+public class DeckDataBase extends SQLiteOpenHelper {
 
     private static final String TABLE_ACCOUNTS = "ACCOUNTS";
     private static final String TABLE_BOARDS = "BOARDS";
@@ -36,19 +36,19 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "NEXTCLOUD_DECK";
 
-    private static DataBaseAdapter INSTANCE;
+    private static DeckDataBase INSTANCE;
 
     private Context context = null;
 
-    private DataBaseAdapter(Context context) {
+    private DeckDataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context.getApplicationContext();
         //recreateDatabase(getWritableDatabase());
     }
 
-    public static DataBaseAdapter getInstance(Context context) {
+    public static DeckDataBase getInstance(Context context) {
         if (INSTANCE == null)
-            return INSTANCE = new DataBaseAdapter(context.getApplicationContext());
+            return INSTANCE = new DeckDataBase(context.getApplicationContext());
         else
             return INSTANCE;
     }
