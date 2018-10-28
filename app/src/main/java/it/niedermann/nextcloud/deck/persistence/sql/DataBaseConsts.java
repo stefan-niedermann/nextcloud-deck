@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class DataBaseConsts {
 // LazyKit:
-//    public static String TABLE_{JS var txt = "{$1}"; txt = txt.toUpperCase(); txt JS} = "{$1}";
-//    public static String SQL_CREATE_{JS var txt = "{$1}"; txt = txt.toUpperCase(); txt JS}_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_{JS var txt = "{$1}"; txt = txt.toUpperCase(); txt JS} + "' (" +
+//    public static final String TABLE_{JS var txt = "{$1}"; txt = txt.toUpperCase(); txt JS} = "{$1}";
+//    public static final String SQL_CREATE_{JS var txt = "{$1}"; txt = txt.toUpperCase(); txt JS}_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_{JS var txt = "{$1}"; txt = txt.toUpperCase(); txt JS} + "' (" +
 //    {JS
 //        var txt = "{$2}";
 //        var lines = txt.split("\n") ;
@@ -121,10 +121,15 @@ public class DataBaseConsts {
 //    CREATE INDEX IF NOT EXISTS `deck_assigned_labels_idx_c` ON `oc_deck_assigned_labels` (
 //            `card_id`
 //            );
+    public static final String TABLE_ACCOUNTS = "ACCOUNTS";
+    public static final String SQL_CREATE_ACCOUNTS_TABLE = "CREATE TABLE " + TABLE_ACCOUNTS +
+            " ( " +
+            "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "ACCOUNT_NAME TEXT NOT NULL UNIQUE" +
+            " )";
 
-
-    public static String TABLE_OC_DECK_STACKS = "oc_deck_stacks";
-    public static String SQL_CREATE_OC_DECK_STACKS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_STACKS + "' (" +
+    public static final String TABLE_OC_DECK_STACKS = "oc_deck_stacks";
+    public static final String SQL_CREATE_OC_DECK_STACKS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_STACKS + "' (" +
             "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "	`title`	VARCHAR ( 100 ) NOT NULL COLLATE BINARY," +
             "	`board_id`	BIGINT NOT NULL," +
@@ -132,16 +137,16 @@ public class DataBaseConsts {
             "	`deleted_at`	BIGINT UNSIGNED DEFAULT 0" +
             ")";
 
-    public static String TABLE_OC_DECK_LABELS = "oc_deck_labels";
-    public static String SQL_CREATE_OC_DECK_LABELS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_LABELS + "' (" +
+    public static final String TABLE_OC_DECK_LABELS = "oc_deck_labels";
+    public static final String SQL_CREATE_OC_DECK_LABELS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_LABELS + "' (" +
             "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "	`title`	VARCHAR ( 100 ) DEFAULT NULL COLLATE BINARY," +
             "	`color`	VARCHAR ( 6 ) DEFAULT NULL COLLATE BINARY," +
             "	`board_id`	BIGINT NOT NULL" +
             ")";
 
-    public static String TABLE_OC_DECK_CARDS = "oc_deck_cards";
-    public static String SQL_CREATE_OC_DECK_CARDS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_CARDS + "' (" +
+    public static final String TABLE_OC_DECK_CARDS = "oc_deck_cards";
+    public static final String SQL_CREATE_OC_DECK_CARDS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_CARDS + "' (" +
             "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "	`title`	VARCHAR ( 100 ) NOT NULL COLLATE BINARY," +
             "	`description`	CLOB DEFAULT NULL COLLATE BINARY," +
@@ -157,8 +162,8 @@ public class DataBaseConsts {
             "	`deleted_at`	BIGINT UNSIGNED DEFAULT 0" +
             ")";
 
-    public static String TABLE_OC_DECK_BOARDS = "oc_deck_boards";
-    public static String SQL_CREATE_OC_DECK_BOARDS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_BOARDS + "' (" +
+    public static final String TABLE_OC_DECK_BOARDS = "oc_deck_boards";
+    public static final String SQL_CREATE_OC_DECK_BOARDS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_BOARDS + "' (" +
             "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "	`title`	VARCHAR ( 100 ) NOT NULL COLLATE BINARY," +
             "	`owner`	VARCHAR ( 64 ) NOT NULL COLLATE BINARY," +
@@ -167,8 +172,8 @@ public class DataBaseConsts {
             "	`deleted_at`	BIGINT UNSIGNED DEFAULT 0" +
             ")";
 
-    public static String TABLE_OC_DECK_BOARD_ACL = "oc_deck_board_acl";
-    public static String SQL_CREATE_OC_DECK_BOARD_ACL_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_BOARD_ACL + "' (" +
+    public static final String TABLE_OC_DECK_BOARD_ACL = "oc_deck_board_acl";
+    public static final String SQL_CREATE_OC_DECK_BOARD_ACL_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_BOARD_ACL + "' (" +
             "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "	`board_id`	BIGINT NOT NULL," +
             "	`type`	INTEGER NOT NULL," +
@@ -178,8 +183,8 @@ public class DataBaseConsts {
             "	`permission_manage`	BOOLEAN DEFAULT '0'" +
             ")";
 
-    public static String TABLE_OC_DECK_ATTACHMENT = "oc_deck_attachment";
-    public static String SQL_CREATE_OC_DECK_ATTACHMENT_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_ATTACHMENT + "' (" +
+    public static final String TABLE_OC_DECK_ATTACHMENT = "oc_deck_attachment";
+    public static final String SQL_CREATE_OC_DECK_ATTACHMENT_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_ATTACHMENT + "' (" +
             "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "	`card_id`	BIGINT NOT NULL," +
             "	`type`	VARCHAR ( 64 ) NOT NULL COLLATE BINARY," +
@@ -190,15 +195,15 @@ public class DataBaseConsts {
             "	`deleted_at`	BIGINT UNSIGNED DEFAULT 0" +
             ")";
 
-    public static String TABLE_OC_DECK_ASSIGNED_USERS = "oc_deck_assigned_users";
-    public static String SQL_CREATE_OC_DECK_ASSIGNED_USERS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_ASSIGNED_USERS + "' (" +
+    public static final String TABLE_OC_DECK_ASSIGNED_USERS = "oc_deck_assigned_users";
+    public static final String SQL_CREATE_OC_DECK_ASSIGNED_USERS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_ASSIGNED_USERS + "' (" +
             "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "	`participant`	VARCHAR ( 64 ) NOT NULL COLLATE BINARY," +
             "	`card_id`	INTEGER NOT NULL DEFAULT 0" +
             ")";
 
-    public static String TABLE_OC_DECK_ASSIGNED_LABELS = "oc_deck_assigned_labels";
-    public static String SQL_CREATE_OC_DECK_ASSIGNED_LABELS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_ASSIGNED_LABELS + "' (" +
+    public static final String TABLE_OC_DECK_ASSIGNED_LABELS = "oc_deck_assigned_labels";
+    public static final String SQL_CREATE_OC_DECK_ASSIGNED_LABELS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_ASSIGNED_LABELS + "' (" +
             "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "	`label_id`	INTEGER NOT NULL DEFAULT 0," +
             "	`card_id`	INTEGER NOT NULL DEFAULT 0" +
@@ -206,7 +211,8 @@ public class DataBaseConsts {
 
 
 
-    public static String[] ALL_TABLES = new String[]{
+    public static final String[] ALL_TABLES = new String[]{
+            TABLE_ACCOUNTS,
             TABLE_OC_DECK_STACKS,
             TABLE_OC_DECK_LABELS,
             TABLE_OC_DECK_CARDS,
@@ -217,7 +223,7 @@ public class DataBaseConsts {
             TABLE_OC_DECK_ASSIGNED_LABELS
     };
 
-    public static String[] ALL_CREATE_INDICES = new String[]{
+    public static final String[] ALL_CREATE_INDICES = new String[]{
 
             "CREATE INDEX IF NOT EXISTS `deck_stacks_order_index` ON `oc_deck_stacks` (" +
                     "	`order`" +
@@ -243,12 +249,6 @@ public class DataBaseConsts {
                     "	`archived`" +
                     ")",
 
-            "CREATE UNIQUE INDEX IF NOT EXISTS `deck_board_acl_uq_i` ON `oc_deck_board_acl` (" +
-                    "	`board_id`," +
-                    "	`type`," +
-                    "	`participant`" +
-                    ")",
-
             "CREATE INDEX IF NOT EXISTS `deck_board_acl_idx_i` ON `oc_deck_board_acl` (" +
                     "	`board_id`" +
                     ")",
@@ -270,7 +270,8 @@ public class DataBaseConsts {
                     ");"
     };
 
-    public static String[] ALL_CREATES = new String[]{
+    public static final String[] ALL_CREATES = new String[]{
+            SQL_CREATE_ACCOUNTS_TABLE,
             SQL_CREATE_OC_DECK_STACKS_TABLE,
             SQL_CREATE_OC_DECK_LABELS_TABLE,
             SQL_CREATE_OC_DECK_CARDS_TABLE,

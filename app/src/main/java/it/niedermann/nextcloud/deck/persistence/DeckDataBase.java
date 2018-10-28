@@ -8,30 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import static it.niedermann.nextcloud.deck.persistence.sql.DataBaseConsts.*;
 
 import it.niedermann.nextcloud.deck.model.Account;
 
 public class DeckDataBase extends SQLiteOpenHelper {
 
-    private static final String TABLE_ACCOUNTS = "ACCOUNTS";
-    private static final String TABLE_BOARDS = "BOARDS";
-
-    // ## SQLs
-    // # creates:
-    private static final String SQL_CREATE_ACCOUNTS_TABLE = "CREATE TABLE " + TABLE_ACCOUNTS +
-            " ( " +
-            "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "ACCOUNT_NAME TEXT NOT NULL UNIQUE" +
-            " )";
-    private static final String SQL_CREATE_BOARDS_TABLE = "CREATE TABLE " + TABLE_BOARDS +
-            "(" +
-            "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "ACCOUNT_ID INTEGER NOT NULL, " +
-            "REMOTE_ID INTEGER NOT NULL DEFAULT 0, " +
-            "BOARD_NAME TEXT NOT NULL UNIQUE, " +
-            "STATUS INTEGER NOT NULL DEFAULT 1, " +
-            "FOREIGN KEY (ACCOUNT_ID) REFERENCES ACCOUNTS(ID)" +
-            " )";
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "NEXTCLOUD_DECK";
@@ -64,8 +46,9 @@ public class DeckDataBase extends SQLiteOpenHelper {
     }
 
     private void createTables(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ACCOUNTS_TABLE);
-        db.execSQL(SQL_CREATE_BOARDS_TABLE);
+        for (String create: ALL_CREATES){
+            db.execSQL(create);
+        }
         createIndexes(db);
     }
 
@@ -83,32 +66,32 @@ public class DeckDataBase extends SQLiteOpenHelper {
     }
 
     private void clearDatabase(SQLiteDatabase db) {
-        db.delete(TABLE_BOARDS, null, null);
-        db.delete(TABLE_ACCOUNTS, null, null);
+        for (String table: ALL_TABLES){
+            db.delete(table, null, null);
+        }
     }
 
     private void recreateDatabase(SQLiteDatabase db) {
         dropIndexes(db);
-        db.execSQL("DROP TABLE " + TABLE_BOARDS);
-        db.execSQL("DROP TABLE " + TABLE_ACCOUNTS);
+        for (String table: ALL_TABLES){
+            db.execSQL("DROP TABLE IF EXISTS " + table);
+        }
+
         onCreate(db);
     }
 
     private void dropIndexes(SQLiteDatabase db) {
         Cursor c = db.query("sqlite_master", new String[]{"name"}, "type=?", new String[]{"index"}, null, null, null);
         while (c.moveToNext()) {
-            db.execSQL("DROP INDEX " + c.getString(0));
+            db.execSQL("DROP INDEX IF EXISTS " + c.getString(0));
         }
         c.close();
     }
 
     private void createIndexes(SQLiteDatabase db) {
-        // none so far...
-    }
-
-    private void createIndex(SQLiteDatabase db, String table, String column) {
-        String indexName = table + "_" + column + "_idx";
-        db.execSQL("CREATE INDEX IF NOT EXISTS " + indexName + " ON " + table + "(" + column + ")");
+        for (String create: ALL_CREATE_INDICES){
+            db.execSQL(create);
+        }
     }
 
     public Context getContext() {
