@@ -123,9 +123,6 @@ public class DataBaseConsts {
 //            );
 
 
-    public static HashMap<>
-
-
     public static String TABLE_OC_DECK_STACKS = "oc_deck_stacks";
     public static String SQL_CREATE_OC_DECK_STACKS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_STACKS + "' (" +
             "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
