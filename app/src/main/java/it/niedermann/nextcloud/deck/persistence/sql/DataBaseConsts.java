@@ -217,6 +217,59 @@ public class DataBaseConsts {
             TABLE_OC_DECK_ASSIGNED_LABELS
     };
 
+    public static String[] ALL_CREATE_INDICES = new String[]{
+
+            "CREATE INDEX IF NOT EXISTS `deck_stacks_order_index` ON `oc_deck_stacks` (" +
+                    "	`order`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_stacks_board_id_index` ON `oc_deck_stacks` (" +
+                    "	`board_id`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_labels_board_id_index` ON `oc_deck_labels` (" +
+                    "	`board_id`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_cards_stack_id_index` ON `oc_deck_cards` (" +
+                    "	`stack_id`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_cards_order_index` ON `oc_deck_cards` (" +
+                    "	`order`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_cards_archived_index` ON `oc_deck_cards` (" +
+                    "	`archived`" +
+                    ")",
+
+            "CREATE UNIQUE INDEX IF NOT EXISTS `deck_board_acl_uq_i` ON `oc_deck_board_acl` (" +
+                    "	`board_id`," +
+                    "	`type`," +
+                    "	`participant`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_board_acl_idx_i` ON `oc_deck_board_acl` (" +
+                    "	`board_id`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_assigned_users_idx_p` ON `oc_deck_assigned_users` (" +
+                    "	`participant`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_assigned_users_idx_c` ON `oc_deck_assigned_users` (" +
+                    "	`card_id`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_assigned_labels_idx_i` ON `oc_deck_assigned_labels` (" +
+                    "	`label_id`" +
+                    ")",
+
+            "CREATE INDEX IF NOT EXISTS `deck_assigned_labels_idx_c` ON `oc_deck_assigned_labels` (" +
+                    "	`card_id`" +
+                    ");"
+    };
+
     public static String[] ALL_CREATES = new String[]{
             SQL_CREATE_OC_DECK_STACKS_TABLE,
             SQL_CREATE_OC_DECK_LABELS_TABLE,
