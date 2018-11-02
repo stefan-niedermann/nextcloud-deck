@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck;
+package it.niedermann.nextcloud.deck.ui.board;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +12,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
 
 class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -45,7 +46,7 @@ class BoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     static class BoardViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.board_title)
+        @BindView(R.id.card_title)
         TextView boardTitle;
 
         private BoardViewHolder(View view) {

@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck;
+package it.niedermann.nextcloud.deck.ui.board;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,11 +24,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.StackAdapter;
-import it.niedermann.nextcloud.deck.ui.StackFragment;
+import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
+import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
+import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

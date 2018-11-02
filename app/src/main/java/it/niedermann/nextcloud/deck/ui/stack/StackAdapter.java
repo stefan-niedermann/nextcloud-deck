@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.ui.stack;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

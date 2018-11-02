@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.ui.card;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

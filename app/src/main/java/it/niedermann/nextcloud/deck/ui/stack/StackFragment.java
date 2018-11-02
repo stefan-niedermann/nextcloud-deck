@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.ui.stack;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 
 public class StackFragment extends Fragment {
 

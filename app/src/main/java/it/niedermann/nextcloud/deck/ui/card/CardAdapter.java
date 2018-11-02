@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.ui.card;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -24,13 +24,14 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_card, viewGroup, false);
-            return new CardAdapter.CardViewHolder(v);
+            return new CardViewHolder(v);
         }
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
             Card card = cardList.get(position);
-            ((CardAdapter.CardViewHolder) viewHolder).cardTitle.setText(card.getTitle());
+            ((CardViewHolder) viewHolder).cardTitle.setText(card.getTitle());
+            ((CardViewHolder) viewHolder).cardDescription.setText(card.getDescription());
         }
 
         @Override
@@ -38,13 +39,15 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return cardList.size();
         }
 
-        void setCardList(@NonNull List<Card> cardList) {
+        public void setCardList(@NonNull List<Card> cardList) {
             this.cardList = cardList;
             notifyDataSetChanged();
         }
     static class CardViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.board_title)
+        @BindView(R.id.card_title)
         TextView cardTitle;
+        @BindView(R.id.card_description)
+        TextView cardDescription;
 
         private CardViewHolder(View view) {
             super(view);

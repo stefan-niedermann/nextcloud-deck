@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck;
+package it.niedermann.nextcloud.deck.ui.login;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -7,11 +7,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
-import android.view.View;
 
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
+
+import it.niedermann.nextcloud.deck.ui.board.MainActivity;
 
 public class LoginDialogFragment extends DialogFragment {
     @NonNull

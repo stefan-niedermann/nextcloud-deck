@@ -5,7 +5,7 @@
     android:padding="@dimen/mtrl_card_spacing">
 
         <TextView
-            android:id="@+id/board_title"
+            android:id="@+id/card_title"
             android:padding="@dimen/mtrl_card_spacing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
