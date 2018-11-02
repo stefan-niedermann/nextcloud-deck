@@ -10,8 +10,13 @@ An android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 [![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/stefan-niedermann/donate)
 
+
+## :eyes: Screenshots
+
+![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png)
+
 ## :rocket: Features
-* ...
+* Display board titles
 
 ## :checkered_flag: Planned features
 * Implement the [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r)
