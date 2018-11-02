@@ -24,6 +24,15 @@
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/stackLayout"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:tabMode="scrollable"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/colorPrimary"
+                app:collapsedTitleGravity="top" />
+
         </android.support.design.widget.AppBarLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -31,6 +40,11 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.FloatingActionButton

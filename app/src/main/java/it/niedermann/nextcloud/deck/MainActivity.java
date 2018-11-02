@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,9 +25,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.StackAdapter;
+import it.niedermann.nextcloud.deck.ui.StackFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,6 +38,11 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.stackLayout)
+    TabLayout stackLayout;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+    private StackAdapter stackAdapter;
 
     private LoginDialogFragment loginDialogFragment;
     private BoardAdapter adapter = null;
@@ -82,6 +90,13 @@ public class MainActivity extends AppCompatActivity
             loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
         }
 
+        stackAdapter = new StackAdapter(getSupportFragmentManager());
+        stackAdapter.addFragment(new StackFragment(), "Stack 1");
+        stackAdapter.addFragment(new StackFragment(), "Stack 2");
+        stackAdapter.addFragment(new StackFragment(), "Stack 3");
+        stackAdapter.addFragment(new StackFragment(), "Stack 4");
+        viewPager.setAdapter(stackAdapter);
+        stackLayout.setupWithViewPager(viewPager);
     }
 
     @Override
