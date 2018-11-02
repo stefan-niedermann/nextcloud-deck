@@ -14,11 +14,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 
 public class StackFragment extends Fragment {
 
+    SyncManager syncManager = null;
     CardAdapter adapter = null;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -30,12 +33,18 @@ public class StackFragment extends Fragment {
         adapter = new CardAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        List<Card> cardList = new ArrayList<>();
-        cardList.add(new Card(1, "Card 1"));
-        cardList.add(new Card(2, "Card 2"));
-        cardList.add(new Card(3, "Card 3"));
-        cardList.add(new Card(4, "Card 4"));
-        adapter.setCardList(new ArrayList<Card>(cardList));
+        syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
+        syncManager.getCards(0, 0, new IResponseCallback<List<Card>>() {
+            @Override
+            public void onResponse(List<Card> response) {
+                adapter.setCardList(response);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+        });
         return view ;
     }
 }

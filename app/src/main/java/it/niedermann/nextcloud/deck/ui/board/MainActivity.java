@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
@@ -72,6 +73,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         initRecyclerView();
+
+        stackAdapter = new StackAdapter(getSupportFragmentManager());
+
         syncManager = new SyncManager(getApplicationContext(), this);
         if(this.syncManager.hasAccounts()) {
             Account account = syncManager.readAccounts().get(0);
@@ -89,18 +93,25 @@ public class MainActivity extends AppCompatActivity
                     throwable.printStackTrace();
                 }
             });
+            syncManager.getStacks(0, 0, new IResponseCallback<List<Stack>>() {
+                @Override
+                public void onResponse(List<Stack> response) {
+                    for(Stack stack: response) {
+                        stackAdapter.addFragment(new StackFragment(), stack.getTitle());
+                    }
+                    viewPager.setAdapter(stackAdapter);
+                    stackLayout.setupWithViewPager(viewPager);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+
+                }
+            });
         } else {
             loginDialogFragment = new LoginDialogFragment();
             loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
         }
-
-        stackAdapter = new StackAdapter(getSupportFragmentManager());
-        stackAdapter.addFragment(new StackFragment(), "Stack 1");
-        stackAdapter.addFragment(new StackFragment(), "Stack 2");
-        stackAdapter.addFragment(new StackFragment(), "Stack 3");
-        stackAdapter.addFragment(new StackFragment(), "Stack 4");
-        viewPager.setAdapter(stackAdapter);
-        stackLayout.setupWithViewPager(viewPager);
     }
 
     @Override
