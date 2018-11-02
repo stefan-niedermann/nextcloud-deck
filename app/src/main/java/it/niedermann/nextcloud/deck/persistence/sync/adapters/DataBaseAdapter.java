@@ -7,6 +7,8 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.DeckDataBase;
 
 public class DataBaseAdapter implements IDataBasePersistenceAdapter {
@@ -50,7 +52,17 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
     }
 
     @Override
-    public void getBoards(IResponseCallback<List<Board>> responseCallback) {
+    public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
         // TODO implement
+    }
+
+    @Override
+    public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
+
+    }
+
+    @Override
+    public void getCards(long accountId, long stackId, IResponseCallback<List<Card>> responseCallback) {
+
     }
 }

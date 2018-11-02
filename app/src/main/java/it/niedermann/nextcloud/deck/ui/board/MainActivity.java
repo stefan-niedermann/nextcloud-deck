@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
@@ -73,10 +74,11 @@ public class MainActivity extends AppCompatActivity
         initRecyclerView();
         syncManager = new SyncManager(getApplicationContext(), this);
         if(this.syncManager.hasAccounts()) {
-            String accountName = syncManager.readAccounts().get(0).getName();
+            Account account = syncManager.readAccounts().get(0);
+            String accountName = account.getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
-            syncManager.getBoards(new IResponseCallback<List<Board>>() {
+            syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>() {
                 @Override
                 public void onResponse(List<Board> boards) {
                     adapter.setBoardList(boards);
