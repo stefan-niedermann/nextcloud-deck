@@ -23,7 +23,7 @@ public class StackFragment extends Fragment {
 
     private long id = 0;
     private CardAdapter adapter = null;
-    private @BindView(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
 
