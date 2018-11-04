@@ -25,7 +25,7 @@ public interface DeckAPI {
         Observable<Board> getBoard(@Path("id") long id);
 
         @GET("boards")
-        Observable<List<Board>> boards();
+        Observable<List<Board>> getBoards();
 
 
         // ### Stacks
@@ -63,16 +63,16 @@ public interface DeckAPI {
 
 
         // ### LABELS
-        @GET("boards/{boardId}labels/{labelId}")
+        @GET("getBoards/{boardId}labels/{labelId}")
         Observable<Label> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
 
-        @PUT("boards/boards/{boardId}/labels/{labelId}")
+        @PUT("getBoards/getBoards/{boardId}/labels/{labelId}")
         Observable<Label> updateLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Body Label label);
 
-        @POST("boards/boards/{boardId}/labels")
+        @POST("getBoards/getBoards/{boardId}/labels")
         Observable<Label> createLabel(@Path("boardId") long boardId, @Body Label label);
 
-        @DELETE("boards/boards/{boardId}/labels/{labelId}")
+        @DELETE("getBoards/getBoards/{boardId}/labels/{labelId}")
         Observable<Label> deleteLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
 
 

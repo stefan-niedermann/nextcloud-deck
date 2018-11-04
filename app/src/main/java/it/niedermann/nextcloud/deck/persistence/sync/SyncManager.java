@@ -72,7 +72,9 @@ public class SyncManager implements IDataBasePersistenceAdapter{
 
     @Override
     public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
-        //TODO: implement.
+        // TODO: first look at DB instead of direct server request
+         //serverAdapter.getStacks(accountId,boardId,responseCallback); //TODO why 405 mehtod not allowed?
+
         // bullshit data...
         List<Stack> stacks = new ArrayList<>();
         Stack s = new Stack();

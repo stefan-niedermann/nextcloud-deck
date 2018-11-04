@@ -27,16 +27,17 @@ public class ServerAdapter implements IPersistenceAdapter {
 
     @Override
     public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().boards(), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(), responseCallback);
     }
 
     @Override
     public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
-
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStacks(boardId), responseCallback);
     }
 
     @Override
     public void getCards(long accountId, long stackId, IResponseCallback<List<Card>> responseCallback) {
-
+        //TODO: how do i get those?
+        //RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().get, responseCallback);
     }
 }
