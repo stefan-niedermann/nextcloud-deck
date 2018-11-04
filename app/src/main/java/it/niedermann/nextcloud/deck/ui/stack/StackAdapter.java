@@ -26,6 +26,11 @@ public class StackAdapter extends FragmentStatePagerAdapter {
         mFragmentTitleList.add(title);
     }
 
+    public void clear() {
+        mFragmentList.clear();
+        mFragmentTitleList.clear();
+    }
+
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {

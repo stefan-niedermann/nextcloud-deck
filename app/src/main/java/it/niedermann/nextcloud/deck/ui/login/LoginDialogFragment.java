@@ -12,18 +12,17 @@ import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
-import it.niedermann.nextcloud.deck.ui.board.MainActivity;
+import it.niedermann.nextcloud.deck.ui.MainActivity;
 
 public class LoginDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
         try {
             AccountImporter.pickNewAccount(this);
         } catch (NextcloudFilesAppNotInstalledException e) {
-            Log.d("Deck", "=============================================================");
-            Log.d("Deck", "Nextcloud app is not installed. Cannot choose account");
+            Log.w("Deck", "=============================================================");
+            Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
             // ToDo redirect to Play Store
             e.printStackTrace();
         }

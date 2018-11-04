@@ -10,7 +10,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.board.MainActivity">
+        tools:context=".ui.MainActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -62,20 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="false">
-        <android.support.v7.widget.LinearLayoutCompat
-            android:orientation="vertical"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
-
-            <include layout="@layout/nav_header_main" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical" />
-        </android.support.v7.widget.LinearLayoutCompat>
+        android:fitsSystemWindows="false"
+        app:headerLayout="@layout/nav_header_main">
     </android.support.design.widget.NavigationView>
 
 

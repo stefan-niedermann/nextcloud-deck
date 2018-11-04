@@ -1,6 +1,7 @@
-package it.niedermann.nextcloud.deck.ui.board;
+package it.niedermann.nextcloud.deck.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -10,9 +11,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,15 +41,11 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.stackLayout)
-    TabLayout stackLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-    private StackAdapter stackAdapter;
+    @BindView(R.id.stackLayout) TabLayout stackLayout;
+    @BindView(R.id.viewPager) ViewPager viewPager;
 
+    private StackAdapter stackAdapter;
     private LoginDialogFragment loginDialogFragment;
-    private BoardAdapter adapter = null;
     private SyncManager syncManager;
 
     @Override
@@ -61,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Creating new Boards is not yet supported", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -71,12 +67,9 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
-        initRecyclerView();
-
+        syncManager = new SyncManager(getApplicationContext(), this);
         stackAdapter = new StackAdapter(getSupportFragmentManager());
 
-        syncManager = new SyncManager(getApplicationContext(), this);
         if(this.syncManager.hasAccounts()) {
             Account account = syncManager.readAccounts().get(0);
             String accountName = account.getName();
@@ -85,7 +78,11 @@ public class MainActivity extends AppCompatActivity
             syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>() {
                 @Override
                 public void onResponse(List<Board> boards) {
-                    adapter.setBoardList(boards);
+                    Menu menu = navigationView.getMenu();
+                    for(Board board: boards) {
+                        // ToDo at least use https://stackoverflow.com/questions/1590831/safely-casting-long-to-int-in-java
+                        menu.add(Menu.NONE, (int) board.getId(), Menu.NONE, board.getTitle());
+                    }
                 }
 
                 @Override
@@ -93,30 +90,11 @@ public class MainActivity extends AppCompatActivity
                     throwable.printStackTrace();
                 }
             });
-            syncManager.getStacks(0, 0, new IResponseCallback<List<Stack>>() {
-                @Override
-                public void onResponse(List<Stack> response) {
-                    for(Stack stack: response) {
-                        stackAdapter.addFragment(new StackFragment(), stack.getTitle());
-                    }
-                    viewPager.setAdapter(stackAdapter);
-                    stackLayout.setupWithViewPager(viewPager);
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-
-                }
-            });
+            displayStacksForId(0);
         } else {
             loginDialogFragment = new LoginDialogFragment();
             loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     public void onAccountChoose(SingleSignOnAccount account) {
@@ -124,10 +102,24 @@ public class MainActivity extends AppCompatActivity
         this.syncManager.createAccount(account.name);
     }
 
-    public void initRecyclerView() {
-        adapter = new BoardAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+    private void displayStacksForId(long id) {
+        syncManager.getStacks(0, id, new IResponseCallback<List<Stack>>() {
+            @Override
+            public void onResponse(List<Stack> response) {
+                stackAdapter.clear();
+                for(Stack stack: response) {
+                    stackAdapter.addFragment(StackFragment.newInstance(stack.getId()), stack.getTitle());
+                }
+                viewPager.setAdapter(stackAdapter);
+                stackLayout.setupWithViewPager(viewPager);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Log.e("Deck", throwable.getMessage());
+                throwable.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -148,25 +140,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        displayStacksForId(item.getItemId());
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
