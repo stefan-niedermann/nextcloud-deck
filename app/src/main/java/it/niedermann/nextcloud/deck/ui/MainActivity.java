@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private StackAdapter stackAdapter;
     private LoginDialogFragment loginDialogFragment;
     private SyncManager syncManager;
+    private List<Board> boardsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +80,12 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onResponse(List<Board> boards) {
                     Menu menu = navigationView.getMenu();
-                    for(Board board: boards) {
-                        // ToDo at least use https://stackoverflow.com/questions/1590831/safely-casting-long-to-int-in-java
-                        menu.add(Menu.NONE, (int) board.getId(), Menu.NONE, board.getTitle());
+                    boardsList = boards;
+                    int index = 0;
+                    for(Board board: boardsList) {
+                        menu.add(Menu.NONE, index++, Menu.NONE, board.getTitle());
                     }
+                    displayStacksForIndex(0);
                 }
 
                 @Override
@@ -90,7 +93,6 @@ public class MainActivity extends AppCompatActivity
                     throwable.printStackTrace();
                 }
             });
-            displayStacksForId(0);
         } else {
             loginDialogFragment = new LoginDialogFragment();
             loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
@@ -102,8 +104,13 @@ public class MainActivity extends AppCompatActivity
         this.syncManager.createAccount(account.name);
     }
 
-    private void displayStacksForId(long id) {
-        syncManager.getStacks(0, id, new IResponseCallback<List<Stack>>() {
+    /**
+     * Displays the Stacks for the boardsList by index
+     * @param index of boardsList
+     */
+    private void displayStacksForIndex(int index) {
+        Log.v("Deck", "displayStacksForIndex(" + index + ")");
+        syncManager.getStacks(0, boardsList.get(index).getId(), new IResponseCallback<List<Stack>>() {
             @Override
             public void onResponse(List<Stack> response) {
                 stackAdapter.clear();
@@ -149,7 +156,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        displayStacksForId(item.getItemId());
+        displayStacksForIndex(item.getItemId());
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
