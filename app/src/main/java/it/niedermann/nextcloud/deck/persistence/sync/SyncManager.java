@@ -101,7 +101,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
         // bullshit data...
         List<Card> cards = new ArrayList<>();
         Card c = new Card(0, "Fix some naughty bug");
-        c.setDescription("getRandom always returns four");
+        c.setDescription("getRandom always returns four\nThis is line two\nThis is line three\nThis is line four.");
         cards.add(c);
         c = new Card(0, "Strange behaviour");
         c.setDescription("Some retard didn't close the streams");
