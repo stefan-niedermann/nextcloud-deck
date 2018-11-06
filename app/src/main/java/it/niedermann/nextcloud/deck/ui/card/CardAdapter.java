@@ -43,6 +43,11 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void moveItem(int fromPosition, int toPosition) {
+        cardList.add(toPosition, cardList.remove(fromPosition));
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
     static class CardViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.card_title)
         TextView cardTitle;

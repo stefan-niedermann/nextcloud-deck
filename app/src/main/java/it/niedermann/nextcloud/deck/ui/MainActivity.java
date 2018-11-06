@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.navigationView) NavigationView navigationView;
     @BindView(R.id.stackLayout) TabLayout stackLayout;
     @BindView(R.id.viewPager) ViewPager viewPager;
 
@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity
     private void displayStacksForIndex(int index) {
         Log.v("Deck", "displayStacksForIndex(" + index + ")");
         Board selectedBoard = boardsList.get(index);
-
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
