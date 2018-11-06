@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;

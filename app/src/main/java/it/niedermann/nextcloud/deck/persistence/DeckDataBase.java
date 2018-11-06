@@ -8,9 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import static it.niedermann.nextcloud.deck.persistence.sql.DataBaseConsts.*;
 
 import it.niedermann.nextcloud.deck.model.Account;
+
+import static it.niedermann.nextcloud.deck.persistence.sql.DataBaseConsts.ALL_CREATES;
+import static it.niedermann.nextcloud.deck.persistence.sql.DataBaseConsts.ALL_CREATE_INDICES;
+import static it.niedermann.nextcloud.deck.persistence.sql.DataBaseConsts.ALL_TABLES;
+import static it.niedermann.nextcloud.deck.persistence.sql.DataBaseConsts.TABLE_ACCOUNTS;
 
 public class DeckDataBase extends SQLiteOpenHelper {
 

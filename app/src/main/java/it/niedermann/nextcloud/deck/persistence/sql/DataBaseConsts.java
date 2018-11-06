@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.persistence.sql;
 
-import java.util.HashMap;
-
 public class DataBaseConsts {
 // LazyKit:
 //    public static final String TABLE_{JS var txt = "{$1}"; txt = txt.toUpperCase(); txt JS} = "{$1}";

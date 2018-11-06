@@ -17,32 +17,32 @@ import it.niedermann.nextcloud.deck.model.Card;
 
 public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private List<Card> cardList = new ArrayList<>();
 
-        private List<Card> cardList = new ArrayList<>();
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_card, viewGroup, false);
+        return new CardViewHolder(v);
+    }
 
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_card, viewGroup, false);
-            return new CardViewHolder(v);
-        }
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        Card card = cardList.get(position);
+        ((CardViewHolder) viewHolder).cardTitle.setText(card.getTitle());
+        ((CardViewHolder) viewHolder).cardDescription.setText(card.getDescription());
+    }
 
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-            Card card = cardList.get(position);
-            ((CardViewHolder) viewHolder).cardTitle.setText(card.getTitle());
-            ((CardViewHolder) viewHolder).cardDescription.setText(card.getDescription());
-        }
+    @Override
+    public int getItemCount() {
+        return cardList.size();
+    }
 
-        @Override
-        public int getItemCount() {
-            return cardList.size();
-        }
+    public void setCardList(@NonNull List<Card> cardList) {
+        this.cardList = cardList;
+        notifyDataSetChanged();
+    }
 
-        public void setCardList(@NonNull List<Card> cardList) {
-            this.cardList = cardList;
-            notifyDataSetChanged();
-        }
     static class CardViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.card_title)
         TextView cardTitle;

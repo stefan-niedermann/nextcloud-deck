@@ -1,20 +1,11 @@
 package it.niedermann.nextcloud.deck.api;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.exceptions.SSOException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
-
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by david on 26.05.17.

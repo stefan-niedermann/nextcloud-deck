@@ -55,11 +55,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
-            }
+        fab.setOnClickListener((View view) -> {
+            Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
         });
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -110,7 +107,12 @@ public class MainActivity extends AppCompatActivity
      */
     private void displayStacksForIndex(int index) {
         Log.v("Deck", "displayStacksForIndex(" + index + ")");
-        syncManager.getStacks(0, boardsList.get(index).getId(), new IResponseCallback<List<Stack>>() {
+        Board selectedBoard = boardsList.get(index);
+
+        if(toolbar != null) {
+            toolbar.setTitle(selectedBoard.getTitle());
+        }
+        syncManager.getStacks(0, selectedBoard.getId(), new IResponseCallback<List<Stack>>() {
             @Override
             public void onResponse(List<Stack> response) {
                 stackAdapter.clear();
