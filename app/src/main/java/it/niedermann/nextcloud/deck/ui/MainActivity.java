@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(List<Stack> response) {
                 stackAdapter.clear();
                 for(Stack stack: response) {
-                    stackAdapter.addFragment(StackFragment.newInstance(stack.getId()), stack.getTitle());
+                    stackAdapter.addFragment(StackFragment.newInstance(stack.getBoardId(), stack.getId()), stack.getTitle());
                 }
                 viewPager.setAdapter(stackAdapter);
                 stackLayout.setupWithViewPager(viewPager);

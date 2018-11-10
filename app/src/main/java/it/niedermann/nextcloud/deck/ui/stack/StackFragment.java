@@ -17,25 +17,28 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardItemTouchHelper;
 
 public class StackFragment extends Fragment {
 
-    private long id = 0;
+    private long boardId = 0;
+    private long stackId = 0;
     private CardAdapter adapter = null;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
     /**
      * @see <a href="https://gunhansancar.com/best-practice-to-instantiate-fragments-with-arguments-in-android/">Best Practice to Instantiate Fragments with Arguments in Android</a>
-     * @param id of the current stack
+     * @param boardId of the current stack
      * @return new fragment instance
      */
-    public static StackFragment newInstance(long id) {
+    public static StackFragment newInstance(long boardId, long stackId) {
         Bundle bundle = new Bundle();
-        bundle.putLong("id", id);
+        bundle.putLong("boardId", boardId);
+        bundle.putLong("stackId", stackId);
 
         StackFragment fragment = new StackFragment();
         fragment.setArguments(bundle);
@@ -49,13 +52,13 @@ public class StackFragment extends Fragment {
         ButterKnife.bind(this, view);
         initRecyclerView();
         if(savedInstanceState != null) {
-            this.id = savedInstanceState.getLong("id");
+            this.boardId = savedInstanceState.getLong("boardId");
+            this.stackId = savedInstanceState.getLong("stackId");
         }
         SyncManager syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
-        syncManager.getCards(0, id, new IResponseCallback<List<Card>>(0) {
+        syncManager.getStack(0, boardId, stackId, new IResponseCallback<Stack>(0) {
             @Override
-            public void onResponse(List<Card> response) {
-                adapter.setCardList(response);
+            public void onResponse(Stack response) {
             }
 
             @Override
