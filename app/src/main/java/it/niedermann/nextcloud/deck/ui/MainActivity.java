@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity
             String accountName = account.getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
+            Log.v("Deck", "------ " + account.getId());
             syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>(account.getId()) {
                 @Override
                 public void onResponse(List<Board> boards) {
@@ -163,7 +164,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case MENU_ID_ABOUT:
-                Log.v("Deck", "" + MENU_ID_ABOUT);
                 Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
                 startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                 break;

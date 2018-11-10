@@ -58,7 +58,7 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
 
 
     private Board parseBoard(JsonObject e) {
-        Log.e("### deck (boards-call)", e.getAsString());
+        // throws "Unsupported" exception
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
         board.setId(e.get("id").getAsLong());
@@ -66,8 +66,7 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
     }
 
     private Card parseCard(JsonObject e) {
-        //TODO: impl
-        Log.e("### deck (cards-call)", e.getAsString());
+        //TODO: impl        // throws "Unsupported" exception
         Card card = new Card();
         card.setId(e.get("id").getAsLong());
         card.setTitle(getNullAsEmptyString(e.get("title")));
@@ -84,7 +83,8 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
     }
     private Label parseLabel(JsonObject e) {
         //TODO: impl
-        Log.e("### deck (labels call)", e.getAsString());
+        // throws "Unsupported" exception
+        //Log.e("### deck (labels call)", e.getAsString());
         Label label = new Label();
         Log.e("### deck", e.getAsString());
         label.setTitle("implement meeeee! (in NextcloudDeserializer.java)");
