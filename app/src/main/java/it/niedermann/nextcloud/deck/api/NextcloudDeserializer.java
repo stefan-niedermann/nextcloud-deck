@@ -59,6 +59,7 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
 
     private Board parseBoard(JsonObject e) {
         // throws "Unsupported" exception
+        Log.e("### deck (boards call)", e.toString());
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
         board.setId(e.get("id").getAsLong());
@@ -73,6 +74,7 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
         return card;
     }
     private Stack parseStack(JsonObject e) {
+        Log.e("### deck (stacks call)", e.toString());
         Stack stack = new Stack();
         stack.setTitle(getNullAsEmptyString(e.get("title")));
         stack.setBoardId(e.get("boardId").getAsLong());

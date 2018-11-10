@@ -11,5 +11,6 @@ public interface IPersistenceAdapter {
 
     void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback);
     void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback);
-    void getCards(long accountId, long stackId, IResponseCallback<List<Card>> responseCallback);
+    void getStack(long accountId, long boardId, long stackId, IResponseCallback<Stack> responseCallback);
+    void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback);
 }

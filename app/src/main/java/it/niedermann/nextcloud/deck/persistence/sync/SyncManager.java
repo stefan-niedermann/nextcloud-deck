@@ -72,42 +72,18 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     @Override
     public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
         // TODO: first look at DB instead of direct server request
-         serverAdapter.getStacks(accountId,boardId,responseCallback); //TODO why 405 mehtod not allowed?
-
-        // bullshit data...
-//        List<Stack> stacks = new ArrayList<>();
-//        Stack s = new Stack();
-//        s.setBoardId(boardId);
-//        s.setOrder(1);
-//        s.setTitle("ToDo");
-//        stacks.add(s);
-//        s = new Stack();
-//        s.setBoardId(boardId);
-//        s.setOrder(2);
-//        s.setTitle("Doing");
-//        stacks.add(s);
-//        s = new Stack();
-//        s.setBoardId(boardId);
-//        s.setOrder(3);
-//        s.setTitle("Done");
-//        stacks.add(s);
-//        responseCallback.onResponse(stacks);
+         serverAdapter.getStacks(accountId,boardId,responseCallback);
     }
 
     @Override
-    public void getCards(long accountId, long stackId, IResponseCallback<List<Card>> responseCallback) {
-        //TODO: implement.
-        // bullshit data...
-        List<Card> cards = new ArrayList<>();
-//        Card c = new Card(0, "Fix some naughty bug");
-//        c.setDescription("getRandom always returns four\nThis is line two\nThis is line three\nThis is line four.");
-//        cards.add(c);
-//        c = new Card(0, "Strange behaviour");
-//        c.setDescription("Some retard didn't close the streams");
-//        cards.add(c);
-//        c = new Card(0, "Push Pixels around");
-//        c.setDescription("It is one px too narrow!!! Get it fixed now!");
-//        cards.add(c);
-        responseCallback.onResponse(cards);
+    public void getStack(long accountId, long boardId, long stackId, IResponseCallback<Stack> responseCallback) {
+        // TODO: first look at DB instead of direct server request
+        serverAdapter.getStack(accountId,boardId, stackId, responseCallback);
+    }
+
+    @Override
+    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
+        // TODO: first look at DB instead of direct server request
+        serverAdapter.getCard(accountId, boardId, stackId, cardId, responseCallback);
     }
 }

@@ -62,7 +62,12 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
     }
 
     @Override
-    public void getCards(long accountId, long stackId, IResponseCallback<List<Card>> responseCallback) {
+    public void getStack(long accountId, long boardId, long stackId, IResponseCallback<Stack> responseCallback) {
+
+    }
+
+    @Override
+    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
 
     }
 }
