@@ -52,7 +52,7 @@ public class StackFragment extends Fragment {
             this.id = savedInstanceState.getLong("id");
         }
         SyncManager syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
-        syncManager.getCards(0, id, new IResponseCallback<List<Card>>() {
+        syncManager.getCards(0, id, new IResponseCallback<List<Card>>(0) {
             @Override
             public void onResponse(List<Card> response) {
                 adapter.setCardList(response);
