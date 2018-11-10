@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -36,6 +37,9 @@ import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final int MENU_ID_ABOUT = -1;
+    private static final int ACTIVITY_ABOUT = 1;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
@@ -80,9 +84,10 @@ public class MainActivity extends AppCompatActivity
                     boardsList = boards;
                     int index = 0;
                     for(Board board: boardsList) {
-                        menu.add(Menu.NONE, index++, Menu.NONE, board.getTitle());
+                        menu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(R.drawable.ic_view_column_black_24dp);
                     }
-                    displayStacksForIndex(0);
+                    menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
+                    displayStacksForIndex(0, 0);
                 }
 
                 @Override
@@ -106,7 +111,6 @@ public class MainActivity extends AppCompatActivity
      * @param index of boardsList
      */
     private void displayStacksForIndex(int index, long accountId) {
-        Log.v("Deck", "displayStacksForIndex(" + index + ")");
         Board selectedBoard = boardsList.get(index);
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
@@ -157,7 +161,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        displayStacksForIndex(item.getItemId(), 0); // TODO: <- accountID!
+        switch(item.getItemId()) {
+            case MENU_ID_ABOUT:
+                Log.v("Deck", "" + MENU_ID_ABOUT);
+                Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
+                startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
+                break;
+            default:
+                displayStacksForIndex(item.getItemId(), 0); // TODO: <- accountID!
+        }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
