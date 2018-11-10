@@ -4,20 +4,16 @@ import java.io.Serializable;
 
 public class RemoteEntity implements Serializable {
     protected long localId = 0;
+    protected long accountId = 0;
     protected long id = 0;
     protected DBStatus status = DBStatus.UP_TO_DATE;
 
-    public RemoteEntity() {
+    public long getAccountId() {
+        return accountId;
     }
 
-    public RemoteEntity(long localId) {
-        super();
-        this.localId = localId;
-    }
-
-    public RemoteEntity(long id, long localId) {
-        this(localId);
-        this.id = id;
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
     }
 
     public long getLocalId() {

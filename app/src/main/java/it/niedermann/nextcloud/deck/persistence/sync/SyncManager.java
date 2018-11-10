@@ -99,15 +99,15 @@ public class SyncManager implements IDataBasePersistenceAdapter{
         //TODO: implement.
         // bullshit data...
         List<Card> cards = new ArrayList<>();
-        Card c = new Card(0, "Fix some naughty bug");
-        c.setDescription("getRandom always returns four\nThis is line two\nThis is line three\nThis is line four.");
-        cards.add(c);
-        c = new Card(0, "Strange behaviour");
-        c.setDescription("Some retard didn't close the streams");
-        cards.add(c);
-        c = new Card(0, "Push Pixels around");
-        c.setDescription("It is one px too narrow!!! Get it fixed now!");
-        cards.add(c);
+//        Card c = new Card(0, "Fix some naughty bug");
+//        c.setDescription("getRandom always returns four\nThis is line two\nThis is line three\nThis is line four.");
+//        cards.add(c);
+//        c = new Card(0, "Strange behaviour");
+//        c.setDescription("Some retard didn't close the streams");
+//        cards.add(c);
+//        c = new Card(0, "Push Pixels around");
+//        c.setDescription("It is one px too narrow!!! Get it fixed now!");
+//        cards.add(c);
         responseCallback.onResponse(cards);
     }
 }

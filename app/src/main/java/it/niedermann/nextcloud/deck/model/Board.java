@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board extends RemoteEntity {
-    private long accountId;
     private String title;
     private User owner;
     private String color;
@@ -17,20 +16,6 @@ public class Board extends RemoteEntity {
     private int shared;
     private LocalDate deletedAt;
 
-
-    public Board(long accountId, long remoteId, String title) {
-        super(remoteId);
-        this.accountId = accountId;
-        this.title = title;
-    }
-
-    public Board(long accountId, long id, String title, DBStatus status) {
-        super();
-        this.accountId = accountId;
-        this.id = id;
-        this.title = title;
-        this.status = status;
-    }
 
     public long getLocalId() {
         return localId;

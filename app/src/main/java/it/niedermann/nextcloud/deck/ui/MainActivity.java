@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
             String accountName = account.getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
-            syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>() {
+            syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>(account.getId()) {
                 @Override
                 public void onResponse(List<Board> boards) {
                     Menu menu = navigationView.getMenu();
@@ -115,7 +115,13 @@ public class MainActivity extends AppCompatActivity
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
-        syncManager.getStacks(accountId, selectedBoard.getLocalId(), new IResponseCallback<List<Stack>>() {
+        syncManager.getStacks(accountId, selectedBoard.getLocalId(), new IResponseCallback<List<Stack>>(accountId) {
+            @Override
+            public void onError(Throwable throwable) {
+                Log.e("Deck", throwable.getMessage());
+                throwable.printStackTrace();
+            }
+
             @Override
             public void onResponse(List<Stack> response) {
                 stackAdapter.clear();
@@ -124,12 +130,6 @@ public class MainActivity extends AppCompatActivity
                 }
                 viewPager.setAdapter(stackAdapter);
                 stackLayout.setupWithViewPager(viewPager);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Log.e("Deck", throwable.getMessage());
-                throwable.printStackTrace();
             }
         });
     }

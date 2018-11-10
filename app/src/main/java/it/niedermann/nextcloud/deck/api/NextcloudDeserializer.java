@@ -58,23 +58,33 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
 
 
     private Board parseBoard(JsonObject e) {
-        return new Board(0, e.get("id").getAsLong(), getNullAsEmptyString(e.get("title")));
+        Log.e("### deck (boards-call)", e.getAsString());
+        Board board = new Board();
+        board.setTitle(getNullAsEmptyString(e.get("title")));
+        board.setId(e.get("id").getAsLong());
+        return board;
     }
 
     private Card parseCard(JsonObject e) {
-        return new Card(e.get("id").getAsLong(), getNullAsEmptyString(e.get("title")));
+        //TODO: impl
+        Log.e("### deck (cards-call)", e.getAsString());
+        Card card = new Card();
+        card.setId(e.get("id").getAsLong());
+        card.setTitle(getNullAsEmptyString(e.get("title")));
+        return card;
     }
     private Stack parseStack(JsonObject e) {
         Stack stack = new Stack();
         stack.setTitle(getNullAsEmptyString(e.get("title")));
         stack.setBoardId(e.get("boardId").getAsLong());
-        stack.setLocalId(e.get("id").getAsLong());
+        stack.setId(e.get("id").getAsLong());
         stack.setOrder(e.get("order").getAsInt());
 //        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
         return stack;
     }
     private Label parseLabel(JsonObject e) {
         //TODO: impl
+        Log.e("### deck (labels call)", e.getAsString());
         Label label = new Label();
         Log.e("### deck", e.getAsString());
         label.setTitle("implement meeeee! (in NextcloudDeserializer.java)");

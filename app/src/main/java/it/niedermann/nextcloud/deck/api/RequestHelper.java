@@ -99,6 +99,7 @@ public class RequestHelper {
 
         @Override
         public void accept(final T t) throws Exception {
+            callback.fillAccountIDs(t);
             sourceActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
