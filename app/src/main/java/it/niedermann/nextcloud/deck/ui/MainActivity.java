@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
@@ -77,15 +78,15 @@ public class MainActivity extends AppCompatActivity
             String accountName = account.getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
-            Log.v("Deck", "------ " + account.getId());
             syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>(account.getId()) {
                 @Override
                 public void onResponse(List<Board> boards) {
                     Menu menu = navigationView.getMenu();
+                    SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
                     boardsList = boards;
                     int index = 0;
                     for(Board board: boardsList) {
-                        menu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(R.drawable.ic_view_column_black_24dp);
+                        boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(R.drawable.ic_view_column_black_24dp);
                     }
                     menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
                     displayStacksForIndex(0, 0);

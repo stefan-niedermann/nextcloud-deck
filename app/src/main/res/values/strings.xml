@@ -7,6 +7,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Simple values -->
+    <string name="simple_boards">Boards</string>
+
     <!-- About -->
     <string name="about">About</string>
     <string name="about_version_title">Version</string>
