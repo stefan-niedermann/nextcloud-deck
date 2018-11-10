@@ -1,12 +1,14 @@
 package it.niedermann.nextcloud.deck.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Stack extends RemoteEntity {
     private String title;
     private long boardId;
     private LocalDate deletedAt;
     private int order;
+    private List<Card> cards;
 
     public Stack() {
         super();
@@ -42,5 +44,9 @@ public class Stack extends RemoteEntity {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 }

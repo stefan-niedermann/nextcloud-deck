@@ -18,7 +18,7 @@ public class Card extends RemoteEntity {
     private String attachments;
     private int attachmentCount;
     private String owner;
-    private String order;
+    private int order;
     private boolean archived;
     private String dueDate;
     private int overdue;
@@ -128,11 +128,11 @@ public class Card extends RemoteEntity {
         this.owner = owner;
     }
 
-    public String getOrder() {
+    public int getOrder() {
         return order;
     }
 
-    public void setOrder(String order) {
+    public void setOrder(int order) {
         this.order = order;
     }
 
