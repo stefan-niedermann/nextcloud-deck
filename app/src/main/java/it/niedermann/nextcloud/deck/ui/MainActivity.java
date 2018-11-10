@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
-        syncManager.getStacks(accountId, selectedBoard.getLocalId(), new IResponseCallback<List<Stack>>(accountId) {
+        syncManager.getStacks(accountId, selectedBoard.getId(), new IResponseCallback<List<Stack>>(accountId) {
             @Override
             public void onError(Throwable throwable) {
                 Log.e("Deck", throwable.getMessage());
