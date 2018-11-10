@@ -32,12 +32,12 @@ public class Board extends RemoteEntity {
         this.status = status;
     }
 
-    public long getRemoteId() {
-        return remoteId;
+    public long getLocalId() {
+        return localId;
     }
 
-    public void setRemoteId(long remoteId) {
-        this.remoteId = remoteId;
+    public void setLocalId(long localId) {
+        this.localId = localId;
     }
 
     public long getAccountId() {

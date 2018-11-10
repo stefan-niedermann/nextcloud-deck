@@ -68,7 +68,7 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
         Stack stack = new Stack();
         stack.setTitle(getNullAsEmptyString(e.get("title")));
         stack.setBoardId(e.get("boardId").getAsLong());
-        stack.setRemoteId(e.get("id").getAsLong());
+        stack.setLocalId(e.get("id").getAsLong());
         stack.setOrder(e.get("order").getAsInt());
 //        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
         return stack;
