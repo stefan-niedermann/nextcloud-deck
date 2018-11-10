@@ -10,13 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
@@ -24,21 +21,21 @@ import it.niedermann.nextcloud.deck.ui.card.CardItemTouchHelper;
 
 public class StackFragment extends Fragment {
 
-    private long boardId = 0;
-    private long stackId = 0;
+    private static final String KEY_BOARD_ID = "boardId";
+    private static final String KEY_STACK_ID = "stackId";
     private CardAdapter adapter = null;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
     /**
-     * @see <a href="https://gunhansancar.com/best-practice-to-instantiate-fragments-with-arguments-in-android/">Best Practice to Instantiate Fragments with Arguments in Android</a>
      * @param boardId of the current stack
      * @return new fragment instance
+     * @see <a href="https://gunhansancar.com/best-practice-to-instantiate-fragments-with-arguments-in-android/">Best Practice to Instantiate Fragments with Arguments in Android</a>
      */
     public static StackFragment newInstance(long boardId, long stackId) {
         Bundle bundle = new Bundle();
-        bundle.putLong("boardId", boardId);
-        bundle.putLong("stackId", stackId);
+        bundle.putLong(KEY_BOARD_ID, boardId);
+        bundle.putLong(KEY_STACK_ID, stackId);
 
         StackFragment fragment = new StackFragment();
         fragment.setArguments(bundle);
@@ -51,15 +48,14 @@ public class StackFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stack, container, false);
         ButterKnife.bind(this, view);
         initRecyclerView();
-        if(savedInstanceState != null) {
-            this.boardId = savedInstanceState.getLong("boardId");
-            this.stackId = savedInstanceState.getLong("stackId");
-        }
+        long boardId = getArguments().getLong(KEY_BOARD_ID);
+        long stackId = getArguments().getLong(KEY_STACK_ID);
+
         SyncManager syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
         syncManager.getStack(0, boardId, stackId, new IResponseCallback<Stack>(0) {
             @Override
             public void onResponse(Stack response) {
-                // TODO set list of cards to adapter
+                adapter.setCardList(response.getCards());
             }
 
             @Override
@@ -68,7 +64,7 @@ public class StackFragment extends Fragment {
                 throwable.printStackTrace();
             }
         });
-        return view ;
+        return view;
     }
 
     private void initRecyclerView() {

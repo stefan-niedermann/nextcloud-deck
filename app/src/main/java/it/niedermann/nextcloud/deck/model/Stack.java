@@ -49,4 +49,8 @@ public class Stack extends RemoteEntity {
     public void setCards(List<Card> cards) {
         this.cards = cards;
     }
+
+    public List<Card> getCards() {
+        return this.cards;
+    }
 }
