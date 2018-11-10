@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity
      * @param index of boardsList
      */
     private void displayStacksForIndex(int index) {
-        Log.v("Deck", "displayStacksForIndex(" + index + ")");
         Board selectedBoard = boardsList.get(index);
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());

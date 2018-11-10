@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.ui.card;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
+
+import java.util.List;
 
 public class CardItemTouchHelper extends ItemTouchHelper {
     public CardItemTouchHelper(CardAdapter adapter) {
