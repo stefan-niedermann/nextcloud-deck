@@ -29,50 +29,50 @@ public interface DeckAPI {
 
 
         // ### Stacks
-        @POST("board/{boardId}/stacks")
+        @POST("boards/{boardId}/stacks")
         Observable createStack(@Path("boardId") long boardId, @Body Stack stack);
 
-        @PUT("board/{boardId}/stacks/{stackId}")
+        @PUT("boards/{boardId}/stacks/{stackId}")
         Observable<Stack> updateStack(@Path("boardId") long boardId, @Path("stackId") long id, @Body Stack stack);
 
-        @DELETE("board/{boardId}/stacks/{stackId}")
+        @DELETE("boards/{boardId}/stacks/{stackId}")
         Observable<Stack> deleteStack(@Path("boardId") long boardId, @Path("stackId") long id);
 
-        @GET("board/{boardId}/stacks/{stackId}")
+        @GET("boards/{boardId}/stacks/{stackId}")
         Observable<Stack> getStack(@Path("boardId") long boardId, @Path("stackId") long id);
 
-        @GET("board/{boardId}/stacks")
+        @GET("boards/{boardId}/stacks")
         Observable<List<Stack>> getStacks(@Path("boardId") long boardId);
 
-        @GET("board/{boardId}/stacks/archived")
+        @GET("boards/{boardId}/stacks/archived")
         Observable<List<Stack>> getArchivedStacks(@Path("boardId") long boardId);
 
 
         // ### Cards
-        @POST("board/{boardId}/stacks/{stackId}/cards")
+        @POST("boards/{boardId}/stacks/{stackId}/cards")
         Observable createCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Body Card card);
 
-        @PUT("board/{boardId}/stacks/{stackId}/cards/{cardId}")
+        @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
         Observable<Card> updateCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Card card);
 
-        @DELETE("board/{boardId}/stacks/{stackId}/cards/{cardId}")
+        @DELETE("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
         Observable<Card> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
-        @GET("board/{boardId}/stacks/{stackId}/cards/{cardId}")
+        @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
         Observable<Card> getCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
 
         // ### LABELS
-        @GET("getBoards/{boardId}labels/{labelId}")
+        @GET("boards/{boardId}labels/{labelId}")
         Observable<Label> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
 
-        @PUT("getBoards/getBoards/{boardId}/labels/{labelId}")
+        @PUT("boards/getBoards/{boardId}/labels/{labelId}")
         Observable<Label> updateLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Body Label label);
 
-        @POST("getBoards/getBoards/{boardId}/labels")
+        @POST("boards/getBoards/{boardId}/labels")
         Observable<Label> createLabel(@Path("boardId") long boardId, @Body Label label);
 
-        @DELETE("getBoards/getBoards/{boardId}/labels/{labelId}")
+        @DELETE("boards/getBoards/{boardId}/labels/{labelId}")
         Observable<Label> deleteLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
 
 

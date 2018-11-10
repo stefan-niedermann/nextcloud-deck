@@ -72,26 +72,26 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     @Override
     public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
         // TODO: first look at DB instead of direct server request
-         //serverAdapter.getStacks(accountId,boardId,responseCallback); //TODO why 405 mehtod not allowed?
+         serverAdapter.getStacks(accountId,boardId,responseCallback); //TODO why 405 mehtod not allowed?
 
         // bullshit data...
-        List<Stack> stacks = new ArrayList<>();
-        Stack s = new Stack();
-        s.setBoardId(boardId);
-        s.setOrder(1);
-        s.setTitle("ToDo");
-        stacks.add(s);
-        s = new Stack();
-        s.setBoardId(boardId);
-        s.setOrder(2);
-        s.setTitle("Doing");
-        stacks.add(s);
-        s = new Stack();
-        s.setBoardId(boardId);
-        s.setOrder(3);
-        s.setTitle("Done");
-        stacks.add(s);
-        responseCallback.onResponse(stacks);
+//        List<Stack> stacks = new ArrayList<>();
+//        Stack s = new Stack();
+//        s.setBoardId(boardId);
+//        s.setOrder(1);
+//        s.setTitle("ToDo");
+//        stacks.add(s);
+//        s = new Stack();
+//        s.setBoardId(boardId);
+//        s.setOrder(2);
+//        s.setTitle("Doing");
+//        stacks.add(s);
+//        s = new Stack();
+//        s.setBoardId(boardId);
+//        s.setOrder(3);
+//        s.setTitle("Done");
+//        stacks.add(s);
+//        responseCallback.onResponse(stacks);
     }
 
     @Override
