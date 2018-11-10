@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.api;
 
+import android.util.Log;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -63,14 +65,18 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<List<T>> {
         return new Card(e.get("id").getAsLong(), getNullAsEmptyString(e.get("title")));
     }
     private Stack parseStack(JsonObject e) {
-        //TODO: impl
         Stack stack = new Stack();
-        stack.setTitle("not implemented yet...  (in NextcloudDeserializer.java)");
+        stack.setTitle(getNullAsEmptyString(e.get("title")));
+        stack.setBoardId(e.get("boardId").getAsLong());
+        stack.setRemoteId(e.get("id").getAsLong());
+        stack.setOrder(e.get("order").getAsInt());
+//        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
         return stack;
     }
     private Label parseLabel(JsonObject e) {
         //TODO: impl
         Label label = new Label();
+        Log.e("### deck", e.getAsString());
         label.setTitle("implement meeeee! (in NextcloudDeserializer.java)");
         return label;
     }

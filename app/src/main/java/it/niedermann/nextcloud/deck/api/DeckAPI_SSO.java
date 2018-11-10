@@ -54,97 +54,97 @@ public class DeckAPI_SSO implements DeckAPI {
 
     @Override
     public Observable createStack(long boardId, Stack stack) {
-        NextcloudRequest request = buildRequest(POST, "board/{boardId}/stacks", boardId)
+        NextcloudRequest request = buildRequest(POST, "boards/{boardId}/stacks", boardId)
                 .setRequestBody(GsonConfig.GetGson().toJson(stack)).build();
         return nextcloudAPI.performRequestObservable(Stack.class, request);
     }
 
     @Override
     public Observable<Stack> updateStack(long boardId, long id, Stack stack) {
-        NextcloudRequest request = buildRequest(PUT, "board/{boardId}/stacks/{stackId}", boardId, id)
+        NextcloudRequest request = buildRequest(PUT, "boards/{boardId}/stacks/{stackId}", boardId, id)
                 .setRequestBody(GsonConfig.GetGson().toJson(stack)).build();
         return nextcloudAPI.performRequestObservable(Stack.class, request);
     }
 
     @Override
     public Observable<Stack> deleteStack(long boardId, long id) {
-        NextcloudRequest request = buildRequest(DELETE, "board/{boardId}/stacks/{stackId}", boardId, id).build();
+        NextcloudRequest request = buildRequest(DELETE, "boards/{boardId}/stacks/{stackId}", boardId, id).build();
         return nextcloudAPI.performRequestObservable(Stack.class, request);
     }
 
     @Override
     public Observable<Stack> getStack(long boardId, long id) {
-        NextcloudRequest request = buildRequest(GET, "board/{boardId}/stacks/{stackId}", boardId, id).build();
+        NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks/{stackId}", boardId, id).build();
         return nextcloudAPI.performRequestObservable(Stack.class, request);
     }
 
     @Override
     public Observable<List<Stack>> getStacks(long boardId) {
-        NextcloudRequest request = buildRequest(GET, "board/{boardId}/stacks", boardId).build();
+        NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks", boardId).build();
         return nextcloudAPI.performRequestObservable(Stack.class, request);
     }
 
     @Override
     public Observable<List<Stack>> getArchivedStacks(long boardId) {
-        NextcloudRequest request = buildRequest(GET, "board/{boardId}/stacks/archived", boardId).build();
+        NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks/archived", boardId).build();
         return nextcloudAPI.performRequestObservable(Stack.class, request);
     }
 
     @Override
     public Observable createCard(long boardId, long stackId, Card card) {
-        NextcloudRequest request = buildRequest(POST, "board/{boardId}/stacks/{stackId}/cards", boardId, stackId)
+        NextcloudRequest request = buildRequest(POST, "boards/{boardId}/stacks/{stackId}/cards", boardId, stackId)
                 .setRequestBody(GsonConfig.GetGson().toJson(card)).build();
         return nextcloudAPI.performRequestObservable(Card.class, request);
     }
 
     @Override
     public Observable<Card> updateCard(long boardId, long stackId, long cardId, Card card) {
-        NextcloudRequest request = buildRequest(PUT, "board/{boardId}/stacks/{stackId}/cards/{cardId}", boardId, stackId, cardId)
+        NextcloudRequest request = buildRequest(PUT, "boards/{boardId}/stacks/{stackId}/cards/{cardId}", boardId, stackId, cardId)
                 .setRequestBody(GsonConfig.GetGson().toJson(card)).build();
         return nextcloudAPI.performRequestObservable(Card.class, request);
     }
 
     @Override
     public Observable<Card> deleteCard(long boardId, long stackId, long cardId) {
-        NextcloudRequest request = buildRequest(DELETE, "board/{boardId}/stacks/{stackId}/cards/{cardId}", boardId, stackId, cardId).build();
+        NextcloudRequest request = buildRequest(DELETE, "boards/{boardId}/stacks/{stackId}/cards/{cardId}", boardId, stackId, cardId).build();
         return nextcloudAPI.performRequestObservable(Card.class, request);
     }
 
     @Override
     public Observable<Card> getCard(long boardId, long stackId, long cardId) {
-        NextcloudRequest request = buildRequest(GET, "board/{boardId}/stacks/{stackId}/cards/{cardId}", boardId, stackId, cardId).build();
+        NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks/{stackId}/cards/{cardId}", boardId, stackId, cardId).build();
         return nextcloudAPI.performRequestObservable(Stack.class, request);
     }
 
     @Override
     public Observable<Label> getLabel(long boardId, long labelId) {
-        NextcloudRequest request = buildRequest(GET, "getBoards/"+boardId+"labels/"+labelId).build();
+        NextcloudRequest request = buildRequest(GET, "boards/"+boardId+"labels/"+labelId).build();
         return nextcloudAPI.performRequestObservable(Label.class, request);
     }
 
     @Override
     public Observable<Label> updateLabel(long boardId, long labelId, Label label) {
-        NextcloudRequest request = buildRequest(PUT, "getBoards/"+boardId+"/labels/"+labelId)
+        NextcloudRequest request = buildRequest(PUT, "boards/"+boardId+"/labels/"+labelId)
                 .setRequestBody(GsonConfig.GetGson().toJson(label)).build();
         return nextcloudAPI.performRequestObservable(Label.class, request);
     }
 
     @Override
     public Observable<Label> createLabel(long boardId, Label label) {
-        NextcloudRequest request = buildRequest(POST, "getBoards/"+boardId+"/labels")
+        NextcloudRequest request = buildRequest(POST, "boards/"+boardId+"/labels")
                 .setRequestBody(GsonConfig.GetGson().toJson(label)).build();
         return nextcloudAPI.performRequestObservable(Label.class, request);
     }
 
     @Override
     public Observable<Label> deleteLabel(long boardId, long labelId) {
-        NextcloudRequest request = buildRequest(DELETE, "getBoards/"+boardId+"/labels/"+labelId).build();
+        NextcloudRequest request = buildRequest(DELETE, "boards/"+boardId+"/labels/"+labelId).build();
         return nextcloudAPI.performRequestObservable(Board.class, request);
     }
 
     @Override
     public Observable createBoard(Board board) {
-        NextcloudRequest request = buildRequest(POST, "getBoards")
+        NextcloudRequest request = buildRequest(POST, "boards")
                 .setRequestBody(GsonConfig.GetGson().toJson(board))
                 .build();
         return nextcloudAPI.performRequestObservable(Board.class, request);
@@ -152,7 +152,7 @@ public class DeckAPI_SSO implements DeckAPI {
 
     @Override
     public Observable<Board> getBoard(long id) {
-        NextcloudRequest request = buildRequest(GET, "getBoards/" + id).build();
+        NextcloudRequest request = buildRequest(GET, "boards/" + id).build();
         return nextcloudAPI.performRequestObservable(Board.class, request);
     }
 

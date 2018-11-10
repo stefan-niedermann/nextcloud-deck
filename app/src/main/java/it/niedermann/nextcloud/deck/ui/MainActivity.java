@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
                     for(Board board: boardsList) {
                         menu.add(Menu.NONE, index++, Menu.NONE, board.getTitle());
                     }
-                    displayStacksForIndex(0);
+                    displayStacksForIndex(0, account.getId());
                 }
 
                 @Override
@@ -105,13 +105,13 @@ public class MainActivity extends AppCompatActivity
      * Displays the Stacks for the boardsList by index
      * @param index of boardsList
      */
-    private void displayStacksForIndex(int index) {
+    private void displayStacksForIndex(int index, long accountId) {
         Log.v("Deck", "displayStacksForIndex(" + index + ")");
         Board selectedBoard = boardsList.get(index);
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
-        syncManager.getStacks(0, selectedBoard.getId(), new IResponseCallback<List<Stack>>() {
+        syncManager.getStacks(accountId, selectedBoard.getRemoteId(), new IResponseCallback<List<Stack>>() {
             @Override
             public void onResponse(List<Stack> response) {
                 stackAdapter.clear();
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        displayStacksForIndex(item.getItemId());
+        displayStacksForIndex(item.getItemId(), 0); // TODO: <- accountID!
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
