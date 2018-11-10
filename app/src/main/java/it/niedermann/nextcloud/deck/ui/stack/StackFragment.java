@@ -59,6 +59,7 @@ public class StackFragment extends Fragment {
         syncManager.getStack(0, boardId, stackId, new IResponseCallback<Stack>(0) {
             @Override
             public void onResponse(Stack response) {
+                // TODO set list of cards to adapter
             }
 
             @Override
