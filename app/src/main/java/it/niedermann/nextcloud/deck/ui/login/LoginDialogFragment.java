@@ -37,11 +37,8 @@ public class LoginDialogFragment extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        AccountImporter.onActivityResult(requestCode, resultCode, data, LoginDialogFragment.this, new AccountImporter.IAccountAccessGranted() {
-            @Override
-            public void accountAccessGranted(SingleSignOnAccount account) {
-                ((MainActivity) getActivity()).onAccountChoose(account);
-            }
+        AccountImporter.onActivityResult(requestCode, resultCode, data, LoginDialogFragment.this, (SingleSignOnAccount account) -> {
+            ((MainActivity) getActivity()).onAccountChoose(account);
         });
     }
 }
