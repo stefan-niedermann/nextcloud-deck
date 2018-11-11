@@ -52,6 +52,7 @@ public class StackFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stack, container, false);
         ButterKnife.bind(this, view);
         initRecyclerView();
+
         long boardId = getArguments().getLong(KEY_BOARD_ID);
         long stackId = getArguments().getLong(KEY_STACK_ID);
 
