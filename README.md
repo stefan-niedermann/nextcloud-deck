@@ -10,16 +10,16 @@ An android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 [![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/stefan-niedermann/donate)
 
-
 ## :eyes: Screenshots
 
 ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png)
 
 ## :rocket: Features
-* Display board titles
+* Display board titles and stack names
 
 ## :checkered_flag: Planned features
-* Implement the [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r)
+* Full [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r) compatibility
+* Offline capabilities
 
 ## :family: Join the team
 * Test the app with different devices
@@ -34,4 +34,4 @@ An android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled
 
 ## :notebook: License
-This project is licensed under the [GNU GENERAL PUBLIC LICENSE](/LICENSE).
+This project is licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).

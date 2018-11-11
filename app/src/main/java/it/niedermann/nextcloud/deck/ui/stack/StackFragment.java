@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.stack;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -24,6 +25,9 @@ public class StackFragment extends Fragment {
     private static final String KEY_BOARD_ID = "boardId";
     private static final String KEY_STACK_ID = "stackId";
     private CardAdapter adapter = null;
+    private SyncManager syncManager;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
@@ -48,23 +52,34 @@ public class StackFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stack, container, false);
         ButterKnife.bind(this, view);
         initRecyclerView();
+
         long boardId = getArguments().getLong(KEY_BOARD_ID);
         long stackId = getArguments().getLong(KEY_STACK_ID);
 
-        SyncManager syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
+        syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            setStack(boardId, stackId);
+        });
+        setStack(boardId, stackId);
+        return view;
+    }
+
+    private void setStack(long boardId, long stackId) {
         syncManager.getStack(0, boardId, stackId, new IResponseCallback<Stack>(0) {
             @Override
             public void onResponse(Stack response) {
                 adapter.setCardList(response.getCards());
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onError(Throwable throwable) {
+                swipeRefreshLayout.setRefreshing(false);
                 Log.e("Deck", throwable.getMessage());
                 throwable.printStackTrace();
             }
         });
-        return view;
     }
 
     private void initRecyclerView() {
