@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="android:textViewStyle">@style/appTextViewStyle</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
@@ -14,6 +15,11 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="appTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColorLink">@color/primary</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
