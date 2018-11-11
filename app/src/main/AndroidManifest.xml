@@ -34,6 +34,7 @@
         <activity
             android:name="it.niedermann.nextcloud.deck.ui.AboutActivity"
             android:label="@string/about"
+            android:theme="@style/AppTheme"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
     </application>
