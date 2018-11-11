@@ -15,7 +15,7 @@ An android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png)
 
 ## :rocket: Features
-* Display board titles and stack names
+* Display boards, stacks and cards
 
 ## :checkered_flag: Planned features
 * Full [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r) compatibility
