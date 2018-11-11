@@ -14,7 +14,7 @@ public class Board extends RemoteEntity {
     private List<Permissions> permissions = new ArrayList<>();
     private List<User> users = new ArrayList<>();
     private int shared;
-    private LocalDate deletedAt;
+    //private LocalDate deletedAt;
 
 
     public long getLocalId() {

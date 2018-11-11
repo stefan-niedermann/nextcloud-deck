@@ -25,9 +25,10 @@ public class GsonConfig {
 
         return new GsonBuilder()
                 .setLenient()
-                .registerTypeAdapter(boardList,     new NextcloudDeserializer<>("boards", Board.class))
-                .registerTypeAdapter(cardList,     new NextcloudDeserializer<>("cards", Card.class))
-                .registerTypeAdapter(labelList,     new NextcloudDeserializer<>("labels", Label.class))
+                .registerTypeAdapter(boardList,     new NextcloudArrayDeserializer<>("boards", Board.class))
+                .registerTypeAdapter(cardList,     new NextcloudArrayDeserializer<>("cards", Card.class))
+                .registerTypeAdapter(labelList,     new NextcloudArrayDeserializer<>("labels", Label.class))
+                .registerTypeAdapter(stackList,     new NextcloudArrayDeserializer<>("stacks", Stack.class))
                 .registerTypeAdapter(stackList,     new NextcloudDeserializer<>("stacks", Stack.class))
                 .create();
     }
