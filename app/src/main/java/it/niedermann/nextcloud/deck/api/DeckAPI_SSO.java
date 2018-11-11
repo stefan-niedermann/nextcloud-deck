@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.api;
 
 
+import com.google.gson.reflect.TypeToken;
 import com.nextcloud.android.sso.aidl.NextcloudRequest;
 import com.nextcloud.android.sso.api.NextcloudAPI;
 
@@ -49,7 +50,7 @@ public class DeckAPI_SSO implements DeckAPI {
     @Override
     public Observable<List<Board>> getBoards() {
         NextcloudRequest request = buildRequest(GET, "boards").build();
-        return nextcloudAPI.performRequestObservable(Board.class, request);
+        return nextcloudAPI.performRequestObservable(TypeToken.getParameterized(List.class, Board.class).getType(), request);
     }
 
     @Override
@@ -81,13 +82,13 @@ public class DeckAPI_SSO implements DeckAPI {
     @Override
     public Observable<List<Stack>> getStacks(long boardId) {
         NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks", boardId).build();
-        return nextcloudAPI.performRequestObservable(Stack.class, request);
+        return nextcloudAPI.performRequestObservable(TypeToken.getParameterized(List.class, Stack.class).getType(), request);
     }
 
     @Override
     public Observable<List<Stack>> getArchivedStacks(long boardId) {
         NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks/archived", boardId).build();
-        return nextcloudAPI.performRequestObservable(Stack.class, request);
+        return nextcloudAPI.performRequestObservable(TypeToken.getParameterized(List.class, Stack.class).getType(), request);
     }
 
     @Override

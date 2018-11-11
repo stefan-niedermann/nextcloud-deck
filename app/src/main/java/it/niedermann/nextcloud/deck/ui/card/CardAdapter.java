@@ -40,7 +40,7 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return cardList.size();
+        return cardList==null?0:cardList.size();
     }
 
     public void setCardList(@NonNull List<Card> cardList) {
