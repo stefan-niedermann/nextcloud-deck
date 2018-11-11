@@ -1,10 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.login;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +13,6 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledExcepti
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 
 public class LoginDialogFragment extends DialogFragment {
@@ -33,8 +29,6 @@ public class LoginDialogFragment extends DialogFragment {
         }
         return super.onCreateDialog(savedInstanceState);
     }
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
