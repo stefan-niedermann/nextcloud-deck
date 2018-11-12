@@ -30,8 +30,8 @@ An android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 ## :link: Requirements
 * [Nextcloud](https://nextcloud.com/) instance running
-* [Nextcloud Files](https://github.com/nextcloud/android) app installed
-* [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled
+* [Nextcloud Files](https://github.com/nextcloud/android) app installed (version 3.2.2 or later)
+* [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (version 0.5 or later)
 
 ## :notebook: License
 This project is licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).
