@@ -1,12 +1,20 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.design.chip.Chip;
 import android.support.design.chip.ChipGroup;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +87,25 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (Build.VERSION.SDK_INT >= 16) {
                     cardDescription.setMaxLines(cardDescription.getMaxLines() == 3 ? Integer.MAX_VALUE : 3);
                 }
+            });
+            card.setOnLongClickListener((View draggedView) -> {
+
+                // Create a new ClipData.
+                // This is done in two steps to provide clarity. The convenience method
+                // ClipData.newPlainText() can create a plain text ClipData in one step.
+
+                // Create a new ClipData.Item from the ImageView object's tag
+                ClipData dragData = ClipData.newPlainText("TEST", "TEST2");
+
+                // Starts the drag
+                draggedView.startDrag(dragData,  // the data to be dragged
+                        new View.DragShadowBuilder(draggedView),  // the drag shadow builder
+                        draggedView,      // no need to use local data
+                        0          // flags (not currently used, set to 0)
+                );
+                view.setVisibility(View.INVISIBLE);
+                Log.v("Deck", "onLongClickListener");
+                return true;
             });
         }
     }
