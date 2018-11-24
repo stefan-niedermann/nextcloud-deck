@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
@@ -66,7 +67,7 @@ public class StackFragment extends Fragment {
     }
 
     private void setStack(long boardId, long stackId) {
-        syncManager.getStack(0, boardId, stackId, new IResponseCallback<Stack>(0) {
+        syncManager.getStack(0, boardId, stackId, new IResponseCallback<Stack>(new Account()) {
             @Override
             public void onResponse(Stack response) {
                 adapter.setCardList(response.getCards());

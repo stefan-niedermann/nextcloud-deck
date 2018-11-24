@@ -8,52 +8,56 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.DaoSession;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.persistence.DeckDataBase;
+import it.niedermann.nextcloud.deck.persistence.DeckDaoSession;
 
 public class DataBaseAdapter implements IDataBasePersistenceAdapter {
 
-    private DeckDataBase deckDataBase;
+    private DaoSession db;
     private Context applicationContext;
 
     public DataBaseAdapter(Context applicationContext) {
         this.applicationContext = applicationContext;
-        this.deckDataBase = DeckDataBase.getInstance(applicationContext);
+        this.db = DeckDaoSession.getInstance(applicationContext).session();
     }
 
     @Override
     public boolean hasAccounts() {
-        return deckDataBase.hasAccounts();
+        return db.getAccountDao().count()>0;
     }
 
     @Override
     public Account createAccount(String accoutName) {
-        return deckDataBase.createAccount(accoutName);
+        Account acc = new Account();
+        acc.setName(accoutName);
+        long id = db.getAccountDao().insert(acc);
+        return db.getAccountDao().load(id);
     }
 
     @Override
     public void deleteAccount(long id) {
-        deckDataBase.deleteAccount(id);
+        db.getAccountDao().deleteByKey(id);
     }
 
     @Override
     public void updateAccount(Account account) {
-        deckDataBase.updateAccount(account);
+        db.update(account);
     }
 
     @Override
     public Account readAccount(long id) {
-        return deckDataBase.readAccount(id);
+        return db.getAccountDao().load(id);
     }
 
     @Override
     public List<Account> readAccounts() {
-        return deckDataBase.readAccounts();
+        return db.getAccountDao().loadAll();
     }
 
     @Override
     public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
-        // TODO implement
+
     }
 
     @Override
