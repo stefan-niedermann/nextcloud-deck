@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
             String accountName = account.getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
-            syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>(account.getId()) {
+            syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>(account) {
                 @Override
                 public void onResponse(List<Board> boards) {
                     Menu menu = navigationView.getMenu();
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
                         boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(R.drawable.ic_view_column_black_24dp);
                     }
                     menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
-                    displayStacksForIndex(0, 0);
+                    displayStacksForIndex(0, account);
                 }
 
                 @Override
@@ -113,12 +113,12 @@ public class MainActivity extends AppCompatActivity
      * Displays the Stacks for the boardsList by index
      * @param index of boardsList
      */
-    private void displayStacksForIndex(int index, long accountId) {
+    private void displayStacksForIndex(int index, Account account) {
         Board selectedBoard = boardsList.get(index);
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
-        syncManager.getStacks(accountId, selectedBoard.getId(), new IResponseCallback<List<Stack>>(accountId) {
+        syncManager.getStacks(account.getId(), selectedBoard.getId(), new IResponseCallback<List<Stack>>(account) {
             @Override
             public void onError(Throwable throwable) {
                 Log.e("Deck", throwable.getMessage());
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                 break;
             default:
-                displayStacksForIndex(item.getItemId(), 0); // TODO: <- accountID!
+                displayStacksForIndex(item.getItemId(), new Account()); // TODO: <- account!
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -13,7 +13,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
-import it.niedermann.nextcloud.deck.model.join.stack.JoinStackWithCard;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
@@ -23,7 +23,9 @@ public class Stack implements RemoteEntity {
     protected Long localId;
 
     @NotNull
-    @ToOne(joinProperty = "id")
+    long accountId;
+
+    @ToOne(joinProperty = "accountId")
     protected Account account;
 
     protected Long id;
@@ -32,13 +34,23 @@ public class Stack implements RemoteEntity {
     @Index
     protected int status = DBStatus.UP_TO_DATE.getId();
     private String title;
+    @NotNull
+    @Index
     private long boardId;
+    @ToOne(joinProperty = "boardId")
+    protected Board board;
+
     private Date deletedAt;
+    @NotNull
+    @Index
     private int order;
 
     @ToMany
     @JoinEntity(entity = JoinStackWithCard.class, sourceProperty = "stackId", targetProperty = "cardId")
     private List<Card> cards;
+
+    private Date lastModified;
+    private Date lastModifiedLocal;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -51,20 +63,26 @@ public class Stack implements RemoteEntity {
     @Generated(hash = 1501133588)
     private transient Long account__resolvedKey;
 
+    @Generated(hash = 483146929)
+    private transient Long board__resolvedKey;
+
     public Stack() {
         super();
     }
 
-    @Generated(hash = 91077656)
-    public Stack(Long localId, Long id, int status, String title, long boardId, Date deletedAt,
-            int order) {
+    @Generated(hash = 1703952681)
+    public Stack(Long localId, long accountId, Long id, int status, String title, long boardId,
+            Date deletedAt, int order, Date lastModified, Date lastModifiedLocal) {
         this.localId = localId;
+        this.accountId = accountId;
         this.id = id;
         this.status = status;
         this.title = title;
         this.boardId = boardId;
         this.deletedAt = deletedAt;
         this.order = order;
+        this.lastModified = lastModified;
+        this.lastModifiedLocal = lastModifiedLocal;
     }
 
     public Long getLocalId() {
@@ -75,6 +93,25 @@ public class Stack implements RemoteEntity {
         this.localId = localId;
     }
 
+    @Override
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    @Override
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    @Override
+    public Date getLastModifiedLocal() {
+        return lastModifiedLocal;
+    }
+
+    @Override
+    public void setLastModifiedLocal(Date lastModifiedLocal) {
+        this.lastModifiedLocal = lastModifiedLocal;
+    }
 
     public Long getId() {
         return id;
@@ -134,9 +171,9 @@ public class Stack implements RemoteEntity {
     }
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2035152785)
+    @Generated(hash = 2143533054)
     public Account getAccount() {
-        Long __key = this.id;
+        long __key = this.accountId;
         if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -153,12 +190,16 @@ public class Stack implements RemoteEntity {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 19318331)
-    public void setAccount(Account account) {
+    @Generated(hash = 1716871290)
+    public void setAccount(@NotNull Account account) {
+        if (account == null) {
+            throw new DaoException(
+                    "To-one property 'accountId' has not-null constraint; cannot set to-one to null");
+        }
         synchronized (this) {
             this.account = account;
-            id = account == null ? null : account.getId();
-            account__resolvedKey = id;
+            accountId = account.getId();
+            account__resolvedKey = accountId;
         }
     }
 
@@ -228,6 +269,47 @@ public class Stack implements RemoteEntity {
 
     public int getStatus() {
         return this.status;
+    }
+
+    public long getAccountId() {
+        return this.accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 202456218)
+    public Board getBoard() {
+        long __key = this.boardId;
+        if (board__resolvedKey == null || !board__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            BoardDao targetDao = daoSession.getBoardDao();
+            Board boardNew = targetDao.load(__key);
+            synchronized (this) {
+                board = boardNew;
+                board__resolvedKey = __key;
+            }
+        }
+        return board;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 260233114)
+    public void setBoard(@NotNull Board board) {
+        if (board == null) {
+            throw new DaoException(
+                    "To-one property 'boardId' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.board = board;
+            boardId = board.getLocalId();
+            board__resolvedKey = boardId;
+        }
     }
 
     /** called by internal mechanisms, do not call yourself. */

@@ -1,25 +1,25 @@
-package it.niedermann.nextcloud.deck.model.join.board;
+package it.niedermann.nextcloud.deck.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
-public class JoinBoardWithUser {
+public class JoinBoardWithPermission {
     @Id
     private Long id;
-    private Long userId;
+    private Long permissionId;
     private Long boardId;
 
-    @Generated(hash = 2044154780)
-    public JoinBoardWithUser(Long id, Long userId, Long boardId) {
+    @Generated(hash = 370286870)
+    public JoinBoardWithPermission(Long id, Long permissionId, Long boardId) {
         this.id = id;
-        this.userId = userId;
+        this.permissionId = permissionId;
         this.boardId = boardId;
     }
 
-    @Generated(hash = 1673962166)
-    public JoinBoardWithUser() {
+    @Generated(hash = 103844199)
+    public JoinBoardWithPermission() {
     }
 
     public Long getId() {
@@ -30,12 +30,12 @@ public class JoinBoardWithUser {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getPermissionId() {
+        return permissionId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setPermissionId(Long permissionId) {
+        this.permissionId = permissionId;
     }
 
     public Long getBoardId() {

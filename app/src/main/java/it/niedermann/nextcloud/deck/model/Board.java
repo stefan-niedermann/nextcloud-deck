@@ -16,9 +16,6 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
-import it.niedermann.nextcloud.deck.model.join.board.JoinBoardWithLabel;
-import it.niedermann.nextcloud.deck.model.join.board.JoinBoardWithPermission;
-import it.niedermann.nextcloud.deck.model.join.board.JoinBoardWithUser;
 
 @Entity
 public class Board implements RemoteEntity {
@@ -26,8 +23,9 @@ public class Board implements RemoteEntity {
     protected Long localId;
 
     @NotNull
-    @Index
-    @ToOne(joinProperty = "id")
+    long accountId;
+
+    @ToOne(joinProperty = "accountId")
     protected Account account;
 
     protected Long id;
@@ -37,7 +35,8 @@ public class Board implements RemoteEntity {
     protected int status = DBStatus.UP_TO_DATE.getId();
 
     private String title;
-    @ToOne(joinProperty = "localId")
+    long ownerId;
+    @ToOne(joinProperty = "ownerId")
     private User owner;
     private String color;
     private boolean archived;
@@ -53,6 +52,8 @@ public class Board implements RemoteEntity {
     private List<User> users = new ArrayList<>();
     private int shared;
     private Date deletedAt;
+    private Date lastModified;
+    private Date lastModifiedLocal;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -62,18 +63,22 @@ public class Board implements RemoteEntity {
     @Generated(hash = 754839907)
     private transient BoardDao myDao;
 
-    @Generated(hash = 389383261)
-    public Board(Long localId, Long id, int status, String title, String color, boolean archived, String acl, int shared,
-            Date deletedAt) {
+    @Generated(hash = 426571613)
+    public Board(Long localId, long accountId, Long id, int status, String title, long ownerId, String color,
+            boolean archived, String acl, int shared, Date deletedAt, Date lastModified, Date lastModifiedLocal) {
         this.localId = localId;
+        this.accountId = accountId;
         this.id = id;
         this.status = status;
         this.title = title;
+        this.ownerId = ownerId;
         this.color = color;
         this.archived = archived;
         this.acl = acl;
         this.shared = shared;
         this.deletedAt = deletedAt;
+        this.lastModified = lastModified;
+        this.lastModifiedLocal = lastModifiedLocal;
     }
 
     @Generated(hash = 1406520307)
@@ -85,6 +90,38 @@ public class Board implements RemoteEntity {
 
     @Generated(hash = 1847295403)
     private transient Long owner__resolvedKey;
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    @Override
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    @Override
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    @Override
+    public Date getLastModifiedLocal() {
+        return lastModifiedLocal;
+    }
+
+    @Override
+    public void setLastModifiedLocal(Date lastModifiedLocal) {
+        this.lastModifiedLocal = lastModifiedLocal;
+    }
 
     public void setLocalId(Long localId) {
         this.localId = localId;
@@ -171,9 +208,9 @@ public class Board implements RemoteEntity {
     }
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2035152785)
+    @Generated(hash = 2143533054)
     public Account getAccount() {
-        Long __key = this.id;
+        long __key = this.accountId;
         if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -190,19 +227,22 @@ public class Board implements RemoteEntity {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 19318331)
-    public void setAccount(Account account) {
+    @Generated(hash = 1716871290)
+    public void setAccount(@NotNull Account account) {
+        if (account == null) {
+            throw new DaoException("To-one property 'accountId' has not-null constraint; cannot set to-one to null");
+        }
         synchronized (this) {
             this.account = account;
-            id = account == null ? null : account.getId();
-            account__resolvedKey = id;
+            accountId = account.getId();
+            account__resolvedKey = accountId;
         }
     }
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2117670560)
+    @Generated(hash = 2046543160)
     public User getOwner() {
-        Long __key = this.localId;
+        long __key = this.ownerId;
         if (owner__resolvedKey == null || !owner__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -219,12 +259,15 @@ public class Board implements RemoteEntity {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1357246117)
-    public void setOwner(User owner) {
+    @Generated(hash = 854650753)
+    public void setOwner(@NotNull User owner) {
+        if (owner == null) {
+            throw new DaoException("To-one property 'ownerId' has not-null constraint; cannot set to-one to null");
+        }
         synchronized (this) {
             this.owner = owner;
-            localId = owner == null ? null : owner.getId();
-            owner__resolvedKey = localId;
+            ownerId = owner.getId();
+            owner__resolvedKey = ownerId;
         }
     }
 
@@ -350,6 +393,22 @@ public class Board implements RemoteEntity {
 
     public int getStatus() {
         return this.status;
+    }
+
+    public long getAccountId() {
+        return this.accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
+    public long getOwnerId() {
+        return this.ownerId;
+    }
+
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
     }
 
     /** called by internal mechanisms, do not call yourself. */

@@ -1,25 +1,25 @@
-package it.niedermann.nextcloud.deck.model.join.card;
+package it.niedermann.nextcloud.deck.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
-public class JoinCardWithLabel {
+public class JoinStackWithCard {
     @Id
     private Long id;
-    private Long labelId;
+    private Long stackId;
     private Long cardId;
 
-    @Generated(hash = 1565938244)
-    public JoinCardWithLabel(Long id, Long labelId, Long cardId) {
+    @Generated(hash = 1901103993)
+    public JoinStackWithCard(Long id, Long stackId, Long cardId) {
         this.id = id;
-        this.labelId = labelId;
+        this.stackId = stackId;
         this.cardId = cardId;
     }
 
-    @Generated(hash = 1821090814)
-    public JoinCardWithLabel() {
+    @Generated(hash = 792660904)
+    public JoinStackWithCard() {
     }
 
     public Long getId() {
@@ -30,12 +30,12 @@ public class JoinCardWithLabel {
         this.id = id;
     }
 
-    public Long getLabelId() {
-        return labelId;
+    public Long getStackId() {
+        return stackId;
     }
 
-    public void setLabelId(Long labelId) {
-        this.labelId = labelId;
+    public void setStackId(Long stackId) {
+        this.stackId = stackId;
     }
 
     public Long getCardId() {

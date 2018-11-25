@@ -12,7 +12,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 
-public class ServerAdapter implements IPersistenceAdapter {
+public class  ServerAdapter implements IPersistenceAdapter {
 
     private Context applicationContext;
     private ApiProvider provider;

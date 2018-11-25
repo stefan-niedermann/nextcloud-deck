@@ -15,8 +15,9 @@ public class User {
     private Long id;
 
     @NotNull
-    @Index
-    @ToOne(joinProperty = "id")
+    long accountId;
+
+    @ToOne(joinProperty = "accountId")
     protected Account account;
 
     private String primaryKey;
@@ -44,9 +45,10 @@ public class User {
         this.displayname = displayname;
     }
 
-    @Generated(hash = 38411976)
-    public User(Long id, String primaryKey, String uid, String displayname) {
+    @Generated(hash = 1011719041)
+    public User(Long id, long accountId, String primaryKey, String uid, String displayname) {
         this.id = id;
+        this.accountId = accountId;
         this.primaryKey = primaryKey;
         this.uid = uid;
         this.displayname = displayname;
@@ -85,9 +87,9 @@ public class User {
     }
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2035152785)
+    @Generated(hash = 2143533054)
     public Account getAccount() {
-        Long __key = this.id;
+        long __key = this.accountId;
         if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -104,12 +106,16 @@ public class User {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 19318331)
-    public void setAccount(Account account) {
+    @Generated(hash = 1716871290)
+    public void setAccount(@NotNull Account account) {
+        if (account == null) {
+            throw new DaoException(
+                    "To-one property 'accountId' has not-null constraint; cannot set to-one to null");
+        }
         synchronized (this) {
             this.account = account;
-            id = account == null ? null : account.getId();
-            account__resolvedKey = id;
+            accountId = account.getId();
+            account__resolvedKey = accountId;
         }
     }
 
@@ -147,6 +153,14 @@ public class User {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    public long getAccountId() {
+        return this.accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
     }
 
     /** called by internal mechanisms, do not call yourself. */

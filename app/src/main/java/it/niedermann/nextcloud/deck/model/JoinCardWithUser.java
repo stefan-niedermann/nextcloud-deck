@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.model.join.card;
+package it.niedermann.nextcloud.deck.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;

@@ -12,14 +12,17 @@ import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
+import java.util.Date;
+
 @Entity
 public class Label implements RemoteEntity {
     @Id(autoincrement = true)
     protected Long localId;
 
     @NotNull
-    @Index
-    @ToOne(joinProperty = "id")
+    long accountId;
+
+    @ToOne(joinProperty = "accountId")
     protected Account account;
 
     protected Long id;
@@ -30,8 +33,9 @@ public class Label implements RemoteEntity {
 
     private String title;
     private String color;
-    private long boardId;
-    private long cardId;
+
+    private Date lastModified;
+    private Date lastModifiedLocal;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -41,24 +45,46 @@ public class Label implements RemoteEntity {
     @Generated(hash = 40777009)
     private transient LabelDao myDao;
 
-    @Generated(hash = 1279099195)
-    public Label(Long localId, Long id, int status, String title, String color,
-            long boardId, long cardId) {
-        this.localId = localId;
-        this.id = id;
-        this.status = status;
-        this.title = title;
-        this.color = color;
-        this.boardId = boardId;
-        this.cardId = cardId;
-    }
 
     @Generated(hash = 2137109701)
     public Label() {
     }
 
+    @Generated(hash = 1522188300)
+    public Label(Long localId, long accountId, Long id, int status, String title, String color,
+            Date lastModified, Date lastModifiedLocal) {
+        this.localId = localId;
+        this.accountId = accountId;
+        this.id = id;
+        this.status = status;
+        this.title = title;
+        this.color = color;
+        this.lastModified = lastModified;
+        this.lastModifiedLocal = lastModifiedLocal;
+    }
+
     @Generated(hash = 1501133588)
     private transient Long account__resolvedKey;
+
+    @Override
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    @Override
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    @Override
+    public Date getLastModifiedLocal() {
+        return lastModifiedLocal;
+    }
+
+    @Override
+    public void setLastModifiedLocal(Date lastModifiedLocal) {
+        this.lastModifiedLocal = lastModifiedLocal;
+    }
 
     public Long getLocalId() {
         return localId;
@@ -100,30 +126,14 @@ public class Label implements RemoteEntity {
         this.color = color;
     }
 
-    public long getBoardId() {
-        return boardId;
-    }
-
-    public void setBoardId(long boardId) {
-        this.boardId = boardId;
-    }
-
-    public long getCardId() {
-        return cardId;
-    }
-
-    public void setCardId(long cardId) {
-        this.cardId = cardId;
-    }
-
     public void setStatus(int status) {
         this.status = status;
     }
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2035152785)
+    @Generated(hash = 2143533054)
     public Account getAccount() {
-        Long __key = this.id;
+        long __key = this.accountId;
         if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -140,12 +150,16 @@ public class Label implements RemoteEntity {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 19318331)
-    public void setAccount(Account account) {
+    @Generated(hash = 1716871290)
+    public void setAccount(@NotNull Account account) {
+        if (account == null) {
+            throw new DaoException(
+                    "To-one property 'accountId' has not-null constraint; cannot set to-one to null");
+        }
         synchronized (this) {
             this.account = account;
-            id = account == null ? null : account.getId();
-            account__resolvedKey = id;
+            accountId = account.getId();
+            account__resolvedKey = accountId;
         }
     }
 
@@ -187,6 +201,14 @@ public class Label implements RemoteEntity {
 
     public int getStatus() {
         return this.status;
+    }
+
+    public long getAccountId() {
+        return this.accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
     }
 
     /** called by internal mechanisms, do not call yourself. */

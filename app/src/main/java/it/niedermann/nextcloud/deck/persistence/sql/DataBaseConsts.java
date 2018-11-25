@@ -239,30 +239,11 @@ public class DataBaseConsts {
 
     public static final String[] ALL_CREATE_INDICES = new String[]{
 
-            "CREATE INDEX IF NOT EXISTS `deck_stacks_order_index` ON `oc_deck_stacks` (" +
-                    "	`order`" +
-                    ")",
 
-            "CREATE INDEX IF NOT EXISTS `deck_stacks_board_id_index` ON `oc_deck_stacks` (" +
-                    "	`board_id`" +
-                    ")",
 
             "CREATE INDEX IF NOT EXISTS `deck_labels_board_id_index` ON `oc_deck_labels` (" +
                     "	`board_id`" +
                     ")",
-
-            "CREATE INDEX IF NOT EXISTS `deck_cards_stack_id_index` ON `oc_deck_cards` (" +
-                    "	`stack_id`" +
-                    ")",
-
-            "CREATE INDEX IF NOT EXISTS `deck_cards_order_index` ON `oc_deck_cards` (" +
-                    "	`order`" +
-                    ")",
-
-            "CREATE INDEX IF NOT EXISTS `deck_cards_archived_index` ON `oc_deck_cards` (" +
-                    "	`archived`" +
-                    ")",
-
             "CREATE INDEX IF NOT EXISTS `deck_board_acl_idx_i` ON `oc_deck_board_acl` (" +
                     "	`board_id`" +
                     ")",

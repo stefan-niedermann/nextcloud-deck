@@ -14,8 +14,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
-import it.niedermann.nextcloud.deck.model.join.card.JoinCardWithLabel;
-import it.niedermann.nextcloud.deck.model.join.card.JoinCardWithUser;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
@@ -25,8 +24,9 @@ public class Card implements RemoteEntity {
     protected Long localId;
 
     @NotNull
-    @Index
-    @ToOne(joinProperty = "id")
+    long accountId;
+
+    @ToOne(joinProperty = "accountId")
     protected Account account;
 
     protected Long id;
@@ -37,7 +37,11 @@ public class Card implements RemoteEntity {
 
     private String title;
     private String description;
+    @NotNull
+    @Index
     private long stackId;
+    @ToOne(joinProperty = "stackId")
+    protected Stack stack;
     private String type;
     private Date lastModified;
     private Date createdAt;
@@ -51,11 +55,17 @@ public class Card implements RemoteEntity {
     private String attachments;
     private int attachmentCount;
     private String owner;
+    @Index
+    @NotNull
     private int order;
+    @Index
     private boolean archived;
+    private boolean notified;
     private String dueDate;
     private int overdue;
     private int commentsUnread;
+
+    private Date lastModifiedLocal;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -65,12 +75,13 @@ public class Card implements RemoteEntity {
     @Generated(hash = 599084715)
     private transient CardDao myDao;
 
-    @Generated(hash = 2050594904)
-    public Card(Long localId, Long id, int status, String title, String description, long stackId,
-            String type, Date lastModified, Date createdAt, Date deletedAt, String attachments,
-            int attachmentCount, String owner, int order, boolean archived, String dueDate, int overdue,
-            int commentsUnread) {
+    @Generated(hash = 1317302338)
+    public Card(Long localId, long accountId, Long id, int status, String title, String description,
+            long stackId, String type, Date lastModified, Date createdAt, Date deletedAt,
+            String attachments, int attachmentCount, String owner, int order, boolean archived,
+            boolean notified, String dueDate, int overdue, int commentsUnread, Date lastModifiedLocal) {
         this.localId = localId;
+        this.accountId = accountId;
         this.id = id;
         this.status = status;
         this.title = title;
@@ -85,9 +96,11 @@ public class Card implements RemoteEntity {
         this.owner = owner;
         this.order = order;
         this.archived = archived;
+        this.notified = notified;
         this.dueDate = dueDate;
         this.overdue = overdue;
         this.commentsUnread = commentsUnread;
+        this.lastModifiedLocal = lastModifiedLocal;
     }
 
     @Generated(hash = 52700939)
@@ -96,6 +109,35 @@ public class Card implements RemoteEntity {
 
     @Generated(hash = 1501133588)
     private transient Long account__resolvedKey;
+
+    @Generated(hash = 1023505453)
+    private transient Long stack__resolvedKey;
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
+    }
+
+    public void setAssignedUsers(List<User> assignedUsers) {
+        this.assignedUsers = assignedUsers;
+    }
+
+    public boolean isNotified() {
+        return notified;
+    }
+
+    public void setNotified(boolean notified) {
+        this.notified = notified;
+    }
+
+    @Override
+    public Date getLastModifiedLocal() {
+        return lastModifiedLocal;
+    }
+
+    @Override
+    public void setLastModifiedLocal(Date lastModifiedLocal) {
+        this.lastModifiedLocal = lastModifiedLocal;
+    }
 
     public Long getLocalId() {
         return localId;
@@ -258,9 +300,9 @@ public class Card implements RemoteEntity {
     }
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2035152785)
+    @Generated(hash = 2143533054)
     public Account getAccount() {
-        Long __key = this.id;
+        long __key = this.accountId;
         if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -277,12 +319,16 @@ public class Card implements RemoteEntity {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 19318331)
-    public void setAccount(Account account) {
+    @Generated(hash = 1716871290)
+    public void setAccount(@NotNull Account account) {
+        if (account == null) {
+            throw new DaoException(
+                    "To-one property 'accountId' has not-null constraint; cannot set to-one to null");
+        }
         synchronized (this) {
             this.account = account;
-            id = account == null ? null : account.getId();
-            account__resolvedKey = id;
+            accountId = account.getId();
+            account__resolvedKey = accountId;
         }
     }
 
@@ -380,6 +426,51 @@ public class Card implements RemoteEntity {
 
     public int getStatus() {
         return this.status;
+    }
+
+    public long getAccountId() {
+        return this.accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1286188754)
+    public Stack getStack() {
+        long __key = this.stackId;
+        if (stack__resolvedKey == null || !stack__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            StackDao targetDao = daoSession.getStackDao();
+            Stack stackNew = targetDao.load(__key);
+            synchronized (this) {
+                stack = stackNew;
+                stack__resolvedKey = __key;
+            }
+        }
+        return stack;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1162284928)
+    public void setStack(@NotNull Stack stack) {
+        if (stack == null) {
+            throw new DaoException(
+                    "To-one property 'stackId' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.stack = stack;
+            stackId = stack.getLocalId();
+            stack__resolvedKey = stackId;
+        }
+    }
+
+    public boolean getNotified() {
+        return this.notified;
     }
 
     /** called by internal mechanisms, do not call yourself. */
