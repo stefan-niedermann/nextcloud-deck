@@ -2,10 +2,13 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -18,20 +21,32 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 
 public class SyncManager implements IDataBasePersistenceAdapter{
 
+    private static final String LAST_SYNC_KEY = "lastSync";
+
     private IDataBasePersistenceAdapter dataBaseAdapter;
     private IPersistenceAdapter serverAdapter;
     private Context applicationContext;
     private Activity sourceActivity;
 
     public SyncManager(Context applicationContext, Activity sourceActivity){
-        this.applicationContext = applicationContext;
+        this.applicationContext = applicationContext.getApplicationContext();
         this.sourceActivity = sourceActivity;
-        dataBaseAdapter = new DataBaseAdapter(applicationContext);
-        this.serverAdapter =  new ServerAdapter(applicationContext, sourceActivity);
+        dataBaseAdapter = new DataBaseAdapter(this.applicationContext);
+        this.serverAdapter =  new ServerAdapter(this.applicationContext, sourceActivity);
     }
 
-    public void synchronize(){
+    public void synchronize(IResponseCallback<Boolean> responseCallback){
+        new Thread(() -> {
+                SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
+                        applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
+                long lastSync = lastSyncPref.getLong(LAST_SYNC_KEY, 0L);
+                Date lastSyncDate = new Date(lastSync);
+                Date now = new Date();
 
+                //TODO do the magic!
+
+                lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
+        }).start();
     }
 
     public boolean hasAccounts() {
