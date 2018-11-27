@@ -31,6 +31,21 @@ public class  ServerAdapter implements IPersistenceAdapter {
     }
 
     @Override
+    public void createBoard(long accountId, Board board) {
+        // throw new IllegalStateException // when offline /
+    }
+
+    @Override
+    public void deleteBoard(Board board) {
+
+    }
+
+    @Override
+    public void updateBoard(Board board) {
+
+    }
+
+    @Override
     public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStacks(boardId), responseCallback);
     }
@@ -41,7 +56,37 @@ public class  ServerAdapter implements IPersistenceAdapter {
     }
 
     @Override
+    public void createStack(long accountId, Stack stack) {
+
+    }
+
+    @Override
+    public void deleteStack(Stack stack) {
+
+    }
+
+    @Override
+    public void updateStack(Stack stack) {
+
+    }
+
+    @Override
     public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getCard(boardId, stackId, cardId), responseCallback);
+    }
+
+    @Override
+    public void createCard(long accountId, long boardId, long stackId, Card card) {
+
+    }
+
+    @Override
+    public void deleteCard(Card card) {
+
+    }
+
+    @Override
+    public void updateCard(Card card) {
+
     }
 }

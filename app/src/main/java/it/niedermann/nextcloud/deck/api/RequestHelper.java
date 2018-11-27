@@ -37,12 +37,9 @@ public class RequestHelper {
     }
 
     private static <T> void runRequest(final Activity sourceActivity, final Observable<T> request, final IResponseCallback<T> callback){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(() -> {
                 ResponseConsumer<T> cb = new ResponseConsumer<T>(sourceActivity, callback);
                 request.subscribe(cb, cb.getExceptionConsumer());
-            }
         }).start();
     }
 
@@ -82,13 +79,8 @@ public class RequestHelper {
         private IResponseCallback<T> callback;
         private Consumer<Throwable> exceptionConsumer = new Consumer<Throwable>() {
             @Override
-            public void accept(final Throwable throwable) throws Exception {
-                sourceActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onError(throwable);
-                    }
-                });
+            public void accept(final Throwable throwable) {
+                sourceActivity.runOnUiThread(() -> callback.onError(throwable) );
             }
         };
 
@@ -98,14 +90,9 @@ public class RequestHelper {
         }
 
         @Override
-        public void accept(final T t) throws Exception {
+        public void accept(final T t) {
             callback.fillAccountIDs(t);
-            sourceActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onResponse(t);
-                }
-            });
+            sourceActivity.runOnUiThread(() -> callback.onResponse(t) );
         }
 
         public Consumer<Throwable> getExceptionConsumer() {

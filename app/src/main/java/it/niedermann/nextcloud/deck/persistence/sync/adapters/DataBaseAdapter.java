@@ -77,6 +77,21 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
     }
 
     @Override
+    public void createBoard(long accountId, Board board) {
+
+    }
+
+    @Override
+    public void deleteBoard(Board board) {
+
+    }
+
+    @Override
+    public void updateBoard(Board board) {
+
+    }
+
+    @Override
     public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
         QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
         respond(responseCallback, () -> qb.where(
@@ -96,6 +111,21 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
     }
 
     @Override
+    public void createStack(long accountId, Stack stack) {
+
+    }
+
+    @Override
+    public void deleteStack(Stack stack) {
+
+    }
+
+    @Override
+    public void updateStack(Stack stack) {
+
+    }
+
+    @Override
     public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
         QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
         respond(responseCallback, () -> qb.where(
@@ -103,6 +133,21 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
                 CardDao.Properties.StackId.eq(stackId),
                 CardDao.Properties.LocalId.eq(cardId)
         ).unique());
+    }
+
+    @Override
+    public void createCard(long accountId, long boardId, long stackId, Card card) {
+
+    }
+
+    @Override
+    public void deleteCard(Card card) {
+
+    }
+
+    @Override
+    public void updateCard(Card card) {
+
     }
 
 

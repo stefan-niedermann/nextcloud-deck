@@ -9,8 +9,22 @@ import it.niedermann.nextcloud.deck.model.Stack;
 
 public interface IPersistenceAdapter {
 
-    void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback);
+    //### STACKS
     void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback);
     void getStack(long accountId, long boardId, long stackId, IResponseCallback<Stack> responseCallback);
+    void createStack(long accountId, Stack stack);
+    void deleteStack(Stack stack);
+    void updateStack(Stack stack);
+
+    //### BOARDS
+    void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback);
+    void createBoard(long accountId, Board board);
+    void deleteBoard(Board board);
+    void updateBoard(Board board);
+
+    //### CARDS
     void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback);
+    void createCard(long accountId, long boardId, long stackId, Card card);
+    void deleteCard(Card card);
+    void updateCard(Card card);
 }

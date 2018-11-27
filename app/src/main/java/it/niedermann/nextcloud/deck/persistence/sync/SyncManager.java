@@ -35,8 +35,12 @@ public class SyncManager implements IDataBasePersistenceAdapter{
         this.serverAdapter =  new ServerAdapter(this.applicationContext, sourceActivity);
     }
 
+    private void doAsync(Runnable r){
+        new Thread(r).start();
+    }
+
     public void synchronize(IResponseCallback<Boolean> responseCallback){
-        new Thread(() -> {
+        doAsync(() -> {
                 SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
                         applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
                 long lastSync = lastSyncPref.getLong(LAST_SYNC_KEY, 0L);
@@ -46,7 +50,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                 //TODO do the magic!
 
                 lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
-        }).start();
+        });
     }
 
     public boolean hasAccounts() {
@@ -80,25 +84,70 @@ public class SyncManager implements IDataBasePersistenceAdapter{
 
     @Override
     public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
-        // TODO: first look at DB instead of direct server request
-        serverAdapter.getBoards(accountId, responseCallback);
+        dataBaseAdapter.getBoards(accountId, responseCallback);
+    }
+
+    @Override
+    public void createBoard(long accountId, Board board) {
+        doAsync(() -> {
+            dataBaseAdapter.createBoard(accountId, board);
+            serverAdapter.createBoard(accountId, board);
+        });
+    }
+
+    @Override
+    public void deleteBoard(Board board) {
+
+    }
+
+    @Override
+    public void updateBoard(Board board) {
+
     }
 
     @Override
     public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
-        // TODO: first look at DB instead of direct server request
-         serverAdapter.getStacks(accountId,boardId,responseCallback);
+        dataBaseAdapter.getStacks(accountId,boardId,responseCallback);
     }
 
     @Override
     public void getStack(long accountId, long boardId, long stackId, IResponseCallback<Stack> responseCallback) {
-        // TODO: first look at DB instead of direct server request
-        serverAdapter.getStack(accountId,boardId, stackId, responseCallback);
+        dataBaseAdapter.getStack(accountId,boardId, stackId, responseCallback);
+    }
+
+    @Override
+    public void createStack(long accountId, Stack stack) {
+        dataBaseAdapter.createStack(accountId, stack);
+        //TODO implement
+    }
+
+    @Override
+    public void deleteStack(Stack stack) {
+
+    }
+
+    @Override
+    public void updateStack(Stack stack) {
+
     }
 
     @Override
     public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
-        // TODO: first look at DB instead of direct server request
-        serverAdapter.getCard(accountId, boardId, stackId, cardId, responseCallback);
+        dataBaseAdapter.getCard(accountId, boardId, stackId, cardId, responseCallback);
+    }
+
+    @Override
+    public void createCard(long accountId, long boardId, long stackId, Card card) {
+
+    }
+
+    @Override
+    public void deleteCard(Card card) {
+
+    }
+
+    @Override
+    public void updateCard(Card card) {
+
     }
 }
