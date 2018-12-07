@@ -61,10 +61,15 @@ public class JsonToEntityParser {
         card.setType(getNullAsEmptyString(e.get("type")));
 //        stack.setDeletedAt(e.get("lastModified")) // TODO: parse date!
 //        stack.setDeletedAt(e.get("createdAt")) // TODO: parse date!
-//        stack.setDeletedAt(e.get("duedate")) // TODO: parse date!
 //        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
-        //todo labels
-        //e.get "labels"
+        if (e.has("labels") && !e.get("labels").isJsonNull()){
+            JsonArray labelsJson = e.getAsJsonArray("labels");
+            List<Label> labels = new ArrayList<>();
+            for (JsonElement labelJson: labelsJson) {
+                labels.add(parseLabel(labelJson.getAsJsonObject()));
+            }
+            card.setLabels(labels);
+        }
         //e.get "assignedUsers"
         //e.get "attachments"
         card.setStackId(e.get("attachmentCount").getAsInt());
@@ -112,12 +117,17 @@ public class JsonToEntityParser {
         return stack;
     }
     protected static Label parseLabel(JsonObject e) {
-        //TODO: impl
-        // throws "Unsupported" exception
-        //Log.e("### deck (labels call)", e.getAsString());
+        Log.e("### deck (labels call)", e.toString());
         Label label = new Label();
-        Log.e("### deck", e.getAsString());
-        label.setTitle("implement meeeee! (in NextcloudArrayDeserializer.java)");
+        label.setId(e.get("id").getAsLong());
+        label.setTitle(getNullAsEmptyString(e.get("title")));
+        label.setColor(getNullAsEmptyString(e.get("color")));
+        if (!e.get("boardId").isJsonNull()) {
+            label.setBoardId(e.get("boardId").getAsLong());
+        }
+        if (!e.get("cardId").isJsonNull()) {
+            label.setCardId(e.get("cardId").getAsLong());
+        }
         return label;
     }
 
