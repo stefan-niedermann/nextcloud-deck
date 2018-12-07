@@ -6,8 +6,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -15,6 +19,12 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 
 public class JsonToEntityParser {
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+
+    static {
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
+
     protected static <T> T parseJsonObject(JsonObject obj, Class<T> mType) {
         if(mType == Board.class) {
             return (T) parseBoard(obj);
@@ -57,6 +67,7 @@ public class JsonToEntityParser {
         card.setStackId(e.get("attachmentCount").getAsInt());
         card.setOrder(e.get("order").getAsInt());
         card.setOverdue(e.get("overdue").getAsInt());
+        card.setDueDate(getTimestamp(e.get("duedate")));
         card.setCommentsUnread(e.get("commentsUnread").getAsInt());
         card.setOwner(getNullAsEmptyString(e.get("owner")));
         card.setArchived(e.get("archived").getAsBoolean());
@@ -93,5 +104,17 @@ public class JsonToEntityParser {
 
     protected static String getNullAsEmptyString(JsonElement jsonElement) {
         return jsonElement.isJsonNull() ? "" : jsonElement.getAsString();
+    }
+
+    protected static Date getTimestamp(JsonElement jsonElement) {
+        if (jsonElement.isJsonNull()) {
+            return null;
+        } else {
+            try {
+                return formatter.parse(jsonElement.getAsString());
+            } catch (ParseException e) {
+                return null;
+            }
+        }
     }
 }

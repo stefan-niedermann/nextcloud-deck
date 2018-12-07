@@ -39,11 +39,12 @@
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">License</string>
 
-
     <!-- URLs -->
     <string name="url_source" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck</string>
     <string name="url_issues" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/issues</string>
     <string name="url_license" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
     <string name="url_translations" translatable="false">https://www.transifex.com/nextcloud/nextcloud/</string>
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    <string name="seconds_ago">seconds ago</string>
 </resources>

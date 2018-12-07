@@ -60,8 +60,8 @@ public class Card implements RemoteEntity {
     private int order;
     @Index
     private boolean archived;
+    private Date dueDate;
     private boolean notified;
-    private String dueDate;
     private int overdue;
     private int commentsUnread;
 
@@ -267,11 +267,11 @@ public class Card implements RemoteEntity {
         this.archived = archived;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 

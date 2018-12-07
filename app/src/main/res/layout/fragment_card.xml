@@ -1,26 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
     android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
     android:layout_marginEnd="16dp"
     android:focusable="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
+
         <TextView
             android:id="@+id/card_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            tools:text="Card Title"/>
+
         <TextView
             android:id="@+id/card_description"
             android:layout_width="match_parent"
-            android:minLines="0"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:maxLines="3"
+            tools:text="Card detailed description\nmultiline\n3 lines tops."/>
+
+        <android.support.design.chip.ChipGroup
+            android:id="@+id/labels"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/card_due_date"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:minLines="0"
+            android:maxLines="1"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/calendar_blank_grey600_24dp"
+            android:drawableStart="@drawable/calendar_blank_grey600_24dp"
+            android:drawablePadding="4dp"
+            tools:text="in 16 days"/>
     </LinearLayout>
 </android.support.design.card.MaterialCardView>
