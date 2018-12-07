@@ -8,7 +8,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 
 
 public abstract class IResponseCallback<T> {
-    private Account account;
+    protected Account account;
 
     public IResponseCallback(Account account) {
         this.account = account;

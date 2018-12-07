@@ -67,9 +67,10 @@ public class StackFragment extends Fragment {
     }
 
     private void setStack(long boardId, long stackId) {
-        syncManager.getStack(0, boardId, stackId, new IResponseCallback<Stack>(new Account()) {
+        syncManager.getStack(1, boardId, stackId, new IResponseCallback<Stack>(new Account()) {
             @Override
             public void onResponse(Stack response) {
+                if(response==null) return; //todo fix this shit
                 adapter.setCardList(response.getCards());
                 swipeRefreshLayout.setRefreshing(false);
             }

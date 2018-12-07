@@ -90,7 +90,9 @@ public class MainActivity extends AppCompatActivity
                         boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(R.drawable.ic_view_column_black_24dp);
                     }
                     menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
-                    displayStacksForIndex(0, account);
+                    if (boardsList.size()>0){
+                        displayStacksForIndex(0, account);
+                    }
                 }
 
                 @Override
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(List<Stack> response) {
                 stackAdapter.clear();
                 for(Stack stack: response) {
-                    stackAdapter.addFragment(StackFragment.newInstance(stack.getBoardId(), stack.getId()), stack.getTitle());
+                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getId()), stack.getTitle());
                 }
                 viewPager.setAdapter(stackAdapter);
                 stackLayout.setupWithViewPager(viewPager);

@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.StackDao;
 import it.niedermann.nextcloud.deck.persistence.DeckDaoSession;
 
-public class DataBaseAdapter implements IDataBasePersistenceAdapter {
+public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     private interface DataAccessor <T> {
         T getData();
@@ -38,6 +38,18 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
     @Override
     public boolean hasAccounts() {
         return db.getAccountDao().count()>0;
+    }
+
+    @Override
+    public Board getBoard(long accountId, long remoteId) {
+        QueryBuilder<Board> qb = db.getBoardDao().queryBuilder();
+        return qb.where(BoardDao.Properties.AccountId.eq(accountId), BoardDao.Properties.Id.eq(remoteId)).unique();
+    }
+
+    @Override
+    public Stack getStack(long accountId, long localBoardId, long remoteId) {
+        QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
+        return qb.where(StackDao.Properties.AccountId.eq(accountId), StackDao.Properties.BoardId.eq(localBoardId), StackDao.Properties.Id.eq(remoteId)).unique();
     }
 
     @Override
@@ -78,16 +90,19 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
 
     @Override
     public void createBoard(long accountId, Board board) {
-
+        board.setAccountId(accountId);
+        db.getBoardDao().insert(board);
     }
 
     @Override
     public void deleteBoard(Board board) {
+        db.getBoardDao().delete(board);
 
     }
 
     @Override
     public void updateBoard(Board board) {
+        db.getBoardDao().update(board);
 
     }
 
@@ -101,27 +116,31 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
     }
 
     @Override
-    public void getStack(long accountId, long boardId, long stackId, IResponseCallback<Stack> responseCallback) {
+    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<Stack> responseCallback) {
         QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
         respond(responseCallback, () -> qb.where(
                 StackDao.Properties.AccountId.eq(accountId),
-                StackDao.Properties.BoardId.eq(boardId),
+                StackDao.Properties.BoardId.eq(localBoardId),
                 StackDao.Properties.LocalId.eq(stackId)
         ).unique());
     }
 
     @Override
     public void createStack(long accountId, Stack stack) {
+        stack.setAccountId(accountId);
+        db.getStackDao().insert(stack);
 
     }
 
     @Override
     public void deleteStack(Stack stack) {
+        db.getStackDao().delete(stack);
 
     }
 
     @Override
     public void updateStack(Stack stack) {
+        db.getStackDao().update(stack);
 
     }
 
@@ -137,16 +156,19 @@ public class DataBaseAdapter implements IDataBasePersistenceAdapter {
 
     @Override
     public void createCard(long accountId, long boardId, long stackId, Card card) {
+        card.setAccountId(accountId);
+        db.getCardDao().insert(card);
 
     }
 
     @Override
     public void deleteCard(Card card) {
-
+        db.getCardDao().delete(card);
     }
 
     @Override
     public void updateCard(Card card) {
+        db.getCardDao().update(card);
 
     }
 
