@@ -75,11 +75,15 @@ public class Card implements RemoteEntity {
     @Generated(hash = 599084715)
     private transient CardDao myDao;
 
-    @Generated(hash = 1317302338)
+    @Generated(hash = 52700939)
+    public Card() {
+    }
+
+    @Generated(hash = 1796443461)
     public Card(Long localId, long accountId, Long id, int status, String title, String description,
             long stackId, String type, Date lastModified, Date createdAt, Date deletedAt,
             String attachments, int attachmentCount, String owner, int order, boolean archived,
-            boolean notified, String dueDate, int overdue, int commentsUnread, Date lastModifiedLocal) {
+            Date dueDate, boolean notified, int overdue, int commentsUnread, Date lastModifiedLocal) {
         this.localId = localId;
         this.accountId = accountId;
         this.id = id;
@@ -96,15 +100,11 @@ public class Card implements RemoteEntity {
         this.owner = owner;
         this.order = order;
         this.archived = archived;
-        this.notified = notified;
         this.dueDate = dueDate;
+        this.notified = notified;
         this.overdue = overdue;
         this.commentsUnread = commentsUnread;
         this.lastModifiedLocal = lastModifiedLocal;
-    }
-
-    @Generated(hash = 52700939)
-    public Card() {
     }
 
     @Generated(hash = 1501133588)
