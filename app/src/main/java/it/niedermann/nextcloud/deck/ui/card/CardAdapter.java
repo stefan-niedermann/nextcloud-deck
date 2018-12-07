@@ -18,32 +18,46 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 
-public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     private Context context;
     private List<Card> cardList = new ArrayList<>();
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public CardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         this.context = viewGroup.getContext();
         View v = LayoutInflater.from(this.context).inflate(R.layout.fragment_card, viewGroup, false);
         return new CardViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
         Card card = cardList.get(position);
-        ((CardViewHolder) viewHolder).cardTitle.setText(card.getTitle());
-        ((CardViewHolder) viewHolder).cardDescription.setText(card.getDescription());
+        viewHolder.cardTitle.setText(card.getTitle());
+        viewHolder.cardDescription.setText(card.getDescription());
+        viewHolder.cardDescription.setText(card.getDescription());
+
+        if (card.getDueDate() != null) {
+            viewHolder.cardDueDate.setText(
+                    SupportUtil.getRelativeDateTimeString(
+                            this.context,
+                            card.getDueDate().getTime())
+            );
+            viewHolder.cardDueDate.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.cardDueDate.setVisibility(View.GONE);
+        }
+
         Chip chip;
         for(Label label: card.getLabels()) {
             chip = new Chip(context);
             chip.setText(label.getTitle());
-            ((CardViewHolder) viewHolder).labels.addView(chip);
+            viewHolder.labels.addView(chip);
         }
     }
 
@@ -71,6 +85,8 @@ public class CardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView cardDescription;
         @BindView(R.id.labels)
         ChipGroup labels;
+        @BindView(R.id.card_due_date)
+        TextView cardDueDate;
 
         private CardViewHolder(View view) {
             super(view);

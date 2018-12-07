@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Card extends RemoteEntity {
@@ -20,7 +21,7 @@ public class Card extends RemoteEntity {
     private String owner;
     private int order;
     private boolean archived;
-    private String dueDate;
+    private Date dueDate;
     private int overdue;
     private int commentsUnread;
 
@@ -144,11 +145,11 @@ public class Card extends RemoteEntity {
         this.archived = archived;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
