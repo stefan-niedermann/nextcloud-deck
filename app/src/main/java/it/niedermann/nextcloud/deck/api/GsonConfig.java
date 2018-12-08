@@ -22,18 +22,22 @@ public class GsonConfig {
         Type boardList = new TypeToken<List<Board>>() {}.getType();
         Type board = new TypeToken<Board>() {}.getType();
         Type cardList = new TypeToken<Card>() {}.getType();
+        Type card = new TypeToken<Card>() {}.getType();
         Type labelList = new TypeToken<Label>() {}.getType();
+        Type label = new TypeToken<Label>() {}.getType();
         Type stackList = new TypeToken<List<Stack>>() {}.getType();
         Type stack = new TypeToken<Stack>() {}.getType();
 
         return new GsonBuilder()
                 .setLenient()
                 .registerTypeAdapter(boardList,     new NextcloudArrayDeserializer<>("boards", Board.class))
-                .registerTypeAdapter(board,     new NextcloudArrayDeserializer<>("board", Board.class))
-                .registerTypeAdapter(cardList,     new NextcloudArrayDeserializer<>("cards", Card.class))
+                .registerTypeAdapter(board,         new NextcloudArrayDeserializer<>("board", Board.class))
+                .registerTypeAdapter(cardList,      new NextcloudArrayDeserializer<>("cards", Card.class))
+                .registerTypeAdapter(card,          new NextcloudDeserializer<>("card", Card.class))
                 .registerTypeAdapter(labelList,     new NextcloudArrayDeserializer<>("labels", Label.class))
-                .registerTypeAdapter(stack,     new NextcloudDeserializer<>("stack", Stack.class))
+                .registerTypeAdapter(label,         new NextcloudDeserializer<>("label", Label.class))
                 .registerTypeAdapter(stackList,     new NextcloudArrayDeserializer<>("stacks", Stack.class))
+                .registerTypeAdapter(stack,         new NextcloudDeserializer<>("stack", Stack.class))
                 .create();
     }
 

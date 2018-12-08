@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.model;
+package it.niedermann.nextcloud.deck.model.enums;
 
 /**
  * Helps to distinguish between different local change types for Server Synchronization.

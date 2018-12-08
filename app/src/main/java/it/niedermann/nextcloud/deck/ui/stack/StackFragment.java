@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,14 +8,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
@@ -61,14 +65,19 @@ public class StackFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             setStack(boardId, stackId);
         });
+
         setStack(boardId, stackId);
         return view;
     }
 
     private void setStack(long boardId, long stackId) {
-        syncManager.getStack(0, boardId, stackId, new IResponseCallback<Stack>(0) {
+        //FIXME: account-ID!!! 1 will only work for one ;P
+        syncManager.getStack(1, boardId, stackId, new IResponseCallback<Stack>(new Account()) {
             @Override
             public void onResponse(Stack response) {
+                Log.d(DeckConsts.DEBUG_TAG, "hello stack: "+response);
+                if(response==null) return; //todo fix this shit
+                Log.d(DeckConsts.DEBUG_TAG, "hello cards: "+response.getCards());
                 adapter.setCardList(response.getCards());
                 swipeRefreshLayout.setRefreshing(false);
             }

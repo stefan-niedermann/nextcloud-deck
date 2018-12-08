@@ -23,6 +23,8 @@ android {
     }
 }
 
+apply plugin: 'org.greenrobot.greendao'
+
 dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.4'
     implementation 'com.github.nextcloud:android-SingleSignOn:0.1.2'
@@ -39,7 +41,13 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'org.greenrobot:greendao:3.2.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+greendao {
+    schemaVersion 2
+}
+

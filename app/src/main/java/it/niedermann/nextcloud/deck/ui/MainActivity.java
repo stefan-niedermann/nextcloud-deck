@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -13,12 +15,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
@@ -33,6 +38,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
@@ -54,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     private LoginDialogFragment loginDialogFragment;
     private SyncManager syncManager;
     private List<Board> boardsList;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +82,42 @@ public class MainActivity extends AppCompatActivity
         syncManager = new SyncManager(getApplicationContext(), this);
         stackAdapter = new StackAdapter(getSupportFragmentManager());
 
+
+        viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
+            if(dragEvent.getAction() == 4)
+            Log.v("Deck", dragEvent.getAction() + "");
+
+            View view = (View) dragEvent.getLocalState();
+            RecyclerView owner = (RecyclerView) view.getParent();
+            CardAdapter cardAdapter = (CardAdapter) owner.getAdapter();
+
+            switch(dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_LOCATION:
+                    Point size = new Point();
+                    getWindowManager().getDefaultDisplay().getSize(size);
+                    if(dragEvent.getX() <= 20) {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                    } else if(dragEvent.getX() >= size.x - 20) {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    }
+                    int viewUnderPosition = owner.getChildAdapterPosition(owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY()));
+                    if(viewUnderPosition != -1) {
+                        cardAdapter.moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
+                    }
+                    break;
+                case DragEvent.ACTION_DROP:
+                    view.setVisibility(View.VISIBLE);
+                    break;
+            }
+            return true;
+        });
+
         if(this.syncManager.hasAccounts()) {
-            Account account = syncManager.readAccounts().get(0);
+            account = syncManager.readAccounts().get(0);
             String accountName = account.getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
-            syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>(account.getId()) {
+            syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>(account) {
                 @Override
                 public void onResponse(List<Board> boards) {
                     Menu menu = navigationView.getMenu();
@@ -91,7 +128,9 @@ public class MainActivity extends AppCompatActivity
                         boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(R.drawable.ic_view_column_black_24dp);
                     }
                     menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
-                    displayStacksForIndex(0, 0);
+                    if (boardsList.size()>0){
+                        displayStacksForIndex(0, account);
+                    }
                 }
 
                 @Override
@@ -114,12 +153,12 @@ public class MainActivity extends AppCompatActivity
      * Displays the Stacks for the boardsList by index
      * @param index of boardsList
      */
-    private void displayStacksForIndex(int index, long accountId) {
+    private void displayStacksForIndex(int index, Account account) {
         Board selectedBoard = boardsList.get(index);
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
-        syncManager.getStacks(accountId, selectedBoard.getId(), new IResponseCallback<List<Stack>>(accountId) {
+        syncManager.getStacks(account.getId(), selectedBoard.getLocalId(), new IResponseCallback<List<Stack>>(account) {
             @Override
             public void onError(Throwable throwable) {
                 Log.e("Deck", throwable.getMessage());
@@ -130,10 +169,12 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(List<Stack> response) {
                 stackAdapter.clear();
                 for(Stack stack: response) {
-                    stackAdapter.addFragment(StackFragment.newInstance(stack.getBoardId(), stack.getId()), stack.getTitle());
+                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getLocalId()), stack.getTitle());
                 }
-                viewPager.setAdapter(stackAdapter);
-                stackLayout.setupWithViewPager(viewPager);
+                runOnUiThread(() -> {
+                    viewPager.setAdapter(stackAdapter);
+                    stackLayout.setupWithViewPager(viewPager);
+                });
             }
         });
     }
@@ -171,7 +212,7 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                 break;
             default:
-                displayStacksForIndex(item.getItemId(), 0); // TODO: <- accountID!
+                displayStacksForIndex(item.getItemId(), account);
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

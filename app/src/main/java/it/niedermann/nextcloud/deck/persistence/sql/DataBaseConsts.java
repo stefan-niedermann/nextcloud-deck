@@ -128,7 +128,9 @@ public class DataBaseConsts {
 
     public static final String TABLE_OC_DECK_STACKS = "oc_deck_stacks";
     public static final String SQL_CREATE_OC_DECK_STACKS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_STACKS + "' (" +
-            "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `local_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `id` INTEGER," +
+            "   `account_id` INTEGER NOT NULL," +
             "	`title`	VARCHAR ( 100 ) NOT NULL COLLATE BINARY," +
             "	`board_id`	BIGINT NOT NULL," +
             "	`order`	BIGINT DEFAULT NULL," +
@@ -137,7 +139,9 @@ public class DataBaseConsts {
 
     public static final String TABLE_OC_DECK_LABELS = "oc_deck_labels";
     public static final String SQL_CREATE_OC_DECK_LABELS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_LABELS + "' (" +
-            "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `local_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `id` INTEGER," +
+            "   `account_id` INTEGER NOT NULL," +
             "	`title`	VARCHAR ( 100 ) DEFAULT NULL COLLATE BINARY," +
             "	`color`	VARCHAR ( 6 ) DEFAULT NULL COLLATE BINARY," +
             "	`board_id`	BIGINT NOT NULL" +
@@ -145,7 +149,9 @@ public class DataBaseConsts {
 
     public static final String TABLE_OC_DECK_CARDS = "oc_deck_cards";
     public static final String SQL_CREATE_OC_DECK_CARDS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_CARDS + "' (" +
-            "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `local_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `id` INTEGER," +
+            "   `account_id` INTEGER NOT NULL," +
             "	`title`	VARCHAR ( 100 ) NOT NULL COLLATE BINARY," +
             "	`description`	CLOB DEFAULT NULL COLLATE BINARY," +
             "	`stack_id`	BIGINT NOT NULL," +
@@ -162,7 +168,9 @@ public class DataBaseConsts {
 
     public static final String TABLE_OC_DECK_BOARDS = "oc_deck_boards";
     public static final String SQL_CREATE_OC_DECK_BOARDS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_BOARDS + "' (" +
-            "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `local_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `id` INTEGER," +
+            "   `account_id` INTEGER NOT NULL," +
             "	`title`	VARCHAR ( 100 ) NOT NULL COLLATE BINARY," +
             "	`owner`	VARCHAR ( 64 ) NOT NULL COLLATE BINARY," +
             "	`color`	VARCHAR ( 6 ) DEFAULT NULL COLLATE BINARY," +
@@ -172,7 +180,9 @@ public class DataBaseConsts {
 
     public static final String TABLE_OC_DECK_BOARD_ACL = "oc_deck_board_acl";
     public static final String SQL_CREATE_OC_DECK_BOARD_ACL_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_BOARD_ACL + "' (" +
-            "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `local_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `id` INTEGER," +
+            "   `account_id` INTEGER NOT NULL," +
             "	`board_id`	BIGINT NOT NULL," +
             "	`type`	INTEGER NOT NULL," +
             "	`participant`	VARCHAR ( 64 ) NOT NULL COLLATE BINARY," +
@@ -183,7 +193,9 @@ public class DataBaseConsts {
 
     public static final String TABLE_OC_DECK_ATTACHMENT = "oc_deck_attachment";
     public static final String SQL_CREATE_OC_DECK_ATTACHMENT_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_ATTACHMENT + "' (" +
-            "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `local_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `id` INTEGER," +
+            "   `account_id` INTEGER NOT NULL," +
             "	`card_id`	BIGINT NOT NULL," +
             "	`type`	VARCHAR ( 64 ) NOT NULL COLLATE BINARY," +
             "	`data`	VARCHAR ( 255 ) DEFAULT NULL COLLATE BINARY," +
@@ -195,14 +207,18 @@ public class DataBaseConsts {
 
     public static final String TABLE_OC_DECK_ASSIGNED_USERS = "oc_deck_assigned_users";
     public static final String SQL_CREATE_OC_DECK_ASSIGNED_USERS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_ASSIGNED_USERS + "' (" +
-            "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `local_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `id` INTEGER," +
+            "   `account_id` INTEGER NOT NULL," +
             "	`participant`	VARCHAR ( 64 ) NOT NULL COLLATE BINARY," +
             "	`card_id`	INTEGER NOT NULL DEFAULT 0" +
             ")";
 
     public static final String TABLE_OC_DECK_ASSIGNED_LABELS = "oc_deck_assigned_labels";
     public static final String SQL_CREATE_OC_DECK_ASSIGNED_LABELS_TABLE = "CREATE TABLE IF NOT EXISTS '" + TABLE_OC_DECK_ASSIGNED_LABELS + "' (" +
-            "`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `local_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "   `id` INTEGER," +
+            "   `account_id` INTEGER NOT NULL," +
             "	`label_id`	INTEGER NOT NULL DEFAULT 0," +
             "	`card_id`	INTEGER NOT NULL DEFAULT 0" +
             ");";
@@ -223,30 +239,11 @@ public class DataBaseConsts {
 
     public static final String[] ALL_CREATE_INDICES = new String[]{
 
-            "CREATE INDEX IF NOT EXISTS `deck_stacks_order_index` ON `oc_deck_stacks` (" +
-                    "	`order`" +
-                    ")",
 
-            "CREATE INDEX IF NOT EXISTS `deck_stacks_board_id_index` ON `oc_deck_stacks` (" +
-                    "	`board_id`" +
-                    ")",
 
             "CREATE INDEX IF NOT EXISTS `deck_labels_board_id_index` ON `oc_deck_labels` (" +
                     "	`board_id`" +
                     ")",
-
-            "CREATE INDEX IF NOT EXISTS `deck_cards_stack_id_index` ON `oc_deck_cards` (" +
-                    "	`stack_id`" +
-                    ")",
-
-            "CREATE INDEX IF NOT EXISTS `deck_cards_order_index` ON `oc_deck_cards` (" +
-                    "	`order`" +
-                    ")",
-
-            "CREATE INDEX IF NOT EXISTS `deck_cards_archived_index` ON `oc_deck_cards` (" +
-                    "	`archived`" +
-                    ")",
-
             "CREATE INDEX IF NOT EXISTS `deck_board_acl_idx_i` ON `oc_deck_board_acl` (" +
                     "	`board_id`" +
                     ")",
