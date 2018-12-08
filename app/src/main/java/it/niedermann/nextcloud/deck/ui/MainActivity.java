@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private LoginDialogFragment loginDialogFragment;
     private SyncManager syncManager;
     private List<Board> boardsList;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         stackAdapter = new StackAdapter(getSupportFragmentManager());
 
         if(this.syncManager.hasAccounts()) {
-            Account account = syncManager.readAccounts().get(0);
+            account = syncManager.readAccounts().get(0);
             String accountName = account.getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
-        syncManager.getStacks(account.getId(), selectedBoard.getId(), new IResponseCallback<List<Stack>>(account) {
+        syncManager.getStacks(account.getId(), selectedBoard.getLocalId(), new IResponseCallback<List<Stack>>(account) {
             @Override
             public void onError(Throwable throwable) {
                 Log.e("Deck", throwable.getMessage());
@@ -134,8 +135,10 @@ public class MainActivity extends AppCompatActivity
                 for(Stack stack: response) {
                     stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getId()), stack.getTitle());
                 }
-                viewPager.setAdapter(stackAdapter);
-                stackLayout.setupWithViewPager(viewPager);
+                runOnUiThread(() -> {
+                    viewPager.setAdapter(stackAdapter);
+                    stackLayout.setupWithViewPager(viewPager);
+                });
             }
         });
     }
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                 break;
             default:
-                displayStacksForIndex(item.getItemId(), new Account()); // TODO: <- account!
+                displayStacksForIndex(item.getItemId(), account);
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

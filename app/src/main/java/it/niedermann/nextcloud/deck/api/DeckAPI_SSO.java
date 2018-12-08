@@ -43,9 +43,13 @@ public class DeckAPI_SSO implements DeckAPI {
                 .setFollowRedirects(true);
         if (lastSync!=null) {
             String lastSyncHeader = API_FORMAT.format(lastSync);
-            //Log.d("deck lastSync", lastSyncHeader);
-            //TODO: dont create a new one every time...
-            Map<String, List<String>> header = new HashMap<>();
+            // omit Offset of timezone (e.g.: +01:00)
+            if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
+                lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
+            }
+            Log.d("deck lastSync", lastSyncHeader);
+
+            Map<String, List<String>> header = new HashMap<>(); //concurrency, new one is needed!
             List<String> hdr = new ArrayList<>();
             hdr.add(lastSyncHeader);
             header.put("If-Modified-Since", hdr);
@@ -138,7 +142,7 @@ public class DeckAPI_SSO implements DeckAPI {
     @Override
     public Observable<Card> getCard(long boardId, long stackId, long cardId, Date lastSync) {
         NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks/{stackId}/cards/{cardId}",lastSync, boardId, stackId, cardId).build();
-        return nextcloudAPI.performRequestObservable(Stack.class, request);
+        return nextcloudAPI.performRequestObservable(Card.class, request);
     }
 
     @Override

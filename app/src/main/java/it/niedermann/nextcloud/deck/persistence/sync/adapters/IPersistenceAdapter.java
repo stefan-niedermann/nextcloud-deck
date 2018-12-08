@@ -24,7 +24,7 @@ public interface IPersistenceAdapter {
 
     //### CARDS
     void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback);
-    void createCard(long accountId, long boardId, long stackId, Card card);
+    void createCard(long accountId, Card card);
     void deleteCard(Card card);
     void updateCard(Card card);
 }

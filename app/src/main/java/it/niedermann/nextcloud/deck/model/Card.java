@@ -54,7 +54,10 @@ public class Card implements RemoteEntity {
     private List<User> assignedUsers = new ArrayList<>();
     private String attachments;
     private int attachmentCount;
-    private String owner;
+
+    private Long userId;
+    @ToOne(joinProperty = "userId")
+    private User owner;
     @Index
     @NotNull
     private int order;
@@ -67,6 +70,12 @@ public class Card implements RemoteEntity {
 
     private Date lastModifiedLocal;
 
+    @Generated(hash = 1501133588)
+    private transient Long account__resolvedKey;
+
+    @Generated(hash = 1023505453)
+    private transient Long stack__resolvedKey;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -75,14 +84,10 @@ public class Card implements RemoteEntity {
     @Generated(hash = 599084715)
     private transient CardDao myDao;
 
-    @Generated(hash = 52700939)
-    public Card() {
-    }
-
-    @Generated(hash = 1796443461)
+    @Generated(hash = 903582996)
     public Card(Long localId, long accountId, Long id, int status, String title, String description,
             long stackId, String type, Date lastModified, Date createdAt, Date deletedAt,
-            String attachments, int attachmentCount, String owner, int order, boolean archived,
+            String attachments, int attachmentCount, Long userId, int order, boolean archived,
             Date dueDate, boolean notified, int overdue, int commentsUnread, Date lastModifiedLocal) {
         this.localId = localId;
         this.accountId = accountId;
@@ -97,7 +102,7 @@ public class Card implements RemoteEntity {
         this.deletedAt = deletedAt;
         this.attachments = attachments;
         this.attachmentCount = attachmentCount;
-        this.owner = owner;
+        this.userId = userId;
         this.order = order;
         this.archived = archived;
         this.dueDate = dueDate;
@@ -107,11 +112,12 @@ public class Card implements RemoteEntity {
         this.lastModifiedLocal = lastModifiedLocal;
     }
 
-    @Generated(hash = 1501133588)
-    private transient Long account__resolvedKey;
+    @Generated(hash = 52700939)
+    public Card() {
+    }
 
-    @Generated(hash = 1023505453)
-    private transient Long stack__resolvedKey;
+    @Generated(hash = 1847295403)
+    private transient Long owner__resolvedKey;
 
     public void setLabels(List<Label> labels) {
         this.labels = labels;
@@ -243,18 +249,6 @@ public class Card implements RemoteEntity {
         this.attachmentCount = attachmentCount;
     }
 
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
     public void setOrder(int order) {
         this.order = order;
     }
@@ -299,6 +293,34 @@ public class Card implements RemoteEntity {
         return this.archived;
     }
 
+    public long getAccountId() {
+        return this.accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
+    public int getStatus() {
+        return this.status;
+    }
+
+    public Long getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public int getOrder() {
+        return this.order;
+    }
+
+    public boolean getNotified() {
+        return this.notified;
+    }
+
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 2143533054)
     public Account getAccount() {
@@ -329,6 +351,68 @@ public class Card implements RemoteEntity {
             this.account = account;
             accountId = account.getId();
             account__resolvedKey = accountId;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1286188754)
+    public Stack getStack() {
+        long __key = this.stackId;
+        if (stack__resolvedKey == null || !stack__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            StackDao targetDao = daoSession.getStackDao();
+            Stack stackNew = targetDao.load(__key);
+            synchronized (this) {
+                stack = stackNew;
+                stack__resolvedKey = __key;
+            }
+        }
+        return stack;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1162284928)
+    public void setStack(@NotNull Stack stack) {
+        if (stack == null) {
+            throw new DaoException(
+                    "To-one property 'stackId' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.stack = stack;
+            stackId = stack.getLocalId();
+            stack__resolvedKey = stackId;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 2010912471)
+    public User getOwner() {
+        Long __key = this.userId;
+        if (owner__resolvedKey == null || !owner__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            UserDao targetDao = daoSession.getUserDao();
+            User ownerNew = targetDao.load(__key);
+            synchronized (this) {
+                owner = ownerNew;
+                owner__resolvedKey = __key;
+            }
+        }
+        return owner;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 520212041)
+    public void setOwner(User owner) {
+        synchronized (this) {
+            this.owner = owner;
+            userId = owner == null ? null : owner.getLocalId();
+            owner__resolvedKey = userId;
         }
     }
 
@@ -424,53 +508,8 @@ public class Card implements RemoteEntity {
         myDao.update(this);
     }
 
-    public int getStatus() {
-        return this.status;
-    }
-
-    public long getAccountId() {
-        return this.accountId;
-    }
-
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1286188754)
-    public Stack getStack() {
-        long __key = this.stackId;
-        if (stack__resolvedKey == null || !stack__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            StackDao targetDao = daoSession.getStackDao();
-            Stack stackNew = targetDao.load(__key);
-            synchronized (this) {
-                stack = stackNew;
-                stack__resolvedKey = __key;
-            }
-        }
-        return stack;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1162284928)
-    public void setStack(@NotNull Stack stack) {
-        if (stack == null) {
-            throw new DaoException(
-                    "To-one property 'stackId' has not-null constraint; cannot set to-one to null");
-        }
-        synchronized (this) {
-            this.stack = stack;
-            stackId = stack.getLocalId();
-            stack__resolvedKey = stackId;
-        }
-    }
-
-    public boolean getNotified() {
-        return this.notified;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -479,4 +518,5 @@ public class Card implements RemoteEntity {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCardDao() : null;
     }
+
 }

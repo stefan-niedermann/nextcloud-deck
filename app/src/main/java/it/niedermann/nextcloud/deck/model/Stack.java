@@ -17,7 +17,9 @@ import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
-@Entity
+@Entity(
+        indexes = {@Index(value = "accountId,boardId,id", unique = true)}
+)
 public class Stack implements RemoteEntity {
     @Id(autoincrement = true)
     protected Long localId;
@@ -25,9 +27,12 @@ public class Stack implements RemoteEntity {
     @NotNull
     long accountId;
 
+    @NotNull
+    @Index
     @ToOne(joinProperty = "accountId")
     protected Account account;
 
+    @NotNull
     protected Long id;
 
     @NotNull
@@ -70,8 +75,8 @@ public class Stack implements RemoteEntity {
         super();
     }
 
-    @Generated(hash = 1703952681)
-    public Stack(Long localId, long accountId, Long id, int status, String title, long boardId,
+    @Generated(hash = 1708680821)
+    public Stack(Long localId, long accountId, @NotNull Long id, int status, String title, long boardId,
             Date deletedAt, int order, Date lastModified, Date lastModifiedLocal) {
         this.localId = localId;
         this.accountId = accountId;

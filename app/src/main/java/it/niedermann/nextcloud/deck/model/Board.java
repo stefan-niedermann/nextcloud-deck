@@ -17,7 +17,9 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 
-@Entity
+@Entity(
+        indexes = {@Index(value = "accountId,id", unique = true)}
+)
 public class Board implements RemoteEntity {
     @Id(autoincrement = true)
     protected Long localId;
@@ -28,6 +30,7 @@ public class Board implements RemoteEntity {
     @ToOne(joinProperty = "accountId")
     protected Account account;
 
+    @NotNull
     protected Long id;
 
     @NotNull
@@ -63,8 +66,8 @@ public class Board implements RemoteEntity {
     @Generated(hash = 754839907)
     private transient BoardDao myDao;
 
-    @Generated(hash = 426571613)
-    public Board(Long localId, long accountId, Long id, int status, String title, long ownerId, String color,
+    @Generated(hash = 477927341)
+    public Board(Long localId, long accountId, @NotNull Long id, int status, String title, long ownerId, String color,
             boolean archived, String acl, int shared, Date deletedAt, Date lastModified, Date lastModifiedLocal) {
         this.localId = localId;
         this.accountId = accountId;
@@ -259,14 +262,14 @@ public class Board implements RemoteEntity {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 854650753)
+    @Generated(hash = 174524847)
     public void setOwner(@NotNull User owner) {
         if (owner == null) {
             throw new DaoException("To-one property 'ownerId' has not-null constraint; cannot set to-one to null");
         }
         synchronized (this) {
             this.owner = owner;
-            ownerId = owner.getId();
+            ownerId = owner.getLocalId();
             owner__resolvedKey = ownerId;
         }
     }

@@ -1,11 +1,13 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -29,6 +31,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     public DataBaseAdapter(Context applicationContext) {
         this.applicationContext = applicationContext;
         this.db = DeckDaoSession.getInstance(applicationContext).session();
+        QueryBuilder.LOG_SQL = true; //FIXME: remove this.
     }
 
     private <T> void respond(IResponseCallback<T> responseCallback, DataAccessor<T> r){
@@ -50,6 +53,12 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     public Stack getStack(long accountId, long localBoardId, long remoteId) {
         QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
         return qb.where(StackDao.Properties.AccountId.eq(accountId), StackDao.Properties.BoardId.eq(localBoardId), StackDao.Properties.Id.eq(remoteId)).unique();
+    }
+
+    @Override
+    public Card getCard(long accountId, long localStackId, long remoteId) {
+        QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
+        return qb.where(CardDao.Properties.AccountId.eq(accountId), CardDao.Properties.StackId.eq(localStackId), CardDao.Properties.Id.eq(remoteId)).unique();
     }
 
     @Override
@@ -155,7 +164,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     }
 
     @Override
-    public void createCard(long accountId, long boardId, long stackId, Card card) {
+    public void createCard(long accountId, Card card) {
         card.setAccountId(accountId);
         db.getCardDao().insert(card);
 

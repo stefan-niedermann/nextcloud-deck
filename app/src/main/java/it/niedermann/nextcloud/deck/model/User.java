@@ -1,17 +1,24 @@
 package it.niedermann.nextcloud.deck.model;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
+import java.util.Date;
+
+import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
+
 @Entity
-public class User {
+public class User implements RemoteEntity {
+
 
     @Id
+    private Long localId;
+
+    @NotNull
     private Long id;
 
     @NotNull
@@ -24,6 +31,12 @@ public class User {
     private String uid;
     private String displayname;
 
+    private Date lastModified;
+    private Date lastModifiedLocal;
+
+    @Generated(hash = 1501133588)
+    private transient Long account__resolvedKey;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -31,9 +44,6 @@ public class User {
     /** Used for active entity operations. */
     @Generated(hash = 1507654846)
     private transient UserDao myDao;
-
-    @Generated(hash = 1501133588)
-    private transient Long account__resolvedKey;
 
     public User() {
         super();
@@ -45,13 +55,22 @@ public class User {
         this.displayname = displayname;
     }
 
-    @Generated(hash = 1011719041)
-    public User(Long id, long accountId, String primaryKey, String uid, String displayname) {
+    @Generated(hash = 1358425037)
+    public User(Long localId, @NotNull Long id, long accountId, String primaryKey, String uid,
+            String displayname, Date lastModified, Date lastModifiedLocal) {
+        this.localId = localId;
         this.id = id;
         this.accountId = accountId;
         this.primaryKey = primaryKey;
         this.uid = uid;
         this.displayname = displayname;
+        this.lastModified = lastModified;
+        this.lastModifiedLocal = lastModifiedLocal;
+    }
+
+    @Override
+    public Long getLocalId() {
+        return localId;
     }
 
     public Long getId() {
@@ -86,6 +105,14 @@ public class User {
         this.displayname = displayname;
     }
 
+    public long getAccountId() {
+        return this.accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 2143533054)
     public Account getAccount() {
@@ -105,6 +132,11 @@ public class User {
         return account;
     }
 
+    @Override
+    public void setLocalId(Long id) {
+
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1716871290)
     public void setAccount(@NotNull Account account) {
@@ -117,6 +149,26 @@ public class User {
             accountId = account.getId();
             account__resolvedKey = accountId;
         }
+    }
+
+    @Override
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    @Override
+    public Date getLastModifiedLocal() {
+        return lastModifiedLocal;
+    }
+
+    @Override
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    @Override
+    public void setLastModifiedLocal(Date lastModified) {
+        this.lastModifiedLocal = lastModified;
     }
 
     /**
@@ -155,18 +207,11 @@ public class User {
         myDao.update(this);
     }
 
-    public long getAccountId() {
-        return this.accountId;
-    }
-
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
-    }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 2059241980)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getUserDao() : null;
     }
+
 }

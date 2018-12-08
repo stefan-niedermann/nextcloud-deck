@@ -90,7 +90,7 @@ public class  ServerAdapter implements IPersistenceAdapter {
     }
 
     @Override
-    public void createCard(long accountId, long boardId, long stackId, Card card) {
+    public void createCard(long accountId, Card card) {
 
     }
 

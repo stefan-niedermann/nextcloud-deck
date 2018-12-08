@@ -51,35 +51,66 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                 Date now = new Date();
                 Account account = dataBaseAdapter.readAccount(accountId);
 
+                Log.d("deck", "requesting boards...");
                 // Call-Pyramid from Hell
                 serverAdapter.getBoards(accountId, new IResponseCallback<List<Board>>(account) {
                     @Override
                     public void onResponse(List<Board> response) {
-                        fillAccountIDs(response);
+                        Log.d("deck", "boardCount: "+response.size());
                         for (Board b : response) {
                             Board existingBoard = dataBaseAdapter.getBoard(accountId, b.getId());
                             if (existingBoard==null) {
+                                Log.d("deck", "creating board...");
                                 dataBaseAdapter.createBoard(accountId, b);
                             } else {
+                                Log.d("deck", "updating board...");
                                 dataBaseAdapter.updateBoard(applyUpdatesFromRemote(existingBoard, b, accountId));
                             }
 
+                            Log.d("deck", "requesting stacks...");
                             //sync stacks
                             final Board syncedBoard = dataBaseAdapter.getBoard(accountId, b.getId());
                             serverAdapter.getStacks(accountId, b.getId(), new IResponseCallback<List<Stack>>(account) {
                                 @Override
                                 public void onResponse(List<Stack> response) {
-                                    fillAccountIDs(response);
+                                    Log.d("deck", "StackCount: "+response.size());
                                     for (Stack s: response) {
+                                        s.setBoardId(syncedBoard.getLocalId());
                                         Stack existingStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), s.getId());
                                         if (existingStack==null) {
-                                            Log.d("deck", "crating stack...");
-                                            s.setBoardId(syncedBoard.getLocalId());
+                                            Log.d("deck", "creating stack...");
                                             dataBaseAdapter.createStack(accountId, s);
                                         } else {
+                                            Log.d("deck", "updating stack...");
                                             dataBaseAdapter.updateStack(applyUpdatesFromRemote(existingStack, s, accountId));
                                         }
+                                        Stack syncedStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), s.getId());
+
+                                        for (Card c :s.getCards()){
+                                            Log.d("deck", "requesting Card: "+c.getTitle());
+                                            serverAdapter.getCard(accountId, syncedBoard.getId(), syncedStack.getId(), c.getId(), new IResponseCallback<Card>(account) {
+                                                @Override
+                                                public void onResponse(Card response) {
+                                                    response.setStack(syncedStack);
+                                                    response.setStackId(syncedStack.getLocalId());
+                                                    Card existingCard = dataBaseAdapter.getCard(accountId, syncedStack.getLocalId(), response.getId());
+                                                    if (existingCard==null) {
+                                                        Log.d("deck", "creating Card...");
+                                                        dataBaseAdapter.createCard(accountId, response);
+                                                    } else {
+                                                        Log.d("deck", "updating Card...");
+                                                        dataBaseAdapter.updateCard(applyUpdatesFromRemote(existingCard, response, accountId));
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onError(Throwable throwable) {
+                                                    responseCallback.onError(throwable);
+                                                }
+                                            });
+                                        }
                                     }
+                                    //responseCallback.onResponse(true);
                                 }
 
                                 @Override
@@ -102,12 +133,14 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     }
 
     private <T extends RemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
-        if(!localEntity.getId().equals(remoteEntity.getId()) || !accountId.equals(localEntity.getAccount().getId())) {
+        if(!localEntity.getId().equals(remoteEntity.getId())
+                || !remoteEntity.getAccount().getId().equals(localEntity.getAccount().getId())
+                || !accountId.equals(remoteEntity.getAccount().getId())) {
             throw new IllegalArgumentException("IDs of Account or Entity are not matching! WTF are you doin?!");
         }
-        localEntity.setLastModified(remoteEntity.getLastModified());
-        localEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
-        return localEntity;
+        remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
+        remoteEntity.setLocalId(localEntity.getLocalId());
+        return remoteEntity;
     }
 
     public boolean hasAccounts() {
@@ -206,7 +239,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     }
 
     @Override
-    public void createCard(long accountId, long boardId, long stackId, Card card) {
+    public void createCard(long accountId, Card card) {
 
     }
 
