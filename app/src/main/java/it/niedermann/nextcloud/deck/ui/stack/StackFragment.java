@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -71,7 +72,9 @@ public class StackFragment extends Fragment {
         syncManager.getStack(1, boardId, stackId, new IResponseCallback<Stack>(new Account()) {
             @Override
             public void onResponse(Stack response) {
+                Log.d(DeckConsts.DEBUG_TAG, "hello stack: "+response);
                 if(response==null) return; //todo fix this shit
+                Log.d(DeckConsts.DEBUG_TAG, "hello cards: "+response.getCards());
                 adapter.setCardList(response.getCards());
                 swipeRefreshLayout.setRefreshing(false);
             }

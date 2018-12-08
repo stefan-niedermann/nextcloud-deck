@@ -52,7 +52,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                 Account account = dataBaseAdapter.readAccount(accountId);
 
                 Log.d("deck", "requesting boards...");
-                // Call-Pyramid from Hell
+                // welcome to the Call-Pyramid from Hell
                 serverAdapter.getBoards(accountId, new IResponseCallback<List<Board>>(account) {
                     @Override
                     public void onResponse(List<Board> response) {
