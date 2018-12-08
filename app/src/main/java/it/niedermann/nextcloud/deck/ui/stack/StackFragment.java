@@ -67,6 +67,7 @@ public class StackFragment extends Fragment {
     }
 
     private void setStack(long boardId, long stackId) {
+        //FIXME: account-ID!!! 1 will only work for one ;P
         syncManager.getStack(1, boardId, stackId, new IResponseCallback<Stack>(new Account()) {
             @Override
             public void onResponse(Stack response) {
