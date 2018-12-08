@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -13,12 +15,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
@@ -33,6 +38,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
@@ -75,6 +81,36 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         syncManager = new SyncManager(getApplicationContext(), this);
         stackAdapter = new StackAdapter(getSupportFragmentManager());
+
+
+        viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
+            if(dragEvent.getAction() == 4)
+            Log.v("Deck", dragEvent.getAction() + "");
+
+            View view = (View) dragEvent.getLocalState();
+            RecyclerView owner = (RecyclerView) view.getParent();
+            CardAdapter cardAdapter = (CardAdapter) owner.getAdapter();
+
+            switch(dragEvent.getAction()) {
+                case DragEvent.ACTION_DRAG_LOCATION:
+                    Point size = new Point();
+                    getWindowManager().getDefaultDisplay().getSize(size);
+                    if(dragEvent.getX() <= 20) {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                    } else if(dragEvent.getX() >= size.x - 20) {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    }
+                    int viewUnderPosition = owner.getChildAdapterPosition(owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY()));
+                    if(viewUnderPosition != -1) {
+                        cardAdapter.moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
+                    }
+                    break;
+                case DragEvent.ACTION_DROP:
+                    view.setVisibility(View.VISIBLE);
+                    break;
+            }
+            return true;
+        });
 
         if(this.syncManager.hasAccounts()) {
             account = syncManager.readAccounts().get(0);
