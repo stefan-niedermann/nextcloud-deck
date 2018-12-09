@@ -42,8 +42,7 @@ public class JsonToEntityParser {
 
 
     protected static Board parseBoard(JsonObject e) {
-        // throws "Unsupported" exception
-        Log.e("### deck (boards call)", e.toString());
+        Log.d("### deck (boards call)", e.toString());
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
         board.setId(e.get("id").getAsLong());
@@ -51,7 +50,7 @@ public class JsonToEntityParser {
     }
 
     protected static Card parseCard(JsonObject e) {
-        Log.e("### deck (card call)", e.toString());
+        Log.d("### deck (card call)", e.toString());
         //TODO: impl
         Card card = new Card();
         card.setId(e.get("id").getAsLong());
@@ -90,7 +89,7 @@ public class JsonToEntityParser {
     }
 
     protected static User parseUser(JsonObject e) {
-        Log.e("### deck (user call)", e.toString());
+        Log.d("### deck (user call)", e.toString());
         User user = new User();
         user.setDisplayname(getNullAsEmptyString(e.get("displayname")));
         user.setPrimaryKey(getNullAsEmptyString(e.get("primaryKey")));
@@ -99,7 +98,7 @@ public class JsonToEntityParser {
     }
 
     protected static Stack parseStack(JsonObject e) {
-        Log.e("### deck (stacks call)", e.toString());
+        Log.d("### deck (stacks call)", e.toString());
         Stack stack = new Stack();
         stack.setTitle(getNullAsEmptyString(e.get("title")));
         stack.setBoardId(e.get("boardId").getAsLong());
@@ -117,17 +116,11 @@ public class JsonToEntityParser {
         return stack;
     }
     protected static Label parseLabel(JsonObject e) {
-        Log.e("### deck (labels call)", e.toString());
+        Log.d("### deck (labels call)", e.toString());
         Label label = new Label();
         label.setId(e.get("id").getAsLong());
         label.setTitle(getNullAsEmptyString(e.get("title")));
         label.setColor(getNullAsEmptyString(e.get("color")));
-        if (!e.get("boardId").isJsonNull()) {
-            label.setBoardId(e.get("boardId").getAsLong());
-        }
-        if (!e.get("cardId").isJsonNull()) {
-            label.setCardId(e.get("cardId").getAsLong());
-        }
         return label;
     }
 
