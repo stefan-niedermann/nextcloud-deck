@@ -25,7 +25,7 @@ public class CrossTabDragAndDrop {
     public void register(final Activity source, final ViewPager subject, IDragUpDown upDownDrag, IDragLeftRight leftRightDrag){
         subject.setOnDragListener((View v, DragEvent dragEvent) -> {
             if(dragEvent.getAction() == 4)
-                Log.v("Deck", dragEvent.getAction() + "");
+                Log.d("Deck", dragEvent.getAction() + "");
 
             View view = (View) dragEvent.getLocalState();
             RecyclerView owner = (RecyclerView) view.getParent();

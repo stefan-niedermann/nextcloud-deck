@@ -84,8 +84,9 @@ public class MainActivity extends AppCompatActivity
 
 
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
+            Log.d("Deck", "Drag: "+ dragEvent.getAction());
             if(dragEvent.getAction() == 4)
-            Log.v("Deck", dragEvent.getAction() + "");
+                Log.d("Deck", dragEvent.getAction() + "");
 
             View view = (View) dragEvent.getLocalState();
             RecyclerView owner = (RecyclerView) view.getParent();
@@ -96,12 +97,15 @@ public class MainActivity extends AppCompatActivity
                     Point size = new Point();
                     getWindowManager().getDefaultDisplay().getSize(size);
                     if(dragEvent.getX() <= 20) {
+                        Log.d("Deck", dragEvent.getAction() + " moved left");
                         viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
                     } else if(dragEvent.getX() >= size.x - 20) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                        Log.d("Deck", dragEvent.getAction() + " moved right");
                     }
                     int viewUnderPosition = owner.getChildAdapterPosition(owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY()));
                     if(viewUnderPosition != -1) {
+                        Log.d("Deck", dragEvent.getAction() + " moved something...");
                         cardAdapter.moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
                     }
                     break;
