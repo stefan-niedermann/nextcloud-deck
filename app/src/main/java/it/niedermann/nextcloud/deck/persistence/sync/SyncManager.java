@@ -132,6 +132,23 @@ public class SyncManager implements IDataBasePersistenceAdapter{
         });
     }
 
+    private <T> IResponseCallback<T> wrapCallForUi(IResponseCallback<T> responseCallback) {
+        return new IResponseCallback<T>(responseCallback.getAccount()) {
+            @Override
+            public void onResponse(T response) {
+                sourceActivity.runOnUiThread(()->{
+                    fillAccountIDs(response);
+                    responseCallback.onResponse(response);
+                });
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                responseCallback.onError(throwable);
+            }
+        };
+    }
+
     private <T extends RemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
         if(!localEntity.getId().equals(remoteEntity.getId())
                 || !remoteEntity.getAccount().getId().equals(localEntity.getAccount().getId())
@@ -186,7 +203,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
             }
         });
         //serverAdapter.getBoards(accountId, responseCallback);
-        dataBaseAdapter.getBoards(accountId, responseCallback);
+        dataBaseAdapter.getBoards(accountId, wrapCallForUi(responseCallback));
     }
 
     @Override
@@ -209,12 +226,12 @@ public class SyncManager implements IDataBasePersistenceAdapter{
 
     @Override
     public void getStacks(long accountId, long localBoardId, IResponseCallback<List<Stack>> responseCallback) {
-        dataBaseAdapter.getStacks(accountId, localBoardId, responseCallback);
+        dataBaseAdapter.getStacks(accountId, localBoardId, wrapCallForUi(responseCallback));
     }
 
     @Override
     public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<Stack> responseCallback) {
-        dataBaseAdapter.getStack(accountId, localBoardId, stackId, responseCallback);
+        dataBaseAdapter.getStack(accountId, localBoardId, stackId, wrapCallForUi(responseCallback));
     }
 
     @Override
@@ -235,7 +252,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
 
     @Override
     public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
-        dataBaseAdapter.getCard(accountId, boardId, stackId, cardId, responseCallback);
+        dataBaseAdapter.getCard(accountId, boardId, stackId, cardId, wrapCallForUi(responseCallback));
     }
 
     @Override

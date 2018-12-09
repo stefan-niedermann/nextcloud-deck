@@ -47,4 +47,8 @@ public abstract class IResponseCallback<T> {
         }
         return false;
     }
+
+    public Account getAccount() {
+        return account;
+    }
 }
