@@ -42,8 +42,7 @@ public class JsonToEntityParser {
 
 
     protected static Board parseBoard(JsonObject e) {
-        // throws "Unsupported" exception
-        Log.e("### deck (boards call)", e.toString());
+        Log.d("### deck (boards call)", e.toString());
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
         board.setId(e.get("id").getAsLong());
@@ -51,7 +50,7 @@ public class JsonToEntityParser {
     }
 
     protected static Card parseCard(JsonObject e) {
-        Log.e("### deck (card call)", e.toString());
+        Log.d("### deck (card call)", e.toString());
         //TODO: impl
         Card card = new Card();
         card.setId(e.get("id").getAsLong());
@@ -61,10 +60,15 @@ public class JsonToEntityParser {
         card.setType(getNullAsEmptyString(e.get("type")));
 //        stack.setDeletedAt(e.get("lastModified")) // TODO: parse date!
 //        stack.setDeletedAt(e.get("createdAt")) // TODO: parse date!
-//        stack.setDeletedAt(e.get("duedate")) // TODO: parse date!
 //        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
-        //todo labels
-        //e.get "labels"
+        if (e.has("labels") && !e.get("labels").isJsonNull()){
+            JsonArray labelsJson = e.getAsJsonArray("labels");
+            List<Label> labels = new ArrayList<>();
+            for (JsonElement labelJson: labelsJson) {
+                labels.add(parseLabel(labelJson.getAsJsonObject()));
+            }
+            card.setLabels(labels);
+        }
         //e.get "assignedUsers"
         //e.get "attachments"
         card.setStackId(e.get("attachmentCount").getAsInt());
@@ -85,7 +89,7 @@ public class JsonToEntityParser {
     }
 
     protected static User parseUser(JsonObject e) {
-        Log.e("### deck (user call)", e.toString());
+        Log.d("### deck (user call)", e.toString());
         User user = new User();
         user.setDisplayname(getNullAsEmptyString(e.get("displayname")));
         user.setPrimaryKey(getNullAsEmptyString(e.get("primaryKey")));
@@ -94,7 +98,7 @@ public class JsonToEntityParser {
     }
 
     protected static Stack parseStack(JsonObject e) {
-        Log.e("### deck (stacks call)", e.toString());
+        Log.d("### deck (stacks call)", e.toString());
         Stack stack = new Stack();
         stack.setTitle(getNullAsEmptyString(e.get("title")));
         stack.setBoardId(e.get("boardId").getAsLong());
@@ -112,12 +116,11 @@ public class JsonToEntityParser {
         return stack;
     }
     protected static Label parseLabel(JsonObject e) {
-        //TODO: impl
-        // throws "Unsupported" exception
-        //Log.e("### deck (labels call)", e.getAsString());
+        Log.d("### deck (labels call)", e.toString());
         Label label = new Label();
-        Log.e("### deck", e.getAsString());
-        label.setTitle("implement meeeee! (in NextcloudArrayDeserializer.java)");
+        label.setId(e.get("id").getAsLong());
+        label.setTitle(getNullAsEmptyString(e.get("title")));
+        label.setColor(getNullAsEmptyString(e.get("color")));
         return label;
     }
 
