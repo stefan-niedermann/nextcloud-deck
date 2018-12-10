@@ -60,6 +60,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         Chip chip;
+        viewHolder.labels.removeAllViews();
         for(Label label: card.getLabels()) {
             chip = new Chip(context);
             chip.setText(label.getTitle());
