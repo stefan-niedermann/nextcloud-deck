@@ -56,9 +56,9 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     }
 
     @Override
-    public Card getCard(long accountId, long localStackId, long remoteId) {
+    public Card getCard(long accountId, long remoteId) {
         QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
-        return qb.where(CardDao.Properties.AccountId.eq(accountId), CardDao.Properties.StackId.eq(localStackId), CardDao.Properties.Id.eq(remoteId)).unique();
+        return qb.where(CardDao.Properties.AccountId.eq(accountId), CardDao.Properties.Id.eq(remoteId)).unique();
     }
 
     @Override

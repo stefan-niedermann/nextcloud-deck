@@ -93,7 +93,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                                                 public void onResponse(Card response) {
                                                     response.setStack(syncedStack);
                                                     response.setStackId(syncedStack.getLocalId());
-                                                    Card existingCard = dataBaseAdapter.getCard(accountId, syncedStack.getLocalId(), response.getId());
+                                                    Card existingCard = dataBaseAdapter.getCard(accountId, response.getId());
                                                     if (existingCard==null) {
                                                         Log.d("deck", "creating Card...");
                                                         dataBaseAdapter.createCard(accountId, response);
