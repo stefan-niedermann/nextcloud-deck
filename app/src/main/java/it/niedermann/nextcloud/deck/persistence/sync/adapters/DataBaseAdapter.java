@@ -15,8 +15,12 @@ import it.niedermann.nextcloud.deck.model.BoardDao;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.CardDao;
 import it.niedermann.nextcloud.deck.model.DaoSession;
+import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.LabelDao;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.StackDao;
+import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.UserDao;
 import it.niedermann.nextcloud.deck.persistence.DeckDaoSession;
 
 public class DataBaseAdapter implements IDatabaseOnlyAdapter {
@@ -59,6 +63,42 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     public Card getCard(long accountId, long remoteId) {
         QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
         return qb.where(CardDao.Properties.AccountId.eq(accountId), CardDao.Properties.Id.eq(remoteId)).unique();
+    }
+
+    @Override
+    public User getUser(long accountId, long remoteId) {
+        QueryBuilder<User> qb = db.getUserDao().queryBuilder();
+        return qb.where(UserDao.Properties.AccountId.eq(accountId), UserDao.Properties.Id.eq(remoteId)).unique();
+    }
+
+    @Override
+    public void createUser(long accountId, User user) {
+        user.setAccountId(accountId);
+        db.getUserDao().insert(user);
+    }
+
+    @Override
+    public void updateUser(long accountId, User user) {
+        user.setAccountId(accountId);
+        db.getUserDao().update(user);
+    }
+
+    @Override
+    public Label getLabel(long accountId, long remoteId) {
+        QueryBuilder<Label> qb = db.getLabelDao().queryBuilder();
+        return qb.where(LabelDao.Properties.AccountId.eq(accountId), LabelDao.Properties.Id.eq(remoteId)).unique();
+    }
+
+    @Override
+    public void createLabel(long accountId, Label label) {
+        label.setAccountId(accountId);
+        db.getLabelDao().insert(label);
+    }
+
+    @Override
+    public void updateLabel(long accountId, Label label) {
+        label.setAccountId(accountId);
+        db.getLabelDao().update(label);
     }
 
     @Override
