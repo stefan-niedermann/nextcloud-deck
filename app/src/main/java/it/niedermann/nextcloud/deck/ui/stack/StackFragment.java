@@ -77,7 +77,7 @@ public class StackFragment extends Fragment {
     }
 
     private void refreshView() {
-        syncManager.getStack(1, boardId, stackId, new IResponseCallback<Stack>(account) {
+        syncManager.getStack(account.getId(), boardId, stackId, new IResponseCallback<Stack>(account) {
             @Override
             public void onResponse(Stack response) {
                 adapter.setCardList(response.getCards());
