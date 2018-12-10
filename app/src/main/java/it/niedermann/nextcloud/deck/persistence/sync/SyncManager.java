@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -51,54 +52,54 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                 Date now = new Date();
                 Account account = dataBaseAdapter.readAccount(accountId);
 
-                Log.d("deck", "requesting boards...");
+                DeckLog.log("requesting boards...");
                 // welcome to the Call-Pyramid from Hell
                 serverAdapter.getBoards(accountId, new IResponseCallback<List<Board>>(account) {
                     @Override
                     public void onResponse(List<Board> response) {
-                        Log.d("deck", "boardCount: "+response.size());
+                        DeckLog.log("boardCount: "+response.size());
                         for (Board b : response) {
                             Board existingBoard = dataBaseAdapter.getBoard(accountId, b.getId());
                             if (existingBoard==null) {
-                                Log.d("deck", "creating board...");
+                                DeckLog.log("creating board...");
                                 dataBaseAdapter.createBoard(accountId, b);
                             } else {
-                                Log.d("deck", "updating board...");
+                                DeckLog.log("updating board...");
                                 dataBaseAdapter.updateBoard(applyUpdatesFromRemote(existingBoard, b, accountId));
                             }
 
-                            Log.d("deck", "requesting stacks...");
+                            DeckLog.log("requesting stacks...");
                             //sync stacks
                             final Board syncedBoard = dataBaseAdapter.getBoard(accountId, b.getId());
                             serverAdapter.getStacks(accountId, b.getId(), new IResponseCallback<List<Stack>>(account) {
                                 @Override
                                 public void onResponse(List<Stack> response) {
-                                    Log.d("deck", "StackCount: "+response.size());
+                                    DeckLog.log("StackCount: "+response.size());
                                     for (Stack s: response) {
                                         s.setBoardId(syncedBoard.getLocalId());
                                         Stack existingStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), s.getId());
                                         if (existingStack==null) {
-                                            Log.d("deck", "creating stack...");
+                                            DeckLog.log("creating stack...");
                                             dataBaseAdapter.createStack(accountId, s);
                                         } else {
-                                            Log.d("deck", "updating stack...");
+                                            DeckLog.log("updating stack...");
                                             dataBaseAdapter.updateStack(applyUpdatesFromRemote(existingStack, s, accountId));
                                         }
                                         Stack syncedStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), s.getId());
 
                                         for (Card c :s.getCards()){
-                                            Log.d("deck", "requesting Card: "+c.getTitle());
+                                            DeckLog.log("requesting Card: "+c.getTitle());
                                             serverAdapter.getCard(accountId, syncedBoard.getId(), syncedStack.getId(), c.getId(), new IResponseCallback<Card>(account) {
                                                 @Override
                                                 public void onResponse(Card response) {
                                                     response.setStack(syncedStack);
                                                     response.setStackId(syncedStack.getLocalId());
-                                                    Card existingCard = dataBaseAdapter.getCard(accountId, syncedStack.getLocalId(), response.getId());
+                                                    Card existingCard = dataBaseAdapter.getCard(accountId, response.getId());
                                                     if (existingCard==null) {
-                                                        Log.d("deck", "creating Card...");
+                                                        DeckLog.log("creating Card...");
                                                         dataBaseAdapter.createCard(accountId, response);
                                                     } else {
-                                                        Log.d("deck", "updating Card...");
+                                                        DeckLog.log("updating Card...");
                                                         dataBaseAdapter.updateCard(applyUpdatesFromRemote(existingCard, response, accountId));
                                                     }
                                                 }
@@ -133,6 +134,10 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     }
 
     private <T> IResponseCallback<T> wrapCallForUi(IResponseCallback<T> responseCallback) {
+        Account account = responseCallback.getAccount();
+        if (account == null || account.getId() == null){
+            throw new IllegalArgumentException("Bro. Please just give me a damn Account!");
+        }
         return new IResponseCallback<T>(responseCallback.getAccount()) {
             @Override
             public void onResponse(T response) {
@@ -191,7 +196,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
 
     @Override
     public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
-        this.synchronize(accountId, new IResponseCallback<Boolean>(new Account()) {
+        this.synchronize(accountId, new IResponseCallback<Boolean>(responseCallback.getAccount()) {
             @Override
             public void onResponse(Boolean response) {
                 Log.d("decksync", "check.");

@@ -1,13 +1,19 @@
 package it.niedermann.nextcloud.deck.model;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Transient;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
+
+import java.io.Serializable;
 
 @Entity
-public class Account {
+public class Account implements Serializable {
+    @Transient
+    private static final long serialVersionUID = 0;
+
     @Id(autoincrement = true)
     private Long id;
 

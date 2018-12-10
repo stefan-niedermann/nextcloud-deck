@@ -26,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity
         syncManager.getStacks(account.getId(), selectedBoard.getLocalId(), new IResponseCallback<List<Stack>>(account) {
             @Override
             public void onError(Throwable throwable) {
-                Log.e("Deck", throwable.getMessage());
+                Log.e(DeckConsts.DEBUG_TAG, throwable.getMessage());
                 throwable.printStackTrace();
             }
 
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(List<Stack> response) {
                 stackAdapter.clear();
                 for(Stack stack: response) {
-                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getLocalId()), stack.getTitle());
+                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getLocalId(), account), stack.getTitle());
                 }
                 runOnUiThread(() -> {
                     viewPager.setAdapter(stackAdapter);

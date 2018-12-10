@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
-import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +26,14 @@ public class StackFragment extends Fragment {
 
     private static final String KEY_BOARD_ID = "boardId";
     private static final String KEY_STACK_ID = "stackId";
+    private static final String KEY_ACCOUNT = "account";
     private CardAdapter adapter = null;
     private SyncManager syncManager;
+
+    private long boardId;
+    private long stackId;
+    private Account account;
+
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recycler_view)
@@ -40,10 +44,11 @@ public class StackFragment extends Fragment {
      * @return new fragment instance
      * @see <a href="https://gunhansancar.com/best-practice-to-instantiate-fragments-with-arguments-in-android/">Best Practice to Instantiate Fragments with Arguments in Android</a>
      */
-    public static StackFragment newInstance(long boardId, long stackId) {
+    public static StackFragment newInstance(long boardId, long stackId, Account account) {
         Bundle bundle = new Bundle();
         bundle.putLong(KEY_BOARD_ID, boardId);
         bundle.putLong(KEY_STACK_ID, stackId);
+        bundle.putSerializable(KEY_ACCOUNT, account);
 
         StackFragment fragment = new StackFragment();
         fragment.setArguments(bundle);
@@ -57,27 +62,24 @@ public class StackFragment extends Fragment {
         ButterKnife.bind(this, view);
         initRecyclerView();
 
-        long boardId = getArguments().getLong(KEY_BOARD_ID);
-        long stackId = getArguments().getLong(KEY_STACK_ID);
+        boardId = getArguments().getLong(KEY_BOARD_ID);
+        stackId = getArguments().getLong(KEY_STACK_ID);
+        account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
 
         syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            setStack(boardId, stackId);
+            refreshView();
         });
 
-        setStack(boardId, stackId);
+        refreshView();
         return view;
     }
 
-    private void setStack(long boardId, long stackId) {
-        //FIXME: account-ID!!! 1 will only work for one ;P
-        syncManager.getStack(1, boardId, stackId, new IResponseCallback<Stack>(new Account()) {
+    private void refreshView() {
+        syncManager.getStack(account.getId(), boardId, stackId, new IResponseCallback<Stack>(account) {
             @Override
             public void onResponse(Stack response) {
-                Log.d(DeckConsts.DEBUG_TAG, "hello stack: "+response);
-                if(response==null) return; //todo fix this shit
-                Log.d(DeckConsts.DEBUG_TAG, "hello cards: "+response.getCards());
                 adapter.setCardList(response.getCards());
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -85,7 +87,7 @@ public class StackFragment extends Fragment {
             @Override
             public void onError(Throwable throwable) {
                 swipeRefreshLayout.setRefreshing(false);
-                Log.e("Deck", throwable.getMessage());
+                Log.e(DeckConsts.DEBUG_TAG, throwable.getMessage());
                 throwable.printStackTrace();
             }
         });

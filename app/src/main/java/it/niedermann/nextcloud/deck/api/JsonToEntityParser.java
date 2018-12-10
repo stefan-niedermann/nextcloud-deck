@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -42,7 +43,7 @@ public class JsonToEntityParser {
 
 
     protected static Board parseBoard(JsonObject e) {
-        Log.d("### deck (boards call)", e.toString());
+        DeckLog.log(e.toString());
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
         board.setId(e.get("id").getAsLong());
@@ -50,7 +51,7 @@ public class JsonToEntityParser {
     }
 
     protected static Card parseCard(JsonObject e) {
-        Log.d("### deck (card call)", e.toString());
+        DeckLog.log(e.toString());
         //TODO: impl
         Card card = new Card();
         card.setId(e.get("id").getAsLong());
@@ -89,7 +90,7 @@ public class JsonToEntityParser {
     }
 
     protected static User parseUser(JsonObject e) {
-        Log.d("### deck (user call)", e.toString());
+        DeckLog.log(e.toString());
         User user = new User();
         user.setDisplayname(getNullAsEmptyString(e.get("displayname")));
         user.setPrimaryKey(getNullAsEmptyString(e.get("primaryKey")));
@@ -98,7 +99,7 @@ public class JsonToEntityParser {
     }
 
     protected static Stack parseStack(JsonObject e) {
-        Log.d("### deck (stacks call)", e.toString());
+        DeckLog.log(e.toString());
         Stack stack = new Stack();
         stack.setTitle(getNullAsEmptyString(e.get("title")));
         stack.setBoardId(e.get("boardId").getAsLong());
@@ -116,7 +117,7 @@ public class JsonToEntityParser {
         return stack;
     }
     protected static Label parseLabel(JsonObject e) {
-        Log.d("### deck (labels call)", e.toString());
+        DeckLog.log(e.toString());
         Label label = new Label();
         label.setId(e.get("id").getAsLong());
         label.setTitle(getNullAsEmptyString(e.get("title")));

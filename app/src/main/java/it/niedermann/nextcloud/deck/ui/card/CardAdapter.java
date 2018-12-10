@@ -22,6 +22,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.ColorUtil;
+import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -129,7 +131,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                         0          // flags (not currently used, set to 0)
                 );
                 view.setVisibility(View.INVISIBLE);
-                Log.v("Deck", "onLongClickListener");
+                DeckLog.log("onLongClickListener");
                 return true;
             });
         }
