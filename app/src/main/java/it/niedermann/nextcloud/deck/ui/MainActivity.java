@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(List<Stack> response) {
                 stackAdapter.clear();
                 for(Stack stack: response) {
-                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getLocalId()), stack.getTitle());
+                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getLocalId(), account), stack.getTitle());
                 }
                 runOnUiThread(() -> {
                     viewPager.setAdapter(stackAdapter);

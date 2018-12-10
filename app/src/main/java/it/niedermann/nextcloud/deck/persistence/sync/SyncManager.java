@@ -133,6 +133,10 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     }
 
     private <T> IResponseCallback<T> wrapCallForUi(IResponseCallback<T> responseCallback) {
+        Account account = responseCallback.getAccount();
+        if (account == null || account.getId() == null){
+            throw new IllegalArgumentException("Bro. Please just give me a damn Account!");
+        }
         return new IResponseCallback<T>(responseCallback.getAccount()) {
             @Override
             public void onResponse(T response) {
@@ -191,7 +195,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
 
     @Override
     public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
-        this.synchronize(accountId, new IResponseCallback<Boolean>(new Account()) {
+        this.synchronize(accountId, new IResponseCallback<Boolean>(responseCallback.getAccount()) {
             @Override
             public void onResponse(Boolean response) {
                 Log.d("decksync", "check.");
