@@ -43,7 +43,7 @@ public class CrossTabDragAndDrop {
                 case DragEvent.ACTION_DRAG_LOCATION:
                     Point size = new Point();
                     source.getWindowManager().getDefaultDisplay().getSize(size);
-                    long now = new Date().getTime();
+                    long now = System.currentTimeMillis();
                     if (lastSwap+msToReact < now){ // don't change Tabs so fast!
                         if(dragEvent.getX() <= pxToReact) {
                             Log.d(DeckConsts.DEBUG_TAG, dragEvent.getAction() + " moved left");
