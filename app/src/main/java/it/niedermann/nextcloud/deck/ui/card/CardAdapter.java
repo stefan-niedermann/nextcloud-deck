@@ -1,13 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Context;
-import android.graphics.Canvas;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
@@ -25,12 +21,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+    private static final String TAG = CardAdapter.class.getCanonicalName();
 
     private Context context;
     private List<Card> cardList = new ArrayList<>();
@@ -65,6 +63,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         for(Label label: card.getLabels()) {
             chip = new Chip(context);
             chip.setText(label.getTitle());
+
+            try {
+                int labelColor = Color.parseColor("#" + label.getColor());
+                ColorStateList c = ColorStateList.valueOf(labelColor);
+                chip.setChipBackgroundColor(c);
+                chip.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "error parsing label color", e);
+            }
+            
             viewHolder.labels.addView(chip);
         }
     }
