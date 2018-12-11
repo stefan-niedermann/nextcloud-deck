@@ -238,18 +238,6 @@ public class SyncManager implements IDataBasePersistenceAdapter{
 
     @Override
     public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
-        this.synchronize(new IResponseCallback<Boolean>(responseCallback.getAccount()) {
-            @Override
-            public void onResponse(Boolean response) {
-                Log.d("decksync", "check.");
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Log.e("decksync", "oops.", throwable);
-            }
-        });
-        //serverAdapter.getBoards(accountId, responseCallback);
         dataBaseAdapter.getBoards(accountId, wrapCallForUi(responseCallback));
     }
 
