@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -119,43 +120,52 @@ public class SyncManager implements IDataBasePersistenceAdapter{
             DeckLog.log("requesting Card: "+c.getTitle());
             serverAdapter.getCard(accountId, syncedBoard.getId(), syncedStack.getId(), c.getId(), new IResponseCallback<Card>(account) {
                 @Override
-                public void onResponse(Card response) {
-                    response.setStack(syncedStack);
-                    response.setStackId(syncedStack.getLocalId());
-                    Card existingCard = dataBaseAdapter.getCard(accountId, response.getId());
+                public void onResponse(Card card) {
+                    card.setStack(syncedStack);
+                    card.setStackId(syncedStack.getLocalId());
+                    Card existingCard = dataBaseAdapter.getCard(accountId, card.getId());
                     if (existingCard==null) {
                         DeckLog.log("creating Card...");
-                        dataBaseAdapter.createCard(accountId, response);
+                        dataBaseAdapter.createCard(accountId, card);
                     } else {
                         DeckLog.log("updating Card...");
-                        dataBaseAdapter.updateCard(applyUpdatesFromRemote(existingCard, response, accountId));
+                        dataBaseAdapter.updateCard(applyUpdatesFromRemote(existingCard, card, accountId));
                     }
 
+                    existingCard = dataBaseAdapter.getCard(accountId, card.getId());
+                    existingCard.setLabels(new ArrayList<>());
+                    existingCard.setAssignedUsers(new ArrayList<>());
+                    DeckLog.log("existing-card labels: "+card.getLabels());
 
-                    //TODO: fix: org.greenrobot.greendao.DaoException: Entity is detached from DAO context
-//                    List<User> assignedUsers = response.getAssignedUsers();
-//                    for (User user : assignedUsers) {
-//                        User existingUser = dataBaseAdapter.getUser(accountId, user.getId());
-//                        if (existingUser == null){
-//                            DeckLog.log("creating user: "+user.getUid());
-//                            dataBaseAdapter.createUser(accountId, user);
-//                        } else {
-//                            DeckLog.log("updating user: "+user.getUid());
-//                            dataBaseAdapter.updateUser(accountId, applyUpdatesFromRemote(existingUser, user, accountId));
-//                        }
-//                    }
-//                    List<Label> labels = response.getLabels();
-//                    for (Label label : labels) {
-//                        Label existingUser = dataBaseAdapter.getLabel(accountId, label.getId());
-//                        if (existingUser == null){
-//                            DeckLog.log("creating Label: "+label.getTitle());
-//                            dataBaseAdapter.createLabel(accountId, label);
-//                        } else {
-//                            DeckLog.log("updating Label: "+label.getTitle());
-//                            dataBaseAdapter.updateLabel(accountId, applyUpdatesFromRemote(existingUser, label, accountId));
-//                        }
-//                    }
-                    existingCard = dataBaseAdapter.getCard(accountId, response.getId());
+                    List<User> assignedUsers = card.getAssignedUsers();
+                    for (User user : assignedUsers) {
+                        User existingUser = dataBaseAdapter.getUser(accountId, user.getId());
+                        if (existingUser == null){
+                            DeckLog.log("creating user: "+user.getUid());
+                            dataBaseAdapter.createUser(accountId, user);
+                            existingUser = dataBaseAdapter.getUser(accountId, user.getId());
+                        } else {
+                            DeckLog.log("updating user: "+user.getUid());
+                            existingUser = applyUpdatesFromRemote(existingUser, user, accountId);
+                            dataBaseAdapter.updateUser(accountId, existingUser);
+                        }
+                        existingCard.addAssignedUser(existingUser);
+                    }
+                    List<Label> labels = card.getLabels();
+                    for (Label label : labels) {
+                        Label existingLabel = dataBaseAdapter.getLabel(accountId, label.getId());
+                        if (existingLabel == null){
+                            DeckLog.log("creating Label: "+label.getTitle());
+                            dataBaseAdapter.createLabel(accountId, label);
+                            existingLabel = dataBaseAdapter.getLabel(accountId, label.getId());
+                        } else {
+                            DeckLog.log("updating Label: "+label.getTitle());
+                            existingLabel = applyUpdatesFromRemote(existingLabel, label, accountId);
+                            dataBaseAdapter.updateLabel(accountId, existingLabel);
+                        }
+                        existingCard.addLabel(existingLabel);
+                    }
+
                     dataBaseAdapter.updateCard(existingCard);
                 }
 
@@ -189,8 +199,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
 
     private <T extends RemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
         if(!localEntity.getId().equals(remoteEntity.getId())
-                || !remoteEntity.getAccount().getId().equals(localEntity.getAccount().getId())
-                || !accountId.equals(remoteEntity.getAccount().getId())) {
+                || !accountId.equals(localEntity.getAccount().getId())) {
             throw new IllegalArgumentException("IDs of Account or Entity are not matching! WTF are you doin?!");
         }
         remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
