@@ -17,7 +17,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +58,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                             this.context,
                             card.getDueDate().getTime())
             );
+            colorizeDueDate(this.context, viewHolder.cardDueDate, card.getDueDate());
             viewHolder.cardDueDate.setVisibility(View.VISIBLE);
         } else {
             viewHolder.cardDueDate.setVisibility(View.GONE);
@@ -78,6 +81,42 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             
             viewHolder.labels.addView(chip);
         }
+    }
+
+    private void colorizeDueDate(Context context, TextView cardDueDate, Date dueDate) {
+        long diff = getDayDifference(new Date(), dueDate);
+
+        // TODO create proper background patch-9 & tinting implementation & font color changes
+        if (diff == 1) {
+            //DUEDATE_NEXT;
+            cardDueDate.setBackgroundColor(context.getResources().getColor(R.color.due_tomorrow));
+        } else if (diff == 0) {
+            //DUEDATE_NOW;
+            cardDueDate.setBackgroundColor(context.getResources().getColor(R.color.due_today));
+        }
+        else if (diff < 0) {
+            //DUEDATE_OVERDUE;
+            cardDueDate.setBackgroundColor(context.getResources().getColor(R.color.due_overdue));
+        } else {
+            cardDueDate.setBackgroundColor(0);
+        }
+    }
+
+    /**
+     * difference between 2 dates in days (hours, minutes will be set to zero).
+     *
+     * @param dateFrom start date
+     * @param dateUntil end date
+     * @return difference between the to dates in days.
+     */
+    public static long getDayDifference(Date dateFrom, Date dateUntil) {
+        dateFrom.setHours(0);
+        dateFrom.setMinutes(0);
+
+        dateUntil.setHours(0);
+        dateUntil.setMinutes(0);
+
+        return TimeUnit.DAYS.convert(dateUntil.getTime() - dateFrom.getTime(), TimeUnit.MILLISECONDS);
     }
 
     @Override

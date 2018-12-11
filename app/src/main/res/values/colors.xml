@@ -4,4 +4,9 @@
     <color name="primary_dark">#286090</color>
     <color name="accent">#ffffff</color>
     <color name="black">#000000</color>
+
+    <!-- due date colors -->
+    <color name="due_tomorrow">#ffc53a</color>
+    <color name="due_today">#eca700</color>
+    <color name="due_overdue">#e9322d</color>
 </resources>
