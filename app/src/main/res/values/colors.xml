@@ -6,7 +6,9 @@
     <color name="black">#000000</color>
 
     <!-- due date colors -->
-    <color name="due_tomorrow">#ffc53a</color>
-    <color name="due_today">#eca700</color>
-    <color name="due_overdue">#e9322d</color>
+    <color name="due_tomorrow">#7fffc53a</color>
+    <color name="due_today">#7feca700</color>
+    <color name="due_overdue">#7fe9322d</color>
+    <color name="default_text_color">#808080</color>
+    <color name="overdue_text_color">#FFFFFF</color>
 </resources>
