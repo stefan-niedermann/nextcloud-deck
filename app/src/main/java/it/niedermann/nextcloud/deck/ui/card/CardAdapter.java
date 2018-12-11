@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,12 +23,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.ColorUtil;
-import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.ui.EditActivity;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     private static final String TAG = CardAdapter.class.getCanonicalName();
@@ -114,6 +115,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 if (Build.VERSION.SDK_INT >= 16) {
                     cardDescription.setMaxLines(cardDescription.getMaxLines() == 3 ? Integer.MAX_VALUE : 3);
                 }
+            });
+            card.setOnClickListener((View clickedView) -> {
+                Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
+                clickedView.getContext().startActivity(intent);
             });
             card.setOnLongClickListener((View draggedView) -> {
 
