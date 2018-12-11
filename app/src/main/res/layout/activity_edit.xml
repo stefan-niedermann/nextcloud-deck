@@ -9,24 +9,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_person_black_24dp" />
+            android:layout_width="@dimen/line_item_visual_size"
+            android:layout_height="@dimen/line_item_visual_size"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:contentDescription="@null"
+            android:padding="@dimen/standard_half_padding"
+            app:srcCompat="@drawable/ic_person_grey600_24dp" />
 
         <EditText
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Titel" />
+            android:hint="@string/label_title"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName" />
     </LinearLayout>
 
 
@@ -40,15 +45,19 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_label_black_24dp" />
+            android:layout_width="@dimen/line_item_visual_size"
+            android:layout_height="@dimen/line_item_visual_size"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:contentDescription="@null"
+            android:padding="@dimen/standard_half_padding"
+            app:srcCompat="@drawable/ic_label_grey600_24dp" />
 
         <AutoCompleteTextView
             android:id="@+id/labels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Labels" />
+            android:hint="@string/label_labels" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,8 +70,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/line_item_visual_size"
+            android:layout_height="@dimen/line_item_visual_size"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:contentDescription="@null"
+            android:padding="@dimen/standard_half_padding"
             app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
 
         <EditText
@@ -70,14 +83,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:importantForAutofill="no"
             android:inputType="datetime" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:orientation="horizontal">
@@ -86,8 +100,8 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:text="Description" />
+            android:hint="@string/label_description"
+            android:inputType="textMultiLine" />
     </LinearLayout>
 
 </LinearLayout>

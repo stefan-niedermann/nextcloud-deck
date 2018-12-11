@@ -48,4 +48,7 @@
 
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
+    <string name="label_title">Title</string>
+    <string name="label_labels">Labels</string>
+    <string name="label_description">Description</string>
 </resources>
