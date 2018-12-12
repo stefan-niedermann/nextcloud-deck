@@ -27,6 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -121,17 +122,7 @@ public class MainActivity extends AppCompatActivity
             syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>(account) {
                 @Override
                 public void onResponse(List<Board> boards) {
-                    Menu menu = navigationView.getMenu();
-                    SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
-                    boardsList = boards;
-                    int index = 0;
-                    for(Board board: boardsList) {
-                        boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(R.drawable.ic_view_column_black_24dp);
-                    }
-                    menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
-                    if (boardsList.size()>0){
-                        displayStacksForIndex(0, account);
-                    }
+                    buildSidenavMenu(boards);
                 }
 
                 @Override
@@ -148,6 +139,56 @@ public class MainActivity extends AppCompatActivity
     public void onAccountChoose(SingleSignOnAccount account) {
         getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
         this.syncManager.createAccount(account.name);
+
+        // TODO Fetch data directly after login
+        // TODO combine with onCreate
+
+        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
+        if(this.syncManager.hasAccounts()) {
+            this.account = syncManager.readAccounts().get(0);
+            String accountName = this.account.getName();
+            SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
+            // TODO show spinner
+            this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                @Override
+                public void onResponse(Boolean response) {
+                    syncManager.getBoards(this.account.getId(), new IResponseCallback<List<Board>>(this.account) {
+                        @Override
+                        public void onResponse(List<Board> boards) { // TODO hide spinner
+                            buildSidenavMenu(boards);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    DeckLog.log(throwable.getMessage());
+                    throwable.printStackTrace();
+                }
+            });
+        } else {
+            loginDialogFragment = new LoginDialogFragment();
+            loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
+        }
+    }
+
+    private void buildSidenavMenu(List<Board> boards) {
+        Menu menu = navigationView.getMenu();
+        SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
+        boardsList = boards;
+        int index = 0;
+        for(Board board: boardsList) {
+            boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(R.drawable.ic_view_column_black_24dp);
+        }
+        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
+        if (boardsList.size()>0){
+            displayStacksForIndex(0, this.account);
+        }
     }
 
     /**

@@ -15,9 +15,7 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IDataBasePersistenceAdapter;
@@ -48,34 +46,35 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     public void synchronize(IResponseCallback<Boolean> responseCallback){
         final long accountId = responseCallback.getAccount().getId();
         doAsync(() -> {
-                SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
-                        applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
-                long lastSync = lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L);
-                Date lastSyncDate = new Date(lastSync);
-                Date now = new Date();
+            SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
+                    applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
+            long lastSync = lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L);
+            Date lastSyncDate = new Date(lastSync);
+            Date now = new Date();
 
-                // welcome to the Call-Pyramid from Hell
-                serverAdapter.getBoards(accountId, new IResponseCallback<List<Board>>(responseCallback.getAccount()) {
-                    @Override
-                    public void onResponse(List<Board> response) {
-                        for (Board b : response) {
-                            Board existingBoard = dataBaseAdapter.getBoard(accountId, b.getId());
-                            if (existingBoard==null) {
-                                dataBaseAdapter.createBoard(accountId, b);
-                            } else {
-                                dataBaseAdapter.updateBoard(applyUpdatesFromRemote(existingBoard, b, accountId));
-                            }
-                            synchronizeStacksOf(b, responseCallback);
+            // welcome to the Call-Pyramid from Hell
+            serverAdapter.getBoards(accountId, new IResponseCallback<List<Board>>(responseCallback.getAccount()) {
+                @Override
+                public void onResponse(List<Board> response) {
+                    for (Board b : response) {
+                        Board existingBoard = dataBaseAdapter.getBoard(accountId, b.getId());
+                        if (existingBoard==null) {
+                            dataBaseAdapter.createBoard(accountId, b);
+                        } else {
+                            dataBaseAdapter.updateBoard(applyUpdatesFromRemote(existingBoard, b, accountId));
                         }
+                        synchronizeStacksOf(b, responseCallback);
                     }
+                    responseCallback.onResponse(true);
+                }
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        responseCallback.onError(throwable);
-                    }
-                });
+                @Override
+                public void onError(Throwable throwable) {
+                    responseCallback.onError(throwable);
+                }
+            });
 
-                //TODO activate when done dev
+            //TODO activate when done dev
 //                lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
         });
     }
