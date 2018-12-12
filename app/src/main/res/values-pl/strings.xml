@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Nextcloud Deck</string>
+    <string name="navigation_drawer_open">Otwórz panel nawigacji</string>
+    <string name="navigation_drawer_close">Zamknij panel nawigacji</string>
+    <string name="nav_header_title">Nextcloud Deck</string>
+    <string name="nav_header_subtitle">Aplikacja Klient dla Nextcloud Deck</string>
+    <string name="nav_header_desc">Nagłówek nawigacji</string>
+    <string name="action_settings">Ustawienia</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Tablice</string>
+    <!-- About -->
+    <string name="about">O aplikacji</string>
+    <string name="about_version_title">Wersja</string>
+    <string name="about_version">Obecnie używasz &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_maintainer_title">Opiekun</string>
+    <string name="about_developers_title">Deweloperzy</string>
+    <string name="about_translators_title">Tłumacze</string>
+    <string name="about_translators_transifex">Społeczność Nextcloud &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_testers_title">Testerzy</string>
+    <string name="about_source_title">Kod źródłowy</string>
+    <string name="about_source">Ten projekt jest hostowany na GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues_title">Problemy</string>
+    <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje w narzędziu GitHub do śledzenia problemów: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate_title">Przetłumacz</string>
+    <string name="about_translate">Dołącz do zespołu Nextcloud w Transifex i pomóż nam przetłumaczyć tę aplikację: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_license_title">Licencja</string>
+    <string name="about_app_license">Ta aplikacja jest licencjonowana na podstawie GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Zapoznaj się z licencją</string>
+    <string name="about_icons_disclaimer_title">Ikony</string>
+    <string name="about_icons_disclaimer">&lt;p>Oryginalna ikona wykonana przez %1$s&lt;/p>&lt;p>Pozostałe ikony używane przez tę aplikację to &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> firmy Google Inc. i licencjonowane w ramach Apache 2.0 License.&lt;/p></string>
+    <string name="about_credits_tab_title">Zaufali nam</string>
+    <string name="about_contribution_tab_title">Dotacje</string>
+    <string name="about_license_tab_title">Licencja</string>
+
+    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    </resources>

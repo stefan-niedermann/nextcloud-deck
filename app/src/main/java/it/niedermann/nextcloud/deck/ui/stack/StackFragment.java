@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -69,6 +70,17 @@ public class StackFragment extends Fragment {
         syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
+            syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                @Override
+                public void onResponse(Boolean response) {
+                    DeckLog.log("yay. whatever"); //TODO: is this what we want?
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    DeckLog.log("exception! "+throwable.getMessage());
+                }
+            });
             refreshView();
         });
 

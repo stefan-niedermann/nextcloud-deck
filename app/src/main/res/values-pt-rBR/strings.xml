@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Nextcloud Deck</string>
+    <string name="navigation_drawer_open">Abra a gaveta de navegação</string>
+    <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
+    <string name="nav_header_title">Nextcloud Deck</string>
+    <string name="nav_header_subtitle">Cliente para o aplicativo Nextcloud Deck</string>
+    <string name="nav_header_desc">Cabeçalho de navegação</string>
+    <string name="action_settings">Configurações</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Painéis</string>
+    <string name="shared_preference_last_sync">it.niedermann.nextcloud.deck.last_sync</string>
+
+    <!-- About -->
+    <string name="about">Sobre</string>
+    <string name="about_version_title">Versão</string>
+    <string name="about_version">Atualmente você está usando &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_maintainer_title">Mantenedor</string>
+    <string name="about_developers_title">Desenvolvedores</string>
+    <string name="about_translators_title">Tradutores</string>
+    <string name="about_translators_transifex">Comunidade Nextcloud em &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_testers_title">Testadores</string>
+    <string name="about_source_title">Código fonte</string>
+    <string name="about_source">Este projeto está hospedado em GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues_title">Problemas</string>
+    <string name="about_issues">Você pode denunciar bugs, sugerir melhorias e solicitar recursos no rastreador de problemas do GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate_title">Traduzir</string>
+    <string name="about_translate">Junte-se à equipe da Nextcloud no Transifex e ajude-nos a traduzir este aplicativo: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_license_title">Licença do aplicativo</string>
+    <string name="about_app_license">Esta aplicação está licenciada sob a GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Ver licença</string>
+    <string name="about_icons_disclaimer_title">Ícones</string>
+    <string name="about_icons_disclaimer">&lt;p>Ícone original feito por %1$s&lt;/p>&lt;p>Todos os ícones adicionais usados por este aplicativo são &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> feita pela Google Inc. e licenciada sob a licença Apache 2.0.&lt;/p></string>
+    <string name="about_credits_tab_title">Créditos</string>
+    <string name="about_contribution_tab_title">Contribuição</string>
+    <string name="about_license_tab_title">Licença</string>
+
+    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    <string name="seconds_ago">segundos atrás</string>
+</resources>

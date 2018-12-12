@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/card_due_date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:minLines="0"
@@ -48,6 +48,8 @@
             android:drawableLeft="@drawable/calendar_blank_grey600_24dp"
             android:drawableStart="@drawable/calendar_blank_grey600_24dp"
             android:drawablePadding="4dp"
-            tools:text="in 16 days"/>
+            android:padding="4dp"
+            tools:text="in 16 days"
+            android:background="@drawable/due_tomorrow_background"/>
     </LinearLayout>
 </android.support.design.card.MaterialCardView>

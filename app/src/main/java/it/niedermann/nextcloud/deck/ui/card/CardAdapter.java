@@ -3,8 +3,11 @@ package it.niedermann.nextcloud.deck.ui.card;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.design.chip.Chip;
@@ -17,12 +20,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.ColorUtil;
-import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.SupportUtil;
@@ -47,8 +51,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
         Card card = cardList.get(position);
         viewHolder.cardTitle.setText(card.getTitle());
-        viewHolder.cardDescription.setText(card.getDescription());
-        viewHolder.cardDescription.setText(card.getDescription());
+
+        if (card.getDescription() != null && !card.getDescription().isEmpty()) {
+            viewHolder.cardDescription.setText(card.getDescription());
+            viewHolder.cardDescription.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.cardDescription.setVisibility(View.GONE);
+        }
 
         if (card.getDueDate() != null) {
             viewHolder.cardDueDate.setText(
@@ -56,6 +65,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                             this.context,
                             card.getDueDate().getTime())
             );
+            themeDueDate(this.context, viewHolder.cardDueDate, card.getDueDate());
             viewHolder.cardDueDate.setVisibility(View.VISIBLE);
         } else {
             viewHolder.cardDueDate.setVisibility(View.GONE);
@@ -63,21 +73,87 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         Chip chip;
         viewHolder.labels.removeAllViews();
-        for(Label label: card.getLabels()) {
-            chip = new Chip(context);
-            chip.setText(label.getTitle());
+        if (card.getLabels()!= null && card.getLabels().size() > 0) {
+            for (Label label : card.getLabels()) {
+                chip = new Chip(context);
+                chip.setText(label.getTitle());
 
-            try {
-                int labelColor = Color.parseColor("#" + label.getColor());
-                ColorStateList c = ColorStateList.valueOf(labelColor);
-                chip.setChipBackgroundColor(c);
-                chip.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));
-            } catch (IllegalArgumentException e) {
-                Log.e(TAG, "error parsing label color", e);
+                try {
+                    int labelColor = Color.parseColor("#" + label.getColor());
+                    ColorStateList c = ColorStateList.valueOf(labelColor);
+                    chip.setChipBackgroundColor(c);
+                    chip.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, "error parsing label color", e);
+                }
+
+                viewHolder.labels.addView(chip);
             }
-            
-            viewHolder.labels.addView(chip);
+            viewHolder.labels.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.labels.setVisibility(View.GONE);
         }
+    }
+
+    private void themeDueDate(Context context, TextView cardDueDate, Date dueDate) {
+        long diff = getDayDifference(new Date(), dueDate);
+
+        int backgroundDrawable = 0;
+        int textColor = R.color.default_text_color;
+        int icon = R.drawable.calendar_blank_grey600_24dp;
+
+        if (diff == 1) {
+            // due date: tommorow
+            backgroundDrawable = R.drawable.due_tomorrow_background;
+        } else if (diff == 0) {
+            // due date: today
+            backgroundDrawable = R.drawable.due_today_background;
+        } else if (diff < 0) {
+            // due date: overdue
+            backgroundDrawable = R.drawable.due_overdue_background;
+            textColor = R.color.overdue_text_color;
+            icon = R.drawable.calendar_blank_white_24dp;
+        }
+
+        themeDueDate(context, cardDueDate, backgroundDrawable, textColor, icon);
+    }
+
+    private void themeDueDate(Context context, TextView cardDueDate, @DrawableRes int background, @ColorRes int textColor, @DrawableRes int icon) {
+        cardDueDate.setBackgroundResource(background);
+        cardDueDate.setTextColor(context.getResources().getColor(textColor));
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            cardDueDate.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    context.getResources().getDrawable(icon),
+                    null,
+                    null,
+                    null
+            );
+        } else {
+            cardDueDate.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getResources().getDrawable(icon),
+                    null,
+                    null,
+                    null
+            );
+        }
+    }
+
+    /**
+     * difference between 2 dates in days (hours, minutes will be set to zero).
+     *
+     * @param dateFrom  start date
+     * @param dateUntil end date
+     * @return difference between the to dates in days.
+     */
+    public static long getDayDifference(Date dateFrom, Date dateUntil) {
+        dateFrom.setHours(0);
+        dateFrom.setMinutes(0);
+
+        dateUntil.setHours(0);
+        dateUntil.setMinutes(0);
+
+        return TimeUnit.DAYS.convert(dateUntil.getTime() - dateFrom.getTime(), TimeUnit.MILLISECONDS);
     }
 
     @Override
