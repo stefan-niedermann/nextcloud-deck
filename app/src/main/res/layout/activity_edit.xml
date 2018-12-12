@@ -9,9 +9,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_title"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:orientation="horizontal">
@@ -25,13 +44,11 @@
             android:padding="@dimen/standard_half_padding"
             app:srcCompat="@drawable/ic_person_grey600_24dp" />
 
-        <EditText
-            android:id="@+id/title"
+        <AutoCompleteTextView
+            android:id="@+id/people"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label_title"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName" />
+            android:hint="@string/simple_people" />
     </LinearLayout>
 
 
@@ -90,18 +107,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginLeft="72dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/line_item_visual_size"
+            android:layout_height="@dimen/line_item_visual_size"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:contentDescription="@null"
+            android:padding="@dimen/standard_half_padding"
+            app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
 
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:hint="@string/label_description"
-            android:inputType="textMultiLine" />
+            android:gravity="top"
+            android:scrollbars="vertical"
+            android:inputType="textMultiLine|textCapSentences" />
     </LinearLayout>
 
 </LinearLayout>

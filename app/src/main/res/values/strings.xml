@@ -51,4 +51,5 @@
     <string name="label_title">Title</string>
     <string name="label_labels">Labels</string>
     <string name="label_description">Description</string>
+    <string name="simple_people">People</string>
 </resources>
