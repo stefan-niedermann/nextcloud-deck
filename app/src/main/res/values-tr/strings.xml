@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Nextcloud Tahta</string>
+    <string name="navigation_drawer_open">Gezinme çekmecesini aç</string>
+    <string name="navigation_drawer_close">Gezinme çekmecesini kapat</string>
+    <string name="nav_header_title">Nextcloud Tahta</string>
+    <string name="nav_header_subtitle">Nextcloud Tahta uygulaması istemcisi</string>
+    <string name="nav_header_desc">Gezinme başlığı</string>
+    <string name="action_settings">Ayarlar</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Katlar</string>
+    <string name="shared_preference_last_sync">it.niedermann.nextcloud.deck.last_sync</string>
+
+    <!-- About -->
+    <string name="about">Hakkında</string>
+    <string name="about_version_title">Sürüm</string>
+    <string name="about_version">&lt;strong>%1$s&lt;/strong> sürümü kullanıyorsunuz</string>
+    <string name="about_maintainer_title">Destekleyen</string>
+    <string name="about_developers_title">Geliştiriciler</string>
+    <string name="about_translators_title">Çevirmenler</string>
+    <string name="about_translators_transifex">&lt;a href=\"%1$s\">Transifex&lt;/a> üzerindeki Nextcloud topluluğu</string>
+    <string name="about_testers_title">Sınayıcılar</string>
+    <string name="about_source_title">Kaynak kodu</string>
+    <string name="about_source">Bu proje GitHub üzerinde barındırılıyor: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues_title">Sorunlar</string>
+    <string name="about_issues">Sorun, istek ve önerilerinizi GitHub sorun izleyiciye yazabilirsiniz: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate_title">Çeviri</string>
+    <string name="about_translate">Transifex üzerindeki Nextcloud takımına katılarak uygulamayı çevirmemize yardımcı olabilirsiniz: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_license_title">Uygulama lisansı</string>
+    <string name="about_app_license">Bu uygulama GNU GENEL KAMU LİSANSI v3+ sürümü koşulları altında dağıtılmaktadır.</string>
+    <string name="about_app_license_button">Lisansı görüntüle</string>
+    <string name="about_icons_disclaimer_title">Simgeler</string>
+    <string name="about_icons_disclaimer">&lt;p>Özgün simge  %1$s tarafından tasarlanmıştır&lt;/p>&lt;p>Bu uygulama tarafından kullanılan diğer tüm simgeler Google Inc. tarafından tasarlanmış ve Apache 2.0 lisansı koşulları altında dağıtılan &lt;a href=\"https://materialdesignicons.com/\">Material Design Simgeleridir&lt;/a>.&lt;/p></string>
+    <string name="about_credits_tab_title">Emeği Geçenler</string>
+    <string name="about_contribution_tab_title">Katkıda Bulunanlar</string>
+    <string name="about_license_tab_title">Lisans</string>
+
+    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    <string name="seconds_ago">saniye önce</string>
+</resources>

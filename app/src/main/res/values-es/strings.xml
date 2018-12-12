@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Nextcloud Deck</string>
+    <string name="navigation_drawer_open">Abrir cajón de navegación</string>
+    <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
+    <string name="nav_header_title">Nextcloud Deck</string>
+    <string name="nav_header_subtitle">Cliente para la app Deck de Nextcloud</string>
+    <string name="nav_header_desc">Cabecera de navegación</string>
+    <string name="action_settings">Opciones</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Tableros</string>
+    <string name="shared_preference_last_sync">it.niedermann.nextcloud.deck.last_sync</string>
+
+    <!-- About -->
+    <string name="about">Acerca de</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_version">Estás usando &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_maintainer_title">Mantenimiento</string>
+    <string name="about_developers_title">Desarrolladores</string>
+    <string name="about_translators_title">Traducciones</string>
+    <string name="about_translators_transifex">Comunidad de Nextcloud en &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_testers_title">Probadores</string>
+    <string name="about_source_title">Codigo Fuente</string>
+    <string name="about_source">Este proyecto está alojado en GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues_title">Errores</string>
+    <string name="about_issues">Puede informar de fallos, proponer mejoras y solicitar características en el sistema de seguimiento de incidencias de GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate_title">Traducir</string>
+    <string name="about_translate">Únete al equipo de Nextcloud en Transifex y ayúdanos a traducir esta aplicación: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_license_title">Licencia de la aplicación</string>
+    <string name="about_app_license">Esta aplicación está bajo la Licencia Pública General GNU v3+.</string>
+    <string name="about_app_license_button">Ver licencia</string>
+    <string name="about_icons_disclaimer_title">Iconos</string>
+    <string name="about_icons_disclaimer">&lt;p> Icono original hecho por %1$s&lt;/p>&lt;p>Los demás iconos que usa esta app son &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> hechos por Google Inc. y bajo la licencia Apache 2.0.&lt;/p></string>
+    <string name="about_credits_tab_title">Créditos</string>
+    <string name="about_contribution_tab_title">Contribuir</string>
+    <string name="about_license_tab_title">Licencia</string>
+
+    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    <string name="seconds_ago">hace unos segundos</string>
+</resources>
