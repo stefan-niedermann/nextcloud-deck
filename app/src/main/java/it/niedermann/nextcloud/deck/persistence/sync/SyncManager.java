@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +15,9 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IDataBasePersistenceAdapter;
