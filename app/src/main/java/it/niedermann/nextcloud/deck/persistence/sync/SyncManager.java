@@ -121,6 +121,9 @@ public class SyncManager implements IDataBasePersistenceAdapter{
             serverAdapter.getCard(accountId, syncedBoard.getId(), syncedStack.getId(), c.getId(), new IResponseCallback<Card>(account) {
                 @Override
                 public void onResponse(Card card) {
+
+                    List<User> assignedUsers = card.getAssignedUsers();
+                    List<Label> labels = card.getLabels();
                     card.setStack(syncedStack);
                     card.setStackId(syncedStack.getLocalId());
                     Card existingCard = dataBaseAdapter.getCard(accountId, card.getId());
@@ -135,9 +138,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                     existingCard = dataBaseAdapter.getCard(accountId, card.getId());
                     existingCard.setLabels(new ArrayList<>());
                     existingCard.setAssignedUsers(new ArrayList<>());
-                    DeckLog.log("existing-card labels: "+card.getLabels());
 
-                    List<User> assignedUsers = card.getAssignedUsers();
                     for (User user : assignedUsers) {
                         User existingUser = dataBaseAdapter.getUser(accountId, user.getId());
                         if (existingUser == null){
@@ -151,21 +152,23 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                         }
                         existingCard.addAssignedUser(existingUser);
                     }
-                    List<Label> labels = card.getLabels();
+                    ArrayList<Label> existingLabels = new ArrayList<>();
+                    dataBaseAdapter.deleteJoinLabelsForCard(existingCard.getLocalId());
                     for (Label label : labels) {
                         Label existingLabel = dataBaseAdapter.getLabel(accountId, label.getId());
                         if (existingLabel == null){
                             DeckLog.log("creating Label: "+label.getTitle());
                             dataBaseAdapter.createLabel(accountId, label);
-                            existingLabel = dataBaseAdapter.getLabel(accountId, label.getId());
                         } else {
                             DeckLog.log("updating Label: "+label.getTitle());
                             existingLabel = applyUpdatesFromRemote(existingLabel, label, accountId);
                             dataBaseAdapter.updateLabel(accountId, existingLabel);
                         }
-                        existingCard.addLabel(existingLabel);
+                        dataBaseAdapter.createJoinLabelWithCard(existingLabel.getLocalId(), existingCard.getLocalId());
+                        existingLabels.add(existingLabel);
                     }
 
+                    existingCard.setLabels(existingLabels);
                     dataBaseAdapter.updateCard(existingCard);
                 }
 

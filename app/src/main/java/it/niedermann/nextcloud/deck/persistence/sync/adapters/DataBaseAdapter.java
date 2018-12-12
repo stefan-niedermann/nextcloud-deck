@@ -15,6 +15,8 @@ import it.niedermann.nextcloud.deck.model.BoardDao;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.CardDao;
 import it.niedermann.nextcloud.deck.model.DaoSession;
+import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
+import it.niedermann.nextcloud.deck.model.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.LabelDao;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -35,7 +37,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     public DataBaseAdapter(Context applicationContext) {
         this.applicationContext = applicationContext;
         this.db = DeckDaoSession.getInstance(applicationContext).session();
-        QueryBuilder.LOG_SQL = true; //FIXME: remove this.
+        //QueryBuilder.LOG_SQL = true; //FIXME: remove this.
     }
 
     private <T> void respond(IResponseCallback<T> responseCallback, DataAccessor<T> r){
@@ -93,6 +95,19 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     public void createLabel(long accountId, Label label) {
         label.setAccountId(accountId);
         db.getLabelDao().insert(label);
+    }
+
+    @Override
+    public void createJoinLabelWithCard(long labelId, long cardId) {
+        JoinCardWithLabel join = new JoinCardWithLabel();
+        join.setCardId(cardId);
+        join.setLabelId(labelId);
+        db.getJoinCardWithLabelDao().insert(join);
+    }
+
+    @Override
+    public void deleteJoinLabelsForCard(long cardId) {
+        db.getJoinCardWithLabelDao().queryBuilder().where(JoinCardWithLabelDao.Properties.CardId.eq(cardId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     @Override
