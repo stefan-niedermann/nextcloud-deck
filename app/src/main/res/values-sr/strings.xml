@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Некстклауд Deck</string>
+    <string name="navigation_drawer_open">Отвори навигациону фиоку</string>
+    <string name="navigation_drawer_close">Затвори навигациону фиоку</string>
+    <string name="nav_header_title">Некстклауд Deck</string>
+    <string name="nav_header_subtitle">Клијент Некстклауд Deck апликације</string>
+    <string name="nav_header_desc">Заглавље навигације</string>
+    <string name="action_settings">Поставке</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Табле</string>
+    <!-- About -->
+    <string name="about">О програму</string>
+    <string name="about_version_title">Верзија</string>
+    <string name="about_version">Тренутно користите &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_maintainer_title">Одржаваоц</string>
+    <string name="about_developers_title">Програмери</string>
+    <string name="about_translators_title">Преводиоци</string>
+    <string name="about_translators_transifex">Некстклауд заједница на &lt;a href=\"%1$s\">Transifex-у&lt;/a></string>
+    <string name="about_testers_title">Тестери</string>
+    <string name="about_source_title">Изворни кôд</string>
+    <string name="about_source">Овај пројекат се одржава на GitHub-у: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues_title">Грешке</string>
+    <string name="about_issues">Пријаве грешака, предлоге и захтеве можете да оставите на GitHub-овом пратиоцу пријава: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate_title">Преведи</string>
+    <string name="about_translate">Придружите се Некстклауд тиму на Transifex-у и помозите нам да преведемо ову апликацију: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_license_title">Лиценца апликације</string>
+    <string name="about_app_license">Ова апликација је лиценцирана под ГНУовом Општом јавном лиценцом в3+.</string>
+    <string name="about_app_license_button">Прикажи лиценцу</string>
+    <string name="about_icons_disclaimer_title">Иконице</string>
+    <string name="about_icons_disclaimer">&lt;p>Оригиналне иконе направио %1$s&lt;/p>&lt;p>Све остале иконе коришћене у овој апликацији су &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> направљене од стране Google Inc. и лиценциране под Apache 2.0 лиценцом.&lt;/p></string>
+    <string name="about_credits_tab_title">Заслуге</string>
+    <string name="about_contribution_tab_title">Допринос</string>
+    <string name="about_license_tab_title">Лиценца</string>
+
+    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    <string name="seconds_ago">пре неколико секунди</string>
+</resources>

@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Nextcloud Deck</string>
+    <string name="navigation_drawer_open">Otevřít panel navigace</string>
+    <string name="navigation_drawer_close">Zavřít navigační panel</string>
+    <string name="nav_header_title">Nextcloud Deck</string>
+    <string name="nav_header_subtitle">Klient pro Nextcloud aplikaci Deck</string>
+    <string name="nav_header_desc">Záhlaví navigace</string>
+    <string name="action_settings">Nastavení</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Desky</string>
+    <!-- About -->
+    <string name="about">O aplikaci</string>
+    <string name="about_version_title">Verze</string>
+    <string name="about_version">Nyní používáte &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_maintainer_title">Správce balíčku</string>
+    <string name="about_developers_title">Vývojáři</string>
+    <string name="about_translators_title">Překladatelé</string>
+    <string name="about_translators_transifex">Nextcloud komunita na &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_testers_title">Testeři</string>
+    <string name="about_source_title">Zdrojové kódy</string>
+    <string name="about_source">Tento projekt je hostován na GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues_title">Problémy</string>
+    <string name="about_issues">Chyby, nápady na vylepšení a nové funkce můžete nahlásit do systému správy hlášení chyb: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate_title">Překládat</string>
+    <string name="about_translate">Připojte se k týmu na službě Transifex a pomozte nám přelkládat tuto aplikaci: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_license_title">Licence aplikace</string>
+    <string name="about_app_license">Tato aplikace je licencována pod GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Zobrazit licenci</string>
+    <string name="about_icons_disclaimer_title">Ikony</string>
+    <string name="about_icons_disclaimer">&lt;p>Původní ikonu vyrobil %1$s&lt;/p>&lt;p>Všechny ostatní ikony používané touto aplikací byly &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> vytvořeny společností Google Inc. a jsou licencovány pod licencí Apache 2.0.&lt;/p></string>
+    <string name="about_credits_tab_title">Zásluhy</string>
+    <string name="about_contribution_tab_title">Příspěvky</string>
+    <string name="about_license_tab_title">Licence</string>
+
+    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    <string name="seconds_ago">před několika vteřinami</string>
+</resources>
