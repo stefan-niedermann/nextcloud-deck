@@ -89,15 +89,17 @@ public class SyncManager implements IDataBasePersistenceAdapter{
         serverAdapter.getStacks(accountId, board.getId(), new IResponseCallback<List<Stack>>(account) {
             @Override
             public void onResponse(List<Stack> response) {
-                for (Stack s: response) {
-                    s.setBoardId(syncedBoard.getLocalId());
-                    Stack existingStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), s.getId());
+                for (Stack stack: response) {
+                    stack.setBoardId(syncedBoard.getLocalId());
+                    Stack existingStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), stack.getId());
                     if (existingStack==null) {
-                        dataBaseAdapter.createStack(accountId, s);
+                        dataBaseAdapter.createStack(accountId, stack);
                     } else {
-                        dataBaseAdapter.updateStack(applyUpdatesFromRemote(existingStack, s, accountId));
+                        dataBaseAdapter.updateStack(applyUpdatesFromRemote(existingStack, stack, accountId));
                     }
-                    synchronizeCardOf(s, syncedBoard, responseCallback);
+                    existingStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), stack.getId());
+                    dataBaseAdapter.deleteJoinedCardsForStack(existingStack.getLocalId());
+                    synchronizeCardOf(stack, syncedBoard, responseCallback);
                 }
                 //responseCallback.onResponse(true);
             }
@@ -110,13 +112,13 @@ public class SyncManager implements IDataBasePersistenceAdapter{
             }
         });
     }
-    private void synchronizeCardOf(final Stack s, final Board syncedBoard, final IResponseCallback<Boolean> responseCallback) {
+    private void synchronizeCardOf(final Stack stack, final Board syncedBoard, final IResponseCallback<Boolean> responseCallback) {
         //sync cards
         Account account = responseCallback.getAccount();
         long accountId = account.getId();
-        Stack syncedStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), s.getId());
+        Stack syncedStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), stack.getId());
 
-        for (Card c :s.getCards()){
+        for (Card c :stack.getCards()){
             DeckLog.log("requesting Card: "+c.getTitle());
             serverAdapter.getCard(accountId, syncedBoard.getId(), syncedStack.getId(), c.getId(), new IResponseCallback<Card>(account) {
                 @Override
@@ -136,9 +138,12 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                     }
 
                     existingCard = dataBaseAdapter.getCard(accountId, card.getId());
+                    dataBaseAdapter.createJoinStackWithCard(existingCard.getLocalId(), syncedStack.getLocalId());
                     existingCard.setLabels(new ArrayList<>());
                     existingCard.setAssignedUsers(new ArrayList<>());
 
+                    ArrayList<User> existingUsers = new ArrayList<>();
+                    dataBaseAdapter.deleteJoinedUsersForCard(existingCard.getLocalId());
                     for (User user : assignedUsers) {
                         User existingUser = dataBaseAdapter.getUser(accountId, user.getId());
                         if (existingUser == null){
@@ -150,10 +155,11 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                             existingUser = applyUpdatesFromRemote(existingUser, user, accountId);
                             dataBaseAdapter.updateUser(accountId, existingUser);
                         }
-                        existingCard.addAssignedUser(existingUser);
+                        dataBaseAdapter.createJoinCardWithUser(existingUser.getLocalId(), existingCard.getLocalId());
+                        existingUsers.add(existingUser);
                     }
                     ArrayList<Label> existingLabels = new ArrayList<>();
-                    dataBaseAdapter.deleteJoinLabelsForCard(existingCard.getLocalId());
+                    dataBaseAdapter.deleteJoinedLabelsForCard(existingCard.getLocalId());
                     for (Label label : labels) {
                         Label existingLabel = dataBaseAdapter.getLabel(accountId, label.getId());
                         if (existingLabel == null){
@@ -164,10 +170,11 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                             existingLabel = applyUpdatesFromRemote(existingLabel, label, accountId);
                             dataBaseAdapter.updateLabel(accountId, existingLabel);
                         }
-                        dataBaseAdapter.createJoinLabelWithCard(existingLabel.getLocalId(), existingCard.getLocalId());
+                        dataBaseAdapter.createJoinCardWithLabel(existingLabel.getLocalId(), existingCard.getLocalId());
                         existingLabels.add(existingLabel);
                     }
 
+                    existingCard.setAssignedUsers(existingUsers);
                     existingCard.setLabels(existingLabels);
                     dataBaseAdapter.updateCard(existingCard);
                 }

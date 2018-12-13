@@ -8,6 +8,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -17,6 +18,10 @@ import it.niedermann.nextcloud.deck.model.CardDao;
 import it.niedermann.nextcloud.deck.model.DaoSession;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabelDao;
+import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
+import it.niedermann.nextcloud.deck.model.JoinCardWithUserDao;
+import it.niedermann.nextcloud.deck.model.JoinStackWithCard;
+import it.niedermann.nextcloud.deck.model.JoinStackWithCardDao;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.LabelDao;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -37,7 +42,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     public DataBaseAdapter(Context applicationContext) {
         this.applicationContext = applicationContext;
         this.db = DeckDaoSession.getInstance(applicationContext).session();
-        //QueryBuilder.LOG_SQL = true; //FIXME: remove this.
+        QueryBuilder.LOG_SQL = true; //FIXME: remove this.
     }
 
     private <T> void respond(IResponseCallback<T> responseCallback, DataAccessor<T> r){
@@ -98,16 +103,42 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     }
 
     @Override
-    public void createJoinLabelWithCard(long labelId, long cardId) {
+    public void createJoinCardWithLabel(long localLabelId, long localCardId) {
         JoinCardWithLabel join = new JoinCardWithLabel();
-        join.setCardId(cardId);
-        join.setLabelId(labelId);
+        join.setCardId(localCardId);
+        join.setLabelId(localLabelId);
         db.getJoinCardWithLabelDao().insert(join);
     }
 
     @Override
-    public void deleteJoinLabelsForCard(long cardId) {
-        db.getJoinCardWithLabelDao().queryBuilder().where(JoinCardWithLabelDao.Properties.CardId.eq(cardId)).buildDelete().executeDeleteWithoutDetachingEntities();
+    public void deleteJoinedLabelsForCard(long localCardId) {
+        db.getJoinCardWithLabelDao().queryBuilder().where(JoinCardWithLabelDao.Properties.CardId.eq(localCardId)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
+    @Override
+    public void createJoinCardWithUser(long localUserId, long localCardId) {
+        JoinCardWithUser join = new JoinCardWithUser();
+        join.setCardId(localCardId);
+        join.setUserId(localUserId);
+        db.getJoinCardWithUserDao().insert(join);
+    }
+
+    @Override
+    public void deleteJoinedUsersForCard(long localCardId) {
+        db.getJoinCardWithUserDao().queryBuilder().where(JoinCardWithUserDao.Properties.CardId.eq(localCardId)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
+    @Override
+    public void createJoinStackWithCard(long localCardId, long localStackId) {
+        JoinStackWithCard join = new JoinStackWithCard();
+        join.setCardId(localCardId);
+        join.setStackId(localStackId);
+        db.getJoinStackWithCardDao().insert(join);
+    }
+
+    @Override
+    public void deleteJoinedCardsForStack(long localStackId) {
+        db.getJoinStackWithCardDao().queryBuilder().where(JoinStackWithCardDao.Properties.StackId.eq(localStackId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     @Override
@@ -182,11 +213,20 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     @Override
     public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<Stack> responseCallback) {
         QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
-        respond(responseCallback, () -> qb.where(
-                StackDao.Properties.AccountId.eq(accountId),
-                StackDao.Properties.BoardId.eq(localBoardId),
-                StackDao.Properties.LocalId.eq(stackId)
-        ).unique());
+        respond(responseCallback, () -> {
+            Stack stack = qb.where(
+                    StackDao.Properties.AccountId.eq(accountId),
+                    StackDao.Properties.BoardId.eq(localBoardId),
+                    StackDao.Properties.LocalId.eq(stackId)
+            ).unique();
+            // eager preload
+            for (Card c : stack.getCards()){
+                DeckLog.log("labels for card "+c.getTitle()+": "+c.getLabels().size());
+                c.getAssignedUsers();
+                c.getLabels();
+            }
+            return stack;
+        });
     }
 
     @Override
@@ -211,11 +251,20 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     @Override
     public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
         QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
-        respond(responseCallback, () -> qb.where(
-                CardDao.Properties.AccountId.eq(accountId),
-                CardDao.Properties.StackId.eq(stackId),
-                CardDao.Properties.LocalId.eq(cardId)
-        ).unique());
+        respond(responseCallback, () -> {
+                Card card = qb.where(
+                        CardDao.Properties.AccountId.eq(accountId),
+                        CardDao.Properties.StackId.eq(stackId),
+                        CardDao.Properties.LocalId.eq(cardId)
+                ).unique();
+
+                //preload eager
+                card.getLabels();
+                card.getAssignedUsers();
+                DeckLog.log(card.getLabels().size()+"");
+                return card;
+            }
+        );
     }
 
     @Override

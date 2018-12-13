@@ -21,8 +21,12 @@ public interface IDatabaseOnlyAdapter extends IDataBasePersistenceAdapter {
     Label getLabel(long accountId, long remoteId);
 
     void createLabel(long accountId, Label label);
-    void createJoinLabelWithCard(long labelId, long cardId);
-    void deleteJoinLabelsForCard(long cardId);
+    void createJoinCardWithLabel(long localLabelId, long localCardId);
+    void deleteJoinedLabelsForCard(long localCardId);
+    void createJoinCardWithUser(long localUserId, long localCardId);
+    void deleteJoinedUsersForCard(long localCardId);
+    void createJoinStackWithCard(long localCardId, long localStackId);
+    void deleteJoinedCardsForStack(long localStackId);
 
 
     void updateLabel(long accountId, Label label);
