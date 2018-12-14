@@ -1,12 +1,8 @@
 package it.niedermann.nextcloud.deck.model;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
-import org.greenrobot.greendao.annotation.JoinEntity;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.ToMany;
-import org.greenrobot.greendao.annotation.ToOne;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,113 +11,44 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
+@Entity(inheritSuperIndices = true, indices = {@Index("accountId")})
+public class Card extends RemoteEntity {
 
-@Entity
-public class Card implements RemoteEntity {
-    @Id(autoincrement = true)
-    protected Long localId;
 
-    @NotNull
-    long accountId;
-
-    @ToOne(joinProperty = "accountId")
-    protected Account account;
-
-    protected Long id;
-
-    @NotNull
-    @Index
-    protected int status = DBStatus.UP_TO_DATE.getId();
 
     private String title;
     private String description;
-    @NotNull
-    @Index
+    @NonNull
+//    @Index
     private long stackId;
-    @ToOne(joinProperty = "stackId")
-    protected Stack stack;
+//    @ToOne(joinProperty = "stackId")
+//    protected Stack stack;
     private String type;
     private Date lastModified;
     private Date createdAt;
     private Date deletedAt;
-    @ToMany
-    @JoinEntity(entity = JoinCardWithLabel.class, sourceProperty = "cardId", targetProperty = "labelId")
-    private List<Label> labels = new ArrayList<>();
-    @ToMany
-    @JoinEntity(entity = JoinCardWithUser.class, sourceProperty = "cardId", targetProperty = "userId")
+//    @ToMany
+//    @JoinEntity(entity = JoinCardWithLabel.class, sourceProperty = "cardId", targetProperty = "labelId")
+//    private List<Label> labels = new ArrayList<>();
+//    @ToMany
+//    @JoinEntity(entity = JoinCardWithUser.class, sourceProperty = "cardId", targetProperty = "userId")
     private List<User> assignedUsers = new ArrayList<>();
     private String attachments;
     private int attachmentCount;
 
     private Long userId;
-    @ToOne(joinProperty = "userId")
-    private User owner;
-    @Index
-    @NotNull
+//    @ToOne(joinProperty = "userId")
+//    private User owner;
+//    @Index
+    @NonNull
     private int order;
-    @Index
+//    @Index
     private boolean archived;
     private Date dueDate;
     private boolean notified;
     private int overdue;
     private int commentsUnread;
 
-    private Date lastModifiedLocal;
-
-    @Generated(hash = 1501133588)
-    private transient Long account__resolvedKey;
-
-    @Generated(hash = 1023505453)
-    private transient Long stack__resolvedKey;
-
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    /** Used for active entity operations. */
-    @Generated(hash = 599084715)
-    private transient CardDao myDao;
-
-    @Generated(hash = 903582996)
-    public Card(Long localId, long accountId, Long id, int status, String title, String description,
-            long stackId, String type, Date lastModified, Date createdAt, Date deletedAt,
-            String attachments, int attachmentCount, Long userId, int order, boolean archived,
-            Date dueDate, boolean notified, int overdue, int commentsUnread, Date lastModifiedLocal) {
-        this.localId = localId;
-        this.accountId = accountId;
-        this.id = id;
-        this.status = status;
-        this.title = title;
-        this.description = description;
-        this.stackId = stackId;
-        this.type = type;
-        this.lastModified = lastModified;
-        this.createdAt = createdAt;
-        this.deletedAt = deletedAt;
-        this.attachments = attachments;
-        this.attachmentCount = attachmentCount;
-        this.userId = userId;
-        this.order = order;
-        this.archived = archived;
-        this.dueDate = dueDate;
-        this.notified = notified;
-        this.overdue = overdue;
-        this.commentsUnread = commentsUnread;
-        this.lastModifiedLocal = lastModifiedLocal;
-    }
-
-    @Generated(hash = 52700939)
-    public Card() {
-    }
-
-    @Generated(hash = 1847295403)
-    private transient Long owner__resolvedKey;
-
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
-    }
 
     public void setAssignedUsers(List<User> assignedUsers) {
         this.assignedUsers = assignedUsers;
@@ -133,16 +60,6 @@ public class Card implements RemoteEntity {
 
     public void setNotified(boolean notified) {
         this.notified = notified;
-    }
-
-    @Override
-    public Date getLastModifiedLocal() {
-        return lastModifiedLocal;
-    }
-
-    @Override
-    public void setLastModifiedLocal(Date lastModifiedLocal) {
-        this.lastModifiedLocal = lastModifiedLocal;
     }
 
     public Long getLocalId() {
@@ -225,10 +142,6 @@ public class Card implements RemoteEntity {
         this.deletedAt = deletedAt;
     }
 
-    public void addLabel(Label label){
-        this.labels.add(label);
-    }
-
     public void addAssignedUser(User user) {
         this.assignedUsers.add(user);
     }
@@ -293,14 +206,6 @@ public class Card implements RemoteEntity {
         return this.archived;
     }
 
-    public long getAccountId() {
-        return this.accountId;
-    }
-
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
-    }
-
     public int getStatus() {
         return this.status;
     }
@@ -320,203 +225,4 @@ public class Card implements RemoteEntity {
     public boolean getNotified() {
         return this.notified;
     }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2143533054)
-    public Account getAccount() {
-        long __key = this.accountId;
-        if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            AccountDao targetDao = daoSession.getAccountDao();
-            Account accountNew = targetDao.load(__key);
-            synchronized (this) {
-                account = accountNew;
-                account__resolvedKey = __key;
-            }
-        }
-        return account;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1716871290)
-    public void setAccount(@NotNull Account account) {
-        if (account == null) {
-            throw new DaoException(
-                    "To-one property 'accountId' has not-null constraint; cannot set to-one to null");
-        }
-        synchronized (this) {
-            this.account = account;
-            accountId = account.getId();
-            account__resolvedKey = accountId;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1286188754)
-    public Stack getStack() {
-        long __key = this.stackId;
-        if (stack__resolvedKey == null || !stack__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            StackDao targetDao = daoSession.getStackDao();
-            Stack stackNew = targetDao.load(__key);
-            synchronized (this) {
-                stack = stackNew;
-                stack__resolvedKey = __key;
-            }
-        }
-        return stack;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1162284928)
-    public void setStack(@NotNull Stack stack) {
-        if (stack == null) {
-            throw new DaoException(
-                    "To-one property 'stackId' has not-null constraint; cannot set to-one to null");
-        }
-        synchronized (this) {
-            this.stack = stack;
-            stackId = stack.getLocalId();
-            stack__resolvedKey = stackId;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2010912471)
-    public User getOwner() {
-        Long __key = this.userId;
-        if (owner__resolvedKey == null || !owner__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            UserDao targetDao = daoSession.getUserDao();
-            User ownerNew = targetDao.load(__key);
-            synchronized (this) {
-                owner = ownerNew;
-                owner__resolvedKey = __key;
-            }
-        }
-        return owner;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 520212041)
-    public void setOwner(User owner) {
-        synchronized (this) {
-            this.owner = owner;
-            userId = owner == null ? null : owner.getLocalId();
-            owner__resolvedKey = userId;
-        }
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 2060968075)
-    public List<Label> getLabels() {
-        if (labels == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            LabelDao targetDao = daoSession.getLabelDao();
-            List<Label> labelsNew = targetDao._queryCard_Labels(localId);
-            synchronized (this) {
-                if (labels == null) {
-                    labels = labelsNew;
-                }
-            }
-        }
-        return labels;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 902294403)
-    public synchronized void resetLabels() {
-        labels = null;
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 813202807)
-    public List<User> getAssignedUsers() {
-        if (assignedUsers == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            UserDao targetDao = daoSession.getUserDao();
-            List<User> assignedUsersNew = targetDao._queryCard_AssignedUsers(localId);
-            synchronized (this) {
-                if (assignedUsers == null) {
-                    assignedUsers = assignedUsersNew;
-                }
-            }
-        }
-        return assignedUsers;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 743509305)
-    public synchronized void resetAssignedUsers() {
-        assignedUsers = null;
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 1942392019)
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.refresh(this);
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1693529984)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getCardDao() : null;
-    }
-
 }

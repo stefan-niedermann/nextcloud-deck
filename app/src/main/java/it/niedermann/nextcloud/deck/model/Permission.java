@@ -1,24 +1,14 @@
 package it.niedermann.nextcloud.deck.model;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import it.niedermann.nextcloud.deck.model.enums.PermissionType;
-import org.greenrobot.greendao.annotation.Generated;
 
-@Entity
+@Entity(inheritSuperIndices = true)
 public class Permission {
-    @Id
+    @PrimaryKey(autoGenerate = true)
     long id;
-
-    @Generated(hash = 1746588406)
-    public Permission(long id) {
-        this.id = id;
-    }
-
-    @Generated(hash = 600656733)
-    public Permission() {
-    }
 
     public long getId() {
         return id;

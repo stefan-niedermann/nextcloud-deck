@@ -1,34 +1,21 @@
 package it.niedermann.nextcloud.deck.model;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 
-@Entity
+@Entity(
+        primaryKeys = { "userId", "boardId" },
+        foreignKeys = {
+                @ForeignKey(entity = Board.class,
+                        parentColumns = "localId",
+                        childColumns = "boardId"),
+                @ForeignKey(entity = User.class,
+                        parentColumns = "localId",
+                        childColumns = "userId")
+        })
 public class JoinBoardWithUser {
-    @Id
-    private Long id;
     private Long userId;
     private Long boardId;
-
-    @Generated(hash = 2044154780)
-    public JoinBoardWithUser(Long id, Long userId, Long boardId) {
-        this.id = id;
-        this.userId = userId;
-        this.boardId = boardId;
-    }
-
-    @Generated(hash = 1673962166)
-    public JoinBoardWithUser() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getUserId() {
         return userId;

@@ -1,33 +1,29 @@
 package it.niedermann.nextcloud.deck.model;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Transient;
-import org.greenrobot.greendao.annotation.Unique;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
-@Entity
+@Entity(indices = {@Index(value = "name", unique = true)})
 public class Account implements Serializable {
-    @Transient
+    @Ignore
     private static final long serialVersionUID = 0;
 
-    @Id(autoincrement = true)
-    private Long id;
+    @PrimaryKey(autoGenerate = true)
+    protected Long id;
 
-    @NotNull
-    @Unique
+    @NonNull
     private String name;
 
-    @Generated(hash = 951981252)
-    public Account(Long id, @NotNull String name) {
+    public Account(Long id, @NonNull String name) {
         this.id = id;
         this.name = name;
     }
 
-    @Generated(hash = 882125521)
     public Account() {
     }
 

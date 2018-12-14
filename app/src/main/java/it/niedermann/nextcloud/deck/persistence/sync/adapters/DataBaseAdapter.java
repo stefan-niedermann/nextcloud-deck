@@ -1,13 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
