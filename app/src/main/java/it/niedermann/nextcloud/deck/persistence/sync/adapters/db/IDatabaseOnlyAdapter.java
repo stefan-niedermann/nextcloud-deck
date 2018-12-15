@@ -1,10 +1,11 @@
-package it.niedermann.nextcloud.deck.persistence.sync.adapters;
+package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.IDataBasePersistenceAdapter;
 
 public interface IDatabaseOnlyAdapter extends IDataBasePersistenceAdapter {
     Board getBoard(long accountId, long remoteId);

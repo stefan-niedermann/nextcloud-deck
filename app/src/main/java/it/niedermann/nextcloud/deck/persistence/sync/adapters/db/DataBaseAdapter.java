@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.persistence.sync.adapters;
+package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
 

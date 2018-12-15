@@ -19,9 +19,9 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IDataBasePersistenceAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.IDatabaseOnlyAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.IDatabaseOnlyAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IPersistenceAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 
