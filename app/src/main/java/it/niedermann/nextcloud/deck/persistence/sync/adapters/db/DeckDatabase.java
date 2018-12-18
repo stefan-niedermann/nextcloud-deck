@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.arch.persistence.room.Database;
+import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.content.Context;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -16,6 +18,8 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.BoardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
 
 @Database(
@@ -39,10 +43,28 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
 )
 public abstract class DeckDatabase extends RoomDatabase {
 
-//    public abstract AccountDao getAccountDao();
-//
-//    public abstract BoardDao getBoardDao();
-//
+
+    private static final String DECK_DB_NAME = "NC_DECK_DB.db";
+    private static volatile DeckDatabase instance;
+
+    static synchronized DeckDatabase getInstance(Context context) {
+        if (instance == null) {
+            instance = create(context);
+        }
+        return instance;
+    }
+
+    private static DeckDatabase create(final Context context) {
+        return Room.databaseBuilder(
+                context,
+                DeckDatabase.class,
+                DECK_DB_NAME).build();
+    }
+
+    public abstract AccountDao getAccountDao();
+
+    public abstract BoardDao getBoardDao();
+
 //    public abstract CardDao getCardDao();
 //
 //    public abstract JoinBoardWithLabelDao getJoinBoardWithLabelDao();

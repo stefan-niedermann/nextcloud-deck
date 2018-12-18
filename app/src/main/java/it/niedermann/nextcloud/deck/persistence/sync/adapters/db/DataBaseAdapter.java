@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -30,17 +31,18 @@ import it.niedermann.nextcloud.deck.persistence.DeckDaoSession;
 
 public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
+
     private interface DataAccessor <T> {
         T getData();
     }
 
-    private DaoSession db;
+    private DeckDatabase db;
+
     private Context applicationContext;
 
     public DataBaseAdapter(Context applicationContext) {
         this.applicationContext = applicationContext;
-        this.db = DeckDaoSession.getInstance(applicationContext).session();
-        QueryBuilder.LOG_SQL = true; //FIXME: remove this.
+        this.db =  DeckDatabase.getInstance(applicationContext);
     }
 
     private <T> void respond(IResponseCallback<T> responseCallback, DataAccessor<T> r){
@@ -49,13 +51,12 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     @Override
     public boolean hasAccounts() {
-        return db.getAccountDao().count()>0;
+        return db.getAccountDao().countAccounts()>0;
     }
 
     @Override
     public Board getBoard(long accountId, long remoteId) {
-        QueryBuilder<Board> qb = db.getBoardDao().queryBuilder();
-        return qb.where(BoardDao.Properties.AccountId.eq(accountId), BoardDao.Properties.Id.eq(remoteId)).unique();
+        return db.getBoardDao().getBoardByRemoteId(accountId, remoteId);
     }
 
     @Override
@@ -72,8 +73,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     @Override
     public User getUser(long accountId, long remoteId) {
-        QueryBuilder<User> qb = db.getUserDao().queryBuilder();
-        return qb.where(UserDao.Properties.AccountId.eq(accountId), UserDao.Properties.Id.eq(remoteId)).unique();
+        return db.getUserDao().getUsersByRemoteId(accountId, remoteId);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     @Override
     public void updateAccount(Account account) {
-        db.update(account);
+        db.getAccountDao().update(account);
     }
 
     @Override

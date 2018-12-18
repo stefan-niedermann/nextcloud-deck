@@ -9,15 +9,16 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 import java.util.Set;
 
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.User;
 
 @Dao
-public interface UserDao extends GenericDao<User> {
+public interface BoardDao extends GenericDao<Board> {
 
-    @Query("SELECT * FROM user WHERE accountId = :accountId")
-    Set<User> getUsersForAccount(final long accountId);
+    @Query("SELECT * FROM board WHERE accountId = :accountId")
+    Set<Board> getBoardsForAccount(final long accountId);
 
-    @Query("SELECT * FROM user WHERE accountId = :accountId and id = :remoteId")
-    User getUsersByRemoteId(final long accountId, final long remoteId);
+    @Query("SELECT * FROM board WHERE accountId = :accountId and id = :remoteId")
+    Board getBoardByRemoteId(final long accountId, final long remoteId);
 
 }

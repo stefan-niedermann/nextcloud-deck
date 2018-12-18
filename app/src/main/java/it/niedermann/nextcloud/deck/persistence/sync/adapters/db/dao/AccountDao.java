@@ -6,18 +6,18 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import java.util.List;
 import java.util.Set;
 
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 
 @Dao
-public interface UserDao extends GenericDao<User> {
+public interface AccountDao extends GenericDao<Account> {
 
-    @Query("SELECT * FROM user WHERE accountId = :accountId")
-    Set<User> getUsersForAccount(final long accountId);
+    @Query("SELECT * FROM account")
+    Set<Account> getAccounts();
 
-    @Query("SELECT * FROM user WHERE accountId = :accountId and id = :remoteId")
-    User getUsersByRemoteId(final long accountId, final long remoteId);
+    @Query("SELECT count(*) FROM account")
+    int countAccounts();
 
 }
