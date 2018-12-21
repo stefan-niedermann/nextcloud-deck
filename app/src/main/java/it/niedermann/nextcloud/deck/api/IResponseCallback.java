@@ -29,12 +29,12 @@ public abstract class IResponseCallback<T> {
     }
 
     private void fillAccountIDs(RemoteEntity response) {
-        response.setAccount(this.account);
+        response.setAccountId(this.account.getId());
     }
 
     private void fillAccountIDs(Collection<RemoteEntity> response) {
         for (RemoteEntity entity : response) {
-            entity.setAccount(this.account);
+            entity.setAccountId(this.account.getId());
         }
     }
 

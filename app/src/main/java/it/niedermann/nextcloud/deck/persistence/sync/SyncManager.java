@@ -54,7 +54,6 @@ public class SyncManager implements IDataBasePersistenceAdapter {
             Date lastSyncDate = new Date(lastSync);
             Date now = new Date();
 
-            // welcome to the Call-Pyramid from Hell
             serverAdapter.getBoards(accountId, new IResponseCallback<List<Board>>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(List<Board> response) {

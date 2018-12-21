@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity
 
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
         if(this.syncManager.hasAccounts()) {
-            this.account = syncManager.readAccounts().get(0);
+            this.account = syncManager.readAccounts().getValue().get(0);
             String accountName = this.account.getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
             // TODO show spinner

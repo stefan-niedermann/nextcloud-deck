@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.ColorRes;
@@ -30,14 +29,14 @@ import it.niedermann.nextcloud.deck.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.SupportUtil;
-import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     private static final String TAG = CardAdapter.class.getCanonicalName();
 
     private Context context;
-    private List<Card> cardList = new ArrayList<>();
+    private List<FullCard> cardList = new ArrayList<>();
 
     @NonNull
     @Override
@@ -49,23 +48,23 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
-        Card card = cardList.get(position);
-        viewHolder.cardTitle.setText(card.getTitle());
+        FullCard card = cardList.get(position);
+        viewHolder.cardTitle.setText(card.getCard().getTitle());
 
-        if (card.getDescription() != null && !card.getDescription().isEmpty()) {
-            viewHolder.cardDescription.setText(card.getDescription());
+        if (card.getCard().getDescription() != null && !card.getCard().getDescription().isEmpty()) {
+            viewHolder.cardDescription.setText(card.getCard().getDescription());
             viewHolder.cardDescription.setVisibility(View.VISIBLE);
         } else {
             viewHolder.cardDescription.setVisibility(View.GONE);
         }
 
-        if (card.getDueDate() != null) {
+        if (card.getCard().getDueDate() != null) {
             viewHolder.cardDueDate.setText(
                     SupportUtil.getRelativeDateTimeString(
                             this.context,
-                            card.getDueDate().getTime())
+                            card.getCard().getDueDate().getTime())
             );
-            themeDueDate(this.context, viewHolder.cardDueDate, card.getDueDate());
+            themeDueDate(this.context, viewHolder.cardDueDate, card.getCard().getDueDate());
             viewHolder.cardDueDate.setVisibility(View.VISIBLE);
         } else {
             viewHolder.cardDueDate.setVisibility(View.GONE);
@@ -161,7 +160,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return cardList == null ? 0 : cardList.size();
     }
 
-    public void setCardList(@NonNull List<Card> cardList) {
+    public void setCardList(@NonNull List<FullCard> cardList) {
         this.cardList = cardList;
         notifyDataSetChanged();
     }

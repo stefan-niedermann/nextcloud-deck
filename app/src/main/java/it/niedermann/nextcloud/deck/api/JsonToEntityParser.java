@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class JsonToEntityParser {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
@@ -50,9 +51,10 @@ public class JsonToEntityParser {
         return board;
     }
 
-    protected static Card parseCard(JsonObject e) {
+    protected static FullCard parseCard(JsonObject e) {
         DeckLog.log(e.toString());
         //TODO: impl
+        FullCard fullCard = new FullCard();
         Card card = new Card();
         card.setId(e.get("id").getAsLong());
         card.setTitle(getNullAsEmptyString(e.get("title")));
@@ -68,7 +70,7 @@ public class JsonToEntityParser {
             for (JsonElement labelJson : labelsJson) {
                 labels.add(parseLabel(labelJson.getAsJsonObject()));
             }
-            card.setLabels(labels);
+            fullCard.setLabels(labels);
         }
         //e.get "assignedUsers"
         //e.get "attachments"
@@ -82,11 +84,12 @@ public class JsonToEntityParser {
             if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
                 Log.d(DeckConsts.DEBUG_TAG, "owner is Primitive, skipping");
             } else
-                card.setOwner(parseUser(owner.getAsJsonObject()));
+                fullCard.setOwner(parseUser(owner.getAsJsonObject()));
         }
         card.setArchived(e.get("archived").getAsBoolean());
 
-        return card;
+        fullCard.setCard(card);
+        return fullCard;
     }
 
     protected static User parseUser(JsonObject e) {
