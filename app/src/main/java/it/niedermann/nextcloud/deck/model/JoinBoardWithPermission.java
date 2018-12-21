@@ -2,19 +2,22 @@ package it.niedermann.nextcloud.deck.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.support.annotation.NonNull;
 
 @Entity(
-        primaryKeys = { "permissionId", "boardId" },
+        primaryKeys = {"permissionId", "boardId"},
         foreignKeys = {
                 @ForeignKey(entity = Board.class,
-                        parentColumns = "id",
+                        parentColumns = "localId",
                         childColumns = "boardId"),
                 @ForeignKey(entity = Permission.class,
                         parentColumns = "id",
                         childColumns = "permissionId")
         })
 public class JoinBoardWithPermission {
+    @NonNull
     private Long permissionId;
+    @NonNull
     private Long boardId;
 
     public Long getPermissionId() {

@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 import it.niedermann.nextcloud.deck.model.Account;
@@ -20,6 +21,16 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.BoardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithLabelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithPermissionDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithUserDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWithLabelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWithUserDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinStackWithCardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.LabelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
 
 @Database(
@@ -41,6 +52,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
         },
         version = 1
 )
+@TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
 
 
@@ -65,25 +77,25 @@ public abstract class DeckDatabase extends RoomDatabase {
 
     public abstract BoardDao getBoardDao();
 
-//    public abstract CardDao getCardDao();
-//
-//    public abstract JoinBoardWithLabelDao getJoinBoardWithLabelDao();
-//
-//    public abstract JoinBoardWithPermissionDao getJoinBoardWithPermissionDao();
-//
-//    public abstract JoinBoardWithUserDao getJoinBoardWithUserDao();
-//
-//    public abstract JoinCardWithLabelDao getJoinCardWithLabelDao();
-//
-//    public abstract JoinCardWithUserDao getJoinCardWithUserDao();
-//
-//    public abstract JoinStackWithCardDao getJoinStackWithCardDao();
-//
-//    public abstract LabelDao getLabelDao();
-//
-//    public abstract PermissionDao getPermissionDao();
-//
-//    public abstract StackDao getStackDao();
+    public abstract CardDao getCardDao();
+
+    public abstract JoinBoardWithLabelDao getJoinBoardWithLabelDao();
+
+    public abstract JoinBoardWithPermissionDao getJoinBoardWithPermissionDao();
+
+    public abstract JoinBoardWithUserDao getJoinBoardWithUserDao();
+
+    public abstract JoinCardWithLabelDao getJoinCardWithLabelDao();
+
+    public abstract JoinCardWithUserDao getJoinCardWithUserDao();
+
+    public abstract JoinStackWithCardDao getJoinStackWithCardDao();
+
+    public abstract LabelDao getLabelDao();
+
+    public abstract PermissionDao getPermissionDao();
+
+    public abstract StackDao getStackDao();
 
     public abstract UserDao getUserDao();
 }

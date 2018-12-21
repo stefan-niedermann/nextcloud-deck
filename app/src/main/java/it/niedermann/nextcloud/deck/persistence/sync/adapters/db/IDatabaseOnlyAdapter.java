@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import android.arch.lifecycle.LiveData;
+
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -8,12 +10,13 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IDataBasePersistenceAdapter;
 
 public interface IDatabaseOnlyAdapter extends IDataBasePersistenceAdapter {
-    Board getBoard(long accountId, long remoteId);
+    LiveData<Board> getBoard(long accountId, long remoteId);
 
-    Stack getStack(long accountId, long localBoardId, long remoteId);
-    Card getCard(long accountId, long remoteId);
+    LiveData<Stack> getStack(long accountId, long localBoardId, long remoteId);
 
-    User getUser(long accountId, long remoteId);
+    LiveData<Card> getCard(long accountId, long remoteId);
+
+    LiveData<User> getUser(long accountId, long remoteId);
 
     void createUser(long accountId, User user);
 
@@ -22,11 +25,17 @@ public interface IDatabaseOnlyAdapter extends IDataBasePersistenceAdapter {
     Label getLabel(long accountId, long remoteId);
 
     void createLabel(long accountId, Label label);
+
     void createJoinCardWithLabel(long localLabelId, long localCardId);
+
     void deleteJoinedLabelsForCard(long localCardId);
+
     void createJoinCardWithUser(long localUserId, long localCardId);
+
     void deleteJoinedUsersForCard(long localCardId);
+
     void createJoinStackWithCard(long localCardId, long localStackId);
+
     void deleteJoinedCardsForStack(long localStackId);
 
 

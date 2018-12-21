@@ -1,22 +1,11 @@
 package it.niedermann.nextcloud.deck.api;
 
-import android.util.Log;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
-import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.model.Stack;
 
 /**
  * Created by david on 24.05.17.

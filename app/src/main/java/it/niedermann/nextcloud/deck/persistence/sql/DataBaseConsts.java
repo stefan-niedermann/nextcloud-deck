@@ -224,7 +224,6 @@ public class DataBaseConsts {
             ");";
 
 
-
     public static final String[] ALL_TABLES = new String[]{
             TABLE_ACCOUNTS,
             TABLE_OC_DECK_STACKS,
@@ -238,7 +237,6 @@ public class DataBaseConsts {
     };
 
     public static final String[] ALL_CREATE_INDICES = new String[]{
-
 
 
             "CREATE INDEX IF NOT EXISTS `deck_labels_board_id_index` ON `oc_deck_labels` (" +

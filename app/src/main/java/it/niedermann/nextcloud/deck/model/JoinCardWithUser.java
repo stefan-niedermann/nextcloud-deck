@@ -2,9 +2,10 @@ package it.niedermann.nextcloud.deck.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.support.annotation.NonNull;
 
 @Entity(
-        primaryKeys = { "userId", "cardId" },
+        primaryKeys = {"userId", "cardId"},
         foreignKeys = {
                 @ForeignKey(entity = User.class,
                         parentColumns = "localId",
@@ -14,7 +15,9 @@ import android.arch.persistence.room.ForeignKey;
                         childColumns = "cardId")
         })
 public class JoinCardWithUser {
+    @NonNull
     private Long userId;
+    @NonNull
     private Long cardId;
 
     public Long getUserId() {

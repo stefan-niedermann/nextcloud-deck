@@ -10,12 +10,12 @@ public enum PermissionType {
     private long id;
     private String key;
 
-    PermissionType(long id, String key){
+    PermissionType(long id, String key) {
         this.key = key;
     }
 
     public static PermissionType findByKey(String key) {
-        for (PermissionType s : PermissionType.values()){
+        for (PermissionType s : PermissionType.values()) {
             if (s.getKey().equals(key)) {
                 return s;
             }
@@ -24,7 +24,7 @@ public enum PermissionType {
     }
 
     public static PermissionType findById(long key) {
-        for (PermissionType s : PermissionType.values()){
+        for (PermissionType s : PermissionType.values()) {
             if (s.getId() == key) {
                 return s;
             }

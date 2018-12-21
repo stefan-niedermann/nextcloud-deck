@@ -18,10 +18,11 @@ public class Permission {
         this.id = id;
     }
 
-    public PermissionType getType(){
+    public PermissionType getType() {
         return PermissionType.findById(id);
     }
-    public void setType(PermissionType type){
+
+    public void setType(PermissionType type) {
         this.id = type.getId();
     }
 }

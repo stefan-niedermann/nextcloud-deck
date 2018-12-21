@@ -4,16 +4,13 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 
-@Entity(inheritSuperIndices = true, indices = {@Index("accountId")})
+@Entity(inheritSuperIndices = true, indices = {@Index(value = "accountId", name = "card_acc")})
 public class Card extends RemoteEntity {
-
 
 
     private String title;
@@ -21,28 +18,26 @@ public class Card extends RemoteEntity {
     @NonNull
 //    @Index
     private long stackId;
-//    @ToOne(joinProperty = "stackId")
+    //    @ToOne(joinProperty = "stackId")
 //    protected Stack stack;
     private String type;
-    private Date lastModified;
     private Date createdAt;
     private Date deletedAt;
-//    @ToMany
+    //    @ToMany
 //    @JoinEntity(entity = JoinCardWithLabel.class, sourceProperty = "cardId", targetProperty = "labelId")
 //    private List<Label> labels = new ArrayList<>();
 //    @ToMany
 //    @JoinEntity(entity = JoinCardWithUser.class, sourceProperty = "cardId", targetProperty = "userId")
-    private List<User> assignedUsers = new ArrayList<>();
     private String attachments;
     private int attachmentCount;
 
     private Long userId;
-//    @ToOne(joinProperty = "userId")
+    //    @ToOne(joinProperty = "userId")
 //    private User owner;
 //    @Index
     @NonNull
     private int order;
-//    @Index
+    //    @Index
     private boolean archived;
     private Date dueDate;
     private boolean notified;
@@ -50,9 +45,6 @@ public class Card extends RemoteEntity {
     private int commentsUnread;
 
 
-    public void setAssignedUsers(List<User> assignedUsers) {
-        this.assignedUsers = assignedUsers;
-    }
 
     public boolean isNotified() {
         return notified;
@@ -60,14 +52,6 @@ public class Card extends RemoteEntity {
 
     public void setNotified(boolean notified) {
         this.notified = notified;
-    }
-
-    public Long getLocalId() {
-        return localId;
-    }
-
-    public void setLocalId(Long localId) {
-        this.localId = localId;
     }
 
     public Long getId() {
@@ -118,14 +102,6 @@ public class Card extends RemoteEntity {
         this.type = type;
     }
 
-    public Date getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -140,10 +116,6 @@ public class Card extends RemoteEntity {
 
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
-    }
-
-    public void addAssignedUser(User user) {
-        this.assignedUsers.add(user);
     }
 
     public String getAttachments() {
@@ -202,10 +174,6 @@ public class Card extends RemoteEntity {
         this.status = status;
     }
 
-    public boolean getArchived() {
-        return this.archived;
-    }
-
     public int getStatus() {
         return this.status;
     }
@@ -220,9 +188,5 @@ public class Card extends RemoteEntity {
 
     public int getOrder() {
         return this.order;
-    }
-
-    public boolean getNotified() {
-        return this.notified;
     }
 }

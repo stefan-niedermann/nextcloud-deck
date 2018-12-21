@@ -1,9 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
-import android.arch.persistence.room.Room;
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
-
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
@@ -11,28 +9,21 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.model.BoardDao;
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.CardDao;
-import it.niedermann.nextcloud.deck.model.DaoSession;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
-import it.niedermann.nextcloud.deck.model.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
-import it.niedermann.nextcloud.deck.model.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.model.JoinStackWithCard;
-import it.niedermann.nextcloud.deck.model.JoinStackWithCardDao;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.model.LabelDao;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.model.StackDao;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.model.UserDao;
-import it.niedermann.nextcloud.deck.persistence.DeckDaoSession;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 
 public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
 
-    private interface DataAccessor <T> {
+    private interface DataAccessor<T> {
         T getData();
     }
 
@@ -42,37 +33,35 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     public DataBaseAdapter(Context applicationContext) {
         this.applicationContext = applicationContext;
-        this.db =  DeckDatabase.getInstance(applicationContext);
+        this.db = DeckDatabase.getInstance(applicationContext);
     }
 
-    private <T> void respond(IResponseCallback<T> responseCallback, DataAccessor<T> r){
+    private <T> void respond(IResponseCallback<T> responseCallback, DataAccessor<T> r) {
         new Thread(() -> responseCallback.onResponse(r.getData())).start();
     }
 
     @Override
     public boolean hasAccounts() {
-        return db.getAccountDao().countAccounts()>0;
+        return db.getAccountDao().countAccounts() > 0;
     }
 
     @Override
-    public Board getBoard(long accountId, long remoteId) {
+    public LiveData<Board> getBoard(long accountId, long remoteId) {
         return db.getBoardDao().getBoardByRemoteId(accountId, remoteId);
     }
 
     @Override
-    public Stack getStack(long accountId, long localBoardId, long remoteId) {
-        QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
-        return qb.where(StackDao.Properties.AccountId.eq(accountId), StackDao.Properties.BoardId.eq(localBoardId), StackDao.Properties.Id.eq(remoteId)).unique();
+    public LiveData<Stack> getStack(long accountId, long localBoardId, long remoteId) {
+        return db.getStackDao().getStackByRemoteId(accountId, localBoardId, remoteId);
     }
 
     @Override
-    public Card getCard(long accountId, long remoteId) {
-        QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
-        return qb.where(CardDao.Properties.AccountId.eq(accountId), CardDao.Properties.Id.eq(remoteId)).unique();
+    public LiveData<Card> getCard(long accountId, long remoteId) {
+        return db.getCardDao().getCardByRemoteId(accountId, remoteId);
     }
 
     @Override
-    public User getUser(long accountId, long remoteId) {
+    public LiveData<User> getUser(long accountId, long remoteId) {
         return db.getUserDao().getUsersByRemoteId(accountId, remoteId);
     }
 
@@ -90,8 +79,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     @Override
     public Label getLabel(long accountId, long remoteId) {
-        QueryBuilder<Label> qb = db.getLabelDao().queryBuilder();
-        return qb.where(LabelDao.Properties.AccountId.eq(accountId), LabelDao.Properties.Id.eq(remoteId)).unique();
+        return db.getLabelDao().getLabelByRemoteId(accountId, remoteId);
     }
 
     @Override
@@ -110,7 +98,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     @Override
     public void deleteJoinedLabelsForCard(long localCardId) {
-        db.getJoinCardWithLabelDao().queryBuilder().where(JoinCardWithLabelDao.Properties.CardId.eq(localCardId)).buildDelete().executeDeleteWithoutDetachingEntities();
+        db.getJoinCardWithLabelDao().deleteByCardId(localCardId);
     }
 
     @Override
@@ -123,7 +111,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     @Override
     public void deleteJoinedUsersForCard(long localCardId) {
-        db.getJoinCardWithUserDao().queryBuilder().where(JoinCardWithUserDao.Properties.CardId.eq(localCardId)).buildDelete().executeDeleteWithoutDetachingEntities();
+        db.getJoinCardWithUserDao().deleteByCardId(localCardId);
     }
 
     @Override
@@ -136,7 +124,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     @Override
     public void deleteJoinedCardsForStack(long localStackId) {
-        db.getJoinStackWithCardDao().queryBuilder().where(JoinStackWithCardDao.Properties.StackId.eq(localStackId)).buildDelete().executeDeleteWithoutDetachingEntities();
+        db.getJoinStackWithCardDao().deleteByStackId(localStackId);
     }
 
     @Override
@@ -146,16 +134,16 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     }
 
     @Override
-    public Account createAccount(String accoutName) {
+    public LiveData<Account> createAccount(String accoutName) {
         Account acc = new Account();
         acc.setName(accoutName);
         long id = db.getAccountDao().insert(acc);
-        return db.getAccountDao().load(id);
+        return readAccount(id);
     }
 
     @Override
     public void deleteAccount(long id) {
-        db.getAccountDao().deleteByKey(id);
+        db.getAccountDao().deleteById(id);
     }
 
     @Override
@@ -164,21 +152,18 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     }
 
     @Override
-    public Account readAccount(long id) {
-        return db.getAccountDao().load(id);
+    public LiveData<Account> readAccount(long id) {
+        return db.getAccountDao().selectById(id);
     }
 
     @Override
-    public List<Account> readAccounts() {
-        return db.getAccountDao().loadAll();
+    public LiveData<List<Account>> readAccounts() {
+        return db.getAccountDao().selectAll();
     }
 
     @Override
-    public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
-        QueryBuilder<Board> qb = db.getBoardDao().queryBuilder();
-        respond(responseCallback, () -> qb.where(
-                BoardDao.Properties.AccountId.eq(accountId)
-        ).list());
+    public void getBoards(long accountId, IResponseCallback<LiveData<List<Board>>> responseCallback) {
+        respond(responseCallback, () -> db.getBoardDao().getBoardsForAccount(accountId));
     }
 
     @Override
@@ -196,20 +181,15 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     @Override
     public void updateBoard(Board board) {
         db.getBoardDao().update(board);
-
     }
 
     @Override
-    public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
-        QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
-        respond(responseCallback, () -> qb.where(
-                StackDao.Properties.AccountId.eq(accountId),
-                StackDao.Properties.BoardId.eq(boardId)
-        ).list());
+    public void getStacks(long accountId, long localBoardId, IResponseCallback<LiveData<List<Stack>>> responseCallback) {
+        respond(responseCallback, () -> db.getStackDao().getStacksForBoard(accountId, localBoardId));
     }
 
     @Override
-    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<Stack> responseCallback) {
+    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<Stack>> responseCallback) {
         QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
         respond(responseCallback, () -> {
             Stack stack = qb.where(
@@ -218,8 +198,8 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
                     StackDao.Properties.LocalId.eq(stackId)
             ).unique();
             // eager preload
-            for (Card c : stack.getCards()){
-                DeckLog.log("labels for card "+c.getTitle()+": "+c.getLabels().size());
+            for (Card c : stack.getCards()) {
+                DeckLog.log("labels for card " + c.getTitle() + ": " + c.getLabels().size());
                 c.getAssignedUsers();
                 c.getLabels();
             }
@@ -247,21 +227,21 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     }
 
     @Override
-    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
+    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<LiveData<FullCard>> responseCallback) {
         QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
         respond(responseCallback, () -> {
-                Card card = qb.where(
-                        CardDao.Properties.AccountId.eq(accountId),
-                        CardDao.Properties.StackId.eq(stackId),
-                        CardDao.Properties.LocalId.eq(cardId)
-                ).unique();
+                    Card card = qb.where(
+                            CardDao.Properties.AccountId.eq(accountId),
+                            CardDao.Properties.StackId.eq(stackId),
+                            CardDao.Properties.LocalId.eq(cardId)
+                    ).unique();
 
-                //preload eager
-                card.getLabels();
-                card.getAssignedUsers();
-                DeckLog.log(card.getLabels().size()+"");
-                return card;
-            }
+                    //preload eager
+                    card.getLabels();
+                    card.getAssignedUsers();
+                    DeckLog.log(card.getLabels().size() + "");
+                    return card;
+                }
         );
     }
 

@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 
 import java.util.Date;
 
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 
 @Entity(

@@ -41,7 +41,7 @@ public enum DBStatus {
      * @return The DBStatus fitting to the String.
      */
     public static DBStatus findById(int id) {
-        for (DBStatus s : DBStatus.values()){
+        for (DBStatus s : DBStatus.values()) {
             if (s.getId() == id) {
                 return s;
             }

@@ -10,21 +10,21 @@ import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 
 @Entity(
         inheritSuperIndices = true,
-        foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "id", childColumns = "ownerId")}
+        foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "localId", childColumns = "ownerId")}
 )
 public class Board extends RemoteEntity {
 
     private String title;
     long ownerId;
-//    @ToOne(joinProperty = "ownerId")
+    //    @ToOne(joinProperty = "ownerId")
 //    private User owner;
     private String color;
     private boolean archived;
-//    @ToMany
+    //    @ToMany
 //    @JoinEntity(entity = JoinBoardWithLabel.class, sourceProperty = "boardId", targetProperty = "labelId")
 //    private List<Label> labels = new ArrayList<>();
     private String acl;
-//    @ToMany
+    //    @ToMany
 //    @JoinEntity(entity = JoinBoardWithPermission.class, sourceProperty = "boardId", targetProperty = "permissionId")
 //    private List<Permission> permissions = new ArrayList<>();
 //    @ToMany
@@ -54,10 +54,6 @@ public class Board extends RemoteEntity {
         this.lastModifiedLocal = lastModifiedLocal;
     }
 
-    public void setLocalId(Long localId) {
-        this.localId = localId;
-    }
-    
     public Long getId() {
         return id;
     }
@@ -76,10 +72,6 @@ public class Board extends RemoteEntity {
 
     public boolean isArchived() {
         return archived;
-    }
-
-    public void setArchived(boolean archived) {
-        this.archived = archived;
     }
 
     public String getAcl() {
@@ -106,14 +98,6 @@ public class Board extends RemoteEntity {
         this.deletedAt = deletedAt;
     }
 
-    public Long getLocalId() {
-        return localId;
-    }
-
-    public void setLocalId(long localId) {
-        this.localId = localId;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -134,11 +118,6 @@ public class Board extends RemoteEntity {
         this.status = status;
     }
 
-    public boolean getArchived() {
-        return this.archived;
-    }
-
-
     public int getStatus() {
         return this.status;
     }
@@ -151,4 +130,7 @@ public class Board extends RemoteEntity {
         this.ownerId = ownerId;
     }
 
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
 }

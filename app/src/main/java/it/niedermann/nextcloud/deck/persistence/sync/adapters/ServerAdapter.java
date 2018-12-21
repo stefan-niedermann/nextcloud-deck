@@ -16,7 +16,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 
-public class  ServerAdapter implements IPersistenceAdapter {
+public class ServerAdapter implements IPersistenceAdapter {
 
     private Context applicationContext;
     private ApiProvider provider;
@@ -40,7 +40,7 @@ public class  ServerAdapter implements IPersistenceAdapter {
     }
 
     @Override
-    public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
+    public void getBoards(long accountId, List<Board> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(getLastSync()), responseCallback);
     }
 

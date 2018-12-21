@@ -17,7 +17,7 @@ import java.util.List;
  * Created by david on 24.05.17.
  */
 
-public class NextcloudArrayDeserializer<T> implements JsonDeserializer<List<T>>{
+public class NextcloudArrayDeserializer<T> implements JsonDeserializer<List<T>> {
 
     protected final String mKey;
     protected final Class<T> mType;
@@ -32,10 +32,10 @@ public class NextcloudArrayDeserializer<T> implements JsonDeserializer<List<T>>{
     @Override
     public List<T> deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
         List<T> items = new ArrayList<>();
-        if (json.isJsonArray()){
+        if (json.isJsonArray()) {
             JsonArray jArr = json.getAsJsonArray();
 
-            for(int i = 0; i < jArr.size(); i++) {
+            for (int i = 0; i < jArr.size(); i++) {
                 JsonObject obj = jArr.get(i).getAsJsonObject();
                 items.add(JsonToEntityParser.parseJsonObject(obj, mType));
             }

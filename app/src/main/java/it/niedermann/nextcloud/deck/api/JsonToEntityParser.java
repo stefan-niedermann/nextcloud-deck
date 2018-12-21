@@ -29,7 +29,7 @@ public class JsonToEntityParser {
     }
 
     protected static <T> T parseJsonObject(JsonObject obj, Class<T> mType) {
-        if(mType == Board.class) {
+        if (mType == Board.class) {
             return (T) parseBoard(obj);
         } else if (mType == Card.class) {
             return (T) parseCard(obj);
@@ -38,7 +38,7 @@ public class JsonToEntityParser {
         } else if (mType == Label.class) {
             return (T) parseLabel(obj);
         }
-        throw new IllegalArgumentException("unregistered type: "+mType.getCanonicalName());
+        throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
     }
 
 
@@ -62,10 +62,10 @@ public class JsonToEntityParser {
 //        stack.setDeletedAt(e.get("lastModified")) // TODO: parse date!
 //        stack.setDeletedAt(e.get("createdAt")) // TODO: parse date!
 //        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
-        if (e.has("labels") && !e.get("labels").isJsonNull()){
+        if (e.has("labels") && !e.get("labels").isJsonNull()) {
             JsonArray labelsJson = e.getAsJsonArray("labels");
             List<Label> labels = new ArrayList<>();
-            for (JsonElement labelJson: labelsJson) {
+            for (JsonElement labelJson : labelsJson) {
                 labels.add(parseLabel(labelJson.getAsJsonObject()));
             }
             card.setLabels(labels);
@@ -78,11 +78,11 @@ public class JsonToEntityParser {
         card.setDueDate(getTimestamp(e.get("duedate")));
         card.setCommentsUnread(e.get("commentsUnread").getAsInt());
         JsonElement owner = e.get("owner");
-        if (owner != null){
-            if (owner.isJsonPrimitive()){//TODO: remove if, let only else!
+        if (owner != null) {
+            if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
                 Log.d(DeckConsts.DEBUG_TAG, "owner is Primitive, skipping");
             } else
-            card.setOwner(parseUser(owner.getAsJsonObject()));
+                card.setOwner(parseUser(owner.getAsJsonObject()));
         }
         card.setArchived(e.get("archived").getAsBoolean());
 
@@ -105,10 +105,10 @@ public class JsonToEntityParser {
         stack.setBoardId(e.get("boardId").getAsLong());
         stack.setId(e.get("id").getAsLong());
         stack.setOrder(e.get("order").getAsInt());
-        if (e.has("cards")){
+        if (e.has("cards")) {
             JsonArray cardsJson = e.getAsJsonArray("cards");
             List<Card> cards = new ArrayList<>();
-            for (JsonElement cardJson: cardsJson) {
+            for (JsonElement cardJson : cardsJson) {
                 cards.add(parseCard(cardJson.getAsJsonObject()));
             }
             stack.setCards(cards);
@@ -116,6 +116,7 @@ public class JsonToEntityParser {
 //        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
         return stack;
     }
+
     protected static Label parseLabel(JsonObject e) {
         DeckLog.log(e.toString());
         Label label = new Label();

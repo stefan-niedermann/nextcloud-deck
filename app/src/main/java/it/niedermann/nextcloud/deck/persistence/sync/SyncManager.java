@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -19,14 +20,13 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IDataBasePersistenceAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.IDatabaseOnlyAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IPersistenceAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.IDatabaseOnlyAdapter;
 
-public class SyncManager implements IDataBasePersistenceAdapter{
-
+public class SyncManager implements IDataBasePersistenceAdapter {
 
 
     private IDatabaseOnlyAdapter dataBaseAdapter;
@@ -34,18 +34,18 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     private Context applicationContext;
     private Activity sourceActivity;
 
-    public SyncManager(Context applicationContext, Activity sourceActivity){
+    public SyncManager(Context applicationContext, Activity sourceActivity) {
         this.applicationContext = applicationContext.getApplicationContext();
         this.sourceActivity = sourceActivity;
         dataBaseAdapter = new DataBaseAdapter(this.applicationContext);
-        this.serverAdapter =  new ServerAdapter(this.applicationContext, sourceActivity);
+        this.serverAdapter = new ServerAdapter(this.applicationContext, sourceActivity);
     }
 
-    private void doAsync(Runnable r){
+    private void doAsync(Runnable r) {
         new Thread(r).start();
     }
 
-    public void synchronize(IResponseCallback<Boolean> responseCallback){
+    public void synchronize(IResponseCallback<Boolean> responseCallback) {
         final long accountId = responseCallback.getAccount().getId();
         doAsync(() -> {
             SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
@@ -60,7 +60,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                 public void onResponse(List<Board> response) {
                     for (Board b : response) {
                         Board existingBoard = dataBaseAdapter.getBoard(accountId, b.getId());
-                        if (existingBoard==null) {
+                        if (existingBoard == null) {
                             dataBaseAdapter.createBoard(accountId, b);
                         } else {
                             dataBaseAdapter.updateBoard(applyUpdatesFromRemote(existingBoard, b, accountId));
@@ -89,10 +89,10 @@ public class SyncManager implements IDataBasePersistenceAdapter{
         serverAdapter.getStacks(accountId, board.getId(), new IResponseCallback<List<Stack>>(account) {
             @Override
             public void onResponse(List<Stack> response) {
-                for (Stack stack: response) {
+                for (Stack stack : response) {
                     stack.setBoardId(syncedBoard.getLocalId());
                     Stack existingStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), stack.getId());
-                    if (existingStack==null) {
+                    if (existingStack == null) {
                         dataBaseAdapter.createStack(accountId, stack);
                     } else {
                         dataBaseAdapter.updateStack(applyUpdatesFromRemote(existingStack, stack, accountId));
@@ -105,21 +105,21 @@ public class SyncManager implements IDataBasePersistenceAdapter{
             }
 
 
-
             @Override
             public void onError(Throwable throwable) {
                 responseCallback.onError(throwable);
             }
         });
     }
+
     private void synchronizeCardOf(final Stack stack, final Board syncedBoard, final IResponseCallback<Boolean> responseCallback) {
         //sync cards
         Account account = responseCallback.getAccount();
         long accountId = account.getId();
         Stack syncedStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), stack.getId());
 
-        for (Card c :stack.getCards()){
-            DeckLog.log("requesting Card: "+c.getTitle());
+        for (Card c : stack.getCards()) {
+            DeckLog.log("requesting Card: " + c.getTitle());
             serverAdapter.getCard(accountId, syncedBoard.getId(), syncedStack.getId(), c.getId(), new IResponseCallback<Card>(account) {
                 @Override
                 public void onResponse(Card card) {
@@ -129,7 +129,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                     card.setStack(syncedStack);
                     card.setStackId(syncedStack.getLocalId());
                     Card existingCard = dataBaseAdapter.getCard(accountId, card.getId());
-                    if (existingCard==null) {
+                    if (existingCard == null) {
                         DeckLog.log("creating Card...");
                         dataBaseAdapter.createCard(accountId, card);
                     } else {
@@ -146,12 +146,12 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                     dataBaseAdapter.deleteJoinedUsersForCard(existingCard.getLocalId());
                     for (User user : assignedUsers) {
                         User existingUser = dataBaseAdapter.getUser(accountId, user.getId());
-                        if (existingUser == null){
-                            DeckLog.log("creating user: "+user.getUid());
+                        if (existingUser == null) {
+                            DeckLog.log("creating user: " + user.getUid());
                             dataBaseAdapter.createUser(accountId, user);
                             existingUser = dataBaseAdapter.getUser(accountId, user.getId());
                         } else {
-                            DeckLog.log("updating user: "+user.getUid());
+                            DeckLog.log("updating user: " + user.getUid());
                             existingUser = applyUpdatesFromRemote(existingUser, user, accountId);
                             dataBaseAdapter.updateUser(accountId, existingUser);
                         }
@@ -162,11 +162,11 @@ public class SyncManager implements IDataBasePersistenceAdapter{
                     dataBaseAdapter.deleteJoinedLabelsForCard(existingCard.getLocalId());
                     for (Label label : labels) {
                         Label existingLabel = dataBaseAdapter.getLabel(accountId, label.getId());
-                        if (existingLabel == null){
-                            DeckLog.log("creating Label: "+label.getTitle());
+                        if (existingLabel == null) {
+                            DeckLog.log("creating Label: " + label.getTitle());
                             dataBaseAdapter.createLabel(accountId, label);
                         } else {
-                            DeckLog.log("updating Label: "+label.getTitle());
+                            DeckLog.log("updating Label: " + label.getTitle());
                             existingLabel = applyUpdatesFromRemote(existingLabel, label, accountId);
                             dataBaseAdapter.updateLabel(accountId, existingLabel);
                         }
@@ -186,15 +186,16 @@ public class SyncManager implements IDataBasePersistenceAdapter{
             });
         }
     }
+
     private <T> IResponseCallback<T> wrapCallForUi(IResponseCallback<T> responseCallback) {
         Account account = responseCallback.getAccount();
-        if (account == null || account.getId() == null){
+        if (account == null || account.getId() == null) {
             throw new IllegalArgumentException("Bro. Please just give me a damn Account!");
         }
         return new IResponseCallback<T>(responseCallback.getAccount()) {
             @Override
             public void onResponse(T response) {
-                sourceActivity.runOnUiThread(()->{
+                sourceActivity.runOnUiThread(() -> {
                     fillAccountIDs(response);
                     responseCallback.onResponse(response);
                 });
@@ -208,7 +209,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     }
 
     private <T extends RemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
-        if(!localEntity.getId().equals(remoteEntity.getId())
+        if (!localEntity.getId().equals(remoteEntity.getId())
                 || !accountId.equals(localEntity.getAccount().getId())) {
             throw new IllegalArgumentException("IDs of Account or Entity are not matching! WTF are you doin?!");
         }
@@ -222,7 +223,7 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     }
 
     @Override
-    public Account createAccount(String accoutName) {
+    public LiveData<Account> createAccount(String accoutName) {
         return dataBaseAdapter.createAccount(accoutName);
     }
 
@@ -237,12 +238,12 @@ public class SyncManager implements IDataBasePersistenceAdapter{
     }
 
     @Override
-    public Account readAccount(long id) {
+    public LiveData<Account> readAccount(long id) {
         return dataBaseAdapter.readAccount(id);
     }
 
     @Override
-    public List<Account> readAccounts() {
+    public LiveData<List<Account>> readAccounts() {
         return dataBaseAdapter.readAccounts();
     }
 

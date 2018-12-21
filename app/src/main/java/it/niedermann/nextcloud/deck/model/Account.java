@@ -19,6 +19,7 @@ public class Account implements Serializable {
     @NonNull
     private String name;
 
+    @Ignore
     public Account(Long id, @NonNull String name) {
         this.id = id;
         this.name = name;
