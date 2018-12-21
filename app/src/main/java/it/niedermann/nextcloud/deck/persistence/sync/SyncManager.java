@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IDataBasePersistenceAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IPersistenceAdapter;
@@ -209,7 +210,7 @@ public class SyncManager implements IDataBasePersistenceAdapter {
 
     private <T extends RemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
         if (!localEntity.getId().equals(remoteEntity.getId())
-                || !accountId.equals(localEntity.getAccount().getId())) {
+                || !accountId.equals(localEntity.getAccountId())) {
             throw new IllegalArgumentException("IDs of Account or Entity are not matching! WTF are you doin?!");
         }
         remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
@@ -247,7 +248,7 @@ public class SyncManager implements IDataBasePersistenceAdapter {
     }
 
     @Override
-    public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
+    public void getBoards(long accountId, IResponseCallback<LiveData<List<Board>>> responseCallback) {
         dataBaseAdapter.getBoards(accountId, wrapCallForUi(responseCallback));
     }
 
@@ -270,12 +271,12 @@ public class SyncManager implements IDataBasePersistenceAdapter {
     }
 
     @Override
-    public void getStacks(long accountId, long localBoardId, IResponseCallback<List<Stack>> responseCallback) {
+    public void getStacks(long accountId, long localBoardId, IResponseCallback<LiveData<List<Stack>>> responseCallback) {
         dataBaseAdapter.getStacks(accountId, localBoardId, wrapCallForUi(responseCallback));
     }
 
     @Override
-    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<Stack> responseCallback) {
+    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<Stack>> responseCallback) {
         dataBaseAdapter.getStack(accountId, localBoardId, stackId, wrapCallForUi(responseCallback));
     }
 
@@ -296,7 +297,7 @@ public class SyncManager implements IDataBasePersistenceAdapter {
     }
 
     @Override
-    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
+    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<LiveData<FullCard>> responseCallback) {
         dataBaseAdapter.getCard(accountId, boardId, stackId, cardId, wrapCallForUi(responseCallback));
     }
 
