@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -115,14 +116,14 @@ public class MainActivity extends AppCompatActivity
 //        });
 
         if(this.syncManager.hasAccounts()) {
-            account = syncManager.readAccounts().get(0);
+            account = syncManager.readAccounts().getValue().get(0);
             String accountName = account.getName();
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
-            syncManager.getBoards(account.getId(), new IResponseCallback<List<Board>>(account) {
+            syncManager.getBoards(account.getId(), new IResponseCallback<LiveData<List<Board>>>(account) {
                 @Override
-                public void onResponse(List<Board> boards) {
-                    buildSidenavMenu(boards);
+                public void onResponse(LiveData<List<Board>> boards) {
+                    buildSidenavMenu(boards.getValue());
                 }
 
                 @Override
@@ -152,10 +153,10 @@ public class MainActivity extends AppCompatActivity
             this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                 @Override
                 public void onResponse(Boolean response) {
-                    syncManager.getBoards(this.account.getId(), new IResponseCallback<List<Board>>(this.account) {
+                    syncManager.getBoards(this.account.getId(), new IResponseCallback<LiveData<List<Board>>>(this.account) {
                         @Override
-                        public void onResponse(List<Board> boards) { // TODO hide spinner
-                            buildSidenavMenu(boards);
+                        public void onResponse(LiveData<List<Board>> boards) { // TODO hide spinner
+                            buildSidenavMenu(boards.getValue());
                         }
 
                         @Override
@@ -200,7 +201,7 @@ public class MainActivity extends AppCompatActivity
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
-        syncManager.getStacks(account.getId(), selectedBoard.getLocalId(), new IResponseCallback<List<Stack>>(account) {
+        syncManager.getStacks(account.getId(), selectedBoard.getLocalId(), new IResponseCallback<LiveData<List<Stack>>>(account) {
             @Override
             public void onError(Throwable throwable) {
                 Log.e(DeckConsts.DEBUG_TAG, throwable.getMessage());
@@ -208,9 +209,9 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onResponse(List<Stack> response) {
+            public void onResponse(LiveData<List<Stack>> response) {
                 stackAdapter.clear();
-                for(Stack stack: response) {
+                for(Stack stack: response.getValue()) {
                     stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getLocalId(), account), stack.getTitle());
                 }
                 runOnUiThread(() -> {

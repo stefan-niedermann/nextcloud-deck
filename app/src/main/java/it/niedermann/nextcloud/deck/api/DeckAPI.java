@@ -9,6 +9,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -61,7 +62,7 @@ public interface DeckAPI {
     Observable<Card> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
     @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
-    Observable<Card> getCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header("If-Modified-Since") Date lastSync);
+    Observable<FullCard> getCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header("If-Modified-Since") Date lastSync);
 
 
     // ### LABELS

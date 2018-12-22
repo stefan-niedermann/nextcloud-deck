@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import java.util.Date;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -15,8 +14,9 @@ import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 
-public class ServerAdapter implements IPersistenceAdapter {
+public class ServerAdapter implements IServerOnlyAdapter {
 
     private Context applicationContext;
     private ApiProvider provider;
@@ -40,7 +40,7 @@ public class ServerAdapter implements IPersistenceAdapter {
     }
 
     @Override
-    public void getBoards(long accountId, List<Board> responseCallback) {
+    public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(getLastSync()), responseCallback);
     }
 
@@ -85,7 +85,7 @@ public class ServerAdapter implements IPersistenceAdapter {
     }
 
     @Override
-    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<Card> responseCallback) {
+    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<FullCard> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getCard(boardId, stackId, cardId, getLastSync()), responseCallback);
     }
 

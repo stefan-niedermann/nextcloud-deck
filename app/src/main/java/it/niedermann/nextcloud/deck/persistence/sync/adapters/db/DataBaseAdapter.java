@@ -5,7 +5,6 @@ import android.content.Context;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -17,8 +16,6 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CardDao;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 
 public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
@@ -190,21 +187,21 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     @Override
     public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<Stack>> responseCallback) {
-        QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
-        respond(responseCallback, () -> {
-            Stack stack = qb.where(
-                    StackDao.Properties.AccountId.eq(accountId),
-                    StackDao.Properties.BoardId.eq(localBoardId),
-                    StackDao.Properties.LocalId.eq(stackId)
-            ).unique();
-            // eager preload
-            for (Card c : stack.getCards()) {
-                DeckLog.log("labels for card " + c.getTitle() + ": " + c.getLabels().size());
-                c.getAssignedUsers();
-                c.getLabels();
-            }
-            return stack;
-        });
+//        QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
+//        respond(responseCallback, () -> {
+//            Stack stack = qb.where(
+//                    StackDao.Properties.AccountId.eq(accountId),
+//                    StackDao.Properties.BoardId.eq(localBoardId),
+//                    StackDao.Properties.LocalId.eq(stackId)
+//            ).unique();
+//            // eager preload
+//            for (Card c : stack.getCards()) {
+//                DeckLog.log("labels for card " + c.getTitle() + ": " + c.getLabels().size());
+//                c.getAssignedUsers();
+//                c.getLabels();
+//            }
+//            return stack;
+//        });
     }
 
     @Override
@@ -228,21 +225,21 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     @Override
     public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<LiveData<FullCard>> responseCallback) {
-        QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
-        respond(responseCallback, () -> {
-                    Card card = qb.where(
-                            CardDao.Properties.AccountId.eq(accountId),
-                            CardDao.Properties.StackId.eq(stackId),
-                            CardDao.Properties.LocalId.eq(cardId)
-                    ).unique();
-
-                    //preload eager
-                    card.getLabels();
-                    card.getAssignedUsers();
-                    DeckLog.log(card.getLabels().size() + "");
-                    return card;
-                }
-        );
+//        QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
+//        respond(responseCallback, () -> {
+//                    Card card = qb.where(
+//                            CardDao.Properties.AccountId.eq(accountId),
+//                            CardDao.Properties.StackId.eq(stackId),
+//                            CardDao.Properties.LocalId.eq(cardId)
+//                    ).unique();
+//
+//                    //preload eager
+//                    card.getLabels();
+//                    card.getAssignedUsers();
+//                    DeckLog.log(card.getLabels().size() + "");
+//                    return card;
+//                }
+//        );
     }
 
     @Override

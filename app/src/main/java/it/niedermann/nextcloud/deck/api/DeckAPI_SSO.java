@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class DeckAPI_SSO implements DeckAPI {
 
@@ -143,7 +144,7 @@ public class DeckAPI_SSO implements DeckAPI {
     }
 
     @Override
-    public Observable<Card> getCard(long boardId, long stackId, long cardId, Date lastSync) {
+    public Observable<FullCard> getCard(long boardId, long stackId, long cardId, Date lastSync) {
         NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks/{stackId}/cards/{cardId}", lastSync, boardId, stackId, cardId).build();
         return nextcloudAPI.performRequestObservable(Card.class, request);
     }

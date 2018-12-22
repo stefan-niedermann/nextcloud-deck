@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
+import android.arch.lifecycle.LiveData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -89,10 +90,10 @@ public class StackFragment extends Fragment {
     }
 
     private void refreshView() {
-        syncManager.getStack(account.getId(), boardId, stackId, new IResponseCallback<Stack>(account) {
+        syncManager.getStack(account.getId(), boardId, stackId, new IResponseCallback<LiveData<Stack>>(account) {
             @Override
-            public void onResponse(Stack response) {
-                adapter.setCardList(response.getCards());
+            public void onResponse(LiveData<Stack> response) {
+                adapter.setCardList(response.getValue().getCards());
                 swipeRefreshLayout.setRefreshing(false);
             }
 

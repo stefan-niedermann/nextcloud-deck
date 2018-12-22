@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 
 public class JsonToEntityParser {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
@@ -56,6 +57,7 @@ public class JsonToEntityParser {
         //TODO: impl
         FullCard fullCard = new FullCard();
         Card card = new Card();
+        fullCard.setCard(card);
         card.setId(e.get("id").getAsLong());
         card.setTitle(getNullAsEmptyString(e.get("title")));
         card.setDescription(getNullAsEmptyString(e.get("description")));
@@ -88,7 +90,6 @@ public class JsonToEntityParser {
         }
         card.setArchived(e.get("archived").getAsBoolean());
 
-        fullCard.setCard(card);
         return fullCard;
     }
 
@@ -101,8 +102,9 @@ public class JsonToEntityParser {
         return user;
     }
 
-    protected static Stack parseStack(JsonObject e) {
+    protected static FullStack parseStack(JsonObject e) {
         DeckLog.log(e.toString());
+        FullStack fullStack = new FullStack();
         Stack stack = new Stack();
         stack.setTitle(getNullAsEmptyString(e.get("title")));
         stack.setBoardId(e.get("boardId").getAsLong());
@@ -110,14 +112,15 @@ public class JsonToEntityParser {
         stack.setOrder(e.get("order").getAsInt());
         if (e.has("cards")) {
             JsonArray cardsJson = e.getAsJsonArray("cards");
-            List<Card> cards = new ArrayList<>();
+            List<FullCard> cards = new ArrayList<>();
             for (JsonElement cardJson : cardsJson) {
                 cards.add(parseCard(cardJson.getAsJsonObject()));
             }
-            stack.setCards(cards);
+            fullStack.setCards(cards);
         }
+        fullStack.setStack(stack);
 //        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
-        return stack;
+        return fullStack;
     }
 
     protected static Label parseLabel(JsonObject e) {
