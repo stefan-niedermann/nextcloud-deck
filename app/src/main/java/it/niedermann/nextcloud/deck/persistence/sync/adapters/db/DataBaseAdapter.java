@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 
 public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
@@ -181,12 +182,12 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     }
 
     @Override
-    public void getStacks(long accountId, long localBoardId, IResponseCallback<LiveData<List<Stack>>> responseCallback) {
-        respond(responseCallback, () -> db.getStackDao().getStacksForBoard(accountId, localBoardId));
+    public void getStacks(long accountId, long localBoardId, IResponseCallback<LiveData<List<FullStack>>> responseCallback) {
+        respond(responseCallback, () -> db.getStackDao().getFullStacksForBoard(accountId, localBoardId));
     }
 
     @Override
-    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<Stack>> responseCallback) {
+    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<FullStack>> responseCallback) {
 //        QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
 //        respond(responseCallback, () -> {
 //            Stack stack = qb.where(

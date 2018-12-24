@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IPersistenceAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -252,11 +253,11 @@ public class SyncManager {
 
     }
 
-    public void getStacks(long accountId, long localBoardId, IResponseCallback<LiveData<List<Stack>>> responseCallback) {
+    public void getStacks(long accountId, long localBoardId, IResponseCallback<LiveData<List<FullStack>>> responseCallback) {
         dataBaseAdapter.getStacks(accountId, localBoardId, wrapCallForUi(responseCallback));
     }
 
-    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<Stack>> responseCallback) {
+    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<FullStack>> responseCallback) {
         dataBaseAdapter.getStack(accountId, localBoardId, stackId, wrapCallForUi(responseCallback));
     }
 

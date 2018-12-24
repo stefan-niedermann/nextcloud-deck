@@ -50,6 +50,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 User.class,
 
         },
+        exportSchema = false,
         version = 1
 )
 @TypeConverters({DateTypeConverter.class})

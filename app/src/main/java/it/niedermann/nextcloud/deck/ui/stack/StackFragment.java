@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardItemTouchHelper;
@@ -90,9 +91,9 @@ public class StackFragment extends Fragment {
     }
 
     private void refreshView() {
-        syncManager.getStack(account.getId(), boardId, stackId, new IResponseCallback<LiveData<Stack>>(account) {
+        syncManager.getStack(account.getId(), boardId, stackId, new IResponseCallback<LiveData<FullStack>>(account) {
             @Override
-            public void onResponse(LiveData<Stack> response) {
+            public void onResponse(LiveData<FullStack> response) {
                 adapter.setCardList(response.getValue().getCards());
                 swipeRefreshLayout.setRefreshing(false);
             }

@@ -7,6 +7,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 @Dao
 public interface CardDao extends GenericDao<Card> {
@@ -16,5 +17,12 @@ public interface CardDao extends GenericDao<Card> {
 
     @Query("SELECT * FROM card WHERE accountId = :accountId and id = :remoteId")
     LiveData<Card> getCardByRemoteId(final long accountId, final long remoteId);
+
+
+    @Query("SELECT * FROM card WHERE stackId = :localStackId")
+    LiveData<List<FullCard>> getFullCardsForStack(final long localStackId);
+
+    @Query("SELECT * FROM card WHERE accountId = :accountId and id = :remoteId")
+    LiveData<FullCard> getFullCardByRemoteId(final long accountId, final long remoteId);
 
 }

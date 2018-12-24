@@ -11,6 +11,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.IDataBasePersistenceAdapter;
 
 public interface IDatabaseOnlyAdapter extends IDataBasePersistenceAdapter {
@@ -22,9 +23,9 @@ public interface IDatabaseOnlyAdapter extends IDataBasePersistenceAdapter {
 
     LiveData<User> getUser(long accountId, long remoteId);
 
-    void getStacks(long accountId, long boardId, IResponseCallback<LiveData<List<Stack>>> responseCallback);
+    void getStacks(long accountId, long boardId, IResponseCallback<LiveData<List<FullStack>>> responseCallback);
 
-    void getStack(long accountId, long boardId, long stackId, IResponseCallback<LiveData<Stack>> responseCallback);
+    void getStack(long accountId, long boardId, long stackId, IResponseCallback<LiveData<FullStack>> responseCallback);
 
     void getBoards(long accountId, IResponseCallback<LiveData<List<Board>>> responseCallback);
 
