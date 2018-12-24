@@ -33,6 +33,12 @@
         </activity>
 
         <activity
+            android:name=".ui.EditActivity"
+            android:label="@string/edit"
+            android:theme="@style/AppTheme"
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
+
+        <activity
             android:name=".ui.AboutActivity"
             android:label="@string/about"
             android:theme="@style/AppTheme"

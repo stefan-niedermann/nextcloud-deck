@@ -47,4 +47,9 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">seconds ago</string>
+    <string name="edit">Edit</string>
+    <string name="label_title">Title</string>
+    <string name="label_labels">Labels</string>
+    <string name="label_description">Description</string>
+    <string name="simple_people">People</string>
 </resources>

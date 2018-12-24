@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/empty_list_icon"
+        app:srcCompat="@drawable/ic_folder_grey600_24dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/empty_list_view_headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="Activity"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/empty_list_view_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:text="Not implemented yet" />
+
+</LinearLayout>
