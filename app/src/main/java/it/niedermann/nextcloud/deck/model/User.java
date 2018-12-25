@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 
@@ -16,6 +17,7 @@ public class User extends RemoteEntity {
         super();
     }
 
+    @Ignore
     public User(String primaryKey, String uid, String displayname) {
         this.primaryKey = primaryKey;
         this.uid = uid;

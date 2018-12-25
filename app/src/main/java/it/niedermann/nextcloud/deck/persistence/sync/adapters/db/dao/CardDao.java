@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Transaction;
 
 import java.util.List;
 
@@ -19,9 +20,11 @@ public interface CardDao extends GenericDao<Card> {
     LiveData<Card> getCardByRemoteId(final long accountId, final long remoteId);
 
 
+    @Transaction
     @Query("SELECT * FROM card WHERE stackId = :localStackId")
     LiveData<List<FullCard>> getFullCardsForStack(final long localStackId);
 
+    @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId and id = :remoteId")
     LiveData<FullCard> getFullCardByRemoteId(final long accountId, final long remoteId);
 

@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
 
 @Entity(
         inheritSuperIndices = true,
+        indices = {@Index("ownerId")},
         foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "localId", childColumns = "ownerId")}
 )
 public class Board extends RemoteEntity {

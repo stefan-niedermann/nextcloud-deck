@@ -5,14 +5,14 @@ import android.arch.persistence.room.Relation;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.model.JoinStackWithCard;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 
 public class FullStack {
     @Embedded
     public Stack stack;
 
-    @Relation(entity = JoinStackWithCard.class, parentColumn = "localId", entityColumn = "cardId")
+    @Relation(entity =  Card.class, parentColumn = "localId", entityColumn = "localId")
     public List<FullCard> cards;
 
 

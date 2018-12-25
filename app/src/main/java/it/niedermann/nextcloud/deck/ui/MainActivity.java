@@ -33,7 +33,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
-        syncManager.getStacks(account.getId(), selectedBoard.getLocalId(), new IResponseCallback<LiveData<List<Stack>>>(account) {
+        syncManager.getStacks(account.getId(), selectedBoard.getLocalId(), new IResponseCallback<LiveData<List<FullStack>>>(account) {
             @Override
             public void onError(Throwable throwable) {
                 Log.e(DeckConsts.DEBUG_TAG, throwable.getMessage());
@@ -209,10 +209,10 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onResponse(LiveData<List<Stack>> response) {
+            public void onResponse(LiveData<List<FullStack>> response) {
                 stackAdapter.clear();
-                for(Stack stack: response.getValue()) {
-                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getLocalId(), account), stack.getTitle());
+                for(FullStack stack: response.getValue()) {
+                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
                 }
                 runOnUiThread(() -> {
                     viewPager.setAdapter(stackAdapter);

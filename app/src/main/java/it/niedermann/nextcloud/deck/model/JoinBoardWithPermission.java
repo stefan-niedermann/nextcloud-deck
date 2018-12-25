@@ -2,10 +2,12 @@ package it.niedermann.nextcloud.deck.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.support.annotation.NonNull;
 
 @Entity(
         primaryKeys = {"permissionId", "boardId"},
+        indices = {@Index("boardId"), @Index("permissionId")},
         foreignKeys = {
                 @ForeignKey(entity = Board.class,
                         parentColumns = "localId",

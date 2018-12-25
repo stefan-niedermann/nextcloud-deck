@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
-import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 
@@ -16,10 +14,10 @@ public class FullCard {
     @Embedded
     public Card card;
 
-    @Relation(entity = JoinCardWithLabel.class, parentColumn = "localId", entityColumn = "labelId")
+    @Relation(entity = Label.class, parentColumn = "localId", entityColumn = "localId")
     public List<Label> labels;
 
-    @Relation(entity = JoinCardWithUser.class, parentColumn = "localId", entityColumn = "userId")
+    @Relation(entity = User.class, parentColumn = "localId", entityColumn = "localId")
     public List<User> assignedUsers;
 
     @Relation(parentColumn = "userId", entityColumn = "localId")
