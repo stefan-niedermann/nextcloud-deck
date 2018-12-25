@@ -27,10 +27,7 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 
     private DeckDatabase db;
 
-    private Context applicationContext;
-
     public DataBaseAdapter(Context applicationContext) {
-        this.applicationContext = applicationContext;
         this.db = DeckDatabase.getInstance(applicationContext);
     }
 
@@ -39,8 +36,8 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
     }
 
     @Override
-    public boolean hasAccounts() {
-        return db.getAccountDao().countAccounts() > 0;
+    public void hasAccounts(IResponseCallback<Boolean> responseCallback) {
+        respond(responseCallback, () -> (db.getAccountDao().countAccounts() > 0));
     }
 
     @Override

@@ -115,26 +115,7 @@ public class MainActivity extends AppCompatActivity
 //            return true;
 //        });
 
-        if(this.syncManager.hasAccounts()) {
-            account = syncManager.readAccounts().getValue().get(0);
-            String accountName = account.getName();
-            SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
-
-            syncManager.getBoards(account.getId(), new IResponseCallback<LiveData<List<Board>>>(account) {
-                @Override
-                public void onResponse(LiveData<List<Board>> boards) {
-                    buildSidenavMenu(boards.getValue());
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            });
-        } else {
-            loginDialogFragment = new LoginDialogFragment();
-            loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
-        }
+        handleAccounts();
     }
 
     public void onAccountChoose(SingleSignOnAccount account) {
@@ -145,37 +126,53 @@ public class MainActivity extends AppCompatActivity
         // TODO combine with onCreate
 
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
-        if(this.syncManager.hasAccounts()) {
-            this.account = syncManager.readAccounts().getValue().get(0);
-            String accountName = this.account.getName();
-            SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
-            // TODO show spinner
-            this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                @Override
-                public void onResponse(Boolean response) {
-                    syncManager.getBoards(this.account.getId(), new IResponseCallback<LiveData<List<Board>>>(this.account) {
+        handleAccounts();
+    }
+
+    private void handleAccounts() {
+        this.syncManager.hasAccounts(new IResponseCallback<Boolean>(new Account(0L, "none - account-calls don't need this.")) {
+            @Override
+            public void onResponse(Boolean response) {
+                if(response) {
+                    this.account = syncManager.readAccounts().getValue().get(0);
+                    String accountName = this.account.getName();
+                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
+                    // TODO show spinner
+                    MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                         @Override
-                        public void onResponse(LiveData<List<Board>> boards) { // TODO hide spinner
-                            buildSidenavMenu(boards.getValue());
+                        public void onResponse(Boolean response) {
+                            syncManager.getBoards(this.account.getId(), new IResponseCallback<LiveData<List<Board>>>(this.account) {
+                                @Override
+                                public void onResponse(LiveData<List<Board>> boards) { // TODO hide spinner
+                                    buildSidenavMenu(boards.getValue());
+                                }
+
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    DeckLog.log(throwable.getMessage());
+                                    throwable.printStackTrace();
+                                }
+                            });
                         }
 
                         @Override
                         public void onError(Throwable throwable) {
+                            DeckLog.log(throwable.getMessage());
                             throwable.printStackTrace();
                         }
                     });
+                } else {
+                    loginDialogFragment = new LoginDialogFragment();
+                    loginDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
                 }
+            }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    DeckLog.log(throwable.getMessage());
-                    throwable.printStackTrace();
-                }
-            });
-        } else {
-            loginDialogFragment = new LoginDialogFragment();
-            loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
-        }
+            @Override
+            public void onError(Throwable throwable) {
+                DeckLog.log(throwable.getMessage());
+                throwable.printStackTrace();
+            }
+        });
     }
 
     private void buildSidenavMenu(List<Board> boards) {

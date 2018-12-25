@@ -210,8 +210,8 @@ public class SyncManager {
         return remoteEntity;
     }
 
-    public boolean hasAccounts() {
-        return dataBaseAdapter.hasAccounts();
+    public void hasAccounts(IResponseCallback<Boolean> responseCallback) {
+        dataBaseAdapter.hasAccounts(responseCallback);
     }
 
     public LiveData<Account> createAccount(String accoutName) {

@@ -4,10 +4,11 @@ import android.arch.lifecycle.LiveData;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 
 public interface IDataBasePersistenceAdapter extends IPersistenceAdapter {
-    boolean hasAccounts();
+    void hasAccounts(IResponseCallback<Boolean> responseCallback);
 
     LiveData<Account> createAccount(String accoutName);
 
