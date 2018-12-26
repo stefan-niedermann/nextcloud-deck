@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 
-public class DataBaseAdapter implements IDatabaseOnlyAdapter {
+public class DataBaseAdapter {
 
 
     private interface DataAccessor<T> {
@@ -35,55 +35,70 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
         new Thread(() -> responseCallback.onResponse(r.getData())).start();
     }
 
-    @Override
+    
     public void hasAccounts(IResponseCallback<Boolean> responseCallback) {
         respond(responseCallback, () -> (db.getAccountDao().countAccounts() > 0));
     }
 
-    @Override
+    
     public LiveData<Board> getBoard(long accountId, long remoteId) {
         return db.getBoardDao().getBoardByRemoteId(accountId, remoteId);
     }
 
-    @Override
-    public LiveData<Stack> getStack(long accountId, long localBoardId, long remoteId) {
+    
+    public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
         return db.getStackDao().getStackByRemoteId(accountId, localBoardId, remoteId);
     }
 
-    @Override
+    public FullStack getFullStackByRemoteIdDirectly(long accountId, long localBoardId, long remoteId) {
+        return db.getStackDao().getFullStackByRemoteIdDirectly(accountId, localBoardId, remoteId);
+    }
+
+    
     public LiveData<Card> getCard(long accountId, long remoteId) {
         return db.getCardDao().getCardByRemoteId(accountId, remoteId);
     }
 
-    @Override
+    public FullCard getFullCardByRemoteIdDirectly(long accountId, long remoteId) {
+        return db.getCardDao().getFullCardByRemoteIdDirectly(accountId, remoteId);
+    }
+
+    
     public LiveData<User> getUser(long accountId, long remoteId) {
         return db.getUserDao().getUsersByRemoteId(accountId, remoteId);
     }
 
-    @Override
+    public User getUserByRemoteIdDirectly(long accountId, long remoteId) {
+        return db.getUserDao().getUsersByRemoteIdDirectly(accountId, remoteId);
+    }
+
+    
     public void createUser(long accountId, User user) {
         user.setAccountId(accountId);
         db.getUserDao().insert(user);
     }
 
-    @Override
+    
     public void updateUser(long accountId, User user) {
         user.setAccountId(accountId);
         db.getUserDao().update(user);
     }
 
-    @Override
-    public Label getLabel(long accountId, long remoteId) {
+    
+    public LiveData<Label> getLabelByRemoteId(long accountId, long remoteId) {
         return db.getLabelDao().getLabelByRemoteId(accountId, remoteId);
     }
+    public Label getLabelByRemoteIdDirectly(long accountId, long remoteId) {
+        return db.getLabelDao().getLabelByRemoteIdDirectly(accountId, remoteId);
+    }
 
-    @Override
+    
     public void createLabel(long accountId, Label label) {
         label.setAccountId(accountId);
         db.getLabelDao().insert(label);
     }
 
-    @Override
+    
     public void createJoinCardWithLabel(long localLabelId, long localCardId) {
         JoinCardWithLabel join = new JoinCardWithLabel();
         join.setCardId(localCardId);
@@ -91,12 +106,12 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
         db.getJoinCardWithLabelDao().insert(join);
     }
 
-    @Override
+    
     public void deleteJoinedLabelsForCard(long localCardId) {
         db.getJoinCardWithLabelDao().deleteByCardId(localCardId);
     }
 
-    @Override
+    
     public void createJoinCardWithUser(long localUserId, long localCardId) {
         JoinCardWithUser join = new JoinCardWithUser();
         join.setCardId(localCardId);
@@ -104,12 +119,12 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
         db.getJoinCardWithUserDao().insert(join);
     }
 
-    @Override
+    
     public void deleteJoinedUsersForCard(long localCardId) {
         db.getJoinCardWithUserDao().deleteByCardId(localCardId);
     }
 
-    @Override
+    
     public void createJoinStackWithCard(long localCardId, long localStackId) {
         JoinStackWithCard join = new JoinStackWithCard();
         join.setCardId(localCardId);
@@ -117,18 +132,18 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
         db.getJoinStackWithCardDao().insert(join);
     }
 
-    @Override
+    
     public void deleteJoinedCardsForStack(long localStackId) {
         db.getJoinStackWithCardDao().deleteByStackId(localStackId);
     }
 
-    @Override
+    
     public void updateLabel(long accountId, Label label) {
         label.setAccountId(accountId);
         db.getLabelDao().update(label);
     }
 
-    @Override
+    
     public LiveData<Account> createAccount(String accoutName) {
         Account acc = new Account();
         acc.setName(accoutName);
@@ -136,55 +151,55 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
         return readAccount(id);
     }
 
-    @Override
+    
     public void deleteAccount(long id) {
         db.getAccountDao().deleteById(id);
     }
 
-    @Override
+    
     public void updateAccount(Account account) {
         db.getAccountDao().update(account);
     }
 
-    @Override
+    
     public LiveData<Account> readAccount(long id) {
         return db.getAccountDao().selectById(id);
     }
 
-    @Override
+    
     public LiveData<List<Account>> readAccounts() {
         return db.getAccountDao().selectAll();
     }
 
-    @Override
+    
     public void getBoards(long accountId, IResponseCallback<LiveData<List<Board>>> responseCallback) {
         respond(responseCallback, () -> db.getBoardDao().getBoardsForAccount(accountId));
     }
 
-    @Override
+    
     public void createBoard(long accountId, Board board) {
         board.setAccountId(accountId);
         db.getBoardDao().insert(board);
     }
 
-    @Override
+    
     public void deleteBoard(Board board) {
         db.getBoardDao().delete(board);
 
     }
 
-    @Override
+    
     public void updateBoard(Board board) {
         db.getBoardDao().update(board);
     }
 
-    @Override
+    
     public void getStacks(long accountId, long localBoardId, IResponseCallback<LiveData<List<FullStack>>> responseCallback) {
         respond(responseCallback, () -> db.getStackDao().getFullStacksForBoard(accountId, localBoardId));
     }
 
-    @Override
-    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<FullStack>> responseCallback) {
+    
+    public void getStackByRemoteId(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<FullStack>> responseCallback) {
 //        QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
 //        respond(responseCallback, () -> {
 //            Stack stack = qb.where(
@@ -202,26 +217,26 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 //        });
     }
 
-    @Override
+    
     public void createStack(long accountId, Stack stack) {
         stack.setAccountId(accountId);
         db.getStackDao().insert(stack);
 
     }
 
-    @Override
+    
     public void deleteStack(Stack stack) {
         db.getStackDao().delete(stack);
 
     }
 
-    @Override
+    
     public void updateStack(Stack stack) {
         db.getStackDao().update(stack);
 
     }
 
-    @Override
+    
     public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<LiveData<FullCard>> responseCallback) {
 //        QueryBuilder<Card> qb = db.getCardDao().queryBuilder();
 //        respond(responseCallback, () -> {
@@ -240,19 +255,19 @@ public class DataBaseAdapter implements IDatabaseOnlyAdapter {
 //        );
     }
 
-    @Override
+    
     public void createCard(long accountId, Card card) {
         card.setAccountId(accountId);
         db.getCardDao().insert(card);
 
     }
 
-    @Override
+    
     public void deleteCard(Card card) {
         db.getCardDao().delete(card);
     }
 
-    @Override
+    
     public void updateCard(Card card) {
         db.getCardDao().update(card);
 

@@ -17,4 +17,7 @@ public interface UserDao extends GenericDao<User> {
     @Query("SELECT * FROM user WHERE accountId = :accountId and id = :remoteId")
     LiveData<User> getUsersByRemoteId(final long accountId, final long remoteId);
 
+    @Query("SELECT * FROM user WHERE accountId = :accountId and id = :remoteId")
+    User getUsersByRemoteIdDirectly(final long accountId, final long remoteId);
+
 }

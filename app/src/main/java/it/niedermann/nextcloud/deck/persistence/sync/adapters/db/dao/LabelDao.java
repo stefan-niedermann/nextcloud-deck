@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
@@ -12,6 +13,9 @@ public interface LabelDao extends GenericDao<Label> {
 //    LiveData<List<Label>> getLabelsForStack(final long localStackId);
 
     @Query("SELECT * FROM label WHERE accountId = :accountId and id = :remoteId")
-    Label getLabelByRemoteId(final long accountId, final long remoteId);
+    LiveData<Label> getLabelByRemoteId(final long accountId, final long remoteId);
+
+    @Query("SELECT * FROM label WHERE accountId = :accountId and id = :remoteId")
+    Label getLabelByRemoteIdDirectly(final long accountId, final long remoteId);
 
 }

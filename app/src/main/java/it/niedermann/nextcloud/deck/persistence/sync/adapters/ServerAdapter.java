@@ -15,8 +15,9 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 
-public class ServerAdapter implements IServerOnlyAdapter {
+public class ServerAdapter {
 
     private Context applicationContext;
     private ApiProvider provider;
@@ -39,67 +40,54 @@ public class ServerAdapter implements IServerOnlyAdapter {
 //        return lastSync;
     }
 
-    @Override
     public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(getLastSync()), responseCallback);
     }
 
-    @Override
     public void createBoard(long accountId, Board board) {
         // throw new IllegalStateException // when offline /
     }
 
-    @Override
     public void deleteBoard(Board board) {
 
     }
 
-    @Override
     public void updateBoard(Board board) {
 
     }
 
-    @Override
-    public void getStacks(long accountId, long boardId, IResponseCallback<List<Stack>> responseCallback) {
+    public void getStacks(long accountId, long boardId, IResponseCallback<List<FullStack>> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStacks(boardId, getLastSync()), responseCallback);
     }
 
-    @Override
-    public void getStack(long accountId, long boardId, long stackId, IResponseCallback<Stack> responseCallback) {
+    public void getStack(long accountId, long boardId, long stackId, IResponseCallback<FullStack> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStack(boardId, stackId, getLastSync()), responseCallback);
     }
 
-    @Override
     public void createStack(long accountId, Stack stack) {
 
     }
 
-    @Override
     public void deleteStack(Stack stack) {
 
     }
 
-    @Override
     public void updateStack(Stack stack) {
 
     }
 
-    @Override
     public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<FullCard> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getCard(boardId, stackId, cardId, getLastSync()), responseCallback);
     }
 
-    @Override
     public void createCard(long accountId, Card card) {
 
     }
 
-    @Override
     public void deleteCard(Card card) {
 
     }
 
-    @Override
     public void updateCard(Card card) {
 
     }

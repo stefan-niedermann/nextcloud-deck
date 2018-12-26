@@ -3,27 +3,33 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.IPersistenceAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.IDatabaseOnlyAdapter;
 
 public class SyncManager {
 
 
-    private IDatabaseOnlyAdapter dataBaseAdapter;
-    private IPersistenceAdapter serverAdapter;
+    private DataBaseAdapter dataBaseAdapter;
+    private ServerAdapter serverAdapter;
     private Context applicationContext;
     private Activity sourceActivity;
 
@@ -39,145 +45,144 @@ public class SyncManager {
     }
 
     public void synchronize(IResponseCallback<Boolean> responseCallback) {
-//        final long accountId = responseCallback.getAccount().getId();
-//        doAsync(() -> {
-//            SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
-//                    applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
-//            long lastSync = lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L);
-//            Date lastSyncDate = new Date(lastSync);
-//            Date now = new Date();
-//
-//            serverAdapter.getBoards(accountId, new IResponseCallback<List<Board>>(responseCallback.getAccount()) {
-//                @Override
-//                public void onResponse(List<Board> response) {
-//                    for (Board b : response) {
-//                        Board existingBoard = dataBaseAdapter.getBoard(accountId, b.getId()).getValue();
-//                        if (existingBoard == null) {
-//                            dataBaseAdapter.createBoard(accountId, b);
-//                        } else {
-//                            dataBaseAdapter.updateBoard(applyUpdatesFromRemote(existingBoard, b, accountId));
-//                        }
-//                        synchronizeStacksOf(b, responseCallback);
-//                    }
-//                    responseCallback.onResponse(true);
-//                }
-//
-//                @Override
-//                public void onError(Throwable throwable) {
-//                    responseCallback.onError(throwable);
-//                }
-//            });
-//
-//            //TODO activate when done dev
-////                lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
-//        });
+        final long accountId = responseCallback.getAccount().getId();
+        doAsync(() -> {
+            SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
+                    applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
+            long lastSync = lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L);
+            Date lastSyncDate = new Date(lastSync);
+            Date now = new Date();
+
+            serverAdapter.getBoards(accountId, new IResponseCallback<List<Board>>(responseCallback.getAccount()) {
+                @Override
+                public void onResponse(List<Board> response) {
+                    for (Board b : response) {
+                        Board existingBoard = dataBaseAdapter.getBoard(accountId, b.getId()).getValue();
+                        if (existingBoard == null) {
+                            dataBaseAdapter.createBoard(accountId, b);
+                        } else {
+                            dataBaseAdapter.updateBoard(applyUpdatesFromRemote(existingBoard, b, accountId));
+                        }
+                        synchronizeStacksOf(b, responseCallback);
+                    }
+                    responseCallback.onResponse(true);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    responseCallback.onError(throwable);
+                }
+            });
+
+            //TODO activate when done dev
+//                lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
+        });
     }
 
-//    private void synchronizeStacksOf(final Board board, final IResponseCallback<Boolean> responseCallback) {
-//        //sync stacks
-//        Account account = responseCallback.getAccount();
-//        long accountId = account.getId();
-//        final Board syncedBoard = dataBaseAdapter.getBoard(accountId, board.getId()).getValue();
-//        serverAdapter.getStacks(accountId, board.getId(), new IResponseCallback<List<Stack>>(account) {
-//            @Override
-//            public void onResponse(List<Stack> response) {
-//                for (Stack stack : response) {
-//                    stack.setBoardId(syncedBoard.getLocalId());
-//                    Stack existingStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), stack.getId());
-//                    if (existingStack == null) {
-//                        dataBaseAdapter.createStack(accountId, stack);
-//                    } else {
-//                        dataBaseAdapter.updateStack(applyUpdatesFromRemote(existingStack, stack, accountId));
-//                    }
-//                    existingStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), stack.getId());
-//                    dataBaseAdapter.deleteJoinedCardsForStack(existingStack.getLocalId());
-//                    synchronizeCardOf(stack, syncedBoard, responseCallback);
-//                }
-//                //responseCallback.onResponse(true);
-//            }
-//
-//
-//            @Override
-//            public void onError(Throwable throwable) {
-//                responseCallback.onError(throwable);
-//            }
-//        });
-//    }
-//
-//    private void synchronizeCardOf(final Stack stack, final Board syncedBoard, final IResponseCallback<Boolean> responseCallback) {
-//        //sync cards
-//        Account account = responseCallback.getAccount();
-//        long accountId = account.getId();
-//        Stack syncedStack = dataBaseAdapter.getStack(accountId, syncedBoard.getLocalId(), stack.getId()).getValue();
-//
-//        for (Card c : stack.getCards()) {
-//            DeckLog.log("requesting Card: " + c.getTitle());
-//            serverAdapter.getCard(accountId, syncedBoard.getId(), syncedStack.getId(), c.getId(), new IResponseCallback<Card>(account) {
-//                @Override
-//                public void onResponse(Card card) {
-//
-//                    List<User> assignedUsers = card.getAssignedUsers();
-//                    List<Label> labels = card.getLabels();
-//                    card.setStack(syncedStack);
-//                    card.setStackId(syncedStack.getLocalId());
-//                    Card existingCard = dataBaseAdapter.getCard(accountId, card.getId());
-//                    if (existingCard == null) {
-//                        DeckLog.log("creating Card...");
-//                        dataBaseAdapter.createCard(accountId, card);
-//                    } else {
-//                        DeckLog.log("updating Card...");
-//                        dataBaseAdapter.updateCard(applyUpdatesFromRemote(existingCard, card, accountId));
-//                    }
-//
-//                    existingCard = dataBaseAdapter.getCard(accountId, card.getId());
-//                    dataBaseAdapter.createJoinStackWithCard(existingCard.getLocalId(), syncedStack.getLocalId());
-//                    existingCard.setLabels(new ArrayList<>());
-//                    existingCard.setAssignedUsers(new ArrayList<>());
-//
-//                    ArrayList<User> existingUsers = new ArrayList<>();
-//                    dataBaseAdapter.deleteJoinedUsersForCard(existingCard.getLocalId());
-//                    for (User user : assignedUsers) {
-//                        User existingUser = dataBaseAdapter.getUser(accountId, user.getId());
-//                        if (existingUser == null) {
-//                            DeckLog.log("creating user: " + user.getUid());
-//                            dataBaseAdapter.createUser(accountId, user);
-//                            existingUser = dataBaseAdapter.getUser(accountId, user.getId());
-//                        } else {
-//                            DeckLog.log("updating user: " + user.getUid());
-//                            existingUser = applyUpdatesFromRemote(existingUser, user, accountId);
-//                            dataBaseAdapter.updateUser(accountId, existingUser);
-//                        }
-//                        dataBaseAdapter.createJoinCardWithUser(existingUser.getLocalId(), existingCard.getLocalId());
-//                        existingUsers.add(existingUser);
-//                    }
-//                    ArrayList<Label> existingLabels = new ArrayList<>();
-//                    dataBaseAdapter.deleteJoinedLabelsForCard(existingCard.getLocalId());
-//                    for (Label label : labels) {
-//                        Label existingLabel = dataBaseAdapter.getLabel(accountId, label.getId());
-//                        if (existingLabel == null) {
-//                            DeckLog.log("creating Label: " + label.getTitle());
-//                            dataBaseAdapter.createLabel(accountId, label);
-//                        } else {
-//                            DeckLog.log("updating Label: " + label.getTitle());
-//                            existingLabel = applyUpdatesFromRemote(existingLabel, label, accountId);
-//                            dataBaseAdapter.updateLabel(accountId, existingLabel);
-//                        }
-//                        dataBaseAdapter.createJoinCardWithLabel(existingLabel.getLocalId(), existingCard.getLocalId());
-//                        existingLabels.add(existingLabel);
-//                    }
-//
-//                    existingCard.setAssignedUsers(existingUsers);
-//                    existingCard.setLabels(existingLabels);
-//                    dataBaseAdapter.updateCard(existingCard);
-//                }
-//
-//                @Override
-//                public void onError(Throwable throwable) {
-//                    responseCallback.onError(throwable);
-//                }
-//            });
-//        }
-//    }
+    private void synchronizeStacksOf(final Board board, final IResponseCallback<Boolean> responseCallback) {
+        //sync stacks
+        Account account = responseCallback.getAccount();
+        long accountId = account.getId();
+        final Board syncedBoard = dataBaseAdapter.getBoard(accountId, board.getId()).getValue();
+        serverAdapter.getStacks(accountId, board.getId(), new IResponseCallback<List<FullStack>>(account) {
+            @Override
+            public void onResponse(List<FullStack> response) {
+                for (FullStack stack : response) {
+                    stack.getStack().setBoardId(syncedBoard.getLocalId());
+                    FullStack existingStack = dataBaseAdapter.getFullStackByRemoteIdDirectly(accountId, syncedBoard.getLocalId(), stack.getStack().getId());
+                    if (existingStack == null) {
+                        dataBaseAdapter.createStack(accountId, stack.getStack());
+                    } else {
+                        dataBaseAdapter.updateStack(applyUpdatesFromRemote(existingStack.getStack(), stack.getStack(), accountId));
+                    }
+                    existingStack = dataBaseAdapter.getFullStackByRemoteIdDirectly(accountId, syncedBoard.getLocalId(), stack.getStack().getId());
+                    dataBaseAdapter.deleteJoinedCardsForStack(existingStack.getStack().getLocalId());
+                    synchronizeCardOf(stack, syncedBoard, responseCallback);
+                }
+                //responseCallback.onResponse(true);
+            }
+
+
+            @Override
+            public void onError(Throwable throwable) {
+                responseCallback.onError(throwable);
+            }
+        });
+    }
+
+    private void synchronizeCardOf(final FullStack stack, final Board syncedBoard, final IResponseCallback<Boolean> responseCallback) {
+        //sync cards
+        Account account = responseCallback.getAccount();
+        long accountId = account.getId();
+        FullStack syncedStack = dataBaseAdapter.getFullStackByRemoteIdDirectly(accountId, syncedBoard.getLocalId(), stack.getStack().getId());
+
+        for (FullCard c : stack.getCards()) {
+            DeckLog.log("requesting Card: " + c.getCard().getTitle());
+            serverAdapter.getCard(accountId, syncedBoard.getId(), syncedStack.getStack().getId(), c.getCard().getId(), new IResponseCallback<FullCard>(account) {
+                @Override
+                public void onResponse(FullCard card) {
+
+                    List<User> assignedUsers = card.getAssignedUsers();
+                    List<Label> labels = card.getLabels();
+                    card.getCard().setStackId(syncedStack.getStack().getLocalId());
+                    FullCard existingCard = dataBaseAdapter.getFullCardByRemoteIdDirectly(accountId, card.getCard().getId());
+                    if (existingCard == null) {
+                        DeckLog.log("creating Card...");
+                        dataBaseAdapter.createCard(accountId, card.getCard());
+                    } else {
+                        DeckLog.log("updating Card...");
+                        dataBaseAdapter.updateCard(applyUpdatesFromRemote(existingCard.getCard(), card.getCard(), accountId));
+                    }
+
+                    existingCard = dataBaseAdapter.getFullCardByRemoteIdDirectly(accountId, card.getCard().getId());
+                    dataBaseAdapter.createJoinStackWithCard(existingCard.getCard().getLocalId(), syncedStack.getStack().getLocalId());
+                    existingCard.setLabels(new ArrayList<>());
+                    existingCard.setAssignedUsers(new ArrayList<>());
+
+                    ArrayList<User> existingUsers = new ArrayList<>();
+                    dataBaseAdapter.deleteJoinedUsersForCard(existingCard.getCard().getLocalId());
+                    for (User user : assignedUsers) {
+                        User existingUser = dataBaseAdapter.getUserByRemoteIdDirectly(accountId, user.getId());
+                        if (existingUser == null) {
+                            DeckLog.log("creating user: " + user.getUid());
+                            dataBaseAdapter.createUser(accountId, user);
+                            existingUser = dataBaseAdapter.getUserByRemoteIdDirectly(accountId, user.getId());
+                        } else {
+                            DeckLog.log("updating user: " + user.getUid());
+                            existingUser = applyUpdatesFromRemote(existingUser, user, accountId);
+                            dataBaseAdapter.updateUser(accountId, existingUser);
+                        }
+                        dataBaseAdapter.createJoinCardWithUser(existingUser.getLocalId(), existingCard.getCard().getLocalId());
+                        existingUsers.add(existingUser);
+                    }
+                    ArrayList<Label> existingLabels = new ArrayList<>();
+                    dataBaseAdapter.deleteJoinedLabelsForCard(existingCard.getCard().getLocalId());
+                    for (Label label : labels) {
+                        Label existingLabel = dataBaseAdapter.getLabelByRemoteIdDirectly(accountId, label.getId());
+                        if (existingLabel == null) {
+                            DeckLog.log("creating Label: " + label.getTitle());
+                            dataBaseAdapter.createLabel(accountId, label);
+                        } else {
+                            DeckLog.log("updating Label: " + label.getTitle());
+                            existingLabel = applyUpdatesFromRemote(existingLabel, label, accountId);
+                            dataBaseAdapter.updateLabel(accountId, existingLabel);
+                        }
+                        dataBaseAdapter.createJoinCardWithLabel(existingLabel.getLocalId(), existingCard.getCard().getLocalId());
+                        existingLabels.add(existingLabel);
+                    }
+
+                    existingCard.setAssignedUsers(existingUsers);
+                    existingCard.setLabels(existingLabels);
+                    dataBaseAdapter.updateCard(existingCard.getCard());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    responseCallback.onError(throwable);
+                }
+            });
+        }
+    }
 
     private <T> IResponseCallback<T> wrapCallForUi(IResponseCallback<T> responseCallback) {
         Account account = responseCallback.getAccount();
@@ -258,7 +263,7 @@ public class SyncManager {
     }
 
     public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<FullStack>> responseCallback) {
-        dataBaseAdapter.getStack(accountId, localBoardId, stackId, wrapCallForUi(responseCallback));
+        dataBaseAdapter.getStackByRemoteId(accountId, localBoardId, stackId, wrapCallForUi(responseCallback));
     }
 
     public void createStack(long accountId, Stack stack) {

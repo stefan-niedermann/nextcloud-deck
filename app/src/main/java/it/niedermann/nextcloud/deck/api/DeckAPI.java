@@ -10,6 +10,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -42,10 +43,10 @@ public interface DeckAPI {
     Observable<Stack> deleteStack(@Path("boardId") long boardId, @Path("stackId") long id);
 
     @GET("boards/{boardId}/stacks/{stackId}")
-    Observable<Stack> getStack(@Path("boardId") long boardId, @Path("stackId") long id, @Header("If-Modified-Since") Date lastSync);
+    Observable<FullStack> getStack(@Path("boardId") long boardId, @Path("stackId") long id, @Header("If-Modified-Since") Date lastSync);
 
     @GET("boards/{boardId}/stacks")
-    Observable<List<Stack>> getStacks(@Path("boardId") long boardId, @Header("If-Modified-Since") Date lastSync);
+    Observable<List<FullStack>> getStacks(@Path("boardId") long boardId, @Header("If-Modified-Since") Date lastSync);
 
     @GET("boards/{boardId}/stacks/archived")
     Observable<List<Stack>> getArchivedStacks(@Path("boardId") long boardId, @Header("If-Modified-Since") Date lastSync);
