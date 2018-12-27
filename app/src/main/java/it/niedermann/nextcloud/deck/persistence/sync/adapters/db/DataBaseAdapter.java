@@ -44,6 +44,9 @@ public class DataBaseAdapter {
     public LiveData<Board> getBoard(long accountId, long remoteId) {
         return db.getBoardDao().getBoardByRemoteId(accountId, remoteId);
     }
+    public Board getBoardByRemoteIdDirectly(long accountId, long remoteId) {
+        return db.getBoardDao().getBoardByRemoteIdDirectly(accountId, remoteId);
+    }
 
     
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {

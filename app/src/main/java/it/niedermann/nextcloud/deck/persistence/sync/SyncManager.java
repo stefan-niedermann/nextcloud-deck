@@ -21,9 +21,11 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 
 public class SyncManager {
 
@@ -53,60 +55,19 @@ public class SyncManager {
             Date lastSyncDate = new Date(lastSync);
             Date now = new Date();
 
-            serverAdapter.getBoards(accountId, new IResponseCallback<List<Board>>(responseCallback.getAccount()) {
+            new SyncHelper(serverAdapter, dataBaseAdapter, new IResponseCallback<Boolean>(responseCallback.getAccount()) {
                 @Override
-                public void onResponse(List<Board> response) {
-                    for (Board b : response) {
-                        Board existingBoard = dataBaseAdapter.getBoard(accountId, b.getId()).getValue();
-                        if (existingBoard == null) {
-                            dataBaseAdapter.createBoard(accountId, b);
-                        } else {
-                            dataBaseAdapter.updateBoard(applyUpdatesFromRemote(existingBoard, b, accountId));
-                        }
-                        synchronizeStacksOf(b, responseCallback);
-                    }
-                    responseCallback.onResponse(true);
+                public void onResponse(Boolean response) {
+                    //TODO activate when done dev
+//                lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
+                    responseCallback.onResponse(response);
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
                     responseCallback.onError(throwable);
                 }
-            });
-
-            //TODO activate when done dev
-//                lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
-        });
-    }
-
-    private void synchronizeStacksOf(final Board board, final IResponseCallback<Boolean> responseCallback) {
-        //sync stacks
-        Account account = responseCallback.getAccount();
-        long accountId = account.getId();
-        final Board syncedBoard = dataBaseAdapter.getBoard(accountId, board.getId()).getValue();
-        serverAdapter.getStacks(accountId, board.getId(), new IResponseCallback<List<FullStack>>(account) {
-            @Override
-            public void onResponse(List<FullStack> response) {
-                for (FullStack stack : response) {
-                    stack.getStack().setBoardId(syncedBoard.getLocalId());
-                    FullStack existingStack = dataBaseAdapter.getFullStackByRemoteIdDirectly(accountId, syncedBoard.getLocalId(), stack.getStack().getId());
-                    if (existingStack == null) {
-                        dataBaseAdapter.createStack(accountId, stack.getStack());
-                    } else {
-                        dataBaseAdapter.updateStack(applyUpdatesFromRemote(existingStack.getStack(), stack.getStack(), accountId));
-                    }
-                    existingStack = dataBaseAdapter.getFullStackByRemoteIdDirectly(accountId, syncedBoard.getLocalId(), stack.getStack().getId());
-                    dataBaseAdapter.deleteJoinedCardsForStack(existingStack.getStack().getLocalId());
-                    synchronizeCardOf(stack, syncedBoard, responseCallback);
-                }
-                //responseCallback.onResponse(true);
-            }
-
-
-            @Override
-            public void onError(Throwable throwable) {
-                responseCallback.onError(throwable);
-            }
+            }).doSyncFor(new BoardDataProvider());
         });
     }
 
@@ -205,7 +166,7 @@ public class SyncManager {
         };
     }
 
-    private <T extends RemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
+    private <T extends AbstractRemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
         if (!localEntity.getId().equals(remoteEntity.getId())
                 || !accountId.equals(localEntity.getAccountId())) {
             throw new IllegalArgumentException("IDs of Account or Entity are not matching! WTF are you doin?!");

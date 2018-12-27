@@ -2,10 +2,10 @@ package it.niedermann.nextcloud.deck.model;
 
 import android.arch.persistence.room.Entity;
 
-import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true)
-public class Label extends RemoteEntity {
+public class Label extends AbstractRemoteEntity {
     private String title;
     private String color;
 

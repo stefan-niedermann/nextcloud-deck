@@ -17,4 +17,6 @@ public interface BoardDao extends GenericDao<Board> {
     @Query("SELECT * FROM board WHERE accountId = :accountId and id = :remoteId")
     LiveData<Board> getBoardByRemoteId(final long accountId, final long remoteId);
 
+    @Query("SELECT * FROM board WHERE accountId = :accountId and id = :remoteId")
+    Board getBoardByRemoteIdDirectly(long accountId, long remoteId);
 }

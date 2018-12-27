@@ -6,10 +6,10 @@ import android.support.annotation.NonNull;
 
 import java.util.Date;
 
-import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true, indices = {@Index("boardId")})
-public class Stack extends RemoteEntity {
+public class Stack extends AbstractRemoteEntity {
     private String title;
 
     @NonNull

@@ -3,10 +3,10 @@ package it.niedermann.nextcloud.deck.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 
-import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true)
-public class User extends RemoteEntity {
+public class User extends AbstractRemoteEntity {
 
 
     private String primaryKey;

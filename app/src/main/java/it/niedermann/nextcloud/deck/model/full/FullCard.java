@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.model.full;
 
 import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Relation;
 
 import java.util.ArrayList;
@@ -9,8 +10,9 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
-public class FullCard {
+public class FullCard implements IRemoteEntity {
     @Embedded
     public Card card;
 
@@ -55,5 +57,11 @@ public class FullCard {
         List<User> user = new ArrayList<>();
         user.add(owner);
         this.owner = user;
+    }
+
+    @Ignore
+    @Override
+    public IRemoteEntity getEntity() {
+        return card;
     }
 }

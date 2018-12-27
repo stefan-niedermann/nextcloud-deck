@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.interfaces.RemoteEntity;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 
 public abstract class IResponseCallback<T> {
@@ -21,31 +21,31 @@ public abstract class IResponseCallback<T> {
     public void fillAccountIDs(T response) {
         if (response != null) {
             if (isListOfRemoteEntity(response)) {
-                fillAccountIDs((Collection<RemoteEntity>) response);
+                fillAccountIDs((Collection<AbstractRemoteEntity>) response);
             } else if (isRemoteEntity(response)) {
-                fillAccountIDs((RemoteEntity) response);
+                fillAccountIDs((AbstractRemoteEntity) response);
             }
         }
     }
 
-    private void fillAccountIDs(RemoteEntity response) {
+    private void fillAccountIDs(AbstractRemoteEntity response) {
         response.setAccountId(this.account.getId());
     }
 
-    private void fillAccountIDs(Collection<RemoteEntity> response) {
-        for (RemoteEntity entity : response) {
+    private void fillAccountIDs(Collection<AbstractRemoteEntity> response) {
+        for (AbstractRemoteEntity entity : response) {
             entity.setAccountId(this.account.getId());
         }
     }
 
     private boolean isRemoteEntity(T response) {
-        return response instanceof RemoteEntity;
+        return response instanceof AbstractRemoteEntity;
     }
 
     private boolean isListOfRemoteEntity(T response) {
         if (response instanceof List) {
             List<?> collection = (List) response;
-            return collection.size() > 0 && collection.get(0) instanceof RemoteEntity;
+            return collection.size() > 0 && collection.get(0) instanceof AbstractRemoteEntity;
         }
         return false;
     }

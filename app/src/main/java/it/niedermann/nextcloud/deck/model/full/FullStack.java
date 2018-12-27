@@ -1,14 +1,16 @@
 package it.niedermann.nextcloud.deck.model.full;
 
 import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Relation;
 
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
-public class FullStack {
+public class FullStack implements IRemoteEntity {
     @Embedded
     public Stack stack;
 
@@ -30,5 +32,11 @@ public class FullStack {
 
     public void setCards(List<FullCard> cards) {
         this.cards = cards;
+    }
+
+    @Ignore
+    @Override
+    public IRemoteEntity getEntity() {
+        return stack;
     }
 }
