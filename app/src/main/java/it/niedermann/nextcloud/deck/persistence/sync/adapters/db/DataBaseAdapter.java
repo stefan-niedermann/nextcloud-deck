@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 public class DataBaseAdapter {
 
 
+
     private interface DataAccessor<T> {
         T getData();
     }
@@ -64,6 +65,11 @@ public class DataBaseAdapter {
 
     public FullCard getFullCardByRemoteIdDirectly(long accountId, long remoteId) {
         return db.getCardDao().getFullCardByRemoteIdDirectly(accountId, remoteId);
+    }
+
+
+    public Card getCardByRemoteIdDirectly(long accountId, long remoteId) {
+        return db.getCardDao().getCardByRemoteIdDirectly(accountId, remoteId);
     }
 
     

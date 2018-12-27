@@ -32,4 +32,6 @@ public interface CardDao extends GenericDao<Card> {
     @Query("SELECT * FROM card WHERE accountId = :accountId and id = :remoteId")
     LiveData<FullCard> getFullCardByRemoteId(final long accountId, final long remoteId);
 
+    @Query("SELECT * FROM card WHERE accountId = :accountId and id = :remoteId")
+    Card getCardByRemoteIdDirectly(long accountId, long remoteId);
 }

@@ -9,6 +9,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IRelationshipProvider;
 
 public class SyncHelper {
     private ServerAdapter serverAdapter;
@@ -55,6 +56,11 @@ public class SyncHelper {
                 responseCallback.onError(throwable);
             }
         });
+    }
+
+    public void fixRelations(IRelationshipProvider relationshipProvider) {
+        relationshipProvider.deleteAllExisting(dataBaseAdapter, accountId);
+        relationshipProvider.insertAllNecessary(dataBaseAdapter, accountId);
     }
 
     private <T extends IRemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
