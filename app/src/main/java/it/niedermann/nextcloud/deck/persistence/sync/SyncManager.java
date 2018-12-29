@@ -180,8 +180,8 @@ public class SyncManager {
         dataBaseAdapter.hasAccounts(responseCallback);
     }
 
-    public LiveData<Account> createAccount(String accoutName) {
-        return dataBaseAdapter.createAccount(accoutName);
+    public void createAccount(String accoutName, IResponseCallback<Account> responseCallback) {
+        doAsync(() -> dataBaseAdapter.createAccount(accoutName, responseCallback));
     }
 
     public void deleteAccount(long id) {

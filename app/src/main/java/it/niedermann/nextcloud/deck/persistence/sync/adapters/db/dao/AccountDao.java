@@ -21,6 +21,9 @@ public interface AccountDao extends GenericDao<Account> {
     void deleteById(long id);
 
     @Query("SELECT * from account where id = :id")
+    Account selectByIdDirectly(long id);
+
+    @Query("SELECT * from account where id = :id")
     LiveData<Account> selectById(long id);
 
     @Query("SELECT * from account")

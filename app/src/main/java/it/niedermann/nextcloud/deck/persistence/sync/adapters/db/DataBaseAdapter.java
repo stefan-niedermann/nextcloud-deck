@@ -153,11 +153,11 @@ public class DataBaseAdapter {
     }
 
     
-    public LiveData<Account> createAccount(String accoutName) {
+    public void createAccount(String accoutName, IResponseCallback<Account> responseCallback) {
         Account acc = new Account();
         acc.setName(accoutName);
         long id = db.getAccountDao().insert(acc);
-        return readAccount(id);
+        responseCallback.onResponse(readAccountDirectly(id));
     }
 
     
@@ -173,6 +173,10 @@ public class DataBaseAdapter {
     
     public LiveData<Account> readAccount(long id) {
         return db.getAccountDao().selectById(id);
+    }
+
+    public Account readAccountDirectly(long id) {
+        return db.getAccountDao().selectByIdDirectly(id);
     }
 
     
