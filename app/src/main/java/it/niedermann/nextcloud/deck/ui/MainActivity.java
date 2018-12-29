@@ -120,7 +120,17 @@ public class MainActivity extends AppCompatActivity
 
     public void onAccountChoose(SingleSignOnAccount account) {
         getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
-        this.syncManager.createAccount(account.name);
+        this.syncManager.createAccount(account.name, new IResponseCallback<it.niedermann.nextcloud.deck.model.Account>(new Account()) {
+            @Override
+            public void onResponse(it.niedermann.nextcloud.deck.model.Account response) {
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+        });
 
         // TODO Fetch data directly after login
         // TODO combine with onCreate
