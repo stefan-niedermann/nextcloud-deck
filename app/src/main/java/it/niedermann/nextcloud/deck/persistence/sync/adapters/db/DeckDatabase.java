@@ -71,7 +71,7 @@ public abstract class DeckDatabase extends RoomDatabase {
         return Room.databaseBuilder(
                 context,
                 DeckDatabase.class,
-                DECK_DB_NAME).build();
+                DECK_DB_NAME).allowMainThreadQueries().build();
     }
 
     public abstract AccountDao getAccountDao();

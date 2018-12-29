@@ -134,32 +134,34 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Boolean response) {
                 if(response) {
-                    this.account = syncManager.readAccounts().getValue().get(0);
-                    String accountName = this.account.getName();
-                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
-                    // TODO show spinner
-                    MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                        @Override
-                        public void onResponse(Boolean response) {
-                            syncManager.getBoards(this.account.getId(), new IResponseCallback<LiveData<List<Board>>>(this.account) {
-                                @Override
-                                public void onResponse(LiveData<List<Board>> boards) { // TODO hide spinner
-                                    buildSidenavMenu(boards.getValue());
-                                }
+                    syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
+                        this.account = accounts.get(0);
+                        String accountName = this.account.getName();
+                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
+                        // TODO show spinner
+                        MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                syncManager.getBoards(this.account.getId(), new IResponseCallback<LiveData<List<Board>>>(this.account) {
+                                    @Override
+                                    public void onResponse(LiveData<List<Board>> boards) { // TODO hide spinner
+                                        boards.observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
+                                    }
 
-                                @Override
-                                public void onError(Throwable throwable) {
-                                    DeckLog.log(throwable.getMessage());
-                                    throwable.printStackTrace();
-                                }
-                            });
-                        }
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        DeckLog.log(throwable.getMessage());
+                                        throwable.printStackTrace();
+                                    }
+                                });
+                            }
 
-                        @Override
-                        public void onError(Throwable throwable) {
-                            DeckLog.log(throwable.getMessage());
-                            throwable.printStackTrace();
-                        }
+                            @Override
+                            public void onError(Throwable throwable) {
+                                DeckLog.log(throwable.getMessage());
+                                throwable.printStackTrace();
+                            }
+                        });
                     });
                 } else {
                     loginDialogFragment = new LoginDialogFragment();
@@ -208,12 +210,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(LiveData<List<FullStack>> response) {
                 stackAdapter.clear();
-                for(FullStack stack: response.getValue()) {
-                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
-                }
-                runOnUiThread(() -> {
-                    viewPager.setAdapter(stackAdapter);
-                    stackLayout.setupWithViewPager(viewPager);
+                response.observe(MainActivity.this, (List<FullStack> fullStacks) -> {
+                    for(FullStack stack: fullStacks) {
+                        stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
+                    }
+                    runOnUiThread(() -> {
+                        viewPager.setAdapter(stackAdapter);
+                        stackLayout.setupWithViewPager(viewPager);
+                    });
                 });
             }
         });
