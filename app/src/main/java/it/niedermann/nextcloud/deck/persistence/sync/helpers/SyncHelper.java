@@ -17,7 +17,6 @@ public class SyncHelper {
     private Account account;
     private long accountId;
     private IResponseCallback<Boolean> responseCallback;
-    private int runningSyncs = 0;
     private boolean syncChangedSomething = false;
 
     public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> responseCallback) {
@@ -29,7 +28,6 @@ public class SyncHelper {
     }
 
     public <T extends IRemoteEntity> void doSyncFor(IDataProvider<T> provider){
-        runningSyncs++;
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
@@ -45,13 +43,12 @@ public class SyncHelper {
                         }
                         provider.goDeeper(SyncHelper.this, entityFromServer);
                     }
-                    runningSyncs--;
+                    provider.doneAll(responseCallback, syncChangedSomething);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                runningSyncs--;
                 DeckLog.log("Error syncing: "+throwable.getMessage());
                 responseCallback.onError(throwable);
             }

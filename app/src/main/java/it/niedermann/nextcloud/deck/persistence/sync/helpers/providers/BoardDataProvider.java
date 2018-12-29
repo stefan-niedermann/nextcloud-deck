@@ -33,4 +33,9 @@ public class BoardDataProvider implements IDataProvider<Board> {
     public void goDeeper(SyncHelper syncHelper, Board entityFromServer) {
         syncHelper.doSyncFor(new StackDataProvider(entityFromServer));
     }
+
+    @Override
+    public void doneAll(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+        responseCallback.onResponse(syncChangedSomething);
+    }
 }
