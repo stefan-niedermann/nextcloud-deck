@@ -24,10 +24,10 @@ public interface DeckAPI {
         Observable createBoard(@Body Board board);
 
         @GET("boards/{id}")
-        Observable<Board> getBoard(@Path("id") long id, @Header("If-Modified-Since") Date lastSync);
+        Observable<Board> getBoard(@Path("id") long id, @Header("If-Modified-Since") String lastSync);
 
         @GET("boards")
-        Observable<List<Board>> getBoards(@Header("If-Modified-Since") Date lastSync);
+        Observable<List<Board>> getBoards(@Header("If-Modified-Since") String lastSync);
 
 
         // ### Stacks
@@ -41,13 +41,13 @@ public interface DeckAPI {
         Observable<Stack> deleteStack(@Path("boardId") long boardId, @Path("stackId") long id);
 
         @GET("boards/{boardId}/stacks/{stackId}")
-        Observable<Stack> getStack(@Path("boardId") long boardId, @Path("stackId") long id, @Header("If-Modified-Since") Date lastSync);
+        Observable<Stack> getStack(@Path("boardId") long boardId, @Path("stackId") long id, @Header("If-Modified-Since") String lastSync);
 
         @GET("boards/{boardId}/stacks")
-        Observable<List<Stack>> getStacks(@Path("boardId") long boardId, @Header("If-Modified-Since") Date lastSync);
+        Observable<List<Stack>> getStacks(@Path("boardId") long boardId, @Header("If-Modified-Since") String lastSync);
 
         @GET("boards/{boardId}/stacks/archived")
-        Observable<List<Stack>> getArchivedStacks(@Path("boardId") long boardId, @Header("If-Modified-Since") Date lastSync);
+        Observable<List<Stack>> getArchivedStacks(@Path("boardId") long boardId, @Header("If-Modified-Since") String lastSync);
 
 
         // ### Cards
@@ -61,12 +61,12 @@ public interface DeckAPI {
         Observable<Card> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
         @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
-        Observable<Card> getCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header("If-Modified-Since") Date lastSync);
+        Observable<Card> getCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header("If-Modified-Since") String lastSync);
 
 
         // ### LABELS
         @GET("boards/{boardId}labels/{labelId}")
-        Observable<Label> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Header("If-Modified-Since") Date lastSync);
+        Observable<Label> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Header("If-Modified-Since") String lastSync);
 
         @PUT("boards/getBoards/{boardId}/labels/{labelId}")
         Observable<Label> updateLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Body Label label);

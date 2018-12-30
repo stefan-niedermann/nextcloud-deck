@@ -75,7 +75,7 @@ public class DeckAPI_SSO implements DeckAPI {
     }
 
     @Override
-    public Observable<List<Board>> getBoards(Date lastSync) {
+    public Observable<List<Board>> getBoards(String lastSync) {
         NextcloudRequest request = buildRequest(GET, "boards", lastSync).build();
 
         return nextcloudAPI.performRequestObservable(TypeToken.getParameterized(List.class, Board.class).getType(), request);
@@ -102,19 +102,19 @@ public class DeckAPI_SSO implements DeckAPI {
     }
 
     @Override
-    public Observable<Stack> getStack(long boardId, long id, Date lastSync) {
+    public Observable<Stack> getStack(long boardId, long id, String lastSync) {
         NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks/{stackId}", lastSync, boardId, id).build();
         return nextcloudAPI.performRequestObservable(Stack.class, request);
     }
 
     @Override
-    public Observable<List<Stack>> getStacks(long boardId, Date lastSync) {
+    public Observable<List<Stack>> getStacks(long boardId, String lastSync) {
         NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks", lastSync, boardId).build();
         return nextcloudAPI.performRequestObservable(TypeToken.getParameterized(List.class, Stack.class).getType(), request);
     }
 
     @Override
-    public Observable<List<Stack>> getArchivedStacks(long boardId, Date lastSync) {
+    public Observable<List<Stack>> getArchivedStacks(long boardId, String lastSync) {
         NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks/archived", lastSync, boardId).build();
         return nextcloudAPI.performRequestObservable(TypeToken.getParameterized(List.class, Stack.class).getType(), request);
     }
@@ -140,13 +140,13 @@ public class DeckAPI_SSO implements DeckAPI {
     }
 
     @Override
-    public Observable<Card> getCard(long boardId, long stackId, long cardId, Date lastSync) {
+    public Observable<Card> getCard(long boardId, long stackId, long cardId, String lastSync) {
         NextcloudRequest request = buildRequest(GET, "boards/{boardId}/stacks/{stackId}/cards/{cardId}",lastSync, boardId, stackId, cardId).build();
         return nextcloudAPI.performRequestObservable(Card.class, request);
     }
 
     @Override
-    public Observable<Label> getLabel(long boardId, long labelId, Date lastSync) {
+    public Observable<Label> getLabel(long boardId, long labelId, String lastSync) {
         NextcloudRequest request = buildRequest(GET, "boards/"+boardId+"labels/"+labelId, lastSync).build();
         return nextcloudAPI.performRequestObservable(Label.class, request);
     }
@@ -180,7 +180,7 @@ public class DeckAPI_SSO implements DeckAPI {
     }
 
     @Override
-    public Observable<Board> getBoard(long id, Date lastSync) {
+    public Observable<Board> getBoard(long id, String lastSync) {
         NextcloudRequest request = buildRequest(GET, "boards/" + id, lastSync).build();
         return nextcloudAPI.performRequestObservable(Board.class, request);
     }
