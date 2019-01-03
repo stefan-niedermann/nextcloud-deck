@@ -92,7 +92,8 @@ public class RequestHelper {
         @Override
         public void accept(final T t) {
             callback.fillAccountIDs(t);
-            sourceActivity.runOnUiThread(() -> callback.onResponse(t) );
+            callback.onResponse(t);
+//            sourceActivity.runOnUiThread(() -> callback.onResponse(t) );
         }
 
         public Consumer<Throwable> getExceptionConsumer() {

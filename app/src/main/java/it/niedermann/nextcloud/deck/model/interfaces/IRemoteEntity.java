@@ -8,10 +8,10 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 
 public interface IRemoteEntity {
 
-    IRemoteEntity getEntity();
+    default IRemoteEntity getEntity() {return this;}
 
     default Long getLocalId() {
-        return getEntity().getLocalId();
+        return this.getLocalId();
     }
 
     

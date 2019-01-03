@@ -36,4 +36,89 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
     public IRemoteEntity getEntity() {
         return this;
     }
+
+    @Override
+    public Long getLocalId() {
+        return localId;
+    }
+
+
+    @Override
+    public void setLocalId(Long localId) {
+        this.localId = localId;
+    }
+
+
+    @Override
+    public long getAccountId() {
+        return accountId;
+    }
+
+
+    @Override
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    @Override
+    public int getStatus() {
+        return status;
+    }
+
+
+    @Override
+    public void setStatus(@NonNull int status) {
+        this.status = status;
+    }
+
+
+    @Override
+    public Date getLastModified() {
+        return this.lastModified;
+    }
+
+
+    @Override
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+
+    @Override
+    public Date getLastModifiedLocal() {
+        return this.lastModifiedLocal;
+    }
+
+
+    @Override
+    public void setLastModifiedLocal(Date lastModifiedLocal) {
+        this.lastModifiedLocal = lastModifiedLocal;
+    }
+
+
+    @Ignore
+    @Override
+    public DBStatus getStatusEnum() {
+        return DBStatus.findById(status);
+    }
+
+
+    @Ignore
+    @Override
+    public void setStatusEnum(DBStatus status) {
+        this.status = status.getId();
+    }
 }
