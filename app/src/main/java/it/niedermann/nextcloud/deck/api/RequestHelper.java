@@ -4,9 +4,6 @@ import android.app.Activity;
 
 import com.nextcloud.android.sso.api.NextcloudAPI;
 
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;

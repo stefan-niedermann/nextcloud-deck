@@ -49,7 +49,7 @@ public class SyncHelper {
 
             @Override
             public void onError(Throwable throwable) {
-                DeckLog.log("Error syncing: "+throwable.getMessage());
+                DeckLog.logError(throwable);
                 responseCallback.onError(throwable);
             }
         });

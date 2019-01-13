@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.api;
 
 
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -21,15 +20,17 @@ import retrofit2.http.Path;
 
 public interface DeckAPI {
 
+    String MODIFIED_SINCE_HEADER = "If-Modified-Since";
+
     // ### BOARDS
     @POST("boards")
     Observable createBoard(@Body Board board);
 
-        @GET("boards/{id}")
-        Observable<Board> getBoard(@Path("id") long id, @Header("If-Modified-Since") String lastSync);
+    @GET("boards/{id}")
+    Observable<Board> getBoard(@Path("id") long id, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
-        @GET("boards")
-        Observable<List<Board>> getBoards(@Header("If-Modified-Since") String lastSync);
+    @GET("boards")
+    Observable<List<Board>> getBoards(@Header(MODIFIED_SINCE_HEADER) String lastSync);
 
 
     // ### Stacks
@@ -42,14 +43,14 @@ public interface DeckAPI {
     @DELETE("boards/{boardId}/stacks/{stackId}")
     Observable<Stack> deleteStack(@Path("boardId") long boardId, @Path("stackId") long id);
 
-        @GET("boards/{boardId}/stacks/{stackId}")
-        Observable<Stack> getStack(@Path("boardId") long boardId, @Path("stackId") long id, @Header("If-Modified-Since") String lastSync);
+    @GET("boards/{boardId}/stacks/{stackId}")
+    Observable<FullStack> getStack(@Path("boardId") long boardId, @Path("stackId") long id, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
-        @GET("boards/{boardId}/stacks")
-        Observable<List<Stack>> getStacks(@Path("boardId") long boardId, @Header("If-Modified-Since") String lastSync);
+    @GET("boards/{boardId}/stacks")
+    Observable<List<FullStack>> getStacks(@Path("boardId") long boardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
-        @GET("boards/{boardId}/stacks/archived")
-        Observable<List<Stack>> getArchivedStacks(@Path("boardId") long boardId, @Header("If-Modified-Since") String lastSync);
+    @GET("boards/{boardId}/stacks/archived")
+    Observable<List<Stack>> getArchivedStacks(@Path("boardId") long boardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
 
     // ### Cards
@@ -62,13 +63,13 @@ public interface DeckAPI {
     @DELETE("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Observable<Card> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
-        @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
-        Observable<Card> getCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header("If-Modified-Since") String lastSync);
+    @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
+    Observable<FullCard> getCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
 
-        // ### LABELS
-        @GET("boards/{boardId}labels/{labelId}")
-        Observable<Label> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Header("If-Modified-Since") String lastSync);
+    // ### LABELS
+    @GET("boards/{boardId}labels/{labelId}")
+    Observable<Label> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
     @PUT("boards/getBoards/{boardId}/labels/{labelId}")
     Observable<Label> updateLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Body Label label);

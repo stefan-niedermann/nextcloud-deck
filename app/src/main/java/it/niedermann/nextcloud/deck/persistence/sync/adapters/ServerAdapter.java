@@ -3,15 +3,11 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
@@ -42,17 +38,18 @@ public class ServerAdapter {
 
 
     private String getLastSyncDateFormatted() {
-        String lastSyncHeader = API_FORMAT.format(getLastSync());
-        // omit Offset of timezone (e.g.: +01:00)
-        if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
-            lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
-        }
-        Log.d("deck lastSync", lastSyncHeader);
-        return lastSyncHeader;
+        return null;
+//        String lastSyncHeader = API_FORMAT.format(getLastSync());
+//        // omit Offset of timezone (e.g.: +01:00)
+//        if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
+//            lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
+//        }
+//        Log.d("deck lastSync", lastSyncHeader);
+//        return lastSyncHeader;
     }
 
     private Date getLastSync() {
-        return new Date(1000000000000l);
+        return new Date(0l);
         //return null;
         // FIXME: reactivate, when lastSync is working in REST-API
 //        Date lastSync = new Date();

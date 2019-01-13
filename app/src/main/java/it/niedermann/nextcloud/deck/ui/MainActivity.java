@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity
 
                             @Override
                             public void onError(Throwable throwable) {
-                                DeckLog.log(throwable.getMessage());
+                                //DeckLog.log(throwable.getMessage());
                                 throwable.printStackTrace();
                             }
                         });

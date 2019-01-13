@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.api;
 import android.content.Context;
 
 import com.nextcloud.android.sso.api.NextcloudAPI;
-import com.nextcloud.android.sso.api.NextcloudRetrofitServiceMethod;
 import com.nextcloud.android.sso.exceptions.SSOException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
