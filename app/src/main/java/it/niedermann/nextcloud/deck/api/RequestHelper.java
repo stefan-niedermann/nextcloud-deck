@@ -9,64 +9,30 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class RequestHelper {
-    private static Queue<PendingRequest> requestQueue = new LinkedBlockingQueue<>();
 
     public static <T> void request(final Activity sourceActivity, final ApiProvider provider, final ObservableProvider<T> call, final IResponseCallback<T> callback){
 
-        if (!provider.isConnected()){
+        if (provider.getAPI() == null){
             provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
-                @Override
-                public void onConnected() {
-                    requestQueue.add(new PendingRequest(sourceActivity, call.getObservableFromCall(), callback));
-                    while (!requestQueue.isEmpty()){
-                        PendingRequest pendingRequest = requestQueue.poll();
-                        runRequest(pendingRequest.getSourceActivity(), pendingRequest.getRequest(), pendingRequest.getCallback());
-                    }
-                }
-
+                @Override public void onConnected() { }
                 @Override
                 public void onError(Exception e) {
                     callback.onError(e);
                 }
             });
-        } else {
-            runRequest(sourceActivity, call.getObservableFromCall(), callback);
         }
+
+        runRequest(sourceActivity, call.getObservableFromCall(), callback);
     }
 
     private static <T> void runRequest(final Activity sourceActivity, final Observable<T> request, final IResponseCallback<T> callback){
-        new Thread(() -> {
-                ResponseConsumer<T> cb = new ResponseConsumer<T>(sourceActivity, callback);
-                request.subscribe(cb, cb.getExceptionConsumer());
-        }).start();
+        ResponseConsumer<T> cb = new ResponseConsumer<>(sourceActivity, callback);
+        request.subscribeOn(Schedulers.newThread())
+                .subscribe(cb, cb.getExceptionConsumer());
     }
-
-    private static class PendingRequest  <T> {
-        private Observable<T> request;
-        private Activity sourceActivity;
-        private IResponseCallback<T> callback;
-
-        public PendingRequest(Activity sourceActivity, Observable<T> request, IResponseCallback<T> callback) {
-            this.request = request;
-            this.callback = callback;
-            this.sourceActivity = sourceActivity;
-        }
-
-        public Observable<T> getRequest() {
-            return request;
-        }
-
-        public IResponseCallback<T> getCallback() {
-            return callback;
-        }
-
-        public Activity getSourceActivity() {
-            return sourceActivity;
-        }
-    }
-
 
 
     public interface ObservableProvider <T> {
