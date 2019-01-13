@@ -15,6 +15,7 @@ import it.niedermann.nextcloud.deck.model.JoinStackWithCard;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 
@@ -48,6 +49,9 @@ public class DataBaseAdapter {
     public Board getBoardByRemoteIdDirectly(long accountId, long remoteId) {
         return db.getBoardDao().getBoardByRemoteIdDirectly(accountId, remoteId);
     }
+    public FullBoard getFullBoardByRemoteIdDirectly(long accountId, long remoteId) {
+        return db.getBoardDao().getFullBoardByRemoteIdDirectly(accountId, remoteId);
+    }
 
     
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
@@ -78,7 +82,10 @@ public class DataBaseAdapter {
     }
 
     public User getUserByRemoteIdDirectly(long accountId, long remoteId) {
-        return db.getUserDao().getUsersByRemoteIdDirectly(accountId, remoteId);
+        return db.getUserDao().getUserByRemoteIdDirectly(accountId, remoteId);
+    }
+    public User getUserByUidDirectly(long accountId, String uid) {
+        return db.getUserDao().getUserByUidDirectly(accountId, uid);
     }
 
     

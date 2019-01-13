@@ -7,8 +7,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 
@@ -19,8 +19,8 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 public class GsonConfig {
 
     public static Gson GetGson() {
-        Type boardList = new TypeToken<List<Board>>() {}.getType();
-        Type board = new TypeToken<Board>() {}.getType();
+        Type boardList = new TypeToken<List<FullBoard>>() {}.getType();
+        Type board = new TypeToken<FullBoard>() {}.getType();
         Type cardList = new TypeToken<FullCard>() {}.getType();
         Type card = new TypeToken<FullCard>() {}.getType();
         Type labelList = new TypeToken<Label>() {}.getType();
@@ -30,8 +30,8 @@ public class GsonConfig {
 
         return new GsonBuilder()
                 .setLenient()
-                .registerTypeAdapter(boardList,     new NextcloudArrayDeserializer<>("boards", Board.class))
-                .registerTypeAdapter(board,         new NextcloudArrayDeserializer<>("board", Board.class))
+                .registerTypeAdapter(boardList,     new NextcloudArrayDeserializer<>("boards", FullBoard.class))
+                .registerTypeAdapter(board,         new NextcloudArrayDeserializer<>("board", FullBoard.class))
                 .registerTypeAdapter(cardList,      new NextcloudArrayDeserializer<>("cards", FullCard.class))
                 .registerTypeAdapter(card,          new NextcloudDeserializer<>("card", FullCard.class))
                 .registerTypeAdapter(labelList,     new NextcloudArrayDeserializer<>("labels", Label.class))

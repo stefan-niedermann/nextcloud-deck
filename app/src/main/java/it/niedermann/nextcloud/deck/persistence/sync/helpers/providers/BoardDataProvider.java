@@ -3,34 +3,45 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class BoardDataProvider implements IDataProvider<Board> {
+public class BoardDataProvider implements IDataProvider<FullBoard> {
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Board>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullBoard>> responder) {
         serverAdapter.getBoards(accountId, responder);
     }
 
     @Override
-    public Board getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId) {
-        return dataBaseAdapter.getBoardByRemoteIdDirectly(accountId, remoteId);
+    public FullBoard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId) {
+        return dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, remoteId);
     }
 
     @Override
-    public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Board entity) {
-        dataBaseAdapter.createBoard(accountId, entity);
+    public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+        if (entity.getOwner()!=null && entity.getOwner().size() == 1) {
+            User remoteOwner = entity.getOwner().get(0);
+            User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
+            if (owner == null){
+                dataBaseAdapter.createUser(accountId, remoteOwner);
+            }
+            owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
+            entity.getBoard().setOwnerId(owner.getLocalId());
+        }
+
+        dataBaseAdapter.createBoard(accountId, entity.getBoard());
     }
 
     @Override
-    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Board entity) {
-        dataBaseAdapter.updateBoard(entity);
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+        dataBaseAdapter.updateBoard(entity.getBoard());
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, Board entityFromServer) {
+    public void goDeeper(SyncHelper syncHelper, FullBoard entityFromServer) {
         syncHelper.doSyncFor(new StackDataProvider(entityFromServer));
     }
 

@@ -3,16 +3,16 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class StackDataProvider implements IDataProvider<FullStack> {
-    private Board board;
+    private FullBoard board;
 
-    public StackDataProvider(Board board) {
+    public StackDataProvider(FullBoard board) {
         this.board = board;
     }
 
@@ -38,6 +38,6 @@ public class StackDataProvider implements IDataProvider<FullStack> {
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullStack entityFromServer) {
-        syncHelper.doSyncFor(new CardDataProvider(board, entityFromServer));
+        syncHelper.doSyncFor(new CardDataProvider(board.getBoard(), entityFromServer));
     }
 }

@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 
@@ -57,7 +58,7 @@ public class ServerAdapter {
 //        return lastSync;
     }
 
-    public void getBoards(long accountId, IResponseCallback<List<Board>> responseCallback) {
+    public void getBoards(long accountId, IResponseCallback<List<FullBoard>> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(getLastSyncDateFormatted()), responseCallback);
     }
 

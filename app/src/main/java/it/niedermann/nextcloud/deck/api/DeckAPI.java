@@ -8,6 +8,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import retrofit2.http.Body;
@@ -30,7 +31,7 @@ public interface DeckAPI {
     Observable<Board> getBoard(@Path("id") long id, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
     @GET("boards")
-    Observable<List<Board>> getBoards(@Header(MODIFIED_SINCE_HEADER) String lastSync);
+    Observable<List<FullBoard>> getBoards(@Header(MODIFIED_SINCE_HEADER) String lastSync);
 
 
     // ### Stacks

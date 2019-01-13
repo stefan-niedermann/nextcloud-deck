@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 
@@ -31,11 +32,11 @@ public class JsonToEntityParser {
     }
 
     protected static <T> T parseJsonObject(JsonObject obj, Class<T> mType) {
-        if (mType == Board.class) {
+        if (mType == FullBoard.class) {
             return (T) parseBoard(obj);
-        } else if (mType == Card.class) {
+        } else if (mType == FullCard.class) {
             return (T) parseCard(obj);
-        } else if (mType == Stack.class) {
+        } else if (mType == FullStack.class) {
             return (T) parseStack(obj);
         } else if (mType == Label.class) {
             return (T) parseLabel(obj);
@@ -44,12 +45,33 @@ public class JsonToEntityParser {
     }
 
 
-    protected static Board parseBoard(JsonObject e) {
+    protected static FullBoard parseBoard(JsonObject e) {
+        FullBoard fullBoard = new FullBoard();
+
         DeckLog.log(e.toString());
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
         board.setId(e.get("id").getAsLong());
-        return board;
+        fullBoard.setBoard(board);
+
+        if (e.has("labels") && !e.get("labels").isJsonNull()) {
+            JsonArray labelsJson = e.getAsJsonArray("labels");
+            List<Label> labels = new ArrayList<>();
+            for (JsonElement labelJson : labelsJson) {
+                labels.add(parseLabel(labelJson.getAsJsonObject()));
+            }
+            fullBoard.setLabels(labels);
+        }
+        //todo e.get "participants" / acl
+
+        JsonElement owner = e.get("owner");
+        if (owner != null) {
+            if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
+                Log.d(DeckConsts.DEBUG_TAG, "owner is Primitive, skipping");
+            } else
+                fullBoard.setOwner(parseUser(owner.getAsJsonObject()));
+        }
+        return fullBoard;
     }
 
     protected static FullCard parseCard(JsonObject e) {
@@ -74,8 +96,8 @@ public class JsonToEntityParser {
             }
             fullCard.setLabels(labels);
         }
-        //e.get "assignedUsers"
-        //e.get "attachments"
+        //todo e.get "participants" / acl
+        //todo e.get "attachments"
         card.setStackId(e.get("attachmentCount").getAsInt());
         card.setOrder(e.get("order").getAsInt());
         card.setOverdue(e.get("overdue").getAsInt());
