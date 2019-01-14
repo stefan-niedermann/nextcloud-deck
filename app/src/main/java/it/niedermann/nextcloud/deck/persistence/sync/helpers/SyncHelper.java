@@ -41,7 +41,8 @@ public class SyncHelper {
                             provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(existingEntity, entityFromServer, accountId));
                             syncChangedSomething = true; //TODO: only if no diff!
                         }
-                        provider.goDeeper(SyncHelper.this, entityFromServer);
+                        existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer.getId());
+                        provider.goDeeper(SyncHelper.this, existingEntity);
                     }
                     provider.doneAll(responseCallback, syncChangedSomething);
                 }
