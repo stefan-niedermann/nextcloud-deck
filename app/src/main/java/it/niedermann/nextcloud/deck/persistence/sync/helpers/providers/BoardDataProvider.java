@@ -22,21 +22,27 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
 
     @Override
     public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+        handleOwner(dataBaseAdapter, accountId, entity);
+        dataBaseAdapter.createBoard(accountId, entity.getBoard());
+    }
+
+    private void handleOwner(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         if (entity.getOwner()!=null && entity.getOwner().size() == 1) {
             User remoteOwner = entity.getOwner().get(0);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
             if (owner == null){
                 dataBaseAdapter.createUser(accountId, remoteOwner);
+            } else {
+                dataBaseAdapter.updateUser(accountId, remoteOwner);
             }
             owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
             entity.getBoard().setOwnerId(owner.getLocalId());
         }
-
-        dataBaseAdapter.createBoard(accountId, entity.getBoard());
     }
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+        handleOwner(dataBaseAdapter, accountId, entity);
         dataBaseAdapter.updateBoard(entity.getBoard());
     }
 

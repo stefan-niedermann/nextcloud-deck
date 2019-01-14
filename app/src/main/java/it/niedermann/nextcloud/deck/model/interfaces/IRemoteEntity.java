@@ -11,7 +11,7 @@ public interface IRemoteEntity {
     default IRemoteEntity getEntity() {return this;}
 
     default Long getLocalId() {
-        return this.getLocalId();
+        return getEntity().getLocalId();
     }
 
     
