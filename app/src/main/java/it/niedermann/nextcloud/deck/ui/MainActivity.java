@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity
                 if(response) {
                     syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
                         MainActivity.this.account = accounts.get(0);
-                        String accountName = this.account.getName();
+                        String accountName = MainActivity.this.account.getName();
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
                         // TODO show spinner
                         MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
