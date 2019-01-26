@@ -33,6 +33,7 @@ public class SyncHelper {
             public void onResponse(List<T> response) {
                 if (response != null && !response.isEmpty()) {
                     for (T entityFromServer : response) {
+                        entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer.getId());
                         if (existingEntity == null) {
                             provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
