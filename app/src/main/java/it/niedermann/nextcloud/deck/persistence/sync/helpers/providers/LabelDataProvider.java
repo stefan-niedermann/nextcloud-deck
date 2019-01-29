@@ -44,7 +44,7 @@ public class LabelDataProvider implements IDataProvider<Label> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, Label entityFromServer) {
+    public void goDeeper(SyncHelper syncHelper, Label existingEntity, Label entityFromServer) {
         // ain't goin' deeper <3
         return;
     }

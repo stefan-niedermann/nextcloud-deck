@@ -47,8 +47,8 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, FullBoard entityFromServer) {
-        syncHelper.doSyncFor(new StackDataProvider(entityFromServer));
+    public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer) {
+        syncHelper.doSyncFor(new StackDataProvider(existingEntity));
     }
 
     @Override

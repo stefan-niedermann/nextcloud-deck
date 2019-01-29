@@ -46,7 +46,7 @@ public class UserDataProvider implements IDataProvider<User> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, User entityFromServer) {
+    public void goDeeper(SyncHelper syncHelper, User existingEntity, User entityFromServer) {
         // ain't goin' deeper <3
         return;
     }

@@ -18,7 +18,7 @@ public interface IDataProvider <T extends IRemoteEntity> {
 
     void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
 
-    void goDeeper(SyncHelper syncHelper, T entityFromServer);
+    void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer);
 
     default void doneAll(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething){
         // do nothing! Only BoardDataProvider should overwrite this!

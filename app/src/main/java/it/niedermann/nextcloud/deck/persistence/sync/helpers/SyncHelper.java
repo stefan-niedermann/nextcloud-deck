@@ -27,7 +27,7 @@ public class SyncHelper {
         accountId = account.getId();
     }
 
-    public <T extends IRemoteEntity> void doSyncFor(IDataProvider<T> provider){
+    public <T extends IRemoteEntity> void doSyncFor(final IDataProvider<T> provider){
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
@@ -43,7 +43,7 @@ public class SyncHelper {
                             syncChangedSomething = true; //TODO: only if no diff!
                         }
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer.getId());
-                        provider.goDeeper(SyncHelper.this, existingEntity);
+                        provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer);
                     }
                     provider.doneAll(responseCallback, syncChangedSomething);
                 }

@@ -38,7 +38,8 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, FullStack entityFromServer) {
-        syncHelper.doSyncFor(new CardDataProvider(board.getBoard(), entityFromServer));
+    public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer) {
+        existingEntity.setCards(entityFromServer.getCards());
+        syncHelper.doSyncFor(new CardDataProvider(board.getBoard(), existingEntity));
     }
 }
