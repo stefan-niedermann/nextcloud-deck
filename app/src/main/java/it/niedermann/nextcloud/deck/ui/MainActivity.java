@@ -220,8 +220,8 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onResponse(LiveData<List<FullStack>> response) {
-                stackAdapter.clear();
                 response.observe(MainActivity.this, (List<FullStack> fullStacks) -> {
+                    stackAdapter.clear();
                     for(FullStack stack: fullStacks) {
                         stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
                     }
