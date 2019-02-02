@@ -216,10 +216,15 @@ public class DataBaseAdapter {
     
     public void getStacks(long accountId, long localBoardId, IResponseCallback<LiveData<List<FullStack>>> responseCallback) {
         respond(responseCallback, () -> db.getStackDao().getFullStacksForBoard(accountId, localBoardId));
-    }
+        }
+
+
 
     
-    public void getStackByRemoteId(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<FullStack>> responseCallback) {
+    public LiveData<FullStack> getStack(long accountId, long localStackId) {
+        return db.getStackDao().getFullStack(accountId, localStackId);
+    }
+        public void getStackByRemoteId(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<FullStack>> responseCallback) {
 //        QueryBuilder<Stack> qb = db.getStackDao().queryBuilder();
 //        respond(responseCallback, () -> {
 //            Stack stack = qb.where(

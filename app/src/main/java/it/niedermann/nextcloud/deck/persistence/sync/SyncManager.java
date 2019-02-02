@@ -219,8 +219,8 @@ public class SyncManager {
         dataBaseAdapter.getStacks(accountId, localBoardId, wrapCallForUi(responseCallback));
     }
 
-    public void getStack(long accountId, long localBoardId, long stackId, IResponseCallback<LiveData<FullStack>> responseCallback) {
-        dataBaseAdapter.getStackByRemoteId(accountId, localBoardId, stackId, wrapCallForUi(responseCallback));
+    public LiveData<FullStack> getStack(long accountId, long localStackId) {
+        return dataBaseAdapter.getStack(accountId, localStackId);
     }
 
     public void createStack(long accountId, Stack stack) {
