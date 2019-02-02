@@ -6,6 +6,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -25,12 +26,16 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder) {
         List<FullCard> result = new ArrayList<>();
+        if (stack.getCards() == null || stack.getCards().isEmpty()){
+            responder.onResponse(result);
+        }
         for (Long card : stack.getCards()) {
             serverAdapter.getCard(accountId, board.getId(), stack.getId(), card, new IResponseCallback<FullCard>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullCard response) {
                     result.add(response);
                     if (result.size() == stack.getCards().size()) {
+                        DeckLog.log("sizes befor response: "+result.size()+ " | " + stack.getCards().size());
                         responder.onResponse(result);
                     }
                 }
@@ -51,11 +56,31 @@ public class CardDataProvider implements IDataProvider<FullCard> {
 
     @Override
     public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
+        fixRelations(dataBaseAdapter, accountId, entity);
         dataBaseAdapter.createCard(accountId, entity.getCard());
+    }
+
+    private void fixRelations(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
+        entity.getCard().setStackId(stack.getLocalId());
+        if (entity.getOwner() != null && !entity.getOwner().isEmpty()){
+            User user = entity.getOwner().get(0);
+            User u = dataBaseAdapter.getUserByUidDirectly(accountId, user.getUid());
+            if (u == null){
+                dataBaseAdapter.createUser(accountId, user);
+            } else {
+                user.setLocalId(u.getLocalId());
+                dataBaseAdapter.updateUser(accountId, user);
+            }
+            u = dataBaseAdapter.getUserByUidDirectly(accountId, user.getUid());
+
+            user.setLocalId(u.getLocalId());
+            entity.getCard().setUserId(u.getLocalId());
+        }
     }
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
+        fixRelations(dataBaseAdapter, accountId, entity);
         dataBaseAdapter.updateCard(entity.getCard());
     }
 
@@ -65,6 +90,6 @@ public class CardDataProvider implements IDataProvider<FullCard> {
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
         syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getAssignedUsers()));
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
-        syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getOwner()));
+//        syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getOwner()));
     }
 }

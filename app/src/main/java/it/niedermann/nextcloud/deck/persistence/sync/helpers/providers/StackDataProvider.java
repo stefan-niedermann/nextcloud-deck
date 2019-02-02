@@ -34,12 +34,15 @@ public class StackDataProvider implements IDataProvider<FullStack> {
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
+        entity.getStack().setBoardId(board.getLocalId());
         dataBaseAdapter.updateStack(entity.getStack());
     }
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer) {
         existingEntity.setCards(entityFromServer.getCards());
-        syncHelper.doSyncFor(new CardDataProvider(board.getBoard(), existingEntity));
+        if (existingEntity.getCards() != null && !existingEntity.getCards().isEmpty()){
+            syncHelper.doSyncFor(new CardDataProvider(board.getBoard(), existingEntity));
+        }
     }
 }
