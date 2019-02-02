@@ -6,7 +6,7 @@ import android.arch.persistence.room.Relation;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.JoinStackWithCard;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
@@ -14,8 +14,8 @@ public class FullStack implements IRemoteEntity {
     @Embedded
     public Stack stack;
 
-    @Relation(entity =  Card.class, parentColumn = "localId", entityColumn = "localId")
-    public List<FullCard> cards;
+    @Relation(entity =  JoinStackWithCard.class, parentColumn = "localId", entityColumn = "stackId", projection = "cardId")
+    public List<Long> cards;
 
 
     public Stack getStack() {
@@ -26,11 +26,11 @@ public class FullStack implements IRemoteEntity {
         this.stack = stack;
     }
 
-    public List<FullCard> getCards() {
+    public List<Long> getCards() {
         return cards;
     }
 
-    public void setCards(List<FullCard> cards) {
+    public void setCards(List<Long> cards) {
         this.cards = cards;
     }
 

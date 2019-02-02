@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -22,11 +24,28 @@ public class CardDataProvider implements IDataProvider<FullCard> {
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder) {
-        responder.onResponse(stack.getCards());
+        List<FullCard> result = new ArrayList<>();
+        for (Long card : stack.getCards()) {
+            serverAdapter.getCard(accountId, board.getId(), stack.getId(), card, new IResponseCallback<FullCard>(responder.getAccount()) {
+                @Override
+                public void onResponse(FullCard response) {
+                    result.add(response);
+                    if (result.size() == stack.getCards().size()) {
+                        responder.onResponse(result);
+                    }
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    responder.onError(throwable);
+                }
+            });
+        }
     }
 
     @Override
     public FullCard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId) {
+        DeckLog.log("cardFromDB: "+accountId+" | "+remoteId);
         return dataBaseAdapter.getFullCardByRemoteIdDirectly(accountId, remoteId);
     }
 

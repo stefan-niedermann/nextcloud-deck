@@ -94,7 +94,7 @@ public class StackFragment extends Fragment {
             @Override
             public void onResponse(LiveData<FullStack> response) {
                 response.observe(StackFragment.this, (FullStack fullStack) -> {
-                    adapter.setCardList(fullStack.getCards());
+//                    adapter.setCardList(fullStack.getCards());
                     swipeRefreshLayout.setRefreshing(false);
                 });
             }

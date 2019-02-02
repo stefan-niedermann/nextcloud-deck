@@ -135,10 +135,12 @@ public class JsonToEntityParser {
         if (e.has("cards")) {
             JsonArray cardsJson = e.getAsJsonArray("cards");
             List<FullCard> cards = new ArrayList<>();
+            List<Long> cardIds = new ArrayList<>();
             for (JsonElement cardJson : cardsJson) {
-                cards.add(parseCard(cardJson.getAsJsonObject()));
+//                cards.add(parseCard(cardJson.getAsJsonObject()));
+                cardIds.add(cardJson.getAsJsonObject().get("id").getAsLong());
             }
-            fullStack.setCards(cards);
+            fullStack.setCards(cardIds);
         }
         fullStack.setStack(stack);
 //        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
