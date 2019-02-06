@@ -33,6 +33,6 @@ public interface StackDao extends GenericDao<Stack> {
     LiveData<FullStack> getFullStackByRemoteId(final long accountId, final long localBoardId, final long remoteId);
 
     @Transaction
-    @Query("SELECT * FROM stack WHERE localId = :localId")
+    @Query("SELECT * FROM stack WHERE accountId = :accountId and localId = :localId")
     LiveData<FullStack> getFullStack(long accountId, long localId);
 }
