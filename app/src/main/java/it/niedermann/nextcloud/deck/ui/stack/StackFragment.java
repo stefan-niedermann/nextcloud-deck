@@ -90,23 +90,13 @@ public class StackFragment extends Fragment {
     }
 
     private void refreshView() {
-        syncManager.getStack(account.getId(), boardId, stackId, new IResponseCallback<LiveData<FullStack>>(account) {
-            @Override
-            public void onResponse(LiveData<FullStack> response) {
-                response.observe(StackFragment.this, (FullStack fullStack) -> {
-//                    adapter.setCardList(fullStack.getCards());
-                    swipeRefreshLayout.setRefreshing(false);
-                });
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                swipeRefreshLayout.setRefreshing(false);
-                Log.e(DeckConsts.DEBUG_TAG, throwable.getMessage());
-                throwable.printStackTrace();
+        syncManager.getStack(account.getId(), stackId).observe(StackFragment.this, (FullStack stack) -> {
+            for(long id : stack.getCards()) {
+                DeckLog.log(id + "");
             }
         });
     }
+
 
     private void initRecyclerView() {
         adapter = new CardAdapter();
