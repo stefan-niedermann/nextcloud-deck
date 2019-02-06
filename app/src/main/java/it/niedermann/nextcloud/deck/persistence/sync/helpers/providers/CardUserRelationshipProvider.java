@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 
@@ -25,10 +24,7 @@ public class CardUserRelationshipProvider implements IRelationshipProvider {
         Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
         for (User label : labels){
             User existingUser = dataBaseAdapter.getUserByRemoteIdDirectly(accountId, label.getId());
-            JoinCardWithUser join = new JoinCardWithUser();
-            join.setUserId(existingUser.getLocalId());
-            join.setCardId(card.getLocalId());
-
+            dataBaseAdapter.createJoinCardWithUser(existingUser.getLocalId(), card.getLocalId());
         }
     }
 
