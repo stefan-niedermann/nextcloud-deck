@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -37,6 +39,13 @@ public class ServerAdapter {
                 applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
     }
 
+    private void ensureConnectivity() {
+        ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        boolean isConnected = cm.getActiveNetworkInfo().isConnected();
+        if (!isConnected){
+            throw new OfflineException();
+        }
+    }
 
     private String getLastSyncDateFormatted() {
         return null;
@@ -58,55 +67,64 @@ public class ServerAdapter {
 //        return lastSync;
     }
 
-    public void getBoards(long accountId, IResponseCallback<List<FullBoard>> responseCallback) {
+    public void getBoards(IResponseCallback<List<FullBoard>> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(getLastSyncDateFormatted()), responseCallback);
     }
 
-    public void createBoard(long accountId, Board board) {
-        // throw new IllegalStateException // when offline /
+    public void createBoard(Board board) {
+        ensureConnectivity();
+//        RequestHelper.re quest(sourceActivity, provider, () -> provider.getAPI().createBoard(board)), new IResponseCallback<>());
     }
 
     public void deleteBoard(Board board) {
+        ensureConnectivity();
 
     }
 
     public void updateBoard(Board board) {
+        ensureConnectivity();
 
     }
 
-    public void getStacks(long accountId, long boardId, IResponseCallback<List<FullStack>> responseCallback) {
+    public void getStacks(long boardId, IResponseCallback<List<FullStack>> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStacks(boardId, getLastSyncDateFormatted()), responseCallback);
     }
 
-    public void getStack(long accountId, long boardId, long stackId, IResponseCallback<FullStack> responseCallback) {
+    public void getStack(long boardId, long stackId, IResponseCallback<FullStack> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStack(boardId, stackId, getLastSyncDateFormatted()), responseCallback);
     }
 
-    public void createStack(long accountId, Stack stack) {
+    public void createStack(Stack stack) {
+        ensureConnectivity();
 
     }
 
     public void deleteStack(Stack stack) {
+        ensureConnectivity();
 
     }
 
     public void updateStack(Stack stack) {
+        ensureConnectivity();
 
     }
 
-    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<FullCard> responseCallback) {
+    public void getCard(long boardId, long stackId, long cardId, IResponseCallback<FullCard> responseCallback) {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getCard(boardId, stackId, cardId, getLastSyncDateFormatted()), responseCallback);
     }
 
-    public void createCard(long accountId, Card card) {
+    public void createCard(Card card) {
+        ensureConnectivity();
 
     }
 
     public void deleteCard(Card card) {
+        ensureConnectivity();
 
     }
 
     public void updateCard(Card card) {
+        ensureConnectivity();
 
     }
 }

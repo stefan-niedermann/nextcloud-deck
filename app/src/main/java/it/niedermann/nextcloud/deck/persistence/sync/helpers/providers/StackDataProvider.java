@@ -18,7 +18,7 @@ public class StackDataProvider implements IDataProvider<FullStack> {
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullStack>> responder) {
-        serverAdapter.getStacks(accountId, board.getId(), responder);
+        serverAdapter.getStacks(board.getId(), responder);
     }
 
     @Override

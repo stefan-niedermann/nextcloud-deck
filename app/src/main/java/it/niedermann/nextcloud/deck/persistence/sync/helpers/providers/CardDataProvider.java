@@ -29,7 +29,7 @@ public class CardDataProvider implements IDataProvider<FullCard> {
             responder.onResponse(result);
         }
         for (Long card : stack.getCards()) {
-            serverAdapter.getCard(accountId, board.getId(), stack.getId(), card, new IResponseCallback<FullCard>(responder.getAccount()) {
+            serverAdapter.getCard(board.getId(), stack.getId(), card, new IResponseCallback<FullCard>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullCard response) {
                     result.add(response);

@@ -12,7 +12,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 public class BoardDataProvider implements IDataProvider<FullBoard> {
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullBoard>> responder) {
-        serverAdapter.getBoards(accountId, responder);
+        serverAdapter.getBoards(responder);
     }
 
     @Override

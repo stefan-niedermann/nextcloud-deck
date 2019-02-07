@@ -131,7 +131,7 @@ public class SyncManager {
     public long createBoard(long accountId, Board board) {
         //TODO how to tell server?
         doAsync(() -> {
-            serverAdapter.createBoard(accountId, board);
+            serverAdapter.createBoard(board);
         });
         return dataBaseAdapter.createBoard(accountId, board);
     }
