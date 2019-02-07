@@ -198,14 +198,16 @@ public class MainActivity extends AppCompatActivity
             toolbar.setTitle(selectedBoard.getTitle());
         }
         syncManager.getStacksForBoard(account.getId(), selectedBoard.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
-            stackAdapter.clear();
-            for(FullStack stack: fullStacks) {
-                stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
+            if(fullStacks != null) {
+                stackAdapter.clear();
+                for (FullStack stack : fullStacks) {
+                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
+                }
+                runOnUiThread(() -> {
+                    viewPager.setAdapter(stackAdapter);
+                    stackLayout.setupWithViewPager(viewPager);
+                });
             }
-            runOnUiThread(() -> {
-                viewPager.setAdapter(stackAdapter);
-                stackLayout.setupWithViewPager(viewPager);
-            });
         });
     }
 

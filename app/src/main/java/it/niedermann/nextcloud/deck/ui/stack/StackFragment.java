@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,12 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
@@ -29,7 +33,6 @@ public class StackFragment extends Fragment {
     private CardAdapter adapter = null;
     private SyncManager syncManager;
 
-    private long boardId;
     private long stackId;
     private Account account;
 
@@ -56,44 +59,48 @@ public class StackFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stack, container, false);
         ButterKnife.bind(this, view);
         initRecyclerView();
 
-        boardId = getArguments().getLong(KEY_BOARD_ID);
+        if (getArguments() == null) {
+            throw new IllegalArgumentException("account and localStackId are required arguments.");
+        }
+
         stackId = getArguments().getLong(KEY_STACK_ID);
         account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
 
-        syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
+        if (getActivity() != null) {
+            syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            syncManager.synchronize(new IResponseCallback<Boolean>(account) {
-                @Override
-                public void onResponse(Boolean response) {
-                    DeckLog.log("yay. whatever"); //TODO: is this what we want?
-                }
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                    @Override
+                    public void onResponse(Boolean response) {
+                        refreshView();
+                    }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    DeckLog.log("exception! "+throwable.getMessage());
-                }
+                    @Override
+                    public void onError(Throwable throwable) {
+                        DeckLog.log("exception! " + throwable.getMessage());
+                    }
+                });
             });
-            refreshView();
-        });
 
-        refreshView();
+            refreshView();
+        }
         return view;
     }
 
     private void refreshView() {
         syncManager.getStack(account.getId(), stackId).observe(StackFragment.this, (FullStack stack) -> {
-            // get cards for stack:
-            //syncManager.getFullCardsForStack(account.getId(), stack.getLocalId());
-            for(long id : stack.getCards()) {
-                // Get card by ID:
-//                syncManager.getCardByLocalId(account.getId(), id);
-                DeckLog.log(id + "");
+            if (stack != null) {
+                syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(StackFragment.this, (List<FullCard> cards) -> {
+                    if (cards != null) {
+                        adapter.setCardList(cards);
+                    }
+                });
             }
         });
     }
