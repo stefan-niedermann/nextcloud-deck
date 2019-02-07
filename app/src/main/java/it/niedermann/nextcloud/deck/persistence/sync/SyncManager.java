@@ -240,6 +240,10 @@ public class SyncManager {
         return dataBaseAdapter.getCardByLocalId(accountId, cardLocalId);
     }
 
+    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
+        return dataBaseAdapter.getFullCardsForStack(accountId, localStackId);
+    }
+
     public void createCard(long accountId, Card card) {
 
     }

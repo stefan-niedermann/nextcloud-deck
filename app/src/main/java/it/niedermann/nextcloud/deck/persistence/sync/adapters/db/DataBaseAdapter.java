@@ -82,6 +82,10 @@ public class DataBaseAdapter {
         return db.getUserDao().getUsersByRemoteId(accountId, remoteId);
     }
 
+    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
+        return db.getCardDao().getFullCardsForStack(accountId, localStackId);
+    }
+
     public User getUserByRemoteIdDirectly(long accountId, long remoteId) {
         return db.getUserDao().getUserByRemoteIdDirectly(accountId, remoteId);
     }
@@ -260,7 +264,7 @@ public class DataBaseAdapter {
     }
 
     
-    public LiveData<FullCard> getCardByLocalId(long accountId, long localCardId) {
+    public LiveData<FullCard>  getCardByLocalId(long accountId, long localCardId) {
         return db.getCardDao().getFullCardByLocalId(accountId, localCardId);
     }
 
