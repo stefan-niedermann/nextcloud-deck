@@ -23,7 +23,6 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 public class DataBaseAdapter {
 
 
-
     private interface DataAccessor<T> {
         T getData();
     }
@@ -94,9 +93,9 @@ public class DataBaseAdapter {
     }
 
     
-    public void createUser(long accountId, User user) {
+    public long createUser(long accountId, User user) {
         user.setAccountId(accountId);
-        db.getUserDao().insert(user);
+        return db.getUserDao().insert(user);
     }
 
     
@@ -114,9 +113,9 @@ public class DataBaseAdapter {
     }
 
     
-    public void createLabel(long accountId, Label label) {
+    public long createLabel(long accountId, Label label) {
         label.setAccountId(accountId);
-        db.getLabelDao().insert(label);
+        return db.getLabelDao().insert(label);
     }
 
     
@@ -173,9 +172,12 @@ public class DataBaseAdapter {
     }
 
     
-    public void updateLabel(long accountId, Label label) {
-        label.setAccountId(accountId);
+    public void updateLabel(Label label) {
         db.getLabelDao().update(label);
+    }
+
+    public void deleteLabel(Label label) {
+        db.getLabelDao().delete(label);
     }
 
     
@@ -216,15 +218,14 @@ public class DataBaseAdapter {
     }
 
     
-    public void createBoard(long accountId, Board board) {
+    public long createBoard(long accountId, Board board) {
         board.setAccountId(accountId);
-        db.getBoardDao().insert(board);
+        return db.getBoardDao().insert(board);
     }
 
     
     public void deleteBoard(Board board) {
         db.getBoardDao().delete(board);
-
     }
 
     
@@ -245,16 +246,15 @@ public class DataBaseAdapter {
     }
 
     
-    public void createStack(long accountId, Stack stack) {
+    public long createStack(long accountId, Stack stack) {
         stack.setAccountId(accountId);
-        db.getStackDao().insert(stack);
+        return db.getStackDao().insert(stack);
 
     }
 
     
     public void deleteStack(Stack stack) {
         db.getStackDao().delete(stack);
-
     }
 
     
@@ -269,9 +269,9 @@ public class DataBaseAdapter {
     }
 
     
-    public void createCard(long accountId, Card card) {
+    public long createCard(long accountId, Card card) {
         card.setAccountId(accountId);
-        db.getCardDao().insert(card);
+        return db.getCardDao().insert(card);
 
     }
 
