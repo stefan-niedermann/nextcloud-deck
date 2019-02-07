@@ -7,7 +7,10 @@ import it.niedermann.nextcloud.deck.model.JoinStackWithCard;
 
 @Dao
 public interface JoinStackWithCardDao extends GenericDao<JoinStackWithCard> {
-    @Query("DELETE FROM joinstackwithcard WHERE stackId = :localId")
-    void deleteByStackId(long localId);
+    @Query("DELETE FROM joinstackwithcard WHERE stackId = :localStackId")
+    void deleteByStackId(long localStackId);
+
+    @Query("DELETE FROM joinstackwithcard WHERE cardId = :localCardId")
+    void deleteByCardId(long localCardId);
 }
 

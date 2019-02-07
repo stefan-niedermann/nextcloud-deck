@@ -196,8 +196,8 @@ public class SyncManager {
         return dataBaseAdapter.readAccounts();
     }
 
-    public void getBoards(long accountId, IResponseCallback<LiveData<List<Board>>> responseCallback) {
-        dataBaseAdapter.getBoards(accountId, wrapCallForUi(responseCallback));
+    public LiveData<List<Board>> getBoards(long accountId) {
+        return dataBaseAdapter.getBoards(accountId);
     }
 
     public void createBoard(long accountId, Board board) {
@@ -215,8 +215,8 @@ public class SyncManager {
 
     }
 
-    public void getStacks(long accountId, long localBoardId, IResponseCallback<LiveData<List<FullStack>>> responseCallback) {
-        dataBaseAdapter.getStacks(accountId, localBoardId, wrapCallForUi(responseCallback));
+    public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
+        return dataBaseAdapter.getStacks(accountId, localBoardId);
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
@@ -236,8 +236,8 @@ public class SyncManager {
 
     }
 
-    public void getCard(long accountId, long boardId, long stackId, long cardId, IResponseCallback<LiveData<FullCard>> responseCallback) {
-        dataBaseAdapter.getCard(accountId, boardId, stackId, cardId, wrapCallForUi(responseCallback));
+    public LiveData<FullCard> getCardByLocalId(long accountId, long cardLocalId) {
+        return dataBaseAdapter.getCardByLocalId(accountId, cardLocalId);
     }
 
     public void createCard(long accountId, Card card) {

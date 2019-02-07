@@ -7,6 +7,6 @@ import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 
 @Dao
 public interface JoinCardWithLabelDao extends GenericDao<JoinCardWithLabel> {
-    @Query("DELETE FROM joincardwithlabel WHERE cardId = :localId")
-    void deleteByCardId(long localId);
+    @Query("DELETE FROM joincardwithlabel WHERE  cardId = :localCardId")
+    void deleteByCardId(long localCardId);
 }

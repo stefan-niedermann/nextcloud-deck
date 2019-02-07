@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui;
 
-import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +13,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -27,7 +25,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -153,18 +150,7 @@ public class MainActivity extends AppCompatActivity
                         MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                             @Override
                             public void onResponse(Boolean response) {
-                                syncManager.getBoards(this.account.getId(), new IResponseCallback<LiveData<List<Board>>>(this.account) {
-                                    @Override
-                                    public void onResponse(LiveData<List<Board>> boards) { // TODO hide spinner
-                                        boards.observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable throwable) {
-                                        DeckLog.log(throwable.getMessage());
-                                        throwable.printStackTrace();
-                                    }
-                                });
+                                syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
                             }
 
                             @Override
@@ -211,26 +197,15 @@ public class MainActivity extends AppCompatActivity
         if(toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
-        syncManager.getStacks(account.getId(), selectedBoard.getLocalId(), new IResponseCallback<LiveData<List<FullStack>>>(account) {
-            @Override
-            public void onError(Throwable throwable) {
-                Log.e(DeckConsts.DEBUG_TAG, throwable.getMessage());
-                throwable.printStackTrace();
+        syncManager.getStacksForBoard(account.getId(), selectedBoard.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
+            stackAdapter.clear();
+            for(FullStack stack: fullStacks) {
+                stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
             }
-
-            @Override
-            public void onResponse(LiveData<List<FullStack>> response) {
-                response.observe(MainActivity.this, (List<FullStack> fullStacks) -> {
-                    stackAdapter.clear();
-                    for(FullStack stack: fullStacks) {
-                        stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
-                    }
-                    runOnUiThread(() -> {
-                        viewPager.setAdapter(stackAdapter);
-                        stackLayout.setupWithViewPager(viewPager);
-                    });
-                });
-            }
+            runOnUiThread(() -> {
+                viewPager.setAdapter(stackAdapter);
+                stackLayout.setupWithViewPager(viewPager);
+            });
         });
     }
 

@@ -3,29 +3,22 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class LabelDataProvider implements IDataProvider<Label> {
 
-    private Board board;
-    private FullStack stack;
-    private FullCard card;
+    private List<Label> labels;
 
-    public LabelDataProvider(Board board, FullStack stack, FullCard card) {
-        this.board = board;
-        this.stack = stack;
-        this.card = card;
+    public LabelDataProvider(List<Label> labels) {
+        this.labels = labels;
     }
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Label>> responder) {
-        responder.onResponse(card.getLabels());
+        responder.onResponse(labels);
     }
 
     @Override

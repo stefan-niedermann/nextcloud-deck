@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.User;
@@ -35,7 +34,6 @@ public class CardDataProvider implements IDataProvider<FullCard> {
                 public void onResponse(FullCard response) {
                     result.add(response);
                     if (result.size() == stack.getCards().size()) {
-                        DeckLog.log("sizes befor response: "+result.size()+ " | " + stack.getCards().size());
                         responder.onResponse(result);
                     }
                 }
@@ -50,7 +48,6 @@ public class CardDataProvider implements IDataProvider<FullCard> {
 
     @Override
     public FullCard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId) {
-        DeckLog.log("cardFromDB: "+accountId+" | "+remoteId);
         return dataBaseAdapter.getFullCardByRemoteIdDirectly(accountId, remoteId);
     }
 
@@ -88,7 +85,8 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     public void goDeeper(SyncHelper syncHelper, FullCard existingEntity, FullCard entityFromServer) {
         existingEntity.setLabels(entityFromServer.getLabels());
         existingEntity.setAssignedUsers(entityFromServer.getAssignedUsers());
-        syncHelper.doSyncFor(new LabelDataProvider(board, stack, existingEntity));
+        syncHelper.fixRelations(new StackCardRelationshipProvider(stack.getStack(), existingEntity.getCard()));
+        syncHelper.doSyncFor(new LabelDataProvider(entityFromServer.getLabels()));
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
         syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getAssignedUsers()));
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
