@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
-import android.arch.lifecycle.LiveData;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +33,6 @@ public class StackFragment extends Fragment {
     private CardAdapter adapter = null;
     private SyncManager syncManager;
 
-    private long boardId;
     private long stackId;
     private Account account;
 
@@ -60,33 +59,37 @@ public class StackFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stack, container, false);
         ButterKnife.bind(this, view);
         initRecyclerView();
 
-        boardId = getArguments().getLong(KEY_BOARD_ID);
+        if (getArguments() == null) {
+            throw new IllegalArgumentException("account and localStackId are required arguments.");
+        }
+
         stackId = getArguments().getLong(KEY_STACK_ID);
         account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
 
-        syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
+        if (getActivity() != null) {
+            syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            syncManager.synchronize(new IResponseCallback<Boolean>(account) {
-                @Override
-                public void onResponse(Boolean response) {
-                    DeckLog.log("yay. whatever"); //TODO: is this what we want?
-                }
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                    @Override
+                    public void onResponse(Boolean response) {
+                        refreshView();
+                    }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    DeckLog.log("exception! " + throwable.getMessage());
-                }
+                    @Override
+                    public void onError(Throwable throwable) {
+                        DeckLog.log("exception! " + throwable.getMessage());
+                    }
+                });
             });
-            refreshView();
-        });
 
-        refreshView();
+            refreshView();
+        }
         return view;
     }
 
