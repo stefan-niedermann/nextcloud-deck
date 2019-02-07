@@ -63,9 +63,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        fab.setOnClickListener((View view) -> {
-            Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
-        });
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -146,6 +143,15 @@ public class MainActivity extends AppCompatActivity
                         MainActivity.this.account = this.account;
                         String accountName = this.account.getName();
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
+
+
+                        fab.setOnClickListener((View view) -> {
+                            Board b = new Board();
+                            b.setTitle("Test - " + System.currentTimeMillis());
+                            syncManager.createBoard(this.account.getId(), b);
+                            Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
+                        });
+
                         // TODO show spinner
                         MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                             @Override
