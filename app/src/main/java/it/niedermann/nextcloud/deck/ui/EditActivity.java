@@ -22,6 +22,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 
 public class EditActivity extends AppCompatActivity {
 
+    FullCard card;
     SyncManager syncManager;
 
     @BindView(R.id.title)
@@ -52,7 +53,10 @@ public class EditActivity extends AppCompatActivity {
                     extras.getLong(BUNDLE_KEY_ACCOUNT_ID),
                     extras.getLong(BUNDLE_KEY_LOCAL_ID)
             ).observe(EditActivity.this, (FullCard card) -> {
-                DeckLog.log(card.getCard().getTitle());
+                this.card = card;
+                if(this.card != null) {
+                    title.setText(this.card.getCard().getTitle());
+                }
             });
         } else {
             throw new IllegalArgumentException("No localId argument");
@@ -70,5 +74,11 @@ public class EditActivity extends AppCompatActivity {
         pager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(pager);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //syncManager.updateCard(this.card);
     }
 }
