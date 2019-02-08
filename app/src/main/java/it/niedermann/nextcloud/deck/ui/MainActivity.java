@@ -25,7 +25,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -114,17 +113,8 @@ public class MainActivity extends AppCompatActivity
 
     public void onAccountChoose(SingleSignOnAccount account) {
         getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
-        this.syncManager.createAccount(account.name, new IResponseCallback<it.niedermann.nextcloud.deck.model.Account>(new Account()) {
-            @Override
-            public void onResponse(it.niedermann.nextcloud.deck.model.Account response) {
 
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-
-            }
-        });
+        this.syncManager.createAccount(account.name);
 
         // TODO Fetch data directly after login
         // TODO combine with onCreate
@@ -134,48 +124,39 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void handleAccounts() {
-        this.syncManager.hasAccounts(new IResponseCallback<Boolean>(new Account(0L, "none - account-calls don't need this.")) {
-            @Override
-            public void onResponse(Boolean response) {
-                if(response) {
-                    syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
-                        this.account = accounts.get(0);
-                        MainActivity.this.account = this.account;
-                        String accountName = this.account.getName();
-                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
+        this.syncManager.hasAccounts().observe(MainActivity.this, (Boolean hasAccounts) -> {
+            if(hasAccounts) {
+                syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
+                    this.account = accounts.get(0);
+                    String accountName = this.account.getName();
+                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
 
-                        fab.setOnClickListener((View view) -> {
-                            Board b = new Board();
-                            b.setTitle("Test - " + System.currentTimeMillis());
-                            syncManager.createBoard(this.account.getId(), b);
-                            Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
-                        });
-
-                        // TODO show spinner
-                        MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                            @Override
-                            public void onResponse(Boolean response) {
-                                syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
-                            }
-
-                            @Override
-                            public void onError(Throwable throwable) {
-                                //DeckLog.log(throwable.getMessage());
-                                throwable.printStackTrace();
-                            }
-                        });
+                    fab.setOnClickListener((View view) -> {
+                        Board b = new Board();
+                        b.setTitle("Test - " + System.currentTimeMillis());
+                        b.setOwnerId(boardsList.get(0).getOwnerId());
+                        syncManager.createBoard(this.account.getId(), b);
+                        Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
                     });
-                } else {
-                    loginDialogFragment = new LoginDialogFragment();
-                    loginDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
-                }
-            }
 
-            @Override
-            public void onError(Throwable throwable) {
-                DeckLog.log(throwable.getMessage());
-                throwable.printStackTrace();
+                    // TODO show spinner
+                    MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            //DeckLog.log(throwable.getMessage());
+                            throwable.printStackTrace();
+                        }
+                    });
+                });
+            } else {
+                loginDialogFragment = new LoginDialogFragment();
+                loginDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
             }
         });
     }

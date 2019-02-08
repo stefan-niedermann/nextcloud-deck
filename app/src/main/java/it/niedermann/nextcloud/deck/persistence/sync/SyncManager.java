@@ -100,12 +100,12 @@ public class SyncManager {
         return remoteEntity;
     }
 
-    public void hasAccounts(IResponseCallback<Boolean> responseCallback) {
-        dataBaseAdapter.hasAccounts(responseCallback);
+    public LiveData<Boolean> hasAccounts() {
+        return dataBaseAdapter.hasAccounts();
     }
 
-    public void createAccount(String accoutName, IResponseCallback<Account> responseCallback) {
-        doAsync(() -> dataBaseAdapter.createAccount(accoutName, responseCallback));
+    public LiveData<Account> createAccount(String accoutName) {
+        return dataBaseAdapter.createAccount(accoutName);
     }
 
     public void deleteAccount(long id) {
@@ -128,7 +128,7 @@ public class SyncManager {
         return dataBaseAdapter.getBoards(accountId);
     }
 
-    public long createBoard(long accountId, Board board) {
+    public LiveData<Board> createBoard(long accountId, Board board) {
         //TODO how to tell server?
         doAsync(() -> {
             serverAdapter.createBoard(board);

@@ -1,11 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -26,6 +26,9 @@ public class DataBaseAdapter {
     private interface DataAccessor<T> {
         T getData();
     }
+    private interface LiveDataWrapper<T> {
+        void returnIntoLiveData(MutableLiveData<T> liveData);
+    }
 
     private DeckDatabase db;
 
@@ -33,13 +36,16 @@ public class DataBaseAdapter {
         this.db = DeckDatabase.getInstance(applicationContext);
     }
 
-    private <T> void respond(IResponseCallback<T> responseCallback, DataAccessor<T> r) {
-        new Thread(() -> responseCallback.onResponse(r.getData())).start();
+    public <T> LiveData<T> wrapInLiveData(final LiveDataWrapper<T> liveDataWrapper){
+        final MutableLiveData<T> liveData = new MutableLiveData();
+
+        new Thread(() -> liveDataWrapper.returnIntoLiveData(liveData)).start();
+
+        return liveData;
     }
 
-
-    public void hasAccounts(IResponseCallback<Boolean> responseCallback) {
-        respond(responseCallback, () -> (db.getAccountDao().countAccounts() > 0));
+    public LiveData<Boolean> hasAccounts(){
+        return wrapInLiveData((MutableLiveData<Boolean> liveData) -> liveData.postValue(db.getAccountDao().countAccounts() > 0));
     }
 
     
@@ -181,11 +187,13 @@ public class DataBaseAdapter {
     }
 
     
-    public void createAccount(String accoutName, IResponseCallback<Account> responseCallback) {
-        Account acc = new Account();
-        acc.setName(accoutName);
-        long id = db.getAccountDao().insert(acc);
-        responseCallback.onResponse(readAccountDirectly(id));
+    public LiveData<Account> createAccount(String accoutName) {
+        return wrapInLiveData((MutableLiveData<Account> liveData) -> {
+            Account acc = new Account();
+            acc.setName(accoutName);
+            long id = db.getAccountDao().insert(acc);
+            liveData.postValue(readAccountDirectly(id));
+        });
     }
 
     
@@ -217,10 +225,13 @@ public class DataBaseAdapter {
         return db.getBoardDao().getBoardsForAccount(accountId);
     }
 
-    
-    public long createBoard(long accountId, Board board) {
-        board.setAccountId(accountId);
-        return db.getBoardDao().insert(board);
+    public LiveData<Board> createBoard(long accountId, Board board) {
+        return wrapInLiveData((MutableLiveData<Board> liveData) -> {
+            board.setAccountId(accountId);
+            long id = db.getBoardDao().insert(board);
+            Board newBoard = db.getBoardDao().getBoardByIdDirectly(accountId, id);
+            liveData.postValue(newBoard);
+        });
     }
 
     

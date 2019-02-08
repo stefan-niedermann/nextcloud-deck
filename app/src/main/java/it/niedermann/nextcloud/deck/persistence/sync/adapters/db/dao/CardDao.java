@@ -25,7 +25,7 @@ public interface CardDao extends GenericDao<Card> {
     FullCard getFullCardByRemoteIdDirectly(final long accountId, final long remoteId);
 
     @Transaction
-    @Query("SELECT * FROM card WHERE accountId = :accountId AND stackId = :localStackId")
+    @Query("SELECT * FROM card WHERE accountId = :accountId AND stackId = :localStackId order by `order`, createdAt")
     LiveData<List<FullCard>> getFullCardsForStack(final long accountId, final long localStackId);
 
     @Transaction
