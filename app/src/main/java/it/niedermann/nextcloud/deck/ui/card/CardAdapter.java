@@ -36,6 +36,8 @@ import it.niedermann.nextcloud.deck.ui.EditActivity;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     private static final String TAG = CardAdapter.class.getCanonicalName();
+    public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
+    public static final String BUNDLE_KEY_LOCAL_ID = "localId";
 
     private Context context;
     private List<FullCard> cardList = new ArrayList<>();
@@ -51,6 +53,33 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
         FullCard card = cardList.get(position);
+
+        viewHolder.card.setOnClickListener((View clickedView) -> {
+            Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
+            intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
+            intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
+            context.startActivity(intent);
+        });
+        viewHolder.card.setOnLongClickListener((View draggedView) -> {
+
+            // Create a new ClipData.
+            // This is done in two steps to provide clarity. The convenience method
+            // ClipData.newPlainText() can create a plain text ClipData in one step.
+
+            // Create a new ClipData.Item from the ImageView object's tag
+            ClipData dragData = ClipData.newPlainText("TEST", "TEST2");
+
+            // Starts the drag
+            draggedView.startDrag(dragData,  // the data to be dragged
+                    new View.DragShadowBuilder(draggedView),  // the drag shadow builder
+                    draggedView,      // no need to use local data
+                    0          // flags (not currently used, set to 0)
+            );
+            viewHolder.card.setVisibility(View.INVISIBLE);
+            DeckLog.log("onLongClickListener");
+            return true;
+        });
+
         viewHolder.cardTitle.setText(card.getCard().getTitle());
 
         if (card.getCard().getDescription() != null && !card.getCard().getDescription().isEmpty()) {
@@ -187,34 +216,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         private CardViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            card.setOnClickListener((View clickedView) -> {
-                if (Build.VERSION.SDK_INT >= 16) {
-                    cardDescription.setMaxLines(cardDescription.getMaxLines() == 3 ? Integer.MAX_VALUE : 3);
-                }
-            });
-            card.setOnClickListener((View clickedView) -> {
-                Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
-                clickedView.getContext().startActivity(intent);
-            });
-            card.setOnLongClickListener((View draggedView) -> {
-
-                // Create a new ClipData.
-                // This is done in two steps to provide clarity. The convenience method
-                // ClipData.newPlainText() can create a plain text ClipData in one step.
-
-                // Create a new ClipData.Item from the ImageView object's tag
-                ClipData dragData = ClipData.newPlainText("TEST", "TEST2");
-
-                // Starts the drag
-                draggedView.startDrag(dragData,  // the data to be dragged
-                        new View.DragShadowBuilder(draggedView),  // the drag shadow builder
-                        draggedView,      // no need to use local data
-                        0          // flags (not currently used, set to 0)
-                );
-                view.setVisibility(View.INVISIBLE);
-                DeckLog.log("onLongClickListener");
-                return true;
-            });
         }
     }
 }

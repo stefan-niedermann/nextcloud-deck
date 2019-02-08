@@ -10,10 +10,20 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+
 public class EditActivity extends AppCompatActivity {
+
+    FullCard card;
+    SyncManager syncManager;
 
     @BindView(R.id.title)
     EditText title;
@@ -35,6 +45,23 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         unbinder = ButterKnife.bind(this);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            syncManager = new SyncManager(getApplicationContext(), this);
+
+            syncManager.getCardByLocalId(
+                    extras.getLong(BUNDLE_KEY_ACCOUNT_ID),
+                    extras.getLong(BUNDLE_KEY_LOCAL_ID)
+            ).observe(EditActivity.this, (FullCard card) -> {
+                this.card = card;
+                if(this.card != null) {
+                    title.setText(this.card.getCard().getTitle());
+                }
+            });
+        } else {
+            throw new IllegalArgumentException("No localId argument");
+        }
+
         setupViewPager();
     }
 
@@ -47,5 +74,11 @@ public class EditActivity extends AppCompatActivity {
         pager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(pager);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        syncManager.updateCard(this.card.card);
     }
 }
