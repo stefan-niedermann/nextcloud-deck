@@ -190,7 +190,9 @@ public class SyncManager {
 
     public void updateCard(Card card) {
         //TODO: Tell the server
-        dataBaseAdapter.updateCard(card);
+        doAsync(()->{
+            dataBaseAdapter.updateCard(card);
+        });
     }
 
     public long createLabel(long accountId, Label label) {
