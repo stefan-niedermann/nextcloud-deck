@@ -18,20 +18,9 @@ public class Board extends AbstractRemoteEntity {
 
     private String title;
     long ownerId;
-    //    @ToOne(joinProperty = "ownerId")
-//    private User owner;
     private String color;
     private boolean archived;
-    //    @ToMany
-//    @JoinEntity(entity = JoinBoardWithLabel.class, sourceProperty = "boardId", targetProperty = "labelId")
-//    private List<Label> labels = new ArrayList<>();
     private String acl;
-    //    @ToMany
-//    @JoinEntity(entity = JoinBoardWithPermission.class, sourceProperty = "boardId", targetProperty = "permissionId")
-//    private List<Permission> permissions = new ArrayList<>();
-//    @ToMany
-//    @JoinEntity(entity = JoinBoardWithUser.class, sourceProperty = "boardId", targetProperty = "userId")
-//    private List<User> users = new ArrayList<>();
     private int shared;
     private Date deletedAt;
 

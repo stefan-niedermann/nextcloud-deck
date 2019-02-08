@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 @Dao
 public interface BoardDao extends GenericDao<Board> {
 
-    @Query("SELECT * FROM board WHERE accountId = :accountId")
+    @Query("SELECT * FROM board WHERE accountId = :accountId order by title asc")
     LiveData<List<Board>> getBoardsForAccount(final long accountId);
 
     @Query("SELECT * FROM board WHERE accountId = :accountId and id = :remoteId")

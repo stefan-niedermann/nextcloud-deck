@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 @Dao
 public interface CardDao extends GenericDao<Card> {
 
-    @Query("SELECT * FROM card WHERE stackId = :localStackId")
+    @Query("SELECT * FROM card WHERE stackId = :localStackId order by `order`, createdAt asc")
     LiveData<List<Card>> getCardsForStack(final long localStackId);
 
     @Query("SELECT * FROM card WHERE accountId = :accountId and id = :remoteId")
@@ -25,7 +25,7 @@ public interface CardDao extends GenericDao<Card> {
     FullCard getFullCardByRemoteIdDirectly(final long accountId, final long remoteId);
 
     @Transaction
-    @Query("SELECT * FROM card WHERE accountId = :accountId AND stackId = :localStackId order by `order`, createdAt")
+    @Query("SELECT * FROM card WHERE accountId = :accountId AND stackId = :localStackId order by `order`, createdAt asc")
     LiveData<List<FullCard>> getFullCardsForStack(final long accountId, final long localStackId);
 
     @Transaction
