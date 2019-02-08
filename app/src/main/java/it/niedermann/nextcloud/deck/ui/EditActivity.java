@@ -77,8 +77,8 @@ public class EditActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        //syncManager.updateCard(this.card);
+    protected void onPause() {
+        super.onPause();
+        syncManager.updateCard(this.card.card);
     }
 }
