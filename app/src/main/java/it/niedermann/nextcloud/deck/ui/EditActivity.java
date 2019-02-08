@@ -13,6 +13,8 @@ import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+
 public class EditActivity extends AppCompatActivity {
 
     @BindView(R.id.title)
@@ -34,6 +36,12 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         unbinder = ButterKnife.bind(this);
+
+        long localId;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
+        }
 
         setupViewPager();
     }
