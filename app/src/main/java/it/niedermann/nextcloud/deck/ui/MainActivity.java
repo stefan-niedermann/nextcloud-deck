@@ -132,13 +132,13 @@ public class MainActivity extends AppCompatActivity
                     SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
 
-                    fab.setOnClickListener((View view) -> {
-                        Board b = new Board();
-                        b.setTitle("Test - " + System.currentTimeMillis());
-                        b.setOwnerId(boardsList.get(0).getOwnerId());
-                        syncManager.createBoard(this.account.getId(), b);
-                        Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
-                    });
+                        fab.setOnClickListener((View view) -> {
+                            new Thread(() -> {Board b = new Board();
+                            b.setTitle("Test - " + System.currentTimeMillis());
+                        b.setOwnerId(boardsList.get(0).getOwnerId());    syncManager.createBoard(this.account.getId(), b);
+                            Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
+                        }).run();
+                        });
 
                     // TODO show spinner
                     MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity
 
     private void buildSidenavMenu(List<Board> boards) {
         Menu menu = navigationView.getMenu();
+        menu.clear();
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
         boardsList = boards;
         int index = 0;
