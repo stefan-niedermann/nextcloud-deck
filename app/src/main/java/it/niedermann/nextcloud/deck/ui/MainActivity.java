@@ -125,34 +125,37 @@ public class MainActivity extends AppCompatActivity
 
     private void handleAccounts() {
         this.syncManager.hasAccounts().observe(MainActivity.this, (Boolean hasAccounts) -> {
-            if(hasAccounts) {
+            if(hasAccounts != null && hasAccounts) {
                 syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
-                    this.account = accounts.get(0);
-                    String accountName = this.account.getName();
-                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
+                    if(accounts != null) {
+                        this.account = accounts.get(0);
+                        String accountName = this.account.getName();
+                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
+                        fab.setOnClickListener((View view) -> {
+                            new Thread(() -> {
+                                Board b = new Board();
+                                b.setTitle("Test - " + System.currentTimeMillis());
+                                b.setOwnerId(boardsList.get(0).getOwnerId());
+                                syncManager.createBoard(this.account.getId(), b);
+                                Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
+                            }).run();
+                        });
 
-                    fab.setOnClickListener((View view) -> {
-                        Board b = new Board();
-                        b.setTitle("Test - " + System.currentTimeMillis());
-                        b.setOwnerId(boardsList.get(0).getOwnerId());
-                        syncManager.createBoard(this.account.getId(), b);
-                        Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
-                    });
+                        // TODO show spinner
+                        MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
+                            }
 
-                    // TODO show spinner
-                    MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                        @Override
-                        public void onResponse(Boolean response) {
-                            syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
-                        }
-
-                        @Override
-                        public void onError(Throwable throwable) {
-                            //DeckLog.log(throwable.getMessage());
-                            throwable.printStackTrace();
-                        }
-                    });
+                            @Override
+                            public void onError(Throwable throwable) {
+                                //DeckLog.log(throwable.getMessage());
+                                throwable.printStackTrace();
+                            }
+                        });
+                    }
                 });
             } else {
                 loginDialogFragment = new LoginDialogFragment();
@@ -163,6 +166,7 @@ public class MainActivity extends AppCompatActivity
 
     private void buildSidenavMenu(List<Board> boards) {
         Menu menu = navigationView.getMenu();
+        menu.clear();
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
         boardsList = boards;
         int index = 0;
