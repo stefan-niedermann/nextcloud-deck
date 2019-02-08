@@ -78,7 +78,7 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        super.onPause();
         syncManager.updateCard(this.card.card);
+        super.onPause();
     }
 }
