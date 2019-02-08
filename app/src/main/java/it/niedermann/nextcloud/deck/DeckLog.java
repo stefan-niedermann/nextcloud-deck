@@ -13,7 +13,6 @@ public class DeckLog {
         Log.d(DeckConsts.DEBUG_TAG, source + message);
     }
     public static void logError(Throwable e) {
-        //TODO: reuse pw?
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);

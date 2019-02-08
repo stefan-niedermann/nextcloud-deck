@@ -51,6 +51,7 @@ public class JsonToEntityParser {
         DeckLog.log(e.toString());
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
+        board.setColor(getNullAsEmptyString(e.get("color")));
         board.setId(e.get("id").getAsLong());
         fullBoard.setBoard(board);
 
@@ -85,9 +86,9 @@ public class JsonToEntityParser {
         card.setDescription(getNullAsEmptyString(e.get("description")));
         card.setStackId(e.get("stackId").getAsLong());
         card.setType(getNullAsEmptyString(e.get("type")));
-//        stack.setDeletedAt(e.get("lastModified")) // TODO: parse date!
-//        stack.setDeletedAt(e.get("createdAt")) // TODO: parse date!
-//        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
+        card.setLastModified(getTimestamp(e.get("lastModified")));
+        card.setCreatedAt(getTimestamp(e.get("createdAt")));
+        card.setDeletedAt(getTimestamp(e.get("deletedAt")));
         if (e.has("labels") && !e.get("labels").isJsonNull()) {
             JsonArray labelsJson = e.getAsJsonArray("labels");
             List<Label> labels = new ArrayList<>();
@@ -141,7 +142,7 @@ public class JsonToEntityParser {
             fullStack.setCards(cards);
         }
         fullStack.setStack(stack);
-//        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
+        stack.setDeletedAt(getTimestamp(e.get("deletedAt")));
         return fullStack;
     }
 

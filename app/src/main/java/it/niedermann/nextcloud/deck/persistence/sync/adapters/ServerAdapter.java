@@ -10,11 +10,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -73,7 +75,17 @@ public class ServerAdapter {
 
     public void createBoard(Board board) {
         ensureConnectivity();
-//        RequestHelper.re quest(sourceActivity, provider, () -> provider.getAPI().createBoard(board)), new IResponseCallback<>());
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().createBoard(board), new IResponseCallback<Void>(new Account(0L, "noNeed")) {
+            @Override
+            public void onResponse(Void response) {
+                DeckLog.log(response.toString());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                DeckLog.logError(throwable);
+            }
+        });
     }
 
     public void deleteBoard(Board board) {

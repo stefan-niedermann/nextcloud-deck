@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity
                                 Board b = new Board();
                                 b.setTitle("Test - " + System.currentTimeMillis());
                                 b.setOwnerId(boardsList.get(0).getOwnerId());
+                                b.setColor("F1DB50");
                                 syncManager.createBoard(this.account.getId(), b);
                                 Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
                             }).run();
