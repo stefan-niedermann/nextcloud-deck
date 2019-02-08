@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
+import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
@@ -16,10 +18,17 @@ public class FullCard implements IRemoteEntity {
     @Embedded
     public Card card;
 
-    @Relation(entity = Label.class, parentColumn = "localId", entityColumn = "localId")
+    @Relation(entity = JoinCardWithLabel.class, parentColumn = "localId", entityColumn = "cardId", projection = "labelId")
+    public List<Long> labelIDs;
+
+    @Ignore
     public List<Label> labels;
 
-    @Relation(entity = User.class, parentColumn = "localId", entityColumn = "localId")
+
+    @Relation(entity = JoinCardWithUser.class, parentColumn = "localId", entityColumn = "cardId", projection = "userId")
+    public List<Long> assignedUserIDs;
+
+    @Ignore
     public List<User> assignedUsers;
 
     @Relation(parentColumn = "userId", entityColumn = "localId")
@@ -51,6 +60,22 @@ public class FullCard implements IRemoteEntity {
 
     public List<User> getOwner() {
         return owner;
+    }
+
+    public List<Long> getAssignedUserIDs() {
+        return assignedUserIDs;
+    }
+
+    public void setAssignedUserIDs(List<Long> assignedUserIDs) {
+        this.assignedUserIDs = assignedUserIDs;
+    }
+
+    public List<Long> getLabelIDs() {
+        return labelIDs;
+    }
+
+    public void setLabelIDs(List<Long> labelIDs) {
+        this.labelIDs = labelIDs;
     }
 
     public void setOwner(User owner) {

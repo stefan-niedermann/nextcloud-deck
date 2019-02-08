@@ -14,7 +14,6 @@ import it.niedermann.nextcloud.deck.model.JoinBoardWithPermission;
 import it.niedermann.nextcloud.deck.model.JoinBoardWithUser;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
-import it.niedermann.nextcloud.deck.model.JoinStackWithCard;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -27,7 +26,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWi
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithUserDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWithUserDao;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinStackWithCardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.LabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
@@ -43,7 +41,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 JoinBoardWithUser.class,
                 JoinCardWithLabel.class,
                 JoinCardWithUser.class,
-                JoinStackWithCard.class,
                 Label.class,
                 Permission.class,
                 Stack.class,
@@ -89,8 +86,6 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract JoinCardWithLabelDao getJoinCardWithLabelDao();
 
     public abstract JoinCardWithUserDao getJoinCardWithUserDao();
-
-    public abstract JoinStackWithCardDao getJoinStackWithCardDao();
 
     public abstract LabelDao getLabelDao();
 

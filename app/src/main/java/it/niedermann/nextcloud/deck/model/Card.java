@@ -16,28 +16,16 @@ public class Card extends AbstractRemoteEntity {
     private String title;
     private String description;
     @NonNull
-//    @Index
     private long stackId;
-    //    @ToOne(joinProperty = "stackId")
-//    protected Stack stack;
     private String type;
     private Date createdAt;
     private Date deletedAt;
-    //    @ToMany
-//    @JoinEntity(entity = JoinCardWithLabel.class, sourceProperty = "cardId", targetProperty = "labelId")
-//    private List<Label> labels = new ArrayList<>();
-//    @ToMany
-//    @JoinEntity(entity = JoinCardWithUser.class, sourceProperty = "cardId", targetProperty = "userId")
     private String attachments;
     private int attachmentCount;
 
     private Long userId;
-    //    @ToOne(joinProperty = "userId")
-//    private User owner;
-//    @Index
     @NonNull
     private int order;
-    //    @Index
     private boolean archived;
     private Date dueDate;
     private boolean notified;

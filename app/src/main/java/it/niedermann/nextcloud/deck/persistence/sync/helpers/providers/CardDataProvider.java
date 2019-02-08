@@ -5,6 +5,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -24,12 +25,13 @@ public class CardDataProvider implements IDataProvider<FullCard> {
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder) {
+
         List<FullCard> result = new ArrayList<>();
         if (stack.getCards() == null || stack.getCards().isEmpty()){
             responder.onResponse(result);
         }
-        for (Long card : stack.getCards()) {
-            serverAdapter.getCard(board.getId(), stack.getId(), card, new IResponseCallback<FullCard>(responder.getAccount()) {
+        for (Card card : stack.getCards()) {
+            serverAdapter.getCard(board.getId(), stack.getId(), card.getId(), new IResponseCallback<FullCard>(responder.getAccount()) {
                 @Override
                 public void onResponse(FullCard response) {
                     result.add(response);
@@ -85,7 +87,6 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     public void goDeeper(SyncHelper syncHelper, FullCard existingEntity, FullCard entityFromServer) {
         existingEntity.setLabels(entityFromServer.getLabels());
         existingEntity.setAssignedUsers(entityFromServer.getAssignedUsers());
-        syncHelper.fixRelations(new StackCardRelationshipProvider(stack.getStack(), existingEntity.getCard()));
         syncHelper.doSyncFor(new LabelDataProvider(entityFromServer.getLabels()));
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
         syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getAssignedUsers()));

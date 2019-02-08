@@ -12,7 +12,6 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinBoardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
-import it.niedermann.nextcloud.deck.model.JoinStackWithCard;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
@@ -74,7 +73,28 @@ public class DataBaseAdapter {
     }
 
     public FullCard getFullCardByRemoteIdDirectly(long accountId, long remoteId) {
-        return db.getCardDao().getFullCardByRemoteIdDirectly(accountId, remoteId);
+        FullCard card = db.getCardDao().getFullCardByRemoteIdDirectly(accountId, remoteId);
+        readRelationsForCard(card);
+        return card;
+    }
+
+    private void readRelationsForCard(FullCard card) {
+        if (card != null){
+            if (card.getLabelIDs() != null && !card.getLabelIDs().isEmpty()){
+                card.setLabels(db.getLabelDao().getLabelsById(card.getLabelIDs()));
+            }
+            if (card.getAssignedUserIDs() != null && !card.getAssignedUserIDs().isEmpty()){
+                card.setAssignedUsers(db.getUserDao().getUsersById(card.getAssignedUserIDs()));
+            }
+        }
+    }
+    private void readRelationsForCard(List<FullCard> card) {
+        if (card == null){
+            return;
+        }
+        for (FullCard c : card) {
+            readRelationsForCard(c);
+        }
     }
 
 
@@ -88,7 +108,11 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
-        return db.getCardDao().getFullCardsForStack(accountId, localStackId);
+        return wrapInLiveData((MutableLiveData<List<FullCard>> liveData) -> {
+            List<FullCard> fullCardsForStack = db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId);
+            readRelationsForCard(fullCardsForStack);
+            liveData.postValue(fullCardsForStack);
+        });
     }
 
     public User getUserByRemoteIdDirectly(long accountId, long remoteId) {
@@ -151,13 +175,6 @@ public class DataBaseAdapter {
     }
 
     
-    public void createJoinStackWithCard(long localCardId, long localStackId) {
-        JoinStackWithCard join = new JoinStackWithCard();
-        join.setCardId(localCardId);
-        join.setStackId(localStackId);
-        db.getJoinStackWithCardDao().insert(join);
-    }
-
     public void createJoinBoardWithLabel(long localBoardId, long localLabelId) {
         JoinBoardWithLabel join = new JoinBoardWithLabel();
         join.setBoardId(localBoardId);
@@ -169,14 +186,6 @@ public class DataBaseAdapter {
     public void deleteJoinedLabelsForBoard(Long localBoardId) {
         db.getJoinBoardWithLabelDao().deleteByBoardId(localBoardId);
     }
-    
-    public void deleteJoinedCardsForStack(long localStackId) {
-        db.getJoinStackWithCardDao().deleteByStackId(localStackId);
-    }
-    public void deleteJoinedCardForStackById(long localCardId) {
-        db.getJoinStackWithCardDao().deleteByCardId(localCardId);
-    }
-
     
     public void updateLabel(Label label) {
         db.getLabelDao().update(label);
@@ -232,6 +241,10 @@ public class DataBaseAdapter {
             Board newBoard = db.getBoardDao().getBoardByIdDirectly(accountId, id);
             liveData.postValue(newBoard);
         });
+    }
+    public void createBoardDirectly(long accountId, Board board) {
+            board.setAccountId(accountId);
+            db.getBoardDao().insert(board);
     }
 
     
@@ -294,7 +307,6 @@ public class DataBaseAdapter {
     
     public void updateCard(Card card) {
         db.getCardDao().update(card);
-
     }
 
 

@@ -175,6 +175,7 @@ public class SyncManager {
     }
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
+
         return dataBaseAdapter.getFullCardsForStack(accountId, localStackId);
     }
 

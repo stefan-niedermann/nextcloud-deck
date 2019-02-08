@@ -23,7 +23,7 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     @Override
     public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         handleOwner(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.createBoard(accountId, entity.getBoard());
+        dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
     }
 
     private void handleOwner(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {

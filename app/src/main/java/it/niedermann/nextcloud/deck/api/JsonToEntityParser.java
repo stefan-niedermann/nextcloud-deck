@@ -106,7 +106,7 @@ public class JsonToEntityParser {
         JsonElement owner = e.get("owner");
         if (owner != null) {
             if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                Log.d(DeckConsts.DEBUG_TAG, "owner is Primitive, skipping");
+                DeckLog.log("owner is Primitive, skipping");
             } else
                 fullCard.setOwner(parseUser(owner.getAsJsonObject()));
         }
@@ -134,13 +134,11 @@ public class JsonToEntityParser {
         stack.setOrder(e.get("order").getAsInt());
         if (e.has("cards")) {
             JsonArray cardsJson = e.getAsJsonArray("cards");
-            List<FullCard> cards = new ArrayList<>();
-            List<Long> cardIds = new ArrayList<>();
+            List<Card> cards = new ArrayList<>();
             for (JsonElement cardJson : cardsJson) {
-//                cards.add(parseCard(cardJson.getAsJsonObject()));
-                cardIds.add(cardJson.getAsJsonObject().get("id").getAsLong());
+                cards.add(parseCard(cardJson.getAsJsonObject()).getCard());
             }
-            fullStack.setCards(cardIds);
+            fullStack.setCards(cards);
         }
         fullStack.setStack(stack);
 //        stack.setDeletedAt(e.get("deletedAt")) // TODO: parse date!
