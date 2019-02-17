@@ -30,6 +30,15 @@ public interface DeckAPI {
     @GET("boards/{id}")
     Observable<Board> getBoard(@Path("id") long id, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
+    @PUT("boards/{id}")
+    Observable updateBoard(@Path("id") long id);
+
+    @DELETE("boards/{id}")
+    Observable deleteBoard(@Path("id") long id);
+
+    @DELETE("boards/{id}/undo_delete")
+    Observable restoreBoard(@Path("id") long id);
+
     @GET("boards")
     Observable<List<FullBoard>> getBoards(@Header(MODIFIED_SINCE_HEADER) String lastSync);
 
@@ -56,10 +65,25 @@ public interface DeckAPI {
 
     // ### Cards
     @POST("boards/{boardId}/stacks/{stackId}/cards")
-    Observable createCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Body Card card);
+    Observable<Card> createCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Body Card card);
 
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Observable<Card> updateCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Card card);
+
+    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignLabel")
+    Observable assignLabelToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer labelId);
+
+    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/removeLabel")
+    Observable unassignLabelFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer labelId);
+
+    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignUser")
+    Observable assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer userId);
+
+    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/unassignUser")
+    Observable unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer userId);
+
+    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/reorder")
+    Observable moveCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer order, @Body Integer newStackId);
 
     @DELETE("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Observable<Card> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
@@ -69,7 +93,7 @@ public interface DeckAPI {
 
 
     // ### LABELS
-    @GET("boards/{boardId}labels/{labelId}")
+    @GET("boards/{boardId}/labels/{labelId}")
     Observable<Label> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
     @PUT("boards/getBoards/{boardId}/labels/{labelId}")
@@ -81,5 +105,10 @@ public interface DeckAPI {
     @DELETE("boards/getBoards/{boardId}/labels/{labelId}")
     Observable<Label> deleteLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
 
+
+    // ### ATTACHMENTS
+    //TODO: create attachment entity and implement endpoints
+//    @GET("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+//    Observable<List<Attachment>> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
 }

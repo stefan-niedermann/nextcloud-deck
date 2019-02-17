@@ -52,6 +52,10 @@ public class JsonToEntityParser {
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
         board.setColor(getNullAsEmptyString(e.get("color")));
+        board.setArchived(e.get("archived").getAsBoolean());
+
+        board.setLastModified(getTimestamp(e.get("lastModified")));
+        board.setDeletedAt(getTimestamp(e.get("deletedAt")));
         board.setId(e.get("id").getAsLong());
         fullBoard.setBoard(board);
 
@@ -132,6 +136,8 @@ public class JsonToEntityParser {
         stack.setTitle(getNullAsEmptyString(e.get("title")));
         stack.setBoardId(e.get("boardId").getAsLong());
         stack.setId(e.get("id").getAsLong());
+        stack.setLastModified(getTimestamp(e.get("lastModified")));
+        stack.setDeletedAt(getTimestamp(e.get("deletedAt")));
         stack.setOrder(e.get("order").getAsInt());
         if (e.has("cards")) {
             JsonArray cardsJson = e.getAsJsonArray("cards");

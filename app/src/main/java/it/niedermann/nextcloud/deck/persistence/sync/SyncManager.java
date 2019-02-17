@@ -18,7 +18,6 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -90,15 +89,15 @@ public class SyncManager {
 //        };
 //    }
 
-    private <T extends AbstractRemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
-        if (!localEntity.getId().equals(remoteEntity.getId())
-                || !accountId.equals(localEntity.getAccountId())) {
-            throw new IllegalArgumentException("IDs of Account or Entity are not matching! WTF are you doin?!");
-        }
-        remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
-        remoteEntity.setLocalId(localEntity.getLocalId());
-        return remoteEntity;
-    }
+//    private <T extends AbstractRemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
+//        if (!localEntity.getId().equals(remoteEntity.getId())
+//                || !accountId.equals(localEntity.getAccountId())) {
+//            throw new IllegalArgumentException("IDs of Account or Entity are not matching! WTF are you doin?!");
+//        }
+//        remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
+//        remoteEntity.setLocalId(localEntity.getLocalId());
+//        return remoteEntity;
+//    }
 
     public LiveData<Boolean> hasAccounts() {
         return dataBaseAdapter.hasAccounts();
