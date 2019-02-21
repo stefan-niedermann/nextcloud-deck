@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="16dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,12 +12,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/line_item_visual_size"
-            android:layout_height="@dimen/line_item_visual_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="@dimen/standard_margin"
             android:layout_marginRight="@dimen/standard_margin"
             android:contentDescription="@null"
-            android:padding="@dimen/standard_half_padding"
             app:srcCompat="@drawable/ic_person_grey600_24dp" />
 
         <AutoCompleteTextView
@@ -34,12 +34,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/line_item_visual_size"
-            android:layout_height="@dimen/line_item_visual_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="@dimen/standard_margin"
             android:layout_marginRight="@dimen/standard_margin"
             android:contentDescription="@null"
-            android:padding="@dimen/standard_half_padding"
             app:srcCompat="@drawable/ic_label_grey600_24dp" />
 
         <AutoCompleteTextView
@@ -55,12 +55,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/line_item_visual_size"
-            android:layout_height="@dimen/line_item_visual_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="@dimen/standard_margin"
             android:layout_marginRight="@dimen/standard_margin"
             android:contentDescription="@null"
-            android:padding="@dimen/standard_half_padding"
             app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
 
         <EditText
@@ -79,12 +79,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/line_item_visual_size"
-            android:layout_height="@dimen/line_item_visual_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="@dimen/standard_margin"
             android:layout_marginRight="@dimen/standard_margin"
             android:contentDescription="@null"
-            android:padding="@dimen/standard_half_padding"
             app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
 
         <EditText

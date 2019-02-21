@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/label_title"
-        android:layout_marginBottom="4dp"
         android:importantForAutofill="no"
         android:inputType="textPersonName" />
 
@@ -21,8 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        tools:text="Modified: 12 days ago Created: 12 days ago"
-        android:text="Modified: 12 days ago Created: 12 days ago"/>
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        tools:text="Modified: 12 days ago Created: 12 days ago"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
