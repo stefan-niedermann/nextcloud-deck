@@ -57,4 +57,14 @@ public class FullBoard implements IRemoteEntity {
     public IRemoteEntity getEntity() {
         return board;
     }
+
+    @Override
+    public String toString() {
+        return "FullBoard{" +
+                "board=" + board +
+                ", labels=" + labels +
+                ", owner=" + owner +
+                ", participants=" + participants +
+                '}';
+    }
 }

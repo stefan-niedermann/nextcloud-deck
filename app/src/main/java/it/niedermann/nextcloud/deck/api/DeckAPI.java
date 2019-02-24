@@ -25,10 +25,10 @@ public interface DeckAPI {
 
     // ### BOARDS
     @POST("boards")
-    Observable createBoard(@Body Board board);
+    Observable<FullBoard> createBoard(@Body Board board);
 
     @GET("boards/{id}")
-    Observable<Board> getBoard(@Path("id") long id, @Header(MODIFIED_SINCE_HEADER) String lastSync);
+    Observable<FullBoard> getBoard(@Path("id") long id, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
     @PUT("boards/{id}")
     Observable updateBoard(@Path("id") long id);

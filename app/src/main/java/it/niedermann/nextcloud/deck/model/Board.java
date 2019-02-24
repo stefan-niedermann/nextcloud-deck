@@ -20,7 +20,8 @@ public class Board extends AbstractRemoteEntity {
     long ownerId;
     private String color;
     private boolean archived;
-    private String acl;
+    // TODO: seems to be something like shares to other users. how to handle this stuff??
+//    private String acl;
     private int shared;
     private Date deletedAt;
 
@@ -64,14 +65,14 @@ public class Board extends AbstractRemoteEntity {
     public boolean isArchived() {
         return archived;
     }
-
-    public String getAcl() {
-        return acl;
-    }
-
-    public void setAcl(String acl) {
-        this.acl = acl;
-    }
+//
+//    public String getAcl() {
+//        return acl;
+//    }
+//
+//    public void setAcl(String acl) {
+//        this.acl = acl;
+//    }
 
     public int getShared() {
         return shared;
@@ -123,5 +124,24 @@ public class Board extends AbstractRemoteEntity {
 
     public void setArchived(boolean archived) {
         this.archived = archived;
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "title='" + title + '\'' +
+                ", ownerId=" + ownerId +
+                ", color='" + color + '\'' +
+                ", archived=" + archived +
+//                ", acl='" + acl + '\'' +
+                ", shared=" + shared +
+                ", deletedAt=" + deletedAt +
+                ", localId=" + localId +
+                ", accountId=" + accountId +
+                ", id=" + id +
+                ", status=" + status +
+                ", lastModified=" + lastModified +
+                ", lastModifiedLocal=" + lastModifiedLocal +
+                '}';
     }
 }

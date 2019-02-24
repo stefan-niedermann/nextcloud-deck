@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -16,6 +17,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -130,7 +132,17 @@ public class SyncManager {
     public LiveData<Board> createBoard(long accountId, Board board) {
         //TODO how to tell server?
         doAsync(() -> {
-            serverAdapter.createBoard(board);
+            serverAdapter.createBoard(board, new IResponseCallback<FullBoard>(new Account(accountId, "noNeed")) {
+                @Override
+                public void onResponse(FullBoard response) {
+                    DeckLog.log(response.toString());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    DeckLog.logError(throwable);
+                }
+            });
         });
         return dataBaseAdapter.createBoard(accountId, board);
     }
