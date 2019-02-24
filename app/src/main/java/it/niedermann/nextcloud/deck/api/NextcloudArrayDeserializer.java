@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.api;
 
-import android.util.Log;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -40,7 +38,7 @@ public class NextcloudArrayDeserializer<T> implements JsonDeserializer<List<T>> 
                 items.add(JsonToEntityParser.parseJsonObject(obj, mType));
             }
         } else {
-            Log.d("deck", "ArrayDeserializer got an not-array");
+            throw new IllegalArgumentException("NextcloudArrayDeserializer got an non-array Json Object: " + json);
         }
         return items;
 
