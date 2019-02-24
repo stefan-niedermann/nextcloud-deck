@@ -53,4 +53,6 @@
     <string name="label_labels">Labels</string>
     <string name="label_description">Description</string>
     <string name="simple_people">People</string>
+
+    <string name="modified_created_time">Modified: %1$s Created: %2$s</string>
 </resources>

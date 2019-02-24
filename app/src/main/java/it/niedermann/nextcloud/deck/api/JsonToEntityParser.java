@@ -54,8 +54,8 @@ public class JsonToEntityParser {
         board.setColor(getNullAsEmptyString(e.get("color")));
         board.setArchived(e.get("archived").getAsBoolean());
 
-        board.setLastModified(getTimestamp(e.get("lastModified")));
-        board.setDeletedAt(getTimestamp(e.get("deletedAt")));
+        board.setLastModified(getTimestampFromLong(e.get("lastModified")));
+        board.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
         board.setId(e.get("id").getAsLong());
         fullBoard.setBoard(board);
 
@@ -90,9 +90,9 @@ public class JsonToEntityParser {
         card.setDescription(getNullAsEmptyString(e.get("description")));
         card.setStackId(e.get("stackId").getAsLong());
         card.setType(getNullAsEmptyString(e.get("type")));
-        card.setLastModified(getTimestamp(e.get("lastModified")));
-        card.setCreatedAt(getTimestamp(e.get("createdAt")));
-        card.setDeletedAt(getTimestamp(e.get("deletedAt")));
+        card.setLastModified(getTimestampFromLong(e.get("lastModified")));
+        card.setCreatedAt(getTimestampFromLong(e.get("createdAt")));
+        card.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
         if (e.has("labels") && !e.get("labels").isJsonNull()) {
             JsonArray labelsJson = e.getAsJsonArray("labels");
             List<Label> labels = new ArrayList<>();
@@ -106,7 +106,7 @@ public class JsonToEntityParser {
         card.setStackId(e.get("attachmentCount").getAsInt());
         card.setOrder(e.get("order").getAsInt());
         card.setOverdue(e.get("overdue").getAsInt());
-        card.setDueDate(getTimestamp(e.get("duedate")));
+        card.setDueDate(getTimestampFromString(e.get("duedate")));
         card.setCommentsUnread(e.get("commentsUnread").getAsInt());
         JsonElement owner = e.get("owner");
         if (owner != null) {
@@ -136,8 +136,8 @@ public class JsonToEntityParser {
         stack.setTitle(getNullAsEmptyString(e.get("title")));
         stack.setBoardId(e.get("boardId").getAsLong());
         stack.setId(e.get("id").getAsLong());
-        stack.setLastModified(getTimestamp(e.get("lastModified")));
-        stack.setDeletedAt(getTimestamp(e.get("deletedAt")));
+        stack.setLastModified(getTimestampFromLong(e.get("lastModified")));
+        stack.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
         stack.setOrder(e.get("order").getAsInt());
         if (e.has("cards")) {
             JsonArray cardsJson = e.getAsJsonArray("cards");
@@ -148,7 +148,7 @@ public class JsonToEntityParser {
             fullStack.setCards(cards);
         }
         fullStack.setStack(stack);
-        stack.setDeletedAt(getTimestamp(e.get("deletedAt")));
+        stack.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
         return fullStack;
     }
 
@@ -161,11 +161,11 @@ public class JsonToEntityParser {
         return label;
     }
 
-    protected static String getNullAsEmptyString(JsonElement jsonElement) {
+    private static String getNullAsEmptyString(JsonElement jsonElement) {
         return jsonElement.isJsonNull() ? "" : jsonElement.getAsString();
     }
 
-    protected static Date getTimestamp(JsonElement jsonElement) {
+    private static Date getTimestampFromString(JsonElement jsonElement) {
         if (jsonElement.isJsonNull()) {
             return null;
         } else {
@@ -174,6 +174,14 @@ public class JsonToEntityParser {
             } catch (ParseException e) {
                 return null;
             }
+        }
+    }
+
+    private static Date getTimestampFromLong(JsonElement jsonElement) {
+        if (jsonElement.isJsonNull()) {
+            return null;
+        } else {
+            return new Date (jsonElement.getAsLong() * 1000);
         }
     }
 }

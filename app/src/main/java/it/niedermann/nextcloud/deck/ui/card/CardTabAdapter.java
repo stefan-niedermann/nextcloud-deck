@@ -9,15 +9,20 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
     private CardActivityFragment activityFragment;
     private CardAttachmentsFragment attachmentsFragment;
 
-    public CardTabAdapter(FragmentManager fm) {
+    private long accountId;
+    private long localId;
+
+    public CardTabAdapter(FragmentManager fm, long accountId, long localId) {
         super(fm);
+        this.accountId = accountId;
+        this.localId = localId;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                detailsFragment = CardDetailsFragment.newInstance();
+                detailsFragment = CardDetailsFragment.newInstance(accountId, localId);
                 return detailsFragment;
             case 1:
                 activityFragment = CardActivityFragment.newInstance();

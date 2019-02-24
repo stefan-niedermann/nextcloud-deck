@@ -10,9 +10,8 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
@@ -39,6 +38,9 @@ public class EditActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
 
+    private long accountId;
+    private long localId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,17 +49,31 @@ public class EditActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            accountId = extras.getLong(BUNDLE_KEY_ACCOUNT_ID);
+            localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
             syncManager = new SyncManager(getApplicationContext(), this);
 
-            syncManager.getCardByLocalId(
-                    extras.getLong(BUNDLE_KEY_ACCOUNT_ID),
-                    extras.getLong(BUNDLE_KEY_LOCAL_ID)
-            ).observe(EditActivity.this, (FullCard card) -> {
-                this.card = card;
-                if(this.card != null) {
-                    title.setText(this.card.getCard().getTitle());
-                }
-            });
+            syncManager.getCardByLocalId(accountId, localId)
+                    .observe(EditActivity.this, (FullCard card) -> {
+                        this.card = card;
+                        if (this.card != null) {
+                            title.setText(this.card.getCard().getTitle());
+                            if (this.card.getCard().getCreatedAt() != null
+                                    && this.card.getCard().getLastModified() != null) {
+                                timestamps.setText(
+                                        getString(
+                                                R.string.modified_created_time,
+                                                SupportUtil.getRelativeDateTimeString(
+                                                        this,
+                                                        this.card.getCard().getLastModified().getTime()),
+                                                SupportUtil.getRelativeDateTimeString(
+                                                        this,
+                                                        this.card.getCard().getCreatedAt().getTime())
+                                        )
+                                );
+                            }
+                        }
+                    });
         } else {
             throw new IllegalArgumentException("No localId argument");
         }
@@ -70,7 +86,7 @@ public class EditActivity extends AppCompatActivity {
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager());
+        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), accountId, localId);
         pager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(pager);
@@ -80,5 +96,11 @@ public class EditActivity extends AppCompatActivity {
     protected void onPause() {
         syncManager.updateCard(this.card.card);
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }
