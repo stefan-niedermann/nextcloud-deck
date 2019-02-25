@@ -49,6 +49,11 @@
             android:hint="@string/label_labels" />
     </LinearLayout>
 
+    <android.support.design.chip.ChipGroup
+        android:id="@+id/labelsGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
