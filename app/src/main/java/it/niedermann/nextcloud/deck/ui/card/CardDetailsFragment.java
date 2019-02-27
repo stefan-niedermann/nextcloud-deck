@@ -107,16 +107,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     // TODO read/set available card details data
                     this.card = card;
                     if (this.card != null) {
-                        // due date
-                        if (this.card.getCard().getDueDate() != null) {
-                            dueDate.setText(dateFormat.format(this.card.getCard().getDueDate()));
-                            dueDateTime.setText(dueTime.format(this.card.getCard().getDueDate()));
-                        } else {
-                            dueDate.setText(null);
-                            dueDateTime.setText(null);
-                        }
+                        // people
+                        // TODO find out how to get the people
 
                         // labels
+                        // TODO load labels
                         labelsGroup.removeAllViews();
                         if (this.card.getLabels() != null && this.card.getLabels().size() > 0) {
                             Chip chip;
@@ -139,6 +134,15 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                             labelsGroup.setVisibility(View.VISIBLE);
                         } else {
                             labelsGroup.setVisibility(View.GONE);
+                        }
+
+                        // due date
+                        if (this.card.getCard().getDueDate() != null) {
+                            dueDate.setText(dateFormat.format(this.card.getCard().getDueDate()));
+                            dueDateTime.setText(dueTime.format(this.card.getCard().getDueDate()));
+                        } else {
+                            dueDate.setText(null);
+                            dueDateTime.setText(null);
                         }
 
                         // description
