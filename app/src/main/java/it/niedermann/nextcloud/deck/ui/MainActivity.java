@@ -1,12 +1,15 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -166,13 +169,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void buildSidenavMenu(List<Board> boards) {
+        navigationView.setItemIconTintList(null);
         Menu menu = navigationView.getMenu();
         menu.clear();
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
         boardsList = boards;
         int index = 0;
         for(Board board: boardsList) {
-            boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(R.drawable.ic_view_column_black_24dp);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_view_column_black_24dp);
+            Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
+            int color = Color.parseColor("#" + board.getColor());
+            DrawableCompat.setTint(wrapped, color);
+            boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(wrapped);
         }
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
         if (boardsList.size()>0){
