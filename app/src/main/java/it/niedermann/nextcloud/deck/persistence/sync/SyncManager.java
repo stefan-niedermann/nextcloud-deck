@@ -201,8 +201,12 @@ public class SyncManager {
     }
 
     public void updateCard(Card card) {
+        Date now = new Date();
+        
         //TODO: Tell the server
         doAsync(()->{
+            card.setLastModifiedLocal(now);
+            card.setLastModified(now);
             dataBaseAdapter.updateCard(card);
         });
     }

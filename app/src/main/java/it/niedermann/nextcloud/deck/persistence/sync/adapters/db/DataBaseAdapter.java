@@ -268,46 +268,36 @@ public class DataBaseAdapter {
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
         return db.getStackDao().getFullStack(accountId, localStackId);
     }
-
     
     public long createStack(long accountId, Stack stack) {
         stack.setAccountId(accountId);
         return db.getStackDao().insert(stack);
-
     }
-
     
     public void deleteStack(Stack stack) {
         db.getStackDao().delete(stack);
     }
-
     
     public void updateStack(Stack stack) {
         db.getStackDao().update(stack);
-
     }
-
     
     public LiveData<FullCard>  getCardByLocalId(long accountId, long localCardId) {
-        return db.getCardDao().getFullCardByLocalId(accountId, localCardId);
+        LiveData<FullCard> fullCardsForStack = db.getCardDao().getFullCardByLocalId(accountId, localCardId);
+        readRelationsForCard(fullCardsForStack.getValue());
+        return fullCardsForStack;
     }
-
     
     public long createCard(long accountId, Card card) {
         card.setAccountId(accountId);
         return db.getCardDao().insert(card);
-
     }
-
     
     public void deleteCard(Card card) {
         db.getCardDao().delete(card);
     }
-
     
     public void updateCard(Card card) {
         db.getCardDao().update(card);
     }
-
-
 }
