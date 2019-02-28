@@ -119,6 +119,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                                 chip = new Chip(getActivity());
                                 chip.setText(label.getTitle());
                                 chip.setCloseIconResource(R.drawable.ic_close_circle_grey600);
+                                chip.setCloseIconVisible(true);
 
                                 try {
                                     int labelColor = Color.parseColor("#" + label.getColor());
