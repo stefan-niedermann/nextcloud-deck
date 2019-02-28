@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
+    android:padding="16dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -49,6 +50,11 @@
             android:hint="@string/label_labels" />
     </LinearLayout>
 
+    <android.support.design.chip.ChipGroup
+        android:id="@+id/labelsGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,12 +70,42 @@
             app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
 
         <EditText
-            android:id="@+id/dueDate"
-            android:layout_width="match_parent"
+            android:id="@+id/dueDateDate"
+            android:layout_width="116dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:importantForAutofill="no"
-            android:inputType="datetime" />
+            android:layout_marginTop="8dp"
+            android:drawablePadding="4dp"
+            android:enabled="true"
+            android:focusable="false"
+            android:hint="@string/hint_due_date_date"
+            android:maxLines="1"
+            android:padding="4dp"
+            android:textAlignment="center"
+            tools:text="01/07/2020" />
+
+        <EditText
+            android:id="@+id/dueDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="4dp"
+            android:enabled="true"
+            android:focusable="false"
+            android:hint="@string/hint_due_date_time"
+            android:maxLines="1"
+            android:minLines="0"
+            android:padding="4dp"
+            android:textAlignment="center"
+            tools:text="11:45" />
+
+        <ImageView
+            android:id="@+id/clearDueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="4dp"
+            android:paddingTop="6dp"
+            android:paddingRight="4dp"
+            app:srcCompat="@drawable/ic_close_circle_grey600" />
     </LinearLayout>
 
     <LinearLayout

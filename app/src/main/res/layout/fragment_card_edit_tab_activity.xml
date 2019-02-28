@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/empty_list_icon"
-        app:srcCompat="@drawable/ic_folder_grey600_24dp"
+        app:srcCompat="@drawable/ic_activity_light_grey"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:contentDescription="@null" />
@@ -24,7 +24,7 @@
         android:maxLines="2"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:text="Activity"
+        android:text="@string/activity"
         android:textSize="26sp" />
 
     <TextView
