@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -16,8 +17,8 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     }
 
     @Override
-    public FullBoard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId) {
-        return dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, remoteId);
+    public FullBoard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entitiy) {
+        return dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, entitiy.getEntity().getId());
     }
 
     @Override
@@ -51,6 +52,13 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
         syncHelper.doSyncFor(new LabelDataProvider(entityFromServer.getLabels()));
         syncHelper.fixRelations(new BoardLabelRelationshipProvider(existingEntity.getBoard(), entityFromServer.getLabels()));
         syncHelper.doSyncFor(new StackDataProvider(existingEntity));
+        List<AccessControl> acl = entityFromServer.getParticipants();
+        if (acl != null && !acl.isEmpty()){
+            for (AccessControl ac : acl){
+                ac.setBoardId(existingEntity.getLocalId());
+            }
+            syncHelper.doSyncFor(new AccessControlDataProvider(acl));
+        }
     }
 
     @Override

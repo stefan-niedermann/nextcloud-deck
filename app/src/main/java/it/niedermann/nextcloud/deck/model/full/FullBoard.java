@@ -7,6 +7,7 @@ import android.arch.persistence.room.Relation;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
@@ -22,8 +23,8 @@ public class FullBoard implements IRemoteEntity {
     @Relation(parentColumn = "ownerId", entityColumn = "localId")
     public List<User> owner;
 
-    @Relation(entity = User.class, parentColumn = "localId", entityColumn = "localId")
-    public List<User> participants;
+    @Relation(entity = AccessControl.class, parentColumn = "localId", entityColumn = "boardId")
+    public List<AccessControl> participants;
 
 
     public List<User> getOwner() {
@@ -62,11 +63,11 @@ public class FullBoard implements IRemoteEntity {
         this.owner = owner;
     }
 
-    public List<User> getParticipants() {
+    public List<AccessControl> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<User> participants) {
+    public void setParticipants(List<AccessControl> participants) {
         this.participants = participants;
     }
 

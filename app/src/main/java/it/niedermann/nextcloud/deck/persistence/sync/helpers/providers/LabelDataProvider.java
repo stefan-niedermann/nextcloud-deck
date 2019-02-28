@@ -22,8 +22,8 @@ public class LabelDataProvider implements IDataProvider<Label> {
     }
 
     @Override
-    public Label getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId) {
-        return dataBaseAdapter.getLabelByRemoteIdDirectly(accountId, remoteId);
+    public Label getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity) {
+        return dataBaseAdapter.getLabelByRemoteIdDirectly(accountId, entity.getEntity().getId());
     }
 
     @Override

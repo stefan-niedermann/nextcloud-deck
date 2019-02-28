@@ -5,6 +5,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -65,7 +66,7 @@ public class DataBaseAdapter {
                 card.setLabels(db.getLabelDao().getLabelsByIdDirectly(card.getLabelIDs()));
             }
             if (card.getAssignedUserIDs() != null && !card.getAssignedUserIDs().isEmpty()){
-                card.setAssignedUsers(db.getUserDao().getUsersById(card.getAssignedUserIDs()));
+                card.setAssignedUsers(db.getUserDao().getUsersByIdDirectly(card.getAssignedUserIDs()));
             }
         }
     }
@@ -83,16 +84,8 @@ public class DataBaseAdapter {
         return db.getCardDao().getCardByRemoteIdDirectly(accountId, remoteId);
     }
 
-    public LiveData<User> getUser(long accountId, long remoteId) {
-        return LiveDataHelper.onlyIfChanged(db.getUserDao().getUsersByRemoteId(accountId, remoteId));
-    }
-
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::readRelationsForCard);
-    }
-
-    public User getUserByRemoteIdDirectly(long accountId, long remoteId) {
-        return db.getUserDao().getUserByRemoteIdDirectly(accountId, remoteId);
     }
 
     public User getUserByUidDirectly(long accountId, String uid) {
@@ -255,5 +248,18 @@ public class DataBaseAdapter {
     
     public void updateCard(Card card) {
         db.getCardDao().update(card);
+    }
+
+    public void createAccessControl(long accountId, AccessControl entity) {
+        entity.setAccountId(accountId);
+        db.getAccessControlDao().insert(entity);
+    }
+
+    public AccessControl getAccessControlByRemoteIdDirectly(long accountId, Long id) {
+        return db.getAccessControlDao().getAccessControlByRemoteIdDirectly(accountId, id);
+    }
+
+    public void updateAccessControl(AccessControl entity) {
+        db.getAccessControlDao().update(entity);
     }
 }

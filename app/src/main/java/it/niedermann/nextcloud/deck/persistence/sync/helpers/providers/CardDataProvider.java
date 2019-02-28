@@ -49,8 +49,8 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     }
 
     @Override
-    public FullCard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId) {
-        return dataBaseAdapter.getFullCardByRemoteIdDirectly(accountId, remoteId);
+    public FullCard getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
+        return dataBaseAdapter.getFullCardByRemoteIdDirectly(accountId, entity.getEntity().getId());
     }
 
     @Override

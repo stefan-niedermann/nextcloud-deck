@@ -22,8 +22,8 @@ public class CardUserRelationshipProvider implements IRelationshipProvider {
             return;
         }
         Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
-        for (User label : labels){
-            User existingUser = dataBaseAdapter.getUserByRemoteIdDirectly(accountId, label.getId());
+        for (User user : labels){
+            User existingUser = dataBaseAdapter.getUserByUidDirectly(accountId, user.getUid());
             dataBaseAdapter.createJoinCardWithUser(existingUser.getLocalId(), card.getLocalId());
         }
     }

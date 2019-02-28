@@ -11,10 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -67,7 +70,23 @@ public class JsonToEntityParser {
             }
             fullBoard.setLabels(labels);
         }
-        //todo e.get "participants" / acl
+
+        if (e.has("acl") && !e.get("acl").isJsonNull()) {
+            JsonElement assignedUsers = e.get("acl");
+            if (!(assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() == 0)){
+                Set<Map.Entry<String, JsonElement>> entries = assignedUsers.getAsJsonObject().entrySet();
+
+                List<AccessControl> acl = new ArrayList<>();
+                for (Map.Entry<String, JsonElement> assignedUser : entries) {
+                    JsonObject userJson = assignedUser.getValue().getAsJsonObject();
+                    acl.add(parseAcl(userJson));
+
+                }
+                fullBoard.setParticipants(acl);
+            }
+
+        }
+        //todo e.get "permissions"
 
         JsonElement owner = e.get("owner");
         if (owner != null) {
@@ -77,6 +96,27 @@ public class JsonToEntityParser {
                 fullBoard.setOwner(parseUser(owner.getAsJsonObject()));
         }
         return fullBoard;
+    }
+
+    protected static AccessControl parseAcl(JsonObject aclJson){
+        DeckLog.log(aclJson.toString());
+        AccessControl acl = new AccessControl();
+
+        if (aclJson.has("participant") && !aclJson.get("participant").isJsonNull()) {
+            User participant = parseUser(aclJson.get("participant").getAsJsonObject());
+            acl.setUser(participant);
+            acl.setType(aclJson.get("type").getAsLong());
+            acl.setBoardId(aclJson.get("boardId").getAsLong());
+            acl.setId(aclJson.get("id").getAsLong());
+
+            acl.setOwner(aclJson.get("owner").getAsBoolean());
+            acl.setPermissionEdit(aclJson.get("permissionEdit").getAsBoolean());
+            acl.setPermissionManage(aclJson.get("permissionManage").getAsBoolean());
+            acl.setPermissionShare(aclJson.get("permissionShare").getAsBoolean());
+        }
+
+
+        return acl;
     }
 
     protected static FullCard parseCard(JsonObject e) {
@@ -101,7 +141,20 @@ public class JsonToEntityParser {
             }
             fullCard.setLabels(labels);
         }
-        //todo e.get "participants" / acl
+
+        if (e.has("assignedUsers") && !e.get("assignedUsers").isJsonNull()) {
+            JsonArray assignedUsers = e.getAsJsonArray("assignedUsers");
+
+            List<User> users = new ArrayList<>();
+            for (JsonElement assignedUser : assignedUsers) {
+                JsonObject userJson = assignedUser.getAsJsonObject();
+                if (userJson.has("participant") && !userJson.get("participant").isJsonNull()) {
+                    users.add(parseUser(userJson.get("participant").getAsJsonObject()));
+                }
+            }
+            fullCard.setAssignedUsers(users);
+        }
+
         //todo e.get "attachments"
         card.setAttachmentCount(e.get("attachmentCount").getAsInt());
         card.setOrder(e.get("order").getAsInt());

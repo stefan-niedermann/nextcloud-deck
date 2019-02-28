@@ -23,8 +23,8 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     }
 
     @Override
-    public FullStack getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId) {
-        return dataBaseAdapter.getFullStackByRemoteIdDirectly(accountId, board.getLocalId(), remoteId);
+    public FullStack getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
+        return dataBaseAdapter.getFullStackByRemoteIdDirectly(accountId, board.getLocalId(), entity.getEntity().getId());
     }
 
     @Override

@@ -12,7 +12,7 @@ public interface IDataProvider <T extends IRemoteEntity> {
     void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder);
 
 
-    T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId);
+    T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
 
     void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, T b);
 

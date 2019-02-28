@@ -34,7 +34,7 @@ public class SyncHelper {
                 if (response != null && !response.isEmpty()) {
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);
-                        T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer.getId());
+                        T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
                         if (existingEntity == null) {
                             provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
                             syncChangedSomething = true;
@@ -42,7 +42,7 @@ public class SyncHelper {
                             provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(existingEntity, entityFromServer, accountId));
                             syncChangedSomething = true; //TODO: only if no diff!
                         }
-                        existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer.getId());
+                        existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
                         provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer);
                     }
                     provider.doneAll(responseCallback, syncChangedSomething);
@@ -63,9 +63,8 @@ public class SyncHelper {
     }
 
     private <T extends IRemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
-        if (!localEntity.getId().equals(remoteEntity.getId())
-                || !accountId.equals(localEntity.getAccountId())) {
-            throw new IllegalArgumentException("IDs of Account or Entity are not matching! WTF are you doin?!");
+        if (!accountId.equals(localEntity.getAccountId())) {
+            throw new IllegalArgumentException("IDs of Accounts are not matching! WTF are you doin?!");
         }
         remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
         remoteEntity.setLocalId(localEntity.getLocalId());

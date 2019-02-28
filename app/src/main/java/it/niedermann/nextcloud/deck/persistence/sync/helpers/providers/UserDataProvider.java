@@ -31,8 +31,8 @@ public class UserDataProvider implements IDataProvider<User> {
     }
 
     @Override
-    public User getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, long remoteId) {
-        return dataBaseAdapter.getUserByRemoteIdDirectly(accountId, remoteId);
+    public User getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, User entity) {
+        return dataBaseAdapter.getUserByUidDirectly(accountId, entity.getUid());
     }
 
     @Override
