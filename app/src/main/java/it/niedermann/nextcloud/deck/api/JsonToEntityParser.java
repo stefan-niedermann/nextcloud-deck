@@ -103,7 +103,7 @@ public class JsonToEntityParser {
         }
         //todo e.get "participants" / acl
         //todo e.get "attachments"
-        card.setStackId(e.get("attachmentCount").getAsInt());
+        card.setAttachmentCount(e.get("attachmentCount").getAsInt());
         card.setOrder(e.get("order").getAsInt());
         card.setOverdue(e.get("overdue").getAsInt());
         card.setDueDate(getTimestampFromString(e.get("duedate")));
