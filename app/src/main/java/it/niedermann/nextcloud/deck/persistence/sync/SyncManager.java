@@ -236,4 +236,8 @@ public class SyncManager {
         //TODO: Tell the server
         dataBaseAdapter.createJoinCardWithLabel(localLabelId, localCardId);
     }
+
+    public LiveData<FullBoard> getFullBoard(Long accountId, Long localId) {
+        return dataBaseAdapter.getFullBoardById(accountId, localId);
+    }
 }

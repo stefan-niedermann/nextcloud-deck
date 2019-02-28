@@ -133,7 +133,6 @@ public class Board extends AbstractRemoteEntity {
                 ", ownerId=" + ownerId +
                 ", color='" + color + '\'' +
                 ", archived=" + archived +
-//                ", acl='" + acl + '\'' +
                 ", shared=" + shared +
                 ", deletedAt=" + deletedAt +
                 ", localId=" + localId +

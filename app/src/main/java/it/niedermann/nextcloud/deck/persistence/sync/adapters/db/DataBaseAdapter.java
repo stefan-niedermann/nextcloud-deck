@@ -262,4 +262,8 @@ public class DataBaseAdapter {
     public void updateAccessControl(AccessControl entity) {
         db.getAccessControlDao().update(entity);
     }
+
+    public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
+        return db.getBoardDao().getFullBoardById(accountId, localId);
+    }
 }
