@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -239,5 +240,13 @@ public class SyncManager {
 
     public LiveData<FullBoard> getFullBoard(Long accountId, Long localId) {
         return dataBaseAdapter.getFullBoardById(accountId, localId);
+    }
+
+    public LiveData<User> getUserByLocalId(long accountId, long localId) {
+        return dataBaseAdapter.getUserByUid(accountId, localId);
+    }
+
+    public LiveData<User> getUserByLocalId(long accountId, String uid) {
+        return dataBaseAdapter.getUserByUid(accountId, uid);
     }
 }

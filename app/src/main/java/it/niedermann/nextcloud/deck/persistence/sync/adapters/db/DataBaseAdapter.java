@@ -266,4 +266,12 @@ public class DataBaseAdapter {
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
         return db.getBoardDao().getFullBoardById(accountId, localId);
     }
+
+    public LiveData<User> getUserByUid(long accountId, long localId){
+        return db.getUserDao().getUserByLocalId(accountId, localId);
+    }
+
+    public LiveData<User> getUserByUid(long accountId, String uid){
+        return db.getUserDao().getUserByUid(accountId, uid);
+    }
 }
