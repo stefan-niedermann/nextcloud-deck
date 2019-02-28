@@ -131,19 +131,20 @@ public class SyncManager {
 
     public LiveData<Board> createBoard(long accountId, Board board) {
         //TODO how to tell server?
-        doAsync(() -> {
+        doAsync(() ->
             serverAdapter.createBoard(board, new IResponseCallback<FullBoard>(new Account(accountId, "noNeed")) {
                 @Override
                 public void onResponse(FullBoard response) {
                     DeckLog.log(response.toString());
+
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
                     DeckLog.logError(throwable);
                 }
-            });
-        });
+            })
+        );
         return dataBaseAdapter.createBoard(accountId, board);
     }
 
