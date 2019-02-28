@@ -39,4 +39,22 @@ public class FullStack implements IRemoteEntity {
     public IRemoteEntity getEntity() {
         return stack;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FullStack fullStack = (FullStack) o;
+
+        if (stack != null ? !stack.equals(fullStack.stack) : fullStack.stack != null) return false;
+        return cards != null ? cards.equals(fullStack.cards) : fullStack.cards == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = stack != null ? stack.hashCode() : 0;
+        result = 31 * result + (cards != null ? cards.hashCode() : 0);
+        return result;
+    }
 }

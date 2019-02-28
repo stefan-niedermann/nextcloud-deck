@@ -37,4 +37,22 @@ public class JoinBoardWithUser {
     public void setBoardId(Long boardId) {
         this.boardId = boardId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JoinBoardWithUser that = (JoinBoardWithUser) o;
+
+        if (!userId.equals(that.userId)) return false;
+        return boardId.equals(that.boardId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userId.hashCode();
+        result = 31 * result + boardId.hashCode();
+        return result;
+    }
 }

@@ -144,4 +144,30 @@ public class Board extends AbstractRemoteEntity {
                 ", lastModifiedLocal=" + lastModifiedLocal +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Board board = (Board) o;
+
+        if (ownerId != board.ownerId) return false;
+        if (archived != board.archived) return false;
+        if (shared != board.shared) return false;
+        if (title != null ? !title.equals(board.title) : board.title != null) return false;
+        if (color != null ? !color.equals(board.color) : board.color != null) return false;
+        return deletedAt != null ? deletedAt.equals(board.deletedAt) : board.deletedAt == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (int) (ownerId ^ (ownerId >>> 32));
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + (archived ? 1 : 0);
+        result = 31 * result + shared;
+        result = 31 * result + (deletedAt != null ? deletedAt.hashCode() : 0);
+        return result;
+    }
 }

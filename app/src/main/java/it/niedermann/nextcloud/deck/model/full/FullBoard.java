@@ -58,6 +58,18 @@ public class FullBoard implements IRemoteEntity {
         return board;
     }
 
+    public void setOwner(List<User> owner) {
+        this.owner = owner;
+    }
+
+    public List<User> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<User> participants) {
+        this.participants = participants;
+    }
+
     @Override
     public String toString() {
         return "FullBoard{" +
@@ -66,5 +78,28 @@ public class FullBoard implements IRemoteEntity {
                 ", owner=" + owner +
                 ", participants=" + participants +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FullBoard fullBoard = (FullBoard) o;
+
+        if (board != null ? !board.equals(fullBoard.board) : fullBoard.board != null) return false;
+        if (labels != null ? !labels.equals(fullBoard.labels) : fullBoard.labels != null)
+            return false;
+        if (owner != null ? !owner.equals(fullBoard.owner) : fullBoard.owner != null) return false;
+        return participants != null ? participants.equals(fullBoard.participants) : fullBoard.participants == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = board != null ? board.hashCode() : 0;
+        result = 31 * result + (labels != null ? labels.hashCode() : 0);
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        result = 31 * result + (participants != null ? participants.hashCode() : 0);
+        return result;
     }
 }

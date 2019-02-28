@@ -21,5 +21,5 @@ public interface LabelDao extends GenericDao<Label> {
     Label getLabelByRemoteIdDirectly(final long accountId, final long remoteId);
 
     @Query("SELECT * FROM label WHERE localId IN (:labelIDs)")
-    List<Label> getLabelsById(List<Long> labelIDs);
+    List<Label> getLabelsByIdDirectly(List<Long> labelIDs);
 }

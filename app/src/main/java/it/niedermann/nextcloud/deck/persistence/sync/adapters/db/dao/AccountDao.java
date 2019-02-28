@@ -15,7 +15,10 @@ public interface AccountDao extends GenericDao<Account> {
     LiveData<List<Account>> getAccounts();
 
     @Query("SELECT count(*) FROM account")
-    int countAccounts();
+    int countAccountsDirectly();
+
+    @Query("SELECT count(*) FROM account")
+    LiveData<Integer> countAccounts();
 
     @Query("DELETE from account where id = :id")
     void deleteById(long id);

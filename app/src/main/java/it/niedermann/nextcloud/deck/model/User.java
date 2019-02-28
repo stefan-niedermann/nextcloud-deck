@@ -47,4 +47,25 @@ public class User extends AbstractRemoteEntity {
     public void setDisplayname(String displayname) {
         this.displayname = displayname;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (primaryKey != null ? !primaryKey.equals(user.primaryKey) : user.primaryKey != null)
+            return false;
+        if (uid != null ? !uid.equals(user.uid) : user.uid != null) return false;
+        return displayname != null ? displayname.equals(user.displayname) : user.displayname == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = primaryKey != null ? primaryKey.hashCode() : 0;
+        result = 31 * result + (uid != null ? uid.hashCode() : 0);
+        result = 31 * result + (displayname != null ? displayname.hashCode() : 0);
+        return result;
+    }
 }

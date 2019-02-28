@@ -177,4 +177,52 @@ public class Card extends AbstractRemoteEntity {
     public int getOrder() {
         return this.order;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Card card = (Card) o;
+
+        if (stackId != card.stackId) return false;
+        if (attachmentCount != card.attachmentCount) return false;
+        if (order != card.order) return false;
+        if (archived != card.archived) return false;
+        if (notified != card.notified) return false;
+        if (overdue != card.overdue) return false;
+        if (commentsUnread != card.commentsUnread) return false;
+        if (title != null ? !title.equals(card.title) : card.title != null) return false;
+        if (description != null ? !description.equals(card.description) : card.description != null)
+            return false;
+        if (type != null ? !type.equals(card.type) : card.type != null) return false;
+        if (createdAt != null ? !createdAt.equals(card.createdAt) : card.createdAt != null)
+            return false;
+        if (deletedAt != null ? !deletedAt.equals(card.deletedAt) : card.deletedAt != null)
+            return false;
+        if (attachments != null ? !attachments.equals(card.attachments) : card.attachments != null)
+            return false;
+        if (userId != null ? !userId.equals(card.userId) : card.userId != null) return false;
+        return dueDate != null ? dueDate.equals(card.dueDate) : card.dueDate == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (int) (stackId ^ (stackId >>> 32));
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (deletedAt != null ? deletedAt.hashCode() : 0);
+        result = 31 * result + (attachments != null ? attachments.hashCode() : 0);
+        result = 31 * result + attachmentCount;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + order;
+        result = 31 * result + (archived ? 1 : 0);
+        result = 31 * result + (dueDate != null ? dueDate.hashCode() : 0);
+        result = 31 * result + (notified ? 1 : 0);
+        result = 31 * result + overdue;
+        result = 31 * result + commentsUnread;
+        return result;
+    }
 }

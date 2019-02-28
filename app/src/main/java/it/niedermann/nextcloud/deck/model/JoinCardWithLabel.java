@@ -37,4 +37,22 @@ public class JoinCardWithLabel {
     public void setCardId(Long cardId) {
         this.cardId = cardId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JoinCardWithLabel that = (JoinCardWithLabel) o;
+
+        if (!labelId.equals(that.labelId)) return false;
+        return cardId.equals(that.cardId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = labelId.hashCode();
+        result = 31 * result + cardId.hashCode();
+        return result;
+    }
 }

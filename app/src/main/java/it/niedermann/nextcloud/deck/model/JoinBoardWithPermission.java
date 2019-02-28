@@ -37,4 +37,22 @@ public class JoinBoardWithPermission {
     public void setBoardId(Long boardId) {
         this.boardId = boardId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JoinBoardWithPermission that = (JoinBoardWithPermission) o;
+
+        if (!permissionId.equals(that.permissionId)) return false;
+        return boardId.equals(that.boardId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = permissionId.hashCode();
+        result = 31 * result + boardId.hashCode();
+        return result;
+    }
 }

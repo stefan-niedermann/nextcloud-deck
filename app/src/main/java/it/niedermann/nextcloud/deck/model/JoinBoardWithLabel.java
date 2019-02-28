@@ -38,4 +38,22 @@ public class JoinBoardWithLabel {
     public void setBoardId(Long boardId) {
         this.boardId = boardId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JoinBoardWithLabel that = (JoinBoardWithLabel) o;
+
+        if (!boardId.equals(that.boardId)) return false;
+        return labelId.equals(that.labelId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = boardId.hashCode();
+        result = 31 * result + labelId.hashCode();
+        return result;
+    }
 }

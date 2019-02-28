@@ -72,4 +72,26 @@ public class Stack extends AbstractRemoteEntity {
     public void setAccountId(long accountId) {
         this.accountId = accountId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Stack stack = (Stack) o;
+
+        if (boardId != stack.boardId) return false;
+        if (order != stack.order) return false;
+        if (title != null ? !title.equals(stack.title) : stack.title != null) return false;
+        return deletedAt != null ? deletedAt.equals(stack.deletedAt) : stack.deletedAt == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (int) (boardId ^ (boardId >>> 32));
+        result = 31 * result + (deletedAt != null ? deletedAt.hashCode() : 0);
+        result = 31 * result + order;
+        return result;
+    }
 }
