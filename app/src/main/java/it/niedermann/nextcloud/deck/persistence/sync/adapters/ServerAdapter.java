@@ -39,6 +39,18 @@ public class ServerAdapter {
                 applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
     }
 
+    public String getServerUrl() {
+        return provider.getServerUrl();
+    }
+
+    public String getApiPath() {
+        return provider.getApiPath();
+    }
+
+    public String getApiUrl() {
+        return provider.getApiUrl();
+    }
+
     public void ensureInternetConnection() {
         boolean isConnected = hasInternetConnection();
         if (!isConnected){

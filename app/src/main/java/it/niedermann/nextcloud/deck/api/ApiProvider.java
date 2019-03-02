@@ -20,6 +20,7 @@ public class ApiProvider {
 
     private DeckAPI mApi;
     private Context context;
+    private SingleSignOnAccount ssoAccount;
 
     public ApiProvider(Context context) {
         this.context = context;
@@ -27,7 +28,7 @@ public class ApiProvider {
 
     void initSsoApi(final NextcloudAPI.ApiConnectedListener callback) {
         try {
-            SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+            ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
             NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.GetGson(), callback);
             //mApi = new DeckAPI_SSO(nextcloudAPI);
             mApi = new NextcloudRetrofitApiBuilder(nextcloudAPI, API_ENDPOINT).create(DeckAPI.class);
@@ -38,5 +39,17 @@ public class ApiProvider {
 
     public DeckAPI getAPI() {
         return mApi;
+    }
+
+    public String getServerUrl(){
+        return ssoAccount.url;
+    }
+
+    public String getApiPath(){
+        return API_ENDPOINT;
+    }
+
+    public String getApiUrl(){
+        return getServerUrl()+getApiPath();
     }
 }

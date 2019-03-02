@@ -297,4 +297,16 @@ public class SyncManager {
     public LiveData<List<FullStack>> getStacks(long accountId, long localBoardId) {
         return dataBaseAdapter.getStacks(accountId, localBoardId);
     }
+
+    public String getServerUrl() {
+        return serverAdapter.getServerUrl();
+    }
+
+    public String getApiPath() {
+        return serverAdapter.getApiPath();
+    }
+
+    public String getApiUrl() {
+        return serverAdapter.getApiUrl();
+    }
 }
