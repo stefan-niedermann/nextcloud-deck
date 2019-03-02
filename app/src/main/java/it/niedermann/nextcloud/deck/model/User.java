@@ -2,10 +2,11 @@ package it.niedermann.nextcloud.deck.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-@Entity(inheritSuperIndices = true)
+@Entity(inheritSuperIndices = true, indices = {@Index(value = "uid", name = "user_uid")})
 public class User extends AbstractRemoteEntity {
 
 

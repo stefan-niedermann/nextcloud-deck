@@ -7,6 +7,7 @@ import android.arch.persistence.room.Relation;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
@@ -33,6 +34,9 @@ public class FullCard implements IRemoteEntity {
 
     @Relation(parentColumn = "userId", entityColumn = "localId")
     public List<User> owner;
+
+    @Relation(parentColumn = "localId", entityColumn = "cardId")
+    public List<Attachment> attachments;
 
     public Card getCard() {
         return card;
@@ -84,10 +88,35 @@ public class FullCard implements IRemoteEntity {
         this.owner = user;
     }
 
+    public void setOwner(List<User> owner) {
+        this.owner = owner;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
     @Ignore
     @Override
     public IRemoteEntity getEntity() {
         return card;
+    }
+
+    @Override
+    public String toString() {
+        return "FullCard{" +
+                "card=" + card +
+                ", labelIDs=" + labelIDs +
+                ", labels=" + labels +
+                ", assignedUserIDs=" + assignedUserIDs +
+                ", assignedUsers=" + assignedUsers +
+                ", owner=" + owner +
+                ", attachments=" + attachments +
+                '}';
     }
 
     @Override
@@ -106,7 +135,8 @@ public class FullCard implements IRemoteEntity {
             return false;
         if (assignedUsers != null ? !assignedUsers.equals(fullCard.assignedUsers) : fullCard.assignedUsers != null)
             return false;
-        return owner != null ? owner.equals(fullCard.owner) : fullCard.owner == null;
+        if (owner != null ? !owner.equals(fullCard.owner) : fullCard.owner != null) return false;
+        return attachments != null ? attachments.equals(fullCard.attachments) : fullCard.attachments == null;
     }
 
     @Override
@@ -117,6 +147,7 @@ public class FullCard implements IRemoteEntity {
         result = 31 * result + (assignedUserIDs != null ? assignedUserIDs.hashCode() : 0);
         result = 31 * result + (assignedUsers != null ? assignedUsers.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        result = 31 * result + (attachments != null ? attachments.hashCode() : 0);
         return result;
     }
 }

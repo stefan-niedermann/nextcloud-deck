@@ -18,6 +18,7 @@ import java.util.TimeZone;
 import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -154,8 +155,17 @@ public class JsonToEntityParser {
             }
             fullCard.setAssignedUsers(users);
         }
+        if (e.has("attachments") && !e.get("attachments").isJsonNull()) {
+            JsonArray attachmentsJson = e.getAsJsonArray("attachments");
 
-        //todo e.get "attachments"
+            List<Attachment> attachments = new ArrayList<>();
+            for (JsonElement att : attachmentsJson) {
+                JsonObject attachmentJson = att.getAsJsonObject();
+                attachments.add(parseAttachment(attachmentJson));
+            }
+            fullCard.setAttachments(attachments);
+        }
+
         card.setAttachmentCount(e.get("attachmentCount").getAsInt());
         card.setOrder(e.get("order").getAsInt());
         card.setOverdue(e.get("overdue").getAsInt());
@@ -171,6 +181,33 @@ public class JsonToEntityParser {
         card.setArchived(e.get("archived").getAsBoolean());
 
         return fullCard;
+    }
+
+    protected static Attachment parseAttachment(JsonObject e) {
+        DeckLog.log(e.toString());
+        Attachment a = new Attachment();
+        a.setId(e.get("id").getAsLong());
+        a.setCardId(e.get("cardId").getAsLong());
+        a.setType(e.get("type").getAsString());
+        a.setData(e.get("data").getAsString());
+        a.setLastModified(getTimestampFromLong(e.get("lastModified")));
+        a.setCreatedAt(getTimestampFromLong(e.get("createdAt")));
+        a.setCreatedBy(e.get("createdBy").getAsString());
+        a.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
+        if (e.has("extendedData") && !e.get("extendedData").isJsonNull()) {
+            JsonObject extendedData = e.getAsJsonObject("extendedData").getAsJsonObject();
+            a.setFilesize(extendedData.get("filesize").getAsLong());
+            a.setMimetype(extendedData.get("mimetype").getAsString());
+            if (extendedData.has("info") && !extendedData.get("info").isJsonNull()) {
+                JsonObject info = extendedData.getAsJsonObject("info").getAsJsonObject();
+                a.setDirname(info.get("dirname").getAsString());
+                a.setBasename(info.get("basename").getAsString());
+                a.setExtension(info.get("extension").getAsString());
+                a.setFilename(info.get("filename").getAsString());
+            }
+        }
+
+        return a;
     }
 
     protected static User parseUser(JsonObject e) {

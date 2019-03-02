@@ -7,6 +7,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinBoardWithLabel;
@@ -286,4 +287,18 @@ public class DataBaseAdapter {
         return db.getLabelDao().searchLabelByTitle(accountId, "%"+searchTerm+"%");
     }
 
+
+    public Attachment getAttachmentByRemoteIdDirectly(long accountId, Long id) {
+        return db.getAttachmentDao().getAttachmentByRemoteIdDirectly(accountId, id);
+    }
+
+    public long createAttachment(long accountId, Attachment attachment) {
+        attachment.setAccountId(accountId);
+        return db.getAttachmentDao().insert(attachment);
+    }
+
+    public void updateAttachment(long accountId, Attachment attachment) {
+        attachment.setAccountId(accountId);
+        db.getAttachmentDao().update(attachment);
+    }
 }

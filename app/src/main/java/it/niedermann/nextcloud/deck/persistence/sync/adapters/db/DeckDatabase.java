@@ -8,6 +8,7 @@ import android.content.Context;
 
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinBoardWithLabel;
@@ -21,6 +22,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.BoardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithLabelDao;
@@ -36,6 +38,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
 @Database(
         entities = {
                 Account.class,
+                Attachment.class,
                 AccessControl.class,
                 Board.class,
                 Card.class,
@@ -48,7 +51,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 Permission.class,
                 Stack.class,
                 User.class,
-
         },
         exportSchema = false,
         version = 1
@@ -98,4 +100,6 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract StackDao getStackDao();
 
     public abstract UserDao getUserDao();
+
+    public abstract AttachmentDao getAttachmentDao();
 }

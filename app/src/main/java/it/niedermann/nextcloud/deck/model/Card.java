@@ -20,7 +20,6 @@ public class Card extends AbstractRemoteEntity {
     private String type;
     private Date createdAt;
     private Date deletedAt;
-    private String attachments;
     private int attachmentCount;
 
     private Long userId;
@@ -104,14 +103,6 @@ public class Card extends AbstractRemoteEntity {
 
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
-    }
-
-    public String getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(String attachments) {
-        this.attachments = attachments;
     }
 
     public int getAttachmentCount() {
@@ -200,8 +191,6 @@ public class Card extends AbstractRemoteEntity {
             return false;
         if (deletedAt != null ? !deletedAt.equals(card.deletedAt) : card.deletedAt != null)
             return false;
-        if (attachments != null ? !attachments.equals(card.attachments) : card.attachments != null)
-            return false;
         if (userId != null ? !userId.equals(card.userId) : card.userId != null) return false;
         return dueDate != null ? dueDate.equals(card.dueDate) : card.dueDate == null;
     }
@@ -214,7 +203,6 @@ public class Card extends AbstractRemoteEntity {
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (deletedAt != null ? deletedAt.hashCode() : 0);
-        result = 31 * result + (attachments != null ? attachments.hashCode() : 0);
         result = 31 * result + attachmentCount;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + order;
