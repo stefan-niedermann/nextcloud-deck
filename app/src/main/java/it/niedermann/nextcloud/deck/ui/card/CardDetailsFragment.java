@@ -113,6 +113,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     if (this.card != null) {
                         // people
                         // TODO implement proper people display + avatar fetching
+                        // TODO find out how to get the server's Nextcloud URL to build the avatar URL
                         if(this.card.getAssignedUsers() != null) {
                             for (User user : this.card.getAssignedUsers()) {
                                 people.setText(people.getText() + user.getDisplayname() + " ");
