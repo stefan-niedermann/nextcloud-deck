@@ -14,11 +14,19 @@ public interface IDataProvider <T extends IRemoteEntity> {
 
     T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
 
-    void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, T b);
+    long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, T b);
 
     void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
 
+    void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
+
     void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer);
+
+    void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> responder, T entity);
+
+    void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> callback, T entity);
+
+    void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> callback, T entity);
 
     default void doneAll(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething){
         // do nothing! Only BoardDataProvider should overwrite this!

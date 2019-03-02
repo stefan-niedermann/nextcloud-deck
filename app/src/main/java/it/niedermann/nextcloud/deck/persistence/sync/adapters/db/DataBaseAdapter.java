@@ -199,9 +199,9 @@ public class DataBaseAdapter {
         });
     }
 
-    public void createBoardDirectly(long accountId, Board board) {
+    public long createBoardDirectly(long accountId, Board board) {
             board.setAccountId(accountId);
-            db.getBoardDao().insert(board);
+            return db.getBoardDao().insert(board);
     }
 
     public void deleteBoard(Board board) {
@@ -250,9 +250,9 @@ public class DataBaseAdapter {
         db.getCardDao().update(card);
     }
 
-    public void createAccessControl(long accountId, AccessControl entity) {
+    public long createAccessControl(long accountId, AccessControl entity) {
         entity.setAccountId(accountId);
-        db.getAccessControlDao().insert(entity);
+        return db.getAccessControlDao().insert(entity);
     }
 
     public AccessControl getAccessControlByRemoteIdDirectly(long accountId, Long id) {

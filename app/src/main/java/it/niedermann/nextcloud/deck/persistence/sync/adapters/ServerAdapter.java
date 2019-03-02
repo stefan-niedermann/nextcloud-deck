@@ -39,12 +39,16 @@ public class ServerAdapter {
                 applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
     }
 
-    private void ensureConnectivity() {
-        ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        boolean isConnected = cm.getActiveNetworkInfo().isConnected();
+    public void ensureInternetConnection() {
+        boolean isConnected = hasInternetConnection();
         if (!isConnected){
             throw new OfflineException();
         }
+    }
+
+    public boolean hasInternetConnection(){
+        ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo().isConnected();
     }
 
     private String getLastSyncDateFormatted() {
@@ -72,17 +76,17 @@ public class ServerAdapter {
     }
 
     public void createBoard(Board board, IResponseCallback<FullBoard> responseCallback) {
-        ensureConnectivity();
+        ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().createBoard(board), responseCallback);
     }
 
     public void deleteBoard(Board board) {
-        ensureConnectivity();
+        ensureInternetConnection();
 
     }
 
     public void updateBoard(Board board) {
-        ensureConnectivity();
+        ensureInternetConnection();
 
     }
 
@@ -95,17 +99,17 @@ public class ServerAdapter {
     }
 
     public void createStack(Stack stack) {
-        ensureConnectivity();
+        ensureInternetConnection();
 
     }
 
     public void deleteStack(Stack stack) {
-        ensureConnectivity();
+        ensureInternetConnection();
 
     }
 
     public void updateStack(Stack stack) {
-        ensureConnectivity();
+        ensureInternetConnection();
 
     }
 
@@ -114,17 +118,17 @@ public class ServerAdapter {
     }
 
     public void createCard(Card card) {
-        ensureConnectivity();
+        ensureInternetConnection();
 
     }
 
     public void deleteCard(Card card) {
-        ensureConnectivity();
+        ensureInternetConnection();
 
     }
 
     public void updateCard(Card card) {
-        ensureConnectivity();
+        ensureInternetConnection();
 
     }
 }

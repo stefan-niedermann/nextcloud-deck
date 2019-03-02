@@ -54,9 +54,9 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     }
 
     @Override
-    public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
+    public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
         fixRelations(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.createCard(accountId, entity.getCard());
+        return dataBaseAdapter.createCard(accountId, entity.getCard());
     }
 
     private void fixRelations(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
@@ -92,5 +92,25 @@ public class CardDataProvider implements IDataProvider<FullCard> {
         syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getAssignedUsers()));
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
 //        syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getOwner()));
+    }
+
+    @Override
+    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
+
+    }
+
+    @Override
+    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
+
+    }
+
+    @Override
+    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard fullCard) {
+
+    }
+
+    @Override
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
+
     }
 }

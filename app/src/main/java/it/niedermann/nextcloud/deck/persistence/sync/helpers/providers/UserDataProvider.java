@@ -36,8 +36,8 @@ public class UserDataProvider implements IDataProvider<User> {
     }
 
     @Override
-    public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, User entity) {
-        dataBaseAdapter.createUser(accountId, entity);
+    public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, User entity) {
+        return dataBaseAdapter.createUser(accountId, entity);
     }
 
     @Override
@@ -49,5 +49,25 @@ public class UserDataProvider implements IDataProvider<User> {
     public void goDeeper(SyncHelper syncHelper, User existingEntity, User entityFromServer) {
         // ain't goin' deeper <3
         return;
+    }
+
+    @Override
+    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> responder, User entity) {
+
+    }
+
+    @Override
+    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, User user) {
+
+    }
+
+    @Override
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> callback, User entity) {
+
+    }
+
+    @Override
+    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> callback, User entity) {
+
     }
 }

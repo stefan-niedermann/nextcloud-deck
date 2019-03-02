@@ -28,9 +28,9 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     }
 
     @Override
-    public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
+    public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
         entity.getStack().setBoardId(board.getLocalId());
-        dataBaseAdapter.createStack(accountId, entity.getStack());
+        return dataBaseAdapter.createStack(accountId, entity.getStack());
     }
 
     @Override
@@ -48,5 +48,25 @@ public class StackDataProvider implements IDataProvider<FullStack> {
             }
             syncHelper.doSyncFor(new CardDataProvider(board.getBoard(), existingEntity));
         }
+    }
+
+    @Override
+    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
+
+    }
+
+    @Override
+    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack fullStack) {
+
+    }
+
+    @Override
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
+
+    }
+
+    @Override
+    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
+
     }
 }

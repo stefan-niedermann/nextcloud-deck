@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 
@@ -131,10 +132,12 @@ public class SyncManager {
         return dataBaseAdapter.getBoards(accountId);
     }
 
-    public LiveData<Board> createBoard(long accountId, Board board) {
-        //TODO how to tell server?
+    public void createBoard(long accountId, Board board) {
+        FullBoard fullBoard = new FullBoard();
+        fullBoard.setBoard(board);
+        Account dummyAccount = new Account(accountId, "noNeed");
         doAsync(() ->
-            serverAdapter.createBoard(board, new IResponseCallback<FullBoard>(new Account(accountId, "noNeed")) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(dummyAccount) {
                 @Override
                 public void onResponse(FullBoard response) {
                     DeckLog.log(response.toString());
@@ -147,7 +150,7 @@ public class SyncManager {
                 }
             })
         );
-        return dataBaseAdapter.createBoard(accountId, board);
+//        return dataBaseAdapter.createBoard(accountId, board);
     }
 
     public void deleteBoard(Board board) {

@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.api;
 import java.util.Collection;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
@@ -16,7 +17,9 @@ public abstract class IResponseCallback<T> {
 
     public abstract void onResponse(T response);
 
-    public abstract void onError(Throwable throwable);
+    public void onError(Throwable throwable) {
+        DeckLog.logError(throwable);
+    }
 
     public void fillAccountIDs(T response) {
         if (response != null) {

@@ -27,8 +27,8 @@ public class LabelDataProvider implements IDataProvider<Label> {
     }
 
     @Override
-    public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity) {
-        dataBaseAdapter.createLabel(accountId, entity);
+    public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity) {
+        return dataBaseAdapter.createLabel(accountId, entity);
     }
 
     @Override
@@ -40,5 +40,25 @@ public class LabelDataProvider implements IDataProvider<Label> {
     public void goDeeper(SyncHelper syncHelper, Label existingEntity, Label entityFromServer) {
         // ain't goin' deeper <3
         return;
+    }
+
+    @Override
+    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> responder, Label entity) {
+
+    }
+
+    @Override
+    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label label) {
+
+    }
+
+    @Override
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
+
+    }
+
+    @Override
+    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
+
     }
 }

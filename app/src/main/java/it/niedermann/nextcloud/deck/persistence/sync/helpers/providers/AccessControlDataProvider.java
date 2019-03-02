@@ -28,9 +28,9 @@ public class AccessControlDataProvider implements IDataProvider<AccessControl> {
     }
 
     @Override
-    public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
+    public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
         prepareUser(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.createAccessControl(accountId, entity);
+        return dataBaseAdapter.createAccessControl(accountId, entity);
     }
 
     private void prepareUser(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
@@ -55,5 +55,25 @@ public class AccessControlDataProvider implements IDataProvider<AccessControl> {
     public void goDeeper(SyncHelper syncHelper, AccessControl existingEntity, AccessControl entityFromServer) {
         // ain't goin' deeper <3
         return;
+    }
+
+    @Override
+    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<AccessControl> responder, AccessControl entity) {
+
+    }
+
+    @Override
+    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<AccessControl> callback, AccessControl entity) {
+
+    }
+
+    @Override
+    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl accessControl) {
+
+    }
+
+    @Override
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<AccessControl> callback, AccessControl entity) {
+
     }
 }

@@ -22,9 +22,9 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     }
 
     @Override
-    public void createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+    public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         handleOwner(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
+        return dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
     }
 
     private void handleOwner(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
@@ -62,7 +62,27 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     }
 
     @Override
+    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> responder, FullBoard entity) {
+        serverAdapter.createBoard(entity.getBoard(), responder);
+    }
+
+    @Override
     public void doneAll(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         responseCallback.onResponse(syncChangedSomething);
+    }
+
+    @Override
+    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> callback, FullBoard entity) {
+        serverAdapter.updateBoard(entity.getBoard());
+    }
+
+    @Override
+    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard fullBoard) {
+
+    }
+
+    @Override
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> callback, FullBoard entity) {
+
     }
 }
