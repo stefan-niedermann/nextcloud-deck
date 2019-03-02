@@ -22,4 +22,7 @@ public interface LabelDao extends GenericDao<Label> {
 
     @Query("SELECT * FROM label WHERE localId IN (:labelIDs)")
     List<Label> getLabelsByIdDirectly(List<Long> labelIDs);
+
+    @Query("SELECT * FROM label WHERE accountId = :accountId and title = :searchTerm")
+    LiveData<List<Label>> searchLabelByTitle(final long accountId, String searchTerm);
 }

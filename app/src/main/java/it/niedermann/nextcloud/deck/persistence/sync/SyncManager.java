@@ -298,6 +298,11 @@ public class SyncManager {
         return dataBaseAdapter.getStacks(accountId, localBoardId);
     }
 
+
+    public LiveData<List<Label>> searchLabelByTitle(final long accountId, String searchTerm){
+        return dataBaseAdapter.searchLabelByTitle(accountId, searchTerm);
+    }
+
     public String getServerUrl() {
         return serverAdapter.getServerUrl();
     }
