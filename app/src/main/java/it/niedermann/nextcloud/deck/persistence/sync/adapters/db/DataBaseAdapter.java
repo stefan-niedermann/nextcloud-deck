@@ -267,11 +267,19 @@ public class DataBaseAdapter {
         return db.getBoardDao().getFullBoardById(accountId, localId);
     }
 
-    public LiveData<User> getUserByUid(long accountId, long localId){
+    public LiveData<User> getUserByLocalId(long accountId, long localId){
         return db.getUserDao().getUserByLocalId(accountId, localId);
     }
 
     public LiveData<User> getUserByUid(long accountId, String uid){
         return db.getUserDao().getUserByUid(accountId, uid);
     }
+
+    public LiveData<List<User>> getUsersForAccount(final long accountId){
+        return db.getUserDao().getUsersForAccount(accountId);
+    }
+    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm){
+        return db.getUserDao().searchUserByUidOrDisplayName(accountId, "%"+searchTerm+"%");
+    }
+
 }

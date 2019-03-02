@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -167,6 +168,22 @@ public class SyncManager {
         return dataBaseAdapter.getStack(accountId, localStackId);
     }
 
+    public void createAccessControl(long accountId, AccessControl entity) {
+        dataBaseAdapter.createAccessControl(accountId, entity);
+    }
+
+    public AccessControl getAccessControlByRemoteIdDirectly(long accountId, Long id) {
+        return dataBaseAdapter.getAccessControlByRemoteIdDirectly(accountId, id);
+    }
+
+    public void updateAccessControl(AccessControl entity) {
+        dataBaseAdapter.updateAccessControl(entity);
+    }
+
+    public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
+        return dataBaseAdapter.getFullBoardById(accountId, localId);
+    }
+
     public long createStack(long accountId, Stack stack) {
         //TODO: Tell the server
         return dataBaseAdapter.createStack(accountId, stack);
@@ -243,10 +260,38 @@ public class SyncManager {
     }
 
     public LiveData<User> getUserByLocalId(long accountId, long localId) {
-        return dataBaseAdapter.getUserByUid(accountId, localId);
+        return dataBaseAdapter.getUserByLocalId(accountId, localId);
     }
 
-    public LiveData<User> getUserByLocalId(long accountId, String uid) {
+    public LiveData<User> getUserByUid(long accountId, String uid) {
         return dataBaseAdapter.getUserByUid(accountId, uid);
+    }
+
+    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm){
+        return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, searchTerm);
+    }
+
+    public LiveData<Board> getBoard(long accountId, long remoteId) {
+        return dataBaseAdapter.getBoard(accountId, remoteId);
+    }
+
+    public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
+        return dataBaseAdapter.getStackByRemoteId(accountId, localBoardId, remoteId);
+    }
+
+    public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {
+        return dataBaseAdapter.getCardByRemoteID(accountId, remoteId);
+    }
+
+    public long createUser(long accountId, User user) {
+        return dataBaseAdapter.createUser(accountId, user);
+    }
+
+    public void updateUser(long accountId, User user) {
+        dataBaseAdapter.updateUser(accountId, user);
+    }
+
+    public LiveData<List<FullStack>> getStacks(long accountId, long localBoardId) {
+        return dataBaseAdapter.getStacks(accountId, localBoardId);
     }
 }
