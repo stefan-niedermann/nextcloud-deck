@@ -36,6 +36,7 @@ import it.niedermann.nextcloud.deck.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
@@ -51,6 +52,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private DateFormat dateFormat;
     private DateFormat dueTime = new SimpleDateFormat("HH:mm", Locale.ROOT);
     private Unbinder unbinder;
+
+    @BindView(R.id.people)
+    TextView people;
 
     @BindView(R.id.dueDateDate)
     TextView dueDate;
@@ -108,7 +112,12 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     this.card = card;
                     if (this.card != null) {
                         // people
-                        // TODO find out how to get the people
+                        // TODO implement proper people display + avatar fetching
+                        if(this.card.getAssignedUsers() != null) {
+                            for (User user : this.card.getAssignedUsers()) {
+                                people.setText(people.getText() + user.getDisplayname() + " ");
+                            }
+                        }
 
                         // labels
                         // TODO load labels
@@ -118,6 +127,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                             for (Label label : this.card.getLabels()) {
                                 chip = new Chip(getActivity());
                                 chip.setText(label.getTitle());
+                                // TODO use grey/white icon depending on textTinting
                                 chip.setCloseIconResource(R.drawable.ic_close_circle_grey600);
                                 chip.setCloseIconVisible(true);
 
