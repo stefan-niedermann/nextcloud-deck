@@ -280,11 +280,13 @@ public class DataBaseAdapter {
         return db.getUserDao().getUsersForAccount(accountId);
     }
     public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm){
-        return db.getUserDao().searchUserByUidOrDisplayName(accountId, "%"+searchTerm+"%");
+        validateSearchTerm(searchTerm);
+        return db.getUserDao().searchUserByUidOrDisplayName(accountId, "%"+searchTerm.trim()+"%");
     }
 
     public LiveData<List<Label>> searchLabelByTitle(final long accountId, String searchTerm){
-        return db.getLabelDao().searchLabelByTitle(accountId, "%"+searchTerm+"%");
+        validateSearchTerm(searchTerm);
+        return db.getLabelDao().searchLabelByTitle(accountId, "%"+searchTerm.trim()+"%");
     }
 
 
@@ -300,5 +302,11 @@ public class DataBaseAdapter {
     public void updateAttachment(long accountId, Attachment attachment) {
         attachment.setAccountId(accountId);
         db.getAttachmentDao().update(attachment);
+    }
+
+    private void validateSearchTerm(String searchTerm){
+        if (searchTerm == null || searchTerm.trim().length()<1) {
+            throw new IllegalArgumentException("please provide a proper search term! \""+searchTerm+"\" doesn't seem right...");
+        }
     }
 }
