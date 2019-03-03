@@ -261,7 +261,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                             .load(uri)
                             .apply(RequestOptions.circleCropTransform())
                             .into(avatar);
-                    people.setText(people.getText() + user.getDisplayname() + " ");
                 }
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 DeckLog.logError(e);
