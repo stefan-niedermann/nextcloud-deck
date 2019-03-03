@@ -227,7 +227,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     private void setupPeople(long accountId) {
         people.setThreshold(2);
-        people.setAdapter(new UserAutoCompleteAdapter(getContext(), accountId));
+        people.setAdapter(new UserAutoCompleteAdapter(this, getContext(), accountId));
         people.setOnItemClickListener((adapterView, view, position, id) -> {
             User user = (User) adapterView.getItemAtPosition(position);
             people.setText(user.getDisplayname());
