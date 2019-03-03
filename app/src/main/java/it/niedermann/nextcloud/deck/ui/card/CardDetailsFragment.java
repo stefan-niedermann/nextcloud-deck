@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,10 +44,12 @@ import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -61,7 +65,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private Unbinder unbinder;
 
     @BindView(R.id.people)
-    TextView people;
+    DelayedAutoCompleteTextView people;
 
     @BindView(R.id.peopleList)
     LinearLayout peopleList;
@@ -122,7 +126,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     this.card = card;
                     if (this.card != null) {
                         // people
-                        setupPeople();
+                        setupPeople(accountId);
 
                         // labels
                         setupLabels();
@@ -221,7 +225,15 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         }
     }
 
-    private void setupPeople() {
+    private void setupPeople(long accountId) {
+        people.setThreshold(2);
+        people.setAdapter(new UserAutoCompleteAdapter(getContext(), accountId));
+        people.setOnItemClickListener((adapterView, view, position, id) -> {
+            User user = (User) adapterView.getItemAtPosition(position);
+            people.setText(user.getDisplayname());
+            // TODO: store chosen user, trigger avatar display/fetch
+        });
+
         // TODO implement proper people display + avatar fetching
         // TODO find out how to get the server's Nextcloud URL to build the avatar URL
         if (this.card.getAssignedUsers() != null) {
@@ -233,8 +245,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 SingleSignOnAccount account = SingleAccountHelper.getCurrentSingleSignOnAccount(getContext());
                 ImageView avatar;
                 String baseUrl = account.url;
-                int px = getAvatarDimension();
-                int margin = dpToPx(8);
+                int px = SupportUtil.getAvatarDimension(getContext());
+                int margin = SupportUtil.dpToPx(getContext(),8);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(px, px);
                 params.setMargins(
                         0, 0, margin, 0);
@@ -292,27 +304,5 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.card.getCard().getDueDate().setMinutes(minute);
         dueDateTime.setText(dueTime.format(this.card.getCard().getDueDate().getTime()));
         syncManager.updateCard(this.card.getCard());
-    }
-
-    //TODO move to UI-Utils class
-
-    /**
-     * Converts size of file icon from dp to pixel.
-     *
-     * @return int
-     */
-    private int getAvatarDimension() {
-        // Converts dp to pixel
-        return Math.round(getContext().getResources().getDimension(R.dimen.avatar_size));
-    }
-
-    /**
-     * convert dp into px.
-     *
-     * @param dp dp value
-     * @return corresponding px value
-     */
-    private int dpToPx(int dp) {
-        return (int) (dp * getResources().getDisplayMetrics().density + 0.5f);
     }
 }

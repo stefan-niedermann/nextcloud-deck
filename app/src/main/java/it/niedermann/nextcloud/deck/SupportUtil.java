@@ -65,4 +65,25 @@ public class SupportUtil {
             return dateString.toString();
         }
     }
+
+    // TODO create proper UI-Utils class
+    /**
+     * Converts size of file icon from dp to pixel.
+     *
+     * @return int
+     */
+    public static int getAvatarDimension(Context context) {
+        // Converts dp to pixel
+        return Math.round(context.getResources().getDimension(R.dimen.avatar_size));
+    }
+
+    /**
+     * convert dp into px.
+     *
+     * @param dp dp value
+     * @return corresponding px value
+     */
+    public static int dpToPx(Context context, int dp) {
+        return (int) (dp * context.getResources().getDisplayMetrics().density + 0.5f);
+    }
 }
