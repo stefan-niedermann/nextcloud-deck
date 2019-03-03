@@ -2,15 +2,17 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.chip.Chip;
 import android.support.design.chip.ChipGroup;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.ColorUtils;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,23 +20,28 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
+import com.nextcloud.android.sso.model.SingleSignOnAccount;
+
 import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.ColorUtil;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -55,6 +62,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     @BindView(R.id.people)
     TextView people;
+
+    @BindView(R.id.peopleList)
+    LinearLayout peopleList;
 
     @BindView(R.id.dueDateDate)
     TextView dueDate;
@@ -112,55 +122,16 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     this.card = card;
                     if (this.card != null) {
                         // people
-                        // TODO implement proper people display + avatar fetching
-                        // TODO find out how to get the server's Nextcloud URL to build the avatar URL
-                        if(this.card.getAssignedUsers() != null) {
-                            for (User user : this.card.getAssignedUsers()) {
-                                people.setText(people.getText() + user.getDisplayname() + " ");
-                            }
-                        }
+                        setupPeople();
 
                         // labels
-                        // TODO load labels
-                        labelsGroup.removeAllViews();
-                        if (this.card.getLabels() != null && this.card.getLabels().size() > 0) {
-                            Chip chip;
-                            for (Label label : this.card.getLabels()) {
-                                chip = new Chip(getActivity());
-                                chip.setText(label.getTitle());
-                                // TODO use grey/white icon depending on textTinting
-                                chip.setCloseIconResource(R.drawable.ic_close_circle_grey600);
-                                chip.setCloseIconVisible(true);
-
-                                try {
-                                    int labelColor = Color.parseColor("#" + label.getColor());
-                                    ColorStateList c = ColorStateList.valueOf(labelColor);
-                                    chip.setChipBackgroundColor(c);
-                                    chip.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));
-                                } catch (IllegalArgumentException e) {
-                                    Log.e(TAG, "error parsing label color", e);
-                                }
-
-                                labelsGroup.addView(chip);
-                            }
-                            labelsGroup.setVisibility(View.VISIBLE);
-                        } else {
-                            labelsGroup.setVisibility(View.GONE);
-                        }
+                        setupLabels();
 
                         // due date
-                        if (this.card.getCard().getDueDate() != null) {
-                            dueDate.setText(dateFormat.format(this.card.getCard().getDueDate()));
-                            dueDateTime.setText(dueTime.format(this.card.getCard().getDueDate()));
-                        } else {
-                            dueDate.setText(null);
-                            dueDateTime.setText(null);
-                        }
+                        setupDueDate();
 
                         // description
-                        if (this.card.getCard().getDescription() != null) {
-                            description.setText(this.card.getCard().getDescription());
-                        }
+                        setupDescription();
                     }
                 });
 
@@ -203,6 +174,91 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         });
     }
 
+    private void setupDescription() {
+        if (this.card.getCard().getDescription() != null) {
+            description.setText(this.card.getCard().getDescription());
+        }
+    }
+
+    private void setupDueDate() {
+        if (this.card.getCard().getDueDate() != null) {
+            dueDate.setText(dateFormat.format(this.card.getCard().getDueDate()));
+            dueDateTime.setText(dueTime.format(this.card.getCard().getDueDate()));
+        } else {
+            dueDate.setText(null);
+            dueDateTime.setText(null);
+        }
+    }
+
+    private void setupLabels() {
+        labelsGroup.removeAllViews();
+        if (this.card.getLabels() != null && this.card.getLabels().size() > 0) {
+            Chip chip;
+            for (Label label : this.card.getLabels()) {
+                chip = new Chip(getActivity());
+                chip.setText(label.getTitle());
+                // TODO use grey/white icon depending on textTinting
+                chip.setCloseIcon(getContext().getResources().getDrawable(R.drawable.ic_close_circle_grey600));
+                chip.setCloseIconVisible(true);
+                try {
+                    int labelColor = Color.parseColor("#" + label.getColor());
+                    ColorStateList c = ColorStateList.valueOf(labelColor);
+                    chip.setChipBackgroundColor(c);
+                    int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
+                    chip.setTextColor(color);
+
+                    Drawable wrapDrawable = DrawableCompat.wrap(chip.getCloseIcon());
+                    DrawableCompat.setTint(wrapDrawable, ColorUtils.setAlphaComponent(color, 150));
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, "error parsing label color", e);
+                }
+
+                labelsGroup.addView(chip);
+            }
+            labelsGroup.setVisibility(View.VISIBLE);
+        } else {
+            labelsGroup.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupPeople() {
+        // TODO implement proper people display + avatar fetching
+        // TODO find out how to get the server's Nextcloud URL to build the avatar URL
+        if (this.card.getAssignedUsers() != null) {
+            try {
+                // TODO FIX: NullPointerException!
+                // syncManager.getServerUrl()
+
+                //Workaround
+                SingleSignOnAccount account = SingleAccountHelper.getCurrentSingleSignOnAccount(getContext());
+                ImageView avatar;
+                String baseUrl = account.url;
+                int px = getAvatarDimension();
+                int margin = dpToPx(8);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(px, px);
+                params.setMargins(
+                        0, 0, margin, 0);
+                peopleList.removeAllViews();
+                for (User user : this.card.getAssignedUsers()) {
+                    avatar = new ImageView(getActivity());
+                    avatar.setLayoutParams(params);
+                    String uri = baseUrl + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + px;
+                    peopleList.addView(avatar);
+                    avatar.requestLayout();
+                    Glide.with(this)
+                            .load(uri)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(avatar);
+                    people.setText(people.getText() + user.getDisplayname() + " ");
+                }
+            } catch (NextcloudFilesAppAccountNotFoundException e) {
+                DeckLog.logError(e);
+            } catch (NoCurrentAccountSelectedException e) {
+                DeckLog.logError(e);
+            }
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -216,7 +272,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         int hourOfDay;
         int minute;
 
-        if (dueDateTime.getText() != null && dueDateTime.length()>0) {
+        if (dueDateTime.getText() != null && dueDateTime.length() > 0) {
             hourOfDay = this.card.getCard().getDueDate().getHours();
             minute = this.card.getCard().getDueDate().getMinutes();
         } else {
@@ -236,5 +292,27 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.card.getCard().getDueDate().setMinutes(minute);
         dueDateTime.setText(dueTime.format(this.card.getCard().getDueDate().getTime()));
         syncManager.updateCard(this.card.getCard());
+    }
+
+    //TODO move to UI-Utils class
+
+    /**
+     * Converts size of file icon from dp to pixel.
+     *
+     * @return int
+     */
+    private int getAvatarDimension() {
+        // Converts dp to pixel
+        return Math.round(getContext().getResources().getDimension(R.dimen.avatar_size));
+    }
+
+    /**
+     * convert dp into px.
+     *
+     * @param dp dp value
+     * @return corresponding px value
+     */
+    private int dpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density + 0.5f);
     }
 }
