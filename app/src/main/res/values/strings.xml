@@ -50,9 +50,9 @@
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
     <string name="label_title">Title</string>
-    <string name="label_labels">Labels</string>
-    <string name="label_description">Description</string>
-    <string name="simple_people">People</string>
+    <string name="label_labels">Select Tags</string>
+    <string name="label_description">Add a card description…</string>
+    <string name="hint_assign_people">Assign users</string>
     <string name="hint_due_date_date">Click to set</string>
     <string name="hint_due_date_time" translatable="false">00:00</string>
     <string name="modified_created_time">Modified: %1$s Created: %2$s</string>
