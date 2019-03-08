@@ -4,6 +4,7 @@ package it.niedermann.nextcloud.deck.api;
 import java.util.List;
 
 import io.reactivex.Observable;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -107,8 +108,19 @@ public interface DeckAPI {
 
 
     // ### ATTACHMENTS
-    //TODO: create attachment entity and implement endpoints
-//    @GET("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
-//    Observable<List<Attachment>> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
+    @GET("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+    Observable<List<Attachment>> getAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
+
+    @POST("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+    Observable<List<Attachment>> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
+
+    @PUT("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
+    Observable<List<Attachment>> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
+
+    @DELETE("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
+    Observable<List<Attachment>> deleteAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
+
+    @PUT("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}/restore")
+    Observable<List<Attachment>> restoreAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
 }
