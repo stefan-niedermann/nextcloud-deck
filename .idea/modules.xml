@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Android-SingleSignOn/Android-SingleSignOn.iml" filepath="$PROJECT_DIR$/Android-SingleSignOn/Android-SingleSignOn.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/nc_deck.iml" filepath="$PROJECT_DIR$/nc_deck.iml" />
       <module fileurl="file://$PROJECT_DIR$/nextcloud-deck.iml" filepath="$PROJECT_DIR$/nextcloud-deck.iml" />
     </modules>
   </component>

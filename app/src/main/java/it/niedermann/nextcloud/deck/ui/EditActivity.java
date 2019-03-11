@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -12,7 +14,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.SupportUtil;
+import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.viewmodel.FullCardViewModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 
@@ -21,7 +25,6 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 
 public class EditActivity extends AppCompatActivity {
 
-    FullCard card;
     SyncManager syncManager;
 
     @BindView(R.id.title)
@@ -36,6 +39,7 @@ public class EditActivity extends AppCompatActivity {
     @BindView(R.id.pager)
     ViewPager pager;
 
+    FullCardViewModel fullCardViewModel;
     private Unbinder unbinder;
 
     private long accountId;
@@ -44,8 +48,20 @@ public class EditActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
+
+
+        fullCardViewModel = ViewModelProviders.of(this)
+                .get(FullCardViewModel.class);
+
+        ActivityEditBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_edit);
+
+        // Assign the component to a property in the binding class.
+        binding.setLifecycleOwner(this);
+        binding.setEditmodel(fullCardViewModel);
+
+        //setContentView(R.layout.activity_edit);
         unbinder = ButterKnife.bind(this);
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -53,27 +69,25 @@ public class EditActivity extends AppCompatActivity {
             localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
             syncManager = new SyncManager(getApplicationContext(), this);
 
-            syncManager.getCardByLocalId(accountId, localId)
-                    .observe(EditActivity.this, (FullCard card) -> {
-                        this.card = card;
-                        if (this.card != null) {
-                            title.setText(this.card.getCard().getTitle());
-                            if (this.card.getCard().getCreatedAt() != null
-                                    && this.card.getCard().getLastModified() != null) {
-                                timestamps.setText(
-                                        getString(
-                                                R.string.modified_created_time,
-                                                SupportUtil.getRelativeDateTimeString(
-                                                        this,
-                                                        this.card.getCard().getLastModified().getTime()),
-                                                SupportUtil.getRelativeDateTimeString(
-                                                        this,
-                                                        this.card.getCard().getCreatedAt().getTime())
-                                        )
-                                );
-                            }
-                        }
-                    });
+            fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
+            fullCardViewModel.fullCard.observe(EditActivity.this, (FullCard card) -> {
+                if (card != null) {
+                    if (card.getCard().getCreatedAt() != null
+                            && card.getCard().getLastModified() != null) {
+                        timestamps.setText(
+                                getString(
+                                        R.string.modified_created_time,
+                                        SupportUtil.getRelativeDateTimeString(
+                                                this,
+                                                card.getCard().getLastModified().getTime()),
+                                        SupportUtil.getRelativeDateTimeString(
+                                                this,
+                                                card.getCard().getCreatedAt().getTime())
+                                )
+                        );
+                    }
+                }
+            });
         } else {
             throw new IllegalArgumentException("No localId argument");
         }
@@ -94,7 +108,8 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        syncManager.updateCard(this.card.card);
+        // TODO ????
+        syncManager.updateCard(fullCardViewModel.fullCard.getValue().card);
         super.onPause();
     }
 
