@@ -2,19 +2,11 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.ColorStateList;
-import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import androidx.fragment.app.Fragment;
-import androidx.core.graphics.ColorUtils;
-import androidx.core.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +19,8 @@ import android.widget.TimePicker;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
@@ -37,6 +31,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -256,7 +256,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     String uri = baseUrl + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + px;
                     peopleList.addView(avatar);
                     avatar.requestLayout();
-                    Glide.with(this)
+                    Glide.with(getContext())
                             .load(uri)
                             .apply(RequestOptions.circleCropTransform())
                             .into(avatar);
