@@ -15,8 +15,7 @@ public class CardActivityFragment extends Fragment {
     private Unbinder unbinder;
 
     public static CardActivityFragment newInstance() {
-        CardActivityFragment fragment = new CardActivityFragment();
-        return fragment;
+        return new CardActivityFragment();
     }
 
     @Override
