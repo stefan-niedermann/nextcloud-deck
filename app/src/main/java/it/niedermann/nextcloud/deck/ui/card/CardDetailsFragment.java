@@ -2,8 +2,9 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.ColorStateList;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -18,9 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,9 +44,11 @@ import it.niedermann.nextcloud.deck.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.SupportUtil;
+import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.viewmodel.FullCardViewModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 
@@ -58,6 +59,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         TimePickerDialog.OnTimeSetListener {
     private static final String TAG = CardDetailsFragment.class.getCanonicalName();
 
+    private FullCardViewModel fullCardViewModel;
     private FullCard card;
     private SyncManager syncManager;
     private DateFormat dateFormat;
@@ -82,9 +84,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     @BindView(R.id.labelsGroup)
     ChipGroup labelsGroup;
 
-    @BindView(R.id.description)
-    EditText description;
-
     public static CardDetailsFragment newInstance(long accountId, long localId) {
         Bundle bundle = new Bundle();
         bundle.putLong(BUNDLE_KEY_ACCOUNT_ID, accountId);
@@ -101,8 +100,18 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                              ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_card_edit_tab_details, container, false);
-        unbinder = ButterKnife.bind(this, view);
+
+        fullCardViewModel = ViewModelProviders.of(this)
+                .get(FullCardViewModel.class);
+
+
+        FragmentCardEditTabDetailsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_card_edit_tab_details, container, false);
+
+        binding.setLifecycleOwner(this);
+        binding.setEditmodel(fullCardViewModel);
+
+        //View view = inflater.inflate(R.layout.fragment_card_edit_tab_details, container, false);
+        unbinder = ButterKnife.bind(this, binding.getRoot());
         dateFormat = android.text.format.DateFormat.getDateFormat(getActivity());
         //dueTime = android.text.format.DateFormat.getTimeFormat(getActivity());
 
@@ -114,30 +123,27 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             setupView(accountId, localId);
         }
 
-        return view;
+        return binding.getRoot();
     }
 
     private void setupView(long accountId, long localId) {
         syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
 
-        syncManager.getCardByLocalId(accountId, localId)
-                .observe(CardDetailsFragment.this, (FullCard card) -> {
-                    // TODO read/set available card details data
-                    this.card = card;
-                    if (this.card != null) {
-                        // people
-                        setupPeople(accountId);
+        this.fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
+        this.fullCardViewModel.fullCard.observe(CardDetailsFragment.this, (FullCard card) -> {
+            // TODO read/set available card details data
+            this.card = card;
+            if (this.card != null) {
+                // people
+                setupPeople(accountId);
 
-                        // labels
-                        setupLabels();
+                // labels
+                setupLabels();
 
-                        // due date
-                        setupDueDate();
-
-                        // description
-                        setupDescription();
-                    }
-                });
+                // due date
+                setupDueDate();
+            }
+        });
 
         dueDate.setOnClickListener(v -> {
             int year;
@@ -176,12 +182,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             this.card.getCard().setDueDate(null);
             syncManager.updateCard(this.card.getCard());
         });
-    }
-
-    private void setupDescription() {
-        if (this.card.getCard().getDescription() != null) {
-            description.setText(this.card.getCard().getDescription());
-        }
     }
 
     private void setupDueDate() {
@@ -246,7 +246,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 ImageView avatar;
                 String baseUrl = account.url;
                 int px = SupportUtil.getAvatarDimension(getContext());
-                int margin = SupportUtil.dpToPx(getContext(),8);
+                int margin = SupportUtil.dpToPx(getContext(), 8);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(px, px);
                 params.setMargins(
                         0, 0, margin, 0);
