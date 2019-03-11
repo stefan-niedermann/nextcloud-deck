@@ -110,7 +110,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         binding.setLifecycleOwner(this);
         binding.setEditmodel(fullCardViewModel);
 
-        //View view = inflater.inflate(R.layout.fragment_card_edit_tab_details, container, false);
         unbinder = ButterKnife.bind(this, binding.getRoot());
         dateFormat = android.text.format.DateFormat.getDateFormat(getActivity());
         //dueTime = android.text.format.DateFormat.getTimeFormat(getActivity());
