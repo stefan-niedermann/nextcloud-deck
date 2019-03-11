@@ -1,10 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -98,15 +98,17 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
-                    LiveDataHelper.onlyIfChanged(
-                            syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
-                    )
-                            .observe(owner, (List<User> users) -> {
-                                if (users != null) {
-                                    filterResults.values = users;
-                                    filterResults.count = users.size();
-                                }
-                            });
+                    ((Fragment)owner).getActivity().runOnUiThread(() -> {
+                        LiveDataHelper.onlyIfChanged(
+                                syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
+                        )
+                                .observe(owner, (List<User> users) -> {
+                                    if (users != null) {
+                                        filterResults.values = users;
+                                        filterResults.count = users.size();
+                                    }
+                                });
+                    });
                 }
                 return filterResults;
             }

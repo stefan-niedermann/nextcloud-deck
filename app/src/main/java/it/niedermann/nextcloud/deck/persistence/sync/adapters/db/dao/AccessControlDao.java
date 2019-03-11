@@ -1,8 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Query;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Query;
 
 import it.niedermann.nextcloud.deck.model.AccessControl;
 

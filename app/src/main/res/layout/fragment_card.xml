@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card"
     android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             android:maxLines="3"
             tools:text="Card detailed description\nmultiline\n3 lines tops."/>
 
-        <android.support.design.chip.ChipGroup
+        <com.google.android.material.chip.ChipGroup
             android:id="@+id/labels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,4 +52,4 @@
             tools:text="in 16 days"
             android:background="@drawable/due_tomorrow_background"/>
     </LinearLayout>
-</android.support.design.card.MaterialCardView>
+</com.google.android.material.card.MaterialCardView>
