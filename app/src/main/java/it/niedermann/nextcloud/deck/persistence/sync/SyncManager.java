@@ -56,7 +56,7 @@ public class SyncManager {
             Date lastSyncDate = new Date(lastSync);
             Date now = new Date();
 
-            new SyncHelper(serverAdapter, dataBaseAdapter, new IResponseCallback<Boolean>(responseCallback.getAccount()) {
+            new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate, new IResponseCallback<Boolean>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Boolean response) {
                     //TODO activate when done dev

@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -114,5 +115,10 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
 
+    }
+
+    @Override
+    public List<FullCard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return null;
     }
 }

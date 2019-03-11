@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers;
 
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -18,10 +19,12 @@ public class SyncHelper {
     private long accountId;
     private IResponseCallback<Boolean> responseCallback;
     private boolean syncChangedSomething = false;
+    private Date lastSync;
 
-    public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> responseCallback) {
+    public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Date lastSync, IResponseCallback<Boolean> responseCallback) {
         this.serverAdapter = serverAdapter;
         this.dataBaseAdapter = dataBaseAdapter;
+        this.lastSync = lastSync;
         this.responseCallback = responseCallback;
         this.account = responseCallback.getAccount();
         accountId = account.getId();
@@ -31,6 +34,7 @@ public class SyncHelper {
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
+                // Sync Server -> App
                 if (response != null && !response.isEmpty()) {
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);
@@ -45,8 +49,33 @@ public class SyncHelper {
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
                         provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer);
                     }
-                    provider.doneAll(responseCallback, syncChangedSomething);
                 }
+
+                // Sync App -> Server
+                List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
+                if (allFromDB != null && !allFromDB.isEmpty()) {
+                    for (T entity : allFromDB) {
+                        IResponseCallback<T> updateCallback = new IResponseCallback<T>(account) {
+                            @Override
+                            public void onResponse(T response) {
+                                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(entity, response, accountId));
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                responseCallback.onError(throwable);
+                            }
+                        };
+                        if (entity.getId()!=null) {
+                            provider.updateOnServer(serverAdapter, accountId, updateCallback, entity);
+                        } else {
+                            provider.createOnServer(serverAdapter, accountId, updateCallback, entity);
+                        }
+                    }
+                }
+
+                provider.doneAll(responseCallback, syncChangedSomething);
             }
 
             @Override

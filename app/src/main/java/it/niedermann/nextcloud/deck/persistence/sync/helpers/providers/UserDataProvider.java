@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -64,6 +65,11 @@ public class UserDataProvider implements IDataProvider<User> {
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> callback, User entity) {
 
+    }
+
+    @Override
+    public List<User> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return null;
     }
 
     @Override

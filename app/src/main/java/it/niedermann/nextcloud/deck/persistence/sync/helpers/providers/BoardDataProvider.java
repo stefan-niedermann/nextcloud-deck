@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -69,6 +70,11 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     @Override
     public void doneAll(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         responseCallback.onResponse(syncChangedSomething);
+    }
+
+    @Override
+    public List<FullBoard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return null;
     }
 
     @Override

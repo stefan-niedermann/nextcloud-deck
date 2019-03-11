@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -65,5 +66,10 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
 
+    }
+
+    @Override
+    public List<Attachment> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return null;
     }
 }
