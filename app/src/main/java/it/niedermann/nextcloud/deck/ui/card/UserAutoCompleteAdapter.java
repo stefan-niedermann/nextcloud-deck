@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import android.content.Context;
@@ -97,15 +98,17 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
-                    LiveDataHelper.onlyIfChanged(
-                            syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
-                    )
-                            .observe(owner, (List<User> users) -> {
-                                if (users != null) {
-                                    filterResults.values = users;
-                                    filterResults.count = users.size();
-                                }
-                            });
+                    ((Fragment)owner).getActivity().runOnUiThread(() -> {
+                        LiveDataHelper.onlyIfChanged(
+                                syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
+                        )
+                                .observe(owner, (List<User> users) -> {
+                                    if (users != null) {
+                                        filterResults.values = users;
+                                        filterResults.count = users.size();
+                                    }
+                                });
+                    });
                 }
                 return filterResults;
             }
