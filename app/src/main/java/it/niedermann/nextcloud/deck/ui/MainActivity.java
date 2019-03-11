@@ -150,7 +150,9 @@ public class MainActivity extends AppCompatActivity
                         MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                             @Override
                             public void onResponse(Boolean response) {
-                                syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
+                                runOnUiThread(() -> {
+                                    syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
+                                });
                             }
 
                             @Override
