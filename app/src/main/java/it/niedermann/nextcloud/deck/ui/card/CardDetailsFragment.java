@@ -64,6 +64,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private SyncManager syncManager;
     private DateFormat dateFormat;
     private DateFormat dueTime = new SimpleDateFormat("HH:mm", Locale.ROOT);
+    private String baseUrl;
+    private int avatarSize;
+    private LinearLayout.LayoutParams avatarLayoutParams;
     private Unbinder unbinder;
 
     @BindView(R.id.people)
@@ -112,7 +115,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
         unbinder = ButterKnife.bind(this, binding.getRoot());
         dateFormat = android.text.format.DateFormat.getDateFormat(getActivity());
-        //dueTime = android.text.format.DateFormat.getTimeFormat(getActivity());
 
         Bundle args = getArguments();
         if (args != null) {
@@ -120,6 +122,19 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             long localId = args.getLong(BUNDLE_KEY_LOCAL_ID);
 
             setupView(accountId, localId);
+        }
+
+        avatarSize = SupportUtil.getAvatarDimension(getContext());
+        avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
+        avatarLayoutParams.setMargins(0, 0, SupportUtil.dpToPx(getContext(), 8), 0);
+        SingleSignOnAccount account = null;
+        try {
+            account = SingleAccountHelper.getCurrentSingleSignOnAccount(getContext());
+            baseUrl = account.url;
+        } catch (NextcloudFilesAppAccountNotFoundException e) {
+            DeckLog.logError(e);
+        } catch (NoCurrentAccountSelectedException e) {
+            DeckLog.logError(e);
         }
 
         return binding.getRoot();
@@ -130,7 +145,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
         this.fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
         this.fullCardViewModel.fullCard.observe(CardDetailsFragment.this, (FullCard card) -> {
-            // TODO read/set available card details data
             this.card = card;
             if (this.card != null) {
                 // people
@@ -198,23 +212,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         if (this.card.getLabels() != null && this.card.getLabels().size() > 0) {
             Chip chip;
             for (Label label : this.card.getLabels()) {
-                chip = new Chip(getActivity());
-                chip.setText(label.getTitle());
-                // TODO use grey/white icon depending on textTinting
-                chip.setCloseIcon(getContext().getResources().getDrawable(R.drawable.ic_close_circle_grey600));
-                chip.setCloseIconVisible(true);
-                try {
-                    int labelColor = Color.parseColor("#" + label.getColor());
-                    ColorStateList c = ColorStateList.valueOf(labelColor);
-                    chip.setChipBackgroundColor(c);
-                    int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
-                    chip.setTextColor(color);
-
-                    Drawable wrapDrawable = DrawableCompat.wrap(chip.getCloseIcon());
-                    DrawableCompat.setTint(wrapDrawable, ColorUtils.setAlphaComponent(color, 150));
-                } catch (IllegalArgumentException e) {
-                    Log.e(TAG, "error parsing label color", e);
-                }
+                chip = createChipFromLabel(label);
 
                 labelsGroup.addView(chip);
             }
@@ -224,13 +222,38 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         }
     }
 
+    private Chip createChipFromLabel(Label label) {
+        Chip chip = new Chip(getActivity());
+        chip.setText(label.getTitle());
+        chip.setCloseIcon(getContext().getResources().getDrawable(R.drawable.ic_close_circle_grey600));
+        chip.setCloseIconVisible(true);
+        try {
+            int labelColor = Color.parseColor("#" + label.getColor());
+            ColorStateList c = ColorStateList.valueOf(labelColor);
+            chip.setChipBackgroundColor(c);
+            int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
+            chip.setTextColor(color);
+
+            if (chip.getCloseIcon() != null) {
+                Drawable wrapDrawable = DrawableCompat.wrap(chip.getCloseIcon());
+                DrawableCompat.setTint(wrapDrawable, ColorUtils.setAlphaComponent(color, 150));
+            }
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, "error parsing label color", e);
+        }
+        return chip;
+    }
+
     private void setupPeople(long accountId) {
         people.setThreshold(2);
         people.setAdapter(new UserAutoCompleteAdapter(this, getContext(), accountId));
         people.setOnItemClickListener((adapterView, view, position, id) -> {
             User user = (User) adapterView.getItemAtPosition(position);
+            // TODO: store chosen user
+            if(baseUrl != null) {
+                addAvatar(baseUrl, user);
+            }
             people.setText(user.getDisplayname());
-            // TODO: store chosen user, trigger avatar display/fetch
         });
 
         // TODO implement proper people display + avatar fetching
@@ -242,24 +265,12 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
                 //Workaround
                 SingleSignOnAccount account = SingleAccountHelper.getCurrentSingleSignOnAccount(getContext());
-                ImageView avatar;
                 String baseUrl = account.url;
-                int px = SupportUtil.getAvatarDimension(getContext());
-                int margin = SupportUtil.dpToPx(getContext(), 8);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(px, px);
-                params.setMargins(
-                        0, 0, margin, 0);
                 peopleList.removeAllViews();
-                for (User user : this.card.getAssignedUsers()) {
-                    avatar = new ImageView(getActivity());
-                    avatar.setLayoutParams(params);
-                    String uri = baseUrl + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + px;
-                    peopleList.addView(avatar);
-                    avatar.requestLayout();
-                    Glide.with(getContext())
-                            .load(uri)
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(avatar);
+                if(baseUrl != null) {
+                    for (User user : this.card.getAssignedUsers()) {
+                        addAvatar(baseUrl, user);
+                    }
                 }
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 DeckLog.logError(e);
@@ -267,6 +278,18 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 DeckLog.logError(e);
             }
         }
+    }
+
+    private void addAvatar(String baseUrl, User user) {
+        ImageView avatar = new ImageView(getActivity());
+        avatar.setLayoutParams(avatarLayoutParams);
+        String uri = baseUrl + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + avatarSize;
+        peopleList.addView(avatar);
+        avatar.requestLayout();
+        Glide.with(getContext())
+                .load(uri)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatar);
     }
 
     @Override
