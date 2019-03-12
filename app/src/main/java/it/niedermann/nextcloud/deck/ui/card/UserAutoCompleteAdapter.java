@@ -1,11 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import android.content.Context;
 import android.net.Uri;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +21,16 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 
 public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     private Context context;
@@ -99,15 +99,19 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
                     ((Fragment)owner).getActivity().runOnUiThread(() -> {
-                        LiveDataHelper.onlyIfChanged(
-                                syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
-                        )
-                                .observe(owner, (List<User> users) -> {
-                                    if (users != null) {
-                                        filterResults.values = users;
-                                        filterResults.count = users.size();
-                                    }
-                                });
+                        LiveData<List<User>> userLiveData = syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString());
+                        Observer<List<User>> observer = new Observer<List<User>>() {
+                            @Override
+                            public void onChanged(List<User> users) {
+                                userLiveData.removeObserver(this);
+                                if (users != null) {
+                                    filterResults.values = users;
+                                    filterResults.count = users.size();
+                                    publishResults(constraint, filterResults);
+                                }
+                            }
+                        };
+                        userLiveData.observe(owner, observer);
                     });
                 }
                 return filterResults;
