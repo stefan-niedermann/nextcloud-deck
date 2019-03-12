@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
+    <string name="app_name">Nextcloud Stokk</string>
     <string name="navigation_drawer_open">Åpne navigasjonsskuff</string>
     <string name="navigation_drawer_close">Lukk navigasjonsskuff</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
+    <string name="nav_header_title">Nextcloud Stokk</string>
     <string name="nav_header_subtitle">Klient for Nextcloud Deck</string>
     <string name="nav_header_desc">Navigasjonsoverskrift</string>
     <string name="action_settings">Innstillinger</string>
@@ -25,12 +25,12 @@
     <string name="about_issues_title">Problemer</string>
     <string name="about_issues">Du kan rapportere inn feil, forbedringforslag og funksjonønsker på GitHub-saksporeren: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
     <string name="about_translate_title">Oversett</string>
-    <string name="about_translate">Bli med i Nextcloud-laget på Transifex og hjelp oss å oversette denne applikasjonen: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
-    <string name="about_app_license_title">Applikasjonlisens</string>
-    <string name="about_app_license">Denne applikasjonen er lisensiert under GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_translate">Bli med i Nextcloud-laget på Transifex og hjelp oss å oversette denne appen: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_license_title">App-lisens</string>
+    <string name="about_app_license">Denne appen er lisensiert under GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Se lisens</string>
     <string name="about_icons_disclaimer_title">Ikoner</string>
-    <string name="about_icons_disclaimer">&lt;p>Orginalt ikon er laget av %1$s&lt;/p>&lt;p>Alle øvrige ikoner brukt i dette programmet er &lt;a href=\"https://materialdesignicons.com/\">Materielt design-ikoner&lt;/a> laget av Google Inc. og lisensiert under Apache 2.0-lisens.&lt;/p></string>
+    <string name="about_icons_disclaimer">&lt;p>Orginalt ikon er laget av %1$s&lt;/p>&lt;p>Alle øvrige ikoner brukt i denne appen er &lt;a href=\"https://materialdesignicons.com/\">Materielt design-ikoner&lt;/a> laget av Google Inc. og lisensiert under Apache 2.0-lisens.&lt;/p></string>
     <string name="about_credits_tab_title">Bidragsytere</string>
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Lisens</string>
