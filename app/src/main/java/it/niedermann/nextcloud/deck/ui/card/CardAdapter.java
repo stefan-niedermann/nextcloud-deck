@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -85,8 +86,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         if (card.getCard().getDescription() != null && !card.getCard().getDescription().isEmpty()) {
             viewHolder.cardDescription.setText(card.getCard().getDescription());
             viewHolder.cardDescription.setVisibility(View.VISIBLE);
+            viewHolder.cardDescriptionIcon.setVisibility(View.VISIBLE);
         } else {
             viewHolder.cardDescription.setVisibility(View.GONE);
+            viewHolder.cardDescriptionIcon.setVisibility(View.GONE);
         }
 
         if (card.getCard().getDueDate() != null) {
@@ -99,6 +102,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.cardDueDate.setVisibility(View.VISIBLE);
         } else {
             viewHolder.cardDueDate.setVisibility(View.GONE);
+        }
+
+        if (card.getCard().getAttachmentCount() > 0) {
+            if (card.getCard().getAttachmentCount() > 99) {
+                viewHolder.cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
+            } else {
+                viewHolder.cardCountAttachments.setText(String.valueOf(card.getCard().getAttachmentCount()));
+            }
+            viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.cardCountAttachments.setVisibility(View.GONE);
         }
 
         Chip chip;
@@ -210,8 +224,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextView cardDescription;
         @BindView(R.id.labels)
         ChipGroup labels;
+        @BindView(R.id.card_description_icon)
+        ImageView cardDescriptionIcon;
         @BindView(R.id.card_due_date)
         TextView cardDueDate;
+        @BindView(R.id.card_count_attachments)
+        TextView cardCountAttachments;
 
         private CardViewHolder(View view) {
             super(view);
