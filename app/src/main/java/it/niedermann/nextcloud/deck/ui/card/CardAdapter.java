@@ -225,6 +225,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextView cardDueDate;
         @BindView(R.id.card_count_attachments)
         TextView cardCountAttachments;
+        @BindView(R.id.card_menu)
+        ImageView cardMenu;
 
         private CardViewHolder(View view) {
             super(view);

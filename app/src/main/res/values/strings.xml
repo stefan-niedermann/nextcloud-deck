@@ -66,4 +66,6 @@
     <string name="attachment_count_max_value" translatable="false">+99</string>
     <string name="add_account">Add account</string>
     <string name="accounts">Accounts</string>
+
+    <string name="label_menu">menu</string>
 </resources>
