@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -18,7 +19,7 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullStack>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullStack>> responder, Date lastSync) {
         serverAdapter.getStacks(board.getId(), responder);
     }
 
@@ -36,7 +37,7 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
         entity.getStack().setBoardId(board.getLocalId());
-        dataBaseAdapter.updateStack(entity.getStack());
+        dataBaseAdapter.updateStack(entity.getStack(), false);
     }
 
     @Override
@@ -62,6 +63,16 @@ public class StackDataProvider implements IDataProvider<FullStack> {
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
+
+    }
+
+    @Override
+    public List<FullStack> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, FullStack entity, FullStack response) {
 
     }
 

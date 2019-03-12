@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -12,7 +13,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class BoardDataProvider implements IDataProvider<FullBoard> {
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullBoard>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullBoard>> responder, Date lastSync) {
         serverAdapter.getBoards(responder);
     }
 
@@ -34,7 +35,7 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
             if (owner == null){
                 dataBaseAdapter.createUser(accountId, remoteOwner);
             } else {
-                dataBaseAdapter.updateUser(accountId, remoteOwner);
+                dataBaseAdapter.updateUser(accountId, remoteOwner, false);
             }
             owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
             entity.getBoard().setOwnerId(owner.getLocalId());
@@ -44,7 +45,7 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         handleOwner(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.updateBoard(entity.getBoard());
+        dataBaseAdapter.updateBoard(entity.getBoard(), false);
     }
 
     @Override
@@ -72,13 +73,23 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     }
 
     @Override
+    public List<FullBoard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, FullBoard entity, FullBoard response) {
+        syncHelper.doUpSyncFor(new StackDataProvider(entity));
+    }
+
+    @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> callback, FullBoard entity) {
         serverAdapter.updateBoard(entity.getBoard());
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard fullBoard) {
-
+        dataBaseAdapter.deleteBoard(fullBoard.getBoard(), false);
     }
 
     @Override

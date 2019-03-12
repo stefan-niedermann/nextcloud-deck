@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -24,7 +25,7 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder, Date lastSync) {
 
         List<FullCard> result = new ArrayList<>();
         if (stack.getCards() == null || stack.getCards().isEmpty()){
@@ -68,7 +69,7 @@ public class CardDataProvider implements IDataProvider<FullCard> {
                 dataBaseAdapter.createUser(accountId, user);
             } else {
                 user.setLocalId(u.getLocalId());
-                dataBaseAdapter.updateUser(accountId, user);
+                dataBaseAdapter.updateUser(accountId, user, false);
             }
             u = dataBaseAdapter.getUserByUidDirectly(accountId, user.getUid());
 
@@ -80,7 +81,7 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
         fixRelations(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.updateCard(entity.getCard());
+        dataBaseAdapter.updateCard(entity.getCard(), false);
     }
 
     @Override
@@ -113,6 +114,16 @@ public class CardDataProvider implements IDataProvider<FullCard> {
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
+
+    }
+
+    @Override
+    public List<FullCard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, FullCard entity, FullCard response) {
 
     }
 }

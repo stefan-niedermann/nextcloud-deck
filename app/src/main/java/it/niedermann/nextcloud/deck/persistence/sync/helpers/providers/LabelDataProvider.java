@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -17,7 +18,7 @@ public class LabelDataProvider implements IDataProvider<Label> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Label>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Label>> responder, Date lastSync) {
         responder.onResponse(labels);
     }
 
@@ -33,7 +34,7 @@ public class LabelDataProvider implements IDataProvider<Label> {
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity) {
-        dataBaseAdapter.updateLabel(entity);
+        dataBaseAdapter.updateLabel(entity, false);
     }
 
     @Override
@@ -54,6 +55,16 @@ public class LabelDataProvider implements IDataProvider<Label> {
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
+
+    }
+
+    @Override
+    public List<Label> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, Label entity, Label response) {
 
     }
 

@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -20,7 +21,7 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Attachment>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Attachment>> responder, Date lastSync) {
         responder.onResponse(attachments);
     }
 
@@ -38,7 +39,7 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment) {
         attachment.setCardId(card.getCard().getLocalId());
-        dataBaseAdapter.updateAttachment(accountId, attachment);
+        dataBaseAdapter.updateAttachment(accountId, attachment, false);
 
     }
 
@@ -64,6 +65,16 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
+
+    }
+
+    @Override
+    public List<Attachment> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, Attachment entity, Attachment response) {
 
     }
 }

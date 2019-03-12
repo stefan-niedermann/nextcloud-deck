@@ -1,13 +1,13 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
-import androidx.lifecycle.LiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.Date;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -48,7 +48,6 @@ public class SyncManager {
     }
 
     public void synchronize(IResponseCallback<Boolean> responseCallback) {
-        final long accountId = responseCallback.getAccount().getId();
         doAsync(() -> {
             SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
                     applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
@@ -56,19 +55,38 @@ public class SyncManager {
             Date lastSyncDate = new Date(lastSync);
             Date now = new Date();
 
-            new SyncHelper(serverAdapter, dataBaseAdapter, new IResponseCallback<Boolean>(responseCallback.getAccount()) {
+            BoardDataProvider boardDataProvider = new BoardDataProvider();
+            final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
+
+            IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Boolean response) {
-                    //TODO activate when done dev
-//                lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
-                    responseCallback.onResponse(response);
+                    syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            // TODO activate when done dev
+                            // lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
+                            responseCallback.onResponse(response);
+                        }
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                            responseCallback.onError(throwable);
+                        }
+                    });
+                    syncHelper.doUpSyncFor(boardDataProvider);
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
+                    super.onError(throwable);
                     responseCallback.onError(throwable);
                 }
-            }).doSyncFor(new BoardDataProvider());
+            };
+
+            syncHelper.setResponseCallback(callback);
+
+            syncHelper.doSyncFor(boardDataProvider);
         });
     }
 
@@ -141,7 +159,6 @@ public class SyncManager {
                 @Override
                 public void onResponse(FullBoard response) {
                     DeckLog.log(response.toString());
-
                 }
 
                 @Override
@@ -155,12 +172,12 @@ public class SyncManager {
 
     public void deleteBoard(Board board) {
         //TODO: Tell the server
-        dataBaseAdapter.deleteBoard(board);
+        dataBaseAdapter.deleteBoard(board, true);
     }
 
     public void updateBoard(Board board) {
         //TODO: Tell the server
-        dataBaseAdapter.updateBoard(board);
+        dataBaseAdapter.updateBoard(board, true);
     }
 
     public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
@@ -180,7 +197,7 @@ public class SyncManager {
     }
 
     public void updateAccessControl(AccessControl entity) {
-        dataBaseAdapter.updateAccessControl(entity);
+        dataBaseAdapter.updateAccessControl(entity, true);
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
@@ -194,12 +211,12 @@ public class SyncManager {
 
     public void deleteStack(Stack stack) {
         //TODO: Tell the server
-        dataBaseAdapter.deleteStack(stack);
+        dataBaseAdapter.deleteStack(stack, true);
     }
 
     public void updateStack(Stack stack) {
         //TODO: Tell the server
-        dataBaseAdapter.updateStack(stack);
+        dataBaseAdapter.updateStack(stack, true);
 
     }
 
@@ -219,17 +236,14 @@ public class SyncManager {
 
     public void deleteCard(Card card) {
         //TODO: Tell the server
-        dataBaseAdapter.deleteCard(card);
+        dataBaseAdapter.deleteCard(card, true);
     }
 
     public void updateCard(Card card) {
-        Date now = new Date();
 
         //TODO: Tell the server
         doAsync(()->{
-            card.setLastModifiedLocal(now);
-            card.setLastModified(now);
-            dataBaseAdapter.updateCard(card);
+            dataBaseAdapter.updateCard(card, true);
         });
     }
 
@@ -240,12 +254,12 @@ public class SyncManager {
 
     public void deleteLabel(Label label) {
         //TODO: Tell the server
-        dataBaseAdapter.deleteLabel(label);
+        dataBaseAdapter.deleteLabel(label, true);
     }
 
     public void updateLabel(Label label) {
         //TODO: Tell the server
-        dataBaseAdapter.updateLabel(label);
+        dataBaseAdapter.updateLabel(label, true);
     }
 
     public void assignLabelToBoard(long localLabelId, long localBoardId) {
@@ -291,7 +305,7 @@ public class SyncManager {
     }
 
     public void updateUser(long accountId, User user) {
-        dataBaseAdapter.updateUser(accountId, user);
+        dataBaseAdapter.updateUser(accountId, user, true);
     }
 
     public LiveData<List<FullStack>> getStacks(long accountId, long localBoardId) {
