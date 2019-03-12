@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity
         syncManager = new SyncManager(getApplicationContext(), this);
         stackAdapter = new StackAdapter(getSupportFragmentManager());
 
+        //TODO limit this call only to lower API levels like KitKat because they crash without
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         //TODO replace nulls
