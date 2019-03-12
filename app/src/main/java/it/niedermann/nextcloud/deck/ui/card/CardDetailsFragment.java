@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -29,9 +30,11 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
@@ -162,42 +165,55 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         });
 
         dueDate.setOnClickListener(v -> {
-            int year;
-            int month;
-            int day;
-
-            Calendar cal = Calendar.getInstance();
-            if (card.getCard().getDueDate() != null) {
-                cal.setTime(card.getCard().getDueDate());
-                year = cal.get(Calendar.YEAR);
-                month = cal.get(Calendar.MONTH);
-                day = cal.get(Calendar.DAY_OF_MONTH);
-            } else {
-                year = cal.get(Calendar.YEAR);
-                month = cal.get(Calendar.MONTH);
-                day = cal.get(Calendar.DAY_OF_MONTH);
-            }
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
-            datePickerDialog.show();
+            createDatePickerDialogFromDate(getActivity(), this, card.getCard().getDueDate()).show();
         });
 
         dueDateTime.setOnClickListener(v -> {
-            int hourOfDay = 0;
-            int minutes = 0;
-
-            if (card.getCard().getDueDate() != null) {
-                hourOfDay = card.getCard().getDueDate().getHours();
-                minutes = card.getCard().getDueDate().getMinutes();
-            }
-            TimePickerDialog timePickerDialog = new TimePickerDialog(
-                    getActivity(), this, hourOfDay, minutes, true);
-            timePickerDialog.show();
+            createTimePickerDialogFromDate(getActivity(), this, card.getCard().getDueDate()).show();
         });
 
         clearDueDate.setOnClickListener(v -> {
             this.card.getCard().setDueDate(null);
             syncManager.updateCard(this.card.getCard());
         });
+    }
+
+    private TimePickerDialog createTimePickerDialogFromDate(
+            @NonNull Context context,
+            @Nullable TimePickerDialog.OnTimeSetListener listener,
+            Date date
+    ) {
+        int hourOfDay = 0;
+        int minutes = 0;
+
+        if (date != null) {
+            hourOfDay = date.getHours();
+            minutes = date.getMinutes();
+        }
+        return new TimePickerDialog(context, listener, hourOfDay, minutes, true);
+    }
+
+    private DatePickerDialog createDatePickerDialogFromDate(
+            @NonNull Context context,
+            @Nullable DatePickerDialog.OnDateSetListener listener,
+            Date date
+    ) {
+        int year;
+        int month;
+        int day;
+
+        Calendar cal = Calendar.getInstance();
+        if (date != null) {
+            cal.setTime(date);
+            year = cal.get(Calendar.YEAR);
+            month = cal.get(Calendar.MONTH);
+            day = cal.get(Calendar.DAY_OF_MONTH);
+        } else {
+            year = cal.get(Calendar.YEAR);
+            month = cal.get(Calendar.MONTH);
+            day = cal.get(Calendar.DAY_OF_MONTH);
+        }
+        return new DatePickerDialog(context, listener, year, month, day);
     }
 
     private void setupDueDate() {
