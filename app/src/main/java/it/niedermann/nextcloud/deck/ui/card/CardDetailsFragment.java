@@ -127,6 +127,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         avatarSize = SupportUtil.getAvatarDimension(getContext());
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, SupportUtil.dpToPx(getContext(), 8), 0);
+
+        // TODO FIX: NullPointerException!
+        // syncManager.getServerUrl()
         SingleSignOnAccount account = null;
         try {
             account = SingleAccountHelper.getCurrentSingleSignOnAccount(getContext());
@@ -250,32 +253,18 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         people.setOnItemClickListener((adapterView, view, position, id) -> {
             User user = (User) adapterView.getItemAtPosition(position);
             // TODO: store chosen user
-            if(baseUrl != null) {
+            if (baseUrl != null) {
                 addAvatar(baseUrl, user);
             }
             people.setText(user.getDisplayname());
         });
 
-        // TODO implement proper people display + avatar fetching
-        // TODO find out how to get the server's Nextcloud URL to build the avatar URL
         if (this.card.getAssignedUsers() != null) {
-            try {
-                // TODO FIX: NullPointerException!
-                // syncManager.getServerUrl()
-
-                //Workaround
-                SingleSignOnAccount account = SingleAccountHelper.getCurrentSingleSignOnAccount(getContext());
-                String baseUrl = account.url;
-                peopleList.removeAllViews();
-                if(baseUrl != null) {
-                    for (User user : this.card.getAssignedUsers()) {
-                        addAvatar(baseUrl, user);
-                    }
+            peopleList.removeAllViews();
+            if (baseUrl != null) {
+                for (User user : this.card.getAssignedUsers()) {
+                    addAvatar(baseUrl, user);
                 }
-            } catch (NextcloudFilesAppAccountNotFoundException e) {
-                DeckLog.logError(e);
-            } catch (NoCurrentAccountSelectedException e) {
-                DeckLog.logError(e);
             }
         }
     }
