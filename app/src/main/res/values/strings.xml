@@ -58,4 +58,7 @@
     <string name="modified_created_time">Modified: %1$s Created: %2$s</string>
 
     <string name="activity">Activity</string>
+    <string name="create_card">Create card</string>
+    <string name="create_stack">Create stack</string>
+    <string name="create_board">Create board</string>
 </resources>

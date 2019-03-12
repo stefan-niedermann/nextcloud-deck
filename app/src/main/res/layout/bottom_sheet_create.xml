@@ -18,21 +18,24 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/create_card"
             app:drawableLeftCompat="@drawable/ic_add_black_24dp"
             app:drawableStartCompat="@drawable/ic_add_black_24dp"
             style="@style/CreateButton"
-            android:text="Create card" />
+            android:text="@string/create_card" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/create_stack"
             app:drawableLeftCompat="@drawable/ic_view_carousel_black_24dp"
             app:drawableStartCompat="@drawable/ic_view_carousel_black_24dp"
             style="@style/CreateButton"
-            android:text="Create stack" />
+            android:text="@string/create_stack" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/create_board"
             app:drawableLeftCompat="@drawable/ic_view_column_black_24dp"
             app:drawableStartCompat="@drawable/ic_view_column_black_24dp"
             style="@style/CreateButton"
-            android:text="Create board" />
+            android:text="@string/create_board" />
     </LinearLayout>
 </LinearLayout>

@@ -16,6 +16,7 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
+    <!-- Create buttons in bottom sheet -->
     <style name="CreateButton" parent="Base.Widget.AppCompat.Button">
         <item name="android:background">@color/bg_default</item>
         <item name="android:gravity">start|center_vertical</item>
@@ -25,6 +26,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:drawablePadding">24dp</item>
         <item name="android:color">@color/primary</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 </resources>
