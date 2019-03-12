@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
@@ -46,12 +45,18 @@ public class MainActivity extends AppCompatActivity
     private static final int MENU_ID_ABOUT = -1;
     private static final int ACTIVITY_ABOUT = 1;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.fab) FloatingActionButton fab;
-    @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.navigationView) NavigationView navigationView;
-    @BindView(R.id.stackLayout) TabLayout stackLayout;
-    @BindView(R.id.viewPager) ViewPager viewPager;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.navigationView)
+    NavigationView navigationView;
+    @BindView(R.id.stackLayout)
+    TabLayout stackLayout;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
 
     private StackAdapter stackAdapter;
     private LoginDialogFragment loginDialogFragment;
@@ -132,22 +137,25 @@ public class MainActivity extends AppCompatActivity
 
     private void handleAccounts() {
         this.syncManager.hasAccounts().observe(MainActivity.this, (Boolean hasAccounts) -> {
-            if(hasAccounts != null && hasAccounts) {
+            if (hasAccounts != null && hasAccounts) {
                 syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
-                    if(accounts != null) {
+                    if (accounts != null) {
                         this.account = accounts.get(0);
                         String accountName = this.account.getName();
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
 
                         fab.setOnClickListener((View view) -> {
-                            new Thread(() -> {
+                            BottomSheetCreateFragment bottomSheetFragment = new BottomSheetCreateFragment();
+                            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
+                            /*new Thread(() -> {
                                 Board b = new Board();
                                 b.setTitle("Test - " + System.currentTimeMillis());
                                 b.setOwnerId(boardsList.get(0).getOwnerId());
                                 b.setColor("F1DB50");
                                 syncManager.createBoard(this.account.getId(), b);
                                 Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
-                            }).run();
+                            }).run();*/
                         });
 
                         // TODO show spinner
@@ -181,7 +189,7 @@ public class MainActivity extends AppCompatActivity
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
         boardsList = boards;
         int index = 0;
-        for(Board board: boardsList) {
+        for (Board board : boardsList) {
             Drawable drawable = getResources().getDrawable(R.drawable.ic_view_column_black_24dp);
             Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
             int color = Color.parseColor("#" + board.getColor());
@@ -189,22 +197,23 @@ public class MainActivity extends AppCompatActivity
             boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(wrapped);
         }
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
-        if (boardsList.size()>0){
+        if (boardsList.size() > 0) {
             displayStacksForIndex(0, this.account);
         }
     }
 
     /**
      * Displays the Stacks for the boardsList by index
+     *
      * @param index of boardsList
      */
     private void displayStacksForIndex(int index, Account account) {
         Board selectedBoard = boardsList.get(index);
-        if(toolbar != null) {
+        if (toolbar != null) {
             toolbar.setTitle(selectedBoard.getTitle());
         }
         syncManager.getStacksForBoard(account.getId(), selectedBoard.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
-            if(fullStacks != null) {
+            if (fullStacks != null) {
                 stackAdapter.clear();
                 for (FullStack stack : fullStacks) {
                     stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
@@ -244,7 +253,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case MENU_ID_ABOUT:
                 Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
                 startActivityForResult(aboutIntent, ACTIVITY_ABOUT);

@@ -4,6 +4,7 @@
     <color name="primary_dark">#286090</color>
     <color name="accent">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="bg_default">#ffffff</color>
 
     <!-- due date colors -->
     <color name="due_tomorrow">#7fffc53a</color>
