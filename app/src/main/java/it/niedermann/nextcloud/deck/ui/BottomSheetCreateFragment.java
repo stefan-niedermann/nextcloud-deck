@@ -13,9 +13,7 @@ import it.niedermann.nextcloud.deck.R;
 
 public class BottomSheetCreateFragment extends BottomSheetDialogFragment {
 
-    public BottomSheetCreateFragment() {
-
-    }
+    public BottomSheetCreateFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
