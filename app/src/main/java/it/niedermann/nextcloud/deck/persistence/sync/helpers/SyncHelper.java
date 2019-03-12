@@ -97,7 +97,7 @@ public class SyncHelper {
                 }
             }
         }
-
+        provider.doneAll(responseCallback, Boolean.TRUE);
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {
