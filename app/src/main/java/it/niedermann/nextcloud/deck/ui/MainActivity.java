@@ -147,15 +147,6 @@ public class MainActivity extends AppCompatActivity
                         fab.setOnClickListener((View view) -> {
                             BottomSheetCreateFragment bottomSheetFragment = new BottomSheetCreateFragment();
                             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-
-                            /*new Thread(() -> {
-                                Board b = new Board();
-                                b.setTitle("Test - " + System.currentTimeMillis());
-                                b.setOwnerId(boardsList.get(0).getOwnerId());
-                                b.setColor("F1DB50");
-                                syncManager.createBoard(this.account.getId(), b);
-                                Snackbar.make(view, "Creating new Cards is not yet supported", Snackbar.LENGTH_LONG).show();
-                            }).run();*/
                         });
 
                         // TODO show spinner
