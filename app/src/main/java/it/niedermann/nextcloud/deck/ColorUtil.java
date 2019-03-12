@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck;
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 /**
  * Helper implementation to deal with color related functionality.

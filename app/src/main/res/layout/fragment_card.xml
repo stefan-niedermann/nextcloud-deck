@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,25 +32,26 @@
             android:maxLines="3"
             tools:text="Card detailed description\nmultiline\n3 lines tops."/>
 
-        <android.support.design.chip.ChipGroup
+        <com.google.android.material.chip.ChipGroup
             android:id="@+id/labels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/card_due_date"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:minLines="0"
             android:maxLines="1"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/calendar_blank_grey600_24dp"
-            android:drawableStart="@drawable/calendar_blank_grey600_24dp"
             android:drawablePadding="4dp"
             android:padding="4dp"
+            app:drawableLeftCompat="@drawable/calendar_blank_grey600_24dp"
+            app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
             tools:text="in 16 days"
             android:background="@drawable/due_tomorrow_background"/>
+
     </LinearLayout>
-</android.support.design.card.MaterialCardView>
+</com.google.android.material.card.MaterialCardView>

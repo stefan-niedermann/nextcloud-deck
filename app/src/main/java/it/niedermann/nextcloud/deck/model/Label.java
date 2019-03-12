@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.model;
 
-import android.arch.persistence.room.Entity;
+import androidx.room.Entity;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 

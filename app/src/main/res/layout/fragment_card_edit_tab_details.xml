@@ -1,151 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-<LinearLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="editmodel"
+            type="it.niedermann.nextcloud.deck.model.viewmodel.FullCardViewModel" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:layout_marginRight="@dimen/standard_margin"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_person_grey600_24dp" />
-
-        <it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView
-            android:id="@+id/people"
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_assign_people" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <LinearLayout
-        android:id="@+id/peopleList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    android:layout_marginRight="@dimen/standard_margin"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_person_grey600_24dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:layout_marginRight="@dimen/standard_margin"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_label_grey600_24dp" />
+                <it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView
+                    android:id="@+id/people"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_assign_people" />
+            </LinearLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/labels"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/label_labels" />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/peopleList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:orientation="horizontal" />
 
-    <android.support.design.chip.ChipGroup
-        android:id="@+id/labelsGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginStart="40dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    android:layout_marginRight="@dimen/standard_margin"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_label_grey600_24dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:layout_marginRight="@dimen/standard_margin"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
+                <AutoCompleteTextView
+                    android:id="@+id/labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/label_labels" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/dueDateDate"
-            android:layout_width="116dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:drawablePadding="4dp"
-            android:enabled="true"
-            android:focusable="false"
-            android:hint="@string/hint_due_date_date"
-            android:maxLines="1"
-            android:padding="4dp"
-            android:textAlignment="center"
-            tools:text="01/07/2020" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/labelsGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp" />
 
-        <EditText
-            android:id="@+id/dueDateTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:drawablePadding="4dp"
-            android:enabled="true"
-            android:focusable="false"
-            android:hint="@string/hint_due_date_time"
-            android:maxLines="1"
-            android:minLines="0"
-            android:padding="4dp"
-            android:textAlignment="center"
-            tools:text="11:45" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/clearDueDate"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="4dp"
-            android:paddingTop="6dp"
-            android:paddingRight="4dp"
-            app:srcCompat="@drawable/ic_close_circle_grey600" />
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    android:layout_marginRight="@dimen/standard_margin"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/dueDateDate"
+                    android:layout_width="116dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawablePadding="4dp"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:hint="@string/hint_due_date_date"
+                    android:maxLines="1"
+                    android:padding="4dp"
+                    android:textAlignment="center"
+                    tools:text="01/07/2020" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:layout_marginRight="@dimen/standard_margin"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
+                <EditText
+                    android:id="@+id/dueDateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawablePadding="4dp"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:hint="@string/hint_due_date_time"
+                    android:maxLines="1"
+                    android:minLines="0"
+                    android:padding="4dp"
+                    android:textAlignment="center"
+                    tools:text="11:45" />
 
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:hint="@string/label_description"
-            android:inputType="textMultiLine|textCapSentences"
-            android:scrollbars="vertical"
-            />
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/clearDueDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="4dp"
+                    app:srcCompat="@drawable/ic_close_circle_grey600" />
+            </LinearLayout>
 
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    android:layout_marginRight="@dimen/standard_margin"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
+
+                <EditText
+                    android:id="@+id/description"
+                    android:text="@{editmodel.fullCard.card.description}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:hint="@string/label_description"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:scrollbars="vertical" />
+            </LinearLayout>
+
+        </LinearLayout>
     </ScrollView>
+</layout>

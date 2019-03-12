@@ -12,9 +12,9 @@ import android.widget.ProgressBar;
  * https://makovkastar.github.io/blog/2014/04/12/android-autocompletetextview-with-suggestions-from-a-web-service/
  * by Alex Melnykov
  */
-public class DelayedAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView {
+public class DelayedAutoCompleteTextView extends androidx.appcompat.widget.AppCompatAutoCompleteTextView {
     private static final int MESSAGE_TEXT_CHANGED = 100;
-    private static final int DEFAULT_AUTOCOMPLETE_DELAY = 500;
+    private static final int DEFAULT_AUTOCOMPLETE_DELAY = 10;
 
     private int mAutoCompleteDelay = DEFAULT_AUTOCOMPLETE_DELAY;
     private ProgressBar mLoadingIndicator;

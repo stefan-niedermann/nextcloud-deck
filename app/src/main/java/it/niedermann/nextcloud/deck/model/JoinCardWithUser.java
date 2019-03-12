@@ -1,9 +1,9 @@
 package it.niedermann.nextcloud.deck.model;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Index;
-import android.support.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.annotation.NonNull;
 
 @Entity(
         primaryKeys = {"userId", "cardId"},

@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.content.Context;
 
 import java.util.Date;

@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 
