@@ -37,7 +37,7 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
         entity.getStack().setBoardId(board.getLocalId());
-        dataBaseAdapter.updateStack(entity.getStack());
+        dataBaseAdapter.updateStack(entity.getStack(), false);
     }
 
     @Override

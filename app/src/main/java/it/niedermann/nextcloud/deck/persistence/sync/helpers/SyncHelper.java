@@ -40,7 +40,7 @@ public class SyncHelper {
                         if (existingEntity == null) {
                             provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
                         } else {
-                            if (existingEntity.getStatusEnum() == DBStatus.LOCAL_EDITED){
+                            if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()){
                                 DeckLog.log("Conflicting changes on entity: "+existingEntity);
                                 // TODO: what to do?
                             } else {

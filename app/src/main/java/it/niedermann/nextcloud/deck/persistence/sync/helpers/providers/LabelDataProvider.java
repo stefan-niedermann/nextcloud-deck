@@ -34,7 +34,7 @@ public class LabelDataProvider implements IDataProvider<Label> {
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity) {
-        dataBaseAdapter.updateLabel(entity);
+        dataBaseAdapter.updateLabel(entity, false);
     }
 
     @Override

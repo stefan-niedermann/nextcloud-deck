@@ -1,11 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
-import androidx.lifecycle.LiveData;
 import android.content.Context;
 
 import java.util.Date;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -32,12 +32,14 @@ public class DataBaseAdapter {
         this.db = DeckDatabase.getInstance(applicationContext);
     }
 
-    private <T extends AbstractRemoteEntity> void markAsEdited(T entity) {
+    private <T extends AbstractRemoteEntity> void markAsEditedIfNeeded(T entity, boolean setStatus) {
+        if (!setStatus) return;
         entity.setStatusEnum(DBStatus.LOCAL_EDITED);
         entity.setLastModifiedLocal(new Date()); // now.
     }
 
-    private <T extends AbstractRemoteEntity> void markAsDeleted(T entity) {
+    private <T extends AbstractRemoteEntity> void markAsDeletedIfNeeded(T entity, boolean setStatus) {
+        if (!setStatus) return;
         entity.setStatusEnum(DBStatus.LOCAL_DELETED);
         entity.setLastModifiedLocal(new Date()); // now.
     }
@@ -111,8 +113,9 @@ public class DataBaseAdapter {
         return db.getUserDao().insert(user);
     }
 
-    public void updateUser(long accountId, User user) {
-        markAsEdited(user);
+    public void updateUser(long accountId, User user, boolean setStatus) {
+        markAsEditedIfNeeded(user, setStatus);
+        user.setAccountId(accountId);
         db.getUserDao().update(user);
     }
 
@@ -162,13 +165,13 @@ public class DataBaseAdapter {
         db.getJoinBoardWithLabelDao().deleteByBoardId(localBoardId);
     }
     
-    public void updateLabel(Label label) {
-        markAsEdited(label);
+    public void updateLabel(Label label, boolean setStatus) {
+        markAsEditedIfNeeded(label, setStatus);
         db.getLabelDao().update(label);
     }
 
-    public void deleteLabel(Label label) {
-        markAsDeleted(label);
+    public void deleteLabel(Label label, boolean setStatus) {
+        markAsDeletedIfNeeded(label, setStatus);
         db.getLabelDao().update(label);
     }
 
@@ -220,13 +223,13 @@ public class DataBaseAdapter {
             return db.getBoardDao().insert(board);
     }
 
-    public void deleteBoard(Board board) {
-        markAsDeleted(board);
+    public void deleteBoard(Board board, boolean setStatus) {
+        markAsDeletedIfNeeded(board, setStatus);
         db.getBoardDao().update(board);
     }
 
-    public void updateBoard(Board board) {
-        markAsEdited(board);
+    public void updateBoard(Board board, boolean setStatus) {
+        markAsEditedIfNeeded(board, setStatus);
         db.getBoardDao().update(board);
     }
 
@@ -243,13 +246,13 @@ public class DataBaseAdapter {
         return db.getStackDao().insert(stack);
     }
     
-    public void deleteStack(Stack stack) {
-        markAsDeleted(stack);
+    public void deleteStack(Stack stack, boolean setStatus) {
+        markAsDeletedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
     }
     
-    public void updateStack(Stack stack) {
-        markAsEdited(stack);
+    public void updateStack(Stack stack, boolean setStatus) {
+        markAsEditedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
     }
     
@@ -262,13 +265,13 @@ public class DataBaseAdapter {
         return db.getCardDao().insert(card);
     }
     
-    public void deleteCard(Card card) {
-        markAsDeleted(card);
+    public void deleteCard(Card card, boolean setStatus) {
+        markAsDeletedIfNeeded(card, setStatus);
         db.getCardDao().update(card);
     }
     
-    public void updateCard(Card card) {
-        markAsEdited(card);
+    public void updateCard(Card card, boolean setStatus) {
+        markAsEditedIfNeeded(card, setStatus);
         db.getCardDao().update(card);
     }
 
@@ -281,8 +284,8 @@ public class DataBaseAdapter {
         return db.getAccessControlDao().getAccessControlByRemoteIdDirectly(accountId, id);
     }
 
-    public void updateAccessControl(AccessControl entity) {
-        markAsEdited(entity);
+    public void updateAccessControl(AccessControl entity, boolean setStatus) {
+        markAsEditedIfNeeded(entity, setStatus);
         db.getAccessControlDao().update(entity);
     }
 
@@ -321,8 +324,8 @@ public class DataBaseAdapter {
         return db.getAttachmentDao().insert(attachment);
     }
 
-    public void updateAttachment(long accountId, Attachment attachment) {
-        markAsEdited(attachment);
+    public void updateAttachment(long accountId, Attachment attachment, boolean setStatus) {
+        markAsEditedIfNeeded(attachment, setStatus);
         attachment.setAccountId(accountId);
         db.getAttachmentDao().update(attachment);
     }

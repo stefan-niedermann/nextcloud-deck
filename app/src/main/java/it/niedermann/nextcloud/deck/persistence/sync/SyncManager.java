@@ -1,13 +1,13 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
-import androidx.lifecycle.LiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.Date;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -172,12 +172,12 @@ public class SyncManager {
 
     public void deleteBoard(Board board) {
         //TODO: Tell the server
-        dataBaseAdapter.deleteBoard(board);
+        dataBaseAdapter.deleteBoard(board, true);
     }
 
     public void updateBoard(Board board) {
         //TODO: Tell the server
-        dataBaseAdapter.updateBoard(board);
+        dataBaseAdapter.updateBoard(board, true);
     }
 
     public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
@@ -197,7 +197,7 @@ public class SyncManager {
     }
 
     public void updateAccessControl(AccessControl entity) {
-        dataBaseAdapter.updateAccessControl(entity);
+        dataBaseAdapter.updateAccessControl(entity, true);
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
@@ -211,12 +211,12 @@ public class SyncManager {
 
     public void deleteStack(Stack stack) {
         //TODO: Tell the server
-        dataBaseAdapter.deleteStack(stack);
+        dataBaseAdapter.deleteStack(stack, true);
     }
 
     public void updateStack(Stack stack) {
         //TODO: Tell the server
-        dataBaseAdapter.updateStack(stack);
+        dataBaseAdapter.updateStack(stack, true);
 
     }
 
@@ -236,17 +236,14 @@ public class SyncManager {
 
     public void deleteCard(Card card) {
         //TODO: Tell the server
-        dataBaseAdapter.deleteCard(card);
+        dataBaseAdapter.deleteCard(card, true);
     }
 
     public void updateCard(Card card) {
-        Date now = new Date();
 
         //TODO: Tell the server
         doAsync(()->{
-            card.setLastModifiedLocal(now);
-            card.setLastModified(now);
-            dataBaseAdapter.updateCard(card);
+            dataBaseAdapter.updateCard(card, true);
         });
     }
 
@@ -257,12 +254,12 @@ public class SyncManager {
 
     public void deleteLabel(Label label) {
         //TODO: Tell the server
-        dataBaseAdapter.deleteLabel(label);
+        dataBaseAdapter.deleteLabel(label, true);
     }
 
     public void updateLabel(Label label) {
         //TODO: Tell the server
-        dataBaseAdapter.updateLabel(label);
+        dataBaseAdapter.updateLabel(label, true);
     }
 
     public void assignLabelToBoard(long localLabelId, long localBoardId) {
@@ -308,7 +305,7 @@ public class SyncManager {
     }
 
     public void updateUser(long accountId, User user) {
-        dataBaseAdapter.updateUser(accountId, user);
+        dataBaseAdapter.updateUser(accountId, user, true);
     }
 
     public LiveData<List<FullStack>> getStacks(long accountId, long localBoardId) {

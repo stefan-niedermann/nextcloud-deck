@@ -39,7 +39,7 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment) {
         attachment.setCardId(card.getCard().getLocalId());
-        dataBaseAdapter.updateAttachment(accountId, attachment);
+        dataBaseAdapter.updateAttachment(accountId, attachment, false);
 
     }
 

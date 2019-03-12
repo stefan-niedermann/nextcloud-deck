@@ -35,7 +35,7 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
             if (owner == null){
                 dataBaseAdapter.createUser(accountId, remoteOwner);
             } else {
-                dataBaseAdapter.updateUser(accountId, remoteOwner);
+                dataBaseAdapter.updateUser(accountId, remoteOwner, false);
             }
             owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
             entity.getBoard().setOwnerId(owner.getLocalId());
@@ -45,7 +45,7 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         handleOwner(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.updateBoard(entity.getBoard());
+        dataBaseAdapter.updateBoard(entity.getBoard(), false);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard fullBoard) {
-        dataBaseAdapter.deleteBoard(fullBoard.getBoard());
+        dataBaseAdapter.deleteBoard(fullBoard.getBoard(), false);
     }
 
     @Override

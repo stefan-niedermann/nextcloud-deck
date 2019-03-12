@@ -42,14 +42,14 @@ public class AccessControlDataProvider implements IDataProvider<AccessControl> {
         } else {
             entity.setUserId(user.getLocalId());
             entity.getUser().setLocalId(user.getLocalId());
-            dataBaseAdapter.updateUser(accountId, entity.getUser());
+            dataBaseAdapter.updateUser(accountId, entity.getUser(), false);
         }
     }
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
         prepareUser(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.updateAccessControl(entity);
+        dataBaseAdapter.updateAccessControl(entity, false);
     }
 
     @Override

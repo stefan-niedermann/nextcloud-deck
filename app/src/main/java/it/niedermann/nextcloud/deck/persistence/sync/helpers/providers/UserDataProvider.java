@@ -43,7 +43,7 @@ public class UserDataProvider implements IDataProvider<User> {
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, User entity) {
-        dataBaseAdapter.updateUser(accountId, entity);
+        dataBaseAdapter.updateUser(accountId, entity, false);
     }
 
     @Override
