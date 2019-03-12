@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Nextcloud Deck</string>
+    <string name="navigation_drawer_open">Åbn navigationsskuffe</string>
+    <string name="navigation_drawer_close">Luk navigationsskuffe</string>
+    <string name="nav_header_title">Nextcloud Deck</string>
+    <string name="nav_header_subtitle">Klient for Nextcloud Deck app</string>
+    <string name="nav_header_desc">Navigationsheader</string>
+    <string name="action_settings">Indstillinger</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Tavler</string>
+    <string name="shared_preference_last_sync">it.niedermann.nextcloud.deck.last_sync</string>
+
+    <!-- About -->
+    <string name="about">Om</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_version">Du bruger &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_maintainer_title">Vedligeholder</string>
+    <string name="about_developers_title">Udviklere</string>
+    <string name="about_translators_title">Oversættere</string>
+    <string name="about_translators_transifex">Nextcloud fællesskabet på &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_testers_title">Testere</string>
+    <string name="about_source_title">Kildekode</string>
+    <string name="about_source">Dette projekt hostes på GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues_title">Problemer</string>
+    <string name="about_issues">Du kan rapportere fejl, foreslå forbedringer og ønske nye funktioner på Github: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate_title">Oversæt</string>
+    <string name="about_translate">Bliv en del af Nextcloudholdet på transifex, og hjælp os med at oversætte denne app:: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_license_title">Applicens</string>
+    <string name="about_app_license">Denne app er udgivet under licensen GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Se licens</string>
+    <string name="about_icons_disclaimer_title">Ikoner</string>
+    <string name="about_icons_disclaimer">&lt;p>Originale ikon lavet af %1$s&lt;/p>&lt;p>Alle yderligere ikoner brugt af denne app er &lt;a href=\"https://materialdesignicons.com/\">Material Design Ikoner&lt;/a> lavet af Google Inc. og licenseret under Apache 2.0 Licens.&lt;/p></string>
+    <string name="about_credits_tab_title">Credits</string>
+    <string name="about_contribution_tab_title">Bidrag</string>
+    <string name="about_license_tab_title">Licens</string>
+
+    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    <string name="seconds_ago">sekunder siden</string>
+</resources>
