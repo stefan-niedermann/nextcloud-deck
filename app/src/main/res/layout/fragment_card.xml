@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,9 +20,9 @@
             android:id="@+id/card_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
             android:textColor="@color/black"
-            tools:text="Card Title"/>
+            android:textSize="18sp"
+            tools:text="Card Title" />
 
         <TextView
             android:id="@+id/card_description"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="3"
-            tools:text="Card detailed description\nmultiline\n3 lines tops."/>
+            tools:text="Card detailed description\nmultiline\n3 lines tops." />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/labels"
@@ -38,20 +38,53 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/card_due_date"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:minLines="0"
-            android:maxLines="1"
-            android:drawablePadding="4dp"
-            android:padding="4dp"
-            app:drawableLeftCompat="@drawable/calendar_blank_grey600_24dp"
-            app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
-            tools:text="in 16 days"
-            android:background="@drawable/due_tomorrow_background"/>
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
 
+            <ImageView
+                android:id="@+id/card_description_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:contentDescription="@string/label_card_description"
+                app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_due_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/due_tomorrow_background"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="4dp"
+                app:drawableLeftCompat="@drawable/calendar_blank_grey600_24dp"
+                app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
+                tools:text="in 16 days" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_count_attachments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="4dp"
+                app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
+                app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
+                tools:text="1" />
+
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

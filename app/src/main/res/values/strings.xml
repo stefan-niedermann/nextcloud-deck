@@ -61,4 +61,7 @@
     <string name="create_card">Create card</string>
     <string name="create_stack">Create stack</string>
     <string name="create_board">Create board</string>
+
+    <string name="label_card_description">has a description</string>
+    <string name="attachment_count_max_value" translatable="false">+99</string>
 </resources>
