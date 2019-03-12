@@ -48,7 +48,6 @@ public class SyncManager {
     }
 
     public void synchronize(IResponseCallback<Boolean> responseCallback) {
-        final long accountId = responseCallback.getAccount().getId();
         doAsync(() -> {
             SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
                     applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
@@ -56,19 +55,38 @@ public class SyncManager {
             Date lastSyncDate = new Date(lastSync);
             Date now = new Date();
 
-            new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate, new IResponseCallback<Boolean>(responseCallback.getAccount()) {
+            BoardDataProvider boardDataProvider = new BoardDataProvider();
+            final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
+
+            IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Boolean response) {
-                    //TODO activate when done dev
-//                lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
-                    responseCallback.onResponse(response);
+                    syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            // TODO activate when done dev
+                            // lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
+                            responseCallback.onResponse(response);
+                        }
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                            responseCallback.onError(throwable);
+                        }
+                    });
+                    syncHelper.doUpSyncFor(boardDataProvider);
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
+                    super.onError(throwable);
                     responseCallback.onError(throwable);
                 }
-            }).doSyncFor(new BoardDataProvider());
+            };
+
+            syncHelper.setResponseCallback(callback);
+
+            syncHelper.doSyncFor(boardDataProvider);
         });
     }
 
@@ -141,7 +159,6 @@ public class SyncManager {
                 @Override
                 public void onResponse(FullBoard response) {
                     DeckLog.log(response.toString());
-
                 }
 
                 @Override

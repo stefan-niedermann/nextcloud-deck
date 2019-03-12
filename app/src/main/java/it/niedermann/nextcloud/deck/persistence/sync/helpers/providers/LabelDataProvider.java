@@ -18,7 +18,7 @@ public class LabelDataProvider implements IDataProvider<Label> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Label>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Label>> responder, Date lastSync) {
         responder.onResponse(labels);
     }
 
@@ -61,6 +61,11 @@ public class LabelDataProvider implements IDataProvider<Label> {
     @Override
     public List<Label> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, Label entity, Label response) {
+
     }
 
     @Override

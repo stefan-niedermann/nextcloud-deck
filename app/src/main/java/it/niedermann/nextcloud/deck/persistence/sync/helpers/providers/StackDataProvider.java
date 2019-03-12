@@ -19,7 +19,7 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullStack>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullStack>> responder, Date lastSync) {
         serverAdapter.getStacks(board.getId(), responder);
     }
 
@@ -69,6 +69,11 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     @Override
     public List<FullStack> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, FullStack entity, FullStack response) {
+
     }
 
     @Override

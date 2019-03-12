@@ -10,8 +10,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public interface IDataProvider <T extends IRemoteEntity> {
-    void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder);
-
+    void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync);
 
     T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
 
@@ -34,4 +33,6 @@ public interface IDataProvider <T extends IRemoteEntity> {
     }
 
     List<T> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync);
+
+    void goDeeperForUpSync(SyncHelper syncHelper, T entity, T response);
 }

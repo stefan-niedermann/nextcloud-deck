@@ -27,7 +27,7 @@ public class UserDataProvider implements IDataProvider<User> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<User>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<User>> responder, Date lastSync) {
         responder.onResponse(users);
     }
 
@@ -70,6 +70,11 @@ public class UserDataProvider implements IDataProvider<User> {
     @Override
     public List<User> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, User entity, User response) {
+
     }
 
     @Override

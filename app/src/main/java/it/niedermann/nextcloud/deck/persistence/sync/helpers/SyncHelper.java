@@ -6,6 +6,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -18,64 +19,40 @@ public class SyncHelper {
     private Account account;
     private long accountId;
     private IResponseCallback<Boolean> responseCallback;
-    private boolean syncChangedSomething = false;
     private Date lastSync;
 
-    public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Date lastSync, IResponseCallback<Boolean> responseCallback) {
+    public SyncHelper(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, Date lastSync) {
         this.serverAdapter = serverAdapter;
         this.dataBaseAdapter = dataBaseAdapter;
         this.lastSync = lastSync;
-        this.responseCallback = responseCallback;
-        this.account = responseCallback.getAccount();
-        accountId = account.getId();
     }
 
+    // Sync Server -> App
     public <T extends IRemoteEntity> void doSyncFor(final IDataProvider<T> provider){
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
-                // Sync Server -> App
                 if (response != null && !response.isEmpty()) {
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
+
                         if (existingEntity == null) {
                             provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
-                            syncChangedSomething = true;
                         } else {
-                            provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(existingEntity, entityFromServer, accountId));
-                            syncChangedSomething = true; //TODO: only if no diff!
+                            if (existingEntity.getStatusEnum() == DBStatus.LOCAL_EDITED){
+                                DeckLog.log("Conflicting changes on entity: "+existingEntity);
+                                // TODO: what to do?
+                            } else {
+                                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(existingEntity, entityFromServer, accountId));
+                            }
                         }
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
                         provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer);
                     }
                 }
 
-                // Sync App -> Server
-                List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
-                if (allFromDB != null && !allFromDB.isEmpty()) {
-                    for (T entity : allFromDB) {
-                        IResponseCallback<T> updateCallback = new IResponseCallback<T>(account) {
-                            @Override
-                            public void onResponse(T response) {
-                                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(entity, response, accountId));
-                            }
-
-                            @Override
-                            public void onError(Throwable throwable) {
-                                super.onError(throwable);
-                                responseCallback.onError(throwable);
-                            }
-                        };
-                        if (entity.getId()!=null) {
-                            provider.updateOnServer(serverAdapter, accountId, updateCallback, entity);
-                        } else {
-                            provider.createOnServer(serverAdapter, accountId, updateCallback, entity);
-                        }
-                    }
-                }
-
-                provider.doneAll(responseCallback, syncChangedSomething);
+                provider.doneAll(responseCallback, Boolean.TRUE);
             }
 
             @Override
@@ -83,7 +60,44 @@ public class SyncHelper {
                 DeckLog.logError(throwable);
                 responseCallback.onError(throwable);
             }
-        });
+        }, lastSync);
+    }
+
+    // Sync App -> Server
+    public <T extends IRemoteEntity> void doUpSyncFor(IDataProvider<T> provider){
+        List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
+        if (allFromDB != null && !allFromDB.isEmpty()) {
+            for (T entity : allFromDB) {
+                IResponseCallback<T> updateCallback = new IResponseCallback<T>(account) {
+                    @Override
+                    public void onResponse(T response) {
+                        provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(entity, response, accountId));
+                        provider.goDeeperForUpSync(SyncHelper.this, entity, response);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                        responseCallback.onError(throwable);
+                    }
+                };
+                if (entity.getId()!=null) {
+                    if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
+                        provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<T>(account) {
+                            @Override
+                            public void onResponse(T response) {
+                                provider.deleteInDB(dataBaseAdapter, accountId, response);
+                            }
+                        }, entity);
+                    } else {
+                        provider.updateOnServer(serverAdapter, accountId, updateCallback, entity);
+                    }
+                } else {
+                    provider.createOnServer(serverAdapter, accountId, updateCallback, entity);
+                }
+            }
+        }
+
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {
@@ -98,5 +112,11 @@ public class SyncHelper {
         remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
         remoteEntity.setLocalId(localEntity.getLocalId());
         return remoteEntity;
+    }
+
+    public void setResponseCallback(IResponseCallback<Boolean> callback) {
+        this.responseCallback = callback;
+        this.account = responseCallback.getAccount();
+        accountId = account.getId();
     }
 }

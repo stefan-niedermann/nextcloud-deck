@@ -19,7 +19,7 @@ public class AccessControlDataProvider implements IDataProvider<AccessControl> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<AccessControl>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<AccessControl>> responder, Date lastSync) {
         responder.onResponse(acl);
     }
 
@@ -81,5 +81,10 @@ public class AccessControlDataProvider implements IDataProvider<AccessControl> {
     @Override
     public List<AccessControl> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, AccessControl entity, AccessControl response) {
+
     }
 }

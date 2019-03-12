@@ -25,7 +25,7 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullCard>> responder, Date lastSync) {
 
         List<FullCard> result = new ArrayList<>();
         if (stack.getCards() == null || stack.getCards().isEmpty()){
@@ -120,5 +120,10 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     @Override
     public List<FullCard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, FullCard entity, FullCard response) {
+
     }
 }

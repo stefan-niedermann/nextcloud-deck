@@ -21,7 +21,7 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Attachment>> responder) {
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<Attachment>> responder, Date lastSync) {
         responder.onResponse(attachments);
     }
 
@@ -71,5 +71,10 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
     @Override
     public List<Attachment> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
+    }
+
+    @Override
+    public void goDeeperForUpSync(SyncHelper syncHelper, Attachment entity, Attachment response) {
+
     }
 }

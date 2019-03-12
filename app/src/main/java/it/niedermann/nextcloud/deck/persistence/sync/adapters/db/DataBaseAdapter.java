@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -16,9 +17,11 @@ import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 
 public class DataBaseAdapter {
@@ -27,6 +30,16 @@ public class DataBaseAdapter {
 
     public DataBaseAdapter(Context applicationContext) {
         this.db = DeckDatabase.getInstance(applicationContext);
+    }
+
+    private <T extends AbstractRemoteEntity> void markAsEdited(T entity) {
+        entity.setStatusEnum(DBStatus.LOCAL_EDITED);
+        entity.setLastModifiedLocal(new Date()); // now.
+    }
+
+    private <T extends AbstractRemoteEntity> void markAsDeleted(T entity) {
+        entity.setStatusEnum(DBStatus.LOCAL_DELETED);
+        entity.setLastModifiedLocal(new Date()); // now.
     }
 
     public LiveData<Boolean> hasAccounts(){
@@ -99,7 +112,7 @@ public class DataBaseAdapter {
     }
 
     public void updateUser(long accountId, User user) {
-        user.setAccountId(accountId);
+        markAsEdited(user);
         db.getUserDao().update(user);
     }
 
@@ -150,11 +163,13 @@ public class DataBaseAdapter {
     }
     
     public void updateLabel(Label label) {
+        markAsEdited(label);
         db.getLabelDao().update(label);
     }
 
     public void deleteLabel(Label label) {
-        db.getLabelDao().delete(label);
+        markAsDeleted(label);
+        db.getLabelDao().update(label);
     }
 
     public LiveData<Account> createAccount(String accoutName) {
@@ -206,10 +221,12 @@ public class DataBaseAdapter {
     }
 
     public void deleteBoard(Board board) {
-        db.getBoardDao().delete(board);
+        markAsDeleted(board);
+        db.getBoardDao().update(board);
     }
 
     public void updateBoard(Board board) {
+        markAsEdited(board);
         db.getBoardDao().update(board);
     }
 
@@ -227,10 +244,12 @@ public class DataBaseAdapter {
     }
     
     public void deleteStack(Stack stack) {
-        db.getStackDao().delete(stack);
+        markAsDeleted(stack);
+        db.getStackDao().update(stack);
     }
     
     public void updateStack(Stack stack) {
+        markAsEdited(stack);
         db.getStackDao().update(stack);
     }
     
@@ -244,10 +263,12 @@ public class DataBaseAdapter {
     }
     
     public void deleteCard(Card card) {
-        db.getCardDao().delete(card);
+        markAsDeleted(card);
+        db.getCardDao().update(card);
     }
     
     public void updateCard(Card card) {
+        markAsEdited(card);
         db.getCardDao().update(card);
     }
 
@@ -261,6 +282,7 @@ public class DataBaseAdapter {
     }
 
     public void updateAccessControl(AccessControl entity) {
+        markAsEdited(entity);
         db.getAccessControlDao().update(entity);
     }
 
@@ -300,6 +322,7 @@ public class DataBaseAdapter {
     }
 
     public void updateAttachment(long accountId, Attachment attachment) {
+        markAsEdited(attachment);
         attachment.setAccountId(accountId);
         db.getAttachmentDao().update(attachment);
     }
