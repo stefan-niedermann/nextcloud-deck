@@ -84,11 +84,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         viewHolder.cardTitle.setText(card.getCard().getTitle());
 
         if (card.getCard().getDescription() != null && !card.getCard().getDescription().isEmpty()) {
-            viewHolder.cardDescription.setText(card.getCard().getDescription());
-            viewHolder.cardDescription.setVisibility(View.VISIBLE);
             viewHolder.cardDescriptionIcon.setVisibility(View.VISIBLE);
         } else {
-            viewHolder.cardDescription.setVisibility(View.GONE);
             viewHolder.cardDescriptionIcon.setVisibility(View.GONE);
         }
 
@@ -220,8 +217,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         MaterialCardView card;
         @BindView(R.id.card_title)
         TextView cardTitle;
-        @BindView(R.id.card_description)
-        TextView cardDescription;
         @BindView(R.id.labels)
         ChipGroup labels;
         @BindView(R.id.card_description_icon)

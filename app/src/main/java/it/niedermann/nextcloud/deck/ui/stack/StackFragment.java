@@ -94,15 +94,17 @@ public class StackFragment extends Fragment {
     }
 
     private void refreshView() {
-        syncManager.getStack(account.getId(), stackId).observe(StackFragment.this, (FullStack stack) -> {
-            if (stack != null) {
-                syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(StackFragment.this, (List<FullCard> cards) -> {
-                    if (cards != null) {
-                        adapter.setCardList(cards);
+        getActivity().runOnUiThread(() ->
+                syncManager.getStack(account.getId(), stackId).observe(StackFragment.this, (FullStack stack) -> {
+                    if (stack != null) {
+                        syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(StackFragment.this, (List<FullCard> cards) -> {
+                            if (cards != null) {
+                                adapter.setCardList(cards);
+                            }
+                        });
                     }
-                });
-            }
-        });
+                })
+        );
     }
 
 

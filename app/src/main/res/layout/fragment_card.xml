@@ -24,14 +24,6 @@
             android:textSize="18sp"
             tools:text="Card Title" />
 
-        <TextView
-            android:id="@+id/card_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="3"
-            tools:text="Card detailed description\nmultiline\n3 lines tops." />
-
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/labels"
             android:layout_width="match_parent"
