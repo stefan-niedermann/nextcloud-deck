@@ -1,4 +1,7 @@
 # Nextcloud Deck
+
+:warning: :warning: :warning: **This app is still under heavy development. Releases for Play Store and F-Droid will be published as soon as this app is usable productively** (see https://github.com/stefan-niedermann/nextcloud-deck/issues/35) :warning: :warning: :warning:
+
 An android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 [![Build Status](https://travis-ci.org/stefan-niedermann/nextcloud-deck.svg?branch=master)](https://travis-ci.org/stefan-niedermann/nextcloud-deck)

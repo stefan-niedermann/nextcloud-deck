@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_create"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_default"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            app:drawableLeftCompat="@drawable/ic_add_black_24dp"
+            app:drawableStartCompat="@drawable/ic_add_black_24dp"
+            style="@style/CreateButton"
+            android:text="Create card" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            app:drawableLeftCompat="@drawable/ic_view_carousel_black_24dp"
+            app:drawableStartCompat="@drawable/ic_view_carousel_black_24dp"
+            style="@style/CreateButton"
+            android:text="Create stack" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            app:drawableLeftCompat="@drawable/ic_view_column_black_24dp"
+            app:drawableStartCompat="@drawable/ic_view_column_black_24dp"
+            style="@style/CreateButton"
+            android:text="Create board" />
+    </LinearLayout>
+</LinearLayout>

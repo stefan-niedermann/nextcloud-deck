@@ -26,13 +26,13 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/stackLayout"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:tabIndicatorColor="@color/accent"
-                app:tabMode="scrollable"
+                app:collapsedTitleGravity="top"
                 app:tabGravity="fill"
-                app:collapsedTitleGravity="top" />
+                app:tabIndicatorColor="@color/accent"
+                app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
