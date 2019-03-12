@@ -64,4 +64,6 @@
 
     <string name="label_card_description">has a description</string>
     <string name="attachment_count_max_value" translatable="false">+99</string>
+    <string name="add_account">Add account</string>
+    <string name="accounts">Accounts</string>
 </resources>

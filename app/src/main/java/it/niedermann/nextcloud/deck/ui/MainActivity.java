@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int MENU_ID_ABOUT = -1;
+    private static final int MENU_ID_ADD_ACCOUNT = -2;
     private static final int ACTIVITY_ABOUT = 1;
 
     @BindView(R.id.toolbar)
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     private SyncManager syncManager;
     private List<Board> boardsList;
     private Account account;
+    private boolean accountChooserActive = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        navigationView.getHeaderView(0).findViewById(R.id.accountChooser).setOnClickListener(v -> {
+            this.accountChooserActive = !this.accountChooserActive;
+            if(accountChooserActive) {
+                buildSidenavAccountChooser();
+            } else {
+                syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
+            }
+        });
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -193,6 +205,26 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void buildSidenavAccountChooser() {
+        Menu menu = navigationView.getMenu();
+        menu.clear();
+        SubMenu accountMenu = menu.addSubMenu(getString(R.string.accounts));
+
+        this.syncManager.hasAccounts().observe(MainActivity.this, (Boolean hasAccounts) -> {
+            if (hasAccounts != null && hasAccounts) {
+                syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
+                    if (accounts != null) {
+                        int index = 0;
+                        for(Account account: accounts) {
+                            accountMenu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+                        }
+                    }
+                });
+            }
+        });
+        menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
+    }
+
     /**
      * Displays the Stacks for the boardsList by index
      *
@@ -226,13 +258,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -244,13 +269,24 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case MENU_ID_ABOUT:
-                Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
-                startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
-                break;
-            default:
-                displayStacksForIndex(item.getItemId(), account);
+        if(accountChooserActive) {
+            switch (item.getItemId()) {
+                case MENU_ID_ADD_ACCOUNT:
+                    loginDialogFragment = new LoginDialogFragment();
+                    loginDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
+                    break;
+                default:
+                    displayStacksForIndex(0, account);
+            }
+        } else {
+            switch (item.getItemId()) {
+                case MENU_ID_ABOUT:
+                    Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
+                    startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
+                    break;
+                default:
+                    displayStacksForIndex(item.getItemId(), account);
+            }
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
