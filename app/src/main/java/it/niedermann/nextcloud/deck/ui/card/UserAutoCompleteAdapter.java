@@ -94,9 +94,9 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     @Override
     public Filter getFilter() {
         return new Filter() {
+            final FilterResults filterResults = new FilterResults();
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
                     ((Fragment)owner).getActivity().runOnUiThread(() -> {
                         LiveData<List<User>> userLiveData = syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString());
@@ -108,6 +108,9 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                                     filterResults.values = users;
                                     filterResults.count = users.size();
                                     publishResults(constraint, filterResults);
+                                } else {
+                                    filterResults.values = new ArrayList<>();
+                                    filterResults.count = 0;
                                 }
                             }
                         };
@@ -120,7 +123,9 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 if (results != null && results.count > 0) {
-                    userList = (List<User>) results.values;
+                    if (!userList.equals(results.values)) {
+                        userList = (List<User>) results.values;
+                    }
                     notifyDataSetChanged();
                 } else {
                     notifyDataSetInvalidated();
