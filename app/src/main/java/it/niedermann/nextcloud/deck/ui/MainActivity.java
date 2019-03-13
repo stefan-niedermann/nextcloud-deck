@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     private LoginDialogFragment loginDialogFragment;
     private SyncManager syncManager;
     private List<Board> boardsList;
+    private List<Account> accountsList = new ArrayList<>();
     private Account account;
     private boolean accountChooserActive = false;
 
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.getHeaderView(0).findViewById(R.id.accountChooser).setOnClickListener(v -> {
             this.accountChooserActive = !this.accountChooserActive;
-            if(accountChooserActive) {
+            if (accountChooserActive) {
                 buildSidenavAccountChooser();
             } else {
                 syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
@@ -132,34 +136,15 @@ public class MainActivity extends AppCompatActivity
 //            return true;
 //        });
 
-        handleAccounts();
-    }
 
-    public void onAccountChoose(SingleSignOnAccount account) {
-        getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
-
-        this.syncManager.createAccount(account.name);
-
-        // TODO Fetch data directly after login
-        // TODO combine with onCreate
-
-        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
-        handleAccounts();
-    }
-
-    private void handleAccounts() {
         this.syncManager.hasAccounts().observe(MainActivity.this, (Boolean hasAccounts) -> {
             if (hasAccounts != null && hasAccounts) {
                 syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
                     if (accounts != null) {
-                        this.account = accounts.get(0);
+                        this.accountsList = accounts;
+                        this.account = accounts.get(accounts.size() - 1);
                         String accountName = this.account.getName();
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
-
-                        fab.setOnClickListener((View view) -> {
-                            BottomSheetCreateFragment bottomSheetFragment = new BottomSheetCreateFragment();
-                            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-                        });
 
                         // TODO show spinner
                         MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
@@ -172,7 +157,6 @@ public class MainActivity extends AppCompatActivity
 
                             @Override
                             public void onError(Throwable throwable) {
-                                //DeckLog.log(throwable.getMessage());
                                 throwable.printStackTrace();
                             }
                         });
@@ -183,6 +167,26 @@ public class MainActivity extends AppCompatActivity
                 loginDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
             }
         });
+
+        fab.setOnClickListener((View view) -> {
+            BottomSheetCreateFragment bottomSheetFragment = new BottomSheetCreateFragment();
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        });
+    }
+
+    public void onAccountChoose(SingleSignOnAccount account) {
+        getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
+
+        try {
+            this.syncManager.createAccount(account.name);
+        } catch(SQLiteConstraintException e) {
+            DeckLog.logError(e);
+        }
+
+        // TODO Fetch data directly after login
+        // TODO combine with onCreate
+
+        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
     }
 
     private void buildSidenavMenu(List<Board> boards) {
@@ -209,19 +213,10 @@ public class MainActivity extends AppCompatActivity
         Menu menu = navigationView.getMenu();
         menu.clear();
         SubMenu accountMenu = menu.addSubMenu(getString(R.string.accounts));
-
-        this.syncManager.hasAccounts().observe(MainActivity.this, (Boolean hasAccounts) -> {
-            if (hasAccounts != null && hasAccounts) {
-                syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
-                    if (accounts != null) {
-                        int index = 0;
-                        for(Account account: accounts) {
-                            accountMenu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
-                        }
-                    }
-                });
-            }
-        });
+        int index = 0;
+        for (Account account : this.accountsList) {
+            accountMenu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+        }
         menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }
 
@@ -269,7 +264,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if(accountChooserActive) {
+        if (accountChooserActive) {
             switch (item.getItemId()) {
                 case MENU_ID_ADD_ACCOUNT:
                     loginDialogFragment = new LoginDialogFragment();
