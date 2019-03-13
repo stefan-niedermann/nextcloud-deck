@@ -45,6 +45,7 @@ import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -147,17 +148,17 @@ public class MainActivity extends AppCompatActivity
 //        });
 
 
-        this.syncManager.hasAccounts().observe(MainActivity.this, (Boolean hasAccounts) -> {
+        syncManager.hasAccounts().observe(MainActivity.this, (Boolean hasAccounts) -> {
             if (hasAccounts != null && hasAccounts) {
                 syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
                     if (accounts != null) {
-                        this.accountsList = accounts;
-                        this.account = accounts.get(accounts.size() - 1);
-                        String accountName = this.account.getName();
-                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), accountName);
+                        accountsList = accounts;
+                        account = accounts.get(accounts.size() - 1);
+                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.getName());
+                        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), account.getUrl(), account.getUserName());
 
                         // TODO show spinner
-                        MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                        syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                             @Override
                             public void onResponse(Boolean response) {
                                 //nothing
@@ -291,6 +292,7 @@ public class MainActivity extends AppCompatActivity
                     boardsLiveData.removeObserver(boardsLiveDataObserver);
                     this.account = accountsList.get(item.getItemId());
                     SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                    ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), account.getUrl(), account.getUserName());
 
                     boardsLiveData = syncManager.getBoards(this.account.getId());
                     boardsLiveDataObserver = (List<Board> boards) -> {
