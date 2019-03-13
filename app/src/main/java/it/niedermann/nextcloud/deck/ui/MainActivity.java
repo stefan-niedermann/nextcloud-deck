@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
@@ -182,8 +183,10 @@ public class MainActivity extends AppCompatActivity
                 try {
                     accountLiveData.throwError();
                 } catch (SQLiteConstraintException ex) {
-                    //dostuff
+                    Snackbar.make(drawer, "Account bereits hinzugefügt", Snackbar.LENGTH_SHORT).show();
                 }
+            } else {
+                Snackbar.make(drawer, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
             }
         });
 
