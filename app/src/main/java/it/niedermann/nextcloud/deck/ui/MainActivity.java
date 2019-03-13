@@ -1,10 +1,12 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
+    private SharedPreferences sharedPreferences;
     private StackAdapter stackAdapter;
     private LoginDialogFragment loginDialogFragment;
     private SyncManager syncManager;
@@ -88,6 +91,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         navigationView.getHeaderView(0).findViewById(R.id.accountChooser).setOnClickListener(v -> {
             this.accountChooserActive = !this.accountChooserActive;
@@ -153,23 +158,26 @@ public class MainActivity extends AppCompatActivity
                 syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
                     if (accounts != null) {
                         accountsList = accounts;
-                        account = accounts.get(accounts.size() - 1);
-                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.getName());
-                        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), account.getUrl(), account.getUserName());
-
-                        // TODO show spinner
-                        syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                            @Override
-                            public void onResponse(Boolean response) {
-                                //nothing
-                            }
-                        });
-                        boardsLiveData = syncManager.getBoards(this.account.getId());
-                        boardsLiveDataObserver = (List<Board> boards) -> {
-                            boardsList = boards;
-                            buildSidenavMenu();
-                        };
-                        boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
+                        int lastAccount = sharedPreferences.getInt(getString(R.string.shared_preference_last_account), 0);
+                        if(accounts.size() -1 >= lastAccount) {
+                            this.account = accounts.get(0);
+                            SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                            syncManager = new SyncManager(getApplicationContext(), MainActivity.this);
+                            ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), this.account.getUrl(), this.account.getUserName());
+                            // TODO show spinner
+                            syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                                @Override
+                                public void onResponse(Boolean response) {
+                                    //nothing
+                                }
+                            });
+                            boardsLiveData = syncManager.getBoards(this.account.getId());
+                            boardsLiveDataObserver = (List<Board> boards) -> {
+                                boardsList = boards;
+                                buildSidenavMenu();
+                            };
+                            boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
+                        }
                     }
                 });
             } else {
@@ -302,6 +310,10 @@ public class MainActivity extends AppCompatActivity
                     };
                     boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
                     displayStacksForIndex(0, this.account);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt(getString(R.string.shared_preference_last_account), item.getItemId());
+                    editor.apply();
             }
         } else {
             switch (item.getItemId()) {
