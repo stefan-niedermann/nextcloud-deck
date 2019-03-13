@@ -10,6 +10,11 @@ import androidx.annotation.NonNull;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
+import com.nextcloud.android.sso.model.SingleSignOnAccount;
+
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -43,12 +49,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     private Context context;
     private List<FullCard> cardList = new ArrayList<>();
+    private SingleSignOnAccount account;
 
     @NonNull
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         this.context = viewGroup.getContext();
         View v = LayoutInflater.from(this.context).inflate(R.layout.fragment_card, viewGroup, false);
+        try {
+            account = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+        } catch (NextcloudFilesAppAccountNotFoundException e) {
+            DeckLog.logError(e);
+        } catch (NoCurrentAccountSelectedException e) {
+            DeckLog.logError(e);
+        }
         return new CardViewHolder(v);
     }
 
@@ -166,12 +180,22 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     private void prepareOptionsMenu(Menu menu, FullCard card) {
-        // TODO filter menu item assign/unassign depending on active user
-        if (card.getAssignedUsers().contains(0)) {
+        if (containsUser(card.getAssignedUsers(), account.username)) {
             menu.removeItem(menu.findItem(R.id.action_card_assign).getItemId());
         } else {
             menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
         }
+    }
+
+    private boolean containsUser(List<User> userList, String username) {
+        if (userList != null) {
+            for (User user : userList) {
+                if (user.getPrimaryKey().equals(username)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean optionsItemSelected(MenuItem item, FullCard card) {
