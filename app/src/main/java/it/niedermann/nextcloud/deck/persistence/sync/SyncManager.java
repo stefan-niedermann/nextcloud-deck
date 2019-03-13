@@ -131,8 +131,8 @@ public class SyncManager {
         return dataBaseAdapter.hasAccounts();
     }
 
-    public WrappedLiveData<Account> createAccount(String accoutName) {
-        return dataBaseAdapter.createAccount(accoutName);
+    public WrappedLiveData<Account> createAccount(Account accout) {
+        return dataBaseAdapter.createAccount(accout);
     }
 
     public void deleteAccount(long id) {
@@ -158,7 +158,7 @@ public class SyncManager {
     public void createBoard(long accountId, Board board) {
         FullBoard fullBoard = new FullBoard();
         fullBoard.setBoard(board);
-        Account dummyAccount = new Account(accountId, "noNeed");
+        Account dummyAccount = new Account(accountId);
         doAsync(() ->
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(dummyAccount) {
                 @Override

@@ -1,12 +1,12 @@
 package it.niedermann.nextcloud.deck.model;
 
+import java.io.Serializable;
+
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import androidx.annotation.NonNull;
-
-import java.io.Serializable;
 
 @Entity(indices = {@Index(value = "name", unique = true)})
 public class Account implements Serializable {
@@ -19,10 +19,23 @@ public class Account implements Serializable {
     @NonNull
     private String name;
 
+    @NonNull
+    private String userName;
+
+    @NonNull
+    private String url;
+
     @Ignore
-    public Account(Long id, @NonNull String name) {
+    public Account(Long id, @NonNull String name, @NonNull String userName, @NonNull String url) {
         this.id = id;
         this.name = name;
+        this.userName = userName;
+        this.url = url;
+    }
+
+    @Ignore
+    public Account(Long id) {
+        this.id = id;
     }
 
     public Account() {
@@ -36,12 +49,31 @@ public class Account implements Serializable {
         this.id = id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
+    }
+
+    @NonNull
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(@NonNull String userName) {
+        this.userName = userName;
+    }
+
+    @NonNull
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(@NonNull String url) {
+        this.url = url;
     }
 
     @Override
@@ -52,13 +84,27 @@ public class Account implements Serializable {
         Account account = (Account) o;
 
         if (id != null ? !id.equals(account.id) : account.id != null) return false;
-        return name.equals(account.name);
+        if (!name.equals(account.name)) return false;
+        if (!userName.equals(account.userName)) return false;
+        return url.equals(account.url);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + name.hashCode();
+        result = 31 * result + userName.hashCode();
+        result = 31 * result + url.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", userName='" + userName + '\'' +
+                ", url='" + url + '\'' +
+                '}';
     }
 }

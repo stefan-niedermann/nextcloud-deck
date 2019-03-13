@@ -185,7 +185,11 @@ public class MainActivity extends AppCompatActivity
 
     public void onAccountChoose(SingleSignOnAccount account) {
         getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
-        final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(account.name);
+        Account acc = new Account();
+        acc.setName(account.name);
+        acc.setUserName(account.username);
+        acc.setUrl(account.url);
+        final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(acc);
         accountLiveData.observe(this, (Account ac) -> {
             if (accountLiveData.hasError()) {
                 try {

@@ -186,11 +186,9 @@ public class DataBaseAdapter {
         db.getLabelDao().update(label);
     }
 
-    public WrappedLiveData<Account> createAccount(String accoutName) {
+    public WrappedLiveData<Account> createAccount(Account account) {
         return LiveDataHelper.wrapInLiveData(() -> {
-            Account acc = new Account();
-            acc.setName(accoutName);
-            long id = db.getAccountDao().insert(acc);
+            long id = db.getAccountDao().insert(account);
             return readAccountDirectly(id);
 
         });
