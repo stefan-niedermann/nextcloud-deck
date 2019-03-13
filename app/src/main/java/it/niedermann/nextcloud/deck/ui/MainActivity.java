@@ -30,13 +30,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
@@ -176,12 +176,16 @@ public class MainActivity extends AppCompatActivity
 
     public void onAccountChoose(SingleSignOnAccount account) {
         getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
-
-        try {
-            this.syncManager.createAccount(account.name);
-        } catch(SQLiteConstraintException e) {
-            DeckLog.logError(e);
-        }
+        final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(account.name);
+        accountLiveData.observe(this, (Account ac) -> {
+            if(accountLiveData.hasError()) {
+                try {
+                    accountLiveData.throwError();
+                } catch (SQLiteConstraintException ex) {
+                    //dostuff
+                }
+            }
+        });
 
         // TODO Fetch data directly after login
         // TODO combine with onCreate

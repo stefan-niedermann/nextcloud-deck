@@ -19,10 +19,11 @@ public class LiveDataHelper {
         T getData();
 
         default void postResult(WrappedLiveData<T> liveData){
+            liveData.setError(null);
             T data = null;
             try {
                 data = getData();
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 liveData.setError(e);
             }
             liveData.postValue(data);

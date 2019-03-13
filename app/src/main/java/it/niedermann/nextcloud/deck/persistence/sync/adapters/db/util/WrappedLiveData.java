@@ -3,9 +3,9 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util;
 import androidx.lifecycle.MutableLiveData;
 
 public class WrappedLiveData <T> extends MutableLiveData <T> {
-    private Exception error = null;
+    private RuntimeException error = null;
 
-    public void throwError() throws Exception{
+    public void throwError() throws RuntimeException{
         if (hasError()) {
             throw error;
         }
@@ -15,7 +15,7 @@ public class WrappedLiveData <T> extends MutableLiveData <T> {
         return error!=null;
     }
 
-    public void setError(Exception e) {
+    public void setError(RuntimeException e) {
         this.error = e;
     }
 }
