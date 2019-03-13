@@ -11,11 +11,11 @@ public class WrappedLiveData <T> extends MutableLiveData <T> {
         }
     }
 
-    private boolean hasError() {
+    public boolean hasError() {
         return error!=null;
     }
 
-    void setError(Exception e) {
+    public void setError(Exception e) {
         this.error = e;
     }
 }
