@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
@@ -25,8 +25,12 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:drawablePadding">24dp</item>
-        <item name="android:color">@color/primary</item>
+        <item name="android:drawableTint" tools:targetApi="m">@color/primary</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="TextAppearanceEllipsiize">
+        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>
