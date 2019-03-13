@@ -40,7 +40,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.ThemeUtil;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     private static final String TAG = CardAdapter.class.getCanonicalName();
@@ -110,7 +110,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                             this.context,
                             card.getCard().getDueDate().getTime())
             );
-            ThemeUtil.themeDueDate(this.context, viewHolder.cardDueDate, card.getCard().getDueDate());
+            ViewUtil.themeDueDate(this.context, viewHolder.cardDueDate, card.getCard().getDueDate());
             viewHolder.cardDueDate.setVisibility(View.VISIBLE);
         } else {
             viewHolder.cardDueDate.setVisibility(View.GONE);

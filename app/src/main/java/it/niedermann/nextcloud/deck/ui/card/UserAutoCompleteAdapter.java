@@ -26,11 +26,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     private Context context;
@@ -64,30 +67,32 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO implement proper butterknife implementation
-        if (convertView == null) {
+        ViewHolder holder;
+        if (convertView != null) {
+            holder = (ViewHolder) convertView.getTag();
+        } else {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.user_dropdown_item_singleline, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         }
 
-        // TODO duplicated from CardDetailsFragment, to be centralized
         try {
             SingleSignOnAccount account =  SingleAccountHelper.getCurrentSingleSignOnAccount(context);
-            String baseUrl = account.url;
-            int px = DimensionUtil.getAvatarDimension(context);
-            String uri = baseUrl + "/index.php/avatar/" + Uri.encode(getItem(position).getUid()) + "/" + px;
-            ImageView avatar = (ImageView) convertView.findViewById(R.id.user_avatar);
-            Glide.with(context)
-                    .load(uri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatar);
+            ViewUtil.addAvatar(
+                    context,
+                    holder.avatar,
+                    account.url,
+                    getItem(position).getUid()
+            );
         } catch (NextcloudFilesAppAccountNotFoundException e) {
             DeckLog.logError(e);
         } catch (NoCurrentAccountSelectedException e) {
             DeckLog.logError(e);
         }
 
-        ((TextView) convertView.findViewById(R.id.user_displayname)).setText(getItem(position).getDisplayname());
+        holder.displayname.setText(getItem(position).getDisplayname());
         return convertView;
     }
 
@@ -132,4 +137,14 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                 }
             }};
     }
+
+    static class ViewHolder {
+        @BindView(R.id.user_avatar) ImageView avatar;
+        @BindView(R.id.user_displayname) TextView displayname;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
+
 }

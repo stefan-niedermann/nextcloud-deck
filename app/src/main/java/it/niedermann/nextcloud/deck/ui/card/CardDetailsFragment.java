@@ -52,6 +52,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -287,13 +288,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private void addAvatar(String baseUrl, User user) {
         ImageView avatar = new ImageView(getActivity());
         avatar.setLayoutParams(avatarLayoutParams);
-        String uri = baseUrl + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + avatarSize;
         peopleList.addView(avatar);
         avatar.requestLayout();
-        Glide.with(getContext())
-                .load(uri)
-                .apply(RequestOptions.circleCropTransform())
-                .into(avatar);
+        ViewUtil.addAvatar(getContext(), avatar, baseUrl, user.getUid(), avatarSize);
     }
 
     @Override

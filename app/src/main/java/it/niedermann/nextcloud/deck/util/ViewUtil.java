@@ -1,16 +1,35 @@
 package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
+import android.net.Uri;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Date;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
 import it.niedermann.nextcloud.deck.R;
 
-public final class ThemeUtil {
-    private ThemeUtil() {}
+public final class ViewUtil {
+    private ViewUtil() {}
+
+    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId) {
+        addAvatar(context, avatar, baseUrl, userId, DimensionUtil.getAvatarDimension(context));
+    }
+
+    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int avatarSize) {
+        String uri = baseUrl + "/index.php/avatar/" + Uri.encode(userId) + "/" + avatarSize;
+        Glide.with(context)
+                .load(uri)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatar);
+    }
 
     public static void themeDueDate(Context context, TextView cardDueDate, Date dueDate) {
         long diff = DateUtil.getDayDifference(new Date(), dueDate);
