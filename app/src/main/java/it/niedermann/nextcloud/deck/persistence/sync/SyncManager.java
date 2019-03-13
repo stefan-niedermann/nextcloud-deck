@@ -271,6 +271,13 @@ public class SyncManager {
         dataBaseAdapter.createJoinBoardWithLabel(localBoardId, localLabelId);
     }
 
+    public void assignUserToCard(long localUserId, long localCardId) {
+        //TODO: Tell the server
+        doAsync(() -> {
+            dataBaseAdapter.createJoinCardWithUser(localUserId, localCardId);
+        });
+    }
+
     public void assignLabelToCard(long localLabelId, long localCardId) {
         //TODO: Tell the server
         dataBaseAdapter.createJoinCardWithLabel(localLabelId, localCardId);

@@ -262,7 +262,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         people.setAdapter(new UserAutoCompleteAdapter(this, getContext(), accountId));
         people.setOnItemClickListener((adapterView, view, position, id) -> {
             User user = (User) adapterView.getItemAtPosition(position);
-            // TODO: store chosen user
+
+            syncManager.assignUserToCard(user.getLocalId(), card.getLocalId());
+
             if (baseUrl != null) {
                 addAvatar(baseUrl, user);
             }
