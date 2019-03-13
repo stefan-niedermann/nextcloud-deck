@@ -146,4 +146,10 @@ public class ServerAdapter {
         ensureInternetConnection();
 
     }
+    public void assignUserToCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<FullCard> responseCallback){
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().assignUserToCard(boardId, stackId, cardId, userUID), responseCallback);
+    }
+
+
 }

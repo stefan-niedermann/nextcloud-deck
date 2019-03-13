@@ -1,12 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
+import java.util.List;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
-
-import java.util.List;
-
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 
@@ -19,6 +18,8 @@ public interface StackDao extends GenericDao<Stack> {
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and id = :remoteId")
     LiveData<Stack> getStackByRemoteId(final long accountId, final long localBoardId, final long remoteId);
 
+    @Query("SELECT * FROM stack WHERE localId = :localStackId")
+    Stack getStackByLocalIdDirectly(final long localStackId);
 
     @Transaction
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and id = :remoteId")

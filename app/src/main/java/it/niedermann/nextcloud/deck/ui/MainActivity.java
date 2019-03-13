@@ -160,22 +160,15 @@ public class MainActivity extends AppCompatActivity
                         MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                             @Override
                             public void onResponse(Boolean response) {
-
-                                runOnUiThread(() -> {
-                                    boardsLiveData = syncManager.getBoards(this.account.getId());
-                                    boardsLiveDataObserver = (List<Board> boards) -> {
-                                        boardsList = boards;
-                                        buildSidenavMenu();
-                                    };
-                                    boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
-                                });
-                            }
-
-                            @Override
-                            public void onError(Throwable throwable) {
-                                throwable.printStackTrace();
+                                //nothing
                             }
                         });
+                        boardsLiveData = syncManager.getBoards(this.account.getId());
+                        boardsLiveDataObserver = (List<Board> boards) -> {
+                            boardsList = boards;
+                            buildSidenavMenu();
+                        };
+                        boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
                     }
                 });
             } else {

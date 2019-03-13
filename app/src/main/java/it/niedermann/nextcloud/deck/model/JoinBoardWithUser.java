@@ -1,9 +1,10 @@
 package it.niedermann.nextcloud.deck.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
-import androidx.annotation.NonNull;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractJoinEntity;
 
 @Entity(
         primaryKeys = {"userId", "boardId"},
@@ -16,7 +17,7 @@ import androidx.annotation.NonNull;
                         parentColumns = "localId",
                         childColumns = "userId")
         })
-public class JoinBoardWithUser {
+public class JoinBoardWithUser extends AbstractJoinEntity {
     @NonNull
     private Long userId;
     @NonNull

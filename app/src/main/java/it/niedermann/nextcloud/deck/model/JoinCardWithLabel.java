@@ -4,6 +4,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.annotation.NonNull;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractJoinEntity;
 
 @Entity(
         primaryKeys = {"labelId", "cardId"},
@@ -16,7 +17,7 @@ import androidx.annotation.NonNull;
                         parentColumns = "localId",
                         childColumns = "cardId")
         })
-public class JoinCardWithLabel {
+public class JoinCardWithLabel extends AbstractJoinEntity {
     @NonNull
     private Long labelId;
     @NonNull

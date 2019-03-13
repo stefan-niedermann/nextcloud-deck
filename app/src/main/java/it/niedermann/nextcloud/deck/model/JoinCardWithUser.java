@@ -1,12 +1,10 @@
 package it.niedermann.nextcloud.deck.model;
 
-import java.util.Objects;
-
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
-import androidx.annotation.NonNull;
-import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractJoinEntity;
 
 @Entity(
         primaryKeys = {"userId", "cardId"},
@@ -19,13 +17,11 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
                         parentColumns = "localId",
                         childColumns = "cardId")
         })
-public class JoinCardWithUser {
+public class JoinCardWithUser extends AbstractJoinEntity {
     @NonNull
     private Long userId;
     @NonNull
     private Long cardId;
-    @NonNull
-    private int status = DBStatus.UP_TO_DATE.getId();
 
     public Long getUserId() {
         return userId;
@@ -43,26 +39,21 @@ public class JoinCardWithUser {
         this.cardId = cardId;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         JoinCardWithUser that = (JoinCardWithUser) o;
-        return status == that.status &&
-                Objects.equals(userId, that.userId) &&
-                Objects.equals(cardId, that.cardId);
+
+        if (!userId.equals(that.userId)) return false;
+        return cardId.equals(that.cardId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, cardId, status);
+        int result = userId.hashCode();
+        result = 31 * result + cardId.hashCode();
+        return result;
     }
 }

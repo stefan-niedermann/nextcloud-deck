@@ -1,12 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
+import java.util.List;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
-
-import java.util.List;
-
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 
@@ -22,8 +21,8 @@ public interface BoardDao extends GenericDao<Board> {
     @Query("SELECT * FROM board WHERE accountId = :accountId and id = :remoteId")
     Board getBoardByRemoteIdDirectly(long accountId, long remoteId);
 
-    @Query("SELECT * FROM board WHERE accountId = :accountId and localId = :localId")
-    Board getBoardByIdDirectly(long accountId, long localId);
+    @Query("SELECT * FROM board WHERE localId = :localId")
+    Board getBoardByIdDirectly(long localId);
 
     @Transaction
     @Query("SELECT * FROM board WHERE accountId = :accountId and id = :remoteId")

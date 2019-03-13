@@ -14,6 +14,8 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -77,17 +79,18 @@ public interface DeckAPI {
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/removeLabel")
     Observable unassignLabelFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer labelId);
 
+    @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignUser")
-    Observable assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer userId);
+    Observable<FullCard> assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId") String userId);
 
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/unassignUser")
-    Observable unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer userId);
+    Observable unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body String userId);
 
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/reorder")
     Observable moveCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer order, @Body Integer newStackId);
 
     @DELETE("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
-    Observable<Card> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
+    Observable<FullCard> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
     @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Observable<FullCard> getCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);

@@ -63,6 +63,11 @@ public class DataBaseAdapter {
         return LiveDataHelper.onlyIfChanged(db.getStackDao().getStackByRemoteId(accountId, localBoardId, remoteId));
     }
 
+    public Stack getStackByLocalIdDirectly(final long localStackId) {
+        return db.getStackDao().getStackByLocalIdDirectly(localStackId);
+    }
+
+
     public FullStack getFullStackByRemoteIdDirectly(long accountId, long localBoardId, long remoteId) {
         return db.getStackDao().getFullStackByRemoteIdDirectly(accountId, localBoardId, remoteId);
     }
@@ -204,7 +209,7 @@ public class DataBaseAdapter {
     }
 
     public Account readAccountDirectly(long id) {
-        return db.getAccountDao().selectByIdDirectly(id);
+        return db.getAccountDao().getAccountByIdDirectly(id);
     }
 
     public LiveData<List<Account>> readAccounts() {
@@ -219,7 +224,7 @@ public class DataBaseAdapter {
         return LiveDataHelper.wrapInLiveData(() -> {
             board.setAccountId(accountId);
             long id = db.getBoardDao().insert(board);
-            return db.getBoardDao().getBoardByIdDirectly(accountId, id);
+            return db.getBoardDao().getBoardByIdDirectly(id);
 
         });
     }
@@ -298,6 +303,9 @@ public class DataBaseAdapter {
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
         return db.getBoardDao().getFullBoardById(accountId, localId);
     }
+    public Board getBoardByLocalIdDirectly(long localId) {
+        return db.getBoardDao().getBoardByIdDirectly(localId);
+    }
 
     public LiveData<User> getUserByLocalId(long accountId, long localId){
         return db.getUserDao().getUserByLocalId(accountId, localId);
@@ -340,5 +348,17 @@ public class DataBaseAdapter {
         if (searchTerm == null || searchTerm.trim().length()<1) {
             throw new IllegalArgumentException("please provide a proper search term! \""+searchTerm+"\" doesn't seem right...");
         }
+    }
+
+    public Account getAccountByIdDirectly(long accountId) {
+        return db.getAccountDao().getAccountByIdDirectly(accountId);
+    }
+
+    public User getUserByLocalIdDirectly(long localUserId) {
+        return db.getUserDao().getUserByLocalIdDirectly(localUserId);
+    }
+
+    public void setStatusForJoinCardWithUser(long localCardId, long localUserId, int status) {
+        db.getJoinCardWithUserDao().setDbStatus(localCardId, localUserId, status);
     }
 }
