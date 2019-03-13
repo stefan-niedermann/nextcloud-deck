@@ -15,6 +15,8 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 ## :eyes: Screenshots
 
+| List View | Card View |
+| --- | --- |
 | ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) |
 
 ## :rocket: Features
