@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -274,7 +275,7 @@ public class SyncManager {
     public void assignUserToCard(long localUserId, long localCardId) {
         //TODO: Tell the server
         doAsync(() -> {
-            dataBaseAdapter.createJoinCardWithUser(localUserId, localCardId);
+            dataBaseAdapter.createJoinCardWithUser(localUserId, localCardId, DBStatus.LOCAL_EDITED);
         });
     }
 

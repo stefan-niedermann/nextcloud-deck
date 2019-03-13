@@ -145,9 +145,14 @@ public class DataBaseAdapter {
     }
 
     public void createJoinCardWithUser(long localUserId, long localCardId) {
+        createJoinCardWithUser(localUserId, localCardId, DBStatus.UP_TO_DATE);
+    }
+
+    public void createJoinCardWithUser(long localUserId, long localCardId, DBStatus status) {
         JoinCardWithUser join = new JoinCardWithUser();
         join.setCardId(localCardId);
         join.setUserId(localUserId);
+        join.setStatus(status.getId());
         db.getJoinCardWithUserDao().insert(join);
     }
 

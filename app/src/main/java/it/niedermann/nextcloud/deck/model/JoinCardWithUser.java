@@ -1,9 +1,12 @@
 package it.niedermann.nextcloud.deck.model;
 
+import java.util.Objects;
+
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.annotation.NonNull;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 
 @Entity(
         primaryKeys = {"userId", "cardId"},
@@ -21,6 +24,8 @@ public class JoinCardWithUser {
     private Long userId;
     @NonNull
     private Long cardId;
+    @NonNull
+    private int status = DBStatus.UP_TO_DATE.getId();
 
     public Long getUserId() {
         return userId;
@@ -38,21 +43,26 @@ public class JoinCardWithUser {
         this.cardId = cardId;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         JoinCardWithUser that = (JoinCardWithUser) o;
-
-        if (!userId.equals(that.userId)) return false;
-        return cardId.equals(that.cardId);
+        return status == that.status &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(cardId, that.cardId);
     }
 
     @Override
     public int hashCode() {
-        int result = userId.hashCode();
-        result = 31 * result + cardId.hashCode();
-        return result;
+        return Objects.hash(userId, cardId, status);
     }
 }
