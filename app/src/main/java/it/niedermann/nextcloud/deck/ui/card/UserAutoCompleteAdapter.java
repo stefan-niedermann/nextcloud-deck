@@ -28,9 +28,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.util.DimensionUtil;
 
 public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     private Context context;
@@ -74,7 +74,7 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
         try {
             SingleSignOnAccount account =  SingleAccountHelper.getCurrentSingleSignOnAccount(context);
             String baseUrl = account.url;
-            int px = SupportUtil.getAvatarDimension(context);
+            int px = DimensionUtil.getAvatarDimension(context);
             String uri = baseUrl + "/index.php/avatar/" + Uri.encode(getItem(position).getUid()) + "/" + px;
             ImageView avatar = (ImageView) convertView.findViewById(R.id.user_avatar);
             Glide.with(context)

@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.SupportUtil;
+import it.niedermann.nextcloud.deck.util.LinkUtil;
 
 public class AboutFragmentLicenseTab extends Fragment {
 
@@ -32,7 +32,7 @@ public class AboutFragmentLicenseTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about_license_tab, container, false);
         ButterKnife.bind(this, v);
-        SupportUtil.setHtml(iconsDisclaimer, R.string.about_icons_disclaimer, getString(R.string.about_app_icon_author));
+        LinkUtil.setHtml(iconsDisclaimer, R.string.about_icons_disclaimer, getString(R.string.about_app_icon_author));
         return v;
     }
 }

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.SupportUtil;
+import it.niedermann.nextcloud.deck.util.LinkUtil;
 
 public class AboutFragmentContributingTab extends Fragment {
 
@@ -25,9 +25,9 @@ public class AboutFragmentContributingTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about_contribution_tab, container, false);
         ButterKnife.bind(this, v);
-        SupportUtil.setHtml(aboutSource, R.string.about_source, getString(R.string.url_source));
-        SupportUtil.setHtml(aboutIssues, R.string.about_issues, getString(R.string.url_issues));
-        SupportUtil.setHtml(aboutTranslate, R.string.about_translate, getString(R.string.url_translations));
+        LinkUtil.setHtml(aboutSource, R.string.about_source, getString(R.string.url_source));
+        LinkUtil.setHtml(aboutIssues, R.string.about_issues, getString(R.string.url_issues));
+        LinkUtil.setHtml(aboutTranslate, R.string.about_translate, getString(R.string.url_translations));
         return v;
     }
 }

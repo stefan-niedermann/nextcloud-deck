@@ -14,12 +14,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.viewmodel.FullCardViewModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
+import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -78,10 +78,10 @@ public class EditActivity extends AppCompatActivity {
                         timestamps.setText(
                                 getString(
                                         R.string.modified_created_time,
-                                        SupportUtil.getRelativeDateTimeString(
+                                        DateUtil.getRelativeDateTimeString(
                                                 this,
                                                 card.getCard().getLastModified().getTime()),
-                                        SupportUtil.getRelativeDateTimeString(
+                                        DateUtil.getRelativeDateTimeString(
                                                 this,
                                                 card.getCard().getCreatedAt().getTime())
                                 )

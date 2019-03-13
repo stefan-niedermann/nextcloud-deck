@@ -43,10 +43,9 @@ import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import it.niedermann.nextcloud.deck.ColorUtil;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.SupportUtil;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
@@ -54,6 +53,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.viewmodel.FullCardViewModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
+import it.niedermann.nextcloud.deck.util.DimensionUtil;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -127,9 +127,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             setupView(accountId, localId);
         }
 
-        avatarSize = SupportUtil.getAvatarDimension(getContext());
+        avatarSize = DimensionUtil.getAvatarDimension(getContext());
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
-        avatarLayoutParams.setMargins(0, 0, SupportUtil.dpToPx(getContext(), 8), 0);
+        avatarLayoutParams.setMargins(0, 0, DimensionUtil.dpToPx(getContext(), 8), 0);
 
         // TODO FIX: NullPointerException!
         // syncManager.getServerUrl()

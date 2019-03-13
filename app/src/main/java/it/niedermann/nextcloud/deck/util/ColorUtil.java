@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck;
+package it.niedermann.nextcloud.deck.util;
 
 import android.graphics.Color;
 import androidx.annotation.ColorInt;
