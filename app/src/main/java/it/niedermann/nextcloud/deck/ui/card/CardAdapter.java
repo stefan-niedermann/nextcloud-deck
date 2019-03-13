@@ -13,10 +13,14 @@ import com.google.android.material.chip.ChipGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +135,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         } else {
             viewHolder.labels.setVisibility(View.GONE);
         }
+
+        viewHolder.cardMenu.setOnClickListener(v -> {
+            onOverflowIconClicked(v, card);
+        });
     }
 
     @Override
@@ -146,6 +154,43 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public void moveItem(int fromPosition, int toPosition) {
         cardList.add(toPosition, cardList.remove(fromPosition));
         notifyItemMoved(fromPosition, toPosition);
+    }
+
+    private void onOverflowIconClicked(View view, FullCard card) {
+        PopupMenu popup = new PopupMenu(context, view);
+        popup.inflate(R.menu.card_list_menu);
+        prepareOptionsMenu(popup.getMenu(), card);
+
+        popup.setOnMenuItemClickListener(item -> optionsItemSelected(item, card));
+        popup.show();
+    }
+
+    private void prepareOptionsMenu(Menu menu, FullCard card) {
+        // TODO filter menu item assign/unassign depending on active user
+        if (card.getAssignedUsers().contains(0)) {
+            menu.removeItem(menu.findItem(R.id.action_card_assign).getItemId());
+        } else {
+            menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
+        }
+    }
+
+    private boolean optionsItemSelected(MenuItem item, FullCard card) {
+        Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.action_card_assign: {
+                return true;
+            }
+            case R.id.action_card_unassign: {
+                return true;
+            }
+            case R.id.action_card_archive: {
+                return true;
+            }
+            case R.id.action_card_delete: {
+                return true;
+            }
+        }
+        return true;
     }
 
     static class CardViewHolder extends RecyclerView.ViewHolder {
