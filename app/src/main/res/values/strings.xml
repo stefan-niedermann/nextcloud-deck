@@ -1,16 +1,16 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
-    <string name="app_name_short">Deck</string>
+    <string name="app_name" translatable="false">Nextcloud Deck</string>
+    <string name="app_name_short" translatable="false">Deck</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
+    <string name="nav_header_title" translatable="false">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Client for Nextcloud Deck app</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
-    <string name="shared_preference_last_sync">it.niedermann.nextcloud.deck.last_sync</string>
+    <string name="shared_preference_last_sync" translatable="false">it.niedermann.nextcloud.deck.last_sync</string>
 
     <!-- About -->
     <string name="about">About</string>
@@ -19,7 +19,7 @@
     <string name="about_maintainer_title">Maintainer</string>
     <string name="about_maintainer" translatable="false">&lt;a href="https://www.niedermann.it/">Niedermann IT-Dienstleistungen&lt;/a></string>
     <string name="about_developers_title">Developers</string>
-    <string name="about_developers" translatable="false">Stefan Niedermann, Artur Dawtjan</string>
+    <string name="about_developers" translatable="false">Stefan Niedermann, Artur Dawtjan, Andy Scherzinger</string>
     <string name="about_translators_title">Translators</string>
     <string name="about_translators_transifex">Nextcloud community on &lt;a href="%1$s">Transifex&lt;/a></string>
     <string name="about_testers_title">Testers</string>
