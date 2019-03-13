@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shared_preference_last_sync" translatable="false">it.niedermann.nextcloud.deck.last_sync</string>
+</resources>

@@ -9,7 +9,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Lavagne</string>
-    <string name="shared_preference_last_sync">it.niedermann.nextcloud.deck.last_sync</string>
 
     <!-- About -->
     <string name="about">Informazioni</string>
