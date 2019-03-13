@@ -68,4 +68,8 @@
     <string name="accounts">Accounts</string>
 
     <string name="label_menu">menu</string>
+    <string name="action_card_assign">Assign card to me</string>
+    <string name="action_card_unassign">Unassign card from me</string>
+    <string name="action_card_archive">Archive card</string>
+    <string name="action_card_delete">Delete card</string>
 </resources>
