@@ -1,18 +1,19 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
+import android.app.Activity;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -79,10 +80,16 @@ public class StackFragment extends Fragment {
                     @Override
                     public void onResponse(Boolean response) {
                         refreshView();
+                        runOnUiThread(() -> {
+                            swipeRefreshLayout.setRefreshing(false);
+                        });
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
+                        runOnUiThread(() -> {
+                            swipeRefreshLayout.setRefreshing(false);
+                        });
                         DeckLog.log("exception! " + throwable.getMessage());
                     }
                 });
@@ -94,7 +101,7 @@ public class StackFragment extends Fragment {
     }
 
     private void refreshView() {
-        getActivity().runOnUiThread(() ->
+        runOnUiThread(() ->
                 syncManager.getStack(account.getId(), stackId).observe(StackFragment.this, (FullStack stack) -> {
                     if (stack != null) {
                         syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(StackFragment.this, (List<FullCard> cards) -> {
@@ -107,12 +114,20 @@ public class StackFragment extends Fragment {
         );
     }
 
-
     private void initRecyclerView() {
         adapter = new CardAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ItemTouchHelper touchHelper = new CardItemTouchHelper(adapter);
         touchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private void runOnUiThread(Runnable r) {
+        Activity a = getActivity();
+        if (a != null) {
+            a.runOnUiThread(r);
+        } else {
+            DeckLog.logError(new Exception("Activity is null"));
+        }
     }
 }

@@ -39,19 +39,19 @@ public class BottomSheetCreateFragment extends BottomSheetDialogFragment {
     @OnClick(R.id.create_card)
     void onCreateCardClicked() {
         this.dismiss();
-        Snackbar.make(this.getActivity().findViewById(R.id.drawer_layout), "Creating cards is not yet supported.", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(this.getActivity().findViewById(R.id.coordinatorLayout), "Creating cards is not yet supported.", Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.create_stack)
     void onCreateStackClicked() {
         this.dismiss();
-        Snackbar.make(this.getActivity().findViewById(R.id.drawer_layout), "Creating stacks is not yet supported.", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(this.getActivity().findViewById(R.id.coordinatorLayout), "Creating stacks is not yet supported.", Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.create_board)
     void onCreateBoardClicked() {
         this.dismiss();
-        Snackbar.make(this.getActivity().findViewById(R.id.drawer_layout), "Creating boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(this.getActivity().findViewById(R.id.coordinatorLayout), "Creating boards is not yet supported.", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
