@@ -28,6 +28,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity
     private StackAdapter stackAdapter;
     private LoginDialogFragment loginDialogFragment;
     private SyncManager syncManager;
+    private LiveData<List<Board>> boardsLiveData;
+    private Observer<List<Board>> boardsLiveDataObserver;
     private List<Board> boardsList;
     private List<Account> accountsList = new ArrayList<>();
     private Account account;
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity
             if (accountChooserActive) {
                 buildSidenavAccountChooser();
             } else {
-                syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
+                buildSidenavMenu();
             }
         });
 
@@ -152,7 +156,12 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onResponse(Boolean response) {
                                 runOnUiThread(() -> {
-                                    syncManager.getBoards(this.account.getId()).observe(MainActivity.this, MainActivity.this::buildSidenavMenu);
+                                    boardsLiveData = syncManager.getBoards(this.account.getId());
+                                    boardsLiveDataObserver = (List<Board> boards) -> {
+                                        boardsList = boards;
+                                        buildSidenavMenu();
+                                    };
+                                    boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
                                 });
                             }
 
@@ -179,7 +188,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
         final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(account.name);
         accountLiveData.observe(this, (Account ac) -> {
-            if(accountLiveData.hasError()) {
+            if (accountLiveData.hasError()) {
                 try {
                     accountLiveData.throwError();
                 } catch (SQLiteConstraintException ex) {
@@ -190,18 +199,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // TODO Fetch data directly after login
-        // TODO combine with onCreate
-
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
     }
 
-    private void buildSidenavMenu(List<Board> boards) {
+    private void buildSidenavMenu() {
         navigationView.setItemIconTintList(null);
         Menu menu = navigationView.getMenu();
         menu.clear();
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
-        boardsList = boards;
         int index = 0;
         for (Board board : boardsList) {
             Drawable drawable = getResources().getDrawable(R.drawable.ic_view_column_black_24dp);
@@ -233,22 +238,24 @@ public class MainActivity extends AppCompatActivity
      * @param index of boardsList
      */
     private void displayStacksForIndex(int index, Account account) {
-        Board selectedBoard = boardsList.get(index);
-        if (toolbar != null) {
-            toolbar.setTitle(selectedBoard.getTitle());
-        }
-        syncManager.getStacksForBoard(account.getId(), selectedBoard.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
-            if (fullStacks != null) {
-                stackAdapter.clear();
-                for (FullStack stack : fullStacks) {
-                    stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
-                }
-                runOnUiThread(() -> {
-                    viewPager.setAdapter(stackAdapter);
-                    stackLayout.setupWithViewPager(viewPager);
-                });
+        if (boardsList.size() > index) {
+            Board selectedBoard = boardsList.get(index);
+            if (toolbar != null) {
+                toolbar.setTitle(selectedBoard.getTitle());
             }
-        });
+            syncManager.getStacksForBoard(account.getId(), selectedBoard.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
+                if (fullStacks != null) {
+                    stackAdapter.clear();
+                    for (FullStack stack : fullStacks) {
+                        stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
+                    }
+                    runOnUiThread(() -> {
+                        viewPager.setAdapter(stackAdapter);
+                        stackLayout.setupWithViewPager(viewPager);
+                    });
+                }
+            });
+        }
     }
 
     @Override
@@ -278,7 +285,18 @@ public class MainActivity extends AppCompatActivity
                     loginDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
                     break;
                 default:
-                    displayStacksForIndex(0, account);
+                    boardsLiveData.removeObserver(boardsLiveDataObserver);
+                    this.account = accountsList.get(item.getItemId());
+                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+
+                    boardsLiveData = syncManager.getBoards(this.account.getId());
+                    boardsLiveDataObserver = (List<Board> boards) -> {
+                        boardsList = boards;
+                        accountChooserActive = false;
+                        buildSidenavMenu();
+                    };
+                    boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
+                    displayStacksForIndex(0, this.account);
             }
         } else {
             switch (item.getItemId()) {
