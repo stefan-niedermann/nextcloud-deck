@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity
                         MainActivity.this.syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                             @Override
                             public void onResponse(Boolean response) {
+
                                 runOnUiThread(() -> {
                                     boardsLiveData = syncManager.getBoards(this.account.getId());
                                     boardsLiveDataObserver = (List<Board> boards) -> {
