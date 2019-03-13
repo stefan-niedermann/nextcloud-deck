@@ -225,8 +225,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 final Chip chip = createChipFromLabel(label);
                 chip.setOnCloseIconClickListener(v -> {
                     labelsGroup.removeView(chip);
-                    card.getLabels().remove(label);
-                    syncManager.updateCard(card.getCard());
+                    syncManager.unassignLabelToCard(label, card.getCard());
                 });
                 labelsGroup.addView(chip);
             }

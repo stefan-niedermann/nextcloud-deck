@@ -9,6 +9,9 @@ public interface JoinCardWithUserDao extends GenericDao<JoinCardWithUser> {
     @Query("DELETE FROM joincardwithuser WHERE cardId = :localId and status=1") // 1 = up_to_date
     void deleteByCardId(long localId);
 
+    @Query("DELETE FROM joincardwithuser WHERE cardId = :localId and userId = :userId")
+    void deleteByCardIdAndUserId(long localId, long userId);
+
     @Query("Update joincardwithuser set status = :status WHERE cardId = :localCardId and userId = :localUserId")
     void setDbStatus(long localCardId, long localUserId, int status);
 }
