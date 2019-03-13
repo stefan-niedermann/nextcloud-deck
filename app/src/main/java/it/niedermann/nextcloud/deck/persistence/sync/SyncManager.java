@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+
 import java.util.Date;
 import java.util.List;
 
@@ -317,7 +320,7 @@ public class SyncManager {
         return dataBaseAdapter.searchLabelByTitle(accountId, searchTerm);
     }
 
-    public String getServerUrl() {
+    public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
         return serverAdapter.getServerUrl();
     }
 
@@ -325,7 +328,7 @@ public class SyncManager {
         return serverAdapter.getApiPath();
     }
 
-    public String getApiUrl() {
+    public String getApiUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
         return serverAdapter.getApiUrl();
     }
 }

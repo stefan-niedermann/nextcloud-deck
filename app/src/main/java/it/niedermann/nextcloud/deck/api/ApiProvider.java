@@ -3,10 +3,13 @@ package it.niedermann.nextcloud.deck.api;
 import android.content.Context;
 
 import com.nextcloud.android.sso.api.NextcloudAPI;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.exceptions.SSOException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import retrofit2.NextcloudRetrofitApiBuilder;
 
 /**
@@ -28,20 +31,28 @@ public class ApiProvider {
 
     void initSsoApi(final NextcloudAPI.ApiConnectedListener callback) {
         try {
-            ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+            setAccount();
             NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.GetGson(), callback);
             //mApi = new DeckAPI_SSO(nextcloudAPI);
             mApi = new NextcloudRetrofitApiBuilder(nextcloudAPI, API_ENDPOINT).create(DeckAPI.class);
         } catch (SSOException e) {
+            DeckLog.logError(e);
             callback.onError(e);
         }
+    }
+
+    private void setAccount() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
+        ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
     }
 
     public DeckAPI getAPI() {
         return mApi;
     }
 
-    public String getServerUrl(){
+    public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
+        if (ssoAccount==null){
+            setAccount();
+        }
         return ssoAccount.url;
     }
 
@@ -49,7 +60,7 @@ public class ApiProvider {
         return API_ENDPOINT;
     }
 
-    public String getApiUrl(){
+    public String getApiUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
         return getServerUrl()+getApiPath();
     }
 }
