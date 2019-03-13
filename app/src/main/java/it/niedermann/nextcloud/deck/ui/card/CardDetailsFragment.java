@@ -222,11 +222,14 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     private void setupLabels() {
         labelsGroup.removeAllViews();
-        if (this.card.getLabels() != null && this.card.getLabels().size() > 0) {
-            Chip chip;
-            for (Label label : this.card.getLabels()) {
-                chip = createChipFromLabel(label);
-
+        if (card.getLabels() != null && card.getLabels().size() > 0) {
+            for (Label label : card.getLabels()) {
+                final Chip chip = createChipFromLabel(label);
+                chip.setOnCloseIconClickListener(v -> {
+                    labelsGroup.removeView(chip);
+                    card.getLabels().remove(label);
+                    syncManager.updateCard(card.getCard());
+                });
                 labelsGroup.addView(chip);
             }
             labelsGroup.setVisibility(View.VISIBLE);
