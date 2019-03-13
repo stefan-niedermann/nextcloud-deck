@@ -68,9 +68,11 @@ public class MainActivity extends AppCompatActivity
     private StackAdapter stackAdapter;
     private LoginDialogFragment loginDialogFragment;
     private SyncManager syncManager;
+
+    private List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
-    private List<Board> boardsList;
+
     private List<Account> accountsList = new ArrayList<>();
     private Account account;
     private boolean accountChooserActive = false;
