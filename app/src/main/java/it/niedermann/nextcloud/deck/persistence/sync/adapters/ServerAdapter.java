@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,7 +42,7 @@ public class ServerAdapter {
                 applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
     }
 
-    public String getServerUrl() {
+    public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
         return provider.getServerUrl();
     }
 
@@ -47,7 +50,7 @@ public class ServerAdapter {
         return provider.getApiPath();
     }
 
-    public String getApiUrl() {
+    public String getApiUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
         return provider.getApiUrl();
     }
 

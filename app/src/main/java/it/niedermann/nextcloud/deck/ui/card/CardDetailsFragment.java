@@ -24,8 +24,6 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
-import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,7 +41,6 @@ import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
@@ -53,6 +50,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.viewmodel.FullCardViewModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -131,12 +129,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, DimensionUtil.dpToPx(getContext(), 8), 0);
 
-        // TODO FIX: NullPointerException!
-        // syncManager.getServerUrl()
-        SingleSignOnAccount account = null;
         try {
-            account = SingleAccountHelper.getCurrentSingleSignOnAccount(getContext());
-            baseUrl = account.url;
+            baseUrl = syncManager.getServerUrl();
         } catch (NextcloudFilesAppAccountNotFoundException e) {
             DeckLog.logError(e);
         } catch (NoCurrentAccountSelectedException e) {
