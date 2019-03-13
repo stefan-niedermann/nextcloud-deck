@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
 public class DataBaseAdapter {
 
@@ -175,7 +176,7 @@ public class DataBaseAdapter {
         db.getLabelDao().update(label);
     }
 
-    public LiveData<Account> createAccount(String accoutName) {
+    public WrappedLiveData<Account> createAccount(String accoutName) {
         return LiveDataHelper.wrapInLiveData(() -> {
             Account acc = new Account();
             acc.setName(accoutName);
@@ -209,7 +210,7 @@ public class DataBaseAdapter {
         return LiveDataHelper.onlyIfChanged(db.getBoardDao().getBoardsForAccount(accountId));
     }
 
-    public LiveData<Board> createBoard(long accountId, Board board) {
+    public WrappedLiveData<Board> createBoard(long accountId, Board board) {
         return LiveDataHelper.wrapInLiveData(() -> {
             board.setAccountId(accountId);
             long id = db.getBoardDao().insert(board);

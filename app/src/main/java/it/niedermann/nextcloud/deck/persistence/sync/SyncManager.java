@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
@@ -129,7 +130,7 @@ public class SyncManager {
         return dataBaseAdapter.hasAccounts();
     }
 
-    public LiveData<Account> createAccount(String accoutName) {
+    public WrappedLiveData<Account> createAccount(String accoutName) {
         return dataBaseAdapter.createAccount(accoutName);
     }
 

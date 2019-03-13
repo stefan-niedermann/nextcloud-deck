@@ -1,10 +1,9 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.annotation.Nullable;
 
 public class LiveDataHelper {
 
@@ -19,8 +18,14 @@ public class LiveDataHelper {
     public interface LiveDataWrapper<T>{
         T getData();
 
-        default void postResult(MutableLiveData<T> liveData){
-            liveData.postValue(getData());
+        default void postResult(WrappedLiveData<T> liveData){
+            T data = null;
+            try {
+                data = getData();
+            } catch (Exception e) {
+                liveData.setError(e);
+            }
+            liveData.postValue(data);
         }
     }
 
@@ -68,8 +73,8 @@ public class LiveDataHelper {
         return ret;
     }
 
-    public static <T> LiveData<T> wrapInLiveData(final LiveDataWrapper<T> liveDataWrapper) {
-        final MutableLiveData<T> liveData = new MutableLiveData();
+    public static <T> WrappedLiveData<T> wrapInLiveData(final LiveDataWrapper<T> liveDataWrapper) {
+        final WrappedLiveData<T> liveData = new WrappedLiveData<>();
 
         doAsync(() -> liveDataWrapper.postResult(liveData));
 
