@@ -25,6 +25,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity
     private static final int MENU_ID_ADD_ACCOUNT = -2;
     private static final int ACTIVITY_ABOUT = 1;
 
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fab)
@@ -195,10 +198,10 @@ public class MainActivity extends AppCompatActivity
                 try {
                     accountLiveData.throwError();
                 } catch (SQLiteConstraintException ex) {
-                    Snackbar.make(drawer, "Account bereits hinzugefügt", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(coordinatorLayout, "Account bereits hinzugefügt", Snackbar.LENGTH_SHORT).show();
                 }
             } else {
-                Snackbar.make(drawer, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(coordinatorLayout, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
             }
         });
 
