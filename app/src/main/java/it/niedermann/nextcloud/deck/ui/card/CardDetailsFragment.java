@@ -129,9 +129,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
         try {
             baseUrl = syncManager.getServerUrl();
-        } catch (NextcloudFilesAppAccountNotFoundException e) {
-            DeckLog.logError(e);
-        } catch (NoCurrentAccountSelectedException e) {
+        } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
             DeckLog.logError(e);
         }
 
@@ -145,13 +143,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.fullCardViewModel.fullCard.observe(CardDetailsFragment.this, (FullCard card) -> {
             this.card = card;
             if (this.card != null) {
-                // people
                 setupPeople(accountId);
-
-                // labels
                 setupLabels();
-
-                // due date
                 setupDueDate();
             }
         });
