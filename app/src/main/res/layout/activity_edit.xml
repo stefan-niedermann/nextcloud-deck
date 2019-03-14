@@ -8,31 +8,20 @@
             type="it.niedermann.nextcloud.deck.model.viewmodel.FullCardViewModel" />
     </data>
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <EditText
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_margin="@dimen/activity_vertical_margin"
             android:text="@{editmodel.fullCard.card.title}"
             android:hint="@string/label_title"
             android:importantForAutofill="no"
             android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/timestamps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
-            android:layout_marginBottom="16dp"
-            tools:text="Modified: 12 days ago Created: 12 days ago" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"

@@ -25,7 +25,7 @@ public interface UserDao extends GenericDao<User> {
     @Query("SELECT * FROM user WHERE accountId = :accountId and uid = :uid")
     User getUserByUidDirectly(final long accountId, final String uid);
 
-    @Query("SELECT * FROM user WHERE localId IN (:assignedUserIDs)")
+    @Query("SELECT * FROM user WHERE localId IN (:assignedUserIDs) and status <> 3") // not LOCAL_DELETED
     List<User> getUsersByIdDirectly(List<Long> assignedUserIDs);
 
     @Query("SELECT * FROM user WHERE localId = :localUserId")

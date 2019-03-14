@@ -8,9 +8,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int MENU_ID_ABOUT = -1;
+    private static final int MENU_ID_ADD_BOARD = -2;
     private static final int MENU_ID_ADD_ACCOUNT = -2;
     private static final int ACTIVITY_ABOUT = 1;
 
@@ -162,6 +165,7 @@ public class MainActivity extends AppCompatActivity
                         if(accounts.size() -1 >= lastAccount) {
                             this.account = accounts.get(0);
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                            setHeaderView()
                             syncManager = new SyncManager(getApplicationContext(), MainActivity.this);
                             ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), this.account.getUrl(), this.account.getUserName());
                             // TODO show spinner
@@ -187,8 +191,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         fab.setOnClickListener((View view) -> {
-            BottomSheetCreateFragment bottomSheetFragment = new BottomSheetCreateFragment();
-            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            Snackbar.make(coordinatorLayout, "Creating cards is not yet supported.", Snackbar.LENGTH_LONG).show();
         });
     }
 
@@ -221,12 +224,13 @@ public class MainActivity extends AppCompatActivity
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
         int index = 0;
         for (Board board : boardsList) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_view_column_black_24dp);
+            Drawable drawable = getResources().getDrawable(R.drawable.circle_grey600_24dp);
             Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
             int color = Color.parseColor("#" + board.getColor());
             DrawableCompat.setTint(wrapped, color);
             boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(wrapped);
         }
+        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_black_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
         if (boardsList.size() > 0) {
             displayStacksForIndex(0, this.account);
@@ -280,11 +284,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.card_list_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        Snackbar.make(coordinatorLayout, "This has not been implemented yet.", Snackbar.LENGTH_LONG).show();
         return super.onOptionsItemSelected(item);
     }
 
@@ -300,7 +308,7 @@ public class MainActivity extends AppCompatActivity
                     boardsLiveData.removeObserver(boardsLiveDataObserver);
                     this.account = accountsList.get(item.getItemId());
                     SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                    ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), account.getUrl(), account.getUserName());
+                    setHeaderView();
 
                     boardsLiveData = syncManager.getBoards(this.account.getId());
                     boardsLiveDataObserver = (List<Board> boards) -> {
@@ -321,11 +329,19 @@ public class MainActivity extends AppCompatActivity
                     Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
                     startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                     break;
+                case MENU_ID_ADD_BOARD:
+                    Snackbar.make(coordinatorLayout, "Creating new boards is not yet supported.", Snackbar.LENGTH_SHORT).show();
+                    break;
                 default:
                     displayStacksForIndex(item.getItemId(), account);
             }
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setHeaderView() {
+        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), account.getUrl(), account.getUserName());
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.userid)).setText(account.getName());
     }
 }

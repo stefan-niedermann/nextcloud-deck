@@ -212,7 +212,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         if (this.card.getCard().getDueDate() != null) {
             dueDate.setText(dateFormat.format(this.card.getCard().getDueDate()));
             dueDateTime.setText(dueTime.format(this.card.getCard().getDueDate()));
+            clearDueDate.setVisibility(View.VISIBLE);
         } else {
+            clearDueDate.setVisibility(View.INVISIBLE);
             dueDate.setText(null);
             dueDateTime.setText(null);
         }
@@ -225,14 +227,13 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 final Chip chip = createChipFromLabel(label);
                 chip.setOnCloseIconClickListener(v -> {
                     labelsGroup.removeView(chip);
-                    card.getLabels().remove(label);
-                    syncManager.updateCard(card.getCard());
+                    syncManager.unassignLabelToCard(label, card.getCard());
                 });
                 labelsGroup.addView(chip);
             }
             labelsGroup.setVisibility(View.VISIBLE);
         } else {
-            labelsGroup.setVisibility(View.GONE);
+            labelsGroup.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -269,7 +270,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             if (baseUrl != null) {
                 addAvatar(baseUrl, user);
             }
-            people.setText(user.getDisplayname());
+            people.setText("");
         });
 
         if (this.card.getAssignedUsers() != null) {
@@ -304,9 +305,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         int minute;
 
         if (dueDateTime.getText() != null && dueDateTime.length() > 0) {
+            clearDueDate.setVisibility(View.VISIBLE);
             hourOfDay = this.card.getCard().getDueDate().getHours();
             minute = this.card.getCard().getDueDate().getMinutes();
         } else {
+            clearDueDate.setVisibility(View.GONE);
             hourOfDay = 0;
             minute = 0;
         }
