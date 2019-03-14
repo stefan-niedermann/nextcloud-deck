@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity
                         accountsList = accounts;
                         account = accounts.get(accounts.size() - 1);
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.getName());
-                        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), account.getUrl(), account.getUserName());
+                        setHeaderView();
 
                         // TODO show spinner
                         syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
@@ -293,7 +294,7 @@ public class MainActivity extends AppCompatActivity
                     boardsLiveData.removeObserver(boardsLiveDataObserver);
                     this.account = accountsList.get(item.getItemId());
                     SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                    ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), account.getUrl(), account.getUserName());
+                    setHeaderView();
 
                     boardsLiveData = syncManager.getBoards(this.account.getId());
                     boardsLiveDataObserver = (List<Board> boards) -> {
@@ -319,5 +320,10 @@ public class MainActivity extends AppCompatActivity
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setHeaderView() {
+        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), account.getUrl(), account.getUserName());
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.userid)).setText(account.getName());
     }
 }
