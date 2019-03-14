@@ -125,7 +125,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         if (card.getLabels()!= null && card.getLabels().size() > 0) {
             for (Label label : card.getLabels()) {
                 chip = new Chip(context);
-                chip.setText(label.getTitle());
+                chip.setText(label.getTitle().substring(0, 1));
 
                 try {
                     int labelColor = Color.parseColor("#" + label.getColor());
