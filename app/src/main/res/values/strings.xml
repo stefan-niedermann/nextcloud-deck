@@ -50,7 +50,7 @@
     <string name="edit">Edit</string>
     <string name="label_title">Title</string>
     <string name="label_labels">Select Tags</string>
-    <string name="label_description">Add a card description…</string>
+    <string name="label_description">Description</string>
     <string name="hint_assign_people">Assign users</string>
     <string name="hint_due_date_date">Due date</string>
     <string name="hint_due_date_time" translatable="false">00:00</string>
