@@ -40,16 +40,6 @@
                 android:orientation="horizontal"
                 android:paddingTop="8dp">
 
-                <ImageView
-                    android:id="@+id/card_description_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:contentDescription="@string/label_card_description"
-                    app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/card_due_date"
                     android:layout_width="wrap_content"
