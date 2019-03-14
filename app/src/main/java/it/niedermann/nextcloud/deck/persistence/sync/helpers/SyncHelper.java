@@ -46,6 +46,9 @@ public class SyncHelper {
                                 DeckLog.log("Conflicting changes on entity: "+existingEntity);
                                 // TODO: what to do?
                             } else {
+                                if (existingEntity.getLastModified().getTime() == entityFromServer.getLastModified().getTime()) {
+                                    continue; // TODO: is this is ok for sure?
+                                }
                                 provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(existingEntity, entityFromServer, accountId));
                             }
                         }

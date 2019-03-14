@@ -155,10 +155,24 @@ public class ServerAdapter {
         ensureInternetConnection();
 
     }
-    public void assignUserToCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<FullCard> responseCallback){
+
+    public void assignUserToCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<Void> responseCallback){
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().assignUserToCard(boardId, stackId, cardId, userUID), responseCallback);
     }
 
+    public void unassignUserFromCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<Void> responseCallback){
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().unassignUserFromCard(boardId, stackId, cardId, userUID), responseCallback);
+    }
 
+    public void assignLabelToCard(long boardId, long stackId, long cardId, long labelId, IResponseCallback<Void> responseCallback){
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().assignLabelToCard(boardId, stackId, cardId, labelId), responseCallback);
+    }
+
+    public void unassignLabelFromCard(long boardId, long stackId, long cardId, long labelId, IResponseCallback<Void> responseCallback){
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().unassignLabelFromCard(boardId, stackId, cardId, labelId), responseCallback);
+    }
 }

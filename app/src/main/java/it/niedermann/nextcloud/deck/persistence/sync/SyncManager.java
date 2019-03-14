@@ -273,45 +273,71 @@ public class SyncManager {
         dataBaseAdapter.createJoinBoardWithLabel(localBoardId, localLabelId);
     }
 
-    public void assignUserToCard(long localUserId, Card card) {
+    public void assignUserToCard(User user, Card card) {
         doAsync(() -> {
-            dataBaseAdapter.createJoinCardWithUser(localUserId, card.getLocalId(), DBStatus.LOCAL_EDITED);
-            //TODO: reactivate, as soon as SSO supports Retrofit @Field annotations
-//            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
-//            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
-//            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-//            User user = dataBaseAdapter.getUserByLocalIdDirectly(localUserId);
-//            serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<FullCard>(account){
-//
-//                @Override
-//                public void onResponse(FullCard response) {
-//                    dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
-//                }
-//            });
+            final long localUserId = user.getLocalId();
+            final long localCardId = card.getLocalId();
+            dataBaseAdapter.createJoinCardWithUser(localUserId, localCardId, DBStatus.LOCAL_EDITED);
+            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<Void>(account){
+
+                @Override
+                public void onResponse(Void response) {
+                    dataBaseAdapter.setStatusForJoinCardWithUser(localCardId, localUserId, DBStatus.UP_TO_DATE.getId());
+                }
+            });
         });
     }
 
-    public void assignLabelToCard(long localLabelId, long localCardId) {
-        //TODO: Tell the server
-        dataBaseAdapter.createJoinCardWithLabel(localLabelId, localCardId);
+    public void assignLabelToCard(Label label, Card card) {
+        doAsync(() -> {
+            final long localLabelId = label.getLocalId();
+            final long localCardId = card.getLocalId();
+            dataBaseAdapter.createJoinCardWithLabel(localLabelId, localCardId, DBStatus.LOCAL_EDITED);
+            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            serverAdapter.assignLabelToCard(board.getId(), stack.getId(), card.getId(), label.getId(), new IResponseCallback<Void>(account){
+
+                @Override
+                public void onResponse(Void response) {
+                    dataBaseAdapter.setStatusForJoinCardWithLabel(localCardId, localLabelId, DBStatus.UP_TO_DATE.getId());
+                }
+            });
+        });
     }
 
-    public void unassignLabelToCard(Label label, Card card) {
+    public void unassignLabelFromCard(Label label, Card card) {
         doAsync(() -> {
             dataBaseAdapter.deleteJoinedLabelForCard(card.getLocalId(), label.getLocalId());
-            //TODO: reactivate, as soon as SSO supports Retrofit @Field annotations
-            //TODO: this is copied! change it to fit the needs
-//            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
-//            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
-//            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-//            User user = dataBaseAdapter.getUserByLocalIdDirectly(localUserId);
-//            serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<FullCard>(account){
-//
-//                @Override
-//                public void onResponse(FullCard response) {
-//                    dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
-//                }
-//            });
+            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), card.getId(), label.getId(), new IResponseCallback<Void>(account){
+
+                @Override
+                public void onResponse(Void response) {
+                    dataBaseAdapter.deleteJoinedLabelForCardPhysically(card.getLocalId(), label.getLocalId());
+                }
+            });
+        });
+    }
+
+    public void unassignUserFromCard(User user, Card card) {
+        doAsync(() -> {
+            dataBaseAdapter.deleteJoinedUserForCard(card.getLocalId(), user.getLocalId());
+            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<Void>(account){
+
+                @Override
+                public void onResponse(Void response) {
+                    dataBaseAdapter.deleteJoinedUserForCardPhysically(card.getLocalId(), user.getLocalId());
+                }
+            });
         });
     }
 

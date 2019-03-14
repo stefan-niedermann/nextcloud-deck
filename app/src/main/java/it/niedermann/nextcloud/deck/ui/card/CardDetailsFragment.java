@@ -227,7 +227,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 final Chip chip = createChipFromLabel(label);
                 chip.setOnCloseIconClickListener(v -> {
                     labelsGroup.removeView(chip);
-                    syncManager.unassignLabelToCard(label, card.getCard());
+                    syncManager.unassignLabelFromCard(label, card.getCard());
                 });
                 labelsGroup.addView(chip);
             }
@@ -265,7 +265,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         people.setOnItemClickListener((adapterView, view, position, id) -> {
             User user = (User) adapterView.getItemAtPosition(position);
 
-            syncManager.assignUserToCard(user.getLocalId(), card.getCard());
+            syncManager.assignUserToCard(user, card.getCard());
 
             if (baseUrl != null) {
                 addAvatar(baseUrl, user);

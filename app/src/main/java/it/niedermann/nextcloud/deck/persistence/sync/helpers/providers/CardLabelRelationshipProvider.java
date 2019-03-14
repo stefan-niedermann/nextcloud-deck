@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 
 public class CardLabelRelationshipProvider implements IRelationshipProvider {
@@ -24,7 +25,7 @@ public class CardLabelRelationshipProvider implements IRelationshipProvider {
         Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
         for (Label label : labels){
             Label existingLabel = dataBaseAdapter.getLabelByRemoteIdDirectly(accountId, label.getId());
-            dataBaseAdapter.createJoinCardWithLabel(existingLabel.getLocalId(), card.getLocalId());
+            dataBaseAdapter.createJoinCardWithLabel(existingLabel.getLocalId(), card.getLocalId(), DBStatus.LOCAL_EDITED);
         }
     }
 
