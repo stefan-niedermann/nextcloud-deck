@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/nav_header_title"
-        android:textColor="@android:color/primary_text_dark" />
+        android:textColor="@color/fg_color_accent" />
 
 
     <RelativeLayout
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nav_header_subtitle"
-            android:textColor="@android:color/primary_text_dark" />
+            android:textColor="@color/fg_color_accent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:layout_width="wrap_content"
