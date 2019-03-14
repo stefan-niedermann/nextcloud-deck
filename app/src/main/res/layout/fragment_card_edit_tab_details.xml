@@ -146,7 +146,7 @@
                 <EditText
                     android:id="@+id/description"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="top"
                     android:hint="@string/label_description"
                     android:inputType="textMultiLine|textCapSentences"
