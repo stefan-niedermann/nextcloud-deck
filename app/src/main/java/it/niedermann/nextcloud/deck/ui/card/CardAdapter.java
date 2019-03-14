@@ -96,6 +96,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         });
 
         viewHolder.cardTitle.setText(card.getCard().getTitle());
+        viewHolder.cardDescription.setText(card.getCard().getDescription());
 
         if (card.getCard().getDueDate() != null) {
             viewHolder.cardDueDate.setText(
@@ -218,6 +219,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         MaterialCardView card;
         @BindView(R.id.card_title)
         TextView cardTitle;
+        @BindView(R.id.card_description)
+        TextView cardDescription;
         @BindView(R.id.labels)
         ChipGroup labels;
         @BindView(R.id.card_due_date)
