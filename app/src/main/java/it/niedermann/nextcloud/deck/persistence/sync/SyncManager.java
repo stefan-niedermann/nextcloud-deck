@@ -246,10 +246,12 @@ public class SyncManager {
     }
 
     public void updateCard(Card card) {
-
         //TODO: Tell the server
         doAsync(()->{
-            dataBaseAdapter.updateCard(card, true);
+            Card existingCard = dataBaseAdapter.getCardByRemoteIdDirectly(card.getAccountId(), card.getId());
+            if (!existingCard.equals(card)){
+                dataBaseAdapter.updateCard(card, true);
+            }
         });
     }
 

@@ -96,7 +96,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         });
 
         viewHolder.cardTitle.setText(card.getCard().getTitle());
-        viewHolder.cardDescription.setText(card.getCard().getDescription());
+        if(card.getCard().getDescription().length() > 0) {
+            viewHolder.cardDescription.setText(card.getCard().getDescription());
+            viewHolder.cardDescription.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.cardDescription.setVisibility(View.GONE);
+        }
 
         if (card.getCard().getDueDate() != null) {
             viewHolder.cardDueDate.setText(
