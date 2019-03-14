@@ -85,7 +85,8 @@ public class DataBaseAdapter {
     private void readRelationsForCard(FullCard card) {
         if (card != null){
             if (card.getLabelIDs() != null && !card.getLabelIDs().isEmpty()){
-                card.setLabels(db.getLabelDao().getLabelsByIdDirectly(card.getLabelIDs()));
+                List<Long> filteredIDs = db.getJoinCardWithLabelDao().filterDeleted(card.getLocalId(), card.getLabelIDs());
+                card.setLabels(db.getLabelDao().getLabelsByIdDirectly(filteredIDs));
             }
             if (card.getAssignedUserIDs() != null && !card.getAssignedUserIDs().isEmpty()){
                 card.setAssignedUsers(db.getUserDao().getUsersByIdDirectly(card.getAssignedUserIDs()));
@@ -147,6 +148,9 @@ public class DataBaseAdapter {
 
     public void deleteJoinedLabelsForCard(long localCardId) {
         db.getJoinCardWithLabelDao().deleteByCardId(localCardId);
+    }
+    public void deleteJoinedLabelForCard(long localCardId, long localLabelId) {
+        db.getJoinCardWithLabelDao().setDbStatus(localCardId, localLabelId, DBStatus.LOCAL_DELETED.getId());
     }
 
     public void createJoinCardWithUser(long localUserId, long localCardId) {

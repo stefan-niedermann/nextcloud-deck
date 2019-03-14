@@ -273,8 +273,6 @@ public class SyncManager {
     }
 
     public void assignUserToCard(long localUserId, Card card) {
-        //TODO: Tell the server
-        DeckLog.log("boop");
         doAsync(() -> {
             dataBaseAdapter.createJoinCardWithUser(localUserId, card.getLocalId(), DBStatus.LOCAL_EDITED);
             //TODO: reactivate, as soon as SSO supports Retrofit @Field annotations
@@ -282,7 +280,6 @@ public class SyncManager {
 //            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
 //            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
 //            User user = dataBaseAdapter.getUserByLocalIdDirectly(localUserId);
-//            DeckLog.log("serverAdapter: " +serverAdapter);
 //            serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<FullCard>(account){
 //
 //                @Override
@@ -296,6 +293,25 @@ public class SyncManager {
     public void assignLabelToCard(long localLabelId, long localCardId) {
         //TODO: Tell the server
         dataBaseAdapter.createJoinCardWithLabel(localLabelId, localCardId);
+    }
+
+    public void unassignLabelToCard(Label label, Card card) {
+        doAsync(() -> {
+            dataBaseAdapter.deleteJoinedLabelForCard(card.getLocalId(), label.getLocalId());
+            //TODO: reactivate, as soon as SSO supports Retrofit @Field annotations
+            //TODO: this is copied! change it to fit the needs
+//            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+//            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+//            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+//            User user = dataBaseAdapter.getUserByLocalIdDirectly(localUserId);
+//            serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<FullCard>(account){
+//
+//                @Override
+//                public void onResponse(FullCard response) {
+//                    dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
+//                }
+//            });
+        });
     }
 
     public LiveData<FullBoard> getFullBoard(Long accountId, Long localId) {
@@ -354,4 +370,5 @@ public class SyncManager {
     public String getApiUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
         return serverAdapter.getApiUrl();
     }
+
 }
