@@ -212,7 +212,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         if (this.card.getCard().getDueDate() != null) {
             dueDate.setText(dateFormat.format(this.card.getCard().getDueDate()));
             dueDateTime.setText(dueTime.format(this.card.getCard().getDueDate()));
+            clearDueDate.setVisibility(View.VISIBLE);
         } else {
+            clearDueDate.setVisibility(View.INVISIBLE);
             dueDate.setText(null);
             dueDateTime.setText(null);
         }
@@ -231,7 +233,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             }
             labelsGroup.setVisibility(View.VISIBLE);
         } else {
-            labelsGroup.setVisibility(View.GONE);
+            labelsGroup.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -303,9 +305,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         int minute;
 
         if (dueDateTime.getText() != null && dueDateTime.length() > 0) {
+            clearDueDate.setVisibility(View.VISIBLE);
             hourOfDay = this.card.getCard().getDueDate().getHours();
             minute = this.card.getCard().getDueDate().getMinutes();
         } else {
+            clearDueDate.setVisibility(View.GONE);
             hourOfDay = 0;
             minute = 0;
         }
