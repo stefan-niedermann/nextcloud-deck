@@ -32,7 +32,9 @@ public class SyncHelper {
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
+                boolean hadSomethingToSync = false;
                 if (response != null && !response.isEmpty()) {
+                    hadSomethingToSync = true;
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
@@ -55,7 +57,7 @@ public class SyncHelper {
                     }
                 }
 
-                provider.doneAll(responseCallback, Boolean.TRUE);
+                provider.doneAll(responseCallback, hadSomethingToSync, Boolean.TRUE);
             }
 
             @Override
@@ -69,7 +71,9 @@ public class SyncHelper {
     // Sync App -> Server
     public <T extends IRemoteEntity> void doUpSyncFor(IDataProvider<T> provider){
         List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
+        boolean hadSomethingToSync = false;
         if (allFromDB != null && !allFromDB.isEmpty()) {
+            hadSomethingToSync = true;
             for (T entity : allFromDB) {
                 IResponseCallback<T> updateCallback = new IResponseCallback<T>(account) {
                     @Override
@@ -100,7 +104,7 @@ public class SyncHelper {
                 }
             }
         }
-        provider.doneAll(responseCallback, Boolean.TRUE);
+        provider.doneAll(responseCallback, hadSomethingToSync, Boolean.TRUE);
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {

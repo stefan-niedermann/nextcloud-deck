@@ -5,6 +5,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -50,9 +51,15 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer) {
-        syncHelper.doSyncFor(new LabelDataProvider(entityFromServer.getLabels()));
-        syncHelper.fixRelations(new BoardLabelRelationshipProvider(existingEntity.getBoard(), entityFromServer.getLabels()));
+        List<Label> labels = entityFromServer.getLabels();
+        if (labels != null && !labels.isEmpty()){
+            syncHelper.doSyncFor(new LabelDataProvider(labels));
+        }
+        syncHelper.fixRelations(new BoardLabelRelationshipProvider(existingEntity.getBoard(), labels));
+
+        //TODO: As soon as jus has a flag for stacks in boards, this schould depend on the flag
         syncHelper.doSyncFor(new StackDataProvider(existingEntity));
+
         List<AccessControl> acl = entityFromServer.getParticipants();
         if (acl != null && !acl.isEmpty()){
             for (AccessControl ac : acl){
@@ -65,11 +72,6 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> responder, FullBoard entity) {
         serverAdapter.createBoard(entity.getBoard(), responder);
-    }
-
-    @Override
-    public void doneAll(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
-        responseCallback.onResponse(syncChangedSomething);
     }
 
     @Override
