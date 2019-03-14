@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int MENU_ID_ABOUT = -1;
+    private static final int MENU_ID_ADD_BOARD = -2;
     private static final int MENU_ID_ADD_ACCOUNT = -2;
     private static final int ACTIVITY_ABOUT = 1;
 
@@ -179,8 +180,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         fab.setOnClickListener((View view) -> {
-            BottomSheetCreateFragment bottomSheetFragment = new BottomSheetCreateFragment();
-            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            Snackbar.make(coordinatorLayout, "Creating cards is not yet supported.", Snackbar.LENGTH_LONG).show();
         });
     }
 
@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity
             DrawableCompat.setTint(wrapped, color);
             boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(wrapped);
         }
+        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_black_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
         if (boardsList.size() > 0) {
             displayStacksForIndex(0, this.account);
@@ -308,6 +309,9 @@ public class MainActivity extends AppCompatActivity
                 case MENU_ID_ABOUT:
                     Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
                     startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
+                    break;
+                case MENU_ID_ADD_BOARD:
+                    Snackbar.make(coordinatorLayout, "Creating new boards is not yet supported.", Snackbar.LENGTH_SHORT).show();
                     break;
                 default:
                     displayStacksForIndex(item.getItemId(), account);

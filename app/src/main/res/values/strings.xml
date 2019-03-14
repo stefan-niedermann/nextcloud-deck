@@ -69,4 +69,5 @@
     <string name="action_card_unassign">Unassign card from you</string>
     <string name="action_card_archive">Archive card</string>
     <string name="action_card_delete">Delete card</string>
+    <string name="add_board">Add board</string>
 </resources>
