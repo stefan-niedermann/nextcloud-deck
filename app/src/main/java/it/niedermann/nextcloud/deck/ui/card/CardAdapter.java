@@ -5,17 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-
-import androidx.annotation.NonNull;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
-import com.nextcloud.android.sso.model.SingleSignOnAccount;
-
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,18 +16,28 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
+import com.nextcloud.android.sso.model.SingleSignOnAccount;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -97,12 +96,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         });
 
         viewHolder.cardTitle.setText(card.getCard().getTitle());
-
-        if (card.getCard().getDescription() != null && !card.getCard().getDescription().isEmpty()) {
-            viewHolder.cardDescriptionIcon.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.cardDescriptionIcon.setVisibility(View.GONE);
-        }
+        viewHolder.cardDescription.setText(card.getCard().getDescription());
 
         if (card.getCard().getDueDate() != null) {
             viewHolder.cardDueDate.setText(
@@ -132,7 +126,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         if (card.getLabels()!= null && card.getLabels().size() > 0) {
             for (Label label : card.getLabels()) {
                 chip = new Chip(context);
-                chip.setText(label.getTitle());
+                String labelTitle = label.getTitle();
+                if(labelTitle.length() > 0) {
+                    chip.setText(labelTitle.substring(0, 1));
+                }
 
                 try {
                     int labelColor = Color.parseColor("#" + label.getColor());
@@ -222,10 +219,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         MaterialCardView card;
         @BindView(R.id.card_title)
         TextView cardTitle;
+        @BindView(R.id.card_description)
+        TextView cardDescription;
         @BindView(R.id.labels)
         ChipGroup labels;
-        @BindView(R.id.card_description_icon)
-        ImageView cardDescriptionIcon;
         @BindView(R.id.card_due_date)
         TextView cardDueDate;
         @BindView(R.id.card_count_attachments)

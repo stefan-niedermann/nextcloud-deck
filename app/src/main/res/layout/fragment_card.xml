@@ -16,13 +16,43 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/card_title"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            tools:text="Card Title" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:text="Card Title" />
+
+
+            <ImageView
+                android:id="@+id/card_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="@dimen/fab_margin"
+                android:paddingStart="@dimen/fab_margin"
+                android:contentDescription="@string/label_menu"
+                app:srcCompat="@drawable/ic_menu" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/card_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/fg_secondary"
+            android:textSize="16sp"
+            android:maxLines="1"
+            tools:text="This is a card description" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/labels"
@@ -39,16 +69,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingTop="8dp">
-
-                <ImageView
-                    android:id="@+id/card_description_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:contentDescription="@string/label_card_description"
-                    app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/card_due_date"
@@ -82,16 +102,6 @@
                     tools:text="1" />
 
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/card_menu"
-                android:contentDescription="@string/label_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_menu"/>
         </RelativeLayout>
 
     </LinearLayout>
