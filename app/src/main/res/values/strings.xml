@@ -70,4 +70,6 @@
     <string name="action_card_archive">Archive card</string>
     <string name="action_card_delete">Delete card</string>
     <string name="add_board">Add board</string>
+    <string name="action_card_list_add_column">Add column</string>
+    <string name="action_card_list_board_details">Bord details</string>
 </resources>
