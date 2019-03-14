@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class CardTabAdapter extends FragmentStatePagerAdapter {
     private CardDetailsFragment detailsFragment;
-    private CardActivityFragment activityFragment;
     private CardAttachmentsFragment attachmentsFragment;
+    private CardActivityFragment activityFragment;
 
     private long accountId;
     private long localId;
@@ -25,11 +25,11 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
                 detailsFragment = CardDetailsFragment.newInstance(accountId, localId);
                 return detailsFragment;
             case 1:
-                activityFragment = CardActivityFragment.newInstance();
-                return activityFragment;
-            case 2:
                 attachmentsFragment = CardAttachmentsFragment.newInstance();
                 return attachmentsFragment;
+            case 2:
+                activityFragment = CardActivityFragment.newInstance();
+                return activityFragment;
             default:
                 return null;
         }
@@ -40,9 +40,9 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
         if (position == 0) {
             return "Details";
         } else if (position == 1) {
-            return "Activity";
-        } else if (position == 2) {
             return "Attachments";
+        } else if (position == 2) {
+            return "Activity";
         }
         return null;
     }
