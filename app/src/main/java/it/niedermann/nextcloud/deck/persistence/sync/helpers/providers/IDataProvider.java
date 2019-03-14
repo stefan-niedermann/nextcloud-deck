@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -28,8 +29,13 @@ public interface IDataProvider <T extends IRemoteEntity> {
 
     void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> callback, T entity);
 
-    default void doneAll(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething){
-        // do nothing! Only BoardDataProvider should overwrite this!
+    default void doneAll(IResponseCallback<Boolean> responseCallback, boolean hadSomethingToSync, boolean syncChangedSomething){
+        if (!hadSomethingToSync){
+            DeckLog.log("responded by "+this.getClass().getSimpleName());
+            String stacktrace = DeckLog.getCurrentStacktrace();
+            DeckLog.log("responded by "+stacktrace);
+            responseCallback.onResponse(syncChangedSomething);
+        }
     }
 
     List<T> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync);

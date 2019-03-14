@@ -43,8 +43,9 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     @Override
     public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer) {
         existingEntity.setCards(entityFromServer.getCards());
-        if (existingEntity.getCards() != null && !existingEntity.getCards().isEmpty()){
-            for (Card card : existingEntity.getCards()) {
+        List<Card> cards = existingEntity.getCards();
+        if (cards != null && !cards.isEmpty()){
+            for (Card card : cards) {
                 card.setStackId(existingEntity.getLocalId());
             }
             syncHelper.doSyncFor(new CardDataProvider(board.getBoard(), existingEntity));
