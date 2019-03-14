@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
         int index = 0;
         for (Board board : boardsList) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_view_column_black_24dp);
+            Drawable drawable = getResources().getDrawable(R.drawable.circle_grey600_24dp);
             Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
             int color = Color.parseColor("#" + board.getColor());
             DrawableCompat.setTint(wrapped, color);
