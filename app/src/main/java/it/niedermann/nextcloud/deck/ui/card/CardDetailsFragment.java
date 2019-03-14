@@ -268,7 +268,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             if (baseUrl != null) {
                 addAvatar(baseUrl, user);
             }
-            people.setText(user.getDisplayname());
+            people.setText("");
         });
 
         if (this.card.getAssignedUsers() != null) {
