@@ -169,7 +169,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     private void onOverflowIconClicked(View view, FullCard card) {
         PopupMenu popup = new PopupMenu(context, view);
-        popup.inflate(R.menu.card_list_menu);
+        popup.inflate(R.menu.card_menu);
         prepareOptionsMenu(popup.getMenu(), card);
 
         popup.setOnMenuItemClickListener(item -> optionsItemSelected(item, card));
