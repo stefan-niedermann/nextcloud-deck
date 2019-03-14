@@ -16,13 +16,32 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/card_title"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            tools:text="Card Title" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:text="Card Title" />
+
+
+            <ImageView
+                android:id="@+id/card_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="@dimen/fab_margin"
+                android:paddingStart="@dimen/fab_margin"
+                android:contentDescription="@string/label_menu"
+                app:srcCompat="@drawable/ic_menu" />
+        </RelativeLayout>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/labels"
@@ -72,16 +91,6 @@
                     tools:text="1" />
 
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/card_menu"
-                android:contentDescription="@string/label_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_menu"/>
         </RelativeLayout>
 
     </LinearLayout>
