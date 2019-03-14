@@ -1,6 +1,7 @@
 # Nextcloud Deck
 
 [![Build Status](https://travis-ci.org/stefan-niedermann/nextcloud-deck.svg?branch=master)](https://travis-ci.org/stefan-niedermann/nextcloud-deck)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e4e03edecb34ea18fa1d6d6346cbc4f)](https://www.codacy.com/app/Nextcloud/nextcloud-deck)
 [![GitHub issues](https://img.shields.io/github/issues/stefan-niedermann/nextcloud-deck.svg)](https://github.com/stefan-niedermann/nextcloud-deck/issues)
 [![GitHub stars](https://img.shields.io/github/stars/stefan-niedermann/nextcloud-deck.svg)](https://github.com/stefan-niedermann/nextcloud-deck/stargazers)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
