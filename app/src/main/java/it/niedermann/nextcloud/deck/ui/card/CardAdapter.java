@@ -132,7 +132,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             for (Label label : card.getLabels()) {
                 chip = new Chip(context);
                 String labelTitle = label.getTitle();
-                if(labelTitle.length() > 0) {
+                if(labelTitle.length() > 1) {
+                    chip.setText(labelTitle.substring(0, 2));
+                } else if(labelTitle.length() > 0) {
                     chip.setText(labelTitle.substring(0, 1));
                 }
 
