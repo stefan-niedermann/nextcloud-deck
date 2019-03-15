@@ -125,7 +125,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
         avatarSize = DimensionUtil.getAvatarDimension(getContext());
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
-        avatarLayoutParams.setMargins(0, 0, DimensionUtil.dpToPx(getContext(), 8), 0);
+        avatarLayoutParams.setMargins(0, 0, getContext().getResources().getDimensionPixelSize(R.dimen.standard_half_padding), 0);
 
         try {
             baseUrl = syncManager.getServerUrl();

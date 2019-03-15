@@ -116,7 +116,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.peopleList.setVisibility(View.VISIBLE);
             for (int i = 0; i < card.getAssignedUsers().size(); i++) {
                 avatarLayoutParams = new RelativeLayout.LayoutParams(avatarSize, avatarSize);
-                avatarLayoutParams.setMargins(0, 0, i * DimensionUtil.dpToPx(context, 18), 0);
+                avatarLayoutParams.setMargins(0, 0, i * context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small), 0);
                 avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 ImageView avatar = new ImageView(context);
                 avatar.setLayoutParams(avatarLayoutParams);
