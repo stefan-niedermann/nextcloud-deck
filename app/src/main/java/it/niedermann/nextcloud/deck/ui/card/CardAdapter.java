@@ -159,10 +159,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 if(i > 2 && card.getLabels().size() > 3) {
                     chip = new Chip(context);
                     chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
-                    chip.setCloseIconEndPadding(0);
                     chip.setCloseIconStartPadding(0);
-                    chip.setTextEndPadding(0);
+                    chip.setCloseIconEndPadding(0);
                     chip.setTextStartPadding(0);
+                    chip.setTextEndPadding(0);
                     viewHolder.labels.addView(chip);
                     break;
                 }

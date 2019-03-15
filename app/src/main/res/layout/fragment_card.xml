@@ -38,19 +38,16 @@
                 tools:ignore="RtlSymmetry"
                 tools:text="This is a really longCard Title" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/card_due_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/due_tomorrow_background"
-                android:drawablePadding="4dp"
-                android:gravity="center"
                 android:maxLines="1"
                 android:minLines="0"
                 android:padding="4dp"
-                app:drawableLeftCompat="@drawable/calendar_blank_grey600_24dp"
-                app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
-                tools:text="in 16 days" />
+                android:layout_gravity="center"
+                tools:text="tomorrow" />
 
             <ImageView
                 android:id="@+id/card_menu"
