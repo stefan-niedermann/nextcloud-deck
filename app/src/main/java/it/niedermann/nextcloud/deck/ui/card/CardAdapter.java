@@ -143,23 +143,23 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         final int attachmentsCount = card.getCard().getAttachmentCount();
 
-        if(attachmentsCount == 0) {
+        if (attachmentsCount == 0) {
             viewHolder.cardCountAttachments.setVisibility(View.GONE);
         } else {
             viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
         }
         if (attachmentsCount > 99) {
             viewHolder.cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
-        } else if(attachmentsCount > 1) {
+        } else if (attachmentsCount > 1) {
             viewHolder.cardCountAttachments.setText(attachmentsCount + "");
-        } else if(attachmentsCount == 1) {
+        } else if (attachmentsCount == 1) {
             viewHolder.cardCountAttachments.setText("");
         }
 
 
+        final int maxLabelsShown = context.getResources().getInteger(R.integer.max_labels_shown);
+        final int maxLabelsChars = context.getResources().getInteger(R.integer.max_labels_chars);
         Chip chip;
-        int maxLabelsShown = Integer.valueOf(context.getString(R.string.max_labels_shown));
-        int maxLabelsChars = Integer.valueOf(context.getString(R.string.max_labels_chars));
         viewHolder.labels.removeAllViews();
         if (card.getLabels() != null && card.getLabels().size() > 0) {
             for (int i = 0; i < card.getLabels().size(); i++) {
@@ -198,11 +198,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.labels.setVisibility(View.GONE);
         }
 
-        viewHolder.cardMenu.setOnClickListener(v ->
-
-        {
-            onOverflowIconClicked(v, card);
-        });
+        viewHolder.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
     }
 
     @Override

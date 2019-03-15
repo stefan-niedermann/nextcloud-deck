@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- How many labels are shown in the card list view before "..." -->
-    <string name="max_labels_shown" translatable="false">3</string>
+    <integer name="max_labels_shown">3</integer>
     <!-- How many characters of the labels are displayed at the card list view -->
-    <string name="max_labels_chars" translatable="false">2</string>
+    <integer name="max_labels_chars">2</integer>
 </resources>
