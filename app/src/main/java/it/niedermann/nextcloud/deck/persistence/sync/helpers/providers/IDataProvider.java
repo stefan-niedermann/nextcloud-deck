@@ -10,35 +10,64 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public interface IDataProvider <T extends IRemoteEntity> {
-    void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync);
+public abstract class IDataProvider <T extends IRemoteEntity> {
 
-    T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
+    protected IDataProvider<?> parent;
+    protected int requestStallCount = 0;
 
-    long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, T b);
+    public IDataProvider(IDataProvider<?> parent){
+        this.parent = parent;
+    }
 
-    void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
+    public void setRequestStallCount(int requestStallCount) {
+        this.requestStallCount = requestStallCount + 1; // because the dataprovider also counts!
+    }
 
-    void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
+    public abstract void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync);
 
-    void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer);
+    public abstract T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
 
-    void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> responder, T entity);
+    public abstract long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, T b);
 
-    void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> callback, T entity);
+    public abstract void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
 
-    void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> callback, T entity);
+    public abstract void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
 
-    default void doneAll(IResponseCallback<Boolean> responseCallback, boolean hadSomethingToSync, boolean syncChangedSomething){
-        if (!hadSomethingToSync){
-            DeckLog.log("responded by "+this.getClass().getSimpleName());
-            String stacktrace = DeckLog.getCurrentStacktrace();
-            DeckLog.log("responded by "+stacktrace);
-            responseCallback.onResponse(syncChangedSomething);
+    public abstract void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer);
+
+    public abstract void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> responder, T entity);
+
+    public abstract void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> callback, T entity);
+
+    public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> callback, T entity);
+
+//    public void doneAll(IResponseCallback<Boolean> responseCallback, boolean hadSomethingToSync, boolean syncChangedSomething){
+//        requestStallCount--;
+////        if (!hadSomethingToSync){
+////            DeckLog.log("responded by "+this.getClass().getSimpleName());
+////            String stacktrace = DeckLog.getCurrentStacktrace();
+////            DeckLog.log("responded by "+stacktrace);
+////        }
+//        if (requestStallCount < 1 && parent != null) {
+//            DeckLog.log("responded by "+this.getClass().getSimpleName());
+//            parent.childDone(responseCallback, syncChangedSomething);
+//        }
+//    }
+
+    public void childDone(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+        requestStallCount--;
+        if (requestStallCount < 1) {
+            if (parent!=null){
+                DeckLog.log("child done "+this.getClass().getSimpleName());
+                parent.childDone(responseCallback, syncChangedSomething);
+            } else {
+                DeckLog.log("all done "+this.getClass().getSimpleName());
+                responseCallback.onResponse(syncChangedSomething);
+            }
         }
     }
 
-    List<T> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync);
+    public abstract List<T> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync);
 
-    void goDeeperForUpSync(SyncHelper syncHelper, T entity, T response);
+    public abstract void goDeeperForUpSync(SyncHelper syncHelper, T entity, T response);
 }

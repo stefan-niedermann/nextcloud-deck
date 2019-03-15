@@ -12,7 +12,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class BoardDataProvider implements IDataProvider<FullBoard> {
+public class BoardDataProvider extends IDataProvider<FullBoard> {
+
+    public BoardDataProvider(){
+        super(null);
+    }
+
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<FullBoard>> responder, Date lastSync) {
         serverAdapter.getBoards(responder);
@@ -53,19 +58,20 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer) {
         List<Label> labels = entityFromServer.getLabels();
         if (labels != null && !labels.isEmpty()){
-            syncHelper.doSyncFor(new LabelDataProvider(labels));
+            syncHelper.doSyncFor(new LabelDataProvider(this, labels));
         }
         syncHelper.fixRelations(new BoardLabelRelationshipProvider(existingEntity.getBoard(), labels));
 
-        //TODO: As soon as jus has a flag for stacks in boards, this schould depend on the flag
-        syncHelper.doSyncFor(new StackDataProvider(existingEntity));
+        if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()){
+            syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
+        }
 
         List<AccessControl> acl = entityFromServer.getParticipants();
         if (acl != null && !acl.isEmpty()){
             for (AccessControl ac : acl){
                 ac.setBoardId(existingEntity.getLocalId());
             }
-            syncHelper.doSyncFor(new AccessControlDataProvider(acl));
+            syncHelper.doSyncFor(new AccessControlDataProvider(this, acl));
         }
     }
 
@@ -81,7 +87,7 @@ public class BoardDataProvider implements IDataProvider<FullBoard> {
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, FullBoard entity, FullBoard response) {
-        syncHelper.doUpSyncFor(new StackDataProvider(entity));
+        syncHelper.doUpSyncFor(new StackDataProvider(this, entity));
     }
 
     @Override

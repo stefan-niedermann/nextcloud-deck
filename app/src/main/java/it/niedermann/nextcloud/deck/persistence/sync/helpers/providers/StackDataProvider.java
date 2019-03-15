@@ -11,10 +11,11 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class StackDataProvider implements IDataProvider<FullStack> {
+public class StackDataProvider extends IDataProvider<FullStack> {
     private FullBoard board;
 
-    public StackDataProvider(FullBoard board) {
+    public StackDataProvider(IDataProvider<?> parent, FullBoard board) {
+        super(parent);
         this.board = board;
     }
 
@@ -48,7 +49,7 @@ public class StackDataProvider implements IDataProvider<FullStack> {
             for (Card card : cards) {
                 card.setStackId(existingEntity.getLocalId());
             }
-            syncHelper.doSyncFor(new CardDataProvider(board.getBoard(), existingEntity));
+            syncHelper.doSyncFor(new CardDataProvider(this, board.getBoard(), existingEntity));
         }
     }
 

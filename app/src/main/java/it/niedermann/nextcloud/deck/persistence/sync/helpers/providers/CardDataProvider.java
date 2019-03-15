@@ -16,12 +16,13 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class CardDataProvider implements IDataProvider<FullCard> {
+public class CardDataProvider extends IDataProvider<FullCard> {
 
     private Board board;
     private FullStack stack;
 
-    public CardDataProvider(Board board, FullStack stack) {
+    public CardDataProvider(IDataProvider<?> parent, Board board, FullStack stack) {
+        super(parent);
         this.board = board;
         this.stack = stack;
     }
@@ -96,15 +97,15 @@ public class CardDataProvider implements IDataProvider<FullCard> {
         existingEntity.setAttachments(attachments);
 
         if(labels != null && !labels.isEmpty()){
-            syncHelper.doSyncFor(new LabelDataProvider(labels));
+            syncHelper.doSyncFor(new LabelDataProvider(this, labels));
         }
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
         if(assignedUsers!= null && !assignedUsers.isEmpty()){
-            syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getAssignedUsers()));
+            syncHelper.doSyncFor(new UserDataProvider(this, board, stack, existingEntity, existingEntity.getAssignedUsers()));
         }
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
-        if(assignedUsers!= null && !assignedUsers.isEmpty()){
-            syncHelper.doSyncFor(new AttachmentDataProvider(existingEntity, attachments));
+        if(assignedUsers!= null && !attachments.isEmpty()){
+            syncHelper.doSyncFor(new AttachmentDataProvider(this, existingEntity, attachments));
         }
 //        syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getOwner()));
     }
