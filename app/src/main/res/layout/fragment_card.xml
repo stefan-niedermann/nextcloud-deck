@@ -7,9 +7,9 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/card_spacing"
     android:layout_marginLeft="@dimen/card_spacing"
+    android:layout_marginTop="@dimen/card_spacing"
     android:layout_marginEnd="@dimen/card_spacing"
     android:layout_marginRight="@dimen/card_spacing"
-    android:layout_marginTop="@dimen/card_spacing"
     android:focusable="true">
 
     <LinearLayout
@@ -18,32 +18,48 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/card_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="4dp"
+                android:paddingStart="0dp"
+                android:paddingLeft="0dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                tools:text="Card Title" />
+                tools:ignore="RtlSymmetry"
+                tools:text="This is a really longCard Title" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_due_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/due_tomorrow_background"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="4dp"
+                app:drawableLeftCompat="@drawable/calendar_blank_grey600_24dp"
+                app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
+                tools:text="in 16 days" />
 
             <ImageView
                 android:id="@+id/card_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:contentDescription="@string/label_menu"
-                android:paddingStart="@dimen/fab_margin"
-                android:paddingLeft="@dimen/fab_margin"
+                android:padding="4dp"
                 app:srcCompat="@drawable/ic_menu" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/card_description"
@@ -67,25 +83,9 @@
                 android:id="@+id/peopleList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:orientation="horizontal" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/card_due_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/due_tomorrow_background"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:minLines="0"
-                android:padding="4dp"
-                app:drawableLeftCompat="@drawable/calendar_blank_grey600_24dp"
-                app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
-                tools:text="in 16 days" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/labels"
@@ -105,7 +105,6 @@
                 app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
                 app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
                 tools:text="1" />
-
         </LinearLayout>
 
     </LinearLayout>
