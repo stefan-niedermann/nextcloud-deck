@@ -231,10 +231,9 @@ public class MainActivity extends AppCompatActivity
     private void buildSidenavAccountChooser() {
         Menu menu = navigationView.getMenu();
         menu.clear();
-        SubMenu accountMenu = menu.addSubMenu(getString(R.string.accounts));
         int index = 0;
         for (Account account : this.accountsList) {
-            accountMenu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+            menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
         }
         menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }
