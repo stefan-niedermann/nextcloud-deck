@@ -141,22 +141,29 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.cardDueDate.setVisibility(View.GONE);
         }
 
-        if (card.getCard().getAttachmentCount() > 0) {
-            if (card.getCard().getAttachmentCount() > 99) {
-                viewHolder.cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
-            } else {
-                viewHolder.cardCountAttachments.setText(String.valueOf(card.getCard().getAttachmentCount()));
-            }
-            viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
-        } else {
+        final int attachmentsCount = card.getCard().getAttachmentCount();
+
+        if(attachmentsCount == 0) {
             viewHolder.cardCountAttachments.setVisibility(View.GONE);
+        } else {
+            viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
+        }
+        if (attachmentsCount > 99) {
+            viewHolder.cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
+        } else if(attachmentsCount > 1) {
+            viewHolder.cardCountAttachments.setText(attachmentsCount + "");
+        } else if(attachmentsCount == 1) {
+            viewHolder.cardCountAttachments.setText("");
         }
 
+
         Chip chip;
+        int maxLabelsShown = Integer.valueOf(context.getString(R.string.max_labels_shown));
+        int maxLabelsChars = Integer.valueOf(context.getString(R.string.max_labels_chars));
         viewHolder.labels.removeAllViews();
         if (card.getLabels() != null && card.getLabels().size() > 0) {
             for (int i = 0; i < card.getLabels().size(); i++) {
-                if(i > 2 && card.getLabels().size() > 3) {
+                if (i > maxLabelsShown - 1 && card.getLabels().size() > maxLabelsShown) {
                     chip = new Chip(context);
                     chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
                     chip.setCloseIconStartPadding(0);
@@ -169,9 +176,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 Label label = card.getLabels().get(i);
                 chip = new Chip(context);
                 String labelTitle = label.getTitle();
-                if (labelTitle.length() > 1) {
-                    chip.setText(labelTitle.substring(0, 2));
-                } else if (labelTitle.length() > 0) {
+                if (labelTitle.length() > maxLabelsChars - 1) {
+                    chip.setText(labelTitle.substring(0, maxLabelsChars));
+                } else {
                     chip.setText(" " + labelTitle.substring(0, 1) + " ");
                 }
 
@@ -191,7 +198,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.labels.setVisibility(View.GONE);
         }
 
-        viewHolder.cardMenu.setOnClickListener(v -> {
+        viewHolder.cardMenu.setOnClickListener(v ->
+
+        {
             onOverflowIconClicked(v, card);
         });
     }
