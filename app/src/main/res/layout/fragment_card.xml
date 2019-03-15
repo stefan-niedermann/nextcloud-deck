@@ -63,6 +63,12 @@
             android:orientation="horizontal"
             android:paddingTop="8dp">
 
+            <LinearLayout
+                android:id="@+id/peopleList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/card_due_date"
                 android:layout_width="wrap_content"
@@ -81,7 +87,7 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/labels"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp" />
@@ -91,7 +97,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
-                android:gravity="center_vertical"
                 android:maxLines="1"
                 android:minLines="0"
                 android:padding="4dp"
