@@ -18,6 +18,16 @@ public final class DimensionUtil {
     }
 
     /**
+     * Converts size of file icon from dp to pixel.
+     *
+     * @return int
+     */
+    public static int getAvatarDimension(Context context, int size) {
+        // Converts dp to pixel
+        return Math.round(context.getResources().getDimension(size));
+    }
+
+    /**
      * Converts dp into px.
      *
      * @param dp dp value

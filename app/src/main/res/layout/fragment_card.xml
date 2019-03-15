@@ -5,9 +5,11 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="16dp"
+    android:layout_marginStart="@dimen/card_spacing"
+    android:layout_marginLeft="@dimen/card_spacing"
+    android:layout_marginEnd="@dimen/card_spacing"
+    android:layout_marginRight="@dimen/card_spacing"
+    android:layout_marginTop="@dimen/card_spacing"
     android:focusable="true">
 
     <LinearLayout
@@ -34,12 +36,12 @@
                 android:id="@+id/card_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:paddingLeft="@dimen/fab_margin"
-                android:paddingStart="@dimen/fab_margin"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:contentDescription="@string/label_menu"
+                android:paddingStart="@dimen/fab_margin"
+                android:paddingLeft="@dimen/fab_margin"
                 app:srcCompat="@drawable/ic_menu" />
         </RelativeLayout>
 
@@ -48,56 +50,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:maxLines="1"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:textColor="@color/fg_secondary"
             android:textSize="16sp"
-            android:maxLines="1"
             tools:text="This is a card description" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
             <LinearLayout
+                android:id="@+id/peopleList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="8dp">
+                android:orientation="horizontal" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/card_due_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/due_tomorrow_background"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:minLines="0"
-                    android:drawablePadding="4dp"
-                    android:padding="4dp"
-                    app:drawableLeftCompat="@drawable/calendar_blank_grey600_24dp"
-                    app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
-                    tools:text="in 16 days" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_due_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/due_tomorrow_background"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="4dp"
+                app:drawableLeftCompat="@drawable/calendar_blank_grey600_24dp"
+                app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
+                tools:text="in 16 days" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/labels"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/labels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/card_count_attachments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:minLines="0"
-                    android:drawablePadding="4dp"
-                    android:padding="4dp"
-                    app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
-                    app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
-                    tools:text="1" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_count_attachments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="4dp"
+                app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
+                app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
+                tools:text="1" />
 
-            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
