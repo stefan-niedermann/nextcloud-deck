@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,8 +116,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.peopleList.setVisibility(View.VISIBLE);
             for (int i = 0; i < card.getAssignedUsers().size(); i++) {
                 avatarLayoutParams = new RelativeLayout.LayoutParams(avatarSize, avatarSize);
-                avatarLayoutParams.setMargins(i * DimensionUtil.dpToPx(context, 8), 0, 0, 0);
-                avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                avatarLayoutParams.setMargins(0, 0, i * DimensionUtil.dpToPx(context, 8), 0);
+                avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 ImageView avatar = new ImageView(context);
                 avatar.setLayoutParams(avatarLayoutParams);
                 viewHolder.peopleList.addView(avatar);
@@ -154,7 +155,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         Chip chip;
         viewHolder.labels.removeAllViews();
         if (card.getLabels() != null && card.getLabels().size() > 0) {
-            for (Label label : card.getLabels()) {
+            for (int i = 0; i < card.getLabels().size(); i++) {
+                if(i > 2 && card.getLabels().size() > 3) {
+                    chip = new Chip(context);
+                    chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
+                    chip.setCloseIconEndPadding(0);
+                    chip.setCloseIconStartPadding(0);
+                    chip.setTextEndPadding(0);
+                    chip.setTextStartPadding(0);
+                    viewHolder.labels.addView(chip);
+                    break;
+                }
+                Label label = card.getLabels().get(i);
                 chip = new Chip(context);
                 String labelTitle = label.getTitle();
                 if (labelTitle.length() > 1) {
