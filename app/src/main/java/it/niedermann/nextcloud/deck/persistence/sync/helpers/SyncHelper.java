@@ -34,6 +34,7 @@ public class SyncHelper {
             public void onResponse(List<T> response) {
                 boolean hadSomethingToSync = false;
                 if (response != null && !response.isEmpty()) {
+                    provider.setRequestStallCount(response.size());
                     hadSomethingToSync = true;
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);
@@ -57,7 +58,7 @@ public class SyncHelper {
                     }
                 }
 
-                provider.doneAll(responseCallback, hadSomethingToSync, Boolean.TRUE);
+                provider.childDone(responseCallback, hadSomethingToSync);
             }
 
             @Override
@@ -104,7 +105,7 @@ public class SyncHelper {
                 }
             }
         }
-        provider.doneAll(responseCallback, hadSomethingToSync, Boolean.TRUE);
+        provider.childDone(responseCallback, hadSomethingToSync);
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {
