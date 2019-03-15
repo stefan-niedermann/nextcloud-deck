@@ -26,14 +26,4 @@ public final class DimensionUtil {
         // Converts dp to pixel
         return Math.round(context.getResources().getDimension(size));
     }
-
-    /**
-     * Converts dp into px.
-     *
-     * @param dp dp value
-     * @return corresponding px value
-     */
-    public static int dpToPx(Context context, int dp) {
-        return (int) (dp * context.getResources().getDisplayMetrics().density + 0.5f);
-    }
 }
