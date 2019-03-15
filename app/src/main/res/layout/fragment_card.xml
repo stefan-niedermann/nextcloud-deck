@@ -67,8 +67,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="@dimen/standard_half_padding"
+            android:paddingBottom="@dimen/standard_margin"
             android:textColor="@color/fg_secondary"
             android:textSize="16sp"
             tools:text="This is a card description" />
@@ -76,13 +76,13 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="8dp">
+            android:orientation="horizontal">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/labels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp" />
 
@@ -100,11 +100,11 @@
 
             <RelativeLayout
                 android:id="@+id/peopleList"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_weight="1"
                 android:orientation="horizontal" />
         </LinearLayout>
 
