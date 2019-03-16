@@ -29,12 +29,12 @@ public class SyncHelper {
 
     // Sync Server -> App
     public <T extends IRemoteEntity> void doSyncFor(final IDataProvider<T> provider){
+        provider.registerChildInParent(provider); // todo unregister? where to handl
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
                 boolean hadSomethingToSync = false;
                 if (response != null && !response.isEmpty()) {
-                    provider.setRequestStallCount(response.size());
                     hadSomethingToSync = true;
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);

@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,14 +14,20 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 public abstract class IDataProvider <T extends IRemoteEntity> {
 
     protected IDataProvider<?> parent;
-    protected int requestStallCount = 0;
+    private List<IDataProvider<?>> children = new ArrayList<>();
 
     public IDataProvider(IDataProvider<?> parent){
         this.parent = parent;
     }
 
-    public void setRequestStallCount(int requestStallCount) {
-        this.requestStallCount = requestStallCount + 1; // because the dataprovider also counts!
+    public void registerChildInParent(IDataProvider<?> child){
+        if (parent != null) {
+            parent.addChild(child);
+        }
+    }
+
+    public void addChild(IDataProvider<?> child){
+        children.add(child);
     }
 
     public abstract void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync);
@@ -54,12 +61,12 @@ public abstract class IDataProvider <T extends IRemoteEntity> {
 //        }
 //    }
 
-    public void childDone(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
-        requestStallCount--;
-        if (requestStallCount < 1) {
+    public void childDone(IDataProvider<?> child, IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
+        children.remove(child);
+        if (children.isEmpty()) {
             if (parent!=null){
                 DeckLog.log("child done "+this.getClass().getSimpleName());
-                parent.childDone(responseCallback, syncChangedSomething);
+                parent.childDone(this, responseCallback, syncChangedSomething);
             } else {
                 DeckLog.log("all done "+this.getClass().getSimpleName());
                 responseCallback.onResponse(syncChangedSomething);
