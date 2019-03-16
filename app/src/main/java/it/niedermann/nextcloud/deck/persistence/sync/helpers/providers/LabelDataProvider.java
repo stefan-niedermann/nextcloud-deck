@@ -39,12 +39,6 @@ public class LabelDataProvider extends IDataProvider<Label> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, Label existingEntity, Label entityFromServer) {
-        // ain't goin' deeper <3
-        return;
-    }
-
-    @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> responder, Label entity) {
 
     }

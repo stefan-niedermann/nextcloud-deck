@@ -42,7 +42,7 @@ public class StackDataProvider extends IDataProvider<FullStack> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer) {
+    public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer, IResponseCallback<Boolean> callback) {
         existingEntity.setCards(entityFromServer.getCards());
         List<Card> cards = existingEntity.getCards();
         if (cards != null && !cards.isEmpty()){
@@ -50,6 +50,8 @@ public class StackDataProvider extends IDataProvider<FullStack> {
                 card.setStackId(existingEntity.getLocalId());
             }
             syncHelper.doSyncFor(new CardDataProvider(this, board.getBoard(), existingEntity));
+        } else {
+            childDone(this, callback, true);
         }
     }
 

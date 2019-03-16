@@ -48,12 +48,6 @@ public class UserDataProvider extends IDataProvider<User> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, User existingEntity, User entityFromServer) {
-        // ain't goin' deeper <3
-        return;
-    }
-
-    @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> responder, User entity) {
 
     }

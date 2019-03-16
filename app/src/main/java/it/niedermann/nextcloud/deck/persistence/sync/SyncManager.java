@@ -67,6 +67,7 @@ public class SyncManager {
             IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Boolean response) {
+                    DeckLog.log("sync done, going for upsync, changes for downsync: "+response);
                     syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
                         @Override
                         public void onResponse(Boolean response) {
@@ -80,7 +81,7 @@ public class SyncManager {
                             responseCallback.onError(throwable);
                         }
                     });
-                    syncHelper.doUpSyncFor(boardDataProvider);
+//                    syncHelper.doUpSyncFor(boardDataProvider);
                 }
 
                 @Override
@@ -92,6 +93,7 @@ public class SyncManager {
 
             syncHelper.setResponseCallback(callback);
 
+            DeckLog.log("sync started.");
             syncHelper.doSyncFor(boardDataProvider);
         });
     }

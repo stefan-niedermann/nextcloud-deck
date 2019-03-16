@@ -15,6 +15,7 @@ public abstract class IDataProvider <T extends IRemoteEntity> {
 
     protected IDataProvider<?> parent;
     private List<IDataProvider<?>> children = new ArrayList<>();
+    private boolean stillGoingDeeper = false;
 
     public IDataProvider(IDataProvider<?> parent){
         this.parent = parent;
@@ -40,7 +41,9 @@ public abstract class IDataProvider <T extends IRemoteEntity> {
 
     public abstract void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
 
-    public abstract void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer);
+    public void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer, IResponseCallback<Boolean> callback) {
+        childDone(this, callback, true);
+    }
 
     public abstract void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> responder, T entity);
 
@@ -63,15 +66,24 @@ public abstract class IDataProvider <T extends IRemoteEntity> {
 
     public void childDone(IDataProvider<?> child, IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         children.remove(child);
-        if (children.isEmpty()) {
+        if (!stillGoingDeeper && children.isEmpty()) {
             if (parent!=null){
-                DeckLog.log("child done "+this.getClass().getSimpleName());
+                DeckLog.log("sync "+this.getClass().getSimpleName());
                 parent.childDone(this, responseCallback, syncChangedSomething);
             } else {
-                DeckLog.log("all done "+this.getClass().getSimpleName());
+                DeckLog.log("sync done. "+this.getClass().getSimpleName());
                 responseCallback.onResponse(syncChangedSomething);
             }
         }
+    }
+
+    public void doneGoingDeeper(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething){
+        stillGoingDeeper = false;
+        childDone(this, responseCallback, syncChangedSomething);
+    }
+
+    public void goingDeeper(){
+        stillGoingDeeper = true;
     }
 
     public abstract List<T> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync);

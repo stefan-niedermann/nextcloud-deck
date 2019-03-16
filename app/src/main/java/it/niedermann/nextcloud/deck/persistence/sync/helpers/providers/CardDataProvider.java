@@ -88,7 +88,7 @@ public class CardDataProvider extends IDataProvider<FullCard> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, FullCard existingEntity, FullCard entityFromServer) {
+    public void goDeeper(SyncHelper syncHelper, FullCard existingEntity, FullCard entityFromServer, IResponseCallback<Boolean> callback) {
         List<Label> labels = entityFromServer.getLabels();
         existingEntity.setLabels(labels);
         List<User> assignedUsers = entityFromServer.getAssignedUsers();

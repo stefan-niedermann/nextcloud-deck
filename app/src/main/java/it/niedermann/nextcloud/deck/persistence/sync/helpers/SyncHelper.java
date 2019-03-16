@@ -33,9 +33,8 @@ public class SyncHelper {
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
-                boolean hadSomethingToSync = false;
                 if (response != null && !response.isEmpty()) {
-                    hadSomethingToSync = true;
+                    provider.goingDeeper();
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
@@ -54,11 +53,12 @@ public class SyncHelper {
                             }
                         }
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
-                        provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer);
+                        provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
                     }
+                    provider.doneGoingDeeper(responseCallback, true);
+                } else {
+                    provider.childDone(provider, responseCallback, false);
                 }
-
-                provider.childDone(responseCallback, hadSomethingToSync);
             }
 
             @Override
@@ -105,7 +105,7 @@ public class SyncHelper {
                 }
             }
         }
-        provider.childDone(responseCallback, hadSomethingToSync);
+        provider.childDone(provider, responseCallback, hadSomethingToSync);
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {

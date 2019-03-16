@@ -54,12 +54,6 @@ public class AccessControlDataProvider extends IDataProvider<AccessControl> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, AccessControl existingEntity, AccessControl entityFromServer) {
-        // ain't goin' deeper <3
-        return;
-    }
-
-    @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<AccessControl> responder, AccessControl entity) {
 
     }

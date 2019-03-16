@@ -55,7 +55,7 @@ public class BoardDataProvider extends IDataProvider<FullBoard> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer) {
+    public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, IResponseCallback<Boolean> callback) {
         List<Label> labels = entityFromServer.getLabels();
         if (labels != null && !labels.isEmpty()){
             syncHelper.doSyncFor(new LabelDataProvider(this, labels));

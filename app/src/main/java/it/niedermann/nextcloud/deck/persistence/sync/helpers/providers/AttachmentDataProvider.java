@@ -50,11 +50,6 @@ public class AttachmentDataProvider extends IDataProvider<Attachment> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, Attachment existingEntity, Attachment entityFromServer) {
-
-    }
-
-    @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
 
     }
