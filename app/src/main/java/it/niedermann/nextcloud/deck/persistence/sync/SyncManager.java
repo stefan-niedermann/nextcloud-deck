@@ -61,7 +61,6 @@ public class SyncManager {
             Date lastSyncDate = new Date(lastSync);
             Date now = DateUtil.nowInGMT();
 
-            BoardDataProvider boardDataProvider = new BoardDataProvider();
             final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
 
             IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(responseCallback.getAccount()) {
@@ -80,7 +79,7 @@ public class SyncManager {
                             responseCallback.onError(throwable);
                         }
                     });
-//                    syncHelper.doUpSyncFor(boardDataProvider);
+                    syncHelper.doUpSyncFor(new BoardDataProvider());
                 }
 
                 @Override
@@ -92,7 +91,7 @@ public class SyncManager {
 
             syncHelper.setResponseCallback(callback);
 
-            syncHelper.doSyncFor(boardDataProvider);
+            syncHelper.doSyncFor(new BoardDataProvider());
         });
     }
 
@@ -166,14 +165,8 @@ public class SyncManager {
                 public void onResponse(FullBoard response) {
                     DeckLog.log(response.toString());
                 }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    DeckLog.logError(throwable);
-                }
             })
         );
-//        return dataBaseAdapter.createBoard(accountId, board);
     }
 
     public void deleteBoard(Board board) {

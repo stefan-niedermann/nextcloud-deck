@@ -63,6 +63,7 @@ public class SyncHelper {
 
             @Override
             public void onError(Throwable throwable) {
+                provider.onError(throwable, responseCallback);
                 DeckLog.logError(throwable);
                 responseCallback.onError(throwable);
             }
@@ -72,9 +73,8 @@ public class SyncHelper {
     // Sync App -> Server
     public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider){
         List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
-        boolean hadSomethingToSync = false;
         if (allFromDB != null && !allFromDB.isEmpty()) {
-            hadSomethingToSync = true;
+            provider.goingDeeper();
             for (T entity : allFromDB) {
                 IResponseCallback<T> updateCallback = new IResponseCallback<T>(account) {
                     @Override
@@ -104,8 +104,10 @@ public class SyncHelper {
                     provider.createOnServer(serverAdapter, accountId, updateCallback, entity);
                 }
             }
+            provider.doneGoingDeeper(responseCallback, true);
+        } else {
+            provider.childDone(provider, responseCallback, false);
         }
-        provider.childDone(provider, responseCallback, hadSomethingToSync);
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {
