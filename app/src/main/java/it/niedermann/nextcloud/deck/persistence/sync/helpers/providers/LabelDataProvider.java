@@ -9,11 +9,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class LabelDataProvider implements IDataProvider<Label> {
+public class LabelDataProvider extends IDataProvider<Label> {
 
     private List<Label> labels;
 
-    public LabelDataProvider(List<Label> labels) {
+    public LabelDataProvider(IDataProvider<?> parent, List<Label> labels) {
+        super(parent);
         this.labels = labels;
     }
 
@@ -35,12 +36,6 @@ public class LabelDataProvider implements IDataProvider<Label> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity) {
         dataBaseAdapter.updateLabel(entity, false);
-    }
-
-    @Override
-    public void goDeeper(SyncHelper syncHelper, Label existingEntity, Label entityFromServer) {
-        // ain't goin' deeper <3
-        return;
     }
 
     @Override

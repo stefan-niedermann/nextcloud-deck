@@ -72,6 +72,15 @@ public class JsonToEntityParser {
             fullBoard.setLabels(labels);
         }
 
+        if (e.has("stacks") && !e.get("stacks").isJsonNull()) {
+            JsonArray stacksJson = e.getAsJsonArray("stacks");
+            List<Stack> stacks = new ArrayList<>();
+            for (JsonElement stackJson : stacksJson) {
+                stacks.add(parseStack(stackJson.getAsJsonObject()).getStack());
+            }
+            fullBoard.setStacks(stacks);
+        }
+
         if (e.has("acl") && !e.get("acl").isJsonNull()) {
             JsonElement assignedUsers = e.get("acl");
             if (!(assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() == 0)){

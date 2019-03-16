@@ -1,15 +1,15 @@
 package it.niedermann.nextcloud.deck.model.full;
 
-import androidx.room.Embedded;
-import androidx.room.Ignore;
-import androidx.room.Relation;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.room.Embedded;
+import androidx.room.Ignore;
+import androidx.room.Relation;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
@@ -25,6 +25,9 @@ public class FullBoard implements IRemoteEntity {
 
     @Relation(entity = AccessControl.class, parentColumn = "localId", entityColumn = "boardId")
     public List<AccessControl> participants;
+
+    @Relation(entity = Stack.class, parentColumn = "localId", entityColumn = "boardId")
+    public List<Stack> stacks;
 
 
     public List<User> getOwner() {
@@ -71,14 +74,12 @@ public class FullBoard implements IRemoteEntity {
         this.participants = participants;
     }
 
-    @Override
-    public String toString() {
-        return "FullBoard{" +
-                "board=" + board +
-                ", labels=" + labels +
-                ", owner=" + owner +
-                ", participants=" + participants +
-                '}';
+    public List<Stack> getStacks() {
+        return stacks;
+    }
+
+    public void setStacks(List<Stack> stacks) {
+        this.stacks = stacks;
     }
 
     @Override
@@ -92,7 +93,9 @@ public class FullBoard implements IRemoteEntity {
         if (labels != null ? !labels.equals(fullBoard.labels) : fullBoard.labels != null)
             return false;
         if (owner != null ? !owner.equals(fullBoard.owner) : fullBoard.owner != null) return false;
-        return participants != null ? participants.equals(fullBoard.participants) : fullBoard.participants == null;
+        if (participants != null ? !participants.equals(fullBoard.participants) : fullBoard.participants != null)
+            return false;
+        return stacks != null ? stacks.equals(fullBoard.stacks) : fullBoard.stacks == null;
     }
 
     @Override
@@ -101,6 +104,18 @@ public class FullBoard implements IRemoteEntity {
         result = 31 * result + (labels != null ? labels.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + (participants != null ? participants.hashCode() : 0);
+        result = 31 * result + (stacks != null ? stacks.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "FullBoard{" +
+                "board=" + board +
+                ", labels=" + labels +
+                ", owner=" + owner +
+                ", participants=" + participants +
+                ", stacks=" + stacks +
+                '}';
     }
 }

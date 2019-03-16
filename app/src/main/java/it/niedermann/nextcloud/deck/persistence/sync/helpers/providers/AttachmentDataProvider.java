@@ -10,12 +10,13 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class AttachmentDataProvider implements IDataProvider<Attachment> {
+public class AttachmentDataProvider extends IDataProvider<Attachment> {
 
     private FullCard card;
     private List<Attachment> attachments;
 
-    public AttachmentDataProvider(FullCard card, List<Attachment> attachments) {
+    public AttachmentDataProvider(IDataProvider<?> parent, FullCard card, List<Attachment> attachments) {
+        super(parent);
         this.card = card;
         this.attachments = attachments;
     }
@@ -45,11 +46,6 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment) {
-
-    }
-
-    @Override
-    public void goDeeper(SyncHelper syncHelper, Attachment existingEntity, Attachment entityFromServer) {
 
     }
 

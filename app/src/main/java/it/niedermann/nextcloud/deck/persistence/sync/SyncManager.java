@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.util.DateUtil;
 
 public class SyncManager {
 
@@ -58,7 +59,7 @@ public class SyncManager {
                     applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
             long lastSync = lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L);
             Date lastSyncDate = new Date(lastSync);
-            Date now = new Date();
+            Date now = DateUtil.nowInGMT();
 
             BoardDataProvider boardDataProvider = new BoardDataProvider();
             final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
@@ -70,7 +71,7 @@ public class SyncManager {
                         @Override
                         public void onResponse(Boolean response) {
                             // TODO activate when done dev
-                            // lastSyncPref.edit().putLong(LAST_SYNC_KEY, now.getTime()).apply();
+                            lastSyncPref.edit().putLong(DeckConsts.LAST_SYNC_KEY, now.getTime()).apply();
                             responseCallback.onResponse(response);
                         }
                         @Override
@@ -79,7 +80,7 @@ public class SyncManager {
                             responseCallback.onError(throwable);
                         }
                     });
-                    syncHelper.doUpSyncFor(boardDataProvider);
+//                    syncHelper.doUpSyncFor(boardDataProvider);
                 }
 
                 @Override

@@ -29,10 +29,12 @@ public class SyncHelper {
 
     // Sync Server -> App
     public <T extends IRemoteEntity> void doSyncFor(final IDataProvider<T> provider){
+        provider.registerChildInParent(provider);
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
                 if (response != null && !response.isEmpty()) {
+                    provider.goingDeeper();
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
@@ -51,11 +53,12 @@ public class SyncHelper {
                             }
                         }
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
-                        provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer);
+                        provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
                     }
+                    provider.doneGoingDeeper(responseCallback, true);
+                } else {
+                    provider.childDone(provider, responseCallback, false);
                 }
-
-                provider.doneAll(responseCallback, Boolean.TRUE);
             }
 
             @Override
@@ -69,7 +72,9 @@ public class SyncHelper {
     // Sync App -> Server
     public <T extends IRemoteEntity> void doUpSyncFor(IDataProvider<T> provider){
         List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
+        boolean hadSomethingToSync = false;
         if (allFromDB != null && !allFromDB.isEmpty()) {
+            hadSomethingToSync = true;
             for (T entity : allFromDB) {
                 IResponseCallback<T> updateCallback = new IResponseCallback<T>(account) {
                     @Override
@@ -100,7 +105,7 @@ public class SyncHelper {
                 }
             }
         }
-        provider.doneAll(responseCallback, Boolean.TRUE);
+        provider.childDone(provider, responseCallback, hadSomethingToSync);
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {

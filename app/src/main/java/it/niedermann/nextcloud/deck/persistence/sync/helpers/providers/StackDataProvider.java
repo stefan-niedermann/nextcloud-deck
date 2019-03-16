@@ -11,10 +11,11 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class StackDataProvider implements IDataProvider<FullStack> {
+public class StackDataProvider extends IDataProvider<FullStack> {
     private FullBoard board;
 
-    public StackDataProvider(FullBoard board) {
+    public StackDataProvider(IDataProvider<?> parent, FullBoard board) {
+        super(parent);
         this.board = board;
     }
 
@@ -41,13 +42,16 @@ public class StackDataProvider implements IDataProvider<FullStack> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer) {
+    public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer, IResponseCallback<Boolean> callback) {
         existingEntity.setCards(entityFromServer.getCards());
-        if (existingEntity.getCards() != null && !existingEntity.getCards().isEmpty()){
-            for (Card card : existingEntity.getCards()) {
+        List<Card> cards = existingEntity.getCards();
+        if (cards != null && !cards.isEmpty()){
+            for (Card card : cards) {
                 card.setStackId(existingEntity.getLocalId());
             }
-            syncHelper.doSyncFor(new CardDataProvider(board.getBoard(), existingEntity));
+            syncHelper.doSyncFor(new CardDataProvider(this, board.getBoard(), existingEntity));
+        } else {
+            childDone(this, callback, true);
         }
     }
 
