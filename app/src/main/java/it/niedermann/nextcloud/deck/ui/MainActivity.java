@@ -40,6 +40,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -282,7 +283,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Snackbar.make(coordinatorLayout, "This has not been implemented yet.", Snackbar.LENGTH_LONG).show();
+        switch(item.getItemId()) {
+            case R.id.action_card_list_add_column:
+                Stack s = new Stack();
+                s.setTitle("App-created Stack");
+                s.setBoardId(0);
+                syncManager.createStack(account.getId(), s);
+                Snackbar.make(coordinatorLayout, "Adding columns has been implemented yet.", Snackbar.LENGTH_LONG).show();
+                break;
+            case R.id.action_card_list_board_details:
+                Snackbar.make(coordinatorLayout, "Bord details has not been implemented yet.", Snackbar.LENGTH_LONG).show();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

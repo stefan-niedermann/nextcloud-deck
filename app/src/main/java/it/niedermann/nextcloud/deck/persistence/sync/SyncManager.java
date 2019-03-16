@@ -209,9 +209,11 @@ public class SyncManager {
         return dataBaseAdapter.getFullBoardById(accountId, localId);
     }
 
-    public long createStack(long accountId, Stack stack) {
+    public void createStack(long accountId, Stack stack) {
         //TODO: Tell the server
-        return dataBaseAdapter.createStack(accountId, stack);
+        doAsync(() -> {
+            dataBaseAdapter.createStack(accountId, stack);
+        });
     }
 
     public void deleteStack(Stack stack) {
