@@ -10,7 +10,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IRelationshipProvider;
 
 public class SyncHelper {
@@ -28,7 +28,7 @@ public class SyncHelper {
     }
 
     // Sync Server -> App
-    public <T extends IRemoteEntity> void doSyncFor(final IDataProvider<T> provider){
+    public <T extends IRemoteEntity> void doSyncFor(final AbstractSyncDataProvider<T> provider){
         provider.registerChildInParent(provider);
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
@@ -70,7 +70,7 @@ public class SyncHelper {
     }
 
     // Sync App -> Server
-    public <T extends IRemoteEntity> void doUpSyncFor(IDataProvider<T> provider){
+    public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider){
         List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
         boolean hadSomethingToSync = false;
         if (allFromDB != null && !allFromDB.isEmpty()) {

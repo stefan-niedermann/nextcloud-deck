@@ -11,10 +11,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class StackDataProvider extends IDataProvider<FullStack> {
+public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     private FullBoard board;
 
-    public StackDataProvider(IDataProvider<?> parent, FullBoard board) {
+    public StackDataProvider(AbstractSyncDataProvider<?> parent, FullBoard board) {
         super(parent);
         this.board = board;
     }

@@ -12,7 +12,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class BoardDataProvider extends IDataProvider<FullBoard> {
+public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     public BoardDataProvider(){
         super(null);

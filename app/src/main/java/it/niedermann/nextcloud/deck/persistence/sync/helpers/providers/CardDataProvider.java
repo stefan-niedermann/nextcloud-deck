@@ -16,12 +16,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class CardDataProvider extends IDataProvider<FullCard> {
+public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     private Board board;
     private FullStack stack;
 
-    public CardDataProvider(IDataProvider<?> parent, Board board, FullStack stack) {
+    public CardDataProvider(AbstractSyncDataProvider<?> parent, Board board, FullStack stack) {
         super(parent);
         this.board = board;
         this.stack = stack;

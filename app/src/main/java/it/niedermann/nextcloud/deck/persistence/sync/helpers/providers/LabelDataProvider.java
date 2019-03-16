@@ -9,11 +9,11 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class LabelDataProvider extends IDataProvider<Label> {
+public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     private List<Label> labels;
 
-    public LabelDataProvider(IDataProvider<?> parent, List<Label> labels) {
+    public LabelDataProvider(AbstractSyncDataProvider<?> parent, List<Label> labels) {
         super(parent);
         this.labels = labels;
     }

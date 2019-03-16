@@ -10,11 +10,11 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class AccessControlDataProvider extends IDataProvider<AccessControl> {
+public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
     private List<AccessControl> acl;
 
-    public AccessControlDataProvider(IDataProvider<?> parent, List<AccessControl> acl) {
+    public AccessControlDataProvider(AbstractSyncDataProvider<?> parent, List<AccessControl> acl) {
         super(parent);
         this.acl = acl;
     }
