@@ -68,10 +68,8 @@ public abstract class IDataProvider <T extends IRemoteEntity> {
         children.remove(child);
         if (!stillGoingDeeper && children.isEmpty()) {
             if (parent!=null){
-                DeckLog.log("sync "+this.getClass().getSimpleName());
                 parent.childDone(this, responseCallback, syncChangedSomething);
             } else {
-                DeckLog.log("sync done. "+this.getClass().getSimpleName());
                 responseCallback.onResponse(syncChangedSomething);
             }
         }

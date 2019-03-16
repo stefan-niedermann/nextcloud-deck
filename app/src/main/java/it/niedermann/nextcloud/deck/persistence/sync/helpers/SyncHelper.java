@@ -29,7 +29,7 @@ public class SyncHelper {
 
     // Sync Server -> App
     public <T extends IRemoteEntity> void doSyncFor(final IDataProvider<T> provider){
-        provider.registerChildInParent(provider); // todo unregister? where to handl
+        provider.registerChildInParent(provider);
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
