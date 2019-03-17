@@ -40,17 +40,17 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> responder, Label entity) {
-
+        // TODO: implement
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label label) {
-
+        // TODO: implement
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
-
+        // TODO: implement
     }
 
     @Override
@@ -60,11 +60,11 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, Label entity, Label response) {
-
+        // TODO: implement
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
-
+        // TODO: implement
     }
 }

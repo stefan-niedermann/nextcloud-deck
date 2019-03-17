@@ -57,17 +57,17 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
-
+        // TODO: implement
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack fullStack) {
-
+        // TODO: implement
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
-
+        // TODO: implement
     }
 
     @Override
@@ -77,11 +77,11 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, FullStack entity, FullStack response) {
-
+        // TODO: implement
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
-
+        // TODO: implement
     }
 }

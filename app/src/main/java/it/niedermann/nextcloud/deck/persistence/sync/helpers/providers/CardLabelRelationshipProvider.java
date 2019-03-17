@@ -9,8 +9,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 
 public class CardLabelRelationshipProvider implements IRelationshipProvider {
 
-    Card card;
-    List<Label> labels;
+    private Card card;
+    private List<Label> labels;
 
     public CardLabelRelationshipProvider(Card card, List<Label> labels) {
         this.card = card;

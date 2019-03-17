@@ -102,6 +102,6 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> callback, FullBoard entity) {
-
+        // TODO: implement
     }
 }

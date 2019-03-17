@@ -14,7 +14,7 @@ public class RequestHelper {
 
         if (provider.getAPI() == null){
             provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
-                @Override public void onConnected() { }
+                @Override public void onConnected() { /* great, nothing to do. */}
                 @Override
                 public void onError(Exception e) {
                     callback.onError(e);

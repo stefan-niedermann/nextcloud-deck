@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class DueDateUnitTest {
     @Test
-    public void dueDate_isOverdue() {
+    public void dueDateIsOverdue() {
         Calendar calendar = new GregorianCalendar();
         calendar.set(2018, 12, 10);
         Date due = calendar.getTime();
@@ -32,7 +32,7 @@ public class DueDateUnitTest {
     }
 
     @Test
-    public void dueDate_isToday() {
+    public void dueDateIsToday() {
         Calendar calendar = new GregorianCalendar();
         calendar.set(2018, 12, 11);
         Date due = calendar.getTime();
@@ -46,7 +46,7 @@ public class DueDateUnitTest {
     }
 
     @Test
-    public void dueDate_isTomorrow() {
+    public void dueDateIsTomorrow() {
         Calendar calendar = new GregorianCalendar();
         calendar.set(2018, 12, 12);
         Date due = calendar.getTime();
@@ -60,7 +60,7 @@ public class DueDateUnitTest {
     }
 
     @Test
-    public void dueDate_isInTheFarFuture() {
+    public void dueDateIsInTheFarFuture() {
         Calendar calendar = new GregorianCalendar();
         calendar.set(2018, 12, 20);
         Date due = calendar.getTime();

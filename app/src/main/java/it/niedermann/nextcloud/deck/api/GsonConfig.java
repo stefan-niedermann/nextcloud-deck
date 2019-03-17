@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 
 public class GsonConfig {
 
-    public static Gson GetGson() {
+    public static Gson getGson() {
         Type boardList = new TypeToken<List<FullBoard>>() {}.getType();
         Type board = new TypeToken<FullBoard>() {}.getType();
         Type cardList = new TypeToken<FullCard>() {}.getType();

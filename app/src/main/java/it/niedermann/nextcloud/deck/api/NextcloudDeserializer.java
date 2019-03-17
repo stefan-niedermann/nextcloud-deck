@@ -22,8 +22,6 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<T> {
         this.mType = type;
     }
 
-    public static final String TAG = NextcloudDeserializer.class.getCanonicalName();
-
     @Override
     public T deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
         return JsonToEntityParser.parseJsonObject(json.getAsJsonObject(), mType);
