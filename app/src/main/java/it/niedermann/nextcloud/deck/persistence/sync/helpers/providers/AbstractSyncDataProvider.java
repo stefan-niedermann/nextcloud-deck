@@ -75,7 +75,9 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     public abstract void goDeeperForUpSync(SyncHelper syncHelper, T entity, T response);
 
     public void onError(Throwable error, IResponseCallback<Boolean> responseCallback){
-        parent.childDone(this, responseCallback, false);
+        if (parent != null){
+            parent.childDone(this, responseCallback, false);
+        }
         //TODO: what to do? what side effect would the following have:
 //        responseCallback.onError(error);
     }
