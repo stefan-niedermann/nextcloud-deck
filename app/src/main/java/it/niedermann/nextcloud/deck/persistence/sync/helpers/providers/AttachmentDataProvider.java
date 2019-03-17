@@ -46,22 +46,22 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment) {
-
+        //TODO: implement
     }
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
-
+        //TODO: implement
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
-
+        //TODO: implement
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
-
+        //TODO: implement
     }
 
     @Override
@@ -71,6 +71,6 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, Attachment entity, Attachment response) {
-
+        //TODO: implement
     }
 }

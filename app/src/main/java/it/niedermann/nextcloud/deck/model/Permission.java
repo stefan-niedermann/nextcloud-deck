@@ -8,7 +8,7 @@ import it.niedermann.nextcloud.deck.model.enums.PermissionType;
 @Entity(inheritSuperIndices = true)
 public class Permission {
     @PrimaryKey(autoGenerate = true)
-    long id;
+    private long id;
 
     public long getId() {
         return id;

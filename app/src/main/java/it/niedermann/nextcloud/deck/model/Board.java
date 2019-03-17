@@ -1,11 +1,10 @@
 package it.niedermann.nextcloud.deck.model;
 
+import java.util.Date;
+
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
-
-import java.util.Date;
-
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
@@ -17,7 +16,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 public class Board extends AbstractRemoteEntity {
 
     private String title;
-    long ownerId;
+    private long ownerId;
     private String color;
     private boolean archived;
     // TODO: seems to be something like shares to other users. how to handle this stuff??
