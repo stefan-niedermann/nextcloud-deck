@@ -1,8 +1,6 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">Abrir o caixón de navegación</string>
     <string name="navigation_drawer_close">Pechar o caixón de navegación</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Cliente para o aplicativo Deck do Nextcloud</string>
     <string name="nav_header_desc">Cabeceira de navegación</string>
     <string name="action_settings">Axustes</string>
@@ -37,4 +35,26 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">hai uns segundos</string>
+    <string name="edit">Editar</string>
+    <string name="label_title">Titulo</string>
+    <string name="label_labels">Seleccionar etiquetas</string>
+    <string name="label_description">Descrición</string>
+    <string name="hint_assign_people">Asignar usuarios</string>
+    <string name="hint_due_date_date">Data de caducidade</string>
+    <string name="activity">Actividade</string>
+    <string name="create_card">Crear tarxeta</string>
+    <string name="create_stack">Crear rimas</string>
+    <string name="create_board">Crear taboleiro</string>
+
+    <string name="add_account">Engadir unha conta</string>
+    <string name="accounts">Contas</string>
+
+    <string name="label_menu">menú</string>
+    <string name="action_card_assign">Asignarlle a vostede a tarxeta</string>
+    <string name="action_card_unassign">Desasignarlle a vostede a tarxeta</string>
+    <string name="action_card_archive">Arquivar a tarxeta</string>
+    <string name="action_card_delete">Eliminar a tarxeta</string>
+    <string name="add_board">Engadir taboleiro</string>
+    <string name="action_card_list_add_column">Engadir columna</string>
+    <string name="action_card_list_board_details">Detalles do taboleiro</string>
 </resources>

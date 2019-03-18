@@ -1,0 +1,55 @@
+<resources>
+    <string name="navigation_drawer_open">Navigációs fiók megnyitása</string>
+    <string name="navigation_drawer_close">Navigációs fiók bezárása</string>
+    <string name="nav_header_subtitle">Kliens a Nextcloud Deck alkalmazáshoz</string>
+    <string name="nav_header_desc">Navigációs fejléc</string>
+    <string name="action_settings">Beállítások</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Táblák</string>
+
+    <!-- About -->
+    <string name="about">Névjegy</string>
+    <string name="about_version_title">Verzió</string>
+    <string name="about_version">Jelenleg ezt a verziót használja: &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_maintainer_title">Karbantartó</string>
+    <string name="about_developers_title">Fejlesztők</string>
+    <string name="about_translators_title">Fordítók</string>
+    <string name="about_translators_transifex">Nextcloud közösség a &lt;a href=\"%1$s\">Transifexen&lt;/a></string>
+    <string name="about_testers_title">Tesztelők</string>
+    <string name="about_source_title">Forráskód</string>
+    <string name="about_source">A projekt a GitHubon található: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues_title">Hibajegyek</string>
+    <string name="about_issues">Hibákat, fejlesztési javaslatokat és funkciókéréseket a GitHub hibakövetőjében tehet: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate_title">Fordítás</string>
+    <string name="about_translate">Csatlakozzon a Nextcloud csapathoz a Transifexen, és segítsen az alkalmazás lefordításában: &lt;a href=\"%1$s\" >%1$s&lt;/a></string>
+    <string name="about_app_license_title">Alkalmazás licence</string>
+    <string name="about_app_license">Ez az alkalmazás a GNU GENERAL PUBLIC LICENSE v3+ verziója alatt kerül közreadásra.</string>
+    <string name="about_app_license_button">Licenc megtekintése</string>
+    <string name="about_icons_disclaimer_title">Ikonok</string>
+    <string name="about_icons_disclaimer">&lt;p>Az eredeti ikont %1$s készítette&lt;/p>&lt;p>Az alkalmazás által használt összes többi ikon a Google által készített &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> része, és az Apache 2.0 License alatt érhető el.&lt;/p></string>
+    <string name="about_credits_tab_title">Köszönetnyilvánítás</string>
+    <string name="about_contribution_tab_title">Közreműködés</string>
+    <string name="about_license_tab_title">Licenc</string>
+
+    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    <string name="seconds_ago">pár másodperce</string>
+    <string name="edit">Szerkesztés</string>
+    <string name="label_title">Cím</string>
+    <string name="label_labels">Címkék kiválasztása</string>
+    <string name="label_description">Leírás</string>
+    <string name="hint_assign_people">Felhasználók hozzárendelése</string>
+    <string name="activity">Tevékenység</string>
+    <string name="create_card">Kártya létrehozása</string>
+    <string name="create_stack">Rakás létrehozása</string>
+    <string name="create_board">Tábla létrehozása</string>
+
+    <string name="add_account">Fiók hozzáadása</string>
+    <string name="accounts">Fiókok</string>
+
+    <string name="label_menu">menü</string>
+    <string name="action_card_archive">Kártya archiválása</string>
+    <string name="action_card_delete">Kártya törlése</string>
+    <string name="action_card_list_add_column">Oszlop hozzáadása</string>
+    </resources>
