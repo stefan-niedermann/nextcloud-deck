@@ -163,9 +163,9 @@ public class MainActivity extends AppCompatActivity
                         accountsList = accounts;
                         int lastAccount = sharedPreferences.getInt(getString(R.string.shared_preference_last_account), 0);
                         if(accounts.size() -1 >= lastAccount) {
-                            this.account = accounts.get(0);
+                            this.account = accounts.get(lastAccount);
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                            setHeaderView()
+                            setHeaderView();
                             syncManager = new SyncManager(getApplicationContext(), MainActivity.this);
                             ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), this.account.getUrl(), this.account.getUserName());
                             // TODO show spinner
