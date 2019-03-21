@@ -1,14 +1,13 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">Otevřít panel navigace</string>
     <string name="navigation_drawer_close">Zavřít navigační panel</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Klient pro Nextcloud aplikaci Deck</string>
     <string name="nav_header_desc">Záhlaví navigace</string>
     <string name="action_settings">Nastavení</string>
 
     <!-- Simple values -->
     <string name="simple_boards">Desky</string>
+
     <!-- About -->
     <string name="about">O aplikaci</string>
     <string name="about_version_title">Verze</string>
@@ -36,4 +35,26 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">před několika vteřinami</string>
+    <string name="edit">Upravit</string>
+    <string name="label_title">Nadpis</string>
+    <string name="label_labels">Vybrat štítky</string>
+    <string name="label_description">Popis</string>
+    <string name="hint_assign_people">Přiřadit uživatele</string>
+    <string name="hint_due_date_date">Datum termínu</string>
+    <string name="activity">Aktivita</string>
+    <string name="create_card">Vytvořit kartu</string>
+    <string name="create_stack">Vytvořit zásobník</string>
+    <string name="create_board">Vytvořit nástěnku</string>
+
+    <string name="add_account">Přidat účet</string>
+    <string name="accounts">Účty</string>
+
+    <string name="label_menu">nabídka</string>
+    <string name="action_card_assign">Přiřadit kartu vám</string>
+    <string name="action_card_unassign">Zrušit přiřazení karty vám</string>
+    <string name="action_card_archive">Archivovat kartu</string>
+    <string name="action_card_delete">Smazat kartu</string>
+    <string name="add_board">Přidat nástěnku</string>
+    <string name="action_card_list_add_column">Přidat sloupec</string>
+    <string name="action_card_list_board_details">Podrobnosti o nástěnce</string>
 </resources>

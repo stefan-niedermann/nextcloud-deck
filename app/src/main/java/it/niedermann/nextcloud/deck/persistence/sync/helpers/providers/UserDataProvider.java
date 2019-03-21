@@ -12,14 +12,15 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class UserDataProvider implements IDataProvider<User> {
+public class UserDataProvider extends AbstractSyncDataProvider<User> {
 
     private Board board;
     private FullStack stack;
     private FullCard card;
     private List<User> users;
 
-    public UserDataProvider(Board board, FullStack stack, FullCard card, List<User> users) {
+    public UserDataProvider(AbstractSyncDataProvider<?> parent, Board board, FullStack stack, FullCard card, List<User> users) {
+        super(parent);
         this.board = board;
         this.stack = stack;
         this.card = card;
@@ -47,24 +48,18 @@ public class UserDataProvider implements IDataProvider<User> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, User existingEntity, User entityFromServer) {
-        // ain't goin' deeper <3
-        return;
-    }
-
-    @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> responder, User entity) {
-
+        //TODO: implement
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, User user) {
-
+        //TODO: implement
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> callback, User entity) {
-
+        //TODO: implement
     }
 
     @Override
@@ -74,11 +69,11 @@ public class UserDataProvider implements IDataProvider<User> {
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, User entity, User response) {
-
+        //TODO: implement
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> callback, User entity) {
-
+        //TODO: implement
     }
 }

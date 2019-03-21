@@ -9,11 +9,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class LabelDataProvider implements IDataProvider<Label> {
+public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     private List<Label> labels;
 
-    public LabelDataProvider(List<Label> labels) {
+    public LabelDataProvider(AbstractSyncDataProvider<?> parent, List<Label> labels) {
+        super(parent);
         this.labels = labels;
     }
 
@@ -38,24 +39,18 @@ public class LabelDataProvider implements IDataProvider<Label> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, Label existingEntity, Label entityFromServer) {
-        // ain't goin' deeper <3
-        return;
-    }
-
-    @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> responder, Label entity) {
-
+        // TODO: implement
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label label) {
-
+        // TODO: implement
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
-
+        // TODO: implement
     }
 
     @Override
@@ -65,11 +60,11 @@ public class LabelDataProvider implements IDataProvider<Label> {
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, Label entity, Label response) {
-
+        // TODO: implement
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
-
+        // TODO: implement
     }
 }

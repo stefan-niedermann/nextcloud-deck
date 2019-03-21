@@ -10,11 +10,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class AccessControlDataProvider implements IDataProvider<AccessControl> {
+public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
     private List<AccessControl> acl;
 
-    public AccessControlDataProvider(List<AccessControl> acl) {
+    public AccessControlDataProvider(AbstractSyncDataProvider<?> parent, List<AccessControl> acl) {
+        super(parent);
         this.acl = acl;
     }
 
@@ -53,29 +54,23 @@ public class AccessControlDataProvider implements IDataProvider<AccessControl> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, AccessControl existingEntity, AccessControl entityFromServer) {
-        // ain't goin' deeper <3
-        return;
-    }
-
-    @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<AccessControl> responder, AccessControl entity) {
-
+        //TODO: implement
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<AccessControl> callback, AccessControl entity) {
-
+        //TODO: implement
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl accessControl) {
-
+        //TODO: implement
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<AccessControl> callback, AccessControl entity) {
-
+        //TODO: implement
     }
 
     @Override
@@ -85,6 +80,6 @@ public class AccessControlDataProvider implements IDataProvider<AccessControl> {
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, AccessControl entity, AccessControl response) {
-
+        //TODO: implement
     }
 }

@@ -1,8 +1,6 @@
 <resources>
-    <string name="app_name">Nextcloud看板</string>
     <string name="navigation_drawer_open">打开导航条</string>
     <string name="navigation_drawer_close">关闭导航条</string>
-    <string name="nav_header_title">Nextcloud看板</string>
     <string name="nav_header_subtitle">Nextcloud看板应用客户端</string>
     <string name="nav_header_desc">导航头</string>
     <string name="action_settings">设置</string>
@@ -37,4 +35,26 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">几秒前</string>
+    <string name="edit">编辑</string>
+    <string name="label_title">标题</string>
+    <string name="label_labels">选择标签</string>
+    <string name="label_description">描述</string>
+    <string name="hint_assign_people">指派用户</string>
+    <string name="hint_due_date_date">截止日期</string>
+    <string name="activity">动态</string>
+    <string name="create_card">创建卡片</string>
+    <string name="create_stack">创建堆</string>
+    <string name="create_board">创建面板</string>
+
+    <string name="add_account">添加账号</string>
+    <string name="accounts">账号</string>
+
+    <string name="label_menu">菜单</string>
+    <string name="action_card_assign">指派卡片给您</string>
+    <string name="action_card_unassign">取消指派给您的卡片</string>
+    <string name="action_card_archive">归档卡片</string>
+    <string name="action_card_delete">删除卡片</string>
+    <string name="add_board">添加面板</string>
+    <string name="action_card_list_add_column">添加列</string>
+    <string name="action_card_list_board_details">面板详情</string>
 </resources>

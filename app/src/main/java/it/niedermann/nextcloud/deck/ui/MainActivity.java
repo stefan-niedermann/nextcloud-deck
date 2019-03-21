@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -240,10 +241,9 @@ public class MainActivity extends AppCompatActivity
     private void buildSidenavAccountChooser() {
         Menu menu = navigationView.getMenu();
         menu.clear();
-        SubMenu accountMenu = menu.addSubMenu(getString(R.string.accounts));
         int index = 0;
         for (Account account : this.accountsList) {
-            accountMenu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+            menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
         }
         menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }
@@ -292,7 +292,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Snackbar.make(coordinatorLayout, "This has not been implemented yet.", Snackbar.LENGTH_LONG).show();
+        switch(item.getItemId()) {
+            case R.id.action_card_list_add_column:
+                Stack s = new Stack();
+                s.setTitle("App-created Stack");
+                s.setBoardId(0);
+                syncManager.createStack(account.getId(), s);
+                Snackbar.make(coordinatorLayout, "Adding columns has been implemented yet.", Snackbar.LENGTH_LONG).show();
+                break;
+            case R.id.action_card_list_board_details:
+                Snackbar.make(coordinatorLayout, "Bord details has not been implemented yet.", Snackbar.LENGTH_LONG).show();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

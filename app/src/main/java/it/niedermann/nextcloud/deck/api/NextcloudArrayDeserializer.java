@@ -25,8 +25,6 @@ public class NextcloudArrayDeserializer<T> implements JsonDeserializer<List<T>> 
         this.mType = type;
     }
 
-    public static final String TAG = NextcloudArrayDeserializer.class.getCanonicalName();
-
     @Override
     public List<T> deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
         List<T> items = new ArrayList<>();

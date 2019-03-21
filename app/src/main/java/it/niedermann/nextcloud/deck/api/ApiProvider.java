@@ -18,7 +18,6 @@ import retrofit2.NextcloudRetrofitApiBuilder;
 
 public class ApiProvider {
 
-    private static final String TAG = ApiProvider.class.getCanonicalName();
     private static final String API_ENDPOINT = "/index.php/apps/deck/api/v1.0/";
 
     private DeckAPI mApi;
@@ -29,10 +28,10 @@ public class ApiProvider {
         this.context = context;
     }
 
-    void initSsoApi(final NextcloudAPI.ApiConnectedListener callback) {
+    public void initSsoApi(final NextcloudAPI.ApiConnectedListener callback) {
         try {
             setAccount();
-            NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.GetGson(), callback);
+            NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), callback);
             //mApi = new DeckAPI_SSO(nextcloudAPI);
             mApi = new NextcloudRetrofitApiBuilder(nextcloudAPI, API_ENDPOINT).create(DeckAPI.class);
         } catch (SSOException e) {

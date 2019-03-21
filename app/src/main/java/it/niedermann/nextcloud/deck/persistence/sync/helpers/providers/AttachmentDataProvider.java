@@ -10,12 +10,13 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class AttachmentDataProvider implements IDataProvider<Attachment> {
+public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment> {
 
     private FullCard card;
     private List<Attachment> attachments;
 
-    public AttachmentDataProvider(FullCard card, List<Attachment> attachments) {
+    public AttachmentDataProvider(AbstractSyncDataProvider<?> parent, FullCard card, List<Attachment> attachments) {
+        super(parent);
         this.card = card;
         this.attachments = attachments;
     }
@@ -45,27 +46,22 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment) {
-
-    }
-
-    @Override
-    public void goDeeper(SyncHelper syncHelper, Attachment existingEntity, Attachment entityFromServer) {
-
+        //TODO: implement
     }
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
-
+        //TODO: implement
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
-
+        //TODO: implement
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
-
+        //TODO: implement
     }
 
     @Override
@@ -75,6 +71,6 @@ public class AttachmentDataProvider implements IDataProvider<Attachment> {
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, Attachment entity, Attachment response) {
-
+        //TODO: implement
     }
 }

@@ -5,9 +5,11 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="16dp"
+    android:layout_marginStart="@dimen/card_spacing"
+    android:layout_marginLeft="@dimen/card_spacing"
+    android:layout_marginTop="@dimen/card_spacing"
+    android:layout_marginEnd="@dimen/card_spacing"
+    android:layout_marginRight="@dimen/card_spacing"
     android:focusable="true">
 
     <LinearLayout
@@ -16,93 +18,92 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/card_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="4dp"
+                android:paddingStart="0dp"
+                android:paddingLeft="0dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                tools:text="Card Title" />
+                tools:ignore="RtlSymmetry"
+                tools:text="This is a really longCard Title" />
 
+            <TextView
+                android:id="@+id/card_due_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/due_tomorrow_background"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="4dp"
+                android:layout_gravity="center"
+                tools:text="tomorrow" />
 
             <ImageView
                 android:id="@+id/card_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:paddingLeft="@dimen/fab_margin"
-                android:paddingStart="@dimen/fab_margin"
                 android:contentDescription="@string/label_menu"
+                android:padding="4dp"
                 app:srcCompat="@drawable/ic_menu" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/card_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:paddingTop="@dimen/standard_half_padding"
+            android:paddingBottom="@dimen/standard_margin"
             android:textColor="@color/fg_secondary"
             android:textSize="16sp"
-            android:maxLines="1"
             tools:text="This is a card description" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/labels"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/labels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="8dp">
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/card_due_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginRight="12dp"
-                    android:background="@drawable/due_tomorrow_background"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:minLines="0"
-                    android:padding="4dp"
-                    app:drawableLeftCompat="@drawable/calendar_blank_grey600_24dp"
-                    app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
-                    tools:text="in 16 days" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_count_attachments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="4dp"
+                app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
+                app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
+                tools:text="1" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/card_count_attachments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginRight="12dp"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:minLines="0"
-                    android:padding="4dp"
-                    app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
-                    app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
-                    tools:text="1" />
-
-            </LinearLayout>
-        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/peopleList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" />
+        </LinearLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -1,8 +1,6 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">Otwórz panel nawigacji</string>
     <string name="navigation_drawer_close">Zamknij panel nawigacji</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Aplikacja kliencka dla Nextcloud Deck</string>
     <string name="nav_header_desc">Nagłówek nawigacji</string>
     <string name="action_settings">Ustawienia</string>
@@ -37,4 +35,25 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">przed chwilą</string>
+    <string name="edit">Edytuj</string>
+    <string name="label_title">Tutuł</string>
+    <string name="label_labels">Wybierz etykietę</string>
+    <string name="label_description">Opis</string>
+    <string name="hint_assign_people">Przydziel użytkowników</string>
+    <string name="activity">Aktywność</string>
+    <string name="create_card">Utwórz kartę</string>
+    <string name="create_stack">Utwórz stos</string>
+    <string name="create_board">Utwórz tablicę</string>
+
+    <string name="add_account">Dodaj konto</string>
+    <string name="accounts">Konta</string>
+
+    <string name="label_menu">menu</string>
+    <string name="action_card_assign">Przypisz kartę</string>
+    <string name="action_card_unassign">Usuń przypisaną kartę</string>
+    <string name="action_card_archive">Zarchiwizowane karty</string>
+    <string name="action_card_delete">Usunięte karty</string>
+    <string name="add_board">Dodaj tablicę</string>
+    <string name="action_card_list_add_column">Dodaj kolumnę</string>
+    <string name="action_card_list_board_details">Szczegóły tablicy</string>
 </resources>

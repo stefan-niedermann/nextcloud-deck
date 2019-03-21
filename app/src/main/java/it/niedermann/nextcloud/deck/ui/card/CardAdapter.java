@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +42,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
+import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
@@ -65,6 +69,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return new CardViewHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
         FullCard card = cardList.get(position);
@@ -96,7 +101,33 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         });
 
         viewHolder.cardTitle.setText(card.getCard().getTitle());
-        viewHolder.cardDescription.setText(card.getCard().getDescription());
+        if (card.getCard().getDescription().length() > 0) {
+            viewHolder.cardDescription.setText(card.getCard().getDescription());
+            viewHolder.cardDescription.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.cardDescription.setVisibility(View.GONE);
+        }
+
+
+        if (card.getAssignedUsers() != null && card.getAssignedUsers().size() > 0 && account.url != null) {
+            int avatarSize = DimensionUtil.getAvatarDimension(context, R.dimen.avatar_size_small);
+            viewHolder.peopleList.removeAllViews();
+            RelativeLayout.LayoutParams avatarLayoutParams;
+            viewHolder.peopleList.setVisibility(View.VISIBLE);
+            for (int i = 0; i < card.getAssignedUsers().size(); i++) {
+                avatarLayoutParams = new RelativeLayout.LayoutParams(avatarSize, avatarSize);
+                avatarLayoutParams.setMargins(0, 0, i * context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small), 0);
+                avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                ImageView avatar = new ImageView(context);
+                avatar.setLayoutParams(avatarLayoutParams);
+                viewHolder.peopleList.addView(avatar);
+                avatar.requestLayout();
+                ViewUtil.addAvatar(context, avatar, account.url, card.getAssignedUsers().get(i).getUid(), avatarSize);
+            }
+        } else {
+            viewHolder.peopleList.setVisibility(View.GONE);
+        }
+
 
         if (card.getCard().getDueDate() != null) {
             viewHolder.cardDueDate.setText(
@@ -110,25 +141,45 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.cardDueDate.setVisibility(View.GONE);
         }
 
-        if (card.getCard().getAttachmentCount() > 0) {
-            if (card.getCard().getAttachmentCount() > 99) {
-                viewHolder.cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
-            } else {
-                viewHolder.cardCountAttachments.setText(String.valueOf(card.getCard().getAttachmentCount()));
-            }
-            viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
-        } else {
+        final int attachmentsCount = card.getCard().getAttachmentCount();
+
+        if (attachmentsCount == 0) {
             viewHolder.cardCountAttachments.setVisibility(View.GONE);
+        } else {
+            viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
+        }
+        if (attachmentsCount > 99) {
+            viewHolder.cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
+        } else if (attachmentsCount > 1) {
+            viewHolder.cardCountAttachments.setText(attachmentsCount + "");
+        } else if (attachmentsCount == 1) {
+            viewHolder.cardCountAttachments.setText("");
         }
 
+
+        final int maxLabelsShown = context.getResources().getInteger(R.integer.max_labels_shown);
+        final int maxLabelsChars = context.getResources().getInteger(R.integer.max_labels_chars);
         Chip chip;
         viewHolder.labels.removeAllViews();
-        if (card.getLabels()!= null && card.getLabels().size() > 0) {
-            for (Label label : card.getLabels()) {
+        if (card.getLabels() != null && card.getLabels().size() > 0) {
+            for (int i = 0; i < card.getLabels().size(); i++) {
+                if (i > maxLabelsShown - 1 && card.getLabels().size() > maxLabelsShown) {
+                    chip = new Chip(context);
+                    chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
+                    chip.setCloseIconStartPadding(0);
+                    chip.setCloseIconEndPadding(0);
+                    chip.setTextStartPadding(0);
+                    chip.setTextEndPadding(0);
+                    viewHolder.labels.addView(chip);
+                    break;
+                }
+                Label label = card.getLabels().get(i);
                 chip = new Chip(context);
                 String labelTitle = label.getTitle();
-                if(labelTitle.length() > 0) {
-                    chip.setText(labelTitle.substring(0, 1));
+                if (labelTitle.length() > maxLabelsChars - 1) {
+                    chip.setText(labelTitle.substring(0, maxLabelsChars));
+                } else {
+                    chip.setText(" " + labelTitle.substring(0, 1) + " ");
                 }
 
                 try {
@@ -147,9 +198,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.labels.setVisibility(View.GONE);
         }
 
-        viewHolder.cardMenu.setOnClickListener(v -> {
-            onOverflowIconClicked(v, card);
-        });
+        viewHolder.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
     }
 
     @Override
@@ -221,6 +270,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextView cardTitle;
         @BindView(R.id.card_description)
         TextView cardDescription;
+        @BindView(R.id.peopleList)
+        RelativeLayout peopleList;
         @BindView(R.id.labels)
         ChipGroup labels;
         @BindView(R.id.card_due_date)

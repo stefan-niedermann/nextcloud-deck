@@ -1,8 +1,6 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">Apri il cassetto di navigazione</string>
     <string name="navigation_drawer_close">Chiudi il cassetto di navigazione</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Client per l\'applicazione Nextcloud Deck</string>
     <string name="nav_header_desc">Intestazione di navigazione</string>
     <string name="action_settings">Impostazioni</string>
@@ -37,4 +35,26 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">secondi fa</string>
+    <string name="edit">Modifica</string>
+    <string name="label_title">Titolo</string>
+    <string name="label_labels">Seleziona etichette</string>
+    <string name="label_description">Descrizione</string>
+    <string name="hint_assign_people">Assegna utenti</string>
+    <string name="hint_due_date_date">Data di scadenza</string>
+    <string name="activity">Attività</string>
+    <string name="create_card">Crea scheda</string>
+    <string name="create_stack">Crea pila</string>
+    <string name="create_board">Crea lavagna</string>
+
+    <string name="add_account">Aggiungi account</string>
+    <string name="accounts">Account</string>
+
+    <string name="label_menu">menu</string>
+    <string name="action_card_assign">Assegna scheda a te</string>
+    <string name="action_card_unassign">Rimuovi assegnazione scheda da te</string>
+    <string name="action_card_archive">Archivia scheda</string>
+    <string name="action_card_delete">Elimina scheda</string>
+    <string name="add_board">Aggiungi lavagna</string>
+    <string name="action_card_list_add_column">Aggiungi colonna</string>
+    <string name="action_card_list_board_details">Dettaglio bordo</string>
 </resources>

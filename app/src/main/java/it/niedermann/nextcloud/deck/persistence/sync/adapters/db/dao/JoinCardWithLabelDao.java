@@ -12,8 +12,8 @@ public interface JoinCardWithLabelDao extends GenericDao<JoinCardWithLabel> {
     @Query("DELETE FROM joincardwithlabel WHERE  cardId = :localCardId")
     void deleteByCardId(long localCardId);
 
-    @Query("DELETE FROM joincardwithlabel WHERE cardId = :localId and labelId = :labelId")
-    void deleteByCardIdAndLabelId(long localId, long labelId);
+    @Query("DELETE FROM joincardwithlabel WHERE cardId = :localCardId and labelId = :labelId")
+    void deleteByCardIdAndLabelId(long localCardId, long labelId);
 
     @Query("Update joincardwithlabel set status = :status WHERE cardId = :localCardId and labelId = :localLabelId")
     void setDbStatus(long localCardId, long localLabelId, int status);

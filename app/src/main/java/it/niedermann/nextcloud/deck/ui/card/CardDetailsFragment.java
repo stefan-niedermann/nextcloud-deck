@@ -125,13 +125,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
         avatarSize = DimensionUtil.getAvatarDimension(getContext());
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
-        avatarLayoutParams.setMargins(0, 0, DimensionUtil.dpToPx(getContext(), 8), 0);
+        avatarLayoutParams.setMargins(0, 0, getContext().getResources().getDimensionPixelSize(R.dimen.standard_half_padding), 0);
 
         try {
             baseUrl = syncManager.getServerUrl();
-        } catch (NextcloudFilesAppAccountNotFoundException e) {
-            DeckLog.logError(e);
-        } catch (NoCurrentAccountSelectedException e) {
+        } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
             DeckLog.logError(e);
         }
 
@@ -145,13 +143,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.fullCardViewModel.fullCard.observe(CardDetailsFragment.this, (FullCard card) -> {
             this.card = card;
             if (this.card != null) {
-                // people
                 setupPeople(accountId);
-
-                // labels
                 setupLabels();
-
-                // due date
                 setupDueDate();
             }
         });
@@ -227,7 +220,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 final Chip chip = createChipFromLabel(label);
                 chip.setOnCloseIconClickListener(v -> {
                     labelsGroup.removeView(chip);
-                    syncManager.unassignLabelToCard(label, card.getCard());
+                    syncManager.unassignLabelFromCard(label, card.getCard());
                 });
                 labelsGroup.addView(chip);
             }
@@ -265,7 +258,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         people.setOnItemClickListener((adapterView, view, position, id) -> {
             User user = (User) adapterView.getItemAtPosition(position);
 
-            syncManager.assignUserToCard(user.getLocalId(), card.getCard());
+            syncManager.assignUserToCard(user, card.getCard());
 
             if (baseUrl != null) {
                 addAvatar(baseUrl, user);

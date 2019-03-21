@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
@@ -12,7 +13,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -24,10 +28,16 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.persistence.sync.util.DateUtil;
 
 public class ServerAdapter {
 
-    private static final DateFormat API_FORMAT = new SimpleDateFormat("E, d MMM yyyy hh:mm:ss z");
+    private static final DateFormat API_FORMAT = new SimpleDateFormat("E, dd MMM yyyy hh:mm:ss z", 
+                                                                      Locale.US);
+
+    static {
+        API_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
+    }
 
     private Context applicationContext;
     private ApiProvider provider;
@@ -67,23 +77,24 @@ public class ServerAdapter {
     }
 
     private String getLastSyncDateFormatted() {
-        return null;
-//        String lastSyncHeader = API_FORMAT.format(getLastSync());
-//        // omit Offset of timezone (e.g.: +01:00)
-//        if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
-//            lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
-//        }
-//        Log.d("deck lastSync", lastSyncHeader);
-//        return lastSyncHeader;
+//        return null;
+        String lastSyncHeader = API_FORMAT.format(getLastSync());
+        // omit Offset of timezone (e.g.: +01:00)
+        if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
+            lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
+        }
+        Log.d("deck lastSync", lastSyncHeader);
+        return lastSyncHeader;
     }
 
     private Date getLastSync() {
-        return new Date(0l);
+//        return new Date(0l);
         //return null;
         // FIXME: reactivate, when lastSync is working in REST-API
-//        Date lastSync = new Date();
-//        lastSync.setTime(lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L));
-//        return lastSync;
+        Date lastSync = DateUtil.nowInGMT();
+        lastSync.setTime(lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L));
+
+        return lastSync;
     }
 
     public void getBoards(IResponseCallback<List<FullBoard>> responseCallback) {
@@ -146,10 +157,24 @@ public class ServerAdapter {
         ensureInternetConnection();
 
     }
-    public void assignUserToCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<FullCard> responseCallback){
+
+    public void assignUserToCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<Void> responseCallback){
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().assignUserToCard(boardId, stackId, cardId, userUID), responseCallback);
     }
 
+    public void unassignUserFromCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<Void> responseCallback){
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().unassignUserFromCard(boardId, stackId, cardId, userUID), responseCallback);
+    }
 
+    public void assignLabelToCard(long boardId, long stackId, long cardId, long labelId, IResponseCallback<Void> responseCallback){
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().assignLabelToCard(boardId, stackId, cardId, labelId), responseCallback);
+    }
+
+    public void unassignLabelFromCard(long boardId, long stackId, long cardId, long labelId, IResponseCallback<Void> responseCallback){
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().unassignLabelFromCard(boardId, stackId, cardId, labelId), responseCallback);
+    }
 }

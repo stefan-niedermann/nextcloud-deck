@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -14,12 +16,13 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
-public class CardDataProvider implements IDataProvider<FullCard> {
+public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     private Board board;
     private FullStack stack;
 
-    public CardDataProvider(Board board, FullStack stack) {
+    public CardDataProvider(AbstractSyncDataProvider<?> parent, Board board, FullStack stack) {
+        super(parent);
         this.board = board;
         this.stack = stack;
     }
@@ -85,36 +88,46 @@ public class CardDataProvider implements IDataProvider<FullCard> {
     }
 
     @Override
-    public void goDeeper(SyncHelper syncHelper, FullCard existingEntity, FullCard entityFromServer) {
-        existingEntity.setLabels(entityFromServer.getLabels());
-        existingEntity.setAssignedUsers(entityFromServer.getAssignedUsers());
-        existingEntity.setAttachments(entityFromServer.getAttachments());
-        syncHelper.doSyncFor(new LabelDataProvider(entityFromServer.getLabels()));
+    public void goDeeper(SyncHelper syncHelper, FullCard existingEntity, FullCard entityFromServer, IResponseCallback<Boolean> callback) {
+        List<Label> labels = entityFromServer.getLabels();
+        existingEntity.setLabels(labels);
+        List<User> assignedUsers = entityFromServer.getAssignedUsers();
+        existingEntity.setAssignedUsers(assignedUsers);
+        List<Attachment> attachments = entityFromServer.getAttachments();
+        existingEntity.setAttachments(attachments);
+
+        if(labels != null && !labels.isEmpty()){
+            syncHelper.doSyncFor(new LabelDataProvider(this, labels));
+        }
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
-        syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getAssignedUsers()));
+        if(assignedUsers!= null && !assignedUsers.isEmpty()){
+            syncHelper.doSyncFor(new UserDataProvider(this, board, stack, existingEntity, existingEntity.getAssignedUsers()));
+        }
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
-        syncHelper.doSyncFor(new AttachmentDataProvider(existingEntity, entityFromServer.getAttachments()));
+        if(assignedUsers!= null && !attachments.isEmpty()){
+            syncHelper.doSyncFor(new AttachmentDataProvider(this, existingEntity, attachments));
+        }
 //        syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getOwner()));
     }
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
-
+        //TODO: implement
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
-
+        //TODO: implement
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard fullCard) {
-
+        //TODO: implement
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
-
+        //TODO: implement
     }
 
     @Override
@@ -124,6 +137,6 @@ public class CardDataProvider implements IDataProvider<FullCard> {
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, FullCard entity, FullCard response) {
-
+        //TODO: implement
     }
 }

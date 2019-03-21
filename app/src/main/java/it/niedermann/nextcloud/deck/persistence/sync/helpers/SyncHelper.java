@@ -10,7 +10,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IRelationshipProvider;
 
 public class SyncHelper {
@@ -28,11 +28,13 @@ public class SyncHelper {
     }
 
     // Sync Server -> App
-    public <T extends IRemoteEntity> void doSyncFor(final IDataProvider<T> provider){
+    public <T extends IRemoteEntity> void doSyncFor(final AbstractSyncDataProvider<T> provider){
+        provider.registerChildInParent(provider);
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
                 if (response != null && !response.isEmpty()) {
+                    provider.goingDeeper();
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
@@ -44,19 +46,24 @@ public class SyncHelper {
                                 DeckLog.log("Conflicting changes on entity: "+existingEntity);
                                 // TODO: what to do?
                             } else {
+//                                if (existingEntity.getLastModified().getTime() == entityFromServer.getLastModified().getTime()) {
+//                                    continue; // TODO: is this is ok for sure? -> isn`t! NPE
+//                                }
                                 provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(existingEntity, entityFromServer, accountId));
                             }
                         }
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
-                        provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer);
+                        provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
                     }
+                    provider.doneGoingDeeper(responseCallback, true);
+                } else {
+                    provider.childDone(provider, responseCallback, false);
                 }
-
-                provider.doneAll(responseCallback, Boolean.TRUE);
             }
 
             @Override
             public void onError(Throwable throwable) {
+                provider.onError(throwable, responseCallback);
                 DeckLog.logError(throwable);
                 responseCallback.onError(throwable);
             }
@@ -64,9 +71,10 @@ public class SyncHelper {
     }
 
     // Sync App -> Server
-    public <T extends IRemoteEntity> void doUpSyncFor(IDataProvider<T> provider){
+    public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider){
         List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
         if (allFromDB != null && !allFromDB.isEmpty()) {
+            provider.goingDeeper();
             for (T entity : allFromDB) {
                 IResponseCallback<T> updateCallback = new IResponseCallback<T>(account) {
                     @Override
@@ -96,8 +104,10 @@ public class SyncHelper {
                     provider.createOnServer(serverAdapter, accountId, updateCallback, entity);
                 }
             }
+            provider.doneGoingDeeper(responseCallback, true);
+        } else {
+            provider.childDone(provider, responseCallback, false);
         }
-        provider.doneAll(responseCallback, Boolean.TRUE);
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {

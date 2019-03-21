@@ -1,8 +1,6 @@
 <resources>
-    <string name="app_name">Nextcloud Tahta</string>
     <string name="navigation_drawer_open">Gezinme çekmecesini aç</string>
     <string name="navigation_drawer_close">Gezinme çekmecesini kapat</string>
-    <string name="nav_header_title">Nextcloud Tahta</string>
     <string name="nav_header_subtitle">Nextcloud Tahta uygulaması istemcisi</string>
     <string name="nav_header_desc">Gezinme başlığı</string>
     <string name="action_settings">Ayarlar</string>
@@ -37,4 +35,26 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">saniye önce</string>
+    <string name="edit">Düzenle</string>
+    <string name="label_title">Başlık</string>
+    <string name="label_labels">Etiketleri Seçin</string>
+    <string name="label_description">Açıklama</string>
+    <string name="hint_assign_people">Kullanıcı ata</string>
+    <string name="hint_due_date_date">Bitiş tarihi</string>
+    <string name="activity">Etkinlik</string>
+    <string name="create_card">Kart ekle</string>
+    <string name="create_stack">Yığın ekle</string>
+    <string name="create_board">Pano ekle</string>
+
+    <string name="add_account">Hesap ekle</string>
+    <string name="accounts">Hesaplar</string>
+
+    <string name="label_menu">menü</string>
+    <string name="action_card_assign">Kartı size atayın</string>
+    <string name="action_card_unassign">Kartın size atamasını kaldırın</string>
+    <string name="action_card_archive">Kartı arşivle</string>
+    <string name="action_card_delete">Kartı sil</string>
+    <string name="add_board">Pano ekle</string>
+    <string name="action_card_list_add_column">Sütun ekle</string>
+    <string name="action_card_list_board_details">Pano ayrıntıları</string>
 </resources>

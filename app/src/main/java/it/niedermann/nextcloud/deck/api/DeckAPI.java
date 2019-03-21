@@ -73,18 +73,21 @@ public interface DeckAPI {
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Observable<Card> updateCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Card card);
 
+    @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignLabel")
-    Observable assignLabelToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer labelId);
+    Observable assignLabelToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
 
+    @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/removeLabel")
-    Observable unassignLabelFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer labelId);
+    Observable unassignLabelFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("labelId") long labelId);
 
     @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignUser")
-    Observable<FullCard> assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId") String userId);
+    Observable<Void> assignUserToCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId") String userUID);
 
+    @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/unassignUser")
-    Observable unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body String userId);
+    Observable<Void> unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId")  String userUID);
 
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/reorder")
     Observable moveCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer order, @Body Integer newStackId);

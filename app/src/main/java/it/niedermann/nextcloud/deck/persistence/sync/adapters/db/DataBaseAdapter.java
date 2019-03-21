@@ -86,7 +86,7 @@ public class DataBaseAdapter {
         if (card != null){
             if (card.getLabelIDs() != null && !card.getLabelIDs().isEmpty()){
                 List<Long> filteredIDs = db.getJoinCardWithLabelDao().filterDeleted(card.getLocalId(), card.getLabelIDs());
-                card.setLabels(db.getLabelDao().getLabelsByIdDirectly(filteredIDs));
+                card.setLabels(db.getLabelDao().getLabelsByIdsDirectly(filteredIDs));
             }
             if (card.getAssignedUserIDs() != null && !card.getAssignedUserIDs().isEmpty()){
                 card.setAssignedUsers(db.getUserDao().getUsersByIdDirectly(card.getAssignedUserIDs()));
@@ -140,9 +140,14 @@ public class DataBaseAdapter {
     }
 
     public void createJoinCardWithLabel(long localLabelId, long localCardId) {
+        createJoinCardWithLabel(localLabelId, localCardId, DBStatus.UP_TO_DATE);
+    }
+
+    public void createJoinCardWithLabel(long localLabelId, long localCardId, DBStatus status) {
         JoinCardWithLabel join = new JoinCardWithLabel();
         join.setCardId(localCardId);
         join.setLabelId(localLabelId);
+        join.setStatus(status.getId());
         db.getJoinCardWithLabelDao().insert(join);
     }
 
@@ -151,6 +156,17 @@ public class DataBaseAdapter {
     }
     public void deleteJoinedLabelForCard(long localCardId, long localLabelId) {
         db.getJoinCardWithLabelDao().setDbStatus(localCardId, localLabelId, DBStatus.LOCAL_DELETED.getId());
+    }
+
+    public void deleteJoinedUserForCard(long localCardId, long localUserId) {
+        db.getJoinCardWithUserDao().setDbStatus(localCardId, localUserId, DBStatus.LOCAL_DELETED.getId());
+    }
+
+    public void deleteJoinedLabelForCardPhysically(long localCardId, long localLabelId) {
+        db.getJoinCardWithLabelDao().deleteByCardIdAndLabelId(localCardId, localLabelId);
+    }
+    public void deleteJoinedUserForCardPhysically(long localCardId, long localUserId) {
+        db.getJoinCardWithUserDao().deleteByCardIdAndUserIdPhysically(localCardId, localUserId);
     }
 
     public void createJoinCardWithUser(long localUserId, long localCardId) {
@@ -362,5 +378,13 @@ public class DataBaseAdapter {
 
     public void setStatusForJoinCardWithUser(long localCardId, long localUserId, int status) {
         db.getJoinCardWithUserDao().setDbStatus(localCardId, localUserId, status);
+    }
+
+    public void setStatusForJoinCardWithLabel(long localCardId, long localLabelId, int status) {
+        db.getJoinCardWithLabelDao().setDbStatus(localCardId, localLabelId, status);
+    }
+
+    public Label getLabelByLocalIdDirectly(long localLabelId) {
+        return db.getLabelDao().getLabelsByIdDirectly(localLabelId);
     }
 }

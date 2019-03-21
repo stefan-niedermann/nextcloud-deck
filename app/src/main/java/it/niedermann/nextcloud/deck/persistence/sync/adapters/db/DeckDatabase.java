@@ -1,11 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
+import android.content.Context;
+
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import android.content.Context;
-
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -62,7 +62,7 @@ public abstract class DeckDatabase extends RoomDatabase {
     private static final String DECK_DB_NAME = "NC_DECK_DB.db";
     private static volatile DeckDatabase instance;
 
-    static synchronized DeckDatabase getInstance(Context context) {
+    public static synchronized DeckDatabase getInstance(Context context) {
         if (instance == null) {
             instance = create(context);
         }

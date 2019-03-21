@@ -1,0 +1,59 @@
+<resources>
+    <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
+    <string name="navigation_drawer_close">Stäng navigeringslådan</string>
+    <string name="nav_header_subtitle">Klient för Nextcloud Deck app</string>
+    <string name="action_settings">Inställningar</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Tavlor</string>
+
+    <!-- About -->
+    <string name="about">Om</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_version">Du använder för närvarande &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_maintainer_title">Underhållare</string>
+    <string name="about_developers_title">Utvecklare</string>
+    <string name="about_translators_title">Översättare</string>
+    <string name="about_translators_transifex">Nextcloud-gemenskapen på &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_testers_title">Testare</string>
+    <string name="about_source_title">Källkod</string>
+    <string name="about_source">Detta projekt finns på GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues_title">Problem</string>
+    <string name="about_issues">Du kan rapportera buggar, förbättringsförslag och funktionsönskningar på GitHubs problemhanterare: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate_title">Översätt</string>
+    <string name="about_translate">Gå med i Nextcloud-gruppen på Transifex och hjälp oss översätta denna app: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_app_license_title">App-licens</string>
+    <string name="about_app_license">Denna app är licensierad under GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Visa licens</string>
+    <string name="about_icons_disclaimer_title">Ikoner</string>
+    <string name="about_icons_disclaimer">&lt;p>Originalikon gjord av %1$s&lt;/p>&lt;p>Alla framtida ikoner använda av appen är &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> gjorda av Google Inc. och licensierade under Apache 2.0 License.&lt;/p></string>
+    <string name="about_credits_tab_title">Tack</string>
+    <string name="about_contribution_tab_title">Bidrag</string>
+    <string name="about_license_tab_title">Licens</string>
+
+    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+
+    <string name="seconds_ago">sekunder sedan</string>
+    <string name="edit">Redigera</string>
+    <string name="label_title">Titel</string>
+    <string name="label_labels">Välj taggar</string>
+    <string name="label_description">Beskrivning</string>
+    <string name="hint_assign_people">Tilldela användare</string>
+    <string name="hint_due_date_date">Slutdatum</string>
+    <string name="activity">Aktivitet</string>
+    <string name="create_card">Skapa kort</string>
+    <string name="create_stack">Skapa stapel</string>
+    <string name="create_board">Skapa tavla</string>
+
+    <string name="add_account">Lägg till konto</string>
+    <string name="accounts">Konton</string>
+
+    <string name="label_menu">meny</string>
+    <string name="action_card_assign">Tilldela kort till dig</string>
+    <string name="action_card_unassign">Ta bort kort från dig</string>
+    <string name="action_card_archive">Arkivera kort</string>
+    <string name="action_card_delete">Radera kort</string>
+    <string name="add_board">Lägg till tavla</string>
+    <string name="action_card_list_add_column">Lägg till kolumn</string>
+    <string name="action_card_list_board_details">Taveldetaljer</string>
+</resources>

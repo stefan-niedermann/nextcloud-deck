@@ -1,10 +1,13 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -43,8 +46,6 @@ public class EditActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         fullCardViewModel = ViewModelProviders.of(this)
                 .get(FullCardViewModel.class);
 
@@ -56,6 +57,24 @@ public class EditActivity extends AppCompatActivity {
 
         //setContentView(R.layout.activity_edit);
         unbinder = ButterKnife.bind(this);
+
+        ActionBar actionBar = getSupportActionBar();
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (actionBar != null) {
+                    actionBar.setTitle(getString(R.string.edit) + " " + title.getText());
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
 
         Bundle extras = getIntent().getExtras();
@@ -86,7 +105,9 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         // TODO ????
-        syncManager.updateCard(fullCardViewModel.fullCard.getValue().card);
+        if (fullCardViewModel.fullCard.getValue() != null) {
+            syncManager.updateCard(fullCardViewModel.fullCard.getValue().card);
+        }
         super.onPause();
     }
 

@@ -1,8 +1,6 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Client voor Nextcloud Deck app</string>
     <string name="nav_header_desc">Navigatie</string>
     <string name="action_settings">Instellingen</string>
@@ -37,4 +35,26 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">seconden geleden</string>
+    <string name="edit">Bewerken</string>
+    <string name="label_title">Titel</string>
+    <string name="label_labels">Kies tags</string>
+    <string name="label_description">Beschrijving</string>
+    <string name="hint_assign_people">Toewijzen gebruikers</string>
+    <string name="hint_due_date_date">Vervaldatum</string>
+    <string name="activity">Activiteit</string>
+    <string name="create_card">Kaart aanmaken</string>
+    <string name="create_stack">Stapel aanmaken</string>
+    <string name="create_board">Bord aanmaken</string>
+
+    <string name="add_account">Account toevoegen</string>
+    <string name="accounts">Accounts</string>
+
+    <string name="label_menu">menu</string>
+    <string name="action_card_assign">Kaart aan jou toewijzen</string>
+    <string name="action_card_unassign">Kaart van jou terughalen</string>
+    <string name="action_card_archive">Archiveer kaart</string>
+    <string name="action_card_delete">Verwijderen kaart</string>
+    <string name="add_board">Toevoegen bord</string>
+    <string name="action_card_list_add_column">Toevoegen kolom</string>
+    <string name="action_card_list_board_details">Bord details</string>
 </resources>

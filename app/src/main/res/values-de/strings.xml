@@ -1,8 +1,6 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Client für Nextcloud Deck App</string>
     <string name="nav_header_desc">Kopfzeile der Navigation</string>
     <string name="action_settings">Einstellungen</string>
@@ -17,7 +15,7 @@
     <string name="about_maintainer_title">Maintainer</string>
     <string name="about_developers_title">Entwickler</string>
     <string name="about_translators_title">Übersetzer</string>
-    <string name="about_translators_transifex">Nextcloud Community auf &lt; a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Nextcloud Community auf &lt;a href=\"%1$s\">Transifex&lt;/a></string>
     <string name="about_testers_title">Tester</string>
     <string name="about_source_title">Quellcode</string>
     <string name="about_source">Dieses Projekt wird auf GitHub gehostet:&lt;a href=\"%1$s\">%1$s&lt;/a></string>
@@ -29,7 +27,7 @@
     <string name="about_app_license">Diese Anwendung ist unter der GNU GENERAL PUBLIC LICENSE v3 + lizenziert.</string>
     <string name="about_app_license_button">Lizenz anzeigen</string>
     <string name="about_icons_disclaimer_title">Icons</string>
-    <string name="about_icons_disclaimer">&lt;p>Original icon made by %1$s&lt;/p>&lt;p>Alle weiteren von dieser App verwendeten Symbole sind&lt;href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> made by Google Inc. and licensed under the Apache 2.0 License.&lt;/p></string>
+    <string name="about_icons_disclaimer">&lt;p>Original icon made by %1$s&lt;/p>&lt;p>Alle weiteren von dieser App verwendeten Symbole sind &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> made by Google Inc. and licensed under the Apache 2.0 License.&lt;/p></string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Beitrag</string>
     <string name="about_license_tab_title">Lizenz</string>
@@ -37,4 +35,26 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">Gerade eben</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="label_title">Titel</string>
+    <string name="label_labels">Schlagworte auswählen</string>
+    <string name="label_description">Beschreibung</string>
+    <string name="hint_assign_people">Benutzer zuweisen</string>
+    <string name="hint_due_date_date">Fälligkeitsdatum</string>
+    <string name="activity">Aktivität</string>
+    <string name="create_card">Karte erstellen</string>
+    <string name="create_stack">Neuer Stapel</string>
+    <string name="create_board">Neues Board</string>
+
+    <string name="add_account">Konto hinzufügen</string>
+    <string name="accounts">Konten</string>
+
+    <string name="label_menu">Menü</string>
+    <string name="action_card_assign">Karte Dir zuweisen</string>
+    <string name="action_card_unassign">Karte nicht mehr Dir zuweisen</string>
+    <string name="action_card_archive">Karte archivieren</string>
+    <string name="action_card_delete">Karte löschen</string>
+    <string name="add_board">Board hinzufügen</string>
+    <string name="action_card_list_add_column">Spalte hinzufügen</string>
+    <string name="action_card_list_board_details">Board-Details</string>
 </resources>

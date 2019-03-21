@@ -8,8 +8,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 
 public class BoardLabelRelationshipProvider implements IRelationshipProvider {
 
-    Board board;
-    List<Label> labels;
+    private Board board;
+    private List<Label> labels;
 
     public BoardLabelRelationshipProvider(Board board, List<Label> labels) {
         this.board = board;

@@ -5,7 +5,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.IDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
 
 public class DataPropagationHelper {
     private ServerAdapter serverAdapter;
@@ -17,7 +17,7 @@ public class DataPropagationHelper {
     }
 
 
-    public <T extends IRemoteEntity> void createEntity(final IDataProvider<T> provider, T entity, IResponseCallback<T> callback){
+    public <T extends IRemoteEntity> void createEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback){
         final long accountId = callback.getAccount().getId();
         long newID = provider.createInDB(dataBaseAdapter, accountId, entity);
         entity.setLocalId(newID);
@@ -43,7 +43,7 @@ public class DataPropagationHelper {
         }
     }
 
-    public <T extends IRemoteEntity> void updateEntity(final IDataProvider<T> provider, T entity, IResponseCallback<T> callback){
+    public <T extends IRemoteEntity> void updateEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback){
         final long accountId = callback.getAccount().getId();
         provider.updateInDB(dataBaseAdapter, accountId, entity);
         boolean connected = serverAdapter.hasInternetConnection();
