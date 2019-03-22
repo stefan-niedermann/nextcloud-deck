@@ -80,14 +80,14 @@ public class MainActivity extends AppCompatActivity
     private LoginDialogFragment loginDialogFragment;
     private SyncManager syncManager;
 
-    private List<Board> boardsList;
-    private LiveData<List<Board>> boardsLiveData;
-    private Observer<List<Board>> boardsLiveDataObserver;
-    int lastBoard = 0;
-
     private List<Account> accountsList = new ArrayList<>();
     private Account account;
     private boolean accountChooserActive = false;
+
+    private List<Board> boardsList;
+    private LiveData<List<Board>> boardsLiveData;
+    private Observer<List<Board>> boardsLiveDataObserver;
+    private int currentBoardItemId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity
                         int lastAccount = sharedPreferences.getInt(getString(R.string.shared_preference_last_account), 0);
                         if(accounts.size() > lastAccount) {
                             this.account = accounts.get(lastAccount);
-                            lastBoard = sharedPreferences.getInt(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), 0);
+                            currentBoardItemId = sharedPreferences.getInt(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), 0);
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             setHeaderView();
                             syncManager = new SyncManager(getApplicationContext(), MainActivity.this);
@@ -234,8 +234,8 @@ public class MainActivity extends AppCompatActivity
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_black_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
-        if(boardsList.size() > lastBoard) {
-            displayStacksForIndex(lastBoard, this.account);
+        if(boardsList.size() > currentBoardItemId) {
+            displayStacksForIndex(currentBoardItemId, this.account);
         }
     }
 
@@ -331,6 +331,7 @@ public class MainActivity extends AppCompatActivity
                     boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
                     displayStacksForIndex(0, this.account);
 
+                    // Remember last account
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt(getString(R.string.shared_preference_last_account), item.getItemId());
                     editor.apply();
@@ -346,7 +347,9 @@ public class MainActivity extends AppCompatActivity
                     break;
                 default:
                     displayStacksForIndex(item.getItemId(), account);
-                    lastBoard = item.getItemId();
+
+                    // Remember last board for this account
+                    currentBoardItemId = item.getItemId();
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), item.getItemId());
                     editor.apply();
