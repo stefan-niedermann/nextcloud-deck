@@ -46,6 +46,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.board.BoardCreateDialogFragment;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
@@ -229,6 +230,13 @@ public class MainActivity extends AppCompatActivity
         Snackbar.make(coordinatorLayout, "Tried to create stack.", Snackbar.LENGTH_LONG).show();
     }
 
+    public void onCreateBoard(String boardName) {
+        Board b = new Board();
+        b.setTitle(boardName);
+        syncManager.createBoard(account.getId(), b);
+        Snackbar.make(coordinatorLayout, "Tried to create board.", Snackbar.LENGTH_LONG).show();
+    }
+
     private void buildSidenavMenu() {
         navigationView.setItemIconTintList(null);
         Menu menu = navigationView.getMenu();
@@ -310,7 +318,7 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_card_list_add_column:
                 StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();
-                alertdFragment.show(getSupportFragmentManager(), "test");
+                alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_stack));
                 break;
             case R.id.action_card_list_board_details:
                 Snackbar.make(coordinatorLayout, "Bord details has not been implemented yet.", Snackbar.LENGTH_LONG).show();
@@ -356,7 +364,8 @@ public class MainActivity extends AppCompatActivity
                     startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_ADD_BOARD:
-                    Snackbar.make(coordinatorLayout, "Creating new boards is not yet supported.", Snackbar.LENGTH_SHORT).show();
+                    BoardCreateDialogFragment alertdFragment = new BoardCreateDialogFragment();
+                    alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_board));
                     break;
                 default:
                     Board selectedBoard = boardsList.get(item.getItemId());
