@@ -57,7 +57,8 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
-        // TODO: implement
+        entity.getStack().setBoardId(board.getId());
+        serverAdapter.createStack(entity.getStack(), responder);
     }
 
     @Override

@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.util.DateUtil;
 
 public class SyncManager {
@@ -156,19 +157,22 @@ public class SyncManager {
     }
 
     public void createBoard(long accountId, Board board) {
-        FullBoard fullBoard = new FullBoard();
-        board.setOwnerId(1); // FIXME
-        fullBoard.setBoard(board);
-        fullBoard.setAccountId(accountId);
-        Account dummyAccount = new Account(accountId);
-        doAsync(() ->
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(dummyAccount) {
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
+            FullBoard fullBoard = new FullBoard();
+            board.setOwnerId(owner.getLocalId());
+            fullBoard.setOwner(owner);
+            fullBoard.setBoard(board);
+            board.setAccountId(accountId);
+            fullBoard.setAccountId(accountId);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
                 @Override
                 public void onResponse(FullBoard response) {
                     DeckLog.log(response.toString());
                 }
-            })
-        );
+            });
+        });
     }
 
     public void deleteBoard(Board board) {
@@ -206,9 +210,20 @@ public class SyncManager {
     }
 
     public void createStack(long accountId, Stack stack) {
-        //TODO: Tell the server
         doAsync(() -> {
-            dataBaseAdapter.createStack(accountId, stack);
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            FullBoard board = dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, stack.getBoardId());
+            FullStack fullStack = new FullStack();
+            stack.setAccountId(accountId);
+            stack.setBoardId(board.getLocalId());
+            fullStack.setStack(stack);
+            fullStack.setAccountId(accountId);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board) ,fullStack, new IResponseCallback<FullStack>(account) {
+                @Override
+                public void onResponse(FullStack response) {
+                    DeckLog.log(response.toString());
+                }
+            });
         });
     }
 

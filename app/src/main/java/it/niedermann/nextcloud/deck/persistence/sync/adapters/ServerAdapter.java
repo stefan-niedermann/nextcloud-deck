@@ -124,9 +124,9 @@ public class ServerAdapter {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStack(boardId, stackId, getLastSyncDateFormatted()), responseCallback);
     }
 
-    public void createStack(Stack stack) {
+    public void createStack(Stack stack, IResponseCallback<FullStack> responseCallback) {
         ensureInternetConnection();
-
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().createStack(stack.getBoardId(), stack), responseCallback);
     }
 
     public void deleteStack(Stack stack) {

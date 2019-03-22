@@ -48,7 +48,7 @@ public interface DeckAPI {
 
     // ### Stacks
     @POST("boards/{boardId}/stacks")
-    Observable createStack(@Path("boardId") long boardId, @Body Stack stack);
+    Observable<FullStack>  createStack(@Path("boardId") long boardId, @Body Stack stack);
 
     @PUT("boards/{boardId}/stacks/{stackId}")
     Observable<Stack> updateStack(@Path("boardId") long boardId, @Path("stackId") long id, @Body Stack stack);
