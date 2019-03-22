@@ -230,7 +230,8 @@ public class MainActivity extends AppCompatActivity
     public void onCreateBoard(String title, String color) {
         Board b = new Board();
         b.setTitle(title);
-        b.setColor(color);
+        String colorToSet = color.startsWith("#") ? color.substring(1) : color;
+        b.setColor(colorToSet);
         syncManager.createBoard(account.getId(), b);
         Snackbar.make(coordinatorLayout, "Tried to create board.", Snackbar.LENGTH_LONG).show();
     }
