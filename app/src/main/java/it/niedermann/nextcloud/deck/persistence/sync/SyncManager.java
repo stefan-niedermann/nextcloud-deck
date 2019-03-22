@@ -157,7 +157,9 @@ public class SyncManager {
 
     public void createBoard(long accountId, Board board) {
         FullBoard fullBoard = new FullBoard();
+        board.setOwnerId(1); // FIXME
         fullBoard.setBoard(board);
+        fullBoard.setAccountId(accountId);
         Account dummyAccount = new Account(accountId);
         doAsync(() ->
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(dummyAccount) {

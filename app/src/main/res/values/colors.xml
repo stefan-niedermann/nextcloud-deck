@@ -15,4 +15,15 @@
     <color name="due_overdue">#7fe9322d</color>
     <color name="default_text_color">#808080</color>
     <color name="overdue_text_color">#FFFFFF</color>
+
+    <string-array name="board_default_colors">
+        <item>#31CC7C</item>
+        <item>#317CCC</item>
+        <item>#FF7A66</item>
+        <item>#F1DB50</item>
+        <item>#7C31CC</item>
+        <item>#CC317C</item>
+        <item>#3A3B3D</item>
+        <item>#CACBCD</item>
+    </string-array>
 </resources>

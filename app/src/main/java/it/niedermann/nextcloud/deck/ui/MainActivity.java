@@ -230,9 +230,10 @@ public class MainActivity extends AppCompatActivity
         Snackbar.make(coordinatorLayout, "Tried to create stack.", Snackbar.LENGTH_LONG).show();
     }
 
-    public void onCreateBoard(String boardName) {
+    public void onCreateBoard(String title, String color) {
         Board b = new Board();
-        b.setTitle(boardName);
+        b.setTitle(title);
+        b.setColor(color);
         syncManager.createBoard(account.getId(), b);
         Snackbar.make(coordinatorLayout, "Tried to create board.", Snackbar.LENGTH_LONG).show();
     }
