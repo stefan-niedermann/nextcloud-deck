@@ -340,7 +340,9 @@ public class MainActivity extends AppCompatActivity
                         buildSidenavMenu();
                     };
                     boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
-                    displayStacksForBoard(boardsList.get(0), this.account);
+                    if(boardsList.size() > 0) {
+                        displayStacksForBoard(boardsList.get(0), this.account);
+                    }
 
                     // Remember last account
                     SharedPreferences.Editor editor = sharedPreferences.edit();
