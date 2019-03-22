@@ -44,7 +44,7 @@ public class BoardCreateDialogFragment extends DialogFragment {
         for (int i = 0; i < colors.length; i++) {
             final String color = colors[i];
             image = new ImageView(getContext());
-            drawable = getResources().getDrawable(R.drawable.circle_grey600_24dp);
+            drawable = getResources().getDrawable(R.drawable.circle_grey600_36dp);
             wrapped = DrawableCompat.wrap(drawable).mutate();
             DrawableCompat.setTint(wrapped, Color.parseColor(color));
             image.setImageDrawable(drawable);
