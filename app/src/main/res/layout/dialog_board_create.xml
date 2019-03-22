@@ -16,7 +16,9 @@
             android:hint="@string/simple_title"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="text">
+            <requestFocus />
+        </EditText>
 
         <LinearLayout
             android:id="@+id/colorPicker"

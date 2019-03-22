@@ -3,8 +3,6 @@ package it.niedermann.nextcloud.deck.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -30,7 +28,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.LiveData;
@@ -245,11 +242,7 @@ public class MainActivity extends AppCompatActivity
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
         int index = 0;
         for (Board board : boardsList) {
-            Drawable drawable = getResources().getDrawable(R.drawable.circle_grey600_36dp);
-            Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
-            int color = Color.parseColor("#" + board.getColor());
-            DrawableCompat.setTint(wrapped, color);
-            boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(wrapped);
+            boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(this, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_black_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);

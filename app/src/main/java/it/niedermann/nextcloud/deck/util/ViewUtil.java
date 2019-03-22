@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,10 +12,12 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Date;
 
+import androidx.core.graphics.drawable.DrawableCompat;
 import it.niedermann.nextcloud.deck.R;
 
 public final class ViewUtil {
-    private ViewUtil() {}
+    private ViewUtil() {
+    }
 
     public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId) {
         addAvatar(context, avatar, baseUrl, userId, DimensionUtil.getAvatarDimension(context));
@@ -47,5 +51,13 @@ public final class ViewUtil {
 
         cardDueDate.setBackgroundResource(backgroundDrawable);
         cardDueDate.setTextColor(context.getResources().getColor(textColor));
+    }
+
+    public static Drawable getTintedImageView(Context context, int imageId, String color) {
+        Drawable drawable, wrapped;
+        drawable = context.getResources().getDrawable(imageId);
+        wrapped = DrawableCompat.wrap(drawable).mutate();
+        DrawableCompat.setTint(wrapped, Color.parseColor(color));
+        return drawable;
     }
 }
