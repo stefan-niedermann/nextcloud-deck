@@ -36,15 +36,24 @@ public class BoardCreateDialogFragment extends DialogFragment {
         ImageView image;
         Drawable drawable, wrapped;
 
-        for (String color : getResources().getStringArray(R.array.board_default_colors)) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, 0, getResources().getDimensionPixelSize(R.dimen.standard_half_padding), 0);
+
+        String[] colors = getResources().getStringArray(R.array.board_default_colors);
+
+        for (int i = 0; i < colors.length; i++) {
+            final String color = colors[i];
             image = new ImageView(getContext());
             drawable = getResources().getDrawable(R.drawable.circle_grey600_24dp);
             wrapped = DrawableCompat.wrap(drawable).mutate();
             DrawableCompat.setTint(wrapped, Color.parseColor(color));
-            image.setImageDrawable(wrapped);
+            image.setImageDrawable(drawable);
             image.setOnClickListener((imageView) -> {
                 selectedColor = color;
             });
+            if(i < colors.length - 1) {
+                image.setLayoutParams(lp);
+            }
             colorPicker.addView(image);
         }
 

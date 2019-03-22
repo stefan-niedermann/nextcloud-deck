@@ -18,15 +18,11 @@
             android:importantForAutofill="no"
             android:inputType="text" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/simple_color" />
-
         <LinearLayout
             android:id="@+id/colorPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_margin"
             android:orientation="horizontal" />
     </LinearLayout>
 
