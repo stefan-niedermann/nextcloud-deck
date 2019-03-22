@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity
     public void onCreateStack(String stackName) {
         Stack s = new Stack();
         s.setTitle(stackName);
-        s.setBoardId(0); // ToDo get current board Id (!! NOT currentBoardId)
+        s.setBoardId(currentBoardId);
         syncManager.createStack(account.getId(), s);
         Snackbar.make(coordinatorLayout, "Tried to create stack.", Snackbar.LENGTH_LONG).show();
     }
