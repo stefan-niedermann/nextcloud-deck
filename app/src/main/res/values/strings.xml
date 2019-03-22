@@ -10,6 +10,8 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
+    <string name="simple_cancel">Cancel</string>
+    <string name="simple_create">Create</string>
 
     <!-- About -->
     <string name="about">About</string>

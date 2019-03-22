@@ -49,6 +49,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
+import it.niedermann.nextcloud.deck.ui.stack.StackCreateDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity
                     if (accounts != null) {
                         accountsList = accounts;
                         int lastAccount = sharedPreferences.getInt(getString(R.string.shared_preference_last_account), 0);
-                        if(accounts.size() > lastAccount) {
+                        if (accounts.size() > lastAccount) {
                             this.account = accounts.get(lastAccount);
                             currentBoardItemId = sharedPreferences.getInt(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), 0);
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
@@ -219,6 +220,14 @@ public class MainActivity extends AppCompatActivity
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
     }
 
+    public void onCreateStack(String stackName) {
+        Stack s = new Stack();
+        s.setTitle(stackName);
+        s.setBoardId(0);
+        syncManager.createStack(account.getId(), s);
+        Snackbar.make(coordinatorLayout, "Tried to create stack.", Snackbar.LENGTH_LONG).show();
+    }
+
     private void buildSidenavMenu() {
         navigationView.setItemIconTintList(null);
         Menu menu = navigationView.getMenu();
@@ -234,7 +243,7 @@ public class MainActivity extends AppCompatActivity
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_black_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
-        if(boardsList.size() > currentBoardItemId) {
+        if (boardsList.size() > currentBoardItemId) {
             displayStacksForIndex(currentBoardItemId, this.account);
         }
     }
@@ -293,13 +302,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_card_list_add_column:
-                Stack s = new Stack();
-                s.setTitle("App-created Stack");
-                s.setBoardId(0);
-                syncManager.createStack(account.getId(), s);
-                Snackbar.make(coordinatorLayout, "Adding columns has been implemented yet.", Snackbar.LENGTH_LONG).show();
+                StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();
+                alertdFragment.show(getSupportFragmentManager(), "test");
                 break;
             case R.id.action_card_list_board_details:
                 Snackbar.make(coordinatorLayout, "Bord details has not been implemented yet.", Snackbar.LENGTH_LONG).show();
