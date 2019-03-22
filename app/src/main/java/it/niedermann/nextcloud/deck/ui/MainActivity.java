@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity
     private List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
+    int lastBoard = 0;
 
     private List<Account> accountsList = new ArrayList<>();
     private Account account;
@@ -97,16 +98,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        navigationView.getHeaderView(0).findViewById(R.id.accountChooser).setOnClickListener(v -> {
-            this.accountChooserActive = !this.accountChooserActive;
-            if (accountChooserActive) {
-                buildSidenavAccountChooser();
-            } else {
-                buildSidenavMenu();
-            }
-        });
-
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -163,8 +154,9 @@ public class MainActivity extends AppCompatActivity
                     if (accounts != null) {
                         accountsList = accounts;
                         int lastAccount = sharedPreferences.getInt(getString(R.string.shared_preference_last_account), 0);
-                        if(accounts.size() -1 >= lastAccount) {
+                        if(accounts.size() > lastAccount) {
                             this.account = accounts.get(lastAccount);
+                            lastBoard = sharedPreferences.getInt(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), 0);
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             setHeaderView();
                             syncManager = new SyncManager(getApplicationContext(), MainActivity.this);
@@ -188,6 +180,15 @@ public class MainActivity extends AppCompatActivity
             } else {
                 loginDialogFragment = new LoginDialogFragment();
                 loginDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
+            }
+        });
+
+        navigationView.getHeaderView(0).findViewById(R.id.accountChooser).setOnClickListener(v -> {
+            this.accountChooserActive = !this.accountChooserActive;
+            if (accountChooserActive) {
+                buildSidenavAccountChooser();
+            } else {
+                buildSidenavMenu();
             }
         });
 
@@ -233,8 +234,8 @@ public class MainActivity extends AppCompatActivity
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_black_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
-        if (boardsList.size() > 0) {
-            displayStacksForIndex(0, this.account);
+        if(boardsList.size() > lastBoard) {
+            displayStacksForIndex(lastBoard, this.account);
         }
     }
 
@@ -345,6 +346,10 @@ public class MainActivity extends AppCompatActivity
                     break;
                 default:
                     displayStacksForIndex(item.getItemId(), account);
+                    lastBoard = item.getItemId();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), item.getItemId());
+                    editor.apply();
             }
         }
         drawer.closeDrawer(GravityCompat.START);
