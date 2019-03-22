@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     private static final int MENU_ID_ADD_BOARD = -2;
     private static final int MENU_ID_ADD_ACCOUNT = -2;
     private static final int ACTIVITY_ABOUT = 1;
+    private static final long NO_BOARDS = -1;
 
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity
     private List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
-    private int currentBoardItemId = 0;
+    private long currentBoardId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +158,7 @@ public class MainActivity extends AppCompatActivity
                         int lastAccount = sharedPreferences.getInt(getString(R.string.shared_preference_last_account), 0);
                         if (accounts.size() > lastAccount) {
                             this.account = accounts.get(lastAccount);
-                            currentBoardItemId = sharedPreferences.getInt(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), 0);
+                            currentBoardId = sharedPreferences.getLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), NO_BOARDS);
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             setHeaderView();
                             syncManager = new SyncManager(getApplicationContext(), MainActivity.this);
@@ -223,7 +224,7 @@ public class MainActivity extends AppCompatActivity
     public void onCreateStack(String stackName) {
         Stack s = new Stack();
         s.setTitle(stackName);
-        s.setBoardId(0);
+        s.setBoardId(0); // ToDo get current board Id (!! NOT currentBoardId)
         syncManager.createStack(account.getId(), s);
         Snackbar.make(coordinatorLayout, "Tried to create stack.", Snackbar.LENGTH_LONG).show();
     }
@@ -243,8 +244,15 @@ public class MainActivity extends AppCompatActivity
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_black_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_black_24dp);
-        if (boardsList.size() > currentBoardItemId) {
-            displayStacksForIndex(currentBoardItemId, this.account);
+        if(currentBoardId == NO_BOARDS && boardsList.size() > 0) {
+            displayStacksForBoard(boardsList.get(0), this.account);
+        } else {
+            for (Board board : boardsList) {
+                if (currentBoardId == board.getId()) {
+                    displayStacksForBoard(board, this.account);
+                    break;
+                }
+            }
         }
     }
 
@@ -261,27 +269,24 @@ public class MainActivity extends AppCompatActivity
     /**
      * Displays the Stacks for the boardsList by index
      *
-     * @param index of boardsList
+     * @param board Board
      */
-    private void displayStacksForIndex(int index, Account account) {
-        if (boardsList.size() > index) {
-            Board selectedBoard = boardsList.get(index);
-            if (toolbar != null) {
-                toolbar.setTitle(selectedBoard.getTitle());
-            }
-            syncManager.getStacksForBoard(account.getId(), selectedBoard.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
-                if (fullStacks != null) {
-                    stackAdapter.clear();
-                    for (FullStack stack : fullStacks) {
-                        stackAdapter.addFragment(StackFragment.newInstance(selectedBoard.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
-                    }
-                    runOnUiThread(() -> {
-                        viewPager.setAdapter(stackAdapter);
-                        stackLayout.setupWithViewPager(viewPager);
-                    });
-                }
-            });
+    private void displayStacksForBoard(Board board, Account account) {
+        if (toolbar != null) {
+            toolbar.setTitle(board.getTitle());
         }
+        syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
+            if (fullStacks != null) {
+                stackAdapter.clear();
+                for (FullStack stack : fullStacks) {
+                    stackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
+                }
+                runOnUiThread(() -> {
+                    viewPager.setAdapter(stackAdapter);
+                    stackLayout.setupWithViewPager(viewPager);
+                });
+            }
+        });
     }
 
     @Override
@@ -335,7 +340,7 @@ public class MainActivity extends AppCompatActivity
                         buildSidenavMenu();
                     };
                     boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
-                    displayStacksForIndex(0, this.account);
+                    displayStacksForBoard(boardsList.get(0), this.account);
 
                     // Remember last account
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -352,12 +357,13 @@ public class MainActivity extends AppCompatActivity
                     Snackbar.make(coordinatorLayout, "Creating new boards is not yet supported.", Snackbar.LENGTH_SHORT).show();
                     break;
                 default:
-                    displayStacksForIndex(item.getItemId(), account);
+                    Board selectedBoard = boardsList.get(item.getItemId());
+                    currentBoardId = selectedBoard.getId();
+                    displayStacksForBoard(selectedBoard, account);
 
                     // Remember last board for this account
-                    currentBoardItemId = item.getItemId();
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), item.getItemId());
+                    editor.putLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), currentBoardId);
                     editor.apply();
             }
         }
