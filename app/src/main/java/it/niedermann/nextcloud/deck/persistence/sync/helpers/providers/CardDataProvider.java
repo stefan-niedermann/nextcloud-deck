@@ -97,7 +97,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         existingEntity.setAttachments(attachments);
 
         if(labels != null && !labels.isEmpty()){
-            syncHelper.doSyncFor(new LabelDataProvider(this, labels));
+            syncHelper.doSyncFor(new LabelDataProvider(this, board, labels));
         }
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
         if(assignedUsers!= null && !assignedUsers.isEmpty()){
@@ -112,26 +112,27 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
-        //TODO: implement
+        serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
-        //TODO: implement
+        serverAdapter.updateCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard fullCard) {
-        //TODO: implement
+        dataBaseAdapter.deleteCard(fullCard.getCard(), false);
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
-        //TODO: implement
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullCard entity) {
+        serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 
     @Override
     public List<FullCard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        //TODO: implement
         return null;
     }
 

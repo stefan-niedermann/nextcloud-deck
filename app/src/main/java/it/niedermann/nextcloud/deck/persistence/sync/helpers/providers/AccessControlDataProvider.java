@@ -69,7 +69,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<AccessControl> callback, AccessControl entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, AccessControl entity) {
         //TODO: implement
     }
 

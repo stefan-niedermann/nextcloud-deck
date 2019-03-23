@@ -63,16 +63,17 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack fullStack) {
-        // TODO: implement
+        dataBaseAdapter.deleteStackPhysically(fullStack.getStack());
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
-        // TODO: implement
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullStack entity) {
+        serverAdapter.deleteStack(entity.getStack(), callback);
     }
 
     @Override
     public List<FullStack> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        // TODO: implement
         return null;
     }
 
@@ -83,6 +84,6 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
-        // TODO: implement
+        serverAdapter.updateStack(entity.getStack(), callback);
     }
 }

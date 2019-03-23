@@ -58,7 +58,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, IResponseCallback<Boolean> callback) {
         List<Label> labels = entityFromServer.getLabels();
         if (labels != null && !labels.isEmpty()){
-            syncHelper.doSyncFor(new LabelDataProvider(this, labels));
+            syncHelper.doSyncFor(new LabelDataProvider(this, existingEntity.getBoard(), labels));
         }
         syncHelper.fixRelations(new BoardLabelRelationshipProvider(existingEntity.getBoard(), labels));
 
@@ -82,6 +82,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     @Override
     public List<FullBoard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        //TODO: implement!
         return null;
     }
 
@@ -92,7 +93,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> callback, FullBoard entity) {
-        serverAdapter.updateBoard(entity.getBoard());
+        serverAdapter.updateBoard(entity.getBoard(), callback);
     }
 
     @Override
@@ -101,7 +102,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> callback, FullBoard entity) {
-        // TODO: implement
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullBoard entity) {
+        serverAdapter.deleteBoard(entity.getBoard(), callback);
     }
 }

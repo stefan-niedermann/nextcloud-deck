@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -12,9 +13,11 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     private List<Label> labels;
+    private Board board;
 
-    public LabelDataProvider(AbstractSyncDataProvider<?> parent, List<Label> labels) {
+    public LabelDataProvider(AbstractSyncDataProvider<?> parent, Board board, List<Label> labels) {
         super(parent);
+        this.board = board;
         this.labels = labels;
     }
 
@@ -40,7 +43,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> responder, Label entity) {
-        // TODO: implement
+        serverAdapter.createLabel(board.getId(), entity, responder);
     }
 
     @Override
@@ -49,12 +52,13 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
-        // TODO: implement
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, Label entity) {
+        serverAdapter.deleteLabel(board.getId(), entity, callback);
     }
 
     @Override
     public List<Label> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        // TODO: implement
         return null;
     }
 
@@ -65,6 +69,6 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
-        // TODO: implement
+        serverAdapter.updateLabel(board.getId(), entity, callback);
     }
 }

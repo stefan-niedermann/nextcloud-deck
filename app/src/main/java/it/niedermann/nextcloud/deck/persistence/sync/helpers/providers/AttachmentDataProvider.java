@@ -60,7 +60,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, Attachment entity) {
         //TODO: implement
     }
 

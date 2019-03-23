@@ -34,13 +34,13 @@ public interface DeckAPI {
     Observable<FullBoard> getBoard(@Path("id") long id, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
     @PUT("boards/{id}")
-    Observable updateBoard(@Path("id") long id);
+    Observable<FullBoard> updateBoard(@Path("id") long id, @Body Board board);
 
     @DELETE("boards/{id}")
-    Observable deleteBoard(@Path("id") long id);
+    Observable<Void> deleteBoard(@Path("id") long id);
 
     @DELETE("boards/{id}/undo_delete")
-    Observable restoreBoard(@Path("id") long id);
+    Observable<FullBoard> restoreBoard(@Path("id") long id);
 
     @GET("boards")
     Observable<List<FullBoard>> getBoards(@Header(MODIFIED_SINCE_HEADER) String lastSync);
@@ -51,10 +51,10 @@ public interface DeckAPI {
     Observable<FullStack>  createStack(@Path("boardId") long boardId, @Body Stack stack);
 
     @PUT("boards/{boardId}/stacks/{stackId}")
-    Observable<Stack> updateStack(@Path("boardId") long boardId, @Path("stackId") long id, @Body Stack stack);
+    Observable<FullStack> updateStack(@Path("boardId") long boardId, @Path("stackId") long id, @Body Stack stack);
 
     @DELETE("boards/{boardId}/stacks/{stackId}")
-    Observable<Stack> deleteStack(@Path("boardId") long boardId, @Path("stackId") long id);
+    Observable<Void> deleteStack(@Path("boardId") long boardId, @Path("stackId") long id);
 
     @GET("boards/{boardId}/stacks/{stackId}")
     Observable<FullStack> getStack(@Path("boardId") long boardId, @Path("stackId") long id, @Header(MODIFIED_SINCE_HEADER) String lastSync);
@@ -68,10 +68,10 @@ public interface DeckAPI {
 
     // ### Cards
     @POST("boards/{boardId}/stacks/{stackId}/cards")
-    Observable<Card> createCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Body Card card);
+    Observable<FullCard> createCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Body Card card);
 
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
-    Observable<Card> updateCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Card card);
+    Observable<FullCard> updateCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Card card);
 
     @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignLabel")
@@ -93,7 +93,7 @@ public interface DeckAPI {
     Observable moveCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer order, @Body Integer newStackId);
 
     @DELETE("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
-    Observable<FullCard> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
+    Observable<Void> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
     @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Observable<FullCard> getCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
@@ -110,23 +110,23 @@ public interface DeckAPI {
     Observable<Label> createLabel(@Path("boardId") long boardId, @Body Label label);
 
     @DELETE("boards/getBoards/{boardId}/labels/{labelId}")
-    Observable<Label> deleteLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
+    Observable<Void> deleteLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
 
 
     // ### ATTACHMENTS
     @GET("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
-    Observable<List<Attachment>> getAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
+    Observable<List<Attachment>> getAttachments(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
     @POST("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
-    Observable<List<Attachment>> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
+    Observable<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
     @PUT("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
-    Observable<List<Attachment>> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
+    Observable<Attachment> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
     @DELETE("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
-    Observable<List<Attachment>> deleteAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
+    Observable<Void> deleteAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
     @PUT("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}/restore")
-    Observable<List<Attachment>> restoreAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
+    Observable<Attachment> restoreAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
 }

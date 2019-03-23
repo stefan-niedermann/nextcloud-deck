@@ -279,7 +279,11 @@ public class DataBaseAdapter {
         markAsDeletedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
     }
-    
+
+    public void deleteStackPhysically(Stack stack) {
+        db.getStackDao().delete(stack);
+    }
+
     public void updateStack(Stack stack, boolean setStatus) {
         markAsEditedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
@@ -298,7 +302,11 @@ public class DataBaseAdapter {
         markAsDeletedIfNeeded(card, setStatus);
         db.getCardDao().update(card);
     }
-    
+
+    public void deleteCardPhysically(Card card) {
+        db.getCardDao().delete(card);
+    }
+
     public void updateCard(Card card, boolean setStatus) {
         markAsEditedIfNeeded(card, setStatus);
         db.getCardDao().update(card);

@@ -58,7 +58,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> callback, User entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, User entity) {
         //TODO: implement
     }
 

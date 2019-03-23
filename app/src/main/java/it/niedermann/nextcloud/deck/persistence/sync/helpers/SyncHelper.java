@@ -91,10 +91,10 @@ public class SyncHelper {
                 };
                 if (entity.getId()!=null) {
                     if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                        provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<T>(account) {
+                        provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(account) {
                             @Override
-                            public void onResponse(T response) {
-                                provider.deleteInDB(dataBaseAdapter, accountId, response);
+                            public void onResponse(Void response) {
+                                provider.deleteInDB(dataBaseAdapter, accountId, entity);
                             }
                         }, entity);
                     } else {
