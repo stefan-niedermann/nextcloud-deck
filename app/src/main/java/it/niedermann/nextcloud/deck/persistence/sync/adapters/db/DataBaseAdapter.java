@@ -395,4 +395,12 @@ public class DataBaseAdapter {
     public Label getLabelByLocalIdDirectly(long localLabelId) {
         return db.getLabelDao().getLabelsByIdDirectly(localLabelId);
     }
+
+    public List<FullBoard> getLocallyChangedBoards(long accountId) {
+        return db.getBoardDao().getLocallyChangedBoardsDirectly(accountId);
+    }
+
+    public List<FullStack> getLocallyChangedStacks(long accountId) {
+        return db.getStackDao().getLocallyChangedStacksDirectly(accountId);
+    }
 }

@@ -80,7 +80,7 @@ public class SyncHelper {
                     @Override
                     public void onResponse(T response) {
                         provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(entity, response, accountId));
-                        provider.goDeeperForUpSync(SyncHelper.this, entity, response);
+                        provider.goDeeperForUpSync(SyncHelper.this, entity, response, responseCallback);
                     }
 
                     @Override
@@ -104,6 +104,7 @@ public class SyncHelper {
                     provider.createOnServer(serverAdapter, accountId, updateCallback, entity);
                 }
             }
+            // TODO: most likely wrong here, since the async stuff happens in for loop above...
             provider.doneGoingDeeper(responseCallback, true);
         } else {
             provider.childDone(provider, responseCallback, false);

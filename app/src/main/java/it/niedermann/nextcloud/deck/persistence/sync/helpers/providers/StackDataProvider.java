@@ -73,12 +73,11 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public List<FullStack> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        // TODO: implement
-        return null;
+        return dataBaseAdapter.getLocallyChangedStacks(accountId);
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, FullStack entity, FullStack response) {
+    public void goDeeperForUpSync(SyncHelper syncHelper, FullStack entity, FullStack response, IResponseCallback<Boolean> callback) {
         // TODO: implement
     }
 

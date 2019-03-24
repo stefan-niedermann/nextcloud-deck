@@ -10,7 +10,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class UserDataProvider extends AbstractSyncDataProvider<User> {
 
@@ -65,11 +64,6 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     @Override
     public List<User> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
-    }
-
-    @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, User entity, User response) {
-        //TODO: implement
     }
 
     @Override

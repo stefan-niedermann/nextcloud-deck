@@ -8,7 +8,6 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
@@ -76,10 +75,5 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     @Override
     public List<AccessControl> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
-    }
-
-    @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, AccessControl entity, AccessControl response) {
-        //TODO: implement
     }
 }

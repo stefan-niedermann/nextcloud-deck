@@ -8,7 +8,6 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
@@ -60,11 +59,6 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     public List<Label> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         // TODO: implement
         return null;
-    }
-
-    @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, Label entity, Label response) {
-        // TODO: implement
     }
 
     @Override

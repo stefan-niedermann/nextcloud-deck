@@ -8,7 +8,6 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment> {
 
@@ -67,10 +66,5 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     @Override
     public List<Attachment> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
-    }
-
-    @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, Attachment entity, Attachment response) {
-        //TODO: implement
     }
 }
