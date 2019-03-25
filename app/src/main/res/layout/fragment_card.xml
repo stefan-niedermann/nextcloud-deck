@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/card_spacing"
     android:layout_marginLeft="@dimen/card_spacing"
-    android:layout_marginTop="@dimen/card_spacing"
+    android:layout_marginTop="@dimen/card_half_spacing"
+    android:layout_marginBottom="@dimen/card_half_spacing"
     android:layout_marginEnd="@dimen/card_spacing"
     android:layout_marginRight="@dimen/card_spacing"
     android:focusable="true">
