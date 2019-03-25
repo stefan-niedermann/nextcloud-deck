@@ -156,6 +156,7 @@ public class SyncManager {
         return dataBaseAdapter.getBoards(accountId);
     }
 
+    // TODO should return ID of the created board, so one can immediately switch to the new board after creation
     public void createBoard(long accountId, Board board) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
@@ -209,6 +210,8 @@ public class SyncManager {
         return dataBaseAdapter.getFullBoardById(accountId, localId);
     }
 
+
+    // TODO should return ID of the created stack, so one can immediately switch to the new board after creation
     public void createStack(long accountId, Stack stack) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);

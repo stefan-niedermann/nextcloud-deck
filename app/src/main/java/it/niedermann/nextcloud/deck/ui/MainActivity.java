@@ -224,7 +224,6 @@ public class MainActivity extends AppCompatActivity
         s.setTitle(stackName);
         s.setBoardId(currentBoardId);
         syncManager.createStack(account.getId(), s);
-        Snackbar.make(coordinatorLayout, "Tried to create stack.", Snackbar.LENGTH_LONG).show();
     }
 
     public void onCreateBoard(String title, String color) {
@@ -233,7 +232,6 @@ public class MainActivity extends AppCompatActivity
         String colorToSet = color.startsWith("#") ? color.substring(1) : color;
         b.setColor(colorToSet);
         syncManager.createBoard(account.getId(), b);
-        Snackbar.make(coordinatorLayout, "Tried to create board.", Snackbar.LENGTH_LONG).show();
     }
 
     private void buildSidenavMenu() {
