@@ -42,6 +42,7 @@ public class SyncHelper {
                         if (existingEntity == null) {
                             provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
                         } else {
+                            //TODO: how to handle deletes? what about archived?
                             if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()){
                                 DeckLog.log("Conflicting changes on entity: "+existingEntity);
                                 // TODO: what to do?
