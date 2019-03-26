@@ -62,7 +62,6 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO implement proper butterknife implementation
         ViewHolder holder;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
@@ -142,5 +141,4 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
             ButterKnife.bind(this, view);
         }
     }
-
 }
