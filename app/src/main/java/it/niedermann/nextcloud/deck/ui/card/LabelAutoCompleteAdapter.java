@@ -62,12 +62,12 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         } else {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.user_dropdown_item_singleline, parent, false);
+            convertView = inflater.inflate(R.layout.dropdown_item_singleline, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
 
-        holder.avatar.setImageDrawable(
+        holder.icon.setImageDrawable(
                 ViewUtil.getTintedImageView(
                         context,
                         R.drawable.ic_label_grey600_24dp,
@@ -75,7 +75,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                 )
         );
 
-        holder.displayname.setText(getItem(position).getTitle());
+        holder.label.setText(getItem(position).getTitle());
         return convertView;
     }
 
@@ -124,10 +124,10 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     }
 
     static class ViewHolder {
-        @BindView(R.id.user_avatar)
-        ImageView avatar;
-        @BindView(R.id.user_displayname)
-        TextView displayname;
+        @BindView(R.id.icon)
+        ImageView icon;
+        @BindView(R.id.label)
+        TextView label;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

@@ -6,7 +6,7 @@
     tools:ignore="UseCompoundDrawables">
 
     <ImageView
-        android:id="@+id/user_avatar"
+        android:id="@+id/icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="16dp"
@@ -14,7 +14,7 @@
         tools:src="@drawable/ic_close_circle_grey600"/>
 
     <TextView
-        android:id="@+id/user_displayname"
+        android:id="@+id/label"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
