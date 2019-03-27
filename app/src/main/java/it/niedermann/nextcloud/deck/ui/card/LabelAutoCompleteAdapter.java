@@ -71,7 +71,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                 ViewUtil.getTintedImageView(
                         context,
                         R.drawable.ic_label_grey600_24dp,
-                        getItem(position).getColor()
+                        "#" + getItem(position).getColor()
                 )
         );
 
