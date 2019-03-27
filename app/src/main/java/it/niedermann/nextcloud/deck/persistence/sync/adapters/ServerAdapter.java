@@ -99,7 +99,7 @@ public class ServerAdapter {
     }
 
     public void getBoards(IResponseCallback<List<FullBoard>> responseCallback) {
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(getLastSyncDateFormatted()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(true, getLastSyncDateFormatted()), responseCallback);
     }
 
     public void createBoard(Board board, IResponseCallback<FullBoard> responseCallback) {

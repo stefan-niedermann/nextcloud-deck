@@ -21,6 +21,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface DeckAPI {
 
@@ -43,7 +44,7 @@ public interface DeckAPI {
     Observable<FullBoard> restoreBoard(@Path("id") long id);
 
     @GET("boards")
-    Observable<List<FullBoard>> getBoards(@Header(MODIFIED_SINCE_HEADER) String lastSync);
+    Observable<List<FullBoard>> getBoards(@Query ("details") boolean verbose, @Header(MODIFIED_SINCE_HEADER) String lastSync );
 
 
     // ### Stacks
