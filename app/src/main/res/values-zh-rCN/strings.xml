@@ -7,6 +7,9 @@
 
     <!-- Simple values -->
     <string name="simple_boards">面板</string>
+    <string name="simple_cancel">取消</string>
+    <string name="simple_create"> 
+新建</string>
 
     <!-- About -->
     <string name="about">关于</string>
@@ -57,4 +60,6 @@
     <string name="add_board">添加面板</string>
     <string name="action_card_list_add_column">添加列</string>
     <string name="action_card_list_board_details">面板详情</string>
+    <string name="simple_title"> 
+标题</string>
 </resources>

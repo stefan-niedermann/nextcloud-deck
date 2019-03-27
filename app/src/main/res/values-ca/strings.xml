@@ -7,6 +7,8 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Taulells</string>
+    <string name="simple_cancel">Cancel·la</string>
+    <string name="simple_create">Crea</string>
 
     <!-- About -->
     <string name="about">Quant a</string>
@@ -57,4 +59,5 @@
     <string name="add_board">Afegeix una taula</string>
     <string name="action_card_list_add_column">Afegeix una columna</string>
     <string name="action_card_list_board_details">Detalls de la taula</string>
+    <string name="simple_title">Títol</string>
 </resources>

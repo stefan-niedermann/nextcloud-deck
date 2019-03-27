@@ -1,15 +1,12 @@
 <resources>
-    <string name="app_name">Nextcloud-dekk</string>
     <string name="navigation_drawer_open">Opna rennivalmynd</string>
     <string name="navigation_drawer_close">Loka rennivalmynd</string>
-    <string name="nav_header_title">Nextcloud-dekk</string>
     <string name="nav_header_subtitle">Biðlaraforrit fyrir Nextcloud Deck</string>
     <string name="nav_header_desc">Fyrisögn flakks</string>
     <string name="action_settings">Stillingar</string>
 
     <!-- Simple values -->
     <string name="simple_boards">Borð</string>
-
     <!-- About -->
     <string name="about">Um hugbúnaðinn</string>
     <string name="about_version_title">Útgáfa</string>
@@ -37,4 +34,26 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">sekúndum síðan</string>
-</resources>
+    <string name="edit">Breyta</string>
+    <string name="label_title">Titill</string>
+    <string name="label_labels">Veldu merki</string>
+    <string name="label_description">Lýsing</string>
+    <string name="hint_assign_people">Tilnefna notendur</string>
+    <string name="hint_due_date_date">Skiladagur</string>
+    <string name="activity">Virkni</string>
+    <string name="create_card">Búa til spjald</string>
+    <string name="create_stack">Búa til stafla</string>
+    <string name="create_board">Búa til borð</string>
+
+    <string name="add_account">Bæta við notandaaðgangi</string>
+    <string name="accounts">Notandaaðgangar</string>
+
+    <string name="label_menu">valmynd</string>
+    <string name="action_card_assign">Úthluta spjaldi til þín</string>
+    <string name="action_card_unassign">Aftengja úthlutun spjalds til þín</string>
+    <string name="action_card_archive">Setja spjald í geymslu</string>
+    <string name="action_card_delete">Eyða spjaldi</string>
+    <string name="add_board">Bæta við borði</string>
+    <string name="action_card_list_add_column">Bæta við dálki</string>
+    <string name="action_card_list_board_details">Nánar um borð</string>
+    </resources>

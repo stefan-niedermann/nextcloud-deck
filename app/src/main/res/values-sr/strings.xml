@@ -7,7 +7,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Табле</string>
-
     <!-- About -->
     <string name="about">О програму</string>
     <string name="about_version_title">Верзија</string>
@@ -57,4 +56,4 @@
     <string name="add_board">Додај таблу</string>
     <string name="action_card_list_add_column">Додај колону</string>
     <string name="action_card_list_board_details">Детаљи табле</string>
-</resources>
+    </resources>

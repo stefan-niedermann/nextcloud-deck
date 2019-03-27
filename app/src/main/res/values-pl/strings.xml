@@ -7,6 +7,8 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tablice</string>
+    <string name="simple_cancel">Anuluj</string>
+    <string name="simple_create">Utwórz</string>
 
     <!-- About -->
     <string name="about">O aplikacji</string>
@@ -36,10 +38,11 @@
 
     <string name="seconds_ago">przed chwilą</string>
     <string name="edit">Edytuj</string>
-    <string name="label_title">Tutuł</string>
+    <string name="label_title">Tytuł</string>
     <string name="label_labels">Wybierz etykietę</string>
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Przydziel użytkowników</string>
+    <string name="hint_due_date_date">Data realizacji</string>
     <string name="activity">Aktywność</string>
     <string name="create_card">Utwórz kartę</string>
     <string name="create_stack">Utwórz stos</string>
@@ -56,4 +59,5 @@
     <string name="add_board">Dodaj tablicę</string>
     <string name="action_card_list_add_column">Dodaj kolumnę</string>
     <string name="action_card_list_board_details">Szczegóły tablicy</string>
+    <string name="simple_title">Tytuł</string>
 </resources>

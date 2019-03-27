@@ -7,7 +7,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tableros</string>
-
     <!-- About -->
     <string name="about">Acerca de</string>
     <string name="about_version_title">Version</string>
@@ -57,4 +56,4 @@
     <string name="add_board">Añadir tablero</string>
     <string name="action_card_list_add_column">Añadir columna</string>
     <string name="action_card_list_board_details">Detalles del tablero</string>
-</resources>
+    </resources>

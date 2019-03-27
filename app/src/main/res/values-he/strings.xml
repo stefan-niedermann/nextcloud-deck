@@ -7,6 +7,8 @@
 
     <!-- Simple values -->
     <string name="simple_boards">לוחות</string>
+    <string name="simple_cancel">ביטול</string>
+    <string name="simple_create">יצירה</string>
 
     <!-- About -->
     <string name="about">על אודות</string>
@@ -38,7 +40,9 @@
     <string name="edit">עריכה</string>
     <string name="label_title">כותרת</string>
     <string name="label_labels">בחירת תגיות</string>
+    <string name="label_description">תיאור</string>
     <string name="hint_assign_people">הקצאת משתמשים</string>
+    <string name="hint_due_date_date">תאריך יעד</string>
     <string name="activity">פעילות</string>
     <string name="create_card">יצירת כרטיס</string>
     <string name="create_stack">יצירת חפיסה</string>
@@ -48,6 +52,12 @@
     <string name="accounts">חשבונות</string>
 
     <string name="label_menu">תפריט</string>
+    <string name="action_card_assign">הקצאת כרטיס אליך</string>
+    <string name="action_card_unassign">ביטול הקצאת כרטיס אליך</string>
     <string name="action_card_archive">העברת כרטיס לארכיון</string>
     <string name="action_card_delete">מחיקת כרטיס לארכיון</string>
-    </resources>
+    <string name="add_board">הוספת לוח</string>
+    <string name="action_card_list_add_column">הוספת עמודה</string>
+    <string name="action_card_list_board_details">פרטי לוח</string>
+    <string name="simple_title">כותרת</string>
+</resources>

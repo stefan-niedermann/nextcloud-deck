@@ -1,0 +1,51 @@
+<resources>
+    <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
+    <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
+    <string name="action_settings">Ρυθμίσεις</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Πίνακες</string>
+    <string name="simple_cancel">Ακύρωση</string>
+    <string name="simple_create">Δημιουργία</string>
+
+    <!-- About -->
+    <string name="about">Περί</string>
+    <string name="about_version_title">Έκδοση</string>
+    <string name="about_version">Προς το παρόν χρησιμοποιείτε &lt; strong>%1$s&lt;/strong> </string>
+    <string name="about_maintainer_title">Συντηρητής</string>
+    <string name="about_developers_title">Προγραμματιστές</string>
+    <string name="about_translators_title">Μεταφραστές</string>
+    <string name="about_testers_title">Δοκιμαστές</string>
+    <string name="about_source_title">Πηγαίος κώδικας</string>
+    <string name="about_issues_title">Ζητήματα</string>
+    <string name="about_translate_title">Μετάφραση</string>
+    <string name="about_app_license_title"> Άδεια χρήσης εφαρμογής </string>
+    <string name="about_app_license_button"> Προβολή άδειας χρήσης </string>
+    <string name="about_icons_disclaimer_title">Εικονίδια</string>
+    <string name="about_credits_tab_title">Μνεία</string>
+    <string name="about_contribution_tab_title">Συνεισφορά</string>
+    <string name="about_license_tab_title"> Άδεια χρήσης </string>
+
+    <string name="seconds_ago"> δευτερόλεπτα πριν </string>
+    <string name="edit">Επεξεργασία</string>
+    <string name="label_title">Τίτλος</string>
+    <string name="label_labels">Επιλογή Ετικετών</string>
+    <string name="label_description">Περιγραφή</string>
+    <string name="hint_assign_people">Ορισμός χρηστών</string>
+    <string name="hint_due_date_date">Προθεσμία</string>
+    <string name="activity">Δραστηριότητα</string>
+    <string name="create_card">Δημιουργία κάρτας</string>
+    <string name="create_board">Δημιουργία πίνακα</string>
+
+    <string name="add_account"> Προσθήκη λογαριασμού </string>
+    <string name="accounts">Λογαριασμοί</string>
+
+    <string name="label_menu">μενού</string>
+    <string name="action_card_assign">Ορισμός κάρτας στον εαυτό μου</string>
+    <string name="action_card_archive">Αρχειοθέτηση κάρτας</string>
+    <string name="action_card_delete"> Διαγραφή κάρτας </string>
+    <string name="add_board">Προσθήκη πίνακα</string>
+    <string name="action_card_list_add_column">Προσθήκη στήλης</string>
+    <string name="action_card_list_board_details">Λεπτομέριες πίνακα</string>
+    <string name="simple_title">Τίτλος</string>
+</resources>
