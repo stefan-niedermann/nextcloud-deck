@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">Åbn navigationsskuffe</string>
     <string name="navigation_drawer_close">Luk navigationsskuffe</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Klient for Nextcloud Deck app</string>
     <string name="nav_header_desc">Navigationsheader</string>
     <string name="action_settings">Indstillinger</string>
 
     <!-- Simple values -->
     <string name="simple_boards">Tavler</string>
+    <string name="simple_cancel">Annuller</string>
+    <string name="simple_create">Opret</string>
 
     <!-- About -->
     <string name="about">Om</string>
@@ -37,4 +37,27 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">sekunder siden</string>
+    <string name="edit">Rediger</string>
+    <string name="label_title">Titel</string>
+    <string name="label_labels">Vælg Tags</string>
+    <string name="label_description">Beskrivelse</string>
+    <string name="hint_assign_people">Tildel brugere</string>
+    <string name="hint_due_date_date">Forfaldsdato</string>
+    <string name="activity">Aktivitet</string>
+    <string name="create_card">Opret kort</string>
+    <string name="create_stack">Opret stak</string>
+    <string name="create_board">Opret liste</string>
+
+    <string name="add_account">Tilføj konto</string>
+    <string name="accounts">Konti</string>
+
+    <string name="label_menu">menu</string>
+    <string name="action_card_assign">Tildel kort til dig</string>
+    <string name="action_card_unassign">Fravælg kort fra dig</string>
+    <string name="action_card_archive">Arkivér kort</string>
+    <string name="action_card_delete">Slet kort</string>
+    <string name="add_board">Tilføj liste</string>
+    <string name="action_card_list_add_column">Tilføj kolonne</string>
+    <string name="action_card_list_board_details">Liste detaljer</string>
+    <string name="simple_title">Titel</string>
 </resources>

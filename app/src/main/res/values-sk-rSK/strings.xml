@@ -1,14 +1,15 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">Otvoriť navigačný panel</string>
     <string name="navigation_drawer_close">Zavrieť navigačný panel</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Klient pre aplikáciu Nextcloud Deck</string>
     <string name="nav_header_desc">Záhlavie navigácie</string>
     <string name="action_settings">Nastavenia</string>
 
     <!-- Simple values -->
     <string name="simple_boards">Nástenky</string>
+    <string name="simple_cancel">Zrušiť</string>
+    <string name="simple_create">Vytvoriť</string>
+
     <!-- About -->
     <string name="about">O aplikácii</string>
     <string name="about_version_title">Verzia</string>
@@ -36,4 +37,27 @@
     <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">pred niekoľkými sekundami</string>
+    <string name="edit">Upraviť</string>
+    <string name="label_title">Názov</string>
+    <string name="label_labels">Vybrať štítky</string>
+    <string name="label_description">Popis</string>
+    <string name="hint_assign_people">Priradiť používateľov</string>
+    <string name="hint_due_date_date">Termín dokončenia</string>
+    <string name="activity">Aktivita</string>
+    <string name="create_card">Vytvoriť kartu</string>
+    <string name="create_stack">Vytvoriť stoh</string>
+    <string name="create_board">Vytvoriť nástenku</string>
+
+    <string name="add_account">Pridať účet</string>
+    <string name="accounts">Účty</string>
+
+    <string name="label_menu">menu</string>
+    <string name="action_card_assign">Priradiť kartu vám</string>
+    <string name="action_card_unassign">Zrušiť priradenie karty vám</string>
+    <string name="action_card_archive">Archivovať kartu</string>
+    <string name="action_card_delete">Zmazať kartu</string>
+    <string name="add_board">Pridať nástenk</string>
+    <string name="action_card_list_add_column">Pridať stĺpec</string>
+    <string name="action_card_list_board_details">Podrobnosti o nástenke</string>
+    <string name="simple_title">Názov</string>
 </resources>

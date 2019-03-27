@@ -7,6 +7,8 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tableaux</string>
+    <string name="simple_cancel">Annuler</string>
+    <string name="simple_create">Créer</string>
 
     <!-- About -->
     <string name="about">À propos de</string>
@@ -37,11 +39,15 @@
     <string name="seconds_ago">à l\'instant</string>
     <string name="edit">Modifier</string>
     <string name="label_title">Titre</string>
+    <string name="label_labels">Sélectionner les étiquettes</string>
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assigner des utilisateurs</string>
     <string name="hint_due_date_date">Date d\'échéance</string>
     <string name="activity">Activité</string>
     <string name="create_card">Créer une carte</string>
+    <string name="create_stack">Créer une pile</string>
+    <string name="create_board">Créer un tableau</string>
+
     <string name="add_account">Ajouter un compte</string>
     <string name="accounts">Comptes</string>
 
@@ -50,5 +56,8 @@
     <string name="action_card_unassign">Ne plus m\'assigner la carte</string>
     <string name="action_card_archive">Archiver la carte</string>
     <string name="action_card_delete">Supprimer la carte</string>
+    <string name="add_board">Ajouter un tableau</string>
     <string name="action_card_list_add_column">Ajouter une colonne</string>
-    </resources>
+    <string name="action_card_list_board_details">Propriétés du tableau</string>
+    <string name="simple_title">Titre</string>
+</resources>

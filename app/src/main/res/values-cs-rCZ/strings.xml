@@ -7,6 +7,8 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Desky</string>
+    <string name="simple_cancel">Storno</string>
+    <string name="simple_create">Vytvořit</string>
 
     <!-- About -->
     <string name="about">O aplikaci</string>
@@ -57,4 +59,5 @@
     <string name="add_board">Přidat nástěnku</string>
     <string name="action_card_list_add_column">Přidat sloupec</string>
     <string name="action_card_list_board_details">Podrobnosti o nástěnce</string>
+    <string name="simple_title">Nadpis</string>
 </resources>

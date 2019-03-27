@@ -2,10 +2,13 @@
     <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
     <string name="navigation_drawer_close">Stäng navigeringslådan</string>
     <string name="nav_header_subtitle">Klient för Nextcloud Deck app</string>
+    <string name="nav_header_desc">Navigationshuvud</string>
     <string name="action_settings">Inställningar</string>
 
     <!-- Simple values -->
     <string name="simple_boards">Tavlor</string>
+    <string name="simple_cancel">Avbryt</string>
+    <string name="simple_create">Skapa</string>
 
     <!-- About -->
     <string name="about">Om</string>
@@ -56,4 +59,5 @@
     <string name="add_board">Lägg till tavla</string>
     <string name="action_card_list_add_column">Lägg till kolumn</string>
     <string name="action_card_list_board_details">Taveldetaljer</string>
+    <string name="simple_title">Titel</string>
 </resources>

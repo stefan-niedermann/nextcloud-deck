@@ -7,6 +7,8 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Painéis</string>
+    <string name="simple_cancel">Cancelar</string>
+    <string name="simple_create">Criar</string>
 
     <!-- About -->
     <string name="about">Sobre</string>
@@ -57,4 +59,5 @@
     <string name="add_board">Adicionar painel</string>
     <string name="action_card_list_add_column">Adicionar coluna</string>
     <string name="action_card_list_board_details">Detalhes do painel</string>
+    <string name="simple_title">Título</string>
 </resources>

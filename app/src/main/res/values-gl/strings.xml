@@ -7,6 +7,8 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Taboleiros</string>
+    <string name="simple_cancel">Cancelar</string>
+    <string name="simple_create">Crear</string>
 
     <!-- About -->
     <string name="about">Sobre</string>
@@ -57,4 +59,5 @@
     <string name="add_board">Engadir taboleiro</string>
     <string name="action_card_list_add_column">Engadir columna</string>
     <string name="action_card_list_board_details">Detalles do taboleiro</string>
+    <string name="simple_title">Titulo</string>
 </resources>

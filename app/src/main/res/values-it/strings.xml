@@ -7,6 +7,8 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Lavagne</string>
+    <string name="simple_cancel">Annulla</string>
+    <string name="simple_create">Crea</string>
 
     <!-- About -->
     <string name="about">Informazioni</string>
@@ -57,4 +59,5 @@
     <string name="add_board">Aggiungi lavagna</string>
     <string name="action_card_list_add_column">Aggiungi colonna</string>
     <string name="action_card_list_board_details">Dettaglio bordo</string>
+    <string name="simple_title">Titolo</string>
 </resources>

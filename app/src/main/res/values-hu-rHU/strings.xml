@@ -7,7 +7,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Táblák</string>
-
     <!-- About -->
     <string name="about">Névjegy</string>
     <string name="about_version_title">Verzió</string>
@@ -40,6 +39,7 @@
     <string name="label_labels">Címkék kiválasztása</string>
     <string name="label_description">Leírás</string>
     <string name="hint_assign_people">Felhasználók hozzárendelése</string>
+    <string name="hint_due_date_date">Határidő</string>
     <string name="activity">Tevékenység</string>
     <string name="create_card">Kártya létrehozása</string>
     <string name="create_stack">Rakás létrehozása</string>
@@ -49,7 +49,11 @@
     <string name="accounts">Fiókok</string>
 
     <string name="label_menu">menü</string>
+    <string name="action_card_assign">Kártya hozzárendelése Önhöz</string>
+    <string name="action_card_unassign">Kártya elvétele Öntől</string>
     <string name="action_card_archive">Kártya archiválása</string>
     <string name="action_card_delete">Kártya törlése</string>
+    <string name="add_board">Tábla hozzáadása</string>
     <string name="action_card_list_add_column">Oszlop hozzáadása</string>
+    <string name="action_card_list_board_details">Tábla részletei</string>
     </resources>
