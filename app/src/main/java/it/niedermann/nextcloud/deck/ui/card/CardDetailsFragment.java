@@ -71,6 +71,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     @BindView(R.id.people)
     DelayedAutoCompleteTextView people;
 
+    @BindView(R.id.labels)
+    DelayedAutoCompleteTextView labels;
+
     @BindView(R.id.peopleList)
     LinearLayout peopleList;
 
@@ -144,7 +147,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             this.card = card;
             if (this.card != null) {
                 setupPeople(accountId);
-                setupLabels();
+                setupLabels(accountId);
                 setupDueDate();
             }
         });
@@ -213,7 +216,22 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         }
     }
 
-    private void setupLabels() {
+    private void setupLabels(long accountId) {
+        labels.setAdapter(new LabelAutoCompleteAdapter(this, getContext(), accountId));
+        labels.setOnItemClickListener((adapterView, view, position, id) -> {
+            Label label = (Label) adapterView.getItemAtPosition(position);
+            syncManager.assignLabelToCard(label, card.getCard());
+
+            Chip chip = createChipFromLabel(label);
+            chip.setOnCloseIconClickListener(v -> {
+                labelsGroup.removeView(chip);
+                syncManager.unassignLabelFromCard(label, card.getCard());
+            });
+            labelsGroup.addView(chip);
+
+            labels.setText("");
+        });
+
         labelsGroup.removeAllViews();
         if (card.getLabels() != null && card.getLabels().size() > 0) {
             for (Label label : card.getLabels()) {
