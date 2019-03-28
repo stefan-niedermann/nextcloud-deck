@@ -399,6 +399,7 @@ public class SyncManager {
     }
 
 
+    //FIXME: ### filter by board-ID too!
     public LiveData<List<Label>> searchLabelByTitle(final long accountId, String searchTerm){
         return dataBaseAdapter.searchLabelByTitle(accountId, searchTerm);
     }
