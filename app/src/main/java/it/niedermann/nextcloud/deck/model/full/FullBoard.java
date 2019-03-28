@@ -17,7 +17,7 @@ public class FullBoard implements IRemoteEntity {
     @Embedded
     public Board board;
 
-    @Relation(entity = Label.class, parentColumn = "localId", entityColumn = "localId")
+    @Relation(entity = Label.class, parentColumn = "localId", entityColumn = "boardId")
     public List<Label> labels;
 
     @Relation(parentColumn = "ownerId", entityColumn = "localId")

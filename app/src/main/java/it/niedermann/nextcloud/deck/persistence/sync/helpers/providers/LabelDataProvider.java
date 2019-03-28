@@ -18,6 +18,11 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
         super(parent);
         this.board = board;
         this.labels = labels;
+        if (this.labels!= null){
+            for (Label label : labels) {
+                label.setBoardId(board.getId());
+            }
+        }
     }
 
     @Override
