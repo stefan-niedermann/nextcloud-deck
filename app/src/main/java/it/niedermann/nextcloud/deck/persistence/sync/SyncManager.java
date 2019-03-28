@@ -33,7 +33,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelp
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
-import it.niedermann.nextcloud.deck.persistence.sync.util.DateUtil;
+import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class SyncManager {
 
