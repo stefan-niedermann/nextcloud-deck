@@ -20,7 +20,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
         this.labels = labels;
         if (this.labels!= null){
             for (Label label : labels) {
-                label.setBoardId(board.getId());
+                label.setBoardId(board.getLocalId());
             }
         }
     }
