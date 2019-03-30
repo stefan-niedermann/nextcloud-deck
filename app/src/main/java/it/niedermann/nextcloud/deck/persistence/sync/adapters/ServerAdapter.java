@@ -89,9 +89,6 @@ public class ServerAdapter {
     }
 
     private Date getLastSync() {
-//        return new Date(0l);
-        //return null;
-        // FIXME: reactivate, when lastSync is working in REST-API
         Date lastSync = DateUtil.nowInGMT();
         lastSync.setTime(lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L));
 

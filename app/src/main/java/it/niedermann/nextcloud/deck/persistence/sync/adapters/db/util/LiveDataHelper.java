@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer;
 
 public class LiveDataHelper {
 
-    public interface DataChangePocessor<T>{
+    public interface DataChangeProcessor<T>{
         void onDataChanged(T data);
     }
 
@@ -30,7 +30,7 @@ public class LiveDataHelper {
         }
     }
 
-    public static <T> MediatorLiveData<T> interceptLiveData(LiveData<T> data, DataChangePocessor<T> onDataChange) {
+    public static <T> MediatorLiveData<T> interceptLiveData(LiveData<T> data, DataChangeProcessor<T> onDataChange) {
         MediatorLiveData<T> ret = new MediatorLiveData<>();
 
         ret.addSource(data, changedData ->
@@ -44,6 +44,13 @@ public class LiveDataHelper {
 
 
     public static <I, O> MediatorLiveData<O> postCustomValue(LiveData<I> data, DataTransformator<I, O> transformator) {
+        MediatorLiveData<O> ret = new MediatorLiveData<>();
+
+        ret.addSource(data, changedData -> doAsync(() ->ret.postValue(transformator.transform(changedData))));
+        return onlyIfChanged(ret);
+    }
+
+    public static <I, O> MediatorLiveData<O> postSingleValue(LiveData<I> data, DataTransformator<I, O> transformator) {
         MediatorLiveData<O> ret = new MediatorLiveData<>();
 
         ret.addSource(data, changedData -> doAsync(() ->ret.postValue(transformator.transform(changedData))));

@@ -131,7 +131,6 @@ public class JsonToEntityParser {
 
     protected static FullCard parseCard(JsonObject e) {
         DeckLog.log(e.toString());
-        //TODO: impl
         FullCard fullCard = new FullCard();
         Card card = new Card();
         fullCard.setCard(card);
