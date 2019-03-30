@@ -27,4 +27,7 @@ public interface LabelDao extends GenericDao<Label> {
 
     @Query("SELECT * FROM label WHERE accountId = :accountId and boardId = :boardId and title LIKE :searchTerm")
     LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm);
+
+    @Query("SELECT * FROM label WHERE accountId = :accountId and boardId = :boardId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
+    List<Label> getLocallyChangedLabelsDirectly(long accountId, long boardId);
 }

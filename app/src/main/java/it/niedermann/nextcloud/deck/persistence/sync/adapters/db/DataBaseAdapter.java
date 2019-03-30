@@ -403,4 +403,7 @@ public class DataBaseAdapter {
     public List<FullStack> getLocallyChangedStacks(long accountId) {
         return db.getStackDao().getLocallyChangedStacksDirectly(accountId);
     }
+    public List<Label> getLocallyChangedLabels(long accountId, long boardId) {
+        return db.getLabelDao().getLocallyChangedLabelsDirectly(accountId, boardId);
+    }
 }

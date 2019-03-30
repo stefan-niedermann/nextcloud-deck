@@ -84,12 +84,17 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public List<FullBoard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
         // TODO: reactivate for UpSync
-        //return dataBaseAdapter.getLocallyChangedBoards(accountId);
+//        return dataBaseAdapter.getLocallyChangedBoards(accountId);
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, FullBoard entity, FullBoard response, IResponseCallback<Boolean> callback) {
-        syncHelper.doUpSyncFor(new LabelDataProvider(this, entity.getBoard(), null));
+    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, FullBoard entity, FullBoard response, IResponseCallback<Boolean> callback) {
+
+        List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(entity.getAccountId(), entity.getLocalId());
+        for (Label label : locallyChangedLabels) {
+            label.setBoardId(entity.getId());
+        }
+        syncHelper.doUpSyncFor(new LabelDataProvider(this, entity.getBoard(), locallyChangedLabels));
         syncHelper.doUpSyncFor(new StackDataProvider(this, entity));
     }
 

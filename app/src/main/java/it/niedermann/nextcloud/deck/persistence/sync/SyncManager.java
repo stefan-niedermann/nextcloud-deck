@@ -70,8 +70,8 @@ public class SyncManager {
                     syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
                         @Override
                         public void onResponse(Boolean response) {
-                            // TODO activate when done dev
-//                            lastSyncPref.edit().putLong(DeckConsts.LAST_SYNC_KEY, now.getTime()).apply();
+                            // TODO deactivate for dev
+                            lastSyncPref.edit().putLong(DeckConsts.LAST_SYNC_KEY, now.getTime()).apply();
                             responseCallback.onResponse(response);
                         }
                         @Override
