@@ -49,6 +49,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private static final String TAG = CardAdapter.class.getCanonicalName();
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
+    public static final String BUNDLE_KEY_BOARD_ID = "boardId";
 
     private Context context;
     private List<FullCard> cardList = new ArrayList<>();
@@ -78,6 +79,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
             intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
             intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
+            // FIXME
+            intent.putExtra(BUNDLE_KEY_BOARD_ID, 0);
             context.startActivity(intent);
         });
         viewHolder.card.setOnLongClickListener((View draggedView) -> {

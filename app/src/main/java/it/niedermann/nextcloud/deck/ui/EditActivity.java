@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class EditActivity extends AppCompatActivity {
@@ -42,6 +43,7 @@ public class EditActivity extends AppCompatActivity {
 
     private long accountId;
     private long localId;
+    private long boardId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class EditActivity extends AppCompatActivity {
         if (extras != null) {
             accountId = extras.getLong(BUNDLE_KEY_ACCOUNT_ID);
             localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
+            boardId = extras.getLong(BUNDLE_KEY_BOARD_ID);
             syncManager = new SyncManager(getApplicationContext(), this);
 
             fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
@@ -96,7 +99,7 @@ public class EditActivity extends AppCompatActivity {
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), accountId, localId);
+        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), accountId, localId, boardId);
         pager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(pager);

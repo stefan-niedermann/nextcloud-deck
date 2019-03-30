@@ -52,6 +52,7 @@ import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class CardDetailsFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
@@ -89,10 +90,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     @BindView(R.id.labelsGroup)
     ChipGroup labelsGroup;
 
-    public static CardDetailsFragment newInstance(long accountId, long localId) {
+    public static CardDetailsFragment newInstance(long accountId, long localId, long boardId) {
         Bundle bundle = new Bundle();
         bundle.putLong(BUNDLE_KEY_ACCOUNT_ID, accountId);
         bundle.putLong(BUNDLE_KEY_LOCAL_ID, localId);
+        bundle.putLong(BUNDLE_KEY_BOARD_ID, boardId);
 
         CardDetailsFragment fragment = new CardDetailsFragment();
         fragment.setArguments(bundle);
@@ -122,8 +124,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         if (args != null) {
             long accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
             long localId = args.getLong(BUNDLE_KEY_LOCAL_ID);
+            long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
-            setupView(accountId, localId);
+            setupView(accountId, localId, boardId);
         }
 
         avatarSize = DimensionUtil.getAvatarDimension(getContext());
@@ -139,7 +142,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         return binding.getRoot();
     }
 
-    private void setupView(long accountId, long localId) {
+    private void setupView(long accountId, long localId, long boardId) {
         syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
 
         this.fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
@@ -147,7 +150,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             this.card = card;
             if (this.card != null) {
                 setupPeople(accountId);
-                setupLabels(accountId);
+                setupLabels(accountId, boardId);
                 setupDueDate();
             }
         });
@@ -216,8 +219,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         }
     }
 
-    private void setupLabels(long accountId) {
-        labels.setAdapter(new LabelAutoCompleteAdapter(this, getContext(), accountId));
+    private void setupLabels(long accountId, long boardId) {
+        labels.setAdapter(new LabelAutoCompleteAdapter(this, getContext(), accountId, boardId));
         labels.setOnItemClickListener((adapterView, view, position, id) -> {
             Label label = (Label) adapterView.getItemAtPosition(position);
             syncManager.assignLabelToCard(label, card.getCard());

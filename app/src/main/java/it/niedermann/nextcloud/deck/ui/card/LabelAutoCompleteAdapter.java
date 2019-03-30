@@ -30,12 +30,14 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     private List<Label> labelList = new ArrayList<>();
     private SyncManager syncManager;
     private long accountId;
+    private long boardId;
     private LifecycleOwner owner;
 
-    public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Context context, long accountId) {
+    public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Context context, long accountId, long boardId) {
         this.owner = owner;
         this.context = context;
         this.accountId = accountId;
+        this.boardId = boardId;
         syncManager = new SyncManager(context, null);
     }
 
@@ -88,7 +90,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
                     ((Fragment) owner).getActivity().runOnUiThread(() -> {
-                        LiveData<List<Label>> labelLiveData = syncManager.searchLabelByTitle(accountId, constraint.toString());
+                        LiveData<List<Label>> labelLiveData = syncManager.searchLabelByTitle(accountId, boardId, constraint.toString());
                         Observer<List<Label>> observer = new Observer<List<Label>>() {
                             @Override
                             public void onChanged(List<Label> users) {

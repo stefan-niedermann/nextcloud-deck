@@ -398,9 +398,7 @@ public class SyncManager {
         return dataBaseAdapter.getStacks(accountId, localBoardId);
     }
 
-
-    //FIXME: ### filter by board-ID too!
-    public LiveData<List<Label>> searchLabelByTitle(final long accountId, String searchTerm){
+    public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm){
         return dataBaseAdapter.searchLabelByTitle(accountId, searchTerm);
     }
 
