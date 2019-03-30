@@ -349,9 +349,9 @@ public class DataBaseAdapter {
         return db.getUserDao().searchUserByUidOrDisplayName(accountId, "%"+searchTerm.trim()+"%");
     }
 
-    public LiveData<List<Label>> searchLabelByTitle(final long accountId, String searchTerm){
+    public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm){
         validateSearchTerm(searchTerm);
-        return db.getLabelDao().searchLabelByTitle(accountId, "%"+searchTerm.trim()+"%");
+        return db.getLabelDao().searchLabelByTitle(accountId, boardId,"%"+searchTerm.trim()+"%");
     }
 
 

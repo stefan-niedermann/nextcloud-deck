@@ -88,6 +88,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
                     ((Fragment) owner).getActivity().runOnUiThread(() -> {
+                        //FIXME: please provide the board-ID, since the labels depend on the board. according method already exists!
                         LiveData<List<Label>> labelLiveData = syncManager.searchLabelByTitle(accountId, constraint.toString());
                         Observer<List<Label>> observer = new Observer<List<Label>>() {
                             @Override

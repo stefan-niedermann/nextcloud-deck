@@ -11,8 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import it.niedermann.nextcloud.deck.DeckConsts;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -71,7 +71,7 @@ public class SyncManager {
                         @Override
                         public void onResponse(Boolean response) {
                             // TODO activate when done dev
-                            lastSyncPref.edit().putLong(DeckConsts.LAST_SYNC_KEY, now.getTime()).apply();
+//                            lastSyncPref.edit().putLong(DeckConsts.LAST_SYNC_KEY, now.getTime()).apply();
                             responseCallback.onResponse(response);
                         }
                         @Override
@@ -156,8 +156,8 @@ public class SyncManager {
         return dataBaseAdapter.getBoards(accountId);
     }
 
-    // TODO should return ID of the created board, so one can immediately switch to the new board after creation
-    public void createBoard(long accountId, Board board) {
+    public LiveData<FullBoard> createBoard(long accountId, Board board) {
+        MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
@@ -170,10 +170,12 @@ public class SyncManager {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
                 @Override
                 public void onResponse(FullBoard response) {
-                    DeckLog.log(response.toString());
+                    liveData.postValue(response);
                 }
             });
         });
+        return liveData;
+
     }
 
     public void deleteBoard(Board board) {
@@ -211,8 +213,8 @@ public class SyncManager {
     }
 
 
-    // TODO should return ID of the created stack, so one can immediately switch to the new board after creation
-    public void createStack(long accountId, Stack stack) {
+    public LiveData<FullStack> createStack(long accountId, Stack stack) {
+        MutableLiveData<FullStack> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, stack.getBoardId());
@@ -224,10 +226,11 @@ public class SyncManager {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board) ,fullStack, new IResponseCallback<FullStack>(account) {
                 @Override
                 public void onResponse(FullStack response) {
-                    DeckLog.log(response.toString());
+                    liveData.postValue(response);
                 }
             });
         });
+        return liveData;
     }
 
     public void deleteStack(Stack stack) {
@@ -399,9 +402,20 @@ public class SyncManager {
     }
 
 
-    //FIXME: ### filter by board-ID too!
+    /**
+     * deprecated! should be removed, as soon as the board-ID can be set by the frontend.
+     *  see searchLabelByTitle with board id.
+     * @param accountId
+     * @param searchTerm
+     * @return
+     */
+    @Deprecated
     public LiveData<List<Label>> searchLabelByTitle(final long accountId, String searchTerm){
-        return dataBaseAdapter.searchLabelByTitle(accountId, searchTerm);
+        throw new UnsupportedOperationException("please use other searchLabelByTitle method!");
+    }
+
+    public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm){
+        return dataBaseAdapter.searchLabelByTitle(accountId, boardId, searchTerm);
     }
 
     public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
