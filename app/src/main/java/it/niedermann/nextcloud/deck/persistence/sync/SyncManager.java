@@ -406,13 +406,12 @@ public class SyncManager {
      * deprecated! should be removed, as soon as the board-ID can be set by the frontend.
      *  see searchLabelByTitle with board id.
      * @param accountId
+     * @param boardId
      * @param searchTerm
      * @return
      */
-    @Deprecated
     public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm){
-        //return dataBaseAdapter.searchLabelByTitle(accountId, boardId, searchTerm);
-        throw new UnsupportedOperationException("please use other searchLabelByTitle method!");
+        return dataBaseAdapter.searchLabelByTitle(accountId, boardId, searchTerm);
     }
 
     public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {

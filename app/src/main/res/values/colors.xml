@@ -8,7 +8,7 @@
     <color name="bg_accent">#0082c9</color>
     <color name="fg_accent">#fff</color>
     <color name="fg_secondary">#999</color>
-
+    <color name="grey600">#757575</color>
     <!-- due date colors -->
     <color name="due_tomorrow">#7fffc53a</color>
     <color name="due_today">#7feca700</color>

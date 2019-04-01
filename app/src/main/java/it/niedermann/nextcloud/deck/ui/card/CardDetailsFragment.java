@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -223,14 +224,20 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         labels.setAdapter(new LabelAutoCompleteAdapter(this, getContext(), accountId, boardId));
         labels.setOnItemClickListener((adapterView, view, position, id) -> {
             Label label = (Label) adapterView.getItemAtPosition(position);
-            syncManager.assignLabelToCard(label, card.getCard());
+            if (LabelAutoCompleteAdapter.CREATE_ID == label.getId()) {
+                // TODO create label in database _and_ on server
+                Toast.makeText(getActivity(), "Implement server call", Toast.LENGTH_SHORT).show();
+            } else {
+                // TODO needs to be done for created label too as soo as its created
+                syncManager.assignLabelToCard(label, card.getCard());
 
-            Chip chip = createChipFromLabel(label);
-            chip.setOnCloseIconClickListener(v -> {
-                labelsGroup.removeView(chip);
-                syncManager.unassignLabelFromCard(label, card.getCard());
-            });
-            labelsGroup.addView(chip);
+                Chip chip = createChipFromLabel(label);
+                chip.setOnCloseIconClickListener(v -> {
+                    labelsGroup.removeView(chip);
+                    syncManager.unassignLabelFromCard(label, card.getCard());
+                });
+                labelsGroup.addView(chip);
+            }
 
             labels.setText("");
         });

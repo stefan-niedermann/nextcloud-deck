@@ -77,4 +77,6 @@
     <string name="simple_title">Title</string>
 
     <string name="label_clear_due_date">Clear due date</string>
+
+    <string name="label_create">Create %1$s</string>
 </resources>
