@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="@dimen/standard_margin"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -22,8 +22,8 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="2"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
+        android:paddingBottom="@dimen/standard_padding"
+        android:paddingTop="@dimen/standard_padding"
         android:text="Attachments"
         android:textSize="26sp"/>
 

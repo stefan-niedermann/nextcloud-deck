@@ -5,12 +5,12 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/card_spacing"
-    android:layout_marginLeft="@dimen/card_spacing"
-    android:layout_marginTop="@dimen/card_half_spacing"
-    android:layout_marginBottom="@dimen/card_half_spacing"
-    android:layout_marginEnd="@dimen/card_spacing"
-    android:layout_marginRight="@dimen/card_spacing"
+    android:layout_marginStart="@dimen/standard_margin"
+    android:layout_marginLeft="@dimen/standard_margin"
+    android:layout_marginTop="@dimen/standard_half_margin"
+    android:layout_marginBottom="@dimen/standard_half_margin"
+    android:layout_marginEnd="@dimen/standard_margin"
+    android:layout_marginRight="@dimen/standard_margin"
     android:focusable="true">
 
     <LinearLayout

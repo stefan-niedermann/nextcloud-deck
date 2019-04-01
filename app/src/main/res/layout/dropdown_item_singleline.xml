@@ -9,7 +9,7 @@
         android:id="@+id/icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/standard_margin"
         android:contentDescription="@null"
         tools:src="@drawable/ic_close_circle_grey600"/>
 
@@ -20,8 +20,8 @@
         android:gravity="center_vertical"
         android:ellipsize="middle"
         android:layout_weight="1"
-        android:paddingRight="16dp"
-        android:paddingEnd="16dp"
+        android:paddingRight="@dimen/standard_padding"
+        android:paddingEnd="@dimen/standard_padding"
         android:paddingLeft="0dp"
         android:paddingStart="0dp"
         android:textSize="18sp"

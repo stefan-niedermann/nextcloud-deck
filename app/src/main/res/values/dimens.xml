@@ -16,6 +16,4 @@
     <dimen name="avatar_size">40dp</dimen>
     <dimen name="avatar_size_small">32dp</dimen>
     <dimen name="avatar_overlapping_small">20dp</dimen>
-    <dimen name="card_spacing">16dp</dimen>
-    <dimen name="card_half_spacing">8dp</dimen>
 </resources>
