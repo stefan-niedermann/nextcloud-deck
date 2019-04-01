@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.persistence.sync.util.DateUtil;
+import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class ServerAdapter {
 

@@ -35,7 +35,6 @@ public class CardActivityFragment extends Fragment {
         // TODO read/set available card activity data
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
