@@ -17,7 +17,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingLeft="@dimen/standard_padding"
+        android:paddingStart="@dimen/standard_padding"
+        android:paddingRight="0dp"
+        android:paddingEnd="0dp"
+        android:paddingTop="@dimen/standard_half_padding"
+        android:paddingBottom="@dimen/standard_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +36,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:padding="4dp"
+                android:padding="@dimen/standard_quarter_padding"
                 android:paddingStart="0dp"
                 android:paddingLeft="0dp"
                 android:textColor="@color/black"
@@ -46,7 +51,7 @@
                 android:background="@drawable/due_tomorrow_background"
                 android:maxLines="1"
                 android:minLines="0"
-                android:padding="4dp"
+                android:padding="@dimen/standard_quarter_padding"
                 android:layout_gravity="center"
                 tools:text="tomorrow" />
 
@@ -55,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/label_menu"
-                android:padding="4dp"
+                android:padding="@dimen/standard_quarter_padding"
                 app:srcCompat="@drawable/ic_menu" />
         </LinearLayout>
 
@@ -65,8 +70,12 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingTop="@dimen/standard_half_padding"
-            android:paddingBottom="@dimen/standard_margin"
+            android:paddingTop="@dimen/standard_quarter_padding"
+            android:paddingBottom="@dimen/standard_half_padding"
+            android:paddingRight="@dimen/standard_padding"
+            android:paddingEnd="@dimen/standard_padding"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
             android:textColor="@color/fg_secondary"
             android:textSize="16sp"
             tools:text="This is a card description" />
@@ -74,6 +83,11 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="@dimen/standard_quarter_margin"
             android:orientation="horizontal">
 
             <com.google.android.material.chip.ChipGroup
@@ -81,17 +95,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp" />
+                android:layout_marginEnd="@dimen/standard_half_margin"
+                android:layout_marginRight="@dimen/standard_half_margin" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/card_count_attachments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="4dp"
+                android:drawablePadding="@dimen/standard_quarter_padding"
                 android:maxLines="1"
                 android:minLines="0"
-                android:padding="4dp"
+                android:padding="@dimen/standard_quarter_padding"
                 app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
                 app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
                 tools:text="1" />
@@ -100,8 +114,6 @@
                 android:id="@+id/peopleList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:orientation="horizontal" />
         </LinearLayout>
