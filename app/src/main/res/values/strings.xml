@@ -75,4 +75,6 @@
     <string name="action_card_list_add_column">Add column</string>
     <string name="action_card_list_board_details">Bord details</string>
     <string name="simple_title">Title</string>
+
+    <string name="label_clear_due_date">Clear due date</string>
 </resources>

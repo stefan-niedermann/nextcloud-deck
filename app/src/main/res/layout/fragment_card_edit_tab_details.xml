@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="editmodel"
             type="it.niedermann.nextcloud.deck.model.viewmodel.FullCardViewModel" />
@@ -102,6 +101,7 @@
                     android:enabled="true"
                     android:focusable="false"
                     android:hint="@string/hint_due_date_date"
+                    android:importantForAutofill="no"
                     android:maxLines="1"
                     tools:text="01/07/2020" />
 
@@ -112,6 +112,7 @@
                     android:enabled="true"
                     android:focusable="false"
                     android:hint="@string/hint_due_date_time"
+                    android:importantForAutofill="no"
                     android:maxLines="1"
                     android:minLines="0"
                     android:textAlignment="center"
@@ -121,6 +122,7 @@
                     android:id="@+id/clearDueDate"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/label_clear_due_date"
                     android:padding="@dimen/standard_half_padding"
                     android:visibility="invisible"
                     app:srcCompat="@drawable/ic_close_circle_grey600" />
@@ -148,6 +150,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="top"
                     android:hint="@string/label_description"
+                    android:importantForAutofill="no"
                     android:inputType="textMultiLine|textCapSentences"
                     android:scrollbars="vertical"
                     android:text="@{editmodel.fullCard.card.description}" />
