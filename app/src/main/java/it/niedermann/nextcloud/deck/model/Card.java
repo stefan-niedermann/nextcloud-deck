@@ -12,7 +12,6 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 @Entity(inheritSuperIndices = true, indices = {@Index(value = "accountId", name = "card_acc")})
 public class Card extends AbstractRemoteEntity {
 
-
     private String title;
     private String description;
     @NonNull
@@ -30,8 +29,6 @@ public class Card extends AbstractRemoteEntity {
     private boolean notified;
     private int overdue;
     private int commentsUnread;
-
-
 
     public boolean isNotified() {
         return notified;

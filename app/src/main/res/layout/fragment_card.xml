@@ -81,7 +81,7 @@
             tools:text="This is a card description" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/standard_margin"
             android:layout_marginRight="@dimen/standard_margin"
@@ -98,24 +98,39 @@
                 android:layout_marginEnd="@dimen/standard_half_margin"
                 android:layout_marginRight="@dimen/standard_half_margin" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/card_count_attachments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/standard_quarter_padding"
-                android:maxLines="1"
-                android:minLines="0"
-                android:padding="@dimen/standard_quarter_padding"
-                app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
-                app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
-                tools:text="1" />
-
             <RelativeLayout
-                android:id="@+id/peopleList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal" />
+                android:gravity="end">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/card_count_attachments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/standard_quarter_padding"
+                    android:maxLines="1"
+                    android:minLines="0"
+                    android:padding="@dimen/standard_quarter_padding"
+                    app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
+                    app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
+                    tools:text="1"
+                    android:gravity="end"/>
+
+                <RelativeLayout
+                    android:id="@+id/peopleList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/standard_half_padding"
+                    android:layout_marginStart="@dimen/standard_half_padding"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:orientation="horizontal"
+                    android:gravity="end"
+                    android:layout_toEndOf="@+id/card_count_attachments"
+                    android:layout_toRightOf="@id/card_count_attachments"/>
+
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>

@@ -50,6 +50,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
     public static final String BUNDLE_KEY_BOARD_ID = "boardId";
+    public static final int MAX_AVATAR_COUNT = 3;
 
     private Context context;
     private List<FullCard> cardList = new ArrayList<>();
@@ -117,16 +118,23 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.peopleList.removeAllViews();
             RelativeLayout.LayoutParams avatarLayoutParams;
             viewHolder.peopleList.setVisibility(View.VISIBLE);
-            for (int i = 0; i < card.getAssignedUsers().size(); i++) {
+            int avatarCount;
+            for (avatarCount = 0; avatarCount < card.getAssignedUsers().size() && avatarCount < MAX_AVATAR_COUNT; avatarCount++) {
                 avatarLayoutParams = new RelativeLayout.LayoutParams(avatarSize, avatarSize);
-                avatarLayoutParams.setMargins(0, 0, i * context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small), 0);
+                avatarLayoutParams.setMargins(0, 0, avatarCount * context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small), 0);
                 avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 ImageView avatar = new ImageView(context);
                 avatar.setLayoutParams(avatarLayoutParams);
                 viewHolder.peopleList.addView(avatar);
                 avatar.requestLayout();
-                ViewUtil.addAvatar(context, avatar, account.url, card.getAssignedUsers().get(i).getUid(), avatarSize);
+                ViewUtil.addAvatar(context, avatar, account.url, card.getAssignedUsers().get(avatarCount).getUid(), avatarSize);
             }
+
+            // Recalculate container size based on avatar count
+            int size = context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small) * (avatarCount - 1) + avatarSize;
+            ViewGroup.LayoutParams rememberParam = viewHolder.peopleList.getLayoutParams();
+            rememberParam.width = size;
+            viewHolder.peopleList.setLayoutParams(rememberParam);
         } else {
             viewHolder.peopleList.setVisibility(View.GONE);
         }
