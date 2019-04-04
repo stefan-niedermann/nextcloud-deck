@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -112,6 +113,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.cardDescription.setVisibility(View.GONE);
         }
 
+        boolean showDetails = false;
 
         if (card.getAssignedUsers() != null && card.getAssignedUsers().size() > 0 && account.url != null) {
             int avatarSize = DimensionUtil.getAvatarDimension(context, R.dimen.avatar_size_small);
@@ -135,6 +137,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             ViewGroup.LayoutParams rememberParam = viewHolder.peopleList.getLayoutParams();
             rememberParam.width = size;
             viewHolder.peopleList.setLayoutParams(rememberParam);
+            showDetails = true;
         } else {
             viewHolder.peopleList.setVisibility(View.GONE);
         }
@@ -148,6 +151,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             );
             ViewUtil.themeDueDate(this.context, viewHolder.cardDueDate, card.getCard().getDueDate());
             viewHolder.cardDueDate.setVisibility(View.VISIBLE);
+            showDetails = true;
         } else {
             viewHolder.cardDueDate.setVisibility(View.GONE);
         }
@@ -157,16 +161,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         if (attachmentsCount == 0) {
             viewHolder.cardCountAttachments.setVisibility(View.GONE);
         } else {
-            viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
-        }
-        if (attachmentsCount > 99) {
-            viewHolder.cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
-        } else if (attachmentsCount > 1) {
-            viewHolder.cardCountAttachments.setText(attachmentsCount + "");
-        } else if (attachmentsCount == 1) {
-            viewHolder.cardCountAttachments.setText("");
-        }
+            if (attachmentsCount > 99) {
+                viewHolder.cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
+            } else if (attachmentsCount > 1) {
+                viewHolder.cardCountAttachments.setText(attachmentsCount + "");
+            } else if (attachmentsCount == 1) {
+                viewHolder.cardCountAttachments.setText("");
+            }
 
+            viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
+            showDetails = true;
+        }
 
         final int maxLabelsShown = context.getResources().getInteger(R.integer.max_labels_shown);
         final int maxLabelsChars = context.getResources().getInteger(R.integer.max_labels_chars);
@@ -205,8 +210,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 viewHolder.labels.addView(chip);
             }
             viewHolder.labels.setVisibility(View.VISIBLE);
+            showDetails = true;
         } else {
             viewHolder.labels.setVisibility(View.GONE);
+        }
+
+        if (showDetails) {
+            viewHolder.detailsContainer.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.detailsContainer.setVisibility(View.GONE);
         }
 
         viewHolder.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
@@ -281,6 +293,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextView cardTitle;
         @BindView(R.id.card_description)
         TextView cardDescription;
+        @BindView(R.id.card_details_container)
+        LinearLayout detailsContainer;
         @BindView(R.id.peopleList)
         RelativeLayout peopleList;
         @BindView(R.id.labels)
