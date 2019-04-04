@@ -60,4 +60,8 @@
     <string name="action_card_list_add_column">Adicionar coluna</string>
     <string name="action_card_list_board_details">Detalhes do painel</string>
     <string name="simple_title">Título</string>
+
+    <string name="label_clear_due_date">Remover data devida</string>
+
+    <string name="label_create">Criar %1$s</string>
 </resources>

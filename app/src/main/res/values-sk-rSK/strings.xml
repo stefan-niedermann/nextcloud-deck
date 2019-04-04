@@ -60,4 +60,5 @@
     <string name="action_card_list_add_column">Pridať stĺpec</string>
     <string name="action_card_list_board_details">Podrobnosti o nástenke</string>
     <string name="simple_title">Názov</string>
-</resources>
+
+    </resources>

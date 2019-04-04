@@ -60,4 +60,8 @@
     <string name="action_card_list_add_column">Spalte hinzufügen</string>
     <string name="action_card_list_board_details">Board-Details</string>
     <string name="simple_title">Titel</string>
+
+    <string name="label_clear_due_date">Fälligkeitsdatum löschen</string>
+
+    <string name="label_create">%1$s erstellen</string>
 </resources>

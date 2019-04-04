@@ -60,4 +60,8 @@
     <string name="action_card_list_add_column">Ajouter une colonne</string>
     <string name="action_card_list_board_details">Propriétés du tableau</string>
     <string name="simple_title">Titre</string>
+
+    <string name="label_clear_due_date">Effacer la date d\'échéance</string>
+
+    <string name="label_create">Créer %1$s</string>
 </resources>

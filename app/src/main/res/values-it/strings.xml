@@ -60,4 +60,8 @@
     <string name="action_card_list_add_column">Aggiungi colonna</string>
     <string name="action_card_list_board_details">Dettaglio bordo</string>
     <string name="simple_title">Titolo</string>
+
+    <string name="label_clear_due_date">Cancella la scadenza</string>
+
+    <string name="label_create">Crea %1$s</string>
 </resources>
