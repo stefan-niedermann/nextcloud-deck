@@ -35,6 +35,7 @@ public class StackFragment extends Fragment {
     private SyncManager syncManager;
 
     private long stackId;
+    private long boardId;
     private Account account;
 
     @BindView(R.id.swipe_refresh_layout)
@@ -63,14 +64,16 @@ public class StackFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stack, container, false);
         ButterKnife.bind(this, view);
-        initRecyclerView();
 
         if (getArguments() == null) {
             throw new IllegalArgumentException("account and localStackId are required arguments.");
         }
 
+        boardId = getArguments().getLong(KEY_BOARD_ID);
         stackId = getArguments().getLong(KEY_STACK_ID);
         account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
+
+        initRecyclerView();
 
         if (getActivity() != null) {
             syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
@@ -115,7 +118,7 @@ public class StackFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        adapter = new CardAdapter();
+        adapter = new CardAdapter(boardId);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ItemTouchHelper touchHelper = new CardItemTouchHelper(adapter);

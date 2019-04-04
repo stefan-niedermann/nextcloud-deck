@@ -57,6 +57,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private Context context;
     private List<FullCard> cardList = new ArrayList<>();
     private SingleSignOnAccount account;
+    private long boardId;
+
+    public CardAdapter(long boardId) {
+        this.boardId = boardId;
+    }
 
     @NonNull
     @Override
@@ -82,8 +87,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
             intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
             intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
-            // FIXME
-            intent.putExtra(BUNDLE_KEY_BOARD_ID, 0);
+            intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
             context.startActivity(intent);
         });
         viewHolder.card.setOnLongClickListener((View draggedView) -> {
