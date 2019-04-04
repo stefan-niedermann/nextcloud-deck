@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             setHeaderView();
                             syncManager = new SyncManager(getApplicationContext(), MainActivity.this);
-                            ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), this.account.getUrl(), this.account.getUserName());
+                            ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), this.account.getUrl(), this.account.getUserName());
                             // TODO show spinner
                             syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                                 @Override
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        navigationView.getHeaderView(0).findViewById(R.id.accountChooser).setOnClickListener(v -> {
+        navigationView.getHeaderView(0).findViewById(R.id.drawer_header_view).setOnClickListener(v -> {
             this.accountChooserActive = !this.accountChooserActive;
             if (accountChooserActive) {
                 buildSidenavAccountChooser();
@@ -382,7 +382,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setHeaderView() {
-        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.imageView), account.getUrl(), account.getUserName());
-        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.userid)).setText(account.getName());
+        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), account.getUrl(), account.getUserName());
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(account.getName());
     }
 }
