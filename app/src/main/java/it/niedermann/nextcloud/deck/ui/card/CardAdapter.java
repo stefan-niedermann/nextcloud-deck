@@ -37,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -106,6 +107,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         });
 
         viewHolder.cardTitle.setText(card.getCard().getTitle());
+
         if (card.getCard().getDescription().length() > 0) {
             viewHolder.cardDescription.setText(card.getCard().getDescription());
             viewHolder.cardDescription.setVisibility(View.VISIBLE);
@@ -116,27 +118,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         boolean showDetails = false;
 
         if (card.getAssignedUsers() != null && card.getAssignedUsers().size() > 0 && account.url != null) {
-            int avatarSize = DimensionUtil.getAvatarDimension(context, R.dimen.avatar_size_small);
-            viewHolder.peopleList.removeAllViews();
-            RelativeLayout.LayoutParams avatarLayoutParams;
+            setupAvatars(viewHolder.peopleList, card);
             viewHolder.peopleList.setVisibility(View.VISIBLE);
-            int avatarCount;
-            for (avatarCount = 0; avatarCount < card.getAssignedUsers().size() && avatarCount < MAX_AVATAR_COUNT; avatarCount++) {
-                avatarLayoutParams = new RelativeLayout.LayoutParams(avatarSize, avatarSize);
-                avatarLayoutParams.setMargins(0, 0, avatarCount * context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small), 0);
-                avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                ImageView avatar = new ImageView(context);
-                avatar.setLayoutParams(avatarLayoutParams);
-                viewHolder.peopleList.addView(avatar);
-                avatar.requestLayout();
-                ViewUtil.addAvatar(context, avatar, account.url, card.getAssignedUsers().get(avatarCount).getUid(), avatarSize);
-            }
-
-            // Recalculate container size based on avatar count
-            int size = context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small) * (avatarCount - 1) + avatarSize;
-            ViewGroup.LayoutParams rememberParam = viewHolder.peopleList.getLayoutParams();
-            rememberParam.width = size;
-            viewHolder.peopleList.setLayoutParams(rememberParam);
             showDetails = true;
         } else {
             viewHolder.peopleList.setVisibility(View.GONE);
@@ -144,12 +127,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
 
         if (card.getCard().getDueDate() != null) {
-            viewHolder.cardDueDate.setText(
-                    DateUtil.getRelativeDateTimeString(
-                            this.context,
-                            card.getCard().getDueDate().getTime())
-            );
-            ViewUtil.themeDueDate(this.context, viewHolder.cardDueDate, card.getCard().getDueDate());
+            setupDueDate(viewHolder.cardDueDate, card.getCard());
             viewHolder.cardDueDate.setVisibility(View.VISIBLE);
             showDetails = true;
         } else {
@@ -161,54 +139,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         if (attachmentsCount == 0) {
             viewHolder.cardCountAttachments.setVisibility(View.GONE);
         } else {
-            if (attachmentsCount > 99) {
-                viewHolder.cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
-            } else if (attachmentsCount > 1) {
-                viewHolder.cardCountAttachments.setText(attachmentsCount + "");
-            } else if (attachmentsCount == 1) {
-                viewHolder.cardCountAttachments.setText("");
-            }
+            setupAttachmentCount(viewHolder.cardCountAttachments, attachmentsCount);
 
             viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
             showDetails = true;
         }
 
-        final int maxLabelsShown = context.getResources().getInteger(R.integer.max_labels_shown);
-        final int maxLabelsChars = context.getResources().getInteger(R.integer.max_labels_chars);
-        Chip chip;
         viewHolder.labels.removeAllViews();
         if (card.getLabels() != null && card.getLabels().size() > 0) {
-            for (int i = 0; i < card.getLabels().size(); i++) {
-                if (i > maxLabelsShown - 1 && card.getLabels().size() > maxLabelsShown) {
-                    chip = new Chip(context);
-                    chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
-                    chip.setCloseIconStartPadding(0);
-                    chip.setCloseIconEndPadding(0);
-                    chip.setTextStartPadding(0);
-                    chip.setTextEndPadding(0);
-                    viewHolder.labels.addView(chip);
-                    break;
-                }
-                Label label = card.getLabels().get(i);
-                chip = new Chip(context);
-                String labelTitle = label.getTitle();
-                if (labelTitle.length() > maxLabelsChars - 1) {
-                    chip.setText(labelTitle.substring(0, maxLabelsChars));
-                } else {
-                    chip.setText(" " + labelTitle.substring(0, 1) + " ");
-                }
-
-                try {
-                    int labelColor = Color.parseColor("#" + label.getColor());
-                    ColorStateList c = ColorStateList.valueOf(labelColor);
-                    chip.setChipBackgroundColor(c);
-                    chip.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));
-                } catch (IllegalArgumentException e) {
-                    Log.e(TAG, "error parsing label color", e);
-                }
-
-                viewHolder.labels.addView(chip);
-            }
+            setupLabels(viewHolder.labels, card.getLabels());
             viewHolder.labels.setVisibility(View.VISIBLE);
             showDetails = true;
         } else {
@@ -222,6 +161,85 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         viewHolder.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
+    }
+
+    private void setupLabels(@NonNull ChipGroup labels, List<Label> labelList) {
+        int maxLabelsShown = context.getResources().getInteger(R.integer.max_labels_shown);
+        int maxLabelsChars = context.getResources().getInteger(R.integer.max_labels_chars);
+        Chip chip;
+        for (int i = 0; i < labelList.size(); i++) {
+            if (i > maxLabelsShown - 1 && labelList.size() > maxLabelsShown) {
+                chip = new Chip(context);
+                chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
+                chip.setCloseIconStartPadding(0);
+                chip.setCloseIconEndPadding(0);
+                chip.setTextStartPadding(0);
+                chip.setTextEndPadding(0);
+                labels.addView(chip);
+                break;
+            }
+            Label label = labelList.get(i);
+            chip = new Chip(context);
+            String labelTitle = label.getTitle();
+            if (labelTitle.length() > maxLabelsChars - 1) {
+                chip.setText(labelTitle.substring(0, maxLabelsChars));
+            } else {
+                chip.setText(" " + labelTitle.substring(0, 1) + " ");
+            }
+
+            try {
+                int labelColor = Color.parseColor("#" + label.getColor());
+                ColorStateList c = ColorStateList.valueOf(labelColor);
+                chip.setChipBackgroundColor(c);
+                chip.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "error parsing label color", e);
+            }
+
+            labels.addView(chip);
+        }
+    }
+
+    private void setupAttachmentCount(@NonNull TextView cardCountAttachments, int attachmentsCount) {
+        if (attachmentsCount > 99) {
+            cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
+        } else if (attachmentsCount > 1) {
+            cardCountAttachments.setText(attachmentsCount + "");
+        } else if (attachmentsCount == 1) {
+            cardCountAttachments.setText("");
+        }
+    }
+
+    private void setupDueDate(@NonNull TextView cardDueDate, Card card) {
+        cardDueDate.setText(
+                DateUtil.getRelativeDateTimeString(
+                        this.context,
+                        card.getDueDate().getTime())
+        );
+        ViewUtil.themeDueDate(this.context, cardDueDate, card.getDueDate());
+    }
+
+    private void setupAvatars(@NonNull RelativeLayout peopleList, FullCard card) {
+        int avatarSize = DimensionUtil.getAvatarDimension(context, R.dimen.avatar_size_small);
+        peopleList.removeAllViews();
+        RelativeLayout.LayoutParams avatarLayoutParams;
+        int avatarCount;
+        for (avatarCount = 0; avatarCount < card.getAssignedUsers().size() && avatarCount < MAX_AVATAR_COUNT; avatarCount++) {
+            avatarLayoutParams = new RelativeLayout.LayoutParams(avatarSize, avatarSize);
+            avatarLayoutParams.setMargins(0, 0, avatarCount * context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small), 0);
+            avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            ImageView avatar = new ImageView(context);
+            avatar.setLayoutParams(avatarLayoutParams);
+            peopleList.addView(avatar);
+            avatar.requestLayout();
+            ViewUtil.addAvatar(context, avatar, account.url, card.getAssignedUsers().get(avatarCount).getUid(), avatarSize);
+        }
+
+        // Recalculate container size based on avatar count
+        int size = context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small) * (avatarCount - 1) + avatarSize;
+        ViewGroup.LayoutParams rememberParam = peopleList.getLayoutParams();
+        rememberParam.width = size;
+        peopleList.setLayoutParams(rememberParam);
     }
 
     @Override
