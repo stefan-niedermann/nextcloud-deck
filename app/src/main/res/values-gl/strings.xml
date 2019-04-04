@@ -60,4 +60,8 @@
     <string name="action_card_list_add_column">Engadir columna</string>
     <string name="action_card_list_board_details">Detalles do taboleiro</string>
     <string name="simple_title">Titulo</string>
+
+    <string name="label_clear_due_date">Limpar a data de caducidade</string>
+
+    <string name="label_create">Creado o %1$s</string>
 </resources>

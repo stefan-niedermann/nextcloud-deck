@@ -60,4 +60,5 @@
     <string name="action_card_list_add_column">הוספת עמודה</string>
     <string name="action_card_list_board_details">פרטי לוח</string>
     <string name="simple_title">כותרת</string>
-</resources>
+
+    </resources>

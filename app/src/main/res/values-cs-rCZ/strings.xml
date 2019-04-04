@@ -60,4 +60,8 @@
     <string name="action_card_list_add_column">Přidat sloupec</string>
     <string name="action_card_list_board_details">Podrobnosti o nástěnce</string>
     <string name="simple_title">Nadpis</string>
+
+    <string name="label_clear_due_date">Vymazat termín</string>
+
+    <string name="label_create">Vytvořit %1$s</string>
 </resources>

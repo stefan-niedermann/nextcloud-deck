@@ -60,4 +60,5 @@
     <string name="action_card_list_add_column">Toevoegen kolom</string>
     <string name="action_card_list_board_details">Bord details</string>
     <string name="simple_title">Titel</string>
-</resources>
+
+    </resources>

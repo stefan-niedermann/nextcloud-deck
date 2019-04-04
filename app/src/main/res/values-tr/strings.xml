@@ -60,4 +60,8 @@
     <string name="action_card_list_add_column">Sütun ekle</string>
     <string name="action_card_list_board_details">Pano ayrıntıları</string>
     <string name="simple_title">Başlık</string>
+
+    <string name="label_clear_due_date">Bitiş tarihini temizle</string>
+
+    <string name="label_create">%1$s Ekle</string>
 </resources>

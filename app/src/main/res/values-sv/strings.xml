@@ -60,4 +60,8 @@
     <string name="action_card_list_add_column">Lägg till kolumn</string>
     <string name="action_card_list_board_details">Taveldetaljer</string>
     <string name="simple_title">Titel</string>
+
+    <string name="label_clear_due_date">Rensa slutdatum</string>
+
+    <string name="label_create">Skapa %1$s</string>
 </resources>

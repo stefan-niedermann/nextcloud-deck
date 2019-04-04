@@ -60,4 +60,5 @@
     <string name="action_card_list_add_column">Afegeix una columna</string>
     <string name="action_card_list_board_details">Detalls de la taula</string>
     <string name="simple_title">Títol</string>
-</resources>
+
+    </resources>

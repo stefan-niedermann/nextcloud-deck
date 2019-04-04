@@ -52,12 +52,16 @@
     <string name="accounts">Konta</string>
 
     <string name="label_menu">menu</string>
-    <string name="action_card_assign">Przypisz kartę</string>
-    <string name="action_card_unassign">Usuń przypisaną kartę</string>
+    <string name="action_card_assign">Przydziel kartę</string>
+    <string name="action_card_unassign">Usuń przydzieloną kartę</string>
     <string name="action_card_archive">Zarchiwizowane karty</string>
     <string name="action_card_delete">Usunięte karty</string>
     <string name="add_board">Dodaj tablicę</string>
     <string name="action_card_list_add_column">Dodaj kolumnę</string>
     <string name="action_card_list_board_details">Szczegóły tablicy</string>
     <string name="simple_title">Tytuł</string>
+
+    <string name="label_clear_due_date">Wyczyść termin</string>
+
+    <string name="label_create">Utwórz %1$s</string>
 </resources>

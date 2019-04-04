@@ -7,6 +7,9 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Табле</string>
+    <string name="simple_cancel">Поништи</string>
+    <string name="simple_create">Направи</string>
+
     <!-- About -->
     <string name="about">О програму</string>
     <string name="about_version_title">Верзија</string>
@@ -56,4 +59,9 @@
     <string name="add_board">Додај таблу</string>
     <string name="action_card_list_add_column">Додај колону</string>
     <string name="action_card_list_board_details">Детаљи табле</string>
-    </resources>
+    <string name="simple_title">Наслов</string>
+
+    <string name="label_clear_due_date">Избриши рок</string>
+
+    <string name="label_create">Направи %1$s</string>
+</resources>
