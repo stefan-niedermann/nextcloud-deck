@@ -1,14 +1,20 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Client for Nextcloud Deck app</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="drawer_header_background">Background image of drawer header</string>
+    <string name="drawer_current_account">Current account</string>
+    <string name="drawer_middle_account">Middle account</string>
+    <string name="drawer_end_account">Last account</string>
+    <string name="drawer_manage_accounts">Manage accounts</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
+    <string name="simple_cancel">Cancel</string>
+    <string name="simple_create">Create</string>
 
     <!-- About -->
     <string name="about">About</string>
@@ -34,7 +40,32 @@
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">License</string>
 
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-
     <string name="seconds_ago">seconds ago</string>
+    <string name="edit">Edit</string>
+    <string name="label_title">Title</string>
+    <string name="label_labels">Select Tags</string>
+    <string name="label_description">Description</string>
+    <string name="hint_assign_people">Assign users</string>
+    <string name="hint_due_date_date">Due date</string>
+    <string name="activity">Activity</string>
+    <string name="create_card">Create card</string>
+    <string name="create_stack">Create stack</string>
+    <string name="create_board">Create board</string>
+
+    <string name="add_account">Add account</string>
+    <string name="accounts">Accounts</string>
+
+    <string name="label_menu">menu</string>
+    <string name="action_card_assign">Assign card to you</string>
+    <string name="action_card_unassign">Unassign card from you</string>
+    <string name="action_card_archive">Archive card</string>
+    <string name="action_card_delete">Delete card</string>
+    <string name="add_board">Add board</string>
+    <string name="action_card_list_add_column">Add column</string>
+    <string name="action_card_list_board_details">Bord details</string>
+    <string name="simple_title">Title</string>
+
+    <string name="label_clear_due_date">Clear due date</string>
+
+    <string name="label_create">Create %1$s</string>
 </resources>

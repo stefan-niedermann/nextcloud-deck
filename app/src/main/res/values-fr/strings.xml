@@ -5,6 +5,11 @@
     <string name="nav_header_desc">Entête de navigation</string>
     <string name="action_settings">Paramètres</string>
 
+    <string name="drawer_current_account">Compte actuel</string>
+    <string name="drawer_middle_account">Compte du milieu</string>
+    <string name="drawer_end_account">Dernier compte</string>
+    <string name="drawer_manage_accounts">Gérer les comptes</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Tableaux</string>
     <string name="simple_cancel">Annuler</string>
@@ -33,8 +38,6 @@
     <string name="about_credits_tab_title">Crédits</string>
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">Licence</string>
-
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">à l\'instant</string>
     <string name="edit">Modifier</string>

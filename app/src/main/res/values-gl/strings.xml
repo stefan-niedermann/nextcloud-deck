@@ -5,6 +5,12 @@
     <string name="nav_header_desc">Cabeceira de navegación</string>
     <string name="action_settings">Axustes</string>
 
+    <string name="drawer_header_background">Imaxe de fondo do cabeceira do caixón</string>
+    <string name="drawer_current_account">Conta actual</string>
+    <string name="drawer_middle_account">Conta media</string>
+    <string name="drawer_end_account">Última conta</string>
+    <string name="drawer_manage_accounts">Administrar contas</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Taboleiros</string>
     <string name="simple_cancel">Cancelar</string>
@@ -33,8 +39,6 @@
     <string name="about_credits_tab_title">Créditos</string>
     <string name="about_contribution_tab_title">Colaboración</string>
     <string name="about_license_tab_title">Licenza</string>
-
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">hai uns segundos</string>
     <string name="edit">Editar</string>

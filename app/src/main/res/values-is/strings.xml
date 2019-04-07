@@ -5,8 +5,17 @@
     <string name="nav_header_desc">Fyrisögn flakks</string>
     <string name="action_settings">Stillingar</string>
 
+    <string name="drawer_header_background">Bakgrunnsmynd á haus hliðarspjalds</string>
+    <string name="drawer_current_account">Núverandi notandaaðgangur</string>
+    <string name="drawer_middle_account">Mið-notandaaðgangur</string>
+    <string name="drawer_end_account">Síðasti notandaaðgangur</string>
+    <string name="drawer_manage_accounts">Sýsla með notandaaðganga</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Borð</string>
+    <string name="simple_cancel">Hætta við</string>
+    <string name="simple_create">Búa til</string>
+
     <!-- About -->
     <string name="about">Um hugbúnaðinn</string>
     <string name="about_version_title">Útgáfa</string>
@@ -31,8 +40,6 @@
     <string name="about_contribution_tab_title">Framlög</string>
     <string name="about_license_tab_title">Notkunarleyfi</string>
 
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-
     <string name="seconds_ago">sekúndum síðan</string>
     <string name="edit">Breyta</string>
     <string name="label_title">Titill</string>
@@ -56,4 +63,8 @@
     <string name="add_board">Bæta við borði</string>
     <string name="action_card_list_add_column">Bæta við dálki</string>
     <string name="action_card_list_board_details">Nánar um borð</string>
+    <string name="simple_title">Titill</string>
+
+    <string name="label_clear_due_date">Fjarlægja skiladag</string>
+
     </resources>

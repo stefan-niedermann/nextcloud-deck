@@ -5,6 +5,12 @@
     <string name="nav_header_desc">כותרת ניווט</string>
     <string name="action_settings">הגדרות</string>
 
+    <string name="drawer_header_background">תמונת רקע של כותרת מגירה</string>
+    <string name="drawer_current_account">חשבון נוכחי</string>
+    <string name="drawer_middle_account">חשבון אמצעי</string>
+    <string name="drawer_end_account">חשבון אחרון</string>
+    <string name="drawer_manage_accounts">ניהול חשבונות</string>
+
     <!-- Simple values -->
     <string name="simple_boards">לוחות</string>
     <string name="simple_cancel">ביטול</string>
@@ -34,8 +40,6 @@
     <string name="about_contribution_tab_title">תרומה</string>
     <string name="about_license_tab_title">רישיון</string>
 
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-
     <string name="seconds_ago">לפני מספר שניות</string>
     <string name="edit">עריכה</string>
     <string name="label_title">כותרת</string>
@@ -60,5 +64,7 @@
     <string name="action_card_list_add_column">הוספת עמודה</string>
     <string name="action_card_list_board_details">פרטי לוח</string>
     <string name="simple_title">כותרת</string>
+
+    <string name="label_clear_due_date">הסרת מועד התפוגה</string>
 
     </resources>
