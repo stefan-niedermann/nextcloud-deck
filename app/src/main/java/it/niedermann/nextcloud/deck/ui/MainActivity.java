@@ -1,8 +1,6 @@
 package it.niedermann.nextcloud.deck.ui;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -10,26 +8,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
-import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
@@ -42,8 +31,6 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
-import it.niedermann.nextcloud.deck.ui.board.BoardCreateDialogFragment;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
@@ -51,38 +38,17 @@ import it.niedermann.nextcloud.deck.ui.stack.StackCreateDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
-    private static final int MENU_ID_ABOUT = -1;
-    private static final int MENU_ID_ADD_BOARD = -2;
-    private static final int MENU_ID_ADD_ACCOUNT = -2;
-    private static final int ACTIVITY_ABOUT = 1;
-    private static final long NO_BOARDS = -1;
-
-    @BindView(R.id.coordinatorLayout)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+public class MainActivity extends DrawerActivity {
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
     @BindView(R.id.navigationView)
     NavigationView navigationView;
     @BindView(R.id.stackLayout)
     TabLayout stackLayout;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-
-    private SharedPreferences sharedPreferences;
+    
     private StackAdapter stackAdapter;
-    private LoginDialogFragment loginDialogFragment;
-    private SyncManager syncManager;
-
-    private List<Account> accountsList = new ArrayList<>();
-    private Account account;
-    private boolean accountChooserActive = false;
 
     private List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
@@ -91,21 +57,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        super.onCreate(savedInstanceState);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
-        syncManager = new SyncManager(getApplicationContext(), this);
         stackAdapter = new StackAdapter(getSupportFragmentManager());
 
         //TODO limit this call only to lower API levels like KitKat because they crash without
@@ -147,76 +103,9 @@ public class MainActivity extends AppCompatActivity
 //            return true;
 //        });
 
-
-        syncManager.hasAccounts().observe(MainActivity.this, (Boolean hasAccounts) -> {
-            if (hasAccounts != null && hasAccounts) {
-                syncManager.readAccounts().observe(MainActivity.this, (List<Account> accounts) -> {
-                    if (accounts != null) {
-                        accountsList = accounts;
-                        int lastAccount = sharedPreferences.getInt(getString(R.string.shared_preference_last_account), 0);
-                        if (accounts.size() > lastAccount) {
-                            this.account = accounts.get(lastAccount);
-                            currentBoardId = sharedPreferences.getLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), NO_BOARDS);
-                            SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                            setHeaderView();
-                            syncManager = new SyncManager(getApplicationContext(), MainActivity.this);
-                            ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), this.account.getUrl(), this.account.getUserName());
-                            // TODO show spinner
-                            syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                                @Override
-                                public void onResponse(Boolean response) {
-                                    //nothing
-                                }
-                            });
-                            boardsLiveData = syncManager.getBoards(this.account.getId());
-                            boardsLiveDataObserver = (List<Board> boards) -> {
-                                boardsList = boards;
-                                buildSidenavMenu();
-                            };
-                            boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
-                        }
-                    }
-                });
-            } else {
-                loginDialogFragment = new LoginDialogFragment();
-                loginDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
-            }
-        });
-
-        navigationView.getHeaderView(0).findViewById(R.id.drawer_header_view).setOnClickListener(v -> {
-            this.accountChooserActive = !this.accountChooserActive;
-            if (accountChooserActive) {
-                buildSidenavAccountChooser();
-            } else {
-                buildSidenavMenu();
-            }
-        });
-
         fab.setOnClickListener((View view) -> {
             Snackbar.make(coordinatorLayout, "Creating cards is not yet supported.", Snackbar.LENGTH_LONG).show();
         });
-    }
-
-    public void onAccountChoose(SingleSignOnAccount account) {
-        getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
-        Account acc = new Account();
-        acc.setName(account.name);
-        acc.setUserName(account.username);
-        acc.setUrl(account.url);
-        final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(acc);
-        accountLiveData.observe(this, (Account ac) -> {
-            if (accountLiveData.hasError()) {
-                try {
-                    accountLiveData.throwError();
-                } catch (SQLiteConstraintException ex) {
-                    Snackbar.make(coordinatorLayout, "Account bereits hinzugefügt", Snackbar.LENGTH_SHORT).show();
-                }
-            } else {
-                Snackbar.make(coordinatorLayout, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
     }
 
     public void onCreateStack(String stackName) {
@@ -238,7 +127,39 @@ public class MainActivity extends AppCompatActivity
         syncManager.createBoard(account.getId(), b);
     }
 
-    private void buildSidenavMenu() {
+    @Override
+    protected void accountSet(Account account) {
+        currentBoardId = sharedPreferences.getLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), NO_BOARDS);
+
+        if (boardsLiveData != null && boardsLiveDataObserver != null) {
+            boardsLiveData.removeObserver(boardsLiveDataObserver);
+        }
+
+        boardsLiveData = syncManager.getBoards(account.getId());
+        boardsLiveDataObserver = (List<Board> boards) -> {
+            boardsList = boards;
+            buildSidenavMenu();
+        };
+        boardsLiveData.observe(this, boardsLiveDataObserver);
+        if (boardsList != null && boardsList.size() > 0) {
+            displayStacksForBoard(boardsList.get(0), this.account);
+        }
+    }
+
+    @Override
+    protected void boardSelected(int itemId, Account account) {
+        Board selectedBoard = boardsList.get(itemId);
+        currentBoardId = selectedBoard.getId();
+        displayStacksForBoard(selectedBoard, account);
+
+        // Remember last board for this account
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), currentBoardId);
+        editor.apply();
+    }
+
+    @Override
+    protected void buildSidenavMenu() {
         navigationView.setItemIconTintList(null);
         Menu menu = navigationView.getMenu();
         menu.clear();
@@ -249,7 +170,7 @@ public class MainActivity extends AppCompatActivity
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_grey_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_grey_24dp);
-        if(currentBoardId == NO_BOARDS && boardsList.size() > 0) {
+        if (currentBoardId == NO_BOARDS && boardsList.size() > 0) {
             Board currentBoard = boardsList.get(0);
             currentBoardId = currentBoard.getId();
             displayStacksForBoard(currentBoard, this.account);
@@ -261,16 +182,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
-    }
-
-    private void buildSidenavAccountChooser() {
-        Menu menu = navigationView.getMenu();
-        menu.clear();
-        int index = 0;
-        for (Account account : this.accountsList) {
-            menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
-        }
-        menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }
 
     /**
@@ -297,15 +208,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.card_list_menu, menu);
@@ -324,65 +226,5 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (accountChooserActive) {
-            switch (item.getItemId()) {
-                case MENU_ID_ADD_ACCOUNT:
-                    loginDialogFragment = new LoginDialogFragment();
-                    loginDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
-                    break;
-                default:
-                    boardsLiveData.removeObserver(boardsLiveDataObserver);
-                    this.account = accountsList.get(item.getItemId());
-                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                    setHeaderView();
-
-                    boardsLiveData = syncManager.getBoards(this.account.getId());
-                    boardsLiveDataObserver = (List<Board> boards) -> {
-                        boardsList = boards;
-                        accountChooserActive = false;
-                        buildSidenavMenu();
-                    };
-                    boardsLiveData.observe(MainActivity.this, boardsLiveDataObserver);
-                    if(boardsList.size() > 0) {
-                        displayStacksForBoard(boardsList.get(0), this.account);
-                    }
-
-                    // Remember last account
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt(getString(R.string.shared_preference_last_account), item.getItemId());
-                    editor.apply();
-            }
-        } else {
-            switch (item.getItemId()) {
-                case MENU_ID_ABOUT:
-                    Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
-                    startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
-                    break;
-                case MENU_ID_ADD_BOARD:
-                    BoardCreateDialogFragment alertdFragment = new BoardCreateDialogFragment();
-                    alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_board));
-                    break;
-                default:
-                    Board selectedBoard = boardsList.get(item.getItemId());
-                    currentBoardId = selectedBoard.getId();
-                    displayStacksForBoard(selectedBoard, account);
-
-                    // Remember last board for this account
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), currentBoardId);
-                    editor.apply();
-            }
-        }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void setHeaderView() {
-        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), account.getUrl(), account.getUserName());
-        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(account.getName());
     }
 }
