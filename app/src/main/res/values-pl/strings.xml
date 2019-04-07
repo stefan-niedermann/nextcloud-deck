@@ -5,6 +5,12 @@
     <string name="nav_header_desc">Nagłówek nawigacji</string>
     <string name="action_settings">Ustawienia</string>
 
+    <string name="drawer_header_background">Tło nagłówka menu rozwijanego</string>
+    <string name="drawer_current_account">Bieżące konto</string>
+    <string name="drawer_middle_account">Konto poprzednie</string>
+    <string name="drawer_end_account">Ostatnie konto</string>
+    <string name="drawer_manage_accounts">Zarządzaj kontami</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Tablice</string>
     <string name="simple_cancel">Anuluj</string>
@@ -33,8 +39,6 @@
     <string name="about_credits_tab_title">Autorzy</string>
     <string name="about_contribution_tab_title">Wkład</string>
     <string name="about_license_tab_title">Licencja</string>
-
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">przed chwilą</string>
     <string name="edit">Edytuj</string>

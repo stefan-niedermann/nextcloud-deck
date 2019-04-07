@@ -5,6 +5,12 @@
     <string name="nav_header_desc">Gezinme başlığı</string>
     <string name="action_settings">Ayarlar</string>
 
+    <string name="drawer_header_background">Çekmece üst bilgisinin arka plan görseli</string>
+    <string name="drawer_current_account">Geçerli hesap</string>
+    <string name="drawer_middle_account">Orta hesap</string>
+    <string name="drawer_end_account">Son hesap</string>
+    <string name="drawer_manage_accounts">Hesap yönetimi</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Katlar</string>
     <string name="simple_cancel">İptal</string>
@@ -33,8 +39,6 @@
     <string name="about_credits_tab_title">Emeği Geçenler</string>
     <string name="about_contribution_tab_title">Katkıda Bulunanlar</string>
     <string name="about_license_tab_title">Lisans</string>
-
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">saniye önce</string>
     <string name="edit">Düzenle</string>

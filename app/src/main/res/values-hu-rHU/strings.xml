@@ -5,8 +5,17 @@
     <string name="nav_header_desc">Navigációs fejléc</string>
     <string name="action_settings">Beállítások</string>
 
+    <string name="drawer_header_background">A fiókfejléc háttérképe</string>
+    <string name="drawer_current_account">Jelenlegi fiók</string>
+    <string name="drawer_middle_account">Középső fiók</string>
+    <string name="drawer_end_account">Utolsó fiók</string>
+    <string name="drawer_manage_accounts">Fiókok kezelése</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Táblák</string>
+    <string name="simple_cancel">Mégsem</string>
+    <string name="simple_create">Létrehozás</string>
+
     <!-- About -->
     <string name="about">Névjegy</string>
     <string name="about_version_title">Verzió</string>
@@ -31,8 +40,6 @@
     <string name="about_contribution_tab_title">Közreműködés</string>
     <string name="about_license_tab_title">Licenc</string>
 
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-
     <string name="seconds_ago">pár másodperce</string>
     <string name="edit">Szerkesztés</string>
     <string name="label_title">Cím</string>
@@ -56,4 +63,8 @@
     <string name="add_board">Tábla hozzáadása</string>
     <string name="action_card_list_add_column">Oszlop hozzáadása</string>
     <string name="action_card_list_board_details">Tábla részletei</string>
+    <string name="simple_title">Cím</string>
+
+    <string name="label_clear_due_date">Határidő eltávolítása</string>
+
     </resources>

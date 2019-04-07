@@ -5,6 +5,12 @@
     <string name="nav_header_desc">Záhlavie navigácie</string>
     <string name="action_settings">Nastavenia</string>
 
+    <string name="drawer_header_background">Obrázok na pozadí hlavičky panela</string>
+    <string name="drawer_current_account">Aktuálny účet</string>
+    <string name="drawer_middle_account">Stredný účet</string>
+    <string name="drawer_end_account">Posledný účet</string>
+    <string name="drawer_manage_accounts">Spravovať účty</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Nástenky</string>
     <string name="simple_cancel">Zrušiť</string>
@@ -34,8 +40,6 @@
     <string name="about_contribution_tab_title">Príspevok</string>
     <string name="about_license_tab_title">Licencia</string>
 
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-
     <string name="seconds_ago">pred niekoľkými sekundami</string>
     <string name="edit">Upraviť</string>
     <string name="label_title">Názov</string>
@@ -60,5 +64,7 @@
     <string name="action_card_list_add_column">Pridať stĺpec</string>
     <string name="action_card_list_board_details">Podrobnosti o nástenke</string>
     <string name="simple_title">Názov</string>
+
+    <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
 
     </resources>

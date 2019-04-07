@@ -3,6 +3,11 @@
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
     <string name="action_settings">Ρυθμίσεις</string>
 
+    <string name="drawer_current_account">Τρέχον λογαριασμός</string>
+    <string name="drawer_middle_account">Μεσαίος λογαριασμός</string>
+    <string name="drawer_end_account">Τελευταίος λογαριασμός</string>
+    <string name="drawer_manage_accounts">Διαχείριση λογαριασμών</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Πίνακες</string>
     <string name="simple_cancel">Ακύρωση</string>
@@ -15,13 +20,19 @@
     <string name="about_maintainer_title">Συντηρητής</string>
     <string name="about_developers_title">Προγραμματιστές</string>
     <string name="about_translators_title">Μεταφραστές</string>
+    <string name="about_translators_transifex">Nextcloud κοινότητα στο &lt;a href=\"%1$s\">Transifex&lt;/a></string>
     <string name="about_testers_title">Δοκιμαστές</string>
     <string name="about_source_title">Πηγαίος κώδικας</string>
+    <string name="about_source">Το project φιλοξενείται στο Github: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
     <string name="about_issues_title">Ζητήματα</string>
+    <string name="about_issues">Μπορείτε να αναφέρετε σφάλματα, να προτείνετε βελτιώσεις και να κάνετε αιτήματα χαρακτηριστικών στο Github &lt;a href=\"%1$s\">%1$s&lt;/a></string>
     <string name="about_translate_title">Μετάφραση</string>
+    <string name="about_translate">Λάβε μέρος στην ομάδα του Nextcloud στο Transifex και βοήθησε μας να μεταφράσουμε αυτή την εφαρμογή: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
     <string name="about_app_license_title"> Άδεια χρήσης εφαρμογής </string>
+    <string name="about_app_license">Αυτή η εφαρμογή υπόκεινται στην άδεια χρήσης GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button"> Προβολή άδειας χρήσης </string>
     <string name="about_icons_disclaimer_title">Εικονίδια</string>
+    <string name="about_icons_disclaimer">&lt;p>Το πρωτότυπο εικονίδιο δημιουργήθηκε από %1$s&lt;/p>&lt;p>Όλα τα υπόλοιπα εικονίδια που χρησιμοποιούνται από αυτή την εφαρμογή είναι τα &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> δημιουργημένα από την Google Inc. και είναι αδειοδοτημένα υπό μία Creative Commons License.&lt;/p></string>
     <string name="about_credits_tab_title">Μνεία</string>
     <string name="about_contribution_tab_title">Συνεισφορά</string>
     <string name="about_license_tab_title"> Άδεια χρήσης </string>

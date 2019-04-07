@@ -1,29 +1,36 @@
 <resources>
-    <string name="app_name">Nextcloud Deck</string>
     <string name="navigation_drawer_open">ナビゲーションドロワーを開く</string>
     <string name="navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
-    <string name="nav_header_title">Nextcloud Deck</string>
     <string name="nav_header_subtitle">Nextcloud Deckアプリのクライアント</string>
     <string name="nav_header_desc">ナビゲーションヘッダー</string>
     <string name="action_settings">設定</string>
 
+    <string name="drawer_header_background">ドロワーヘッダーの背景イメージ</string>
+    <string name="drawer_current_account">現在のアカウント</string>
+    <string name="drawer_middle_account">ミドルアカウント</string>
+    <string name="drawer_end_account">最後のアカウント</string>
+    <string name="drawer_manage_accounts">アカウント管理</string>
+
     <!-- Simple values -->
     <string name="simple_boards">ボード</string>
+    <string name="simple_cancel">キャンセル</string>
+    <string name="simple_create">作成</string>
+
     <!-- About -->
     <string name="about">バージョン情報</string>
     <string name="about_version_title">バージョン</string>
-    <string name="about_version">現在 &lt; ; strong> %1$s ＆&lt; / strong>を使用しています</string>
+    <string name="about_version">現在 &lt;strong> %1$s ＆&lt;/strong>を使用しています</string>
     <string name="about_maintainer_title">管理者</string>
     <string name="about_developers_title">開発者</string>
     <string name="about_translators_title">翻訳者</string>
-    <string name="about_translators_transifex">&lt; a href = \"%1$s\"> Transifex＆&lt; / a>のNextCloudコミュニティ</string>
+    <string name="about_translators_transifex">&lt;a href = \"%1$s\"> Transifex&lt;/a>のNextcloudコミュニティ</string>
     <string name="about_testers_title">テスター</string>
     <string name="about_source_title">ソースコード</string>
-    <string name="about_source">このプロジェクトはGitHubでホストされています：&lt; a href = \"%1$s\">%1$s&lt; / a></string>
+    <string name="about_source">このプロジェクトはGitHubでホストされています：&lt;a href = \"%1$s\">%1$s&lt;/a></string>
     <string name="about_issues_title">問題</string>
-    <string name="about_issues">GitHubの問題追跡ツールで、バグ、拡張機能の提案、機能リクエストを報告することができます：&lt; a href = \"%1$s\">%1$s&lt; / a></string>
+    <string name="about_issues">GitHubの問題追跡ツールで、バグ、拡張機能の提案、機能リクエストを報告することができます：&lt;a href = \"%1$s\">%1$s&lt;/a></string>
     <string name="about_translate_title">翻訳</string>
-    <string name="about_translate">TransexexのNextcloudチームに参加して、このアプリの翻訳にご協力ください：&lt; a href = \"%1$s\">%1$s&lt; / a></string>
+    <string name="about_translate">TransifexのNextcloudチームに参加して、このアプリの翻訳にご協力ください：&lt;a href = \"%1$s\">%1$s&lt;/a></string>
     <string name="about_app_license_title">アプリ ライセンス</string>
     <string name="about_app_license">このアプリケーションは、GNU GENERAL PUBLIC LICENSE v3 +のライセンスを受けています。</string>
     <string name="about_app_license_button">ライセンスを表示</string>
@@ -33,7 +40,20 @@
     <string name="about_contribution_tab_title">貢献</string>
     <string name="about_license_tab_title">ライセンス</string>
 
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-
     <string name="seconds_ago">数秒前</string>
+    <string name="edit">編集</string>
+    <string name="label_labels">タグを選択..</string>
+    <string name="label_description">説明</string>
+    <string name="hint_assign_people">ユーザーを割り当てる</string>
+    <string name="hint_due_date_date">期限</string>
+    <string name="activity">アクティビティ</string>
+    <string name="add_account">アカウントを追加</string>
+    <string name="accounts">アカウント</string>
+
+    <string name="label_menu">メニュー</string>
+    <string name="action_card_archive">カードをアーカイブ</string>
+    <string name="action_card_delete">削除済みのカード</string>
+    <string name="label_clear_due_date">期限を削除</string>
+
+    <string name="label_create">作成 %1$s</string>
 </resources>

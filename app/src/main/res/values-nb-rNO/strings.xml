@@ -1,14 +1,20 @@
 <resources>
-    <string name="app_name">Nextcloud Stokk</string>
     <string name="navigation_drawer_open">Åpne navigasjonsskuff</string>
     <string name="navigation_drawer_close">Lukk navigasjonsskuff</string>
-    <string name="nav_header_title">Nextcloud Stokk</string>
     <string name="nav_header_subtitle">Klient for Nextcloud Deck</string>
     <string name="nav_header_desc">Navigasjonsoverskrift</string>
     <string name="action_settings">Innstillinger</string>
 
+    <string name="drawer_header_background">Bakgrunsbilde for innledning på meny</string>
+    <string name="drawer_current_account">Nåværende konto</string>
+    <string name="drawer_middle_account">Mellomkonto</string>
+    <string name="drawer_end_account">Siste konto</string>
+    <string name="drawer_manage_accounts">Håndter kontoer</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Tavler</string>
+    <string name="simple_cancel">Avbryt</string>
+    <string name="simple_create">Opprett her</string>
 
     <!-- About -->
     <string name="about">Om</string>
@@ -34,7 +40,23 @@
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Lisens</string>
 
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-
     <string name="seconds_ago">sekunder siden</string>
+    <string name="edit">Rediger</string>
+    <string name="label_title">Tittel</string>
+    <string name="label_labels">Velg merkelapper</string>
+    <string name="label_description">Beskrivelse</string>
+    <string name="hint_assign_people">Tildel brukere</string>
+    <string name="hint_due_date_date">Forfallsdato</string>
+    <string name="activity">Aktivitet</string>
+    <string name="add_account">Legg til en konto</string>
+    <string name="accounts">Kontoer</string>
+
+    <string name="label_menu">Meny</string>
+    <string name="action_card_archive">Arkiver kort</string>
+    <string name="action_card_delete">Slett kort</string>
+    <string name="simple_title">Tittel</string>
+
+    <string name="label_clear_due_date">Fjern forfallsdato</string>
+
+    <string name="label_create">Opprett her %1$s</string>
 </resources>

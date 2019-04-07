@@ -5,6 +5,12 @@
     <string name="nav_header_desc">Заглавље навигације</string>
     <string name="action_settings">Поставке</string>
 
+    <string name="drawer_header_background">Позадинска слика заглавља фиоке</string>
+    <string name="drawer_current_account">Тренутни налог</string>
+    <string name="drawer_middle_account">Средишњи налог</string>
+    <string name="drawer_end_account">Последњи налог</string>
+    <string name="drawer_manage_accounts">Управљање налозима</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Табле</string>
     <string name="simple_cancel">Поништи</string>
@@ -33,8 +39,6 @@
     <string name="about_credits_tab_title">Заслуге</string>
     <string name="about_contribution_tab_title">Допринос</string>
     <string name="about_license_tab_title">Лиценца</string>
-
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">пре неколико секунди</string>
     <string name="edit">Измени</string>

@@ -5,6 +5,12 @@
     <string name="nav_header_desc">Intestazione di navigazione</string>
     <string name="action_settings">Impostazioni</string>
 
+    <string name="drawer_header_background">Immagine di sfondo dell\'intestazione del cassetto</string>
+    <string name="drawer_current_account">Account attuale</string>
+    <string name="drawer_middle_account">Account centrale</string>
+    <string name="drawer_end_account">Ultimo account</string>
+    <string name="drawer_manage_accounts">Gestisci account</string>
+
     <!-- Simple values -->
     <string name="simple_boards">Lavagne</string>
     <string name="simple_cancel">Annulla</string>
@@ -33,8 +39,6 @@
     <string name="about_credits_tab_title">Riconoscimenti</string>
     <string name="about_contribution_tab_title">Contributi</string>
     <string name="about_license_tab_title">Licenza</string>
-
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">secondi fa</string>
     <string name="edit">Modifica</string>
