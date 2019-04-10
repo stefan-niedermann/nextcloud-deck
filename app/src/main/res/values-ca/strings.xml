@@ -65,4 +65,7 @@
     <string name="action_card_list_board_details">Detalls de la taula</string>
     <string name="simple_title">Títol</string>
 
-    </resources>
+    <string name="label_clear_due_date">Neteja la data de venciment</string>
+
+    <string name="label_create">Crea %1$s</string>
+</resources>

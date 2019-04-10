@@ -65,4 +65,7 @@
     <string name="action_card_list_board_details">Bord details</string>
     <string name="simple_title">Titel</string>
 
-    </resources>
+    <string name="label_clear_due_date">Wis vervaldatum</string>
+
+    <string name="label_create">Maak %1$s</string>
+</resources>
