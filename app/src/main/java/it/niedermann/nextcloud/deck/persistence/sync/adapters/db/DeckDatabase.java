@@ -73,7 +73,10 @@ public abstract class DeckDatabase extends RoomDatabase {
         return Room.databaseBuilder(
                 context,
                 DeckDatabase.class,
-                DECK_DB_NAME).build();
+                DECK_DB_NAME)
+                //FIXME: remove destructive Migration as soon as schema is stable!
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     public abstract AccountDao getAccountDao();
