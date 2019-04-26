@@ -83,7 +83,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     @Override
     public List<FullBoard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
-        // TODO: reactivate for UpSync
+        // TODO: reactivate for UpSync test
 //        return dataBaseAdapter.getLocallyChangedBoards(accountId);
     }
 
