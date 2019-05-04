@@ -16,10 +16,13 @@
         <requestFocus />
     </EditText>
 
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/colorPicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/standard_margin"
-        android:orientation="horizontal" />
+        app:flexWrap="wrap"
+        app:alignItems="stretch"
+        app:justifyContent="space_between" />
 </LinearLayout>

@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.Objects;
 
@@ -30,7 +31,7 @@ public class BoardCreateDialogFragment extends DialogFragment {
     @BindView(R.id.input)
     EditText boardTitle;
     @BindView(R.id.colorPicker)
-    LinearLayout colorPicker;
+    FlexboxLayout colorPicker;
 
     @NonNull
     @Override
@@ -54,14 +55,10 @@ public class BoardCreateDialogFragment extends DialogFragment {
     }
 
     private void initColorChooser() {
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0, 0, getResources().getDimensionPixelSize(R.dimen.standard_half_padding), 0);
-
         String[] colors = getResources().getStringArray(R.array.board_default_colors);
 
         // TODO refactor color chooser as own View Component
-        for (int i = 0; i < colors.length; i++) {
-            final String color = colors[i];
+        for (final String color : colors) {
             ImageView image = new ImageView(getContext());
             image.setOnClickListener((imageView) -> {
                 if (previouslySelectedImageView != null) { // null when first selection
@@ -73,9 +70,6 @@ public class BoardCreateDialogFragment extends DialogFragment {
                 this.previouslySelectedImageView = image;
             });
             image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
-            if (i < colors.length - 1) {
-                image.setLayoutParams(lp);
-            }
             colorPicker.addView(image);
         }
     }
