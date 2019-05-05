@@ -21,7 +21,11 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 | ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) |
 
 ## :rocket: Features
+* Supports multiple accounts
 * Display boards, stacks and cards
+* Assign cards to users
+* Create, edit and delete boards
+* Create stacks
 
 ## :checkered_flag: Planned features
 * Full [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r) compatibility
