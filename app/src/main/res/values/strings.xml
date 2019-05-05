@@ -19,6 +19,10 @@
     <string name="simple_cancel">Cancel</string>
     <string name="simple_create">Create</string>
 
+    <string name="edit_board">Edit board</string>
+    <string name="archive_board">Archive board</string>
+    <string name="delete_board">Delete board</string>
+
     <!-- About -->
     <string name="about">About</string>
     <string name="about_version_title">Version</string>

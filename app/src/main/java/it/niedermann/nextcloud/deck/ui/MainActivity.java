@@ -8,6 +8,13 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -15,10 +22,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
@@ -26,6 +29,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.ui.board.BoardCreateDialogFragment;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackCreateDialogFragment;
@@ -160,7 +164,33 @@ public class MainActivity extends DrawerActivity {
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
         int index = 0;
         for (Board board : boardsList) {
-            boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(this, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
+            MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(this, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
+            AppCompatImageButton contextMenu = new AppCompatImageButton(this);
+            contextMenu.setBackgroundDrawable(null);
+            contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_more_horiz_black_24dp, R.color.grey600));
+            contextMenu.setOnClickListener((v) -> {
+                PopupMenu popup = new PopupMenu(MainActivity.this, contextMenu);
+                popup.getMenuInflater()
+                        .inflate(R.menu.navigation_context_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener((MenuItem item) -> {
+                    switch(item.getItemId()) {
+                        case R.id.edit_board:
+                            BoardCreateDialogFragment alertdFragment = new BoardCreateDialogFragment();
+                            alertdFragment.show(getSupportFragmentManager(), getString(R.string.edit_board));
+                            break;
+                        case R.id.archive_board:
+                            // TODO implement
+                            Snackbar.make(coordinatorLayout, "Archiving cards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                            break;
+                        case R.id.delete_board:
+                            syncManager.deleteBoard(board);
+                            break;
+                    }
+                    return true;
+                });
+                popup.show();
+            });
+            m.setActionView(contextMenu);
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_grey_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_grey_24dp);
