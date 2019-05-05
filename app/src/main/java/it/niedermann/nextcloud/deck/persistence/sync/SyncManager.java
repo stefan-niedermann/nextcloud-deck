@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
 import java.util.Date;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -138,6 +139,7 @@ public class SyncManager {
     }
 
     public void deleteAccount(long id) {
+        // FIXME java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
         dataBaseAdapter.deleteAccount(id);
     }
 

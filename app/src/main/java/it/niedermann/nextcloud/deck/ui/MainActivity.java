@@ -184,7 +184,7 @@ public class MainActivity extends DrawerActivity {
             MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(this, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
             AppCompatImageButton contextMenu = new AppCompatImageButton(this);
             contextMenu.setBackgroundDrawable(null);
-            contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_more_horiz_black_24dp, R.color.grey600));
+            contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_menu, R.color.grey600));
             contextMenu.setOnClickListener((v) -> {
                 PopupMenu popup = new PopupMenu(MainActivity.this, contextMenu);
                 popup.getMenuInflater()

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
@@ -201,7 +202,15 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         menu.clear();
         int index = 0;
         for (Account account : this.accountsList) {
-            menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+            MenuItem m = menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+            AppCompatImageButton contextMenu = new AppCompatImageButton(this);
+            contextMenu.setBackgroundDrawable(null);
+            contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_delete_black_24dp, R.color.grey600));
+            contextMenu.setOnClickListener((v) -> {
+                Snackbar.make(coordinatorLayout, "Deleting accounts is not yet implemented", Snackbar.LENGTH_LONG).show();
+//                syncManager.deleteAccount(account.getId());
+            });
+            m.setActionView(contextMenu);
         }
         menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }
