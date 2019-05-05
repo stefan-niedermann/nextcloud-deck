@@ -1,0 +1,20 @@
+**WARNING** This is a alpha release and should not be used productively but only for testing purposes.
+
+:warning: :warning: :warning: **This app is still under heavy development. Do not yet use it productively** :warning: :warning: :warning:
+
+An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
+
+:rocket: Features
+* Supports multiple accounts
+* Display boards, stacks and cards
+* Assign cards to users
+* Create, edit and delete boards
+* Create stacks
+
+:link: Requirements
+* [Nextcloud](https://nextcloud.com/) instance running
+* [Nextcloud Files](https://github.com/nextcloud/android) app installed (version 3.2.2 or later)
+* [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (version 0.6.1 or later)
+
+:notebook: License
+All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).
