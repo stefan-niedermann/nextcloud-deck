@@ -2,7 +2,7 @@
 
 :warning: :warning: :warning: **This app is still under heavy development. Do not yet use it productively** :warning: :warning: :warning:
 
-An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
+An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/). Currently it might be usable as a pure viewer app (if you do not need editing, write access and so on).
 
 :rocket: Features
 * Supports multiple accounts
