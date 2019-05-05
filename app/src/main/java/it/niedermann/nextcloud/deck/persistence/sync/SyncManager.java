@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
@@ -272,9 +273,26 @@ public class SyncManager {
         return dataBaseAdapter.getFullCardsForStack(accountId, localStackId);
     }
 
-    public long createCard(long accountId, Card card) {
-        //TODO: Tell the server
-        return dataBaseAdapter.createCard(accountId, card);
+    public LiveData<FullCard> createCard(long accountId, long localBoardId, long localStackId, Card card) {
+
+        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(localStackId);
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
+            FullCard fullCard = new FullCard();
+            fullCard.setCard(card);
+            fullCard.setOwner(owner);
+            fullCard.setAccountId(accountId);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
+                @Override
+                public void onResponse(FullCard response) {
+                    liveData.postValue(response);
+                }
+            });
+        });
+        return liveData;
     }
 
     public void deleteCard(Card card) {

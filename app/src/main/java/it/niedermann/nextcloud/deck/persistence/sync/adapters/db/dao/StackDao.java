@@ -22,6 +22,10 @@ public interface StackDao extends GenericDao<Stack> {
     Stack getStackByLocalIdDirectly(final long localStackId);
 
     @Transaction
+    @Query("SELECT * FROM stack WHERE localId = :localStackId")
+    FullStack getFullStackByLocalIdDirectly(final long localStackId);
+
+    @Transaction
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and id = :remoteId")
     FullStack getFullStackByRemoteIdDirectly(final long accountId, final long localBoardId, final long remoteId);
 

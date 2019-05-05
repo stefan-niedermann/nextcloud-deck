@@ -71,6 +71,10 @@ public class DataBaseAdapter {
         return db.getStackDao().getStackByLocalIdDirectly(localStackId);
     }
 
+    public FullStack getFullStackByLocalIdDirectly(final long localStackId) {
+        return db.getStackDao().getFullStackByLocalIdDirectly(localStackId);
+    }
+
 
     public FullStack getFullStackByRemoteIdDirectly(long accountId, long localBoardId, long remoteId) {
         return db.getStackDao().getFullStackByRemoteIdDirectly(accountId, localBoardId, remoteId);
