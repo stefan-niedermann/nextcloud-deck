@@ -18,6 +18,7 @@
     <string name="simple_boards">Boards</string>
     <string name="simple_cancel">Cancel</string>
     <string name="simple_create">Create</string>
+    <string name="simple_save">Save</string>
 
     <string name="edit_board">Edit board</string>
     <string name="archive_board">Archive board</string>

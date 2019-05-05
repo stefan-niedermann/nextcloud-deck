@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.board;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -19,16 +19,25 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class BoardCreateDialogFragment extends DialogFragment {
 
+    private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_BOARD_ID = "board_id";
     private static final Long NO_BOARD_ID = -1L;
 
+    @NonNull private Activity activity;
     private Context context;
+    private SyncManager syncManager;
+
+    private Board board = null;
     private Long boardId = null;
+    private Long accountId = null;
     private String selectedColor;
     private String previouslySelectedColor;
     private ImageView previouslySelectedImageView;
@@ -42,30 +51,59 @@ public class BoardCreateDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_board_create, null);
+        this.activity = Objects.requireNonNull(getActivity());
         this.context = Objects.requireNonNull(getContext());
+        View view = this.activity.getLayoutInflater().inflate(R.layout.dialog_board_create, null);
         ButterKnife.bind(this, view);
         boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
+        accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
+        syncManager = new SyncManager(this.context, this.activity);
 
-        initColorChooser();
+        AlertDialog.Builder dialogBuilder =  new AlertDialog.Builder(this.activity);
 
-        return new AlertDialog.Builder(getActivity())
-                .setTitle(NO_BOARD_ID.equals(boardId) ? R.string.create_board : R.string.edit_board)
+        if(NO_BOARD_ID.equals(boardId)) {
+            initColorChooser();
+            dialogBuilder.setTitle(R.string.create_board);
+            dialogBuilder.setPositiveButton(R.string.simple_create, (dialog, which) -> ((MainActivity) getActivity()).onCreateBoard(boardTitle.getText().toString(), selectedColor));
+        } else {
+            dialogBuilder.setTitle(R.string.edit_board);
+            dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
+                this.board.setColor(selectedColor.substring(1));
+                this.board.setTitle(this.boardTitle.getText().toString());
+                ((MainActivity) getActivity()).onUpdateBoard(board);
+            });
+            syncManager.getFullBoardById(accountId, boardId).observe(BoardCreateDialogFragment.this, (FullBoard fb) -> {
+                if(fb != null && fb.board != null) {
+                    this.board = fb.board;
+                    this.boardTitle.setText(this.board.getTitle());
+                    initColorChooser();
+                }
+            });
+        }
+
+        return dialogBuilder
                 .setView(view)
-                .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
-                    // Do something else
-                })
-                .setPositiveButton(R.string.simple_create, (dialog, which) -> {
-                    ((MainActivity) getActivity()).onCreateBoard(boardTitle.getText().toString(), selectedColor);
-                })
+                .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {})
                 .create();
     }
 
-    public static BoardCreateDialogFragment newInstance(@Nullable Long boardId) {
+    public static BoardCreateDialogFragment newInstance(@NonNull Long boardId, @NonNull Long accountId) {
         BoardCreateDialogFragment dialog = new BoardCreateDialogFragment();
 
         Bundle args = new Bundle();
-        args.putLong(KEY_BOARD_ID, boardId == null ? NO_BOARD_ID : boardId);
+        args.putLong(KEY_BOARD_ID, boardId);
+        args.putLong(KEY_ACCOUNT_ID, accountId);
+        dialog.setArguments(args);
+
+        return dialog;
+    }
+
+    public static BoardCreateDialogFragment newInstance() {
+        BoardCreateDialogFragment dialog = new BoardCreateDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putLong(KEY_BOARD_ID, NO_BOARD_ID);
+        Board b = new Board();
         dialog.setArguments(args);
 
         return dialog;
@@ -86,7 +124,14 @@ public class BoardCreateDialogFragment extends DialogFragment {
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
             });
-            image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
+            if(this.board != null && color.equals("#" + this.board.getColor())) {
+                this.selectedColor = color;
+                this.previouslySelectedColor = color;
+                this.previouslySelectedImageView = image;
+                image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_check_36dp, color));
+            } else {
+                image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
+            }
             colorPicker.addView(image);
         }
     }

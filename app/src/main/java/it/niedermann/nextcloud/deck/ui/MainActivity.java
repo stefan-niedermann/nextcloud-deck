@@ -125,6 +125,10 @@ public class MainActivity extends DrawerActivity {
         syncManager.createBoard(account.getId(), b);
     }
 
+    public void onUpdateBoard(Board board) {
+        syncManager.updateBoard(board);
+    }
+
     @Override
     protected void accountSet(Account account) {
         currentBoardId = sharedPreferences.getLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), NO_BOARDS);
@@ -175,7 +179,7 @@ public class MainActivity extends DrawerActivity {
                 popup.setOnMenuItemClickListener((MenuItem item) -> {
                     switch(item.getItemId()) {
                         case R.id.edit_board:
-                            BoardCreateDialogFragment.newInstance(board.getId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
+                            BoardCreateDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
                             break;
                         case R.id.archive_board:
                             // TODO implement

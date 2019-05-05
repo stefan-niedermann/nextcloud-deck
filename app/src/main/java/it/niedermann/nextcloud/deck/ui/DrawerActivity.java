@@ -157,7 +157,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_ADD_BOARD:
-                    BoardCreateDialogFragment.newInstance(null).show(getSupportFragmentManager(), getString(R.string.create_board));
+                    BoardCreateDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.create_board));
                     break;
                 default:
                     boardSelected(item.getItemId(), account);
