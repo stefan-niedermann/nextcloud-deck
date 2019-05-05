@@ -46,6 +46,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected static final int MENU_ID_ADD_ACCOUNT = -2;
     protected static final int ACTIVITY_ABOUT = 1;
     protected static final long NO_BOARDS = -1;
+    protected static final long NO_STACKS = -1;
 
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;

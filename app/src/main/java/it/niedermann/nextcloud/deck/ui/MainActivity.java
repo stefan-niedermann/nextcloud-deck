@@ -60,6 +60,7 @@ public class MainActivity extends DrawerActivity {
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
     private long currentBoardId = 0;
+    private long currentStackId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +117,26 @@ public class MainActivity extends DrawerActivity {
             intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
             intent.putExtra(BUNDLE_KEY_STACK_ID, ((StackFragment) stackAdapter.getItem(viewPager.getCurrentItem())).getStackId());
             startActivity(intent);
+        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                // Remember last stack for this board
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong(getString(R.string.shared_preference_last_stack_for_board_) + currentBoardId, position);
+                editor.apply();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
         });
     }
 
@@ -234,6 +255,8 @@ public class MainActivity extends DrawerActivity {
         if (toolbar != null) {
             toolbar.setTitle(board.getTitle());
         }
+
+        currentStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_board_) + this.currentBoardId, NO_STACKS);
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks != null) {
                 stackAdapter.clear();
@@ -242,6 +265,12 @@ public class MainActivity extends DrawerActivity {
                 }
                 runOnUiThread(() -> {
                     viewPager.setAdapter(stackAdapter);
+                    for(int i = 0; i < stackAdapter.getCount(); i++) {
+                        if(stackAdapter.getItem(i).getId() == currentStackId) {
+                            viewPager.setCurrentItem(i);
+                            break;
+                        }
+                    }
                     stackLayout.setupWithViewPager(viewPager);
                 });
             }

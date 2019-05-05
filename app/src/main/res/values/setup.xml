@@ -4,4 +4,5 @@
     <string name="shared_preference_last_account" translatable="false">it.niedermann.nextcloud.deck.last_account</string>
     <!-- To be concatenated with the account id -->
     <string name="shared_preference_last_board_for_account_" translatable="false">it.niedermann.nextcloud.deck.last_board_for_account_</string>
+    <string name="shared_preference_last_stack_for_board_" translatable="false">it.niedermann.nextcloud.deck.last_stack_for_board_</string>
 </resources>
