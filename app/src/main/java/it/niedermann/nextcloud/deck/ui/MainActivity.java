@@ -266,7 +266,7 @@ public class MainActivity extends DrawerActivity {
                 runOnUiThread(() -> {
                     viewPager.setAdapter(stackAdapter);
                     for(int i = 0; i < stackAdapter.getCount(); i++) {
-                        if(stackAdapter.getItem(i).getId() == currentStackId) {
+                        if(((StackFragment) stackAdapter.getItem(i)).getStackId() == currentStackId) {
                             viewPager.setCurrentItem(i);
                             break;
                         }
