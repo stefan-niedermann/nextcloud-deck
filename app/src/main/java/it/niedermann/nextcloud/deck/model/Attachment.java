@@ -1,12 +1,22 @@
 package it.niedermann.nextcloud.deck.model;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 
 import java.util.Date;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-@Entity(inheritSuperIndices = true)
+@Entity(inheritSuperIndices = true,
+    foreignKeys = {
+        @ForeignKey(
+            entity = Card.class,
+            parentColumns = "localId",
+            childColumns = "cardId",
+            onDelete = ForeignKey.CASCADE
+        )
+    }
+)
 public class Attachment extends AbstractRemoteEntity {
 
     private long cardId;

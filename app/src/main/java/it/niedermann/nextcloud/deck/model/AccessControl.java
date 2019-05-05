@@ -1,12 +1,22 @@
 package it.niedermann.nextcloud.deck.model;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-@Entity(inheritSuperIndices = true, indices = {@Index(value = "accountId", name = "acl_acc")})
+@Entity(inheritSuperIndices = true,
+    indices = {@Index(value = "accountId", name = "acl_acc")},
+    foreignKeys = {
+        @ForeignKey(
+            entity = Board.class,
+            parentColumns = "localId",
+            childColumns = "boardId", onDelete = ForeignKey.CASCADE
+        )
+    }
+)
 public class AccessControl extends AbstractRemoteEntity {
 
     private Long type;

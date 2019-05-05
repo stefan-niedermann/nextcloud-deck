@@ -1,10 +1,20 @@
 package it.niedermann.nextcloud.deck.model;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-@Entity(inheritSuperIndices = true)
+@Entity(inheritSuperIndices = true,
+    foreignKeys = {
+        @ForeignKey(
+            entity = Board.class,
+            parentColumns = "localId",
+            childColumns = "boardId",
+            onDelete = ForeignKey.CASCADE
+        )
+    }
+)
 public class Label extends AbstractRemoteEntity {
     private String title;
     private String color;

@@ -12,10 +12,10 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractJoinEntity;
         foreignKeys = {
                 @ForeignKey(entity = Board.class,
                         parentColumns = "localId",
-                        childColumns = "boardId"),
+                        childColumns = "boardId", onDelete = ForeignKey.CASCADE),
                 @ForeignKey(entity = Label.class,
                         parentColumns = "localId",
-                        childColumns = "labelId")
+                        childColumns = "labelId", onDelete = ForeignKey.CASCADE)
         })
 public class JoinBoardWithLabel extends AbstractJoinEntity {
     @NonNull
