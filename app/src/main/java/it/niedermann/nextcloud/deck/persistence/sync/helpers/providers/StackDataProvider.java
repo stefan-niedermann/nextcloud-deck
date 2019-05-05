@@ -77,7 +77,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, FullStack entity, FullStack response, IResponseCallback<Boolean> callback) {
+    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         // TODO: implement
     }
 

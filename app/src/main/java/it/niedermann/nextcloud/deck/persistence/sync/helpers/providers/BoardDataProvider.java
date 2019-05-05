@@ -94,8 +94,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         for (Label label : locallyChangedLabels) {
             label.setBoardId(entity.getId());
         }
-        syncHelper.doUpSyncFor(new LabelDataProvider(this, entity.getBoard(), locallyChangedLabels));
-        syncHelper.doUpSyncFor(new StackDataProvider(this, entity));
+        syncHelper.doUpSyncFor(new LabelDataProvider(this, null, locallyChangedLabels));
+        syncHelper.doUpSyncFor(new StackDataProvider(this, null));
     }
 
     @Override

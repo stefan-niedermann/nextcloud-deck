@@ -137,7 +137,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, FullCard entity, FullCard response, IResponseCallback<Boolean> callback) {
+    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         //TODO: implement
     }
 }
