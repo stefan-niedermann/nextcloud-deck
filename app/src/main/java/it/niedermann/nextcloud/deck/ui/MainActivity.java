@@ -126,7 +126,8 @@ public class MainActivity extends DrawerActivity {
     }
 
     public void onUpdateBoard(Board board) {
-        syncManager.updateBoard(board);
+        Snackbar.make(coordinatorLayout, "Editing boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+        // TODO syncManager.updateBoard(board);
     }
 
     @Override
@@ -179,14 +180,17 @@ public class MainActivity extends DrawerActivity {
                 popup.setOnMenuItemClickListener((MenuItem item) -> {
                     switch(item.getItemId()) {
                         case R.id.edit_board:
+                            // FIXME which board id to pass?
                             BoardCreateDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
                             break;
                         case R.id.archive_board:
                             // TODO implement
-                            Snackbar.make(coordinatorLayout, "Archiving cards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(coordinatorLayout, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                             break;
                         case R.id.delete_board:
-                            syncManager.deleteBoard(board);
+                            // TODO implement
+                            Snackbar.make(coordinatorLayout, "Deleting boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+//                            syncManager.deleteBoard(board);
                             break;
                     }
                     return true;
@@ -247,9 +251,6 @@ public class MainActivity extends DrawerActivity {
             case R.id.action_card_list_add_column:
                 StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();
                 alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_stack));
-                break;
-            case R.id.action_card_list_board_details:
-                Snackbar.make(coordinatorLayout, "Bord details has not been implemented yet.", Snackbar.LENGTH_LONG).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

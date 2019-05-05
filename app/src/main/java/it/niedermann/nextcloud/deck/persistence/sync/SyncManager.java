@@ -181,6 +181,7 @@ public class SyncManager {
 
     public void deleteBoard(Board board) {
         //TODO: Tell the server
+        // FIXME java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
         dataBaseAdapter.deleteBoard(board, true);
     }
 
