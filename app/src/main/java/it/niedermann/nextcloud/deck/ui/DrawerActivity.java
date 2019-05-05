@@ -207,7 +207,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
             contextMenu.setBackgroundDrawable(null);
             contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_delete_black_24dp, R.color.grey600));
             contextMenu.setOnClickListener((v) -> {
-                Snackbar.make(coordinatorLayout, "Deleting accounts is not yet implemented", Snackbar.LENGTH_LONG).show();
                 syncManager.deleteAccount(account.getId());
             });
             m.setActionView(contextMenu);
