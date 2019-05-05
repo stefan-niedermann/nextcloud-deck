@@ -12,6 +12,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
@@ -20,13 +28,6 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
@@ -156,8 +157,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_ADD_BOARD:
-                    BoardCreateDialogFragment alertdFragment = new BoardCreateDialogFragment();
-                    alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_board));
+                    BoardCreateDialogFragment.newInstance(null).show(getSupportFragmentManager(), getString(R.string.create_board));
                     break;
                 default:
                     boardSelected(item.getItemId(), account);

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -23,7 +24,11 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class BoardCreateDialogFragment extends DialogFragment {
 
+    private static final String KEY_BOARD_ID = "board_id";
+    private static final Long NO_BOARD_ID = -1L;
+
     private Context context;
+    private Long boardId = null;
     private String selectedColor;
     private String previouslySelectedColor;
     private ImageView previouslySelectedImageView;
@@ -36,14 +41,16 @@ public class BoardCreateDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_board_create, null);
+        super.onCreate(savedInstanceState);
+        View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_board_create, null);
         this.context = Objects.requireNonNull(getContext());
         ButterKnife.bind(this, view);
+        boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
 
         initColorChooser();
 
         return new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.create_board)
+                .setTitle(NO_BOARD_ID.equals(boardId) ? R.string.create_board : R.string.edit_board)
                 .setView(view)
                 .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
                     // Do something else
@@ -52,6 +59,16 @@ public class BoardCreateDialogFragment extends DialogFragment {
                     ((MainActivity) getActivity()).onCreateBoard(boardTitle.getText().toString(), selectedColor);
                 })
                 .create();
+    }
+
+    public static BoardCreateDialogFragment newInstance(@Nullable Long boardId) {
+        BoardCreateDialogFragment dialog = new BoardCreateDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putLong(KEY_BOARD_ID, boardId == null ? NO_BOARD_ID : boardId);
+        dialog.setArguments(args);
+
+        return dialog;
     }
 
     private void initColorChooser() {

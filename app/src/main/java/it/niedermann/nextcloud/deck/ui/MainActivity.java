@@ -175,8 +175,7 @@ public class MainActivity extends DrawerActivity {
                 popup.setOnMenuItemClickListener((MenuItem item) -> {
                     switch(item.getItemId()) {
                         case R.id.edit_board:
-                            BoardCreateDialogFragment alertdFragment = new BoardCreateDialogFragment();
-                            alertdFragment.show(getSupportFragmentManager(), getString(R.string.edit_board));
+                            BoardCreateDialogFragment.newInstance(board.getId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
                             break;
                         case R.id.archive_board:
                             // TODO implement
