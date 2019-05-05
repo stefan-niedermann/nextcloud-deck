@@ -4,15 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
 import java.util.Date;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -158,37 +157,54 @@ public class SyncManager {
     }
 
     public LiveData<FullBoard> createBoard(long accountId, Board board) {
+            MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
+            doAsync(() -> {
+                Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+                User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
+                FullBoard fullBoard = new FullBoard();
+                board.setOwnerId(owner.getLocalId());
+                fullBoard.setOwner(owner);
+                fullBoard.setBoard(board);
+                board.setAccountId(accountId);
+                fullBoard.setAccountId(accountId);
+                new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
+                    @Override
+                    public void onResponse(FullBoard response) {
+                        liveData.postValue(response);
+                    }
+                });
+            });
+        return liveData;
+
+    }
+
+    public void deleteBoard(Board board) {
+        long accountId = board.getAccountId();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            FullBoard fullBoard = dataBaseAdapter.getFullBoardByIdDirectly(accountId, board.getLocalId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
+                @Override
+                public void onResponse(FullBoard response) {
+                    // doNothing
+                }
+            });
+        });
+    }
+
+    public void updateBoard(FullBoard board) {
         MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
+        long accountId = board.getAccountId();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
-            FullBoard fullBoard = new FullBoard();
-            board.setOwnerId(owner.getLocalId());
-            fullBoard.setOwner(owner);
-            fullBoard.setBoard(board);
-            board.setAccountId(accountId);
-            fullBoard.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new BoardDataProvider() ,board, new IResponseCallback<FullBoard>(account) {
                 @Override
                 public void onResponse(FullBoard response) {
                     liveData.postValue(response);
                 }
             });
         });
-        return liveData;
-
-    }
-
-    public void deleteBoard(Board board) {
-        //TODO: Tell the server
-        // FIXME java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
-        dataBaseAdapter.deleteBoard(board, true);
-    }
-
-    public void updateBoard(Board board) {
-        //TODO: Tell the server
-        // FIXME java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
-        dataBaseAdapter.updateBoard(board, true);
     }
 
     public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {

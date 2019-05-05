@@ -59,6 +59,10 @@ public class DataBaseAdapter {
         return db.getBoardDao().getFullBoardByRemoteIdDirectly(accountId, remoteId);
     }
 
+    public FullBoard getFullBoardByIdDirectly(long accountId, long id) {
+        return db.getBoardDao().getFullBoardByIdDirectly(accountId, id);
+    }
+
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
         return LiveDataHelper.onlyIfChanged(db.getStackDao().getStackByRemoteId(accountId, localBoardId, remoteId));
     }
