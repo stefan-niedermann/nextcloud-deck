@@ -35,7 +35,7 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
-import it.niedermann.nextcloud.deck.ui.board.BoardCreateDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -157,7 +157,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_ADD_BOARD:
-                    BoardCreateDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.create_board));
+                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.create_board));
                     break;
                 default:
                     boardSelected(item.getItemId(), account);

@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.ui.board.BoardCreateDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackCreateDialogFragment;
@@ -181,7 +181,7 @@ public class MainActivity extends DrawerActivity {
                     switch(item.getItemId()) {
                         case R.id.edit_board:
                             // FIXME which board id to pass?
-                            BoardCreateDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
+                            EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
                             break;
                         case R.id.archive_board:
                             // TODO implement

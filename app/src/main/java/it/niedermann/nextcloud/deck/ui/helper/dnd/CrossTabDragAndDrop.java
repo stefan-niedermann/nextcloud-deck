@@ -2,10 +2,13 @@ package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
 import android.app.Activity;
 import android.graphics.Point;
-import androidx.viewpager.widget.ViewPager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.DragEvent;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
@@ -53,10 +56,10 @@ public class CrossTabDragAndDrop {
                         }
                     }
 
-                    int viewUnderPosition = owner.getChildAdapterPosition(owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY()));
+                    int viewUnderPosition = owner.getChildAdapterPosition(Objects.requireNonNull(owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY())));
                     if(viewUnderPosition != -1) {
                         DeckLog.log(dragEvent.getAction() + " moved something...");
-                        cardAdapter.moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
+                        Objects.requireNonNull(cardAdapter).moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
                     }
                     break;
                 case DragEvent.ACTION_DROP:

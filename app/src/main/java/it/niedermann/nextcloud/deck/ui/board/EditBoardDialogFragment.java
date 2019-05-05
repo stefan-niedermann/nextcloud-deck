@@ -25,7 +25,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class BoardCreateDialogFragment extends DialogFragment {
+public class EditBoardDialogFragment extends DialogFragment {
 
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_BOARD_ID = "board_id";
@@ -72,7 +72,7 @@ public class BoardCreateDialogFragment extends DialogFragment {
                 this.board.setTitle(this.boardTitle.getText().toString());
                 ((MainActivity) getActivity()).onUpdateBoard(board);
             });
-            syncManager.getFullBoardById(accountId, boardId).observe(BoardCreateDialogFragment.this, (FullBoard fb) -> {
+            syncManager.getFullBoardById(accountId, boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 if(fb != null && fb.board != null) {
                     this.board = fb.board;
                     this.boardTitle.setText(this.board.getTitle());
@@ -87,8 +87,8 @@ public class BoardCreateDialogFragment extends DialogFragment {
                 .create();
     }
 
-    public static BoardCreateDialogFragment newInstance(@NonNull Long boardId, @NonNull Long accountId) {
-        BoardCreateDialogFragment dialog = new BoardCreateDialogFragment();
+    public static EditBoardDialogFragment newInstance(@NonNull Long boardId, @NonNull Long accountId) {
+        EditBoardDialogFragment dialog = new EditBoardDialogFragment();
 
         Bundle args = new Bundle();
         args.putLong(KEY_BOARD_ID, boardId);
@@ -98,8 +98,8 @@ public class BoardCreateDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    public static BoardCreateDialogFragment newInstance() {
-        BoardCreateDialogFragment dialog = new BoardCreateDialogFragment();
+    public static EditBoardDialogFragment newInstance() {
+        EditBoardDialogFragment dialog = new EditBoardDialogFragment();
 
         Bundle args = new Bundle();
         args.putLong(KEY_BOARD_ID, NO_BOARD_ID);
