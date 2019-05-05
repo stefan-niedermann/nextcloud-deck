@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +12,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
@@ -92,6 +92,7 @@ public class EditActivity extends AppCompatActivity {
 
             if(NO_LOCAL_ID.equals(localId)) {
                 Objects.requireNonNull(actionBar).setTitle(getString(R.string.create_card));
+                // TODO create fullCard like in else block?
             } else {
                 fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
             }
@@ -113,9 +114,9 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         // TODO ????
-        if (fullCardViewModel.fullCard.getValue() != null) {
+        if (fullCardViewModel.fullCard != null && fullCardViewModel.fullCard.getValue() != null) {
             if(NO_LOCAL_ID.equals(localId)) {
-                Snackbar.make(tabLayout, "Creating cards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
                 //syncManager.createCard(accountId, fullCardViewModel.fullCard.getValue().card);
 
             } else {
