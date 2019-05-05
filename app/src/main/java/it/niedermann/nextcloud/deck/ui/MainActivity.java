@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
@@ -135,9 +136,9 @@ public class MainActivity extends DrawerActivity {
         syncManager.createBoard(account.getId(), b);
     }
 
-    public void onUpdateBoard(Board board) {
+    public void onUpdateBoard(FullBoard fullBoard) {
         Snackbar.make(coordinatorLayout, "Editing boards is not yet supported.", Snackbar.LENGTH_LONG).show();
-        // TODO syncManager.updateBoard(board);
+        // TODO syncManager.updateBoard(fullBoard);
     }
 
     @Override

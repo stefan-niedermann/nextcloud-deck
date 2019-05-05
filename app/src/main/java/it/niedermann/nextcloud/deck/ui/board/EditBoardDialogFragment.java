@@ -35,7 +35,7 @@ public class EditBoardDialogFragment extends DialogFragment {
     private Context context;
     private SyncManager syncManager;
 
-    private Board board = null;
+    private FullBoard fullBoard = null;
     private Long boardId = null;
     private Long accountId = null;
     private String selectedColor;
@@ -68,14 +68,14 @@ public class EditBoardDialogFragment extends DialogFragment {
         } else {
             dialogBuilder.setTitle(R.string.edit_board);
             dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
-                this.board.setColor(selectedColor.substring(1));
-                this.board.setTitle(this.boardTitle.getText().toString());
-                ((MainActivity) getActivity()).onUpdateBoard(board);
+                this.fullBoard.board.setColor(selectedColor.substring(1));
+                this.fullBoard.board.setTitle(this.boardTitle.getText().toString());
+                ((MainActivity) getActivity()).onUpdateBoard(fullBoard);
             });
             syncManager.getFullBoardById(accountId, boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 if(fb != null && fb.board != null) {
-                    this.board = fb.board;
-                    this.boardTitle.setText(this.board.getTitle());
+                    this.fullBoard = fb;
+                    this.boardTitle.setText(this.fullBoard.board.getTitle());
                     initColorChooser();
                 }
             });
@@ -124,7 +124,7 @@ public class EditBoardDialogFragment extends DialogFragment {
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
             });
-            if(this.board != null && color.equals("#" + this.board.getColor())) {
+            if(this.fullBoard != null && color.equals("#" + this.fullBoard.board.getColor())) {
                 this.selectedColor = color;
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
