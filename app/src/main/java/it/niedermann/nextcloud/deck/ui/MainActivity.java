@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,6 +36,11 @@ import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackCreateDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
+
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class MainActivity extends DrawerActivity {
     @BindView(R.id.fab)
@@ -102,7 +108,11 @@ public class MainActivity extends DrawerActivity {
 //        });
 
         fab.setOnClickListener((View view) -> {
-            Snackbar.make(coordinatorLayout, "Creating cards is not yet supported.", Snackbar.LENGTH_LONG).show();
+            Intent intent = new Intent(this, EditActivity.class);
+            intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
+            intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
+            intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
+            startActivity(intent);
         });
     }
 

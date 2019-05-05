@@ -5,13 +5,17 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -24,6 +28,7 @@ import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -64,9 +69,8 @@ public class EditActivity extends AppCompatActivity {
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (actionBar != null) {
-                    actionBar.setTitle(getString(R.string.edit) + " " + title.getText());
-                }
+                String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.create_card) : getString(R.string.edit);
+                Objects.requireNonNull(actionBar).setTitle(prefix + " " + title.getText());
             }
 
             @Override
@@ -86,7 +90,11 @@ public class EditActivity extends AppCompatActivity {
             boardId = extras.getLong(BUNDLE_KEY_BOARD_ID);
             syncManager = new SyncManager(getApplicationContext(), this);
 
-            fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
+            if(NO_LOCAL_ID.equals(localId)) {
+                Objects.requireNonNull(actionBar).setTitle(getString(R.string.create_card));
+            } else {
+                fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
+            }
         } else {
             throw new IllegalArgumentException("No localId argument");
         }
@@ -96,12 +104,9 @@ public class EditActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         tabLayout.removeAllTabs();
-
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
         CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), accountId, localId, boardId);
         pager.setAdapter(adapter);
-
         tabLayout.setupWithViewPager(pager);
     }
 
@@ -109,7 +114,13 @@ public class EditActivity extends AppCompatActivity {
     protected void onPause() {
         // TODO ????
         if (fullCardViewModel.fullCard.getValue() != null) {
-            syncManager.updateCard(fullCardViewModel.fullCard.getValue().card);
+            if(NO_LOCAL_ID.equals(localId)) {
+                Snackbar.make(tabLayout, "Creating cards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                //syncManager.createCard(accountId, fullCardViewModel.fullCard.getValue().card);
+
+            } else {
+                syncManager.updateCard(fullCardViewModel.fullCard.getValue().card);
+            }
         }
         super.onPause();
     }

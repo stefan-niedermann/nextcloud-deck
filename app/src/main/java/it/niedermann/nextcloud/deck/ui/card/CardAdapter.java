@@ -19,6 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -30,9 +34,6 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -52,6 +53,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
     public static final String BUNDLE_KEY_BOARD_ID = "boardId";
+    public static final Long NO_LOCAL_ID = -1L;
     public static final int MAX_AVATAR_COUNT = 3;
 
     private Context context;
@@ -109,7 +111,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             DeckLog.log("onLongClickListener");
             return true;
         });
-
         viewHolder.cardTitle.setText(card.getCard().getTitle());
 
         if (card.getCard().getDescription().length() > 0) {
