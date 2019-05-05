@@ -53,6 +53,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
     public static final String BUNDLE_KEY_BOARD_ID = "boardId";
+    public static final String BUNDLE_KEY_STACK_ID = "stackId";
     public static final Long NO_LOCAL_ID = -1L;
     public static final int MAX_AVATAR_COUNT = 3;
 
@@ -88,8 +89,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         viewHolder.card.setOnClickListener((View clickedView) -> {
             Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
             intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
-            intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
             intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
+            intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
             context.startActivity(intent);
         });
         viewHolder.card.setOnLongClickListener((View draggedView) -> {

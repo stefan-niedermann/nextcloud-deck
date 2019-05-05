@@ -41,6 +41,7 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class MainActivity extends DrawerActivity {
@@ -113,6 +114,7 @@ public class MainActivity extends DrawerActivity {
             intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
             intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
             intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
+            intent.putExtra(BUNDLE_KEY_STACK_ID, ((StackFragment) stackAdapter.getItem(viewPager.getCurrentItem())).getStackId());
             startActivity(intent);
         });
     }
