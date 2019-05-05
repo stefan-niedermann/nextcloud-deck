@@ -137,8 +137,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     public void onUpdateBoard(FullBoard fullBoard) {
-        Snackbar.make(coordinatorLayout, "Editing boards is not yet supported.", Snackbar.LENGTH_LONG).show();
-        // TODO syncManager.updateBoard(fullBoard);
+        syncManager.updateBoard(fullBoard);
     }
 
     @Override
@@ -199,9 +198,7 @@ public class MainActivity extends DrawerActivity {
                             Snackbar.make(coordinatorLayout, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                             break;
                         case R.id.delete_board:
-                            // TODO implement
-                            Snackbar.make(coordinatorLayout, "Deleting boards is not yet supported.", Snackbar.LENGTH_LONG).show();
-//                            syncManager.deleteBoard(board);
+                            syncManager.deleteBoard(board);
                             break;
                     }
                     return true;
