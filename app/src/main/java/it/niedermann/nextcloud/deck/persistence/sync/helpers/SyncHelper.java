@@ -73,52 +73,53 @@ public class SyncHelper {
 
     // Sync App -> Server
     public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider){
-        List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
-        if (allFromDB != null && !allFromDB.isEmpty()) {
-            provider.goingDeeper();
-            for (T entity : allFromDB) {
-                IResponseCallback<T> updateCallback = new IResponseCallback<T>(account) {
-                    @Override
-                    public void onResponse(T response) {
-                        provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(entity, response, accountId));
-                        provider.goDeeperForUpSync(SyncHelper.this, dataBaseAdapter, entity, response, new IResponseCallback<Boolean>(account) {
-                            @Override
-                            public void onResponse(Boolean response) {
-                                provider.doneGoingDeeper(responseCallback, true);
-                            }
-
-                            @Override
-                            public void onError(Throwable throwable) {
-                                super.onError(throwable);
-                                responseCallback.onError(throwable);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        super.onError(throwable);
-                        responseCallback.onError(throwable);
-                    }
-                };
-                if (entity.getId()!=null) {
-                    if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                        provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(account) {
-                            @Override
-                            public void onResponse(Void response) {
-                                provider.deleteInDB(dataBaseAdapter, accountId, entity);
-                            }
-                        }, entity);
+        new Thread(() -> {
+            List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
+            if (allFromDB != null && !allFromDB.isEmpty()) {
+                for (T entity : allFromDB) {
+                    if (entity.getId()!=null) {
+                        if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
+                            provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity), entity);
+                        } else {
+                            provider.updateOnServer(serverAdapter, accountId, getUpdateCallback(provider, entity), entity);
+                        }
                     } else {
-                        provider.updateOnServer(serverAdapter, accountId, updateCallback, entity);
+                        provider.createOnServer(serverAdapter, accountId, getUpdateCallback(provider, entity), entity);
                     }
-                } else {
-                    provider.createOnServer(serverAdapter, accountId, updateCallback, entity);
                 }
             }
-        } else {
-            provider.childDone(provider, responseCallback, false);
-        }
+            provider.goDeeperForUpSync(this, dataBaseAdapter, responseCallback);
+        }).start();
+    }
+
+    private <T extends IRemoteEntity> IResponseCallback<Void> getDeleteCallback(AbstractSyncDataProvider<T> provider, T entity) {
+        return new IResponseCallback<Void>(account) {
+            @Override
+            public void onResponse(Void response) {
+                provider.deleteInDB(dataBaseAdapter, accountId, entity);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                responseCallback.onError(throwable);
+            }
+        };
+    }
+
+    private <T extends IRemoteEntity> IResponseCallback<T> getUpdateCallback(AbstractSyncDataProvider<T> provider, T entity) {
+        return new IResponseCallback<T>(account) {
+            @Override
+            public void onResponse(T response) {
+                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(entity, response, accountId));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                responseCallback.onError(throwable);
+            }
+        };
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {

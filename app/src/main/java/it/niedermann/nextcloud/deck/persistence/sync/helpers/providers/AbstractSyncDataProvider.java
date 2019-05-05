@@ -16,17 +16,17 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     private List<AbstractSyncDataProvider<?>> children = new ArrayList<>();
     private boolean stillGoingDeeper = false;
 
-    public AbstractSyncDataProvider(AbstractSyncDataProvider<?> parent){
+    public AbstractSyncDataProvider(AbstractSyncDataProvider<?> parent) {
         this.parent = parent;
     }
 
-    public void registerChildInParent(AbstractSyncDataProvider<?> child){
+    public void registerChildInParent(AbstractSyncDataProvider<?> child) {
         if (parent != null) {
             parent.addChild(child);
         }
     }
 
-    public void addChild(AbstractSyncDataProvider<?> child){
+    public void addChild(AbstractSyncDataProvider<?> child) {
         children.add(child);
     }
 
@@ -53,7 +53,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     public void childDone(AbstractSyncDataProvider<?> child, IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         children.remove(child);
         if (!stillGoingDeeper && children.isEmpty()) {
-            if (parent!=null){
+            if (parent != null) {
                 parent.childDone(this, responseCallback, syncChangedSomething);
             } else {
                 responseCallback.onResponse(syncChangedSomething);
@@ -61,22 +61,23 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         }
     }
 
-    public void doneGoingDeeper(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething){
+    public void doneGoingDeeper(IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         stillGoingDeeper = false;
         childDone(this, responseCallback, syncChangedSomething);
     }
 
-    public void goingDeeper(){
+    public void goingDeeper() {
         stillGoingDeeper = true;
     }
 
     public abstract List<T> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync);
 
-    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, T entity, T response, IResponseCallback<Boolean> callback) {
-        childDone(this, callback, true);}
+    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+        //do nothing
+    }
 
-    public void onError(Throwable error, IResponseCallback<Boolean> responseCallback){
-        if (parent != null){
+    public void onError(Throwable error, IResponseCallback<Boolean> responseCallback) {
+        if (parent != null) {
             parent.childDone(this, responseCallback, false);
         }
         //TODO: what to do? what side effect would the following have:
