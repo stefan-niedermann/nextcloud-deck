@@ -60,7 +60,6 @@ public class MainActivity extends DrawerActivity {
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
     private long currentBoardId = 0;
-    private long currentStackId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,8 +127,9 @@ public class MainActivity extends DrawerActivity {
             @Override
             public void onPageSelected(int position) {
                 // Remember last stack for this board
+                long currentStackId = ((StackFragment) stackAdapter.getItem(viewPager.getCurrentItem())).getStackId();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong(getString(R.string.shared_preference_last_stack_for_board_) + currentBoardId, position);
+                editor.putLong(getString(R.string.shared_preference_last_stack_for_board_) + currentBoardId, currentStackId);
                 editor.apply();
             }
 
@@ -256,7 +256,7 @@ public class MainActivity extends DrawerActivity {
             toolbar.setTitle(board.getTitle());
         }
 
-        currentStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_board_) + this.currentBoardId, NO_STACKS);
+        long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_board_) + this.currentBoardId, NO_STACKS);
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks != null) {
                 stackAdapter.clear();
@@ -266,7 +266,9 @@ public class MainActivity extends DrawerActivity {
                 runOnUiThread(() -> {
                     viewPager.setAdapter(stackAdapter);
                     for(int i = 0; i < stackAdapter.getCount(); i++) {
-                        if(((StackFragment) stackAdapter.getItem(i)).getStackId() == currentStackId) {
+                        StackFragment stackFragment = ((StackFragment) stackAdapter.getItem(i));
+                        long stackId = stackFragment.getStackId();
+                        if(stackId == savedStackId) {
                             viewPager.setCurrentItem(i);
                             break;
                         }
