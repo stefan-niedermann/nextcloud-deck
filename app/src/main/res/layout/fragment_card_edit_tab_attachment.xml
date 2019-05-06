@@ -28,7 +28,6 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
         android:orientation="vertical">
 
         <TextView
@@ -36,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:hint="16kB"
+            android:hint="1.98 MB"
             tools:ignore="HardcodedText" />
 
         <TextView
@@ -44,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:hint="last week"
+            android:hint="Mar 4"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 </LinearLayout>

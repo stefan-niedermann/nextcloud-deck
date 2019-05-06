@@ -33,7 +33,6 @@ public class CardAttachmentsFragment extends Fragment {
 
     @BindView(R.id.attachments_list)
     LinearLayout attachmentsList;
-
     @BindView(R.id.no_attachments)
     LinearLayout noAttachments;
 
@@ -78,20 +77,20 @@ public class CardAttachmentsFragment extends Fragment {
             } else {
                 this.noAttachments.setVisibility(View.GONE);
                 this.attachmentsList.setVisibility(View.VISIBLE);
-                for (Attachment a : fullCard.getAttachments()) {
-                    View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_attachment, null);
-                    ((TextView) v.findViewById(R.id.filename)).setText(a.getFilename());
-                    ((TextView) v.findViewById(R.id.filesize)).setText(Formatter.formatFileSize(getContext(), a.getFilesize()));
-                    ((TextView) v.findViewById(R.id.modified)).setText(DateUtils.getRelativeTimeSpanString(getContext(), a.getLastModified().getTime()));
-                    this.attachmentsList.addView(v);
-                    syncManager.readAccount(accountId).observe(CardAttachmentsFragment.this, (Account account) -> {
+                syncManager.readAccount(accountId).observe(CardAttachmentsFragment.this, (Account account) -> {
+                    for (Attachment a : fullCard.getAttachments()) {
+                        View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_attachment, null);
+                        ((TextView) v.findViewById(R.id.filename)).setText(a.getFilename());
+                        ((TextView) v.findViewById(R.id.filesize)).setText(Formatter.formatFileSize(getContext(), a.getFilesize()));
+                        ((TextView) v.findViewById(R.id.modified)).setText(DateUtils.getRelativeTimeSpanString(getContext(), a.getLastModified().getTime()));
+                        this.attachmentsList.addView(v);
                         v.setOnClickListener((event) -> {
                             Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
                             openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + a.getCardId() + "/attachment/" + a.getId()));
                             startActivity(openURL);
                         });
-                    });
-                }
+                    }
+                });
             }
         });
     }
