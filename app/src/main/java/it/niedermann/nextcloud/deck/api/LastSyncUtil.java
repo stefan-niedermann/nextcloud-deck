@@ -46,4 +46,8 @@ public class LastSyncUtil {
     private static String getSyncKeyForAccount(long accountId) {
         return LAST_SYNC_KEY + accountId;
     }
+
+    public static void resetAll() {
+        INSTANCE.lastSyncPref.edit().clear().apply();
+    }
 }
