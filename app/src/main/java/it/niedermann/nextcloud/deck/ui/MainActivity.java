@@ -246,6 +246,7 @@ public class MainActivity extends DrawerActivity {
         }
     }
 
+    int stackPositionInAdapter = 0;
     /**
      * Displays the Stacks for the boardsList by index
      *
@@ -256,23 +257,20 @@ public class MainActivity extends DrawerActivity {
             toolbar.setTitle(board.getTitle());
         }
 
-        long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_board_) + this.currentBoardId, NO_STACKS);
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks != null) {
+                long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_board_) + this.currentBoardId, NO_STACKS);
                 stackAdapter.clear();
-                for (FullStack stack : fullStacks) {
+                for (int i = 0; i < fullStacks.size(); i++) {
+                    FullStack stack = fullStacks.get(i);
                     stackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
+                    if(stack.getLocalId() == savedStackId) {
+                        stackPositionInAdapter = i;
+                    }
                 }
                 runOnUiThread(() -> {
                     viewPager.setAdapter(stackAdapter);
-                    for(int i = 0; i < stackAdapter.getCount(); i++) {
-                        StackFragment stackFragment = ((StackFragment) stackAdapter.getItem(i));
-                        long stackId = stackFragment.getStackId();
-                        if(stackId == savedStackId) {
-                            viewPager.setCurrentItem(i);
-                            break;
-                        }
-                    }
+                    viewPager.setCurrentItem(stackPositionInAdapter);
                     stackLayout.setupWithViewPager(viewPager);
                 });
             }
