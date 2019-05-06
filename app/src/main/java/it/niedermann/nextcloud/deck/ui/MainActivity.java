@@ -25,7 +25,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -127,15 +126,13 @@ public class MainActivity extends DrawerActivity {
 
             @Override
             public void onPageSelected(int position) {
-                // Remember last stack for this board
-                StackFragment stackFragment = ((StackFragment) stackAdapter.getItem((position)));
-                // FIXME stackFragment only contains null values sometimes
-                long currentStackId = stackFragment.getStackId();
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                DeckLog.log("--- SharedPreferences --- write position: " + position);
-                DeckLog.log("--- SharedPreferences --- write: " + getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId + " | " + currentStackId);
-                editor.putLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId, currentStackId);
-                editor.apply();
+                viewPager.post(() -> {
+                    // Remember last stack for this board
+                    long currentStackId = ((StackFragment) stackAdapter.getItem(position)).getStackId();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId, currentStackId);
+                    editor.apply();
+                });
             }
 
             @Override
@@ -266,7 +263,6 @@ public class MainActivity extends DrawerActivity {
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks != null) {
                 long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId, NO_STACKS);
-                DeckLog.log("--- SharedPreferences --- read: " + getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
                 stackAdapter.clear();
                 for (int i = 0; i < fullStacks.size(); i++) {
                     FullStack stack = fullStacks.get(i);
