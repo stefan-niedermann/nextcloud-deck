@@ -2,13 +2,15 @@ package it.niedermann.nextcloud.deck.model;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 import java.util.Date;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
-    foreignKeys = {
+        indices = {@Index("cardId")},
+        foreignKeys = {
         @ForeignKey(
             entity = Card.class,
             parentColumns = "localId",
