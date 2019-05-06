@@ -56,10 +56,13 @@ public class CrossTabDragAndDrop {
                         }
                     }
 
-                    int viewUnderPosition = owner.getChildAdapterPosition(Objects.requireNonNull(owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY())));
-                    if(viewUnderPosition != -1) {
-                        DeckLog.log(dragEvent.getAction() + " moved something...");
-                        Objects.requireNonNull(cardAdapter).moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
+                    View viewUnder = owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
+                    if(viewUnder != null) {
+                        int viewUnderPosition = owner.getChildAdapterPosition(viewUnder);
+                        if (viewUnderPosition != -1) {
+                            DeckLog.log(dragEvent.getAction() + " moved something...");
+                            Objects.requireNonNull(cardAdapter).moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
+                        }
                     }
                     break;
                 case DragEvent.ACTION_DROP:
