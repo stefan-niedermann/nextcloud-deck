@@ -197,14 +197,6 @@ public class MainActivity extends DrawerActivity {
         boardsLiveData = syncManager.getBoards(account.getId());
         boardsLiveDataObserver = (List<Board> boards) -> {
             boardsList = boards;
-            if (boardsList != null) {
-                for (int i = 0; i < boardsList.size(); i++) {
-                    Board board = boardsList.get(i);
-                    if (currentBoardId == board.getLocalId()) {
-                        displayStacksForBoard(boardsList.get(i), this.account);
-                    }
-                }
-            }
             buildSidenavMenu();
         };
         boardsLiveData.observe(this, boardsLiveDataObserver);
@@ -266,7 +258,7 @@ public class MainActivity extends DrawerActivity {
             displayStacksForBoard(currentBoard, this.account);
         } else {
             for (Board board : boardsList) {
-                if (currentBoardId == board.getId()) {
+                if (currentBoardId == board.getLocalId()) {
                     displayStacksForBoard(board, this.account);
                     break;
                 }
