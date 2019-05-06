@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,9 +12,8 @@ import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import java.util.Date;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckConsts;
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -48,6 +46,7 @@ public class SyncManager {
     public SyncManager(Context applicationContext, Activity sourceActivity) {
         this.applicationContext = applicationContext.getApplicationContext();
         this.sourceActivity = sourceActivity;
+        LastSyncUtil.init(applicationContext);
         dataBaseAdapter = new DataBaseAdapter(this.applicationContext);
         this.serverAdapter = new ServerAdapter(this.applicationContext, sourceActivity);
     }
@@ -57,12 +56,14 @@ public class SyncManager {
     }
 
     public void synchronize(IResponseCallback<Boolean> responseCallback) {
+        if (    responseCallback == null ||
+                responseCallback.getAccount() == null ||
+                responseCallback.getAccount().getId() == null){
+            throw new IllegalArgumentException("please provide an account ID.");
+        }
         doAsync(() -> {
-            SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
-                    applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
-            final String lastSyncKey = DeckConsts.LAST_SYNC_KEY(responseCallback.getAccount().getId());
-            long lastSync = lastSyncPref.getLong(lastSyncKey, 0L);
-            Date lastSyncDate = new Date(lastSync);
+            long accountId = responseCallback.getAccount().getId();
+            Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());
             Date now = DateUtil.nowInGMT();
 
             final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
@@ -74,7 +75,7 @@ public class SyncManager {
                         @Override
                         public void onResponse(Boolean response) {
                             // TODO deactivate for dev
-                            lastSyncPref.edit().putLong(lastSyncKey, now.getTime()).apply();
+                            LastSyncUtil.setLastSyncDate(accountId, now);
                             responseCallback.onResponse(response);
                         }
                         @Override

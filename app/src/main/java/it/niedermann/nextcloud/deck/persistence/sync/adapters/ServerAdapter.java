@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
@@ -16,10 +15,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -84,13 +84,13 @@ public class ServerAdapter {
         if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
             lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
         }
-        Log.d("deck lastSync", lastSyncHeader);
+        DeckLog.log("lastSync "+lastSyncHeader);
         return lastSyncHeader;
     }
 
     private Date getLastSync(long accountId) {
         Date lastSync = DateUtil.nowInGMT();
-        lastSync.setTime(lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY(accountId), 0L));
+        lastSync.setTime(LastSyncUtil.getLastSync(accountId));
 
         return lastSync;
     }
