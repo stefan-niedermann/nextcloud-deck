@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -36,7 +37,6 @@ public class EditBoardDialogFragment extends DialogFragment {
     private SyncManager syncManager;
 
     private FullBoard fullBoard = null;
-    private Long boardId = null;
     private Long accountId = null;
     private String selectedColor;
     private String previouslySelectedColor;
@@ -55,7 +55,7 @@ public class EditBoardDialogFragment extends DialogFragment {
         this.context = Objects.requireNonNull(getContext());
         View view = this.activity.getLayoutInflater().inflate(R.layout.dialog_board_create, null);
         ButterKnife.bind(this, view);
-        boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
+        Long boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
         accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
         syncManager = new SyncManager(this.context, this.activity);
 
@@ -72,7 +72,9 @@ public class EditBoardDialogFragment extends DialogFragment {
                 this.fullBoard.board.setTitle(this.boardTitle.getText().toString());
                 ((MainActivity) getActivity()).onUpdateBoard(fullBoard);
             });
+            DeckLog.log("--- request with | " + boardId);
             syncManager.getFullBoardById(accountId, boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
+                DeckLog.log("--- localid | id | " + fb.getLocalId() + " | " + fb.getId());
                 if(fb != null && fb.board != null) {
                     this.fullBoard = fb;
                     this.boardTitle.setText(this.fullBoard.board.getTitle());
@@ -87,12 +89,12 @@ public class EditBoardDialogFragment extends DialogFragment {
                 .create();
     }
 
-    public static EditBoardDialogFragment newInstance(@NonNull Long boardId, @NonNull Long accountId) {
+    public static EditBoardDialogFragment newInstance(@NonNull Long accountId, @NonNull Long boardId) {
         EditBoardDialogFragment dialog = new EditBoardDialogFragment();
 
         Bundle args = new Bundle();
-        args.putLong(KEY_BOARD_ID, boardId);
         args.putLong(KEY_ACCOUNT_ID, accountId);
+        args.putLong(KEY_BOARD_ID, boardId);
         dialog.setArguments(args);
 
         return dialog;
@@ -124,7 +126,7 @@ public class EditBoardDialogFragment extends DialogFragment {
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
             });
-            if(this.fullBoard != null && color.equals("#" + this.fullBoard.board.getColor())) {
+            if(this.fullBoard != null && color.toLowerCase().equals("#" + this.fullBoard.board.getColor().toLowerCase())) {
                 this.selectedColor = color;
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
