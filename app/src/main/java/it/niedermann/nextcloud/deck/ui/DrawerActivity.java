@@ -191,6 +191,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     Snackbar.make(coordinatorLayout, "Account bereits hinzugefügt", Snackbar.LENGTH_SHORT).show();
                 }
             } else {
+                syncManager.synchronize(new IResponseCallback<Boolean>(ac) {
+                    @Override
+                    public void onResponse(Boolean response) {
+
+                    }
+                });
                 Snackbar.make(coordinatorLayout, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
             }
         });
