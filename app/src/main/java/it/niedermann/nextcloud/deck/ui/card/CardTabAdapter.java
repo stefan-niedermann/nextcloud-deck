@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -20,6 +21,7 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
         this.boardId = boardId;
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -27,26 +29,30 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
                 detailsFragment = CardDetailsFragment.newInstance(accountId, localId, boardId);
                 return detailsFragment;
             case 1:
-                attachmentsFragment = CardAttachmentsFragment.newInstance();
+                attachmentsFragment = CardAttachmentsFragment.newInstance(accountId, localId, boardId);
                 return attachmentsFragment;
             case 2:
                 activityFragment = CardActivityFragment.newInstance();
                 return activityFragment;
             default:
-                return null;
+                throw new IllegalArgumentException("position " + position + "is not available");
         }
     }
 
+    @NonNull
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position == 0) {
-            return "Details";
-        } else if (position == 1) {
-            return "Attachments";
-        } else if (position == 2) {
-            return "Activity";
+        // TODO extract string resources
+        switch (position) {
+            case 0:
+                return "Details";
+            case 1:
+                return "Attachments";
+            case 2:
+                return "Activity";
+            default:
+                throw new IllegalArgumentException("position " + position + "is not available");
         }
-        return null;
     }
 
     @Override

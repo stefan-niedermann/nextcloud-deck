@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -131,7 +132,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             setupView(accountId, localId, boardId);
         }
 
-        avatarSize = DimensionUtil.getAvatarDimension(getContext());
+        avatarSize = DimensionUtil.getAvatarDimension(Objects.requireNonNull(getContext()));
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, getContext().getResources().getDimensionPixelSize(R.dimen.standard_half_padding), 0);
 
@@ -145,7 +146,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupView(long accountId, long localId, long boardId) {
-        syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
+        syncManager = new SyncManager(Objects.requireNonNull(getActivity()).getApplicationContext(), getActivity());
 
         this.fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
         this.fullCardViewModel.fullCard.observe(CardDetailsFragment.this, (FullCard card) -> {
