@@ -250,6 +250,7 @@ public class MainActivity extends DrawerActivity {
                             Snackbar.make(coordinatorLayout, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                             break;
                         case R.id.delete_board:
+                            // TODO select next available board
                             syncManager.deleteBoard(board);
                             break;
                     }

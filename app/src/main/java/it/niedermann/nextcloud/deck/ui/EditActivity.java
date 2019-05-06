@@ -34,7 +34,10 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUN
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_STACK_ID;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -98,7 +101,7 @@ public class EditActivity extends AppCompatActivity {
             localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
             syncManager = new SyncManager(getApplicationContext(), this);
 
-            if(NO_LOCAL_ID.equals(localId)) {
+            if (NO_LOCAL_ID.equals(localId)) {
                 Objects.requireNonNull(actionBar).setTitle(getString(R.string.create_card));
                 // FIXME
                 fullCardViewModel.fullCard = new LiveData<FullCard>() {
@@ -107,6 +110,15 @@ public class EditActivity extends AppCompatActivity {
                         super.observe(owner, observer);
                     }
                 };
+                if (NO_BOARD_ID.equals(boardId)) {
+                    // TODO Read last from SharedPreferences
+                }
+                if (NO_ACCOUNT_ID.equals(accountId)) {
+                    // TODO Read last from SharedPreferences
+                }
+                if (NO_STACK_ID.equals(stackId)) {
+                    // TODO Read last from SharedPreferences
+                }
             } else {
                 fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
             }
@@ -128,8 +140,8 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         if (fullCardViewModel.fullCard != null && fullCardViewModel.fullCard.getValue() != null) {
-            if(NO_LOCAL_ID.equals(localId)) {
-                Toast.makeText(getApplicationContext(),"Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
+            if (NO_LOCAL_ID.equals(localId)) {
+                Toast.makeText(getApplicationContext(), "Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
                 // TODO
 //                syncManager.createCard(accountId, boardId, stackId, fullCardViewModel.fullCard.getValue().card).observe(EditActivity.this, (FullCard fullCard) -> {
 //                    fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, fullCard.getLocalId());
