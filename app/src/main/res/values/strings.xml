@@ -90,4 +90,5 @@
     <string name="label_clear_due_date">Clear due date</string>
 
     <string name="label_create">Create %1$s</string>
+    <string name="no_columns_available">No columns available</string>
 </resources>

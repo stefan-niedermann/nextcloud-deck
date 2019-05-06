@@ -118,8 +118,11 @@ public class MainActivity extends DrawerActivity {
             try {
                 intent.putExtra(BUNDLE_KEY_STACK_ID, ((StackFragment) stackAdapter.getItem(viewPager.getCurrentItem())).getStackId());
                 startActivity(intent);
-            } catch(IndexOutOfBoundsException e) {
-                Snackbar.make(coordinatorLayout, "No stacks available", Snackbar.LENGTH_LONG).show();
+            } catch (IndexOutOfBoundsException e) {
+                Snackbar.make(coordinatorLayout, R.string.no_columns_available, Snackbar.LENGTH_LONG).setAction(getString(R.string.simple_create), (event) -> {
+                    StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();
+                    alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_stack));
+                }).show();
             }
         });
 
