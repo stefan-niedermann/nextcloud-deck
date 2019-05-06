@@ -75,7 +75,7 @@ public class EditBoardDialogFragment extends DialogFragment {
             DeckLog.log("--- request with | " + boardId);
             syncManager.getFullBoardById(accountId, boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 DeckLog.log("--- localid | id | " + fb.getLocalId() + " | " + fb.getId());
-                if(fb != null && fb.board != null) {
+                if(fb.board != null) {
                     this.fullBoard = fb;
                     this.boardTitle.setText(this.fullBoard.board.getTitle());
                     initColorChooser();
@@ -135,6 +135,11 @@ public class EditBoardDialogFragment extends DialogFragment {
                 image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
             }
             colorPicker.addView(image);
+        }
+
+        // Preselect when create a new board
+        if(fullBoard == null && colorPicker.getChildCount() > 0) {
+            colorPicker.getChildAt(0).performClick();
         }
     }
 }
