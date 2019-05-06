@@ -143,12 +143,22 @@ public class MainActivity extends DrawerActivity {
     }
 
     public void onCreateStack(String stackName) {
-        Stack s = new Stack();
-        s.setTitle(stackName);
-        s.setBoardId(currentBoardId);
-        //TODO: returns liveData of the created stack (once!) as desired
-        // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
-        syncManager.createStack(account.getId(), s);
+        syncManager.getStacksForBoard(account.getId(), currentBoardId).observe(MainActivity.this, (stacks) -> {
+            Stack s = new Stack();
+            s.setTitle(stackName);
+            s.setBoardId(currentBoardId);
+            int heighestOrder = 0;
+            for (FullStack stack : stacks) {
+                int currentStackOrder = stack.stack.getOrder();
+                if (currentStackOrder >= heighestOrder) {
+                    heighestOrder = currentStackOrder + 1;
+                }
+            }
+            s.setOrder(heighestOrder);
+            //TODO: returns liveData of the created stack (once!) as desired
+            // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
+            syncManager.createStack(account.getId(), s);
+        });
     }
 
     public void onCreateBoard(String title, String color) {

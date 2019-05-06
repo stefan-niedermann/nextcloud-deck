@@ -440,11 +440,6 @@ public class SyncManager {
         dataBaseAdapter.updateUser(accountId, user, true);
     }
 
-    public LiveData<List<FullStack>> getStacks(long accountId, long localBoardId) {
-        return dataBaseAdapter.getStacks(accountId, localBoardId);
-    }
-
-
     /**
      * deprecated! should be removed, as soon as the board-ID can be set by the frontend.
      *  see searchLabelByTitle with board id.
