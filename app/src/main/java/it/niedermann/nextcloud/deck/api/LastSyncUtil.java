@@ -16,13 +16,14 @@ public class LastSyncUtil {
 
     private LastSyncUtil(Context applicationContext) {
         lastSyncPref = applicationContext.getSharedPreferences(
-                applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
+                applicationContext.getString(R.string.shared_preference_last_sync),
+                Context.MODE_PRIVATE
+        );
 
     }
 
     public static long getLastSync(long accountId){
-        final String lastSyncKey = getSyncKeyForAccount(accountId);
-        return INSTANCE.lastSyncPref.getLong(lastSyncKey, 0L);
+        return INSTANCE.lastSyncPref.getLong(getSyncKeyForAccount(accountId), 0L);
     }
 
     public static Date getLastSyncDate(long accountId){
@@ -30,13 +31,11 @@ public class LastSyncUtil {
     }
 
     public static void setLastSyncDate(long accountId, Date value){
-        final String lastSyncKey = getSyncKeyForAccount(accountId);
-        INSTANCE.lastSyncPref.edit().putLong(lastSyncKey, value.getTime()).apply();
+        INSTANCE.lastSyncPref.edit().putLong(getSyncKeyForAccount(accountId), value.getTime()).apply();
     }
 
     public static void resetLastSyncDate(long accountId){
-        final String lastSyncKey = getSyncKeyForAccount(accountId);
-        INSTANCE.lastSyncPref.edit().putLong(lastSyncKey, 0L).apply();
+        INSTANCE.lastSyncPref.edit().remove(getSyncKeyForAccount(accountId)).apply();
     }
 
     public static void init(Context applicationContext) {

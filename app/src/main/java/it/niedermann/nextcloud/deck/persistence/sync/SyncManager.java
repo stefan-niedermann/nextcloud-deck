@@ -143,6 +143,7 @@ public class SyncManager {
     public void deleteAccount(long id) {
         doAsync(() -> {
             dataBaseAdapter.deleteAccount(id);
+            LastSyncUtil.resetLastSyncDate(id);
         });
     }
 
