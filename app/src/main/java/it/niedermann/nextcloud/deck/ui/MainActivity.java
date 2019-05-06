@@ -171,7 +171,9 @@ public class MainActivity extends DrawerActivity {
                 s.setOrder(heighestOrder);
                 //TODO: returns liveData of the created stack (once!) as desired
                 // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
-                syncManager.createStack(account.getId(), s);
+                syncManager.createStack(account.getId(), s).observe(MainActivity.this, (stack) -> {
+                    viewPager.setCurrentItem(stackAdapter.getCount());
+                });
                 fullStackLiveData.removeObserver(this);
             }
         };
