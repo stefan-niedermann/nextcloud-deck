@@ -25,7 +25,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -216,8 +215,6 @@ public class MainActivity extends DrawerActivity {
                 popup.setOnMenuItemClickListener((MenuItem item) -> {
                     switch (item.getItemId()) {
                         case R.id.edit_board:
-                            // FIXME which board id to pass?
-                            DeckLog.log("--- localid | id | " + board.getLocalId() + " | " + board.getId());
                             EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
                             break;
                         case R.id.archive_board:
