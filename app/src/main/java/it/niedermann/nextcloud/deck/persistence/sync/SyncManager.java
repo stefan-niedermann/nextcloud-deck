@@ -243,7 +243,7 @@ public class SyncManager {
         MutableLiveData<FullStack> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            FullBoard board = dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, stack.getBoardId());
+            FullBoard board = dataBaseAdapter.getFullBoardByIdDirectly(accountId, stack.getBoardId());
             FullStack fullStack = new FullStack();
             stack.setAccountId(accountId);
             stack.setBoardId(board.getLocalId());
