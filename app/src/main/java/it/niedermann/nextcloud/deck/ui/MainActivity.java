@@ -115,8 +115,12 @@ public class MainActivity extends DrawerActivity {
             intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
             intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
             intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
-            intent.putExtra(BUNDLE_KEY_STACK_ID, ((StackFragment) stackAdapter.getItem(viewPager.getCurrentItem())).getStackId());
-            startActivity(intent);
+            try {
+                intent.putExtra(BUNDLE_KEY_STACK_ID, ((StackFragment) stackAdapter.getItem(viewPager.getCurrentItem())).getStackId());
+                startActivity(intent);
+            } catch(IndexOutOfBoundsException e) {
+                Snackbar.make(coordinatorLayout, "No stacks available", Snackbar.LENGTH_LONG).show();
+            }
         });
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
