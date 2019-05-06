@@ -23,4 +23,5 @@
     <dimen name="nav_drawer_header_avatar_second_account_margin">56dp</dimen>
     <dimen name="drawer_header_text">14sp</dimen>
     <dimen name="drawer_header_subtext">12sp</dimen>
+    <dimen name="text_size_attachments">14sp</dimen>
 </resources>

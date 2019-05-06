@@ -1,6 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
@@ -68,7 +72,7 @@ public class CardAttachmentsFragment extends Fragment {
     private void setupView(long accountId, long localId, long boardId) {
         SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()).getApplicationContext(), getActivity());
         syncManager.getCardByLocalId(accountId, localId).observe(CardAttachmentsFragment.this, (fullCard) -> {
-            if(fullCard.getAttachments().size() == 0) {
+            if (fullCard.getAttachments().size() == 0) {
                 this.noAttachments.setVisibility(View.VISIBLE);
                 this.attachmentsList.setVisibility(View.GONE);
             } else {
@@ -78,7 +82,15 @@ public class CardAttachmentsFragment extends Fragment {
                     View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_attachment, null);
                     ((TextView) v.findViewById(R.id.filename)).setText(a.getFilename());
                     ((TextView) v.findViewById(R.id.filesize)).setText(Formatter.formatFileSize(getContext(), a.getFilesize()));
+                    ((TextView) v.findViewById(R.id.modified)).setText(DateUtils.getRelativeTimeSpanString(getContext(), a.getLastModified().getTime()));
                     this.attachmentsList.addView(v);
+                    syncManager.readAccount(accountId).observe(CardAttachmentsFragment.this, (Account account) -> {
+                        v.setOnClickListener((event) -> {
+                            Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
+                            openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + a.getCardId() + "/attachment/" + a.getId()));
+                            startActivity(openURL);
+                        });
+                    });
                 }
             }
         });
