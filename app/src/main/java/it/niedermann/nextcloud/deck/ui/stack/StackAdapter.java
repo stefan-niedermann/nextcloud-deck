@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +17,7 @@ public class StackAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);

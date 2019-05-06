@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -53,7 +54,7 @@ public class MainActivity extends DrawerActivity {
     TabLayout stackLayout;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-    
+
     private StackAdapter stackAdapter;
 
     private List<Board> boardsList;
@@ -127,9 +128,13 @@ public class MainActivity extends DrawerActivity {
             @Override
             public void onPageSelected(int position) {
                 // Remember last stack for this board
-                long currentStackId = ((StackFragment) stackAdapter.getItem(viewPager.getCurrentItem())).getStackId();
+                StackFragment stackFragment = ((StackFragment) stackAdapter.getItem((position)));
+                // FIXME stackFragment only contains null values sometimes
+                long currentStackId = stackFragment.getStackId();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong(getString(R.string.shared_preference_last_stack_for_board_) + currentBoardId, currentStackId);
+                DeckLog.log("--- SharedPreferences --- write position: " + position);
+                DeckLog.log("--- SharedPreferences --- write: " + getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId + " | " + currentStackId);
+                editor.putLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId, currentStackId);
                 editor.apply();
             }
 
@@ -211,7 +216,7 @@ public class MainActivity extends DrawerActivity {
                 popup.getMenuInflater()
                         .inflate(R.menu.navigation_context_menu, popup.getMenu());
                 popup.setOnMenuItemClickListener((MenuItem item) -> {
-                    switch(item.getItemId()) {
+                    switch (item.getItemId()) {
                         case R.id.edit_board:
                             // FIXME which board id to pass?
                             EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
@@ -247,6 +252,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     int stackPositionInAdapter = 0;
+
     /**
      * Displays the Stacks for the boardsList by index
      *
@@ -259,12 +265,13 @@ public class MainActivity extends DrawerActivity {
 
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks != null) {
-                long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_board_) + this.currentBoardId, NO_STACKS);
+                long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId, NO_STACKS);
+                DeckLog.log("--- SharedPreferences --- read: " + getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
                 stackAdapter.clear();
                 for (int i = 0; i < fullStacks.size(); i++) {
                     FullStack stack = fullStacks.get(i);
                     stackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
-                    if(stack.getLocalId() == savedStackId) {
+                    if (stack.getLocalId() == savedStackId) {
                         stackPositionInAdapter = i;
                     }
                 }
