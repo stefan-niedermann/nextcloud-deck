@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.os.Bundle;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,9 +75,10 @@ public class CardAttachmentsFragment extends Fragment {
                 this.noAttachments.setVisibility(View.GONE);
                 this.attachmentsList.setVisibility(View.VISIBLE);
                 for (Attachment a : fullCard.getAttachments()) {
-                    TextView tv = new TextView(getContext());
-                    tv.setText(a.getFilename());
-                    this.attachmentsList.addView(tv);
+                    View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_attachment, null);
+                    ((TextView) v.findViewById(R.id.filename)).setText(a.getFilename());
+                    ((TextView) v.findViewById(R.id.filesize)).setText(Formatter.formatFileSize(getContext(), a.getFilesize()));
+                    this.attachmentsList.addView(v);
                 }
             }
         });
