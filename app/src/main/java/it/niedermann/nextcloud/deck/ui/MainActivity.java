@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -128,10 +129,13 @@ public class MainActivity extends DrawerActivity {
             public void onPageSelected(int position) {
                 viewPager.post(() -> {
                     // Remember last stack for this board
-                    long currentStackId = ((StackFragment) stackAdapter.getItem(position)).getStackId();
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId, currentStackId);
-                    editor.apply();
+                    if (stackAdapter.getCount() >= position) {
+                        long currentStackId = ((StackFragment) stackAdapter.getItem(position)).getStackId();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + account.getId() + "_" + currentBoardId + " | " + currentStackId);
+                        editor.putLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId, currentStackId);
+                        editor.apply();
+                    }
                 });
             }
 
@@ -143,22 +147,28 @@ public class MainActivity extends DrawerActivity {
     }
 
     public void onCreateStack(String stackName) {
-        syncManager.getStacksForBoard(account.getId(), currentBoardId).observe(MainActivity.this, (stacks) -> {
-            Stack s = new Stack();
-            s.setTitle(stackName);
-            s.setBoardId(currentBoardId);
-            int heighestOrder = 0;
-            for (FullStack stack : stacks) {
-                int currentStackOrder = stack.stack.getOrder();
-                if (currentStackOrder >= heighestOrder) {
-                    heighestOrder = currentStackOrder + 1;
+        LiveData<List<FullStack>> fullStackLiveData = syncManager.getStacksForBoard(account.getId(), currentBoardId);
+        Observer<List<FullStack>> observer = new Observer<List<FullStack>>() {
+            @Override
+            public void onChanged(List<FullStack> fullStacks) { // FIXME fullStacks.size() is always 0
+                Stack s = new Stack();
+                s.setTitle(stackName);
+                s.setBoardId(currentBoardId);
+                int heighestOrder = 0;
+                for (FullStack fullStack : fullStacks) {
+                    int currentStackOrder = fullStack.stack.getOrder();
+                    if (currentStackOrder >= heighestOrder) {
+                        heighestOrder = currentStackOrder + 1;
+                    }
                 }
+                s.setOrder(heighestOrder);
+                //TODO: returns liveData of the created stack (once!) as desired
+                // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
+                syncManager.createStack(account.getId(), s);
+                fullStackLiveData.removeObserver(this);
             }
-            s.setOrder(heighestOrder);
-            //TODO: returns liveData of the created stack (once!) as desired
-            // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
-            syncManager.createStack(account.getId(), s);
-        });
+        };
+        fullStackLiveData.observe(MainActivity.this, observer);
     }
 
     public void onCreateBoard(String title, String color) {
@@ -178,6 +188,7 @@ public class MainActivity extends DrawerActivity {
     @Override
     protected void accountSet(Account account) {
         currentBoardId = sharedPreferences.getLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), NO_BOARDS);
+        DeckLog.log("--- Read: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
 
         if (boardsLiveData != null && boardsLiveDataObserver != null) {
             boardsLiveData.removeObserver(boardsLiveDataObserver);
@@ -186,22 +197,28 @@ public class MainActivity extends DrawerActivity {
         boardsLiveData = syncManager.getBoards(account.getId());
         boardsLiveDataObserver = (List<Board> boards) -> {
             boardsList = boards;
+            if (boardsList != null) {
+                for (int i = 0; i < boardsList.size(); i++) {
+                    Board board = boardsList.get(i);
+                    if (currentBoardId == board.getLocalId()) {
+                        displayStacksForBoard(boardsList.get(i), this.account);
+                    }
+                }
+            }
             buildSidenavMenu();
         };
         boardsLiveData.observe(this, boardsLiveDataObserver);
-        if (boardsList != null && boardsList.size() > 0) {
-            displayStacksForBoard(boardsList.get(0), this.account);
-        }
     }
 
     @Override
     protected void boardSelected(int itemId, Account account) {
         Board selectedBoard = boardsList.get(itemId);
-        currentBoardId = selectedBoard.getId();
+        currentBoardId = selectedBoard.getLocalId();
         displayStacksForBoard(selectedBoard, account);
 
         // Remember last board for this account
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
         editor.putLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), currentBoardId);
         editor.apply();
     }
@@ -245,7 +262,7 @@ public class MainActivity extends DrawerActivity {
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_grey_24dp);
         if (currentBoardId == NO_BOARDS && boardsList.size() > 0) {
             Board currentBoard = boardsList.get(0);
-            currentBoardId = currentBoard.getId();
+            currentBoardId = currentBoard.getLocalId();
             displayStacksForBoard(currentBoard, this.account);
         } else {
             for (Board board : boardsList) {
@@ -272,6 +289,7 @@ public class MainActivity extends DrawerActivity {
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks != null) {
                 long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId, NO_STACKS);
+                DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
                 stackAdapter.clear();
                 for (int i = 0; i < fullStacks.size(); i++) {
                     FullStack stack = fullStacks.get(i);
