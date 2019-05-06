@@ -57,7 +57,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 User.class,
         },
         exportSchema = false,
-        version = 2
+        version = 3
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
