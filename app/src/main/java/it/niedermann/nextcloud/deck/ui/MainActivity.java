@@ -247,7 +247,7 @@ public class MainActivity extends DrawerActivity {
                             break;
                         case R.id.archive_board:
                             // TODO implement
-                            Snackbar.make(coordinatorLayout, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                             break;
                         case R.id.delete_board:
                             // TODO select next available board
