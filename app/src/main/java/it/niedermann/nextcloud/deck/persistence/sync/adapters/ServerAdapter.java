@@ -77,9 +77,9 @@ public class ServerAdapter {
         return cm.getActiveNetworkInfo().isConnected();
     }
 
-    private String getLastSyncDateFormatted() {
+    private String getLastSyncDateFormatted(long accountId) {
 //        return null;
-        String lastSyncHeader = API_FORMAT.format(getLastSync());
+        String lastSyncHeader = API_FORMAT.format(getLastSync(accountId));
         // omit Offset of timezone (e.g.: +01:00)
         if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
             lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
@@ -88,15 +88,17 @@ public class ServerAdapter {
         return lastSyncHeader;
     }
 
-    private Date getLastSync() {
+    private Date getLastSync(long accountId) {
         Date lastSync = DateUtil.nowInGMT();
-        lastSync.setTime(lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L));
+        lastSync.setTime(lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY(accountId), 0L));
 
         return lastSync;
     }
 
     public void getBoards(IResponseCallback<List<FullBoard>> responseCallback) {
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(true, getLastSyncDateFormatted()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () ->
+                provider.getAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())),
+                responseCallback);
     }
 
     public void createBoard(Board board, IResponseCallback<FullBoard> responseCallback) {
@@ -117,11 +119,11 @@ public class ServerAdapter {
 
     public void getStacks(long boardId, IResponseCallback<List<FullStack>> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStacks(boardId, getLastSyncDateFormatted()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStacks(boardId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void getStack(long boardId, long stackId, IResponseCallback<FullStack> responseCallback) {
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStack(boardId, stackId, getLastSyncDateFormatted()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStack(boardId, stackId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void createStack(Stack stack, IResponseCallback<FullStack> responseCallback) {
@@ -143,7 +145,7 @@ public class ServerAdapter {
 
     public void getCard(long boardId, long stackId, long cardId, IResponseCallback<FullCard> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getCard(boardId, stackId, cardId, getLastSyncDateFormatted()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getCard(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void createCard(long boardId, long stackId, Card card, IResponseCallback<FullCard> responseCallback) {

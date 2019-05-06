@@ -60,7 +60,8 @@ public class SyncManager {
         doAsync(() -> {
             SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
                     applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
-            long lastSync = lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L);
+            final String lastSyncKey = DeckConsts.LAST_SYNC_KEY(responseCallback.getAccount().getId());
+            long lastSync = lastSyncPref.getLong(lastSyncKey, 0L);
             Date lastSyncDate = new Date(lastSync);
             Date now = DateUtil.nowInGMT();
 
@@ -73,7 +74,7 @@ public class SyncManager {
                         @Override
                         public void onResponse(Boolean response) {
                             // TODO deactivate for dev
-                            lastSyncPref.edit().putLong(DeckConsts.LAST_SYNC_KEY, now.getTime()).apply();
+                            lastSyncPref.edit().putLong(lastSyncKey, now.getTime()).apply();
                             responseCallback.onResponse(response);
                         }
                         @Override
