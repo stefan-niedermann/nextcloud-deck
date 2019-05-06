@@ -34,6 +34,11 @@ public class LastSyncUtil {
         INSTANCE.lastSyncPref.edit().putLong(lastSyncKey, value.getTime()).apply();
     }
 
+    public static void resetLastSyncDate(long accountId){
+        final String lastSyncKey = getSyncKeyForAccount(accountId);
+        INSTANCE.lastSyncPref.edit().putLong(lastSyncKey, 0L).apply();
+    }
+
     public static void init(Context applicationContext) {
         INSTANCE = new LastSyncUtil(applicationContext);
     }

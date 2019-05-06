@@ -6,7 +6,6 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -63,20 +62,6 @@ public abstract class DeckDatabase extends RoomDatabase {
 
     private static final String DECK_DB_NAME = "NC_DECK_DB.db";
     private static volatile DeckDatabase instance;
-
-    public static final RoomDatabase.Callback ON_ = new RoomDatabase.Callback() {
-        @Override
-        public void onCreate(SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            //DO AS NEEDED
-        }
-
-        @Override
-        public void onOpen(SupportSQLiteDatabase db) {
-            super.onOpen(db);
-            //DO AS NEEDED
-        }
-    };
 
     public static synchronized DeckDatabase getInstance(Context context) {
         if (instance == null) {
