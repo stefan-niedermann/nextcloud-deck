@@ -2,10 +2,11 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import java.util.Date;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -263,6 +264,10 @@ public class DataBaseAdapter {
     public void deleteBoard(Board board, boolean setStatus) {
         markAsDeletedIfNeeded(board, setStatus);
         db.getBoardDao().update(board);
+    }
+
+    public void deleteBoardPhysically(Board board) {
+        db.getBoardDao().delete(board);
     }
 
     public void updateBoard(Board board, boolean setStatus) {

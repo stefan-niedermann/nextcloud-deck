@@ -72,6 +72,7 @@ public class DataPropagationHelper {
             provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(new Account(accountId)) {
                 @Override
                 public void onResponse(Void response) {
+                    provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
                     callback.onResponse(null);
                 }
 
