@@ -38,7 +38,6 @@ public class CrossTabDragAndDrop {
 
     public void register(final MainActivity mainActivity, final ViewPager viewPager) {
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
-                DeckLog.log("--- Drag 'n' Drop: äckschn "  + dragEvent.getAction() + "");
 
             CardView cardView = (CardView) dragEvent.getLocalState();
 
@@ -62,6 +61,8 @@ public class CrossTabDragAndDrop {
                     long now = System.currentTimeMillis();
                     if (lastSwap + msToReact < now) { // don't change Tabs so fast!
                         if (dragEvent.getX() <= pxToReact) {
+                            //TODO: this one depends on the initial view the drag started from.
+                            // maybe we should search all tabs rather than only the source tab
                             int oldCardPosition = recyclerView.getChildAdapterPosition(cardView);
                             int oldTabPosition = viewPager.getCurrentItem();
                             DeckLog.log("--- Drag 'n' Drop: " + "Old Card index: " + oldCardPosition + " | Old Tab: " + oldTabPosition);
@@ -173,6 +174,8 @@ public class CrossTabDragAndDrop {
                     }
                     break;
                 case DragEvent.ACTION_DROP:
+                    //todo: hier wird das alte auf visible gesetzt, hier muss analog oben die richtige card wieder rausgesucht werden.
+                    // for (int i = 0; i < newrecyclerView1.getChildCount(); i++) {
                     cardView.setVisibility(View.VISIBLE);
                     break;
             }
