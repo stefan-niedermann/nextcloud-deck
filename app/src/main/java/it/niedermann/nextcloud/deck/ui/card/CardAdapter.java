@@ -261,9 +261,27 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         notifyDataSetChanged();
     }
 
+    public FullCard getItem(int position) {
+        return cardList.get(position);
+    }
+
+    public void addItem(FullCard fullCard) {
+        cardList.add(fullCard);
+        notifyItemInserted(cardList.size() - 1);
+    }
+
     public void moveItem(int fromPosition, int toPosition) {
         cardList.add(toPosition, cardList.remove(fromPosition));
         notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public void removeItem(int position) {
+        if(cardList.size() >= position) {
+            cardList.remove(position);
+            notifyItemRemoved(position);
+        } else {
+            Log.w("" + CardAdapter.this.getClass(), "Tried to remove " + position + ", but cardList size is only " + cardList.size());
+        }
     }
 
     private void onOverflowIconClicked(View view, FullCard card) {

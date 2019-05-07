@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
-import android.app.Activity;
 import android.graphics.Point;
 import android.view.DragEvent;
 import android.view.View;
@@ -11,7 +10,11 @@ import androidx.viewpager.widget.ViewPager;
 import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
+import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
+import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 
 public class CrossTabDragAndDrop {
 
@@ -29,44 +32,63 @@ public class CrossTabDragAndDrop {
         this.msToReact = millisTimeoutForSwappingTab;
     }
 
-    public void register(final Activity source, final ViewPager pager, final IDragUpDown upDownDrag, final IDragLeftRight leftRightDrag){
-        pager.setOnDragListener((View v, DragEvent dragEvent) -> {
+    public void register(final MainActivity mainActivity, final ViewPager viewPager, final IDragUpDown upDownDrag, final IDragLeftRight leftRightDrag){
+        viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
             if(dragEvent.getAction() == 4) {
                 DeckLog.log(dragEvent.getAction() + "");
             }
 
-            View view = (View) dragEvent.getLocalState();
-            RecyclerView owner = (RecyclerView) view.getParent();
-            CardAdapter cardAdapter = (CardAdapter) owner.getAdapter();
+            View cardView = (View) dragEvent.getLocalState();
+            RecyclerView recyclerView = (RecyclerView) cardView.getParent();
+            CardAdapter cardAdapter = (CardAdapter) recyclerView.getAdapter();
 
             switch(dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_LOCATION:
                     Point size = new Point();
-                    source.getWindowManager().getDefaultDisplay().getSize(size);
+                    mainActivity.getWindowManager().getDefaultDisplay().getSize(size);
                     long now = System.currentTimeMillis();
                     if (lastSwap + msToReact < now){ // don't change Tabs so fast!
                         if(dragEvent.getX() <= pxToReact) {
                             DeckLog.log(dragEvent.getAction() + " moved left");
-                            pager.setCurrentItem(pager.getCurrentItem() - 1);
+//                            cardAdapter.removeItem(viewPager.getCurrentItem());
+                            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+
+                            FullCard itemToMove = cardAdapter.getItem(viewPager.getCurrentItem());
+                            cardAdapter.removeItem(viewPager.getCurrentItem());
+                            StackAdapter newAdapter = ((StackAdapter)viewPager.getAdapter());
+                            StackFragment newFragment = newAdapter.getItem(viewPager.getCurrentItem());
+
+                            recyclerView = newFragment.recyclerView;
+                            cardAdapter = (CardAdapter) recyclerView.getAdapter();
+
+                            cardAdapter.addItem(itemToMove);
+                            View viewUnder = newFragment.recyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
+                            if(viewUnder != null) {
+                                DeckLog.log("--- " + viewUnder.getClass());
+                            } else {
+                                DeckLog.log("--- viewUnder is null");
+                            }
+//                            mainActivity.stackAdapter.get
                             lastSwap = now;
                         } else if(dragEvent.getX() >= size.x - pxToReact) {
                             DeckLog.log(dragEvent.getAction() + " moved right");
-                            pager.setCurrentItem(pager.getCurrentItem() + 1);
+                            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                             lastSwap = now;
                         }
                     }
 
-                    View viewUnder = owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
+                    View viewUnder = recyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
                     if(viewUnder != null) {
-                        int viewUnderPosition = owner.getChildAdapterPosition(viewUnder);
+                        DeckLog.log("--- " + viewUnder.getClass());
+                        int viewUnderPosition = recyclerView.getChildAdapterPosition(viewUnder);
                         if (viewUnderPosition != -1) {
                             DeckLog.log(dragEvent.getAction() + " moved something...");
-                            Objects.requireNonNull(cardAdapter).moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
+                            Objects.requireNonNull(cardAdapter).moveItem(recyclerView.getChildLayoutPosition(cardView), viewUnderPosition);
                         }
                     }
                     break;
                 case DragEvent.ACTION_DROP:
-                    view.setVisibility(View.VISIBLE);
+                    cardView.setVisibility(View.VISIBLE);
                     break;
             }
             return true;

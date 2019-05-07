@@ -42,7 +42,7 @@ public class StackFragment extends Fragment {
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
     /**
      * @param boardId of the current stack
