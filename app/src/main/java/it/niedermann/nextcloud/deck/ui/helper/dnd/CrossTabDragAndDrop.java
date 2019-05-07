@@ -1,9 +1,12 @@
 package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
+import android.content.ClipData;
 import android.graphics.Point;
 import android.view.DragEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -22,67 +25,123 @@ public class CrossTabDragAndDrop {
     private final long msToReact;
     private long lastSwap = 0;
 
-    public CrossTabDragAndDrop(){
+    public CrossTabDragAndDrop() {
         this.pxToReact = 20;
         this.msToReact = 500;
     }
 
-    public CrossTabDragAndDrop(int pixelsUntilLeftRightReaction, long millisTimeoutForSwappingTab){
+    public CrossTabDragAndDrop(int pixelsUntilLeftRightReaction, long millisTimeoutForSwappingTab) {
         this.pxToReact = pixelsUntilLeftRightReaction;
         this.msToReact = millisTimeoutForSwappingTab;
     }
 
-    public void register(final MainActivity mainActivity, final ViewPager viewPager, final IDragUpDown upDownDrag, final IDragLeftRight leftRightDrag){
+    public void register(final MainActivity mainActivity, final ViewPager viewPager, final IDragUpDown upDownDrag, final IDragLeftRight leftRightDrag) {
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
-            if(dragEvent.getAction() == 4) {
-                DeckLog.log(dragEvent.getAction() + "");
+            if (dragEvent.getAction() == 4) {
+                DeckLog.log("--- " + dragEvent.getAction() + "");
             }
 
-            View cardView = (View) dragEvent.getLocalState();
-            RecyclerView recyclerView = (RecyclerView) cardView.getParent();
+            final CardView cardView = (CardView) dragEvent.getLocalState();
+
+            if (cardView == null) {
+                return true;
+            }
+
+            final RecyclerView recyclerView = (RecyclerView) cardView.getParent();
+
+            if (recyclerView == null) {
+                return true;
+            }
             CardAdapter cardAdapter = (CardAdapter) recyclerView.getAdapter();
 
-            switch(dragEvent.getAction()) {
+            switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_LOCATION:
                     Point size = new Point();
                     mainActivity.getWindowManager().getDefaultDisplay().getSize(size);
                     long now = System.currentTimeMillis();
-                    if (lastSwap + msToReact < now){ // don't change Tabs so fast!
-                        if(dragEvent.getX() <= pxToReact) {
-                            DeckLog.log(dragEvent.getAction() + " moved left");
-//                            cardAdapter.removeItem(viewPager.getCurrentItem());
-                            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                    if (lastSwap + msToReact < now) { // don't change Tabs so fast!
+                        if (dragEvent.getX() <= pxToReact) {
+                            int oldCardPosition = recyclerView.getChildAdapterPosition(cardView);
+                            int oldTabPosition = viewPager.getCurrentItem();
+                            log("Old Card index: " + oldCardPosition + " | Old Tab: " + oldTabPosition);
 
-                            FullCard itemToMove = cardAdapter.getItem(viewPager.getCurrentItem());
-                            cardAdapter.removeItem(viewPager.getCurrentItem());
-                            StackAdapter newAdapter = ((StackAdapter)viewPager.getAdapter());
+                            FullCard itemToMove = cardAdapter.getItem(oldCardPosition);
+                            log("Card: " + itemToMove.card.getTitle());
+
+                            log("Remove card from position " + oldCardPosition);
+                            cardAdapter.removeItem(oldCardPosition);
+
+                            log("Select Tab " + (oldTabPosition - 1));
+                            viewPager.setCurrentItem(oldTabPosition - 1);
+
+                            StackAdapter newAdapter = ((StackAdapter) viewPager.getAdapter());
                             StackFragment newFragment = newAdapter.getItem(viewPager.getCurrentItem());
+                            log("new stackfragment id: " + newFragment.getStackId());
+                            final RecyclerView newrecyclerView = newFragment.recyclerView;
+                            cardAdapter = (CardAdapter) newrecyclerView.getAdapter();
 
-                            recyclerView = newFragment.recyclerView;
-                            cardAdapter = (CardAdapter) recyclerView.getAdapter();
+                            int insertedPosition = cardAdapter.addItem(itemToMove);
+                            log("Inserted on position " + insertedPosition);
 
-                            cardAdapter.addItem(itemToMove);
-                            View viewUnder = newFragment.recyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
-                            if(viewUnder != null) {
-                                DeckLog.log("--- " + viewUnder.getClass());
-                            } else {
-                                DeckLog.log("--- viewUnder is null");
-                            }
-//                            mainActivity.stackAdapter.get
+                            newrecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                                @Override
+                                public void onChildViewAttachedToWindow(@NonNull View view) {
+                                    newrecyclerView.removeOnChildAttachStateChangeListener(this);
+                                    CardView cardView = (CardView) view;
+
+                                    log(cardView + "");
+//                                    cardView.setVisibility(View.INVISIBLE);
+
+                                    ClipData dragData = ClipData.newPlainText("TEST", "TEST2");
+                                    cardView.startDrag(dragData,  // the data to be dragged
+                                            new View.DragShadowBuilder(){
+                                                @Override
+                                                public void onProvideShadowMetrics(Point outShadowSize, Point outShadowTouchPoint) {
+                                                    outShadowSize.set(1,1);
+                                                    outShadowTouchPoint.set(0,0);
+                                                }
+                                            },  // the drag shadow builder
+                                            cardView,      // no need to use local data
+                                            0          // flags (not currently used, set to 0)
+                                    );
+//                                    cardView.setVisibility(View.VISIBLE);
+
+                                }
+
+                                @Override
+                                public void onChildViewDetachedFromWindow(@NonNull View view) {
+
+                                }
+                            });
+
+                            cardAdapter.notifyDataSetChanged();
+
                             lastSwap = now;
-                        } else if(dragEvent.getX() >= size.x - pxToReact) {
+
+
+
+//                                ClipData dragData = ClipData.newPlainText("TEST", "TEST2");
+//                                cardView.startDrag(dragData,  // the data to be dragged
+//                                        new View.DragShadowBuilder(cardView),  // the drag shadow builder
+//                                        cardView,      // no need to use local data
+//                                        0          // flags (not currently used, set to 0)
+//                                );
+//                                viewPager.startDragAndDrop()
+
+//                            View viewUnder = newFragment.recyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
+                        } else if (dragEvent.getX() >= size.x - pxToReact) {
                             DeckLog.log(dragEvent.getAction() + " moved right");
                             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                             lastSwap = now;
                         }
                     }
 
+                    //push around the other cards
                     View viewUnder = recyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
-                    if(viewUnder != null) {
+                    if (viewUnder != null) {
                         DeckLog.log("--- " + viewUnder.getClass());
                         int viewUnderPosition = recyclerView.getChildAdapterPosition(viewUnder);
                         if (viewUnderPosition != -1) {
-                            DeckLog.log(dragEvent.getAction() + " moved something...");
                             Objects.requireNonNull(cardAdapter).moveItem(recyclerView.getChildLayoutPosition(cardView), viewUnderPosition);
                         }
                     }
@@ -93,5 +152,9 @@ public class CrossTabDragAndDrop {
             }
             return true;
         });
+    }
+
+    private void log(String s) {
+        DeckLog.log("--- Drag 'n' Drop: " + s);
     }
 }

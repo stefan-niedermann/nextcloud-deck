@@ -265,9 +265,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return cardList.get(position);
     }
 
-    public void addItem(FullCard fullCard) {
+    public int addItem(FullCard fullCard) {
         cardList.add(fullCard);
-        notifyItemInserted(cardList.size() - 1);
+        return cardList.size() - 1;
     }
 
     public void moveItem(int fromPosition, int toPosition) {
