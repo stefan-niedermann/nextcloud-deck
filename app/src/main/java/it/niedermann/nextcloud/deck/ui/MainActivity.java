@@ -75,7 +75,7 @@ public class MainActivity extends DrawerActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         //TODO replace nulls
-        new CrossTabDragAndDrop().register(this, viewPager, null, null);
+        new CrossTabDragAndDrop().register(this, viewPager);
 
 //        viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
 //            Log.d("Deck", "Drag: "+ dragEvent.getAction());

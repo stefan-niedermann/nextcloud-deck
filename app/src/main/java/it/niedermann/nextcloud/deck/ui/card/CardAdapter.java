@@ -103,7 +103,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             // ClipData.newPlainText() can create a plain text ClipData in one step.
 
             // Create a new ClipData.Item from the ImageView object's tag
-            ClipData dragData = ClipData.newPlainText("TEST", "TEST2");
+
+            ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId()+"");
 
             // Starts the drag
             draggedView.startDrag(dragData,  // the data to be dragged
@@ -299,6 +300,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         } else {
             menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
         }
+    }
+
+    public List<FullCard> getCardList() {
+        return cardList;
     }
 
     private boolean containsUser(List<User> userList, String username) {

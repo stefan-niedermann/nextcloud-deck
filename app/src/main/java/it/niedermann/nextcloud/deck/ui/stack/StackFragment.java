@@ -135,6 +135,10 @@ public class StackFragment extends Fragment {
         }
     }
 
+    public CardAdapter getAdapter() {
+        return adapter;
+    }
+
     public long getStackId() {
         return this.stackId;
     }
