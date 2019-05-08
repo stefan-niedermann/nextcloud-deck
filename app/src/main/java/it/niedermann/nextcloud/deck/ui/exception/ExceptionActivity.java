@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 
 public class ExceptionActivity extends AppCompatActivity {
@@ -20,13 +21,16 @@ public class ExceptionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 1");
+        setContentView(R.layout.activity_exception);
+        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 2");
+        ButterKnife.bind(this);
+        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 3");
         super.onCreate(savedInstanceState);
 
-        setTheme(R.style.AppTheme_NoActionBar);
-        setContentView(R.layout.activity_exception);
-        ButterKnife.bind(this);
-        super.onCreate(savedInstanceState);
-        
+        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 4");
+
         this.message.setText(((Throwable) savedInstanceState.getSerializable(KEY_THROWABLE)).getMessage());
+        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 5");
     }
 }

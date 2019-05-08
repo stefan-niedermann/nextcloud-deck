@@ -70,7 +70,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this.coordinatorLayout, this));
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setSupportActionBar(toolbar);
 
         View header = navigationView.getHeaderView(0);

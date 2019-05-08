@@ -1,25 +1,39 @@
 package it.niedermann.nextcloud.deck.ui.exception;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.view.View;
+
+import it.niedermann.nextcloud.deck.DeckLog;
 
 public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-    private View view;
-    private Context context;
+    private Activity context;
 
-    public ExceptionHandler(View view, Context context) {
+    public ExceptionHandler(Activity context) {
         super();
-        this.view = view;
         this.context = context;
     }
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
 
-        Intent intent = new Intent(context, ExceptionActivity.class);
-        context.startActivity(intent);
+//        Intent intent = new Intent(context, ExceptionActivity.class);
+
+
+        Intent intent = new Intent(context.getApplicationContext(), ExceptionActivity.class);
+//        intent.setAction("**.ui.exception.ExceptionActivity"); // see step 5.
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        intent.putExtra("logs", errorLogs.toString());
+        DeckLog.log("uce - startActivity");
+        context.getApplicationContext().startActivity(intent);
+
+        DeckLog.log("uce - finish activity");
+        context.finish();
+        DeckLog.log("uce - kill Process");
+        android.os.Process.killProcess(android.os.Process.myPid());
+        DeckLog.log("uce - System.exit(10)");
+        System.exit(10);
+
 //        new Thread() {
 //            @Override
 //            public void run() {
@@ -39,7 +53,5 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
 //                Looper.loop();
 //            }
 //        }.start();
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(10);
     }
 }
