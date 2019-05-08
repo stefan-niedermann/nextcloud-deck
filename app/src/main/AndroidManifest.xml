@@ -49,6 +49,12 @@
             android:theme="@style/AppTheme"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
+        <activity
+            android:name=".ui.exception.ExceptionActivity"
+            android:label="@string/about"
+            android:theme="@style/AppTheme"
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
+
     </application>
 
 </manifest>
