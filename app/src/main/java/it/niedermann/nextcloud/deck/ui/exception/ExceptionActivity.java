@@ -1,14 +1,19 @@
 package it.niedermann.nextcloud.deck.ui.exception;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.DeckLog;
+import butterknife.OnClick;
 import it.niedermann.nextcloud.deck.R;
 
 public class ExceptionActivity extends AppCompatActivity {
@@ -17,6 +22,8 @@ public class ExceptionActivity extends AppCompatActivity {
 
     @BindView(R.id.message)
     TextView message;
+    @BindView(R.id.stacktrace)
+    TextView stacktrace;
 
     public static final String KEY_THROWABLE = "T";
 
@@ -26,8 +33,21 @@ public class ExceptionActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         throwable = ((Throwable) getIntent().getSerializableExtra(KEY_THROWABLE));
-        getSupportActionBar().setTitle(throwable.getMessage());
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.error));
         this.message.setText(throwable.getMessage());
-        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 5");
+        StringBuilder concatenatedStacktrace = new StringBuilder();
+        for (StackTraceElement stackTraceElement : throwable.getStackTrace()) {
+            concatenatedStacktrace.append(stackTraceElement.toString());
+        }
+        this.stacktrace.setText(concatenatedStacktrace);
+    }
+
+
+    @OnClick(R.id.copy)
+    void copyStacktraceToClipboard() {
+        final android.content.ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText(getString(R.string.simple_exception), this.stacktrace.getText());
+        clipboardManager.setPrimaryClip(clipData);
+        Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
     }
 }

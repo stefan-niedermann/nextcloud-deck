@@ -70,7 +70,6 @@ public class MainActivity extends DrawerActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
-        Integer.parseInt("1.3234");
 
         stackAdapter = new StackAdapter(getSupportFragmentManager());
 
