@@ -16,7 +16,7 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
-    <style name="PrimaryCTAButton" parent="android:Widget.Material.Button">
+    <style name="PrimaryCTAButton" parent="android:Widget.DeviceDefault.Button">
         <item name="android:background">@color/primary</item>
         <item name="android:textColor">@color/fg_accent</item>
         <item name="android:elevation">5dp</item>

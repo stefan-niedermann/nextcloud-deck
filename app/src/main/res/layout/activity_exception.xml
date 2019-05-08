@@ -36,12 +36,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="1.0">
 
         <Button
             android:id="@+id/close"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight=".5"
             android:text="@string/simple_close" />
 
         <Button
@@ -49,6 +52,7 @@
             style="@style/PrimaryCTAButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight=".5"
             android:text="@string/simple_copy" />
 
     </LinearLayout>
