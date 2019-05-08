@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.util;
 
+import android.content.res.Resources;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
@@ -36,5 +37,30 @@ public final class LinkUtil {
     public static void setHtml(TextView view, int stringId, Object... formatArgs) {
         view.setText(LinkUtil.fromHtml(view.getResources().getString(stringId, formatArgs)));
         view.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    /**
+     * Fills a {@link TextView} with HTML content and activates links in that {@link TextView}.
+     *
+     * @param view      The {@link TextView} which should be filled.
+     * @param stringIds The string resource containing HTML tags (escaped by <code>&lt;</code>)
+     */
+    public static void setHtmlFromStringResources(TextView view, String... stringIds) {
+
+        StringBuilder sb = new StringBuilder();
+        for (String arg : stringIds) {
+            sb.append(arg);
+        }
+
+        view.setText(LinkUtil.fromHtml(sb.toString()));
+        view.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    public static String concatenateResources(Resources resources, int... stringIds) {
+        StringBuilder sb = new StringBuilder();
+        for (int arg : stringIds) {
+            sb.append(resources.getString(arg));
+        }
+        return sb.toString();
     }
 }
