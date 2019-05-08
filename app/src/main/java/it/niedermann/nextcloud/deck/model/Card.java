@@ -1,9 +1,9 @@
 package it.niedermann.nextcloud.deck.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
-import androidx.annotation.NonNull;
 
 import java.util.Date;
 
@@ -183,7 +183,7 @@ public class Card extends AbstractRemoteEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
+        if (!super.equals(o)) return false;
         Card card = (Card) o;
 
         if (stackId != card.stackId) return false;

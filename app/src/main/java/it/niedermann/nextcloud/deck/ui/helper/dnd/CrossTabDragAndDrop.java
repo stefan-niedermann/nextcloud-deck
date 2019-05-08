@@ -76,13 +76,15 @@ public class CrossTabDragAndDrop {
                     }
 
                     //push around the other cards
-                    View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
                     CardView newCardViewToSearch = findInvisibleCardView(currentRecyclerView);
+                    DeckLog.log("dnd card count:" + ((CardAdapter) currentRecyclerView.getAdapter()).getCardList().size());
 
                     if (newCardViewToSearch == null) {
+//                        DeckLog.log("dnd skipping");
                         return true;
                     }
+                    View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
                     if (viewUnder != null) {
                         int viewUnderPosition = currentRecyclerView.getChildAdapterPosition(viewUnder);
@@ -110,10 +112,19 @@ public class CrossTabDragAndDrop {
         CardAdapter cardAdapter = (CardAdapter) recyclerView.getAdapter();
 
         //insert card in new tab
-        View viewUnder = recyclerView.getChildAt(0);
-        int insertedPosition = viewUnder == null ? 0 : recyclerView.getChildAdapterPosition(viewUnder);
+        View firstVisibleView = recyclerView.getChildAt(0);
+        int positionToInsert = firstVisibleView == null ? 0 : recyclerView.getChildAdapterPosition(firstVisibleView);
 
-        cardAdapter.addItem(itemToMove, insertedPosition);
+//        //already present?
+//        for (int i = 0; i < cardAdapter.getItemCount(); i++) {
+//            FullCard fullCard = cardAdapter.getItem(i);
+//            if (itemToMove.getCard().getLocalId().equals(fullCard.getCard().getLocalId())){
+//                cardAdapter.removeItem(i);
+//                DeckLog.log("dnd removed afterwards");
+//            }
+//        }
+
+        cardAdapter.addItem(itemToMove, positionToInsert);
 
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
@@ -121,14 +132,14 @@ public class CrossTabDragAndDrop {
                 recyclerView.removeOnChildAttachStateChangeListener(this);
                 CardView cardView = (CardView) view;
                 cardView.setVisibility(View.INVISIBLE);
-                DeckLog.log("dnd there it is");
+                DeckLog.log("dnd there it is! pos: "+positionToInsert);
             }
 
             @Override
             public void onChildViewDetachedFromWindow(@NonNull View view) {/* do nothing */}
         });
 
-        cardAdapter.notifyItemInserted(insertedPosition);
+        cardAdapter.notifyItemInserted(positionToInsert);
 
         lastSwap = now;
     }
