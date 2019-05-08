@@ -69,7 +69,8 @@ public class MainActivity extends DrawerActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+        Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
+        Integer.parseInt("1.3234");
 
         stackAdapter = new StackAdapter(getSupportFragmentManager());
 

@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.deck.R;
 
 public class ExceptionActivity extends AppCompatActivity {
 
+    Throwable throwable;
 
     @BindView(R.id.message)
     TextView message;
@@ -21,16 +22,12 @@ public class ExceptionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 1");
         setContentView(R.layout.activity_exception);
-        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 2");
         ButterKnife.bind(this);
-        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 3");
         super.onCreate(savedInstanceState);
-
-        DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 4");
-
-        this.message.setText(((Throwable) savedInstanceState.getSerializable(KEY_THROWABLE)).getMessage());
+        throwable = ((Throwable) getIntent().getSerializableExtra(KEY_THROWABLE));
+        getSupportActionBar().setTitle(throwable.getMessage());
+        this.message.setText(throwable.getMessage());
         DeckLog.log("++++++++++++++++++++++++++++++++++++++++++++++++++ 5");
     }
 }
