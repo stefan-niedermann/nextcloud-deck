@@ -42,7 +42,7 @@ public class StackFragment extends Fragment {
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recycler_view)
-    public RecyclerView recyclerView;
+    RecyclerView recyclerView;
 
     /**
      * @param boardId of the current stack
@@ -137,6 +137,10 @@ public class StackFragment extends Fragment {
 
     public CardAdapter getAdapter() {
         return adapter;
+    }
+
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
     }
 
     public long getStackId() {

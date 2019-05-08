@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.helper.dnd;
 import android.graphics.Point;
 import android.view.DragEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -12,7 +11,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.Objects;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
@@ -39,7 +37,6 @@ public class CrossTabDragAndDrop {
     public void register(final MainActivity mainActivity, final ViewPager viewPager) {
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
 
-            CardView cardView = (CardView) dragEvent.getLocalState();
 
 
 //            final RecyclerView recyclerView = (RecyclerView) cardView.getParent();
@@ -50,12 +47,17 @@ public class CrossTabDragAndDrop {
 
             StackAdapter newAdapter2 = ((StackAdapter) viewPager.getAdapter());
             StackFragment newFragment2 = newAdapter2.getItem(viewPager.getCurrentItem());
-            final RecyclerView recyclerView = newFragment2.recyclerView;
+            final RecyclerView recyclerView = newFragment2.getRecyclerView();
 
             CardAdapter cardAdapter = (CardAdapter) recyclerView.getAdapter();
-            DeckLog.log("--- Drag 'n' Drop: event alive" );
             switch (dragEvent.getAction()) {
-                case DragEvent.ACTION_DRAG_LOCATION:
+                case DragEvent.ACTION_DRAG_STARTED: {
+                    CardView cardView = (CardView) dragEvent.getLocalState();
+                    cardView.setVisibility(View.INVISIBLE);
+                    break;
+                }
+                case DragEvent.ACTION_DRAG_LOCATION: {
+                    CardView cardView = (CardView) dragEvent.getLocalState();
                     Point size = new Point();
                     mainActivity.getWindowManager().getDefaultDisplay().getSize(size);
                     long now = System.currentTimeMillis();
@@ -65,25 +67,19 @@ public class CrossTabDragAndDrop {
                             // maybe we should search all tabs rather than only the source tab
                             int oldCardPosition = recyclerView.getChildAdapterPosition(cardView);
                             int oldTabPosition = viewPager.getCurrentItem();
-                            DeckLog.log("--- Drag 'n' Drop: " + "Old Card index: " + oldCardPosition + " | Old Tab: " + oldTabPosition);
 
                             FullCard itemToMove = cardAdapter.getItem(oldCardPosition);
-                            DeckLog.log("--- Drag 'n' Drop: " + "Card: " + itemToMove.card.getTitle());
 
-                            DeckLog.log("--- Drag 'n' Drop: " + "Remove card from position " + oldCardPosition);
                             cardAdapter.removeItem(oldCardPosition);
 
-                            DeckLog.log("--- Drag 'n' Drop: " + "Select Tab " + (oldTabPosition - 1));
                             viewPager.setCurrentItem(oldTabPosition - 1);
 
                             StackAdapter newAdapter = ((StackAdapter) viewPager.getAdapter());
                             StackFragment newFragment = newAdapter.getItem(viewPager.getCurrentItem());
-                            DeckLog.log("--- Drag 'n' Drop: " + "new stackfragment id: " + newFragment.getStackId());
-                            final RecyclerView newrecyclerView = newFragment.recyclerView;
+                            final RecyclerView newrecyclerView = newFragment.getRecyclerView();
                             cardAdapter = (CardAdapter) newrecyclerView.getAdapter();
 
                             int insertedPosition = cardAdapter.addItem(itemToMove);
-                            DeckLog.log("--- Drag 'n' Drop: " + "Inserted on position " + insertedPosition);
                             cardView.setVisibility(View.INVISIBLE);
 
 
@@ -93,28 +89,12 @@ public class CrossTabDragAndDrop {
                                     newrecyclerView.removeOnChildAttachStateChangeListener(this);
                                     CardView cardView = (CardView) view;
 
-                                    DeckLog.log("--- Drag 'n' Drop: " + cardView + "");
                                     cardView.setVisibility(View.INVISIBLE);
-
-//                                    ClipData dragData = ClipData.newPlainText("TEST", "TEST2");
-//                                    cardView.startDrag(dragData,  // the data to be dragged
-//                                            new View.DragShadowBuilder(){
-//                                                @Override
-//                                                public void onProvideShadowMetrics(Point outShadowSize, Point outShadowTouchPoint) {
-//                                                    outShadowSize.set(1,1);
-//                                                    outShadowTouchPoint.set(0,0);
-//                                                }
-//                                            },  // the drag shadow builder
-//                                            cardView,      // no need to use local data
-//                                            0          // flags (not currently used, set to 0)
-//                                    );
-//                                    cardView.setVisibility(View.VISIBLE);
 
                                 }
 
                                 @Override
                                 public void onChildViewDetachedFromWindow(@NonNull View view) {
-
                                 }
                             });
 
@@ -123,18 +103,8 @@ public class CrossTabDragAndDrop {
                             lastSwap = now;
 
 
-
-//                                ClipData dragData = ClipData.newPlainText("TEST", "TEST2");
-//                                cardView.startDrag(dragData,  // the data to be dragged
-//                                        new View.DragShadowBuilder(cardView),  // the drag shadow builder
-//                                        cardView,      // no need to use local data
-//                                        0          // flags (not currently used, set to 0)
-//                                );
-//                                viewPager.startDragAndDrop()
-
 //                            View viewUnder = newFragment.recyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
                         } else if (dragEvent.getX() >= size.x - pxToReact) {
-                            DeckLog.log(dragEvent.getAction() + " moved right");
                             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                             lastSwap = now;
                         }
@@ -143,43 +113,48 @@ public class CrossTabDragAndDrop {
                     //push around the other cards
                     StackAdapter newAdapter1 = ((StackAdapter) viewPager.getAdapter());
                     StackFragment newFragment1 = newAdapter1.getItem(viewPager.getCurrentItem());
-                    final RecyclerView newrecyclerView1 = newFragment1.recyclerView;
+                    RecyclerView currentRecyclerView = getCurrentRecyclerView(viewPager);
+                    View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
-                    View viewUnder = newrecyclerView1.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
-
-                    CardView newCardViewToSearch = null;
-                    DeckLog.log("--- Drag 'n' Drop: Card -----------------------------------------------------------");
-                    for (int i = 0; i < newrecyclerView1.getChildCount(); i++) {
-                        View view = newrecyclerView1.getChildAt(i);
-
-                        DeckLog.log("--- Drag 'n' Drop: Card:" + ((TextView)view.findViewById(R.id.card_title)).getText());
-                        if (view.findViewById(R.id.card).getVisibility()==View.INVISIBLE) {
-                            DeckLog.log("--- Drag 'n' Drop: Card Found:" + ((TextView)view.findViewById(R.id.card_title)).getText());
-                            newCardViewToSearch = (CardView) view;
-                         }
-
-                    }
+                    CardView newCardViewToSearch = findInvisibleCardView(currentRecyclerView);
 
                     if (newCardViewToSearch == null) {
                         return true;
                     }
-                    DeckLog.log("--- Drag 'n' Drop: " + "anzahl elemente in recyclerview: " + newrecyclerView1.getChildCount());
 
                     if (viewUnder != null) {
-                        DeckLog.log("--- +++ " + viewUnder.getClass());
-                        int viewUnderPosition = newrecyclerView1.getChildAdapterPosition(viewUnder);
+                        int viewUnderPosition = currentRecyclerView.getChildAdapterPosition(viewUnder);
                         if (viewUnderPosition != -1) {
-                            Objects.requireNonNull(cardAdapter).moveItem(newrecyclerView1.getChildLayoutPosition(newCardViewToSearch), viewUnderPosition);
+                            Objects.requireNonNull(cardAdapter).moveItem(currentRecyclerView.getChildLayoutPosition(newCardViewToSearch), viewUnderPosition);
                         }
                     }
                     break;
-                case DragEvent.ACTION_DROP:
-                    //todo: hier wird das alte auf visible gesetzt, hier muss analog oben die richtige card wieder rausgesucht werden.
-                    // for (int i = 0; i < newrecyclerView1.getChildCount(); i++) {
+                }
+                case DragEvent.ACTION_DROP: {
+                    CardView cardView = findInvisibleCardView(getCurrentRecyclerView(viewPager));
                     cardView.setVisibility(View.VISIBLE);
                     break;
+                }
             }
             return true;
         });
+    }
+
+    private static CardView findInvisibleCardView(RecyclerView recyclerView){
+        CardView foundView = null;
+
+        for (int i = 0; i < recyclerView.getChildCount(); i++) {
+            View view = recyclerView.getChildAt(i);
+
+            if (view.findViewById(R.id.card).getVisibility() == View.INVISIBLE) {
+                foundView = (CardView) view;
+            }
+
+        }
+        return foundView;
+    }
+
+    private static RecyclerView getCurrentRecyclerView(ViewPager viewPager) {
+        return ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).getRecyclerView();
     }
 }
