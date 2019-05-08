@@ -37,7 +37,7 @@ public class ExceptionActivity extends AppCompatActivity {
         this.message.setText(throwable.getMessage());
         StringBuilder concatenatedStacktrace = new StringBuilder();
         for (StackTraceElement stackTraceElement : throwable.getStackTrace()) {
-            concatenatedStacktrace.append(stackTraceElement.toString());
+            concatenatedStacktrace.append(stackTraceElement.toString()).append("\n");
         }
         this.stacktrace.setText(concatenatedStacktrace);
     }
@@ -49,5 +49,10 @@ public class ExceptionActivity extends AppCompatActivity {
         ClipData clipData = ClipData.newPlainText(getString(R.string.simple_exception), this.stacktrace.getText());
         clipboardManager.setPrimaryClip(clipData);
         Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.close)
+    void close() {
+        finish();
     }
 }

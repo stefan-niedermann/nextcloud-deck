@@ -24,5 +24,4 @@
     <dimen name="drawer_header_text">14sp</dimen>
     <dimen name="drawer_header_subtext">12sp</dimen>
     <dimen name="text_size_attachments">14sp</dimen>
-    <dimen name="error_image">48dp</dimen>
 </resources>
