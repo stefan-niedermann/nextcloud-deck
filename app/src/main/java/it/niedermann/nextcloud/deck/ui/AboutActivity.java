@@ -1,12 +1,14 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.tabs.TabLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -14,6 +16,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.ui.about.AboutFragmentContributingTab;
 import it.niedermann.nextcloud.deck.ui.about.AboutFragmentCreditsTab;
 import it.niedermann.nextcloud.deck.ui.about.AboutFragmentLicenseTab;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -25,6 +28,7 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
 
