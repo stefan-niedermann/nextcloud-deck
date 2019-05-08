@@ -77,7 +77,7 @@ public class MainActivity extends DrawerActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         //TODO replace nulls
-        new CrossTabDragAndDrop().register(this, viewPager);
+        new CrossTabDragAndDrop(this).register(viewPager);
 
 //        viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
 //            Log.d("Deck", "Drag: "+ dragEvent.getAction());
@@ -297,7 +297,7 @@ public class MainActivity extends DrawerActivity {
                 stackAdapter.clear();
                 for (int i = 0; i < fullStacks.size(); i++) {
                     FullStack stack = fullStacks.get(i);
-                    stackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle() + " #" + stack.getLocalId());
+                    stackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
                     if (stack.getLocalId() == savedStackId) {
                         stackPositionInAdapter = i;
                     }

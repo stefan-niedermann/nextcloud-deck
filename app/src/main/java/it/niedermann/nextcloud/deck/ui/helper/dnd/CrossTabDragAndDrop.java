@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
+import android.app.Activity;
 import android.graphics.Point;
 import android.view.DragEvent;
 import android.view.View;
@@ -12,28 +13,23 @@ import androidx.viewpager.widget.ViewPager;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 
 public class CrossTabDragAndDrop {
 
+    private final Activity activity;
     private final int pxToReact;
     private final long msToReact;
     private long lastSwap = 0;
 
-    public CrossTabDragAndDrop() {
-        this.pxToReact = 20;
-        this.msToReact = 500;
+    public CrossTabDragAndDrop(Activity activity) {
+        this.activity = activity;
+        this.pxToReact = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react);
+        this.msToReact = activity.getResources().getInteger(R.integer.drag_n_drop_ms_to_react);
     }
 
-    public CrossTabDragAndDrop(int pixelsUntilLeftRightReaction, long millisTimeoutForSwappingTab) {
-        this.pxToReact = pixelsUntilLeftRightReaction;
-        this.msToReact = millisTimeoutForSwappingTab;
-    }
-
-    public void register(final MainActivity mainActivity, final ViewPager viewPager) {
-
+    public void register(final ViewPager viewPager) {
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
 
             switch (dragEvent.getAction()) {
@@ -48,7 +44,7 @@ public class CrossTabDragAndDrop {
                     CardAdapter cardAdapter = (CardAdapter) currentRecyclerView.getAdapter();
 
                     Point size = new Point();
-                    mainActivity.getWindowManager().getDefaultDisplay().getSize(size);
+                    activity.getWindowManager().getDefaultDisplay().getSize(size);
 
                     FullCard itemToMove = null;
                     long now = System.currentTimeMillis();
