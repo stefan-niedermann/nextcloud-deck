@@ -10,6 +10,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import java.util.Objects;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -19,13 +21,13 @@ import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 public class CrossTabDragAndDrop {
 
     private final Activity activity;
-    private final int pxToReact;
+    private final float pxToReact;
     private final long msToReact;
     private long lastSwap = 0;
 
     public CrossTabDragAndDrop(Activity activity) {
         this.activity = activity;
-        this.pxToReact = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react);
+        this.pxToReact = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react) * activity.getResources().getDisplayMetrics().density;
         this.msToReact = activity.getResources().getInteger(R.integer.drag_n_drop_ms_to_react);
     }
 
@@ -82,26 +84,16 @@ public class CrossTabDragAndDrop {
                     View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
                     if (viewUnder != null) {
-                        int newPosition = currentRecyclerView.getChildAdapterPosition(viewUnder);
-                        int currentPosition = currentRecyclerView.getChildAdapterPosition(newCardViewToSearch);
-                        if (newPosition != currentPosition) {
-                            currentRecyclerView.scrollToPosition(newPosition);
-                            DeckLog.log("dnd moving: "+newPosition);
-                            cardAdapter.moveItem(currentPosition, newPosition);
+                        int viewUnderPosition = currentRecyclerView.getChildAdapterPosition(viewUnder);
+                        if (viewUnderPosition != -1) {
+                            Objects.requireNonNull(cardAdapter).moveItem(currentRecyclerView.getChildLayoutPosition(newCardViewToSearch), viewUnderPosition);
                         }
-
-                    } else {
-                        DeckLog.log("dnd viewUnder is null!");
                     }
                     break;
                 }
                 case DragEvent.ACTION_DROP: {
                     RecyclerView currentRecyclerView = getCurrentRecyclerView(viewPager);
                     CardView cardView = findInvisibleCardView(currentRecyclerView);
-                    if (cardView==null){
-                        DeckLog.log("dnd cardview is null. bye.");
-                        return true;
-                    }
                     cardView.setVisibility(View.VISIBLE);
                     break;
                 }
@@ -120,7 +112,15 @@ public class CrossTabDragAndDrop {
         View firstVisibleView = recyclerView.getChildAt(0);
         int positionToInsert = firstVisibleView == null ? 0 : recyclerView.getChildAdapterPosition(firstVisibleView);
 
-        DeckLog.log("dnd adding item at "+positionToInsert);
+//        //already present?
+//        for (int i = 0; i < cardAdapter.getItemCount(); i++) {
+//            FullCard fullCard = cardAdapter.getItem(i);
+//            if (itemToMove.getCard().getLocalId().equals(fullCard.getCard().getLocalId())){
+//                cardAdapter.removeItem(i);
+//                DeckLog.log("dnd removed afterwards");
+//            }
+//        }
+
 
         cardAdapter.addItem(itemToMove, positionToInsert);
 
@@ -130,7 +130,7 @@ public class CrossTabDragAndDrop {
                 recyclerView.removeOnChildAttachStateChangeListener(this);
                 CardView cardView = (CardView) view;
                 cardView.setVisibility(View.INVISIBLE);
-                DeckLog.log("dnd there it is! pos: "+positionToInsert);
+                DeckLog.log("dnd there it is! pos: " + positionToInsert);
             }
 
             @Override
@@ -170,6 +170,7 @@ public class CrossTabDragAndDrop {
         FullCard itemToMove = cardAdapter.getItem(oldCardPosition);
 
         cardAdapter.removeItem(oldCardPosition);
+        DeckLog.log("DnD: removed " + itemToMove);
 
         return itemToMove;
     }
