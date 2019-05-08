@@ -124,6 +124,7 @@ public class CrossTabDragAndDrop {
 //            }
 //        }
 
+
         cardAdapter.addItem(itemToMove, positionToInsert);
 
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
@@ -140,6 +141,7 @@ public class CrossTabDragAndDrop {
         });
 
         cardAdapter.notifyItemInserted(positionToInsert);
+        cardAdapter.notifyItemChanged(positionToInsert);
 
         lastSwap = now;
     }
