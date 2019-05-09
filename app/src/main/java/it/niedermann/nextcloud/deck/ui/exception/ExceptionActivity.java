@@ -33,6 +33,7 @@ public class ExceptionActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         throwable = ((Throwable) getIntent().getSerializableExtra(KEY_THROWABLE));
+        throwable.printStackTrace();
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.error));
         this.message.setText(throwable.getMessage());
         StringBuilder concatenatedStacktrace = new StringBuilder();
