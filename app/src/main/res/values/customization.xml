@@ -5,7 +5,7 @@
     <!-- How many characters of the labels are displayed at the card list view -->
     <integer name="max_labels_chars">2</integer>
     <!-- How many microseconds should be waited before switching to another tab when dragging cards -->
-    <integer name="drag_n_drop_ms_to_react">500</integer>
+    <integer name="drag_n_drop_ms_to_react">700</integer>
     <!-- How many dp from border should one be away before switching to another tab when dragging cards -->
     <integer name="drag_n_drop_dp_to_react">20</integer>
 </resources>

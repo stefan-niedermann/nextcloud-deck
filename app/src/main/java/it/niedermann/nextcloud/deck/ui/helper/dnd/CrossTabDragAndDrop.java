@@ -31,16 +31,17 @@ public class CrossTabDragAndDrop {
     public void register(final ViewPager viewPager) {
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
 
-            DraggedCardData draggedCardData = (DraggedCardData) dragEvent.getLocalState();
-            CardView cardView = draggedCardData.getDraggedView();
+            DraggedCardLocalState draggedCardLocalState = (DraggedCardLocalState) dragEvent.getLocalState();
+            CardView cardView = draggedCardLocalState.getDraggedView();
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED: {
                     cardView.setVisibility(View.INVISIBLE);
+                    draggedCardLocalState.setRecyclerView(((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).getRecyclerView());
                     break;
                 }
                 case DragEvent.ACTION_DRAG_LOCATION: {
-                    RecyclerView currentRecyclerView = getCurrentRecyclerView(viewPager);
-                    CardAdapter cardAdapter = draggedCardData.getCardAdapter();
+                    RecyclerView currentRecyclerView = draggedCardLocalState.getRecyclerView();
+                    CardAdapter cardAdapter = draggedCardLocalState.getCardAdapter();
 
                     Point size = new Point();
                     activity.getWindowManager().getDefaultDisplay().getSize(size);
@@ -63,25 +64,22 @@ public class CrossTabDragAndDrop {
 
                         if (shouldSwitchTab && isMovePossible(viewPager, newTabPosition)) {
                             removeItem(currentRecyclerView, cardView, cardAdapter);
-                            moveCardToTab(viewPager, draggedCardData, now, newTabPosition);
+                            moveCardToTab(viewPager, draggedCardLocalState, now, newTabPosition);
                             return true;
                         }
                     }
 
                     //push around the other cards
-
-//                    DeckLog.log("dnd card count:" + ((CardAdapter) currentRecyclerView.getAdapter()).getCardList().size());
-
-//                    if (cardView == null) {
-////                        DeckLog.log("dnd skipping");
-//                        return true;
-//                    }
                     View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
                     if (viewUnder != null) {
-                        int viewUnderPosition = currentRecyclerView.getChildAdapterPosition(viewUnder);
-                        if (viewUnderPosition != -1) {
-                            cardAdapter.moveItem(currentRecyclerView.getChildLayoutPosition(cardView), viewUnderPosition);
+                        int toPositon = currentRecyclerView.getChildAdapterPosition(viewUnder);
+                        if (toPositon != -1) {
+                            int fromPosition = currentRecyclerView.getChildAdapterPosition(cardView);
+                            if (fromPosition != -1) {
+                                cardAdapter.moveItem(fromPosition, toPositon);
+                                draggedCardLocalState.setPositionInCardAdapter(toPositon);
+                            }
                         }
                     }
                     break;
@@ -95,32 +93,35 @@ public class CrossTabDragAndDrop {
         });
     }
 
-    private void moveCardToTab(ViewPager viewPager, final DraggedCardData draggedCardData, long now, int newPosition) {
+    private void moveCardToTab(ViewPager viewPager, final DraggedCardLocalState draggedCardLocalState, long now, int newPosition) {
         viewPager.setCurrentItem(newPosition);
+        draggedCardLocalState.onTabChanged(viewPager, newPosition);
 
-        final RecyclerView recyclerView = getCurrentRecyclerView(viewPager);
-        CardAdapter cardAdapter = (CardAdapter) recyclerView.getAdapter();
+        final RecyclerView recyclerView = draggedCardLocalState.getRecyclerView();
+        CardAdapter cardAdapter = draggedCardLocalState.getCardAdapter();
 
         //insert card in new tab
         View firstVisibleView = recyclerView.getChildAt(0);
-        int positionToInsert = firstVisibleView == null ? 0 : recyclerView.getChildAdapterPosition(firstVisibleView);
+        int positionToInsert = firstVisibleView == null ? 0 : recyclerView.getChildAdapterPosition(firstVisibleView)+1;
 
-        cardAdapter.addItem(draggedCardData.getDraggedCard(), positionToInsert);
+        cardAdapter.addItem(draggedCardLocalState.getDraggedCard(), positionToInsert);
 
-        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+        RecyclerView.OnChildAttachStateChangeListener onChildAttachStateChangeListener = new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(@NonNull View view) {
                 recyclerView.removeOnChildAttachStateChangeListener(this);
+                draggedCardLocalState.setInsertedListener(null);
                 CardView cardView = (CardView) view;
                 cardView.setVisibility(View.INVISIBLE);
-                draggedCardData.setDraggedView(cardView);
-                draggedCardData.setCardAdapter((CardAdapter) recyclerView.getAdapter());
+                draggedCardLocalState.setDraggedView(cardView);
                 DeckLog.log("dnd there it is! pos: " + positionToInsert);
             }
 
             @Override
             public void onChildViewDetachedFromWindow(@NonNull View view) {/* do nothing */}
-        });
+        };
+        draggedCardLocalState.setInsertedListener(onChildAttachStateChangeListener);
+        recyclerView.addOnChildAttachStateChangeListener(onChildAttachStateChangeListener);
 
         cardAdapter.notifyItemInserted(positionToInsert);
         cardAdapter.notifyItemChanged(positionToInsert);
@@ -132,16 +133,13 @@ public class CrossTabDragAndDrop {
         return newPosition < viewPager.getAdapter().getCount() && newPosition >= 0;
     }
 
-    private static RecyclerView getCurrentRecyclerView(ViewPager viewPager) {
-        return ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).getRecyclerView();
-    }
-
     private static void removeItem(RecyclerView currentRecyclerView, CardView cardView, CardAdapter cardAdapter) {
-
         int oldCardPosition = currentRecyclerView.getChildAdapterPosition(cardView);
         DeckLog.log("DnD: removing! pos: " + oldCardPosition + " | " + cardView);
 
-        cardAdapter.removeItem(oldCardPosition);
-        DeckLog.log("DnD: removed");
+        if (oldCardPosition != -1){
+            cardAdapter.removeItem(oldCardPosition);
+            DeckLog.log("DnD: removed");
+        } else DeckLog.log("DnD: wasnt present to remove");
     }
 }
