@@ -31,7 +31,7 @@ import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,6 +43,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
+import it.niedermann.nextcloud.deck.ui.helper.dnd.DraggedCardLocalState;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
@@ -61,7 +62,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public static final int MAX_AVATAR_COUNT = 3;
 
     private Context context;
-    private List<FullCard> cardList = new ArrayList<>();
+    private List<FullCard> cardList = new LinkedList<>();
     private SingleSignOnAccount account;
     private long boardId;
 
@@ -109,7 +110,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             // Starts the drag
             draggedView.startDrag(dragData,  // the data to be dragged
                     new View.DragShadowBuilder(draggedView),  // the drag shadow builder
-                    draggedView,      // no need to use local data
+                    new DraggedCardLocalState(card, viewHolder.card, this, position),      // no need to use local data
                     0          // flags (not currently used, set to 0)
             );
             viewHolder.card.setVisibility(View.INVISIBLE);
