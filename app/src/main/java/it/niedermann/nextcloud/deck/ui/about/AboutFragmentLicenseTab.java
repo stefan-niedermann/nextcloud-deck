@@ -36,7 +36,7 @@ public class AboutFragmentLicenseTab extends Fragment {
         View v = inflater.inflate(R.layout.fragment_about_license_tab, container, false);
         ButterKnife.bind(this, v);
         Resources resources = getResources();
-        LinkUtil.setHtmlFromStringResources(iconsDisclaimer,
+        LinkUtil.setHtml(iconsDisclaimer,
                 resources.getString(R.string.paragraph_start),
                 resources.getString(R.string.about_icons_disclaimer, getAppIconHint(resources), getMdiLink(resources)),
                 resources.getString(R.string.paragraph_end)
@@ -44,13 +44,13 @@ public class AboutFragmentLicenseTab extends Fragment {
         return v;
     }
 
-    private String getAppIconHint(Resources resources) {
+    private static String getAppIconHint(Resources resources) {
         return LinkUtil.makeLink(resources, R.string.url_about_icon_author, R.string.about_app_icon_author_link_label) +
                 resources.getString(R.string.paragraph_end) +
                 resources.getString(R.string.paragraph_start);
     }
 
-    private String getMdiLink(Resources resources) {
+    private static String getMdiLink(Resources resources) {
         return LinkUtil.makeLink(resources, R.string.url_about_icons_disclaimer_mdi, R.string.about_icons_disclaimer_mdi);
     }
 }

@@ -29,17 +29,17 @@ public class AboutFragmentContributingTab extends Fragment {
         View v = inflater.inflate(R.layout.fragment_about_contribution_tab, container, false);
         Resources resources = v.getResources();
         ButterKnife.bind(this, v);
-        LinkUtil.setHtmlFromStringResources(aboutSource,
+        LinkUtil.setHtml(aboutSource,
                 resources.getString(
                         R.string.about_source,
                         LinkUtil.makeLink(resources, R.string.url_source, R.string.url_source)
                 ));
-        LinkUtil.setHtmlFromStringResources(aboutIssues,
+        LinkUtil.setHtml(aboutIssues,
                 resources.getString(
                         R.string.about_issues,
                         LinkUtil.makeLink(resources, R.string.url_issues, R.string.url_issues)
                 ));
-        LinkUtil.setHtmlFromStringResources(aboutTranslate,
+        LinkUtil.setHtml(aboutTranslate,
                 resources.getString(
                         R.string.about_translate,
                         LinkUtil.makeLink(resources, R.string.url_translations, R.string.url_translations)

@@ -32,22 +32,10 @@ public final class LinkUtil {
     /**
      * Fills a {@link TextView} with HTML content and activates links in that {@link TextView}.
      *
-     * @param view       The {@link TextView} which should be filled.
-     * @param stringId   The string resource containing HTML tags (escaped by <code>&lt;</code>)
-     * @param formatArgs Arguments for the string resource.
-     */
-    public static void setHtml(TextView view, int stringId, Object... formatArgs) {
-        view.setText(LinkUtil.fromHtml(view.getResources().getString(stringId, formatArgs)));
-        view.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-    /**
-     * Fills a {@link TextView} with HTML content and activates links in that {@link TextView}.
-     *
      * @param view      The {@link TextView} which should be filled.
      * @param stringIds The string resource containing HTML tags (escaped by <code>&lt;</code>)
      */
-    public static void setHtmlFromStringResources(TextView view, String... stringIds) {
+    public static void setHtml(TextView view, String... stringIds) {
 
         StringBuilder sb = new StringBuilder();
         for (String arg : stringIds) {

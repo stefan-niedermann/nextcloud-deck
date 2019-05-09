@@ -55,16 +55,6 @@
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">License</string>
 
-    <!-- URLs -->
-    <string translatable="false" name="url_maintainer">https://www.niedermann.it/</string>
-    <string translatable="false" name="url_about_icon_author">https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1</string>
-    <string translatable="false" name="url_source">https://github.com/stefan-niedermann/nextcloud-deck</string>
-    <string translatable="false" name="url_issues">https://github.com/stefan-niedermann/nextcloud-deck/issues</string>
-    <string translatable="false" name="url_license">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
-    <string translatable="false" name="url_translations">https://www.transifex.com/nextcloud/nextcloud/</string>
-    <string translatable="false" name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-    <string translatable="false" name="url_about_icons_disclaimer_mdi">https://materialdesignicons.com/</string>
-
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
     <string name="label_title">Title</string>
@@ -98,11 +88,23 @@
     <string name="label_create">Create %1$s</string>
     <string name="no_columns_available">No columns available</string>
 
+    <!-- URLs -->
+    <string translatable="false" name="url_maintainer">https://www.niedermann.it/</string>
+    <string translatable="false" name="url_about_icon_author">https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1</string>
+    <string translatable="false" name="url_source">https://github.com/stefan-niedermann/nextcloud-deck</string>
+    <string translatable="false" name="url_issues">https://github.com/stefan-niedermann/nextcloud-deck/issues</string>
+    <string translatable="false" name="url_license">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
+    <string translatable="false" name="url_translations">https://www.transifex.com/nextcloud/nextcloud/</string>
+    <string translatable="false" name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+    <string translatable="false" name="url_about_icons_disclaimer_mdi">https://materialdesignicons.com/</string>
+
+    <!-- HTML Tags -->
+
     <string translatable="false" name="anchor_start">&lt;a href="</string>
     <string translatable="false" name="anchor_middle">"></string>
     <string translatable="false" name="anchor_end">&lt;/a></string>
     <string translatable="false" name="paragraph_start">&lt;p></string>
-    <string translatable="false" name="paragraph_end">&lt;p></string>
+    <string translatable="false" name="paragraph_end">&lt;/p></string>
     <string translatable="false" name="strong_start">&lt;strong></string>
-    <string translatable="false" name="strong_end">&lt;strong></string>
+    <string translatable="false" name="strong_end">&lt;/strong></string>
 </resources>
