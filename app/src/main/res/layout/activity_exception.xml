@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/standard_margin">
 
@@ -10,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/standard_margin"
             android:layout_weight="1"
-            android:drawableEnd="@drawable/ic_bug_report_black_24dp"
-            android:drawableRight="@drawable/ic_bug_report_black_24dp"
+            app:drawableRightCompat="@drawable/ic_bug_report_black_24dp"
+            app:drawableEndCompat="@drawable/ic_bug_report_black_24dp"
             android:hint="An error appeared."
             tools:ignore="HardcodedText" />
 
