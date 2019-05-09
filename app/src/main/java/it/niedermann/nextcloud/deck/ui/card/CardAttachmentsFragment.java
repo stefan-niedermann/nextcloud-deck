@@ -69,7 +69,7 @@ public class CardAttachmentsFragment extends Fragment {
     }
 
     private void setupView(long accountId, long localId, long boardId) {
-        SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()).getApplicationContext(), getActivity());
+        SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
         syncManager.getCardByLocalId(accountId, localId).observe(CardAttachmentsFragment.this, (fullCard) -> {
             if (fullCard.getAttachments().size() == 0) {
                 this.noAttachments.setVisibility(View.VISIBLE);

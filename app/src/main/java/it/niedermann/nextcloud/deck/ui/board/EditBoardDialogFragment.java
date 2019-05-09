@@ -43,7 +43,7 @@ public class EditBoardDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
         Long boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
         Long accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
-        SyncManager syncManager = new SyncManager(activity.getApplicationContext(), activity);
+        SyncManager syncManager = new SyncManager(activity);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
 

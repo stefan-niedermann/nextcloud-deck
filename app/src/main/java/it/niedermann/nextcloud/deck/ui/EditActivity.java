@@ -98,7 +98,7 @@ public class EditActivity extends AppCompatActivity {
             boardId = extras.getLong(BUNDLE_KEY_BOARD_ID);
             stackId = extras.getLong(BUNDLE_KEY_STACK_ID);
             localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
-            syncManager = new SyncManager(getApplicationContext(), this);
+            syncManager = new SyncManager(this);
 
             if (NO_LOCAL_ID.equals(localId)) {
                 Objects.requireNonNull(actionBar).setTitle(getString(R.string.create_card));

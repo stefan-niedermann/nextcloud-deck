@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,12 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
@@ -18,11 +25,6 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -32,17 +34,17 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
-    private Context context;
+    private Context activity;
     private List<User> userList = new ArrayList<>();
     private SyncManager syncManager;
     private long accountId;
     private LifecycleOwner owner;
 
-    public UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Context context, long accountId) {
+    public UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId) {
         this.owner = owner;
-        this.context = context;
+        this.activity = activity;
         this.accountId = accountId;
-        syncManager = new SyncManager(context,null);
+        syncManager = new SyncManager(activity);
     }
 
     @Override
@@ -66,7 +68,7 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            LayoutInflater inflater = (LayoutInflater) context
+            LayoutInflater inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.dropdown_item_singleline, parent, false);
             holder = new ViewHolder(convertView);
@@ -74,9 +76,9 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
         }
 
         try {
-            SingleSignOnAccount account =  SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+            SingleSignOnAccount account =  SingleAccountHelper.getCurrentSingleSignOnAccount(activity);
             ViewUtil.addAvatar(
-                    context,
+                    activity,
                     holder.icon,
                     account.url,
                     getItem(position).getUid()
