@@ -1,10 +1,13 @@
 package it.niedermann.nextcloud.deck.util;
 
+import android.content.res.Resources;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
+
+import it.niedermann.nextcloud.deck.R;
 
 public final class LinkUtil {
     private LinkUtil() {
@@ -29,12 +32,39 @@ public final class LinkUtil {
     /**
      * Fills a {@link TextView} with HTML content and activates links in that {@link TextView}.
      *
-     * @param view       The {@link TextView} which should be filled.
-     * @param stringId   The string resource containing HTML tags (escaped by <code>&lt;</code>)
-     * @param formatArgs Arguments for the string resource.
+     * @param view      The {@link TextView} which should be filled.
+     * @param stringIds The string resource containing HTML tags (escaped by <code>&lt;</code>)
      */
-    public static void setHtml(TextView view, int stringId, Object... formatArgs) {
-        view.setText(LinkUtil.fromHtml(view.getResources().getString(stringId, formatArgs)));
+    public static void setHtml(TextView view, String... stringIds) {
+
+        StringBuilder sb = new StringBuilder();
+        for (String arg : stringIds) {
+            sb.append(arg);
+        }
+
+        view.setText(LinkUtil.fromHtml(sb.toString()));
         view.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    public static String concatenateResources(Resources resources, int... stringIds) {
+        StringBuilder sb = new StringBuilder();
+        for (int arg : stringIds) {
+            sb.append(resources.getString(arg));
+        }
+        return sb.toString();
+    }
+
+    public static String makeLink(Resources resources, String linkURL, String linkText) {
+        return new StringBuilder()
+                .append(resources.getString(R.string.anchor_start))
+                .append(linkURL)
+                .append(resources.getString(R.string.anchor_middle))
+                .append(linkText)
+                .append(resources.getString(R.string.anchor_end))
+                .toString();
+    }
+
+    public static String makeLink(Resources resources, int linkURL, int linkText) {
+        return makeLink(resources, resources.getString(linkURL), resources.getString(linkText));
     }
 }

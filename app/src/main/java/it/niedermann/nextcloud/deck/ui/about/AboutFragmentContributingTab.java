@@ -1,11 +1,14 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
+import android.content.res.Resources;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,12 +25,25 @@ public class AboutFragmentContributingTab extends Fragment {
     TextView aboutTranslate;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about_contribution_tab, container, false);
+        Resources resources = v.getResources();
         ButterKnife.bind(this, v);
-        LinkUtil.setHtml(aboutSource, R.string.about_source, getString(R.string.url_source));
-        LinkUtil.setHtml(aboutIssues, R.string.about_issues, getString(R.string.url_issues));
-        LinkUtil.setHtml(aboutTranslate, R.string.about_translate, getString(R.string.url_translations));
+        LinkUtil.setHtml(aboutSource,
+                resources.getString(
+                        R.string.about_source,
+                        LinkUtil.makeLink(resources, R.string.url_source, R.string.url_source)
+                ));
+        LinkUtil.setHtml(aboutIssues,
+                resources.getString(
+                        R.string.about_issues,
+                        LinkUtil.makeLink(resources, R.string.url_issues, R.string.url_issues)
+                ));
+        LinkUtil.setHtml(aboutTranslate,
+                resources.getString(
+                        R.string.about_translate,
+                        LinkUtil.makeLink(resources, R.string.url_translations, R.string.url_translations)
+                ));
         return v;
     }
 }

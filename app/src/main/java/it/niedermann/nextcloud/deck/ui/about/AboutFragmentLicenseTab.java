@@ -1,14 +1,17 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,10 +32,25 @@ public class AboutFragmentLicenseTab extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about_license_tab, container, false);
         ButterKnife.bind(this, v);
-        LinkUtil.setHtml(iconsDisclaimer, R.string.about_icons_disclaimer, getString(R.string.about_app_icon_author));
+        Resources resources = getResources();
+        LinkUtil.setHtml(iconsDisclaimer,
+                resources.getString(R.string.paragraph_start),
+                resources.getString(R.string.about_icons_disclaimer, getAppIconHint(resources), getMdiLink(resources)),
+                resources.getString(R.string.paragraph_end)
+        );
         return v;
+    }
+
+    private static String getAppIconHint(Resources resources) {
+        return LinkUtil.makeLink(resources, R.string.url_about_icon_author, R.string.about_app_icon_author_link_label) +
+                resources.getString(R.string.paragraph_end) +
+                resources.getString(R.string.paragraph_start);
+    }
+
+    private static String getMdiLink(Resources resources) {
+        return LinkUtil.makeLink(resources, R.string.url_about_icons_disclaimer_mdi, R.string.about_icons_disclaimer_mdi);
     }
 }
