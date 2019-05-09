@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -25,7 +24,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
-import it.niedermann.nextcloud.deck.ui.card.CardItemTouchHelper;
 
 public class StackFragment extends Fragment {
 
@@ -122,8 +120,8 @@ public class StackFragment extends Fragment {
         adapter = new CardAdapter(boardId);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ItemTouchHelper touchHelper = new CardItemTouchHelper(adapter);
-        touchHelper.attachToRecyclerView(recyclerView);
+//        ItemTouchHelper touchHelper = new CardItemTouchHelper(adapter);
+//        touchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void runOnUiThread(Runnable r) {

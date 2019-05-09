@@ -43,6 +43,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
+import it.niedermann.nextcloud.deck.ui.helper.dnd.DraggedCardData;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
@@ -109,7 +110,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             // Starts the drag
             draggedView.startDrag(dragData,  // the data to be dragged
                     new View.DragShadowBuilder(draggedView),  // the drag shadow builder
-                    draggedView,      // no need to use local data
+                    new DraggedCardData(card, viewHolder.card, this),      // no need to use local data
                     0          // flags (not currently used, set to 0)
             );
             viewHolder.card.setVisibility(View.INVISIBLE);
