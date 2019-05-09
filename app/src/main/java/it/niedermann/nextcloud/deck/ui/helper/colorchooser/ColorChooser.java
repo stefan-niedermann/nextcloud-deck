@@ -13,7 +13,6 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -64,12 +63,10 @@ public class ColorChooser extends LinearLayout {
     }
 
     public void selectColor(String newColor) {
-        DeckLog.log("colorchooser: to set " + newColor);
         for (int i = 0; i < colors.length; i++) {
-            DeckLog.log("colorchooser: check " + colors[i]);
             if (colors[i].equals(newColor)) {
-                DeckLog.log("colorchooser: found " + newColor);
                 colorPicker.getChildAt(i).performClick();
+                return;
             }
         }
     }
