@@ -76,41 +76,7 @@ public class MainActivity extends DrawerActivity {
         //TODO limit this call only to lower API levels like KitKat because they crash without
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        //TODO replace nulls
         new CrossTabDragAndDrop(this).register(viewPager);
-
-//        viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
-//            Log.d("Deck", "Drag: "+ dragEvent.getAction());
-//            if(dragEvent.getAction() == 4)
-//                Log.d("Deck", dragEvent.getAction() + "");
-//
-//            View view = (View) dragEvent.getLocalState();
-//            RecyclerView owner = (RecyclerView) view.getParent();
-//            CardAdapter cardAdapter = (CardAdapter) owner.getAdapter();
-//
-//            switch(dragEvent.getAction()) {
-//                case DragEvent.ACTION_DRAG_LOCATION:
-//                    Point size = new Point();
-//                    getWindowManager().getDefaultDisplay().getSize(size);
-//                    if(dragEvent.getX() <= 20) {
-//                        Log.d("Deck", dragEvent.getAction() + " moved left");
-//                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-//                    } else if(dragEvent.getX() >= size.x - 20) {
-//                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-//                        Log.d("Deck", dragEvent.getAction() + " moved right");
-//                    }
-//                    int viewUnderPosition = owner.getChildAdapterPosition(owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY()));
-//                    if(viewUnderPosition != -1) {
-//                        Log.d("Deck", dragEvent.getAction() + " moved something...");
-//                        cardAdapter.moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
-//                    }
-//                    break;
-//                case DragEvent.ACTION_DROP:
-//                    view.setVisibility(View.VISIBLE);
-//                    break;
-//            }
-//            return true;
-//        });
 
         fab.setOnClickListener((View view) -> {
             Intent intent = new Intent(this, EditActivity.class);
