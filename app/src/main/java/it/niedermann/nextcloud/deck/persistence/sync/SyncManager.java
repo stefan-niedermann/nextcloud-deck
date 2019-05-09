@@ -40,15 +40,12 @@ public class SyncManager {
 
     private DataBaseAdapter dataBaseAdapter;
     private ServerAdapter serverAdapter;
-    private Context applicationContext;
-    private Activity sourceActivity;
 
-    public SyncManager(Context applicationContext, Activity sourceActivity) {
-        this.applicationContext = applicationContext.getApplicationContext();
-        this.sourceActivity = sourceActivity;
+    public SyncManager(Activity sourceActivity) {
+        Context applicationContext = sourceActivity.getApplicationContext();
         LastSyncUtil.init(applicationContext);
-        dataBaseAdapter = new DataBaseAdapter(this.applicationContext);
-        this.serverAdapter = new ServerAdapter(this.applicationContext, sourceActivity);
+        dataBaseAdapter = new DataBaseAdapter(applicationContext);
+        this.serverAdapter = new ServerAdapter(applicationContext, sourceActivity);
     }
 
     private void doAsync(Runnable r) {

@@ -82,7 +82,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        syncManager = new SyncManager(getApplicationContext(), this);
+        syncManager = new SyncManager(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         syncManager.hasAccounts().observe(this, (Boolean hasAccounts) -> {
@@ -95,7 +95,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             this.account = accounts.get(lastAccount);
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             setHeaderView();
-                            syncManager = new SyncManager(getApplicationContext(), this);
+                            syncManager = new SyncManager(this);
                             ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
                             // TODO show spinner
                             syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {

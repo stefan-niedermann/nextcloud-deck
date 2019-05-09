@@ -75,7 +75,7 @@ public class StackFragment extends Fragment {
         initRecyclerView();
 
         if (getActivity() != null) {
-            syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
+            syncManager = new SyncManager(getActivity());
 
             swipeRefreshLayout.setOnRefreshListener(() -> {
                 syncManager.synchronize(new IResponseCallback<Boolean>(account) {

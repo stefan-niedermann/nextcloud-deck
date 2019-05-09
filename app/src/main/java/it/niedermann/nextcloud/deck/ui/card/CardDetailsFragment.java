@@ -146,7 +146,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupView(long accountId, long localId, long boardId) {
-        syncManager = new SyncManager(Objects.requireNonNull(getActivity()).getApplicationContext(), getActivity());
+        syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
 
         this.fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
         this.fullCardViewModel.fullCard.observe(CardDetailsFragment.this, (FullCard card) -> {
@@ -223,7 +223,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupLabels(long accountId, long boardId) {
-        labels.setAdapter(new LabelAutoCompleteAdapter(this, getContext(), accountId, boardId));
+        labels.setAdapter(new LabelAutoCompleteAdapter(this, getActivity(), accountId, boardId));
         labels.setOnItemClickListener((adapterView, view, position, id) -> {
             Label label = (Label) adapterView.getItemAtPosition(position);
             if (LabelAutoCompleteAdapter.CREATE_ID == label.getId()) {
@@ -284,7 +284,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     private void setupPeople(long accountId) {
         people.setThreshold(2);
-        people.setAdapter(new UserAutoCompleteAdapter(this, getContext(), accountId));
+        people.setAdapter(new UserAutoCompleteAdapter(this, getActivity(), accountId));
         people.setOnItemClickListener((adapterView, view, position, id) -> {
             User user = (User) adapterView.getItemAtPosition(position);
 
