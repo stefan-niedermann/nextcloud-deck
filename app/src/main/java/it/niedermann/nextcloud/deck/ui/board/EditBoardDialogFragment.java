@@ -64,6 +64,7 @@ public class EditBoardDialogFragment extends DialogFragment {
         if (NO_BOARD_ID.equals(boardId)) {
             dialogBuilder.setTitle(R.string.create_board);
             dialogBuilder.setPositiveButton(R.string.simple_create, (dialog, which) -> ((MainActivity) getActivity()).onCreateBoard(boardTitle.getText().toString(), selectedColor));
+            this.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & getResources().getColor(R.color.board_default_color)));
         } else {
             dialogBuilder.setTitle(R.string.edit_board);
             dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
@@ -77,7 +78,7 @@ public class EditBoardDialogFragment extends DialogFragment {
                 if (fb.board != null) {
                     this.fullBoard = fb;
                     this.boardTitle.setText(this.fullBoard.getBoard().getTitle());
-                    this.colorChooser.setColor(fullBoard.getBoard().getColor());
+                    this.colorChooser.selectColor("#" + fullBoard.getBoard().getColor());
                 }
             });
         }

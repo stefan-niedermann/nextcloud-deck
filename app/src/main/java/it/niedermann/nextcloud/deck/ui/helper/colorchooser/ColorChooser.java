@@ -21,7 +21,6 @@ public class ColorChooser extends LinearLayout {
 
     private Context context;
     private String[] colors;
-    private String defaultColor;
 
     @BindView(R.id.colorPicker)
     FlexboxLayout colorPicker;
@@ -38,8 +37,6 @@ public class ColorChooser extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ColorChooser, 0, 0);
         colors = getResources().getStringArray(a.getResourceId(R.styleable.ColorChooser_colors, 0));
-        defaultColor = String.format("#%06X", 0xFFFFFF & a.getColor(R.styleable.ColorChooser_defaultColor, getResources().getColor(R.color.board_default_color)));
-        DeckLog.log("colorchooser: " + defaultColor);
         a.recycle();
 
         LayoutInflater inflater = (LayoutInflater) context
@@ -61,23 +58,16 @@ public class ColorChooser extends LinearLayout {
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
             });
-            if (defaultColor != null && color.toLowerCase().equals("#" + defaultColor.toLowerCase())) {
-                this.selectedColor = color;
-                this.previouslySelectedColor = color;
-                this.previouslySelectedImageView = image;
-                image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_check_36dp, color));
-            } else {
-                image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
-            }
+            image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
             colorPicker.addView(image);
         }
     }
 
-    public void setColor(String newColor) {
+    public void selectColor(String newColor) {
         DeckLog.log("colorchooser: to set " + newColor);
-        for(int i = 0; i < colors.length; i++) {
+        for (int i = 0; i < colors.length; i++) {
             DeckLog.log("colorchooser: check " + colors[i]);
-            if(colors[i].equals(newColor)) {
+            if (colors[i].equals(newColor)) {
                 DeckLog.log("colorchooser: found " + newColor);
                 colorPicker.getChildAt(i).performClick();
             }

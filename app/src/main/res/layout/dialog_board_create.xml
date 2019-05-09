@@ -20,7 +20,6 @@
     <it.niedermann.nextcloud.deck.ui.helper.colorchooser.ColorChooser
         android:id="@+id/colorChooser"
         app:colors="@array/board_default_colors"
-        app:defaultColor="@color/board_default_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
