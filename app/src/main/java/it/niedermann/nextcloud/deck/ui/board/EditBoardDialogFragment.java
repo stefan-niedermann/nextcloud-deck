@@ -68,7 +68,7 @@ public class EditBoardDialogFragment extends DialogFragment {
         } else {
             dialogBuilder.setTitle(R.string.edit_board);
             dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
-                this.fullBoard.board.setColor(selectedColor.substring(1));
+                this.fullBoard.board.setColor(colorChooser.getSelectedColor().substring(1));
                 this.fullBoard.board.setTitle(this.boardTitle.getText().toString());
                 ((MainActivity) getActivity()).onUpdateBoard(fullBoard);
             });

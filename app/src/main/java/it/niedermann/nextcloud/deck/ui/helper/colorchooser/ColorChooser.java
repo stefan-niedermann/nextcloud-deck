@@ -75,10 +75,14 @@ public class ColorChooser extends LinearLayout {
     }
 
     public void selectColor(int index) {
-        if(colorPicker.getChildCount() > 0) {
-            colorPicker.getChildAt(0);
+        if(colorPicker.getChildCount() >= index) {
+            colorPicker.getChildAt(index);
         } else {
             throw new IndexOutOfBoundsException("index not available");
         }
+    }
+
+    public String getSelectedColor() {
+        return this.selectedColor;
     }
 }
