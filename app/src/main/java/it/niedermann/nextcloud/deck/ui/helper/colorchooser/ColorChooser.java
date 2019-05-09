@@ -13,12 +13,15 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class ColorChooser extends LinearLayout {
 
     private Context context;
+    private String[] colors;
+    private String defaultColor;
 
     @BindView(R.id.colorPicker)
     FlexboxLayout colorPicker;
@@ -34,18 +37,19 @@ public class ColorChooser extends LinearLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ColorChooser, 0, 0);
-        String[] colors = getResources().getStringArray(a.getResourceId(R.styleable.ColorChooser_colors, 0));
-        String defaultColor = a.getString(R.styleable.ColorChooser_defaultColor);
+        colors = getResources().getStringArray(a.getResourceId(R.styleable.ColorChooser_colors, 0));
+        defaultColor = String.format("#%06X", 0xFFFFFF & a.getColor(R.styleable.ColorChooser_defaultColor, getResources().getColor(R.color.board_default_color)));
+        DeckLog.log("colorchooser: " + defaultColor);
         a.recycle();
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.color_chooser, this, true);
         ButterKnife.bind(this);
-        initDefaultColors(colors, defaultColor);
+        initDefaultColors();
     }
 
-    private void initDefaultColors(String[] colors, String defaultColor) {
+    private void initDefaultColors() {
         for (final String color : colors) {
             ImageView image = new ImageView(getContext());
             image.setOnClickListener((imageView) -> {
@@ -57,7 +61,7 @@ public class ColorChooser extends LinearLayout {
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
             });
-            if(color.toLowerCase().equals("#" + defaultColor.toLowerCase())) {
+            if (defaultColor != null && color.toLowerCase().equals("#" + defaultColor.toLowerCase())) {
                 this.selectedColor = color;
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
@@ -67,18 +71,16 @@ public class ColorChooser extends LinearLayout {
             }
             colorPicker.addView(image);
         }
-
-        // Preselect when create a new board
-//        if(colorPicker.getChildCount() > 0) {
-//            colorPicker.getChildAt(0).performClick();
-//        }
     }
 
-    public void selectColor(int index) {
-        if(colorPicker.getChildCount() >= index) {
-            colorPicker.getChildAt(index);
-        } else {
-            throw new IndexOutOfBoundsException("index not available");
+    public void setColor(String newColor) {
+        DeckLog.log("colorchooser: to set " + newColor);
+        for(int i = 0; i < colors.length; i++) {
+            DeckLog.log("colorchooser: check " + colors[i]);
+            if(colors[i].equals(newColor)) {
+                DeckLog.log("colorchooser: found " + newColor);
+                colorPicker.getChildAt(i).performClick();
+            }
         }
     }
 

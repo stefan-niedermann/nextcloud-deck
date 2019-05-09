@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ColorChooser">
-        <attr name="defaultColor" format="string" />
+        <attr name="defaultColor" format="color" />
         <attr name="colors" format="reference" />
     </declare-styleable>
 </resources>

@@ -62,7 +62,6 @@ public class EditBoardDialogFragment extends DialogFragment {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.activity);
 
         if (NO_BOARD_ID.equals(boardId)) {
-            initColorChooser();
             dialogBuilder.setTitle(R.string.create_board);
             dialogBuilder.setPositiveButton(R.string.simple_create, (dialog, which) -> ((MainActivity) getActivity()).onCreateBoard(boardTitle.getText().toString(), selectedColor));
         } else {
@@ -77,8 +76,8 @@ public class EditBoardDialogFragment extends DialogFragment {
                 DeckLog.log("--- localid | id | " + fb.getLocalId() + " | " + fb.getId());
                 if (fb.board != null) {
                     this.fullBoard = fb;
-                    this.boardTitle.setText(this.fullBoard.board.getTitle());
-                    initColorChooser();
+                    this.boardTitle.setText(this.fullBoard.getBoard().getTitle());
+                    this.colorChooser.setColor(fullBoard.getBoard().getColor());
                 }
             });
         }
@@ -112,10 +111,4 @@ public class EditBoardDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    private void initColorChooser() {
-        // Preselect when create a new board
-        if (fullBoard == null && colorChooser.getChildCount() > 0) {
-            colorChooser.selectColor(0);
-        }
-    }
 }
