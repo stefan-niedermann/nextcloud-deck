@@ -7,6 +7,8 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
+import it.niedermann.nextcloud.deck.R;
+
 public final class LinkUtil {
     private LinkUtil() {
     }
@@ -62,5 +64,19 @@ public final class LinkUtil {
             sb.append(resources.getString(arg));
         }
         return sb.toString();
+    }
+
+    public static String makeLink(Resources resources, String linkURL, String linkText) {
+        return new StringBuilder()
+                .append(resources.getString(R.string.anchor_start))
+                .append(linkURL)
+                .append(resources.getString(R.string.anchor_middle))
+                .append(linkText)
+                .append(resources.getString(R.string.anchor_end))
+                .toString();
+    }
+
+    public static String makeLink(Resources resources, int linkURL, int linkText) {
+        return makeLink(resources, resources.getString(linkURL), resources.getString(linkText));
     }
 }

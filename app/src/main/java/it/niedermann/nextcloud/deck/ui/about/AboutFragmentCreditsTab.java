@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ public class AboutFragmentCreditsTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about_credits_tab, container, false);
         ButterKnife.bind(this, v);
-        LinkUtil.setHtml(aboutVersion, R.string.about_version, "v" + BuildConfig.VERSION_NAME);
+        LinkUtil.setHtmlFromStringResources(aboutVersion, getString(R.string.about_version, getVersionStrongTag(getResources())));
         LinkUtil.setHtmlFromStringResources(aboutMaintainer, LinkUtil.concatenateResources(v.getResources(),
                 R.string.anchor_start, R.string.url_maintainer, R.string.anchor_middle, R.string.about_maintainer, R.string.anchor_end));
         LinkUtil.setHtmlFromStringResources(aboutTranslators,
@@ -35,5 +36,13 @@ public class AboutFragmentCreditsTab extends Fragment {
                         R.string.anchor_start, R.string.url_translations, R.string.anchor_middle, R.string.about_translators_transifex_label, R.string.anchor_end
                 )));
         return v;
+    }
+
+    private String getVersionStrongTag(Resources resources) {
+        return new StringBuilder()
+                .append(resources.getString(R.string.strong_start))
+                .append("v")
+                .append(BuildConfig.VERSION_NAME)
+                .append(resources.getString(R.string.strong_end)).toString();
     }
 }

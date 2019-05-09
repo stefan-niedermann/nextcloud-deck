@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import butterknife.BindView;
@@ -24,22 +25,25 @@ public class AboutFragmentContributingTab extends Fragment {
     TextView aboutTranslate;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about_contribution_tab, container, false);
         Resources resources = v.getResources();
         ButterKnife.bind(this, v);
         LinkUtil.setHtmlFromStringResources(aboutSource,
-                resources.getString(R.string.about_source, LinkUtil.concatenateResources(resources,
-                        R.string.anchor_start, R.string.url_source, R.string.anchor_middle, R.string.url_source, R.string.anchor_end
-                )));
+                resources.getString(
+                        R.string.about_source,
+                        LinkUtil.makeLink(resources, R.string.url_source, R.string.url_source)
+                ));
         LinkUtil.setHtmlFromStringResources(aboutIssues,
-                resources.getString(R.string.about_issues, LinkUtil.concatenateResources(resources,
-                        R.string.anchor_start, R.string.url_issues, R.string.anchor_middle, R.string.url_issues, R.string.anchor_end
-                )));
+                resources.getString(
+                        R.string.about_issues,
+                        LinkUtil.makeLink(resources, R.string.url_issues, R.string.url_issues)
+                ));
         LinkUtil.setHtmlFromStringResources(aboutTranslate,
-                resources.getString(R.string.about_translate, LinkUtil.concatenateResources(resources,
-                        R.string.anchor_start, R.string.url_translations, R.string.anchor_middle, R.string.url_translations, R.string.anchor_end
-                )));
+                resources.getString(
+                        R.string.about_translate,
+                        LinkUtil.makeLink(resources, R.string.url_translations, R.string.url_translations)
+                ));
         return v;
     }
 }
