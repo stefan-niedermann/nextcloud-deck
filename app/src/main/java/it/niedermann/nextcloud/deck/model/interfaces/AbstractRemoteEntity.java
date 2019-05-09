@@ -1,22 +1,32 @@
 package it.niedermann.nextcloud.deck.model.interfaces;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import androidx.annotation.NonNull;
 
 import java.util.Date;
 
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 
 @Entity(
-        indices = {
-                @Index("accountId"),
-                @Index("id"),
-                @Index("lastModifiedLocal"),
-                @Index(value = {"accountId", "id"}, unique = true)
-        })
+    indices = {
+        @Index("accountId"),
+        @Index("id"),
+        @Index("lastModifiedLocal"),
+        @Index(value = {"accountId", "id"}, unique = true)
+    },
+    foreignKeys = {
+        @ForeignKey(
+            entity = Account.class,
+            parentColumns = "id",
+            childColumns = "accountId", onDelete = ForeignKey.CASCADE
+        )
+    }
+)
 public abstract class AbstractRemoteEntity implements IRemoteEntity {
     @PrimaryKey(autoGenerate = true)
     protected Long localId;
@@ -120,5 +130,33 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
     @Override
     public void setStatusEnum(DBStatus status) {
         this.status = status.getId();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractRemoteEntity that = (AbstractRemoteEntity) o;
+
+        if (accountId != that.accountId) return false;
+        if (status != that.status) return false;
+        if (localId != null ? !localId.equals(that.localId) : that.localId != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (lastModified != null ? !lastModified.equals(that.lastModified) : that.lastModified != null)
+            return false;
+        return lastModifiedLocal != null ? lastModifiedLocal.equals(that.lastModifiedLocal) : that.lastModifiedLocal == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = localId != null ? localId.hashCode() : 0;
+        result = 31 * result + (int) (accountId ^ (accountId >>> 32));
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + status;
+        result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
+        result = 31 * result + (lastModifiedLocal != null ? lastModifiedLocal.hashCode() : 0);
+        return result;
     }
 }

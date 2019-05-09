@@ -7,12 +7,13 @@ import android.net.Uri;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.graphics.drawable.DrawableCompat;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Date;
 
-import androidx.core.graphics.drawable.DrawableCompat;
 import it.niedermann.nextcloud.deck.R;
 
 public final class ViewUtil {
@@ -60,5 +61,9 @@ public final class ViewUtil {
         wrapped = DrawableCompat.wrap(drawable).mutate();
         DrawableCompat.setTint(wrapped, Color.parseColor(color));
         return drawable;
+    }
+
+    public static Drawable getTintedImageView(Context context, int imageId, int colorId) {
+        return getTintedImageView(context, imageId, context.getResources().getString(colorId));
     }
 }

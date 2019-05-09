@@ -40,6 +40,10 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public abstract void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
 
+    public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t){
+        deleteInDB(dataBaseAdapter, accountId, t);
+    }
+
     public void goDeeper(SyncHelper syncHelper, T existingEntity, T entityFromServer, IResponseCallback<Boolean> callback) {
         childDone(this, callback, true);
     }

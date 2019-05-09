@@ -21,7 +21,11 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 | ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) |
 
 ## :rocket: Features
+* Supports multiple accounts
 * Display boards, stacks and cards
+* Assign cards to users
+* Create, edit and delete boards
+* Create stacks
 
 ## :checkered_flag: Planned features
 * Full [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r) compatibility
@@ -38,7 +42,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 ## :link: Requirements
 * [Nextcloud](https://nextcloud.com/) instance running
 * [Nextcloud Files](https://github.com/nextcloud/android) app installed (version 3.2.2 or later)
-* [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (version 0.6.0-beta1 or later)
+* [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (version 0.6.1 or later)
 
 ## :notebook: License
 All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).

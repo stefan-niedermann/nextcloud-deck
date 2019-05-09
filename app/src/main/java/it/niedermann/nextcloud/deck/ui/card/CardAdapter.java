@@ -19,6 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -30,9 +34,6 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -52,6 +53,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
     public static final String BUNDLE_KEY_BOARD_ID = "boardId";
+    public static final String BUNDLE_KEY_STACK_ID = "stackId";
+    public static final Long NO_LOCAL_ID = -1L;
+    public static final Long NO_BOARD_ID = -1L;
+    public static final Long NO_ACCOUNT_ID = -1L;
+    public static final Long NO_STACK_ID = -1L;
     public static final int MAX_AVATAR_COUNT = 3;
 
     private Context context;
@@ -86,8 +92,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         viewHolder.card.setOnClickListener((View clickedView) -> {
             Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
             intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
-            intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
             intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
+            intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
             context.startActivity(intent);
         });
         viewHolder.card.setOnLongClickListener((View draggedView) -> {
@@ -97,7 +103,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             // ClipData.newPlainText() can create a plain text ClipData in one step.
 
             // Create a new ClipData.Item from the ImageView object's tag
-            ClipData dragData = ClipData.newPlainText("TEST", "TEST2");
+
+            ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId()+"");
 
             // Starts the drag
             draggedView.startDrag(dragData,  // the data to be dragged
@@ -109,7 +116,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             DeckLog.log("onLongClickListener");
             return true;
         });
-
         viewHolder.cardTitle.setText(card.getCard().getTitle());
 
         if (card.getCard().getDescription().length() > 0) {
@@ -256,9 +262,26 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         notifyDataSetChanged();
     }
 
+    public FullCard getItem(int position) {
+        return cardList.get(position);
+    }
+
+    public void addItem(FullCard fullCard, int position) {
+        cardList.add(position, fullCard);
+    }
+
     public void moveItem(int fromPosition, int toPosition) {
         cardList.add(toPosition, cardList.remove(fromPosition));
         notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public void removeItem(int position) {
+        if(cardList.size() >= position) {
+            cardList.remove(position);
+            notifyItemRemoved(position);
+        } else {
+            Log.w("" + CardAdapter.this.getClass(), "Tried to remove " + position + ", but cardList size is only " + cardList.size());
+        }
     }
 
     private void onOverflowIconClicked(View view, FullCard card) {
@@ -276,6 +299,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         } else {
             menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
         }
+    }
+
+    public List<FullCard> getCardList() {
+        return cardList;
     }
 
     private boolean containsUser(List<User> userList, String username) {

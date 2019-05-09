@@ -18,41 +18,42 @@
     <string name="simple_boards">Boards</string>
     <string name="simple_cancel">Cancel</string>
     <string name="simple_create">Create</string>
+    <string name="simple_save">Save</string>
+
+    <string name="edit_board">Edit board</string>
+    <string name="archive_board">Archive board</string>
+    <string name="delete_board">Delete board</string>
 
     <!-- About -->
     <string name="about">About</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version">You are currently using &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">You are currently using %1$s</string>
     <string name="about_maintainer_title">Maintainer</string>
-    <string name="about_maintainer" translatable="false">&lt;a href="https://www.niedermann.it/">Niedermann IT-Dienstleistungen&lt;/a></string>
+    <string name="about_maintainer" translatable="false">Niedermann IT-Dienstleistungen</string>
     <string name="about_developers_title">Developers</string>
     <string name="about_developers" translatable="false">Stefan Niedermann, Artur Dawtjan, Andy Scherzinger</string>
     <string name="about_translators_title">Translators</string>
-    <string name="about_translators_transifex">Nextcloud community on &lt;a href="%1$s">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Nextcloud community on %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testers</string>
     <string name="about_testers" translatable="false">Julius, David</string>
     <string name="about_source_title">Source code</string>
-    <string name="about_source">This project is hosted on GitHub: &lt;a href="%1$s">%1$s&lt;/a></string>
+    <string name="about_source">This project is hosted on GitHub: %1$s</string>
     <string name="about_issues_title">Issues</string>
-    <string name="about_issues">You can report bugs, enhancement proposals and feature requests at the GitHub issue tracker: &lt;a href="%1$s">%1$s&lt;/a></string>
+    <string name="about_issues">You can report bugs, enhancement proposals and feature requests at the GitHub issue tracker: %1$s</string>
     <string name="about_translate_title">Translate</string>
-    <string name="about_translate">Join the Nextcloud team on Transifex and help us to translate this app: &lt;a href="%1$s">%1$s&lt;/a></string>
+    <string name="about_translate">Join the Nextcloud team on Transifex and help us to translate this app: %1$s</string>
     <string name="about_app_license_title">App license</string>
     <string name="about_app_license">This application is licensed under the GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">View license</string>
-    <string name="about_app_icon_author" translatable="false">Julius Härtl (&lt;a href="https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1">GitHub&lt;/a>)</string>
+    <string name="about_app_icon_author" translatable="false">Julius Härtl (%1$s)</string>
+    <string name="about_app_icon_author_link_label" translatable="false">GitHub</string>
     <string name="about_icons_disclaimer_title">Icons</string>
-    <string name="about_icons_disclaimer">&lt;p>Original icon made by %1$s&lt;/p>&lt;p>All further icons used by this app are &lt;a href="https://materialdesignicons.com/">Material Design Icons&lt;/a> made by Google Inc. and licensed under the Apache 2.0 License.&lt;/p></string>
+    <string name="about_icons_disclaimer">Original icon made by %1$sAll further icons used by this app are %2$s made by Google Inc. and licensed under the Apache 2.0 License.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">License</string>
-
-    <!-- URLs -->
-    <string name="url_source" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck</string>
-    <string name="url_issues" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/issues</string>
-    <string name="url_license" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
-    <string name="url_translations" translatable="false">https://www.transifex.com/nextcloud/nextcloud/</string>
-    <string name="url_files" translatable="false">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
 
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
@@ -85,4 +86,30 @@
     <string name="label_clear_due_date">Clear due date</string>
 
     <string name="label_create">Create %1$s</string>
+    <string name="no_columns_available">No columns available</string>
+    <string name="error">An error appeared</string>
+    <string name="simple_copy">copy</string>
+    <string name="simple_exception">Exception</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="simple_close">close</string>
+
+    <!-- URLs -->
+    <string translatable="false" name="url_maintainer">https://www.niedermann.it/</string>
+    <string translatable="false" name="url_about_icon_author">https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1</string>
+    <string translatable="false" name="url_source">https://github.com/stefan-niedermann/nextcloud-deck</string>
+    <string translatable="false" name="url_issues">https://github.com/stefan-niedermann/nextcloud-deck/issues</string>
+    <string translatable="false" name="url_license">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
+    <string translatable="false" name="url_translations">https://www.transifex.com/nextcloud/nextcloud/</string>
+    <string translatable="false" name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+    <string translatable="false" name="url_about_icons_disclaimer_mdi">https://materialdesignicons.com/</string>
+
+    <!-- HTML Tags -->
+
+    <string translatable="false" name="anchor_start">&lt;a href="</string>
+    <string translatable="false" name="anchor_middle">"></string>
+    <string translatable="false" name="anchor_end">&lt;/a></string>
+    <string translatable="false" name="paragraph_start">&lt;p></string>
+    <string translatable="false" name="paragraph_end">&lt;/p></string>
+    <string translatable="false" name="strong_start">&lt;strong></string>
+    <string translatable="false" name="strong_end">&lt;/strong></string>
 </resources>

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
@@ -16,10 +15,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import it.niedermann.nextcloud.deck.DeckConsts;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.api.RequestHelper;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -77,26 +77,28 @@ public class ServerAdapter {
         return cm.getActiveNetworkInfo().isConnected();
     }
 
-    private String getLastSyncDateFormatted() {
+    private String getLastSyncDateFormatted(long accountId) {
 //        return null;
-        String lastSyncHeader = API_FORMAT.format(getLastSync());
+        String lastSyncHeader = API_FORMAT.format(getLastSync(accountId));
         // omit Offset of timezone (e.g.: +01:00)
         if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
             lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
         }
-        Log.d("deck lastSync", lastSyncHeader);
+        DeckLog.log("lastSync "+lastSyncHeader);
         return lastSyncHeader;
     }
 
-    private Date getLastSync() {
+    private Date getLastSync(long accountId) {
         Date lastSync = DateUtil.nowInGMT();
-        lastSync.setTime(lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L));
+        lastSync.setTime(LastSyncUtil.getLastSync(accountId));
 
         return lastSync;
     }
 
     public void getBoards(IResponseCallback<List<FullBoard>> responseCallback) {
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getBoards(true, getLastSyncDateFormatted()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () ->
+                provider.getAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())),
+                responseCallback);
     }
 
     public void createBoard(Board board, IResponseCallback<FullBoard> responseCallback) {
@@ -117,11 +119,11 @@ public class ServerAdapter {
 
     public void getStacks(long boardId, IResponseCallback<List<FullStack>> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStacks(boardId, getLastSyncDateFormatted()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStacks(boardId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void getStack(long boardId, long stackId, IResponseCallback<FullStack> responseCallback) {
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStack(boardId, stackId, getLastSyncDateFormatted()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getStack(boardId, stackId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void createStack(Stack stack, IResponseCallback<FullStack> responseCallback) {
@@ -143,7 +145,7 @@ public class ServerAdapter {
 
     public void getCard(long boardId, long stackId, long cardId, IResponseCallback<FullCard> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getCard(boardId, stackId, cardId, getLastSyncDateFormatted()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().getCard(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void createCard(long boardId, long stackId, Card card, IResponseCallback<FullCard> responseCallback) {

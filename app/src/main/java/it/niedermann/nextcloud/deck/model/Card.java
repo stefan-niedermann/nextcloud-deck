@@ -1,15 +1,28 @@
 package it.niedermann.nextcloud.deck.model;
 
-import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 import java.util.Date;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-@Entity(inheritSuperIndices = true, indices = {@Index(value = "accountId", name = "card_acc")})
+@Entity(inheritSuperIndices = true,
+    indices = {
+        @Index(value = "accountId", name = "card_accID"),
+        @Index("stackId")
+    },
+    foreignKeys = {
+        @ForeignKey(
+            entity = Stack.class,
+            parentColumns = "localId",
+            childColumns = "stackId", onDelete = ForeignKey.CASCADE
+        )
+    }
+)
 public class Card extends AbstractRemoteEntity {
 
     private String title;
@@ -170,7 +183,7 @@ public class Card extends AbstractRemoteEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
+        if (!super.equals(o)) return false;
         Card card = (Card) o;
 
         if (stackId != card.stackId) return false;

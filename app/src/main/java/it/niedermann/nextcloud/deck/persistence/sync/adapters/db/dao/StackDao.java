@@ -1,18 +1,19 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
+
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 
 @Dao
 public interface StackDao extends GenericDao<Stack> {
 
-    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId")
+    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId order by `order` asc")
     LiveData<List<Stack>> getStacksForBoard(final long accountId, final long localBoardId);
 
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and id = :remoteId")
@@ -22,11 +23,15 @@ public interface StackDao extends GenericDao<Stack> {
     Stack getStackByLocalIdDirectly(final long localStackId);
 
     @Transaction
+    @Query("SELECT * FROM stack WHERE localId = :localStackId")
+    FullStack getFullStackByLocalIdDirectly(final long localStackId);
+
+    @Transaction
     @Query("SELECT * FROM stack WHERE accountId = :accountId and boardId = :localBoardId and id = :remoteId")
     FullStack getFullStackByRemoteIdDirectly(final long accountId, final long localBoardId, final long remoteId);
 
     @Transaction
-    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId")
+    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId order by `order` asc")
     LiveData<List<FullStack>> getFullStacksForBoard(final long accountId, final long localBoardId);
 
     @Transaction

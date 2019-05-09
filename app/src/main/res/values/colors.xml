@@ -16,6 +16,7 @@
     <color name="default_text_color">#808080</color>
     <color name="overdue_text_color">#FFFFFF</color>
 
+    <color name="board_default_color">#31CC7C</color>
     <string-array name="board_default_colors">
         <item>#31CC7C</item>
         <item>#317CCC</item>

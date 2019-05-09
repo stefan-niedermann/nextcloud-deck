@@ -2,7 +2,9 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
@@ -10,11 +12,8 @@ import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import java.util.Date;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import it.niedermann.nextcloud.deck.DeckConsts;
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -32,6 +31,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
@@ -40,14 +40,12 @@ public class SyncManager {
 
     private DataBaseAdapter dataBaseAdapter;
     private ServerAdapter serverAdapter;
-    private Context applicationContext;
-    private Activity sourceActivity;
 
-    public SyncManager(Context applicationContext, Activity sourceActivity) {
-        this.applicationContext = applicationContext.getApplicationContext();
-        this.sourceActivity = sourceActivity;
-        dataBaseAdapter = new DataBaseAdapter(this.applicationContext);
-        this.serverAdapter = new ServerAdapter(this.applicationContext, sourceActivity);
+    public SyncManager(Activity sourceActivity) {
+        Context applicationContext = sourceActivity.getApplicationContext();
+        LastSyncUtil.init(applicationContext);
+        dataBaseAdapter = new DataBaseAdapter(applicationContext);
+        this.serverAdapter = new ServerAdapter(applicationContext, sourceActivity);
     }
 
     private void doAsync(Runnable r) {
@@ -55,11 +53,14 @@ public class SyncManager {
     }
 
     public void synchronize(IResponseCallback<Boolean> responseCallback) {
+        if (    responseCallback == null ||
+                responseCallback.getAccount() == null ||
+                responseCallback.getAccount().getId() == null){
+            throw new IllegalArgumentException("please provide an account ID.");
+        }
         doAsync(() -> {
-            SharedPreferences lastSyncPref = applicationContext.getSharedPreferences(
-                    applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
-            long lastSync = lastSyncPref.getLong(DeckConsts.LAST_SYNC_KEY, 0L);
-            Date lastSyncDate = new Date(lastSync);
+            long accountId = responseCallback.getAccount().getId();
+            Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());
             Date now = DateUtil.nowInGMT();
 
             final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
@@ -71,7 +72,7 @@ public class SyncManager {
                         @Override
                         public void onResponse(Boolean response) {
                             // TODO deactivate for dev
-                            lastSyncPref.edit().putLong(DeckConsts.LAST_SYNC_KEY, now.getTime()).apply();
+                            LastSyncUtil.setLastSyncDate(accountId, now);
                             responseCallback.onResponse(response);
                         }
                         @Override
@@ -137,7 +138,10 @@ public class SyncManager {
     }
 
     public void deleteAccount(long id) {
-        dataBaseAdapter.deleteAccount(id);
+        doAsync(() -> {
+            dataBaseAdapter.deleteAccount(id);
+            LastSyncUtil.resetLastSyncDate(id);
+        });
     }
 
     public void updateAccount(Account account) {
@@ -157,35 +161,54 @@ public class SyncManager {
     }
 
     public LiveData<FullBoard> createBoard(long accountId, Board board) {
+            MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
+            doAsync(() -> {
+                Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+                User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
+                FullBoard fullBoard = new FullBoard();
+                board.setOwnerId(owner.getLocalId());
+                fullBoard.setOwner(owner);
+                fullBoard.setBoard(board);
+                board.setAccountId(accountId);
+                fullBoard.setAccountId(accountId);
+                new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
+                    @Override
+                    public void onResponse(FullBoard response) {
+                        liveData.postValue(response);
+                    }
+                });
+            });
+        return liveData;
+
+    }
+
+    public void deleteBoard(Board board) {
+        long accountId = board.getAccountId();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            FullBoard fullBoard = dataBaseAdapter.getFullBoardByIdDirectly(accountId, board.getLocalId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
+                @Override
+                public void onResponse(FullBoard response) {
+                    // doNothing
+                }
+            });
+        });
+    }
+
+    public void updateBoard(FullBoard board) {
         MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
+        long accountId = board.getAccountId();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
-            FullBoard fullBoard = new FullBoard();
-            board.setOwnerId(owner.getLocalId());
-            fullBoard.setOwner(owner);
-            fullBoard.setBoard(board);
-            board.setAccountId(accountId);
-            fullBoard.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new BoardDataProvider() ,board, new IResponseCallback<FullBoard>(account) {
                 @Override
                 public void onResponse(FullBoard response) {
                     liveData.postValue(response);
                 }
             });
         });
-        return liveData;
-
-    }
-
-    public void deleteBoard(Board board) {
-        //TODO: Tell the server
-        dataBaseAdapter.deleteBoard(board, true);
-    }
-
-    public void updateBoard(Board board) {
-        //TODO: Tell the server
-        dataBaseAdapter.updateBoard(board, true);
     }
 
     public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
@@ -217,7 +240,7 @@ public class SyncManager {
         MutableLiveData<FullStack> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            FullBoard board = dataBaseAdapter.getFullBoardByRemoteIdDirectly(accountId, stack.getBoardId());
+            FullBoard board = dataBaseAdapter.getFullBoardByIdDirectly(accountId, stack.getBoardId());
             FullStack fullStack = new FullStack();
             stack.setAccountId(accountId);
             stack.setBoardId(board.getLocalId());
@@ -253,9 +276,26 @@ public class SyncManager {
         return dataBaseAdapter.getFullCardsForStack(accountId, localStackId);
     }
 
-    public long createCard(long accountId, Card card) {
-        //TODO: Tell the server
-        return dataBaseAdapter.createCard(accountId, card);
+    public LiveData<FullCard> createCard(long accountId, long localBoardId, long localStackId, Card card) {
+
+        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(localStackId);
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
+            FullCard fullCard = new FullCard();
+            fullCard.setCard(card);
+            fullCard.setOwner(owner);
+            fullCard.setAccountId(accountId);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
+                @Override
+                public void onResponse(FullCard response) {
+                    liveData.postValue(response);
+                }
+            });
+        });
+        return liveData;
     }
 
     public void deleteCard(Card card) {
@@ -396,11 +436,6 @@ public class SyncManager {
     public void updateUser(long accountId, User user) {
         dataBaseAdapter.updateUser(accountId, user, true);
     }
-
-    public LiveData<List<FullStack>> getStacks(long accountId, long localBoardId) {
-        return dataBaseAdapter.getStacks(accountId, localBoardId);
-    }
-
 
     /**
      * deprecated! should be removed, as soon as the board-ID can be set by the frontend.

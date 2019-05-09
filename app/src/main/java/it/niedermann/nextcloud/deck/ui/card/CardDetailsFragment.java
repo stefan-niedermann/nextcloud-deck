@@ -18,6 +18,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.ColorUtils;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
@@ -28,14 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.graphics.ColorUtils;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -94,8 +96,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     public static CardDetailsFragment newInstance(long accountId, long localId, long boardId) {
         Bundle bundle = new Bundle();
         bundle.putLong(BUNDLE_KEY_ACCOUNT_ID, accountId);
-        bundle.putLong(BUNDLE_KEY_LOCAL_ID, localId);
         bundle.putLong(BUNDLE_KEY_BOARD_ID, boardId);
+        bundle.putLong(BUNDLE_KEY_LOCAL_ID, localId);
 
         CardDetailsFragment fragment = new CardDetailsFragment();
         fragment.setArguments(bundle);
@@ -130,7 +132,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             setupView(accountId, localId, boardId);
         }
 
-        avatarSize = DimensionUtil.getAvatarDimension(getContext());
+        avatarSize = DimensionUtil.getAvatarDimension(Objects.requireNonNull(getContext()));
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, getContext().getResources().getDimensionPixelSize(R.dimen.standard_half_padding), 0);
 
@@ -144,7 +146,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupView(long accountId, long localId, long boardId) {
-        syncManager = new SyncManager(getActivity().getApplicationContext(), getActivity());
+        syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
 
         this.fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
         this.fullCardViewModel.fullCard.observe(CardDetailsFragment.this, (FullCard card) -> {
@@ -221,7 +223,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupLabels(long accountId, long boardId) {
-        labels.setAdapter(new LabelAutoCompleteAdapter(this, getContext(), accountId, boardId));
+        labels.setAdapter(new LabelAutoCompleteAdapter(this, getActivity(), accountId, boardId));
         labels.setOnItemClickListener((adapterView, view, position, id) -> {
             Label label = (Label) adapterView.getItemAtPosition(position);
             if (LabelAutoCompleteAdapter.CREATE_ID == label.getId()) {
@@ -282,7 +284,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     private void setupPeople(long accountId) {
         people.setThreshold(2);
-        people.setAdapter(new UserAutoCompleteAdapter(this, getContext(), accountId));
+        people.setAdapter(new UserAutoCompleteAdapter(this, getActivity(), accountId));
         people.setOnItemClickListener((adapterView, view, position, id) -> {
             User user = (User) adapterView.getItemAtPosition(position);
 

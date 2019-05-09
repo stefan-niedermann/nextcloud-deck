@@ -2,10 +2,11 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import java.util.Date;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -59,12 +60,20 @@ public class DataBaseAdapter {
         return db.getBoardDao().getFullBoardByRemoteIdDirectly(accountId, remoteId);
     }
 
+    public FullBoard getFullBoardByIdDirectly(long accountId, long id) {
+        return db.getBoardDao().getFullBoardByIdDirectly(accountId, id);
+    }
+
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
         return LiveDataHelper.onlyIfChanged(db.getStackDao().getStackByRemoteId(accountId, localBoardId, remoteId));
     }
 
     public Stack getStackByLocalIdDirectly(final long localStackId) {
         return db.getStackDao().getStackByLocalIdDirectly(localStackId);
+    }
+
+    public FullStack getFullStackByLocalIdDirectly(final long localStackId) {
+        return db.getStackDao().getFullStackByLocalIdDirectly(localStackId);
     }
 
 
@@ -255,6 +264,10 @@ public class DataBaseAdapter {
     public void deleteBoard(Board board, boolean setStatus) {
         markAsDeletedIfNeeded(board, setStatus);
         db.getBoardDao().update(board);
+    }
+
+    public void deleteBoardPhysically(Board board) {
+        db.getBoardDao().delete(board);
     }
 
     public void updateBoard(Board board, boolean setStatus) {

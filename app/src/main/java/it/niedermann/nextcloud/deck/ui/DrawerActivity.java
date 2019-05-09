@@ -12,6 +12,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
@@ -20,13 +29,6 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
@@ -34,7 +36,8 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
-import it.niedermann.nextcloud.deck.ui.board.BoardCreateDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -44,6 +47,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected static final int MENU_ID_ADD_ACCOUNT = -2;
     protected static final int ACTIVITY_ABOUT = 1;
     protected static final long NO_BOARDS = -1;
+    protected static final long NO_STACKS = -1;
 
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -65,6 +69,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setSupportActionBar(toolbar);
 
         View header = navigationView.getHeaderView(0);
@@ -76,7 +82,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        syncManager = new SyncManager(getApplicationContext(), this);
+        syncManager = new SyncManager(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         syncManager.hasAccounts().observe(this, (Boolean hasAccounts) -> {
@@ -89,7 +95,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             this.account = accounts.get(lastAccount);
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             setHeaderView();
-                            syncManager = new SyncManager(getApplicationContext(), this);
+                            syncManager = new SyncManager(this);
                             ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
                             // TODO show spinner
                             syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
@@ -156,8 +162,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_ADD_BOARD:
-                    BoardCreateDialogFragment alertdFragment = new BoardCreateDialogFragment();
-                    alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_board));
+                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.create_board));
                     break;
                 default:
                     boardSelected(item.getItemId(), account);
@@ -189,6 +194,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     Snackbar.make(coordinatorLayout, "Account bereits hinzugefügt", Snackbar.LENGTH_SHORT).show();
                 }
             } else {
+                syncManager.synchronize(new IResponseCallback<Boolean>(ac) {
+                    @Override
+                    public void onResponse(Boolean response) {
+
+                    }
+                });
                 Snackbar.make(coordinatorLayout, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
             }
         });
@@ -201,7 +212,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         menu.clear();
         int index = 0;
         for (Account account : this.accountsList) {
-            menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+            MenuItem m = menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+            AppCompatImageButton contextMenu = new AppCompatImageButton(this);
+            contextMenu.setBackgroundDrawable(null);
+            contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_delete_black_24dp, R.color.grey600));
+            contextMenu.setOnClickListener((v) -> {
+                syncManager.deleteAccount(account.getId());
+            });
+            m.setActionView(contextMenu);
         }
         menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }

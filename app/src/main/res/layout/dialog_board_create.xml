@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/standard_margin">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/standard_margin"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/input"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:hint="@string/simple_title"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="text">
+        <requestFocus />
+    </EditText>
 
-        <EditText
-            android:id="@+id/input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/simple_title"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="text">
-            <requestFocus />
-        </EditText>
-
-        <LinearLayout
-            android:id="@+id/colorPicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:orientation="horizontal" />
-    </LinearLayout>
-
-
-</FrameLayout>
+    <it.niedermann.nextcloud.deck.ui.helper.colorchooser.ColorChooser
+        android:id="@+id/colorChooser"
+        app:colors="@array/board_default_colors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

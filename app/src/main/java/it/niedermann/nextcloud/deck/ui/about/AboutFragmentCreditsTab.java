@@ -1,11 +1,14 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
+import android.content.res.Resources;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,12 +26,24 @@ public class AboutFragmentCreditsTab extends Fragment {
     TextView aboutTranslators;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about_credits_tab, container, false);
         ButterKnife.bind(this, v);
-        LinkUtil.setHtml(aboutVersion, R.string.about_version, "v" + BuildConfig.VERSION_NAME);
-        LinkUtil.setHtml(aboutMaintainer, R.string.about_maintainer);
-        LinkUtil.setHtml(aboutTranslators, R.string.about_translators_transifex, getString(R.string.url_translations));
+        LinkUtil.setHtml(aboutVersion, getString(R.string.about_version, getVersionStrongTag(getResources())));
+        LinkUtil.setHtml(aboutMaintainer, LinkUtil.concatenateResources(v.getResources(),
+                R.string.anchor_start, R.string.url_maintainer, R.string.anchor_middle, R.string.about_maintainer, R.string.anchor_end));
+        LinkUtil.setHtml(aboutTranslators,
+                v.getResources().getString(R.string.about_translators_transifex, LinkUtil.concatenateResources(v.getResources(),
+                        R.string.anchor_start, R.string.url_translations, R.string.anchor_middle, R.string.about_translators_transifex_label, R.string.anchor_end
+                )));
         return v;
+    }
+
+    private static String getVersionStrongTag(Resources resources) {
+        return new StringBuilder()
+                .append(resources.getString(R.string.strong_start))
+                .append("v")
+                .append(BuildConfig.VERSION_NAME)
+                .append(resources.getString(R.string.strong_end)).toString();
     }
 }

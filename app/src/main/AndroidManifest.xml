@@ -27,6 +27,9 @@
             </intent-filter>
 
             <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+            <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
             <meta-data
@@ -45,6 +48,10 @@
             android:label="@string/about"
             android:theme="@style/AppTheme"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
+
+        <activity
+            android:name=".ui.exception.ExceptionActivity"
+            android:process=":error_activity" />
 
     </application>
 

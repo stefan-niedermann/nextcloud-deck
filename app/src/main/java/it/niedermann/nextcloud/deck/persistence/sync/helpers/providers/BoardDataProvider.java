@@ -109,6 +109,11 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
+    public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard fullBoard) {
+        dataBaseAdapter.deleteBoardPhysically(fullBoard.getBoard());
+    }
+
+    @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullBoard entity) {
         serverAdapter.deleteBoard(entity.getBoard(), callback);
     }

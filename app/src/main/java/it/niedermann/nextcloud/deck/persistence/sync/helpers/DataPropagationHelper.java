@@ -64,6 +64,28 @@ public class DataPropagationHelper {
             callback.onResponse(entity);
         }
     }
+    public <T extends IRemoteEntity> void deleteEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback){
+        final long accountId = callback.getAccount().getId();
+        provider.deleteInDB(dataBaseAdapter, accountId, entity);
+        boolean connected = serverAdapter.hasInternetConnection();
+        if (connected) {
+            provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(new Account(accountId)) {
+                @Override
+                public void onResponse(Void response) {
+                    provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
+                    callback.onResponse(null);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    super.onError(throwable);
+                    callback.onError(throwable);
+                }
+            }, entity);
+        } else {
+            callback.onResponse(null);
+        }
+    }
 
     private <T extends IRemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
         if (!accountId.equals(localEntity.getAccountId())) {

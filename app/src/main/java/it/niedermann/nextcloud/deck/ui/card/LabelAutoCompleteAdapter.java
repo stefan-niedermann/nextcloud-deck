@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +11,15 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
@@ -36,17 +38,17 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     private Label createLabel;
     private String createLabelText;
 
-    public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Context context, long accountId, long boardId) {
+    public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId) {
         this.owner = owner;
-        this.context = context;
+        this.context = activity;
         this.accountId = accountId;
         this.boardId = boardId;
-        syncManager = new SyncManager(context, null);
+        syncManager = new SyncManager(activity);
         createLabel = new Label();
         createLabel.setId(CREATE_ID);
         createLabel.setBoardId(boardId);
         createLabel.setAccountId(accountId);
-        createLabelText = context.getResources().getString(R.string.label_create);
+        createLabelText = activity.getResources().getString(R.string.label_create);
         createLabel.setColor("757575");
     }
 
@@ -108,7 +110,6 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
                     ((Fragment) owner).getActivity().runOnUiThread(() -> {
-                        //FIXME: please provide the board-ID, since the labels depend on the board. according method already exists!
                         LiveData<List<Label>> labelLiveData = syncManager.searchLabelByTitle(accountId, boardId, constraint.toString());
                         Observer<List<Label>> observer = new Observer<List<Label>>() {
                             @Override

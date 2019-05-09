@@ -1,17 +1,24 @@
 package it.niedermann.nextcloud.deck.model;
 
-import java.util.Date;
-
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
+
+import java.util.Date;
+
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(
         inheritSuperIndices = true,
         indices = {@Index("ownerId")},
-        foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "localId", childColumns = "ownerId")}
+        foreignKeys = {
+            @ForeignKey(
+                entity = User.class,
+                parentColumns = "localId",
+                childColumns = "ownerId", onDelete = ForeignKey.CASCADE
+            )
+        }
 )
 public class Board extends AbstractRemoteEntity {
 

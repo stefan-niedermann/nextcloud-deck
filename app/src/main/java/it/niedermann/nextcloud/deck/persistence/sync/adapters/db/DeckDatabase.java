@@ -2,10 +2,15 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -53,7 +58,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 User.class,
         },
         exportSchema = false,
-        version = 1
+        version = 3
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -61,6 +66,16 @@ public abstract class DeckDatabase extends RoomDatabase {
 
     private static final String DECK_DB_NAME = "NC_DECK_DB.db";
     private static volatile DeckDatabase instance;
+
+    public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
+
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            DeckLog.log("onCreate triggered!!!");
+            LastSyncUtil.resetAll();
+        }
+    };
 
     public static synchronized DeckDatabase getInstance(Context context) {
         if (instance == null) {
@@ -76,6 +91,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 DECK_DB_NAME)
                 //FIXME: remove destructive Migration as soon as schema is stable!
                 .fallbackToDestructiveMigration()
+                .addCallback(ON_CREATE_CALLBACK)
                 .build();
     }
 

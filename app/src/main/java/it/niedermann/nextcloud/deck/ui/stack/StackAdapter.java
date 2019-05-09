@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
@@ -9,19 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StackAdapter extends FragmentStatePagerAdapter {
-    private final List<Fragment> mFragmentList = new ArrayList<>();
+    private final List<StackFragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
     public StackAdapter(FragmentManager fm) {
         super(fm);
     }
 
+    @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public StackFragment getItem(int position) {
         return mFragmentList.get(position);
     }
 
-    public void addFragment(Fragment fragment, String title) {
+    public void addFragment(StackFragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }

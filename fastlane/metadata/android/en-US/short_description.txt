@@ -1,0 +1,1 @@
+Companion app for Nextcloud Deck - **WARNING** This is a alpha release and should not be used productively but only for testing purposes.
