@@ -8,4 +8,6 @@
     <integer name="drag_n_drop_ms_to_react">700</integer>
     <!-- How many dp from border should one be away before switching to another tab when dragging cards -->
     <integer name="drag_n_drop_dp_to_react">20</integer>
+    <!-- How many dp from top / bottom border should one be away before scrolling top / down when dragging cards -->
+    <integer name="drag_n_drop_dp_to_react_top_bottom">100</integer>
 </resources>

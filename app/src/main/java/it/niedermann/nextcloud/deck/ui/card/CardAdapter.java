@@ -277,12 +277,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     public void removeItem(int position) {
-        if(cardList.size() >= position) {
-            cardList.remove(position);
-            notifyItemRemoved(position);
-        } else {
-            Log.w("" + CardAdapter.this.getClass(), "Tried to remove " + position + ", but cardList size is only " + cardList.size());
-        }
+        cardList.remove(position);
+        notifyItemRemoved(position);
     }
 
     private void onOverflowIconClicked(View view, FullCard card) {
