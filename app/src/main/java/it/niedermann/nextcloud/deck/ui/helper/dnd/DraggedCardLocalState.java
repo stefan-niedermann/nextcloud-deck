@@ -78,5 +78,14 @@ public class DraggedCardLocalState {
         }
         this.recyclerView = ((StackAdapter) viewPager.getAdapter()).getItem(newTabPosition).getRecyclerView();
         this.cardAdapter = (CardAdapter) recyclerView.getAdapter();
+
+        for (int i = 0; i < cardAdapter.getCardList().size(); i++) {
+            FullCard fullCard = cardAdapter.getCardList().get(i);
+            if (fullCard.getLocalId().equals(draggedCard.getLocalId())){
+                cardAdapter.getCardList().remove(fullCard);
+                cardAdapter.notifyItemRemoved(i);
+                break;
+            }
+        }
     }
 }
