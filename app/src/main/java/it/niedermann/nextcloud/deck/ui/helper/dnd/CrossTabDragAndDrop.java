@@ -118,8 +118,8 @@ public class CrossTabDragAndDrop {
                     //scroll if needed
                     if (dragEvent.getY() <= pxToReactTopBottom) {
                         SCROLL_HELPER.startScroll(currentRecyclerView, ScrollDirection.UP);
-                    } else if (dragEvent.getY() >= size.y - pxToReactTopBottom) {
-                        SCROLL_HELPER.startScroll(currentRecyclerView, ScrollDirection.UP);
+                    } else if (dragEvent.getY() >= currentRecyclerView.getBottom() - pxToReactTopBottom) {
+                        SCROLL_HELPER.startScroll(currentRecyclerView, ScrollDirection.DOWN);
                     } else {
                         SCROLL_HELPER.stopScroll();
                     }
