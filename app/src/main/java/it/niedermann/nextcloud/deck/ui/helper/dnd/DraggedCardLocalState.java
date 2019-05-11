@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
+import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 
 public class DraggedCardLocalState {
     private FullCard draggedCard;
@@ -15,12 +16,48 @@ public class DraggedCardLocalState {
     private int positionInCardAdapter;
     private RecyclerView.OnChildAttachStateChangeListener insertedListener = null;
     private RecyclerView recyclerView = null;
+    private long currentStackId;
 
     public DraggedCardLocalState(FullCard draggedCard, CardView draggedView, CardAdapter cardAdapter, int positionInCardAdapter) {
         this.draggedCard = draggedCard;
         this.draggedView = draggedView;
         this.cardAdapter = cardAdapter;
         this.positionInCardAdapter = positionInCardAdapter;
+    }
+
+
+    public void onDragStart(ViewPager viewPager){
+        StackFragment stackFragment = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+        currentStackId = stackFragment.getStackId();
+        recyclerView = stackFragment.getRecyclerView();
+
+    }
+    public void onTabChanged(ViewPager viewPager, int newTabPosition){
+        if (insertedListener != null) {
+            recyclerView.removeOnChildAttachStateChangeListener(insertedListener);
+            insertedListener = null;
+        }
+        StackFragment stackFragment = ((StackAdapter) viewPager.getAdapter()).getItem(newTabPosition);
+        currentStackId = stackFragment.getStackId();
+        this.recyclerView = stackFragment.getRecyclerView();
+        this.cardAdapter = (CardAdapter) recyclerView.getAdapter();
+
+        for (int i = 0; i < cardAdapter.getCardList().size(); i++) {
+            FullCard fullCard = cardAdapter.getCardList().get(i);
+            if (fullCard.getLocalId().equals(draggedCard.getLocalId())){
+                cardAdapter.getCardList().remove(fullCard);
+                cardAdapter.notifyItemRemoved(i);
+                break;
+            }
+        }
+    }
+
+    public long getCurrentStackId() {
+        return currentStackId;
+    }
+
+    public void setCurrentStackId(long currentStackId) {
+        this.currentStackId = currentStackId;
     }
 
     public FullCard getDraggedCard() {
@@ -69,23 +106,5 @@ public class DraggedCardLocalState {
 
     public void setRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
-    }
-
-    public void onTabChanged(ViewPager viewPager, int newTabPosition){
-        if (insertedListener != null) {
-            recyclerView.removeOnChildAttachStateChangeListener(insertedListener);
-            insertedListener = null;
-        }
-        this.recyclerView = ((StackAdapter) viewPager.getAdapter()).getItem(newTabPosition).getRecyclerView();
-        this.cardAdapter = (CardAdapter) recyclerView.getAdapter();
-
-        for (int i = 0; i < cardAdapter.getCardList().size(); i++) {
-            FullCard fullCard = cardAdapter.getCardList().get(i);
-            if (fullCard.getLocalId().equals(draggedCard.getLocalId())){
-                cardAdapter.getCardList().remove(fullCard);
-                cardAdapter.notifyItemRemoved(i);
-                break;
-            }
-        }
     }
 }

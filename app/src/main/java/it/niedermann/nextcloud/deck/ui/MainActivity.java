@@ -76,7 +76,12 @@ public class MainActivity extends DrawerActivity {
         //TODO limit this call only to lower API levels like KitKat because they crash without
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        new CrossTabDragAndDrop(this).register(viewPager);
+        CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
+        dragAndDrop.register(viewPager);
+        dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
+            //FIXME: implement me por favour!
+            DeckLog.log("Card \""+movedCard.getCard().getTitle()+"\" was moved to Stack "+stackId+" on position "+position);
+        });
 
         fab.setOnClickListener((View view) -> {
             Intent intent = new Intent(this, EditActivity.class);

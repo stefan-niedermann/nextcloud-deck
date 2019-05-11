@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
 import android.app.Activity;
 import android.graphics.Point;
-import android.os.Handler;
 import android.view.DragEvent;
 import android.view.View;
 
@@ -11,53 +10,20 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import it.niedermann.nextcloud.deck.DeckLog;
+import java.util.HashSet;
+import java.util.Set;
+
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
-import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 
 public class CrossTabDragAndDrop {
 
-    private static final int SROLL_SPEED = 200;
-
-    private enum ScrollDirection {
-        UP,
-        DOWN
-    }
-
-    private static class ScrollHelper implements Runnable {
-        private boolean shouldScroll = false;
-        private ScrollDirection scrollDirection;
-        private RecyclerView currentRecyclerView;
-        Handler handler = new Handler();
-
-        public void startScroll(RecyclerView recyclerView, ScrollDirection scrollDirection) {
-            this.scrollDirection = scrollDirection;
-            this.currentRecyclerView = recyclerView;
-            if (!shouldScroll) {
-                this.shouldScroll = true;
-                handler.post(this);
-            }
-        }
-
-        public void stopScroll() {
-            this.shouldScroll = false;
-        }
-
-        @Override
-        public void run() {
-            if (scrollDirection == ScrollDirection.UP) {
-                currentRecyclerView.smoothScrollBy(0, SROLL_SPEED * -1);
-            } else {
-                currentRecyclerView.smoothScrollBy(0, SROLL_SPEED);
-            }
-            if (shouldScroll) {
-                handler.postDelayed(this, 100);
-            }
-        }
-    }
-
     private static final ScrollHelper SCROLL_HELPER = new ScrollHelper();
+
+    public interface CardMovedByDragListener {
+        void onCardMoved(FullCard movedCard, long stackId, int position);
+    }
 
     private final Activity activity;
     private final float pxToReact;
@@ -65,6 +31,8 @@ public class CrossTabDragAndDrop {
     private long lastSwap = 0;
 
     private final float pxToReactTopBottom;
+
+    private final Set<CardMovedByDragListener> moveListenerList = new HashSet<>();
 
     public CrossTabDragAndDrop(Activity activity) {
         this.activity = activity;
@@ -82,7 +50,7 @@ public class CrossTabDragAndDrop {
             switch (dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED: {
                     cardView.setVisibility(View.INVISIBLE);
-                    draggedCardLocalState.setRecyclerView(((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).getRecyclerView());
+                    draggedCardLocalState.onDragStart(viewPager);
                     break;
                 }
                 case DragEvent.ACTION_DRAG_LOCATION: {
@@ -117,9 +85,9 @@ public class CrossTabDragAndDrop {
 
                     //scroll if needed
                     if (dragEvent.getY() <= pxToReactTopBottom) {
-                        SCROLL_HELPER.startScroll(currentRecyclerView, ScrollDirection.UP);
+                        SCROLL_HELPER.startScroll(currentRecyclerView, ScrollHelper.ScrollDirection.UP);
                     } else if (dragEvent.getY() >= currentRecyclerView.getBottom() - pxToReactTopBottom) {
-                        SCROLL_HELPER.startScroll(currentRecyclerView, ScrollDirection.DOWN);
+                        SCROLL_HELPER.startScroll(currentRecyclerView, ScrollHelper.ScrollDirection.DOWN);
                     } else {
                         SCROLL_HELPER.stopScroll();
                     }
@@ -141,6 +109,7 @@ public class CrossTabDragAndDrop {
                 }
                 case DragEvent.ACTION_DROP: {
                     cardView.setVisibility(View.VISIBLE);
+                    notifyListeners(draggedCardLocalState);
                     break;
                 }
             }
@@ -169,7 +138,6 @@ public class CrossTabDragAndDrop {
                 CardView cardView = (CardView) view;
                 cardView.setVisibility(View.INVISIBLE);
                 draggedCardLocalState.setDraggedView(cardView);
-                DeckLog.log("dnd there it is! pos: " + positionToInsert);
             }
 
             @Override
@@ -190,11 +158,23 @@ public class CrossTabDragAndDrop {
 
     private static void removeItem(RecyclerView currentRecyclerView, CardView cardView, CardAdapter cardAdapter) {
         int oldCardPosition = currentRecyclerView.getChildAdapterPosition(cardView);
-        DeckLog.log("DnD: removing! pos: " + oldCardPosition + " | " + cardView);
 
         if (oldCardPosition != -1) {
             cardAdapter.removeItem(oldCardPosition);
-            DeckLog.log("DnD: removed");
-        } else DeckLog.log("DnD: wasnt present to remove");
+        }
+    }
+
+    private void notifyListeners(DraggedCardLocalState draggedCardLocalState) {
+        for (CardMovedByDragListener listener : moveListenerList) {
+            listener.onCardMoved(draggedCardLocalState.getDraggedCard(), draggedCardLocalState.getCurrentStackId(), draggedCardLocalState.getPositionInCardAdapter());
+        }
+    }
+
+    public void addCardMovedByDragListener(CardMovedByDragListener listener){
+        moveListenerList.add(listener);
+    }
+
+    public void removeCardMovedByDragListener(CardMovedByDragListener listener){
+        moveListenerList.remove(listener);
     }
 }
