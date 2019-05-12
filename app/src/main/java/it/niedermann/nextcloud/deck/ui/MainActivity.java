@@ -76,41 +76,12 @@ public class MainActivity extends DrawerActivity {
         //TODO limit this call only to lower API levels like KitKat because they crash without
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        //TODO replace nulls
-        new CrossTabDragAndDrop(this).register(viewPager);
-
-//        viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
-//            Log.d("Deck", "Drag: "+ dragEvent.getAction());
-//            if(dragEvent.getAction() == 4)
-//                Log.d("Deck", dragEvent.getAction() + "");
-//
-//            View view = (View) dragEvent.getLocalState();
-//            RecyclerView owner = (RecyclerView) view.getParent();
-//            CardAdapter cardAdapter = (CardAdapter) owner.getAdapter();
-//
-//            switch(dragEvent.getAction()) {
-//                case DragEvent.ACTION_DRAG_LOCATION:
-//                    Point size = new Point();
-//                    getWindowManager().getDefaultDisplay().getSize(size);
-//                    if(dragEvent.getX() <= 20) {
-//                        Log.d("Deck", dragEvent.getAction() + " moved left");
-//                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-//                    } else if(dragEvent.getX() >= size.x - 20) {
-//                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-//                        Log.d("Deck", dragEvent.getAction() + " moved right");
-//                    }
-//                    int viewUnderPosition = owner.getChildAdapterPosition(owner.findChildViewUnder(dragEvent.getX(), dragEvent.getY()));
-//                    if(viewUnderPosition != -1) {
-//                        Log.d("Deck", dragEvent.getAction() + " moved something...");
-//                        cardAdapter.moveItem(owner.getChildLayoutPosition(view), viewUnderPosition);
-//                    }
-//                    break;
-//                case DragEvent.ACTION_DROP:
-//                    view.setVisibility(View.VISIBLE);
-//                    break;
-//            }
-//            return true;
-//        });
+        CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
+        dragAndDrop.register(viewPager);
+        dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
+            //FIXME: implement me por favour!
+            DeckLog.log("Card \""+movedCard.getCard().getTitle()+"\" was moved to Stack "+stackId+" on position "+position);
+        });
 
         fab.setOnClickListener((View view) -> {
             Intent intent = new Intent(this, EditActivity.class);
@@ -139,7 +110,7 @@ public class MainActivity extends DrawerActivity {
                 viewPager.post(() -> {
                     // Remember last stack for this board
                     if (stackAdapter.getCount() >= position) {
-                        long currentStackId = ((StackFragment) stackAdapter.getItem(position)).getStackId();
+                        long currentStackId = stackAdapter.getItem(position).getStackId();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + account.getId() + "_" + currentBoardId + " | " + currentStackId);
                         editor.putLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId, currentStackId);
@@ -321,6 +292,21 @@ public class MainActivity extends DrawerActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_card_list_delete_column:
+                Snackbar.make(coordinatorLayout, "Deleting stacks is not supported yet.", Snackbar.LENGTH_LONG).show();
+                long stackId = stackAdapter.getItem(viewPager.getCurrentItem()).getStackId();
+                LiveData<FullStack> fullStackLiveData = syncManager.getStack(account.getId(), stackId);
+                Observer<FullStack> observer = new Observer<FullStack>() {
+                    @Override
+                    public void onChanged(FullStack fullStack) {
+                        // TODO uncomment
+                        DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
+                        // syncManager.deleteStack(fullStack.getStack());
+                        fullStackLiveData.removeObserver(this);
+                    }
+                };
+                fullStackLiveData.observe(MainActivity.this, observer);
+                break;
             case R.id.action_card_list_add_column:
                 StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();
                 alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_stack));

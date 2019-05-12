@@ -27,6 +27,7 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/stackLayout"
+                style="@style/Widget.MaterialComponents.TabLayout.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
@@ -66,7 +67,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="false"
-        app:theme="@style/TextAppearanceEllipsiize"
-        app:headerLayout="@layout/nav_header_main" />
+        app:headerLayout="@layout/nav_header_main"
+        app:theme="@style/TextAppearanceEllipsiize" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

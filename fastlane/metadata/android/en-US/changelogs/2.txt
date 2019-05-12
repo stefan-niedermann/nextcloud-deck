@@ -1,0 +1,7 @@
+- Create stacks (#42)
+- Delete accounts (#44)
+- Edit mode: back button jumps to first stack (#62)
+- Make strings with hyperlinks better translateable on Transifex (#68)
+- Added Indices for Performance
+- Display attached files (click for download)
+- Display stacktrace when application crashes to make reporting bugfixes easier

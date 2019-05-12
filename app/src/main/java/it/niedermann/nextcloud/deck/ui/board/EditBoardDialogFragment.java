@@ -3,10 +3,14 @@ package it.niedermann.nextcloud.deck.ui.board;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -42,8 +46,6 @@ public class EditBoardDialogFragment extends DialogFragment {
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_board_create, null);
         ButterKnife.bind(this, view);
         Long boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
-        Long accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
-        SyncManager syncManager = new SyncManager(activity);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
 
@@ -58,10 +60,12 @@ public class EditBoardDialogFragment extends DialogFragment {
                 this.fullBoard.board.setTitle(this.boardTitle.getText().toString());
                 ((MainActivity) getActivity()).onUpdateBoard(fullBoard);
             });
-            syncManager.getFullBoardById(accountId, boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
+            new SyncManager(activity).getFullBoardById(Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID), boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 if (fb.board != null) {
                     this.fullBoard = fb;
-                    this.boardTitle.setText(this.fullBoard.getBoard().getTitle());
+                    String title = this.fullBoard.getBoard().getTitle();
+                    this.boardTitle.setText(title);
+                    this.boardTitle.setSelection(title.length());
                     this.colorChooser.selectColor("#" + fullBoard.getBoard().getColor());
                 }
             });
@@ -72,6 +76,14 @@ public class EditBoardDialogFragment extends DialogFragment {
                 .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
                 })
                 .create();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        boardTitle.requestFocus();
+        Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public static EditBoardDialogFragment newInstance(@NonNull Long accountId, @NonNull Long boardId) {
