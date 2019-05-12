@@ -30,7 +30,9 @@ public class CrossTabDragAndDrop {
     private final Activity activity;
     private final float pxToReact;
     private final long msToReact;
+    private final long msToReactOnMove;
     private long lastSwap = 0;
+    private long lastMove = 0;
 
     private final float pxToReactTopBottom;
 
@@ -42,6 +44,7 @@ public class CrossTabDragAndDrop {
         this.pxToReact = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react) * density;
         this.pxToReactTopBottom = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * density;
         this.msToReact = activity.getResources().getInteger(R.integer.drag_n_drop_ms_to_react);
+        this.msToReactOnMove = activity.getResources().getInteger(R.integer.drag_n_drop_ms_to_react_on_move);
     }
 
     public void register(final ViewPager viewPager) {
@@ -95,16 +98,21 @@ public class CrossTabDragAndDrop {
                         SCROLL_HELPER.stopScroll();
                     }
 
-                    //push around the other cards
-                    View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
-                    if (viewUnder != null) {
-                        int toPositon = currentRecyclerView.getChildAdapterPosition(viewUnder);
-                        if (toPositon != -1) {
-                            int fromPosition = currentRecyclerView.getChildAdapterPosition(cardView);
-                            if (fromPosition != -1 && fromPosition != toPositon) {
-                                cardAdapter.moveItem(fromPosition, toPositon);
-                                draggedCardLocalState.setPositionInCardAdapter(toPositon);
+                    if (lastMove + msToReactOnMove < now){
+                        //push around the other cards
+                        View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
+
+                        if (viewUnder != null) {
+                            int toPositon = currentRecyclerView.getChildAdapterPosition(viewUnder);
+                            if (toPositon != -1) {
+//                                DeckLog.log("dnd childUnder: "+((TextView)((LinearLayout)((LinearLayout)((CardView) viewUnder).getChildAt(0)).getChildAt(0)).getChildAt(0)).getText());
+                                int fromPosition = currentRecyclerView.getChildAdapterPosition(cardView);
+                                if (fromPosition != -1 && fromPosition != toPositon) {
+                                    cardAdapter.moveItem(fromPosition, toPositon);
+                                    draggedCardLocalState.setPositionInCardAdapter(toPositon);
+                                    lastMove = now;
+                                }
                             }
                         }
                     }
