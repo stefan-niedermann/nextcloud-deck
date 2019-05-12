@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
+import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 
 public class CrossTabDragAndDrop {
 
@@ -32,7 +34,7 @@ public class CrossTabDragAndDrop {
 
     private final float pxToReactTopBottom;
 
-    private final Set<CardMovedByDragListener> moveListenerList = new HashSet<>();
+    private final Set<CardMovedByDragListener> moveListenerList = new HashSet<>(1);
 
     public CrossTabDragAndDrop(Activity activity) {
         this.activity = activity;
@@ -78,7 +80,8 @@ public class CrossTabDragAndDrop {
 
                         if (shouldSwitchTab && isMovePossible(viewPager, newTabPosition)) {
                             removeItem(currentRecyclerView, cardView, cardAdapter);
-                            moveCardToTab(viewPager, draggedCardLocalState, now, newTabPosition);
+                            detectAndKillDuplicatesInNeighbourTab(viewPager, draggedCardLocalState.getDraggedCard(), oldTabPosition, newTabPosition);
+                            switchTab(viewPager, draggedCardLocalState, now, newTabPosition);
                             return true;
                         }
                     }
@@ -99,7 +102,7 @@ public class CrossTabDragAndDrop {
                         int toPositon = currentRecyclerView.getChildAdapterPosition(viewUnder);
                         if (toPositon != -1) {
                             int fromPosition = currentRecyclerView.getChildAdapterPosition(cardView);
-                            if (fromPosition != -1) {
+                            if (fromPosition != -1 && fromPosition != toPositon) {
                                 cardAdapter.moveItem(fromPosition, toPositon);
                                 draggedCardLocalState.setPositionInCardAdapter(toPositon);
                             }
@@ -117,7 +120,7 @@ public class CrossTabDragAndDrop {
         });
     }
 
-    private void moveCardToTab(ViewPager viewPager, final DraggedCardLocalState draggedCardLocalState, long now, int newPosition) {
+    private void switchTab(ViewPager viewPager, final DraggedCardLocalState draggedCardLocalState, long now, int newPosition) {
         draggedCardLocalState.onTabChanged(viewPager, newPosition);
         viewPager.setCurrentItem(newPosition);
 
@@ -154,6 +157,40 @@ public class CrossTabDragAndDrop {
 
     private static boolean isMovePossible(ViewPager viewPager, int newPosition) {
         return newPosition < viewPager.getAdapter().getCount() && newPosition >= 0;
+    }
+
+    private void detectAndKillDuplicatesInNeighbourTab(ViewPager viewPager, FullCard cardToFind, int oldTabPosition, int newTabPosition) {
+        int tabPositionToCheck = newTabPosition > oldTabPosition ? newTabPosition+1 : newTabPosition-1;
+
+        if (isMovePossible(viewPager, tabPositionToCheck)) {
+            viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    viewPager.removeOnPageChangeListener(this);
+                    StackAdapter stackAdapter = (StackAdapter) viewPager.getAdapter();
+
+                    CardAdapter cardAdapter = stackAdapter.getItem(tabPositionToCheck).getAdapter();
+                    cardAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                        @Override
+                        public void onChanged() {
+                            super.onChanged();
+                            cardAdapter.unregisterAdapterDataObserver(this);
+                            List<FullCard> cardList = cardAdapter.getCardList();
+                            for (int i = 0; i < cardList.size(); i++) {
+                                FullCard c = cardList.get(i);
+                                if (cardToFind.getCard().getLocalId().equals(c.getLocalId())){
+                                    cardAdapter.removeItem(i);
+                                    cardAdapter.notifyItemRemoved(i);
+//                                    DeckLog.log("dnd removed dupe at tab "+tabPositionToCheck+": "+c.getCard().getTitle());
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private static void removeItem(RecyclerView currentRecyclerView, CardView cardView, CardAdapter cardAdapter) {
