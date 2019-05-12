@@ -258,7 +258,9 @@ public class SyncManager {
 
     public void deleteStack(Stack stack) {
         //TODO: Tell the server
-        dataBaseAdapter.deleteStack(stack, true);
+        doAsync(() -> {
+            dataBaseAdapter.deleteStack(stack, true);
+        });
     }
 
     public void updateStack(Stack stack) {

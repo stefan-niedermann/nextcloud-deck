@@ -110,7 +110,7 @@ public class MainActivity extends DrawerActivity {
                 viewPager.post(() -> {
                     // Remember last stack for this board
                     if (stackAdapter.getCount() >= position) {
-                        long currentStackId = ((StackFragment) stackAdapter.getItem(position)).getStackId();
+                        long currentStackId = stackAdapter.getItem(position).getStackId();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + account.getId() + "_" + currentBoardId + " | " + currentStackId);
                         editor.putLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId, currentStackId);
@@ -292,6 +292,21 @@ public class MainActivity extends DrawerActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_card_list_delete_column:
+                Snackbar.make(coordinatorLayout, "Deleting stacks is not supported yet.", Snackbar.LENGTH_LONG).show();
+                long stackId = stackAdapter.getItem(viewPager.getCurrentItem()).getStackId();
+                LiveData<FullStack> fullStackLiveData = syncManager.getStack(account.getId(), stackId);
+                Observer<FullStack> observer = new Observer<FullStack>() {
+                    @Override
+                    public void onChanged(FullStack fullStack) {
+                        // TODO uncomment
+                        DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
+                        // syncManager.deleteStack(fullStack.getStack());
+                        fullStackLiveData.removeObserver(this);
+                    }
+                };
+                fullStackLiveData.observe(MainActivity.this, observer);
+                break;
             case R.id.action_card_list_add_column:
                 StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();
                 alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_stack));
