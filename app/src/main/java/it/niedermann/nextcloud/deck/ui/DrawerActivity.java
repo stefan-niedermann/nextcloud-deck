@@ -183,7 +183,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
         Account acc = new Account();
         acc.setName(account.name);
-        acc.setUserName(account.username);
+        acc.setUserName(account.userId);
         acc.setUrl(account.url);
         final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(acc);
         accountLiveData.observe(this, (Account ac) -> {
