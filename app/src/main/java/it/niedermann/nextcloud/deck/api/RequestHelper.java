@@ -12,7 +12,7 @@ public class RequestHelper {
 
     public static <T> void request(final Activity sourceActivity, final ApiProvider provider, final ObservableProvider<T> call, final IResponseCallback<T> callback){
 
-        if (provider.getAPI() == null){
+        if (provider.getDeckAPI() == null){
             provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
                 @Override public void onConnected() { /* great, nothing to do. */}
                 @Override
