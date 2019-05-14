@@ -291,7 +291,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     private void prepareOptionsMenu(Menu menu, FullCard card) {
-        if (containsUser(card.getAssignedUsers(), account.username)) {
+        if (containsUser(card.getAssignedUsers(), account.userId)) {
             menu.removeItem(menu.findItem(R.id.action_card_assign).getItemId());
         } else {
             menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
