@@ -90,6 +90,9 @@ public class DataBaseAdapter {
         readRelationsForCard(card);
         return card;
     }
+    public FullCard getFullCardByLocalIdDirectly(long accountId, long localId) {
+        return db.getCardDao().getFullCardByLocalIdDirectly(accountId, localId);
+    }
 
     private void readRelationsForCard(FullCard card) {
         if (card != null){
@@ -305,7 +308,11 @@ public class DataBaseAdapter {
     public LiveData<FullCard>  getCardByLocalId(long accountId, long localCardId) {
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::readRelationsForCard);
     }
-    
+
+    public Card  getCardByLocalIdDirectly(long accountId, long localCardId) {
+        return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
+    }
+
     public long createCard(long accountId, Card card) {
         card.setAccountId(accountId);
         return db.getCardDao().insert(card);
@@ -418,5 +425,9 @@ public class DataBaseAdapter {
     }
     public List<Label> getLocallyChangedLabels(long accountId, long boardId) {
         return db.getLabelDao().getLocallyChangedLabelsDirectly(accountId, boardId);
+    }
+
+    public Board getBoardByLocalCardIdDirectly(long localCardId) {
+        return db.getBoardDao().getBoardByLocalCardIdDirectly(localCardId);
     }
 }

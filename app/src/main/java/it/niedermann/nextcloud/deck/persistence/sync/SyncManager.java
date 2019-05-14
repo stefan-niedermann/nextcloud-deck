@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelp
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
@@ -320,6 +321,23 @@ public class SyncManager {
         return dataBaseAdapter.createLabel(accountId, label);
     }
 
+    public MutableLiveData<Label> createAndAssignLabelToCard(long accountId, Label label, long localCardId) {
+        MutableLiveData<Label> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            Board board = dataBaseAdapter.getBoardByLocalCardIdDirectly(localCardId);
+            label.setAccountId(accountId);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null) ,label, new IResponseCallback<Label>(account) {
+                @Override
+                public void onResponse(Label response) {
+                    assignLabelToCard(label, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
+                    liveData.postValue(response);
+                }
+            });
+        });
+        return liveData;
+    }
+
     public void deleteLabel(Label label) {
         //TODO: Tell the server
         dataBaseAdapter.deleteLabel(label, true);
@@ -331,7 +349,7 @@ public class SyncManager {
     }
 
     public void assignLabelToBoard(long localLabelId, long localBoardId) {
-        //TODO: Tell the server
+        //TODO: remove this method? also entities and daos!
         dataBaseAdapter.createJoinBoardWithLabel(localBoardId, localLabelId);
     }
 
