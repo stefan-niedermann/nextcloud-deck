@@ -14,24 +14,24 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 [![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/stefan-niedermann/donate)
 
-##  👀 Screenshots
+## 👀 Screenshots
 
 | List View | Card View |
 | --- | --- |
 | ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) |
 
-##  🚀 Features
+## 🚀 Features
 * Supports multiple accounts
 * Display boards, stacks and cards
 * Assign cards to users
 * Create, edit and delete boards
 * Create stacks
 
-##  🏁 Planned features
+## 🏁 Planned features
 * Full [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r) compatibility
 * Offline capabilities
 
-##  👪 Join the team
+## 👪 Join the team
 * Test the app with different devices
 * Report issues in the [issue tracker](https://github.com/stefan-niedermann/nextcloud-deck/issues)
 * [Pick a good first issue](https://github.com/stefan-niedermann/nextcloud-deck/labels/good%20first%20issue) :notebook:
@@ -39,12 +39,12 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * Translate the app on [Transifex](https://www.transifex.com/nextcloud/nextcloud/android-deck/)
 * Send me a bottle of your favorite beer :beers: :wink:
 
-##  🔗 Requirements
+## 🔗 Requirements
 * [Nextcloud](https://nextcloud.com/) instance running
 * [Nextcloud Files](https://github.com/nextcloud/android) app installed (version 3.2.2 or later)
 * [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (version 0.6.1 or later)
 
-##  📓 License
+## 📓 License
 All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).
 
 Contributors to the Deck Android app retain their copyright. Therefore we recommend to add following line to the header of a file, if you changed it substantially:
