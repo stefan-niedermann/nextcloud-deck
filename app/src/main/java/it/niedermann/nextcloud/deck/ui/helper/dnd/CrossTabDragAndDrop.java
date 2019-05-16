@@ -119,6 +119,7 @@ public class CrossTabDragAndDrop {
                     break;
                 }
                 case DragEvent.ACTION_DROP: {
+                    SCROLL_HELPER.stopScroll();
                     cardView.setVisibility(View.VISIBLE);
                     notifyListeners(draggedCardLocalState);
                     break;

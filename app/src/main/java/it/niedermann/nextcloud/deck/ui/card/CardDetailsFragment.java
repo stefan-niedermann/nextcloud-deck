@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +23,8 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.chip.Chip;
@@ -226,9 +227,23 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         labels.setAdapter(new LabelAutoCompleteAdapter(this, getActivity(), accountId, boardId));
         labels.setOnItemClickListener((adapterView, view, position, id) -> {
             Label label = (Label) adapterView.getItemAtPosition(position);
-            if (LabelAutoCompleteAdapter.CREATE_ID == label.getId()) {
-                // TODO create label in database _and_ on server
-                Toast.makeText(getActivity(), "Implement server call", Toast.LENGTH_SHORT).show();
+            if (LabelAutoCompleteAdapter.CREATE_ID == label.getLocalId()) {
+                Label newLabel = new Label(label);
+                newLabel.setLocalId(null);
+                LiveData<Label> labelLiveData = syncManager.createAndAssignLabelToCard(accountId, newLabel, card.getLocalId());
+                Observer<Label> observer = new Observer<Label>() {
+                    @Override
+                    public void onChanged(Label createdLabel) {
+                        Chip chip = createChipFromLabel(createdLabel);
+                        chip.setOnCloseIconClickListener(v -> {
+                            labelsGroup.removeView(chip);
+                            syncManager.unassignLabelFromCard(createdLabel, card.getCard());
+                        });
+                        labelsGroup.addView(chip);
+                        labelLiveData.removeObserver(this);
+                    }
+                };
+                labelLiveData.observe(CardDetailsFragment.this, observer);
             } else {
                 // TODO needs to be done for created label too as soo as its created
                 syncManager.assignLabelToCard(label, card.getCard());
