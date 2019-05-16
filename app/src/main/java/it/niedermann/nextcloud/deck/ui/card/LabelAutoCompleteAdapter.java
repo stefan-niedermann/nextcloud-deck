@@ -45,7 +45,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         this.boardId = boardId;
         syncManager = new SyncManager(activity);
         createLabel = new Label();
-        createLabel.setId(CREATE_ID);
+        createLabel.setLocalId(CREATE_ID);
         createLabel.setBoardId(boardId);
         createLabel.setAccountId(accountId);
         createLabelText = activity.getResources().getString(R.string.label_create);
