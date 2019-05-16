@@ -104,13 +104,13 @@ public interface DeckAPI {
     @GET("boards/{boardId}/labels/{labelId}")
     Observable<Label> getLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
-    @PUT("boards/getBoards/{boardId}/labels/{labelId}")
+    @PUT("boards/{boardId}/labels/{labelId}")
     Observable<Label> updateLabel(@Path("boardId") long boardId, @Path("labelId") long labelId, @Body Label label);
 
-    @POST("boards/getBoards/{boardId}/labels")
+    @POST("boards/{boardId}/labels")
     Observable<Label> createLabel(@Path("boardId") long boardId, @Body Label label);
 
-    @DELETE("boards/getBoards/{boardId}/labels/{labelId}")
+    @DELETE("boards/{boardId}/labels/{labelId}")
     Observable<Void> deleteLabel(@Path("boardId") long boardId, @Path("labelId") long labelId);
 
 
