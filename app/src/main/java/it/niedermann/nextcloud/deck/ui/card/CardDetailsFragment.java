@@ -228,7 +228,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         labels.setOnItemClickListener((adapterView, view, position, id) -> {
             Label label = (Label) adapterView.getItemAtPosition(position);
             if (LabelAutoCompleteAdapter.CREATE_ID == label.getLocalId()) {
-                LiveData<Label> labelLiveData = syncManager.createAndAssignLabelToCard(accountId, label, card.getLocalId());
+                Label newLabel = new Label(label);
+                newLabel.setLocalId(null);
+                LiveData<Label> labelLiveData = syncManager.createAndAssignLabelToCard(accountId, newLabel, card.getLocalId());
                 Observer<Label> observer = new Observer<Label>() {
                     @Override
                     public void onChanged(Label createdLabel) {
