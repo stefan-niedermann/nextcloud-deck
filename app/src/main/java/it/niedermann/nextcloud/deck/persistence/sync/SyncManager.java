@@ -333,6 +333,12 @@ public class SyncManager {
                     assignLabelToCard(label, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
                     liveData.postValue(response);
                 }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    super.onError(throwable);
+                    assignLabelToCard(label, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
+                }
             });
         });
         return liveData;
