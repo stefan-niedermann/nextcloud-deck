@@ -11,6 +11,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 
 /**
  * Created by david on 27.06.17.
@@ -27,6 +28,8 @@ public class GsonConfig {
         Type label = new TypeToken<Label>() {}.getType();
         Type stackList = new TypeToken<List<FullStack>>() {}.getType();
         Type stack = new TypeToken<FullStack>() {}.getType();
+        Type capabilities = new TypeToken<Capabilities>() {}.getType();
+        Type capabilitiesList = new TypeToken<List<Capabilities>>() {}.getType();
 
         return new GsonBuilder()
                 .setLenient()
@@ -38,6 +41,8 @@ public class GsonConfig {
                 .registerTypeAdapter(label,         new NextcloudDeserializer<>("label", Label.class))
                 .registerTypeAdapter(stackList,     new NextcloudArrayDeserializer<>("stacks", FullStack.class))
                 .registerTypeAdapter(stack,         new NextcloudDeserializer<>("stack", FullStack.class))
+                .registerTypeAdapter(capabilitiesList,     new NextcloudArrayDeserializer<>("capabilities", Capabilities.class))
+                .registerTypeAdapter(capabilities,         new NextcloudDeserializer<>("capability", Capabilities.class))
                 .create();
     }
 

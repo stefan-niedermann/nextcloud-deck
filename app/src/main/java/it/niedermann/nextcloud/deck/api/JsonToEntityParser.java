@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 
 public class JsonToEntityParser {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
@@ -225,6 +226,13 @@ public class JsonToEntityParser {
         user.setPrimaryKey(getNullAsEmptyString(e.get("primaryKey")));
         user.setUid(getNullAsEmptyString(e.get("uid")));
         return user;
+    }
+
+    protected static Capabilities parseCapabilities(JsonObject e) {
+        DeckLog.log(e.toString());
+        Capabilities capabilities = new Capabilities();
+
+        return capabilities;
     }
 
     protected static FullStack parseStack(JsonObject e) {

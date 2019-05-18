@@ -7,6 +7,8 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
+import it.niedermann.nextcloud.deck.DeckLog;
+
 /**
  * Created by david on 24.05.17.
  */
@@ -24,6 +26,7 @@ public class NextcloudDeserializer<T> implements JsonDeserializer<T> {
 
     @Override
     public T deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+        DeckLog.log(json.toString());
         return JsonToEntityParser.parseJsonObject(json.getAsJsonObject(), mType);
 
     }

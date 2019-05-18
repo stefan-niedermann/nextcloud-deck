@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class ServerAdapter {
@@ -99,6 +100,9 @@ public class ServerAdapter {
         RequestHelper.request(sourceActivity, provider, () ->
                 provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())),
                 responseCallback);
+    }
+    public void getCapabilities(IResponseCallback<Capabilities> responseCallback) {
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
     }
 
     public void createBoard(Board board, IResponseCallback<FullBoard> responseCallback) {

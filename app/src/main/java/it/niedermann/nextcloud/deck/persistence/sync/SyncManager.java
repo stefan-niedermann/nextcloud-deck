@@ -12,6 +12,7 @@ import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -25,6 +26,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -158,6 +160,12 @@ public class SyncManager {
     }
 
     public LiveData<List<Board>> getBoards(long accountId) {
+        serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(null) {
+            @Override
+            public void onResponse(Capabilities response) {
+                DeckLog.log(response.toString());
+            }
+        });
         return dataBaseAdapter.getBoards(accountId);
     }
 
