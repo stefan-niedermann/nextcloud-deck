@@ -45,6 +45,8 @@ public class JsonToEntityParser {
             return (T) parseStack(obj);
         } else if (mType == Label.class) {
             return (T) parseLabel(obj);
+        }  else if (mType == Capabilities.class) {
+            return (T) parseCapabilities(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
     }
