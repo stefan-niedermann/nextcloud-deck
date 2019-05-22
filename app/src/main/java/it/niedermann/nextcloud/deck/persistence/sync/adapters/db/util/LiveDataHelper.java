@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
@@ -48,6 +50,17 @@ public class LiveDataHelper {
 
         ret.addSource(data, changedData -> doAsync(() ->ret.postValue(transformator.transform(changedData))));
         return onlyIfChanged(ret);
+    }
+
+    public static <I> MediatorLiveData<I> of(I oneShot) {
+        MediatorLiveData<I> ret = new MediatorLiveData<I>() {
+            @Override
+            public void observe(@NonNull LifecycleOwner owner, @NonNull Observer observer) {
+                super.observe(owner, observer);
+                doAsync(() -> postValue(oneShot));
+            }
+        };
+        return ret;
     }
 
     public static <I, O> MediatorLiveData<O> postSingleValue(LiveData<I> data, DataTransformator<I, O> transformator) {
