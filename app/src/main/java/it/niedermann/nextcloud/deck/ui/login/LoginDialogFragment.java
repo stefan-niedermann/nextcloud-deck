@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment;
 import android.util.Log;
 
 import com.nextcloud.android.sso.AccountImporter;
+import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
@@ -25,6 +26,11 @@ public class LoginDialogFragment extends DialogFragment {
             UiExceptionManager.showDialogForException(getContext(), e);
             Log.w("Deck", "=============================================================");
             Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
+            e.printStackTrace();
+        } catch (AndroidGetAccountsPermissionNotGranted e) {
+            UiExceptionManager.showDialogForException(getContext(), e);
+            Log.w("Deck", "=============================================================");
+            Log.w("Deck", "Permission not granted!");
             e.printStackTrace();
         }
         return super.onCreateDialog(savedInstanceState);
