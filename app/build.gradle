@@ -32,7 +32,6 @@ android {
 }
 
 dependencies {
-    //implementation 'com.github.nextcloud:Android-SingleSignOn:0.3.0'
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.3.1'
 
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'

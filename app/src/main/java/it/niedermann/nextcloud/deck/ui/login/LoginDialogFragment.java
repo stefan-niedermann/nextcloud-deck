@@ -3,10 +3,11 @@ package it.niedermann.nextcloud.deck.ui.login;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import android.util.Log;
 
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
@@ -14,7 +15,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledExcepti
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
-import it.niedermann.nextcloud.deck.ui.MainActivity;
+import it.niedermann.nextcloud.deck.ui.DrawerActivity;
 
 public class LoginDialogFragment extends DialogFragment {
     @NonNull
@@ -41,7 +42,7 @@ public class LoginDialogFragment extends DialogFragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         AccountImporter.onActivityResult(requestCode, resultCode, data, LoginDialogFragment.this, (SingleSignOnAccount account) -> {
-            ((MainActivity) getActivity()).onAccountChoose(account);
+            ((DrawerActivity) getActivity()).onAccountChoose(account);
         });
     }
 }
