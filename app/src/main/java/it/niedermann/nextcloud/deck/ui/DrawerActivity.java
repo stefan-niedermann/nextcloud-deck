@@ -159,6 +159,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
                     // Remember last account
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    DeckLog.log("--- Write: shared_preference_last_account" + " | " + this.account.getId());
                     editor.putLong(getString(R.string.shared_preference_last_account), this.account.getId());
                     editor.apply();
             }
