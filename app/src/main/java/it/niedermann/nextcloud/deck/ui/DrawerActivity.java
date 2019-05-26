@@ -31,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -91,7 +92,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 syncManager.readAccounts().observe(this, (List<Account> accounts) -> {
                     accountsList = accounts;
                     long lastAccountId = sharedPreferences.getLong(getString(R.string.shared_preference_last_account), NO_ACCOUNTS);
-                    if (accounts.size() > lastAccountId) {
+                    DeckLog.log("--- Read: shared_preference_last_account" + " | " + lastAccountId);
+
+                    if (accounts.size() >= lastAccountId) {
                         for (Account account : accounts) {
                             if (lastAccountId == account.getId()) {
                                 this.account = account;
