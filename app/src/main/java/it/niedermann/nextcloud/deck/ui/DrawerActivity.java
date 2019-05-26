@@ -46,6 +46,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected static final int MENU_ID_ADD_BOARD = -2;
     protected static final int MENU_ID_ADD_ACCOUNT = -2;
     protected static final int ACTIVITY_ABOUT = 1;
+    protected static final long NO_ACCOUNTS = -1;
     protected static final long NO_BOARDS = -1;
     protected static final long NO_STACKS = -1;
 
@@ -88,24 +89,27 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         syncManager.hasAccounts().observe(this, (Boolean hasAccounts) -> {
             if (hasAccounts != null && hasAccounts) {
                 syncManager.readAccounts().observe(this, (List<Account> accounts) -> {
-                    if (accounts != null) {
-                        accountsList = accounts;
-                        int lastAccount = sharedPreferences.getInt(getString(R.string.shared_preference_last_account), 0);
-                        if (accounts.size() > lastAccount) {
-                            this.account = accounts.get(lastAccount);
-                            SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                            setHeaderView();
-                            syncManager = new SyncManager(this);
-                            ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
-                            // TODO show spinner
-                            syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                                @Override
-                                public void onResponse(Boolean response) {
-                                    //nothing
-                                }
-                            });
-                            accountSet(this.account);
+                    accountsList = accounts;
+                    long lastAccountId = sharedPreferences.getLong(getString(R.string.shared_preference_last_account), NO_ACCOUNTS);
+                    if (accounts.size() > lastAccountId) {
+                        for (Account account : accounts) {
+                            if (lastAccountId == account.getId()) {
+                                this.account = account;
+                                break;
+                            }
                         }
+                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                        setHeaderView();
+                        syncManager = new SyncManager(this);
+                        ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
+                        // TODO show spinner
+                        syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                //nothing
+                            }
+                        });
+                        accountSet(this.account);
                     }
                 });
             } else {
@@ -152,7 +156,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
                     // Remember last account
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt(getString(R.string.shared_preference_last_account), item.getItemId());
+                    editor.putLong(getString(R.string.shared_preference_last_account), this.account.getId());
                     editor.apply();
             }
         } else {
