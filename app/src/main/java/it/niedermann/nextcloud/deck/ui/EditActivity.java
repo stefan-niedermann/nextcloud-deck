@@ -25,9 +25,11 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.viewmodel.FullCardViewModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
@@ -102,13 +104,15 @@ public class EditActivity extends AppCompatActivity {
 
             if (NO_LOCAL_ID.equals(localId)) {
                 Objects.requireNonNull(actionBar).setTitle(getString(R.string.create_card));
-                // FIXME
-                fullCardViewModel.fullCard = new LiveData<FullCard>() {
-                    @Override
-                    public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super FullCard> observer) {
-                        super.observe(owner, observer);
-                    }
-                };
+                // FIXME card wont be filled by data-binding... no idea why...
+
+                FullCard fullCard = new FullCard();
+                Card card = new Card();
+                card.setDescription("");
+                card.setTitle("");
+                card.setStackId(stackId);
+                fullCard.setCard(card);
+                fullCardViewModel.fullCard = LiveDataHelper.of(fullCard);
             } else {
                 fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, localId);
             }
@@ -132,7 +136,7 @@ public class EditActivity extends AppCompatActivity {
         if (fullCardViewModel.fullCard != null && fullCardViewModel.fullCard.getValue() != null) {
             if (NO_LOCAL_ID.equals(localId)) {
                 Toast.makeText(getApplicationContext(), "Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
-                // TODO
+                // TODO reactivate as soon as data binding works
 //                syncManager.createCard(accountId, boardId, stackId, fullCardViewModel.fullCard.getValue().card).observe(EditActivity.this, (FullCard fullCard) -> {
 //                    fullCardViewModel.fullCard = syncManager.getCardByLocalId(accountId, fullCard.getLocalId());
 //                });
