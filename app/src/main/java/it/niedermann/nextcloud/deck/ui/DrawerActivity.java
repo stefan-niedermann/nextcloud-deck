@@ -95,12 +95,17 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     DeckLog.log("--- Read: shared_preference_last_account" + " | " + lastAccountId);
 
                     if (accounts.size() >= lastAccountId) {
-                        for (Account account : accounts) {
-                            if (lastAccountId == account.getId()) {
-                                this.account = account;
-                                break;
+                        if (lastAccountId == NO_ACCOUNTS || accountsList.size() == 1) {
+                            this.account = accountsList.get(0);
+                        } else {
+                            for (Account account : accounts) {
+                                if (lastAccountId == account.getId()) {
+                                    this.account = account;
+                                    break;
+                                }
                             }
                         }
+
                         SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                         setHeaderView();
                         syncManager = new SyncManager(this);
