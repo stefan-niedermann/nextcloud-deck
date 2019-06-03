@@ -118,8 +118,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             return true;
         });
         viewHolder.cardTitle.setText(card.getCard().getTitle());
-
-        if (card.getCard().getDescription().length() > 0) {
+        String description = card.getCard().getDescription();
+        if (description != null && description.length() > 0) {
             viewHolder.cardDescription.setText(card.getCard().getDescription());
             viewHolder.cardDescription.setVisibility(View.VISIBLE);
         } else {

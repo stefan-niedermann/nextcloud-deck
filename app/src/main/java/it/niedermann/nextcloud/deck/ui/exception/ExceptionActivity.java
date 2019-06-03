@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -36,11 +38,13 @@ public class ExceptionActivity extends AppCompatActivity {
         throwable.printStackTrace();
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.error));
         this.message.setText(throwable.getMessage());
-        StringBuilder concatenatedStacktrace = new StringBuilder();
-        for (StackTraceElement stackTraceElement : throwable.getStackTrace()) {
-            concatenatedStacktrace.append(stackTraceElement.toString()).append("\n");
-        }
-        this.stacktrace.setText(concatenatedStacktrace);
+        this.stacktrace.setText(getStacktraceOf(throwable));
+    }
+
+    private String getStacktraceOf(Throwable e) {
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
     }
 
 
