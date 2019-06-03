@@ -48,11 +48,11 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         childDone(this, callback, true);
     }
 
-    public abstract void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> responder, T entity);
+    public abstract void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<T> responder, T entity);
 
-    public abstract void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<T> callback, T entity);
+    public abstract void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<T> callback, T entity);
 
-    public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, T entity);
+    public abstract void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, T entity, DataBaseAdapter dataBaseAdapter);
 
     public void childDone(AbstractSyncDataProvider<?> child, IResponseCallback<Boolean> responseCallback, boolean syncChangedSomething) {
         children.remove(child);

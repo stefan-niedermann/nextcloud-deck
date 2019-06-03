@@ -9,6 +9,7 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -111,13 +112,25 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
+        Board board = this.board;
+        Stack stack = this.stack == null ? null : this.stack.getStack();
+        if (board == null || stack == null){
+            stack = dataBaseAdapter.getStackByLocalIdDirectly(entity.getCard().getStackId());
+            board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+        }
         serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
-        serverAdapter.updateCard(board.getId(), stack.getId(), entity.getCard(), callback);
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
+        Board board = this.board;
+        Stack stack = this.stack == null ? null : this.stack.getStack();
+        if (board == null || stack == null){
+            stack = dataBaseAdapter.getStackByLocalIdDirectly(entity.getCard().getStackId());
+            board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+        }
+        serverAdapter.updateCard(board.getId(), entity.getCard().getStackId(), entity.getCard(), callback);
     }
 
     @Override
@@ -126,14 +139,20 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullCard entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
+
+        Board board = this.board;
+        Stack stack = this.stack == null ? null : this.stack.getStack();
+        if (board == null || stack == null){
+            stack = dataBaseAdapter.getStackByLocalIdDirectly(entity.getCard().getStackId());
+            board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+        }
         serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 
     @Override
     public List<FullCard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        //TODO: implement
-        return null;
+        return dataBaseAdapter.getLocallyChangedCardsDirectly(accountId);
     }
 
     @Override

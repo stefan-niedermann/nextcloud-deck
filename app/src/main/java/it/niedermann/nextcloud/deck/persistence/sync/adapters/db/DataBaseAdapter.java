@@ -217,6 +217,9 @@ public class DataBaseAdapter {
         markAsDeletedIfNeeded(label, setStatus);
         db.getLabelDao().update(label);
     }
+    public void deleteLabelPhysically(Label label) {
+        db.getLabelDao().delete(label);
+    }
 
     public WrappedLiveData<Account> createAccount(Account account) {
         return LiveDataHelper.wrapInLiveData(() -> {
@@ -305,12 +308,15 @@ public class DataBaseAdapter {
         db.getStackDao().update(stack);
     }
     
+    public Card  getCardByLocalIdDirectly(long accountId, long localCardId) {
+        return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
+    }
+
     public LiveData<FullCard>  getCardByLocalId(long accountId, long localCardId) {
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::readRelationsForCard);
     }
-
-    public Card  getCardByLocalIdDirectly(long accountId, long localCardId) {
-        return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
+    public List<FullCard> getLocallyChangedCardsDirectly(long accountId) {
+        return db.getCardDao().getLocallyChangedCardsDirectly(accountId);
     }
 
     public long createCard(long accountId, Card card) {

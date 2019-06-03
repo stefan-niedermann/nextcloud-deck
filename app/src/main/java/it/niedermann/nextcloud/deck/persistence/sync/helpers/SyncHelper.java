@@ -73,23 +73,21 @@ public class SyncHelper {
 
     // Sync App -> Server
     public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider){
-        new Thread(() -> {
-            List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
-            if (allFromDB != null && !allFromDB.isEmpty()) {
-                for (T entity : allFromDB) {
-                    if (entity.getId()!=null) {
-                        if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                            provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity), entity);
-                        } else {
-                            provider.updateOnServer(serverAdapter, accountId, getUpdateCallback(provider, entity), entity);
-                        }
+        List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
+        if (allFromDB != null && !allFromDB.isEmpty()) {
+            for (T entity : allFromDB) {
+                if (entity.getId()!=null) {
+                    if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
+                        provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity), entity, dataBaseAdapter);
                     } else {
-                        provider.createOnServer(serverAdapter, accountId, getUpdateCallback(provider, entity), entity);
+                        provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity), entity);
                     }
+                } else {
+                    provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity), entity);
                 }
             }
-            provider.goDeeperForUpSync(this, dataBaseAdapter, responseCallback);
-        }).start();
+        }
+        provider.goDeeperForUpSync(this, dataBaseAdapter, responseCallback);
     }
 
     private <T extends IRemoteEntity> IResponseCallback<Void> getDeleteCallback(AbstractSyncDataProvider<T> provider, T entity) {

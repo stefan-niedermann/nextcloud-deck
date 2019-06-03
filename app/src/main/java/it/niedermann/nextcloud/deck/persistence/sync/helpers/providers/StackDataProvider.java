@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -56,7 +57,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
         entity.getStack().setBoardId(board.getId());
         serverAdapter.createStack(entity.getStack(), responder);
     }
@@ -67,22 +68,27 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullStack entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullStack entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteStack(entity.getStack(), callback);
     }
 
     @Override
     public List<FullStack> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        return dataBaseAdapter.getLocallyChangedStacks(accountId);
+        List<FullStack> locallyChangedStacks = dataBaseAdapter.getLocallyChangedStacks(accountId);
+        for (FullStack locallyChangedStack : locallyChangedStacks) {
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(locallyChangedStack.getStack().getBoardId());
+            locallyChangedStack.getStack().setBoardId(board.getId());
+        }
+        return locallyChangedStacks;
     }
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
-        // TODO: implement
+        syncHelper.doUpSyncFor(new CardDataProvider(this, null, null));
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
         serverAdapter.updateStack(entity.getStack(), callback);
     }
 }

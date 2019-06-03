@@ -23,7 +23,7 @@ public class DataPropagationHelper {
         entity.setLocalId(newID);
         boolean connected = serverAdapter.hasInternetConnection();
         if (connected) {
-            provider.createOnServer(serverAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
+            provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
                 @Override
                 public void onResponse(T response) {
                     applyUpdatesFromRemote(entity, response, accountId);
@@ -48,7 +48,7 @@ public class DataPropagationHelper {
         provider.updateInDB(dataBaseAdapter, accountId, entity);
         boolean connected = serverAdapter.hasInternetConnection();
         if (connected) {
-            provider.updateOnServer(serverAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
+            provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
                 @Override
                 public void onResponse(T response) {
                     callback.onResponse(entity);
@@ -81,7 +81,7 @@ public class DataPropagationHelper {
                     super.onError(throwable);
                     callback.onError(throwable);
                 }
-            }, entity);
+            }, entity, dataBaseAdapter);
         } else {
             callback.onResponse(null);
         }
