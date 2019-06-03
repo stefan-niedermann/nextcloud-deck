@@ -74,7 +74,7 @@ public class ServerAdapter {
 
     public boolean hasInternetConnection(){
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo().isConnected();
+        return cm != null && cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     private String getLastSyncDateFormatted(long accountId) {
