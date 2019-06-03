@@ -129,6 +129,7 @@ public class SyncHelper {
         if (!accountId.equals(localEntity.getAccountId())) {
             throw new IllegalArgumentException("IDs of Accounts are not matching! WTF are you doin?!");
         }
+        //TODO: da fuq?!? it MUST be an error... sets the actual data? remote = remote?!? are you drunk?!
         remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
         remoteEntity.setLocalId(localEntity.getLocalId());
         return remoteEntity;
