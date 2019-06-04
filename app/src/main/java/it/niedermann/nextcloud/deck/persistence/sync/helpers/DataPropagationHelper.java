@@ -18,6 +18,9 @@ public class DataPropagationHelper {
 
 
     public <T extends IRemoteEntity> void createEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback){
+        createEntity(provider, entity, callback, null);
+    }
+    public <T extends IRemoteEntity> void createEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback, OnResponseAction<T> actionOnResponse){
         final long accountId = callback.getAccount().getId();
         long newID = provider.createInDB(dataBaseAdapter, accountId, entity);
         entity.setLocalId(newID);
@@ -26,10 +29,12 @@ public class DataPropagationHelper {
             provider.createOnServer(serverAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
                 @Override
                 public void onResponse(T response) {
-                    applyUpdatesFromRemote(entity, response, accountId);
-                    entity.setId(response.getId());
-                    provider.updateInDB(dataBaseAdapter, accountId, entity);
-                    callback.onResponse(entity);
+                    response.setLocalId(newID);
+                    if (actionOnResponse!= null) {
+                        actionOnResponse.onResponse(entity, response);
+                    }
+                    provider.updateInDB(dataBaseAdapter, accountId, response);
+                    callback.onResponse(response);
                 }
 
                 @Override
@@ -87,12 +92,7 @@ public class DataPropagationHelper {
         }
     }
 
-    private <T extends IRemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
-        if (!accountId.equals(localEntity.getAccountId())) {
-            throw new IllegalArgumentException("IDs of Accounts are not matching! WTF are you doin?!");
-        }
-        remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
-        remoteEntity.setLocalId(localEntity.getLocalId());
-        return remoteEntity;
+    public interface OnResponseAction <T> {
+        void onResponse(T entity, T response);
     }
 }

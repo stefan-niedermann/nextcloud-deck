@@ -330,7 +330,7 @@ public class SyncManager {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null) ,label, new IResponseCallback<Label>(account) {
                 @Override
                 public void onResponse(Label response) {
-                    assignLabelToCard(label, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
+                    assignLabelToCard(response, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
                     liveData.postValue(response);
                 }
 
@@ -339,6 +339,8 @@ public class SyncManager {
                     super.onError(throwable);
                     assignLabelToCard(label, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
                 }
+            }, (entity, response) -> {
+                response.setBoardId(board.getLocalId());
             });
         });
         return liveData;
