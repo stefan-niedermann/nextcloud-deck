@@ -47,6 +47,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Label> responder, Label entity) {
+        entity.setBoardId(board.getId());
         serverAdapter.createLabel(board.getId(), entity, responder);
     }
 
