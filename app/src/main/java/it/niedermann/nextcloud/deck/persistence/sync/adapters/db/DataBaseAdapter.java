@@ -60,8 +60,8 @@ public class DataBaseAdapter {
         return db.getBoardDao().getFullBoardByRemoteIdDirectly(accountId, remoteId);
     }
 
-    public FullBoard getFullBoardByIdDirectly(long accountId, long id) {
-        return db.getBoardDao().getFullBoardByIdDirectly(accountId, id);
+    public FullBoard getFullBoardByLocalIdDirectly(long accountId, long localId) {
+        return db.getBoardDao().getFullBoardByLocalIdDirectly(accountId, localId);
     }
 
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
@@ -318,6 +318,9 @@ public class DataBaseAdapter {
     public List<FullCard> getLocallyChangedCardsDirectly(long accountId) {
         return db.getCardDao().getLocallyChangedCardsDirectly(accountId);
     }
+    public List<FullCard> getLocallyChangedCardsByLocalStackIdDirectly(long accountId, long localStackId) {
+        return db.getCardDao().getLocallyChangedCardsByLocalStackIdDirectly(accountId, localStackId);
+    }
 
     public long createCard(long accountId, Card card) {
         card.setAccountId(accountId);
@@ -426,6 +429,9 @@ public class DataBaseAdapter {
         return db.getBoardDao().getLocallyChangedBoardsDirectly(accountId);
     }
 
+    public List<FullStack> getLocallyChangedStacksForBoard(long accountId, long localBoardId) {
+        return db.getStackDao().getLocallyChangedStacksForBoardDirectly(accountId, localBoardId);
+    }
     public List<FullStack> getLocallyChangedStacks(long accountId) {
         return db.getStackDao().getLocallyChangedStacksDirectly(accountId);
     }

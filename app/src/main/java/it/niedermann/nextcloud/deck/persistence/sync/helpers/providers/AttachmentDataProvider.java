@@ -64,7 +64,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public List<Attachment> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<Attachment> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
     }
 }

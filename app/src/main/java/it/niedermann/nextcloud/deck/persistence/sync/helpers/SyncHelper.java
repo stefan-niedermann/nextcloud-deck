@@ -73,7 +73,7 @@ public class SyncHelper {
 
     // Sync App -> Server
     public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider){
-        List<T> allFromDB = provider.getAllFromDB(dataBaseAdapter, accountId, lastSync);
+        List<T> allFromDB = provider.getAllChangedFromDB(dataBaseAdapter, accountId, lastSync);
         if (allFromDB != null && !allFromDB.isEmpty()) {
             for (T entity : allFromDB) {
                 if (entity.getId()!=null) {

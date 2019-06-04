@@ -61,7 +61,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public List<Label> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<Label> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return labels;
     }
 

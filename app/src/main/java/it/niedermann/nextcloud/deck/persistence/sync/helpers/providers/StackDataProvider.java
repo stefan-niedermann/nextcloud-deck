@@ -1,12 +1,15 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -73,18 +76,25 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public List<FullStack> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        List<FullStack> locallyChangedStacks = dataBaseAdapter.getLocallyChangedStacks(accountId);
-        for (FullStack locallyChangedStack : locallyChangedStacks) {
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(locallyChangedStack.getStack().getBoardId());
-            locallyChangedStack.getStack().setBoardId(board.getId());
-        }
-        return locallyChangedStacks;
+    public List<FullStack> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        List<FullStack> changedStacks = dataBaseAdapter.getLocallyChangedStacksForBoard(accountId, board.getLocalId());
+        return changedStacks;
     }
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
-        syncHelper.doUpSyncFor(new CardDataProvider(this, null, null));
+        List<FullCard> changedCards = dataBaseAdapter.getLocallyChangedCardsDirectly(callback.getAccount().getId());
+        Set<Long> syncedStacks = new HashSet<>();
+        for (FullCard changedCard : changedCards) {
+            long stackId = changedCard.getCard().getStackId();
+            boolean added = syncedStacks.add(stackId);
+            if (added) {
+                FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackId);
+                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+                changedCard.getCard().setStackId(stack.getId());
+                syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack));
+            }
+        }
     }
 
     @Override

@@ -1,13 +1,18 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -81,19 +86,36 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public List<FullBoard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<FullBoard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return dataBaseAdapter.getLocallyChangedBoards(accountId);
     }
 
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
-
-        List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(callback.getAccount().getId());
+        Long accountId = callback.getAccount().getId();
+        List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(accountId);
         for (Label label : locallyChangedLabels) {
-            label.setBoardId(dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId()).getId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
+            label.setBoardId(board.getId());
+            syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)));
         }
-        syncHelper.doUpSyncFor(new LabelDataProvider(this, null, locallyChangedLabels));
-        syncHelper.doUpSyncFor(new StackDataProvider(this, null));
+
+        Set<Long> syncedBoards = new HashSet<>();
+        List<FullStack> locallyChangedStacks = dataBaseAdapter.getLocallyChangedStacks(accountId);
+        if (locallyChangedStacks.size() < 1) {
+            // no changed stacks? maybe cards! So we have to go deeper!
+            new StackDataProvider(this, null).goDeeperForUpSync(syncHelper, dataBaseAdapter, callback);
+        } else {
+            for (FullStack locallyChangedStack : locallyChangedStacks) {
+                long boardId = locallyChangedStack.getStack().getBoardId();
+                boolean added = syncedBoards.add(boardId);
+                if (added) {
+                    FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId);
+                    locallyChangedStack.getStack().setBoardId(board.getId());
+                    syncHelper.doUpSyncFor(new StackDataProvider(this, board));
+                }
+            }
+        }
     }
 
     @Override

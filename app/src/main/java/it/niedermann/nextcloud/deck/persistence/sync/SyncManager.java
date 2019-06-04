@@ -187,7 +187,7 @@ public class SyncManager {
         long accountId = board.getAccountId();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            FullBoard fullBoard = dataBaseAdapter.getFullBoardByIdDirectly(accountId, board.getLocalId());
+            FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, board.getLocalId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
                 @Override
                 public void onResponse(FullBoard response) {
@@ -241,7 +241,7 @@ public class SyncManager {
         MutableLiveData<FullStack> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            FullBoard board = dataBaseAdapter.getFullBoardByIdDirectly(accountId, stack.getBoardId());
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
             FullStack fullStack = new FullStack();
             stack.setAccountId(accountId);
             stack.setBoardId(board.getLocalId());
