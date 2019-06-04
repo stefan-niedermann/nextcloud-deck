@@ -160,11 +160,19 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         });
 
         dueDate.setOnClickListener(v -> {
-            createDatePickerDialogFromDate(getActivity(), this, card.getCard().getDueDate()).show();
+            if (card != null && card.getCard() != null) {
+                createDatePickerDialogFromDate(getActivity(), this, card.getCard().getDueDate()).show();
+            } else {
+                createDatePickerDialogFromDate(getActivity(), this, null).show();
+            }
         });
 
         dueDateTime.setOnClickListener(v -> {
-            createTimePickerDialogFromDate(getActivity(), this, card.getCard().getDueDate()).show();
+            if (card != null && card.getCard() != null) {
+                createTimePickerDialogFromDate(getActivity(), this, card.getCard().getDueDate()).show();
+            } else {
+                createTimePickerDialogFromDate(getActivity(), this, null).show();
+            }
         });
 
         clearDueDate.setOnClickListener(v -> {
@@ -176,7 +184,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private TimePickerDialog createTimePickerDialogFromDate(
             @NonNull Context context,
             @Nullable TimePickerDialog.OnTimeSetListener listener,
-            Date date
+            @Nullable Date date
     ) {
         int hourOfDay = 0;
         int minutes = 0;
@@ -191,7 +199,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private DatePickerDialog createDatePickerDialogFromDate(
             @NonNull Context context,
             @Nullable DatePickerDialog.OnDateSetListener listener,
-            Date date
+            @Nullable Date date
     ) {
         int year;
         int month;
