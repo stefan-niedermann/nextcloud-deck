@@ -26,16 +26,20 @@ public class DataPropagationHelper {
             provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
                 @Override
                 public void onResponse(T response) {
-                    applyUpdatesFromRemote(entity, response, accountId);
-                    entity.setId(response.getId());
-                    provider.updateInDB(dataBaseAdapter, accountId, entity);
-                    callback.onResponse(entity);
+                    new Thread(() -> {
+                        applyUpdatesFromRemote(entity, response, accountId);
+                        entity.setId(response.getId());
+                        provider.updateInDB(dataBaseAdapter, accountId, entity);
+                        callback.onResponse(entity);
+                    }).start();
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
                     super.onError(throwable);
-                    callback.onError(throwable);
+                    new Thread(() -> {
+                        callback.onError(throwable);
+                    }).start();
                 }
             }, entity);
         } else {
@@ -51,13 +55,17 @@ public class DataPropagationHelper {
             provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
                 @Override
                 public void onResponse(T response) {
-                    callback.onResponse(entity);
+                    new Thread(() -> {
+                        callback.onResponse(entity);
+                    }).start();
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
                     super.onError(throwable);
-                    callback.onError(throwable);
+                    new Thread(() -> {
+                        callback.onError(throwable);
+                    }).start();
                 }
             }, entity);
         } else {
@@ -72,14 +80,18 @@ public class DataPropagationHelper {
             provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(new Account(accountId)) {
                 @Override
                 public void onResponse(Void response) {
-                    provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
-                    callback.onResponse(null);
+                    new Thread(() -> {
+                        provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
+                        callback.onResponse(null);
+                    }).start();
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
                     super.onError(throwable);
-                    callback.onError(throwable);
+                    new Thread(() -> {
+                        callback.onError(throwable);
+                    }).start();
                 }
             }, entity, dataBaseAdapter);
         } else {
