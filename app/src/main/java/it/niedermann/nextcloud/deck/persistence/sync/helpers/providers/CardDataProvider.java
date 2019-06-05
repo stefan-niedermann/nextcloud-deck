@@ -100,11 +100,11 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 //            syncHelper.doSyncFor(new LabelDataProvider(this, board, labels));
 //        }
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
-        if(assignedUsers!= null && !assignedUsers.isEmpty()){
+        if(assignedUsers != null && !assignedUsers.isEmpty()){
             syncHelper.doSyncFor(new UserDataProvider(this, board, stack, existingEntity, existingEntity.getAssignedUsers()));
         }
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
-        if(assignedUsers!= null && !attachments.isEmpty()){
+        if(attachments != null && !attachments.isEmpty()){
             syncHelper.doSyncFor(new AttachmentDataProvider(this, existingEntity, attachments));
         }
 //        syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getOwner()));
@@ -138,5 +138,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         //TODO: implement
+
+        callback.onResponse(Boolean.TRUE);
     }
 }

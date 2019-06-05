@@ -65,7 +65,6 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         if (labels != null && !labels.isEmpty()){
             syncHelper.doSyncFor(new LabelDataProvider(this, existingEntity.getBoard(), labels));
         }
-        syncHelper.fixRelations(new BoardLabelRelationshipProvider(existingEntity.getBoard(), labels));
 
         if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()){
             syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
