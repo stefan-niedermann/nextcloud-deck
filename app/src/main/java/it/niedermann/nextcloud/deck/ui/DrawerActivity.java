@@ -83,12 +83,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         super.onActivityResult(requestCode, resultCode, data);
 
         AccountImporter.onActivityResult(requestCode, resultCode, data, this, (SingleSignOnAccount account) -> {
-            Account acc = new Account();
-            acc.setName(account.name);
-            acc.setUserName(account.userId);
-            acc.setUrl(account.url);
-            final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(acc);
-            accountLiveData.observe(this, (Account ac) -> {
+            Account accountToCreate = new Account();
+            accountToCreate.setName(account.name);
+            accountToCreate.setUserName(account.userId);
+            accountToCreate.setUrl(account.url);
+            final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(accountToCreate);
+            accountLiveData.observe(this, (Account createdAccount) -> {
                 if (accountLiveData.hasError()) {
                     try {
                         accountLiveData.throwError();
@@ -97,6 +97,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     }
                 } else {
                     Snackbar.make(coordinatorLayout, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
+
+                    // Remember last account
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
+                    editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
+                    editor.apply();
                 }
             });
 
@@ -146,12 +152,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                     }
                                 });
                                 accountSet(this.account);
-
-                                // Remember last account
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                DeckLog.log("--- Write: shared_preference_last_account" + " | " + this.account.getId());
-                                editor.putLong(getString(R.string.shared_preference_last_account), this.account.getId());
-                                editor.apply();
                                 break;
                             }
                         }
