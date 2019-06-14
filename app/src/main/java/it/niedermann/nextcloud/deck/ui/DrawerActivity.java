@@ -83,11 +83,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         super.onActivityResult(requestCode, resultCode, data);
 
         AccountImporter.onActivityResult(requestCode, resultCode, data, this, (SingleSignOnAccount account) -> {
-            Account accountToCreate = new Account();
-            accountToCreate.setName(account.name);
-            accountToCreate.setUserName(account.userId);
-            accountToCreate.setUrl(account.url);
-            final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(accountToCreate);
+            final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
             accountLiveData.observe(this, (Account createdAccount) -> {
                 if (accountLiveData.hasError()) {
                     try {
@@ -137,24 +133,24 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     long lastAccountId = sharedPreferences.getLong(getString(R.string.shared_preference_last_account), NO_ACCOUNTS);
                     DeckLog.log("--- Read: shared_preference_last_account" + " | " + lastAccountId);
 
-                        for (Account account : accounts) {
-                            if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNTS) {
-                                this.account = account;
-                                SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                                setHeaderView();
-                                syncManager = new SyncManager(this);
-                                ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
-                                // TODO show spinner
-                                syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                                    @Override
-                                    public void onResponse(Boolean response) {
-                                        //nothing
-                                    }
-                                });
-                                accountSet(this.account);
-                                break;
-                            }
+                    for (Account account : accounts) {
+                        if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNTS) {
+                            this.account = account;
+                            SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                            setHeaderView();
+                            syncManager = new SyncManager(this);
+                            ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
+                            // TODO show spinner
+                            syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                                @Override
+                                public void onResponse(Boolean response) {
+                                    //nothing
+                                }
+                            });
+                            accountSet(this.account);
+                            break;
                         }
+                    }
                 });
             } else {
                 showAccountPicker();
