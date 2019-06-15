@@ -1,15 +1,15 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import java.util.List;
-
 import androidx.room.Dao;
 import androidx.room.Query;
+
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 
 @Dao
 public interface JoinCardWithLabelDao extends GenericDao<JoinCardWithLabel> {
-    //TODO: handle status
-    @Query("DELETE FROM joincardwithlabel WHERE  cardId = :localCardId")
+    @Query("DELETE FROM joincardwithlabel WHERE  cardId = :localCardId and status == 1") // only if UP_TO_DATE
     void deleteByCardId(long localCardId);
 
     @Query("DELETE FROM joincardwithlabel WHERE cardId = :localCardId and labelId = :labelId")

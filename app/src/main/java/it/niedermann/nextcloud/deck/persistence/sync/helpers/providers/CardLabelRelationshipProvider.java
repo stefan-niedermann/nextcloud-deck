@@ -23,7 +23,8 @@ public class CardLabelRelationshipProvider implements IRelationshipProvider {
             return;
         }
         Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
-        for (Label label : labels){
+        for (Label label : labels) {
+            //TODO: handle conflicts, since there could be local changes like the record already exists or is deleted
             Label existingLabel = dataBaseAdapter.getLabelByRemoteIdDirectly(accountId, label.getId());
             dataBaseAdapter.createJoinCardWithLabel(existingLabel.getLocalId(), card.getLocalId(), DBStatus.LOCAL_EDITED);
         }

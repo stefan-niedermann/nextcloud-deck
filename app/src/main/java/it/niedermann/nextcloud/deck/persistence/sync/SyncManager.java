@@ -82,7 +82,8 @@ public class SyncManager {
                             responseCallback.onError(throwable);
                         }
                     });
-                    syncHelper.doUpSyncFor(new BoardDataProvider());
+                    doAsync(() -> syncHelper.doUpSyncFor(new BoardDataProvider()));
+
                 }
 
                 @Override

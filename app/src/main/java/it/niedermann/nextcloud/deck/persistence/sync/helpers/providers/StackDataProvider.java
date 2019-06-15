@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -77,6 +78,12 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public List<FullStack> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        if (board == null){
+            // no stacks changed!
+            // (see call from BoardDataProvider: goDeeperForUpSync called with null for board.)
+            // so we can just skip this one and proceed with cards.
+            return Collections.emptyList();
+        }
         List<FullStack> changedStacks = dataBaseAdapter.getLocallyChangedStacksForBoard(accountId, board.getLocalId());
         return changedStacks;
     }

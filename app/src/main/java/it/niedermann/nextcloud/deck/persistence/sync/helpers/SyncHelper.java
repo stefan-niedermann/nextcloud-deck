@@ -121,6 +121,7 @@ public class SyncHelper {
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {
+        //this is OK, since the delete only affects records with status UP_TO_DATE
         relationshipProvider.deleteAllExisting(dataBaseAdapter, accountId);
         relationshipProvider.insertAllNecessary(dataBaseAdapter, accountId);
     }
