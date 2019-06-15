@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +24,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.nextcloud.android.sso.AccountImporter;
+import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
+import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +44,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.login.LoginDialogFragment;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,10 +67,45 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected List<Account> accountsList = new ArrayList<>();
     protected Account account;
     protected boolean accountChooserActive = false;
-    private LoginDialogFragment loginDialogFragment;
     protected SyncManager syncManager;
     protected SharedPreferences sharedPreferences;
     private HeaderViewHolder headerViewHolder;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        AccountImporter.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        AccountImporter.onActivityResult(requestCode, resultCode, data, this, (SingleSignOnAccount account) -> {
+            final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
+            accountLiveData.observe(this, (Account createdAccount) -> {
+                if (accountLiveData.hasError()) {
+                    try {
+                        accountLiveData.throwError();
+                    } catch (SQLiteConstraintException ex) {
+                        Snackbar.make(coordinatorLayout, "Account bereits hinzugefügt", Snackbar.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Snackbar.make(coordinatorLayout, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
+
+                    // Remember last account
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
+                    editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
+                    editor.apply();
+                }
+            });
+
+            SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
+        });
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,35 +133,27 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     long lastAccountId = sharedPreferences.getLong(getString(R.string.shared_preference_last_account), NO_ACCOUNTS);
                     DeckLog.log("--- Read: shared_preference_last_account" + " | " + lastAccountId);
 
-                    if (accounts.size() >= lastAccountId) {
-                        if (lastAccountId == NO_ACCOUNTS || accountsList.size() == 1) {
-                            this.account = accountsList.get(0);
-                        } else {
-                            for (Account account : accounts) {
-                                if (lastAccountId == account.getId()) {
-                                    this.account = account;
-                                    break;
+                    for (Account account : accounts) {
+                        if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNTS) {
+                            this.account = account;
+                            SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                            setHeaderView();
+                            syncManager = new SyncManager(this);
+                            ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
+                            // TODO show spinner
+                            syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                                @Override
+                                public void onResponse(Boolean response) {
+                                    //nothing
                                 }
-                            }
+                            });
+                            accountSet(this.account);
+                            break;
                         }
-
-                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                        setHeaderView();
-                        syncManager = new SyncManager(this);
-                        ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
-                        // TODO show spinner
-                        syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                            @Override
-                            public void onResponse(Boolean response) {
-                                //nothing
-                            }
-                        });
-                        accountSet(this.account);
                     }
                 });
             } else {
-                loginDialogFragment = new LoginDialogFragment();
-                loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
+                showAccountPicker();
             }
         });
 
@@ -134,6 +165,19 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 buildSidenavMenu();
             }
         });
+    }
+
+    private void showAccountPicker() {
+        try {
+            AccountImporter.pickNewAccount(this);
+        } catch (NextcloudFilesAppNotInstalledException e) {
+            UiExceptionManager.showDialogForException(this, e);
+            Log.w("Deck", "=============================================================");
+            Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
+            e.printStackTrace();
+        } catch (AndroidGetAccountsPermissionNotGranted e) {
+            AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
+        }
     }
 
     @Override
@@ -152,8 +196,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         if (accountChooserActive) {
             switch (item.getItemId()) {
                 case MENU_ID_ADD_ACCOUNT:
-                    loginDialogFragment = new LoginDialogFragment();
-                    loginDialogFragment.show(this.getSupportFragmentManager(), "NoticeDialogFragment");
+                    showAccountPicker();
                     break;
                 default:
                     this.account = accountsList.get(item.getItemId());
@@ -190,34 +233,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected void setHeaderView() {
         ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), account.getUrl(), account.getUserName());
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(account.getName());
-    }
-
-    public void onAccountChoose(SingleSignOnAccount account) {
-        getSupportFragmentManager().beginTransaction().remove(loginDialogFragment).commit();
-        Account acc = new Account();
-        acc.setName(account.name);
-        acc.setUserName(account.userId);
-        acc.setUrl(account.url);
-        final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(acc);
-        accountLiveData.observe(this, (Account ac) -> {
-            if (accountLiveData.hasError()) {
-                try {
-                    accountLiveData.throwError();
-                } catch (SQLiteConstraintException ex) {
-                    Snackbar.make(coordinatorLayout, "Account bereits hinzugefügt", Snackbar.LENGTH_SHORT).show();
-                }
-            } else {
-                syncManager.synchronize(new IResponseCallback<Boolean>(ac) {
-                    @Override
-                    public void onResponse(Boolean response) {
-
-                    }
-                });
-                Snackbar.make(coordinatorLayout, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
     }
 
     private void buildSidenavAccountChooser() {
