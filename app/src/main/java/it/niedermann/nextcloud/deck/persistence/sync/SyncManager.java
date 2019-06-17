@@ -31,7 +31,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardPropagationDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
@@ -291,7 +291,7 @@ public class SyncManager {
             fullCard.setCard(card);
             fullCard.setOwner(owner);
             fullCard.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
                 @Override
                 public void onResponse(FullCard response) {
                     liveData.postValue(response);
@@ -311,7 +311,7 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new CardDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new CardPropagationDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
                 @Override
                 public void onResponse(FullCard response) {
                     liveData.postValue(response);
@@ -336,7 +336,7 @@ public class SyncManager {
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             fullCard.setCard(card);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardPropagationDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
                 @Override
                 public void onResponse(FullCard response) {
                     liveData.postValue(response);
