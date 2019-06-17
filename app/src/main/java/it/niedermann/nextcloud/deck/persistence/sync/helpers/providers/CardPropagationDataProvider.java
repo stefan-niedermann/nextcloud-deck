@@ -4,6 +4,7 @@ import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 
@@ -22,7 +23,9 @@ public class CardPropagationDataProvider extends CardDataProvider {
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
-        serverAdapter.updateCard(board.getId(), stack.getId(), toCardUpdate(entity), callback);
+        CardUpdate update = toCardUpdate(entity);
+        update.setStackId(stack.getId());
+        serverAdapter.updateCard(board.getId(), stack.getId(), , callback);
     }
 
     @Override
