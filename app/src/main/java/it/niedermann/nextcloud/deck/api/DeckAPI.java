@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -72,7 +73,7 @@ public interface DeckAPI {
     Observable<FullCard> createCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Body Card card);
 
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
-    Observable<FullCard> updateCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Card card);
+    Observable<FullCard> updateCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body CardUpdate card);
 
     @FormUrlEncoded
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/assignLabel")
