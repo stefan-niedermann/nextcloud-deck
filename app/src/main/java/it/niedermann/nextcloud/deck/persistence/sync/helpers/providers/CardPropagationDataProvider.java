@@ -25,7 +25,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
     public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
         CardUpdate update = toCardUpdate(entity);
         update.setStackId(stack.getId());
-        serverAdapter.updateCard(board.getId(), stack.getId(), , callback);
+        serverAdapter.updateCard(board.getId(), stack.getId(), update, callback);
     }
 
     @Override
