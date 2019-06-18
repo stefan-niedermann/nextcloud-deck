@@ -306,7 +306,7 @@ public class SyncManager {
         doAsync(() -> {
             FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCard== null) {
-                throw new IllegalArgumentException("card to update does not exist.");
+                throw new IllegalArgumentException("card to delete does not exist.");
             }
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
