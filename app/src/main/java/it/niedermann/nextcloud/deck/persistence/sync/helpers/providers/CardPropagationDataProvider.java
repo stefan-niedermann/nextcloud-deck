@@ -30,6 +30,11 @@ public class CardPropagationDataProvider extends CardDataProvider {
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard fullCard) {
+        dataBaseAdapter.deleteCard(fullCard.getCard(), true);
+    }
+
+    @Override
+    public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard fullCard) {
         dataBaseAdapter.deleteCardPhysically(fullCard.getCard());
     }
 
