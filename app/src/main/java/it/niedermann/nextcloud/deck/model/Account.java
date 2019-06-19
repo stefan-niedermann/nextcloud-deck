@@ -31,6 +31,7 @@ public class Account implements Serializable {
         this.id = id;
     }
 
+    @Ignore
     public Account(String name, String userName, String url) {
         this.name = name;
         this.userName = userName;
