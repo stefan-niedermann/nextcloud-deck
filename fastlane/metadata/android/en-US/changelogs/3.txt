@@ -1,3 +1,4 @@
 - Fix Single-Sign-On with Android 7 (#81)
 - Fix After adding second account list of boards dont refresh (#82)
+- Display "create"-button for labels as last item in autocomplete (#51)
 - Editing title is now possible
