@@ -395,6 +395,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 //        } else {
 //            Toast.makeText(getContext(), "Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
 //        }
-//        super.onPause();
+        super.onPause();
     }
 }
