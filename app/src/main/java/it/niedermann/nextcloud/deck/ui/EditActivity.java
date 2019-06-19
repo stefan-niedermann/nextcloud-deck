@@ -17,6 +17,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -64,6 +65,9 @@ public class EditActivity extends AppCompatActivity {
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(fullCard != null) {
+                    fullCard.getCard().setTitle(title.getText().toString());
+                }
                 String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.create_card) : getString(R.string.edit);
                 Objects.requireNonNull(actionBar).setTitle(prefix + " " + title.getText());
             }
@@ -121,6 +125,7 @@ public class EditActivity extends AppCompatActivity {
                 syncManager.getCardByLocalId(accountId, createdCard.getLocalId()).observe(EditActivity.this, (next) -> fullCard = next);
             });
         } else {
+            DeckLog.log("--- updateCard, new Title: " + fullCard.card.getTitle());
             syncManager.updateCard(fullCard.card);
         }
         super.onPause();

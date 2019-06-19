@@ -7,6 +7,8 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,6 +136,23 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
             DeckLog.logError(e);
         }
+
+        description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(fullCard != null) {
+                    fullCard.getCard().setDescription(description.getText().toString());
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         return view;
     }
@@ -362,5 +381,12 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.fullCard.getCard().getDueDate().setMinutes(minute);
         dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate().getTime()));
         syncManager.updateCard(this.fullCard.getCard());
+    }
+
+    @Override
+    public void onPause() {
+        DeckLog.log("--- updateCard, new Description: " + fullCard.card.getDescription());
+        syncManager.updateCard(fullCard.card);
+        super.onPause();
     }
 }
