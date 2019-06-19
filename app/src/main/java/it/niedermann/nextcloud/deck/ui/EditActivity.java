@@ -17,7 +17,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -93,8 +92,7 @@ public class EditActivity extends AppCompatActivity {
             if (NO_LOCAL_ID.equals(localId)) {
                 Objects.requireNonNull(actionBar).setTitle(getString(R.string.create_card));
                 fullCard = new FullCard();
-                Card card = new Card("", "", stackId);
-                fullCard.setCard(card);
+                fullCard.setCard(new Card("", "", stackId));
             } else {
                 syncManager.getCardByLocalId(accountId, localId)
                         .observe(EditActivity.this, (next) -> {
@@ -121,11 +119,10 @@ public class EditActivity extends AppCompatActivity {
     protected void onPause() {
         if (NO_LOCAL_ID.equals(localId)) {
             Toast.makeText(getApplicationContext(), "Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
-            syncManager.createCard(accountId, boardId, stackId, fullCard.card).observe(EditActivity.this, (createdCard) -> {
-                syncManager.getCardByLocalId(accountId, createdCard.getLocalId()).observe(EditActivity.this, (next) -> fullCard = next);
-            });
+//            syncManager.createCard(accountId, boardId, stackId, fullCard.card).observe(EditActivity.this, (createdCard) -> {
+//                syncManager.getCardByLocalId(accountId, createdCard.getLocalId()).observe(EditActivity.this, (next) -> fullCard = next);
+//            });
         } else {
-            DeckLog.log("--- updateCard, new Title: " + fullCard.card.getTitle());
             syncManager.updateCard(fullCard.card);
         }
         super.onPause();

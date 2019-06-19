@@ -1,2 +1,3 @@
 - Fix Single-Sign-On with Android 7 (#81)
 - Fix After adding second account list of boards dont refresh (#82)
+- Editing title is now possible
