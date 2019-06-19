@@ -250,6 +250,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             Label label = (Label) adapterView.getItemAtPosition(position);
             if (LabelAutoCompleteAdapter.CREATE_ID == label.getLocalId()) {
                 Label newLabel = new Label(label);
+                newLabel.setTitle(((LabelAutoCompleteAdapter) labels.getAdapter()).getLastFilterText());
                 newLabel.setLocalId(null);
                 LiveData<Label> labelLiveData = syncManager.createAndAssignLabelToCard(accountId, newLabel, fullCard.getLocalId());
                 Observer<Label> observer = new Observer<Label>() {
@@ -266,7 +267,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 };
                 labelLiveData.observe(CardDetailsFragment.this, observer);
             } else {
-                // TODO needs to be done for created label too as soo as its created
                 syncManager.assignLabelToCard(label, fullCard.getCard());
 
                 Chip chip = createChipFromLabel(label);
