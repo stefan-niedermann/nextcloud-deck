@@ -15,27 +15,34 @@
     <string name="simple_boards">Painéis</string>
     <string name="simple_cancel">Cancelar</string>
     <string name="simple_create">Criar</string>
+    <string name="simple_save">Salvar</string>
+
+    <string name="edit_board">Editar o painel</string>
+    <string name="archive_board">Arquivar o painel</string>
+    <string name="delete_board">Excluir o painel</string>
 
     <!-- About -->
     <string name="about">Sobre</string>
     <string name="about_version_title">Versão</string>
-    <string name="about_version">Atualmente você está usando &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Atualmente você está usando %1$s</string>
     <string name="about_maintainer_title">Mantenedor</string>
     <string name="about_developers_title">Desenvolvedores</string>
     <string name="about_translators_title">Tradutores</string>
-    <string name="about_translators_transifex">Comunidade Nextcloud em &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Comunidade Nextcloud no %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testadores</string>
-    <string name="about_source_title">Código fonte</string>
-    <string name="about_source">Este projeto está hospedado em GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source_title">Código-fonte</string>
+    <string name="about_source">Este projeto está hospedado no GitHub: %1$s</string>
     <string name="about_issues_title">Problemas</string>
-    <string name="about_issues">Você pode denunciar bugs, sugerir melhorias e solicitar recursos no rastreador de problemas do GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Você pode relatar bugs, propostas de melhoria e solicitações de recursos no rastreador de problemas do GitHub: %1$s</string>
     <string name="about_translate_title">Traduzir</string>
-    <string name="about_translate">Junte-se à equipe da Nextcloud no Transifex e ajude-nos a traduzir este aplicativo: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Junte-se à equipe do Nextcloud no Transifex e ajude a traduzir este aplicativo: %1$s</string>
     <string name="about_app_license_title">Licença do aplicativo</string>
     <string name="about_app_license">Esta aplicação está licenciada sob a GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Ver licença</string>
     <string name="about_icons_disclaimer_title">Ícones</string>
-    <string name="about_icons_disclaimer">&lt;p>Ícone original feito por %1$s&lt;/p>&lt;p>Todos os ícones adicionais usados por este aplicativo são &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> feita pela Google Inc. e licenciada sob a licença Apache 2.0.&lt;/p></string>
+    <string name="about_icons_disclaimer">Ícone original feito por %1$sTodos os ícones usados por este aplicativo são %2$s feitos pela Google Inc. e licenciada sob a licença Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Ícones de Design Material</string>
     <string name="about_credits_tab_title">Créditos</string>
     <string name="about_contribution_tab_title">Contribuição</string>
     <string name="about_license_tab_title">Licença</string>
@@ -62,10 +69,18 @@
     <string name="action_card_delete">Excluir cartão</string>
     <string name="add_board">Adicionar painel</string>
     <string name="action_card_list_add_column">Adicionar coluna</string>
+    <string name="action_card_list_delete_column">Excluir colunas</string>
     <string name="action_card_list_board_details">Detalhes do painel</string>
     <string name="simple_title">Título</string>
 
     <string name="label_clear_due_date">Remover data devida</string>
 
     <string name="label_create">Criar %1$s</string>
-</resources>
+    <string name="no_columns_available">Nenhuma coluna disponível</string>
+    <string name="error">Ocorreu um erro</string>
+    <string name="simple_copy">copiar</string>
+    <string name="simple_exception">Exceção</string>
+    <string name="copied_to_clipboard">Copiado para a área de transferência</string>
+    <string name="simple_close">fechar</string>
+
+    </resources>

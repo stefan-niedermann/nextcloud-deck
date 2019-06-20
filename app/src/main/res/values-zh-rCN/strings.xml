@@ -15,27 +15,34 @@
     <string name="simple_boards">面板</string>
     <string name="simple_cancel">取消</string>
     <string name="simple_create">新建</string>
+    <string name="simple_save">保存</string>
+
+    <string name="edit_board">编辑面板</string>
+    <string name="archive_board">归档面板</string>
+    <string name="delete_board">删除面板</string>
 
     <!-- About -->
     <string name="about">关于</string>
     <string name="about_version_title">版本</string>
-    <string name="about_version">您当前正在使用&lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">您当前正在使用 %1$s</string>
     <string name="about_maintainer_title">维护者</string>
     <string name="about_developers_title">开发者</string>
     <string name="about_translators_title">翻译人员</string>
-    <string name="about_translators_transifex">在&lt;a href=\"%1$s\">Transifex&lt;/a>上的Nextcloud社区</string>
+    <string name="about_translators_transifex">%1$s上的Nextcloud社区</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">测试者</string>
     <string name="about_source_title">源代码</string>
-    <string name="about_source">此项目托管在GitHub： &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">此项目托管在GitHub：%1$s</string>
     <string name="about_issues_title">问题</string>
-    <string name="about_issues">您可以在 GitHub issue tracker 上报告 bug，改进建议以及新的特性需求： &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">您您可以在 GitHub issue tracker 上报告 bug，改进建议以及新的特性需求：%1$s</string>
     <string name="about_translate_title">翻译</string>
-    <string name="about_translate">在 Transifex 上加入 Nextcloud 团队并帮助我们翻译这个应用： &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">在 Transifex 上加入 Nextcloud 团队并帮助我们翻译这个应用：%1$s</string>
     <string name="about_app_license_title">应用许可证</string>
     <string name="about_app_license">此程序通过 GNU 通用公共许可证 V3+ 授权。</string>
     <string name="about_app_license_button">查看许可证</string>
     <string name="about_icons_disclaimer_title">图标</string>
-    <string name="about_icons_disclaimer">&lt;p>原创图标来自 %1$s&lt;/p>&lt;p>本应用中使用的其他图标来自 Google Inc. 基于创作共用协议提供的 &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a>。&lt;/p></string>
+    <string name="about_icons_disclaimer">原创图标来自%1$s。本应用中使用的所有其他图标均来自Google Inc.创建的%2$s，这些图标以Apache 2.0 许可证发布。</string>
+    <string name="about_icons_disclaimer_mdi">Material Design图标</string>
     <string name="about_credits_tab_title">致谢</string>
     <string name="about_contribution_tab_title">贡献</string>
     <string name="about_license_tab_title">授权</string>
@@ -62,10 +69,18 @@
     <string name="action_card_delete">删除卡片</string>
     <string name="add_board">添加面板</string>
     <string name="action_card_list_add_column">添加列</string>
+    <string name="action_card_list_delete_column">删除列</string>
     <string name="action_card_list_board_details">面板详情</string>
     <string name="simple_title">标题</string>
 
     <string name="label_clear_due_date">清除截止日期</string>
 
     <string name="label_create">新建%1$s</string>
-</resources>
+    <string name="no_columns_available">没有可用的列</string>
+    <string name="error">发生了一个错误</string>
+    <string name="simple_copy">复制</string>
+    <string name="simple_exception">异常</string>
+    <string name="copied_to_clipboard">复制到剪贴板</string>
+    <string name="simple_close">关闭</string>
+
+    </resources>

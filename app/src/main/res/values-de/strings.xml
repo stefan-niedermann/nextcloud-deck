@@ -15,27 +15,34 @@
     <string name="simple_boards">Boards</string>
     <string name="simple_cancel">Abbrechen</string>
     <string name="simple_create">Erstellen</string>
+    <string name="simple_save">Speichern</string>
+
+    <string name="edit_board">Board bearbeiten</string>
+    <string name="archive_board">Board archivieren</string>
+    <string name="delete_board">Board löschen</string>
 
     <!-- About -->
     <string name="about">Über</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version">Sie verwenden gerade &lt;strong> %1$s&lt;/strong></string>
+    <string name="about_version">Sie benutzen aktuell %1$s</string>
     <string name="about_maintainer_title">Maintainer</string>
     <string name="about_developers_title">Entwickler</string>
     <string name="about_translators_title">Übersetzer</string>
-    <string name="about_translators_transifex">Nextcloud Community auf &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Nextcloud-Gemeinschaft auf %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Tester</string>
     <string name="about_source_title">Quellcode</string>
-    <string name="about_source">Dieses Projekt wird auf GitHub gehostet:&lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Dieses Projekt wird auf GitHub gehostet: %1$s</string>
     <string name="about_issues_title">Probleme</string>
-    <string name="about_issues">Sie können Fehler, Verbesserungsvorschläge und Funktionsanfragen im GitHub Issue Tracker melden:&lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Sie können Fehler, Verbesserungsvorschläge oder Wünsche für neue Funktionen im GitHub-Ticket-System erfassen: %1$s</string>
     <string name="about_translate_title">Übersetzen</string>
-    <string name="about_translate">Treten Sie dem Nextcloud-Team bei Transifex bei und helfen Sie uns, diese App zu übersetzen:&lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Treten Sie dem Nextcloud-Team bei Transifex bei und helfen Sie uns, diese App zu übersetzen: %1$s</string>
     <string name="about_app_license_title">App-Lizenz</string>
     <string name="about_app_license">Diese Anwendung ist unter der GNU GENERAL PUBLIC LICENSE v3 + lizenziert.</string>
     <string name="about_app_license_button">Lizenz anzeigen</string>
     <string name="about_icons_disclaimer_title">Icons</string>
-    <string name="about_icons_disclaimer">&lt;p>Original icon made by %1$s&lt;/p>&lt;p>Alle weiteren von dieser App verwendeten Symbole sind &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> made by Google Inc. and licensed under the Apache 2.0 License.&lt;/p></string>
+    <string name="about_icons_disclaimer">das ursprüngliche Icon wurde erstellt von %1$s Alle weiteren von dieser App benutzten Icons sind %2$s und wurden erstellt von  Google Inc. und lizenziert unter einer Apache 2.0 Lizenz.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Beitrag</string>
     <string name="about_license_tab_title">Lizenz</string>
@@ -62,10 +69,18 @@
     <string name="action_card_delete">Karte löschen</string>
     <string name="add_board">Board hinzufügen</string>
     <string name="action_card_list_add_column">Spalte hinzufügen</string>
+    <string name="action_card_list_delete_column">Spalte löschen</string>
     <string name="action_card_list_board_details">Board-Details</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Fälligkeitsdatum löschen</string>
 
     <string name="label_create">%1$s erstellen</string>
-</resources>
+    <string name="no_columns_available">Keine Spalten verfügbar</string>
+    <string name="error">Es ist ein Fehler aufgetreten</string>
+    <string name="simple_copy">kopieren</string>
+    <string name="simple_exception">Ausnahme</string>
+    <string name="copied_to_clipboard">In die Zwischenablage kopiert</string>
+    <string name="simple_close">Schließen</string>
+
+    </resources>
