@@ -14,27 +14,33 @@
     <string name="simple_boards">Tavlor</string>
     <string name="simple_cancel">Avbryt</string>
     <string name="simple_create">Skapa</string>
+    <string name="simple_save">Spara</string>
+
+    <string name="edit_board">Ändra tavla</string>
+    <string name="archive_board">Arkivera tavla</string>
+    <string name="delete_board">Radera tavla</string>
 
     <!-- About -->
     <string name="about">Om</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version">Du använder för närvarande &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Du använder för närvarande %1$s</string>
     <string name="about_maintainer_title">Underhållare</string>
     <string name="about_developers_title">Utvecklare</string>
     <string name="about_translators_title">Översättare</string>
-    <string name="about_translators_transifex">Nextcloud-gemenskapen på &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Nextcloud community på %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testare</string>
     <string name="about_source_title">Källkod</string>
-    <string name="about_source">Detta projekt finns på GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Detta projekt finns på GitHub: %1$s</string>
     <string name="about_issues_title">Problem</string>
-    <string name="about_issues">Du kan rapportera buggar, förbättringsförslag och funktionsönskningar på GitHubs problemhanterare: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Du kan rapportera buggar, förbättringsförslag och funktionsönskningar på GitHubs problemhanterare: %1$s</string>
     <string name="about_translate_title">Översätt</string>
-    <string name="about_translate">Gå med i Nextcloud-gruppen på Transifex och hjälp oss översätta denna app: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Gå med i Nextcloud-gruppen på Transifex och hjälp oss översätta denna app: %1$s</string>
     <string name="about_app_license_title">App-licens</string>
     <string name="about_app_license">Denna app är licensierad under GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Visa licens</string>
     <string name="about_icons_disclaimer_title">Ikoner</string>
-    <string name="about_icons_disclaimer">&lt;p>Originalikon gjord av %1$s&lt;/p>&lt;p>Alla framtida ikoner använda av appen är &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> gjorda av Google Inc. och licensierade under Apache 2.0 License.&lt;/p></string>
+    <string name="about_icons_disclaimer">Originalikon gjord av %1$sAlla framtida ikoner använda av appen är %2$s gjorda av Google Inc. och licensierade under Apache 2.0 License.</string>
     <string name="about_credits_tab_title">Tack</string>
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Licens</string>
@@ -61,10 +67,18 @@
     <string name="action_card_delete">Radera kort</string>
     <string name="add_board">Lägg till tavla</string>
     <string name="action_card_list_add_column">Lägg till kolumn</string>
+    <string name="action_card_list_delete_column">Radera kolumn</string>
     <string name="action_card_list_board_details">Taveldetaljer</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Rensa slutdatum</string>
 
     <string name="label_create">Skapa %1$s</string>
-</resources>
+    <string name="no_columns_available">Inga kolumner tillgängliga</string>
+    <string name="error">Ett fel inträffade</string>
+    <string name="simple_copy">kopiera</string>
+    <string name="simple_exception">Undantag</string>
+    <string name="copied_to_clipboard">Kopierat till urklipp</string>
+    <string name="simple_close">stäng</string>
+
+    </resources>

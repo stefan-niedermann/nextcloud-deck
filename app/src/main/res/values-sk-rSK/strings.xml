@@ -15,27 +15,34 @@
     <string name="simple_boards">Nástenky</string>
     <string name="simple_cancel">Zrušiť</string>
     <string name="simple_create">Vytvoriť</string>
+    <string name="simple_save">Uložiť</string>
+
+    <string name="edit_board">Upraviť nástenku</string>
+    <string name="archive_board">Archivovať nástenku</string>
+    <string name="delete_board">Zmazať nástenku</string>
 
     <!-- About -->
     <string name="about">O aplikácii</string>
     <string name="about_version_title">Verzia</string>
-    <string name="about_version">Momentálne používate &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Momentálne používate %1$s</string>
     <string name="about_maintainer_title">Udržovateľ</string>
     <string name="about_developers_title">Vývojári</string>
     <string name="about_translators_title">Prekladatelia</string>
-    <string name="about_translators_transifex">Nextcloud komunita na &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Nextcloud komunita na %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testeri</string>
     <string name="about_source_title">Zdrojový kód</string>
-    <string name="about_source">Tento projekt je prevádzkovaný na GitHube: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Tento projekt sa nachádza na sieti GitHub: %1$s</string>
     <string name="about_issues_title">Problémy</string>
-    <string name="about_issues">Návrhy na vylepšenia, požiadavky na nové funkcie a chyby možete nahlásiť na GitHub sledovači problémov: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Hlásenia chýb, návrhy na vylepšenia a požiadavky na funkcie môžete nahlásiť v sledovači problémov GitHub: %1$s</string>
     <string name="about_translate_title">Preložiť</string>
-    <string name="about_translate">Pripojte sa do tímu Nextcloud na stránke Transifex a pomožte nám s prekladom tejto aplikácie: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Pripojte sa k tímu Nextcloud na stránke Transifex a pomožte nám s prekladom tejto apky: %1$s</string>
     <string name="about_app_license_title">Licencia aplikácie</string>
     <string name="about_app_license">Táto aplikácie je licencovaná pod GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Zobraziť licenciu</string>
     <string name="about_icons_disclaimer_title">Ikony</string>
-    <string name="about_icons_disclaimer">&lt;p>Pôvodná ikona od %1$s&lt;/p>&lt;p>Všetky ostatné ikony použité v tejto aplikácii sú &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> od Google Inc. a licencované pod Apache 2.0 Licenciou.&lt;/p></string>
+    <string name="about_icons_disclaimer">Pôvodnú ikona vytvoril %1$sVšetky ostatné ikony použité v tejto aplikácii sú %2$s vytvorené spoločnostou Google Inc. a podliehajú licencii Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Ikony v štýle Material Design</string>
     <string name="about_credits_tab_title">Zásluhy</string>
     <string name="about_contribution_tab_title">Príspevok</string>
     <string name="about_license_tab_title">Licencia</string>
@@ -62,9 +69,18 @@
     <string name="action_card_delete">Zmazať kartu</string>
     <string name="add_board">Pridať nástenk</string>
     <string name="action_card_list_add_column">Pridať stĺpec</string>
+    <string name="action_card_list_delete_column">Zmazať stĺpec</string>
     <string name="action_card_list_board_details">Podrobnosti o nástenke</string>
     <string name="simple_title">Názov</string>
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
+
+    <string name="label_create">Vytvoriť %1$s</string>
+    <string name="no_columns_available">Nie sú k dispozícii žiadne stĺpce</string>
+    <string name="error">Vyskytla sa chyba</string>
+    <string name="simple_copy">kopírovať</string>
+    <string name="simple_exception">Výnimka</string>
+    <string name="copied_to_clipboard">Skopírované do schránky</string>
+    <string name="simple_close">Zatvoriť</string>
 
     </resources>

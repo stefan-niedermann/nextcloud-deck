@@ -15,27 +15,34 @@
     <string name="simple_boards">Tablice</string>
     <string name="simple_cancel">Anuluj</string>
     <string name="simple_create">Utwórz</string>
+    <string name="simple_save">Zapisz</string>
+
+    <string name="edit_board">Edytuj tablicę</string>
+    <string name="archive_board">Zarchiwizuj tablicę</string>
+    <string name="delete_board">Usuń tablicę</string>
 
     <!-- About -->
     <string name="about">O aplikacji</string>
     <string name="about_version_title">Wersja</string>
-    <string name="about_version">Obecnie używasz &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Obecnie używasz %1$s</string>
     <string name="about_maintainer_title">Opiekun</string>
     <string name="about_developers_title">Deweloperzy</string>
     <string name="about_translators_title">Tłumacze</string>
-    <string name="about_translators_transifex">Społeczność Nextcloud na &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Społeczność Nextcloud na %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testerzy</string>
     <string name="about_source_title">Kod źródłowy</string>
-    <string name="about_source">Ten projekt jest hostowany na GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Ten projekt jest hostowany na GitHub: %1$s</string>
     <string name="about_issues_title">Problemy</string>
-    <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje w liście problemów na GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje na GitHub: %1$s</string>
     <string name="about_translate_title">Tłumaczyć</string>
-    <string name="about_translate">Dołącz do zespołu Nextcloud na Transifex i pomóż nam przetłumaczyć tę aplikację: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Dołącz do zespołu Nextcloud na Transifex i pomóż nam przetłumaczyć tę aplikację: %1$s</string>
     <string name="about_app_license_title">Licencja</string>
     <string name="about_app_license">Ta aplikacja jest licencjonowana na podstawie GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Zobacz licencję</string>
     <string name="about_icons_disclaimer_title">Ikony</string>
-    <string name="about_icons_disclaimer">&lt;p>Oryginalna ikona wykonana przez %1$s&lt;/p>&lt;p>Wszystkie pozostałe ikony używane przez tę aplikację są &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> wykonane przez Google Inc. i licencjonowane na podstawie Apache 2.0 License.&lt;/p></string>
+    <string name="about_icons_disclaimer">Oryginalna ikona wykonana przez %1$sWszystkie pozostałe ikony używane przez tę aplikację są %2$s wykonane przez Google Inc. i licencjonowane na podstawie Apache 2.0 License.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Autorzy</string>
     <string name="about_contribution_tab_title">Wkład</string>
     <string name="about_license_tab_title">Licencja</string>
@@ -62,10 +69,18 @@
     <string name="action_card_delete">Usunięte karty</string>
     <string name="add_board">Dodaj tablicę</string>
     <string name="action_card_list_add_column">Dodaj kolumnę</string>
+    <string name="action_card_list_delete_column">Usuń kolumnę</string>
     <string name="action_card_list_board_details">Szczegóły tablicy</string>
     <string name="simple_title">Tytuł</string>
 
     <string name="label_clear_due_date">Wyczyść termin</string>
 
     <string name="label_create">Utwórz %1$s</string>
-</resources>
+    <string name="no_columns_available">Brak dostępnych kolumn</string>
+    <string name="error">Wystąpił błąd</string>
+    <string name="simple_copy">kopiuj</string>
+    <string name="simple_exception">Wyjątek</string>
+    <string name="copied_to_clipboard">Skopiowane do schowka</string>
+    <string name="simple_close">zamknij</string>
+
+    </resources>
