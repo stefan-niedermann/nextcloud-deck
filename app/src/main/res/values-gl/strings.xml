@@ -15,27 +15,34 @@
     <string name="simple_boards">Taboleiros</string>
     <string name="simple_cancel">Cancelar</string>
     <string name="simple_create">Crear</string>
+    <string name="simple_save">Gardar</string>
+
+    <string name="edit_board">Editar taboleiro</string>
+    <string name="archive_board">Arquivar taboleiro</string>
+    <string name="delete_board">Eliminar taboleiro</string>
 
     <!-- About -->
     <string name="about">Sobre</string>
     <string name="about_version_title">Versión</string>
-    <string name="about_version">Agora está a usar &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Agora está a empregar %1$s</string>
     <string name="about_maintainer_title">Mantedor</string>
     <string name="about_developers_title">Desenvolvedores</string>
     <string name="about_translators_title">Tradutores</string>
-    <string name="about_translators_transifex">A comunidade de Nextcloud no &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Comunidade Nextcloud en %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Probadores</string>
     <string name="about_source_title">Código fonte</string>
-    <string name="about_source">Este proxecto está hospedado no GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Este proxecto está aloxado en GitHub: %1$s</string>
     <string name="about_issues_title">Incidentes</string>
-    <string name="about_issues">Vostede pode informar de fallos, propoñer melloras e solicitar funcionalidades na ferramenta de seguimento de incidentes do GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Vostede pode informar de fallos, propoñer melloras e solicitar funcionalidades na ferramenta de seguimento de erros do GitHub: %1$s</string>
     <string name="about_translate_title">Traducir</string>
-    <string name="about_translate">Únase ao equipo Nextcloud en Transifex e axúdenos a traducir este aplicativo: &lt;a href=\\"%1$s\\">%1$s&lt;/a></string>
+    <string name="about_translate">Únase ao equipo Nextcloud en Transifex e axúdenos a traducir este aplicativo: %1$s</string>
     <string name="about_app_license_title">Licenza do aplicativo</string>
     <string name="about_app_license">Este aplicativo está licenciado baixo a LICENZA XERAL PUBLICA GNU v3+.</string>
     <string name="about_app_license_button">Ver a licenza</string>
     <string name="about_icons_disclaimer_title">Iconas</string>
-    <string name="about_icons_disclaimer">&lt;p>Iconas orixinais feitas por %1$s&lt;/p>&lt;p>As outras iconas usadas por este aplicativo son &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> feitos por Google Inc. e licenciados baixo unha Licenza Creative Commons.&lt;/p></string>
+    <string name="about_icons_disclaimer">Iconas orixinais feitas por %1$sAs outras iconas usadas por este aplicativo son %2$s feitos por Google Inc. e licenciados baixo unha Licenza Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Iconas Material Desig</string>
     <string name="about_credits_tab_title">Créditos</string>
     <string name="about_contribution_tab_title">Colaboración</string>
     <string name="about_license_tab_title">Licenza</string>
@@ -62,10 +69,18 @@
     <string name="action_card_delete">Eliminar a tarxeta</string>
     <string name="add_board">Engadir taboleiro</string>
     <string name="action_card_list_add_column">Engadir columna</string>
+    <string name="action_card_list_delete_column">Eliminar columna</string>
     <string name="action_card_list_board_details">Detalles do taboleiro</string>
     <string name="simple_title">Titulo</string>
 
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
 
     <string name="label_create">Creado o %1$s</string>
-</resources>
+    <string name="no_columns_available">Non hai columnas dispoñíbeis</string>
+    <string name="error">Apareceu un erro</string>
+    <string name="simple_copy">copiar</string>
+    <string name="simple_exception">Excepción</string>
+    <string name="copied_to_clipboard">Copiado no portapapeis.</string>
+    <string name="simple_close">pechar</string>
+
+    </resources>

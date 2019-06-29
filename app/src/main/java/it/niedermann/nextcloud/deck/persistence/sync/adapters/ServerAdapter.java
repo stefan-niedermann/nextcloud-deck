@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class ServerAdapter {
@@ -158,7 +159,7 @@ public class ServerAdapter {
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().deleteCard(boardId, stackId, card.getId()), responseCallback);
     }
 
-    public void updateCard(long boardId, long stackId, Card card, IResponseCallback<FullCard> responseCallback) {
+    public void updateCard(long boardId, long stackId, CardUpdate card, IResponseCallback<FullCard> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getAPI().updateCard(boardId, stackId, card.getId(), card), responseCallback);
     }

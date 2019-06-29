@@ -72,10 +72,14 @@ public class StackFragment extends Fragment {
         stackId = getArguments().getLong(KEY_STACK_ID);
         account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
 
+        syncManager = new SyncManager(getActivity());
         initRecyclerView();
 
         if (getActivity() != null) {
-            syncManager = new SyncManager(getActivity());
+            if (syncManager == null){
+                syncManager = new SyncManager(getActivity());
+                initRecyclerView();
+            }
 
             swipeRefreshLayout.setOnRefreshListener(() -> {
                 syncManager.synchronize(new IResponseCallback<Boolean>(account) {
@@ -117,7 +121,7 @@ public class StackFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        adapter = new CardAdapter(boardId);
+        adapter = new CardAdapter(boardId, syncManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 //        ItemTouchHelper touchHelper = new CardItemTouchHelper(adapter);

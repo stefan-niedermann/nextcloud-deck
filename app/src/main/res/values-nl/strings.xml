@@ -15,27 +15,34 @@
     <string name="simple_boards">Bord</string>
     <string name="simple_cancel">Annuleren</string>
     <string name="simple_create">Aanmaken</string>
+    <string name="simple_save">Bewaren</string>
+
+    <string name="edit_board">Pas canvas aan</string>
+    <string name="archive_board">Archiveer canvas</string>
+    <string name="delete_board">Verwijder canvas</string>
 
     <!-- About -->
     <string name="about">Over</string>
     <string name="about_version_title">Versie</string>
-    <string name="about_version">Je gebruikt nu &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Je gebruikt nu %1$s</string>
     <string name="about_maintainer_title">Beheerder</string>
     <string name="about_developers_title">Ontwikkerlaars</string>
     <string name="about_translators_title">Vertalers</string>
-    <string name="about_translators_transifex">Nextcloud-gemeenschap op &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Nextcloud-gemeenschap op %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testers</string>
     <string name="about_source_title">Broncode</string>
-    <string name="about_source">Dit project wordt gehost op GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Dit project wordt gehost op GitHub: %1$s</string>
     <string name="about_issues_title">Problemen</string>
-    <string name="about_issues">Je kunt bugs rapporteren, verbeteringen voorstellen en functionele aanpassingen aanvragen via de issue-tracker op GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Je kunt bugs rapporteren, verbeteringen voorstellen en functionele aanpassingen aanvragen via de issue-tracker op GitHub: %1$s</string>
     <string name="about_translate_title">Vertalen</string>
-    <string name="about_translate">Doe mee met het Nextcloud-team op Transifex en help ons deze app te vertalen: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Doe mee met het Nextcloud-team op Transifex en help ons deze app te vertalen: %1$s</string>
     <string name="about_app_license_title">Applicentie</string>
     <string name="about_app_license">Deze applicatie valt onder de GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Licentie weergeven</string>
     <string name="about_icons_disclaimer_title">Pictogrammen</string>
-    <string name="about_icons_disclaimer">&lt;p>Originele pictogram gemaakt door %1$s&lt;/p>&lt;p>Alle volgende pictogrammen gebruikt door deze app zijn &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> gemaakt door Google Inc. en gelicenseerd onder de Apache 2.0 Licensie.&lt;/p></string>
+    <string name="about_icons_disclaimer">Originele pictogram gemaakt door %1$s. Alle andere pictogrammen gebruikt door deze app zijn %2$s gemaakt door Google Inc. en gelicenseerd onder de Apache 2.0 Licensie.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design iconen</string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Bijdrage</string>
     <string name="about_license_tab_title">Licentie</string>
@@ -62,10 +69,18 @@
     <string name="action_card_delete">Verwijderen kaart</string>
     <string name="add_board">Toevoegen bord</string>
     <string name="action_card_list_add_column">Toevoegen kolom</string>
+    <string name="action_card_list_delete_column">Verwijder kolom</string>
     <string name="action_card_list_board_details">Bord details</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Wis vervaldatum</string>
 
     <string name="label_create">Maak %1$s</string>
-</resources>
+    <string name="no_columns_available">Geen kolommen beschikbaar</string>
+    <string name="error">Er is een fout verschenen</string>
+    <string name="simple_copy">kopiëren</string>
+    <string name="simple_exception">Uitzondering</string>
+    <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
+    <string name="simple_close">sluiten</string>
+
+    </resources>

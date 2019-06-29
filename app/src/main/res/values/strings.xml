@@ -113,4 +113,7 @@
     <string translatable="false" name="paragraph_end">&lt;/p></string>
     <string translatable="false" name="strong_start">&lt;strong></string>
     <string translatable="false" name="strong_end">&lt;/strong></string>
+    <string name="card_edit_details">Details</string>
+    <string name="card_edit_attachments">Attachments</string>
+    <string name="card_edit_activity">Activity</string>
 </resources>

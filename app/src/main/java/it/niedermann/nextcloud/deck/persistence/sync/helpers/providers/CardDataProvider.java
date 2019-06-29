@@ -12,14 +12,15 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
-    private Board board;
-    private FullStack stack;
+    protected Board board;
+    protected FullStack stack;
 
     public CardDataProvider(AbstractSyncDataProvider<?> parent, Board board, FullStack stack) {
         super(parent);
@@ -63,7 +64,13 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         return dataBaseAdapter.createCard(accountId, entity.getCard());
     }
 
-    private void fixRelations(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
+    protected CardUpdate toCardUpdate(FullCard card){
+        CardUpdate c = new CardUpdate(card);
+        c.setOwner(card.getOwner().get(0));
+        return c;
+    }
+
+    protected void fixRelations(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
         entity.getCard().setStackId(stack.getLocalId());
         if (entity.getOwner() != null && !entity.getOwner().isEmpty()){
             User user = entity.getOwner().get(0);
@@ -117,7 +124,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
-        serverAdapter.updateCard(board.getId(), entity.getCard().getStackId(), entity.getCard(), callback);
+        serverAdapter.updateCard(board.getId(), entity.getCard().getStackId(), toCardUpdate(entity), callback);
     }
 
     @Override

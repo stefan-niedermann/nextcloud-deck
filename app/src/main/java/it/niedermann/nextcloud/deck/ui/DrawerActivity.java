@@ -137,6 +137,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                         if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNTS) {
                             this.account = account;
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                            syncManager = new SyncManager(this);
                             setHeaderView();
                             syncManager = new SyncManager(this);
                             ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
@@ -201,6 +202,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 default:
                     this.account = accountsList.get(item.getItemId());
                     SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                    syncManager = new SyncManager(this);
                     setHeaderView();
                     accountChooserActive = false;
                     accountSet(this.account);

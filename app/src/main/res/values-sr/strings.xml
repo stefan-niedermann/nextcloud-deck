@@ -15,27 +15,34 @@
     <string name="simple_boards">Табле</string>
     <string name="simple_cancel">Поништи</string>
     <string name="simple_create">Направи</string>
+    <string name="simple_save">Сачувај</string>
+
+    <string name="edit_board">Измени таблу</string>
+    <string name="archive_board">Архивирај таблу</string>
+    <string name="delete_board">Избриши таблу</string>
 
     <!-- About -->
     <string name="about">О програму</string>
     <string name="about_version_title">Верзија</string>
-    <string name="about_version">Тренутно користите &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Тренутно користите %1$s</string>
     <string name="about_maintainer_title">Одржаваоц</string>
     <string name="about_developers_title">Програмери</string>
     <string name="about_translators_title">Преводиоци</string>
-    <string name="about_translators_transifex">Некстклауд заједница на &lt;a href=\"%1$s\">Трансифексу&lt;/a></string>
+    <string name="about_translators_transifex">Некстклауд заједница на %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Тестери</string>
     <string name="about_source_title">Изворни кôд</string>
-    <string name="about_source">Овај пројекат се одржава на Гитхабу: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Овај пројекат се налази на GitHub-у: %1$s</string>
     <string name="about_issues_title">Проблеми</string>
-    <string name="about_issues">Пријаве грешака, предлоге и захтеве можете да оставите на Гитхабовом пратиоцу проблема: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Можете пријавити грешке, предложити побољшања и нове функционалности на GitHub пратиоцу грешака: %1$s</string>
     <string name="about_translate_title">Преведи</string>
-    <string name="about_translate">Придружите се Некстклауд тиму на Трансифексу и помозите нам да преведемо ову апликацију: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Придружите се Некстклауд тиму на Трансифексу и помозите нам да преведемо ову апликацију: %1$s</string>
     <string name="about_app_license_title">Лиценца апликације</string>
     <string name="about_app_license">Ова апликација је лиценцирана под ГНУовом општом јавном лиценцом в3+.</string>
     <string name="about_app_license_button">Прикажи лиценцу</string>
     <string name="about_icons_disclaimer_title">Иконе</string>
-    <string name="about_icons_disclaimer">&lt;p>Оригиналне иконе направио %1$s&lt;/p>&lt;p>Све остале иконе коришћене у овој апликацији су &lt;a href=\"https://materialdesignicons.com/\">Иконе материјал дизајна&lt;/a> направљене од стране Гугла и лиценциране под Апач 2.0 лиценцом.&lt;/p></string>
+    <string name="about_icons_disclaimer">Оригиналне иконе направио %1$s Све остале иконе коришћене у овој апликацији су %2$s које је направио Google Inc. и лиценциране су под Апач 2.0 лиценцом.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design иконице</string>
     <string name="about_credits_tab_title">Заслуге</string>
     <string name="about_contribution_tab_title">Допринос</string>
     <string name="about_license_tab_title">Лиценца</string>
@@ -62,10 +69,18 @@
     <string name="action_card_delete">Обриши картицу</string>
     <string name="add_board">Додај таблу</string>
     <string name="action_card_list_add_column">Додај колону</string>
+    <string name="action_card_list_delete_column">Обриши колону</string>
     <string name="action_card_list_board_details">Детаљи табле</string>
     <string name="simple_title">Наслов</string>
 
     <string name="label_clear_due_date">Избриши рок</string>
 
     <string name="label_create">Направи %1$s</string>
-</resources>
+    <string name="no_columns_available">Нема доступних колона</string>
+    <string name="error">Дошло је до грешке</string>
+    <string name="simple_copy">копирај</string>
+    <string name="simple_exception">Изузетак</string>
+    <string name="copied_to_clipboard">Копирано у клипборд</string>
+    <string name="simple_close">затвори</string>
+
+    </resources>
