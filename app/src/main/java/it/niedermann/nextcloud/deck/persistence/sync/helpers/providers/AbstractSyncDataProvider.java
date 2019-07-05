@@ -76,7 +76,7 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public abstract List<T> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync);
 
-    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         //do nothing
     }
 

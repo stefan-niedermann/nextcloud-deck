@@ -87,7 +87,7 @@ public class SyncHelper {
                 }
             }
         }
-        provider.goDeeperForUpSync(this, dataBaseAdapter, responseCallback);
+        provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback);
     }
 
     private <T extends IRemoteEntity> IResponseCallback<Void> getDeleteCallback(AbstractSyncDataProvider<T> provider, T entity) {
@@ -121,7 +121,7 @@ public class SyncHelper {
     }
 
     public void fixRelations(IRelationshipProvider relationshipProvider) {
-        //this is OK, since the delete only affects records with status UP_TO_DATE
+        // this is OK, since the delete only affects records with status UP_TO_DATE
         relationshipProvider.deleteAllExisting(dataBaseAdapter, accountId);
         relationshipProvider.insertAllNecessary(dataBaseAdapter, accountId);
     }
@@ -130,8 +130,6 @@ public class SyncHelper {
         if (!accountId.equals(localEntity.getAccountId())) {
             throw new IllegalArgumentException("IDs of Accounts are not matching! WTF are you doin?!");
         }
-        //TODO: da fuq?!? it MUST be an error... sets the actual data? remote = remote?!? are you drunk?!
-        remoteEntity.setLastModifiedLocal(remoteEntity.getLastModified()); // not an error! local-modification = remote-mod
         remoteEntity.setLocalId(localEntity.getLocalId());
         return remoteEntity;
     }

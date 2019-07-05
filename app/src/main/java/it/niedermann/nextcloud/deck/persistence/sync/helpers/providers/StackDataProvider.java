@@ -89,18 +89,24 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         List<FullCard> changedCards = dataBaseAdapter.getLocallyChangedCardsDirectly(callback.getAccount().getId());
         Set<Long> syncedStacks = new HashSet<>();
-        for (FullCard changedCard : changedCards) {
-            long stackId = changedCard.getCard().getStackId();
-            boolean added = syncedStacks.add(stackId);
-            if (added) {
-                FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackId);
-                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-                changedCard.getCard().setStackId(stack.getId());
-                syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack));
+        if (changedCards != null && changedCards.size() > 0){
+            for (FullCard changedCard : changedCards) {
+                long stackId = changedCard.getCard().getStackId();
+                boolean added = syncedStacks.add(stackId);
+                if (added) {
+                    FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackId);
+                    Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+                    changedCard.getCard().setStackId(stack.getId());
+                    syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack));
+                }
             }
+        } else {
+            // TODO doesn't go deeper, if no stack was changed
+            // no changed cards? maybe users or Labels! So we have to go deeper!
+            new CardDataProvider(this, null, null).goDeeperForUpSync(syncHelper, serverAdapter, dataBaseAdapter, callback);
         }
     }
 

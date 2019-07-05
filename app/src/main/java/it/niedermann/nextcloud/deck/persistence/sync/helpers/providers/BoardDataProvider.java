@@ -66,16 +66,16 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
             syncHelper.doSyncFor(new LabelDataProvider(this, existingEntity.getBoard(), labels));
         }
 
-        if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()){
-            syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
-        }
-
         List<AccessControl> acl = entityFromServer.getParticipants();
         if (acl != null && !acl.isEmpty()){
             for (AccessControl ac : acl){
                 ac.setBoardId(existingEntity.getLocalId());
             }
             syncHelper.doSyncFor(new AccessControlDataProvider(this, acl));
+        }
+
+        if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()){
+            syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
         }
     }
 
@@ -90,7 +90,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         Long accountId = callback.getAccount().getId();
         List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(accountId);
         for (Label label : locallyChangedLabels) {
@@ -103,7 +103,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         List<FullStack> locallyChangedStacks = dataBaseAdapter.getLocallyChangedStacks(accountId);
         if (locallyChangedStacks.size() < 1) {
             // no changed stacks? maybe cards! So we have to go deeper!
-            new StackDataProvider(this, null).goDeeperForUpSync(syncHelper, dataBaseAdapter, callback);
+            new StackDataProvider(this, null).goDeeperForUpSync(syncHelper, serverAdapter, dataBaseAdapter, callback);
         } else {
             for (FullStack locallyChangedStack : locallyChangedStacks) {
                 long boardId = locallyChangedStack.getStack().getBoardId();

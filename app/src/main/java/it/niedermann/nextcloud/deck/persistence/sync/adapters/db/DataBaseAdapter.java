@@ -446,4 +446,28 @@ public class DataBaseAdapter {
     public Board getBoardByLocalCardIdDirectly(long localCardId) {
         return db.getBoardDao().getBoardByLocalCardIdDirectly(localCardId);
     }
+
+    public JoinCardWithLabel getJoinCardWithLabel(Long localLabelId, Long localCardId) {
+        return db.getJoinCardWithLabelDao().getJoin(localLabelId, localCardId);
+    }
+
+    public JoinCardWithUser getJoinCardWithUser(Long localUserId, Long localCardId) {
+        return db.getJoinCardWithUserDao().getJoin(localUserId, localCardId);
+    }
+
+    public List<JoinCardWithLabel> getAllDeletedLabelJoinsByStackWithRemoteIDs() {
+        return db.getJoinCardWithLabelDao().getAllDeletedJoinsByStackWithRemoteIDs();
+    }
+
+    public List<JoinCardWithUser> getAllDeletedUserJoinsWithRemoteIDs() {
+        return db.getJoinCardWithUserDao().getDeletedJoinsWithRemoteIDs();
+    }
+
+    public void deleteJoinedLabelForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, Long remoteLabelId) {
+        db.getJoinCardWithLabelDao().deleteJoinedLabelForCardPhysicallyByRemoteIDs(accountId, remoteCardId, remoteLabelId);
+    }
+
+    public void deleteJoinedUserForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, String userUid) {
+        db.getJoinCardWithUserDao().deleteJoinedUserForCardPhysicallyByRemoteIDs(accountId, remoteCardId, userUid);
+    }
 }
