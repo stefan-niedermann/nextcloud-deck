@@ -6,7 +6,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 public class CardUpdate extends Card {
 
-    User owner;
+    private User owner;
 
     public CardUpdate(FullCard card) {
         super();
@@ -35,5 +35,18 @@ public class CardUpdate extends Card {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "CardUpdate{" +
+                "owner=" + owner +
+                ", localId=" + localId +
+                ", accountId=" + accountId +
+                ", id=" + id +
+                ", status=" + status +
+                ", lastModified=" + lastModified +
+                ", lastModifiedLocal=" + lastModifiedLocal +
+                "} " + super.toString();
     }
 }

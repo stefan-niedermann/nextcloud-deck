@@ -126,7 +126,9 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
-        serverAdapter.updateCard(board.getId(), entity.getCard().getStackId(), toCardUpdate(entity), callback);
+        CardUpdate update = toCardUpdate(entity);
+        update.setStackId(stack.getId());
+        serverAdapter.updateCard(board.getId(), stack.getId(), update, callback);
     }
 
     @Override

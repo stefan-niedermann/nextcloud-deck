@@ -231,4 +231,30 @@ public class Card extends AbstractRemoteEntity {
         result = 31 * result + commentsUnread;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", stackId=" + stackId +
+                ", type='" + type + '\'' +
+                ", createdAt=" + createdAt +
+                ", deletedAt=" + deletedAt +
+                ", attachmentCount=" + attachmentCount +
+                ", userId=" + userId +
+                ", order=" + order +
+                ", archived=" + archived +
+                ", dueDate=" + dueDate +
+                ", notified=" + notified +
+                ", overdue=" + overdue +
+                ", commentsUnread=" + commentsUnread +
+                ", localId=" + localId +
+                ", accountId=" + accountId +
+                ", id=" + id +
+                ", status=" + status +
+                ", lastModified=" + lastModified +
+                ", lastModifiedLocal=" + lastModifiedLocal +
+                '}';
+    }
 }
