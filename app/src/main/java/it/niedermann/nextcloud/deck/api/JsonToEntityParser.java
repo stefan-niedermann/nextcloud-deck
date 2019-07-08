@@ -83,7 +83,7 @@ public class JsonToEntityParser {
 
         if (e.has("acl") && !e.get("acl").isJsonNull()) {
             JsonElement assignedUsers = e.get("acl");
-            if (!(assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() == 0)){
+            if (!assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() > 0){
                 Set<Map.Entry<String, JsonElement>> entries = assignedUsers.getAsJsonObject().entrySet();
 
                 List<AccessControl> acl = new ArrayList<>();
