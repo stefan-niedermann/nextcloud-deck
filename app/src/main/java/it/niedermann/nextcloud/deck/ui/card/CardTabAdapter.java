@@ -1,21 +1,24 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.res.Resources;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class CardTabAdapter extends FragmentStatePagerAdapter {
-    private CardDetailsFragment detailsFragment;
-    private CardAttachmentsFragment attachmentsFragment;
-    private CardActivityFragment activityFragment;
+import it.niedermann.nextcloud.deck.R;
 
+public class CardTabAdapter extends FragmentStatePagerAdapter {
+
+    private Resources resources;
     private long accountId;
     private long localId;
     private long boardId;
 
-    public CardTabAdapter(FragmentManager fm, long accountId, long localId, long boardId) {
-        super(fm);
+    public CardTabAdapter(FragmentManager fm, Resources resources, long accountId, long localId, long boardId) {
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        this.resources = resources;
         this.accountId = accountId;
         this.localId = localId;
         this.boardId = boardId;
@@ -26,14 +29,11 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                detailsFragment = CardDetailsFragment.newInstance(accountId, localId, boardId);
-                return detailsFragment;
+                return CardDetailsFragment.newInstance(accountId, localId, boardId);
             case 1:
-                attachmentsFragment = CardAttachmentsFragment.newInstance(accountId, localId, boardId);
-                return attachmentsFragment;
+                return CardAttachmentsFragment.newInstance(accountId, localId, boardId);
             case 2:
-                activityFragment = CardActivityFragment.newInstance();
-                return activityFragment;
+                return CardActivityFragment.newInstance();
             default:
                 throw new IllegalArgumentException("position " + position + "is not available");
         }
@@ -42,14 +42,13 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public CharSequence getPageTitle(int position) {
-        // TODO extract string resources
         switch (position) {
             case 0:
-                return "Details";
+                return this.resources.getString(R.string.card_edit_details);
             case 1:
-                return "Attachments";
+                return this.resources.getString(R.string.card_edit_attachments);
             case 2:
-                return "Activity";
+                return this.resources.getString(R.string.card_edit_activity);
             default:
                 throw new IllegalArgumentException("position " + position + "is not available");
         }

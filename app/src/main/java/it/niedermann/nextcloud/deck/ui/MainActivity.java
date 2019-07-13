@@ -80,7 +80,7 @@ public class MainActivity extends DrawerActivity {
         dragAndDrop.register(viewPager);
         dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
             //FIXME: implement me por favour!
-            DeckLog.log("Card \""+movedCard.getCard().getTitle()+"\" was moved to Stack "+stackId+" on position "+position);
+            DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
         });
 
         fab.setOnClickListener((View view) -> {
@@ -203,35 +203,37 @@ public class MainActivity extends DrawerActivity {
         Menu menu = navigationView.getMenu();
         menu.clear();
         SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
-        int index = 0;
-        for (Board board : boardsList) {
-            MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(this, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
-            AppCompatImageButton contextMenu = new AppCompatImageButton(this);
-            contextMenu.setBackgroundDrawable(null);
-            contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_menu, R.color.grey600));
-            contextMenu.setOnClickListener((v) -> {
-                PopupMenu popup = new PopupMenu(MainActivity.this, contextMenu);
-                popup.getMenuInflater()
-                        .inflate(R.menu.navigation_context_menu, popup.getMenu());
-                popup.setOnMenuItemClickListener((MenuItem item) -> {
-                    switch (item.getItemId()) {
-                        case R.id.edit_board:
-                            EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
-                            break;
-                        case R.id.archive_board:
-                            // TODO implement
-                            Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
-                            break;
-                        case R.id.delete_board:
-                            // TODO select next available board
-                            syncManager.deleteBoard(board);
-                            break;
-                    }
-                    return true;
+        if (boardsList != null) {
+            int index = 0;
+            for (Board board : boardsList) {
+                MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(this, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
+                AppCompatImageButton contextMenu = new AppCompatImageButton(this);
+                contextMenu.setBackgroundDrawable(null);
+                contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_menu, R.color.grey600));
+                contextMenu.setOnClickListener((v) -> {
+                    PopupMenu popup = new PopupMenu(MainActivity.this, contextMenu);
+                    popup.getMenuInflater()
+                            .inflate(R.menu.navigation_context_menu, popup.getMenu());
+                    popup.setOnMenuItemClickListener((MenuItem item) -> {
+                        switch (item.getItemId()) {
+                            case R.id.edit_board:
+                                EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
+                                break;
+                            case R.id.archive_board:
+                                // TODO implement
+                                Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                                break;
+                            case R.id.delete_board:
+                                // TODO select next available board
+                                syncManager.deleteBoard(board);
+                                break;
+                        }
+                        return true;
+                    });
+                    popup.show();
                 });
-                popup.show();
-            });
-            m.setActionView(contextMenu);
+                m.setActionView(contextMenu);
+            }
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_grey_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_grey_24dp);

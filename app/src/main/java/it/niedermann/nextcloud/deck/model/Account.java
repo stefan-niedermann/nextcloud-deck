@@ -1,12 +1,12 @@
 package it.niedermann.nextcloud.deck.model;
 
-import java.io.Serializable;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import java.io.Serializable;
 
 @Entity(indices = {@Index(value = "name", unique = true)})
 public class Account implements Serializable {
@@ -27,7 +27,12 @@ public class Account implements Serializable {
 
     @Ignore
     public Account(Long id, @NonNull String name, @NonNull String userName, @NonNull String url) {
+        this(name, userName, url);
         this.id = id;
+    }
+
+    @Ignore
+    public Account(String name, String userName, String url) {
         this.name = name;
         this.userName = userName;
         this.url = url;

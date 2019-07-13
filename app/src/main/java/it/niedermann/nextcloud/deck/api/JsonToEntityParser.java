@@ -86,7 +86,7 @@ public class JsonToEntityParser {
 
         if (e.has("acl") && !e.get("acl").isJsonNull()) {
             JsonElement assignedUsers = e.get("acl");
-            if (!(assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() == 0)){
+            if (!assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() > 0){
                 Set<Map.Entry<String, JsonElement>> entries = assignedUsers.getAsJsonObject().entrySet();
 
                 List<AccessControl> acl = new ArrayList<>();
@@ -177,7 +177,10 @@ public class JsonToEntityParser {
             fullCard.setAttachments(attachments);
         }
 
-        card.setAttachmentCount(e.get("attachmentCount").getAsInt());
+        if (e.has("attachmentCount") && !e.get("attachmentCount").isJsonNull()) {
+            card.setAttachmentCount(e.get("attachmentCount").getAsInt());
+        }
+
         card.setOrder(e.get("order").getAsInt());
         card.setOverdue(e.get("overdue").getAsInt());
         card.setDueDate(getTimestampFromString(e.get("duedate")));

@@ -33,7 +33,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardPropagationDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
@@ -299,7 +299,7 @@ public class SyncManager {
             fullCard.setCard(card);
             fullCard.setOwner(owner);
             fullCard.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
                 @Override
                 public void onResponse(FullCard response) {
                     liveData.postValue(response);
@@ -309,19 +309,58 @@ public class SyncManager {
         return liveData;
     }
 
-    public void deleteCard(Card card) {
-        //TODO: Tell the server
-        dataBaseAdapter.deleteCard(card, true);
+    public MutableLiveData<FullCard> deleteCard(Card card) {
+        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
+            if (fullCard== null) {
+                throw new IllegalArgumentException("card to delete does not exist.");
+            }
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new CardPropagationDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
+                @Override
+                public void onResponse(FullCard response) {
+                    liveData.postValue(response);
+                }
+            });
+        });
+        return liveData;
+    }
+    public MutableLiveData<FullCard> archiveCard(Card card) {
+        card.setArchived(true);
+        return updateCard(card);
     }
 
-    public void updateCard(Card card) {
-        //TODO: Tell the server
-        doAsync(()->{
-            Card existingCard = dataBaseAdapter.getCardByRemoteIdDirectly(card.getAccountId(), card.getId());
-            if (!existingCard.equals(card)){
-                dataBaseAdapter.updateCard(card, true);
+    public MutableLiveData<FullCard> updateCard(Card card) {
+        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
+            if (fullCard== null) {
+                throw new IllegalArgumentException("card to update does not exist.");
             }
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            fullCard.setCard(card);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardPropagationDataProvider(null, board, stack) ,fullCard, new IResponseCallback<FullCard>(account) {
+                @Override
+                public void onResponse(FullCard response) {
+                    liveData.postValue(response);
+                }
+            });
         });
+        return liveData;
+
+
+        //TODO: Tell the server
+//        doAsync(()->{
+//            Card existingCard = dataBaseAdapter.getCardByRemoteIdDirectly(card.getAccountId(), card.getId());
+//            if (!existingCard.equals(card)){
+//                dataBaseAdapter.updateCard(card, true);
+//            }
+//        });
     }
 
     public long createLabel(long accountId, Label label) {
@@ -338,7 +377,7 @@ public class SyncManager {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null) ,label, new IResponseCallback<Label>(account) {
                 @Override
                 public void onResponse(Label response) {
-                    assignLabelToCard(label, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
+                    assignLabelToCard(response, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
                     liveData.postValue(response);
                 }
 
@@ -347,6 +386,8 @@ public class SyncManager {
                     super.onError(throwable);
                     assignLabelToCard(label, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
                 }
+            }, (entity, response) -> {
+                response.setBoardId(board.getLocalId());
             });
         });
         return liveData;

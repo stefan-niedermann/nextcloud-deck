@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.DraggedCardLocalState;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
@@ -64,10 +65,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private Context context;
     private List<FullCard> cardList = new LinkedList<>();
     private SingleSignOnAccount account;
+    private SyncManager syncManager;
     private long boardId;
 
-    public CardAdapter(long boardId) {
+    public CardAdapter(long boardId, SyncManager syncManager) {
         this.boardId = boardId;
+        this.syncManager = syncManager;
     }
 
     @NonNull
@@ -314,18 +317,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     private boolean optionsItemSelected(MenuItem item, FullCard card) {
-        Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show();
         switch (item.getItemId()) {
             case R.id.action_card_assign: {
+                Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show();
                 return true;
             }
             case R.id.action_card_unassign: {
+                Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show();
                 return true;
             }
             case R.id.action_card_archive: {
+                syncManager.archiveCard(card.getCard());
                 return true;
             }
             case R.id.action_card_delete: {
+                syncManager.deleteCard(card.getCard());
                 return true;
             }
         }

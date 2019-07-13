@@ -320,7 +320,11 @@ public class DataBaseAdapter {
     
     public void deleteCard(Card card, boolean setStatus) {
         markAsDeletedIfNeeded(card, setStatus);
-        db.getCardDao().update(card);
+        if (setStatus){
+            db.getCardDao().update(card);
+        } else {
+            deleteCardPhysically(card);
+        }
     }
 
     public void deleteCardPhysically(Card card) {

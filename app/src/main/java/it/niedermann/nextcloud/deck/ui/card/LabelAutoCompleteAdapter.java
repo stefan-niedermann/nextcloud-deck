@@ -37,6 +37,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     private LifecycleOwner owner;
     private Label createLabel;
     private String createLabelText;
+    private String lastFilterText;
 
     public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId) {
         this.owner = owner;
@@ -109,6 +110,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
+                    lastFilterText = constraint.toString();
                     ((Fragment) owner).getActivity().runOnUiThread(() -> {
                         LiveData<List<Label>> labelLiveData = syncManager.searchLabelByTitle(accountId, boardId, constraint.toString());
                         Observer<List<Label>> observer = new Observer<List<Label>>() {
@@ -147,6 +149,10 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                 }
             }
         };
+    }
+
+    public String getLastFilterText() {
+        return this.lastFilterText;
     }
 
     static class ViewHolder {

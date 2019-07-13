@@ -30,6 +30,7 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class ServerAdapter {
@@ -75,7 +76,7 @@ public class ServerAdapter {
 
     public boolean hasInternetConnection(){
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo().isConnected();
+        return cm != null && cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     private String getLastSyncDateFormatted(long accountId) {
@@ -162,7 +163,7 @@ public class ServerAdapter {
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteCard(boardId, stackId, card.getId()), responseCallback);
     }
 
-    public void updateCard(long boardId, long stackId, Card card, IResponseCallback<FullCard> responseCallback) {
+    public void updateCard(long boardId, long stackId, CardUpdate card, IResponseCallback<FullCard> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateCard(boardId, stackId, card.getId(), card), responseCallback);
     }

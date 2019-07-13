@@ -15,27 +15,34 @@
     <string name="simple_boards">Katlar</string>
     <string name="simple_cancel">İptal</string>
     <string name="simple_create">Ekle</string>
+    <string name="simple_save">Kaydet</string>
+
+    <string name="edit_board">Panoyu düzenle</string>
+    <string name="archive_board">Panoyu arşivle</string>
+    <string name="delete_board">Panoyu sil</string>
 
     <!-- About -->
     <string name="about">Hakkında</string>
     <string name="about_version_title">Sürüm</string>
-    <string name="about_version">&lt;strong>%1$s&lt;/strong> sürümü kullanıyorsunuz</string>
+    <string name="about_version">Şu anda %1$s kullanıyorsunuz</string>
     <string name="about_maintainer_title">Destekleyen</string>
     <string name="about_developers_title">Geliştiriciler</string>
     <string name="about_translators_title">Çevirmenler</string>
-    <string name="about_translators_transifex">&lt;a href=\"%1$s\">Transifex&lt;/a> üzerindeki Nextcloud topluluğu</string>
+    <string name="about_translators_transifex">%1$s üzerindeki Nextcloud topluluğu</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Sınayıcılar</string>
     <string name="about_source_title">Kaynak kodu</string>
-    <string name="about_source">Bu proje GitHub üzerinde barındırılıyor: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Bu proje GitHub üzerinde barındırılmaktadır: %1$s</string>
     <string name="about_issues_title">Sorunlar</string>
-    <string name="about_issues">Sorun, istek ve önerilerinizi GitHub sorun izleyiciye yazabilirsiniz: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Sorun, istek ve önerilerinizi GitHub sorun izleyiciye yazabilirsiniz: %1$s</string>
     <string name="about_translate_title">Çeviri</string>
-    <string name="about_translate">Transifex üzerindeki Nextcloud takımına katılarak uygulamayı çevirmemize yardımcı olabilirsiniz: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Transifex üzerindeki Nextcloud takımına katılarak uygulamayı çevirmemize yardımcı olabilirsiniz: %1$s</string>
     <string name="about_app_license_title">Uygulama lisansı</string>
     <string name="about_app_license">Bu uygulama GNU GENEL KAMU LİSANSI v3+ sürümü koşulları altında dağıtılmaktadır.</string>
     <string name="about_app_license_button">Lisansı görüntüle</string>
     <string name="about_icons_disclaimer_title">Simgeler</string>
-    <string name="about_icons_disclaimer">&lt;p>Özgün simge  %1$s tarafından tasarlanmıştır&lt;/p>&lt;p>Bu uygulama tarafından kullanılan diğer tüm simgeler Google Inc. tarafından tasarlanmış ve Apache 2.0 lisansı koşulları altında dağıtılan &lt;a href=\"https://materialdesignicons.com/\">Material Design Simgeleridir&lt;/a>.&lt;/p></string>
+    <string name="about_icons_disclaimer">Özgün simgeyi %1$s tarafından yapılmıştır. Bu uygulamanın kullandığı tüm diğer simgeler %2$s Google Inc. tarafından yapılmıştır veApache 2.0 Lisansı koşulları altında dağıtılmaktadır.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Emeği Geçenler</string>
     <string name="about_contribution_tab_title">Katkıda Bulunanlar</string>
     <string name="about_license_tab_title">Lisans</string>
@@ -62,10 +69,18 @@
     <string name="action_card_delete">Kartı sil</string>
     <string name="add_board">Pano ekle</string>
     <string name="action_card_list_add_column">Sütun ekle</string>
+    <string name="action_card_list_delete_column">Sütunu sil</string>
     <string name="action_card_list_board_details">Pano ayrıntıları</string>
     <string name="simple_title">Başlık</string>
 
     <string name="label_clear_due_date">Bitiş tarihini temizle</string>
 
     <string name="label_create">%1$s Ekle</string>
-</resources>
+    <string name="no_columns_available">Kullanılabilecek bir sütun yok</string>
+    <string name="error">Bir sorun çıktı</string>
+    <string name="simple_copy">kopyala</string>
+    <string name="simple_exception">İstisna</string>
+    <string name="copied_to_clipboard">Panoya kopyalandı</string>
+    <string name="simple_close">kapat</string>
+
+    </resources>

@@ -43,6 +43,12 @@ public class Card extends AbstractRemoteEntity {
     private int overdue;
     private int commentsUnread;
 
+    public Card() {}
+
+    public Card(String title, String description, long stackId) {
+
+    }
+
     public boolean isNotified() {
         return notified;
     }

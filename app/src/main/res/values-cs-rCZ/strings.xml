@@ -15,27 +15,33 @@
     <string name="simple_boards">Desky</string>
     <string name="simple_cancel">Storno</string>
     <string name="simple_create">Vytvořit</string>
+    <string name="simple_save">Uložit</string>
+
+    <string name="edit_board">Upravit nástěnku</string>
+    <string name="archive_board">Archivovat nástěnku</string>
+    <string name="delete_board">Smazat nástěnku</string>
 
     <!-- About -->
     <string name="about">O aplikaci</string>
     <string name="about_version_title">Verze</string>
-    <string name="about_version">Nyní používáte &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Nyní používáte %1$s</string>
     <string name="about_maintainer_title">Správce balíčku</string>
     <string name="about_developers_title">Vývojáři</string>
     <string name="about_translators_title">Překladatelé</string>
-    <string name="about_translators_transifex">Nextcloud komunita na &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Nextcloud komunita na %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testeři</string>
     <string name="about_source_title">Zdrojové kódy</string>
-    <string name="about_source">Tento projekt je hostován na GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Tento projekt je hostován na GitHub: %1$s</string>
     <string name="about_issues_title">Problémy</string>
-    <string name="about_issues">Chyby, nápady na vylepšení a nové funkce můžete nahlásit do systému správy hlášení chyb: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Chyby, nápady na vylepšení a nové funkce můžete nahlásit do systému správy hlášení chyb: %1$s</string>
     <string name="about_translate_title">Překládat</string>
-    <string name="about_translate">Připojte se k týmu na službě Transifex a pomozte nám přelkládat tuto aplikaci: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Připojte se k týmu na službě Transifex a pomozte nám překládat tuto aplikaci: %1$s</string>
     <string name="about_app_license_title">Licence aplikace</string>
     <string name="about_app_license">Tato aplikace je licencována pod GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Zobrazit licenci</string>
     <string name="about_icons_disclaimer_title">Ikony</string>
-    <string name="about_icons_disclaimer">&lt;p>Původní ikonu vyrobil %1$s&lt;/p>&lt;p>Všechny ostatní ikony používané touto aplikací byly &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> vytvořeny společností Google Inc. a jsou licencovány pod licencí Apache 2.0.&lt;/p></string>
+    <string name="about_icons_disclaimer_mdi">Ikony ve stylu Material Design</string>
     <string name="about_credits_tab_title">Zásluhy</string>
     <string name="about_contribution_tab_title">Příspěvky</string>
     <string name="about_license_tab_title">Licence</string>
@@ -62,10 +68,18 @@
     <string name="action_card_delete">Smazat kartu</string>
     <string name="add_board">Přidat nástěnku</string>
     <string name="action_card_list_add_column">Přidat sloupec</string>
+    <string name="action_card_list_delete_column">Smazat sloupec</string>
     <string name="action_card_list_board_details">Podrobnosti o nástěnce</string>
     <string name="simple_title">Nadpis</string>
 
     <string name="label_clear_due_date">Vymazat termín</string>
 
     <string name="label_create">Vytvořit %1$s</string>
-</resources>
+    <string name="no_columns_available">Nejsou k dispozici žádné sloupce</string>
+    <string name="error">Objevila se chyba</string>
+    <string name="simple_copy">zkopírovat</string>
+    <string name="simple_exception">Výjimka</string>
+    <string name="copied_to_clipboard">Zkopírováno do schránky</string>
+    <string name="simple_close">zavřít</string>
+
+    </resources>

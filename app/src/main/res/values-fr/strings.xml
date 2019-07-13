@@ -5,6 +5,7 @@
     <string name="nav_header_desc">Entête de navigation</string>
     <string name="action_settings">Paramètres</string>
 
+    <string name="drawer_header_background">Image d\'arrière-plan de l\'entête du menu-tiroir</string>
     <string name="drawer_current_account">Compte actuel</string>
     <string name="drawer_middle_account">Compte du milieu</string>
     <string name="drawer_end_account">Dernier compte</string>
@@ -14,27 +15,34 @@
     <string name="simple_boards">Tableaux</string>
     <string name="simple_cancel">Annuler</string>
     <string name="simple_create">Créer</string>
+    <string name="simple_save">Enregistrer</string>
+
+    <string name="edit_board">Modifier le tableau</string>
+    <string name="archive_board">Archiver le tableau</string>
+    <string name="delete_board">Supprimer le tableau</string>
 
     <!-- About -->
     <string name="about">À propos de</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version">Vous utilisez actuellement &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Vous utilisez actuellement %1$s</string>
     <string name="about_maintainer_title">Responsable</string>
     <string name="about_developers_title">Développeurs</string>
     <string name="about_translators_title">Traducteurs</string>
-    <string name="about_translators_transifex">Communauté Nextcloud sur &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Communauté Nextcloud sur %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testeurs</string>
     <string name="about_source_title">Code source</string>
-    <string name="about_source">Ce projet est hébergé par GitHub : &lt;a href=\"%1$s\">%1$s &lt;/a></string>
+    <string name="about_source">Ce projet est hébergé sur GitHub : %1$s</string>
     <string name="about_issues_title">Incidents</string>
-    <string name="about_issues">Vous pouvez signaler des bogues, des propositions d’amélioration et des demandes de fonctionnalités sur l’outil de suivi des problèmes GitHub : &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Vous pouvez signaler des anomalies, suggérer des améliorations et demander de nouvelles fonctionnalités sur GitHub : %1$s.</string>
     <string name="about_translate_title">Traduire</string>
-    <string name="about_translate">Rejoignez l\'équipe Nextcloud sur Transifex et aidez-nous à traduire cette application : &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Rejoignez l\'équipe Nextcloud sur Transifex et aidez-nous à traduire cette application : %1$s</string>
     <string name="about_app_license_title">Licence de l\'application</string>
     <string name="about_app_license">Cette application est sous licence GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Voir la licence</string>
     <string name="about_icons_disclaimer_title">Icônes</string>
-    <string name="about_icons_disclaimer">&lt;p>Icône originale réalisée par %1$s.&lt;/p>&lt;p>Toutes les autres icônes utilisées par cette application sont des &lt;a href=\"https://materialdesignicons.com/\">icônes Material Design&lt;/a> réalisées par Google Inc. et sous licence Apache 2.0.&lt;/p></string>
+    <string name="about_icons_disclaimer">Icône originale réalisée par %1$s. Toutes les autres icônes utilisées par cette application sont %2$s réalisées par Google Inc. et sous licence Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Icônes Material Design</string>
     <string name="about_credits_tab_title">Crédits</string>
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">Licence</string>
@@ -61,10 +69,18 @@
     <string name="action_card_delete">Supprimer la carte</string>
     <string name="add_board">Ajouter un tableau</string>
     <string name="action_card_list_add_column">Ajouter une colonne</string>
+    <string name="action_card_list_delete_column">Supprimer la colonne</string>
     <string name="action_card_list_board_details">Propriétés du tableau</string>
     <string name="simple_title">Titre</string>
 
     <string name="label_clear_due_date">Effacer la date d\'échéance</string>
 
     <string name="label_create">Créer %1$s</string>
-</resources>
+    <string name="no_columns_available">Aucune colonne disponible</string>
+    <string name="error">Une erreur est survenue</string>
+    <string name="simple_copy">copier</string>
+    <string name="simple_exception">Exception</string>
+    <string name="copied_to_clipboard">Copié dans le presse-papier</string>
+    <string name="simple_close">fermer</string>
+
+    </resources>
