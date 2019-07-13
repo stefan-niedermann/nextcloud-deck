@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Date;
@@ -45,8 +46,11 @@ public class Card extends AbstractRemoteEntity {
 
     public Card() {}
 
+    @Ignore
     public Card(String title, String description, long stackId) {
-
+        this.title = title;
+        this.description = description;
+        this.stackId = stackId;
     }
 
     public boolean isNotified() {
