@@ -14,7 +14,7 @@ An Android client for Nextcloud Deck App¹. Currently it might be usable as a pu
 🔗 Requirements
 - Nextcloud³ instance running
 - Nextcloud Files² app installed (version 3.2.2 or later)
-- Nextcloud Deck¹ app enabled (version 0.6.1 or later)
+- Nextcloud Deck¹ app enabled (version 0.6.4 or later)
 
 📓 License
 All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).

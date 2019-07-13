@@ -48,7 +48,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 ## 🔗 Requirements
 * [Nextcloud](https://nextcloud.com/) instance running
 * [Nextcloud Files](https://github.com/nextcloud/android) app installed (version 3.2.2 or later)
-* [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (version 0.6.1 or later)
+* [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (version 0.6.4 or later)
 
 ## 📓 License
 All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).
