@@ -1,13 +1,18 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -60,11 +65,6 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         if (labels != null && !labels.isEmpty()){
             syncHelper.doSyncFor(new LabelDataProvider(this, existingEntity.getBoard(), labels));
         }
-        syncHelper.fixRelations(new BoardLabelRelationshipProvider(existingEntity.getBoard(), labels));
-
-        if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()){
-            syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
-        }
 
         List<AccessControl> acl = entityFromServer.getParticipants();
         if (acl != null && !acl.isEmpty()){
@@ -73,33 +73,52 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
             }
             syncHelper.doSyncFor(new AccessControlDataProvider(this, acl));
         }
+
+        if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()){
+            syncHelper.doSyncFor(new StackDataProvider(this, existingEntity));
+        }
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> responder, FullBoard entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullBoard> responder, FullBoard entity) {
         serverAdapter.createBoard(entity.getBoard(), responder);
     }
 
     @Override
-    public List<FullBoard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        return null;
-        // TODO: reactivate for UpSync
-//        return dataBaseAdapter.getLocallyChangedBoards(accountId);
+    public List<FullBoard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return dataBaseAdapter.getLocallyChangedBoards(accountId);
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, FullBoard entity, FullBoard response, IResponseCallback<Boolean> callback) {
-
-        List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(entity.getAccountId(), entity.getLocalId());
+    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+        Long accountId = callback.getAccount().getId();
+        List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(accountId);
         for (Label label : locallyChangedLabels) {
-            label.setBoardId(entity.getId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
+            label.setBoardId(board.getId());
+            syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)));
         }
-        syncHelper.doUpSyncFor(new LabelDataProvider(this, entity.getBoard(), locallyChangedLabels));
-        syncHelper.doUpSyncFor(new StackDataProvider(this, entity));
+
+        Set<Long> syncedBoards = new HashSet<>();
+        List<FullStack> locallyChangedStacks = dataBaseAdapter.getLocallyChangedStacks(accountId);
+        if (locallyChangedStacks.size() < 1) {
+            // no changed stacks? maybe cards! So we have to go deeper!
+            new StackDataProvider(this, null).goDeeperForUpSync(syncHelper, serverAdapter, dataBaseAdapter, callback);
+        } else {
+            for (FullStack locallyChangedStack : locallyChangedStacks) {
+                long boardId = locallyChangedStack.getStack().getBoardId();
+                boolean added = syncedBoards.add(boardId);
+                if (added) {
+                    FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId);
+                    locallyChangedStack.getStack().setBoardId(board.getId());
+                    syncHelper.doUpSyncFor(new StackDataProvider(this, board));
+                }
+            }
+        }
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullBoard> callback, FullBoard entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullBoard> callback, FullBoard entity) {
         serverAdapter.updateBoard(entity.getBoard(), callback);
     }
 
@@ -114,7 +133,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullBoard entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullBoard entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteBoard(entity.getBoard(), callback);
     }
 }

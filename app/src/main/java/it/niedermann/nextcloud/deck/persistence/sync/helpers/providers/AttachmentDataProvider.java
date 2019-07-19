@@ -49,22 +49,22 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
         //TODO: implement
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
         //TODO: implement
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, Attachment entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, Attachment entity, DataBaseAdapter dataBaseAdapter) {
         //TODO: implement
     }
 
     @Override
-    public List<Attachment> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<Attachment> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
     }
 }

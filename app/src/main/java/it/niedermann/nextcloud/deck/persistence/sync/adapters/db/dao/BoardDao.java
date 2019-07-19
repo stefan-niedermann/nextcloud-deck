@@ -30,8 +30,8 @@ public interface BoardDao extends GenericDao<Board> {
     FullBoard getFullBoardByRemoteIdDirectly(long accountId, long remoteId);
 
     @Transaction
-    @Query("SELECT * FROM board WHERE accountId = :accountId and localId = :id")
-    FullBoard getFullBoardByIdDirectly(long accountId, long id);
+    @Query("SELECT * FROM board WHERE accountId = :accountId and localId = :localId")
+    FullBoard getFullBoardByLocalIdDirectly(long accountId, long localId);
 
     @Transaction
     @Query("SELECT * FROM board WHERE accountId = :accountId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")

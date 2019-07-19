@@ -1,10 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
+
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.model.Label;
 
 @Dao
@@ -28,6 +29,6 @@ public interface LabelDao extends GenericDao<Label> {
     @Query("SELECT * FROM label WHERE accountId = :accountId and boardId = :boardId and title LIKE :searchTerm")
     LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm);
 
-    @Query("SELECT * FROM label WHERE accountId = :accountId and boardId = :boardId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
-    List<Label> getLocallyChangedLabelsDirectly(long accountId, long boardId);
+    @Query("SELECT * FROM label WHERE accountId = :accountId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
+    List<Label> getLocallyChangedLabelsDirectly(long accountId);
 }

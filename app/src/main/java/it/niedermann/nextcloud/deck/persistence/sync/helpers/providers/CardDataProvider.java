@@ -1,15 +1,20 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
+import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
@@ -103,28 +108,27 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         List<Attachment> attachments = entityFromServer.getAttachments();
         existingEntity.setAttachments(attachments);
 
-        if(labels != null && !labels.isEmpty()){
-            syncHelper.doSyncFor(new LabelDataProvider(this, board, labels));
-        }
         syncHelper.fixRelations(new CardLabelRelationshipProvider(existingEntity.getCard(), existingEntity.getLabels()));
-        if(assignedUsers!= null && !assignedUsers.isEmpty()){
+        if(assignedUsers != null && !assignedUsers.isEmpty()){
             syncHelper.doSyncFor(new UserDataProvider(this, board, stack, existingEntity, existingEntity.getAssignedUsers()));
         }
+
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
-        if(assignedUsers!= null && !attachments.isEmpty()){
+        if(attachments != null && !attachments.isEmpty()){
             syncHelper.doSyncFor(new AttachmentDataProvider(this, existingEntity, attachments));
         }
-//        syncHelper.doSyncFor(new UserDataProvider(board, stack, existingEntity, existingEntity.getOwner()));
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
         serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
-        serverAdapter.updateCard(board.getId(), stack.getId(), toCardUpdate(entity), callback);
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
+        CardUpdate update = toCardUpdate(entity);
+        update.setStackId(stack.getId());
+        serverAdapter.updateCard(board.getId(), stack.getId(), update, callback);
     }
 
     @Override
@@ -133,18 +137,91 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullCard entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 
     @Override
-    public List<FullCard> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        //TODO: implement
-        return null;
+    public List<FullCard> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        if (board == null || stack == null){
+            // no cards changed!
+            // (see call from StackDataProvider: goDeeperForUpSync called with null for board.)
+            // so we can just skip this one and proceed with anything else (users, labels).
+            return Collections.emptyList();
+        }
+        return dataBaseAdapter.getLocallyChangedCardsByLocalStackIdDirectly(accountId, stack.getStack().getLocalId());
     }
 
     @Override
-    public void goDeeperForUpSync(SyncHelper syncHelper, DataBaseAdapter dataBaseAdapter, FullCard entity, FullCard response, IResponseCallback<Boolean> callback) {
-        //TODO: implement
+    public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
+        FullStack stack;
+        Board board;
+
+
+        List<JoinCardWithLabel> deletedLabels = dataBaseAdapter.getAllDeletedLabelJoinsByStackWithRemoteIDs();
+        Account account = callback.getAccount();
+        for (JoinCardWithLabel deletedLabel : deletedLabels) {
+            Card card = dataBaseAdapter.getCardByRemoteIdDirectly(account.getId(), deletedLabel.getCardId());
+            if (this.stack == null){
+                stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getLocalId());
+            } else {
+                stack = this.stack;
+            }
+
+            if (this.board == null) {
+                board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            } else {
+                board = this.board;
+            }
+
+            if (deletedLabel.getStatusEnum() == DBStatus.LOCAL_DELETED){
+                serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId(), new IResponseCallback<Void>(account) {
+                    @Override
+                    public void onResponse(Void response) {
+                        dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId());
+                    }
+                });
+            } else if (deletedLabel.getStatusEnum() == DBStatus.LOCAL_EDITED){
+                serverAdapter.assignLabelToCard(board.getId(), stack.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId(), new IResponseCallback<Void>(account) {
+                    @Override
+                    public void onResponse(Void response) {
+                        Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), deletedLabel.getLabelId());
+                        dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
+                    }
+                });
+            }
+        }
+        List<JoinCardWithUser> deletedUsers = dataBaseAdapter.getAllDeletedUserJoinsWithRemoteIDs();
+        for (JoinCardWithUser deletedUser : deletedUsers) {
+            Card card = dataBaseAdapter.getCardByRemoteIdDirectly(account.getId(), deletedUser.getCardId());
+            if (this.stack == null){
+                stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getLocalId());
+            } else {
+                stack = this.stack;
+            }
+
+            if (this.board == null) {
+                board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            } else {
+                board = this.board;
+            }
+            User user = dataBaseAdapter.getUserByLocalIdDirectly(deletedUser.getUserId());
+            if (deletedUser.getStatusEnum() == DBStatus.LOCAL_DELETED){
+                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), deletedUser.getCardId(), user.getUid(), new IResponseCallback<Void>(account) {
+                    @Override
+                    public void onResponse(Void response) {
+                        dataBaseAdapter.deleteJoinedUserForCardPhysicallyByRemoteIDs(account.getId(), deletedUser.getCardId(), user.getUid());
+                    }
+                });
+            } else if (deletedUser.getStatusEnum() == DBStatus.LOCAL_EDITED){
+                serverAdapter.assignUserToCard(board.getId(), stack.getId(), deletedUser.getCardId(), user.getUid(), new IResponseCallback<Void>(account) {
+                    @Override
+                    public void onResponse(Void response) {
+                        dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());
+                    }
+                });
+            }
+        }
+        callback.onResponse(Boolean.TRUE);
     }
 }

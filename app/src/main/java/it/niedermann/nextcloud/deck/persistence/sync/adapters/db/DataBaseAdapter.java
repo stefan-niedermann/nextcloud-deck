@@ -60,8 +60,8 @@ public class DataBaseAdapter {
         return db.getBoardDao().getFullBoardByRemoteIdDirectly(accountId, remoteId);
     }
 
-    public FullBoard getFullBoardByIdDirectly(long accountId, long id) {
-        return db.getBoardDao().getFullBoardByIdDirectly(accountId, id);
+    public FullBoard getFullBoardByLocalIdDirectly(long accountId, long localId) {
+        return db.getBoardDao().getFullBoardByLocalIdDirectly(accountId, localId);
     }
 
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
@@ -217,6 +217,9 @@ public class DataBaseAdapter {
         markAsDeletedIfNeeded(label, setStatus);
         db.getLabelDao().update(label);
     }
+    public void deleteLabelPhysically(Label label) {
+        db.getLabelDao().delete(label);
+    }
 
     public WrappedLiveData<Account> createAccount(Account account) {
         return LiveDataHelper.wrapInLiveData(() -> {
@@ -305,12 +308,18 @@ public class DataBaseAdapter {
         db.getStackDao().update(stack);
     }
     
+    public Card  getCardByLocalIdDirectly(long accountId, long localCardId) {
+        return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
+    }
+
     public LiveData<FullCard>  getCardByLocalId(long accountId, long localCardId) {
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::readRelationsForCard);
     }
-
-    public Card  getCardByLocalIdDirectly(long accountId, long localCardId) {
-        return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
+    public List<FullCard> getLocallyChangedCardsDirectly(long accountId) {
+        return db.getCardDao().getLocallyChangedCardsDirectly(accountId);
+    }
+    public List<FullCard> getLocallyChangedCardsByLocalStackIdDirectly(long accountId, long localStackId) {
+        return db.getCardDao().getLocallyChangedCardsByLocalStackIdDirectly(accountId, localStackId);
     }
 
     public long createCard(long accountId, Card card) {
@@ -424,14 +433,41 @@ public class DataBaseAdapter {
         return db.getBoardDao().getLocallyChangedBoardsDirectly(accountId);
     }
 
+    public List<FullStack> getLocallyChangedStacksForBoard(long accountId, long localBoardId) {
+        return db.getStackDao().getLocallyChangedStacksForBoardDirectly(accountId, localBoardId);
+    }
     public List<FullStack> getLocallyChangedStacks(long accountId) {
         return db.getStackDao().getLocallyChangedStacksDirectly(accountId);
     }
-    public List<Label> getLocallyChangedLabels(long accountId, long boardId) {
-        return db.getLabelDao().getLocallyChangedLabelsDirectly(accountId, boardId);
+    public List<Label> getLocallyChangedLabels(long accountId) {
+        return db.getLabelDao().getLocallyChangedLabelsDirectly(accountId);
     }
 
     public Board getBoardByLocalCardIdDirectly(long localCardId) {
         return db.getBoardDao().getBoardByLocalCardIdDirectly(localCardId);
+    }
+
+    public JoinCardWithLabel getJoinCardWithLabel(Long localLabelId, Long localCardId) {
+        return db.getJoinCardWithLabelDao().getJoin(localLabelId, localCardId);
+    }
+
+    public JoinCardWithUser getJoinCardWithUser(Long localUserId, Long localCardId) {
+        return db.getJoinCardWithUserDao().getJoin(localUserId, localCardId);
+    }
+
+    public List<JoinCardWithLabel> getAllDeletedLabelJoinsByStackWithRemoteIDs() {
+        return db.getJoinCardWithLabelDao().getAllDeletedJoinsByStackWithRemoteIDs();
+    }
+
+    public List<JoinCardWithUser> getAllDeletedUserJoinsWithRemoteIDs() {
+        return db.getJoinCardWithUserDao().getDeletedJoinsWithRemoteIDs();
+    }
+
+    public void deleteJoinedLabelForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, Long remoteLabelId) {
+        db.getJoinCardWithLabelDao().deleteJoinedLabelForCardPhysicallyByRemoteIDs(accountId, remoteCardId, remoteLabelId);
+    }
+
+    public void deleteJoinedUserForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, String userUid) {
+        db.getJoinCardWithUserDao().deleteJoinedUserForCardPhysicallyByRemoteIDs(accountId, remoteCardId, userUid);
     }
 }
