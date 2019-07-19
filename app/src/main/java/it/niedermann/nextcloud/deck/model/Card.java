@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Date;
@@ -45,6 +46,7 @@ public class Card extends AbstractRemoteEntity {
 
     public Card() {}
 
+    @Ignore
     public Card(String title, String description, long stackId) {
 
     }
@@ -228,5 +230,31 @@ public class Card extends AbstractRemoteEntity {
         result = 31 * result + overdue;
         result = 31 * result + commentsUnread;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", stackId=" + stackId +
+                ", type='" + type + '\'' +
+                ", createdAt=" + createdAt +
+                ", deletedAt=" + deletedAt +
+                ", attachmentCount=" + attachmentCount +
+                ", userId=" + userId +
+                ", order=" + order +
+                ", archived=" + archived +
+                ", dueDate=" + dueDate +
+                ", notified=" + notified +
+                ", overdue=" + overdue +
+                ", commentsUnread=" + commentsUnread +
+                ", localId=" + localId +
+                ", accountId=" + accountId +
+                ", id=" + id +
+                ", status=" + status +
+                ", lastModified=" + lastModified +
+                ", lastModifiedLocal=" + lastModifiedLocal +
+                '}';
     }
 }

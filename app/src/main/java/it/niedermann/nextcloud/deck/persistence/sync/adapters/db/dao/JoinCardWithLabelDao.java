@@ -1,15 +1,15 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import java.util.List;
-
 import androidx.room.Dao;
 import androidx.room.Query;
+
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
 
 @Dao
 public interface JoinCardWithLabelDao extends GenericDao<JoinCardWithLabel> {
-    //TODO: handle status
-    @Query("DELETE FROM joincardwithlabel WHERE  cardId = :localCardId")
+    @Query("DELETE FROM joincardwithlabel WHERE  cardId = :localCardId and status == 1") // only if UP_TO_DATE
     void deleteByCardId(long localCardId);
 
     @Query("DELETE FROM joincardwithlabel WHERE cardId = :localCardId and labelId = :labelId")
@@ -20,4 +20,18 @@ public interface JoinCardWithLabelDao extends GenericDao<JoinCardWithLabel> {
 
     @Query("select labelId from joincardwithlabel WHERE cardId = :localCardId and labelId IN (:localLabelIds) and status <> 3") // not LOCAL_DELETED
     List<Long> filterDeleted(long localCardId, List<Long> localLabelIds);
+
+    @Query("select * from joincardwithlabel WHERE cardId = :localCardId and labelId = :localLabelId")
+    JoinCardWithLabel getJoin(Long localLabelId, Long localCardId);
+
+    @Query("select l.id as labelId, c.id as cardId, j.status from joincardwithlabel j " +
+                "inner join card c on j.cardId = c.localId " +
+                "inner join label l on j.labelId = l.localId " +
+                "WHERE j.status <> 1") // not UP_TO_DATE
+    List<JoinCardWithLabel> getAllDeletedJoinsByStackWithRemoteIDs();
+
+    @Query("delete from joincardwithlabel " +
+            "where cardId = (select c.localId from card c where c.accountId = :accountId and c.id = :remoteCardId) " +
+            "and labelId = (select l.localId from label l where l.accountId = :accountId and l.id = :remoteLabelId)")
+    void deleteJoinedLabelForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, Long remoteLabelId);
 }

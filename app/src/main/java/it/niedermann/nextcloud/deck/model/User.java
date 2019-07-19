@@ -69,4 +69,19 @@ public class User extends AbstractRemoteEntity {
         result = 31 * result + (displayname != null ? displayname.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "primaryKey='" + primaryKey + '\'' +
+                ", uid='" + uid + '\'' +
+                ", displayname='" + displayname + '\'' +
+                ", localId=" + localId +
+                ", accountId=" + accountId +
+                ", id=" + id +
+                ", status=" + status +
+                ", lastModified=" + lastModified +
+                ", lastModifiedLocal=" + lastModifiedLocal +
+                "} " + super.toString();
+    }
 }

@@ -47,7 +47,7 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> responder, User entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<User> responder, User entity) {
         //TODO: implement
     }
 
@@ -57,17 +57,17 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, User entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, User entity, DataBaseAdapter dataBaseAdapter) {
         //TODO: implement
     }
 
     @Override
-    public List<User> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+    public List<User> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return null;
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<User> callback, User entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<User> callback, User entity) {
         //TODO: implement
     }
 }

@@ -257,6 +257,8 @@ public class JsonToEntityParser {
         DeckLog.log(e.toString());
         Label label = new Label();
         label.setId(e.get("id").getAsLong());
+        //todo: last modified!
+//        label.setLastModified(get);
         label.setTitle(getNullAsEmptyString(e.get("title")));
         label.setColor(getNullAsEmptyString(e.get("color")));
         return label;

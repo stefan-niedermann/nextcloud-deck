@@ -18,7 +18,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
         super(parent);
         this.board = board;
         this.labels = labels;
-        if (this.labels!= null){
+        if (this.labels!= null && board != null){
             for (Label label : labels) {
                 label.setBoardId(board.getLocalId());
             }
@@ -46,29 +46,28 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public void createOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> responder, Label entity) {
+    public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Label> responder, Label entity) {
         entity.setBoardId(board.getId());
         serverAdapter.createLabel(board.getId(), entity, responder);
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label label) {
-        // TODO: implement
+        dataBaseAdapter.deleteLabelPhysically(label);
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, Label entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, Label entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteLabel(board.getId(), entity, callback);
     }
 
     @Override
-    public List<Label> getAllFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        // TODO: implement
-        return null;
+    public List<Label> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
+        return labels;
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
         serverAdapter.updateLabel(board.getId(), entity, callback);
     }
 }

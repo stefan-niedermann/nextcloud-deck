@@ -22,7 +22,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
     }
 
     @Override
-    public void updateOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
+    public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> callback, FullCard entity) {
         CardUpdate update = toCardUpdate(entity);
         update.setStackId(stack.getId());
         serverAdapter.updateCard(board.getId(), stack.getId(), update, callback);
@@ -39,7 +39,7 @@ public class CardPropagationDataProvider extends CardDataProvider {
     }
 
     @Override
-    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullCard entity) {
+    public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullCard entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteCard(board.getId(), stack.getId(), entity.getCard(), callback);
     }
 }
