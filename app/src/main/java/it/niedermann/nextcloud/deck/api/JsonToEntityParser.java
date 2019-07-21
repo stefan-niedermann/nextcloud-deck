@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 public class JsonToEntityParser {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
@@ -236,6 +237,45 @@ public class JsonToEntityParser {
     protected static Capabilities parseCapabilities(JsonObject e) {
         DeckLog.log(e.toString());
         Capabilities capabilities = new Capabilities();
+
+        if (e.has("ocs")){
+            JsonObject ocs = e.getAsJsonObject("ocs");
+            if (ocs.has("data")) {
+                JsonObject data = ocs.getAsJsonObject("data");
+                if (data.has("version")) {
+                    JsonObject version = data.getAsJsonObject("version");
+                    int major = version.get("major").getAsInt();
+                    int minor = version.get("minor").getAsInt();
+                    int micro = version.get("micro").getAsInt();
+                    Version v = new Version(major, minor, micro);
+                    capabilities.setNextcloudVersion(v);
+                }
+
+                int major = 0, minor = 0, micro = 0;
+                if (data.has("capabilities")) {
+                    JsonObject caps = data.getAsJsonObject("capabilities");
+                    if (caps.has("deck")) {
+                        JsonObject deck = caps.getAsJsonObject("deck");
+                        if (deck.has("version")) {
+                            String version = deck.get("version").getAsString();
+                            if (version != null && !version.trim().isEmpty()){
+                                String[] split = version.split("\\.");
+                                if (split.length > 0){
+                                    major = Integer.parseInt(split[0]);
+                                    if (split.length > 1) {
+                                        minor = Integer.parseInt(split[1]);
+                                        if (split.length > 2) {
+                                            micro = Integer.parseInt(split[2]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                capabilities.setDeckVersion(new Version(major, minor, micro));
+            }
+        }
 
         return capabilities;
     }
