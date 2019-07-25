@@ -81,4 +81,7 @@
     <string name="copied_to_clipboard">Kopierat till urklipp</string>
     <string name="simple_close">stäng</string>
 
-    </resources>
+    <string name="card_edit_details">Detaljer</string>
+    <string name="card_edit_attachments">Bilagor</string>
+    <string name="card_edit_activity">Aktivitet</string>
+</resources>

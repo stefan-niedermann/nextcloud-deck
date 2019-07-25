@@ -13,29 +13,36 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Táblák</string>
-    <string name="simple_cancel">Mégsem</string>
+    <string name="simple_cancel">Mégse</string>
     <string name="simple_create">Létrehozás</string>
+    <string name="simple_save">Mentés</string>
+
+    <string name="edit_board">Tábla szerkesztése</string>
+    <string name="archive_board">Tábla archiválása</string>
+    <string name="delete_board">Tábla törlése</string>
 
     <!-- About -->
     <string name="about">Névjegy</string>
     <string name="about_version_title">Verzió</string>
-    <string name="about_version">Jelenleg ezt a verziót használja: &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Jelenleg ezt a verziót használja: %1$s</string>
     <string name="about_maintainer_title">Karbantartó</string>
     <string name="about_developers_title">Fejlesztők</string>
     <string name="about_translators_title">Fordítók</string>
-    <string name="about_translators_transifex">Nextcloud közösség a &lt;a href=\"%1$s\">Transifexen&lt;/a></string>
+    <string name="about_translators_transifex">Nextcloud közösség a %1$s</string>
+    <string name="about_translators_transifex_label">Transifexen</string>
     <string name="about_testers_title">Tesztelők</string>
     <string name="about_source_title">Forráskód</string>
-    <string name="about_source">A projekt a GitHubon található: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">A projekt a GitHubon található: %1$s</string>
     <string name="about_issues_title">Hibajegyek</string>
-    <string name="about_issues">Hibákat, fejlesztési javaslatokat és funkciókéréseket a GitHub hibakövetőjében tehet: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Hibákat jelenthet, fejlesztési javaslatokat adhat és funkciókat kérhet a GitHub hibakövetőjében: %1$s</string>
     <string name="about_translate_title">Fordítás</string>
-    <string name="about_translate">Csatlakozzon a Nextcloud csapathoz a Transifexen, és segítsen az alkalmazás lefordításában: &lt;a href=\"%1$s\" >%1$s&lt;/a></string>
+    <string name="about_translate">Csatlakozzon a Nextcloud csapathoz a Transifexen, és segítsen az alkalmazás lefordításában: %1$s</string>
     <string name="about_app_license_title">Alkalmazás licence</string>
     <string name="about_app_license">Ez az alkalmazás a GNU GENERAL PUBLIC LICENSE v3+ verziója alatt kerül közreadásra.</string>
     <string name="about_app_license_button">Licenc megtekintése</string>
     <string name="about_icons_disclaimer_title">Ikonok</string>
-    <string name="about_icons_disclaimer">&lt;p>Az eredeti ikont %1$s készítette&lt;/p>&lt;p>Az alkalmazás által használt összes többi ikon a Google által készített &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> része, és az Apache 2.0 License alatt érhető el.&lt;/p></string>
+    <string name="about_icons_disclaimer">Az eredeti ikont %1$s készítette. Az alkalmazás által használt összes többi %2$s a Google készítette, és azok Apache 2.0 License alatt érhetőek el.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design ikont</string>
     <string name="about_credits_tab_title">Köszönetnyilvánítás</string>
     <string name="about_contribution_tab_title">Közreműködés</string>
     <string name="about_license_tab_title">Licenc</string>
@@ -62,9 +69,21 @@
     <string name="action_card_delete">Kártya törlése</string>
     <string name="add_board">Tábla hozzáadása</string>
     <string name="action_card_list_add_column">Oszlop hozzáadása</string>
+    <string name="action_card_list_delete_column">Oszlop törlése</string>
     <string name="action_card_list_board_details">Tábla részletei</string>
     <string name="simple_title">Cím</string>
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
 
-    </resources>
+    <string name="label_create">%1$s létrehozása</string>
+    <string name="no_columns_available">Nem érhető el oszlop</string>
+    <string name="error">Hiba történt</string>
+    <string name="simple_copy">másolat</string>
+    <string name="simple_exception">Kivétel</string>
+    <string name="copied_to_clipboard">Vágólapra másolva</string>
+    <string name="simple_close">bezárás</string>
+
+    <string name="card_edit_details">Részletek</string>
+    <string name="card_edit_attachments">Mellékletek</string>
+    <string name="card_edit_activity">Tevékenység</string>
+</resources>

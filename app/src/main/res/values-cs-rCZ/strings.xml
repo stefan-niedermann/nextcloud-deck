@@ -82,4 +82,7 @@
     <string name="copied_to_clipboard">Zkopírováno do schránky</string>
     <string name="simple_close">zavřít</string>
 
-    </resources>
+    <string name="card_edit_details">Podrobnosti</string>
+    <string name="card_edit_attachments">Přílohy</string>
+    <string name="card_edit_activity">Aktivita</string>
+</resources>

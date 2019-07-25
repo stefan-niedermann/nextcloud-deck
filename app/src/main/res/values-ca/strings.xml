@@ -83,4 +83,7 @@
     <string name="copied_to_clipboard">S\'ha copiat al porta-retalls</string>
     <string name="simple_close">tanca</string>
 
-    </resources>
+    <string name="card_edit_details">Detalls</string>
+    <string name="card_edit_attachments">Adjunts</string>
+    <string name="card_edit_activity">Activitat</string>
+</resources>

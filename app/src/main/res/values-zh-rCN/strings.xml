@@ -83,4 +83,7 @@
     <string name="copied_to_clipboard">复制到剪贴板</string>
     <string name="simple_close">关闭</string>
 
-    </resources>
+    <string name="card_edit_details">详情</string>
+    <string name="card_edit_attachments">附件</string>
+    <string name="card_edit_activity">动态</string>
+</resources>
