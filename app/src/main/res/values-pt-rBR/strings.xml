@@ -83,4 +83,7 @@
     <string name="copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="simple_close">fechar</string>
 
-    </resources>
+    <string name="card_edit_details">Detalhes</string>
+    <string name="card_edit_attachments">Anexos</string>
+    <string name="card_edit_activity">Atividade</string>
+</resources>

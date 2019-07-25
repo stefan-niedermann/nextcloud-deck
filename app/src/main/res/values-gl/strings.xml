@@ -83,4 +83,7 @@
     <string name="copied_to_clipboard">Copiado no portapapeis.</string>
     <string name="simple_close">pechar</string>
 
-    </resources>
+    <string name="card_edit_details">Detalles</string>
+    <string name="card_edit_attachments">Anexos</string>
+    <string name="card_edit_activity">Actividade</string>
+</resources>

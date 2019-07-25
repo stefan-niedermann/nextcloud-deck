@@ -36,7 +36,7 @@
     <string name="about_issues_title">Problemen</string>
     <string name="about_issues">Je kunt bugs rapporteren, verbeteringen voorstellen en functionele aanpassingen aanvragen via de issue-tracker op GitHub: %1$s</string>
     <string name="about_translate_title">Vertalen</string>
-    <string name="about_translate">Doe mee met het Nextcloud-team op Transifex en help ons deze app te vertalen: %1$s</string>
+    <string name="about_translate">Word lid van het Nextcloud-team op Transifex en help ons deze app te vertalen: %1$s </string>
     <string name="about_app_license_title">Applicentie</string>
     <string name="about_app_license">Deze applicatie valt onder de GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Licentie weergeven</string>
@@ -83,4 +83,7 @@
     <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
     <string name="simple_close">sluiten</string>
 
-    </resources>
+    <string name="card_edit_details">Details</string>
+    <string name="card_edit_attachments">Bijlagen</string>
+    <string name="card_edit_activity">Activiteit</string>
+</resources>

@@ -83,4 +83,7 @@
     <string name="copied_to_clipboard">Panoya kopyalandı</string>
     <string name="simple_close">kapat</string>
 
-    </resources>
+    <string name="card_edit_details">Ayrıntılar</string>
+    <string name="card_edit_attachments">Ek dosyalar</string>
+    <string name="card_edit_activity">İşlem</string>
+</resources>

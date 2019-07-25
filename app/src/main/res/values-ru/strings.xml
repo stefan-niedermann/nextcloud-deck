@@ -83,4 +83,7 @@
     <string name="copied_to_clipboard">Скопировано в буфер</string>
     <string name="simple_close">закрыть</string>
 
-    </resources>
+    <string name="card_edit_details">Подробности</string>
+    <string name="card_edit_attachments">Вложения</string>
+    <string name="card_edit_activity">События</string>
+</resources>
