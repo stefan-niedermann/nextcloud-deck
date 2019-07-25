@@ -133,4 +133,8 @@ public class EditActivity extends AppCompatActivity {
         super.onDestroy();
         unbinder.unbind();
     }
+
+    public void setDescription(String description) {
+        this.fullCard.card.setDescription(description);
+    }
 }

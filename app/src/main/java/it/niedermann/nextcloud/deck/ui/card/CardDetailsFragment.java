@@ -50,6 +50,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
@@ -299,7 +300,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private Chip createChipFromLabel(Label label) {
         Chip chip = new Chip(activity);
         chip.setText(label.getTitle());
-        chip.setCloseIcon(getContext().getResources().getDrawable(R.drawable.ic_close_circle_grey600));
+        chip.setCloseIcon(activity.getResources().getDrawable(R.drawable.ic_close_circle_grey600));
         chip.setCloseIconVisible(true);
         try {
             int labelColor = Color.parseColor("#" + label.getColor());
@@ -389,12 +390,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     @Override
     public void onPause() {
-//        if (fullCard != null && !NO_LOCAL_ID.equals(fullCard.getLocalId())) {
-//            DeckLog.log("--- updateCard, new Description: " + fullCard.card.getDescription());
-//            syncManager.updateCard(fullCard.card);
-//        } else {
-//            Toast.makeText(getContext(), "Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
-//        }
+        if(activity instanceof EditActivity) {
+            ((EditActivity) activity).setDescription(description.getText().toString());
+        } else {
+            DeckLog.log("activity is not an instance of EditActivity");
+        }
         super.onPause();
     }
 }
