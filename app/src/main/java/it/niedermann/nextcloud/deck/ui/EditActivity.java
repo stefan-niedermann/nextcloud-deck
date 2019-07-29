@@ -122,12 +122,14 @@ public class EditActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (NO_LOCAL_ID.equals(localId)) {
-            // FIXME comment this area and you will experience a SQLiteConstraintException: UNIQUE constraint failed: Card.localId (code 1555 SQLITE_CONSTRAINT_PRIMARYKEY) on creating new cards
+            //FIXME: only create when at least a title is set!
 //            try {
 //                syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId).observe(EditActivity.this, (next) -> {
 //                    DeckLog.log("+++ " + fullCard.getCard());
 //                    DeckLog.log("+++ " + accountId);
 //                    fullCard.card.setUserId(next.getLocalId());
+            //FIXME: i am fired twice! getUserByUid is triggered on card creation, so we have an invisible loop. get the user earlier or unsubscribe as soon as the user returns. or use a flag or something... dont know.
+
 //                    syncManager.createCard(accountId, boardId, stackId, fullCard.card).observe(EditActivity.this, (createdCard) -> {
 //                        syncManager.getCardByLocalId(accountId, createdCard.getLocalId()).observe(EditActivity.this, (nextCard) -> fullCard = nextCard);
 //                    });

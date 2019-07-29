@@ -287,6 +287,7 @@ public class SyncManager {
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(localStackId);
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
+            card.setStackId(stack.getLocalId());
             FullCard fullCard = new FullCard();
             fullCard.setCard(card);
             fullCard.setOwner(owner);
@@ -296,7 +297,7 @@ public class SyncManager {
                 public void onResponse(FullCard response) {
                     liveData.postValue(response);
                 }
-            });
+            }, (FullCard entity, FullCard response) -> response.getCard().setUserId(entity.getCard().getUserId()));
         });
         return liveData;
     }
