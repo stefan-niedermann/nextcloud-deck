@@ -103,6 +103,7 @@ public class ServerAdapter {
                 responseCallback);
     }
     public void getCapabilities(IResponseCallback<Capabilities> responseCallback) {
+        ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
     }
 
