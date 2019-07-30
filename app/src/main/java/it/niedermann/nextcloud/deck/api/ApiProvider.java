@@ -18,9 +18,11 @@ import retrofit2.NextcloudRetrofitApiBuilder;
 
 public class ApiProvider {
 
-    private static final String API_ENDPOINT = "/index.php/apps/deck/api/v1.0/";
+    private static final String DECK_API_ENDPOINT = "/index.php/apps/deck/api/v1.0/";
+    private static final String NC_API_ENDPOINT = "/ocs/v2.php/";
 
-    private DeckAPI mApi;
+    private DeckAPI deckAPI;
+    private NextcloudServerAPI nextcloudAPI;
     private Context context;
     private SingleSignOnAccount ssoAccount;
 
@@ -32,8 +34,8 @@ public class ApiProvider {
         try {
             setAccount();
             NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), callback);
-            //mApi = new DeckAPI_SSO(nextcloudAPI);
-            mApi = new NextcloudRetrofitApiBuilder(nextcloudAPI, API_ENDPOINT).create(DeckAPI.class);
+            deckAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, DECK_API_ENDPOINT).create(DeckAPI.class);
+            this.nextcloudAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, NC_API_ENDPOINT).create(NextcloudServerAPI.class);
         } catch (SSOException e) {
             DeckLog.logError(e);
             callback.onError(e);
@@ -44,8 +46,12 @@ public class ApiProvider {
         ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
     }
 
-    public DeckAPI getAPI() {
-        return mApi;
+    public DeckAPI getDeckAPI() {
+        return deckAPI;
+    }
+
+    public NextcloudServerAPI getNextcloudAPI() {
+        return nextcloudAPI;
     }
 
     public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
@@ -56,7 +62,7 @@ public class ApiProvider {
     }
 
     public String getApiPath(){
-        return API_ENDPOINT;
+        return DECK_API_ENDPOINT;
     }
 
     public String getApiUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {

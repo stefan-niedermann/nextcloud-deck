@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -156,6 +157,10 @@ public class SyncManager {
 
     public LiveData<List<Account>> readAccounts() {
         return dataBaseAdapter.readAccounts();
+    }
+
+    public void getServerVersion(IResponseCallback<Capabilities> callback){
+        serverAdapter.getCapabilities(callback);
     }
 
     public LiveData<List<Board>> getBoards(long accountId) {

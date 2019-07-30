@@ -48,7 +48,9 @@ public class Card extends AbstractRemoteEntity {
 
     @Ignore
     public Card(String title, String description, long stackId) {
-
+        this.title = title;
+        this.description = description;
+        this.stackId = stackId;
     }
 
     public boolean isNotified() {
