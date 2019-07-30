@@ -1,0 +1,71 @@
+<resources>
+    <string name="navigation_drawer_open">Hapni sirtarin e navigimit</string>
+    <string name="navigation_drawer_close">Mbyllni sirtarin e navigimit</string>
+    <string name="nav_header_subtitle">Klienti për aplikacionin Nextcloud Deck</string>
+    <string name="nav_header_desc">Koka e navigimit</string>
+    <string name="action_settings">Rregullimet</string>
+
+    <string name="drawer_header_background">Imazhi në background i drawer header</string>
+    <string name="drawer_current_account">Llogaria e tanishme</string>
+    <string name="drawer_middle_account">Llogari e mesit</string>
+    <string name="drawer_end_account">Llogaria e fundit</string>
+    <string name="drawer_manage_accounts">Menaxhoni llogaritë</string>
+
+    <string name="simple_cancel">Anullo</string>
+    <string name="simple_create">Krijo</string>
+    <string name="simple_save">Ruaj</string>
+
+    <!-- About -->
+    <string name="about">Rreth </string>
+    <string name="about_version_title">Versioni</string>
+    <string name="about_version">Ju jeni duke përdorur %1$s</string>
+    <string name="about_maintainer_title">Mirëmbajtësi</string>
+    <string name="about_developers_title">Zhvilluesit</string>
+    <string name="about_translators_title">Përkthyesit</string>
+    <string name="about_translators_transifex">Komuniteti i Nextcloud në %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_testers_title">Testuesit</string>
+    <string name="about_source_title">Kodi burim</string>
+    <string name="about_source">Ky projekt është hostuar në Github: %1$s</string>
+    <string name="about_issues_title">Çështjet</string>
+    <string name="about_issues">Ju mund të raportoni gabime, propozime për përmirësime dhe paraqesni kërkesa në ndjekjen e çështjeve në GitHub: %1$s</string>
+    <string name="about_translate_title">Përkthe</string>
+    <string name="about_translate">Bashkohu me skuadrën Nextcloud në Transifex dhe na ndihmoni të përkthejmë këtë aplikacion: %1$s</string>
+    <string name="about_app_license_title">Liçensa e aplikacionit</string>
+    <string name="about_app_license">Ky aplikacion është liçensuar nën GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Trego liçensën</string>
+    <string name="about_icons_disclaimer_title">Ikonat</string>
+    <string name="about_credits_tab_title">Kreditet</string>
+    <string name="about_contribution_tab_title">Kontributi</string>
+    <string name="about_license_tab_title">Liçenca</string>
+
+    <string name="seconds_ago">sekonda më parë</string>
+    <string name="edit">Edito</string>
+    <string name="label_title">Titull</string>
+    <string name="label_labels">Përzgjidh etiketat</string>
+    <string name="label_description">Përshkrimi</string>
+    <string name="hint_assign_people">Cakto përdorues</string>
+    <string name="hint_due_date_date">Data e vendosur</string>
+    <string name="activity">Veprimtari</string>
+    <string name="add_account">Shtoni llogari</string>
+    <string name="accounts">Llogaritë</string>
+
+    <string name="label_menu">Menu</string>
+    <string name="action_card_list_add_column">Shto kolonë</string>
+    <string name="action_card_list_delete_column">Fshi kolonë</string>
+    <string name="simple_title">Titull</string>
+
+    <string name="label_clear_due_date">Hiq datën e mbarimit</string>
+
+    <string name="label_create">Krijo %1$s</string>
+    <string name="no_columns_available">Nuk ka kolona të disponueshme</string>
+    <string name="error">U has një gabim</string>
+    <string name="simple_copy">kopjo</string>
+    <string name="simple_exception">Përjashtim</string>
+    <string name="copied_to_clipboard">Kopjuar në clipboard</string>
+    <string name="simple_close">mbyll</string>
+
+    <string name="card_edit_details">Detajet</string>
+    <string name="card_edit_attachments">Bashkangjitjet</string>
+    <string name="card_edit_activity">Aktiviteti</string>
+</resources>

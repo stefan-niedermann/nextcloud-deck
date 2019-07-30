@@ -46,10 +46,12 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
@@ -58,6 +60,7 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class CardDetailsFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
@@ -164,13 +167,21 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private void setupView(long accountId, long localId, long boardId) {
         syncManager = new SyncManager(activity);
 
-        syncManager.getCardByLocalId(accountId, localId).observe(CardDetailsFragment.this, (next) -> {
-            fullCard = next;
+        if (NO_LOCAL_ID.equals(localId)) {
+            fullCard = new FullCard();
+            fullCard.setCard(new Card());
             setupPeople(accountId);
             setupLabels(accountId, boardId);
             setupDueDate();
-            description.setText(fullCard.getCard().getDescription());
-        });
+        } else {
+            syncManager.getCardByLocalId(accountId, localId).observe(CardDetailsFragment.this, (next) -> {
+                fullCard = next;
+                setupPeople(accountId);
+                setupLabels(accountId, boardId);
+                setupDueDate();
+                description.setText(fullCard.getCard().getDescription());
+            });
+        }
 
         dueDate.setOnClickListener(v -> {
             if (fullCard != null && fullCard.getCard() != null) {
@@ -190,7 +201,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
         clearDueDate.setOnClickListener(v -> {
             this.fullCard.getCard().setDueDate(null);
-            syncManager.updateCard(this.fullCard.getCard());
         });
     }
 
@@ -299,7 +309,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private Chip createChipFromLabel(Label label) {
         Chip chip = new Chip(activity);
         chip.setText(label.getTitle());
-        chip.setCloseIcon(getContext().getResources().getDrawable(R.drawable.ic_close_circle_grey600));
+        chip.setCloseIcon(activity.getResources().getDrawable(R.drawable.ic_close_circle_grey600));
         chip.setCloseIconVisible(true);
         try {
             int labelColor = Color.parseColor("#" + label.getColor());
@@ -376,25 +386,26 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         c.set(year, month, dayOfMonth, hourOfDay, minute);
         this.fullCard.getCard().setDueDate(c.getTime());
         dueDate.setText(dateFormat.format(c.getTime()));
-        syncManager.updateCard(this.fullCard.getCard());
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        if(this.fullCard.getCard().getDueDate() == null) {
+            this.fullCard.getCard().setDueDate(new Date());
+        }
         this.fullCard.getCard().getDueDate().setHours(hourOfDay);
         this.fullCard.getCard().getDueDate().setMinutes(minute);
         dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate().getTime()));
-        syncManager.updateCard(this.fullCard.getCard());
     }
 
     @Override
     public void onPause() {
-//        if (fullCard != null && !NO_LOCAL_ID.equals(fullCard.getLocalId())) {
-//            DeckLog.log("--- updateCard, new Description: " + fullCard.card.getDescription());
-//            syncManager.updateCard(fullCard.card);
-//        } else {
-//            Toast.makeText(getContext(), "Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
-//        }
+        if(activity instanceof EditActivity) {
+            ((EditActivity) activity).setDescription(description.getText().toString());
+            ((EditActivity) activity).setDueDate(fullCard.card.getDueDate());
+        } else {
+            DeckLog.log("activity is not an instance of EditActivity");
+        }
         super.onPause();
     }
 }

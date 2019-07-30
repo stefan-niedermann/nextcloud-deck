@@ -19,6 +19,8 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 
 public class GsonConfig {
 
+    public static final String DATE_PATTERN = "yyyy-MM-dd'T'hh:mm:ssZ";
+
     public static Gson getGson() {
         Type boardList = new TypeToken<List<FullBoard>>() {}.getType();
         Type board = new TypeToken<FullBoard>() {}.getType();
@@ -32,6 +34,7 @@ public class GsonConfig {
         Type capabilitiesList = new TypeToken<List<Capabilities>>() {}.getType();
 
         return new GsonBuilder()
+                .setDateFormat(DATE_PATTERN)
                 .setLenient()
                 .registerTypeAdapter(boardList,     new NextcloudArrayDeserializer<>("boards", FullBoard.class))
                 .registerTypeAdapter(board,         new NextcloudDeserializer<>("board", FullBoard.class))

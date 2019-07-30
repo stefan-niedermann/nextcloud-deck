@@ -83,4 +83,7 @@
     <string name="copied_to_clipboard">Copiato negli appunti</string>
     <string name="simple_close">chiudi</string>
 
-    </resources>
+    <string name="card_edit_details">Dettagli</string>
+    <string name="card_edit_attachments">Allegati</string>
+    <string name="card_edit_activity">Attività</string>
+</resources>

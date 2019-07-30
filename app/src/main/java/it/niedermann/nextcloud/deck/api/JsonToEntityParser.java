@@ -31,7 +31,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 public class JsonToEntityParser {
-    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+    private static SimpleDateFormat formatter = new SimpleDateFormat(GsonConfig.DATE_PATTERN);
 
     static {
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));

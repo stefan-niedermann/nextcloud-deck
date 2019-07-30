@@ -15,27 +15,31 @@
     <string name="simple_boards">לוחות</string>
     <string name="simple_cancel">ביטול</string>
     <string name="simple_create">יצירה</string>
+    <string name="simple_save">שמור</string>
+
+    <string name="edit_board">ערוך לוח</string>
+    <string name="archive_board">לוח פעיל</string>
+    <string name="delete_board">מחק לוח</string>
 
     <!-- About -->
     <string name="about">על אודות</string>
     <string name="about_version_title">גרסה</string>
-    <string name="about_version">כרגע יש לך &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">אתה משתמש כרגע ב%1$s</string>
     <string name="about_maintainer_title">מתחזק</string>
     <string name="about_developers_title">מפתחים</string>
     <string name="about_translators_title">מתרגמים</string>
-    <string name="about_translators_transifex">Nextcloud הגרסה הקהילתית ב־&lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">קהילת nextcloud ב %1$s</string>
+    <string name="about_translators_transifex_label">טרנסיפקס</string>
     <string name="about_testers_title">בודקים</string>
     <string name="about_source_title">קוד מקור</string>
-    <string name="about_source">מיזם זה מתארח ב־GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">הפרוייקט מתארח ב GitHub %1$s</string>
     <string name="about_issues_title">תקלות</string>
-    <string name="about_issues">ניתן לדווח על תקלות, הצעות לשיפורים ובקשת תכונות חדשות בעוקב התקלות של GitHub:‏ &lt;a href=\"%1$s\">%1$s&lt;/a></string>
     <string name="about_translate_title">תרגום</string>
-    <string name="about_translate">ניתן להצטרף לצוות של Nextcloud ב־Transifex ולסייע לנו לתרגם את היישומון הזה: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
     <string name="about_app_license_title">רישיון היישום</string>
     <string name="about_app_license">היישומון מוגן ברישיון הציבורי הכללי של GNU גרסה 3 ומעלה.</string>
     <string name="about_app_license_button">הצגת הרישיון</string>
     <string name="about_icons_disclaimer_title">סמלים</string>
-    <string name="about_icons_disclaimer">&lt;p>הסמל המקורי נוצר על ידי %1$s&lt;/p>&lt;p>כל הסמלים הנוספים בהם נעשה שימוש ביישומון זה הם &lt;a href=\"https://materialdesignicons.com/\">סמלי Material Design&lt;/a> שנוצרו ע״י Google בע״מ וכפופים לרישיון Apache 2.0.&lt;/p></string>
+    <string name="about_icons_disclaimer_mdi">עיצוב צלמיות </string>
     <string name="about_credits_tab_title">תודות</string>
     <string name="about_contribution_tab_title">תרומה</string>
     <string name="about_license_tab_title">רישיון</string>
@@ -67,4 +71,5 @@
 
     <string name="label_clear_due_date">הסרת מועד התפוגה</string>
 
+    <string name="label_create">יצירת %1$s</string>
     </resources>

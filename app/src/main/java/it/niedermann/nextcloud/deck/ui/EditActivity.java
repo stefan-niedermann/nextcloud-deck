@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Date;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -64,7 +65,7 @@ public class EditActivity extends AppCompatActivity {
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(fullCard != null) {
+                if (fullCard != null) {
                     fullCard.getCard().setTitle(title.getText().toString());
                 }
                 String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.create_card) : getString(R.string.edit);
@@ -92,7 +93,9 @@ public class EditActivity extends AppCompatActivity {
             if (NO_LOCAL_ID.equals(localId)) {
                 Objects.requireNonNull(actionBar).setTitle(getString(R.string.create_card));
                 fullCard = new FullCard();
-                fullCard.setCard(new Card("", "", stackId));
+                Card pristineCard = new Card("", "", stackId);
+                pristineCard.setAccountId(accountId);
+                fullCard.setCard(pristineCard);
             } else {
                 syncManager.getCardByLocalId(accountId, localId)
                         .observe(EditActivity.this, (next) -> {
@@ -117,20 +120,41 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        super.onPause();
         if (NO_LOCAL_ID.equals(localId)) {
+            //FIXME: only create when at least a title is set!
+//            try {
+//                syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId).observe(EditActivity.this, (next) -> {
+//                    DeckLog.log("+++ " + fullCard.getCard());
+//                    DeckLog.log("+++ " + accountId);
+//                    fullCard.card.setUserId(next.getLocalId());
+            //FIXME: i am fired twice! getUserByUid is triggered on card creation, so we have an invisible loop. get the user earlier or unsubscribe as soon as the user returns. or use a flag or something... dont know.
+
+//                    syncManager.createCard(accountId, boardId, stackId, fullCard.card).observe(EditActivity.this, (createdCard) -> {
+//                        syncManager.getCardByLocalId(accountId, createdCard.getLocalId()).observe(EditActivity.this, (nextCard) -> fullCard = nextCard);
+//                    });
+//                });
+//            } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+//                e.printStackTrace();
+//                Toast.makeText(getApplicationContext(), "An error appeared while creating the card.", Toast.LENGTH_LONG).show();
+//            }
             Toast.makeText(getApplicationContext(), "Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
-//            syncManager.createCard(accountId, boardId, stackId, fullCard.card).observe(EditActivity.this, (createdCard) -> {
-//                syncManager.getCardByLocalId(accountId, createdCard.getLocalId()).observe(EditActivity.this, (next) -> fullCard = next);
-//            });
         } else {
             syncManager.updateCard(fullCard.card);
         }
-        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    public void setDescription(String description) {
+        this.fullCard.card.setDescription(description);
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.fullCard.card.setDueDate(dueDate);
     }
 }

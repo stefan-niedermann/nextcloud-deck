@@ -83,4 +83,7 @@
     <string name="copied_to_clipboard">Copié dans le presse-papier</string>
     <string name="simple_close">fermer</string>
 
-    </resources>
+    <string name="card_edit_details">Propriétés</string>
+    <string name="card_edit_attachments">Pièces jointes</string>
+    <string name="card_edit_activity">Activité</string>
+</resources>

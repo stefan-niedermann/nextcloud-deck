@@ -35,8 +35,8 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class ServerAdapter {
 
-    private static final DateFormat API_FORMAT = new SimpleDateFormat("E, dd MMM yyyy hh:mm:ss z", 
-                                                                      Locale.US);
+    private static final DateFormat API_FORMAT =
+            new SimpleDateFormat("E, dd MMM yyyy hh:mm:ss z", Locale.US);
 
     static {
         API_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
