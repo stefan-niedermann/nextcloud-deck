@@ -8,9 +8,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.util.Date;
 import java.util.Objects;
@@ -18,8 +23,10 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
@@ -122,23 +129,32 @@ public class EditActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (NO_LOCAL_ID.equals(localId)) {
-            //FIXME: only create when at least a title is set!
-//            try {
-//                syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId).observe(EditActivity.this, (next) -> {
-//                    DeckLog.log("+++ " + fullCard.getCard());
-//                    DeckLog.log("+++ " + accountId);
-//                    fullCard.card.setUserId(next.getLocalId());
-            //FIXME: i am fired twice! getUserByUid is triggered on card creation, so we have an invisible loop. get the user earlier or unsubscribe as soon as the user returns. or use a flag or something... dont know.
+            if(fullCard.getCard().getTitle().isEmpty()) {
+                if(!fullCard.getCard().getDescription().isEmpty()) {
+                    fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Provide at least a title or a description.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
 
-//                    syncManager.createCard(accountId, boardId, stackId, fullCard.card).observe(EditActivity.this, (createdCard) -> {
-//                        syncManager.getCardByLocalId(accountId, createdCard.getLocalId()).observe(EditActivity.this, (nextCard) -> fullCard = nextCard);
-//                    });
-//                });
-//            } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-//                e.printStackTrace();
-//                Toast.makeText(getApplicationContext(), "An error appeared while creating the card.", Toast.LENGTH_LONG).show();
-//            }
-            Toast.makeText(getApplicationContext(), "Creating cards is not yet supported.", Toast.LENGTH_LONG).show();
+            try {
+                LiveData<User> userLiveData = syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId);
+                Observer<User> userObserver = new Observer<User>() {
+                    @Override
+                    public void onChanged(User user) {
+                        userLiveData.removeObserver(this);
+                        fullCard.card.setUserId(user.getLocalId());
+                        syncManager.createCard(accountId, boardId, stackId, fullCard.card).observe(EditActivity.this, (createdCard) -> {
+                            DeckLog.log("syncManager.createCard() returns " + createdCard.getCard().getTitle());
+                        });
+                    }
+                };
+                userLiveData.observe(EditActivity.this, userObserver);
+            } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "An error appeared while creating the card.", Toast.LENGTH_LONG).show();
+            }
         } else {
             syncManager.updateCard(fullCard.card);
         }
