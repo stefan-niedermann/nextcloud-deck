@@ -1,14 +1,16 @@
 package it.niedermann.nextcloud.deck.model.ocs;
 
+import androidx.annotation.NonNull;
+
 public class Version implements Comparable<Version>{
     private int major;
     private int minor;
-    private int micro;
+    private int patch;
 
-    public Version(int major, int minor, int micro) {
+    public Version(int major, int minor, int patch) {
         this.major = major;
         this.minor = minor;
-        this.micro = micro;
+        this.patch = patch;
     }
 
     public int getMajor() {
@@ -27,12 +29,12 @@ public class Version implements Comparable<Version>{
         this.minor = minor;
     }
 
-    public int getMicro() {
-        return micro;
+    public int getPatch() {
+        return patch;
     }
 
-    public void setMicro(int micro) {
-        this.micro = micro;
+    public void setPatch(int patch) {
+        this.patch = patch;
     }
 
     public boolean isGreaterOrEqualTo(Version v){
@@ -49,11 +51,17 @@ public class Version implements Comparable<Version>{
             return -1;
         } else if (o.getMinor() < getMinor()) {
             return 1;
-        } else if (o.getMicro() > getMicro()) {
+        } else if (o.getPatch() > getPatch()) {
             return -1;
-        } else if (o.getMicro() < getMicro()) {
+        } else if (o.getPatch() < getPatch()) {
             return 1;
         }
         return 0;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return major + "." + minor + "." + patch;
     }
 }

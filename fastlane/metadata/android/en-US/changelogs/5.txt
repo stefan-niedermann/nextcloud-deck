@@ -1,1 +1,2 @@
 - Make description editable
+- Show version of app installed on server (#95)
