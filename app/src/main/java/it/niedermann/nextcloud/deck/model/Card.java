@@ -6,6 +6,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
@@ -39,6 +41,7 @@ public class Card extends AbstractRemoteEntity {
     @NonNull
     private int order;
     private boolean archived;
+    @SerializedName("duedate")
     private Date dueDate;
     private boolean notified;
     private int overdue;
