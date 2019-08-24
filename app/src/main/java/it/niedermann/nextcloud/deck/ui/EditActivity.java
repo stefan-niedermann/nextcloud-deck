@@ -23,7 +23,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.User;
@@ -103,6 +102,21 @@ public class EditActivity extends AppCompatActivity {
                 Card pristineCard = new Card("", "", stackId);
                 pristineCard.setAccountId(accountId);
                 fullCard.setCard(pristineCard);
+
+                try { // FIXME this might happen delayed so the user might not be available onStop()
+                    LiveData<User> userLiveData = syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId);
+                    Observer<User> userObserver = new Observer<User>() {
+                        @Override
+                        public void onChanged(User user) {
+                            userLiveData.removeObserver(this);
+                            fullCard.card.setUserId(user.getLocalId());
+                        }
+                    };
+                    userLiveData.observe(this, userObserver);
+                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "An error appeared while creating the card.", Toast.LENGTH_LONG).show();
+                }
             } else {
                 syncManager.getCardByLocalId(accountId, localId)
                         .observe(EditActivity.this, (next) -> {
@@ -126,38 +140,22 @@ public class EditActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
         if (NO_LOCAL_ID.equals(localId)) {
-            if(fullCard.getCard().getTitle().isEmpty()) {
-                if(!fullCard.getCard().getDescription().isEmpty()) {
+            if (fullCard.getCard().getTitle().isEmpty()) {
+                if (!fullCard.getCard().getDescription().isEmpty()) {
                     fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
                 } else {
                     Toast.makeText(getApplicationContext(), "Provide at least a title or a description.", Toast.LENGTH_LONG).show();
+                    super.onStop();
                     return;
                 }
             }
-
-            try {
-                LiveData<User> userLiveData = syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId);
-                Observer<User> userObserver = new Observer<User>() {
-                    @Override
-                    public void onChanged(User user) {
-                        userLiveData.removeObserver(this);
-                        fullCard.card.setUserId(user.getLocalId());
-                        syncManager.createCard(accountId, boardId, stackId, fullCard.card).observe(EditActivity.this, (createdCard) -> {
-                            DeckLog.log("syncManager.createCard() returns " + createdCard.getCard().getTitle());
-                        });
-                    }
-                };
-                userLiveData.observe(EditActivity.this, userObserver);
-            } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "An error appeared while creating the card.", Toast.LENGTH_LONG).show();
-            }
+            syncManager.createCard(accountId, boardId, stackId, fullCard.card);
         } else {
             syncManager.updateCard(fullCard.card);
         }
+        super.onStop();
     }
 
     @Override
