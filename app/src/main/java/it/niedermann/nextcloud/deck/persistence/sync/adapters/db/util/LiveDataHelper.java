@@ -94,6 +94,17 @@ public class LiveDataHelper {
         return ret;
     }
 
+    public static <T> void observeOnce(LiveData<T> liveData, LifecycleOwner owner, Observer<T> observer){
+        Observer<T> tempObserver = new Observer<T>() {
+            @Override
+            public void onChanged(T result) {
+                liveData.removeObserver(this);
+                observer.onChanged(result);
+            }
+        };
+        liveData.observe(owner, tempObserver);
+    }
+
     public static <T> WrappedLiveData<T> wrapInLiveData(final LiveDataWrapper<T> liveDataWrapper) {
         final WrappedLiveData<T> liveData = new WrappedLiveData<>();
 
