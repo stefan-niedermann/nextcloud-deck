@@ -8,8 +8,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -102,21 +100,6 @@ public class EditActivity extends AppCompatActivity {
                 Card pristineCard = new Card("", "", stackId);
                 pristineCard.setAccountId(accountId);
                 fullCard.setCard(pristineCard);
-
-                try { // FIXME this might happen delayed so the user might not be available onStop()
-                    LiveData<User> userLiveData = syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId);
-                    Observer<User> userObserver = new Observer<User>() {
-                        @Override
-                        public void onChanged(User user) {
-                            userLiveData.removeObserver(this);
-                            fullCard.card.setUserId(user.getLocalId());
-                        }
-                    };
-                    userLiveData.observe(this, userObserver);
-                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "An error appeared while creating the card.", Toast.LENGTH_LONG).show();
-                }
             } else {
                 syncManager.getCardByLocalId(accountId, localId)
                         .observe(EditActivity.this, (next) -> {
@@ -151,7 +134,17 @@ public class EditActivity extends AppCompatActivity {
                     return;
                 }
             }
-            syncManager.createCard(accountId, boardId, stackId, fullCard.card);
+
+            new Thread(() -> {
+                try { // FIXME this might happen delayed so the user might not be available onStop()
+                    User user = syncManager.getUserByUidDirectly(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId);
+                    fullCard.card.setUserId(user.getLocalId());
+                    syncManager.createCard(accountId, boardId, stackId, fullCard.card);
+                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "An error appeared while creating the card.", Toast.LENGTH_LONG).show();
+                }
+            }).start();
         } else {
             syncManager.updateCard(fullCard.card);
         }

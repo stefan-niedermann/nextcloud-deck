@@ -486,6 +486,10 @@ public class SyncManager {
         return dataBaseAdapter.getUserByUid(accountId, uid);
     }
 
+    public User getUserByUidDirectly(long accountId, String uid) {
+        return dataBaseAdapter.getUserByUidDirectly(accountId, uid);
+    }
+
     public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm){
         return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, searchTerm);
     }
