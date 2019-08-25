@@ -302,7 +302,10 @@ public class SyncManager {
                 public void onResponse(FullCard response) {
                     liveData.postValue(response);
                 }
-            }, (FullCard entity, FullCard response) -> response.getCard().setUserId(entity.getCard().getUserId()));
+            }, (FullCard entity, FullCard response) -> {
+                response.getCard().setUserId(entity.getCard().getUserId());
+                response.getCard().setStackId(stack.getLocalId());
+            });
         });
         return liveData;
     }
