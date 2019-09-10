@@ -136,7 +136,7 @@ public class EditActivity extends AppCompatActivity {
             }
 
             new Thread(() -> {
-                try { // FIXME this might happen delayed so the user might not be available onStop()
+                try {
                     User user = syncManager.getUserByUidDirectly(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId);
                     fullCard.card.setUserId(user.getLocalId());
                     syncManager.createCard(accountId, boardId, stackId, fullCard.card);
