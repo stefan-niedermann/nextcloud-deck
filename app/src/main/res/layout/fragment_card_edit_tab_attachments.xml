@@ -39,7 +39,7 @@
             android:maxLines="2"
             android:paddingTop="@dimen/standard_padding"
             android:paddingBottom="@dimen/standard_padding"
-            android:text="Attachments"
+            android:text="@string/attachments"
             android:textSize="26sp" />
 
         <TextView
