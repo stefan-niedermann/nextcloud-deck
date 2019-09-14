@@ -49,7 +49,7 @@
             android:layout_gravity="center_horizontal"
             android:ellipsize="end"
             android:gravity="center"
-            android:text="Not implemented yet" />
+            android:text="@string/no_files_attached_to_this_card" />
     </LinearLayout>
 
 </LinearLayout>

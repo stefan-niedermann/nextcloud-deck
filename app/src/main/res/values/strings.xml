@@ -117,4 +117,5 @@
     <string name="card_edit_attachments">Attachments</string>
     <string name="card_edit_activity">Activity</string>
     <string name="about_server_app_version_text">Server app version:</string>
+    <string name="no_files_attached_to_this_card">There are no files attached to this card.</string>
 </resources>
