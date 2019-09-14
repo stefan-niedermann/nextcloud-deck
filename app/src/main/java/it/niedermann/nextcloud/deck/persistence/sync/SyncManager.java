@@ -541,4 +541,7 @@ public class SyncManager {
         return serverAdapter.getApiUrl();
     }
 
+    public void reorder(Long accountId, FullCard movedCard, long newStackId, int newPosition) {
+        // FIXME implement!
+    }
 }

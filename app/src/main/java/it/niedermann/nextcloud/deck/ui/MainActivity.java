@@ -80,6 +80,7 @@ public class MainActivity extends DrawerActivity {
         dragAndDrop.register(viewPager);
         dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
             //FIXME: implement me por favour!
+            syncManager.reorder(account.getId(), movedCard, stackId, position);
             DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
         });
 
