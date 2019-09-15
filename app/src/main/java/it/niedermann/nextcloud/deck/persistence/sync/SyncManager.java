@@ -12,6 +12,7 @@ import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -172,18 +173,23 @@ public class SyncManager {
             doAsync(() -> {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
                 User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
-                FullBoard fullBoard = new FullBoard();
-                board.setOwnerId(owner.getLocalId());
-                fullBoard.setOwner(owner);
-                fullBoard.setBoard(board);
-                board.setAccountId(accountId);
-                fullBoard.setAccountId(accountId);
-                new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider() ,fullBoard, new IResponseCallback<FullBoard>(account) {
-                    @Override
-                    public void onResponse(FullBoard response) {
-                        liveData.postValue(response);
-                    }
-                });
+                if(owner == null) {
+                    DeckLog.log("owner is null - this can be the case if the Deck app has never before been opened in the webinterface");
+                    liveData.postValue(null);
+                } else {
+                    FullBoard fullBoard = new FullBoard();
+                    board.setOwnerId(owner.getLocalId());
+                    fullBoard.setOwner(owner);
+                    fullBoard.setBoard(board);
+                    board.setAccountId(accountId);
+                    fullBoard.setAccountId(accountId);
+                    new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new BoardDataProvider(), fullBoard, new IResponseCallback<FullBoard>(account) {
+                        @Override
+                        public void onResponse(FullBoard response) {
+                            liveData.postValue(response);
+                        }
+                    });
+                }
             });
         return liveData;
 
