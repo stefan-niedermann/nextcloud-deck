@@ -37,6 +37,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
         entity.getStack().setBoardId(board.getLocalId());
+        entity.getStack().setAccountId(accountId);
         return dataBaseAdapter.createStack(accountId, entity.getStack());
     }
 

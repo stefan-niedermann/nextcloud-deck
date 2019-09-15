@@ -263,11 +263,20 @@ public class SyncManager {
         return liveData;
     }
 
-    public void deleteStack(Stack stack) {
-        //TODO: Tell the server
+    public LiveData<FullStack> deleteStack(Stack stack) {
+        MutableLiveData<FullStack> liveData = new MutableLiveData<>();
         doAsync(() -> {
-            dataBaseAdapter.deleteStack(stack, true);
+            Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
+            FullStack fullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(stack.getLocalId());
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getBoardId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new StackDataProvider(null, board) ,fullStack, new IResponseCallback<FullStack>(account) {
+                @Override
+                public void onResponse(FullStack response) {
+                    liveData.postValue(response);
+                }
+            });
         });
+        return liveData;
     }
 
     public void updateStack(Stack stack) {

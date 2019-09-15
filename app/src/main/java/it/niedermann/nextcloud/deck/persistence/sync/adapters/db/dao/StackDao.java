@@ -31,7 +31,7 @@ public interface StackDao extends GenericDao<Stack> {
     FullStack getFullStackByRemoteIdDirectly(final long accountId, final long localBoardId, final long remoteId);
 
     @Transaction
-    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId order by `order` asc")
+    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId and status<>3 and (deletedAt is null or deletedAt = 0) order by `order` asc")
     LiveData<List<FullStack>> getFullStacksForBoard(final long accountId, final long localBoardId);
 
     @Transaction

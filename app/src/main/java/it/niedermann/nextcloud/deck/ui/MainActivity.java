@@ -143,6 +143,7 @@ public class MainActivity extends DrawerActivity {
             s.setOrder(heighestOrder);
             //TODO: returns liveData of the created stack (once!) as desired
             // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
+            DeckLog.log("Create Stack with account id = " + account.getId());
             syncManager.createStack(account.getId(), s).observe(MainActivity.this, (stack) -> {
                 viewPager.setCurrentItem(stackAdapter.getCount());
             });
@@ -294,12 +295,10 @@ public class MainActivity extends DrawerActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_card_list_delete_column:
-                Snackbar.make(coordinatorLayout, "Deleting stacks is not supported yet.", Snackbar.LENGTH_LONG).show();
                 long stackId = stackAdapter.getItem(viewPager.getCurrentItem()).getStackId();
                 LiveDataHelper.observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
-                    // TODO uncomment
                     DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
-                    // syncManager.deleteStack(fullStack.getStack());
+                    syncManager.deleteStack(fullStack.getStack());
                 });
                 break;
             case R.id.action_card_list_add_column:
