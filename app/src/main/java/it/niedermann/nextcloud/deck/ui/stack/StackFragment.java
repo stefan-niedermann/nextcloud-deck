@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -41,6 +42,8 @@ public class StackFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.no_cards)
+    LinearLayout noCards;
 
     /**
      * @param boardId of the current stack
@@ -76,7 +79,7 @@ public class StackFragment extends Fragment {
         initRecyclerView();
 
         if (getActivity() != null) {
-            if (syncManager == null){
+            if (syncManager == null) {
                 syncManager = new SyncManager(getActivity());
                 initRecyclerView();
             }
@@ -111,7 +114,10 @@ public class StackFragment extends Fragment {
                 syncManager.getStack(account.getId(), stackId).observe(StackFragment.this, (FullStack stack) -> {
                     if (stack != null) {
                         syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(StackFragment.this, (List<FullCard> cards) -> {
-                            if (cards != null) {
+                            if (cards == null || cards.size() == 0) {
+                                this.noCards.setVisibility(View.VISIBLE);
+                            } else {
+                                this.noCards.setVisibility(View.GONE);
                                 adapter.setCardList(cards);
                             }
                         });
