@@ -97,8 +97,7 @@ public class MainActivity extends DrawerActivity {
                     intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(viewPager.getCurrentItem()).getStackId());
                     startActivity(intent);
                 } catch (IndexOutOfBoundsException e) {
-                    StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();
-                    alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_stack));
+                    new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.create_stack));
                 }
             } else {
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.create_board));
@@ -166,6 +165,8 @@ public class MainActivity extends DrawerActivity {
                 boardsList.add(board.getBoard());
                 currentBoardId = board.getLocalId();
                 buildSidenavMenu();
+
+                new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.create_stack));
 
                 // Remember last board for this account
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -324,8 +325,7 @@ public class MainActivity extends DrawerActivity {
                 });
                 break;
             case R.id.action_card_list_add_column:
-                StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();
-                alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_stack));
+                new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.create_stack));
                 break;
         }
         return super.onOptionsItemSelected(item);
