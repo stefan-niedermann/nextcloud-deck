@@ -1,15 +1,15 @@
 <resources>
     <string name="navigation_drawer_open">Obre el calaix de navegació</string>
     <string name="navigation_drawer_close">Tanca el calaix de navegació</string>
-    <string name="nav_header_subtitle">Client per Nextcloud Deck app</string>
+    <string name="nav_header_subtitle">Client per l\'aplicació Nextcloud Deck</string>
     <string name="nav_header_desc">Capçalera de navegació</string>
     <string name="action_settings">Paràmetres</string>
 
     <string name="drawer_header_background">Imatge de fons de la capçalera del calaix</string>
     <string name="drawer_current_account">Compte actual</string>
     <string name="drawer_middle_account">Compte mitjà</string>
-    <string name="drawer_end_account">Últim compte</string>
-    <string name="drawer_manage_accounts">Gestió de comptes</string>
+    <string name="drawer_end_account">Darrer compte</string>
+    <string name="drawer_manage_accounts">Gestiona els comptes</string>
 
     <!-- Simple values -->
     <string name="simple_boards">Taulells</string>
@@ -18,30 +18,30 @@
     <string name="simple_save">Desa</string>
 
     <string name="edit_board">Edita el tauler</string>
-    <string name="archive_board">Arxiva tauler</string>
-    <string name="delete_board">Suprimeix tauler</string>
+    <string name="archive_board">Arxiva el tauler</string>
+    <string name="delete_board">Suprimeix el tauler</string>
 
     <!-- About -->
     <string name="about">Quant a</string>
     <string name="about_version_title">Versió</string>
     <string name="about_version">Esteu fent servir %1$s</string>
-    <string name="about_maintainer_title">Manteniment</string>
-    <string name="about_developers_title">Desenvolupament</string>
-    <string name="about_translators_title">Traducció</string>
+    <string name="about_maintainer_title">Mantenidor</string>
+    <string name="about_developers_title">Desenvolupadors</string>
+    <string name="about_translators_title">Traductors</string>
     <string name="about_translators_transifex">La comunitat de Nextcloud a %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Provadors</string>
     <string name="about_source_title">Codi font</string>
-    <string name="about_source">Aquest projecte està allotjat a Github: %1$s</string>
-    <string name="about_issues_title">Problemes</string>
+    <string name="about_source">Aquest projecte és allotjat a GitHub: %1$s</string>
+    <string name="about_issues_title">Incidències</string>
     <string name="about_issues">Podeu informar d\'errors, proposar millores i demanar noves funcionalitats al seguiment d\'incidències de GitHub: %1$s</string>
     <string name="about_translate_title">Tradueix</string>
     <string name="about_translate">Afegiu-vos a l\'equip de Nextcloud a Transifex i ajudeu-nos a traduir aquesta aplicació: %1$s</string>
     <string name="about_app_license_title">Llicència de l\'aplicació</string>
-    <string name="about_app_license">Aquesta aplicació està llicenciada sota GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license">Aquesta aplicació està llicenciada sota la LLICÈNCIA PÚBLICA GENERAL DE GNU v3+.</string>
     <string name="about_app_license_button">Mostra la llicència</string>
     <string name="about_icons_disclaimer_title">Icones</string>
-    <string name="about_icons_disclaimer">Icona original feta per %1$s Totes les altres icones emprades per aquesta aplicació estan %2$s fetes per Google Inc. i licenciades sota la llicència Apache 2.0.</string>
+    <string name="about_icons_disclaimer">Icona original feta per %1$s Totes les altres icones emprades per aquesta aplicació estan %2$s fetes per Google Inc. i llicenciades sota la llicència Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Icones Material Design</string>
     <string name="about_credits_tab_title">Crèdits</string>
     <string name="about_contribution_tab_title">Contribució</string>
@@ -57,19 +57,19 @@
     <string name="activity">Activitat</string>
     <string name="create_card">Crea una targeta</string>
     <string name="create_stack">Crea una pila</string>
-    <string name="create_board">Crea una taula</string>
+    <string name="create_board">Crea un tauler</string>
 
     <string name="add_account">Afegeix un compte</string>
     <string name="accounts">Comptes</string>
 
     <string name="label_menu">menú</string>
-    <string name="action_card_assign">Assigna\'m una targeta</string>
-    <string name="action_card_unassign">Dessassigna una targeta</string>
+    <string name="action_card_assign">Assigneu-vos una targeta</string>
+    <string name="action_card_unassign">Desassigneu-vos una targeta</string>
     <string name="action_card_archive">Arxiva la targeta</string>
-    <string name="action_card_delete">Elimina la targeta</string>
+    <string name="action_card_delete">Suprimeix targeta</string>
     <string name="add_board">Afegeix una taula</string>
     <string name="action_card_list_add_column">Afegeix una columna</string>
-    <string name="action_card_list_delete_column">Elimina la columna</string>
+    <string name="action_card_list_delete_column">Suprimeix la columna</string>
     <string name="action_card_list_board_details">Detalls de la taula</string>
     <string name="simple_title">Títol</string>
 
@@ -86,4 +86,5 @@
     <string name="card_edit_details">Detalls</string>
     <string name="card_edit_attachments">Adjunts</string>
     <string name="card_edit_activity">Activitat</string>
-</resources>
+    <string name="about_server_app_version_text">Versió de l\'aplicació del servidor:</string>
+    </resources>

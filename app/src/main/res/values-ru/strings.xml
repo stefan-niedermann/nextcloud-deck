@@ -86,4 +86,5 @@
     <string name="card_edit_details">Подробности</string>
     <string name="card_edit_attachments">Вложения</string>
     <string name="card_edit_activity">События</string>
-</resources>
+    <string name="about_server_app_version_text">Версия приложения на сервере:</string>
+    </resources>
