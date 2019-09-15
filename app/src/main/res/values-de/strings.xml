@@ -87,4 +87,6 @@
     <string name="card_edit_attachments">Anhänge</string>
     <string name="card_edit_activity">Aktivitäten</string>
     <string name="about_server_app_version_text">Serverversion der App:</string>
+    <string name="account_already_added">Account wurde bereits hinzugefügt</string>
+    <string name="account_is_getting_imported">Account wird importiert</string>
     </resources>
