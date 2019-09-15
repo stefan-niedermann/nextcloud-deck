@@ -557,12 +557,26 @@ public class SyncManager {
     }
 
     public void reorder(Long accountId, FullCard movedCard, long newStackId, int newPosition) {
-        // FIXME implement!
-        if (serverAdapter.hasInternetConnection()){
-            // call reorder
-            serverAdapter.reorder(accountId, movedCard, newStackId, newPosition);
-        } else {
-            // reorder locally
-        }
+
+        doAsync(() -> {
+            if (serverAdapter.hasInternetConnection()){
+                // call reorder
+                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
+                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
+                serverAdapter.reorder(board.getId(), movedCard, newStackId, newPosition, new IResponseCallback<List<FullCard>>(account){
+
+                    @Override
+                    public void onResponse(List<FullCard> response) {
+                        for (FullCard fullCard : response) {
+                            DeckLog.log("move: stackid "+fullCard.getCard().getStackId());
+                        }
+                    }
+                });
+            } else {
+                // reorder locally
+            }
+
+        });
     }
 }

@@ -205,6 +205,8 @@ public class ServerAdapter {
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateLabel(boardId, label.getId(), label), responseCallback);
     }
 
-    public void reorder(Long accountId, FullCard movedCard, long newStackId, int newPosition) {
-    }
+    public void reorder(Long boardId, FullCard movedCard, long newStackId, int newPosition, IResponseCallback<List<FullCard>> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().moveCard(boardId, movedCard.getCard().getStackId(), movedCard.getCard().getId(), (int)newStackId, newPosition), responseCallback);
+}
 }

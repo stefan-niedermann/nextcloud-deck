@@ -92,7 +92,7 @@ public interface DeckAPI {
     Observable<Void> unassignUserFromCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Field("userId")  String userUID);
 
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/reorder")
-    Observable moveCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer order, @Body Integer newStackId);
+    Observable<List<FullCard>> moveCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Body Integer order, @Body Integer newStackId);
 
     @DELETE("boards/{boardId}/stacks/{stackId}/cards/{cardId}")
     Observable<Void> deleteCard(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
