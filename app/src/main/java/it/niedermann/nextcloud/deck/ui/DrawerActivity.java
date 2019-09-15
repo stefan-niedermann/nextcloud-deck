@@ -90,10 +90,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     try {
                         accountLiveData.throwError();
                     } catch (SQLiteConstraintException ex) {
-                        Snackbar.make(coordinatorLayout, "Account bereits hinzugefügt", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(coordinatorLayout, getString(R.string.account_already_added), Snackbar.LENGTH_SHORT).show();
                     }
                 } else {
-                    Snackbar.make(coordinatorLayout, "Account hinzugefügt", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_SHORT).show();
 
                     // Remember last account
                     SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -121,4 +121,6 @@
     <string name="attachments">Attachments</string>
     <string name="no_cards">No cards yet</string>
     <string name="no_account">No account configured</string>
+    <string name="account_already_added">Account already added</string>
+    <string name="account_is_getting_imported">Account is getting imported</string>
 </resources>
