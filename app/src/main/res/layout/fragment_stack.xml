@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,10 +11,12 @@
         android:layout_height="match_parent"
         android:visibility="gone">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:drawableTopCompat="@drawable/ic_launcher_foreground"
+            app:drawableTint="@color/grey600"
             android:textSize="20sp"
             android:text="@string/no_cards"
 
