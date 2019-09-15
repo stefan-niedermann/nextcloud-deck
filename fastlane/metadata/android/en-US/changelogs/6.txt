@@ -1,1 +1,1 @@
-d
+- Fix NPE when edit a board with a non default color
