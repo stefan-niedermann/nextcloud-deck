@@ -1,3 +1,4 @@
 - Make description editable
 - Show version of app installed on server (#95)
 - Create cards (#41)
+- Fix NPE when edit a board with a non default color
