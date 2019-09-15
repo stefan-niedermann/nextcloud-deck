@@ -12,6 +12,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
@@ -211,6 +212,7 @@ public class MainActivity extends DrawerActivity {
         if (boardsList != null) {
             int index = 0;
             for (Board board : boardsList) {
+                final int currentIndex = index;
                 MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(this, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
                 AppCompatImageButton contextMenu = new AppCompatImageButton(this);
                 contextMenu.setBackgroundDrawable(null);
@@ -229,8 +231,13 @@ public class MainActivity extends DrawerActivity {
                                 Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                                 break;
                             case R.id.delete_board:
-                                // TODO select next available board
+                                if (currentIndex != 0) { // Select first board after deletion
+                                    boardSelected(0, account);
+                                } else if (boardsList.size() > 1) { // Select second board after deletion
+                                    boardSelected(1, account);
+                                }
                                 syncManager.deleteBoard(board);
+                                drawer.closeDrawer(GravityCompat.START);
                                 break;
                         }
                         return true;
