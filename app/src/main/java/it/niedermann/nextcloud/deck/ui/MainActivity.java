@@ -159,8 +159,6 @@ public class MainActivity extends DrawerActivity {
         b.setTitle(title);
         String colorToSet = color.startsWith("#") ? color.substring(1) : color;
         b.setColor(colorToSet);
-        //TODO: returns liveData of the created board (once!) as desired
-        // original to do: on createBoard: should return ID of the created board, so one can immediately switch to the new board after creation
         LiveData<FullBoard> createBoardLiveData = syncManager.createBoard(account.getId(), b);
         Observer<FullBoard> createBoardObserver = new Observer<FullBoard>() {
             @Override
