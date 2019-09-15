@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
@@ -128,30 +129,24 @@ public class MainActivity extends DrawerActivity {
     }
 
     public void onCreateStack(String stackName) {
-        LiveData<List<FullStack>> fullStackLiveData = syncManager.getStacksForBoard(account.getId(), currentBoardId);
-        Observer<List<FullStack>> observer = new Observer<List<FullStack>>() {
-            @Override
-            public void onChanged(List<FullStack> fullStacks) { // FIXME fullStacks.size() is always 0
-                Stack s = new Stack();
-                s.setTitle(stackName);
-                s.setBoardId(currentBoardId);
-                int heighestOrder = 0;
-                for (FullStack fullStack : fullStacks) {
-                    int currentStackOrder = fullStack.stack.getOrder();
-                    if (currentStackOrder >= heighestOrder) {
-                        heighestOrder = currentStackOrder + 1;
-                    }
+        LiveDataHelper.observeOnce(syncManager.getStacksForBoard(account.getId(), currentBoardId), MainActivity.this, fullStacks -> { // FIXME fullStacks.size() is always 0
+            Stack s = new Stack();
+            s.setTitle(stackName);
+            s.setBoardId(currentBoardId);
+            int heighestOrder = 0;
+            for (FullStack fullStack : fullStacks) {
+                int currentStackOrder = fullStack.stack.getOrder();
+                if (currentStackOrder >= heighestOrder) {
+                    heighestOrder = currentStackOrder + 1;
                 }
-                s.setOrder(heighestOrder);
-                //TODO: returns liveData of the created stack (once!) as desired
-                // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
-                syncManager.createStack(account.getId(), s).observe(MainActivity.this, (stack) -> {
-                    viewPager.setCurrentItem(stackAdapter.getCount());
-                });
-                fullStackLiveData.removeObserver(this);
             }
-        };
-        fullStackLiveData.observe(MainActivity.this, observer);
+            s.setOrder(heighestOrder);
+            //TODO: returns liveData of the created stack (once!) as desired
+            // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
+            syncManager.createStack(account.getId(), s).observe(MainActivity.this, (stack) -> {
+                viewPager.setCurrentItem(stackAdapter.getCount());
+            });
+        });
     }
 
     public void onCreateBoard(String title, String color) {
@@ -159,18 +154,12 @@ public class MainActivity extends DrawerActivity {
         b.setTitle(title);
         String colorToSet = color.startsWith("#") ? color.substring(1) : color;
         b.setColor(colorToSet);
-        LiveData<FullBoard> createBoardLiveData = syncManager.createBoard(account.getId(), b);
-        Observer<FullBoard> createBoardObserver = new Observer<FullBoard>() {
-            @Override
-            public void onChanged(FullBoard board) {
-                boardsList.add(board.getBoard());
-                currentBoardId = board.getLocalId();
-                buildSidenavMenu();
-                createBoardLiveData.removeObserver(this);
+        LiveDataHelper.observeOnce(syncManager.createBoard(account.getId(), b), this, board -> {
+            boardsList.add(board.getBoard());
+            currentBoardId = board.getLocalId();
+            buildSidenavMenu();
 
-            }
-        };
-        createBoardLiveData.observe(this, createBoardObserver);
+        });
     }
 
     public void onUpdateBoard(FullBoard fullBoard) {
@@ -307,17 +296,11 @@ public class MainActivity extends DrawerActivity {
             case R.id.action_card_list_delete_column:
                 Snackbar.make(coordinatorLayout, "Deleting stacks is not supported yet.", Snackbar.LENGTH_LONG).show();
                 long stackId = stackAdapter.getItem(viewPager.getCurrentItem()).getStackId();
-                LiveData<FullStack> fullStackLiveData = syncManager.getStack(account.getId(), stackId);
-                Observer<FullStack> observer = new Observer<FullStack>() {
-                    @Override
-                    public void onChanged(FullStack fullStack) {
-                        // TODO uncomment
-                        DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
-                        // syncManager.deleteStack(fullStack.getStack());
-                        fullStackLiveData.removeObserver(this);
-                    }
-                };
-                fullStackLiveData.observe(MainActivity.this, observer);
+                LiveDataHelper.observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
+                    // TODO uncomment
+                    DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
+                    // syncManager.deleteStack(fullStack.getStack());
+                });
                 break;
             case R.id.action_card_list_add_column:
                 StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();

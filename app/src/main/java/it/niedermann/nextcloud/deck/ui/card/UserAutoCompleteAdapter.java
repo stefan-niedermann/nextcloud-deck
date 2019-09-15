@@ -14,8 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
@@ -31,6 +29,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
@@ -76,7 +75,7 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
         }
 
         try {
-            SingleSignOnAccount account =  SingleAccountHelper.getCurrentSingleSignOnAccount(activity);
+            SingleSignOnAccount account = SingleAccountHelper.getCurrentSingleSignOnAccount(activity);
             ViewUtil.addAvatar(
                     activity,
                     holder.icon,
@@ -97,26 +96,21 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     public Filter getFilter() {
         return new Filter() {
             final FilterResults filterResults = new FilterResults();
+
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
-                    ((Fragment)owner).getActivity().runOnUiThread(() -> {
-                        LiveData<List<User>> userLiveData = syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString());
-                        Observer<List<User>> observer = new Observer<List<User>>() {
-                            @Override
-                            public void onChanged(List<User> users) {
-                                userLiveData.removeObserver(this);
-                                if (users != null) {
-                                    filterResults.values = users;
-                                    filterResults.count = users.size();
-                                    publishResults(constraint, filterResults);
-                                } else {
-                                    filterResults.values = new ArrayList<>();
-                                    filterResults.count = 0;
-                                }
+                    ((Fragment) owner).getActivity().runOnUiThread(() -> {
+                        LiveDataHelper.observeOnce(syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString()), owner, users -> {
+                            if (users != null) {
+                                filterResults.values = users;
+                                filterResults.count = users.size();
+                                publishResults(constraint, filterResults);
+                            } else {
+                                filterResults.values = new ArrayList<>();
+                                filterResults.count = 0;
                             }
-                        };
-                        userLiveData.observe(owner, observer);
+                        });
                     });
                 }
                 return filterResults;
@@ -132,12 +126,15 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                 } else {
                     notifyDataSetInvalidated();
                 }
-            }};
+            }
+        };
     }
 
     static class ViewHolder {
-        @BindView(R.id.icon) ImageView icon;
-        @BindView(R.id.label) TextView label;
+        @BindView(R.id.icon)
+        ImageView icon;
+        @BindView(R.id.label)
+        TextView label;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

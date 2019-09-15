@@ -14,8 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,7 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable {
@@ -112,26 +111,20 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                 if (constraint != null) {
                     lastFilterText = constraint.toString();
                     ((Fragment) owner).getActivity().runOnUiThread(() -> {
-                        LiveData<List<Label>> labelLiveData = syncManager.searchLabelByTitle(accountId, boardId, constraint.toString());
-                        Observer<List<Label>> observer = new Observer<List<Label>>() {
-                            @Override
-                            public void onChanged(List<Label> labels) {
-                                labelLiveData.removeObserver(this);
-                                createLabel.setTitle(String.format(createLabelText, constraint));
-                                if (labels != null) {
-                                    labels.add(createLabel);
-                                    filterResults.values = labels;
-                                    filterResults.count = labels.size();
-                                    publishResults(constraint, filterResults);
-                                } else {
-                                    List<Label> createLabels = new ArrayList<>();
-                                    createLabels.add(createLabel);
-                                    filterResults.values = createLabels;
-                                    filterResults.count = createLabels.size();
-                                }
+                        LiveDataHelper.observeOnce(syncManager.searchLabelByTitle(accountId, boardId, constraint.toString()), owner, labels -> {
+                            createLabel.setTitle(String.format(createLabelText, constraint));
+                            if (labels != null) {
+                                labels.add(createLabel);
+                                filterResults.values = labels;
+                                filterResults.count = labels.size();
+                                publishResults(constraint, filterResults);
+                            } else {
+                                List<Label> createLabels = new ArrayList<>();
+                                createLabels.add(createLabel);
+                                filterResults.values = createLabels;
+                                filterResults.count = createLabels.size();
                             }
-                        };
-                        labelLiveData.observe(owner, observer);
+                        });
                     });
                 }
                 return filterResults;
