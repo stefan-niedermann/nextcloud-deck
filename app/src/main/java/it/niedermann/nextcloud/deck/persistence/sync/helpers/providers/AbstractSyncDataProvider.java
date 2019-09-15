@@ -31,8 +31,20 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
     }
 
     protected List<T> findDelta(List<T> entitiesFromServer, List<T> localEntities){
-        //TODO implement
-        return null;
+        List<T> delta = new ArrayList<>();
+        for (T localEntity : localEntities) {
+            boolean found = false;
+            for (T remoteEntity : entitiesFromServer) {
+                if (remoteEntity.getId().equals(localEntity.getId())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found){
+                delta.add(localEntity);
+            }
+        }
+        return delta;
     }
 
     public void addChild(AbstractSyncDataProvider<?> child) {

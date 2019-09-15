@@ -123,6 +123,10 @@ public class DataBaseAdapter {
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::readRelationsForCard);
     }
 
+    public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId) {
+        return db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId);
+    }
+
     public User getUserByUidDirectly(long accountId, String uid) {
         return db.getUserDao().getUserByUidDirectly(accountId, uid);
     }
