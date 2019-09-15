@@ -574,9 +574,18 @@ public class SyncManager {
                     }
                 });
             } else {
-                // reorder locally
-            }
+                // reorder locally:
+                // set new stack and order
+                Card card = movedCard.getCard();
+                int oldOrder = card.getOrder();
+                long oldStackId = card.getStackId();
+                card.setStackId(newStackId);
+                card.setOrder(newPosition);
+                // read cards of new stackstarting from destination-order
+                LiveData<List<FullCard>> cardsOfNewStack = dataBaseAdapter.getFullCardsForStack(accountId, newStackId);
 
+                // update cards up to source-order
+            }
         });
     }
 }
