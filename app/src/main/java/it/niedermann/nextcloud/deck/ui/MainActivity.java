@@ -23,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,18 +88,20 @@ public class MainActivity extends DrawerActivity {
         });
 
         fab.setOnClickListener((View view) -> {
-            Intent intent = new Intent(this, EditActivity.class);
-            intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
-            intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
-            intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
-            try {
-                intent.putExtra(BUNDLE_KEY_STACK_ID, ((StackFragment) stackAdapter.getItem(viewPager.getCurrentItem())).getStackId());
-                startActivity(intent);
-            } catch (IndexOutOfBoundsException e) {
-                Snackbar.make(coordinatorLayout, R.string.no_columns_available, Snackbar.LENGTH_LONG).setAction(getString(R.string.simple_create), (event) -> {
+            if (this.boardsList.size() > 0) {
+                Intent intent = new Intent(this, EditActivity.class);
+                intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
+                intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
+                intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
+                try {
+                    intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(viewPager.getCurrentItem()).getStackId());
+                    startActivity(intent);
+                } catch (IndexOutOfBoundsException e) {
                     StackCreateDialogFragment alertdFragment = new StackCreateDialogFragment();
                     alertdFragment.show(getSupportFragmentManager(), getString(R.string.create_stack));
-                }).show();
+                }
+            } else {
+                EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.create_board));
             }
         });
 
@@ -157,7 +160,7 @@ public class MainActivity extends DrawerActivity {
         String colorToSet = color.startsWith("#") ? color.substring(1) : color;
         b.setColor(colorToSet);
         LiveDataHelper.observeOnce(syncManager.createBoard(account.getId(), b), this, board -> {
-            if(board == null) {
+            if (board == null) {
                 Snackbar.make(coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG);
             } else {
                 boardsList.add(board.getBoard());
@@ -239,6 +242,9 @@ public class MainActivity extends DrawerActivity {
                                     boardSelected(0, account);
                                 } else if (boardsList.size() > 1) { // Select second board after deletion
                                     boardSelected(1, account);
+                                } else { // No other board is available, open create dialog
+                                    Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
+                                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.create_board));
                                 }
                                 syncManager.deleteBoard(board);
                                 drawer.closeDrawer(GravityCompat.START);
