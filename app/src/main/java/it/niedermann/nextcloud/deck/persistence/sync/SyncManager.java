@@ -554,6 +554,7 @@ public class SyncManager {
         // FIXME implement!
         if (serverAdapter.hasInternetConnection()){
             // call reorder
+            serverAdapter.reorder(accountId, movedCard, newStackId, newPosition);
         } else {
             // reorder locally
         }

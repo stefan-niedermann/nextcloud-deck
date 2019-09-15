@@ -56,6 +56,9 @@ public class SyncHelper {
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
                         provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
                     }
+
+                    provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
+
                     provider.doneGoingDeeper(responseCallback, true);
                 } else {
                     provider.childDone(provider, responseCallback, false);

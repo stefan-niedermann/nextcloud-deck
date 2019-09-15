@@ -26,6 +26,15 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         }
     }
 
+    public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<T> entitiesFromServer){
+        // do nothing as a default.
+    }
+
+    protected List<T> findDelta(List<T> entitiesFromServer, List<T> localEntities){
+        //TODO implement
+        return null;
+    }
+
     public void addChild(AbstractSyncDataProvider<?> child) {
         children.add(child);
     }
