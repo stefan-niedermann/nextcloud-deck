@@ -31,6 +31,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
+import it.niedermann.nextcloud.deck.model.propagation.Reorder;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class ServerAdapter {
@@ -207,6 +208,6 @@ public class ServerAdapter {
 
     public void reorder(Long boardId, FullCard movedCard, long newStackId, int newPosition, IResponseCallback<List<FullCard>> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().moveCard(boardId, movedCard.getCard().getStackId(), movedCard.getCard().getId(), (int)newStackId, newPosition), responseCallback);
-}
+        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().moveCard(boardId, movedCard.getCard().getStackId(), movedCard.getCard().getId(), new Reorder(newPosition, (int)newStackId)), responseCallback);
+    }
 }
