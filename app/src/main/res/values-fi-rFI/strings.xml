@@ -1,0 +1,73 @@
+<resources>
+    <string name="action_settings">Asetukset</string>
+
+    <string name="drawer_header_background">Taustakuva \"Drawer\":in yläosassa</string>
+    <string name="drawer_current_account">Nykyinen tili</string>
+    <string name="drawer_middle_account">Keskimmäinen tili</string>
+    <string name="drawer_end_account">Viimeisin tili</string>
+    <string name="drawer_manage_accounts">Tilien hallinta</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Taulut</string>
+    <string name="simple_cancel">Peru</string>
+    <string name="simple_create">Luo</string>
+    <string name="simple_save">Tallenna</string>
+
+    <string name="edit_board">Muokkaa taulua</string>
+    <string name="archive_board">Arkistoi taulu</string>
+    <string name="delete_board">Poista taulu</string>
+
+    <!-- About -->
+    <string name="about">Tietoja</string>
+    <string name="about_version_title">Versio</string>
+    <string name="about_version">Käytössäsi on %1$s</string>
+    <string name="about_maintainer_title">Ylläpitäjä</string>
+    <string name="about_developers_title">Kehittäjät</string>
+    <string name="about_translators_title">Kääntäjät</string>
+    <string name="about_testers_title">Testaajat</string>
+    <string name="about_source_title">Lähdekoodi</string>
+    <string name="about_source">Tämä projekti on GitHubissa: %1$s</string>
+    <string name="about_issues_title">Ongelmat</string>
+    <string name="about_translate_title">Käännä</string>
+    <string name="about_app_license_title">Sovelluslisenssi</string>
+    <string name="about_app_license">Tämä sovellus on GNU GENERAL PUBLIC LICENSE v3+ -lisensoitu.</string>
+    <string name="about_app_license_button">Näytä lisenssi</string>
+    <string name="about_icons_disclaimer_title">Kuvakkeet</string>
+    <string name="about_credits_tab_title">Tekijät</string>
+    <string name="about_license_tab_title">Lisenssi</string>
+
+    <string name="seconds_ago">sekuntia sitten</string>
+    <string name="edit">Muokkaa</string>
+    <string name="label_title">Otsikko</string>
+    <string name="label_labels">Valitse tunnisteet</string>
+    <string name="label_description">Kuvaus</string>
+    <string name="hint_assign_people">Määritä käyttäjät</string>
+    <string name="hint_due_date_date">Eräpäivä</string>
+    <string name="activity">Aktiviteetti</string>
+    <string name="create_card">Luo kortti</string>
+    <string name="create_stack">Luo pino</string>
+    <string name="create_board">Luo taulu</string>
+
+    <string name="add_account">Lisää tili</string>
+    <string name="accounts">Tilit</string>
+
+    <string name="label_menu">Valikko</string>
+    <string name="action_card_archive">Arkistoi kortti</string>
+    <string name="action_card_delete">Poista kortti</string>
+    <string name="add_board">Lisää taulu</string>
+    <string name="action_card_list_add_column">Lisää sarake</string>
+    <string name="action_card_list_delete_column">Poista sarake</string>
+    <string name="simple_title">Otsikko</string>
+
+    <string name="label_clear_due_date">Poista eräpäivä</string>
+
+    <string name="label_create">Luo %1$s</string>
+    <string name="no_columns_available">Ei sarakkeita saatavilla</string>
+    <string name="error">Tapahtui virhe</string>
+    <string name="simple_exception">Poikkeus</string>
+    <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
+    <string name="simple_close">sulje</string>
+
+    <string name="card_edit_details">Tiedot</string>
+    <string name="card_edit_attachments">Liitteet</string>
+    </resources>

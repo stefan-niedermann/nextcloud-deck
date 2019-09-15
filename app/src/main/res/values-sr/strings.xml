@@ -83,4 +83,8 @@
     <string name="copied_to_clipboard">Копирано у клипборд</string>
     <string name="simple_close">затвори</string>
 
+    <string name="card_edit_details">Детаљи</string>
+    <string name="card_edit_attachments">Прилози</string>
+    <string name="card_edit_activity">Активност</string>
+    <string name="about_server_app_version_text">Верзија апликације на серверу:</string>
     </resources>

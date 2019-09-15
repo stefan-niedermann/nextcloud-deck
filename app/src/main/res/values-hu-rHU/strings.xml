@@ -86,4 +86,5 @@
     <string name="card_edit_details">Részletek</string>
     <string name="card_edit_attachments">Mellékletek</string>
     <string name="card_edit_activity">Tevékenység</string>
-</resources>
+    <string name="about_server_app_version_text">Kiszolgáló alkalmazásverziója:</string>
+    </resources>

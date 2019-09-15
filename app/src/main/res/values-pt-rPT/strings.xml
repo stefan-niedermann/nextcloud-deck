@@ -53,9 +53,10 @@
     <string name="label_labels">Selecionar Etiquetas</string>
     <string name="label_description">Descrição</string>
     <string name="hint_assign_people">Atribuir utilizadores</string>
-    <string name="hint_due_date_date">Devida limite</string>
+    <string name="hint_due_date_date">Data limite</string>
     <string name="activity">Atividade</string>
     <string name="create_card">Criar cartão</string>
+    <string name="create_stack">Criar pilha</string>
     <string name="create_board">Criar quadro</string>
 
     <string name="add_account">Adicionar conta</string>
@@ -82,4 +83,8 @@
     <string name="copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="simple_close">fechar</string>
 
+    <string name="card_edit_details">Detalhes</string>
+    <string name="card_edit_attachments">Anexos</string>
+    <string name="card_edit_activity">Actividade</string>
+    <string name="about_server_app_version_text">Versão da aplicação no servidor</string>
     </resources>

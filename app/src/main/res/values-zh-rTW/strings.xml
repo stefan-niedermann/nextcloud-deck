@@ -1,0 +1,81 @@
+<resources>
+    <string name="navigation_drawer_open">開啟導覽列</string>
+    <string name="navigation_drawer_close">關閉導覽列</string>
+    <string name="nav_header_subtitle">Nextcloud Deck程式的客戶端</string>
+    <string name="nav_header_desc">導覽列</string>
+    <string name="action_settings">設定</string>
+
+    <string name="drawer_current_account">目前帳戶</string>
+    <string name="drawer_manage_accounts">帳戶管理</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">專案</string>
+    <string name="simple_cancel">取消</string>
+    <string name="simple_create">建立</string>
+    <string name="simple_save">儲存</string>
+
+    <string name="edit_board">編輯專案</string>
+    <string name="archive_board">封存的專案</string>
+    <string name="delete_board">刪除的專案</string>
+
+    <!-- About -->
+    <string name="about">關於</string>
+    <string name="about_version_title">版本</string>
+    <string name="about_version">你目前使用%1$s</string>
+    <string name="about_maintainer_title">維護者</string>
+    <string name="about_developers_title">開發者</string>
+    <string name="about_translators_title">譯者</string>
+    <string name="about_translators_transifex">Nextcloud社群在%1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_testers_title">測試人員</string>
+    <string name="about_source_title">原始碼</string>
+    <string name="about_source">本專案託管於Github%1$s</string>
+    <string name="about_issues_title">翻譯</string>
+    <string name="about_issues">您可以使用Github issue tracker回報bug，提出優化與功能建議%1$s</string>
+    <string name="about_translate_title">翻譯</string>
+    <string name="about_translate">加入Nextcloud在Transifex上的翻譯小組，協助我們翻譯這個程式%1$s</string>
+    <string name="about_app_license_title">程式授權</string>
+    <string name="about_app_license">此程式依照 GNU GENERAL PUBLIC LICENSE v3+ 方式授權使用</string>
+    <string name="about_app_license_button">檢式授權</string>
+    <string name="about_contribution_tab_title">貢獻</string>
+    <string name="about_license_tab_title">授權</string>
+
+    <string name="seconds_ago">幾秒前</string>
+    <string name="edit">編輯</string>
+    <string name="label_title">標題</string>
+    <string name="label_labels">選擇Tags</string>
+    <string name="label_description">描述</string>
+    <string name="hint_assign_people">指派負責人</string>
+    <string name="hint_due_date_date">截止日</string>
+    <string name="activity">活動</string>
+    <string name="create_card">建立作業卡</string>
+    <string name="create_stack">建立項目</string>
+    <string name="create_board">建立專案</string>
+
+    <string name="add_account">新增帳戶</string>
+    <string name="accounts">帳戶</string>
+
+    <string name="label_menu">目錄</string>
+    <string name="action_card_assign">指派作業給自己</string>
+    <string name="action_card_unassign">取消指派作業給自己</string>
+    <string name="action_card_archive">封存作業</string>
+    <string name="action_card_delete">刪除作業</string>
+    <string name="add_board">新增專案</string>
+    <string name="action_card_list_add_column">新增欄位</string>
+    <string name="action_card_list_delete_column">刪除欄位</string>
+    <string name="simple_title">標題</string>
+
+    <string name="label_clear_due_date">清除截止日</string>
+
+    <string name="label_create">建立%1$s</string>
+    <string name="no_columns_available">無可用欄位</string>
+    <string name="error">發生錯誤</string>
+    <string name="simple_copy">複製</string>
+    <string name="copied_to_clipboard">複製至剪貼簿中</string>
+    <string name="simple_close"> 關閉</string>
+
+    <string name="card_edit_details">詳細資料</string>
+    <string name="card_edit_attachments">附件</string>
+    <string name="card_edit_activity">活動</string>
+    <string name="about_server_app_version_text">伺服器版本</string>
+    </resources>

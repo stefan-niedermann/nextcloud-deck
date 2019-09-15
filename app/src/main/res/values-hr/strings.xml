@@ -1,0 +1,90 @@
+<resources>
+    <string name="navigation_drawer_open">Otvorite navigacijsku ladicu</string>
+    <string name="navigation_drawer_close">Zatvori navigacijsku ladicu</string>
+    <string name="nav_header_subtitle">Klijent za aplikaciju Nextcloud Deck</string>
+    <string name="nav_header_desc">Navigacijsko zaglavlje</string>
+    <string name="action_settings">Postavke</string>
+
+    <string name="drawer_header_background">Pozadinska slika zaglavlja ladice</string>
+    <string name="drawer_current_account">Trenutni račun</string>
+    <string name="drawer_middle_account">Srednji račun</string>
+    <string name="drawer_end_account">Prethodni račun</string>
+    <string name="drawer_manage_accounts">Upravljaj računima</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Ploče</string>
+    <string name="simple_cancel">Odustani</string>
+    <string name="simple_create">Stvori</string>
+    <string name="simple_save">Spremi</string>
+
+    <string name="edit_board">Uredi ploču</string>
+    <string name="archive_board">Arhiviraj ploču</string>
+    <string name="delete_board">Izbriši ploču</string>
+
+    <!-- About -->
+    <string name="about">Informacije</string>
+    <string name="about_version_title">Inačica</string>
+    <string name="about_version">Trenutno se koristite %1$s</string>
+    <string name="about_maintainer_title">Održavatelj</string>
+    <string name="about_developers_title">Razvojni programeri</string>
+    <string name="about_translators_title">Prevoditelji</string>
+    <string name="about_translators_transifex">Zajednica Nextcloud na %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_testers_title">Ispitivači</string>
+    <string name="about_source_title">Izvorni kod</string>
+    <string name="about_source">Ovaj je projekt smješten na platformi GitHub: %1$s</string>
+    <string name="about_issues_title">Poteškoće</string>
+    <string name="about_issues">Možete prijaviti pogreške, predložiti poboljšanja i zatražiti značajke putem GitHubovog alata za prijavu i praćenje poteškoća: %1$s</string>
+    <string name="about_translate_title">Prevedi</string>
+    <string name="about_translate">Pridružite se Nextcloudovom timu na Transifexu i pomozite nam da prevedemo ovu aplikaciju: %1$s</string>
+    <string name="about_app_license_title">Licenca za aplikaciju</string>
+    <string name="about_app_license">Ova je aplikacija licencirana pod OPĆOM JAVNOM LICENCOM ZA GNU v3+.</string>
+    <string name="about_app_license_button">Pogledaj licencu</string>
+    <string name="about_icons_disclaimer_title">Ikone</string>
+    <string name="about_icons_disclaimer">Izvornu ikonu izradio je %1$sSve daljnje ikone koje se koriste u ovoj aplikaciji su %2$s koje je izradio Google Inc. i licencirane su pod licencom Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Ikone materijalnog dizajna</string>
+    <string name="about_credits_tab_title">Zasluge</string>
+    <string name="about_contribution_tab_title">Doprinos</string>
+    <string name="about_license_tab_title">Licenca</string>
+
+    <string name="seconds_ago">prije nekoliko sekundi</string>
+    <string name="edit">Uredi</string>
+    <string name="label_title">Naslov</string>
+    <string name="label_labels">Odaberite oznake</string>
+    <string name="label_description">Opis</string>
+    <string name="hint_assign_people">Dodijeli korisnike</string>
+    <string name="hint_due_date_date">Datum dospijeća</string>
+    <string name="activity">Aktivnost</string>
+    <string name="create_card">Stvori karticu</string>
+    <string name="create_stack">Stvori stog</string>
+    <string name="create_board">Stvori ploču</string>
+
+    <string name="add_account">Dodaj račun</string>
+    <string name="accounts">Računi</string>
+
+    <string name="label_menu">izbornik</string>
+    <string name="action_card_assign">Dodijeli karticu sebi</string>
+    <string name="action_card_unassign">Poništi dodjelu kartice sebi</string>
+    <string name="action_card_archive">Arhiviraj karticu</string>
+    <string name="action_card_delete">Izbriši karticu</string>
+    <string name="add_board">Dodaj ploču</string>
+    <string name="action_card_list_add_column">Dodaj stupac</string>
+    <string name="action_card_list_delete_column">Izbriši stupac</string>
+    <string name="action_card_list_board_details">Pojedinosti o ploči</string>
+    <string name="simple_title">Naslov</string>
+
+    <string name="label_clear_due_date">Izbriši datum dospijeća</string>
+
+    <string name="label_create">Stvori %1$s</string>
+    <string name="no_columns_available">Nema dostupnih stupaca</string>
+    <string name="error">Pojavila se pogreška</string>
+    <string name="simple_copy">kopiraj</string>
+    <string name="simple_exception">Izuzetak</string>
+    <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
+    <string name="simple_close">zatvori</string>
+
+    <string name="card_edit_details">Pojedinosti</string>
+    <string name="card_edit_attachments">Privici</string>
+    <string name="card_edit_activity">Aktivnost</string>
+    <string name="about_server_app_version_text">Inačica aplikacije poslužitelja:</string>
+    </resources>

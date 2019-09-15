@@ -83,4 +83,8 @@
     <string name="copied_to_clipboard">Skopírované do schránky</string>
     <string name="simple_close">Zatvoriť</string>
 
+    <string name="card_edit_details">Podrobnosti</string>
+    <string name="card_edit_attachments">Prílohy</string>
+    <string name="card_edit_activity">Aktivita</string>
+    <string name="about_server_app_version_text">Verzia aplikácie na serveri:</string>
     </resources>

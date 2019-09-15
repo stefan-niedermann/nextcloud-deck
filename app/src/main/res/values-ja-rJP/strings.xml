@@ -15,45 +15,67 @@
     <string name="simple_boards">ボード</string>
     <string name="simple_cancel">キャンセル</string>
     <string name="simple_create">作成</string>
+    <string name="simple_save">保存</string>
+
+    <string name="edit_board">ボードを編集</string>
+    <string name="archive_board">ボードをアーカイブ</string>
+    <string name="delete_board">ボードを削除</string>
 
     <!-- About -->
     <string name="about">バージョン情報</string>
     <string name="about_version_title">バージョン</string>
-    <string name="about_version">現在 &lt;strong> %1$s ＆&lt;/strong>を使用しています</string>
     <string name="about_maintainer_title">管理者</string>
     <string name="about_developers_title">開発者</string>
     <string name="about_translators_title">翻訳者</string>
-    <string name="about_translators_transifex">&lt;a href = \"%1$s\"> Transifex&lt;/a>のNextcloudコミュニティ</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">テスター</string>
     <string name="about_source_title">ソースコード</string>
-    <string name="about_source">このプロジェクトはGitHubでホストされています：&lt;a href = \"%1$s\">%1$s&lt;/a></string>
     <string name="about_issues_title">問題</string>
-    <string name="about_issues">GitHubの問題追跡ツールで、バグ、拡張機能の提案、機能リクエストを報告することができます：&lt;a href = \"%1$s\">%1$s&lt;/a></string>
     <string name="about_translate_title">翻訳</string>
-    <string name="about_translate">TransifexのNextcloudチームに参加して、このアプリの翻訳にご協力ください：&lt;a href = \"%1$s\">%1$s&lt;/a></string>
     <string name="about_app_license_title">アプリ ライセンス</string>
     <string name="about_app_license">このアプリケーションは、GNU GENERAL PUBLIC LICENSE v3 +のライセンスを受けています。</string>
     <string name="about_app_license_button">ライセンスを表示</string>
     <string name="about_icons_disclaimer_title">アイコン</string>
-    <string name="about_icons_disclaimer">&lt;p>オリジナルアイコンの作成者 %1$s&lt;/p>&lt;p>このアプリで使用されているすべてのアイコンは Google Inc. が作成した &lt;a href=\"https://materialdesignicons.com/\">マテリアルデザイン アイコン&lt;/a> で、Apache 2.0 ライセンスの下でライセンスされています。&lt;/p></string>
     <string name="about_credits_tab_title">クレジット</string>
     <string name="about_contribution_tab_title">貢献</string>
     <string name="about_license_tab_title">ライセンス</string>
 
     <string name="seconds_ago">数秒前</string>
     <string name="edit">編集</string>
+    <string name="label_title">タイトル</string>
     <string name="label_labels">タグを選択..</string>
     <string name="label_description">説明</string>
     <string name="hint_assign_people">ユーザーを割り当てる</string>
     <string name="hint_due_date_date">期限</string>
     <string name="activity">アクティビティ</string>
+    <string name="create_card">クレジットカード</string>
+    <string name="create_stack">スタックを作る。</string>
+    <string name="create_board">ボードを作成</string>
+
     <string name="add_account">アカウントを追加</string>
     <string name="accounts">アカウント</string>
 
     <string name="label_menu">メニュー</string>
+    <string name="action_card_assign">あなたにカードを割り当てる</string>
+    <string name="action_card_unassign">カードの割り当てを解除する</string>
     <string name="action_card_archive">カードをアーカイブ</string>
     <string name="action_card_delete">削除済みのカード</string>
+    <string name="add_board">ボードを追加</string>
+    <string name="action_card_list_add_column">columnを追加</string>
+    <string name="action_card_list_delete_column">列の削除</string>
+    <string name="simple_title">タイトル</string>
+
     <string name="label_clear_due_date">期限を削除</string>
 
     <string name="label_create">作成 %1$s</string>
-</resources>
+    <string name="no_columns_available">使用可能なカラムがありません</string>
+    <string name="error">エラーが見つかりました</string>
+    <string name="simple_copy">コピー</string>
+    <string name="simple_exception">例外</string>
+    <string name="copied_to_clipboard">クリップボードにコピーされました</string>
+    <string name="simple_close">閉じる</string>
+
+    <string name="card_edit_details">詳細</string>
+    <string name="card_edit_attachments">添付ファイル</string>
+    <string name="card_edit_activity">アクティビティ</string>
+    </resources>

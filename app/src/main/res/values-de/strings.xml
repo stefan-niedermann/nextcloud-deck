@@ -86,4 +86,5 @@
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Anhänge</string>
     <string name="card_edit_activity">Aktivitäten</string>
-</resources>
+    <string name="about_server_app_version_text">Serverversion der App:</string>
+    </resources>
