@@ -88,7 +88,9 @@ public class MainActivity extends DrawerActivity {
         });
 
         fab.setOnClickListener((View view) -> {
-            if (this.boardsList.size() > 0) {
+            if (this.boardsList == null) {
+                Snackbar.make(coordinatorLayout, "Please add an account first", Snackbar.LENGTH_LONG);
+            } else if (this.boardsList.size() > 0) {
                 Intent intent = new Intent(this, EditActivity.class);
                 intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
                 intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
