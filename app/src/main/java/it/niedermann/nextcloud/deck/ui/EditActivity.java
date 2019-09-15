@@ -129,7 +129,6 @@ public class EditActivity extends AppCompatActivity {
                 if (!fullCard.getCard().getDescription().isEmpty()) {
                     fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Provide at least a title or a description.", Toast.LENGTH_LONG).show();
                     super.onStop();
                     return;
                 }
