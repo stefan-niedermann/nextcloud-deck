@@ -26,8 +26,6 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -51,6 +49,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
@@ -147,7 +146,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         description.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(fullCard != null) {
+                if (fullCard != null) {
                     fullCard.getCard().setDescription(description.getText().toString());
                 }
             }
@@ -262,20 +261,14 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 Label newLabel = new Label(label);
                 newLabel.setTitle(((LabelAutoCompleteAdapter) labels.getAdapter()).getLastFilterText());
                 newLabel.setLocalId(null);
-                LiveData<Label> labelLiveData = syncManager.createAndAssignLabelToCard(accountId, newLabel, fullCard.getLocalId());
-                Observer<Label> observer = new Observer<Label>() {
-                    @Override
-                    public void onChanged(Label createdLabel) {
-                        Chip chip = createChipFromLabel(createdLabel);
-                        chip.setOnCloseIconClickListener(v -> {
-                            labelsGroup.removeView(chip);
-                            syncManager.unassignLabelFromCard(createdLabel, fullCard.getCard());
-                        });
-                        labelsGroup.addView(chip);
-                        labelLiveData.removeObserver(this);
-                    }
-                };
-                labelLiveData.observe(CardDetailsFragment.this, observer);
+                LiveDataHelper.observeOnce(syncManager.createAndAssignLabelToCard(accountId, newLabel, fullCard.getLocalId()), CardDetailsFragment.this, createdLabel -> {
+                    Chip chip = createChipFromLabel(createdLabel);
+                    chip.setOnCloseIconClickListener(v -> {
+                        labelsGroup.removeView(chip);
+                        syncManager.unassignLabelFromCard(createdLabel, fullCard.getCard());
+                    });
+                    labelsGroup.addView(chip);
+                });
             } else {
                 syncManager.assignLabelToCard(label, fullCard.getCard());
 
@@ -390,7 +383,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if(this.fullCard.getCard().getDueDate() == null) {
+        if (this.fullCard.getCard().getDueDate() == null) {
             this.fullCard.getCard().setDueDate(new Date());
         }
         this.fullCard.getCard().getDueDate().setHours(hourOfDay);
@@ -400,7 +393,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     @Override
     public void onPause() {
-        if(activity instanceof EditActivity) {
+        if (activity instanceof EditActivity) {
             ((EditActivity) activity).setDescription(description.getText().toString());
             ((EditActivity) activity).setDueDate(fullCard.card.getDueDate());
         } else {
