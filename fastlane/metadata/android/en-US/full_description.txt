@@ -2,14 +2,14 @@
 
 This app is still under heavy development. Do not yet use it productively but only for testing purposes at your own risk
 
-An Android client for Nextcloud Deck App¹. Currently it might be usable as a pure viewer app (if you do not need editing, write access and so on).
+An Android client for Nextcloud Deck App¹.
 
 🚀 Features
-- Supports multiple accounts
-- Display boards, stacks and cards
-- Assign cards to users
-- Create, edit and delete boards
-- Create stacks
+* Supports multiple accounts
+* Assign cards to users
+* Create, edit and delete boards
+* Create and delete stacks
+* Create, edit and delete cards
 
 🔗 Requirements
 - Nextcloud³ instance running
