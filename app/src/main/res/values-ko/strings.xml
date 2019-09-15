@@ -1,0 +1,85 @@
+<resources>
+    <string name="navigation_drawer_open">탐색 서랍 창 열기</string>
+    <string name="navigation_drawer_close">탐색 서랍 창 닫기</string>
+    <string name="nav_header_subtitle">Nextcloud Deck 앱용 클라이언트</string>
+    <string name="nav_header_desc">탐색 서랍 헤더</string>
+    <string name="action_settings">설정</string>
+
+    <string name="drawer_header_background">탐색 헤더의 배경 이미지</string>
+    <string name="drawer_current_account">현재 계정</string>
+    <string name="drawer_middle_account">중간 계정</string>
+    <string name="drawer_end_account">마지막 계정</string>
+    <string name="drawer_manage_accounts">계정 관리</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">게시판</string>
+    <string name="simple_cancel">취소</string>
+    <string name="simple_create">생성</string>
+    <string name="simple_save">저장</string>
+
+    <string name="edit_board">게시판 편집</string>
+    <string name="archive_board">게시판 보관</string>
+    <string name="delete_board">게시판 삭제</string>
+
+    <!-- About -->
+    <string name="about">정보</string>
+    <string name="about_version_title">버전</string>
+    <string name="about_version"> 현재 %1$s사용 중</string>
+    <string name="about_maintainer_title">관리자</string>
+    <string name="about_developers_title">개발자</string>
+    <string name="about_translators_title">번역자</string>
+    <string name="about_translators_transifex">%1$s에 위치한 Nextcloud 커뮤니티</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_testers_title">테스터</string>
+    <string name="about_source_title">소스 코드</string>
+    <string name="about_source">이 프로젝트는 깃허브에 호스팅 중입니다: %1$s</string>
+    <string name="about_translate_title">번역</string>
+    <string name="about_app_license_title">앱 라이선스</string>
+    <string name="about_app_license_button">라이선스 보기</string>
+    <string name="about_icons_disclaimer_title">아이콘</string>
+    <string name="about_icons_disclaimer_mdi">Material 디자인 아이콘</string>
+    <string name="about_credits_tab_title">크레딧</string>
+    <string name="about_contribution_tab_title">기여자</string>
+    <string name="about_license_tab_title">라이선스</string>
+
+    <string name="seconds_ago">몇 초 전</string>
+    <string name="edit">수정</string>
+    <string name="label_title">제목</string>
+    <string name="label_labels">태그 선택</string>
+    <string name="label_description">자세히</string>
+    <string name="hint_assign_people">사용자 할당</string>
+    <string name="hint_due_date_date">만료 날짜</string>
+    <string name="activity">활동</string>
+    <string name="create_card">크레딧 카드</string>
+    <string name="create_stack">스택 생성</string>
+    <string name="create_board">새 게시판 만들기</string>
+
+    <string name="add_account">계정 추가</string>
+    <string name="accounts">계정</string>
+
+    <string name="label_menu">메뉴</string>
+    <string name="action_card_assign">이 카드를 사용자에게 할당</string>
+    <string name="action_card_unassign">사용자로부터 카드 할당 취소</string>
+    <string name="action_card_archive">보관 카드</string>
+    <string name="action_card_delete">카드 삭제</string>
+    <string name="add_board">보드 추가</string>
+    <string name="action_card_list_add_column">열 추가</string>
+    <string name="action_card_list_delete_column">열 삭제</string>
+    <string name="action_card_list_board_details">게시판 정보</string>
+    <string name="simple_title">제목</string>
+
+    <string name="label_clear_due_date">만료 날짜 지우기</string>
+
+    <string name="label_create">생성 %1$s</string>
+    <string name="no_columns_available">사용 가능한 열이 없음</string>
+    <string name="error">오류가 나타남</string>
+    <string name="simple_copy">복사</string>
+    <string name="simple_exception">예외</string>
+    <string name="copied_to_clipboard">클립보드로 복사</string>
+    <string name="simple_close">닫기</string>
+
+    <string name="card_edit_details">세부사항</string>
+    <string name="card_edit_attachments">첨부</string>
+    <string name="card_edit_activity">활동</string>
+    <string name="about_server_app_version_text">서버 앱 버전:</string>
+    </resources>

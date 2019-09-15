@@ -86,4 +86,5 @@
     <string name="card_edit_details">Ayrıntılar</string>
     <string name="card_edit_attachments">Ek dosyalar</string>
     <string name="card_edit_activity">İşlem</string>
-</resources>
+    <string name="about_server_app_version_text">Sunucu uygulaması sürümü:</string>
+    </resources>

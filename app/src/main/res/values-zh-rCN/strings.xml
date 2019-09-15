@@ -86,4 +86,5 @@
     <string name="card_edit_details">详情</string>
     <string name="card_edit_attachments">附件</string>
     <string name="card_edit_activity">动态</string>
-</resources>
+    <string name="about_server_app_version_text">服务器应用版本：</string>
+    </resources>

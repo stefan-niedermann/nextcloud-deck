@@ -83,4 +83,8 @@
     <string name="copied_to_clipboard">Kopieret til udklipsholderen</string>
     <string name="simple_close">luk</string>
 
+    <string name="card_edit_details">Detaljer</string>
+    <string name="card_edit_attachments">Vedhæftede filer</string>
+    <string name="card_edit_activity">Aktivitet</string>
+    <string name="about_server_app_version_text">Server version</string>
     </resources>

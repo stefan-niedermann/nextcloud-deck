@@ -1,32 +1,90 @@
 <resources>
+    <string name="navigation_drawer_open">Odpri bočno okno</string>
+    <string name="navigation_drawer_close">Zapri bočno okno</string>
+    <string name="nav_header_subtitle">Odjemalec na program Nextcloud Deck</string>
+    <string name="nav_header_desc">Glava bočnega okna</string>
     <string name="action_settings">Nastavitve</string>
 
+    <string name="drawer_header_background">Slika ozadja glave bočnega okna</string>
+    <string name="drawer_current_account">Trenutni račun</string>
+    <string name="drawer_middle_account">Srednji račun</string>
+    <string name="drawer_end_account">Zadnji račun</string>
+    <string name="drawer_manage_accounts">Upravljanje z računi</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Zbirke</string>
+    <string name="simple_cancel">Prekliči</string>
+    <string name="simple_create">Ustvari</string>
+    <string name="simple_save">Shrani</string>
+
+    <string name="edit_board">Uredi zbirko</string>
+    <string name="archive_board">Arhiviraj zbirko</string>
+    <string name="delete_board">Izbriši zbirko</string>
 
     <!-- About -->
     <string name="about">O programu</string>
     <string name="about_version_title">Različica</string>
-    <string name="about_version">Trenutno je v uporabi &lt;strong>%1$s&lt;/strong></string>
+    <string name="about_version">Trenutno je v uporabi %1$s</string>
     <string name="about_maintainer_title">Vzdrževalec</string>
     <string name="about_developers_title">Razvijalci</string>
     <string name="about_translators_title">Prevajalci</string>
-    <string name="about_translators_transifex">Skupnost Nextcloud na &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Skupnost Nextcloud na %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Preizkuševalci</string>
     <string name="about_source_title">Izvorna koda</string>
-    <string name="about_source">Projekt uporablja okolje GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Projekt gostuje na GitHub: %1$s</string>
     <string name="about_issues_title">Odzivi</string>
-    <string name="about_issues">Poročila o hroščih, predloge za izboljšave in prošnje za nove programske zmožnosti je mogoče objaviti na sledilniku GitHub: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Poročila o hroščih, predloge za izboljšave in prošnje za nove programske zmožnosti je mogoče objaviti na sledilniku GitHub: %1$s</string>
     <string name="about_translate_title">Prevodi</string>
-    <string name="about_translate">Za urejanje prevodov Projekta Nextcloud se uporablja spletno okolje Transifex: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Pridružite se skupini Nextcloud na spletišču Transifex in pomagajte pri prevodu programa: %1$s</string>
     <string name="about_app_license_title">Dovoljenje za uporabo</string>
     <string name="about_app_license">Program je objavljen pod pogoji Splošnega javnega dovoljenja (GNU GPL) različice 3 ali novejše.</string>
     <string name="about_app_license_button">Podrobno besedilo dovoljenja</string>
     <string name="about_icons_disclaimer_title">Ikone</string>
-    <string name="about_icons_disclaimer">&lt;p>Ikono programa je ustvaril %1$s&lt;/p>&lt;p>Vse ostale ikone, uporabljene v programu, so del zbirke  &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a>, ki jo je pod pogoji dovoljenja Apache 2.0 objavilo podjetje Google Inc.&lt;/p></string>
+    <string name="about_icons_disclaimer">Ikono programa je ustvaril %1$s. Vse ostale ikone, uporabljene v programu, so del zbirke %2$s, ki jo je pod pogoji dovoljenja Apache 2.0 objavilo podjetje Google Inc..</string>
+    <string name="about_icons_disclaimer_mdi">Ikone Material Design</string>
     <string name="about_credits_tab_title">Zasluge</string>
     <string name="about_contribution_tab_title">Skupnost</string>
     <string name="about_license_tab_title">Dovoljenje</string>
 
-    <string name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-
     <string name="seconds_ago">pred nekaj sekundami</string>
-</resources>
+    <string name="edit">Uredi</string>
+    <string name="label_title">Naslov</string>
+    <string name="label_labels">Izbor oznak</string>
+    <string name="label_description">Opis</string>
+    <string name="hint_assign_people">Dodeli uporabnike</string>
+    <string name="hint_due_date_date">Datum preteka</string>
+    <string name="activity">Dejavnost</string>
+    <string name="create_card">Ustvari nalogo</string>
+    <string name="create_stack">Ustvari paket</string>
+    <string name="create_board">Ustvari zbirko</string>
+
+    <string name="add_account">Dodaj račun</string>
+    <string name="accounts">Računi</string>
+
+    <string name="label_menu">Meni</string>
+    <string name="action_card_assign">Nalogo dodeli meni</string>
+    <string name="action_card_unassign">Odstrani me z naloge</string>
+    <string name="action_card_archive">Arhiviraj nalogo</string>
+    <string name="action_card_delete">Izbriši nalogo</string>
+    <string name="add_board">Dodaj zbirko</string>
+    <string name="action_card_list_add_column">Dodaj stolpec</string>
+    <string name="action_card_list_delete_column">Izbriši stolpec</string>
+    <string name="action_card_list_board_details">Podrobnosti zbirke</string>
+    <string name="simple_title">Naslov</string>
+
+    <string name="label_clear_due_date">Počisti datum poteka</string>
+
+    <string name="label_create">Ustvari %1$s</string>
+    <string name="no_columns_available">Ni razpoložljivih stolpcev</string>
+    <string name="error">Prišlo je do napake</string>
+    <string name="simple_copy">kopiraj</string>
+    <string name="simple_exception">Izjema</string>
+    <string name="copied_to_clipboard">Kopirano v odložišče</string>
+    <string name="simple_close">zapri</string>
+
+    <string name="card_edit_details">Podrobnosti</string>
+    <string name="card_edit_attachments">Priloge</string>
+    <string name="card_edit_activity">Dejavnost</string>
+    <string name="about_server_app_version_text">Različica programa na strežniku:</string>
+    </resources>

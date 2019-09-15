@@ -24,7 +24,7 @@
     <!-- About -->
     <string name="about">O aplikacji</string>
     <string name="about_version_title">Wersja</string>
-    <string name="about_version">Obecnie używasz %1$s</string>
+    <string name="about_version">Aktualnie używasz %1$s</string>
     <string name="about_maintainer_title">Opiekun</string>
     <string name="about_developers_title">Deweloperzy</string>
     <string name="about_translators_title">Tłumacze</string>
@@ -86,4 +86,5 @@
     <string name="card_edit_details">Szczegóły</string>
     <string name="card_edit_attachments">Załączniki</string>
     <string name="card_edit_activity">Aktywność</string>
-</resources>
+    <string name="about_server_app_version_text">Wersja aplikacji serwera:</string>
+    </resources>
