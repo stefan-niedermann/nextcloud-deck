@@ -1,2 +1,3 @@
 - Deleted Stack still shown (#88)
 - When I click on the "Delete column" option, the application crashes. (#102)
+- Correctly remember last selected board when creating board, stack and card
