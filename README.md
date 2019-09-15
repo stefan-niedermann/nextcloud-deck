@@ -28,10 +28,10 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 ## 🚀 Features
 * Supports multiple accounts
-* Display boards, stacks and cards
 * Assign cards to users
 * Create, edit and delete boards
-* Create stacks
+* Create and delete stacks
+* Create, edit and delete cards
 
 ## 🏁 Planned features
 * Full [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r) compatibility
