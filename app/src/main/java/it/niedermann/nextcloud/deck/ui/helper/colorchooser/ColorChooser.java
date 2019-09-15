@@ -63,6 +63,7 @@ public class ColorChooser extends LinearLayout {
     }
 
     public void selectColor(String newColor) {
+        selectedColor = newColor;
         for (int i = 0; i < colors.length; i++) {
             if (colors[i].equals(newColor)) {
                 colorPicker.getChildAt(i).performClick();
