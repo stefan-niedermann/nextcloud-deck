@@ -157,15 +157,19 @@ public class MainActivity extends DrawerActivity {
         String colorToSet = color.startsWith("#") ? color.substring(1) : color;
         b.setColor(colorToSet);
         LiveDataHelper.observeOnce(syncManager.createBoard(account.getId(), b), this, board -> {
-            boardsList.add(board.getBoard());
-            currentBoardId = board.getLocalId();
-            buildSidenavMenu();
+            if(board == null) {
+                Snackbar.make(coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG);
+            } else {
+                boardsList.add(board.getBoard());
+                currentBoardId = board.getLocalId();
+                buildSidenavMenu();
 
-            // Remember last board for this account
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
-            editor.putLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), currentBoardId);
-            editor.apply();
+                // Remember last board for this account
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
+                editor.putLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), currentBoardId);
+                editor.apply();
+            }
         });
     }
 
