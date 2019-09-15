@@ -120,4 +120,5 @@
     <string name="no_files_attached_to_this_card">There are no files attached to this card.</string>
     <string name="attachments">Attachments</string>
     <string name="no_cards">No cards yet</string>
+    <string name="no_account">No account configured</string>
 </resources>

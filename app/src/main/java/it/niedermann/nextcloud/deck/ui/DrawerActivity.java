@@ -33,6 +33,7 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -237,39 +238,62 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(account.getName());
     }
 
+    protected void setNoAccountHeaderView() {
+        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), null, "");
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(getResources().getString(R.string.no_account));
+    }
+
     private void buildSidenavAccountChooser() {
         Menu menu = navigationView.getMenu();
         menu.clear();
-        int index = 0;
-        for (Account account : this.accountsList) {
-            final int currentIndex = index;
-            MenuItem m = menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
-            AppCompatImageButton contextMenu = new AppCompatImageButton(this);
-            contextMenu.setBackgroundDrawable(null);
-            contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_delete_black_24dp, R.color.grey600));
-            contextMenu.setOnClickListener((v) -> {
-                if (currentIndex != 0) { // Select first account after deletion
-                    this.account = accountsList.get(0);
-                } else if (accountsList.size() > 1) { // Select second account after deletion
-                    this.account = accountsList.get(1);
-                }
-                SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                syncManager = new SyncManager(this);
-                setHeaderView();
-                accountChooserActive = false;
-                accountSet(this.account);
+        if (accountsList == null || accountsList.size() == 0) {
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
+            setNoAccountHeaderView();
+        } else {
+            int index = 0;
+            for (Account account : this.accountsList) {
+                final int currentIndex = index;
+                MenuItem m = menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+                AppCompatImageButton contextMenu = new AppCompatImageButton(this);
+                contextMenu.setBackgroundDrawable(null);
+                contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_delete_black_24dp, R.color.grey600));
+                contextMenu.setOnClickListener((v) -> {
+                    if (currentIndex != 0) { // Select first account after deletion
+                        this.account = accountsList.get(0);
+                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                        syncManager = new SyncManager(this);
+                        accountSet(this.account);
+                        setHeaderView();
+                        accountChooserActive = false;
 
-                syncManager.deleteAccount(account.getId());
-                buildSidenavAccountChooser();
-                drawer.closeDrawer(GravityCompat.START);
+                        // Remember last account
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        DeckLog.log("--- Write: shared_preference_last_account" + " | " + this.account.getId());
+                        editor.putLong(getString(R.string.shared_preference_last_account), this.account.getId());
+                        editor.apply();
+                    } else if (accountsList.size() > 1) { // Select second account after deletion
+                        this.account = accountsList.get(1);
+                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                        syncManager = new SyncManager(this);
+                        accountSet(this.account);
+                        setHeaderView();
+                        accountChooserActive = false;
 
-                // Remember last account
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                DeckLog.log("--- Write: shared_preference_last_account" + " | " + this.account.getId());
-                editor.putLong(getString(R.string.shared_preference_last_account), this.account.getId());
-                editor.apply();
-            });
-            m.setActionView(contextMenu);
+                        // Remember last account
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        DeckLog.log("--- Write: shared_preference_last_account" + " | " + this.account.getId());
+                        editor.putLong(getString(R.string.shared_preference_last_account), this.account.getId());
+                        editor.apply();
+                    } else {
+                        accountsList.clear();
+                    }
+
+                    syncManager.deleteAccount(account.getId());
+                    buildSidenavAccountChooser();
+                    drawer.closeDrawer(GravityCompat.START);
+                });
+                m.setActionView(contextMenu);
+            }
         }
         menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }
