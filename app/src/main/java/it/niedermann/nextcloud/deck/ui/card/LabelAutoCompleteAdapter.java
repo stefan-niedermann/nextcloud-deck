@@ -17,6 +17,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,7 +111,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
                     lastFilterText = constraint.toString();
-                    ((Fragment) owner).getActivity().runOnUiThread(() -> {
+                    Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
                         LiveDataHelper.observeOnce(syncManager.searchLabelByTitle(accountId, boardId, constraint.toString()), owner, labels -> {
                             createLabel.setTitle(String.format(createLabelText, constraint));
                             if (labels != null) {
