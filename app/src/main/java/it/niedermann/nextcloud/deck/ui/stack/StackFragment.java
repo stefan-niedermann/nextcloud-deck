@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,7 +76,7 @@ public class StackFragment extends Fragment {
         stackId = getArguments().getLong(KEY_STACK_ID);
         account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
 
-        syncManager = new SyncManager(getActivity());
+        syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
         initRecyclerView();
 
         if (getActivity() != null) {
