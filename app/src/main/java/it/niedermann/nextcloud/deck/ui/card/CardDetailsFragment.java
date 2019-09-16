@@ -148,6 +148,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (fullCard != null) {
                     fullCard.getCard().setDescription(description.getText().toString());
+                    if (activity instanceof EditActivity) {
+                        ((EditActivity) activity).setDescription(description.getText().toString());
+                    } else {
+                        DeckLog.log("activity is not an instance of EditActivity");
+                    }
                 }
             }
 
@@ -379,6 +384,12 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         c.set(year, month, dayOfMonth, hourOfDay, minute);
         this.fullCard.getCard().setDueDate(c.getTime());
         dueDate.setText(dateFormat.format(c.getTime()));
+
+        if (activity instanceof EditActivity) {
+            ((EditActivity) activity).setDueDate(fullCard.card.getDueDate());
+        } else {
+            DeckLog.log("activity is not an instance of EditActivity");
+        }
     }
 
     @Override
@@ -389,16 +400,5 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.fullCard.getCard().getDueDate().setHours(hourOfDay);
         this.fullCard.getCard().getDueDate().setMinutes(minute);
         dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate().getTime()));
-    }
-
-    @Override
-    public void onPause() {
-        if (activity instanceof EditActivity) {
-            ((EditActivity) activity).setDescription(description.getText().toString());
-            ((EditActivity) activity).setDueDate(fullCard.card.getDueDate());
-        } else {
-            DeckLog.log("activity is not an instance of EditActivity");
-        }
-        super.onPause();
     }
 }
