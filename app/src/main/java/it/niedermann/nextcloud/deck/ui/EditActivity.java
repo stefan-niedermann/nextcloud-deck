@@ -118,13 +118,11 @@ public class EditActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else {
-                syncManager.getCardByLocalId(accountId, localId)
-                        .observe(EditActivity.this, (next) -> {
-                            fullCard = next;
-                            title.setText(fullCard.getCard().getTitle());
-                        });
-
-                setupViewPager();
+                observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
+                    fullCard = next;
+                    title.setText(fullCard.getCard().getTitle());
+                    setupViewPager();
+                });
             }
         } else {
             throw new IllegalArgumentException("No localId argument");
