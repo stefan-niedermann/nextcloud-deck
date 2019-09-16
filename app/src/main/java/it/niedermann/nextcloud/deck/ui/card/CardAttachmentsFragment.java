@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -70,7 +71,7 @@ public class CardAttachmentsFragment extends Fragment {
 
     private void setupView(long accountId, long localId, long boardId) {
         SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
-        syncManager.getCardByLocalId(accountId, localId).observe(CardAttachmentsFragment.this, (fullCard) -> {
+        observeOnce(syncManager.getCardByLocalId(accountId, localId), CardAttachmentsFragment.this, (fullCard) -> {
             if (fullCard.getAttachments().size() == 0) {
                 this.noAttachments.setVisibility(View.VISIBLE);
                 this.attachmentsList.setVisibility(View.GONE);

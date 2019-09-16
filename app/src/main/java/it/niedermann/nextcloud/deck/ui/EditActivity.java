@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -61,6 +60,8 @@ public class EditActivity extends AppCompatActivity {
     private long stackId;
     private long localId;
 
+    private boolean createMode;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +70,8 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         unbinder = ButterKnife.bind(this);
 
-        ActionBar actionBar = getSupportActionBar();
-        Objects.requireNonNull(actionBar).setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -78,7 +79,7 @@ public class EditActivity extends AppCompatActivity {
                     fullCard.getCard().setTitle(title.getText().toString());
                 }
                 String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.add_card) : getString(R.string.edit);
-                Objects.requireNonNull(actionBar).setTitle(prefix + " " + title.getText());
+                actionBar.setTitle(prefix + " " + title.getText());
             }
 
             @Override
@@ -98,24 +99,36 @@ public class EditActivity extends AppCompatActivity {
             localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
             syncManager = new SyncManager(this);
 
-            if (NO_LOCAL_ID.equals(localId)) {
-                Objects.requireNonNull(actionBar).setTitle(getString(R.string.add_card));
-                fullCard = new FullCard();
-                Card pristineCard = new Card("", "", stackId);
-                pristineCard.setAccountId(accountId);
-                fullCard.setCard(pristineCard);
+            createMode = NO_LOCAL_ID.equals(localId);
+            if (createMode) {
+                actionBar.setTitle(getString(R.string.add_card));
+                try {
+                    observeOnce(syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId), EditActivity.this, (user) -> {
+                        Card newCard = new Card("", "", stackId);
+                        newCard.setUserId(user.getLocalId());
+                        observeOnce(syncManager.createCard(accountId, boardId, stackId, newCard), EditActivity.this, (fullCard) -> {
+                            this.fullCard = fullCard;
+                            this.localId = fullCard.getLocalId();
+                            setupViewPager();
+                        });
+                    });
+                } catch (NextcloudFilesAppAccountNotFoundException e) {
+                    e.printStackTrace();
+                } catch (NoCurrentAccountSelectedException e) {
+                    e.printStackTrace();
+                }
             } else {
                 syncManager.getCardByLocalId(accountId, localId)
                         .observe(EditActivity.this, (next) -> {
                             fullCard = next;
                             title.setText(fullCard.getCard().getTitle());
                         });
+
+                setupViewPager();
             }
         } else {
             throw new IllegalArgumentException("No localId argument");
         }
-
-        setupViewPager();
     }
 
     @Override
@@ -143,20 +156,7 @@ public class EditActivity extends AppCompatActivity {
                 fullCard.getCard().setTitle("");
             }
         }
-
-        if (NO_LOCAL_ID.equals(localId)) { // Card is new
-            try {
-                observeOnce(syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId), EditActivity.this, (user) -> {
-                    fullCard.card.setUserId(user.getLocalId());
-                    observeOnce(syncManager.createCard(accountId, boardId, stackId, fullCard.card), EditActivity.this, (card) -> finish());
-                });
-            } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "An error appeared while creating the card.", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            observeOnce(syncManager.updateCard(fullCard.card), EditActivity.this, (card) -> finish());
-        }
+        observeOnce(syncManager.updateCard(fullCard.card), EditActivity.this, (card) -> finish());
     }
 
     private void setupViewPager() {
@@ -174,17 +174,21 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void setDescription(String description) {
-        this.fullCard.card.setDescription(description);
+        this.fullCard.getCard().setDescription(description);
     }
 
     public void setDueDate(Date dueDate) {
-        this.fullCard.card.setDueDate(dueDate);
+        this.fullCard.getCard().setDueDate(dueDate);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish(); // close this activity as oppose to navigating up
-        return false;
+        if (createMode) {
+            observeOnce(syncManager.deleteCard(fullCard.getCard()), EditActivity.this, (c) -> finish());
+        } else {
+            finish(); // close this activity as oppose to navigating up
+        }
+        return true;
     }
 
     @Override
@@ -193,6 +197,10 @@ public class EditActivity extends AppCompatActivity {
                 .setTitle(R.string.simple_save)
                 .setMessage(R.string.do_you_want_to_save_your_changes)
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> saveAndFinish())
-                .setNegativeButton(R.string.simple_dismiss, (dialog, whichButton) -> super.onBackPressed()).show();
+                .setNegativeButton(R.string.simple_dismiss, (dialog, whichButton) -> {
+                    if (createMode) {
+                        observeOnce(syncManager.deleteCard(fullCard.getCard()), EditActivity.this, (c) -> super.onBackPressed());
+                    }
+                }).show();
     }
 }

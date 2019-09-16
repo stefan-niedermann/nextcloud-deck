@@ -44,7 +44,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -59,7 +58,6 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class CardDetailsFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
@@ -171,21 +169,13 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private void setupView(long accountId, long localId, long boardId) {
         syncManager = new SyncManager(activity);
 
-        if (NO_LOCAL_ID.equals(localId)) {
-            fullCard = new FullCard();
-            fullCard.setCard(new Card());
+        observeOnce(syncManager.getCardByLocalId(accountId, localId), CardDetailsFragment.this, (next) -> {
+            fullCard = next;
             setupPeople(accountId);
             setupLabels(accountId, boardId);
             setupDueDate();
-        } else {
-            syncManager.getCardByLocalId(accountId, localId).observe(CardDetailsFragment.this, (next) -> {
-                fullCard = next;
-                setupPeople(accountId);
-                setupLabels(accountId, boardId);
-                setupDueDate();
-                description.setText(fullCard.getCard().getDescription());
-            });
-        }
+            description.setText(fullCard.getCard().getDescription());
+        });
 
         dueDate.setOnClickListener(v -> {
             if (fullCard != null && fullCard.getCard() != null) {
