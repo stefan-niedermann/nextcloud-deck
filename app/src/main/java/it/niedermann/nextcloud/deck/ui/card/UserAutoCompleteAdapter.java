@@ -22,6 +22,7 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,8 +30,9 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
+
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     private Context activity;
@@ -100,8 +102,8 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
-                    ((Fragment) owner).getActivity().runOnUiThread(() -> {
-                        LiveDataHelper.observeOnce(syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString()), owner, users -> {
+                    Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
+                        observeOnce(syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString()), owner, users -> {
                             if (users != null) {
                                 filterResults.values = users;
                                 filterResults.count = users.size();

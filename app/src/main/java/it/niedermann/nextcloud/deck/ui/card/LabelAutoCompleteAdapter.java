@@ -24,8 +24,9 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
+
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable {
     public static final long CREATE_ID = Long.MIN_VALUE;
@@ -112,7 +113,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                 if (constraint != null) {
                     lastFilterText = constraint.toString();
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
-                        LiveDataHelper.observeOnce(syncManager.searchLabelByTitle(accountId, boardId, constraint.toString()), owner, labels -> {
+                        observeOnce(syncManager.searchLabelByTitle(accountId, boardId, constraint.toString()), owner, labels -> {
                             createLabel.setTitle(String.format(createLabelText, constraint));
                             if (labels != null) {
                                 labels.add(createLabel);
