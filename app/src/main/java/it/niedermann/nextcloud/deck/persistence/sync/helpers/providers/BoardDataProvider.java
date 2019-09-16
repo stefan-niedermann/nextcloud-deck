@@ -124,7 +124,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard fullBoard) {
-        dataBaseAdapter.deleteBoard(fullBoard.getBoard(), false);
+        dataBaseAdapter.deleteBoard(fullBoard.getBoard(), true);
     }
 
     @Override

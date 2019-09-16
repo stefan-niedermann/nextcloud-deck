@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -22,6 +23,7 @@ public class DataPropagationHelper {
     }
     public <T extends IRemoteEntity> void createEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback, OnResponseAction<T> actionOnResponse){
         final long accountId = callback.getAccount().getId();
+        entity.setStatus(DBStatus.LOCAL_EDITED.getId());
         long newID = provider.createInDB(dataBaseAdapter, accountId, entity);
         entity.setLocalId(newID);
         boolean connected = serverAdapter.hasInternetConnection();
@@ -35,6 +37,7 @@ public class DataPropagationHelper {
                         if (actionOnResponse!= null) {
                             actionOnResponse.onResponse(entity, response);
                         }
+                        response.setStatus(DBStatus.UP_TO_DATE.getId());
                         provider.updateInDB(dataBaseAdapter, accountId, response);
                         callback.onResponse(response);
                     }).start();
@@ -55,6 +58,7 @@ public class DataPropagationHelper {
 
     public <T extends IRemoteEntity> void updateEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback){
         final long accountId = callback.getAccount().getId();
+        entity.setStatus(DBStatus.LOCAL_EDITED.getId());
         provider.updateInDB(dataBaseAdapter, accountId, entity);
         boolean connected = serverAdapter.hasInternetConnection();
         if (connected) {
@@ -62,6 +66,8 @@ public class DataPropagationHelper {
                 @Override
                 public void onResponse(T response) {
                     new Thread(() -> {
+                        entity.setStatus(DBStatus.UP_TO_DATE.getId());
+                        provider.updateInDB(dataBaseAdapter, accountId, entity);
                         callback.onResponse(entity);
                     }).start();
                 }
