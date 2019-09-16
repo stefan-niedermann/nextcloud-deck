@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -81,14 +80,14 @@ public class ServerAdapter {
     }
 
     private String getLastSyncDateFormatted(long accountId) {
-//        return null;
-        String lastSyncHeader = API_FORMAT.format(getLastSync(accountId));
-        // omit Offset of timezone (e.g.: +01:00)
-        if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
-            lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
-        }
-        DeckLog.log("lastSync "+lastSyncHeader);
-        return lastSyncHeader;
+        return null;
+//        String lastSyncHeader = API_FORMAT.format(getLastSync(accountId));
+//        // omit Offset of timezone (e.g.: +01:00)
+//        if (lastSyncHeader.matches("^.*\\+[0-9]{2}:[0-9]{2}$")) {
+//            lastSyncHeader = lastSyncHeader.substring(0, lastSyncHeader.length()-6);
+//        }
+//        DeckLog.log("lastSync "+lastSyncHeader);
+//        return lastSyncHeader;
     }
 
     private Date getLastSync(long accountId) {
