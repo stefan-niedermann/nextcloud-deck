@@ -39,7 +39,7 @@
                     android:gravity="center"
                     android:text="@string/no_cards"
                     android:textAlignment="center"
-                    android:textSize="26sp" />
+                    android:textSize="@dimen/empty_content_font_size" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView

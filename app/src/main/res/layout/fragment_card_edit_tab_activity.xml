@@ -25,7 +25,7 @@
         android:paddingTop="@dimen/standard_padding"
         android:paddingBottom="@dimen/standard_padding"
         android:text="@string/activity"
-        android:textSize="26sp" />
+        android:textSize="@dimen/empty_content_font_size" />
 
     <TextView
         android:id="@+id/empty_list_view_text"
