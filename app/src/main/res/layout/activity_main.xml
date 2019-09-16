@@ -13,6 +13,52 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:id="@+id/no_stacks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_above="@+id/no_stacks_text"
+                    android:contentDescription="@string/no_columns"
+                    android:tint="@color/fg_secondary"
+                    android:layout_marginBottom="-40dp"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <TextView
+                    android:id="@+id/no_stacks_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="@string/no_columns"
+                    android:textAlignment="center"
+                    android:paddingBottom="@dimen/standard_padding"
+                    android:textSize="@dimen/empty_content_font_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/no_stacks_text"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/create_a_new_stack_using_the_button" />
+            </RelativeLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -36,43 +82,6 @@
                 app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <RelativeLayout
-                android:id="@+id/no_stacks"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_alignBottom="@+id/no_stacks_text"
-                    android:contentDescription="@string/no_columns"
-                    android:tint="@color/fg_secondary"
-                    app:srcCompat="@drawable/ic_launcher_foreground" />
-
-                <TextView
-                    android:id="@+id/no_stacks_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:text="@string/no_columns"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/empty_content_font_size" />
-            </RelativeLayout>
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

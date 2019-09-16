@@ -128,4 +128,6 @@
     <string name="do_you_want_to_save_your_changes">Do you want to save your changes?</string>
     <string name="simple_dismiss">dismiss</string>
     <string name="do_you_want_to_delete_the_current_column">Do you want to delete the current column?</string>
+    <string name="create_a_new_stack_using_the_button">Create a new stack using the + button.</string>
+    <string name="create_a_new_card_using_the_button">Create a new card using the + button</string>
 </resources>
