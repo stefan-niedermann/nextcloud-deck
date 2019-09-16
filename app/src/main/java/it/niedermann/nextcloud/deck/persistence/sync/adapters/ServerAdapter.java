@@ -167,7 +167,6 @@ public class ServerAdapter {
 
     public void updateCard(long boardId, long stackId, CardUpdate card, IResponseCallback<FullCard> responseCallback) {
         ensureInternetConnection();
-        DeckLog.printCurrentStacktrace();
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateCard(boardId, stackId, card.getId(), card), responseCallback);
     }
 

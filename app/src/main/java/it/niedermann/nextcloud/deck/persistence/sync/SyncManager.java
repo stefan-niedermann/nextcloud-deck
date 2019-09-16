@@ -556,7 +556,7 @@ public class SyncManager {
         return serverAdapter.getApiUrl();
     }
 
-    public void reorder(Long accountId, FullCard movedCard, long newStackId, int newPosition) {
+    public void reorder(long accountId, FullCard movedCard, long newStackId, int newPosition) {
 
         doAsync(() -> {
             if (serverAdapter.hasInternetConnection()){
@@ -574,18 +574,56 @@ public class SyncManager {
                     }
                 });
             } else {
-                // reorder locally:
-                // set new stack and order
-                Card card = movedCard.getCard();
-                int oldOrder = card.getOrder();
-                long oldStackId = card.getStackId();
-                card.setStackId(newStackId);
-                card.setOrder(newPosition);
-                // read cards of new stackstarting from destination-order
-                LiveData<List<FullCard>> cardsOfNewStack = dataBaseAdapter.getFullCardsForStack(accountId, newStackId);
-
-                // update cards up to source-order
+                reorderLocally(accountId, movedCard, newStackId, newPosition);
             }
         });
+    }
+
+    private void reorderLocally(long accountId, FullCard movedCard, long newStackId, int newOrder) {
+        // set new stack and order
+        Card card = movedCard.getCard();
+        int oldOrder = card.getOrder();
+        long oldStackId = card.getStackId();
+        if (newOrder == oldOrder && newStackId == oldStackId){
+            return;
+        }
+
+        // read cards of new stack
+        List<FullCard> cardsOfNewStack = dataBaseAdapter.getFullCardsForStackDirectly(accountId, newStackId);
+        int updateFromOrder = 0;
+        int updateToOrder = 0;
+        int offset = 1;
+        if (oldStackId == newStackId){
+            // card was only reordered in the same stack
+            if (oldOrder > newOrder){
+                updateFromOrder = newOrder;
+                updateToOrder = oldOrder;
+            } else {
+                offset = -1;
+                updateFromOrder = oldOrder;
+                updateToOrder = newOrder;
+            }
+        } else {
+            // card was moved to an other stack
+            updateFromOrder = newOrder;
+            updateToOrder =  cardsOfNewStack.isEmpty() ?
+                            updateFromOrder :
+                            cardsOfNewStack.get(cardsOfNewStack.size()-1).getCard().getOrder();
+        }
+        // update cards up to source-order
+        for (FullCard cardToUpdate : cardsOfNewStack) {
+            Card cardEntity = cardToUpdate.getCard();
+            if (cardEntity.getOrder() < updateFromOrder) {
+                continue;
+            }
+            if (cardEntity.getOrder() > updateToOrder){
+                break;
+            }
+            cardEntity.setOrder(cardEntity.getOrder() + offset);
+            dataBaseAdapter.updateCard(cardEntity, true);
+        }
+        card.setStackId(newStackId);
+        card.setOrder(newOrder);
+        dataBaseAdapter.updateCard(card, true);
     }
 }
