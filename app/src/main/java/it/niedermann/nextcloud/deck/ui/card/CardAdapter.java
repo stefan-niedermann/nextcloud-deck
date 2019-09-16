@@ -41,6 +41,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
@@ -108,7 +109,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
             // Create a new ClipData.Item from the ImageView object's tag
 
-            ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId()+"");
+            ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId() + "");
 
             // Starts the drag
             draggedView.startDrag(dragData,  // the data to be dragged
@@ -139,6 +140,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.peopleList.setVisibility(View.GONE);
         }
 
+        if (DBStatus.LOCAL_EDITED.equals(card.getStatusEnum())) {
+            viewHolder.notSyncedYet.setVisibility(View.VISIBLE);
+        }
 
         if (card.getCard().getDueDate() != null) {
             setupDueDate(viewHolder.cardDueDate, card.getCard());
@@ -357,6 +361,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextView cardCountAttachments;
         @BindView(R.id.card_menu)
         ImageView cardMenu;
+        @BindView(R.id.not_synced_yet)
+        ImageView notSyncedYet;
 
         private CardViewHolder(View view) {
             super(view);

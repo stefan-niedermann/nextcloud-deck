@@ -44,6 +44,18 @@
                 tools:ignore="RtlSymmetry"
                 tools:text="This is a really longCard Title" />
 
+            <ImageView
+                android:id="@+id/not_synced_yet"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_sync_blue_24dp"
+                android:contentDescription="@string/not_synced_yet" />
+
             <TextView
                 android:id="@+id/card_due_date"
                 android:layout_width="wrap_content"
