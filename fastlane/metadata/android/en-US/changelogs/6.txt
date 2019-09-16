@@ -3,3 +3,7 @@
 - Correctly remember last selected board when creating board, stack and card
 - Display a sync icon next to cards with local changes
 - Fix offline board handling (creation and deletion)
+- New create and edit workflow
+- Assign labels and users to a card while still creating it
+- New empty content views
+- Persist dragged and dropped cards
