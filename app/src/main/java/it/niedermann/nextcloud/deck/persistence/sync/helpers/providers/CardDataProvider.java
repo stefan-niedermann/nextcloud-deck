@@ -100,6 +100,11 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
+        updateInDB(dataBaseAdapter, accountId, entity, false);
+    }
+
+    @Override
     public void goDeeper(SyncHelper syncHelper, FullCard existingEntity, FullCard entityFromServer, IResponseCallback<Boolean> callback) {
         List<Label> labels = entityFromServer.getLabels();
         existingEntity.setLabels(labels);

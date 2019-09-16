@@ -60,6 +60,12 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+        updateInDB(dataBaseAdapter, accountId, entity, false);
+    }
+
+
+    @Override
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, IResponseCallback<Boolean> callback) {
         List<Label> labels = entityFromServer.getLabels();
         if (labels != null && !labels.isEmpty()){

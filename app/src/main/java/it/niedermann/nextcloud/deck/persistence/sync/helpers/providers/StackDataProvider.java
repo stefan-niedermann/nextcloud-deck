@@ -48,6 +48,11 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
+        updateInDB(dataBaseAdapter, accountId, entity, false);
+    }
+
+    @Override
     public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer, IResponseCallback<Boolean> callback) {
         existingEntity.setCards(entityFromServer.getCards());
         List<Card> cards = existingEntity.getCards();

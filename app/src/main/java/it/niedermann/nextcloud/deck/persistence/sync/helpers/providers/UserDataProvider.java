@@ -47,6 +47,11 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, User entity) {
+        updateInDB(dataBaseAdapter, accountId, entity, false);
+    }
+
+    @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<User> responder, User entity) {
         //TODO: implement
     }

@@ -53,6 +53,11 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
+        updateInDB(dataBaseAdapter, accountId, entity, false);
+    }
+
+    @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<AccessControl> responder, AccessControl entity) {
         //TODO: implement
     }
