@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/no_cards_text"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/create_a_new_card_using_the_button" />
+                    android:text="@string/add_a_new_card_using_the_button" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView

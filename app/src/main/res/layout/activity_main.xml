@@ -28,14 +28,14 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:layout_above="@+id/no_stacks_text"
+                    android:layout_above="@+id/no_columns_text"
                     android:contentDescription="@string/no_columns"
                     android:tint="@color/fg_secondary"
                     android:layout_marginBottom="-40dp"
                     app:srcCompat="@drawable/ic_launcher_foreground" />
 
                 <TextView
-                    android:id="@+id/no_stacks_text"
+                    android:id="@+id/no_columns_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -48,9 +48,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/no_stacks_text"
+                    android:layout_below="@id/no_columns_text"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/create_a_new_stack_using_the_button" />
+                    android:text="@string/add_a_new_column_using_the_button" />
             </RelativeLayout>
 
             <androidx.viewpager.widget.ViewPager
