@@ -57,7 +57,8 @@ public class SyncHelper {
                         provider.goDeeper(SyncHelper.this, existingEntity, entityFromServer, responseCallback);
                     }
 
-                    provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
+                    // FIXME !!!
+                    // provider.handleDeletes(serverAdapter, dataBaseAdapter, accountId, response);
 
                     provider.doneGoingDeeper(responseCallback, true);
                 } else {
