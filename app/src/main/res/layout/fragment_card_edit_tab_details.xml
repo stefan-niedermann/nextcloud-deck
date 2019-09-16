@@ -13,28 +13,6 @@
         android:padding="@dimen/standard_padding">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
-                android:contentDescription="@null"
-                app:srcCompat="@drawable/ic_person_grey600_24dp" />
-
-            <it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView
-                android:id="@+id/people"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_assign_people" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/peopleList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,6 +96,28 @@
                 android:padding="@dimen/standard_half_padding"
                 android:visibility="invisible"
                 app:srcCompat="@drawable/ic_close_circle_grey600" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_person_grey600_24dp" />
+
+            <it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView
+                android:id="@+id/people"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_assign_people" />
         </LinearLayout>
 
         <LinearLayout
