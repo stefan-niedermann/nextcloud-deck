@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -58,6 +59,8 @@ public class MainActivity extends DrawerActivity {
     TabLayout stackLayout;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.no_stacks)
+    RelativeLayout noStacks;
 
     private StackAdapter stackAdapter;
 
@@ -289,10 +292,17 @@ public class MainActivity extends DrawerActivity {
         }
 
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
-            if (fullStacks != null) {
+            if (fullStacks == null) {
+                noStacks.setVisibility(View.VISIBLE);
+            } else {
                 long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId, NO_STACKS);
                 DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
                 stackAdapter.clear();
+                if (fullStacks.size() == 0) {
+                    noStacks.setVisibility(View.VISIBLE);
+                } else {
+                    noStacks.setVisibility(View.GONE);
+                }
                 for (int i = 0; i < fullStacks.size(); i++) {
                     FullStack stack = fullStacks.get(i);
                     stackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());

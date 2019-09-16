@@ -5,8 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -42,6 +41,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:id="@+id/no_stacks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignBottom="@+id/no_stacks_text"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/no_stacks"
+                    android:tint="@color/fg_secondary"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <TextView
+                    android:id="@+id/no_stacks_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="@string/no_stacks"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/empty_content_font_size" />
+            </RelativeLayout>
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPager"

@@ -124,4 +124,5 @@
     <string name="account_already_added">Account already added</string>
     <string name="account_is_getting_imported">Account is getting imported</string>
     <string name="not_synced_yet">Not synced yet</string>
+    <string name="no_stacks">No stacks yet</string>
 </resources>

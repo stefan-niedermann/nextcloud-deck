@@ -31,7 +31,7 @@
                     android:tint="@color/fg_secondary"
                     app:srcCompat="@drawable/ic_launcher_foreground" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/no_cards_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
