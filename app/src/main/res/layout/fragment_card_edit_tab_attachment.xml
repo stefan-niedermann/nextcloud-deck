@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/standard_margin"
         android:layout_marginRight="@dimen/standard_margin"
-        app:srcCompat="@drawable/ic_folder_grey600_24dp" />
+        app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
 
     <TextView
         android:id="@+id/filename"

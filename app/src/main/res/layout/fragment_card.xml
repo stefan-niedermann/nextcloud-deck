@@ -126,8 +126,8 @@
                     android:maxLines="1"
                     android:minLines="0"
                     android:padding="@dimen/standard_quarter_padding"
-                    app:drawableLeftCompat="@drawable/ic_folder_grey600_24dp"
-                    app:drawableStartCompat="@drawable/ic_folder_grey600_24dp"
+                    app:drawableLeftCompat="@drawable/ic_attach_file_grey600_24dp"
+                    app:drawableStartCompat="@drawable/ic_attach_file_grey600_24dp"
                     tools:text="1"
                     android:gravity="end"/>
 

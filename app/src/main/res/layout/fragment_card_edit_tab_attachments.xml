@@ -27,7 +27,7 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_folder_grey600_24dp" />
+            app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
 
         <TextView
             android:id="@+id/empty_list_view_headline"
