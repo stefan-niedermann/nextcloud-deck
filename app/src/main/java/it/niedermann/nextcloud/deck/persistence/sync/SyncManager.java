@@ -559,23 +559,30 @@ public class SyncManager {
     public void reorder(long accountId, FullCard movedCard, long newStackId, int newPosition) {
 
         doAsync(() -> {
-            if (serverAdapter.hasInternetConnection()){
-                // call reorder
-                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
-                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
-                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-                serverAdapter.reorder(board.getId(), movedCard, newStackId, newPosition, new IResponseCallback<List<FullCard>>(account){
-
+            // FIXME this is only a workaround
+//            if (serverAdapter.hasInternetConnection()){
+//                // call reorder
+//                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
+//                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+//                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
+//                serverAdapter.reorder(board.getId(), movedCard, newStackId, newPosition, new IResponseCallback<List<FullCard>>(account){
+//
+//                    @Override
+//                    public void onResponse(List<FullCard> response) {
+//                        for (FullCard fullCard : response) {
+//                            DeckLog.log("move: stackid "+fullCard.getCard().getStackId());
+//                        }
+//                    }
+//                });
+//            } else {
+                reorderLocally(accountId, movedCard, newStackId, newPosition);
+                synchronize(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(accountId)) {
                     @Override
-                    public void onResponse(List<FullCard> response) {
-                        for (FullCard fullCard : response) {
-                            DeckLog.log("move: stackid "+fullCard.getCard().getStackId());
-                        }
+                    public void onResponse(Boolean response) {
+
                     }
                 });
-            } else {
-                reorderLocally(accountId, movedCard, newStackId, newPosition);
-            }
+//            }
         });
     }
 

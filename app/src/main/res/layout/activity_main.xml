@@ -46,7 +46,6 @@
                 android:id="@+id/no_stacks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:visibility="gone"
                 tools:visibility="visible">
 
@@ -54,7 +53,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:layout_alignBottom="@+id/no_stacks_text"
-                    android:layout_gravity="center"
                     android:contentDescription="@string/no_stacks"
                     android:tint="@color/fg_secondary"
                     app:srcCompat="@drawable/ic_launcher_foreground" />
