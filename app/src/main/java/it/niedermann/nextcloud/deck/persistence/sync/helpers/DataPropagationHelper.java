@@ -67,7 +67,7 @@ public class DataPropagationHelper {
                 public void onResponse(T response) {
                     new Thread(() -> {
                         entity.setStatus(DBStatus.UP_TO_DATE.getId());
-                        provider.updateInDB(dataBaseAdapter, accountId, entity);
+                        provider.updateInDB(dataBaseAdapter, accountId, entity, false);
                         callback.onResponse(entity);
                     }).start();
                 }

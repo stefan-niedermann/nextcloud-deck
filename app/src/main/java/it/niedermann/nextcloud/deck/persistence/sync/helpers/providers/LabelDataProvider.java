@@ -41,8 +41,8 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     }
 
     @Override
-    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity) {
-        dataBaseAdapter.updateLabel(entity, false);
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity, boolean setStatus) {
+        dataBaseAdapter.updateLabel(entity, setStatus);
     }
 
     @Override

@@ -368,15 +368,6 @@ public class SyncManager {
             });
         });
         return liveData;
-
-
-        //TODO: Tell the server
-//        doAsync(()->{
-//            Card existingCard = dataBaseAdapter.getCardByRemoteIdDirectly(card.getAccountId(), card.getId());
-//            if (!existingCard.equals(card)){
-//                dataBaseAdapter.updateCard(card, true);
-//            }
-//        });
     }
 
     public long createLabel(long accountId, Label label) {

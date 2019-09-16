@@ -42,8 +42,8 @@ public class UserDataProvider extends AbstractSyncDataProvider<User> {
     }
 
     @Override
-    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, User entity) {
-        dataBaseAdapter.updateUser(accountId, entity, false);
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, User entity, boolean setStatus) {
+        dataBaseAdapter.updateUser(accountId, entity, setStatus);
     }
 
     @Override

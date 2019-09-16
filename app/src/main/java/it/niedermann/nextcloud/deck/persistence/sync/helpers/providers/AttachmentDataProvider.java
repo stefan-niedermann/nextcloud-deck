@@ -37,9 +37,9 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     }
 
     @Override
-    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment) {
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment, boolean setStatus) {
         attachment.setCardId(card.getCard().getLocalId());
-        dataBaseAdapter.updateAttachment(accountId, attachment, false);
+        dataBaseAdapter.updateAttachment(accountId, attachment, setStatus);
 
     }
 

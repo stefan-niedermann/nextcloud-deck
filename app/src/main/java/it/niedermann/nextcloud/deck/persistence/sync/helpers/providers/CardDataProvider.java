@@ -94,9 +94,9 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     }
 
     @Override
-    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity, boolean setStatus) {
         fixRelations(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.updateCard(entity.getCard(), false);
+        dataBaseAdapter.updateCard(entity.getCard(), setStatus);
     }
 
     @Override

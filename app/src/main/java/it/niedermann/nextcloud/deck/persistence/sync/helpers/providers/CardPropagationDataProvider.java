@@ -24,9 +24,9 @@ public class CardPropagationDataProvider extends CardDataProvider {
 
 
     @Override
-    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity, boolean setStatus) {
         fixRelations(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.updateCard(entity.getCard(), true);
+        dataBaseAdapter.updateCard(entity.getCard(), setStatus);
     }
 
     @Override

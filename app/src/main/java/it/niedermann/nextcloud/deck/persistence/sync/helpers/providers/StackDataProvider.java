@@ -42,9 +42,9 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     }
 
     @Override
-    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity, boolean setStatus) {
         entity.getStack().setBoardId(board.getLocalId());
-        dataBaseAdapter.updateStack(entity.getStack(), false);
+        dataBaseAdapter.updateStack(entity.getStack(), setStatus);
     }
 
     @Override

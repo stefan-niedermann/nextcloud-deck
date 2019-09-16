@@ -57,7 +57,11 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public abstract long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, T b);
 
-    public abstract void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t) {
+        updateInDB(dataBaseAdapter, accountId, t, true);
+    }
+
+    public abstract void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t, boolean setStatus);
 
     public abstract void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t);
 

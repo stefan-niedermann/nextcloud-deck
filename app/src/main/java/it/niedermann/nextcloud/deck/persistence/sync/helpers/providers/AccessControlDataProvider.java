@@ -47,9 +47,9 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity, boolean setStatus) {
         prepareUser(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.updateAccessControl(entity, false);
+        dataBaseAdapter.updateAccessControl(entity, setStatus);
     }
 
     @Override

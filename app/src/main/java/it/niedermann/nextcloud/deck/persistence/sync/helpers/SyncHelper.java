@@ -113,7 +113,7 @@ public class SyncHelper {
             @Override
             public void onResponse(T response) {
                 response.setAccountId(this.account.getId());
-                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(entity, response, accountId));
+                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(entity, response, accountId), false);
             }
 
             @Override

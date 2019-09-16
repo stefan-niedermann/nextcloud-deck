@@ -54,9 +54,9 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     @Override
-    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+    public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity, boolean setStatus) {
         handleOwner(dataBaseAdapter, accountId, entity);
-        dataBaseAdapter.updateBoard(entity.getBoard(), false);
+        dataBaseAdapter.updateBoard(entity.getBoard(), setStatus);
     }
 
     @Override
