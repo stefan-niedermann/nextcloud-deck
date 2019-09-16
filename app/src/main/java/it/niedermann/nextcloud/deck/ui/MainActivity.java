@@ -10,6 +10,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.PopupMenu;
@@ -35,7 +36,6 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
@@ -44,6 +44,7 @@ import it.niedermann.nextcloud.deck.ui.stack.StackCreateDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -137,7 +138,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     public void onCreateStack(String stackName) {
-        LiveDataHelper.observeOnce(syncManager.getStacksForBoard(account.getId(), currentBoardId), MainActivity.this, fullStacks -> { // FIXME fullStacks.size() is always 0
+        observeOnce(syncManager.getStacksForBoard(account.getId(), currentBoardId), MainActivity.this, fullStacks -> { // FIXME fullStacks.size() is always 0
             Stack s = new Stack();
             s.setTitle(stackName);
             s.setBoardId(currentBoardId);
@@ -163,7 +164,7 @@ public class MainActivity extends DrawerActivity {
         b.setTitle(title);
         String colorToSet = color.startsWith("#") ? color.substring(1) : color;
         b.setColor(colorToSet);
-        LiveDataHelper.observeOnce(syncManager.createBoard(account.getId(), b), this, board -> {
+        observeOnce(syncManager.createBoard(account.getId(), b), this, board -> {
             if (board == null) {
                 Snackbar.make(coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG);
             } else {
@@ -330,11 +331,17 @@ public class MainActivity extends DrawerActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_card_list_delete_column:
-                long stackId = stackAdapter.getItem(viewPager.getCurrentItem()).getStackId();
-                LiveDataHelper.observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
-                    DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
-                    syncManager.deleteStack(fullStack.getStack());
-                });
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.action_card_list_delete_column)
+                        .setMessage(R.string.do_you_want_to_delete_the_current_column)
+                        .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                            long stackId = stackAdapter.getItem(viewPager.getCurrentItem()).getStackId();
+                            observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
+                                DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
+                                syncManager.deleteStack(fullStack.getStack());
+                            });
+                        })
+                        .setNegativeButton(android.R.string.cancel, null).show();
                 break;
             case R.id.action_card_list_add_column:
                 new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
