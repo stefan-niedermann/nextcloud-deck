@@ -36,7 +36,7 @@ public final class ViewUtil {
         long diff = DateUtil.getDayDifference(new Date(), dueDate);
 
         int backgroundDrawable = 0;
-        int textColor = R.color.default_text_color;
+        int textColor = R.color.black;
 
         if (diff == 1) {
             // due date: tomorrow

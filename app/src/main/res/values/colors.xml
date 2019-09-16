@@ -11,7 +11,7 @@
     <!-- due date colors -->
     <color name="due_tomorrow">#7fffc53a</color>
     <color name="due_today">#7feca700</color>
-    <color name="due_overdue">#7fe9322d</color>
+    <color name="due_overdue">#d40000</color>
     <color name="default_text_color">#808080</color>
     <color name="overdue_text_color">#FFFFFF</color>
 
