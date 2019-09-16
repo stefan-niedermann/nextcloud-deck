@@ -49,13 +49,13 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -266,7 +266,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 Label newLabel = new Label(label);
                 newLabel.setTitle(((LabelAutoCompleteAdapter) labels.getAdapter()).getLastFilterText());
                 newLabel.setLocalId(null);
-                LiveDataHelper.observeOnce(syncManager.createAndAssignLabelToCard(accountId, newLabel, fullCard.getLocalId()), CardDetailsFragment.this, createdLabel -> {
+                observeOnce(syncManager.createAndAssignLabelToCard(accountId, newLabel, fullCard.getLocalId()), CardDetailsFragment.this, createdLabel -> {
                     Chip chip = createChipFromLabel(createdLabel);
                     chip.setOnCloseIconClickListener(v -> {
                         labelsGroup.removeView(chip);

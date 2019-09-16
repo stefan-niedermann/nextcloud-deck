@@ -136,30 +136,26 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void saveAndFinish() {
-        if (NO_LOCAL_ID.equals(localId)) {
-            if (fullCard.getCard().getTitle().isEmpty()) {
-                if (!fullCard.getCard().getDescription().isEmpty()) {
-                    fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
-                } else {
-                    finish();
-                }
+        if (fullCard.getCard().getTitle().isEmpty()) {
+            if (!fullCard.getCard().getDescription().isEmpty()) {
+                fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
+            } else {
+                fullCard.getCard().setTitle("");
             }
+        }
 
+        if (NO_LOCAL_ID.equals(localId)) { // Card is new
             try {
                 observeOnce(syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId), EditActivity.this, (user) -> {
                     fullCard.card.setUserId(user.getLocalId());
-                    observeOnce(syncManager.createCard(accountId, boardId, stackId, fullCard.card), EditActivity.this, (card) -> {
-                        finish();
-                    });
+                    observeOnce(syncManager.createCard(accountId, boardId, stackId, fullCard.card), EditActivity.this, (card) -> finish());
                 });
             } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "An error appeared while creating the card.", Toast.LENGTH_LONG).show();
             }
         } else {
-            observeOnce(syncManager.updateCard(fullCard.card), EditActivity.this, (card) -> {
-                finish();
-            });
+            observeOnce(syncManager.updateCard(fullCard.card), EditActivity.this, (card) -> finish());
         }
     }
 
@@ -194,9 +190,8 @@ public class EditActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.simple_save))
-                .setMessage(getString(R.string.do_you_want_to_save_your_changes))
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.simple_save)
+                .setMessage(R.string.do_you_want_to_save_your_changes)
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> saveAndFinish())
                 .setNegativeButton(R.string.simple_dismiss, (dialog, whichButton) -> super.onBackPressed()).show();
     }
