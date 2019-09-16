@@ -34,6 +34,6 @@
         android:layout_gravity="center_horizontal"
         android:ellipsize="end"
         android:gravity="center"
-        android:text="Not implemented yet" />
+        android:text="@string/this_feature_will_be_implemented_in_a_future_version" />
 
 </LinearLayout>

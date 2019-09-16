@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Tableros</string>
     <string name="simple_cancel">Cancelar</string>
-    <string name="simple_create">Crear</string>
+    <string name="simple_add">Crear</string>
     <string name="simple_save">Guardar</string>
 
     <string name="edit_board">Editar tablero</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Fecha de fin</string>
     <string name="activity">Actividad</string>
-    <string name="create_card">Crear tarjeta</string>
-    <string name="create_stack">Crear pila</string>
+    <string name="add_card">Crear tarjeta</string>
+    <string name="add_column">Crear pila</string>
     <string name="create_board">Crear tablero</string>
 
     <string name="add_account">Añadir cuenta</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Borrar fecha de finalización</string>
 
-    <string name="label_create">Crear %1$s</string>
+    <string name="label_add">Crear %1$s</string>
     <string name="no_columns_available">No hay columnas disponibles</string>
     <string name="error">Ha aparecido un error</string>
     <string name="simple_copy">copiar</string>

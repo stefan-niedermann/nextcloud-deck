@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Desky</string>
     <string name="simple_cancel">Storno</string>
-    <string name="simple_create">Vytvořit</string>
+    <string name="simple_add">Vytvořit</string>
     <string name="simple_save">Uložit</string>
 
     <string name="edit_board">Upravit nástěnku</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Přiřadit uživatele</string>
     <string name="hint_due_date_date">Datum termínu</string>
     <string name="activity">Aktivita</string>
-    <string name="create_card">Vytvořit kartu</string>
-    <string name="create_stack">Vytvořit zásobník</string>
+    <string name="add_card">Vytvořit kartu</string>
+    <string name="add_column">Vytvořit zásobník</string>
     <string name="create_board">Vytvořit nástěnku</string>
 
     <string name="add_account">Přidat účet</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Vymazat termín</string>
 
-    <string name="label_create">Vytvořit %1$s</string>
+    <string name="label_add">Vytvořit %1$s</string>
     <string name="no_columns_available">Nejsou k dispozici žádné sloupce</string>
     <string name="error">Objevila se chyba</string>
     <string name="simple_copy">zkopírovat</string>

@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Táblák</string>
     <string name="simple_cancel">Mégse</string>
-    <string name="simple_create">Létrehozás</string>
+    <string name="simple_add">Létrehozás</string>
     <string name="simple_save">Mentés</string>
 
     <string name="edit_board">Tábla szerkesztése</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Felhasználók hozzárendelése</string>
     <string name="hint_due_date_date">Határidő</string>
     <string name="activity">Tevékenység</string>
-    <string name="create_card">Kártya létrehozása</string>
-    <string name="create_stack">Rakás létrehozása</string>
+    <string name="add_card">Kártya létrehozása</string>
+    <string name="add_column">Rakás létrehozása</string>
     <string name="create_board">Tábla létrehozása</string>
 
     <string name="add_account">Fiók hozzáadása</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
 
-    <string name="label_create">%1$s létrehozása</string>
+    <string name="label_add">%1$s létrehozása</string>
     <string name="no_columns_available">Nem érhető el oszlop</string>
     <string name="error">Hiba történt</string>
     <string name="simple_copy">másolat</string>

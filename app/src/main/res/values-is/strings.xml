@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Borð</string>
     <string name="simple_cancel">Hætta við</string>
-    <string name="simple_create">Búa til</string>
+    <string name="simple_add">Búa til</string>
 
     <!-- About -->
     <string name="about">Um hugbúnaðinn</string>
@@ -48,8 +48,8 @@
     <string name="hint_assign_people">Tilnefna notendur</string>
     <string name="hint_due_date_date">Skiladagur</string>
     <string name="activity">Virkni</string>
-    <string name="create_card">Búa til spjald</string>
-    <string name="create_stack">Búa til stafla</string>
+    <string name="add_card">Búa til spjald</string>
+    <string name="add_column">Búa til stafla</string>
     <string name="create_board">Búa til borð</string>
 
     <string name="add_account">Bæta við notandaaðgangi</string>

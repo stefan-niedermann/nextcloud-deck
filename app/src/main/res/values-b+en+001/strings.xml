@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
     <string name="simple_cancel">Cancel</string>
-    <string name="simple_create">Create</string>
+    <string name="simple_add">Create</string>
 
     <!-- About -->
     <string name="about">About</string>
@@ -48,8 +48,8 @@
     <string name="hint_assign_people">Assign users</string>
     <string name="hint_due_date_date">Due date</string>
     <string name="activity">Activity</string>
-    <string name="create_card">Create card</string>
-    <string name="create_stack">Create stack</string>
+    <string name="add_card">Create card</string>
+    <string name="add_column">Create stack</string>
     <string name="create_board">Create board</string>
 
     <string name="add_account">Add account</string>
@@ -67,5 +67,5 @@
 
     <string name="label_clear_due_date">Clear due date</string>
 
-    <string name="label_create">Create %1$s</string>
+    <string name="label_add">Create %1$s</string>
 </resources>

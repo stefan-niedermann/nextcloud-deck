@@ -17,7 +17,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
     <string name="simple_cancel">Cancel</string>
-    <string name="simple_create">Create</string>
+    <string name="simple_add">Add</string>
     <string name="simple_save">Save</string>
 
     <string name="edit_board">Edit board</string>
@@ -65,9 +65,8 @@
     <string name="hint_due_date_time" translatable="false">00:00</string>
 
     <string name="activity">Activity</string>
-    <string name="create_card">Create card</string>
-    <string name="create_stack">Create stack</string>
-    <string name="create_board">Create board</string>
+    <string name="add_card">Add card</string>
+    <string name="add_column">Add column</string>
 
     <string name="attachment_count_max_value" translatable="false">+99</string>
     <string name="add_account">Add account</string>
@@ -86,7 +85,7 @@
 
     <string name="label_clear_due_date">Clear due date</string>
 
-    <string name="label_create">Create %1$s</string>
+    <string name="label_add">Add %1$s</string>
     <string name="no_columns_available">No columns available</string>
     <string name="error">An error appeared</string>
     <string name="simple_copy">copy</string>
@@ -95,24 +94,24 @@
     <string name="simple_close">close</string>
 
     <!-- URLs -->
-    <string translatable="false" name="url_maintainer">https://www.niedermann.it/</string>
-    <string translatable="false" name="url_about_icon_author">https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1</string>
-    <string translatable="false" name="url_source">https://github.com/stefan-niedermann/nextcloud-deck</string>
-    <string translatable="false" name="url_issues">https://github.com/stefan-niedermann/nextcloud-deck/issues</string>
-    <string translatable="false" name="url_license">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
-    <string translatable="false" name="url_translations">https://www.transifex.com/nextcloud/nextcloud/</string>
-    <string translatable="false" name="url_files">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
-    <string translatable="false" name="url_about_icons_disclaimer_mdi">https://materialdesignicons.com/</string>
+    <string name="url_maintainer" translatable="false">https://www.niedermann.it/</string>
+    <string name="url_about_icon_author" translatable="false">https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1</string>
+    <string name="url_source" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck</string>
+    <string name="url_issues" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/issues</string>
+    <string name="url_license" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
+    <string name="url_translations" translatable="false">https://www.transifex.com/nextcloud/nextcloud/</string>
+    <string name="url_files" translatable="false">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
+    <string name="url_about_icons_disclaimer_mdi" translatable="false">https://materialdesignicons.com/</string>
 
     <!-- HTML Tags -->
 
-    <string translatable="false" name="anchor_start">&lt;a href="</string>
-    <string translatable="false" name="anchor_middle">"></string>
-    <string translatable="false" name="anchor_end">&lt;/a></string>
-    <string translatable="false" name="paragraph_start">&lt;p></string>
-    <string translatable="false" name="paragraph_end">&lt;/p></string>
-    <string translatable="false" name="strong_start">&lt;strong></string>
-    <string translatable="false" name="strong_end">&lt;/strong></string>
+    <string name="anchor_start" translatable="false">&lt;a href="</string>
+    <string name="anchor_middle" translatable="false">"></string>
+    <string name="anchor_end" translatable="false">&lt;/a></string>
+    <string name="paragraph_start" translatable="false">&lt;p></string>
+    <string name="paragraph_end" translatable="false">&lt;/p></string>
+    <string name="strong_start" translatable="false">&lt;strong></string>
+    <string name="strong_end" translatable="false">&lt;/strong></string>
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Attachments</string>
     <string name="card_edit_activity">Activity</string>
@@ -124,5 +123,6 @@
     <string name="account_already_added">Account already added</string>
     <string name="account_is_getting_imported">Account is getting imported</string>
     <string name="not_synced_yet">Not synced yet</string>
-    <string name="no_stacks">No stacks yet</string>
+    <string name="no_columns">No columns yet</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">This feature will be implemented in a future version.</string>
 </resources>

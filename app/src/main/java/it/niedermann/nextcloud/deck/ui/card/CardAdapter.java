@@ -323,11 +323,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private boolean optionsItemSelected(MenuItem item, FullCard card) {
         switch (item.getItemId()) {
             case R.id.action_card_assign: {
-                Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.this_feature_will_be_implemented_in_a_future_version, Toast.LENGTH_SHORT).show();
                 return true;
             }
             case R.id.action_card_unassign: {
-                Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.this_feature_will_be_implemented_in_a_future_version, Toast.LENGTH_SHORT).show();
                 return true;
             }
             case R.id.action_card_archive: {

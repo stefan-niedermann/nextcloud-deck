@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Katlar</string>
     <string name="simple_cancel">İptal</string>
-    <string name="simple_create">Ekle</string>
+    <string name="simple_add">Ekle</string>
     <string name="simple_save">Kaydet</string>
 
     <string name="edit_board">Panoyu düzenle</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Kullanıcı ata</string>
     <string name="hint_due_date_date">Bitiş tarihi</string>
     <string name="activity">Etkinlik</string>
-    <string name="create_card">Kart ekle</string>
-    <string name="create_stack">Yığın ekle</string>
+    <string name="add_card">Kart ekle</string>
+    <string name="add_column">Yığın ekle</string>
     <string name="create_board">Pano ekle</string>
 
     <string name="add_account">Hesap ekle</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Bitiş tarihini temizle</string>
 
-    <string name="label_create">%1$s Ekle</string>
+    <string name="label_add">%1$s Ekle</string>
     <string name="no_columns_available">Kullanılabilecek bir sütun yok</string>
     <string name="error">Bir sorun çıktı</string>
     <string name="simple_copy">kopyala</string>

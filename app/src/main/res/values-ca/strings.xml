@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Taulells</string>
     <string name="simple_cancel">Cancel·la</string>
-    <string name="simple_create">Crea</string>
+    <string name="simple_add">Crea</string>
     <string name="simple_save">Desa</string>
 
     <string name="edit_board">Edita el tauler</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Assigna usuaris</string>
     <string name="hint_due_date_date">Data de venciment</string>
     <string name="activity">Activitat</string>
-    <string name="create_card">Crea una targeta</string>
-    <string name="create_stack">Crea una pila</string>
+    <string name="add_card">Crea una targeta</string>
+    <string name="add_column">Crea una pila</string>
     <string name="create_board">Crea un tauler</string>
 
     <string name="add_account">Afegeix un compte</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Neteja la data de venciment</string>
 
-    <string name="label_create">Crea %1$s</string>
+    <string name="label_add">Crea %1$s</string>
     <string name="no_columns_available">No hi ha columnes disponibles</string>
     <string name="error">S\'ha produït un error</string>
     <string name="simple_copy">copia</string>

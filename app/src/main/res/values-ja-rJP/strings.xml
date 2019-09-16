@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">ボード</string>
     <string name="simple_cancel">キャンセル</string>
-    <string name="simple_create">作成</string>
+    <string name="simple_add">作成</string>
     <string name="simple_save">保存</string>
 
     <string name="edit_board">ボードを編集</string>
@@ -48,8 +48,8 @@
     <string name="hint_assign_people">ユーザーを割り当てる</string>
     <string name="hint_due_date_date">期限</string>
     <string name="activity">アクティビティ</string>
-    <string name="create_card">クレジットカード</string>
-    <string name="create_stack">スタックを作る。</string>
+    <string name="add_card">クレジットカード</string>
+    <string name="add_column">スタックを作る。</string>
     <string name="create_board">ボードを作成</string>
 
     <string name="add_account">アカウントを追加</string>
@@ -67,7 +67,7 @@
 
     <string name="label_clear_due_date">期限を削除</string>
 
-    <string name="label_create">作成 %1$s</string>
+    <string name="label_add">作成 %1$s</string>
     <string name="no_columns_available">使用可能なカラムがありません</string>
     <string name="error">エラーが見つかりました</string>
     <string name="simple_copy">コピー</string>

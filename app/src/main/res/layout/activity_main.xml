@@ -53,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:layout_alignBottom="@+id/no_stacks_text"
-                    android:contentDescription="@string/no_stacks"
+                    android:contentDescription="@string/no_columns"
                     android:tint="@color/fg_secondary"
                     app:srcCompat="@drawable/ic_launcher_foreground" />
 
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:text="@string/no_stacks"
+                    android:text="@string/no_columns"
                     android:textAlignment="center"
                     android:textSize="@dimen/empty_content_font_size" />
             </RelativeLayout>

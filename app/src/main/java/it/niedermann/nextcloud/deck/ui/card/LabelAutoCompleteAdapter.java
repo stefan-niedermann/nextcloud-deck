@@ -49,7 +49,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         createLabel.setLocalId(CREATE_ID);
         createLabel.setBoardId(boardId);
         createLabel.setAccountId(accountId);
-        createLabelText = activity.getResources().getString(R.string.label_create);
+        createLabelText = activity.getResources().getString(R.string.label_add);
         createLabel.setColor("757575");
     }
 

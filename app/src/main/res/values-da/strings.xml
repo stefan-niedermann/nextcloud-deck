@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Tavler</string>
     <string name="simple_cancel">Annuller</string>
-    <string name="simple_create">Opret</string>
+    <string name="simple_add">Opret</string>
     <string name="simple_save">Gem</string>
 
     <string name="edit_board">Rediger liste</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Tildel brugere</string>
     <string name="hint_due_date_date">Forfaldsdato</string>
     <string name="activity">Aktivitet</string>
-    <string name="create_card">Opret kort</string>
-    <string name="create_stack">Opret stak</string>
+    <string name="add_card">Opret kort</string>
+    <string name="add_column">Opret stak</string>
     <string name="create_board">Opret liste</string>
 
     <string name="add_account">Tilføj konto</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Ryd forfaldsdato</string>
 
-    <string name="label_create">Opret %1$s</string>
+    <string name="label_add">Opret %1$s</string>
     <string name="no_columns_available">Ingen kolonner tilgængelige</string>
     <string name="error">Der skete en fejl</string>
     <string name="simple_copy">kopier</string>

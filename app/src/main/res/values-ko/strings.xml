@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">게시판</string>
     <string name="simple_cancel">취소</string>
-    <string name="simple_create">생성</string>
+    <string name="simple_add">생성</string>
     <string name="simple_save">저장</string>
 
     <string name="edit_board">게시판 편집</string>
@@ -50,8 +50,8 @@
     <string name="hint_assign_people">사용자 할당</string>
     <string name="hint_due_date_date">만료 날짜</string>
     <string name="activity">활동</string>
-    <string name="create_card">크레딧 카드</string>
-    <string name="create_stack">스택 생성</string>
+    <string name="add_card">크레딧 카드</string>
+    <string name="add_column">스택 생성</string>
     <string name="create_board">새 게시판 만들기</string>
 
     <string name="add_account">계정 추가</string>
@@ -70,7 +70,7 @@
 
     <string name="label_clear_due_date">만료 날짜 지우기</string>
 
-    <string name="label_create">생성 %1$s</string>
+    <string name="label_add">생성 %1$s</string>
     <string name="no_columns_available">사용 가능한 열이 없음</string>
     <string name="error">오류가 나타남</string>
     <string name="simple_copy">복사</string>

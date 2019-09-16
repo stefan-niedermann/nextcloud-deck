@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
     <string name="simple_cancel">Abbrechen</string>
-    <string name="simple_create">Erstellen</string>
+    <string name="simple_add">Erstellen</string>
     <string name="simple_save">Speichern</string>
 
     <string name="edit_board">Board bearbeiten</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Benutzer zuweisen</string>
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
     <string name="activity">Aktivität</string>
-    <string name="create_card">Karte erstellen</string>
-    <string name="create_stack">Neuer Stapel</string>
+    <string name="add_card">Karte erstellen</string>
+    <string name="add_column">Neuer Stapel</string>
     <string name="create_board">Neues Board</string>
 
     <string name="add_account">Konto hinzufügen</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Fälligkeitsdatum löschen</string>
 
-    <string name="label_create">%1$s erstellen</string>
+    <string name="label_add">%1$s erstellen</string>
     <string name="no_columns_available">Keine Spalten verfügbar</string>
     <string name="error">Es ist ein Fehler aufgetreten</string>
     <string name="simple_copy">kopieren</string>

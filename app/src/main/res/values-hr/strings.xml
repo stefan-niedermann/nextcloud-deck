@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Ploče</string>
     <string name="simple_cancel">Odustani</string>
-    <string name="simple_create">Stvori</string>
+    <string name="simple_add">Stvori</string>
     <string name="simple_save">Spremi</string>
 
     <string name="edit_board">Uredi ploču</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Dodijeli korisnike</string>
     <string name="hint_due_date_date">Datum dospijeća</string>
     <string name="activity">Aktivnost</string>
-    <string name="create_card">Stvori karticu</string>
-    <string name="create_stack">Stvori stog</string>
+    <string name="add_card">Stvori karticu</string>
+    <string name="add_column">Stvori stog</string>
     <string name="create_board">Stvori ploču</string>
 
     <string name="add_account">Dodaj račun</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Izbriši datum dospijeća</string>
 
-    <string name="label_create">Stvori %1$s</string>
+    <string name="label_add">Stvori %1$s</string>
     <string name="no_columns_available">Nema dostupnih stupaca</string>
     <string name="error">Pojavila se pogreška</string>
     <string name="simple_copy">kopiraj</string>

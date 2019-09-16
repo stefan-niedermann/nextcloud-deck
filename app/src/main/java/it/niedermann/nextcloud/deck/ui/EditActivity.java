@@ -72,7 +72,7 @@ public class EditActivity extends AppCompatActivity {
                 if (fullCard != null) {
                     fullCard.getCard().setTitle(title.getText().toString());
                 }
-                String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.create_card) : getString(R.string.edit);
+                String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.add_card) : getString(R.string.edit);
                 Objects.requireNonNull(actionBar).setTitle(prefix + " " + title.getText());
             }
 
@@ -95,7 +95,7 @@ public class EditActivity extends AppCompatActivity {
             syncManager = new SyncManager(this);
 
             if (NO_LOCAL_ID.equals(localId)) {
-                Objects.requireNonNull(actionBar).setTitle(getString(R.string.create_card));
+                Objects.requireNonNull(actionBar).setTitle(getString(R.string.add_card));
                 fullCard = new FullCard();
                 Card pristineCard = new Card("", "", stackId);
                 pristineCard.setAccountId(accountId);

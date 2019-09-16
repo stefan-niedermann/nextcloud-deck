@@ -11,7 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">專案</string>
     <string name="simple_cancel">取消</string>
-    <string name="simple_create">建立</string>
+    <string name="simple_add">建立</string>
     <string name="simple_save">儲存</string>
 
     <string name="edit_board">編輯專案</string>
@@ -48,8 +48,8 @@
     <string name="hint_assign_people">指派負責人</string>
     <string name="hint_due_date_date">截止日</string>
     <string name="activity">活動</string>
-    <string name="create_card">建立作業卡</string>
-    <string name="create_stack">建立項目</string>
+    <string name="add_card">建立作業卡</string>
+    <string name="add_column">建立項目</string>
     <string name="create_board">建立專案</string>
 
     <string name="add_account">新增帳戶</string>
@@ -67,7 +67,7 @@
 
     <string name="label_clear_due_date">清除截止日</string>
 
-    <string name="label_create">建立%1$s</string>
+    <string name="label_add">建立%1$s</string>
     <string name="no_columns_available">無可用欄位</string>
     <string name="error">發生錯誤</string>
     <string name="simple_copy">複製</string>

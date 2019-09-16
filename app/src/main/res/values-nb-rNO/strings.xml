@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Tavler</string>
     <string name="simple_cancel">Avbryt</string>
-    <string name="simple_create">Opprett her</string>
+    <string name="simple_add">Opprett her</string>
 
     <!-- About -->
     <string name="about">Om</string>
@@ -58,5 +58,5 @@
 
     <string name="label_clear_due_date">Fjern forfallsdato</string>
 
-    <string name="label_create">Opprett her %1$s</string>
+    <string name="label_add">Opprett her %1$s</string>
 </resources>

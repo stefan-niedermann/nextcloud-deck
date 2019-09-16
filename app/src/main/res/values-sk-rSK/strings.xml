@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Nástenky</string>
     <string name="simple_cancel">Zrušiť</string>
-    <string name="simple_create">Vytvoriť</string>
+    <string name="simple_add">Vytvoriť</string>
     <string name="simple_save">Uložiť</string>
 
     <string name="edit_board">Upraviť nástenku</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Priradiť používateľov</string>
     <string name="hint_due_date_date">Termín dokončenia</string>
     <string name="activity">Aktivita</string>
-    <string name="create_card">Vytvoriť kartu</string>
-    <string name="create_stack">Vytvoriť stoh</string>
+    <string name="add_card">Vytvoriť kartu</string>
+    <string name="add_column">Vytvoriť stoh</string>
     <string name="create_board">Vytvoriť nástenku</string>
 
     <string name="add_account">Pridať účet</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
 
-    <string name="label_create">Vytvoriť %1$s</string>
+    <string name="label_add">Vytvoriť %1$s</string>
     <string name="no_columns_available">Nie sú k dispozícii žiadne stĺpce</string>
     <string name="error">Vyskytla sa chyba</string>
     <string name="simple_copy">kopírovať</string>

@@ -31,12 +31,12 @@ public class StackCreateDialogFragment extends DialogFragment {
         View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_stack_create, null);
         ButterKnife.bind(this, view);
         return new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.create_stack)
+                .setTitle(R.string.add_column)
                 .setView(view)
                 .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
                     // Do something else
                 })
-                .setPositiveButton(R.string.simple_create, (dialog, which) -> {
+                .setPositiveButton(R.string.simple_add, (dialog, which) -> {
                     ((MainActivity) getActivity()).onCreateStack(input.getText().toString());
                 })
                 .create();

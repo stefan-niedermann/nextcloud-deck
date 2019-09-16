@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Табле</string>
     <string name="simple_cancel">Поништи</string>
-    <string name="simple_create">Направи</string>
+    <string name="simple_add">Направи</string>
     <string name="simple_save">Сачувај</string>
 
     <string name="edit_board">Измени таблу</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Доделите кориснике</string>
     <string name="hint_due_date_date">Рок</string>
     <string name="activity">Активност</string>
-    <string name="create_card">Направите картицу</string>
-    <string name="create_stack">Направите гомилу</string>
+    <string name="add_card">Направите картицу</string>
+    <string name="add_column">Направите гомилу</string>
     <string name="create_board">Направите таблу</string>
 
     <string name="add_account">Додајте налог</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Избриши рок</string>
 
-    <string name="label_create">Направи %1$s</string>
+    <string name="label_add">Направи %1$s</string>
     <string name="no_columns_available">Нема доступних колона</string>
     <string name="error">Дошло је до грешке</string>
     <string name="simple_copy">копирај</string>

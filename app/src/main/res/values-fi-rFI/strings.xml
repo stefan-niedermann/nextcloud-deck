@@ -10,7 +10,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Taulut</string>
     <string name="simple_cancel">Peru</string>
-    <string name="simple_create">Luo</string>
+    <string name="simple_add">Luo</string>
     <string name="simple_save">Tallenna</string>
 
     <string name="edit_board">Muokkaa taulua</string>
@@ -44,8 +44,8 @@
     <string name="hint_assign_people">Määritä käyttäjät</string>
     <string name="hint_due_date_date">Eräpäivä</string>
     <string name="activity">Aktiviteetti</string>
-    <string name="create_card">Luo kortti</string>
-    <string name="create_stack">Luo pino</string>
+    <string name="add_card">Luo kortti</string>
+    <string name="add_column">Luo pino</string>
     <string name="create_board">Luo taulu</string>
 
     <string name="add_account">Lisää tili</string>
@@ -61,7 +61,7 @@
 
     <string name="label_clear_due_date">Poista eräpäivä</string>
 
-    <string name="label_create">Luo %1$s</string>
+    <string name="label_add">Luo %1$s</string>
     <string name="no_columns_available">Ei sarakkeita saatavilla</string>
     <string name="error">Tapahtui virhe</string>
     <string name="simple_exception">Poikkeus</string>

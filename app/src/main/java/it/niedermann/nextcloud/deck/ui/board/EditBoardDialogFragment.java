@@ -50,8 +50,8 @@ public class EditBoardDialogFragment extends DialogFragment {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
 
         if (NO_BOARD_ID.equals(boardId)) {
-            dialogBuilder.setTitle(R.string.create_board);
-            dialogBuilder.setPositiveButton(R.string.simple_create, (dialog, which) -> ((MainActivity) getActivity()).onCreateBoard(boardTitle.getText().toString(), colorChooser.getSelectedColor()));
+            dialogBuilder.setTitle(R.string.add_board);
+            dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> ((MainActivity) getActivity()).onCreateBoard(boardTitle.getText().toString(), colorChooser.getSelectedColor()));
             this.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & getResources().getColor(R.color.board_default_color)));
         } else {
             dialogBuilder.setTitle(R.string.edit_board);

@@ -12,7 +12,7 @@
     <string name="drawer_manage_accounts">Menaxhoni llogaritë</string>
 
     <string name="simple_cancel">Anullo</string>
-    <string name="simple_create">Krijo</string>
+    <string name="simple_add">Krijo</string>
     <string name="simple_save">Ruaj</string>
 
     <!-- About -->
@@ -57,7 +57,7 @@
 
     <string name="label_clear_due_date">Hiq datën e mbarimit</string>
 
-    <string name="label_create">Krijo %1$s</string>
+    <string name="label_add">Krijo %1$s</string>
     <string name="no_columns_available">Nuk ka kolona të disponueshme</string>
     <string name="error">U has një gabim</string>
     <string name="simple_copy">kopjo</string>

@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">לוחות</string>
     <string name="simple_cancel">ביטול</string>
-    <string name="simple_create">יצירה</string>
+    <string name="simple_add">יצירה</string>
     <string name="simple_save">שמור</string>
 
     <string name="edit_board">ערוך לוח</string>
@@ -52,8 +52,8 @@
     <string name="hint_assign_people">הקצאת משתמשים</string>
     <string name="hint_due_date_date">תאריך יעד</string>
     <string name="activity">פעילות</string>
-    <string name="create_card">יצירת כרטיס</string>
-    <string name="create_stack">יצירת חפיסה</string>
+    <string name="add_card">יצירת כרטיס</string>
+    <string name="add_column">יצירת חפיסה</string>
     <string name="create_board">יצירת לוח</string>
 
     <string name="add_account">הוספת חשבון</string>
@@ -71,5 +71,5 @@
 
     <string name="label_clear_due_date">הסרת מועד התפוגה</string>
 
-    <string name="label_create">יצירת %1$s</string>
+    <string name="label_add">יצירת %1$s</string>
     </resources>

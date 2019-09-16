@@ -14,7 +14,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Lavagne</string>
     <string name="simple_cancel">Annulla</string>
-    <string name="simple_create">Crea</string>
+    <string name="simple_add">Crea</string>
     <string name="simple_save">Salva</string>
 
     <string name="edit_board">Modifica lavagna</string>
@@ -55,8 +55,8 @@
     <string name="hint_assign_people">Assegna utenti</string>
     <string name="hint_due_date_date">Data di scadenza</string>
     <string name="activity">Attività</string>
-    <string name="create_card">Crea scheda</string>
-    <string name="create_stack">Crea pila</string>
+    <string name="add_card">Crea scheda</string>
+    <string name="add_column">Crea pila</string>
     <string name="create_board">Crea lavagna</string>
 
     <string name="add_account">Aggiungi account</string>
@@ -75,7 +75,7 @@
 
     <string name="label_clear_due_date">Cancella la scadenza</string>
 
-    <string name="label_create">Crea %1$s</string>
+    <string name="label_add">Crea %1$s</string>
     <string name="no_columns_available">Nessuna colonna disponibile</string>
     <string name="error">Si è verificato un errore</string>
     <string name="simple_copy">copia</string>

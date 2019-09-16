@@ -102,10 +102,10 @@ public class MainActivity extends DrawerActivity {
                     intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(viewPager.getCurrentItem()).getStackId());
                     startActivity(intent);
                 } catch (IndexOutOfBoundsException e) {
-                    new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.create_stack));
+                    new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
                 }
             } else {
-                EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.create_board));
+                EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
             }
         });
 
@@ -171,7 +171,7 @@ public class MainActivity extends DrawerActivity {
                 currentBoardId = board.getLocalId();
                 buildSidenavMenu();
 
-                new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.create_stack));
+                new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
 
                 // Remember last board for this account
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -250,7 +250,7 @@ public class MainActivity extends DrawerActivity {
                                     boardSelected(1, account);
                                 } else { // No other board is available, open create dialog
                                     Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
-                                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.create_board));
+                                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
                                 }
                                 syncManager.deleteBoard(board);
                                 drawer.closeDrawer(GravityCompat.START);
@@ -337,7 +337,7 @@ public class MainActivity extends DrawerActivity {
                 });
                 break;
             case R.id.action_card_list_add_column:
-                new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.create_stack));
+                new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
                 break;
         }
         return super.onOptionsItemSelected(item);
