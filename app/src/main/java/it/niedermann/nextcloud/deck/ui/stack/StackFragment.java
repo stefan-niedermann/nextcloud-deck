@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -44,7 +44,7 @@ public class StackFragment extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.no_cards)
-    LinearLayout noCards;
+    RelativeLayout noCards;
 
     /**
      * @param boardId of the current stack

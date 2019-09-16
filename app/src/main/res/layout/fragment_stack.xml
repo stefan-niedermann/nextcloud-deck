@@ -15,22 +15,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/no_cards"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:visibility="gone">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignBottom="@+id/no_cards_text"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/no_cards"
+                    android:tint="@color/fg_secondary"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/no_cards_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
                     android:text="@string/no_cards"
                     android:textAlignment="center"
-                    android:textSize="20sp"
-                    app:drawableTint="@color/grey600"
-                    app:drawableTopCompat="@drawable/ic_launcher_foreground" />
-            </LinearLayout>
+                    android:textSize="26sp" />
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
