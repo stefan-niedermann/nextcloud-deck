@@ -1,3 +1,5 @@
 - Deleted Stack still shown (#88)
 - When I click on the "Delete column" option, the application crashes. (#102)
 - Correctly remember last selected board when creating board, stack and card
+- Display a sync icon next to cards with local changes
+- Fix offline board handling (creation and deletion)
