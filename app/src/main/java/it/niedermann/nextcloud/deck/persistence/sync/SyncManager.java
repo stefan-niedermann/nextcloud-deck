@@ -551,14 +551,16 @@ public class SyncManager {
     }
 
     public void reorder(long accountId, FullCard movedCard, long newStackId, int newPosition) {
-
         doAsync(() -> {
+            if (newPosition == movedCard.getCard().getOrder() && newStackId == movedCard.getCard().getStackId()){
+                return;
+            }
             if (serverAdapter.hasInternetConnection()){
                 // call reorder
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-                serverAdapter.reorder(board.getId(), movedCard, newStackId, newPosition, new IResponseCallback<List<FullCard>>(account){
+                serverAdapter.reorder(board.getId(), movedCard, stack.getId(), newPosition, new IResponseCallback<List<FullCard>>(account){
 
                     @Override
                     public void onResponse(List<FullCard> response) {
@@ -584,9 +586,6 @@ public class SyncManager {
         Card card = movedCard.getCard();
         int oldOrder = card.getOrder();
         long oldStackId = card.getStackId();
-        if (newOrder == oldOrder && newStackId == oldStackId){
-            return;
-        }
 
         // read cards of new stack
         List<FullCard> cardsOfNewStack = dataBaseAdapter.getFullCardsForStackDirectly(accountId, newStackId);
