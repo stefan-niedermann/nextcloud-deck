@@ -14,7 +14,6 @@
     <!-- Simple values -->
     <string name="simple_boards">Lavagne</string>
     <string name="simple_cancel">Annulla</string>
-    <string name="simple_add">Crea</string>
     <string name="simple_save">Salva</string>
 
     <string name="edit_board">Modifica lavagna</string>
@@ -55,10 +54,6 @@
     <string name="hint_assign_people">Assegna utenti</string>
     <string name="hint_due_date_date">Data di scadenza</string>
     <string name="activity">Attività</string>
-    <string name="add_card">Crea scheda</string>
-    <string name="add_column">Crea pila</string>
-    <string name="create_board">Crea lavagna</string>
-
     <string name="add_account">Aggiungi account</string>
     <string name="accounts">Account</string>
 
@@ -75,7 +70,6 @@
 
     <string name="label_clear_due_date">Cancella la scadenza</string>
 
-    <string name="label_add">Crea %1$s</string>
     <string name="no_columns_available">Nessuna colonna disponibile</string>
     <string name="error">Si è verificato un errore</string>
     <string name="simple_copy">copia</string>
@@ -87,4 +81,10 @@
     <string name="card_edit_attachments">Allegati</string>
     <string name="card_edit_activity">Attività</string>
     <string name="about_server_app_version_text">Versione applicazione server:</string>
+    <string name="no_files_attached_to_this_card">Non ci sono file allegati a questa scheda.</string>
+    <string name="attachments">Allegati</string>
+    <string name="no_cards">Ancora nessuna scheda</string>
+    <string name="no_account">Nessun account configurato</string>
+    <string name="account_already_added">Account già aggiunto</string>
+    <string name="account_is_getting_imported">L\'account è in fase di importazione</string>
     </resources>

@@ -14,7 +14,6 @@
     <!-- Simple values -->
     <string name="simple_boards">Tablice</string>
     <string name="simple_cancel">Anuluj</string>
-    <string name="simple_add">Utwórz</string>
     <string name="simple_save">Zapisz</string>
 
     <string name="edit_board">Edytuj tablicę</string>
@@ -55,10 +54,6 @@
     <string name="hint_assign_people">Przydziel użytkowników</string>
     <string name="hint_due_date_date">Data realizacji</string>
     <string name="activity">Aktywność</string>
-    <string name="add_card">Utwórz kartę</string>
-    <string name="add_column">Utwórz stos</string>
-    <string name="create_board">Utwórz tablicę</string>
-
     <string name="add_account">Dodaj konto</string>
     <string name="accounts">Konta</string>
 
@@ -75,7 +70,6 @@
 
     <string name="label_clear_due_date">Wyczyść termin</string>
 
-    <string name="label_add">Utwórz %1$s</string>
     <string name="no_columns_available">Brak dostępnych kolumn</string>
     <string name="error">Wystąpił błąd</string>
     <string name="simple_copy">kopiuj</string>
@@ -87,4 +81,10 @@
     <string name="card_edit_attachments">Załączniki</string>
     <string name="card_edit_activity">Aktywność</string>
     <string name="about_server_app_version_text">Wersja aplikacji serwera:</string>
+    <string name="no_files_attached_to_this_card">Brak plików dołączonych do tej karty.</string>
+    <string name="attachments">Załączniki</string>
+    <string name="no_cards">Brak kart</string>
+    <string name="no_account">Nie skonfigurowano konta</string>
+    <string name="account_already_added">Konto już dodane</string>
+    <string name="account_is_getting_imported">Importowanie konta</string>
     </resources>

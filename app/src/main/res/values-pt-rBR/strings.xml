@@ -14,7 +14,6 @@
     <!-- Simple values -->
     <string name="simple_boards">Painéis</string>
     <string name="simple_cancel">Cancelar</string>
-    <string name="simple_add">Criar</string>
     <string name="simple_save">Salvar</string>
 
     <string name="edit_board">Editar o painel</string>
@@ -55,10 +54,6 @@
     <string name="hint_assign_people">Atribuir usuários</string>
     <string name="hint_due_date_date">Data devida</string>
     <string name="activity">Atividade</string>
-    <string name="add_card">Criar cartão</string>
-    <string name="add_column">Criar pilha</string>
-    <string name="create_board">Criar placa</string>
-
     <string name="add_account">Adicionar conta</string>
     <string name="accounts">Contas</string>
 
@@ -75,7 +70,6 @@
 
     <string name="label_clear_due_date">Remover data devida</string>
 
-    <string name="label_add">Criar %1$s</string>
     <string name="no_columns_available">Nenhuma coluna disponível</string>
     <string name="error">Ocorreu um erro</string>
     <string name="simple_copy">copiar</string>
@@ -87,4 +81,10 @@
     <string name="card_edit_attachments">Anexos</string>
     <string name="card_edit_activity">Atividade</string>
     <string name="about_server_app_version_text">Versão do aplicativo do servidor:</string>
+    <string name="no_files_attached_to_this_card">Não há arquivos anexados a este cartão.</string>
+    <string name="attachments">Anexos</string>
+    <string name="no_cards">Nenhum cartão ainda</string>
+    <string name="no_account">Nenhuma conta configurada</string>
+    <string name="account_already_added">Conta já adicionada</string>
+    <string name="account_is_getting_imported">Conta está sendo importada</string>
     </resources>
