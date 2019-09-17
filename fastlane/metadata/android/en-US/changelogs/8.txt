@@ -1,0 +1,1 @@
+- Quick fix for due date width (some languages need more space)
