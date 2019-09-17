@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/no_columns_text"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/add_a_new_column_using_the_button" />
+                    android:text="@string/add_a_new_column_using_the_three_dots_menu" />
             </RelativeLayout>
 
             <androidx.viewpager.widget.ViewPager
