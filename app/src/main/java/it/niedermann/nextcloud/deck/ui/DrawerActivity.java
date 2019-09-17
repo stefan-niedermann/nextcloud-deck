@@ -100,7 +100,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
                         @Override
                         public void onResponse(Capabilities response) {
-                            if (response.getDeckVersion().compareTo(new Version(0, 6, 6)) < 0) {
+                            if (response.getDeckVersion().compareTo(new Version(
+                                    getResources().getInteger(R.integer.minimum_server_app_major),
+                                    getResources().getInteger(R.integer.minimum_server_app_minor),
+                                    getResources().getInteger(R.integer.minimum_server_app_patch))) < 0) {
                                 Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_LONG).setAction("Learn more", v -> {
                                     new AlertDialog.Builder(DrawerActivity.this)
                                             .setTitle(R.string.update_deck)
