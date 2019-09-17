@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
@@ -41,6 +42,8 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
@@ -93,13 +96,25 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                         Snackbar.make(coordinatorLayout, getString(R.string.account_already_added), Snackbar.LENGTH_SHORT).show();
                     }
                 } else {
-                    Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_LONG).show();
+                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
+                        @Override
+                        public void onResponse(Capabilities response) {
+                            if(response.getDeckVersion().compareTo(new Version(0, 6, 4)) < 0 ) {
+                                new AlertDialog.Builder(DrawerActivity.this)
+                                        .setTitle("You version might be too old")
+                                        .setMessage(R.string.do_you_want_to_save_your_changes)
+                                        .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> DeckLog.log("Version too old, OK pressed.")).show();
+                            } else {
+                                Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_LONG).show();
 
-                    // Remember last account
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
-                    editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
-                    editor.apply();
+                                // Remember last account
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
+                                editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
+                                editor.apply();
+                            }
+                        }
+                    });
                 }
             });
 
