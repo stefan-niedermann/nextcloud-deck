@@ -90,6 +90,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         AccountImporter.onActivityResult(requestCode, resultCode, data, this, (SingleSignOnAccount account) -> {
             final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
             accountLiveData.observe(this, (Account createdAccount) -> {
+                // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
+                editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
+                editor.commit();
+
                 if (accountLiveData.hasError()) {
                     try {
                         accountLiveData.throwError();
@@ -117,12 +123,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                 }).show();
                             } else {
                                 Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_LONG).show();
-
-                                // Remember last account
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
-                                editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
-                                editor.apply();
                             }
                         }
                     });
@@ -156,6 +156,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         syncManager.hasAccounts().observe(this, (Boolean hasAccounts) -> {
             if (hasAccounts != null && hasAccounts) {
                 syncManager.readAccounts().observe(this, (List<Account> accounts) -> {
+                    DeckLog.log("+++ readAccounts()");
                     accountsList = accounts;
                     long lastAccountId = sharedPreferences.getLong(getString(R.string.shared_preference_last_account), NO_ACCOUNTS);
                     DeckLog.log("--- Read: shared_preference_last_account" + " | " + lastAccountId);
