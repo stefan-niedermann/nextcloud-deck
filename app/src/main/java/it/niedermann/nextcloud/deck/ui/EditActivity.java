@@ -198,6 +198,8 @@ public class EditActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.simple_dismiss, (dialog, whichButton) -> {
                     if (createMode) {
                         observeOnce(syncManager.deleteCard(fullCard.getCard()), EditActivity.this, (c) -> super.onBackPressed());
+                    } else {
+                        super.onBackPressed();
                     }
                 }).show();
     }
