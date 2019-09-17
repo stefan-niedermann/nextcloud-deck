@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Opna rennivalmynd</string>
     <string name="navigation_drawer_close">Loka rennivalmynd</string>
-    <string name="nav_header_subtitle">Biðlaraforrit fyrir Nextcloud Deck</string>
-    <string name="nav_header_desc">Fyrisögn flakks</string>
-    <string name="action_settings">Stillingar</string>
 
     <string name="drawer_header_background">Bakgrunnsmynd á haus hliðarspjalds</string>
     <string name="drawer_current_account">Núverandi notandaaðgangur</string>
@@ -50,10 +47,8 @@
     <string name="activity">Virkni</string>
     <string name="add_card">Búa til spjald</string>
     <string name="add_column">Búa til stafla</string>
-    <string name="create_board">Búa til borð</string>
 
     <string name="add_account">Bæta við notandaaðgangi</string>
-    <string name="accounts">Notandaaðgangar</string>
 
     <string name="label_menu">valmynd</string>
     <string name="action_card_assign">Úthluta spjaldi til þín</string>
@@ -62,7 +57,6 @@
     <string name="action_card_delete">Eyða spjaldi</string>
     <string name="add_board">Bæta við borði</string>
     <string name="action_card_list_add_column">Bæta við dálki</string>
-    <string name="action_card_list_board_details">Nánar um borð</string>
     <string name="simple_title">Titill</string>
 
     <string name="label_clear_due_date">Fjarlægja skiladag</string>

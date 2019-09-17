@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Otevřít panel navigace</string>
     <string name="navigation_drawer_close">Zavřít navigační panel</string>
-    <string name="nav_header_subtitle">Klient pro Nextcloud aplikaci Deck</string>
-    <string name="nav_header_desc">Záhlaví navigace</string>
-    <string name="action_settings">Nastavení</string>
 
     <string name="drawer_header_background">Obrázek na pozadí hlavičky panelu</string>
     <string name="drawer_current_account">Stávající účet</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Datum termínu</string>
     <string name="activity">Aktivita</string>
     <string name="add_account">Přidat účet</string>
-    <string name="accounts">Účty</string>
 
     <string name="label_menu">nabídka</string>
     <string name="action_card_assign">Přiřadit kartu vám</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Přidat nástěnku</string>
     <string name="action_card_list_add_column">Přidat sloupec</string>
     <string name="action_card_list_delete_column">Smazat sloupec</string>
-    <string name="action_card_list_board_details">Podrobnosti o nástěnce</string>
     <string name="simple_title">Nadpis</string>
 
     <string name="label_clear_due_date">Vymazat termín</string>
 
-    <string name="no_columns_available">Nejsou k dispozici žádné sloupce</string>
     <string name="error">Objevila se chyba</string>
     <string name="simple_copy">zkopírovat</string>
     <string name="simple_exception">Výjimka</string>

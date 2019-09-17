@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Odpri bočno okno</string>
     <string name="navigation_drawer_close">Zapri bočno okno</string>
-    <string name="nav_header_subtitle">Odjemalec na program Nextcloud Deck</string>
-    <string name="nav_header_desc">Glava bočnega okna</string>
-    <string name="action_settings">Nastavitve</string>
 
     <string name="drawer_header_background">Slika ozadja glave bočnega okna</string>
     <string name="drawer_current_account">Trenutni račun</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Datum preteka</string>
     <string name="activity">Dejavnost</string>
     <string name="add_account">Dodaj račun</string>
-    <string name="accounts">Računi</string>
 
     <string name="label_menu">Meni</string>
     <string name="action_card_assign">Nalogo dodeli meni</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Dodaj zbirko</string>
     <string name="action_card_list_add_column">Dodaj stolpec</string>
     <string name="action_card_list_delete_column">Izbriši stolpec</string>
-    <string name="action_card_list_board_details">Podrobnosti zbirke</string>
     <string name="simple_title">Naslov</string>
 
     <string name="label_clear_due_date">Počisti datum poteka</string>
 
-    <string name="no_columns_available">Ni razpoložljivih stolpcev</string>
     <string name="error">Prišlo je do napake</string>
     <string name="simple_copy">kopiraj</string>
     <string name="simple_exception">Izjema</string>

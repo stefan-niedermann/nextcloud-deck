@@ -1,5 +1,4 @@
 <resources>
-    <string name="action_settings">Asetukset</string>
 
     <string name="drawer_header_background">Taustakuva \"Drawer\":in yläosassa</string>
     <string name="drawer_current_account">Nykyinen tili</string>
@@ -46,10 +45,8 @@
     <string name="activity">Aktiviteetti</string>
     <string name="add_card">Luo kortti</string>
     <string name="add_column">Luo pino</string>
-    <string name="create_board">Luo taulu</string>
 
     <string name="add_account">Lisää tili</string>
-    <string name="accounts">Tilit</string>
 
     <string name="label_menu">Valikko</string>
     <string name="action_card_archive">Arkistoi kortti</string>
@@ -62,7 +59,6 @@
     <string name="label_clear_due_date">Poista eräpäivä</string>
 
     <string name="label_add">Luo %1$s</string>
-    <string name="no_columns_available">Ei sarakkeita saatavilla</string>
     <string name="error">Tapahtui virhe</string>
     <string name="simple_exception">Poikkeus</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>

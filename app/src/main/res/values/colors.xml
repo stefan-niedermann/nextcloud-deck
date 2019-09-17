@@ -3,8 +3,6 @@
     <color name="primary">#0082c9</color>
     <color name="accent">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="bg_default">#ffffff</color>
-    <color name="bg_accent">#0082c9</color>
     <color name="fg_accent">#fff</color>
     <color name="fg_secondary">#999</color>
     <color name="grey600">#757575</color>
@@ -12,7 +10,6 @@
     <color name="due_tomorrow">#7fffc53a</color>
     <color name="due_today">#7feca700</color>
     <color name="due_overdue">#d40000</color>
-    <color name="default_text_color">#808080</color>
     <color name="overdue_text_color">#FFFFFF</color>
 
     <color name="board_default_color">#31CC7C</color>

@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">탐색 서랍 창 열기</string>
     <string name="navigation_drawer_close">탐색 서랍 창 닫기</string>
-    <string name="nav_header_subtitle">Nextcloud Deck 앱용 클라이언트</string>
-    <string name="nav_header_desc">탐색 서랍 헤더</string>
-    <string name="action_settings">설정</string>
 
     <string name="drawer_header_background">탐색 헤더의 배경 이미지</string>
     <string name="drawer_current_account">현재 계정</string>
@@ -52,10 +49,8 @@
     <string name="activity">활동</string>
     <string name="add_card">크레딧 카드</string>
     <string name="add_column">스택 생성</string>
-    <string name="create_board">새 게시판 만들기</string>
 
     <string name="add_account">계정 추가</string>
-    <string name="accounts">계정</string>
 
     <string name="label_menu">메뉴</string>
     <string name="action_card_assign">이 카드를 사용자에게 할당</string>
@@ -65,13 +60,11 @@
     <string name="add_board">보드 추가</string>
     <string name="action_card_list_add_column">열 추가</string>
     <string name="action_card_list_delete_column">열 삭제</string>
-    <string name="action_card_list_board_details">게시판 정보</string>
     <string name="simple_title">제목</string>
 
     <string name="label_clear_due_date">만료 날짜 지우기</string>
 
     <string name="label_add">생성 %1$s</string>
-    <string name="no_columns_available">사용 가능한 열이 없음</string>
     <string name="error">오류가 나타남</string>
     <string name="simple_copy">복사</string>
     <string name="simple_exception">예외</string>

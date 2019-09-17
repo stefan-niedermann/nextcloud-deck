@@ -8,7 +8,6 @@
     android:fitsSystemWindows="true">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/drawer_header_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/drawer_header_background"
@@ -16,7 +15,6 @@
         android:scaleType="centerCrop"/>
 
     <RelativeLayout
-        android:id="@+id/drawer_active_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -79,7 +77,6 @@
                 android:paddingLeft="@dimen/zero">
 
                 <TextView
-                    android:id="@+id/drawer_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"

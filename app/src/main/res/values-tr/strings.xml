@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Gezinme çekmecesini aç</string>
     <string name="navigation_drawer_close">Gezinme çekmecesini kapat</string>
-    <string name="nav_header_subtitle">Nextcloud Tahta uygulaması istemcisi</string>
-    <string name="nav_header_desc">Gezinme başlığı</string>
-    <string name="action_settings">Ayarlar</string>
 
     <string name="drawer_header_background">Çekmece üst bilgisinin arka plan görseli</string>
     <string name="drawer_current_account">Geçerli hesap</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Bitiş tarihi</string>
     <string name="activity">Etkinlik</string>
     <string name="add_account">Hesap ekle</string>
-    <string name="accounts">Hesaplar</string>
 
     <string name="label_menu">menü</string>
     <string name="action_card_assign">Kartı size atayın</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Pano ekle</string>
     <string name="action_card_list_add_column">Sütun ekle</string>
     <string name="action_card_list_delete_column">Sütunu sil</string>
-    <string name="action_card_list_board_details">Pano ayrıntıları</string>
     <string name="simple_title">Başlık</string>
 
     <string name="label_clear_due_date">Bitiş tarihini temizle</string>
 
-    <string name="no_columns_available">Kullanılabilecek bir sütun yok</string>
     <string name="error">Bir sorun çıktı</string>
     <string name="simple_copy">kopyala</string>
     <string name="simple_exception">İstisna</string>

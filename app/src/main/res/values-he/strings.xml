@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">פתיחת מגירת ניווט</string>
     <string name="navigation_drawer_close">סגירת מגירת ניווט</string>
-    <string name="nav_header_subtitle">לקוח ליישומון מעגן של Nextcloud</string>
-    <string name="nav_header_desc">כותרת ניווט</string>
-    <string name="action_settings">הגדרות</string>
 
     <string name="drawer_header_background">תמונת רקע של כותרת מגירה</string>
     <string name="drawer_current_account">חשבון נוכחי</string>
@@ -54,10 +51,8 @@
     <string name="activity">פעילות</string>
     <string name="add_card">יצירת כרטיס</string>
     <string name="add_column">יצירת חפיסה</string>
-    <string name="create_board">יצירת לוח</string>
 
     <string name="add_account">הוספת חשבון</string>
-    <string name="accounts">חשבונות</string>
 
     <string name="label_menu">תפריט</string>
     <string name="action_card_assign">הקצאת כרטיס אליך</string>
@@ -66,7 +61,6 @@
     <string name="action_card_delete">מחיקת כרטיס לארכיון</string>
     <string name="add_board">הוספת לוח</string>
     <string name="action_card_list_add_column">הוספת עמודה</string>
-    <string name="action_card_list_board_details">פרטי לוח</string>
     <string name="simple_title">כותרת</string>
 
     <string name="label_clear_due_date">הסרת מועד התפוגה</string>

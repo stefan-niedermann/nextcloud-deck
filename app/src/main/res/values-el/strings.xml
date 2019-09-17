@@ -1,7 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
-    <string name="action_settings">Ρυθμίσεις</string>
 
     <string name="drawer_current_account">Τρέχον λογαριασμός</string>
     <string name="drawer_middle_account">Μεσαίος λογαριασμός</string>
@@ -46,10 +45,8 @@
     <string name="hint_due_date_date">Προθεσμία</string>
     <string name="activity">Δραστηριότητα</string>
     <string name="add_card">Δημιουργία κάρτας</string>
-    <string name="create_board">Δημιουργία πίνακα</string>
 
     <string name="add_account"> Προσθήκη λογαριασμού </string>
-    <string name="accounts">Λογαριασμοί</string>
 
     <string name="label_menu">μενού</string>
     <string name="action_card_assign">Ορισμός κάρτας στον εαυτό μου</string>
@@ -57,7 +54,6 @@
     <string name="action_card_delete"> Διαγραφή κάρτας </string>
     <string name="add_board">Προσθήκη πίνακα</string>
     <string name="action_card_list_add_column">Προσθήκη στήλης</string>
-    <string name="action_card_list_board_details">Λεπτομέριες πίνακα</string>
     <string name="simple_title">Τίτλος</string>
 
     </resources>

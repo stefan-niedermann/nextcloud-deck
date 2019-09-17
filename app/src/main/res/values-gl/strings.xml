@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Abrir o caixón de navegación</string>
     <string name="navigation_drawer_close">Pechar o caixón de navegación</string>
-    <string name="nav_header_subtitle">Cliente para o aplicativo Deck do Nextcloud</string>
-    <string name="nav_header_desc">Cabeceira de navegación</string>
-    <string name="action_settings">Axustes</string>
 
     <string name="drawer_header_background">Imaxe de fondo do cabeceira do caixón</string>
     <string name="drawer_current_account">Conta actual</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Data de caducidade</string>
     <string name="activity">Actividade</string>
     <string name="add_account">Engadir unha conta</string>
-    <string name="accounts">Contas</string>
 
     <string name="label_menu">menú</string>
     <string name="action_card_assign">Asignarlle a vostede a tarxeta</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Engadir taboleiro</string>
     <string name="action_card_list_add_column">Engadir columna</string>
     <string name="action_card_list_delete_column">Eliminar columna</string>
-    <string name="action_card_list_board_details">Detalles do taboleiro</string>
     <string name="simple_title">Titulo</string>
 
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
 
-    <string name="no_columns_available">Non hai columnas dispoñíbeis</string>
     <string name="error">Apareceu un erro</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_exception">Excepción</string>

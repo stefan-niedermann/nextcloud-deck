@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
-    <string name="nav_header_subtitle">Client für Nextcloud Deck App</string>
-    <string name="nav_header_desc">Kopfzeile der Navigation</string>
-    <string name="action_settings">Einstellungen</string>
 
     <string name="drawer_header_background">Hintergrundbild des Kopfbereiches</string>
     <string name="drawer_current_account">Aktuelles Konto</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
     <string name="activity">Aktivität</string>
     <string name="add_account">Konto hinzufügen</string>
-    <string name="accounts">Konten</string>
 
     <string name="label_menu">Menü</string>
     <string name="action_card_assign">Karte Dir zuweisen</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Board hinzufügen</string>
     <string name="action_card_list_add_column">Spalte hinzufügen</string>
     <string name="action_card_list_delete_column">Spalte löschen</string>
-    <string name="action_card_list_board_details">Board-Details</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Fälligkeitsdatum löschen</string>
 
-    <string name="no_columns_available">Keine Spalten verfügbar</string>
     <string name="error">Es ist ein Fehler aufgetreten</string>
     <string name="simple_copy">kopieren</string>
     <string name="simple_exception">Ausnahme</string>

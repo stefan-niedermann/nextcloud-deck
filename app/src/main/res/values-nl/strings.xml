@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
-    <string name="nav_header_subtitle">Client voor Nextcloud Deck app</string>
-    <string name="nav_header_desc">Navigatie</string>
-    <string name="action_settings">Instellingen</string>
 
     <string name="drawer_header_background">Achtergrondafbeelding in het menu</string>
     <string name="drawer_current_account">Huidige account</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="activity">Activiteit</string>
     <string name="add_account">Account toevoegen</string>
-    <string name="accounts">Accounts</string>
 
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Kaart aan jou toewijzen</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Toevoegen bord</string>
     <string name="action_card_list_add_column">Toevoegen kolom</string>
     <string name="action_card_list_delete_column">Verwijder kolom</string>
-    <string name="action_card_list_board_details">Bord details</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Wis vervaldatum</string>
 
-    <string name="no_columns_available">Geen kolommen beschikbaar</string>
     <string name="error">Er is een fout verschenen</string>
     <string name="simple_copy">kopiëren</string>
     <string name="simple_exception">Uitzondering</string>

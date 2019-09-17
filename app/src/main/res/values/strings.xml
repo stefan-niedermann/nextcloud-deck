@@ -3,10 +3,6 @@
     <string name="app_name_short" translatable="false">Deck</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title" translatable="false">Nextcloud Deck</string>
-    <string name="nav_header_subtitle">Client for Nextcloud Deck app</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <string name="drawer_header_background">Background image of drawer header</string>
     <string name="drawer_current_account">Current account</string>
@@ -46,7 +42,6 @@
     <string name="about_app_license_title">App license</string>
     <string name="about_app_license">This application is licensed under the GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">View license</string>
-    <string name="about_app_icon_author" translatable="false">Julius Härtl (%1$s)</string>
     <string name="about_app_icon_author_link_label" translatable="false">GitHub</string>
     <string name="about_icons_disclaimer_title">Icons</string>
     <string name="about_icons_disclaimer">Original icon made by %1$sAll further icons used by this app are %2$s made by Google Inc. and licensed under the Apache 2.0 License.</string>
@@ -70,7 +65,6 @@
 
     <string name="attachment_count_max_value" translatable="false">+99</string>
     <string name="add_account">Add account</string>
-    <string name="accounts">Accounts</string>
 
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Assign card to you</string>
@@ -80,13 +74,11 @@
     <string name="add_board">Add board</string>
     <string name="action_card_list_add_column">Add column</string>
     <string name="action_card_list_delete_column">Delete column</string>
-    <string name="action_card_list_board_details">Bord details</string>
     <string name="simple_title">Title</string>
 
     <string name="label_clear_due_date">Clear due date</string>
 
     <string name="label_add">Add %1$s</string>
-    <string name="no_columns_available">No columns available</string>
     <string name="error">An error appeared</string>
     <string name="simple_copy">copy</string>
     <string name="simple_exception">Exception</string>
@@ -100,7 +92,6 @@
     <string name="url_issues" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/issues</string>
     <string name="url_license" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
     <string name="url_translations" translatable="false">https://www.transifex.com/nextcloud/nextcloud/</string>
-    <string name="url_files" translatable="false">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
     <string name="url_about_icons_disclaimer_mdi" translatable="false">https://materialdesignicons.com/</string>
     <string name="url_fragment_update_deck" translatable="false">/index.php/settings/apps/installed/deck</string>
 

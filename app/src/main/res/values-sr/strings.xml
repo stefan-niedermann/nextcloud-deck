@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Отвори навигациону фиоку</string>
     <string name="navigation_drawer_close">Затвори навигациону фиоку</string>
-    <string name="nav_header_subtitle">Клијент за Некстклауд палубу</string>
-    <string name="nav_header_desc">Заглавље навигације</string>
-    <string name="action_settings">Поставке</string>
 
     <string name="drawer_header_background">Позадинска слика заглавља фиоке</string>
     <string name="drawer_current_account">Тренутни налог</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Рок</string>
     <string name="activity">Активност</string>
     <string name="add_account">Додајте налог</string>
-    <string name="accounts">Налози</string>
 
     <string name="label_menu">мени</string>
     <string name="action_card_assign">Доделите картицу себи</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Додај таблу</string>
     <string name="action_card_list_add_column">Додај колону</string>
     <string name="action_card_list_delete_column">Обриши колону</string>
-    <string name="action_card_list_board_details">Детаљи табле</string>
     <string name="simple_title">Наслов</string>
 
     <string name="label_clear_due_date">Избриши рок</string>
 
-    <string name="no_columns_available">Нема доступних колона</string>
     <string name="error">Дошло је до грешке</string>
     <string name="simple_copy">копирај</string>
     <string name="simple_exception">Изузетак</string>
