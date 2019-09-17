@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Abrir cajón de navegación</string>
     <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
-    <string name="nav_header_subtitle">Cliente para la app Deck de Nextcloud</string>
-    <string name="nav_header_desc">Cabecera de navegación</string>
-    <string name="action_settings">Opciones</string>
 
     <string name="drawer_header_background">Imagen de fondo de la cabecera del cajón</string>
     <string name="drawer_current_account">Cuenta actual</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Fecha de fin</string>
     <string name="activity">Actividad</string>
     <string name="add_account">Añadir cuenta</string>
-    <string name="accounts">Cuentas</string>
 
     <string name="label_menu">menú</string>
     <string name="action_card_assign">Asignarte tarjeta a ti mismo</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Añadir tablero</string>
     <string name="action_card_list_add_column">Añadir columna</string>
     <string name="action_card_list_delete_column">Eliminar columna</string>
-    <string name="action_card_list_board_details">Detalles del tablero</string>
     <string name="simple_title">Título</string>
 
     <string name="label_clear_due_date">Borrar fecha de finalización</string>
 
-    <string name="no_columns_available">No hay columnas disponibles</string>
     <string name="error">Ha aparecido un error</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_exception">Excepción</string>

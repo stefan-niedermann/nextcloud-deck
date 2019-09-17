@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Obre el calaix de navegació</string>
     <string name="navigation_drawer_close">Tanca el calaix de navegació</string>
-    <string name="nav_header_subtitle">Client per l\'aplicació Nextcloud Deck</string>
-    <string name="nav_header_desc">Capçalera de navegació</string>
-    <string name="action_settings">Paràmetres</string>
 
     <string name="drawer_header_background">Imatge de fons de la capçalera del calaix</string>
     <string name="drawer_current_account">Compte actual</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Data de venciment</string>
     <string name="activity">Activitat</string>
     <string name="add_account">Afegeix un compte</string>
-    <string name="accounts">Comptes</string>
 
     <string name="label_menu">menú</string>
     <string name="action_card_assign">Assigneu-vos una targeta</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Afegeix una taula</string>
     <string name="action_card_list_add_column">Afegeix una columna</string>
     <string name="action_card_list_delete_column">Suprimeix la columna</string>
-    <string name="action_card_list_board_details">Detalls de la taula</string>
     <string name="simple_title">Títol</string>
 
     <string name="label_clear_due_date">Neteja la data de venciment</string>
 
-    <string name="no_columns_available">No hi ha columnes disponibles</string>
     <string name="error">S\'ha produït un error</string>
     <string name="simple_copy">copia</string>
     <string name="simple_exception">Excepció</string>

@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Åpne navigasjonsskuff</string>
     <string name="navigation_drawer_close">Lukk navigasjonsskuff</string>
-    <string name="nav_header_subtitle">Klient for Nextcloud Deck</string>
-    <string name="nav_header_desc">Navigasjonsoverskrift</string>
-    <string name="action_settings">Innstillinger</string>
 
     <string name="drawer_header_background">Bakgrunsbilde for innledning på meny</string>
     <string name="drawer_current_account">Nåværende konto</string>
@@ -49,7 +46,6 @@
     <string name="hint_due_date_date">Forfallsdato</string>
     <string name="activity">Aktivitet</string>
     <string name="add_account">Legg til en konto</string>
-    <string name="accounts">Kontoer</string>
 
     <string name="label_menu">Meny</string>
     <string name="action_card_archive">Arkiver kort</string>

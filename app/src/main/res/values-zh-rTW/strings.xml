@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">開啟導覽列</string>
     <string name="navigation_drawer_close">關閉導覽列</string>
-    <string name="nav_header_subtitle">Nextcloud Deck程式的客戶端</string>
-    <string name="nav_header_desc">導覽列</string>
-    <string name="action_settings">設定</string>
 
     <string name="drawer_current_account">目前帳戶</string>
     <string name="drawer_manage_accounts">帳戶管理</string>
@@ -50,10 +47,8 @@
     <string name="activity">活動</string>
     <string name="add_card">建立作業卡</string>
     <string name="add_column">建立項目</string>
-    <string name="create_board">建立專案</string>
 
     <string name="add_account">新增帳戶</string>
-    <string name="accounts">帳戶</string>
 
     <string name="label_menu">目錄</string>
     <string name="action_card_assign">指派作業給自己</string>
@@ -68,7 +63,6 @@
     <string name="label_clear_due_date">清除截止日</string>
 
     <string name="label_add">建立%1$s</string>
-    <string name="no_columns_available">無可用欄位</string>
     <string name="error">發生錯誤</string>
     <string name="simple_copy">複製</string>
     <string name="copied_to_clipboard">複製至剪貼簿中</string>

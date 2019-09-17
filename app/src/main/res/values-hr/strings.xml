@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Otvorite navigacijsku ladicu</string>
     <string name="navigation_drawer_close">Zatvori navigacijsku ladicu</string>
-    <string name="nav_header_subtitle">Klijent za aplikaciju Nextcloud Deck</string>
-    <string name="nav_header_desc">Navigacijsko zaglavlje</string>
-    <string name="action_settings">Postavke</string>
 
     <string name="drawer_header_background">Pozadinska slika zaglavlja ladice</string>
     <string name="drawer_current_account">Trenutni račun</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Datum dospijeća</string>
     <string name="activity">Aktivnost</string>
     <string name="add_account">Dodaj račun</string>
-    <string name="accounts">Računi</string>
 
     <string name="label_menu">izbornik</string>
     <string name="action_card_assign">Dodijeli karticu sebi</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Dodaj ploču</string>
     <string name="action_card_list_add_column">Dodaj stupac</string>
     <string name="action_card_list_delete_column">Izbriši stupac</string>
-    <string name="action_card_list_board_details">Pojedinosti o ploči</string>
     <string name="simple_title">Naslov</string>
 
     <string name="label_clear_due_date">Izbriši datum dospijeća</string>
 
-    <string name="no_columns_available">Nema dostupnih stupaca</string>
     <string name="error">Pojavila se pogreška</string>
     <string name="simple_copy">kopiraj</string>
     <string name="simple_exception">Izuzetak</string>

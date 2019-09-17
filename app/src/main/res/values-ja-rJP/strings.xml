@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">ナビゲーションドロワーを開く</string>
     <string name="navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
-    <string name="nav_header_subtitle">Nextcloud Deckアプリのクライアント</string>
-    <string name="nav_header_desc">ナビゲーションヘッダー</string>
-    <string name="action_settings">設定</string>
 
     <string name="drawer_header_background">ドロワーヘッダーの背景イメージ</string>
     <string name="drawer_current_account">現在のアカウント</string>
@@ -50,10 +47,8 @@
     <string name="activity">アクティビティ</string>
     <string name="add_card">クレジットカード</string>
     <string name="add_column">スタックを作る。</string>
-    <string name="create_board">ボードを作成</string>
 
     <string name="add_account">アカウントを追加</string>
-    <string name="accounts">アカウント</string>
 
     <string name="label_menu">メニュー</string>
     <string name="action_card_assign">あなたにカードを割り当てる</string>
@@ -68,7 +63,6 @@
     <string name="label_clear_due_date">期限を削除</string>
 
     <string name="label_add">作成 %1$s</string>
-    <string name="no_columns_available">使用可能なカラムがありません</string>
     <string name="error">エラーが見つかりました</string>
     <string name="simple_copy">コピー</string>
     <string name="simple_exception">例外</string>

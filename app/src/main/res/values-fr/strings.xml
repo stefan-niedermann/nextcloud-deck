@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
     <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
-    <string name="nav_header_subtitle">Client pour l\'application Nextcloud Deck</string>
-    <string name="nav_header_desc">Entête de navigation</string>
-    <string name="action_settings">Paramètres</string>
 
     <string name="drawer_header_background">Image d\'arrière-plan de l\'entête du menu-tiroir</string>
     <string name="drawer_current_account">Compte actuel</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Date d\'échéance</string>
     <string name="activity">Activité</string>
     <string name="add_account">Ajouter un compte</string>
-    <string name="accounts">Comptes</string>
 
     <string name="label_menu">menu</string>
     <string name="action_card_assign">M\'assigner la carte</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Ajouter un tableau</string>
     <string name="action_card_list_add_column">Ajouter une colonne</string>
     <string name="action_card_list_delete_column">Supprimer la colonne</string>
-    <string name="action_card_list_board_details">Propriétés du tableau</string>
     <string name="simple_title">Titre</string>
 
     <string name="label_clear_due_date">Effacer la date d\'échéance</string>
 
-    <string name="no_columns_available">Aucune colonne disponible</string>
     <string name="error">Une erreur est survenue</string>
     <string name="simple_copy">copier</string>
     <string name="simple_exception">Exception</string>

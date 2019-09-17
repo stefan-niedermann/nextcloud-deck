@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
     <string name="navigation_drawer_close">Stäng navigeringslådan</string>
-    <string name="nav_header_subtitle">Klient för Nextcloud Deck app</string>
-    <string name="nav_header_desc">Navigationshuvud</string>
-    <string name="action_settings">Inställningar</string>
 
     <string name="drawer_current_account">Nuvarande konto</string>
     <string name="drawer_middle_account">Mittenkonto</string>
@@ -53,7 +50,6 @@
     <string name="hint_due_date_date">Slutdatum</string>
     <string name="activity">Aktivitet</string>
     <string name="add_account">Lägg till konto</string>
-    <string name="accounts">Konton</string>
 
     <string name="label_menu">meny</string>
     <string name="action_card_assign">Tilldela kort till dig</string>
@@ -63,12 +59,10 @@
     <string name="add_board">Lägg till tavla</string>
     <string name="action_card_list_add_column">Lägg till kolumn</string>
     <string name="action_card_list_delete_column">Radera kolumn</string>
-    <string name="action_card_list_board_details">Taveldetaljer</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Rensa slutdatum</string>
 
-    <string name="no_columns_available">Inga kolumner tillgängliga</string>
     <string name="error">Ett fel inträffade</string>
     <string name="simple_copy">kopiera</string>
     <string name="simple_exception">Undantag</string>

@@ -1,9 +1,6 @@
 <resources>
     <string name="navigation_drawer_open">Navigációs fiók megnyitása</string>
     <string name="navigation_drawer_close">Navigációs fiók bezárása</string>
-    <string name="nav_header_subtitle">Kliens a Nextcloud Deck alkalmazáshoz</string>
-    <string name="nav_header_desc">Navigációs fejléc</string>
-    <string name="action_settings">Beállítások</string>
 
     <string name="drawer_header_background">A fiókfejléc háttérképe</string>
     <string name="drawer_current_account">Jelenlegi fiók</string>
@@ -55,7 +52,6 @@
     <string name="hint_due_date_date">Határidő</string>
     <string name="activity">Tevékenység</string>
     <string name="add_account">Fiók hozzáadása</string>
-    <string name="accounts">Fiókok</string>
 
     <string name="label_menu">menü</string>
     <string name="action_card_assign">Kártya hozzárendelése Önhöz</string>
@@ -65,12 +61,10 @@
     <string name="add_board">Tábla hozzáadása</string>
     <string name="action_card_list_add_column">Oszlop hozzáadása</string>
     <string name="action_card_list_delete_column">Oszlop törlése</string>
-    <string name="action_card_list_board_details">Tábla részletei</string>
     <string name="simple_title">Cím</string>
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
 
-    <string name="no_columns_available">Nem érhető el oszlop</string>
     <string name="error">Hiba történt</string>
     <string name="simple_copy">másolat</string>
     <string name="simple_exception">Kivétel</string>
