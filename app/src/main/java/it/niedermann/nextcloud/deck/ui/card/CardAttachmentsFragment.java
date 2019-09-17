@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +36,7 @@ public class CardAttachmentsFragment extends Fragment {
     @BindView(R.id.attachments_list)
     LinearLayout attachmentsList;
     @BindView(R.id.no_attachments)
-    LinearLayout noAttachments;
+    RelativeLayout noAttachments;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,

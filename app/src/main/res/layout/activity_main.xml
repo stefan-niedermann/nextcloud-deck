@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:layout_above="@+id/no_columns_text"
-                    android:contentDescription="@string/no_columns"
+                    android:contentDescription="@null"
                     android:tint="@color/fg_secondary"
                     android:layout_marginBottom="-40dp"
                     app:srcCompat="@drawable/ic_launcher_foreground" />
