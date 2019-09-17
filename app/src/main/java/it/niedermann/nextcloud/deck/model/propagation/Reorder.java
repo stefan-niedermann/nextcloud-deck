@@ -2,11 +2,11 @@ package it.niedermann.nextcloud.deck.model.propagation;
 
 public class Reorder {
     Integer order;
-    Integer newStackId;
+    Integer stackId;
 
-    public Reorder(Integer order, Integer newStackId) {
+    public Reorder(Integer order, Integer stackId) {
         this.order = order;
-        this.newStackId = newStackId;
+        this.stackId = stackId;
     }
 
     public Reorder() {
@@ -20,11 +20,11 @@ public class Reorder {
         this.order = order;
     }
 
-    public Integer getNewStackId() {
-        return newStackId;
+    public Integer getStackId() {
+        return stackId;
     }
 
-    public void setNewStackId(Integer newStackId) {
-        this.newStackId = newStackId;
+    public void setStackId(Integer stackId) {
+        this.stackId = stackId;
     }
 }
