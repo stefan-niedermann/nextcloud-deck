@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -99,11 +100,18 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
                         @Override
                         public void onResponse(Capabilities response) {
-                            if(response.getDeckVersion().compareTo(new Version(0, 6, 4)) < 0 ) {
-                                new AlertDialog.Builder(DrawerActivity.this)
-                                        .setTitle("You version might be too old")
-                                        .setMessage(R.string.do_you_want_to_save_your_changes)
-                                        .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> DeckLog.log("Version too old, OK pressed.")).show();
+                            if (response.getDeckVersion().compareTo(new Version(0, 6, 6)) < 0) {
+                                Snackbar.make(coordinatorLayout, "Your deck version is too old", Snackbar.LENGTH_LONG).setAction("Learn more", v -> {
+                                    new AlertDialog.Builder(DrawerActivity.this)
+                                            .setTitle("Update deck")
+                                            .setMessage("Your deck version is too old. Please update")
+                                            .setPositiveButton("Update", (dialog, whichButton) -> {
+                                                Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
+                                                openURL.setData(Uri.parse(createdAccount.getUrl() + "/index.php/settings/apps/installed/deck"));
+                                                startActivity(openURL);
+                                            })
+                                            .setNegativeButton(R.string.simple_dismiss, null).show();
+                                }).show();
                             } else {
                                 Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_LONG).show();
 
