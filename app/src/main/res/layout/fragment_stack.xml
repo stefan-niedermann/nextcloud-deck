@@ -27,7 +27,7 @@
                     android:layout_above="@+id/no_cards_text"
                     android:layout_gravity="center"
                     android:layout_marginBottom="-40dp"
-                    android:contentDescription="@string/no_cards"
+                    android:contentDescription="@null"
                     android:tint="@color/fg_secondary"
                     app:srcCompat="@drawable/ic_launcher_foreground" />
 

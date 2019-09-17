@@ -14,42 +14,39 @@
         android:layout_height="match_parent">
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/no_attachments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/empty_list_icon"
-            android:layout_width="72dp"
+            android:layout_width="match_parent"
             android:layout_height="72dp"
+            android:layout_above="@+id/no_attachments_text"
+            android:layout_gravity="center"
             android:contentDescription="@null"
+            android:tint="@color/fg_secondary"
             app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
 
         <TextView
-            android:id="@+id/empty_list_view_headline"
+            android:id="@+id/no_attachments_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:ellipsize="end"
+            android:layout_centerVertical="true"
             android:gravity="center"
-            android:maxLines="2"
-            android:paddingTop="@dimen/standard_padding"
-            android:paddingBottom="@dimen/standard_padding"
             android:text="@string/attachments"
+            android:textAlignment="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:textSize="@dimen/empty_content_font_size" />
 
         <TextView
-            android:id="@+id/empty_list_view_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:ellipsize="end"
-            android:gravity="center"
+            android:layout_below="@id/no_attachments_text"
+            android:layout_centerHorizontal="true"
             android:text="@string/no_files_attached_to_this_card" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

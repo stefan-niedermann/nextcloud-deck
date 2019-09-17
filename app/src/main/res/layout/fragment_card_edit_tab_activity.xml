@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/standard_margin"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/empty_list_icon"
-        app:srcCompat="@drawable/ic_activity_light_grey"
-        android:layout_width="72dp"
+        android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:contentDescription="@null" />
+        android:layout_above="@+id/no_activity_text"
+        android:layout_gravity="center"
+        android:contentDescription="@null"
+        android:tint="@color/fg_secondary"
+        app:srcCompat="@drawable/ic_activity_light_grey" />
 
     <TextView
-        android:id="@+id/empty_list_view_headline"
+        android:id="@+id/no_activity_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:ellipsize="end"
+        android:layout_centerVertical="true"
         android:gravity="center"
-        android:maxLines="2"
-        android:paddingTop="@dimen/standard_padding"
-        android:paddingBottom="@dimen/standard_padding"
         android:text="@string/activity"
+        android:textAlignment="center"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:textSize="@dimen/empty_content_font_size" />
 
     <TextView
-        android:id="@+id/empty_list_view_text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:ellipsize="end"
-        android:gravity="center"
+        android:layout_below="@id/no_activity_text"
+        android:layout_centerHorizontal="true"
         android:text="@string/this_feature_will_be_implemented_in_a_future_version" />
-
-</LinearLayout>
+</RelativeLayout>
