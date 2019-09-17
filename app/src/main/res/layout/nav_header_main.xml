@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/drawer_header_background"
-        android:src="@color/primary"
+        app:srcCompat="@drawable/background"
         android:scaleType="centerCrop"/>
 
     <RelativeLayout
