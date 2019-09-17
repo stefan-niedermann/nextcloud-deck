@@ -14,7 +14,6 @@
     <!-- Simple values -->
     <string name="simple_boards">Bord</string>
     <string name="simple_cancel">Annuleren</string>
-    <string name="simple_add">Aanmaken</string>
     <string name="simple_save">Bewaren</string>
 
     <string name="edit_board">Pas canvas aan</string>
@@ -55,10 +54,6 @@
     <string name="hint_assign_people">Toewijzen gebruikers</string>
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="activity">Activiteit</string>
-    <string name="add_card">Kaart aanmaken</string>
-    <string name="add_column">Stapel aanmaken</string>
-    <string name="create_board">Bord aanmaken</string>
-
     <string name="add_account">Account toevoegen</string>
     <string name="accounts">Accounts</string>
 
@@ -75,7 +70,6 @@
 
     <string name="label_clear_due_date">Wis vervaldatum</string>
 
-    <string name="label_add">Maak %1$s</string>
     <string name="no_columns_available">Geen kolommen beschikbaar</string>
     <string name="error">Er is een fout verschenen</string>
     <string name="simple_copy">kopiëren</string>
@@ -87,4 +81,6 @@
     <string name="card_edit_attachments">Bijlagen</string>
     <string name="card_edit_activity">Activiteit</string>
     <string name="about_server_app_version_text">Server app versie:</string>
+    <string name="no_files_attached_to_this_card">Er zijn geen bestanden gekoppeld aan deze kaart.</string>
+    <string name="attachments">Bijlagen</string>
     </resources>

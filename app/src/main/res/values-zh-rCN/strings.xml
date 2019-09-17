@@ -14,7 +14,6 @@
     <!-- Simple values -->
     <string name="simple_boards">面板</string>
     <string name="simple_cancel">取消</string>
-    <string name="simple_add">新建</string>
     <string name="simple_save">保存</string>
 
     <string name="edit_board">编辑面板</string>
@@ -55,10 +54,6 @@
     <string name="hint_assign_people">指派用户</string>
     <string name="hint_due_date_date">截止日期</string>
     <string name="activity">动态</string>
-    <string name="add_card">创建卡片</string>
-    <string name="add_column">创建堆</string>
-    <string name="create_board">创建面板</string>
-
     <string name="add_account">添加账号</string>
     <string name="accounts">账号</string>
 
@@ -75,7 +70,6 @@
 
     <string name="label_clear_due_date">清除截止日期</string>
 
-    <string name="label_add">新建%1$s</string>
     <string name="no_columns_available">没有可用的列</string>
     <string name="error">发生了一个错误</string>
     <string name="simple_copy">复制</string>
@@ -87,4 +81,6 @@
     <string name="card_edit_attachments">附件</string>
     <string name="card_edit_activity">动态</string>
     <string name="about_server_app_version_text">服务器应用版本：</string>
+    <string name="no_files_attached_to_this_card">没有文件附加到这张卡片上。</string>
+    <string name="attachments">附件</string>
     </resources>

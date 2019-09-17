@@ -14,7 +14,6 @@
     <!-- Simple values -->
     <string name="simple_boards">Taboleiros</string>
     <string name="simple_cancel">Cancelar</string>
-    <string name="simple_add">Crear</string>
     <string name="simple_save">Gardar</string>
 
     <string name="edit_board">Editar taboleiro</string>
@@ -55,10 +54,6 @@
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Data de caducidade</string>
     <string name="activity">Actividade</string>
-    <string name="add_card">Crear tarxeta</string>
-    <string name="add_column">Crear rimas</string>
-    <string name="create_board">Crear taboleiro</string>
-
     <string name="add_account">Engadir unha conta</string>
     <string name="accounts">Contas</string>
 
@@ -75,7 +70,6 @@
 
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
 
-    <string name="label_add">Creado o %1$s</string>
     <string name="no_columns_available">Non hai columnas dispoñíbeis</string>
     <string name="error">Apareceu un erro</string>
     <string name="simple_copy">copiar</string>
@@ -87,4 +81,6 @@
     <string name="card_edit_attachments">Anexos</string>
     <string name="card_edit_activity">Actividade</string>
     <string name="about_server_app_version_text">Versión do aplicativo do servidor:</string>
+    <string name="no_files_attached_to_this_card">Non hai ficheiros anexos a esta tarxeta.</string>
+    <string name="attachments">Anexos</string>
     </resources>

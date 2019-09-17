@@ -14,7 +14,6 @@
     <!-- Simple values -->
     <string name="simple_boards">Zbirke</string>
     <string name="simple_cancel">Prekliči</string>
-    <string name="simple_add">Ustvari</string>
     <string name="simple_save">Shrani</string>
 
     <string name="edit_board">Uredi zbirko</string>
@@ -55,10 +54,6 @@
     <string name="hint_assign_people">Dodeli uporabnike</string>
     <string name="hint_due_date_date">Datum preteka</string>
     <string name="activity">Dejavnost</string>
-    <string name="add_card">Ustvari nalogo</string>
-    <string name="add_column">Ustvari paket</string>
-    <string name="create_board">Ustvari zbirko</string>
-
     <string name="add_account">Dodaj račun</string>
     <string name="accounts">Računi</string>
 
@@ -75,7 +70,6 @@
 
     <string name="label_clear_due_date">Počisti datum poteka</string>
 
-    <string name="label_add">Ustvari %1$s</string>
     <string name="no_columns_available">Ni razpoložljivih stolpcev</string>
     <string name="error">Prišlo je do napake</string>
     <string name="simple_copy">kopiraj</string>
