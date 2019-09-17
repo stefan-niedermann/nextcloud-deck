@@ -249,6 +249,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupLabels(long accountId, long boardId) {
+        labelsGroup.removeAllViews();
         labels.setAdapter(new LabelAutoCompleteAdapter(this, activity, accountId, boardId));
         labels.setOnItemClickListener((adapterView, view, position, id) -> {
             Label label = (Label) adapterView.getItemAtPosition(position);
@@ -257,41 +258,34 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 newLabel.setTitle(((LabelAutoCompleteAdapter) labels.getAdapter()).getLastFilterText());
                 newLabel.setLocalId(null);
                 observeOnce(syncManager.createAndAssignLabelToCard(accountId, newLabel, fullCard.getLocalId()), CardDetailsFragment.this, createdLabel -> {
-                    Chip chip = createChipFromLabel(createdLabel);
-                    chip.setOnCloseIconClickListener(v -> {
-                        labelsGroup.removeView(chip);
-                        syncManager.unassignLabelFromCard(createdLabel, fullCard.getCard());
-                    });
-                    labelsGroup.addView(chip);
+                    addLabelAsChip(createdLabel);
+                    labelsGroup.setVisibility(View.VISIBLE);
                 });
             } else {
                 syncManager.assignLabelToCard(label, fullCard.getCard());
-
-                Chip chip = createChipFromLabel(label);
-                chip.setOnCloseIconClickListener(v -> {
-                    labelsGroup.removeView(chip);
-                    syncManager.unassignLabelFromCard(label, fullCard.getCard());
-                });
-                labelsGroup.addView(chip);
+                addLabelAsChip(label);
+                labelsGroup.setVisibility(View.VISIBLE);
             }
 
             labels.setText("");
         });
-
-        labelsGroup.removeAllViews();
         if (fullCard.getLabels() != null && fullCard.getLabels().size() > 0) {
             for (Label label : fullCard.getLabels()) {
-                final Chip chip = createChipFromLabel(label);
-                chip.setOnCloseIconClickListener(v -> {
-                    labelsGroup.removeView(chip);
-                    syncManager.unassignLabelFromCard(label, fullCard.getCard());
-                });
-                labelsGroup.addView(chip);
+                addLabelAsChip(label);
             }
             labelsGroup.setVisibility(View.VISIBLE);
         } else {
             labelsGroup.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void addLabelAsChip(Label label) {
+        Chip chip = createChipFromLabel(label);
+        chip.setOnCloseIconClickListener(v -> {
+            labelsGroup.removeView(chip);
+            syncManager.unassignLabelFromCard(label, fullCard.getCard());
+        });
+        labelsGroup.addView(chip);
     }
 
     private Chip createChipFromLabel(Label label) {

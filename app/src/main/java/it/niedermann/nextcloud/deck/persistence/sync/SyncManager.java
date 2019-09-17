@@ -438,6 +438,9 @@ public class SyncManager {
             final long localLabelId = label.getLocalId();
             final long localCardId = card.getLocalId();
             dataBaseAdapter.createJoinCardWithLabel(localLabelId, localCardId, DBStatus.LOCAL_EDITED);
+            if (label.getId() == null || card.getId() == null) {
+                return;
+            }
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
