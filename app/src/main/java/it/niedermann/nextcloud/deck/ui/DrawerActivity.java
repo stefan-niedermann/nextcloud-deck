@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
@@ -41,6 +43,8 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
@@ -93,13 +97,35 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                         Snackbar.make(coordinatorLayout, getString(R.string.account_already_added), Snackbar.LENGTH_SHORT).show();
                     }
                 } else {
-                    Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_LONG).show();
+                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
+                        @Override
+                        public void onResponse(Capabilities response) {
+                            if (response.getDeckVersion().compareTo(new Version(
+                                    getResources().getInteger(R.integer.minimum_server_app_major),
+                                    getResources().getInteger(R.integer.minimum_server_app_minor),
+                                    getResources().getInteger(R.integer.minimum_server_app_patch))) < 0) {
+                                Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_LONG).setAction("Learn more", v -> {
+                                    new AlertDialog.Builder(DrawerActivity.this)
+                                            .setTitle(R.string.update_deck)
+                                            .setMessage(R.string.deck_outdated_please_update)
+                                            .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
+                                                Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                openURL.setData(Uri.parse(createdAccount.getUrl() + getString(R.string.url_fragment_update_deck)));
+                                                startActivity(openURL);
+                                            })
+                                            .setNegativeButton(R.string.simple_dismiss, null).show();
+                                }).show();
+                            } else {
+                                Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_LONG).show();
 
-                    // Remember last account
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
-                    editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
-                    editor.apply();
+                                // Remember last account
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
+                                editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
+                                editor.apply();
+                            }
+                        }
+                    });
                 }
             });
 
