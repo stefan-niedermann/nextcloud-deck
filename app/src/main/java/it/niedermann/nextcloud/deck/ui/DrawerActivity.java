@@ -75,6 +75,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected SyncManager syncManager;
     protected SharedPreferences sharedPreferences;
     private HeaderViewHolder headerViewHolder;
+    private Snackbar deckVersionTooLowSnackbar = null;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -110,7 +111,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                     getResources().getInteger(R.integer.minimum_server_app_major),
                                     getResources().getInteger(R.integer.minimum_server_app_minor),
                                     getResources().getInteger(R.integer.minimum_server_app_patch))) < 0) {
-                                Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_LONG).setAction("Learn more", v -> {
+                                deckVersionTooLowSnackbar = Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
                                     new AlertDialog.Builder(DrawerActivity.this)
                                             .setTitle(R.string.update_deck)
                                             .setMessage(R.string.deck_outdated_please_update)
@@ -120,7 +121,15 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                                 startActivity(openURL);
                                             })
                                             .setNegativeButton(R.string.simple_dismiss, null).show();
-                                }).show();
+                                });
+                                deckVersionTooLowSnackbar.show();
+                                syncManager.deleteAccount(createdAccount.getId());
+
+                                sharedPreferences.getLong(getString(R.string.shared_preference_last_account), NO_ACCOUNTS);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                DeckLog.log("--- Remove: shared_preference_last_account" + " | " + createdAccount.getId());
+                                editor.remove(getString(R.string.shared_preference_last_account));
+                                editor.commit(); // Has to be done synchronously
                             } else {
                                 Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_LONG).show();
                             }
@@ -167,7 +176,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             syncManager = new SyncManager(this);
                             setHeaderView();
-                            syncManager = new SyncManager(this);
                             ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
                             // TODO show spinner
                             syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
@@ -197,6 +205,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     }
 
     private void showAccountPicker() {
+        if (deckVersionTooLowSnackbar != null) {
+            deckVersionTooLowSnackbar.dismiss();
+        }
         try {
             AccountImporter.pickNewAccount(this);
         } catch (NextcloudFilesAppNotInstalledException e) {
