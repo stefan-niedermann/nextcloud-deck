@@ -101,13 +101,13 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                         @Override
                         public void onResponse(Capabilities response) {
                             if (response.getDeckVersion().compareTo(new Version(0, 6, 6)) < 0) {
-                                Snackbar.make(coordinatorLayout, "Your deck version is too old", Snackbar.LENGTH_LONG).setAction("Learn more", v -> {
+                                Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_LONG).setAction("Learn more", v -> {
                                     new AlertDialog.Builder(DrawerActivity.this)
-                                            .setTitle("Update deck")
-                                            .setMessage("Your deck version is too old. Please update")
-                                            .setPositiveButton("Update", (dialog, whichButton) -> {
-                                                Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
-                                                openURL.setData(Uri.parse(createdAccount.getUrl() + "/index.php/settings/apps/installed/deck"));
+                                            .setTitle(R.string.update_deck)
+                                            .setMessage(R.string.deck_outdated_please_update)
+                                            .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
+                                                Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                openURL.setData(Uri.parse(createdAccount.getUrl() + getString(R.string.url_fragment_update_deck)));
                                                 startActivity(openURL);
                                             })
                                             .setNegativeButton(R.string.simple_dismiss, null).show();

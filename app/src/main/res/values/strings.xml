@@ -102,6 +102,7 @@
     <string name="url_translations" translatable="false">https://www.transifex.com/nextcloud/nextcloud/</string>
     <string name="url_files" translatable="false">https://play.google.com/store/apps/details?id=com.nextcloud.client</string>
     <string name="url_about_icons_disclaimer_mdi" translatable="false">https://materialdesignicons.com/</string>
+    <string name="url_fragment_update_deck" translatable="false">/index.php/settings/apps/installed/deck</string>
 
     <!-- HTML Tags -->
 
@@ -130,4 +131,8 @@
     <string name="do_you_want_to_delete_the_current_column">Do you want to delete the current column?</string>
     <string name="add_a_new_column_using_the_button">Add a new column using the + button.</string>
     <string name="add_a_new_card_using_the_button">Add a new card using the + button</string>
+    <string name="update_deck">Update deck</string>
+    <string name="your_deck_version_is_too_old">Your deck version is too old</string>
+    <string name="deck_outdated_please_update">Your deck version is too old. Please update to use this android app as client.</string>
+    <string name="simple_update">Update</string>
 </resources>
