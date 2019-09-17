@@ -1,6 +1,31 @@
 package it.niedermann.nextcloud.deck.model.ocs;
 
-public class Activity {
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+
+import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+
+
+@Entity(inheritSuperIndices = true,
+        indices = {
+                @Index(value = "accountId", name = "card_accID"),
+                @Index("stackId")
+        },
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Card.class,
+                        parentColumns = "localId",
+                        childColumns = "cardId", onDelete = ForeignKey.CASCADE
+                )
+        }
+)
+public class Activity extends AbstractRemoteEntity {
+
+    private long cardId;
+    private String subject;
+    private int type;
 //    {
 //        "ocs": {
 //        "meta": {
@@ -10,7 +35,8 @@ public class Activity {
 //        },
 //        "data": [
 //        {
-//            "activity_id": 29067,
+//            "
+//            ": 29067,
 //                "app": "deck",
 //                "type": "deck",
 //                "user": "artur",

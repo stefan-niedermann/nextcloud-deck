@@ -11,6 +11,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 
 /**
@@ -32,6 +33,8 @@ public class GsonConfig {
         Type stack = new TypeToken<FullStack>() {}.getType();
         Type capabilities = new TypeToken<Capabilities>() {}.getType();
         Type capabilitiesList = new TypeToken<List<Capabilities>>() {}.getType();
+        Type activity = new TypeToken<Activity>() {}.getType();
+        Type activityList = new TypeToken<List<Activity>>() {}.getType();
 
         return new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
@@ -46,6 +49,8 @@ public class GsonConfig {
                 .registerTypeAdapter(stack,         new NextcloudDeserializer<>("stack", FullStack.class))
                 .registerTypeAdapter(capabilitiesList,     new NextcloudArrayDeserializer<>("capabilities", Capabilities.class))
                 .registerTypeAdapter(capabilities,         new NextcloudDeserializer<>("capability", Capabilities.class))
+                .registerTypeAdapter(activityList,     new NextcloudArrayDeserializer<>("activities", Activity.class))
+                .registerTypeAdapter(activity,         new NextcloudDeserializer<>("activity", Activity.class))
                 .create();
     }
 

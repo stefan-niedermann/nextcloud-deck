@@ -34,12 +34,6 @@ public enum DBStatus {
         this.id = id;
     }
 
-    /**
-     * Parse a String an get the appropriate DBStatus enum element.
-     *
-     * @param id The String containing the DBStatus identifier. Must not null.
-     * @return The DBStatus fitting to the String.
-     */
     public static DBStatus findById(int id) {
         for (DBStatus s : DBStatus.values()) {
             if (s.getId() == id) {
