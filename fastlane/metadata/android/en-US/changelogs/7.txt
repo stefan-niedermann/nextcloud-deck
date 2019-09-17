@@ -1,0 +1,7 @@
+- New background in nav drawer
+- Enhance multi account setups
+- Check for minimum required server app version
+- Enhanced empty content views
+- Fix synchronizing edited cards immediately
+- Fix dismissing cards
+- Fix some Null Pointer Exceptions
