@@ -90,19 +90,19 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         AccountImporter.onActivityResult(requestCode, resultCode, data, this, (SingleSignOnAccount account) -> {
             final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
             accountLiveData.observe(this, (Account createdAccount) -> {
-                // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
-                editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
-                editor.commit();
-
                 if (accountLiveData.hasError()) {
                     try {
                         accountLiveData.throwError();
                     } catch (SQLiteConstraintException ex) {
-                        Snackbar.make(coordinatorLayout, getString(R.string.account_already_added), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(coordinatorLayout, getString(R.string.account_already_added), Snackbar.LENGTH_LONG).show();
                     }
                 } else {
+                    // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
+                    editor.putLong(getString(R.string.shared_preference_last_account), createdAccount.getId());
+                    editor.commit();
+
                     syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
                         @Override
                         public void onResponse(Capabilities response) {
