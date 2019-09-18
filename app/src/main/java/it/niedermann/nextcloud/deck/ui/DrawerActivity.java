@@ -76,6 +76,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected SharedPreferences sharedPreferences;
     private HeaderViewHolder headerViewHolder;
     private Snackbar deckVersionTooLowSnackbar = null;
+    private Snackbar accountIsGettingImportedSnackbar;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -131,7 +132,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                 editor.remove(getString(R.string.shared_preference_last_account));
                                 editor.commit(); // Has to be done synchronously
                             } else {
-                                Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_LONG).show();
+                                accountIsGettingImportedSnackbar.show();
                             }
                         }
                     });
@@ -149,6 +150,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setSupportActionBar(toolbar);
+
+        accountIsGettingImportedSnackbar = Snackbar.make(coordinatorLayout, getString(R.string.account_is_getting_imported), Snackbar.LENGTH_INDEFINITE);
 
         View header = navigationView.getHeaderView(0);
         headerViewHolder = new HeaderViewHolder(header);
@@ -181,7 +184,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
                                 @Override
                                 public void onResponse(Boolean response) {
-                                    //nothing
+                                    accountIsGettingImportedSnackbar.dismiss();
                                 }
                             });
                             accountSet(this.account);
