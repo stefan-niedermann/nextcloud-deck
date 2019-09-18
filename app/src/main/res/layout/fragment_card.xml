@@ -129,7 +129,7 @@
                     app:drawableLeftCompat="@drawable/ic_attach_file_grey600_24dp"
                     app:drawableStartCompat="@drawable/ic_attach_file_grey600_24dp"
                     tools:text="1"
-                    android:gravity="end"/>
+                    android:gravity="center_vertical"/>
 
                 <RelativeLayout
                     android:id="@+id/peopleList"
