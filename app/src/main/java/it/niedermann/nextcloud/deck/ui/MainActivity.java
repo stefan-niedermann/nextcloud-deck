@@ -298,21 +298,23 @@ public class MainActivity extends DrawerActivity {
             } else {
                 long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId, NO_STACKS);
                 DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
-                stackAdapter.clear();
                 if (fullStacks.size() == 0) {
                     noStacks.setVisibility(View.VISIBLE);
                 } else {
                     noStacks.setVisibility(View.GONE);
                 }
+
+                StackAdapter newStackAdapter = new StackAdapter(getSupportFragmentManager());
                 for (int i = 0; i < fullStacks.size(); i++) {
                     FullStack stack = fullStacks.get(i);
-                    stackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
+                    newStackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
                     if (stack.getLocalId() == savedStackId) {
                         stackPositionInAdapter = i;
                     }
                 }
+                stackAdapter = newStackAdapter;
                 runOnUiThread(() -> {
-                    viewPager.setAdapter(stackAdapter);
+                    viewPager.setAdapter(newStackAdapter);
                     viewPager.setCurrentItem(stackPositionInAdapter);
                     stackLayout.setupWithViewPager(viewPager);
                 });
