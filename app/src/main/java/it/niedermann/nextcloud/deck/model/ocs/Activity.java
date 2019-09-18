@@ -10,8 +10,8 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
         indices = {
-                @Index(value = "accountId", name = "card_accID"),
-                @Index("stackId")
+                @Index(value = "accountId", name = "activity_accID"),
+                @Index("cardId")
         },
         foreignKeys = {
                 @ForeignKey(
@@ -26,6 +26,31 @@ public class Activity extends AbstractRemoteEntity {
     private long cardId;
     private String subject;
     private int type;
+
+    public long getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(long cardId) {
+        this.cardId = cardId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
 //    {
 //        "ocs": {
 //        "meta": {

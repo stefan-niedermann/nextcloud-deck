@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.ActivityType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -293,9 +294,13 @@ public class JsonToEntityParser {
                 for (JsonElement activityJson : data) {
                     Activity activity = new Activity();
                     JsonObject activityObject = activityJson.getAsJsonObject();
-                    if (activityObject.has("activity_id")) {
 
-                    }
+                    activity.setId(e.get("activity_id").getAsLong());
+                    activity.setType(ActivityType.findByPath(getNullAsEmptyString(activityObject.get( "icon"))).getId());
+                    activity.setSubject(getNullAsEmptyString(activityObject.get("subject")));
+                    activity.setCardId(activityObject.get("object_id").getAsLong());
+                    activity.setLastModified(getTimestampFromString(activityObject.get("datetime")));
+
                     activityList.add(activity);
                 }
             }
