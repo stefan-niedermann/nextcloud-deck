@@ -65,6 +65,8 @@ public class MainActivity extends DrawerActivity {
 
     private StackAdapter stackAdapter;
 
+    private MenuItem addColumnMenuItem;
+
     private List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
@@ -295,13 +297,16 @@ public class MainActivity extends DrawerActivity {
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
                 noStacks.setVisibility(View.VISIBLE);
+                addColumnMenuItem.setVisible(false);
             } else {
                 long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId, NO_STACKS);
                 DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
                 if (fullStacks.size() == 0) {
                     noStacks.setVisibility(View.VISIBLE);
+                    addColumnMenuItem.setVisible(false);
                 } else {
                     noStacks.setVisibility(View.GONE);
+                    addColumnMenuItem.setVisible(true);
                 }
 
                 StackAdapter newStackAdapter = new StackAdapter(getSupportFragmentManager());
@@ -326,6 +331,7 @@ public class MainActivity extends DrawerActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.card_list_menu, menu);
+        addColumnMenuItem = menu.findItem(R.id.action_card_list_delete_column);
         return super.onCreateOptionsMenu(menu);
     }
 
