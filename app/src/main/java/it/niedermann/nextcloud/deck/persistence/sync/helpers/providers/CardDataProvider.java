@@ -235,6 +235,9 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         List<FullCard> localCards = dataBaseAdapter.getFullCardsForStackDirectly(accountId, stack.getLocalId());
         List<FullCard> delta = findDelta(entitiesFromServer, localCards);
         for (FullCard cardToDelete : delta) {
+            if (cardToDelete.getStatus() == DBStatus.LOCAL_MOVED.getId()){
+                continue;
+            }
             dataBaseAdapter.deleteCardPhysically(cardToDelete.getCard());
         }
     }
