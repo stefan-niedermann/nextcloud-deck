@@ -8,10 +8,10 @@
 
     <LinearLayout
         android:id="@+id/attachments_list"
-        android:visibility="gone"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
     </LinearLayout>
 
     <RelativeLayout
@@ -35,10 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="@string/attachments"
-            android:textAlignment="center"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
+            android:text="@string/attachments"
+            android:textAlignment="center"
             android:textSize="@dimen/empty_content_font_size" />
 
         <TextView

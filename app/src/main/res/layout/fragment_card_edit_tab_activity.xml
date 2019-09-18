@@ -21,10 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:text="@string/activity"
-        android:textAlignment="center"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
+        android:text="@string/activity"
+        android:textAlignment="center"
         android:textSize="@dimen/empty_content_font_size" />
 
     <TextView

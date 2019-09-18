@@ -37,9 +37,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:gravity="center"
+                    android:paddingBottom="16dp"
                     android:text="@string/no_cards"
                     android:textAlignment="center"
-                    android:paddingBottom="16dp"
                     android:textSize="@dimen/empty_content_font_size" />
 
                 <TextView

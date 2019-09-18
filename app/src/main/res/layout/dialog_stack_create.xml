@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/standard_margin">
 
-        <EditText
-            android:id="@+id/input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/simple_title"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="text" />
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/simple_title"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="text" />
 
 </FrameLayout>

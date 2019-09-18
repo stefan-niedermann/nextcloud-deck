@@ -46,8 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_margin"
-            app:flexWrap="wrap"
             app:alignItems="stretch"
+            app:flexWrap="wrap"
             app:justifyContent="space_between">
 
 
@@ -67,10 +67,10 @@
                 android:layout_height="wrap_content"
                 android:enabled="true"
                 android:focusable="false"
-                app:layout_flexGrow="2"
                 android:hint="@string/hint_due_date_date"
                 android:importantForAutofill="no"
                 android:maxLines="1"
+                app:layout_flexGrow="2"
                 tools:text="01/07/2020" />
 
             <EditText
@@ -81,10 +81,10 @@
                 android:focusable="false"
                 android:hint="@string/hint_due_date_time"
                 android:importantForAutofill="no"
-                app:layout_flexGrow="1"
                 android:maxLines="1"
                 android:minLines="0"
                 android:textAlignment="center"
+                app:layout_flexGrow="1"
                 tools:text="11:45" />
 
             <ImageView
