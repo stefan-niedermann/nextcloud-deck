@@ -1,2 +1,3 @@
 - Quick fix for due date width (some languages need more space)
 - "Delete column" action should only be available when the current board has one or more columns. (#129)
+- Deleting a board displays empty content view (#131)
