@@ -193,9 +193,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             }
         });
 
-        clearDueDate.setOnClickListener(v -> {
-            this.fullCard.getCard().setDueDate(null);
-        });
+        clearDueDate.setOnClickListener(v -> this.fullCard.getCard().setDueDate(null));
     }
 
     private TimePickerDialog createTimePickerDialogFromDate(
@@ -242,7 +240,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate()));
             clearDueDate.setVisibility(View.VISIBLE);
         } else {
-            clearDueDate.setVisibility(View.INVISIBLE);
+            clearDueDate.setVisibility(View.GONE);
             dueDate.setText(null);
             dueDateTime.setText(null);
         }

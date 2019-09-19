@@ -65,6 +65,8 @@ public class MainActivity extends DrawerActivity {
 
     private StackAdapter stackAdapter;
 
+    private MenuItem addColumnMenuItem;
+
     private List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
@@ -245,13 +247,15 @@ public class MainActivity extends DrawerActivity {
                                 Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                                 break;
                             case R.id.delete_board:
-                                if (currentIndex != 0) { // Select first board after deletion
-                                    boardSelected(0, account);
-                                } else if (boardsList.size() > 1) { // Select second board after deletion
-                                    boardSelected(1, account);
-                                } else { // No other board is available, open create dialog
-                                    Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
-                                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
+                                if (board.getLocalId() == currentBoardId) {
+                                    if (currentIndex > 0) { // Select first board after deletion
+                                        boardSelected(0, account);
+                                    } else if (boardsList.size() > 1) { // Select second board after deletion
+                                        boardSelected(1, account);
+                                    } else { // No other board is available, open create dialog
+                                        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
+                                        EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
+                                    }
                                 }
                                 syncManager.deleteBoard(board);
                                 drawer.closeDrawer(GravityCompat.START);
@@ -295,24 +299,29 @@ public class MainActivity extends DrawerActivity {
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
                 noStacks.setVisibility(View.VISIBLE);
+                addColumnMenuItem.setVisible(false);
             } else {
                 long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId, NO_STACKS);
                 DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
-                stackAdapter.clear();
                 if (fullStacks.size() == 0) {
                     noStacks.setVisibility(View.VISIBLE);
+                    addColumnMenuItem.setVisible(false);
                 } else {
                     noStacks.setVisibility(View.GONE);
+                    addColumnMenuItem.setVisible(true);
                 }
+
+                StackAdapter newStackAdapter = new StackAdapter(getSupportFragmentManager());
                 for (int i = 0; i < fullStacks.size(); i++) {
                     FullStack stack = fullStacks.get(i);
-                    stackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
+                    newStackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
                     if (stack.getLocalId() == savedStackId) {
                         stackPositionInAdapter = i;
                     }
                 }
+                stackAdapter = newStackAdapter;
                 runOnUiThread(() -> {
-                    viewPager.setAdapter(stackAdapter);
+                    viewPager.setAdapter(newStackAdapter);
                     viewPager.setCurrentItem(stackPositionInAdapter);
                     stackLayout.setupWithViewPager(viewPager);
                 });
@@ -324,6 +333,7 @@ public class MainActivity extends DrawerActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.card_list_menu, menu);
+        addColumnMenuItem = menu.findItem(R.id.action_card_list_delete_column);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -50,7 +50,7 @@ public class SyncHelper {
 //                                if (existingEntity.getLastModified().getTime() == entityFromServer.getLastModified().getTime()) {
 //                                    continue; // TODO: is this is ok for sure? -> isn`t! NPE
 //                                }
-                                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(existingEntity, entityFromServer, accountId));
+                                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(existingEntity, entityFromServer, accountId), false);
                             }
                         }
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
@@ -113,7 +113,9 @@ public class SyncHelper {
             @Override
             public void onResponse(T response) {
                 response.setAccountId(this.account.getId());
-                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(entity, response, accountId), false);
+                T update = applyUpdatesFromRemote(entity, response, accountId);
+                update.setStatus(DBStatus.UP_TO_DATE.getId());
+                provider.updateInDB(dataBaseAdapter, accountId, update, false);
             }
 
             @Override

@@ -22,7 +22,13 @@ public enum DBStatus {
      * Therefore, the Note has to be kept locally until the synchronization has succeeded.
      * However, Notes with this status should not be displayed in the UI.
      */
-    LOCAL_DELETED(3);
+    LOCAL_DELETED(3),
+
+    /**
+     * LOCAL_MOVED means that the Note was moved locally, but this information was not yet synchronized.
+     * Therefore, the Note has to be kept locally until the synchronization has succeeded.
+     */
+    LOCAL_MOVED(4);
 
     private final int id;
 

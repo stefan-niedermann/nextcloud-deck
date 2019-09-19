@@ -11,21 +11,21 @@
         android:layout_height="40dp"
         android:layout_margin="@dimen/standard_margin"
         android:contentDescription="@null"
-        tools:src="@drawable/ic_close_circle_grey600"/>
+        tools:src="@drawable/ic_close_circle_grey600" />
 
     <TextView
         android:id="@+id/label"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:ellipsize="middle"
         android:layout_weight="1"
-        android:paddingRight="@dimen/standard_padding"
-        android:paddingEnd="@dimen/standard_padding"
-        android:paddingLeft="0dp"
+        android:ellipsize="middle"
+        android:gravity="center_vertical"
         android:paddingStart="0dp"
-        android:textSize="18sp"
+        android:paddingLeft="0dp"
+        android:paddingEnd="@dimen/standard_padding"
+        android:paddingRight="@dimen/standard_padding"
         android:textColor="@color/black"
-        tools:text="TestUser One"/>
+        android:textSize="18sp"
+        tools:text="TestUser One" />
 
 </LinearLayout>

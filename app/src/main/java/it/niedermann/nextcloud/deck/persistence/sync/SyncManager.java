@@ -174,7 +174,7 @@ public class SyncManager {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
-            if (owner == null) {
+            if(owner == null) {
                 DeckLog.log("owner is null - this can be the case if the Deck app has never before been opened in the webinterface");
                 liveData.postValue(null);
             } else {
@@ -192,7 +192,7 @@ public class SyncManager {
                 });
             }
         });
-        return liveData;
+    return liveData;
 
     }
 
@@ -597,6 +597,7 @@ public class SyncManager {
         int offset = 1;
         if (oldStackId == newStackId) {
             // card was only reordered in the same stack
+            card.setStatusEnum(DBStatus.LOCAL_EDITED);
             if (oldOrder > newOrder) {
                 updateFromOrder = newOrder;
                 updateToOrder = oldOrder;
@@ -607,6 +608,7 @@ public class SyncManager {
             }
         } else {
             // card was moved to an other stack
+            card.setStatusEnum(DBStatus.LOCAL_MOVED);
             updateFromOrder = newOrder;
             updateToOrder = cardsOfNewStack.isEmpty() ?
                     updateFromOrder :
@@ -626,6 +628,6 @@ public class SyncManager {
         }
         card.setStackId(newStackId);
         card.setOrder(newOrder);
-        dataBaseAdapter.updateCard(card, true);
+        dataBaseAdapter.updateCard(card, false);
     }
 }

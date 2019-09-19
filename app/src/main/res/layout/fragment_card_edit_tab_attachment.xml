@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal"
     android:padding="@dimen/standard_padding">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginRight="@dimen/standard_margin"
-        app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
+<androidx.appcompat.widget.AppCompatImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginEnd="@dimen/standard_margin"
+    android:layout_marginRight="@dimen/standard_margin"
+    app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
 
     <TextView
         android:id="@+id/filename"
@@ -36,15 +36,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:hint="1.98 MB"
-            tools:ignore="HardcodedText" />
+            tools:text="1.98 MB" />
 
         <TextView
             android:id="@+id/modified"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:hint="Mar 4"
-            tools:ignore="HardcodedText" />
+            tools:text="Mar 4" />
     </LinearLayout>
 </LinearLayout>
