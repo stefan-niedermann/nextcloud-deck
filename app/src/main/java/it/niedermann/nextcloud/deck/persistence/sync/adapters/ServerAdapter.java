@@ -107,6 +107,11 @@ public class ServerAdapter {
         RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
     }
 
+    public void getActivitiesForCard(long cardId, IResponseCallback<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getActivitiesForCard(cardId), responseCallback);
+    }
+
     public void createBoard(Board board, IResponseCallback<FullBoard> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().createBoard(board), responseCallback);

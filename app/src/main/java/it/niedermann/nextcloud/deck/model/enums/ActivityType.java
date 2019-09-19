@@ -48,7 +48,7 @@ public enum ActivityType {
             throw new IllegalArgumentException("path is null");
         }
         for (ActivityType s : ActivityType.values()) {
-            if (path.trim().endsWith(path)) {
+            if (path.trim().endsWith(s.getName())) {
                 return s;
             }
         }

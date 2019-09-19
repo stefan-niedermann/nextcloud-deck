@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
@@ -473,5 +474,9 @@ public class DataBaseAdapter {
 
     public void deleteJoinedUserForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, String userUid) {
         db.getJoinCardWithUserDao().deleteJoinedUserForCardPhysicallyByRemoteIDs(accountId, remoteCardId, userUid);
+    }
+
+    public LiveData<List<Activity>> getActivitiesForCard(Long localCardId) {
+        return db.getActivityDao().getActivitiesForCard(localCardId);
     }
 }

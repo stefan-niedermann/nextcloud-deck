@@ -295,7 +295,7 @@ public class JsonToEntityParser {
                     Activity activity = new Activity();
                     JsonObject activityObject = activityJson.getAsJsonObject();
 
-                    activity.setId(e.get("activity_id").getAsLong());
+                    activity.setId(activityObject.get("activity_id").getAsLong());
                     activity.setType(ActivityType.findByPath(getNullAsEmptyString(activityObject.get( "icon"))).getId());
                     activity.setSubject(getNullAsEmptyString(activityObject.get("subject")));
                     activity.setCardId(activityObject.get("object_id").getAsLong());

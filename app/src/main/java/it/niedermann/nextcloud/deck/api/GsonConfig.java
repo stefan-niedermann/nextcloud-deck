@@ -49,7 +49,7 @@ public class GsonConfig {
                 .registerTypeAdapter(stack,         new NextcloudDeserializer<>("stack", FullStack.class))
                 .registerTypeAdapter(capabilitiesList,     new NextcloudArrayDeserializer<>("capabilities", Capabilities.class))
                 .registerTypeAdapter(capabilities,         new NextcloudDeserializer<>("capability", Capabilities.class))
-                .registerTypeAdapter(activityList,     new NextcloudArrayDeserializer<>("activities", Activity.class))
+                .registerTypeAdapter(activityList,     new NextcloudDeserializer<>("activities", Activity.class))
                 .registerTypeAdapter(activity,         new NextcloudDeserializer<>("activity", Activity.class))
                 .create();
     }

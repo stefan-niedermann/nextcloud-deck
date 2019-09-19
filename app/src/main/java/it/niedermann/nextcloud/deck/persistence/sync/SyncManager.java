@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.ActivityDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardPropagationDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelDataProvider;
@@ -192,8 +193,14 @@ public class SyncManager {
                 });
             }
         });
-    return liveData;
+        return liveData;
+    }
 
+    public LiveData<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> syncActivitiesForCard(Card card) {
+        doAsync(() -> {
+            new SyncHelper(serverAdapter, dataBaseAdapter, null).doSyncFor(new ActivityDataProvider(null, card));
+        });
+        return dataBaseAdapter.getActivitiesForCard(card.getLocalId());
     }
 
     public void deleteBoard(Board board) {

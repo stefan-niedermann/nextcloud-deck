@@ -25,8 +25,10 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.ActivityDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.BoardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CardDao;
@@ -56,9 +58,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 Permission.class,
                 Stack.class,
                 User.class,
+                Activity.class,
         },
         exportSchema = false,
-        version = 4
+        version = 5
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -113,6 +116,8 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract JoinCardWithUserDao getJoinCardWithUserDao();
 
     public abstract LabelDao getLabelDao();
+
+    public abstract ActivityDao getActivityDao();
 
     public abstract PermissionDao getPermissionDao();
 
