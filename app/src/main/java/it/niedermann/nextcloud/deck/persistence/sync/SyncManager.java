@@ -34,6 +34,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelp
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.ActivityDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardPropagationDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
@@ -332,6 +333,39 @@ public class SyncManager {
         });
         return liveData;
     }
+    public LiveData<FullCard> createFullCard(long accountId, long localBoardId, long localStackId, FullCard card) {
+
+        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(localStackId);
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
+            card.getCard().setUserId(owner.getLocalId());
+            card.getCard().setStackId(stack.getLocalId());
+            card.getCard().setAccountId(accountId);
+            card.getCard().setStatusEnum(DBStatus.LOCAL_EDITED);
+            long localCardId = dataBaseAdapter.createCard(accountId, card.getCard());
+            card.getCard().setLocalId(localCardId);
+
+            List<User> assignedUsers = card.getAssignedUsers();
+            if (assignedUsers!= null) {
+                for (User assignedUser : assignedUsers) {
+                    dataBaseAdapter.createJoinCardWithUser(assignedUser.getLocalId(), localCardId, DBStatus.LOCAL_EDITED);
+                }
+            }
+
+            List<Label> labels = card.getLabels();
+            if (labels != null) {
+                for (Label label : labels) {
+                    dataBaseAdapter.createJoinCardWithLabel(label.getLocalId(), localCardId, DBStatus.LOCAL_EDITED);
+                }
+            }
+
+            new SyncHelper(serverAdapter, dataBaseAdapter, null).doUpSyncFor(new CardDataProvider(null, board, stack));
+        });
+        return liveData;
+    }
 
     public MutableLiveData<FullCard> deleteCard(Card card) {
         MutableLiveData<FullCard> liveData = new MutableLiveData<>();
@@ -379,9 +413,22 @@ public class SyncManager {
         return liveData;
     }
 
-    public long createLabel(long accountId, Label label) {
-        //TODO: Tell the server
-        return dataBaseAdapter.createLabel(accountId, label);
+    public MutableLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
+        MutableLiveData<Label> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
+            label.setAccountId(accountId);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null), label, new IResponseCallback<Label>(account) {
+                @Override
+                public void onResponse(Label response) {
+                    liveData.postValue(response);
+                }
+            }, (entity, response) -> {
+                response.setBoardId(board.getLocalId());
+            });
+        });
+        return liveData;
     }
 
     public MutableLiveData<Label> createAndAssignLabelToCard(long accountId, Label label, long localCardId) {
