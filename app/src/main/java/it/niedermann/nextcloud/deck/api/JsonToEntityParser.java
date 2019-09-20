@@ -24,9 +24,11 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.ActivityType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 
@@ -46,6 +48,8 @@ public class JsonToEntityParser {
             return (T) parseStack(obj);
         } else if (mType == Label.class) {
             return (T) parseLabel(obj);
+        }  else if (mType == Activity.class) {
+            return (T) parseActivity(obj);
         }  else if (mType == Capabilities.class) {
             return (T) parseCapabilities(obj);
         }
@@ -276,8 +280,32 @@ public class JsonToEntityParser {
                 capabilities.setDeckVersion(new Version(major, minor, micro));
             }
         }
-
         return capabilities;
+    }
+
+    protected static List<Activity> parseActivity(JsonObject e) {
+        DeckLog.log(e.toString());
+        List<Activity> activityList = new ArrayList<>();
+
+        if (e.has("ocs")){
+            JsonObject ocs = e.getAsJsonObject("ocs");
+            if (ocs.has("data")) {
+                JsonArray data = ocs.getAsJsonArray("data");
+                for (JsonElement activityJson : data) {
+                    Activity activity = new Activity();
+                    JsonObject activityObject = activityJson.getAsJsonObject();
+
+                    activity.setId(activityObject.get("activity_id").getAsLong());
+                    activity.setType(ActivityType.findByPath(getNullAsEmptyString(activityObject.get( "icon"))).getId());
+                    activity.setSubject(getNullAsEmptyString(activityObject.get("subject")));
+                    activity.setCardId(activityObject.get("object_id").getAsLong());
+                    activity.setLastModified(getTimestampFromString(activityObject.get("datetime")));
+
+                    activityList.add(activity);
+                }
+            }
+        }
+        return activityList;
     }
 
     protected static FullStack parseStack(JsonObject e) {
