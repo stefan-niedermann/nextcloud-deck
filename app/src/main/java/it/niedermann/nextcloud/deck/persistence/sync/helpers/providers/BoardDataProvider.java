@@ -142,4 +142,13 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullBoard entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteBoard(entity.getBoard(), callback);
     }
+
+    @Override
+    public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<FullBoard> entitiesFromServer) {
+        List<FullBoard> localBoards = dataBaseAdapter.getAllFullBoards(accountId);
+        List<FullBoard> delta = findDelta(entitiesFromServer, localBoards);
+        for (FullBoard board : delta) {
+            dataBaseAdapter.deleteBoardPhysically(board.getBoard());
+        }
+    }
 }

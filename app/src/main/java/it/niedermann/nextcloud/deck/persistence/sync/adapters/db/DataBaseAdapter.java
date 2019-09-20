@@ -441,6 +441,9 @@ public class DataBaseAdapter {
     public List<FullBoard> getLocallyChangedBoards(long accountId) {
         return db.getBoardDao().getLocallyChangedBoardsDirectly(accountId);
     }
+    public List<FullBoard> getAllFullBoards(long accountId) {
+        return db.getBoardDao().getAllFullBoards(accountId);
+    }
 
     public List<FullStack> getLocallyChangedStacksForBoard(long accountId, long localBoardId) {
         return db.getStackDao().getLocallyChangedStacksForBoardDirectly(accountId, localBoardId);
