@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -236,7 +237,27 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         List<FullCard> delta = findDelta(entitiesFromServer, localCards);
         for (FullCard cardToDelete : delta) {
             if (cardToDelete.getStatus() == DBStatus.LOCAL_MOVED.getId()){
-                // FIXME Check if card still exists
+                if (cardToDelete.getId() == null){
+                    // not pushed up yet so:
+                    continue;
+                } else {
+                    //only delete, if the card isn't availible on server anymore.
+                    serverAdapter.getCard(board.getId(), stack.getId(), cardToDelete.getId(), new IResponseCallback<FullCard>(new Account(accountId)){
+                        @Override
+                        public void onResponse(FullCard response) {
+                            // do not delete, it's still there and was just moved!
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            if (!(throwable instanceof OfflineException)) {
+                                // most likely permission denied, therefore deleted
+                                dataBaseAdapter.deleteCardPhysically(cardToDelete.getCard());
+                            }
+                        }
+                    });
+                }
+
                 continue;
             }
             dataBaseAdapter.deleteCardPhysically(cardToDelete.getCard());

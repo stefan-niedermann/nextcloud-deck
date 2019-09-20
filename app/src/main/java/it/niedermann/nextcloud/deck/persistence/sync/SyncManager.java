@@ -651,7 +651,7 @@ public class SyncManager {
         int offset = 1;
         if (oldStackId == newStackId) {
             // card was only reordered in the same stack
-            card.setStatusEnum(DBStatus.LOCAL_EDITED);
+            card.setStatusEnum(card.getStatus() == DBStatus.LOCAL_MOVED.getId() ? DBStatus.LOCAL_MOVED : DBStatus.LOCAL_EDITED);
             if (oldOrder > newOrder) {
                 updateFromOrder = newOrder;
                 updateToOrder = oldOrder;
