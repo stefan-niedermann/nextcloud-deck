@@ -49,4 +49,8 @@ public interface StackDao extends GenericDao<Stack> {
     @Transaction
     @Query("SELECT * FROM stack WHERE accountId = :accountId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
     List<FullStack> getLocallyChangedStacksDirectly(long accountId);
+
+    @Transaction
+    @Query("SELECT * FROM stack WHERE accountId = :accountId AND boardId = :localBoardId and status<>3 and (deletedAt is null or deletedAt = 0) order by `order` asc")
+    List<FullStack> getFullStacksForBoardDirectly(long accountId, long localBoardId);
 }

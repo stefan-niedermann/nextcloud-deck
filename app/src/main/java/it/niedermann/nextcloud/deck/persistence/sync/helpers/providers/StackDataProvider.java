@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Set;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -119,5 +122,38 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
         serverAdapter.updateStack(entity.getStack(), callback);
+    }
+
+    @Override
+    public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<FullStack> entitiesFromServer) {
+        List<FullStack> localStacks = dataBaseAdapter.getFullStacksForBoardDirectly(accountId, board.getLocalId());
+        List<FullStack> delta = findDelta(entitiesFromServer, localStacks);
+        for (FullStack stackToDelete : delta) {
+            if (stackToDelete.getStatus() == DBStatus.LOCAL_MOVED.getId()){
+                if (stackToDelete.getId() == null){
+                    // not pushed up yet so:
+                    continue;
+                } else {
+                    //only delete, if the card isn't availible on server anymore.
+                    serverAdapter.getStack(board.getId(), stackToDelete.getId(), new IResponseCallback<FullStack>(new Account(accountId)){
+                        @Override
+                        public void onResponse(FullStack response) {
+                            // do not delete, it's still there and was just moved!
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            if (!(throwable instanceof OfflineException)) {
+                                // most likely permission denied, therefore deleted
+                                dataBaseAdapter.deleteStackPhysically(stackToDelete.getStack());
+                            }
+                        }
+                    });
+                }
+
+                continue;
+            }
+            dataBaseAdapter.deleteStackPhysically(stackToDelete.getStack());
+        }
     }
 }

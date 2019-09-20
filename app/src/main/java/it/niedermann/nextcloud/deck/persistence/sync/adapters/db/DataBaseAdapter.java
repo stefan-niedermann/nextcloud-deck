@@ -286,8 +286,12 @@ public class DataBaseAdapter {
         db.getBoardDao().update(board);
     }
 
-    public LiveData<List<FullStack>> getStacks(long accountId, long localBoardId) {
+    public LiveData<List<FullStack>> getFullStacksForBoard(long accountId, long localBoardId) {
         return LiveDataHelper.onlyIfChanged(db.getStackDao().getFullStacksForBoard(accountId, localBoardId));
+    }
+
+    public List<FullStack> getFullStacksForBoardDirectly(long accountId, long localBoardId) {
+        return db.getStackDao().getFullStacksForBoardDirectly(accountId, localBoardId);
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {

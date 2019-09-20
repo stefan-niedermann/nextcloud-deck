@@ -234,7 +234,7 @@ public class SyncManager {
     }
 
     public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
-        return dataBaseAdapter.getStacks(accountId, localBoardId);
+        return dataBaseAdapter.getFullStacksForBoard(accountId, localBoardId);
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
