@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -23,6 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
@@ -100,6 +103,8 @@ public class EditActivity extends AppCompatActivity {
             if (createMode) {
                 actionBar.setTitle(getString(R.string.add_card));
                 fullCard = new FullCard();
+                fullCard.setLabels(new ArrayList<>());
+                fullCard.setAssignedUsers(new ArrayList<>());
                 Card card = new Card();
                 card.setStackId(stackId);
                 fullCard.setCard(card);
@@ -164,6 +169,21 @@ public class EditActivity extends AppCompatActivity {
 
     public void setDescription(String description) {
         this.fullCard.getCard().setDescription(description);
+    }
+
+
+    public void addUser(User user) {
+        this.fullCard.getAssignedUsers().add(user);
+    }
+
+
+    public void addLabel(Label label) {
+        this.fullCard.getLabels().add(label);
+    }
+
+
+    public void removeLabel(Label label) {
+        this.fullCard.getLabels().remove(label);
     }
 
     public void setDueDate(Date dueDate) {
