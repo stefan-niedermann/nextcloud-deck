@@ -460,8 +460,15 @@ public class DataBaseAdapter {
         return db.getJoinCardWithUserDao().getJoin(localUserId, localCardId);
     }
 
-    public List<JoinCardWithLabel> getAllDeletedLabelJoinsByStackWithRemoteIDs() {
-        return db.getJoinCardWithLabelDao().getAllDeletedJoinsByStackWithRemoteIDs();
+    public List<JoinCardWithLabel> getAllDeletedJoinsWithRemoteIDs() {
+        return db.getJoinCardWithLabelDao().getAllDeletedJoinsWithRemoteIDs();
+    }
+
+    public List<JoinCardWithLabel> getAllDeletedJoins() {
+        return db.getJoinCardWithLabelDao().getAllDeletedJoins();
+    }
+    public JoinCardWithLabel getRemoteIdsForJoin(Long localCardId, Long localLabelId) {
+        return db.getJoinCardWithLabelDao().getRemoteIdsForJoin(localCardId, localLabelId);
     }
 
     public List<JoinCardWithUser> getAllDeletedUserJoinsWithRemoteIDs() {

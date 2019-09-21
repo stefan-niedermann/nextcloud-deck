@@ -21,6 +21,15 @@ public abstract class IResponseCallback<T> {
         DeckLog.logError(throwable);
     }
 
+    public static <T> IResponseCallback<T> getDefaultResponseCallback(Account account) {
+        return new IResponseCallback<T>(account) {
+            @Override
+            public void onResponse(T response) {
+                // Do Nothing
+            }
+        };
+    }
+
     public void fillAccountIDs(T response) {
         if (response != null) {
             if (isListOfRemoteEntity(response)) {
