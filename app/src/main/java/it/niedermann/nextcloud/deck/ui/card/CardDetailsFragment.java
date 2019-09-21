@@ -170,11 +170,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (fullCard != null) {
-                    if (createMode) {
-                        activity.setDescription(description.getText().toString());
-                    } else {
-                        fullCard.getCard().setDescription(description.getText().toString());
-                    }
+                    activity.setDescription(description.getText().toString());
+                    fullCard.getCard().setDescription(description.getText().toString());
                 }
             }
 
