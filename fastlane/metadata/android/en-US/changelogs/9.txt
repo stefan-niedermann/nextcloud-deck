@@ -1,0 +1,1 @@
+- Remotely deleted stacks and boards are now deleted locally after sync
