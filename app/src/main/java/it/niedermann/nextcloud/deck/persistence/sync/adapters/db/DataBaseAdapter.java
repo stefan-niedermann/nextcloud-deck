@@ -331,7 +331,7 @@ public class DataBaseAdapter {
         card.setAccountId(accountId);
         return db.getCardDao().insert(card);
     }
-    
+
     public void deleteCard(Card card, boolean setStatus) {
         markAsDeletedIfNeeded(card, setStatus);
         if (setStatus){
@@ -479,4 +479,22 @@ public class DataBaseAdapter {
     public LiveData<List<Activity>> getActivitiesForCard(Long localCardId) {
         return db.getActivityDao().getActivitiesForCard(localCardId);
     }
+
+    public long createActivity(long accountId, Activity activity) {
+        activity.setAccountId(accountId);
+        return db.getActivityDao().insert(activity);
+    }
+    public Activity getActivityByRemoteIdDirectly(long accountId, long remoteActivityId) {
+        return db.getActivityDao().getActivityByRemoteIdDirectly(accountId, remoteActivityId);
+    }
+
+    public void updateActivity(Activity activity, boolean setStatus) {
+        markAsEditedIfNeeded(activity, setStatus);
+        db.getActivityDao().update(activity);
+    }
+
+    public void deleteActivity(Activity activity) {
+        db.getActivityDao().delete(activity);
+    }
+
 }

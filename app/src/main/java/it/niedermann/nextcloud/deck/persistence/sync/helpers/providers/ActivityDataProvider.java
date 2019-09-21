@@ -26,24 +26,23 @@ public class ActivityDataProvider extends AbstractSyncDataProvider<Activity> {
 
     @Override
     public Activity getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Activity entity) {
-        //TODO
-        return null;
+        return dataBaseAdapter.getActivityByRemoteIdDirectly(accountId, entity.getId());
     }
 
     @Override
-    public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Activity b) {
-        //TODO
-        return 0;
+    public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Activity activity) {
+        return dataBaseAdapter.createActivity(accountId, activity);
     }
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Activity activity, boolean setStatus) {
-        //TODO
+        activity.setAccountId(accountId);
+        dataBaseAdapter.updateActivity(activity, setStatus);
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, Activity activity) {
-        //TODO
+        dataBaseAdapter.deleteActivity(activity);
     }
 
     @Override
