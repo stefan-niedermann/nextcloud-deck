@@ -1,9 +1,14 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkRequest;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -15,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,6 +83,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     private HeaderViewHolder headerViewHolder;
     private Snackbar deckVersionTooLowSnackbar = null;
     private Snackbar accountIsGettingImportedSnackbar;
+
+    private ConnectivityManager.NetworkCallback networkCallback;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -181,12 +189,16 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             setHeaderView();
                             ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
                             // TODO show spinner
-                            syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                                @Override
-                                public void onResponse(Boolean response) {
-                                    accountIsGettingImportedSnackbar.dismiss();
-                                }
-                            });
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                registerAutoSyncOnNetworkAvailable();
+                            } else {
+                                syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                                    @Override
+                                    public void onResponse(Boolean response) {
+                                        accountIsGettingImportedSnackbar.dismiss();
+                                    }
+                                });
+                            }
                             accountSet(this.account);
                             break;
                         }
@@ -356,6 +368,40 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
         HeaderViewHolder(View view) {
             ButterKnife.bind(this, view);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void registerAutoSyncOnNetworkAvailable() {
+        final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkRequest.Builder builder = new NetworkRequest.Builder();
+
+        if (connectivityManager != null) {
+            if (networkCallback == null) {
+                networkCallback = new ConnectivityManager.NetworkCallback() {
+                    @Override
+                    public void onAvailable(@NonNull Network network) {
+                        DeckLog.log("Got Network connection");
+                        syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                accountIsGettingImportedSnackbar.dismiss();
+                                DeckLog.log("Auto-Sync after connection available successful");
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onLost(@NonNull Network network) {
+                        DeckLog.log("Network lost");
+                    }
+                };
+            }
+            try {
+                connectivityManager.unregisterNetworkCallback(networkCallback);
+            } catch (IllegalArgumentException ignored) {
+            }
+            connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
         }
     }
 }
