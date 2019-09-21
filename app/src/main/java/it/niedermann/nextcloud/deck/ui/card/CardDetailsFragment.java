@@ -143,15 +143,12 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 fullCard = new FullCard();
                 Card card = new Card();
                 fullCard.setCard(card);
-                setupView();
+                setupView(accountId, boardId);
             } else {
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), CardDetailsFragment.this, (next) -> {
                     fullCard = next;
-                    setupPeople(accountId);
-                    setupLabels(accountId, boardId);
-                    setupDueDate();
                     description.setText(fullCard.getCard().getDescription());
-                    setupView();
+                    setupView(accountId, boardId);
                 });
             }
         }
@@ -187,24 +184,10 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         return view;
     }
 
-    private void setupView() {
-        dueDate.setOnClickListener(v -> {
-            if (fullCard != null && fullCard.getCard() != null) {
-                createDatePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
-            } else {
-                createDatePickerDialogFromDate(activity, this, null).show();
-            }
-        });
-
-        dueDateTime.setOnClickListener(v -> {
-            if (fullCard != null && fullCard.getCard() != null) {
-                createTimePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
-            } else {
-                createTimePickerDialogFromDate(activity, this, null).show();
-            }
-        });
-
-        clearDueDate.setOnClickListener(v -> this.fullCard.getCard().setDueDate(null));
+    private void setupView(long accountId, long boardId) {
+        setupPeople(accountId);
+        setupLabels(accountId, boardId);
+        setupDueDate();
     }
 
     private TimePickerDialog createTimePickerDialogFromDate(
@@ -255,6 +238,24 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             dueDate.setText(null);
             dueDateTime.setText(null);
         }
+
+        dueDate.setOnClickListener(v -> {
+            if (fullCard != null && fullCard.getCard() != null) {
+                createDatePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
+            } else {
+                createDatePickerDialogFromDate(activity, this, null).show();
+            }
+        });
+
+        dueDateTime.setOnClickListener(v -> {
+            if (fullCard != null && fullCard.getCard() != null) {
+                createTimePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
+            } else {
+                createTimePickerDialogFromDate(activity, this, null).show();
+            }
+        });
+
+        clearDueDate.setOnClickListener(v -> this.fullCard.getCard().setDueDate(null));
     }
 
     private void setupLabels(long accountId, long boardId) {
