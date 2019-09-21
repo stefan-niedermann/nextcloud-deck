@@ -43,6 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -139,6 +140,10 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
             createMode = NO_LOCAL_ID.equals(localId);
             if (createMode) {
+                fullCard = new FullCard();
+                Card card = new Card();
+                fullCard.setCard(card);
+                setupView();
             } else {
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), CardDetailsFragment.this, (next) -> {
                     fullCard = next;
@@ -165,8 +170,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (fullCard != null) {
-                    fullCard.getCard().setDescription(description.getText().toString());
-                    activity.setDescription(description.getText().toString());
+                    if (createMode) {
+                        activity.setDescription(description.getText().toString());
+                    } else {
+                        fullCard.getCard().setDescription(description.getText().toString());
+                    }
                 }
             }
 
@@ -272,7 +280,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     });
                 }
             } else {
-                if(createMode) {
+                if (createMode) {
                     activity.addLabel(label);
                 } else {
                     syncManager.assignLabelToCard(label, fullCard.getCard());
@@ -297,7 +305,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         Chip chip = createChipFromLabel(label);
         chip.setOnCloseIconClickListener(v -> {
             labelsGroup.removeView(chip);
-            if(createMode) {
+            if (createMode) {
                 activity.removeLabel(label);
             } else {
                 syncManager.unassignLabelFromCard(label, fullCard.getCard());
@@ -334,7 +342,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         people.setOnItemClickListener((adapterView, view, position, id) -> {
             User user = (User) adapterView.getItemAtPosition(position);
 
-            if(createMode) {
+            if (createMode) {
                 activity.addUser(user);
             } else {
                 syncManager.assignUserToCard(user, fullCard.getCard());
