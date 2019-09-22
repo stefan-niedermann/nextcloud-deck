@@ -89,8 +89,9 @@ public class SyncHelper {
                     provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity), entity);
                 }
             }
+        } else {
+            provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback);
         }
-        provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback);
     }
 
     private <T extends IRemoteEntity> IResponseCallback<Void> getDeleteCallback(AbstractSyncDataProvider<T> provider, T entity) {
@@ -98,6 +99,7 @@ public class SyncHelper {
             @Override
             public void onResponse(Void response) {
                 provider.deleteInDB(dataBaseAdapter, accountId, entity);
+                provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
             }
 
             @Override
@@ -116,6 +118,7 @@ public class SyncHelper {
                 T update = applyUpdatesFromRemote(provider, entity, response, accountId);
                 update.setStatus(DBStatus.UP_TO_DATE.getId());
                 provider.updateInDB(dataBaseAdapter, accountId, update, false);
+                provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
             }
 
             @Override
