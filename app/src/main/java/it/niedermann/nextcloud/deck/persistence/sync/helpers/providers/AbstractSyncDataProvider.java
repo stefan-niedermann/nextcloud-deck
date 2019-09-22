@@ -112,4 +112,8 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         //TODO: what to do? what side effect would the following have:
 //        responseCallback.onError(error);
     }
+
+    public T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
+        return remoteEntity;
+    }
 }

@@ -50,7 +50,7 @@ public class SyncHelper {
 //                                if (existingEntity.getLastModified().getTime() == entityFromServer.getLastModified().getTime()) {
 //                                    continue; // TODO: is this is ok for sure? -> isn`t! NPE
 //                                }
-                                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(existingEntity, entityFromServer, accountId), false);
+                                provider.updateInDB(dataBaseAdapter, accountId, applyUpdatesFromRemote(provider, existingEntity, entityFromServer, accountId), false);
                             }
                         }
                         existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
@@ -89,8 +89,9 @@ public class SyncHelper {
                     provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity), entity);
                 }
             }
+        } else {
+            provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback);
         }
-        provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback);
     }
 
     private <T extends IRemoteEntity> IResponseCallback<Void> getDeleteCallback(AbstractSyncDataProvider<T> provider, T entity) {
@@ -98,6 +99,7 @@ public class SyncHelper {
             @Override
             public void onResponse(Void response) {
                 provider.deleteInDB(dataBaseAdapter, accountId, entity);
+                provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
             }
 
             @Override
@@ -113,9 +115,10 @@ public class SyncHelper {
             @Override
             public void onResponse(T response) {
                 response.setAccountId(this.account.getId());
-                T update = applyUpdatesFromRemote(entity, response, accountId);
+                T update = applyUpdatesFromRemote(provider, entity, response, accountId);
                 update.setStatus(DBStatus.UP_TO_DATE.getId());
                 provider.updateInDB(dataBaseAdapter, accountId, update, false);
+                provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
             }
 
             @Override
@@ -132,17 +135,19 @@ public class SyncHelper {
         relationshipProvider.insertAllNecessary(dataBaseAdapter, accountId);
     }
 
-    private <T extends IRemoteEntity> T applyUpdatesFromRemote(T localEntity, T remoteEntity, Long accountId) {
+    private <T extends IRemoteEntity> T applyUpdatesFromRemote(AbstractSyncDataProvider<T> provider, T localEntity, T remoteEntity, Long accountId) {
         if (!accountId.equals(localEntity.getAccountId())) {
             throw new IllegalArgumentException("IDs of Accounts are not matching! WTF are you doin?!");
         }
         remoteEntity.setLocalId(localEntity.getLocalId());
+        remoteEntity = provider.applyUpdatesFromRemote(localEntity, remoteEntity, accountId);
         return remoteEntity;
     }
 
-    public void setResponseCallback(IResponseCallback<Boolean> callback) {
+    public SyncHelper setResponseCallback(IResponseCallback<Boolean> callback) {
         this.responseCallback = callback;
         this.account = responseCallback.getAccount();
         accountId = account.getId();
+        return this;
     }
 }

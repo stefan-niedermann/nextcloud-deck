@@ -14,10 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -26,6 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
@@ -102,21 +102,13 @@ public class EditActivity extends AppCompatActivity {
             createMode = NO_LOCAL_ID.equals(localId);
             if (createMode) {
                 actionBar.setTitle(getString(R.string.add_card));
-                try {
-                    observeOnce(syncManager.getUserByUid(accountId, SingleAccountHelper.getCurrentSingleSignOnAccount(getApplicationContext()).userId), EditActivity.this, (user) -> {
-                        Card newCard = new Card("", "", stackId);
-                        newCard.setUserId(user.getLocalId());
-                        observeOnce(syncManager.createCard(accountId, boardId, stackId, newCard), EditActivity.this, (fullCard) -> {
-                            this.fullCard = fullCard;
-                            this.localId = fullCard.getLocalId();
-                            setupViewPager();
-                        });
-                    });
-                } catch (NextcloudFilesAppAccountNotFoundException e) {
-                    e.printStackTrace();
-                } catch (NoCurrentAccountSelectedException e) {
-                    e.printStackTrace();
-                }
+                fullCard = new FullCard();
+                fullCard.setLabels(new ArrayList<>());
+                fullCard.setAssignedUsers(new ArrayList<>());
+                Card card = new Card();
+                card.setStackId(stackId);
+                fullCard.setCard(card);
+                setupViewPager();
             } else {
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
                     fullCard = next;
@@ -147,6 +139,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void saveAndFinish() {
+        //FIXME: nullpointer when no title entered! do not even save without title(?)
         if (fullCard.getCard().getTitle().isEmpty()) {
             if (!fullCard.getCard().getDescription().isEmpty()) {
                 fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
@@ -154,7 +147,11 @@ public class EditActivity extends AppCompatActivity {
                 fullCard.getCard().setTitle("");
             }
         }
-        observeOnce(syncManager.updateCard(fullCard.card), EditActivity.this, (card) -> finish());
+        if (createMode) {
+            observeOnce(syncManager.createFullCard(accountId, boardId, stackId, fullCard), EditActivity.this, (card) -> finish());
+        } else {
+            observeOnce(syncManager.updateCard(fullCard.card), EditActivity.this, (card) -> finish());
+        }
     }
 
     private void setupViewPager() {
@@ -175,17 +172,28 @@ public class EditActivity extends AppCompatActivity {
         this.fullCard.getCard().setDescription(description);
     }
 
+
+    public void addUser(User user) {
+        this.fullCard.getAssignedUsers().add(user);
+    }
+
+
+    public void addLabel(Label label) {
+        this.fullCard.getLabels().add(label);
+    }
+
+
+    public void removeLabel(Label label) {
+        this.fullCard.getLabels().remove(label);
+    }
+
     public void setDueDate(Date dueDate) {
         this.fullCard.getCard().setDueDate(dueDate);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        if (createMode) {
-            observeOnce(syncManager.deleteCard(fullCard.getCard()), EditActivity.this, (c) -> finish());
-        } else {
-            finish(); // close this activity as oppose to navigating up
-        }
+        finish(); // close this activity as oppose to navigating up
         return true;
     }
 
@@ -195,12 +203,6 @@ public class EditActivity extends AppCompatActivity {
                 .setTitle(R.string.simple_save)
                 .setMessage(R.string.do_you_want_to_save_your_changes)
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> saveAndFinish())
-                .setNegativeButton(R.string.simple_dismiss, (dialog, whichButton) -> {
-                    if (createMode) {
-                        observeOnce(syncManager.deleteCard(fullCard.getCard()), EditActivity.this, (c) -> super.onBackPressed());
-                    } else {
-                        super.onBackPressed();
-                    }
-                }).show();
+                .setNegativeButton(R.string.simple_dismiss, (dialog, whichButton) -> super.onBackPressed()).show();
     }
 }
