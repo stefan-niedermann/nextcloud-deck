@@ -362,7 +362,10 @@ public class SyncManager {
                 }
             }
 
-            new SyncHelper(serverAdapter, dataBaseAdapter, null).doUpSyncFor(new CardDataProvider(null, board, stack));
+            liveData.postValue(card);
+            new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                    .setResponseCallback(IResponseCallback.getDefaultResponseCallback(account))
+                    .doUpSyncFor(new CardDataProvider(null, board, stack));
         });
         return liveData;
     }
