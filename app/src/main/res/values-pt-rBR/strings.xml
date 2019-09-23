@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Painéis</string>
     <string name="simple_cancel">Cancelar</string>
+    <string name="simple_add">Adicionar</string>
     <string name="simple_save">Salvar</string>
 
     <string name="edit_board">Editar o painel</string>
@@ -51,11 +52,14 @@
     <string name="hint_assign_people">Atribuir usuários</string>
     <string name="hint_due_date_date">Data devida</string>
     <string name="activity">Atividade</string>
+    <string name="add_card">Adicionar cartão</string>
+    <string name="add_column">Adicionar coluna</string>
+
     <string name="add_account">Adicionar conta</string>
 
     <string name="label_menu">menu</string>
-    <string name="action_card_assign">Atribuir cartão para você</string>
-    <string name="action_card_unassign">Desatribuir cartão de você</string>
+    <string name="action_card_assign">Atribuir um cartão a mim</string>
+    <string name="action_card_unassign">Desatribuir um cartão de mim</string>
     <string name="action_card_archive">Arquivar cartão</string>
     <string name="action_card_delete">Excluir cartão</string>
     <string name="add_board">Adicionar painel</string>
@@ -65,6 +69,7 @@
 
     <string name="label_clear_due_date">Remover data devida</string>
 
+    <string name="label_add">Adicionar %1$s</string>
     <string name="error">Ocorreu um erro</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_exception">Exceção</string>
@@ -81,4 +86,16 @@
     <string name="no_account">Nenhuma conta configurada</string>
     <string name="account_already_added">Conta já adicionada</string>
     <string name="account_is_getting_imported">Conta está sendo importada</string>
-    </resources>
+    <string name="not_synced_yet">Ainda não sincronizado</string>
+    <string name="no_columns">Nenhuma coluna ainda</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">Esse recurso será implementado em uma futura versão.</string>
+    <string name="do_you_want_to_save_your_changes">Quer salvar suas alterações?</string>
+    <string name="simple_dismiss">dispensar</string>
+    <string name="do_you_want_to_delete_the_current_column">Quer excluir a coluna atual?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Adicionar uma nova coluna usando o menu de três pontos.</string>
+    <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
+    <string name="update_deck">Atualizar o dock</string>
+    <string name="your_deck_version_is_too_old">Sua versão do dock é muito antiga.</string>
+    <string name="deck_outdated_please_update">Sua versão do dock é muito antiga. Atualize-a para usar este aplicativo Android como cliente.</string>
+    <string name="simple_update">Atualizar</string>
+</resources>

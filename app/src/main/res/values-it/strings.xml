@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Lavagne</string>
     <string name="simple_cancel">Annulla</string>
+    <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
 
     <string name="edit_board">Modifica lavagna</string>
@@ -51,11 +52,14 @@
     <string name="hint_assign_people">Assegna utenti</string>
     <string name="hint_due_date_date">Data di scadenza</string>
     <string name="activity">Attività</string>
+    <string name="add_card">Aggiungi scheda</string>
+    <string name="add_column">Aggiungi colonna</string>
+
     <string name="add_account">Aggiungi account</string>
 
     <string name="label_menu">menu</string>
-    <string name="action_card_assign">Assegna scheda a te</string>
-    <string name="action_card_unassign">Rimuovi assegnazione scheda da te</string>
+    <string name="action_card_assign">Assegna scheda a me</string>
+    <string name="action_card_unassign">Rimuovi assegnazione scheda da me</string>
     <string name="action_card_archive">Archivia scheda</string>
     <string name="action_card_delete">Elimina scheda</string>
     <string name="add_board">Aggiungi lavagna</string>
@@ -65,6 +69,7 @@
 
     <string name="label_clear_due_date">Cancella la scadenza</string>
 
+    <string name="label_add">Aggiungi %1$s</string>
     <string name="error">Si è verificato un errore</string>
     <string name="simple_copy">copia</string>
     <string name="simple_exception">Eccezione</string>
@@ -81,4 +86,16 @@
     <string name="no_account">Nessun account configurato</string>
     <string name="account_already_added">Account già aggiunto</string>
     <string name="account_is_getting_imported">L\'account è in fase di importazione</string>
-    </resources>
+    <string name="not_synced_yet">Non ancora sincronizzata</string>
+    <string name="no_columns">Ancora nessuna colonna</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">Questa funzionalità sarà implementata in una versione futura.</string>
+    <string name="do_you_want_to_save_your_changes">Vuoi salvare le tur modifiche?</string>
+    <string name="simple_dismiss">annulla</string>
+    <string name="do_you_want_to_delete_the_current_column">Vuoi eliminare la colonna attuale?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Aggiungi una nuova colonna utilizzando il menu a tre punti.</string>
+    <string name="add_a_new_card_using_the_button">Aggiungi una nuova scheda utilizzando il pulsante +</string>
+    <string name="update_deck">Aggiorna Deck</string>
+    <string name="your_deck_version_is_too_old">La tua versione di Deck è troppo datata</string>
+    <string name="deck_outdated_please_update">La tua versione di Deck è troppo datata. Aggiorna per utilizzare questa applicazione Android come client.</string>
+    <string name="simple_update">Aggiorna</string>
+</resources>
