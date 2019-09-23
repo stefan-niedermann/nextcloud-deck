@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Taboleiros</string>
     <string name="simple_cancel">Cancelar</string>
+    <string name="simple_add">Engadir</string>
     <string name="simple_save">Gardar</string>
 
     <string name="edit_board">Editar taboleiro</string>
@@ -51,11 +52,14 @@
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Data de caducidade</string>
     <string name="activity">Actividade</string>
+    <string name="add_card">Engadir tarxeta</string>
+    <string name="add_column">Engadir columna</string>
+
     <string name="add_account">Engadir unha conta</string>
 
     <string name="label_menu">menú</string>
-    <string name="action_card_assign">Asignarlle a vostede a tarxeta</string>
-    <string name="action_card_unassign">Desasignarlle a vostede a tarxeta</string>
+    <string name="action_card_assign">Asignarme a tarxeta</string>
+    <string name="action_card_unassign">Desasignarme tarxeta</string>
     <string name="action_card_archive">Arquivar a tarxeta</string>
     <string name="action_card_delete">Eliminar a tarxeta</string>
     <string name="add_board">Engadir taboleiro</string>
@@ -65,6 +69,7 @@
 
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
 
+    <string name="label_add">Engadir %1$s</string>
     <string name="error">Apareceu un erro</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_exception">Excepción</string>
@@ -77,4 +82,20 @@
     <string name="about_server_app_version_text">Versión do aplicativo do servidor:</string>
     <string name="no_files_attached_to_this_card">Non hai ficheiros anexos a esta tarxeta.</string>
     <string name="attachments">Anexos</string>
-    </resources>
+    <string name="no_cards">Aínda non hai tarxetas</string>
+    <string name="no_account">Non hai contas configuradas.</string>
+    <string name="account_already_added">Foi engadida a conta</string>
+    <string name="account_is_getting_imported">A conta está a importarse</string>
+    <string name="not_synced_yet">Aínda non foi sincronizado</string>
+    <string name="no_columns">Aínda non hai columnas</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">Esta funcionalidade será incluída nunha futura versión.</string>
+    <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
+    <string name="simple_dismiss">rexeitar</string>
+    <string name="do_you_want_to_delete_the_current_column">Confirma que quere eliminar a columna actual?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Engadir unha columna nova co menú de tres puntos.</string>
+    <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
+    <string name="update_deck">Actualizar o Deck</string>
+    <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
+    <string name="deck_outdated_please_update">A versión do Deck é antiga de máis. Actualice para usar este apli de Android como cliente.</string>
+    <string name="simple_update">Actualizar</string>
+</resources>

@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
     <string name="simple_cancel">Abbrechen</string>
+    <string name="simple_add">Hinzufügen</string>
     <string name="simple_save">Speichern</string>
 
     <string name="edit_board">Board bearbeiten</string>
@@ -51,11 +52,14 @@
     <string name="hint_assign_people">Benutzer zuweisen</string>
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
     <string name="activity">Aktivität</string>
+    <string name="add_card">Karte hinzufügen</string>
+    <string name="add_column">Spalte hinzufügen</string>
+
     <string name="add_account">Konto hinzufügen</string>
 
     <string name="label_menu">Menü</string>
-    <string name="action_card_assign">Karte Dir zuweisen</string>
-    <string name="action_card_unassign">Karte nicht mehr Dir zuweisen</string>
+    <string name="action_card_assign">Karte mir zuordnen</string>
+    <string name="action_card_unassign">Zuordnung der Karte für mich aufheben</string>
     <string name="action_card_archive">Karte archivieren</string>
     <string name="action_card_delete">Karte löschen</string>
     <string name="add_board">Board hinzufügen</string>
@@ -65,6 +69,7 @@
 
     <string name="label_clear_due_date">Fälligkeitsdatum löschen</string>
 
+    <string name="label_add">%1$s hinzufügen</string>
     <string name="error">Es ist ein Fehler aufgetreten</string>
     <string name="simple_copy">kopieren</string>
     <string name="simple_exception">Ausnahme</string>
@@ -81,4 +86,16 @@
     <string name="no_account">Kein Konto konfiguriert</string>
     <string name="account_already_added">Konto wurde bereits hinzugefügt</string>
     <string name="account_is_getting_imported">Konto wird importiert</string>
-    </resources>
+    <string name="not_synced_yet">Noch nicht synchronisiert</string>
+    <string name="no_columns">Bislang keine Spalten</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">Diese Funktion wird in einer künftigen Version verfügbar sein.</string>
+    <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
+    <string name="simple_dismiss">Verwerfen</string>
+    <string name="do_you_want_to_delete_the_current_column">Soll die aktuelle Spalte gelöscht werden?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Neue Spalte mit dem Dreipunkt-Menü hinzufügen</string>
+    <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
+    <string name="update_deck">Deck aktualisieren</string>
+    <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
+    <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt. Bitte aktualisieren Sie Deckum diese Android-App als Client verwenden zu können.</string>
+    <string name="simple_update">Aktualisieren</string>
+</resources>

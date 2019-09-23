@@ -54,8 +54,8 @@
     <string name="add_account">Afegeix un compte</string>
 
     <string name="label_menu">menú</string>
-    <string name="action_card_assign">Assigneu-vos una targeta</string>
-    <string name="action_card_unassign">Desassigneu-vos una targeta</string>
+    <string name="action_card_assign">Assigna\'m la targeta</string>
+    <string name="action_card_unassign">Desassigna\'m la targeta</string>
     <string name="action_card_archive">Arxiva la targeta</string>
     <string name="action_card_delete">Suprimeix targeta</string>
     <string name="add_board">Afegeix una taula</string>
@@ -75,4 +75,8 @@
     <string name="card_edit_attachments">Adjunts</string>
     <string name="card_edit_activity">Activitat</string>
     <string name="about_server_app_version_text">Versió de l\'aplicació del servidor:</string>
+    <string name="attachments">Adjunts</string>
+    <string name="no_cards">Encara no hi ha cap targeta.</string>
+    <string name="no_account">No hi ha cap compte configurat.</string>
+    <string name="account_is_getting_imported">S\'importa el compte.</string>
     </resources>

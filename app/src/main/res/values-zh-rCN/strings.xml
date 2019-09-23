@@ -51,11 +51,10 @@
     <string name="hint_assign_people">指派用户</string>
     <string name="hint_due_date_date">截止日期</string>
     <string name="activity">动态</string>
+    <string name="add_card">新建卡片</string>
     <string name="add_account">添加账号</string>
 
     <string name="label_menu">菜单</string>
-    <string name="action_card_assign">指派卡片给您</string>
-    <string name="action_card_unassign">取消指派给您的卡片</string>
     <string name="action_card_archive">归档卡片</string>
     <string name="action_card_delete">删除卡片</string>
     <string name="add_board">添加面板</string>
@@ -77,4 +76,15 @@
     <string name="about_server_app_version_text">服务器应用版本：</string>
     <string name="no_files_attached_to_this_card">没有文件附加到这张卡片上。</string>
     <string name="attachments">附件</string>
-    </resources>
+    <string name="no_cards">暂无卡片</string>
+    <string name="account_already_added">账户已被添加</string>
+    <string name="account_is_getting_imported">账户已导出</string>
+    <string name="not_synced_yet">尚未同步</string>
+    <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
+    <string name="do_you_want_to_delete_the_current_column">您希望删除当前的栏吗？</string>
+    <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
+    <string name="update_deck">更新deck</string>
+    <string name="your_deck_version_is_too_old">您deck的版本过旧</string>
+    <string name="deck_outdated_please_update">您deck的版本过旧。您的安卓客户端需要更新才能使用。</string>
+    <string name="simple_update">更新</string>
+</resources>
