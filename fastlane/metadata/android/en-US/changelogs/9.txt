@@ -1,1 +1,2 @@
 - Remotely deleted stacks and boards are now deleted locally after sync
+- Use new "exclude existing account" feature (#153)
