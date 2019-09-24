@@ -223,16 +223,27 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         if (deckVersionTooLowSnackbar != null) {
             deckVersionTooLowSnackbar.dismiss();
         }
-        try {
-            AccountImporter.pickNewAccount(this);
-        } catch (NextcloudFilesAppNotInstalledException e) {
-            UiExceptionManager.showDialogForException(this, e);
-            Log.w("Deck", "=============================================================");
-            Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
-            e.printStackTrace();
-        } catch (AndroidGetAccountsPermissionNotGranted e) {
-            AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
-        }
+        
+            ArrayList<android.accounts.Account> usedAccounts = new ArrayList<>();
+            
+            syncManager.readAccounts().observe(this, (List<Account> accounts) -> {
+                DeckLog.log("+++ readAccounts()");
+
+                for (Account account1 : accounts) {
+                    usedAccounts.add(AccountImporter.getAccountForName(this, account1.getName()));
+                }
+
+                try {
+                AccountImporter.pickNewAccount(this, usedAccounts);
+                } catch (NextcloudFilesAppNotInstalledException e) {
+                    UiExceptionManager.showDialogForException(this, e);
+                    Log.w("Deck", "=============================================================");
+                    Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
+                    e.printStackTrace();
+                } catch (AndroidGetAccountsPermissionNotGranted e) {
+                    AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
+                }
+            });
     }
 
     @Override
