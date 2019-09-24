@@ -41,6 +41,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 public class EditActivity extends AppCompatActivity {
 
     SyncManager syncManager;
+    private ActionBar actionBar;
 
     @BindView(R.id.title)
     EditText title;
@@ -52,6 +53,7 @@ public class EditActivity extends AppCompatActivity {
     ViewPager pager;
 
     private Unbinder unbinder;
+    private boolean modified = false;
 
     private FullCard fullCard;
 
@@ -70,26 +72,8 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         unbinder = ButterKnife.bind(this);
 
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar = Objects.requireNonNull(getSupportActionBar());
         actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
-        title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (fullCard != null) {
-                    fullCard.getCard().setTitle(title.getText().toString());
-                }
-                String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.add_card) : getString(R.string.edit);
-                actionBar.setTitle(prefix + " " + title.getText());
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -108,17 +92,41 @@ public class EditActivity extends AppCompatActivity {
                 Card card = new Card();
                 card.setStackId(stackId);
                 fullCard.setCard(card);
+                setupTitleListener();
                 setupViewPager();
             } else {
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
                     fullCard = next;
                     title.setText(fullCard.getCard().getTitle());
+                    setupTitleListener();
                     setupViewPager();
                 });
             }
         } else {
             throw new IllegalArgumentException("No localId argument");
         }
+    }
+
+    private void setupTitleListener() {
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (fullCard != null) {
+                    fullCard.getCard().setTitle(title.getText().toString());
+                    modified = true;
+                }
+                String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.add_card) : getString(R.string.edit);
+                actionBar.setTitle(prefix + " " + title.getText());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
     @Override
@@ -170,6 +178,7 @@ public class EditActivity extends AppCompatActivity {
 
     public void setDescription(String description) {
         this.fullCard.getCard().setDescription(description);
+        modified = true;
     }
 
 
@@ -189,6 +198,7 @@ public class EditActivity extends AppCompatActivity {
 
     public void setDueDate(Date dueDate) {
         this.fullCard.getCard().setDueDate(dueDate);
+        modified = true;
     }
 
     @Override
@@ -199,10 +209,14 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.simple_save)
-                .setMessage(R.string.do_you_want_to_save_your_changes)
-                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> saveAndFinish())
-                .setNegativeButton(R.string.simple_dismiss, (dialog, whichButton) -> super.onBackPressed()).show();
+        if(modified) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.simple_save)
+                    .setMessage(R.string.do_you_want_to_save_your_changes)
+                    .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> saveAndFinish())
+                    .setNegativeButton(R.string.simple_dismiss, (dialog, whichButton) -> super.onBackPressed()).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

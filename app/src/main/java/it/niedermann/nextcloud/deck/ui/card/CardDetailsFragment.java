@@ -163,6 +163,17 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             DeckLog.logError(e);
         }
 
+        return view;
+    }
+
+    private void setupView(long accountId, long boardId) {
+        setupPeople(accountId);
+        setupLabels(accountId, boardId);
+        setupDueDate();
+        setupDescriptionListener();
+    }
+
+    private void setupDescriptionListener() {
         description.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -180,14 +191,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             public void afterTextChanged(Editable s) {
             }
         });
-
-        return view;
-    }
-
-    private void setupView(long accountId, long boardId) {
-        setupPeople(accountId);
-        setupLabels(accountId, boardId);
-        setupDueDate();
     }
 
     private TimePickerDialog createTimePickerDialogFromDate(
@@ -255,7 +258,12 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             }
         });
 
-        clearDueDate.setOnClickListener(v -> this.fullCard.getCard().setDueDate(null));
+        clearDueDate.setOnClickListener(v -> {
+            activity.setDueDate(null);
+            dueDate.setText(null);
+            dueDateTime.setText(null);
+            fullCard.getCard().setDueDate(null);
+        });
     }
 
     private void setupLabels(long accountId, long boardId) {
