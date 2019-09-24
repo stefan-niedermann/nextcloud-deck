@@ -57,6 +57,8 @@ import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected static final int MENU_ID_ABOUT = -1;
     protected static final int MENU_ID_ADD_BOARD = -2;
@@ -223,27 +225,27 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         if (deckVersionTooLowSnackbar != null) {
             deckVersionTooLowSnackbar.dismiss();
         }
-        
-            ArrayList<android.accounts.Account> usedAccounts = new ArrayList<>();
-            
-            syncManager.readAccounts().observe(this, (List<Account> accounts) -> {
-                DeckLog.log("+++ readAccounts()");
 
-                for (Account account1 : accounts) {
-                    usedAccounts.add(AccountImporter.getAccountForName(this, account1.getName()));
-                }
+        ArrayList<android.accounts.Account> usedAccounts = new ArrayList<>();
 
-                try {
+        observeOnce(syncManager.readAccounts(), this, (List<Account> accounts) -> {
+            DeckLog.log("+++ readAccounts()");
+
+            for (Account usedAccount : accounts) {
+                usedAccounts.add(AccountImporter.getAccountForName(this, usedAccount.getName()));
+            }
+
+            try {
                 AccountImporter.pickNewAccount(this, usedAccounts);
-                } catch (NextcloudFilesAppNotInstalledException e) {
-                    UiExceptionManager.showDialogForException(this, e);
-                    Log.w("Deck", "=============================================================");
-                    Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
-                    e.printStackTrace();
-                } catch (AndroidGetAccountsPermissionNotGranted e) {
-                    AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
-                }
-            });
+            } catch (NextcloudFilesAppNotInstalledException e) {
+                UiExceptionManager.showDialogForException(this, e);
+                Log.w("Deck", "=============================================================");
+                Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
+                e.printStackTrace();
+            } catch (AndroidGetAccountsPermissionNotGranted e) {
+                AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
+            }
+        });
     }
 
     @Override
