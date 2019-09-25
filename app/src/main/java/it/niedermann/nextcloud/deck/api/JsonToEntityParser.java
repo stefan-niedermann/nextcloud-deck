@@ -104,7 +104,27 @@ public class JsonToEntityParser {
             }
 
         }
-        //todo e.get "permissions"
+
+        if (e.has("permissions")) {
+            JsonElement permissions = e.get("permissions");
+            JsonObject permissionsObject = permissions.getAsJsonObject();
+            if (permissionsObject.has("PERMISSION_READ")){
+                JsonElement read = permissionsObject.get("PERMISSION_READ");
+                fullBoard.getBoard().setPermissionRead(read.getAsBoolean());
+            }
+            if (permissionsObject.has("PERMISSION_EDIT")){
+                JsonElement read = permissionsObject.get("PERMISSION_EDIT");
+                fullBoard.getBoard().setPermissionEdit(read.getAsBoolean());
+            }
+            if (permissionsObject.has("PERMISSION_MANAGE")){
+                JsonElement read = permissionsObject.get("PERMISSION_MANAGE");
+                fullBoard.getBoard().setPermissionManage(read.getAsBoolean());
+            }
+            if (permissionsObject.has("PERMISSION_SHARE")){
+                JsonElement read = permissionsObject.get("PERMISSION_SHARE");
+                fullBoard.getBoard().setPermissionShare(read.getAsBoolean());
+            }
+        }
 
         JsonElement owner = e.get("owner");
         if (owner != null) {

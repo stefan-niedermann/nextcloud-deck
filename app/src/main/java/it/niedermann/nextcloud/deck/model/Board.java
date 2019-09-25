@@ -5,6 +5,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 import java.util.Date;
+import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
@@ -26,10 +27,12 @@ public class Board extends AbstractRemoteEntity {
     private long ownerId;
     private String color;
     private boolean archived;
-    // TODO: seems to be something like shares to other users. how to handle this stuff??
-//    private String acl;
     private int shared;
     private Date deletedAt;
+    private boolean permissionRead = false;
+    private boolean permissionEdit = false;
+    private boolean permissionManage = false;
+    private boolean permissionShare = false;
 
 
     @Override
@@ -132,34 +135,53 @@ public class Board extends AbstractRemoteEntity {
         this.archived = archived;
     }
 
-    @Override
-    public String toString() {
-        return "Board{" +
-                "title='" + title + '\'' +
-                ", ownerId=" + ownerId +
-                ", color='" + color + '\'' +
-                ", archived=" + archived +
-                ", shared=" + shared +
-                ", deletedAt=" + deletedAt +
-                ", localId=" + localId +
-                ", accountId=" + accountId +
-                ", id=" + id +
-                ", status=" + status +
-                ", lastModified=" + lastModified +
-                ", lastModifiedLocal=" + lastModifiedLocal +
-                '}';
+    public boolean isPermissionRead() {
+        return permissionRead;
+    }
+
+    public void setPermissionRead(boolean permissionRead) {
+        this.permissionRead = permissionRead;
+    }
+
+    public boolean isPermissionEdit() {
+        return permissionEdit;
+    }
+
+    public void setPermissionEdit(boolean permissionEdit) {
+        this.permissionEdit = permissionEdit;
+    }
+
+    public boolean isPermissionManage() {
+        return permissionManage;
+    }
+
+    public void setPermissionManage(boolean permissionManage) {
+        this.permissionManage = permissionManage;
+    }
+
+    public boolean isPermissionShare() {
+        return permissionShare;
+    }
+
+    public void setPermissionShare(boolean permissionShare) {
+        this.permissionShare = permissionShare;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         Board board = (Board) o;
 
         if (ownerId != board.ownerId) return false;
         if (archived != board.archived) return false;
         if (shared != board.shared) return false;
+        if (permissionRead != board.permissionRead) return false;
+        if (permissionEdit != board.permissionEdit) return false;
+        if (permissionManage != board.permissionManage) return false;
+        if (permissionShare != board.permissionShare) return false;
         if (title != null ? !title.equals(board.title) : board.title != null) return false;
         if (color != null ? !color.equals(board.color) : board.color != null) return false;
         return deletedAt != null ? deletedAt.equals(board.deletedAt) : board.deletedAt == null;
@@ -167,12 +189,17 @@ public class Board extends AbstractRemoteEntity {
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
+        int result = super.hashCode();
+        result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (int) (ownerId ^ (ownerId >>> 32));
         result = 31 * result + (color != null ? color.hashCode() : 0);
         result = 31 * result + (archived ? 1 : 0);
         result = 31 * result + shared;
         result = 31 * result + (deletedAt != null ? deletedAt.hashCode() : 0);
+        result = 31 * result + (permissionRead ? 1 : 0);
+        result = 31 * result + (permissionEdit ? 1 : 0);
+        result = 31 * result + (permissionManage ? 1 : 0);
+        result = 31 * result + (permissionShare ? 1 : 0);
         return result;
     }
 }
