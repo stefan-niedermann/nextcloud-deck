@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Bord</string>
     <string name="simple_cancel">Annuleren</string>
+    <string name="simple_add">Toevoegen</string>
     <string name="simple_save">Bewaren</string>
 
     <string name="edit_board">Pas canvas aan</string>
@@ -51,11 +52,12 @@
     <string name="hint_assign_people">Toewijzen gebruikers</string>
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="activity">Activiteit</string>
+    <string name="add_card">Toevoegen kaart</string>
+    <string name="add_column">Toevoegen kolom</string>
+
     <string name="add_account">Account toevoegen</string>
 
     <string name="label_menu">menu</string>
-    <string name="action_card_assign">Kaart aan jou toewijzen</string>
-    <string name="action_card_unassign">Kaart van jou terughalen</string>
     <string name="action_card_archive">Archiveer kaart</string>
     <string name="action_card_delete">Verwijderen kaart</string>
     <string name="add_board">Toevoegen bord</string>
@@ -65,6 +67,7 @@
 
     <string name="label_clear_due_date">Wis vervaldatum</string>
 
+    <string name="label_add">Toevoegen %1$s</string>
     <string name="error">Er is een fout verschenen</string>
     <string name="simple_copy">kopiëren</string>
     <string name="simple_exception">Uitzondering</string>
@@ -77,4 +80,13 @@
     <string name="about_server_app_version_text">Server app versie:</string>
     <string name="no_files_attached_to_this_card">Er zijn geen bestanden gekoppeld aan deze kaart.</string>
     <string name="attachments">Bijlagen</string>
-    </resources>
+    <string name="no_cards">Nog geen kaarten</string>
+    <string name="no_account">Geen account geconfigureerd.</string>
+    <string name="account_already_added">Account al toegevoegd.</string>
+    <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
+    <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
+    <string name="no_columns">Nog geen kolommen</string>
+    <string name="simple_dismiss">weigeren</string>
+    <string name="do_you_want_to_delete_the_current_column">Wil je de huidige kolom verwijderen?</string>
+    <string name="simple_update">Bijwerken</string>
+</resources>

@@ -33,12 +33,12 @@
     <string name="about_issues_title">Incidentes</string>
     <string name="about_issues">Vostede pode informar de fallos, propoñer melloras e solicitar funcionalidades na ferramenta de seguimento de erros do GitHub: %1$s</string>
     <string name="about_translate_title">Traducir</string>
-    <string name="about_translate">Únase ao equipo Nextcloud en Transifex e axúdenos a traducir este aplicativo: %1$s</string>
-    <string name="about_app_license_title">Licenza do aplicativo</string>
-    <string name="about_app_license">Este aplicativo está licenciado baixo a LICENZA XERAL PUBLICA GNU v3+.</string>
+    <string name="about_translate">Únase ao equipo Nextcloud en Transifex e axúdenos a traducir esta aplicación: %1$s</string>
+    <string name="about_app_license_title">Licenza da aplicación</string>
+    <string name="about_app_license">Esta aplicación está licenciada baixo a LICENZA XERAL PUBLICA GNU v3+.</string>
     <string name="about_app_license_button">Ver a licenza</string>
     <string name="about_icons_disclaimer_title">Iconas</string>
-    <string name="about_icons_disclaimer">Iconas orixinais feitas por %1$sAs outras iconas usadas por este aplicativo son %2$s feitos por Google Inc. e licenciados baixo unha Licenza Apache 2.0.</string>
+    <string name="about_icons_disclaimer">Iconas orixinais feitas por %1$sAs outras iconas usadas por esta aplicación son %2$s feitos por Google Inc. e licenciados baixo unha Licenza Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Iconas Material Desig</string>
     <string name="about_credits_tab_title">Créditos</string>
     <string name="about_contribution_tab_title">Colaboración</string>
@@ -79,7 +79,7 @@
     <string name="card_edit_details">Detalles</string>
     <string name="card_edit_attachments">Anexos</string>
     <string name="card_edit_activity">Actividade</string>
-    <string name="about_server_app_version_text">Versión do aplicativo do servidor:</string>
+    <string name="about_server_app_version_text">Versión da aplicación do servidor:</string>
     <string name="no_files_attached_to_this_card">Non hai ficheiros anexos a esta tarxeta.</string>
     <string name="attachments">Anexos</string>
     <string name="no_cards">Aínda non hai tarxetas</string>
@@ -96,6 +96,6 @@
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
     <string name="update_deck">Actualizar o Deck</string>
     <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
-    <string name="deck_outdated_please_update">A versión do Deck é antiga de máis. Actualice para usar este apli de Android como cliente.</string>
+    <string name="deck_outdated_please_update">A versión do Deck é antiga de máis. Actualice para usar esta apli de Android como cliente.</string>
     <string name="simple_update">Actualizar</string>
 </resources>
