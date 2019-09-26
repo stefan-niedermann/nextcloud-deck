@@ -5,7 +5,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 import java.util.Date;
-import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;

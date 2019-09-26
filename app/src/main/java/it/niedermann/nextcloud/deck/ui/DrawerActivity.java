@@ -57,8 +57,6 @@ import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected static final int MENU_ID_ABOUT = -1;
     protected static final int MENU_ID_ADD_BOARD = -2;
@@ -226,17 +224,17 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
             deckVersionTooLowSnackbar.dismiss();
         }
 
-        ArrayList<android.accounts.Account> usedAccounts = new ArrayList<>();
-
-        observeOnce(syncManager.readAccounts(), this, (List<Account> accounts) -> {
-            DeckLog.log("+++ readAccounts()");
-
-            for (Account usedAccount : accounts) {
-                usedAccounts.add(AccountImporter.getAccountForName(this, usedAccount.getName()));
-            }
+//        ArrayList<android.accounts.Account> usedAccounts = new ArrayList<>();
+//
+//        observeOnce(syncManager.readAccounts(), this, (List<Account> accounts) -> {
+//            DeckLog.log("+++ readAccounts()");
+//
+//            for (Account usedAccount : accounts) {
+//                usedAccounts.add(AccountImporter.getAccountForName(this, usedAccount.getName()));
+//            }
 
             try {
-                AccountImporter.pickNewAccount(this, usedAccounts);
+                AccountImporter.pickNewAccount(this);
             } catch (NextcloudFilesAppNotInstalledException e) {
                 UiExceptionManager.showDialogForException(this, e);
                 Log.w("Deck", "=============================================================");
@@ -245,7 +243,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
             } catch (AndroidGetAccountsPermissionNotGranted e) {
                 AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
             }
-        });
+//        });
     }
 
     @Override
