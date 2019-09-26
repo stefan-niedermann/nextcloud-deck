@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -467,14 +468,36 @@ public class SyncManager {
         return liveData;
     }
 
-    public void deleteLabel(Label label) {
-        //TODO: Tell the server
-        dataBaseAdapter.deleteLabel(label, true);
+    public LiveData<Label> deleteLabel(Label label) {
+        MutableLiveData<Label> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter)
+                    .deleteEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, new IResponseCallback<Label>(account) {
+                        @Override
+                        public void onResponse(Label response) {
+                            liveData.postValue(response);
+                        }
+                    });
+        });
+        return liveData;
     }
 
-    public void updateLabel(Label label) {
-        //TODO: Tell the server
-        dataBaseAdapter.updateLabel(label, true);
+    public LiveData<Label> updateLabel(Label label) {
+        MutableLiveData<Label> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter)
+                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, new IResponseCallback<Label>(account) {
+                @Override
+                public void onResponse(Label response) {
+                    liveData.postValue(response);
+                }
+            });
+        });
+        return liveData;
     }
 
     public void assignLabelToBoard(long localLabelId, long localBoardId) {
