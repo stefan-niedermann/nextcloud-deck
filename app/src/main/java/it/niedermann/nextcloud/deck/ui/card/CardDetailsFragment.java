@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +29,9 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+import com.yydcdut.markdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.RxMDEditText;
+import com.yydcdut.rxmarkdown.RxMarkdown;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,10 +51,12 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
+import it.niedermann.nextcloud.deck.ui.MarkDownUtil;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
+import rx.Subscriber;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -76,7 +80,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private EditActivity activity;
 
     @BindView(R.id.description)
-    EditText description;
+    RxMDEditText description;
 
     @BindView(R.id.people)
     DelayedAutoCompleteTextView people;
@@ -147,6 +151,25 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             } else {
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), CardDetailsFragment.this, (next) -> {
                     fullCard = next;
+
+                    RxMarkdown.live(description)
+                            .config(MarkDownUtil.getMarkDownConfiguration(description.getContext()).build())
+                            .factory(EditFactory.create())
+                            .intoObservable()
+                            .subscribe(new Subscriber<CharSequence>() {
+                                @Override
+                                public void onCompleted() {
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                }
+
+                                @Override
+                                public void onNext(CharSequence charSequence) {
+                                    description.setText(charSequence, TextView.BufferType.SPANNABLE);
+                                }
+                            });
                     description.setText(fullCard.getCard().getDescription());
                     setupView(accountId, boardId);
                 });

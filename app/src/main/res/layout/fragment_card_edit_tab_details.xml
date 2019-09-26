@@ -138,7 +138,7 @@
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
 
-            <EditText
+            <com.yydcdut.rxmarkdown.RxMDEditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
