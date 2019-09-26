@@ -230,42 +230,44 @@ public class MainActivity extends DrawerActivity {
             for (Board board : boardsList) {
                 final int currentIndex = index;
                 MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(this, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
-                AppCompatImageButton contextMenu = new AppCompatImageButton(this);
-                contextMenu.setBackgroundDrawable(null);
-                contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_menu, R.color.grey600));
-                contextMenu.setOnClickListener((v) -> {
-                    PopupMenu popup = new PopupMenu(MainActivity.this, contextMenu);
-                    popup.getMenuInflater()
-                            .inflate(R.menu.navigation_context_menu, popup.getMenu());
-                    popup.setOnMenuItemClickListener((MenuItem item) -> {
-                        switch (item.getItemId()) {
-                            case R.id.edit_board:
-                                EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
-                                break;
-                            case R.id.archive_board:
-                                // TODO implement
-                                Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
-                                break;
-                            case R.id.delete_board:
-                                if (board.getLocalId() == currentBoardId) {
-                                    if (currentIndex > 0) { // Select first board after deletion
-                                        boardSelected(0, account);
-                                    } else if (boardsList.size() > 1) { // Select second board after deletion
-                                        boardSelected(1, account);
-                                    } else { // No other board is available, open create dialog
-                                        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
-                                        EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
+                if (board.isPermissionManage()) {
+                    AppCompatImageButton contextMenu = new AppCompatImageButton(this);
+                    contextMenu.setBackgroundDrawable(null);
+                    contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_menu, R.color.grey600));
+                    contextMenu.setOnClickListener((v) -> {
+                        PopupMenu popup = new PopupMenu(MainActivity.this, contextMenu);
+                        popup.getMenuInflater()
+                                .inflate(R.menu.navigation_context_menu, popup.getMenu());
+                        popup.setOnMenuItemClickListener((MenuItem item) -> {
+                            switch (item.getItemId()) {
+                                case R.id.edit_board:
+                                    EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
+                                    break;
+                                case R.id.archive_board:
+                                    // TODO implement
+                                    Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                                    break;
+                                case R.id.delete_board:
+                                    if (board.getLocalId() == currentBoardId) {
+                                        if (currentIndex > 0) { // Select first board after deletion
+                                            boardSelected(0, account);
+                                        } else if (boardsList.size() > 1) { // Select second board after deletion
+                                            boardSelected(1, account);
+                                        } else { // No other board is available, open create dialog
+                                            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
+                                            EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
+                                        }
                                     }
-                                }
-                                syncManager.deleteBoard(board);
-                                drawer.closeDrawer(GravityCompat.START);
-                                break;
-                        }
-                        return true;
+                                    syncManager.deleteBoard(board);
+                                    drawer.closeDrawer(GravityCompat.START);
+                                    break;
+                            }
+                            return true;
+                        });
+                        popup.show();
                     });
-                    popup.show();
-                });
-                m.setActionView(contextMenu);
+                    m.setActionView(contextMenu);
+                }
             }
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_grey_24dp);
