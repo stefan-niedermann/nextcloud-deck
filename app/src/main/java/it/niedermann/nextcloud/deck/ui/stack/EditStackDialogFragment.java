@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.ui.MainActivity;
 public class EditStackDialogFragment extends DialogFragment {
     private static final String KEY_STACK_ID = "board_id";
     private static final Long NO_STACK_ID = -1L;
+    private long stackId = NO_STACK_ID;
 
     @BindView(R.id.input)
     EditText input;
@@ -30,21 +31,32 @@ public class EditStackDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        if(getArguments() != null) {
-            long stackId = getArguments().getLong(KEY_STACK_ID);
-        }
         View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_stack_create, null);
         ButterKnife.bind(this, view);
-        return new AlertDialog.Builder(getActivity())
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.add_column)
                 .setView(view)
                 .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
                     // Do something else
-                })
-                .setPositiveButton(R.string.simple_add, (dialog, which) -> {
+                });
+        if (getArguments() != null) {
+            stackId = getArguments().getLong(KEY_STACK_ID);
+            if (stackId == NO_STACK_ID) {
+                builder.setPositiveButton(R.string.simple_add, (dialog, which) -> {
                     ((MainActivity) getActivity()).onCreateStack(input.getText().toString());
-                })
-                .create();
+                });
+            } else {
+                builder.setPositiveButton(R.string.simple_rename, (dialog, which) -> {
+                    ((MainActivity) getActivity()).onUpdateStack(stackId, input.getText().toString());
+                });
+            }
+        } else {
+            builder.setPositiveButton(R.string.simple_add, (dialog, which) -> {
+                ((MainActivity) getActivity()).onCreateStack(input.getText().toString());
+            });
+        }
+        return builder.create();
     }
 
     @Nullable
@@ -53,5 +65,15 @@ public class EditStackDialogFragment extends DialogFragment {
         input.requestFocus();
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    public static EditStackDialogFragment newInstance(long stackId) {
+        EditStackDialogFragment dialog = new EditStackDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putLong(KEY_STACK_ID, stackId);
+        dialog.setArguments(args);
+
+        return dialog;
     }
 }

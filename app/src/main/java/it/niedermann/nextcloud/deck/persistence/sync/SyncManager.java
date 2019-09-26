@@ -296,7 +296,9 @@ public class SyncManager {
 
     public void updateStack(Stack stack) {
         //TODO: Tell the server
-        dataBaseAdapter.updateStack(stack, true);
+        doAsync(() -> {
+            dataBaseAdapter.updateStack(stack, true);
+        });
 
     }
 

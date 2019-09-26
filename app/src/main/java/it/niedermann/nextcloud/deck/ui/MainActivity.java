@@ -385,7 +385,8 @@ public class MainActivity extends DrawerActivity {
                 new EditStackDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
                 break;
             case R.id.action_card_list_rename_column:
-                new EditStackDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
+                EditStackDialogFragment.newInstance(stackAdapter.getItem(viewPager.getCurrentItem()).getStackId())
+                        .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
                 break;
         }
         return super.onOptionsItemSelected(item);

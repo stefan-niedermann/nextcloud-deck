@@ -7,13 +7,13 @@
         android:title="@string/action_card_list_add_column"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_card_list_rename_column"
+        android:title="@string/action_card_list_rename_column"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_card_list_delete_column"
         android:title="@string/action_card_list_delete_column"
         android:visible="false"
         app:showAsAction="never"
         tools:visible="true" />
-    <item
-        android:id="@+id/action_card_list_rename_column"
-        android:title="@string/action_card_list_rename_column"
-        app:showAsAction="never" />
 </menu>
