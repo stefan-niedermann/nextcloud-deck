@@ -4,3 +4,4 @@
 - Ask dismiss dialog only when changes (#144)
 - due date not properly updated (#156)
 - URLs for attachments are wrong (#158)
+- Make own board permissions usable (#147)
