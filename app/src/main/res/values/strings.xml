@@ -126,4 +126,6 @@
     <string name="your_deck_version_is_too_old">Your deck version is too old</string>
     <string name="deck_outdated_please_update">Your deck version is too old. Please update to use this android app as client.</string>
     <string name="simple_update">Update</string>
+    <string name="simple_delete">delete</string>
+    <string name="delete_board_message">This will permanently delete this board including all stacks and cards.</string>
 </resources>

@@ -249,18 +249,26 @@ public class MainActivity extends DrawerActivity {
                                     Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                                     break;
                                 case R.id.delete_board:
-                                    if (board.getLocalId() == currentBoardId) {
-                                        if (currentIndex > 0) { // Select first board after deletion
-                                            boardSelected(0, account);
-                                        } else if (boardsList.size() > 1) { // Select second board after deletion
-                                            boardSelected(1, account);
-                                        } else { // No other board is available, open create dialog
-                                            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
-                                            EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
-                                        }
-                                    }
-                                    syncManager.deleteBoard(board);
-                                    drawer.closeDrawer(GravityCompat.START);
+                                    new AlertDialog.Builder(this)
+                                            .setTitle(R.string.delete_board)
+                                            .setMessage(R.string.delete_board_message)
+                                            .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
+                                                if (board.getLocalId() == currentBoardId) {
+                                                    if (currentIndex > 0) { // Select first board after deletion
+                                                        boardSelected(0, account);
+                                                    } else if (boardsList.size() > 1) { // Select second board after deletion
+                                                        boardSelected(1, account);
+                                                    } else { // No other board is available, open create dialog
+                                                        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
+                                                        EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
+                                                    }
+                                                }
+                                                syncManager.deleteBoard(board);
+                                                drawer.closeDrawer(GravityCompat.START);
+                                            })
+                                            .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
+                                            })
+                                            .show();
                                     break;
                             }
                             return true;
