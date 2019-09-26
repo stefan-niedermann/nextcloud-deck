@@ -34,6 +34,7 @@ public class StackFragment extends Fragment {
     private static final String KEY_ACCOUNT = "account";
     private CardAdapter adapter = null;
     private SyncManager syncManager;
+    private Activity activity;
 
     private long stackId;
     private long boardId;
@@ -76,42 +77,31 @@ public class StackFragment extends Fragment {
         stackId = getArguments().getLong(KEY_STACK_ID);
         account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
 
-        syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
+        activity = Objects.requireNonNull(getActivity());
+
+        syncManager = new SyncManager(activity);
         initRecyclerView();
 
-        if (getActivity() != null) {
-            if (syncManager == null) {
-                syncManager = new SyncManager(getActivity());
-                initRecyclerView();
+        swipeRefreshLayout.setOnRefreshListener(() -> syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+            @Override
+            public void onResponse(Boolean response) {
+                refreshView();
+                activity.runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
             }
 
-            swipeRefreshLayout.setOnRefreshListener(() -> {
-                syncManager.synchronize(new IResponseCallback<Boolean>(account) {
-                    @Override
-                    public void onResponse(Boolean response) {
-                        refreshView();
-                        runOnUiThread(() -> {
-                            swipeRefreshLayout.setRefreshing(false);
-                        });
-                    }
+            @Override
+            public void onError(Throwable throwable) {
+                activity.runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+                DeckLog.log("exception! " + throwable.getMessage());
+            }
+        }));
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        runOnUiThread(() -> {
-                            swipeRefreshLayout.setRefreshing(false);
-                        });
-                        DeckLog.log("exception! " + throwable.getMessage());
-                    }
-                });
-            });
-
-            refreshView();
-        }
+        refreshView();
         return view;
     }
 
     private void refreshView() {
-        runOnUiThread(() ->
+        activity.runOnUiThread(() ->
                 syncManager.getStack(account.getId(), stackId).observe(StackFragment.this, (FullStack stack) -> {
                     if (stack != null) {
                         syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(StackFragment.this, (List<FullCard> cards) -> {
@@ -131,17 +121,6 @@ public class StackFragment extends Fragment {
         adapter = new CardAdapter(boardId, syncManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        ItemTouchHelper touchHelper = new CardItemTouchHelper(adapter);
-//        touchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    private void runOnUiThread(Runnable r) {
-        Activity a = getActivity();
-        if (a != null) {
-            a.runOnUiThread(r);
-        } else {
-            DeckLog.logError(new Exception("Activity is null"));
-        }
     }
 
     public CardAdapter getAdapter() {
