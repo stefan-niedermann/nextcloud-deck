@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/activity_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/no_activities">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_above="@+id/no_activity_text"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:tint="@color/fg_secondary"
+            app:srcCompat="@drawable/ic_activity_light_grey" />
+
+        <TextView
+            android:id="@+id/no_activity_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@string/activity"
+            android:textAlignment="center"
+            android:textSize="@dimen/empty_content_font_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/no_activity_text"
+            android:layout_centerHorizontal="true"
+            android:text="@string/this_feature_will_be_implemented_in_a_future_version" />
+    </RelativeLayout>
+</LinearLayout>

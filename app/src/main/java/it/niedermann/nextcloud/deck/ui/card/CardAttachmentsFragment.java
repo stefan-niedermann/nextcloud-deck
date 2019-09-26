@@ -58,6 +58,8 @@ public class CardAttachmentsFragment extends Fragment {
         return view;
     }
 
+    private CardAttachmentsFragment() {}
+
     public static CardAttachmentsFragment newInstance(long accountId, long localId, long boardId) {
         Bundle bundle = new Bundle();
         bundle.putLong(BUNDLE_KEY_ACCOUNT_ID, accountId);

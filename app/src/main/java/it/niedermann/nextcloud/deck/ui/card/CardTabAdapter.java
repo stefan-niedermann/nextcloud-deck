@@ -33,7 +33,7 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return CardAttachmentsFragment.newInstance(accountId, localId, boardId);
             case 2:
-                return CardActivityFragment.newInstance();
+                return CardActivityFragment.newInstance(accountId, localId, boardId);
             default:
                 throw new IllegalArgumentException("position " + position + "is not available");
         }
