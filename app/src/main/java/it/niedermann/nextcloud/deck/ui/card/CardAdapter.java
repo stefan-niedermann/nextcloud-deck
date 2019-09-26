@@ -105,26 +105,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
             context.startActivity(intent);
         });
-        viewHolder.card.setOnLongClickListener((View draggedView) -> {
+        if (canEdit) {
+            viewHolder.card.setOnLongClickListener((View draggedView) -> {
+                ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId() + "");
 
-            // Create a new ClipData.
-            // This is done in two steps to provide clarity. The convenience method
-            // ClipData.newPlainText() can create a plain text ClipData in one step.
-
-            // Create a new ClipData.Item from the ImageView object's tag
-
-            ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId() + "");
-
-            // Starts the drag
-            draggedView.startDrag(dragData,  // the data to be dragged
-                    new View.DragShadowBuilder(draggedView),  // the drag shadow builder
-                    new DraggedCardLocalState(card, viewHolder.card, this, position),      // no need to use local data
-                    0          // flags (not currently used, set to 0)
-            );
-            viewHolder.card.setVisibility(View.INVISIBLE);
-            DeckLog.log("onLongClickListener");
-            return true;
-        });
+                // Starts the drag
+                draggedView.startDrag(dragData,  // the data to be dragged
+                        new View.DragShadowBuilder(draggedView),  // the drag shadow builder
+                        new DraggedCardLocalState(card, viewHolder.card, this, position),      // no need to use local data
+                        0          // flags (not currently used, set to 0)
+                );
+                viewHolder.card.setVisibility(View.INVISIBLE);
+                DeckLog.log("onLongClickListener");
+                return true;
+            });
+        }
         viewHolder.cardTitle.setText(card.getCard().getTitle());
         String description = card.getCard().getDescription();
         if (description != null && description.length() > 0) {
