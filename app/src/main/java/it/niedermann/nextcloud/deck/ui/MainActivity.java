@@ -50,6 +50,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.NO_STACK_ID;
 
 public class MainActivity extends DrawerActivity {
     @BindView(R.id.fab)
@@ -106,7 +107,8 @@ public class MainActivity extends DrawerActivity {
                     intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(viewPager.getCurrentItem()).getStackId());
                     startActivity(intent);
                 } catch (IndexOutOfBoundsException e) {
-                    new EditStackDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
+                    EditStackDialogFragment.newInstance(NO_STACK_ID)
+                            .show(getSupportFragmentManager(), getString(R.string.add_column));
                 }
             } else {
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
@@ -182,7 +184,8 @@ public class MainActivity extends DrawerActivity {
                 currentBoardId = board.getLocalId();
                 buildSidenavMenu();
 
-                new EditStackDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
+                EditStackDialogFragment.newInstance(NO_STACK_ID)
+                        .show(getSupportFragmentManager(), getString(R.string.add_column));
 
                 // Remember last board for this account
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -382,7 +385,8 @@ public class MainActivity extends DrawerActivity {
                         .setNegativeButton(android.R.string.cancel, null).show();
                 break;
             case R.id.action_card_list_add_column:
-                new EditStackDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
+                EditStackDialogFragment.newInstance(NO_STACK_ID)
+                        .show(getSupportFragmentManager(), getString(R.string.add_column));
                 break;
             case R.id.action_card_list_rename_column:
                 EditStackDialogFragment.newInstance(stackAdapter.getItem(viewPager.getCurrentItem()).getStackId())

@@ -21,12 +21,17 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 
 public class EditStackDialogFragment extends DialogFragment {
+    public static final Long NO_STACK_ID = -1L;
     private static final String KEY_STACK_ID = "board_id";
-    private static final Long NO_STACK_ID = -1L;
     private long stackId = NO_STACK_ID;
 
     @BindView(R.id.input)
     EditText input;
+
+    /**
+     * Use newInstance()-Method
+     */
+    private EditStackDialogFragment() {}
 
     @NonNull
     @Override

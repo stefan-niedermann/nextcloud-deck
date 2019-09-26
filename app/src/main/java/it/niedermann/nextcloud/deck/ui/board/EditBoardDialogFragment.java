@@ -38,6 +38,11 @@ public class EditBoardDialogFragment extends DialogFragment {
     @BindView(R.id.colorChooser)
     ColorChooser colorChooser;
 
+    /**
+     * Use newInstance()-Method
+     */
+    private EditBoardDialogFragment() {}
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
