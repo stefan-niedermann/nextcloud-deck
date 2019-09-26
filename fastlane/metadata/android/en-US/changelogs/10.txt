@@ -1,1 +1,2 @@
 - Confirm dialog for deleting boards (#130)
+- Display avatars in account chooser

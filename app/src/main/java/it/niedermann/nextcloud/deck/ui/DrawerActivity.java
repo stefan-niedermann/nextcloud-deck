@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkRequest;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -30,6 +32,10 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.AccountImporter;
@@ -233,16 +239,16 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 //                usedAccounts.add(AccountImporter.getAccountForName(this, usedAccount.getName()));
 //            }
 
-            try {
-                AccountImporter.pickNewAccount(this);
-            } catch (NextcloudFilesAppNotInstalledException e) {
-                UiExceptionManager.showDialogForException(this, e);
-                Log.w("Deck", "=============================================================");
-                Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
-                e.printStackTrace();
-            } catch (AndroidGetAccountsPermissionNotGranted e) {
-                AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
-            }
+        try {
+            AccountImporter.pickNewAccount(this);
+        } catch (NextcloudFilesAppNotInstalledException e) {
+            UiExceptionManager.showDialogForException(this, e);
+            Log.w("Deck", "=============================================================");
+            Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
+            e.printStackTrace();
+        } catch (AndroidGetAccountsPermissionNotGranted e) {
+            AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
+        }
 //        });
     }
 
@@ -320,6 +326,23 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 MenuItem m = menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
                 AppCompatImageButton contextMenu = new AppCompatImageButton(this);
                 contextMenu.setBackgroundDrawable(null);
+
+                String uri = account.getUrl() + "/index.php/avatar/" + Uri.encode(account.getUserName()) + "/56";
+                Glide.with(this)
+                        .load(uri)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(new CustomTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                m.setIcon(resource);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                            }
+                        });
+
                 contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_delete_black_24dp, R.color.grey600));
                 contextMenu.setOnClickListener((v) -> {
                     if (currentIndex != 0) { // Select first account after deletion
