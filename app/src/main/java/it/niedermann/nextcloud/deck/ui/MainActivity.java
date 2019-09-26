@@ -309,6 +309,7 @@ public class MainActivity extends DrawerActivity {
 
         if (board.isPermissionEdit()) {
             fab.show();
+            invalidateOptionsMenu();
             onCreateOptionsMenu(toolbar.getMenu());
         } else {
             fab.hide();
