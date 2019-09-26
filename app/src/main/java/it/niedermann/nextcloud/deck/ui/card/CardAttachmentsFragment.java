@@ -88,7 +88,7 @@ public class CardAttachmentsFragment extends Fragment {
                         this.attachmentsList.addView(v);
                         v.setOnClickListener((event) -> {
                             Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
-                            openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + a.getCardId() + "/attachment/" + a.getId()));
+                            openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + fullCard.getCard().getId() + "/attachment/" + a.getId()));
                             startActivity(openURL);
                         });
                     }
