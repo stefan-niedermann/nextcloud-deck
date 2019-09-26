@@ -80,7 +80,10 @@ public class StackFragment extends Fragment {
         activity = Objects.requireNonNull(getActivity());
 
         syncManager = new SyncManager(activity);
-        initRecyclerView();
+
+        adapter = new CardAdapter(boardId, syncManager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         swipeRefreshLayout.setOnRefreshListener(() -> syncManager.synchronize(new IResponseCallback<Boolean>(account) {
             @Override
@@ -101,26 +104,18 @@ public class StackFragment extends Fragment {
     }
 
     private void refreshView() {
-        activity.runOnUiThread(() ->
-                syncManager.getStack(account.getId(), stackId).observe(StackFragment.this, (FullStack stack) -> {
-                    if (stack != null) {
-                        syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(StackFragment.this, (List<FullCard> cards) -> {
-                            if (cards == null || cards.size() == 0) {
-                                this.noCards.setVisibility(View.VISIBLE);
-                            } else {
-                                this.noCards.setVisibility(View.GONE);
-                                adapter.setCardList(cards);
-                            }
-                        });
+        activity.runOnUiThread(() -> syncManager.getStack(account.getId(), stackId).observe(StackFragment.this, (FullStack stack) -> {
+            if (stack != null) {
+                syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(StackFragment.this, (List<FullCard> cards) -> {
+                    if (cards == null || cards.size() == 0) {
+                        this.noCards.setVisibility(View.VISIBLE);
+                    } else {
+                        this.noCards.setVisibility(View.GONE);
+                        adapter.setCardList(cards);
                     }
-                })
-        );
-    }
-
-    private void initRecyclerView() {
-        adapter = new CardAdapter(boardId, syncManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                });
+            }
+        }));
     }
 
     public CardAdapter getAdapter() {
