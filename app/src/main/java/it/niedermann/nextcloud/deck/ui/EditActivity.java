@@ -62,6 +62,7 @@ public class EditActivity extends AppCompatActivity {
     private long stackId;
     private long localId;
 
+    private boolean canEdit;
     private boolean createMode;
 
     @Override
@@ -95,6 +96,10 @@ public class EditActivity extends AppCompatActivity {
                 setupTitleListener();
                 setupViewPager();
             } else {
+                observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
+                    canEdit = fullBoard.getBoard().isPermissionEdit();
+                    invalidateOptionsMenu();
+                }));
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
                     fullCard = next;
                     title.setText(fullCard.getCard().getTitle());
@@ -131,8 +136,12 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.card_edit_menu, menu);
+        if(canEdit) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.card_edit_menu, menu);
+        } else {
+            menu.clear();
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -209,7 +218,7 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(modified) {
+        if (modified && canEdit) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
