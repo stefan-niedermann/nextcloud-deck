@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -58,19 +59,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public static final String BUNDLE_KEY_BOARD_ID = "boardId";
     public static final String BUNDLE_KEY_STACK_ID = "stackId";
     public static final Long NO_LOCAL_ID = -1L;
-    public static final Long NO_BOARD_ID = -1L;
-    public static final Long NO_ACCOUNT_ID = -1L;
-    public static final Long NO_STACK_ID = -1L;
     public static final int MAX_AVATAR_COUNT = 3;
 
     private Context context;
     private List<FullCard> cardList = new LinkedList<>();
     private SingleSignOnAccount account;
-    private SyncManager syncManager;
-    private long boardId;
+    private final SyncManager syncManager;
+    private final long boardId;
+    private final boolean canEdit;
 
-    public CardAdapter(long boardId, SyncManager syncManager) {
+    public CardAdapter(long boardId, boolean canEdit, SyncManager syncManager) {
         this.boardId = boardId;
+        this.canEdit = canEdit;
         this.syncManager = syncManager;
     }
 
@@ -93,6 +93,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
         FullCard card = cardList.get(position);
+
+        if (!canEdit) {
+            ((ViewManager) viewHolder.cardMenu.getParent()).removeView(viewHolder.cardMenu);
+        }
 
         viewHolder.card.setOnClickListener((View clickedView) -> {
             Intent intent = new Intent(clickedView.getContext(), EditActivity.class);

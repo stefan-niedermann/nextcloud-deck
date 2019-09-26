@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 
 public class StackFragment extends Fragment {
@@ -81,9 +82,11 @@ public class StackFragment extends Fragment {
 
         syncManager = new SyncManager(activity);
 
-        adapter = new CardAdapter(boardId, syncManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LiveDataHelper.observeOnce(syncManager.getFullBoardById(account.getId(), boardId), this, (fullBoard) -> {
+            adapter = new CardAdapter(boardId, fullBoard.getBoard().isPermissionEdit(), syncManager);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        });
 
         swipeRefreshLayout.setOnRefreshListener(() -> syncManager.synchronize(new IResponseCallback<Boolean>(account) {
             @Override
