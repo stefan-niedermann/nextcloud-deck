@@ -39,8 +39,8 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
+import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
-import it.niedermann.nextcloud.deck.ui.stack.StackCreateDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -106,7 +106,7 @@ public class MainActivity extends DrawerActivity {
                     intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(viewPager.getCurrentItem()).getStackId());
                     startActivity(intent);
                 } catch (IndexOutOfBoundsException e) {
-                    new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
+                    new EditStackDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
                 }
             } else {
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
@@ -162,6 +162,13 @@ public class MainActivity extends DrawerActivity {
         });
     }
 
+    public void onUpdateStack(long localStackId, String stackName) {
+        observeOnce(syncManager.getStack(account.getId(), localStackId), MainActivity.this, fullStack -> {
+            fullStack.getStack().setTitle(stackName);
+            syncManager.updateStack(fullStack.getStack());
+        });
+    }
+
     public void onCreateBoard(String title, String color) {
         Board b = new Board();
         b.setTitle(title);
@@ -175,7 +182,7 @@ public class MainActivity extends DrawerActivity {
                 currentBoardId = board.getLocalId();
                 buildSidenavMenu();
 
-                new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
+                new EditStackDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
 
                 // Remember last board for this account
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -375,7 +382,10 @@ public class MainActivity extends DrawerActivity {
                         .setNegativeButton(android.R.string.cancel, null).show();
                 break;
             case R.id.action_card_list_add_column:
-                new StackCreateDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
+                new EditStackDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
+                break;
+            case R.id.action_card_list_rename_column:
+                new EditStackDialogFragment().show(getSupportFragmentManager(), getString(R.string.add_column));
                 break;
         }
         return super.onOptionsItemSelected(item);

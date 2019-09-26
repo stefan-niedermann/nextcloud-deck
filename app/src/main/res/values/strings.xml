@@ -128,4 +128,5 @@
     <string name="simple_update">Update</string>
     <string name="simple_delete">delete</string>
     <string name="delete_board_message">This will permanently delete this board including all stacks and cards.</string>
+    <string name="action_card_list_rename_column">Rename column</string>
 </resources>

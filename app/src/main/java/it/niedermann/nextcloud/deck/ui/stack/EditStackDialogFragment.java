@@ -20,7 +20,9 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 
-public class StackCreateDialogFragment extends DialogFragment {
+public class EditStackDialogFragment extends DialogFragment {
+    private static final String KEY_STACK_ID = "board_id";
+    private static final Long NO_STACK_ID = -1L;
 
     @BindView(R.id.input)
     EditText input;
@@ -28,6 +30,9 @@ public class StackCreateDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        if(getArguments() != null) {
+            long stackId = getArguments().getLong(KEY_STACK_ID);
+        }
         View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_stack_create, null);
         ButterKnife.bind(this, view);
         return new AlertDialog.Builder(getActivity())
