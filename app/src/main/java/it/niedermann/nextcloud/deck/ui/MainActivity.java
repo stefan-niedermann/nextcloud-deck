@@ -65,6 +65,7 @@ public class MainActivity extends DrawerActivity {
 
     private StackAdapter stackAdapter;
 
+    private Menu optionsMenu;
     private MenuItem addColumnMenuItem;
 
     private List<Board> boardsList;
@@ -298,6 +299,14 @@ public class MainActivity extends DrawerActivity {
             toolbar.setTitle(board.getTitle());
         }
 
+        if (board.isPermissionEdit()) {
+            fab.show();
+            onCreateOptionsMenu(toolbar.getMenu());
+        } else {
+            fab.hide();
+            toolbar.getMenu().clear();
+        }
+
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
                 noStacks.setVisibility(View.VISIBLE);
@@ -333,6 +342,7 @@ public class MainActivity extends DrawerActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        optionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.card_list_menu, menu);
         addColumnMenuItem = menu.findItem(R.id.action_card_list_delete_column);
