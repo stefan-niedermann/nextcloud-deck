@@ -2,3 +2,4 @@
 - Use new "exclude existing account" feature (#153)
 - Use LinearLayout instead of Flexbox (#149)
 - Ask dismiss dialog only when changes (#144)
+- due date not properly updated (#156)

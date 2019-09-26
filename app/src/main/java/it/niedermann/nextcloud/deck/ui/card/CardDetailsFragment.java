@@ -415,5 +415,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.fullCard.getCard().getDueDate().setHours(hourOfDay);
         this.fullCard.getCard().getDueDate().setMinutes(minute);
         dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate().getTime()));
+        activity.setDueDate(fullCard.card.getDueDate());
     }
 }
