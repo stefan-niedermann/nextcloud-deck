@@ -85,6 +85,10 @@ public class EditActivity extends AppCompatActivity {
             syncManager = new SyncManager(this);
 
             createMode = NO_LOCAL_ID.equals(localId);
+            observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
+                canEdit = fullBoard.getBoard().isPermissionEdit();
+                invalidateOptionsMenu();
+            }));
             if (createMode) {
                 actionBar.setTitle(getString(R.string.add_card));
                 fullCard = new FullCard();
@@ -96,10 +100,6 @@ public class EditActivity extends AppCompatActivity {
                 setupTitleListener();
                 setupViewPager();
             } else {
-                observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
-                    canEdit = fullBoard.getBoard().isPermissionEdit();
-                    invalidateOptionsMenu();
-                }));
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
                     fullCard = next;
                     title.setText(fullCard.getCard().getTitle());
