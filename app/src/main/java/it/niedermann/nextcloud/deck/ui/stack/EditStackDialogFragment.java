@@ -17,6 +17,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 
@@ -39,7 +40,7 @@ public class EditStackDialogFragment extends DialogFragment {
         View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_stack_create, null);
         ButterKnife.bind(this, view);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
                 .setTitle(R.string.add_column)
                 .setView(view)
                 .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {

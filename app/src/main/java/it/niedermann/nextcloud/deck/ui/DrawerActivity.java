@@ -51,6 +51,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -128,7 +129,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                     getResources().getInteger(R.integer.minimum_server_app_minor),
                                     getResources().getInteger(R.integer.minimum_server_app_patch))) < 0) {
                                 deckVersionTooLowSnackbar = Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
-                                    new AlertDialog.Builder(DrawerActivity.this)
+                                    new AlertDialog.Builder(DrawerActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
                                             .setTitle(R.string.update_deck)
                                             .setMessage(R.string.deck_outdated_please_update)
                                             .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {

@@ -37,6 +37,14 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="DialogDarkTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:background">@android:color/background_dark</item>
+    </style>
+
+    <style name="DeleteDialogDarkTheme" parent="DialogDarkTheme">
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
     <style name="DeleteDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
     </style>

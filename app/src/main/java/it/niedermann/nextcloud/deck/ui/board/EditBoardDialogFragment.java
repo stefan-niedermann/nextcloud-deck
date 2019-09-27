@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -52,7 +53,7 @@ public class EditBoardDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
         Long boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
 
         if (NO_BOARD_ID.equals(boardId)) {
             dialogBuilder.setTitle(R.string.add_board);
