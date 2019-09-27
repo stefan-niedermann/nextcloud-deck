@@ -31,6 +31,7 @@ public class ActivityDataProvider extends AbstractSyncDataProvider<Activity> {
 
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Activity activity) {
+        activity.setAccountId(accountId);
         activity.setCardId(card.getLocalId());
         return dataBaseAdapter.createActivity(accountId, activity);
     }
@@ -38,6 +39,7 @@ public class ActivityDataProvider extends AbstractSyncDataProvider<Activity> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Activity activity, boolean setStatus) {
         activity.setAccountId(accountId);
+        activity.setCardId(card.getLocalId());
         dataBaseAdapter.updateActivity(activity, setStatus);
     }
 
