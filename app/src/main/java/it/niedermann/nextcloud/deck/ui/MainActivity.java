@@ -293,8 +293,8 @@ public class MainActivity extends DrawerActivity {
             }
         }
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_grey_24dp);
-        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_grey_24dp);
         menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, getString(R.string.simple_settings)).setIcon(R.drawable.ic_settings_grey600_24dp);
+        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_grey_24dp);
         if (currentBoardId == NO_BOARDS && boardsList.size() > 0) {
             Board currentBoard = boardsList.get(0);
             currentBoardId = currentBoard.getLocalId();
