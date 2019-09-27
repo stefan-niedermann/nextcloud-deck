@@ -46,7 +46,7 @@
 
         <activity
             android:name=".ui.SettingsActivity"
-            android:label="@string/edit"
+            android:label="@string/simple_settings"
             android:theme="@style/AppTheme"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
