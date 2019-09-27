@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
@@ -76,7 +80,30 @@ public class ServerAdapter {
 
     public boolean hasInternetConnection(){
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm != null && cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+        if (cm != null) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+            if (sharedPreferences.getBoolean(applicationContext.getResources().getString(R.string.pref_key_wifi_only), false)){
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    Network network = cm.getActiveNetwork();
+                    NetworkCapabilities capabilities = cm.getNetworkCapabilities(network);
+                    if (capabilities == null) {
+                        return false;
+                    }
+                    return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+                } else {
+                    NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                    if (networkInfo == null) {
+                        return false;
+                    }
+                    return networkInfo.isConnected();
+                }
+
+
+            } else {
+                return cm != null && cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+            }
+        }
+        return false;
     }
 
     private String getLastSyncDateFormatted(long accountId) {
