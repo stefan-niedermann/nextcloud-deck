@@ -164,20 +164,20 @@ public class ServerAdapter {
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().getStack(boardId, stackId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
-    public void createStack(Stack stack, IResponseCallback<FullStack> responseCallback) {
+    public void createStack(Board board, Stack stack, IResponseCallback<FullStack> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().createStack(stack.getBoardId(), stack), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().createStack(board.getId(), stack), responseCallback);
     }
 
-    public void deleteStack(Stack stack, IResponseCallback<Void> responseCallback) {
+    public void deleteStack(Board board, Stack stack, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteStack(stack.getBoardId(), stack.getId()), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteStack(board.getId(), stack.getId()), responseCallback);
 
     }
 
-    public void updateStack(Stack stack, IResponseCallback<FullStack> responseCallback) {
+    public void updateStack(Board board, Stack stack, IResponseCallback<FullStack> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateStack(stack.getBoardId(), stack.getId(), stack), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateStack(board.getId(), stack.getId(), stack), responseCallback);
 
     }
 

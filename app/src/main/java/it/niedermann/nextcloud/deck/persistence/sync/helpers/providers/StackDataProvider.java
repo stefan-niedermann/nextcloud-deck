@@ -71,8 +71,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
-        entity.getStack().setBoardId(board.getId());
-        serverAdapter.createStack(entity.getStack(), responder);
+        serverAdapter.createStack(board.getBoard(), entity.getStack(), responder);
     }
 
     @Override
@@ -82,7 +81,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullStack entity, DataBaseAdapter dataBaseAdapter) {
-        serverAdapter.deleteStack(entity.getStack(), callback);
+        serverAdapter.deleteStack(board.getBoard(), entity.getStack(), callback);
     }
 
     @Override
@@ -121,7 +120,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
-        serverAdapter.updateStack(entity.getStack(), callback);
+        serverAdapter.updateStack(board.getBoard(), entity.getStack(), callback);
     }
 
     @Override
