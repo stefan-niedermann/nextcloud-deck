@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
+import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 
 public class StackFragment extends Fragment {
@@ -86,6 +87,17 @@ public class StackFragment extends Fragment {
             adapter = new CardAdapter(boardId, fullBoard.getBoard().isPermissionEdit(), syncManager);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            if (activity instanceof MainActivity) {
+                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                        if (dy > 0)
+                            ((MainActivity) activity).hideFab();
+                        else if (dy < 0)
+                            ((MainActivity) activity).showFab();
+                    }
+                });
+            }
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> syncManager.synchronize(new IResponseCallback<Boolean>(account) {
