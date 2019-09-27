@@ -150,7 +150,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             viewHolder.cardDueDate.setVisibility(View.GONE);
         }
 
-        final int attachmentsCount = card.getCard().getAttachmentCount();
+        final int attachmentsCount = card.getAttachments().size();
 
         if (attachmentsCount == 0) {
             viewHolder.cardCountAttachments.setVisibility(View.GONE);
