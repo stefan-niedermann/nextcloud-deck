@@ -2,6 +2,7 @@
 <resources>
     <color name="primary">#0082c9</color>
     <color name="accent">#ffffff</color>
+    <color name="danger">#d40000</color>
     <color name="black">#000000</color>
     <color name="fg_accent">#fff</color>
     <color name="fg_secondary">#999</color>

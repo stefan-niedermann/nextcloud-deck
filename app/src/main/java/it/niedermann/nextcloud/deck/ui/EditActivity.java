@@ -223,7 +223,7 @@ public class EditActivity extends AppCompatActivity {
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
                     .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> saveAndFinish())
-                    .setNegativeButton(R.string.simple_dismiss, (dialog, whichButton) -> super.onBackPressed()).show();
+                    .setNegativeButton(R.string.simple_discard, (dialog, whichButton) -> super.onBackPressed()).show();
         } else {
             super.onBackPressed();
         }

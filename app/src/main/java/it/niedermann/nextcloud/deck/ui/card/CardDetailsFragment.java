@@ -51,10 +51,10 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
-import it.niedermann.nextcloud.deck.ui.MarkDownUtil;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
+import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 import rx.Subscriber;
 

@@ -135,7 +135,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                                 openURL.setData(Uri.parse(createdAccount.getUrl() + getString(R.string.url_fragment_update_deck)));
                                                 startActivity(openURL);
                                             })
-                                            .setNegativeButton(R.string.simple_dismiss, null).show();
+                                            .setNegativeButton(R.string.simple_discard, null).show();
                                 });
                                 deckVersionTooLowSnackbar.show();
                                 syncManager.deleteAccount(createdAccount.getId());

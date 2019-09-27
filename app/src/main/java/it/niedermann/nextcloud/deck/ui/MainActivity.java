@@ -10,7 +10,6 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.PopupMenu;
@@ -42,6 +41,7 @@ import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -259,7 +259,7 @@ public class MainActivity extends DrawerActivity {
                                     Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                                     break;
                                 case R.id.delete_board:
-                                    new AlertDialog.Builder(this)
+                                    new DeleteDialogBuilder(this)
                                             .setTitle(R.string.delete_board)
                                             .setMessage(R.string.delete_board_message)
                                             .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
@@ -372,10 +372,10 @@ public class MainActivity extends DrawerActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_card_list_delete_column:
-                new AlertDialog.Builder(this)
+                new DeleteDialogBuilder(this)
                         .setTitle(R.string.action_card_list_delete_column)
                         .setMessage(R.string.do_you_want_to_delete_the_current_column)
-                        .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                        .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> {
                             long stackId = stackAdapter.getItem(viewPager.getCurrentItem()).getStackId();
                             observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
                                 DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());

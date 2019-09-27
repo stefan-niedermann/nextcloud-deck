@@ -118,7 +118,7 @@
     <string name="no_columns">No columns yet</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">This feature will be implemented in a future version.</string>
     <string name="do_you_want_to_save_your_changes">Do you want to save your changes?</string>
-    <string name="simple_dismiss">dismiss</string>
+    <string name="simple_discard">discard</string>
     <string name="do_you_want_to_delete_the_current_column">Do you want to delete the current column?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Add a new column using the three dots menu.</string>
     <string name="add_a_new_card_using_the_button">Add a new card using the + button</string>

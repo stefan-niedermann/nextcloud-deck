@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
 
@@ -14,6 +14,8 @@ import it.niedermann.nextcloud.deck.R;
  */
 
 public class MarkDownUtil {
+
+    private MarkDownUtil() {}
 
     /**
      * Ensures every instance of RxMD uses the same configuration

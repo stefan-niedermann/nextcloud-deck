@@ -26,4 +26,12 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="DeleteDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/danger</item>
+    </style>
+
 </resources>
