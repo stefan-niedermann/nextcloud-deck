@@ -12,6 +12,7 @@
         android:layout_margin="@dimen/activity_vertical_margin"
         android:hint="@string/label_title"
         android:importantForAutofill="no"
+        android:textSize="20sp"
         android:inputType="textPersonName" />
 
     <com.google.android.material.tabs.TabLayout
