@@ -21,7 +21,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -34,7 +33,8 @@ public class CardActivityFragment extends Fragment {
     @BindView(R.id.no_activities)
     RelativeLayout noActivities;
 
-    private CardActivityFragment() {}
+    private CardActivityFragment() {
+    }
 
     public static CardActivityFragment newInstance(long accountId, long localId, long boardId) {
         Bundle bundle = new Bundle();
@@ -69,8 +69,8 @@ public class CardActivityFragment extends Fragment {
 
     private void setupView(long accountId, long localId, long boardId) {
         SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
-        observeOnce(syncManager.getCardByLocalId(accountId, localId), CardActivityFragment.this, (fullCard) -> {
-            observeOnce(syncManager.syncActivitiesForCard(fullCard.getCard()), CardActivityFragment.this, (activities -> {
+        syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) -> {
+            syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
                 DeckLog.log("### " + activities);
                 if (activities == null || activities.size() == 0) {
                 } else {
