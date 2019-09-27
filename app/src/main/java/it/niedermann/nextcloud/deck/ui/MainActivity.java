@@ -66,13 +66,13 @@ public class MainActivity extends DrawerActivity {
 
     private StackAdapter stackAdapter;
 
-    private Menu optionsMenu;
     private MenuItem addColumnMenuItem;
 
     private List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
     private long currentBoardId = 0;
+    private boolean currentBoardHasEditPermission = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +133,7 @@ public class MainActivity extends DrawerActivity {
                         editor.apply();
                     }
                 });
+                showFab();
             }
 
             @Override
@@ -317,7 +318,8 @@ public class MainActivity extends DrawerActivity {
             toolbar.setTitle(board.getTitle());
         }
 
-        if (board.isPermissionEdit()) {
+        currentBoardHasEditPermission = board.isPermissionEdit();
+        if (currentBoardHasEditPermission) {
             fab.show();
             invalidateOptionsMenu();
             onCreateOptionsMenu(toolbar.getMenu());
@@ -361,7 +363,6 @@ public class MainActivity extends DrawerActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        optionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.card_list_menu, menu);
         addColumnMenuItem = menu.findItem(R.id.action_card_list_delete_column);
@@ -394,5 +395,15 @@ public class MainActivity extends DrawerActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void hideFab() {
+        this.fab.hide();
+    }
+
+    public void showFab() {
+        if (currentBoardHasEditPermission) {
+            this.fab.show();
+        }
     }
 }

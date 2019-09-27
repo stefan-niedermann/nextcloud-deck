@@ -1,2 +1,3 @@
 - Confirm dialog for deleting boards (#130)
 - Display avatars in account chooser
+- Hide FAB on scrolling (#132)
