@@ -11,6 +11,6 @@
         android:defaultValue="@string/pref_value_theme_light"
         android:icon="@drawable/ic_brightness_2_grey600_24dp"
         android:key="@string/pref_key_dark_theme"
-        android:title="@string/pref_value_dark_theme" />
+        android:title="@string/settings_theme_title" />
 
 </PreferenceScreen>
