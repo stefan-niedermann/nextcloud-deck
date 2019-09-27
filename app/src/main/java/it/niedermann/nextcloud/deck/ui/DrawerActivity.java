@@ -66,6 +66,7 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected static final int MENU_ID_ABOUT = -1;
     protected static final int MENU_ID_ADD_BOARD = -2;
+    protected static final int MENU_ID_SETTINGS = -3;
     protected static final int MENU_ID_ADD_ACCOUNT = -2;
     protected static final int ACTIVITY_ABOUT = 1;
     protected static final long NO_ACCOUNTS = -1;
@@ -289,6 +290,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 case MENU_ID_ABOUT:
                     Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
                     startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
+                    break;
+                case MENU_ID_SETTINGS:
+                    Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                    startActivityForResult(settingsIntent, ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_ADD_BOARD:
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
