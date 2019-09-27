@@ -653,9 +653,15 @@ public class SyncManager {
         return serverAdapter.getApiUrl();
     }
 
-    public void reorder(long accountId, FullCard movedCard, long newStackId, int newPosition) {
+    public void reorder(long accountId, FullCard movedCard, long newStackId, int newIndex) {
         doAsync(() -> {
-            if (newPosition == movedCard.getCard().getOrder() && newStackId == movedCard.getCard().getStackId()) {
+            // read cards of new stack
+            List<FullCard> cardsOfNewStack = dataBaseAdapter.getFullCardsForStackDirectly(accountId, newStackId);
+            int newOrder = newIndex;
+            if (cardsOfNewStack.size() >  newIndex) {
+                newOrder = cardsOfNewStack.get(newIndex).getCard().getOrder();
+            }
+            if (newOrder == movedCard.getCard().getOrder() && newStackId == movedCard.getCard().getStackId()) {
                 return;
             }
 //            if (serverAdapter.hasInternetConnection()){
@@ -663,7 +669,7 @@ public class SyncManager {
 //                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
 //                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
 //                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-//                serverAdapter.reorder(board.getId(), movedCard, stack.getId(), newPosition, new IResponseCallback<List<FullCard>>(account){
+//                serverAdapter.reorder(board.getId(), movedCard, stack.getId(), newOrder, new IResponseCallback<List<FullCard>>(account){
 //
 //                    @Override
 //                    public void onResponse(List<FullCard> response) {
@@ -673,7 +679,8 @@ public class SyncManager {
 //                    }
 //                });
 //            } else {
-            reorderLocally(accountId, movedCard, newStackId, newPosition);
+            reorderLocally(cardsOfNewStack, movedCard, newStackId, newOrder);
+            //FIXME: remove the sync-block, when commentblock up there is activated. (waiting for deck server bugfix)
             synchronize(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(accountId)) {
                 @Override
                 public void onResponse(Boolean response) {
@@ -684,24 +691,25 @@ public class SyncManager {
         });
     }
 
-    private void reorderLocally(long accountId, FullCard movedCard, long newStackId, int newOrder) {
+    private void reorderLocally(List<FullCard> cardsOfNewStack, FullCard movedCard, long newStackId, int newOrder) {
         // set new stack and order
         Card card = movedCard.getCard();
         int oldOrder = card.getOrder();
         long oldStackId = card.getStackId();
 
-        // read cards of new stack
-        List<FullCard> cardsOfNewStack = dataBaseAdapter.getFullCardsForStackDirectly(accountId, newStackId);
         int updateFromOrder;
         int updateToOrder;
         int offset = 1;
         if (oldStackId == newStackId) {
             // card was only reordered in the same stack
             card.setStatusEnum(card.getStatus() == DBStatus.LOCAL_MOVED.getId() ? DBStatus.LOCAL_MOVED : DBStatus.LOCAL_EDITED);
+            // move direction?
             if (oldOrder > newOrder) {
+                //up
                 updateFromOrder = newOrder;
                 updateToOrder = oldOrder;
             } else {
+                // down
                 offset = -1;
                 updateFromOrder = oldOrder;
                 updateToOrder = newOrder;
@@ -714,6 +722,7 @@ public class SyncManager {
                     updateFromOrder :
                     cardsOfNewStack.get(cardsOfNewStack.size() - 1).getCard().getOrder();
         }
+
         // update cards up to source-order
         for (FullCard cardToUpdate : cardsOfNewStack) {
             Card cardEntity = cardToUpdate.getCard();
