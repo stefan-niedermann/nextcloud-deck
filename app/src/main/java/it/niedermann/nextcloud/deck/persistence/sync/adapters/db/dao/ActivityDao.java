@@ -11,9 +11,9 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 @Dao
 public interface ActivityDao extends GenericDao<Activity> {
 
-    @Query("SELECT * FROM activity WHERE cardId = :localCardId")
+    @Query("SELECT * FROM activity WHERE cardId = :localCardId order by lastModified desc")
     LiveData<List<Activity>> getActivitiesForCard(final long localCardId);
 
-    @Query("SELECT * FROM activity WHERE accountId = :accountId and id = :remoteActivityId order by lastModified desc")
+    @Query("SELECT * FROM activity WHERE accountId = :accountId and id = :remoteActivityId")
     Activity getActivityByRemoteIdDirectly(long accountId, long remoteActivityId);
 }
