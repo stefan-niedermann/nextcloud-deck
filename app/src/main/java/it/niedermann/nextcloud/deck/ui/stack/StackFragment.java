@@ -102,7 +102,6 @@ public class StackFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(() -> syncManager.synchronize(new IResponseCallback<Boolean>(account) {
             @Override
             public void onResponse(Boolean response) {
-                refreshView(); // TODO maybe useles?
                 activity.runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
             }
 
