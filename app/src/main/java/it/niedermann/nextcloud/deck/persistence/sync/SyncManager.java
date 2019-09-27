@@ -145,6 +145,10 @@ public class SyncManager {
         return dataBaseAdapter.createAccount(accout);
     }
 
+    public boolean hasInternetConnection(){
+        return serverAdapter.hasInternetConnection();
+    }
+
     public void deleteAccount(long id) {
         doAsync(() -> {
             dataBaseAdapter.deleteAccount(id);
