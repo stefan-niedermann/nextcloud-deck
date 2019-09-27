@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,7 +16,9 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -67,17 +70,19 @@ public class CardActivityFragment extends Fragment {
     private void setupView(long accountId, long localId, long boardId) {
         SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
         observeOnce(syncManager.getCardByLocalId(accountId, localId), CardActivityFragment.this, (fullCard) -> {
-//            observeOnce(syncManager.syncActivitiesForCard(fullCard.getCard()), CardActivityFragment.this, (activities -> {
-//                if (activities == null || activities.size() == 0) {
-//                } else {
-//                    noActivities.setVisibility(View.GONE);
-//                    activitiesList.setVisibility(View.VISIBLE);
-//                    for (Activity a : activities) {
-//                        View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_activity, null);
-//                        ((TextView) v.findViewById(R.id.subject)).setText(a.getSubject());
-//                    }
-//                }
-//            }));
+            observeOnce(syncManager.syncActivitiesForCard(fullCard.getCard()), CardActivityFragment.this, (activities -> {
+                DeckLog.log("### " + activities);
+                if (activities == null || activities.size() == 0) {
+                } else {
+                    noActivities.setVisibility(View.GONE);
+                    activitiesList.setVisibility(View.VISIBLE);
+                    for (Activity a : activities) {
+                        DeckLog.log("### " + a.getSubject());
+                        View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_activity, null);
+                        ((TextView) v.findViewById(R.id.subject)).setText(a.getSubject());
+                    }
+                }
+            }));
         });
     }
 
