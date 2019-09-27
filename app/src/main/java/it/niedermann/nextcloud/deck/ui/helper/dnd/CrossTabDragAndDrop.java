@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
@@ -179,6 +180,8 @@ public class CrossTabDragAndDrop {
                     viewPager.removeOnPageChangeListener(this);
                     StackAdapter stackAdapter = (StackAdapter) viewPager.getAdapter();
 
+                    DeckLog.log("### tabPositionToCheck: " + tabPositionToCheck);
+                    DeckLog.log("### item: " + stackAdapter.getItem(tabPositionToCheck).getAdapter());
                     CardAdapter cardAdapter = stackAdapter.getItem(tabPositionToCheck).getAdapter();
                     cardAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                         @Override

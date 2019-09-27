@@ -349,7 +349,7 @@ public class MainActivity extends DrawerActivity {
                 StackAdapter newStackAdapter = new StackAdapter(getSupportFragmentManager());
                 for (int i = 0; i < fullStacks.size(); i++) {
                     FullStack stack = fullStacks.get(i);
-                    newStackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account), stack.getStack().getTitle());
+                    newStackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account, currentBoardHasEditPermission), stack.getStack().getTitle());
                     if (stack.getLocalId() == savedStackId) {
                         stackPositionInAdapter = i;
                     }

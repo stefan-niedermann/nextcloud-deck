@@ -25,7 +25,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 
@@ -34,6 +33,7 @@ public class StackFragment extends Fragment {
     private static final String KEY_BOARD_ID = "boardId";
     private static final String KEY_STACK_ID = "stackId";
     private static final String KEY_ACCOUNT = "account";
+    private static final String KEY_HAS_EDIT_PERMISSION = "hasEditPermission";
     private CardAdapter adapter = null;
     private SyncManager syncManager;
     private Activity activity;
@@ -54,10 +54,11 @@ public class StackFragment extends Fragment {
      * @return new fragment instance
      * @see <a href="https://gunhansancar.com/best-practice-to-instantiate-fragments-with-arguments-in-android/">Best Practice to Instantiate Fragments with Arguments in Android</a>
      */
-    public static StackFragment newInstance(long boardId, long stackId, Account account) {
+    public static StackFragment newInstance(long boardId, long stackId, Account account, boolean hasEditPermission) {
         Bundle bundle = new Bundle();
         bundle.putLong(KEY_BOARD_ID, boardId);
         bundle.putLong(KEY_STACK_ID, stackId);
+        bundle.putBoolean(KEY_HAS_EDIT_PERMISSION, hasEditPermission);
         bundle.putSerializable(KEY_ACCOUNT, account);
 
         StackFragment fragment = new StackFragment();
@@ -83,34 +84,32 @@ public class StackFragment extends Fragment {
 
         syncManager = new SyncManager(activity);
 
-        LiveDataHelper.observeOnce(syncManager.getFullBoardById(account.getId(), boardId), this, (fullBoard) -> {
-            adapter = new CardAdapter(boardId, fullBoard.getBoard().isPermissionEdit(), syncManager);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            if (activity instanceof MainActivity) {
-                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                        if (dy > 0)
-                            ((MainActivity) activity).hideFab();
-                        else if (dy < 0)
-                            ((MainActivity) activity).showFab();
-                    }
-                });
-            }
-        });
+        adapter = new CardAdapter(boardId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if (activity instanceof MainActivity) {
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    if (dy > 0)
+                        ((MainActivity) activity).hideFab();
+                    else if (dy < 0)
+                        ((MainActivity) activity).showFab();
+                }
+            });
+        }
 
         swipeRefreshLayout.setOnRefreshListener(() -> syncManager.synchronize(new IResponseCallback<Boolean>(account) {
             @Override
             public void onResponse(Boolean response) {
-                refreshView();
+                refreshView(); // TODO maybe useles?
                 activity.runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
             }
 
             @Override
             public void onError(Throwable throwable) {
                 activity.runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
-                DeckLog.log("exception! " + throwable.getMessage());
+                DeckLog.logError(throwable);
             }
         }));
 
