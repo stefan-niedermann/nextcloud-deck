@@ -7,6 +7,13 @@
         <item name="colorAccent">@color/primary</item>
     </style>
 
+    <!-- Base application theme. -->
+    <style name="DarkAppTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorAccent">@color/primary</item>
+    </style>
+
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

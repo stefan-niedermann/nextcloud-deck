@@ -77,10 +77,12 @@ public class MainActivity extends DrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
+        setTheme(R.style.DarkAppTheme);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
+
 
         stackAdapter = new StackAdapter(getSupportFragmentManager());
 
