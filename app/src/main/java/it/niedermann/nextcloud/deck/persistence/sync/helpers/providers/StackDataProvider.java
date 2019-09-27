@@ -71,16 +71,19 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> responder, FullStack entity) {
+        entity.getStack().setBoardId(board.getId());
         serverAdapter.createStack(board.getBoard(), entity.getStack(), responder);
     }
 
     @Override
-    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack fullStack) {
-        dataBaseAdapter.deleteStackPhysically(fullStack.getStack());
+    public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullStack entity) {
+        entity.getStack().setBoardId(board.getId());
+        dataBaseAdapter.deleteStackPhysically(entity.getStack());
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, FullStack entity, DataBaseAdapter dataBaseAdapter) {
+        entity.getStack().setBoardId(board.getId());
         serverAdapter.deleteStack(board.getBoard(), entity.getStack(), callback);
     }
 
@@ -120,6 +123,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullStack> callback, FullStack entity) {
+        entity.getStack().setBoardId(board.getId());
         serverAdapter.updateStack(board.getBoard(), entity.getStack(), callback);
     }
 

@@ -61,7 +61,7 @@ public class DataPropagationHelper {
         entity.setStatus(DBStatus.LOCAL_EDITED.getId());
         provider.updateInDB(dataBaseAdapter, accountId, entity);
         boolean connected = serverAdapter.hasInternetConnection();
-        if (connected) {
+        if (entity.getId() != null && connected) {
             provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
                 @Override
                 public void onResponse(T response) {
@@ -88,7 +88,7 @@ public class DataPropagationHelper {
         final long accountId = callback.getAccount().getId();
         provider.deleteInDB(dataBaseAdapter, accountId, entity);
         boolean connected = serverAdapter.hasInternetConnection();
-        if (connected) {
+        if (entity.getId() != null && connected) {
             provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(new Account(accountId)) {
                 @Override
                 public void onResponse(Void response) {
