@@ -14,6 +14,6 @@ public interface ActivityDao extends GenericDao<Activity> {
     @Query("SELECT * FROM activity WHERE cardId = :localCardId")
     LiveData<List<Activity>> getActivitiesForCard(final long localCardId);
 
-    @Query("SELECT * FROM activity WHERE accountId = :accountId and id = :remoteActivityId")
+    @Query("SELECT * FROM activity WHERE accountId = :accountId and id = :remoteActivityId order by lastModified desc")
     Activity getActivityByRemoteIdDirectly(long accountId, long remoteActivityId);
 }
