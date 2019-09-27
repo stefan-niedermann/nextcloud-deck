@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.ui.about.AboutFragmentContributingTab;
 import it.niedermann.nextcloud.deck.ui.about.AboutFragmentCreditsTab;
@@ -27,6 +28,7 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_about);

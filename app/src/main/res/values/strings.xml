@@ -131,6 +131,8 @@
     <string name="action_card_list_rename_column">Rename column</string>
     <string name="simple_rename">Rename</string>
     <string name="simple_settings">Settings</string>
+    <string name="settings_theme_title">Dark theme</string>
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
+    <string name="pref_value_theme_light">Light</string>
 </resources>
