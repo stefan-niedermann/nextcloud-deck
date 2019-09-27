@@ -234,7 +234,6 @@ public class SyncManager {
         long accountId = board.getAccountId();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
-            User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new BoardDataProvider(), board, new IResponseCallback<FullBoard>(account) {
                 @Override
                 public void onResponse(FullBoard response) {
@@ -305,11 +304,20 @@ public class SyncManager {
         return liveData;
     }
 
-    public void updateStack(Stack stack) {
-        //TODO: Tell the server
+    public LiveData<FullStack> updateStack(FullStack stack) {
+        MutableLiveData<FullStack> liveData = new MutableLiveData<>();
         doAsync(() -> {
-            dataBaseAdapter.updateStack(stack, true);
+            Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
+            FullStack fullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(stack.getLocalId());
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), fullStack, new IResponseCallback<FullStack>(account) {
+                @Override
+                public void onResponse(FullStack response) {
+                    liveData.postValue(response);
+                }
+            });
         });
+        return liveData;
 
     }
 
@@ -684,8 +692,8 @@ public class SyncManager {
 
         // read cards of new stack
         List<FullCard> cardsOfNewStack = dataBaseAdapter.getFullCardsForStackDirectly(accountId, newStackId);
-        int updateFromOrder = 0;
-        int updateToOrder = 0;
+        int updateFromOrder;
+        int updateToOrder;
         int offset = 1;
         if (oldStackId == newStackId) {
             // card was only reordered in the same stack

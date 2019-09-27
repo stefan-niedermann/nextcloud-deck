@@ -168,7 +168,7 @@ public class MainActivity extends DrawerActivity {
     public void onUpdateStack(long localStackId, String stackName) {
         observeOnce(syncManager.getStack(account.getId(), localStackId), MainActivity.this, fullStack -> {
             fullStack.getStack().setTitle(stackName);
-            syncManager.updateStack(fullStack.getStack());
+            syncManager.updateStack(fullStack);
         });
     }
 
