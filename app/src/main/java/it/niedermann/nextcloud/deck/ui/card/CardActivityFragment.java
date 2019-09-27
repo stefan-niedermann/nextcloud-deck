@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
@@ -16,8 +17,8 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.enums.ActivityType;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
@@ -71,15 +72,39 @@ public class CardActivityFragment extends Fragment {
         SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
         syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) -> {
             syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
-                DeckLog.log("### " + activities);
                 if (activities == null || activities.size() == 0) {
+                    noActivities.setVisibility(View.VISIBLE);
+                    activitiesList.setVisibility(View.GONE);
                 } else {
                     noActivities.setVisibility(View.GONE);
                     activitiesList.setVisibility(View.VISIBLE);
+                    activitiesList.removeAllViews();
                     for (Activity a : activities) {
-                        DeckLog.log("### " + a.getSubject());
                         View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_activity, null);
                         ((TextView) v.findViewById(R.id.subject)).setText(a.getSubject());
+                        AppCompatImageView type = v.findViewById(R.id.type);
+                        switch (ActivityType.findById(a.getType())) {
+                            case DECK:
+                                break;
+                            case CHANGE:
+                                type.setImageResource(R.drawable.type_change_36dp);
+                                break;
+                            case ADD:
+                                type.setImageResource(R.drawable.type_add_color_36dp);
+                                break;
+                            case DELETE:
+                                type.setImageResource(R.drawable.type_delete_color_36dp);
+                                break;
+                            case ARCHIVE:
+                                break;
+                            case HISTORY:
+                                break;
+                            case FILES:
+                                break;
+                            case COMMENT:
+                                break;
+                        }
+                        activitiesList.addView(v);
                     }
                 }
             }));
