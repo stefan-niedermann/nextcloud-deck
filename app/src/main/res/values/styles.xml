@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
+        <item name="android:textViewStyle">@style/TextView</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -12,15 +13,25 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="DarkAppTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="DarkAppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
+        <item name="android:textColor">@color/fg_secondary</item>
+        <item name="android:textViewStyle">@style/DarkTextView</item>
     </style>
 
     <style name="DarkAppTheme.NoActionBar" parent="DarkAppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="DarkTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/dark_fg_primary</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme">

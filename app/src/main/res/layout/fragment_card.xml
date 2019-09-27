@@ -39,7 +39,6 @@
                 android:padding="@dimen/standard_quarter_padding"
                 android:paddingStart="0dp"
                 android:paddingLeft="0dp"
-                android:textColor="@color/black"
                 android:textSize="18sp"
                 tools:ignore="RtlSymmetry"
                 tools:text="This is a really longCard Title" />

@@ -93,7 +93,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
         FullCard card = cardList.get(position);
-
         if (!canEdit) {
             ((ViewManager) viewHolder.cardMenu.getParent()).removeView(viewHolder.cardMenu);
         }
