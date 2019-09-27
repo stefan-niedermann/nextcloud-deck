@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.enums.ActivityType;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
@@ -81,6 +82,7 @@ public class CardActivityFragment extends Fragment {
                     activitiesList.removeAllViews();
                     for (Activity a : activities) {
                         View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_activity, null);
+                        ((TextView) v.findViewById(R.id.date)).setText(DateUtil.getRelativeDateTimeString(getContext(), a.getLastModified().getTime()));
                         ((TextView) v.findViewById(R.id.subject)).setText(a.getSubject());
                         AppCompatImageView type = v.findViewById(R.id.type);
                         switch (ActivityType.findById(a.getType())) {
