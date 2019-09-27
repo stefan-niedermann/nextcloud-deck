@@ -103,6 +103,10 @@ public class EditActivity extends AppCompatActivity {
                 setupViewPager();
             } else {
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
+                    actionBar.setTitle(next.getCard().getTitle());
+                    if (canEdit) {
+                        actionBar.setTitle(getString(R.string.edit) + " " + actionBar.getTitle());
+                    }
                     fullCard = next;
                     title.setText(fullCard.getCard().getTitle());
                     setupTitleListener();
@@ -138,7 +142,7 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(canEdit) {
+        if (canEdit) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.card_edit_menu, menu);
         } else {
