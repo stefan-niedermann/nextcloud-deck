@@ -1,1 +1,1 @@
-- Rotating in EditActivity causes crash (#146)
+- Rotating in EditActivity causes crash (#164)
