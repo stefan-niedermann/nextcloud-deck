@@ -1,1 +1,2 @@
 - Rotating in EditActivity causes crash (#164)
+- Remove assigned users from card (#157)

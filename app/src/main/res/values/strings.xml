@@ -135,4 +135,7 @@
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
     <string name="pref_value_theme_light">Light</string>
+    <string name="unassign_user">Unassign user</string>
+    <string name="do_you_want_to_unassign_this_user">Do you want to unassign this user?</string>
+    <string name="simple_unassign">Unassign</string>
 </resources>

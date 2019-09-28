@@ -21,6 +21,7 @@ import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
@@ -398,6 +399,23 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private void addAvatar(String baseUrl, User user) {
         ImageView avatar = new ImageView(activity);
         avatar.setLayoutParams(avatarLayoutParams);
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.unassign_user)
+                        .setMessage(R.string.do_you_want_to_unassign_this_user)
+                        .setPositiveButton(R.string.simple_unassign, (dialog, whichButton) -> {
+                            if(createMode) {
+                                activity.removeUser(user);
+                            } else {
+                                syncManager.unassignUserFromCard(user, fullCard.getCard());
+                            }
+                            peopleList.removeView(avatar);
+                        })
+                        .setNegativeButton(R.string.simple_discard, null).show();
+            }
+        });
         peopleList.addView(avatar);
         avatar.requestLayout();
         ViewUtil.addAvatar(getContext(), avatar, baseUrl, user.getUid(), avatarSize);

@@ -202,6 +202,10 @@ public class EditActivity extends AppCompatActivity {
         this.fullCard.getAssignedUsers().add(user);
     }
 
+    public void removeUser(User user) {
+        this.fullCard.getAssignedUsers().remove(user);
+    }
+
 
     public void addLabel(Label label) {
         this.fullCard.getLabels().add(label);
