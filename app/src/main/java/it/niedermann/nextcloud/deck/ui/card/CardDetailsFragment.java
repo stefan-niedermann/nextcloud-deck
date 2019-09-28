@@ -422,7 +422,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         });
         peopleList.addView(avatar);
         avatar.requestLayout();
-        ViewUtil.addAvatar(getContext(), avatar, baseUrl, user.getUid(), avatarSize);
+        ViewUtil.addAvatar(getContext(), avatar, baseUrl, user.getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
     }
 
     @Override

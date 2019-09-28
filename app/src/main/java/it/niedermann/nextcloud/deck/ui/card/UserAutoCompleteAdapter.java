@@ -82,7 +82,8 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                     activity,
                     holder.icon,
                     account.url,
-                    getItem(position).getUid()
+                    getItem(position).getUid(),
+                    R.drawable.ic_person_grey600_24dp
             );
         } catch (NextcloudFilesAppAccountNotFoundException e) {
             DeckLog.logError(e);

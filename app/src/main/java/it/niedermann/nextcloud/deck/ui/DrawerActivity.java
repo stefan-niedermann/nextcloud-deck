@@ -195,7 +195,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             syncManager = new SyncManager(this);
                             setHeaderView();
-                            ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName());
+                            ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName(), R.mipmap.ic_launcher_round);
                             // TODO show spinner
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 registerAutoSyncOnNetworkAvailable();
@@ -310,12 +310,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected abstract void boardSelected(int itemId, Account account);
 
     protected void setHeaderView() {
-        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), account.getUrl(), account.getUserName());
+        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), account.getUrl(), account.getUserName(), R.mipmap.ic_launcher_round);
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(account.getName());
     }
 
     protected void setNoAccountHeaderView() {
-        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), null, "");
+        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), null, "", R.mipmap.ic_launcher_round);
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(getResources().getString(R.string.no_account));
     }
 

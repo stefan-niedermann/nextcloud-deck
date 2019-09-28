@@ -248,7 +248,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             avatar.setLayoutParams(avatarLayoutParams);
             peopleList.addView(avatar);
             avatar.requestLayout();
-            ViewUtil.addAvatar(context, avatar, account.url, card.getAssignedUsers().get(avatarCount).getUid(), avatarSize);
+            ViewUtil.addAvatar(context, avatar, account.url, card.getAssignedUsers().get(avatarCount).getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
         }
 
         // Recalculate container size based on avatar count

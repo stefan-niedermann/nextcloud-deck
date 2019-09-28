@@ -20,14 +20,15 @@ public final class ViewUtil {
     private ViewUtil() {
     }
 
-    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId) {
-        addAvatar(context, avatar, baseUrl, userId, DimensionUtil.getAvatarDimension(context));
+    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int errorResource) {
+        addAvatar(context, avatar, baseUrl, userId, DimensionUtil.getAvatarDimension(context), errorResource);
     }
 
-    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int avatarSize) {
+    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int avatarSize, int errorResource) {
         String uri = baseUrl + "/index.php/avatar/" + Uri.encode(userId) + "/" + avatarSize;
         Glide.with(context)
                 .load(uri)
+                .error(errorResource)
                 .apply(RequestOptions.circleCropTransform())
                 .into(avatar);
     }
