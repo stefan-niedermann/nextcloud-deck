@@ -29,6 +29,7 @@
                 android:id="@+id/labels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:completionThreshold="1"
                 android:hint="@string/label_labels" />
         </LinearLayout>
 
@@ -111,6 +112,7 @@
                 android:id="@+id/people"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:completionThreshold="1"
                 android:hint="@string/hint_assign_people" />
         </LinearLayout>
 
