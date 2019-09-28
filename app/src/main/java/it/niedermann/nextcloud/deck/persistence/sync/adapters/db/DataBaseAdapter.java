@@ -413,6 +413,10 @@ public class DataBaseAdapter {
     }
 
     private void validateSearchTerm(String searchTerm){
+        // TODO @desperateCoder
+        // Issue: https://github.com/stefan-niedermann/nextcloud-deck/issues/52
+        // if searchTerm.length() === 0
+        // then return a list (max. 3 entries) with the users / labels / whatever which are assigned most often, ordered by count of how often they are assigned to any cards and which are NOT yet assigned to this card.
         if (searchTerm == null || searchTerm.trim().length()<1) {
             throw new IllegalArgumentException("please provide a proper search term! \""+searchTerm+"\" doesn't seem right...");
         }
