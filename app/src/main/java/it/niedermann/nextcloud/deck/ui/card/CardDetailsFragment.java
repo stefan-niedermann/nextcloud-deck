@@ -103,7 +103,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     @BindView(R.id.labelsGroup)
     ChipGroup labelsGroup;
 
-    private CardDetailsFragment() {}
+    public CardDetailsFragment() {}
 
     public static CardDetailsFragment newInstance(long accountId, long localId, long boardId) {
         Bundle bundle = new Bundle();

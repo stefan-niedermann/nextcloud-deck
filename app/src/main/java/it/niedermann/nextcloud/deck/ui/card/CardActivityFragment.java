@@ -35,7 +35,7 @@ public class CardActivityFragment extends Fragment {
     @BindView(R.id.no_activities)
     RelativeLayout noActivities;
 
-    private CardActivityFragment() {
+    public CardActivityFragment() {
     }
 
     public static CardActivityFragment newInstance(long accountId, long localId, long boardId) {
