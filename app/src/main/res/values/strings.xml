@@ -138,4 +138,6 @@
     <string name="unassign_user">Unassign %1$s</string>
     <string name="do_you_want_to_unassign_this_user">Do you want to unassign %1$s from %2$s?</string>
     <string name="simple_unassign">Unassign</string>
+    <string name="unassigned_user">Unassigned %1$s</string>
+    <string name="simple_undo">Undo</string>
 </resources>

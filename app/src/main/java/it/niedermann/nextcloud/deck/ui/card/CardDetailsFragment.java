@@ -21,13 +21,13 @@ import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
@@ -400,22 +400,25 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private void addAvatar(String baseUrl, User user) {
         ImageView avatar = new ImageView(activity);
         avatar.setLayoutParams(avatarLayoutParams);
-        avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle(getString(R.string.unassign_user, user.getDisplayname()))
-                        .setMessage(getString(R.string.do_you_want_to_unassign_this_user, user.getDisplayname(), fullCard.getCard().getTitle()))
-                        .setPositiveButton(R.string.simple_unassign, (dialog, whichButton) -> {
-                            if (createMode) {
-                                activity.removeUser(user);
-                            } else {
-                                syncManager.unassignUserFromCard(user, fullCard.getCard());
-                            }
-                            peopleList.removeView(avatar);
-                        })
-                        .setNegativeButton(R.string.simple_discard, null).show();
+        avatar.setOnClickListener(v -> {
+
+            if (createMode) {
+                activity.removeUser(user);
+            } else {
+                syncManager.unassignUserFromCard(user, fullCard.getCard());
             }
+            peopleList.removeView(avatar);
+            Snackbar.make(
+                    Objects.requireNonNull(getView()), getString(R.string.unassigned_user, user.getDisplayname()),
+                    Snackbar.LENGTH_LONG)
+                    .setAction(R.string.simple_undo, v1 -> {
+                        if (createMode) {
+                            activity.addUser(user);
+                        } else {
+                            syncManager.assignUserToCard(user, fullCard.getCard());
+                        }
+                        addAvatar(baseUrl, user);
+                    }).show();
         });
         peopleList.addView(avatar);
         avatar.requestLayout();
