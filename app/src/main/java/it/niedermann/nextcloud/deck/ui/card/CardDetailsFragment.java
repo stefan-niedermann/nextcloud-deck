@@ -104,7 +104,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     @BindView(R.id.labelsGroup)
     ChipGroup labelsGroup;
 
-    public CardDetailsFragment() {}
+    public CardDetailsFragment() {
+    }
 
     public static CardDetailsFragment newInstance(long accountId, long localId, long boardId) {
         Bundle bundle = new Bundle();
@@ -403,10 +404,10 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(getContext())
-                        .setTitle(R.string.unassign_user)
-                        .setMessage(R.string.do_you_want_to_unassign_this_user)
+                        .setTitle(getString(R.string.unassign_user, user.getDisplayname()))
+                        .setMessage(getString(R.string.do_you_want_to_unassign_this_user, user.getDisplayname(), fullCard.getCard().getTitle()))
                         .setPositiveButton(R.string.simple_unassign, (dialog, whichButton) -> {
-                            if(createMode) {
+                            if (createMode) {
                                 activity.removeUser(user);
                             } else {
                                 syncManager.unassignUserFromCard(user, fullCard.getCard());
