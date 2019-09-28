@@ -5,3 +5,4 @@
 - Sync on wifi only
 - Reorder does not work when drag from top to bottom (#142)
 - Display activity (#45)
+- Rename columns (#145)
