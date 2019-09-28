@@ -141,4 +141,5 @@
     <string name="unassigned_user">Unassigned %1$s</string>
     <string name="simple_undo">Undo</string>
     <string name="no_activities">There are no activities on this card. You need to be connected to the internet to load and display activities.</string>
+    <string name="rename_column">Rename column</string>
 </resources>

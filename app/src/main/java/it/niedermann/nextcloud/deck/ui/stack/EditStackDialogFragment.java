@@ -32,7 +32,8 @@ public class EditStackDialogFragment extends DialogFragment {
     /**
      * Use newInstance()-Method
      */
-    private EditStackDialogFragment() {}
+    private EditStackDialogFragment() {
+    }
 
     @NonNull
     @Override
@@ -41,7 +42,6 @@ public class EditStackDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
-                .setTitle(R.string.add_column)
                 .setView(view)
                 .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
                     // Do something else
@@ -49,18 +49,21 @@ public class EditStackDialogFragment extends DialogFragment {
         if (getArguments() != null) {
             stackId = getArguments().getLong(KEY_STACK_ID);
             if (stackId == NO_STACK_ID) {
-                builder.setPositiveButton(R.string.simple_add, (dialog, which) -> {
-                    ((MainActivity) getActivity()).onCreateStack(input.getText().toString());
-                });
+                builder.setTitle(R.string.add_column)
+                        .setPositiveButton(R.string.simple_add, (dialog, which) -> {
+                            ((MainActivity) getActivity()).onCreateStack(input.getText().toString());
+                        });
             } else {
-                builder.setPositiveButton(R.string.simple_rename, (dialog, which) -> {
-                    ((MainActivity) getActivity()).onUpdateStack(stackId, input.getText().toString());
-                });
+                builder.setTitle(R.string.rename_column)
+                        .setPositiveButton(R.string.simple_rename, (dialog, which) -> {
+                            ((MainActivity) getActivity()).onUpdateStack(stackId, input.getText().toString());
+                        });
             }
         } else {
-            builder.setPositiveButton(R.string.simple_add, (dialog, which) -> {
-                ((MainActivity) getActivity()).onCreateStack(input.getText().toString());
-            });
+            builder.setTitle(R.string.add_column)
+                    .setPositiveButton(R.string.simple_add, (dialog, which) -> {
+                        ((MainActivity) getActivity()).onCreateStack(input.getText().toString());
+                    });
         }
         return builder.create();
     }
