@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,8 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 public class CardActivityFragment extends Fragment {
     private Unbinder unbinder;
 
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
     @BindView(R.id.activity_list)
     LinearLayout activitiesList;
     @BindView(R.id.no_activities)
@@ -71,14 +74,14 @@ public class CardActivityFragment extends Fragment {
 
     private void setupView(long accountId, long localId, long boardId) {
         SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
-        syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) -> {
-            syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
+        if (syncManager.hasInternetConnection()) {
+            syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) -> syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
                 if (activities == null || activities.size() == 0) {
                     noActivities.setVisibility(View.VISIBLE);
-                    activitiesList.setVisibility(View.GONE);
+                    scrollView.setVisibility(View.GONE);
                 } else {
                     noActivities.setVisibility(View.GONE);
-                    activitiesList.setVisibility(View.VISIBLE);
+                    scrollView.setVisibility(View.VISIBLE);
                     activitiesList.removeAllViews();
                     for (Activity a : activities) {
                         View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_activity, null);
@@ -109,8 +112,8 @@ public class CardActivityFragment extends Fragment {
                         activitiesList.addView(v);
                     }
                 }
-            }));
-        });
+            })));
+        }
     }
 
     @Override
