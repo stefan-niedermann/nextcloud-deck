@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -321,11 +320,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private boolean optionsItemSelected(MenuItem item, FullCard card) {
         switch (item.getItemId()) {
             case R.id.action_card_assign: {
-                Toast.makeText(context, R.string.this_feature_will_be_implemented_in_a_future_version, Toast.LENGTH_SHORT).show();
+                try {
+                    SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+                    new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), ssoa.userId), card.getCard())).start();
+                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                    DeckLog.logError(e);
+                }
                 return true;
             }
             case R.id.action_card_unassign: {
-                Toast.makeText(context, R.string.this_feature_will_be_implemented_in_a_future_version, Toast.LENGTH_SHORT).show();
+                try {
+                    SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+                    new Thread(() -> syncManager.unassignUserFromCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), ssoa.userId), card.getCard())).start();
+                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                    DeckLog.logError(e);
+                }
                 return true;
             }
             case R.id.action_card_archive: {

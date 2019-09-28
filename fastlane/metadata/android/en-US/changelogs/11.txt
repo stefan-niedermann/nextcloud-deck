@@ -1,3 +1,4 @@
 - Rotating in EditActivity causes crash (#164)
 - Remove assigned users from card (#157)
 - Account name not displayed correctly when it contains space character (#136)
+- Un / assign current user directly from list options menu
