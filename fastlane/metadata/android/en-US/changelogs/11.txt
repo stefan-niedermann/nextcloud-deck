@@ -1,2 +1,3 @@
 - Rotating in EditActivity causes crash (#164)
 - Remove assigned users from card (#157)
+- Account name not displayed correctly when it contains space character (#136)

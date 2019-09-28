@@ -101,7 +101,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="false"
-        app:headerLayout="@layout/nav_header_main"
-        app:theme="@style/TextAppearanceEllipsiize" />
+        android:theme="@style/TextAppearanceEllipsiize"
+        app:headerLayout="@layout/nav_header_main" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
