@@ -90,9 +90,11 @@
     <string name="no_columns">Aucune colonne pour l\'instant</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Cette fonctionnalité sera disponible dans une future version.</string>
     <string name="do_you_want_to_save_your_changes">Souhaitez-vous enregistrer vos modifications ?</string>
-    <string name="simple_dismiss">ignorer</string>
     <string name="do_you_want_to_delete_the_current_column">Souhaitez-vous supprimer la colonne actuelle ?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Ajouter une nouvelle colonne en utilisant le menu \"trois points\".</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
     <string name="simple_update">Mettre à jour</string>
-</resources>
+    <string name="simple_delete">supprimer</string>
+    <string name="action_card_list_rename_column">Renommer la colonne</string>
+    <string name="simple_rename">Renommer</string>
+    </resources>

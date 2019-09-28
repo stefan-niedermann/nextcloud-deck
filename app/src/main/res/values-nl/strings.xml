@@ -86,7 +86,6 @@
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_columns">Nog geen kolommen</string>
-    <string name="simple_dismiss">weigeren</string>
     <string name="do_you_want_to_delete_the_current_column">Wil je de huidige kolom verwijderen?</string>
     <string name="simple_update">Bijwerken</string>
-</resources>
+    </resources>

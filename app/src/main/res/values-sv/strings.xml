@@ -88,7 +88,6 @@
     <string name="no_columns">Inga kolumner än</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Denna funktion kommer att implementeras i en framtida version.</string>
     <string name="do_you_want_to_save_your_changes">Vill du spara dina ändringar?</string>
-    <string name="simple_dismiss">avfärda</string>
     <string name="do_you_want_to_delete_the_current_column">Vill du ta bort den aktuella kolumnen?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Lägg till en ny kolumn med hjälp av menyn med tre punkter.</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
@@ -96,4 +95,8 @@
     <string name="your_deck_version_is_too_old">Din version är för gammal</string>
     <string name="deck_outdated_please_update">Din version av Deck är för gammal. Uppdatera för att använda den här Android-appen som klient.</string>
     <string name="simple_update">Uppdatera</string>
-</resources>
+    <string name="simple_delete">radera</string>
+    <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla staplar och kort.</string>
+    <string name="action_card_list_rename_column">Byt namn på kolumn</string>
+    <string name="simple_rename">Byt namn</string>
+    </resources>
