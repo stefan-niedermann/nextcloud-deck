@@ -83,14 +83,13 @@
     <string name="no_files_attached_to_this_card">No hay archivos adjuntos a esta tarjeta.</string>
     <string name="attachments">Adjuntos</string>
     <string name="no_cards">Todavía no hay tarjetas</string>
-    <string name="no_account">No hay cuentas configuradas</string>
+    <string name="no_account">No hay cuenta configurada</string>
     <string name="account_already_added">Cuenta ya añadida</string>
     <string name="account_is_getting_imported">La cuenta está siendo importada</string>
     <string name="not_synced_yet">No sincronizado todavía</string>
     <string name="no_columns">No hay columnas disponibles</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Esta característica se implementará en una próxima versión.</string>
     <string name="do_you_want_to_save_your_changes">¿Desea guardar los cambios?</string>
-    <string name="simple_dismiss">Descartar</string>
     <string name="do_you_want_to_delete_the_current_column">¿Desea borrar la columna actual?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Añadir una nueva columna usando el menú con los tres puntos</string>
     <string name="add_a_new_card_using_the_button">Añadir una nueva tarjeta usando el botón +</string>
@@ -98,4 +97,8 @@
     <string name="your_deck_version_is_too_old">Su versión del Deck es muy antigua </string>
     <string name="deck_outdated_please_update">Su versión del Deck es muy antigua. Por favor actualice para usar esta app de Android como cliente.</string>
     <string name="simple_update">Actualizar</string>
-</resources>
+    <string name="simple_delete">eliminar</string>
+    <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las pilas y tarjetas.</string>
+    <string name="action_card_list_rename_column">Renombrar columna</string>
+    <string name="simple_rename">Renombrar</string>
+    </resources>

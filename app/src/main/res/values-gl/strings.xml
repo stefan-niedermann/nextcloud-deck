@@ -90,7 +90,6 @@
     <string name="no_columns">Aínda non hai columnas</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Esta funcionalidade será incluída nunha futura versión.</string>
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
-    <string name="simple_dismiss">rexeitar</string>
     <string name="do_you_want_to_delete_the_current_column">Confirma que quere eliminar a columna actual?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Engadir unha columna nova co menú de tres puntos.</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
@@ -98,4 +97,4 @@
     <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
     <string name="deck_outdated_please_update">A versión do Deck é antiga de máis. Actualice para usar esta apli de Android como cliente.</string>
     <string name="simple_update">Actualizar</string>
-</resources>
+    </resources>

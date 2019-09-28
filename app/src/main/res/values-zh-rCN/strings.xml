@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">面板</string>
     <string name="simple_cancel">取消</string>
+    <string name="simple_add">添加</string>
     <string name="simple_save">保存</string>
 
     <string name="edit_board">编辑面板</string>
@@ -52,9 +53,13 @@
     <string name="hint_due_date_date">截止日期</string>
     <string name="activity">动态</string>
     <string name="add_card">新建卡片</string>
+    <string name="add_column">添加列</string>
+
     <string name="add_account">添加账号</string>
 
     <string name="label_menu">菜单</string>
+    <string name="action_card_assign">将卡片指派给我</string>
+    <string name="action_card_unassign">取消指派给我的卡片</string>
     <string name="action_card_archive">归档卡片</string>
     <string name="action_card_delete">删除卡片</string>
     <string name="add_board">添加面板</string>
@@ -64,6 +69,7 @@
 
     <string name="label_clear_due_date">清除截止日期</string>
 
+    <string name="label_add">添加%1$s</string>
     <string name="error">发生了一个错误</string>
     <string name="simple_copy">复制</string>
     <string name="simple_exception">异常</string>
@@ -77,9 +83,12 @@
     <string name="no_files_attached_to_this_card">没有文件附加到这张卡片上。</string>
     <string name="attachments">附件</string>
     <string name="no_cards">暂无卡片</string>
+    <string name="no_account">没有已配置的账号</string>
     <string name="account_already_added">账户已被添加</string>
     <string name="account_is_getting_imported">账户已导出</string>
     <string name="not_synced_yet">尚未同步</string>
+    <string name="no_columns">暂无列</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">此功能将在未来版本中实现。</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
     <string name="do_you_want_to_delete_the_current_column">您希望删除当前的栏吗？</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
@@ -87,4 +96,4 @@
     <string name="your_deck_version_is_too_old">您deck的版本过旧</string>
     <string name="deck_outdated_please_update">您deck的版本过旧。您的安卓客户端需要更新才能使用。</string>
     <string name="simple_update">更新</string>
-</resources>
+    </resources>

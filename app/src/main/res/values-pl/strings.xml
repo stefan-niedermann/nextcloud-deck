@@ -90,7 +90,6 @@
     <string name="no_columns">Brak kolumn</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Ta funkcja zostanie zaimplementowana w przyszłej wersji.</string>
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
-    <string name="simple_dismiss">anuluj</string>
     <string name="do_you_want_to_delete_the_current_column">Czy chcesz usunąć bieżącą kolumnę?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Dodaj nową kolumnę za pomocą menu trzech kropek.</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +.</string>
@@ -98,4 +97,8 @@
     <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
     <string name="deck_outdated_please_update">Twoja wersja deck jest nieaktualna. Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
     <string name="simple_update">Aktualizuj</string>
-</resources>
+    <string name="simple_delete">usuń</string>
+    <string name="delete_board_message">Spowoduje to trwałe usunięcie tablicy, w tym wszystkich stosów i kart.</string>
+    <string name="action_card_list_rename_column">Zmień nazwę kolumny</string>
+    <string name="simple_rename">Zmień nazwę</string>
+    </resources>
