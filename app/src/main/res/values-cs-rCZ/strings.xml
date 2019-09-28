@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Desky</string>
     <string name="simple_cancel">Storno</string>
+    <string name="simple_add">Přidat</string>
     <string name="simple_save">Uložit</string>
 
     <string name="edit_board">Upravit nástěnku</string>
@@ -51,11 +52,14 @@
     <string name="hint_assign_people">Přiřadit uživatele</string>
     <string name="hint_due_date_date">Datum termínu</string>
     <string name="activity">Aktivita</string>
+    <string name="add_card">Přidat kartu</string>
+    <string name="add_column">Přidat sloupec</string>
+
     <string name="add_account">Přidat účet</string>
 
     <string name="label_menu">nabídka</string>
-    <string name="action_card_assign">Přiřadit kartu vám</string>
-    <string name="action_card_unassign">Zrušit přiřazení karty vám</string>
+    <string name="action_card_assign">Přiřadit kartu sobě</string>
+    <string name="action_card_unassign">Zrušit přiřazení karty mě</string>
     <string name="action_card_archive">Archivovat kartu</string>
     <string name="action_card_delete">Smazat kartu</string>
     <string name="add_board">Přidat nástěnku</string>
@@ -65,6 +69,7 @@
 
     <string name="label_clear_due_date">Vymazat termín</string>
 
+    <string name="label_add">Přidat %1$s</string>
     <string name="error">Objevila se chyba</string>
     <string name="simple_copy">zkopírovat</string>
     <string name="simple_exception">Výjimka</string>
@@ -75,5 +80,21 @@
     <string name="card_edit_attachments">Přílohy</string>
     <string name="card_edit_activity">Aktivita</string>
     <string name="about_server_app_version_text">Verze serverové aplikace:</string>
+    <string name="no_files_attached_to_this_card">K této kartě nejsou připojeny žádné soubory.</string>
     <string name="attachments">Přílohy</string>
+    <string name="no_cards">Zatím žádné karty</string>
+    <string name="no_account">Nenastaven žádný účet</string>
+    <string name="account_already_added">Účet už je přidán</string>
+    <string name="account_is_getting_imported">Účet je importován</string>
+    <string name="not_synced_yet">Doposud nesesynchronizováno</string>
+    <string name="no_columns">Zatím žádné slopce</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">Tato funkce bude implementována v budoucí verzi.</string>
+    <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
+    <string name="do_you_want_to_delete_the_current_column">Chcete stávající sloupec vymazat?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Nové sloupce přidáte pomocí nabídky tři tečky.</string>
+    <string name="your_deck_version_is_too_old">Vámi používaná verze deck je příliš stará</string>
+    <string name="simple_update">Aktualizovat</string>
+    <string name="simple_delete">smazat</string>
+    <string name="action_card_list_rename_column">Přejmenovat sloupec</string>
+    <string name="simple_rename">Přejmenovat</string>
     </resources>

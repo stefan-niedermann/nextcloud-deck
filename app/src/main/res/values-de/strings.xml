@@ -90,7 +90,6 @@
     <string name="no_columns">Bislang keine Spalten</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Diese Funktion wird in einer künftigen Version verfügbar sein.</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
-    <string name="simple_dismiss">Verwerfen</string>
     <string name="do_you_want_to_delete_the_current_column">Soll die aktuelle Spalte gelöscht werden?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Neue Spalte mit dem Dreipunkt-Menü hinzufügen</string>
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
@@ -98,4 +97,8 @@
     <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
     <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt. Bitte aktualisieren Sie Deckum diese Android-App als Client verwenden zu können.</string>
     <string name="simple_update">Aktualisieren</string>
-</resources>
+    <string name="simple_delete">löschen</string>
+    <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Stapel und Karten löschen.</string>
+    <string name="action_card_list_rename_column">Spalte umbenennen</string>
+    <string name="simple_rename">Umbenennen</string>
+    </resources>
