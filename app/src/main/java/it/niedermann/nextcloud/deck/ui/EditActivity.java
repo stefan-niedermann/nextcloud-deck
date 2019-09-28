@@ -181,6 +181,7 @@ public class EditActivity extends AppCompatActivity {
         tabLayout.removeAllTabs();
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getResources(), accountId, localId, boardId);
+        pager.setOffscreenPageLimit(2);
         pager.setAdapter(adapter);
         tabLayout.setupWithViewPager(pager);
     }
