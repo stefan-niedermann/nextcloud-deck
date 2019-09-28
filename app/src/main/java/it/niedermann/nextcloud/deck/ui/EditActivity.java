@@ -163,7 +163,7 @@ public class EditActivity extends AppCompatActivity {
 
     private void saveAndFinish() {
         //FIXME: nullpointer when no title entered! do not even save without title(?)
-        if (fullCard.getCard().getTitle().isEmpty()) {
+        if (fullCard.getCard().getTitle() != null && fullCard.getCard().getTitle().isEmpty()) {
             if (!fullCard.getCard().getDescription().isEmpty()) {
                 fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
             } else {
