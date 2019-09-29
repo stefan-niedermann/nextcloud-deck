@@ -252,8 +252,15 @@ public class MainActivity extends DrawerActivity {
                         PopupMenu popup = new PopupMenu(MainActivity.this, contextMenu);
                         popup.getMenuInflater()
                                 .inflate(R.menu.navigation_context_menu, popup.getMenu());
+                        final int SHARE_BOARD_ID = -1;
+                        if(board.isPermissionShare()) {
+                            MenuItem shareItem = popup.getMenu().add(Menu.NONE, SHARE_BOARD_ID, 5, R.string.share_board);
+                        }
                         popup.setOnMenuItemClickListener((MenuItem item) -> {
                             switch (item.getItemId()) {
+                                case SHARE_BOARD_ID:
+                                    Snackbar.make(drawer, "Sharing boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                                    break;
                                 case R.id.edit_board:
                                     EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
                                     break;
@@ -287,6 +294,14 @@ public class MainActivity extends DrawerActivity {
                             return true;
                         });
                         popup.show();
+                    });
+                    m.setActionView(contextMenu);
+                } else if(board.isPermissionShare()) {
+                    AppCompatImageButton contextMenu = new AppCompatImageButton(this);
+                    contextMenu.setBackgroundDrawable(null);
+                    contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_share_grey600_18dp, R.color.grey600));
+                    contextMenu.setOnClickListener((v) -> {
+                        Snackbar.make(drawer, "Sharing boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                     });
                     m.setActionView(contextMenu);
                 }
