@@ -90,6 +90,7 @@
     <string name="no_columns">Henüz bir sütun eklenmemiş</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Bu özellik gelecek sürümlerde eklenecek.</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
+    <string name="simple_discard">yok say</string>
     <string name="do_you_want_to_delete_the_current_column">Geçerli sütunu silmek istiyor musunuz?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Üç nokta menüsünü kullanarak yeni bir sütun ekleyebilirsiniz.</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
@@ -97,4 +98,13 @@
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
     <string name="deck_outdated_please_update">Tahta sürümünüz çok eski. Lütfen bu android uygulamasını istemci olarak kullanabilmek için deck sürümünü güncelleyin.</string>
     <string name="simple_update">Güncelle</string>
+    <string name="simple_delete">sil</string>
+    <string name="delete_board_message">Bu işlem içindeki tüm deste ve kartlarla birlikte bu panoyu silecek.</string>
+    <string name="action_card_list_rename_column">Sütunu yeniden adlandır</string>
+    <string name="simple_rename">Yeniden adlandır</string>
+    <string name="simple_settings">Ayarlar</string>
+    <string name="settings_theme_title">Koyu tema</string>
+    <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
+    <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
+    <string name="pref_value_theme_light">Açık</string>
     </resources>

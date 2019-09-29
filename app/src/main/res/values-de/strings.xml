@@ -90,6 +90,7 @@
     <string name="no_columns">Bislang keine Spalten</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Diese Funktion wird in einer künftigen Version verfügbar sein.</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
+    <string name="simple_discard">Verwerfen</string>
     <string name="do_you_want_to_delete_the_current_column">Soll die aktuelle Spalte gelöscht werden?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Neue Spalte mit dem Dreipunkt-Menü hinzufügen</string>
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
@@ -101,4 +102,9 @@
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Stapel und Karten löschen.</string>
     <string name="action_card_list_rename_column">Spalte umbenennen</string>
     <string name="simple_rename">Umbenennen</string>
+    <string name="simple_settings">Einstellungen</string>
+    <string name="settings_theme_title">Dunkles Design</string>
+    <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
+    <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
+    <string name="pref_value_theme_light">Hell</string>
     </resources>

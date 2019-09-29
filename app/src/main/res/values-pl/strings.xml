@@ -90,6 +90,7 @@
     <string name="no_columns">Brak kolumn</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Ta funkcja zostanie zaimplementowana w przyszłej wersji.</string>
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
+    <string name="simple_discard">odrzuć</string>
     <string name="do_you_want_to_delete_the_current_column">Czy chcesz usunąć bieżącą kolumnę?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Dodaj nową kolumnę za pomocą menu trzech kropek.</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +.</string>
@@ -101,4 +102,9 @@
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tablicy, w tym wszystkich stosów i kart.</string>
     <string name="action_card_list_rename_column">Zmień nazwę kolumny</string>
     <string name="simple_rename">Zmień nazwę</string>
+    <string name="simple_settings">Ustawienia</string>
+    <string name="settings_theme_title">Ciemny motyw</string>
+    <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
+    <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
+    <string name="pref_value_theme_light">Jasny</string>
     </resources>
