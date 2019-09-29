@@ -90,6 +90,7 @@
     <string name="no_columns">Ancora nessuna colonna</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Questa funzionalità sarà implementata in una versione futura.</string>
     <string name="do_you_want_to_save_your_changes">Vuoi salvare le tue modifiche?</string>
+    <string name="simple_discard">scarta</string>
     <string name="do_you_want_to_delete_the_current_column">Vuoi eliminare la colonna attuale?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Aggiungi una nuova colonna utilizzando il menu a tre punti.</string>
     <string name="add_a_new_card_using_the_button">Aggiungi una nuova scheda utilizzando il pulsante +</string>
@@ -101,4 +102,9 @@
     <string name="delete_board_message">Questo eliminerà definitivamente questa lavagna incluse le pile e le schede.</string>
     <string name="action_card_list_rename_column">Rinomina colonna</string>
     <string name="simple_rename">Rinomina</string>
+    <string name="simple_settings">Impostazioni</string>
+    <string name="settings_theme_title">Tema scuro</string>
+    <string name="pref_value_wifi_and_mobile">Sincronizza su Wi-FI e dati mobili</string>
+    <string name="pref_value_wifi_only">Sincronizza solo con Wi-Fi</string>
+    <string name="pref_value_theme_light">Chiaro</string>
     </resources>
