@@ -90,10 +90,21 @@
     <string name="no_columns">暂无列</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">此功能将在未来版本中实现。</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
+    <string name="simple_discard">丢弃</string>
     <string name="do_you_want_to_delete_the_current_column">您希望删除当前的栏吗？</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">使用三点目录来添加新列</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
     <string name="update_deck">更新deck</string>
     <string name="your_deck_version_is_too_old">您deck的版本过旧</string>
     <string name="deck_outdated_please_update">您deck的版本过旧。您的安卓客户端需要更新才能使用。</string>
     <string name="simple_update">更新</string>
+    <string name="simple_delete">删除</string>
+    <string name="delete_board_message">此操作将永久删除此面板，包括所有任务和卡片。</string>
+    <string name="action_card_list_rename_column">重命名列</string>
+    <string name="simple_rename">重命名</string>
+    <string name="simple_settings">设置</string>
+    <string name="settings_theme_title">深色主题</string>
+    <string name="pref_value_wifi_and_mobile">在有Wi-Fi和移动数据网络时同步</string>
+    <string name="pref_value_wifi_only">仅在Wi-Fi下同步</string>
+    <string name="pref_value_theme_light">浅色</string>
     </resources>
