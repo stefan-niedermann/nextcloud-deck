@@ -15,13 +15,15 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
     private long accountId;
     private long localId;
     private long boardId;
+    private boolean canEdit;
 
-    public CardTabAdapter(FragmentManager fm, Resources resources, long accountId, long localId, long boardId) {
+    public CardTabAdapter(FragmentManager fm, Resources resources, long accountId, long localId, long boardId, boolean canEdit) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.resources = resources;
         this.accountId = accountId;
         this.localId = localId;
         this.boardId = boardId;
+        this.canEdit = canEdit;
     }
 
     @NonNull
@@ -29,7 +31,7 @@ public class CardTabAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return CardDetailsFragment.newInstance(accountId, localId, boardId);
+                return CardDetailsFragment.newInstance(accountId, localId, boardId, canEdit);
             case 1:
                 return CardAttachmentsFragment.newInstance(accountId, localId, boardId);
             case 2:

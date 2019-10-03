@@ -62,6 +62,7 @@ import rx.Subscriber;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
@@ -70,6 +71,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private static final String TAG = CardDetailsFragment.class.getCanonicalName();
 
     private boolean createMode;
+    private boolean canEdit = false;
     private FullCard fullCard;
     private SyncManager syncManager;
     private DateFormat dateFormat;
@@ -107,11 +109,12 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     public CardDetailsFragment() {
     }
 
-    public static CardDetailsFragment newInstance(long accountId, long localId, long boardId) {
+    public static CardDetailsFragment newInstance(long accountId, long localId, long boardId, boolean canEdit) {
         Bundle bundle = new Bundle();
         bundle.putLong(BUNDLE_KEY_ACCOUNT_ID, accountId);
         bundle.putLong(BUNDLE_KEY_BOARD_ID, boardId);
         bundle.putLong(BUNDLE_KEY_LOCAL_ID, localId);
+        bundle.putBoolean(BUNDLE_KEY_CAN_EDIT, canEdit);
 
         CardDetailsFragment fragment = new CardDetailsFragment();
         fragment.setArguments(bundle);
@@ -142,6 +145,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             long accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
             long localId = args.getLong(BUNDLE_KEY_LOCAL_ID);
             long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
+            if (args.containsKey(BUNDLE_KEY_CAN_EDIT)) {
+                this.canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
+            }
 
             syncManager = new SyncManager(activity);
 
@@ -151,31 +157,35 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 fullCard = new FullCard();
                 Card card = new Card();
                 fullCard.setCard(card);
-                setupView(accountId, boardId);
+                setupView(accountId, boardId, canEdit);
             } else {
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), CardDetailsFragment.this, (next) -> {
                     fullCard = next;
 
-                    RxMarkdown.live(description)
-                            .config(MarkDownUtil.getMarkDownConfiguration(description.getContext()).build())
-                            .factory(EditFactory.create())
-                            .intoObservable()
-                            .subscribe(new Subscriber<CharSequence>() {
-                                @Override
-                                public void onCompleted() {
-                                }
+                    if(canEdit) {
+                        RxMarkdown.live(description)
+                                .config(MarkDownUtil.getMarkDownConfiguration(description.getContext()).build())
+                                .factory(EditFactory.create())
+                                .intoObservable()
+                                .subscribe(new Subscriber<CharSequence>() {
+                                    @Override
+                                    public void onCompleted() {
+                                    }
 
-                                @Override
-                                public void onError(Throwable e) {
-                                }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                    }
 
-                                @Override
-                                public void onNext(CharSequence charSequence) {
-                                    description.setText(charSequence, TextView.BufferType.SPANNABLE);
-                                }
-                            });
+                                    @Override
+                                    public void onNext(CharSequence charSequence) {
+                                        description.setText(charSequence, TextView.BufferType.SPANNABLE);
+                                    }
+                                });
+                    } else {
+                        description.setEnabled(false);
+                    }
                     description.setText(fullCard.getCard().getDescription());
-                    setupView(accountId, boardId);
+                    setupView(accountId, boardId, canEdit);
                 });
             }
         }
@@ -193,31 +203,33 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         return view;
     }
 
-    private void setupView(long accountId, long boardId) {
+    private void setupView(long accountId, long boardId, boolean canEdit) {
         setupPeople(accountId);
-        setupLabels(accountId, boardId);
+        setupLabels(accountId, boardId, canEdit);
         setupDueDate();
         setupDescriptionListener();
     }
 
     private void setupDescriptionListener() {
-        description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (fullCard != null) {
-                    activity.setDescription(description.getText().toString());
-                    fullCard.getCard().setDescription(description.getText().toString());
+        if(canEdit) {
+            description.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (fullCard != null) {
+                        activity.setDescription(description.getText().toString());
+                        fullCard.getCard().setDescription(description.getText().toString());
+                    }
                 }
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+        }
     }
 
     private TimePickerDialog createTimePickerDialogFromDate(
@@ -269,64 +281,75 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             dueDateTime.setText(null);
         }
 
-        dueDate.setOnClickListener(v -> {
-            if (fullCard != null && fullCard.getCard() != null) {
-                createDatePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
-            } else {
-                createDatePickerDialogFromDate(activity, this, null).show();
-            }
-        });
+        if(canEdit) {
 
-        dueDateTime.setOnClickListener(v -> {
-            if (fullCard != null && fullCard.getCard() != null) {
-                createTimePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
-            } else {
-                createTimePickerDialogFromDate(activity, this, null).show();
-            }
-        });
+            dueDate.setOnClickListener(v -> {
+                if (fullCard != null && fullCard.getCard() != null) {
+                    createDatePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
+                } else {
+                    createDatePickerDialogFromDate(activity, this, null).show();
+                }
+            });
 
-        clearDueDate.setOnClickListener(v -> {
-            activity.setDueDate(null);
-            dueDate.setText(null);
-            dueDateTime.setText(null);
-            fullCard.getCard().setDueDate(null);
-        });
+            dueDateTime.setOnClickListener(v -> {
+                if (fullCard != null && fullCard.getCard() != null) {
+                    createTimePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
+                } else {
+                    createTimePickerDialogFromDate(activity, this, null).show();
+                }
+            });
+
+            clearDueDate.setOnClickListener(v -> {
+                activity.setDueDate(null);
+                dueDate.setText(null);
+                dueDateTime.setText(null);
+                fullCard.getCard().setDueDate(null);
+            });
+        } else {
+            dueDate.setEnabled(false);
+            dueDateTime.setEnabled(false);
+            clearDueDate.setVisibility(View.GONE);
+        }
     }
 
-    private void setupLabels(long accountId, long boardId) {
+    private void setupLabels(long accountId, long boardId, boolean canEdit) {
         labelsGroup.removeAllViews();
-        labels.setAdapter(new LabelAutoCompleteAdapter(this, activity, accountId, boardId));
-        labels.setOnItemClickListener((adapterView, view, position, id) -> {
-            Label label = (Label) adapterView.getItemAtPosition(position);
-            if (LabelAutoCompleteAdapter.CREATE_ID == label.getLocalId()) {
-                Label newLabel = new Label(label);
-                newLabel.setTitle(((LabelAutoCompleteAdapter) labels.getAdapter()).getLastFilterText());
-                newLabel.setLocalId(null);
-                if (createMode) {
-                    observeOnce(syncManager.createLabel(accountId, newLabel, boardId), CardDetailsFragment.this, createdLabel -> {
-                        activity.addLabel(createdLabel);
-                    });
+        if (canEdit) {
+            labels.setAdapter(new LabelAutoCompleteAdapter(this, activity, accountId, boardId));
+            labels.setOnItemClickListener((adapterView, view, position, id) -> {
+                Label label = (Label) adapterView.getItemAtPosition(position);
+                if (LabelAutoCompleteAdapter.CREATE_ID == label.getLocalId()) {
+                    Label newLabel = new Label(label);
+                    newLabel.setTitle(((LabelAutoCompleteAdapter) labels.getAdapter()).getLastFilterText());
+                    newLabel.setLocalId(null);
+                    if (createMode) {
+                        observeOnce(syncManager.createLabel(accountId, newLabel, boardId), CardDetailsFragment.this, createdLabel -> {
+                            activity.addLabel(createdLabel);
+                        });
+                    } else {
+                        observeOnce(syncManager.createAndAssignLabelToCard(accountId, newLabel, fullCard.getLocalId()), CardDetailsFragment.this, createdLabel -> {
+                            labelsGroup.addView(createChipFromLabel(label));
+                            labelsGroup.setVisibility(View.VISIBLE);
+                        });
+                    }
                 } else {
-                    observeOnce(syncManager.createAndAssignLabelToCard(accountId, newLabel, fullCard.getLocalId()), CardDetailsFragment.this, createdLabel -> {
-                        addLabelAsChip(createdLabel);
-                        labelsGroup.setVisibility(View.VISIBLE);
-                    });
+                    if (createMode) {
+                        activity.addLabel(label);
+                    } else {
+                        syncManager.assignLabelToCard(label, fullCard.getCard());
+                    }
+                    labelsGroup.addView(createChipFromLabel(label));
+                    labelsGroup.setVisibility(View.VISIBLE);
                 }
-            } else {
-                if (createMode) {
-                    activity.addLabel(label);
-                } else {
-                    syncManager.assignLabelToCard(label, fullCard.getCard());
-                }
-                addLabelAsChip(label);
-                labelsGroup.setVisibility(View.VISIBLE);
-            }
 
-            labels.setText("");
-        });
+                labels.setText("");
+            });
+        } else {
+            labels.setEnabled(false);
+        }
         if (fullCard.getLabels() != null && fullCard.getLabels().size() > 0) {
             for (Label label : fullCard.getLabels()) {
-                addLabelAsChip(label);
+                labelsGroup.addView(createChipFromLabel(label));
             }
             labelsGroup.setVisibility(View.VISIBLE);
         } else {
@@ -334,24 +357,22 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         }
     }
 
-    private void addLabelAsChip(Label label) {
-        Chip chip = createChipFromLabel(label);
-        chip.setOnCloseIconClickListener(v -> {
-            labelsGroup.removeView(chip);
-            if (createMode) {
-                activity.removeLabel(label);
-            } else {
-                syncManager.unassignLabelFromCard(label, fullCard.getCard());
-            }
-        });
-        labelsGroup.addView(chip);
-    }
 
     private Chip createChipFromLabel(Label label) {
         Chip chip = new Chip(activity);
         chip.setText(label.getTitle());
-        chip.setCloseIcon(activity.getResources().getDrawable(R.drawable.ic_close_circle_grey600));
-        chip.setCloseIconVisible(true);
+        if (canEdit) {
+            chip.setCloseIcon(activity.getResources().getDrawable(R.drawable.ic_close_circle_grey600));
+            chip.setCloseIconVisible(true);
+            chip.setOnCloseIconClickListener(v -> {
+                labelsGroup.removeView(chip);
+                if (createMode) {
+                    activity.removeLabel(label);
+                } else {
+                    syncManager.unassignLabelFromCard(label, fullCard.getCard());
+                }
+            });
+        }
         try {
             int labelColor = Color.parseColor("#" + label.getColor());
             ColorStateList c = ColorStateList.valueOf(labelColor);
@@ -370,56 +391,61 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupPeople(long accountId) {
-        people.setThreshold(2);
-        people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId));
-        people.setOnItemClickListener((adapterView, view, position, id) -> {
-            User user = (User) adapterView.getItemAtPosition(position);
+        if(canEdit) {
+            people.setThreshold(2);
+            people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId));
+            people.setOnItemClickListener((adapterView, view, position, id) -> {
+                User user = (User) adapterView.getItemAtPosition(position);
 
-            if (createMode) {
-                activity.addUser(user);
-            } else {
-                syncManager.assignUserToCard(user, fullCard.getCard());
-            }
+                if (createMode) {
+                    activity.addUser(user);
+                } else {
+                    syncManager.assignUserToCard(user, fullCard.getCard());
+                }
 
-            if (baseUrl != null) {
-                addAvatar(baseUrl, user);
-            }
-            people.setText("");
-        });
-
-        if (this.fullCard.getAssignedUsers() != null) {
-            peopleList.removeAllViews();
-            if (baseUrl != null) {
-                for (User user : this.fullCard.getAssignedUsers()) {
+                if (baseUrl != null) {
                     addAvatar(baseUrl, user);
                 }
+                people.setText("");
+            });
+
+            if (this.fullCard.getAssignedUsers() != null) {
+                peopleList.removeAllViews();
+                if (baseUrl != null) {
+                    for (User user : this.fullCard.getAssignedUsers()) {
+                        addAvatar(baseUrl, user);
+                    }
+                }
             }
+        } else {
+            people.setEnabled(false);
         }
     }
 
     private void addAvatar(String baseUrl, User user) {
         ImageView avatar = new ImageView(activity);
         avatar.setLayoutParams(avatarLayoutParams);
-        avatar.setOnClickListener(v -> {
-
-            if (createMode) {
-                activity.removeUser(user);
-            } else {
-                syncManager.unassignUserFromCard(user, fullCard.getCard());
-            }
-            peopleList.removeView(avatar);
-            Snackbar.make(
-                    Objects.requireNonNull(getView()), getString(R.string.unassigned_user, user.getDisplayname()),
-                    Snackbar.LENGTH_LONG)
-                    .setAction(R.string.simple_undo, v1 -> {
-                        if (createMode) {
-                            activity.addUser(user);
-                        } else {
-                            syncManager.assignUserToCard(user, fullCard.getCard());
-                        }
-                        addAvatar(baseUrl, user);
-                    }).show();
-        });
+        if (canEdit) {
+            avatar.setOnClickListener(v -> {
+                if (createMode) {
+                    activity.removeUser(user);
+                } else {
+                    syncManager.unassignUserFromCard(user, fullCard.getCard());
+                }
+                peopleList.removeView(avatar);
+                Snackbar.make(
+                        Objects.requireNonNull(getView()), getString(R.string.unassigned_user, user.getDisplayname()),
+                        Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_undo, v1 -> {
+                            if (createMode) {
+                                activity.addUser(user);
+                            } else {
+                                syncManager.assignUserToCard(user, fullCard.getCard());
+                            }
+                            addAvatar(baseUrl, user);
+                        }).show();
+            });
+        }
         peopleList.addView(avatar);
         avatar.requestLayout();
         ViewUtil.addAvatar(getContext(), avatar, baseUrl, user.getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);

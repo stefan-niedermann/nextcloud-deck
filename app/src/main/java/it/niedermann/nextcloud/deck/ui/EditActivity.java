@@ -180,7 +180,7 @@ public class EditActivity extends AppCompatActivity {
     private void setupViewPager() {
         tabLayout.removeAllTabs();
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getResources(), accountId, localId, boardId);
+        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getResources(), accountId, localId, boardId, canEdit);
         pager.setOffscreenPageLimit(2);
         pager.setAdapter(adapter);
         tabLayout.setupWithViewPager(pager);

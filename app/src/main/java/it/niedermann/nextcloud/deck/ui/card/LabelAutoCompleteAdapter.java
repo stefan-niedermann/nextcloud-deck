@@ -39,6 +39,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     private Label createLabel;
     private String createLabelText;
     private String lastFilterText;
+    private boolean canManage = false;
 
     public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId) {
         this.owner = owner;
@@ -46,12 +47,17 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         this.accountId = accountId;
         this.boardId = boardId;
         syncManager = new SyncManager(activity);
-        createLabel = new Label();
-        createLabel.setLocalId(CREATE_ID);
-        createLabel.setBoardId(boardId);
-        createLabel.setAccountId(accountId);
-        createLabelText = activity.getResources().getString(R.string.label_add);
-        createLabel.setColor("757575");
+        syncManager.getFullBoardById(accountId, boardId).observe(owner, (fullBoard) -> {
+            if (fullBoard.getBoard().isPermissionManage()) {
+                createLabel = new Label();
+                createLabel.setLocalId(CREATE_ID);
+                createLabel.setBoardId(boardId);
+                createLabel.setAccountId(accountId);
+                createLabelText = activity.getResources().getString(R.string.label_add);
+                createLabel.setColor("757575");
+                canManage = true;
+            }
+        });
     }
 
     @Override
@@ -82,23 +88,12 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
             convertView.setTag(holder);
         }
 
-        if (position < labelList.size() - 1) {
-            holder.icon.setImageDrawable(
-                    ViewUtil.getTintedImageView(
-                            context,
-                            R.drawable.ic_plus,
-                            "#" + getItem(position).getColor()
-                    )
-            );
-        } else {
-            holder.icon.setImageDrawable(
-                    ViewUtil.getTintedImageView(
-                            context,
-                            R.drawable.ic_label_grey600_24dp,
-                            "#" + getItem(position).getColor()
-                    )
-            );
-        }
+        holder.icon.setImageDrawable(
+                ViewUtil.getTintedImageView(
+                        context,
+                        (position < labelList.size() - (canManage ? 1 : 0)) ? R.drawable.ic_plus : R.drawable.ic_label_grey600_24dp,
+                        "#" + getItem(position).getColor()
+                ));
         holder.label.setText(getItem(position).getTitle());
         return convertView;
     }
@@ -114,15 +109,21 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                     lastFilterText = constraint.toString();
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
                         observeOnce(syncManager.searchLabelByTitle(accountId, boardId, constraint.toString()), owner, labels -> {
-                            createLabel.setTitle(String.format(createLabelText, constraint));
+                            if (canManage) {
+                                createLabel.setTitle(String.format(createLabelText, constraint));
+                            }
                             if (labels != null) {
-                                labels.add(createLabel);
+                                if (canManage) {
+                                    labels.add(createLabel);
+                                }
                                 filterResults.values = labels;
                                 filterResults.count = labels.size();
                                 publishResults(constraint, filterResults);
                             } else {
                                 List<Label> createLabels = new ArrayList<>();
-                                createLabels.add(createLabel);
+                                if (canManage) {
+                                    createLabels.add(createLabel);
+                                }
                                 filterResults.values = createLabels;
                                 filterResults.count = createLabels.size();
                             }
