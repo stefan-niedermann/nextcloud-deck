@@ -155,35 +155,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             createMode = NO_LOCAL_ID.equals(localId);
             if (createMode) {
                 fullCard = new FullCard();
-                Card card = new Card();
-                fullCard.setCard(card);
+                fullCard.setCard(new Card());
                 setupView(accountId, boardId, canEdit);
             } else {
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), CardDetailsFragment.this, (next) -> {
                     fullCard = next;
-
-                    if(canEdit) {
-                        RxMarkdown.live(description)
-                                .config(MarkDownUtil.getMarkDownConfiguration(description.getContext()).build())
-                                .factory(EditFactory.create())
-                                .intoObservable()
-                                .subscribe(new Subscriber<CharSequence>() {
-                                    @Override
-                                    public void onCompleted() {
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                    }
-
-                                    @Override
-                                    public void onNext(CharSequence charSequence) {
-                                        description.setText(charSequence, TextView.BufferType.SPANNABLE);
-                                    }
-                                });
-                    } else {
-                        description.setEnabled(false);
-                    }
                     description.setText(fullCard.getCard().getDescription());
                     setupView(accountId, boardId, canEdit);
                 });
@@ -207,11 +183,29 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         setupPeople(accountId);
         setupLabels(accountId, boardId, canEdit);
         setupDueDate();
-        setupDescriptionListener();
+        setupDescription();
     }
 
-    private void setupDescriptionListener() {
-        if(canEdit) {
+    private void setupDescription() {
+        if (canEdit) {
+            RxMarkdown.live(description)
+                    .config(MarkDownUtil.getMarkDownConfiguration(description.getContext()).build())
+                    .factory(EditFactory.create())
+                    .intoObservable()
+                    .subscribe(new Subscriber<CharSequence>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onNext(CharSequence charSequence) {
+                            description.setText(charSequence, TextView.BufferType.SPANNABLE);
+                        }
+                    });
             description.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -229,6 +223,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 public void afterTextChanged(Editable s) {
                 }
             });
+        } else {
+            description.setEnabled(false);
         }
     }
 
@@ -281,7 +277,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             dueDateTime.setText(null);
         }
 
-        if(canEdit) {
+        if (canEdit) {
 
             dueDate.setOnClickListener(v -> {
                 if (fullCard != null && fullCard.getCard() != null) {
@@ -391,7 +387,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupPeople(long accountId) {
-        if(canEdit) {
+        if (canEdit) {
             people.setThreshold(2);
             people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId));
             people.setOnItemClickListener((adapterView, view, position, id) -> {

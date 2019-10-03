@@ -119,25 +119,29 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void setupTitleListener() {
-        title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (fullCard != null) {
-                    fullCard.getCard().setTitle(title.getText().toString());
-                    modified = true;
+        if(canEdit) {
+            title.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (fullCard != null) {
+                        fullCard.getCard().setTitle(title.getText().toString());
+                        modified = true;
+                    }
+                    String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.add_card) : getString(R.string.edit);
+                    actionBar.setTitle(prefix + " " + title.getText());
                 }
-                String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.add_card) : getString(R.string.edit);
-                actionBar.setTitle(prefix + " " + title.getText());
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+        } else {
+            title.setEnabled(false);
+        }
     }
 
     @Override
