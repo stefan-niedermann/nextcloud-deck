@@ -43,8 +43,9 @@
         <item name="android:elevation">5dp</item>
     </style>
 
-    <style name="TextAppearanceEllipsiize">
+    <style name="NavigationView">
         <item name="android:ellipsize">middle</item>
+        <item name="android:listDivider">@null</item>
     </style>
 
     <style name="DialogDarkTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
