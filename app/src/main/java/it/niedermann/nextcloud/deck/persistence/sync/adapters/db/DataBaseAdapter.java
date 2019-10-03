@@ -441,6 +441,9 @@ public class DataBaseAdapter {
     public Label getLabelByLocalIdDirectly(long localLabelId) {
         return db.getLabelDao().getLabelsByIdDirectly(localLabelId);
     }
+    public LiveData<Label> getLabelByLocalId(long localLabelId) {
+        return db.getLabelDao().getLabelByLocalId(localLabelId);
+    }
 
     public List<FullBoard> getLocallyChangedBoards(long accountId) {
         return db.getBoardDao().getLocallyChangedBoardsDirectly(accountId);
