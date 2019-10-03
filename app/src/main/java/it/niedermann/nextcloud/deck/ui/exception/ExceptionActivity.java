@@ -16,6 +16,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 
 public class ExceptionActivity extends AppCompatActivity {
@@ -38,7 +39,7 @@ public class ExceptionActivity extends AppCompatActivity {
         throwable.printStackTrace();
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.error));
         this.message.setText(throwable.getMessage());
-        this.stacktrace.setText(getStacktraceOf(throwable));
+        this.stacktrace.setText("Version: " + BuildConfig.VERSION_NAME + "\n\n" + getStacktraceOf(throwable));
     }
 
     private String getStacktraceOf(Throwable e) {

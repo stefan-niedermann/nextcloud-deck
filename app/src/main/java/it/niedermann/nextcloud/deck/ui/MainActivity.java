@@ -83,7 +83,6 @@ public class MainActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
-
         stackAdapter = new StackAdapter(getSupportFragmentManager());
 
         //TODO limit this call only to lower API levels like KitKat because they crash without
