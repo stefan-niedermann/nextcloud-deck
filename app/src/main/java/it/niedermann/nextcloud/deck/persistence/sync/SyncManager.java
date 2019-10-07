@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
@@ -511,15 +512,14 @@ public class SyncManager {
         return liveData;
     }
 
-    public void assignLabelToBoard(long localLabelId, long localBoardId) {
-        //TODO: remove this method? also entities and daos!
-        dataBaseAdapter.createJoinBoardWithLabel(localBoardId, localLabelId);
-    }
-
     public void assignUserToCard(User user, Card card) {
         doAsync(() -> {
             final long localUserId = user.getLocalId();
             final long localCardId = card.getLocalId();
+            JoinCardWithUser joinCardWithUser = dataBaseAdapter.getJoinCardWithUser(localUserId, localCardId);
+            if (joinCardWithUser != null){
+                return;
+            }
             dataBaseAdapter.createJoinCardWithUser(localUserId, localCardId, DBStatus.LOCAL_EDITED);
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
