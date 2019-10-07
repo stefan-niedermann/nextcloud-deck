@@ -75,4 +75,12 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
         serverAdapter.updateLabel(board.getId(), entity, callback);
     }
+
+    @Override
+    public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<Label> entitiesFromServer) {
+        List<Label> deletedLabels = findDelta(labels, dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, board.getLocalId()).getLabels());
+        for (Label deletedLabel : deletedLabels) {
+            dataBaseAdapter.deleteLabelPhysically(deletedLabel);
+        }
+    }
 }
