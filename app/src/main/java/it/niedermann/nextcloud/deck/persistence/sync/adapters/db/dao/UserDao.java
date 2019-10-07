@@ -1,10 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
+
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.model.User;
 
 @Dao
@@ -30,4 +31,12 @@ public interface UserDao extends GenericDao<User> {
 
     @Query("SELECT * FROM user WHERE localId = :localUserId")
     User getUserByLocalIdDirectly(long localUserId);
+
+    @Query("SELECT u.* " +
+            "FROM joincardwithuser j LEFT JOIN user u ON j.userId = u.localId " +
+            "WHERE u.accountId = :accountId " +
+            "AND NOT EXISTS (select 1 from joincardwithuser ju where ju.userId = u.localId and ju.cardId = :notAssignedToLocalCardId) " +
+            "GROUP BY j.userId ORDER BY count(*) DESC " +
+            "LIMIT :topX")
+    LiveData<List<User>> findProposalsForUsersToAssign(long accountId, long notAssignedToLocalCardId, int topX);
 }

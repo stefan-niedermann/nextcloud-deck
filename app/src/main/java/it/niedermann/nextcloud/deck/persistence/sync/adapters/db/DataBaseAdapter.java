@@ -386,6 +386,7 @@ public class DataBaseAdapter {
     public LiveData<List<User>> getUsersForAccount(final long accountId){
         return db.getUserDao().getUsersForAccount(accountId);
     }
+
     public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm){
         validateSearchTerm(searchTerm);
         return db.getUserDao().searchUserByUidOrDisplayName(accountId, "%"+searchTerm.trim()+"%");
@@ -394,6 +395,14 @@ public class DataBaseAdapter {
     public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm){
         validateSearchTerm(searchTerm);
         return db.getLabelDao().searchLabelByTitle(accountId, boardId,"%"+searchTerm.trim()+"%");
+    }
+
+    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long notAssignedToLocalCardId, final int topX){
+        return db.getUserDao().findProposalsForUsersToAssign(accountId, notAssignedToLocalCardId, topX);
+    }
+
+    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX){
+        return db.getLabelDao().findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
 
@@ -413,10 +422,6 @@ public class DataBaseAdapter {
     }
 
     private void validateSearchTerm(String searchTerm){
-        // TODO @desperateCoder
-        // Issue: https://github.com/stefan-niedermann/nextcloud-deck/issues/52
-        // if searchTerm.length() === 0
-        // then return a list (max. 3 entries) with the users / labels / whatever which are assigned most often, ordered by count of how often they are assigned to any cards and which are NOT yet assigned to this card.
         if (searchTerm == null || searchTerm.trim().length()<1) {
             throw new IllegalArgumentException("please provide a proper search term! \""+searchTerm+"\" doesn't seem right...");
         }
