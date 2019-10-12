@@ -11,8 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.TimeZone;
 
 import it.niedermann.nextcloud.deck.DeckConsts;
@@ -91,14 +89,12 @@ public class JsonToEntityParser {
 
         if (e.has("acl") && !e.get("acl").isJsonNull()) {
             JsonElement assignedUsers = e.get("acl");
-            if (!assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() > 0){
-                Set<Map.Entry<String, JsonElement>> entries = assignedUsers.getAsJsonObject().entrySet();
+            if (assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() > 0){
+                JsonArray assignedUsersArray = assignedUsers.getAsJsonArray();
 
                 List<AccessControl> acl = new ArrayList<>();
-                for (Map.Entry<String, JsonElement> assignedUser : entries) {
-                    JsonObject userJson = assignedUser.getValue().getAsJsonObject();
-                    acl.add(parseAcl(userJson));
-
+                for (JsonElement aclElement : assignedUsersArray) {
+                    acl.add(parseAcl(aclElement.getAsJsonObject()));
                 }
                 fullBoard.setParticipants(acl);
             }
