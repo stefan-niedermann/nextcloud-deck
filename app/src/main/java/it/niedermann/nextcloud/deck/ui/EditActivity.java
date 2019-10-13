@@ -85,26 +85,26 @@ public class EditActivity extends AppCompatActivity {
             observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
                 canEdit = fullBoard.getBoard().isPermissionEdit();
                 invalidateOptionsMenu();
-            }));
-            if (createMode) {
-                actionBar.setTitle(getString(R.string.add_card));
-                fullCard = new FullCard();
-                fullCard.setLabels(new ArrayList<>());
-                fullCard.setAssignedUsers(new ArrayList<>());
-                Card card = new Card();
-                card.setStackId(stackId);
-                fullCard.setCard(card);
-                setupViewPager();
-            } else {
-                observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
-                    actionBar.setTitle(next.getCard().getTitle());
-                    if (canEdit) {
-                        actionBar.setTitle(getString(R.string.edit) + " " + actionBar.getTitle());
-                    }
-                    fullCard = next;
+                if (createMode) {
+                    actionBar.setTitle(getString(R.string.add_card));
+                    fullCard = new FullCard();
+                    fullCard.setLabels(new ArrayList<>());
+                    fullCard.setAssignedUsers(new ArrayList<>());
+                    Card card = new Card();
+                    card.setStackId(stackId);
+                    fullCard.setCard(card);
                     setupViewPager();
-                });
-            }
+                } else {
+                    observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
+                        actionBar.setTitle(next.getCard().getTitle());
+                        if (canEdit) {
+                            actionBar.setTitle(getString(R.string.edit) + " " + actionBar.getTitle());
+                        }
+                        fullCard = next;
+                        setupViewPager();
+                    });
+                }
+            }));
         } else {
             throw new IllegalArgumentException("No localId argument");
         }

@@ -1,1 +1,2 @@
 - Change scroll behavior of edit mode (#53)
+- Fix create dialog does not allow editing (#177)
