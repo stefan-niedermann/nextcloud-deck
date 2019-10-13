@@ -98,7 +98,7 @@
     <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
     <string name="deck_outdated_please_update">Twoja wersja deck jest nieaktualna. Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
     <string name="simple_update">Aktualizuj</string>
-    <string name="simple_delete">usuń</string>
+    <string name="simple_delete">Usuń</string>
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tablicy, w tym wszystkich stosów i kart.</string>
     <string name="action_card_list_rename_column">Zmień nazwę kolumny</string>
     <string name="simple_rename">Zmień nazwę</string>
@@ -107,4 +107,12 @@
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
     <string name="pref_value_theme_light">Jasny</string>
-    </resources>
+    <string name="unassign_user">Cofnij przypisanie %1$s</string>
+    <string name="do_you_want_to_unassign_this_user">Czy chcesz cofnąć przypisanie %1$s z %2$s?</string>
+    <string name="simple_unassign">Cofnij przypisanie</string>
+    <string name="unassigned_user">Nieprzypisane %1$s</string>
+    <string name="simple_undo">Cofnij</string>
+    <string name="no_activities">Na tej karcie nie ma żadnych działań. Musisz być podłączony do Internetu, aby ładować i wyświetlać działania.</string>
+    <string name="rename_column">Zmień nazwę kolumny</string>
+    <string name="share_board">Udostępnij tablicę</string>
+</resources>

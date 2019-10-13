@@ -98,7 +98,7 @@
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
     <string name="deck_outdated_please_update">Tahta sürümünüz çok eski. Lütfen bu android uygulamasını istemci olarak kullanabilmek için deck sürümünü güncelleyin.</string>
     <string name="simple_update">Güncelle</string>
-    <string name="simple_delete">sil</string>
+    <string name="simple_delete">Sil</string>
     <string name="delete_board_message">Bu işlem içindeki tüm deste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="action_card_list_rename_column">Sütunu yeniden adlandır</string>
     <string name="simple_rename">Yeniden adlandır</string>
@@ -107,4 +107,12 @@
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
     <string name="pref_value_theme_light">Açık</string>
-    </resources>
+    <string name="unassign_user">%1$s atamasını kaldır</string>
+    <string name="do_you_want_to_unassign_this_user">%1$s atamasını %2$s üzerinden kaldırmak istediğinize emin misiniz?</string>
+    <string name="simple_unassign">Atamayı kaldır</string>
+    <string name="unassigned_user">%1$s atanmamış</string>
+    <string name="simple_undo">Geri al</string>
+    <string name="no_activities">Bu kart üzerinde yapılmış bir işlem yok. İşlemleri yükleyip görebilmek için İnternet bağlantınızın olması gerekir.</string>
+    <string name="rename_column">Sütunu yeniden adlandır</string>
+    <string name="share_board">Panoyu paylaş</string>
+</resources>

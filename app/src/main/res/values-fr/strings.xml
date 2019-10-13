@@ -95,7 +95,7 @@
     <string name="add_a_new_column_using_the_three_dots_menu">Ajouter une nouvelle colonne en utilisant le menu \"trois points\".</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
     <string name="simple_update">Mettre à jour</string>
-    <string name="simple_delete">supprimer</string>
+    <string name="simple_delete">Supprimer</string>
     <string name="action_card_list_rename_column">Renommer la colonne</string>
     <string name="simple_rename">Renommer</string>
     <string name="simple_settings">Paramètres</string>
@@ -103,4 +103,7 @@
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
     <string name="pref_value_wifi_only">Synchroniser uniquement en Wifi</string>
     <string name="pref_value_theme_light">Clair</string>
+    <string name="simple_undo">Annuler</string>
+    <string name="no_activities">Il n\'y a aucune activité sur cette carte. Vous devez être connectés à Internet pour charger et afficher les activités.</string>
+    <string name="rename_column">Renommer la colonne</string>
     </resources>

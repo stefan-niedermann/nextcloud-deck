@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Табле</string>
     <string name="simple_cancel">Поништи</string>
+    <string name="simple_add">Додај</string>
     <string name="simple_save">Сачувај</string>
 
     <string name="edit_board">Измени таблу</string>
@@ -51,10 +52,13 @@
     <string name="hint_assign_people">Доделите кориснике</string>
     <string name="hint_due_date_date">Рок</string>
     <string name="activity">Активност</string>
+    <string name="add_card">Додај картицу</string>
+    <string name="add_column">Додај колону</string>
+
     <string name="add_account">Додајте налог</string>
 
     <string name="label_menu">мени</string>
-    <string name="action_card_assign">Доделите картицу себи</string>
+    <string name="action_card_assign">Додели картицу мени</string>
     <string name="action_card_unassign">Склони картицу са мене</string>
     <string name="action_card_archive">Архивирај картицу</string>
     <string name="action_card_delete">Обриши картицу</string>
@@ -65,6 +69,7 @@
 
     <string name="label_clear_due_date">Избриши рок</string>
 
+    <string name="label_add">Додај %1$s</string>
     <string name="error">Дошло је до грешке</string>
     <string name="simple_copy">копирај</string>
     <string name="simple_exception">Изузетак</string>
@@ -75,4 +80,39 @@
     <string name="card_edit_attachments">Прилози</string>
     <string name="card_edit_activity">Активност</string>
     <string name="about_server_app_version_text">Верзија апликације на серверу:</string>
-    </resources>
+    <string name="no_files_attached_to_this_card">Нема фајлова закачених за ову картицу.</string>
+    <string name="attachments">Прилози</string>
+    <string name="no_cards">Још нема картица</string>
+    <string name="no_account">Налог није подешен</string>
+    <string name="account_already_added">Овај налог је већ додат</string>
+    <string name="account_is_getting_imported">Налог се увози</string>
+    <string name="not_synced_yet">Још није синхронизовано</string>
+    <string name="no_columns">Још нема колона</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">Ова функционалност ће бити доступна у неким будућим верзијама.</string>
+    <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
+    <string name="simple_discard">одбаци</string>
+    <string name="do_you_want_to_delete_the_current_column">Да ли желите да обришете тренутну колону?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Додајте нову колону користећи мени са три тачке.</string>
+    <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
+    <string name="update_deck">Ажурирај шпил</string>
+    <string name="your_deck_version_is_too_old">Верзија Ваше Deck апликације је превише стара</string>
+    <string name="deck_outdated_please_update">Верзија Ваше Deck апликације је превише стара. Ажурирајте је да бисте користили ову Андроид апликацију као клијента.</string>
+    <string name="simple_update">Ажурирај</string>
+    <string name="simple_delete">Обриши</string>
+    <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све гомиле и картице.</string>
+    <string name="action_card_list_rename_column">Преименуј колону</string>
+    <string name="simple_rename">Преименуј</string>
+    <string name="simple_settings">Поставке</string>
+    <string name="settings_theme_title">Тамна тема</string>
+    <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
+    <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
+    <string name="pref_value_theme_light">Светла</string>
+    <string name="unassign_user">Уклони доделу за %1$s</string>
+    <string name="do_you_want_to_unassign_this_user">Да ли желите да склоните %2$s са %1$s?</string>
+    <string name="simple_unassign">Уклони доделу</string>
+    <string name="unassigned_user">Уклоњена додела са %1$s</string>
+    <string name="simple_undo">Опозови</string>
+    <string name="no_activities">Нема активности на картици. Морате да се повежете на интернет да учитате и прикажете активности.</string>
+    <string name="rename_column">Преименуј колону</string>
+    <string name="share_board">Подели таблу</string>
+</resources>

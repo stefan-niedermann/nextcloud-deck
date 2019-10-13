@@ -98,7 +98,7 @@
     <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
     <string name="deck_outdated_please_update">A versión do Deck é antiga de máis. Actualice para usar esta apli de Android como cliente.</string>
     <string name="simple_update">Actualizar</string>
-    <string name="simple_delete">eliminar</string>
+    <string name="simple_delete">Eliminar</string>
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as rimas e tarxetas.</string>
     <string name="action_card_list_rename_column">Renomear a columna</string>
     <string name="simple_rename">Renomear</string>
@@ -107,4 +107,12 @@
     <string name="pref_value_wifi_and_mobile">Sincronización con WiFi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con WiFi</string>
     <string name="pref_value_theme_light">Claro</string>
-    </resources>
+    <string name="unassign_user">Desasignar %1$s</string>
+    <string name="do_you_want_to_unassign_this_user">Quere desasignar %1$s de %2$s?</string>
+    <string name="simple_unassign">Desasignar</string>
+    <string name="unassigned_user">Desasignado %1$s</string>
+    <string name="simple_undo">Desfacer</string>
+    <string name="no_activities">Non hai actividades nesta tarxeta. Para cargar e amosar actividades necesita estar conectado á Internet.</string>
+    <string name="rename_column">Renomear a columna</string>
+    <string name="share_board">Taboleiro compartido</string>
+</resources>

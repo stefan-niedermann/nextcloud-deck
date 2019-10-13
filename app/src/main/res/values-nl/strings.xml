@@ -58,6 +58,8 @@
     <string name="add_account">Account toevoegen</string>
 
     <string name="label_menu">menu</string>
+    <string name="action_card_assign">Wijs kaart toe aan mij</string>
+    <string name="action_card_unassign">Kaart van mij terughalen</string>
     <string name="action_card_archive">Archiveer kaart</string>
     <string name="action_card_delete">Verwijderen kaart</string>
     <string name="add_board">Toevoegen bord</string>
@@ -86,6 +88,23 @@
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_columns">Nog geen kolommen</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">Deze optie wordt in een volgende versie geïmplementeerd.</string>
+    <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
+    <string name="simple_discard">weggooien</string>
     <string name="do_you_want_to_delete_the_current_column">Wil je de huidige kolom verwijderen?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Voeg een nieuwe kolom toe via de menuknop (3 stippen)</string>
+    <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
     <string name="simple_update">Bijwerken</string>
-    </resources>
+    <string name="simple_delete">Verwijderen</string>
+    <string name="action_card_list_rename_column">Kolomnaam wijzigen</string>
+    <string name="simple_rename">Hernoemen</string>
+    <string name="simple_settings">Instellingen</string>
+    <string name="settings_theme_title">Donker thema</string>
+    <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
+    <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
+    <string name="pref_value_theme_light">Licht</string>
+    <string name="simple_undo">Ongedaan maken</string>
+    <string name="no_activities">Deze kaart heeft geen activiteiten. Verbind met het internet om activiteiten te laden en te tonen.</string>
+    <string name="rename_column">Hernoemen kolom</string>
+    <string name="share_board">Bord delen</string>
+</resources>

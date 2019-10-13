@@ -98,7 +98,7 @@
     <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
     <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt. Bitte aktualisieren Sie Deckum diese Android-App als Client verwenden zu können.</string>
     <string name="simple_update">Aktualisieren</string>
-    <string name="simple_delete">löschen</string>
+    <string name="simple_delete">Löschen</string>
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Stapel und Karten löschen.</string>
     <string name="action_card_list_rename_column">Spalte umbenennen</string>
     <string name="simple_rename">Umbenennen</string>
@@ -107,4 +107,12 @@
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
     <string name="pref_value_theme_light">Hell</string>
-    </resources>
+    <string name="unassign_user">Zuordnung von %1$s entfernen</string>
+    <string name="do_you_want_to_unassign_this_user">Möchten Sie die Zuordnung von %1$s zu %2$s entfernen?</string>
+    <string name="simple_unassign">Zuordnung</string>
+    <string name="unassigned_user">Zuordnung von %1$s entfernt</string>
+    <string name="simple_undo">Rückgängig</string>
+    <string name="no_activities">Auf dieser Karte sind keine Aktivitäten vorhanden. Sie müssen mit dem Internet verbunden sein, um Aktivitäten zu laden und anzuzeigen.</string>
+    <string name="rename_column">Spalte umbenennen</string>
+    <string name="share_board">Board freigeben</string>
+</resources>
