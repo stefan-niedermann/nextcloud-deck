@@ -96,7 +96,10 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         holder.icon.setImageDrawable(
                 ViewUtil.getTintedImageView(
                         context,
-                        (position < labelList.size() - (canManage ? 1 : 0)) ? R.drawable.ic_plus : R.drawable.ic_label_grey600_24dp,
+                        (position < labelList.size() - (canManage ? 1 : 0)) &&
+                                (lastFilterText != null && lastFilterText.length() > 0)
+                                ? R.drawable.ic_plus
+                                : R.drawable.ic_label_grey600_24dp,
                         "#" + getItem(position).getColor()
                 ));
         holder.label.setText(getItem(position).getTitle());
