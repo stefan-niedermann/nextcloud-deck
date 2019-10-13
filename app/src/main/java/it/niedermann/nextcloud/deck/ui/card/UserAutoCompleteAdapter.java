@@ -40,12 +40,14 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     private List<User> userList = new ArrayList<>();
     private SyncManager syncManager;
     private long accountId;
+    private long cardId;
     private LifecycleOwner owner;
 
-    public UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId) {
+    public UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long cardId) {
         this.owner = owner;
         this.activity = activity;
         this.accountId = accountId;
+        this.cardId = cardId;
         syncManager = new SyncManager(activity);
     }
 
@@ -107,7 +109,7 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
                         LiveData<List<User>> liveData = constraint.length() > 0
                                 ? syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
-                                : syncManager.getUserSuggestions(accountId);
+                                : syncManager.findProposalsForUsersToAssign(accountId, cardId, 3);
                         observeOnce(liveData, owner, users -> {
                             if (users != null) {
                                 filterResults.values = users;

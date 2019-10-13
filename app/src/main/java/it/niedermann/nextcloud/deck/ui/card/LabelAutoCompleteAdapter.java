@@ -36,17 +36,19 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     private SyncManager syncManager;
     private long accountId;
     private long boardId;
+    private long cardId;
     private LifecycleOwner owner;
     private Label createLabel;
     private String createLabelText;
     private String lastFilterText;
     private boolean canManage = false;
 
-    public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId) {
+    public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId, long cardId) {
         this.owner = owner;
         this.context = activity;
         this.accountId = accountId;
         this.boardId = boardId;
+        this.cardId = cardId;
         syncManager = new SyncManager(activity);
         syncManager.getFullBoardById(accountId, boardId).observe(owner, (fullBoard) -> {
             if (fullBoard.getBoard().isPermissionManage()) {
@@ -111,7 +113,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
                         LiveData<List<Label>> liveData = constraint.length() > 0
                                 ? syncManager.searchLabelByTitle(accountId, boardId, constraint.toString())
-                                : syncManager.getLabelSuggestions(accountId, boardId);
+                                : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId, 3);
                         observeOnce(liveData, owner, labels -> {
                             if (canManage && constraint.length() > 0) {
                                 createLabel.setTitle(String.format(createLabelText, constraint));
