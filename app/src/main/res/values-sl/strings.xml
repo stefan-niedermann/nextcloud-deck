@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Zbirke</string>
     <string name="simple_cancel">Prekliči</string>
+    <string name="simple_add">Dodaj</string>
     <string name="simple_save">Shrani</string>
 
     <string name="edit_board">Uredi zbirko</string>
@@ -51,6 +52,9 @@
     <string name="hint_assign_people">Dodeli uporabnike</string>
     <string name="hint_due_date_date">Datum preteka</string>
     <string name="activity">Dejavnost</string>
+    <string name="add_card">Dodaj nalogo</string>
+    <string name="add_column">Dodaj paket</string>
+
     <string name="add_account">Dodaj račun</string>
 
     <string name="label_menu">Meni</string>
@@ -59,12 +63,13 @@
     <string name="action_card_archive">Arhiviraj nalogo</string>
     <string name="action_card_delete">Izbriši nalogo</string>
     <string name="add_board">Dodaj zbirko</string>
-    <string name="action_card_list_add_column">Dodaj stolpec</string>
-    <string name="action_card_list_delete_column">Izbriši stolpec</string>
+    <string name="action_card_list_add_column">Dodaj paket</string>
+    <string name="action_card_list_delete_column">Izbriši paket</string>
     <string name="simple_title">Naslov</string>
 
     <string name="label_clear_due_date">Počisti datum poteka</string>
 
+    <string name="label_add">Dodaj %1$s</string>
     <string name="error">Prišlo je do napake</string>
     <string name="simple_copy">kopiraj</string>
     <string name="simple_exception">Izjema</string>
@@ -75,4 +80,39 @@
     <string name="card_edit_attachments">Priloge</string>
     <string name="card_edit_activity">Dejavnost</string>
     <string name="about_server_app_version_text">Različica programa na strežniku:</string>
-    </resources>
+    <string name="no_files_attached_to_this_card">K tej nalogi ni priloženih datotek.</string>
+    <string name="attachments">Priloge</string>
+    <string name="no_cards">Ni še vpisanih nalog</string>
+    <string name="no_account">Ni nastavljenega nobenega računa</string>
+    <string name="account_already_added">Račun je že dodan</string>
+    <string name="account_is_getting_imported">Poteka uvažanje računa</string>
+    <string name="not_synced_yet">Še ni usklajeno</string>
+    <string name="no_columns">Ni še dodanih paket</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">Zmožnost bo na voljo v prihodnjih različicah.</string>
+    <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
+    <string name="simple_discard">opusti</string>
+    <string name="do_you_want_to_delete_the_current_column">Ali želite izbrisati trenutni paket?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Nov paket je mogoče dodati prek menija treh pik.</string>
+    <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
+    <string name="update_deck">Posodobi zbirko</string>
+    <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
+    <string name="deck_outdated_please_update">Različica zbirke je prestara. Za uporabo tega odjemalca je treba zbirko najprej posodobiti.</string>
+    <string name="simple_update">Posodobi</string>
+    <string name="simple_delete">Izbriši</string>
+    <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
+    <string name="action_card_list_rename_column">Preimenuj paket</string>
+    <string name="simple_rename">Preimenuj</string>
+    <string name="simple_settings">Nastavitve</string>
+    <string name="settings_theme_title">Temna tema</string>
+    <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
+    <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
+    <string name="pref_value_theme_light">Svetla</string>
+    <string name="unassign_user">Odstrani %1$s</string>
+    <string name="do_you_want_to_unassign_this_user">Ali želite odstraniti %1$s z naloge %2$s?</string>
+    <string name="simple_unassign">Odstrani</string>
+    <string name="unassigned_user">Uporabnik %1$s je odstranjen</string>
+    <string name="simple_undo">Razveljavi</string>
+    <string name="no_activities">Na tej nalogi še ni zaznane nobene dejavnosti. Za prikaz dejavnosti mora biti vzpostavljena povezava z omrežjem.</string>
+    <string name="rename_column">Preimenuj paket</string>
+    <string name="share_board">Souporaba zbirke</string>
+</resources>

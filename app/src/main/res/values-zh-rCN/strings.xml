@@ -107,4 +107,12 @@
     <string name="pref_value_wifi_and_mobile">在有Wi-Fi和移动数据网络时同步</string>
     <string name="pref_value_wifi_only">仅在Wi-Fi下同步</string>
     <string name="pref_value_theme_light">浅色</string>
-    </resources>
+    <string name="unassign_user">取消分配%1$s</string>
+    <string name="do_you_want_to_unassign_this_user"> 您想要取消%1$s对%2$s的分配吗？</string>
+    <string name="simple_unassign">取消分配</string>
+    <string name="unassigned_user">已经取消分配%1$s</string>
+    <string name="simple_undo">撤消</string>
+    <string name="no_activities">找不到此卡片上的动态。 您需要连接到互联网才能加载和显示动态。</string>
+    <string name="rename_column">重命名列</string>
+    <string name="share_board">共享面板</string>
+</resources>

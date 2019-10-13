@@ -94,7 +94,6 @@
     <string name="add_a_new_column_using_the_three_dots_menu">Nové sloupce přidáte pomocí nabídky tři tečky.</string>
     <string name="your_deck_version_is_too_old">Vámi používaná verze deck je příliš stará</string>
     <string name="simple_update">Aktualizovat</string>
-    <string name="simple_delete">smazat</string>
     <string name="action_card_list_rename_column">Přejmenovat sloupec</string>
     <string name="simple_rename">Přejmenovat</string>
     </resources>

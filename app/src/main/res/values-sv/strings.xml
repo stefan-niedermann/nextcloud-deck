@@ -96,7 +96,7 @@
     <string name="your_deck_version_is_too_old">Din version är för gammal</string>
     <string name="deck_outdated_please_update">Din version av Deck är för gammal. Uppdatera för att använda den här Android-appen som klient.</string>
     <string name="simple_update">Uppdatera</string>
-    <string name="simple_delete">radera</string>
+    <string name="simple_delete">Radera</string>
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla staplar och kort.</string>
     <string name="action_card_list_rename_column">Byt namn på kolumn</string>
     <string name="simple_rename">Byt namn</string>
@@ -105,4 +105,12 @@
     <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobil data</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
     <string name="pref_value_theme_light">Ljust</string>
-    </resources>
+    <string name="unassign_user">Ta bort tilldelning %1$s</string>
+    <string name="do_you_want_to_unassign_this_user">Vill du ta bort tilldelningen %1$s från %2$s?</string>
+    <string name="simple_unassign">Ta bort tilldelning</string>
+    <string name="unassigned_user">Tog bort tilldelning %1$s</string>
+    <string name="simple_undo">Ångra</string>
+    <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att ladda och visa aktiviteter.</string>
+    <string name="rename_column">Byt namn på kolumn</string>
+    <string name="share_board">Dela tavla</string>
+</resources>
