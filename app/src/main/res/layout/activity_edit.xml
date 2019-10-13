@@ -5,21 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:hint="@string/label_title"
-        android:importantForAutofill="no"
-        android:textSize="20sp"
-        android:inputType="textPersonName" />
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
+        style="@style/Widget.MaterialComponents.TabLayout.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:tabGravity="center"
+        app:tabIndicatorColor="@color/accent"
         app:tabMode="fixed" />
 
     <androidx.viewpager.widget.ViewPager

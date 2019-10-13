@@ -1,12 +1,9 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -44,9 +41,6 @@ public class EditActivity extends AppCompatActivity {
     SyncManager syncManager;
     private ActionBar actionBar;
 
-    @BindView(R.id.title)
-    EditText title;
-
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
@@ -77,6 +71,7 @@ public class EditActivity extends AppCompatActivity {
 
         actionBar = Objects.requireNonNull(getSupportActionBar());
         actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        actionBar.setElevation(0);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -99,7 +94,6 @@ public class EditActivity extends AppCompatActivity {
                 Card card = new Card();
                 card.setStackId(stackId);
                 fullCard.setCard(card);
-                setupTitleListener();
                 setupViewPager();
             } else {
                 observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
@@ -108,39 +102,11 @@ public class EditActivity extends AppCompatActivity {
                         actionBar.setTitle(getString(R.string.edit) + " " + actionBar.getTitle());
                     }
                     fullCard = next;
-                    title.setText(fullCard.getCard().getTitle());
-                    setupTitleListener();
                     setupViewPager();
                 });
             }
         } else {
             throw new IllegalArgumentException("No localId argument");
-        }
-    }
-
-    private void setupTitleListener() {
-        if(canEdit) {
-            title.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (fullCard != null) {
-                        fullCard.getCard().setTitle(title.getText().toString());
-                        modified = true;
-                    }
-                    String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.add_card) : getString(R.string.edit);
-                    actionBar.setTitle(prefix + " " + title.getText());
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-        } else {
-            title.setEnabled(false);
         }
     }
 
@@ -194,6 +160,15 @@ public class EditActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    public void setTitle(String title) {
+        if (fullCard != null) {
+            fullCard.getCard().setTitle(title);
+        }
+        String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.add_card) : getString(R.string.edit);
+        actionBar.setTitle(prefix + " " + title);
+        modified = true;
     }
 
     public void setDescription(String description) {
