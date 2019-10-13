@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -53,6 +54,7 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     private static final String TAG = CardAdapter.class.getCanonicalName();
+    public static final int REQUEST_CODE_START_EDIT_ACTIVITY = 100;
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
     public static final String BUNDLE_KEY_BOARD_ID = "boardId";
@@ -68,10 +70,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private final long boardId;
     private final boolean canEdit;
 
-    public CardAdapter(long boardId, boolean canEdit, SyncManager syncManager) {
+    private Fragment fragment;
+    private boolean pendingEditActivity = false;
+
+    public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment) {
         this.boardId = boardId;
         this.canEdit = canEdit;
         this.syncManager = syncManager;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -98,11 +104,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         viewHolder.card.setOnClickListener((View clickedView) -> {
-            Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
-            intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
-            intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
-            intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
-            context.startActivity(intent);
+            if(!pendingEditActivity) {
+                pendingEditActivity = true;
+                Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
+                intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
+                intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
+                intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
+                fragment.startActivityForResult(intent, REQUEST_CODE_START_EDIT_ACTIVITY);
+            }
         });
         if (canEdit) {
             viewHolder.card.setOnLongClickListener((View draggedView) -> {
@@ -305,6 +314,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     public List<FullCard> getCardList() {
         return cardList;
+    }
+
+    public void resetPendingEditActivity() {
+        this.pendingEditActivity = false;
     }
 
     private boolean containsUser(List<User> userList, String username) {
