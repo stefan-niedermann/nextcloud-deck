@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.widget;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -28,6 +29,20 @@ public class DelayedAutoCompleteTextView extends androidx.appcompat.widget.AppCo
 
     public DelayedAutoCompleteTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    @Override
+    public boolean enoughToFilter() {
+        return true;
+    }
+
+    @Override
+    protected void onFocusChanged(boolean focused, int direction,
+                                  Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+        if (focused && getAdapter() != null) {
+            performFiltering(getText(), 0);
+        }
     }
 
     public void setLoadingIndicator(ProgressBar progressBar) {

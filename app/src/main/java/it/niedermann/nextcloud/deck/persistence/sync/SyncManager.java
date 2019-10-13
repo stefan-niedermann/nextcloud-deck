@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +32,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -620,6 +622,15 @@ public class SyncManager {
         return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, searchTerm);
     }
 
+    /**
+     * @param accountId
+     * @return the most often assigned users in this board, limit 3
+     */
+    public LiveData<List<User>> getUserSuggestions(final long accountId) {
+        // TODO implement
+        return LiveDataHelper.of(new ArrayList<>());
+    }
+
     public LiveData<Board> getBoard(long accountId, long remoteId) {
         return dataBaseAdapter.getBoard(accountId, remoteId);
     }
@@ -651,6 +662,16 @@ public class SyncManager {
      */
     public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm) {
         return dataBaseAdapter.searchLabelByTitle(accountId, boardId, searchTerm);
+    }
+
+    /**
+     * @param accountId
+     * @param boardId
+     * @return the most often assigned labels in this board, limit 3
+     */
+    public LiveData<List<Label>> getLabelSuggestions(final long accountId, final long boardId) {
+        // TODO implement
+        return LiveDataHelper.of(new ArrayList<>());
     }
 
     public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {

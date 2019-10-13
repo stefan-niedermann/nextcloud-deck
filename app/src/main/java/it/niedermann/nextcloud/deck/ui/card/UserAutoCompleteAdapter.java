@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
@@ -104,7 +105,10 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
-                        observeOnce(syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString()), owner, users -> {
+                        LiveData<List<User>> liveData = constraint.length() > 0
+                                ? syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
+                                : syncManager.getUserSuggestions(accountId);
+                        observeOnce(liveData, owner, users -> {
                             if (users != null) {
                                 filterResults.values = users;
                                 filterResults.count = users.size();

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,12 +109,15 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                 if (constraint != null) {
                     lastFilterText = constraint.toString();
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
-                        observeOnce(syncManager.searchLabelByTitle(accountId, boardId, constraint.toString()), owner, labels -> {
-                            if (canManage) {
+                        LiveData<List<Label>> liveData = constraint.length() > 0
+                                ? syncManager.searchLabelByTitle(accountId, boardId, constraint.toString())
+                                : syncManager.getLabelSuggestions(accountId, boardId);
+                        observeOnce(liveData, owner, labels -> {
+                            if (canManage && constraint.length() > 0) {
                                 createLabel.setTitle(String.format(createLabelText, constraint));
                             }
                             if (labels != null) {
-                                if (canManage) {
+                                if (canManage && constraint.length() > 0) {
                                     labels.add(createLabel);
                                 }
                                 filterResults.values = labels;
@@ -121,7 +125,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                                 publishResults(constraint, filterResults);
                             } else {
                                 List<Label> createLabels = new ArrayList<>();
-                                if (canManage) {
+                                if (canManage && constraint.length() > 0) {
                                     createLabels.add(createLabel);
                                 }
                                 filterResults.values = createLabels;
