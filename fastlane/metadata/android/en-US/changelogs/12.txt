@@ -1,2 +1,3 @@
 - Change scroll behavior of edit mode (#53)
 - Fix create dialog does not allow editing (#177)
+- SyncOnWifiOnly causes OfflineException on several actions (#156)
