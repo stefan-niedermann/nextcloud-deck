@@ -90,6 +90,7 @@
     <string name="no_columns">No hay columnas disponibles</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Esta característica se implementará en una próxima versión.</string>
     <string name="do_you_want_to_save_your_changes">¿Desea guardar los cambios?</string>
+    <string name="simple_discard">descartar</string>
     <string name="do_you_want_to_delete_the_current_column">¿Desea borrar la columna actual?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Añadir una nueva columna usando el menú con los tres puntos</string>
     <string name="add_a_new_card_using_the_button">Añadir una nueva tarjeta usando el botón +</string>
@@ -97,8 +98,21 @@
     <string name="your_deck_version_is_too_old">Su versión del Deck es muy antigua </string>
     <string name="deck_outdated_please_update">Su versión del Deck es muy antigua. Por favor actualice para usar esta app de Android como cliente.</string>
     <string name="simple_update">Actualizar</string>
-    <string name="simple_delete">eliminar</string>
+    <string name="simple_delete">Eliminar</string>
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las pilas y tarjetas.</string>
     <string name="action_card_list_rename_column">Renombrar columna</string>
     <string name="simple_rename">Renombrar</string>
-    </resources>
+    <string name="simple_settings">Configuración</string>
+    <string name="settings_theme_title">Tema oscuro</string>
+    <string name="pref_value_wifi_and_mobile">Sincronizar sobre Wi-Fi y datos móviles</string>
+    <string name="pref_value_wifi_only">Sincronizar solo sobre Wi-Fi</string>
+    <string name="pref_value_theme_light">Brillante</string>
+    <string name="unassign_user">Sin asignar %1$s</string>
+    <string name="do_you_want_to_unassign_this_user">¿Dsea desasignar %1$s de %2$s?</string>
+    <string name="simple_unassign">Sin asignar</string>
+    <string name="unassigned_user">No asignado %1$s</string>
+    <string name="simple_undo">Deshacer</string>
+    <string name="no_activities">No hay actividades en esta tarjeta. Necesita recolectar a Internet para cargar y mostrar las actividades.</string>
+    <string name="rename_column">Renombrar columna</string>
+    <string name="share_board">Compartir tablero</string>
+</resources>
