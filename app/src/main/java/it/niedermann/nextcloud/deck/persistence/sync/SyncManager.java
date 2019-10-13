@@ -205,13 +205,15 @@ public class SyncManager {
 
     public LiveData<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> syncActivitiesForCard(Card card) {
         doAsync(() -> {
-            new SyncHelper(serverAdapter, dataBaseAdapter, null)
-                    .setResponseCallback(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(card.getAccountId())) {
-                @Override
-                public void onResponse(Boolean response) {
-                    // do nothing
-                }
-            }).doSyncFor(new ActivityDataProvider(null, card));
+            if (serverAdapter.hasInternetConnection()) {
+                new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                        .setResponseCallback(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(card.getAccountId())) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                // do nothing
+                            }
+                        }).doSyncFor(new ActivityDataProvider(null, card));
+            }
         });
         return dataBaseAdapter.getActivitiesForCard(card.getLocalId());
     }
