@@ -339,7 +339,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private void setupLabels(long accountId, long boardId, boolean canEdit) {
         labelsGroup.removeAllViews();
         if (canEdit) {
-            labels.setAdapter(new LabelAutoCompleteAdapter(this, activity, accountId, boardId, fullCard.getCard().getId()));
+            Long localCardId = fullCard.getCard().getLocalId();
+            localCardId = localCardId == null ? -1 : localCardId;
+            labels.setAdapter(new LabelAutoCompleteAdapter(this, activity, accountId, boardId, localCardId));
             labels.setOnItemClickListener((adapterView, view, position, id) -> {
                 Label label = (Label) adapterView.getItemAtPosition(position);
                 if (LabelAutoCompleteAdapter.CREATE_ID == label.getLocalId()) {
@@ -414,7 +416,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     private void setupPeople(long accountId) {
         if (canEdit) {
-            people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId, fullCard.getCard().getId()));
+            Long localCardId = fullCard.getCard().getLocalId();
+            localCardId = localCardId == null ? -1 : localCardId;
+            people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId, localCardId));
             people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
 
