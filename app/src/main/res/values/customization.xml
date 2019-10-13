@@ -4,6 +4,10 @@
     <integer name="max_labels_shown">3</integer>
     <!-- How many characters of the labels are displayed at the card list view -->
     <integer name="max_labels_chars">2</integer>
+    <!-- How many users should be suggested when clicking on the assigned users input field -->
+    <integer name="max_users_suggested">3</integer>
+    <!-- How many labels should be suggested when clicking on the assigned labels input field -->
+    <integer name="max_labels_suggested">3</integer>
     <!-- How many microseconds should be waited before switching to another tab when dragging cards -->
     <integer name="drag_n_drop_ms_to_react">500</integer>
     <integer name="drag_n_drop_ms_to_react_on_move">250</integer>
