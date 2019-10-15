@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.h6ah4i.android.tablayouthelper.TabLayoutHelper;
 
 import java.util.List;
 import java.util.Objects;
@@ -74,6 +75,7 @@ public class MainActivity extends DrawerActivity {
     private Observer<List<Board>> boardsLiveDataObserver;
     private long currentBoardId = 0;
     private boolean currentBoardHasEditPermission = false;
+    private TabLayoutHelper mTabLayoutHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -371,6 +373,10 @@ public class MainActivity extends DrawerActivity {
                 stackAdapter = newStackAdapter;
                 runOnUiThread(() -> {
                     viewPager.setAdapter(newStackAdapter);
+
+                    mTabLayoutHelper = new TabLayoutHelper(stackLayout, viewPager);
+                    mTabLayoutHelper.setAutoAdjustTabModeEnabled(true);
+
                     viewPager.setCurrentItem(stackPositionInAdapter);
                     stackLayout.setupWithViewPager(viewPager);
                 });
