@@ -1,9 +1,12 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -72,6 +75,11 @@ public class EditActivity extends AppCompatActivity {
         actionBar = Objects.requireNonNull(getSupportActionBar());
         actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         actionBar.setElevation(0);
+        actionBar.setCustomView(R.layout.fragment_edit_title);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
+                | ActionBar.DISPLAY_HOME_AS_UP);
+        EditText title = actionBar.getCustomView().findViewById(
+                R.id.Title);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -86,7 +94,7 @@ public class EditActivity extends AppCompatActivity {
                 canEdit = fullBoard.getBoard().isPermissionEdit();
                 invalidateOptionsMenu();
                 if (createMode) {
-                    actionBar.setTitle(getString(R.string.add_card));
+                    title.setText(getString(R.string.add_card));
                     fullCard = new FullCard();
                     fullCard.setLabels(new ArrayList<>());
                     fullCard.setAssignedUsers(new ArrayList<>());
@@ -94,14 +102,57 @@ public class EditActivity extends AppCompatActivity {
                     card.setStackId(stackId);
                     fullCard.setCard(card);
                     setupViewPager();
+
+
+                    if(canEdit) {
+                        title.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                fullCard.getCard().setTitle(title.getText().toString());
+                                setTitle(title.getText().toString());
+                            }
+
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                            }
+                        });
+                    } else {
+                        title.setEnabled(false);
+                    }
                 } else {
                     observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
-                        actionBar.setTitle(next.getCard().getTitle());
+                        title.setText(next.getCard().getTitle());
                         if (canEdit) {
-                            actionBar.setTitle(getString(R.string.edit) + " " + actionBar.getTitle());
+                            title.setText(getString(R.string.edit) + " " + actionBar.getTitle());
                         }
                         fullCard = next;
+                        title.setText(fullCard.getCard().getTitle());
                         setupViewPager();
+
+
+                        if(canEdit) {
+                            title.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                    fullCard.getCard().setTitle(title.getText().toString());
+                                    setTitle(title.getText().toString());
+                                }
+
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable s) {
+                                }
+                            });
+                        } else {
+                            title.setEnabled(false);
+                        }
                     });
                 }
             }));

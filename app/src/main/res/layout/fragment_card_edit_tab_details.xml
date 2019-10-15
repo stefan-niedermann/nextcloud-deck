@@ -19,6 +19,7 @@
             android:importantForAutofill="no"
             android:textSize="20sp"
             android:layout_marginTop="@dimen/standard_margin"
+            android:visibility="gone"
             android:inputType="textPersonName" />
 
         <LinearLayout
