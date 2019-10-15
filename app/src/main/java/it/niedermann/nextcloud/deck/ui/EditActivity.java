@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -41,9 +42,10 @@ public class EditActivity extends AppCompatActivity {
     SyncManager syncManager;
     private ActionBar actionBar;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-
     @BindView(R.id.pager)
     ViewPager pager;
 
@@ -69,8 +71,9 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         unbinder = ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
         actionBar = Objects.requireNonNull(getSupportActionBar());
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         actionBar.setElevation(0);
 
         Bundle extras = getIntent().getExtras();

@@ -7,9 +7,6 @@
         <item name="colorAccent">@color/primary</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:elevation">@null</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -24,9 +21,6 @@
         <item name="colorAccent">@color/primary</item>
         <item name="android:textColor">@color/fg_secondary</item>
         <item name="android:textViewStyle">@style/DarkTextView</item>
-    </style>
-
-    <style name="DarkAppTheme.NoActionBar" parent="DarkAppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

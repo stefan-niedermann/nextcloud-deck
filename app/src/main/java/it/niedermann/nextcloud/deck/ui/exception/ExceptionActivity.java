@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -23,6 +24,8 @@ public class ExceptionActivity extends AppCompatActivity {
 
     Throwable throwable;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.message)
     TextView message;
     @BindView(R.id.stacktrace)
@@ -37,6 +40,7 @@ public class ExceptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         throwable = ((Throwable) getIntent().getSerializableExtra(KEY_THROWABLE));
         throwable.printStackTrace();
+        setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.error));
         this.message.setText(throwable.getMessage());
         this.stacktrace.setText("Version: " + BuildConfig.VERSION_NAME + "\n\n" + getStacktraceOf(throwable));

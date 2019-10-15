@@ -79,7 +79,7 @@ public class MainActivity extends DrawerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme_NoActionBar : R.style.AppTheme_NoActionBar);
+        setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
