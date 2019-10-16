@@ -35,7 +35,7 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     app:theme="@style/AppTheme.EditText"
-                    tools:text="Fancy card title"/>
+                    tools:text="Fancy card title" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -165,6 +165,12 @@ public class EditActivity extends AppCompatActivity {
     private void setupTitle(boolean createMode) {
         title.setText(fullCard.getCard().getTitle());
         if(canEdit) {
+            if(createMode) {
+                title.requestFocus();
+                if(fullCard.getCard().getTitle() != null) {
+                    title.setSelection(fullCard.getCard().getTitle().length());
+                }
+            }
             titleTextInputLayout.setHint(getString(createMode ? R.string.simple_add : R.string.edit));
             title.addTextChangedListener(new TextWatcher() {
                 @Override
