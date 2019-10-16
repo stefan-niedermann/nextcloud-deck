@@ -182,6 +182,7 @@ public class EditActivity extends AppCompatActivity {
                 }
             });
         } else {
+            titleTextInputLayout.setHintEnabled(false);
             title.setEnabled(false);
         }
     }
