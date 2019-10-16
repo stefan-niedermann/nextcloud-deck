@@ -11,6 +11,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.EditText" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+        <item name="colorControlHighlight">@android:color/white</item>
+    </style>
+
     <style name="TextView" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@android:color/black</item>
     </style>

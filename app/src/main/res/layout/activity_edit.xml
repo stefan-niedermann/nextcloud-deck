@@ -16,14 +16,21 @@
             app:navigationIcon="@drawable/ic_close_white_24dp"
             app:titleTextColor="@android:color/white">
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.EditText">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
-                    android:hint="@string/simple_title" />
+                    android:hint="@string/simple_add"
+                    android:importantForAutofill="no"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
