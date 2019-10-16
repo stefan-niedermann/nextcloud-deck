@@ -143,4 +143,5 @@
     <string name="no_activities">There are no activities on this card. You need to be connected to the internet to load and display activities.</string>
     <string name="rename_column">Rename column</string>
     <string name="share_board">Share board</string>
+    <string name="you_are_currently_offline">You are currently offline</string>
 </resources>

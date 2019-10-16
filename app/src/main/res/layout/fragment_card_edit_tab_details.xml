@@ -30,7 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:completionThreshold="1"
-                android:hint="@string/label_labels" />
+                android:hint="@string/label_labels"
+                android:inputType="text" />
         </LinearLayout>
 
         <com.google.android.material.chip.ChipGroup
@@ -113,7 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:completionThreshold="1"
-                android:hint="@string/hint_assign_people" />
+                android:hint="@string/hint_assign_people"
+                android:inputType="text" />
         </LinearLayout>
 
         <LinearLayout
