@@ -38,6 +38,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.ShareBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
@@ -261,7 +262,7 @@ public class MainActivity extends DrawerActivity {
                         popup.setOnMenuItemClickListener((MenuItem item) -> {
                             switch (item.getItemId()) {
                                 case SHARE_BOARD_ID:
-                                    Snackbar.make(drawer, "Sharing boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                                    ShareBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.share_board));
                                     break;
                                 case R.id.edit_board:
                                     EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
@@ -303,7 +304,7 @@ public class MainActivity extends DrawerActivity {
                     contextMenu.setBackgroundDrawable(null);
                     contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_share_grey600_18dp, R.color.grey600));
                     contextMenu.setOnClickListener((v) -> {
-                        Snackbar.make(drawer, "Sharing boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                        ShareBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.share_board));
                     });
                     m.setActionView(contextMenu);
                 }

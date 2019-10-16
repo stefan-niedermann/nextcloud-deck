@@ -144,4 +144,6 @@
     <string name="rename_column">Rename column</string>
     <string name="share_board">Share board</string>
     <string name="you_are_currently_offline">You are currently offline</string>
+    <string name="simple_manage">manage</string>
+    <string name="simple_share">share</string>
 </resources>
