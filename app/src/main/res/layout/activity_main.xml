@@ -74,14 +74,13 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/stackLayout"
-                style="@style/Widget.MaterialComponents.TabLayout.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:collapsedTitleGravity="top"
-                app:tabGravity="fill"
+                app:tabGravity="center"
                 app:tabIndicatorColor="@color/accent"
-                app:tabMode="scrollable" />
+                app:tabMode="fixed"
+                app:tabTextColor="@android:color/white"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

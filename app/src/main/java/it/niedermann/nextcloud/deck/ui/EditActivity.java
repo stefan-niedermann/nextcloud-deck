@@ -73,8 +73,6 @@ public class EditActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         actionBar = Objects.requireNonNull(getSupportActionBar());
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-        actionBar.setElevation(0);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
