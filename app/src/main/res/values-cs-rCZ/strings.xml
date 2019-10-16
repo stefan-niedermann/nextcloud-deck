@@ -90,10 +90,16 @@
     <string name="no_columns">Zatím žádné slopce</string>
     <string name="this_feature_will_be_implemented_in_a_future_version">Tato funkce bude implementována v budoucí verzi.</string>
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
+    <string name="simple_discard">zahodit</string>
     <string name="do_you_want_to_delete_the_current_column">Chcete stávající sloupec vymazat?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Nové sloupce přidáte pomocí nabídky tři tečky.</string>
     <string name="your_deck_version_is_too_old">Vámi používaná verze deck je příliš stará</string>
     <string name="simple_update">Aktualizovat</string>
     <string name="action_card_list_rename_column">Přejmenovat sloupec</string>
     <string name="simple_rename">Přejmenovat</string>
+    <string name="simple_settings">Nastavení</string>
+    <string name="settings_theme_title">Tmavý motiv vzhledu</string>
+    <string name="pref_value_wifi_and_mobile">Synchronizovat přes Wi-Fi a mobilní data</string>
+    <string name="pref_value_wifi_only">Synchronizovat pouze přes Wi-Fi</string>
+    <string name="pref_value_theme_light">Světlý</string>
     </resources>

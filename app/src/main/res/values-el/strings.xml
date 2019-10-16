@@ -10,28 +10,34 @@
     <!-- Simple values -->
     <string name="simple_boards">Πίνακες</string>
     <string name="simple_cancel">Ακύρωση</string>
-    <string name="simple_add">Δημιουργία</string>
+    <string name="simple_add">Προσθήκη</string>
+    <string name="simple_save">Αποθήκευση</string>
+
+    <string name="edit_board">Επεξεργασία πίνακα</string>
+    <string name="archive_board">Αρχειοθέτηση πίνακα</string>
+    <string name="delete_board">Διαγραφή πίνακα</string>
 
     <!-- About -->
     <string name="about">Περί</string>
     <string name="about_version_title">Έκδοση</string>
-    <string name="about_version">Προς το παρόν χρησιμοποιείτε &lt; strong>%1$s&lt;/strong> </string>
+    <string name="about_version">Προς το παρόν χρησιμοποιείτε %1$s</string>
     <string name="about_maintainer_title">Συντηρητής</string>
     <string name="about_developers_title">Προγραμματιστές</string>
     <string name="about_translators_title">Μεταφραστές</string>
-    <string name="about_translators_transifex">Nextcloud κοινότητα στο &lt;a href=\"%1$s\">Transifex&lt;/a></string>
+    <string name="about_translators_transifex">Κοινότητα Nextcloud στο %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Δοκιμαστές</string>
     <string name="about_source_title">Πηγαίος κώδικας</string>
-    <string name="about_source">Το project φιλοξενείται στο Github: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_source">Το πρότζεκτ φιλοξενείται στο GitHub: %1$s</string>
     <string name="about_issues_title">Ζητήματα</string>
-    <string name="about_issues">Μπορείτε να αναφέρετε σφάλματα, να προτείνετε βελτιώσεις και να κάνετε αιτήματα χαρακτηριστικών στο Github &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_issues">Μπορείτε να αναφέρετε σφάλματα, να προτείνετε βελτιώσεις και να κάνετε αιτήματα χαρακτηριστικών στο GitHub issue tracker: %1$s</string>
     <string name="about_translate_title">Μετάφραση</string>
-    <string name="about_translate">Λάβε μέρος στην ομάδα του Nextcloud στο Transifex και βοήθησε μας να μεταφράσουμε αυτή την εφαρμογή: &lt;a href=\"%1$s\">%1$s&lt;/a></string>
+    <string name="about_translate">Γίνετε μέλος της ομάδας του Nextcloud στο Transifex και βοηθήστε μας να μεταφράσουμε την εφαρμογή: %1$s</string>
     <string name="about_app_license_title"> Άδεια χρήσης εφαρμογής </string>
     <string name="about_app_license">Αυτή η εφαρμογή υπόκεινται στην άδεια χρήσης GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button"> Προβολή άδειας χρήσης </string>
     <string name="about_icons_disclaimer_title">Εικονίδια</string>
-    <string name="about_icons_disclaimer">&lt;p>Το πρωτότυπο εικονίδιο δημιουργήθηκε από %1$s&lt;/p>&lt;p>Όλα τα υπόλοιπα εικονίδια που χρησιμοποιούνται από αυτή την εφαρμογή είναι τα &lt;a href=\"https://materialdesignicons.com/\">Material Design Icons&lt;/a> δημιουργημένα από την Google Inc. και είναι αδειοδοτημένα υπό μία Creative Commons License.&lt;/p></string>
+    <string name="about_icons_disclaimer_mdi">Εικονίδια Material Design</string>
     <string name="about_credits_tab_title">Μνεία</string>
     <string name="about_contribution_tab_title">Συνεισφορά</string>
     <string name="about_license_tab_title"> Άδεια χρήσης </string>
@@ -44,16 +50,59 @@
     <string name="hint_assign_people">Ορισμός χρηστών</string>
     <string name="hint_due_date_date">Προθεσμία</string>
     <string name="activity">Δραστηριότητα</string>
-    <string name="add_card">Δημιουργία κάρτας</string>
+    <string name="add_card">Προσθήκη κάρτας</string>
+    <string name="add_column">Προσθήκη στήλης</string>
 
     <string name="add_account"> Προσθήκη λογαριασμού </string>
 
     <string name="label_menu">μενού</string>
     <string name="action_card_assign">Ορισμός κάρτας στον εαυτό μου</string>
+    <string name="action_card_unassign">Αποσύνδεση κάρτας από το εαυτό μου</string>
     <string name="action_card_archive">Αρχειοθέτηση κάρτας</string>
     <string name="action_card_delete"> Διαγραφή κάρτας </string>
     <string name="add_board">Προσθήκη πίνακα</string>
     <string name="action_card_list_add_column">Προσθήκη στήλης</string>
+    <string name="action_card_list_delete_column">Διαγραφή στήλης</string>
     <string name="simple_title">Τίτλος</string>
 
-    </resources>
+    <string name="label_add">Προσθήκη %1$s</string>
+    <string name="error">Παρουσιάστηκε σφάλμα</string>
+    <string name="simple_copy">αντιγραφή</string>
+    <string name="simple_exception">Εξαίρεση</string>
+    <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
+    <string name="simple_close">κλείσιμο</string>
+
+    <string name="card_edit_details">Λεπτομέρειες</string>
+    <string name="card_edit_attachments">Συνημμένα</string>
+    <string name="card_edit_activity">Δραστηριότητα</string>
+    <string name="about_server_app_version_text">Έκδοση εφαρμογής διακομιστή</string>
+    <string name="no_files_attached_to_this_card">Δεν υπάρχουν συνημμένα αρχεία στην κάρτα</string>
+    <string name="attachments">Συνημμένα</string>
+    <string name="no_cards">Καμία κάρτα ακόμη</string>
+    <string name="no_account">Δεν ρυθμίστηκε λογαριασμός</string>
+    <string name="account_already_added">Ο λογαριασμός έχει προστεθεί ήδη</string>
+    <string name="account_is_getting_imported">Ο λογαριασμός εισάγεται</string>
+    <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
+    <string name="no_columns">Δεν υπάρχουν ακόμα στήλες</string>
+    <string name="this_feature_will_be_implemented_in_a_future_version">Το χαρακτηριστικό θα υλοποιηθεί σε μελλοντική έκδοση.</string>
+    <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
+    <string name="simple_discard">απόρριψη</string>
+    <string name="do_you_want_to_delete_the_current_column">Θέλετε να διαγράψετε την τρέχουσα στήλη;</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Προσθέστε νέα στήλη μέσω του μενού των τριών τελειών.</string>
+    <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
+    <string name="simple_update">Ενημέρωση</string>
+    <string name="simple_delete">Διαγραφή</string>
+    <string name="action_card_list_rename_column">Μετονομασία στήλης</string>
+    <string name="simple_rename">Μετονομασία</string>
+    <string name="simple_settings">Ρυθμίσεις</string>
+    <string name="settings_theme_title">Σκοτεινό θέμα</string>
+    <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
+    <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
+    <string name="pref_value_theme_light">Φωτεινό</string>
+    <string name="unassign_user">Αποδέσμευση %1$s</string>
+    <string name="simple_unassign">Αποδέσμευση</string>
+    <string name="simple_undo">Αναίρεση</string>
+    <string name="no_activities">Δεν υπάρχουν δραστηριότητες σε αυτή την κάρτα. Θα πρέπει να είστε συνδεδεμένοι στο Ίντερνετ για να φορτώσετε και να εμφανίσετε δραστηριότητες.</string>
+    <string name="rename_column">Μετονομασία στήλης</string>
+    <string name="share_board">Διαμοιρασμός πίνακα</string>
+</resources>
