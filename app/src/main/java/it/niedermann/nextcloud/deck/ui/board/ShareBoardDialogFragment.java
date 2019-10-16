@@ -72,8 +72,8 @@ public class ShareBoardDialogFragment extends DialogFragment {
                         SwitchCompat switchManage = v.findViewById(R.id.permission_manage);
                         switchManage.setChecked(ac.isPermissionManage());
                         switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                            syncManager.updateAccessControl(ac);
                             ac.setPermissionManage(isChecked);
+                            syncManager.updateAccessControl(ac);
                         });
 
                         SwitchCompat switchShare = v.findViewById(R.id.permission_share);
