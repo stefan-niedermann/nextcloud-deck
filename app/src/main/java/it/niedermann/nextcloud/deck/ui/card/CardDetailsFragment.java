@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -82,9 +81,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private LinearLayout.LayoutParams avatarLayoutParams;
     private Unbinder unbinder;
     private EditActivity activity;
-
-    @BindView(R.id.title)
-    EditText title;
 
     @BindView(R.id.description)
     RxMDEditText description;
@@ -184,34 +180,10 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupView(long accountId, long boardId, boolean canEdit) {
-        setupTitle();
         setupPeople(accountId);
         setupLabels(accountId, boardId, canEdit);
         setupDueDate();
         setupDescription();
-    }
-
-    private void setupTitle() {
-        title.setText(fullCard.getCard().getTitle());
-        if(canEdit) {
-            title.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    fullCard.getCard().setTitle(title.getText().toString());
-                    activity.setTitle(title.getText().toString());
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-        } else {
-            title.setEnabled(false);
-        }
     }
 
     private void setupDescription() {

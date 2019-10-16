@@ -11,16 +11,6 @@
         android:orientation="vertical"
         android:padding="@dimen/standard_padding">
 
-        <EditText
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/label_title"
-            android:importantForAutofill="no"
-            android:textSize="20sp"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:inputType="textPersonName" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -17,18 +18,24 @@
             app:titleTextColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/titleTextInputLayout"
+                style="@style/AppTheme.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.EditText">
+                app:theme="@style/AppTheme.EditText"
+                tools:hint="Edit">
 
                 <EditText
+                    android:id="@+id/title"
+                    style="@style/AppTheme.EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
-                    android:hint="@string/simple_add"
                     android:importantForAutofill="no"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    app:theme="@style/AppTheme.EditText"
+                    tools:text="Fancy card title"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

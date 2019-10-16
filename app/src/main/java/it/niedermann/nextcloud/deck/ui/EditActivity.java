@@ -1,9 +1,12 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -12,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +48,10 @@ public class EditActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.titleTextInputLayout)
+    TextInputLayout titleTextInputLayout;
+    @BindView(R.id.title)
+    EditText title;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.pager)
@@ -87,7 +95,6 @@ public class EditActivity extends AppCompatActivity {
                 canEdit = fullBoard.getBoard().isPermissionEdit();
                 invalidateOptionsMenu();
                 if (createMode) {
-                    actionBar.setTitle(getString(R.string.add_card));
                     fullCard = new FullCard();
                     fullCard.setLabels(new ArrayList<>());
                     fullCard.setAssignedUsers(new ArrayList<>());
@@ -95,14 +102,12 @@ public class EditActivity extends AppCompatActivity {
                     card.setStackId(stackId);
                     fullCard.setCard(card);
                     setupViewPager();
+                    setupTitle(createMode);
                 } else {
                     observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
-                        actionBar.setTitle(next.getCard().getTitle());
-                        if (canEdit) {
-                            actionBar.setTitle(getString(R.string.edit) + " " + actionBar.getTitle());
-                        }
                         fullCard = next;
                         setupViewPager();
+                        setupTitle(createMode);
                     });
                 }
             }));
@@ -155,6 +160,30 @@ public class EditActivity extends AppCompatActivity {
         pager.setOffscreenPageLimit(2);
         pager.setAdapter(adapter);
         tabLayout.setupWithViewPager(pager);
+    }
+
+    private void setupTitle(boolean createMode) {
+        title.setText(fullCard.getCard().getTitle());
+        if(canEdit) {
+            titleTextInputLayout.setHint(getString(createMode ? R.string.simple_add : R.string.edit));
+            title.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    modified = true;
+                    fullCard.getCard().setTitle(title.getText().toString());
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+        } else {
+            title.setEnabled(false);
+        }
     }
 
     @Override
