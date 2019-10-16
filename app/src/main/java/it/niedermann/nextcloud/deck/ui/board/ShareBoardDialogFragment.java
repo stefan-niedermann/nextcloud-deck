@@ -3,17 +3,15 @@ package it.niedermann.nextcloud.deck.ui.board;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -60,17 +58,19 @@ public class ShareBoardDialogFragment extends DialogFragment {
                         View v = getLayoutInflater().inflate(R.layout.fragment_board_share_user, null);
                         if(ac.getUser() != null)
                         ((TextView) v.findViewById(R.id.username)).setText(ac.getUser().getUid());
-                        List<String> permissions = new ArrayList<>();
-                        if(ac.isPermissionEdit()) {
-                            permissions.add(getString(R.string.edit));
-                        }
-                        if(ac.isPermissionManage()) {
-                            permissions.add(getString(R.string.simple_manage));
-                        }
-                        if(ac.isPermissionShare()) {
-                            permissions.add(getString(R.string.simple_share));
-                        }
-                        ((TextView) v.findViewById(R.id.permission_list)).setText(TextUtils.join(", ", permissions));
+
+                        SwitchCompat switchEdit = v.findViewById(R.id.permission_edit);
+                        switchEdit.setChecked(ac.isPermissionEdit());
+                        switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> ac.setPermissionEdit(isChecked));
+
+                        SwitchCompat switchManage = v.findViewById(R.id.permission_manage);
+                        switchManage.setChecked(ac.isPermissionManage());
+                        switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> ac.setPermissionManage(isChecked));
+
+                        SwitchCompat switchShare = v.findViewById(R.id.permission_share);
+                        switchShare.setChecked(ac.isPermissionShare());
+                        switchShare.setOnCheckedChangeListener((buttonView, isChecked) -> ac.setPermissionShare(isChecked));
+
                         peopleList.addView(v);
                     }
                 }

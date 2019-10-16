@@ -27,10 +27,37 @@
             android:textSize="20sp"
             tools:text="Username" />
 
-        <TextView
-            android:id="@+id/permission_list"
+        <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Edit, share" />
+            android:orientation="horizontal"
+            app:flexWrap="wrap"
+            app:justifyContent="space_between">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/permission_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/edit"
+                app:switchPadding="@dimen/standard_half_margin" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/permission_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/simple_share"
+                app:switchPadding="@dimen/standard_half_margin" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/permission_manage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/simple_manage"
+                app:switchPadding="@dimen/standard_half_margin" />
+
+        </com.google.android.flexbox.FlexboxLayout>
     </LinearLayout>
+
 </LinearLayout>
