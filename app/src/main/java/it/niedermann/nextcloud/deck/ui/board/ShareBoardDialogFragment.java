@@ -22,6 +22,8 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
 public class ShareBoardDialogFragment extends DialogFragment {
 
     private static final String KEY_ACCOUNT_ID = "account_id";
@@ -34,7 +36,8 @@ public class ShareBoardDialogFragment extends DialogFragment {
     /**
      * Use newInstance()-Method
      */
-    private ShareBoardDialogFragment() {}
+    private ShareBoardDialogFragment() {
+    }
 
     @NonNull
     @Override
@@ -52,24 +55,33 @@ public class ShareBoardDialogFragment extends DialogFragment {
         } else {
             SyncManager syncManager = new SyncManager(activity);
             final long accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
-            syncManager.getFullBoardById(accountId, boardId).observe(ShareBoardDialogFragment.this, (FullBoard fb) -> {
+            observeOnce(syncManager.getFullBoardById(accountId, boardId), ShareBoardDialogFragment.this, (FullBoard fb) -> {
                 if (fb.board != null) {
-                    for(AccessControl ac : fb.getParticipants()) {
+                    for (AccessControl ac : fb.getParticipants()) {
                         View v = getLayoutInflater().inflate(R.layout.fragment_board_share_user, null);
-                        if(ac.getUser() != null)
-                        ((TextView) v.findViewById(R.id.username)).setText(ac.getUser().getUid());
+                        if (ac.getUser() != null)
+                            ((TextView) v.findViewById(R.id.username)).setText(ac.getUser().getUid());
 
                         SwitchCompat switchEdit = v.findViewById(R.id.permission_edit);
                         switchEdit.setChecked(ac.isPermissionEdit());
-                        switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> ac.setPermissionEdit(isChecked));
+                        switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                            ac.setPermissionEdit(isChecked);
+                            syncManager.updateAccessControl(ac);
+                        });
 
                         SwitchCompat switchManage = v.findViewById(R.id.permission_manage);
                         switchManage.setChecked(ac.isPermissionManage());
-                        switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> ac.setPermissionManage(isChecked));
+                        switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                            syncManager.updateAccessControl(ac);
+                            ac.setPermissionManage(isChecked);
+                        });
 
                         SwitchCompat switchShare = v.findViewById(R.id.permission_share);
                         switchShare.setChecked(ac.isPermissionShare());
-                        switchShare.setOnCheckedChangeListener((buttonView, isChecked) -> ac.setPermissionShare(isChecked));
+                        switchShare.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                            ac.setPermissionShare(isChecked);
+                            syncManager.updateAccessControl(ac);
+                        });
 
                         peopleList.addView(v);
                     }
