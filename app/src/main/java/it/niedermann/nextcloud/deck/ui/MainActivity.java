@@ -55,6 +55,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.NO_STACK_ID;
 
 public class MainActivity extends DrawerActivity {
+
     @BindView(R.id.fab)
     FloatingActionButton fab;
     @BindView(R.id.navigationView)
@@ -67,14 +68,14 @@ public class MainActivity extends DrawerActivity {
     RelativeLayout noStacks;
 
     private StackAdapter stackAdapter;
-
-    private MenuItem addColumnMenuItem;
-
     private List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
+
     private long currentBoardId = 0;
     private boolean currentBoardHasEditPermission = false;
+    private boolean currentBoardHasStacks = false;
+
     private TabLayoutHelper mTabLayoutHelper;
 
     @Override
@@ -340,26 +341,23 @@ public class MainActivity extends DrawerActivity {
         currentBoardHasEditPermission = board.isPermissionEdit();
         if (currentBoardHasEditPermission) {
             fab.show();
-            invalidateOptionsMenu();
-            onCreateOptionsMenu(toolbar.getMenu());
         } else {
             fab.hide();
-            toolbar.getMenu().clear();
         }
 
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
                 noStacks.setVisibility(View.VISIBLE);
-                addColumnMenuItem.setVisible(false);
+                currentBoardHasStacks = false;
             } else {
                 long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId, NO_STACKS);
                 DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
                 if (fullStacks.size() == 0) {
                     noStacks.setVisibility(View.VISIBLE);
-                    addColumnMenuItem.setVisible(false);
+                    currentBoardHasStacks = false;
                 } else {
                     noStacks.setVisibility(View.GONE);
-                    addColumnMenuItem.setVisible(true);
+                    currentBoardHasStacks = true;
                 }
 
                 StackAdapter newStackAdapter = new StackAdapter(getSupportFragmentManager());
@@ -381,14 +379,20 @@ public class MainActivity extends DrawerActivity {
                     stackLayout.setupWithViewPager(viewPager);
                 });
             }
+            invalidateOptionsMenu();
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.card_list_menu, menu);
-        addColumnMenuItem = menu.findItem(R.id.action_card_list_delete_column);
+        if(currentBoardHasEditPermission) {
+            inflater.inflate(R.menu.card_list_menu, menu);
+            menu.findItem(R.id.action_card_list_rename_column).setVisible(currentBoardHasStacks);
+            menu.findItem(R.id.action_card_list_delete_column).setVisible(currentBoardHasStacks);
+        } else {
+            menu.clear();
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
