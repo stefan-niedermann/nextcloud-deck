@@ -1,3 +1,4 @@
 - Fix Double-clicking card opens EditActivity twice (#159)
 - Fix crash when hitting enter on a label or user search input
 - SyncOnWifiOnly causes OfflineException on opening about activity (#165)
+- Move card title to toolbar when opening a card
