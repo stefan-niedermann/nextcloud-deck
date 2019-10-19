@@ -118,28 +118,28 @@ public interface DeckAPI {
 
 
     // ### ATTACHMENTS
-    @GET("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+    @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
     Observable<List<Attachment>> getAttachments(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
-    @POST("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+    @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
     Observable<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
-    @PUT("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
+    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
     Observable<Attachment> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
-    @DELETE("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
+    @DELETE("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
     Observable<Void> deleteAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
-    @PUT("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}/restore")
+    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}/restore")
     Observable<Attachment> restoreAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
     // ### ACL
-    @POST("board/{boardId}/acl")
+    @POST("boards/{boardId}/acl")
     Observable<AccessControl> createAccessControl(@Path("boardId") long boardId, @Body AccessControl acl);
 
-    @PUT("board/{boardId}/acl/{aclId}")
+    @PUT("boards/{boardId}/acl/{aclId}")
     Observable<AccessControl> updateAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId, @Body AccessControl acl);
 
-    @DELETE("board/{boardId}/acl/{aclId}")
+    @DELETE("boards/{boardId}/acl/{aclId}")
     Observable<Void> deleteAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId, @Body AccessControl acl);
 }
