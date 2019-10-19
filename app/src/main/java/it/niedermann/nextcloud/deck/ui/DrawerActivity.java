@@ -413,7 +413,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
     abstract void buildSidenavMenu();
 
-    protected static class HeaderViewHolder {
+    static class HeaderViewHolder {
         @BindView(R.id.drawer_current_account)
         ImageView currentAccountAvatar;
         @BindView(R.id.drawer_account_middle)

@@ -47,7 +47,7 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     @BindInt(R.integer.max_users_suggested)
     int maxUsersSuggested;
 
-    public UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long cardId) {
+    UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long cardId) {
         ButterKnife.bind(this, activity);
         this.owner = owner;
         this.activity = activity;
@@ -150,7 +150,7 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
         @BindView(R.id.label)
         TextView label;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }

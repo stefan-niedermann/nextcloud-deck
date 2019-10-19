@@ -52,7 +52,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     @BindColor(R.color.grey600)
     int createLabelColor;
 
-    public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId, long cardId) {
+    LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId, long cardId) {
         ButterKnife.bind(this, activity);
         this.owner = owner;
         this.context = activity;
@@ -164,7 +164,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         };
     }
 
-    public String getLastFilterText() {
+    String getLastFilterText() {
         return this.lastFilterText;
     }
 
@@ -174,7 +174,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         @BindView(R.id.label)
         TextView label;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
