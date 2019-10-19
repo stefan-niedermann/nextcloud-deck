@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Objects;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,6 +31,12 @@ public class ExceptionActivity extends AppCompatActivity {
     TextView message;
     @BindView(R.id.stacktrace)
     TextView stacktrace;
+    @BindString(R.string.error)
+    String title;
+    @BindString(R.string.simple_exception)
+    String exception;
+    @BindString(R.string.copied_to_clipboard)
+    String copiedToClipboard;
 
     public static final String KEY_THROWABLE = "T";
 
@@ -41,7 +48,7 @@ public class ExceptionActivity extends AppCompatActivity {
         throwable = ((Throwable) getIntent().getSerializableExtra(KEY_THROWABLE));
         throwable.printStackTrace();
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.error));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(title);
         this.message.setText(throwable.getMessage());
         this.stacktrace.setText("Version: " + BuildConfig.VERSION_NAME + "\n\n" + getStacktraceOf(throwable));
     }
@@ -56,9 +63,9 @@ public class ExceptionActivity extends AppCompatActivity {
     @OnClick(R.id.copy)
     void copyStacktraceToClipboard() {
         final android.content.ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText(getString(R.string.simple_exception), this.stacktrace.getText());
+        ClipData clipData = ClipData.newPlainText(exception, this.stacktrace.getText());
         clipboardManager.setPrimaryClip(clipData);
-        Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, copiedToClipboard, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.close)

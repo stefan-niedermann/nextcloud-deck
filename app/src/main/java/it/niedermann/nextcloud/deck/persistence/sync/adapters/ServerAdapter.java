@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import butterknife.BindString;
+import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -39,6 +41,9 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class ServerAdapter {
 
+    @BindString(R.string.pref_key_wifi_only)
+    String prefKeyWifiOnly;
+
     private static final DateFormat API_FORMAT =
             new SimpleDateFormat("E, dd MMM yyyy hh:mm:ss z", Locale.US);
 
@@ -54,6 +59,7 @@ public class ServerAdapter {
     public ServerAdapter(Context applicationContext, Activity sourceActivity) {
         this.applicationContext = applicationContext;
         this.sourceActivity = sourceActivity;
+        ButterKnife.bind(this, sourceActivity);
         provider = new ApiProvider(applicationContext);
         lastSyncPref = applicationContext.getSharedPreferences(
                 applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
@@ -82,7 +88,7 @@ public class ServerAdapter {
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-            if (sharedPreferences.getBoolean(applicationContext.getResources().getString(R.string.pref_key_wifi_only), false)){
+            if (sharedPreferences.getBoolean(prefKeyWifiOnly, false)){
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     Network network = cm.getActiveNetwork();
                     NetworkCapabilities capabilities = cm.getNetworkCapabilities(network);
@@ -100,7 +106,7 @@ public class ServerAdapter {
 
 
             } else {
-                return cm != null && cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+                return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
             }
         }
         return false;

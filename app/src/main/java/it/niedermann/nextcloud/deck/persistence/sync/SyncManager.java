@@ -263,7 +263,9 @@ public class SyncManager {
     }
 
     public void updateAccessControl(AccessControl entity) {
-        dataBaseAdapter.updateAccessControl(entity, true);
+        doAsync(() -> {
+            dataBaseAdapter.updateAccessControl(entity, true);
+        });
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {

@@ -11,7 +11,7 @@
         android:layout_height="40dp"
         android:layout_margin="@dimen/standard_margin"
         android:contentDescription="@null"
-        tools:src="@drawable/ic_close_circle_grey600" />
+        tools:src="@drawable/ic_label_grey600_24dp" />
 
     <TextView
         android:id="@+id/label"
@@ -25,6 +25,6 @@
         android:paddingEnd="@dimen/standard_padding"
         android:paddingRight="@dimen/standard_padding"
         android:textSize="18sp"
-        tools:text="TestUser One" />
+        tools:text="Label" />
 
 </LinearLayout>

@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindColor;
+import butterknife.BindInt;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
@@ -39,18 +42,23 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     private long cardId;
     private LifecycleOwner owner;
     private Label createLabel;
-    private String createLabelText;
     private String lastFilterText;
     private boolean canManage = false;
-    private int maxLabelsSuggested;
+
+    @BindInt(R.integer.max_labels_suggested)
+    int maxLabelsSuggested;
+    @BindString(R.string.label_add)
+    String createLabelText;
+    @BindColor(R.color.grey600)
+    int createLabelColor;
 
     public LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId, long cardId) {
+        ButterKnife.bind(this, activity);
         this.owner = owner;
         this.context = activity;
         this.accountId = accountId;
         this.boardId = boardId;
         this.cardId = cardId;
-        this.maxLabelsSuggested = activity.getResources().getInteger(R.integer.max_labels_suggested);
         syncManager = new SyncManager(activity);
         syncManager.getFullBoardById(accountId, boardId).observe(owner, (fullBoard) -> {
             if (fullBoard.getBoard().isPermissionManage()) {
@@ -58,8 +66,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                 createLabel.setLocalId(CREATE_ID);
                 createLabel.setBoardId(boardId);
                 createLabel.setAccountId(accountId);
-                createLabelText = activity.getResources().getString(R.string.label_add);
-                createLabel.setColor("757575");
+                createLabel.setColor(Integer.toHexString(createLabelColor));
                 canManage = true;
             }
         });
@@ -88,7 +95,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         } else {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.dropdown_item_singleline, parent, false);
+            convertView = inflater.inflate(R.layout.item_autocomplete_dropdown, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }

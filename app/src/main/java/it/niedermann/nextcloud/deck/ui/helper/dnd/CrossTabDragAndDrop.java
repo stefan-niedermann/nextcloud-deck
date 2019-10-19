@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import butterknife.BindInt;
+import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -30,10 +32,17 @@ public class CrossTabDragAndDrop {
 
     private final Activity activity;
     private final float pxToReact;
-    private final long msToReact;
-    private final long msToReactOnMove;
     private long lastSwap = 0;
     private long lastMove = 0;
+
+    @BindInt(R.integer.drag_n_drop_dp_to_react)
+    int dragAndDropDPtoReact;
+    @BindInt(R.integer.drag_n_drop_dp_to_react_top_bottom)
+    int dragAndDropDPtoReactTopBottom;
+    @BindInt(R.integer.drag_n_drop_ms_to_react)
+    int msToReact;
+    @BindInt(R.integer.drag_n_drop_dp_to_react_top_bottom)
+    int msToReactOnMove;
 
     private final float pxToReactTopBottom;
 
@@ -41,11 +50,10 @@ public class CrossTabDragAndDrop {
 
     public CrossTabDragAndDrop(Activity activity) {
         this.activity = activity;
+        ButterKnife.bind(this, activity);
         final float density = activity.getResources().getDisplayMetrics().density;
-        this.pxToReact = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react) * density;
-        this.pxToReactTopBottom = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * density;
-        this.msToReact = activity.getResources().getInteger(R.integer.drag_n_drop_ms_to_react);
-        this.msToReactOnMove = activity.getResources().getInteger(R.integer.drag_n_drop_ms_to_react_on_move);
+        this.pxToReact = dragAndDropDPtoReact * density;
+        this.pxToReactTopBottom = dragAndDropDPtoReactTopBottom * density;
     }
 
     public void register(final ViewPager viewPager) {

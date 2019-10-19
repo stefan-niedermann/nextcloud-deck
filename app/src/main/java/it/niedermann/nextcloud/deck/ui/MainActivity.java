@@ -27,6 +27,7 @@ import com.h6ah4i.android.tablayouthelper.TabLayoutHelper;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
@@ -38,6 +39,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.ShareBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
@@ -66,6 +68,25 @@ public class MainActivity extends DrawerActivity {
     ViewPager viewPager;
     @BindView(R.id.no_stacks)
     RelativeLayout noStacks;
+
+    @BindString(R.string.shared_preference_last_board_for_account_)
+    String sharedPreferencesLastBoardForAccount_;
+    @BindString(R.string.shared_preference_last_stack_for_account_and_board_)
+    String sharedPreferencesLastStackForAccountAndBoard_;
+    @BindString(R.string.simple_settings)
+    String simpleSettings;
+    @BindString(R.string.simple_boards)
+    String simpleBoards;
+    @BindString(R.string.about)
+    String about;
+    @BindString(R.string.share_board)
+    String shareBoard;
+    @BindString(R.string.edit_board)
+    String editBoard;
+    @BindString(R.string.add_column)
+    String addColumn;
+    @BindString(R.string.action_card_list_rename_column)
+    String actionCardListRenameColumn;
 
     private StackAdapter stackAdapter;
     private List<Board> boardsList;
@@ -112,10 +133,10 @@ public class MainActivity extends DrawerActivity {
                     startActivity(intent);
                 } catch (IndexOutOfBoundsException e) {
                     EditStackDialogFragment.newInstance(NO_STACK_ID)
-                            .show(getSupportFragmentManager(), getString(R.string.add_column));
+                            .show(getSupportFragmentManager(), addColumn);
                 }
             } else {
-                EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
+                EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
             }
         });
 
@@ -133,7 +154,7 @@ public class MainActivity extends DrawerActivity {
                         long currentStackId = stackAdapter.getItem(position).getStackId();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + account.getId() + "_" + currentBoardId + " | " + currentStackId);
-                        editor.putLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + currentBoardId, currentStackId);
+                        editor.putLong(sharedPreferencesLastStackForAccountAndBoard_ + account.getId() + "_" + currentBoardId, currentStackId);
                         editor.apply();
                     }
                 });
@@ -189,13 +210,12 @@ public class MainActivity extends DrawerActivity {
                 currentBoardId = board.getLocalId();
                 buildSidenavMenu();
 
-                EditStackDialogFragment.newInstance(NO_STACK_ID)
-                        .show(getSupportFragmentManager(), getString(R.string.add_column));
+                EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
 
                 // Remember last board for this account
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
-                editor.putLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), currentBoardId);
+                editor.putLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), currentBoardId);
                 editor.apply();
             }
         });
@@ -207,7 +227,7 @@ public class MainActivity extends DrawerActivity {
 
     @Override
     protected void accountSet(Account account) {
-        currentBoardId = sharedPreferences.getLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), NO_BOARDS);
+        currentBoardId = sharedPreferences.getLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), NO_BOARDS);
         DeckLog.log("--- Read: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
 
         if (boardsLiveData != null && boardsLiveDataObserver != null) {
@@ -231,7 +251,7 @@ public class MainActivity extends DrawerActivity {
         // Remember last board for this account
         SharedPreferences.Editor editor = sharedPreferences.edit();
         DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
-        editor.putLong(getString(R.string.shared_preference_last_board_for_account_) + this.account.getId(), currentBoardId);
+        editor.putLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), currentBoardId);
         editor.apply();
     }
 
@@ -240,7 +260,7 @@ public class MainActivity extends DrawerActivity {
         navigationView.setItemIconTintList(null);
         Menu menu = navigationView.getMenu();
         menu.clear();
-        SubMenu boardsMenu = menu.addSubMenu(getString(R.string.simple_boards));
+        SubMenu boardsMenu = menu.addSubMenu(simpleBoards);
         if (boardsList != null) {
             int index = 0;
             for (Board board : boardsList) {
@@ -255,16 +275,16 @@ public class MainActivity extends DrawerActivity {
                         popup.getMenuInflater()
                                 .inflate(R.menu.navigation_context_menu, popup.getMenu());
                         final int SHARE_BOARD_ID = -1;
-                        if(board.isPermissionShare()) {
+                        if (board.isPermissionShare()) {
                             MenuItem shareItem = popup.getMenu().add(Menu.NONE, SHARE_BOARD_ID, 5, R.string.share_board);
                         }
                         popup.setOnMenuItemClickListener((MenuItem item) -> {
                             switch (item.getItemId()) {
                                 case SHARE_BOARD_ID:
-                                    Snackbar.make(drawer, "Sharing boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                                    ShareBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), shareBoard);
                                     break;
                                 case R.id.edit_board:
-                                    EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), getString(R.string.edit_board));
+                                    EditBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), editBoard);
                                     break;
                                 case R.id.archive_board:
                                     // TODO implement
@@ -282,7 +302,7 @@ public class MainActivity extends DrawerActivity {
                                                         boardSelected(1, account);
                                                     } else { // No other board is available, open create dialog
                                                         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
-                                                        EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.add_board));
+                                                        EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
                                                     }
                                                 }
                                                 syncManager.deleteBoard(board);
@@ -298,20 +318,20 @@ public class MainActivity extends DrawerActivity {
                         popup.show();
                     });
                     m.setActionView(contextMenu);
-                } else if(board.isPermissionShare()) {
+                } else if (board.isPermissionShare()) {
                     AppCompatImageButton contextMenu = new AppCompatImageButton(this);
                     contextMenu.setBackgroundDrawable(null);
                     contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_share_grey600_18dp, R.color.grey600));
                     contextMenu.setOnClickListener((v) -> {
-                        Snackbar.make(drawer, "Sharing boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                        ShareBoardDialogFragment.newInstance(account.getId(), board.getLocalId()).show(getSupportFragmentManager(), shareBoard);
                     });
                     m.setActionView(contextMenu);
                 }
             }
         }
-        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, getString(R.string.add_board)).setIcon(R.drawable.ic_add_grey_24dp);
-        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, getString(R.string.simple_settings)).setIcon(R.drawable.ic_settings_grey600_24dp);
-        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, getString(R.string.about)).setIcon(R.drawable.ic_info_outline_grey_24dp);
+        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
+        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, simpleSettings).setIcon(R.drawable.ic_settings_grey600_24dp);
+        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, about).setIcon(R.drawable.ic_info_outline_grey_24dp);
         if (currentBoardId == NO_BOARDS && boardsList.size() > 0) {
             Board currentBoard = boardsList.get(0);
             currentBoardId = currentBoard.getLocalId();
@@ -350,7 +370,7 @@ public class MainActivity extends DrawerActivity {
                 noStacks.setVisibility(View.VISIBLE);
                 currentBoardHasStacks = false;
             } else {
-                long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board) + account.getId() + "_" + this.currentBoardId, NO_STACKS);
+                long savedStackId = sharedPreferences.getLong(sharedPreferencesLastStackForAccountAndBoard_ + account.getId() + "_" + this.currentBoardId, NO_STACKS);
                 DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
                 if (fullStacks.size() == 0) {
                     noStacks.setVisibility(View.VISIBLE);
@@ -386,7 +406,7 @@ public class MainActivity extends DrawerActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if(currentBoardHasEditPermission) {
+        if (currentBoardHasEditPermission) {
             inflater.inflate(R.menu.card_list_menu, menu);
             menu.findItem(R.id.action_card_list_rename_column).setVisible(currentBoardHasStacks);
             menu.findItem(R.id.action_card_list_delete_column).setVisible(currentBoardHasStacks);
@@ -414,11 +434,11 @@ public class MainActivity extends DrawerActivity {
                 break;
             case R.id.action_card_list_add_column:
                 EditStackDialogFragment.newInstance(NO_STACK_ID)
-                        .show(getSupportFragmentManager(), getString(R.string.add_column));
+                        .show(getSupportFragmentManager(), addColumn);
                 break;
             case R.id.action_card_list_rename_column:
                 EditStackDialogFragment.newInstance(stackAdapter.getItem(viewPager.getCurrentItem()).getStackId())
-                        .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
+                        .show(getSupportFragmentManager(), actionCardListRenameColumn);
                 break;
         }
         return super.onOptionsItemSelected(item);
