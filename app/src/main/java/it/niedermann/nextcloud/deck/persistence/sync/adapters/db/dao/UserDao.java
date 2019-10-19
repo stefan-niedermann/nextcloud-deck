@@ -29,14 +29,13 @@ public interface UserDao extends GenericDao<User> {
             "and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm )")
     LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm);
 
-    // TODO @desperateCoder exclude all which are already in the ACL for the given boardId
     @Query("SELECT u.* FROM user u WHERE accountId = :accountId " +
             "    AND NOT EXISTS (" +
-            "            select 1 from joincardwithuser ju" +
-            "            where ju.userId = u.localId" +
-            "    )" +
+            "            select 1 from accesscontrol ju" +
+            "            where ju.userId = u.localId and ju.boardId = :boardId and status <> 3" + // not LOCAL_DELETED
+            "    ) " +
             "and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm )")
-    LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId/*, final long boardId*/, final String searchTerm);
+    LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long boardId, final String searchTerm);
 
     @Query("SELECT * FROM user WHERE accountId = :accountId and uid = :uid")
     User getUserByUidDirectly(final long accountId, final String uid);
@@ -72,29 +71,14 @@ public interface UserDao extends GenericDao<User> {
             "    LIMIT :topX")
     LiveData<List<User>> findProposalsForUsersToAssign(long accountId, long boardId, long notAssignedToLocalCardId, int topX);
 
-    // TODO @desperateCoder exclude all which are already in the ACL for the given boardId
-    @Query("    SELECT u.* FROM user u" +
-            "    WHERE u.accountId = :accountId" +
+
+    @Query("SELECT u.* FROM user u WHERE accountId = :accountId " +
             "    AND NOT EXISTS (" +
-            "            select 1 from joincardwithuser ju" +
-            "            where ju.userId = u.localId" +
-            "    )" +
-            "    AND" +
-            "            (" +
-            "                    EXISTS (" +
-            "                    select 1 from accesscontrol" +
-            "                    where userId = u.localId and boardId = :boardId" +
-            "            )" +
-            "    OR" +
-            "    EXISTS (" +
-            "            select 1 from board where localId = :boardId AND ownerId = u.localId" +
-            "    )" +
-            ")" +
-            "    ORDER BY (" +
-            "            select count(*) from joincardwithuser j" +
-            "    where userId = u.localId and cardId in (select c.localId from card c inner join stack s on s.localId = c.stackId where s.boardId = :boardId)" +
-            ") DESC" +
-            "    LIMIT :topX")
+            "            select 1 from accesscontrol ju" +
+            "            where ju.userId = u.localId and ju.boardId = :boardId and status <> 3" + // not LOCAL_DELETED
+            "    ) " +
+            "ORDER BY u.displayname " +
+            "LIMIT :topX")
     LiveData<List<User>> findProposalsForUsersToAssignForACL(long accountId, long boardId, int topX);
 
 
