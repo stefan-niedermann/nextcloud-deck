@@ -361,7 +361,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 return true;
             }
             case R.id.action_card_archive: {
-                syncManager.archiveCard(card.getCard());
+                syncManager.archiveCard(card);
                 return true;
             }
             case R.id.action_card_delete: {

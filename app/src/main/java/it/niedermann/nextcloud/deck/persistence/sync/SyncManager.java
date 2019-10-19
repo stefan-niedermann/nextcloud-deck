@@ -34,6 +34,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.ActivityDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
@@ -416,28 +417,47 @@ public class SyncManager {
         return liveData;
     }
 
-    public MutableLiveData<FullCard> archiveCard(Card card) {
-        card.setArchived(true);
+    public MutableLiveData<FullCard> archiveCard(FullCard card) {
+        card.getCard().setArchived(true);
         return updateCard(card);
     }
 
-    public MutableLiveData<FullCard> updateCard(Card card) {
+    public MutableLiveData<FullCard> updateCard(FullCard card) {
         MutableLiveData<FullCard> liveData = new MutableLiveData<>();
         doAsync(() -> {
-            FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
-            if (fullCard == null) {
+            FullCard fullCardFromDB = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
+            if (fullCardFromDB == null) {
                 throw new IllegalArgumentException("card to update does not exist.");
             }
+
+            List<User> deletedUsers = AbstractSyncDataProvider.findDelta(card.getAssignedUsers(), fullCardFromDB.getAssignedUsers());
+            List<User> addedUsers = AbstractSyncDataProvider.findDelta(fullCardFromDB.getAssignedUsers(), card.getAssignedUsers());
+            for (User addedUser : addedUsers) {
+                dataBaseAdapter.createJoinCardWithUser(addedUser.getLocalId(), card.getLocalId(), DBStatus.LOCAL_EDITED);
+            }
+            for (User deletedUser : deletedUsers) {
+                dataBaseAdapter.deleteJoinedUserForCard(card.getLocalId(), deletedUser.getLocalId());
+            }
+
+            List<Label> deletedLabels = AbstractSyncDataProvider.findDelta(card.getLabels(), fullCardFromDB.getLabels());
+            List<Label> addedLabels = AbstractSyncDataProvider.findDelta(fullCardFromDB.getLabels(), card.getLabels());
+
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            fullCard.setCard(card);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardPropagationDataProvider(null, board, stack), fullCard, new IResponseCallback<FullCard>(account) {
-                @Override
-                public void onResponse(FullCard response) {
-                    liveData.postValue(response);
-                }
-            });
+            fullCardFromDB.setCard(card.getCard());
+            card.getCard().setStatus(DBStatus.LOCAL_EDITED.getId());
+            dataBaseAdapter.updateCard(card.getCard(), false);
+
+            new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                    .setResponseCallback(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(card.getAccountId())) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            // do nothing
+                        }
+                    }).doUpSyncFor(new CardPropagationDataProvider(null, board, stack));
+
+//            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity();
         });
         return liveData;
     }

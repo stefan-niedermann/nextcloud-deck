@@ -153,7 +153,7 @@ public class EditActivity extends AppCompatActivity {
         if (createMode) {
             observeOnce(syncManager.createFullCard(accountId, boardId, stackId, fullCard), EditActivity.this, (card) -> finish());
         } else {
-            observeOnce(syncManager.updateCard(fullCard.card), EditActivity.this, (card) -> finish());
+            observeOnce(syncManager.updateCard(fullCard), EditActivity.this, (card) -> finish());
         }
     }
 

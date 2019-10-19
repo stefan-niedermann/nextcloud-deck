@@ -30,18 +30,24 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         // do nothing as a default.
     }
 
-    protected static <T extends IRemoteEntity> List<T> findDelta(List<T> entitiesFromServer, List<T> localEntities){
+    /**
+     * Searches each entry of <code>listB</code> in list <code>listA</code> and returns the missing ones
+     * @param listA List
+     * @param listB List
+     * @return all entries of <code>listB</code> missing in <code>listA</code>
+     */
+    public static <T extends IRemoteEntity> List<T> findDelta(List<T> listA, List<T> listB){
         List<T> delta = new ArrayList<>();
-        for (T localEntity : localEntities) {
+        for (T b : listB) {
             boolean found = false;
-            for (T remoteEntity : entitiesFromServer) {
-                if (remoteEntity.getId().equals(localEntity.getId()) && localEntity.getAccountId() == remoteEntity.getAccountId()) {
+            for (T a : listA) {
+                if (a.getId().equals(b.getId()) && b.getAccountId() == a.getAccountId()) {
                     found = true;
                     break;
                 }
             }
             if (!found){
-                delta.add(localEntity);
+                delta.add(b);
             }
         }
         return delta;
