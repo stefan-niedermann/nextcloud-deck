@@ -57,6 +57,7 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
@@ -144,34 +145,43 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
                     editor.commit();
 
-                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
-                        @Override
-                        public void onResponse(Capabilities response) {
-                            if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
-                                deckVersionTooLowSnackbar = Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
-                                    new AlertDialog.Builder(DrawerActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
-                                            .setTitle(R.string.update_deck)
-                                            .setMessage(R.string.deck_outdated_please_update)
-                                            .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
-                                                Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
-                                                startActivity(openURL);
-                                            })
-                                            .setNegativeButton(R.string.simple_discard, null).show();
-                                });
-                                deckVersionTooLowSnackbar.show();
-                                syncManager.deleteAccount(createdAccount.getId());
-
-                                sharedPreferences.getLong(sharedPreferenceLastAccount, NO_ACCOUNTS);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                DeckLog.log("--- Remove: shared_preference_last_account" + " | " + createdAccount.getId());
-                                editor.remove(sharedPreferenceLastAccount);
-                                editor.commit(); // Has to be done synchronously
-                            } else {
-                                accountIsGettingImportedSnackbar.show();
+                    try {
+                        syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
+                            @Override
+                            public void onResponse(Capabilities response) {
+                                if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
+                                    deckVersionTooLowSnackbar = Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
+                                        new AlertDialog.Builder(DrawerActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
+                                                .setTitle(R.string.update_deck)
+                                                .setMessage(R.string.deck_outdated_please_update)
+                                                .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
+                                                    Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                    openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                    startActivity(openURL);
+                                                })
+                                                .setNegativeButton(R.string.simple_discard, null).show();
+                                    });
+                                    deckVersionTooLowSnackbar.show();
+                                    syncManager.deleteAccount(createdAccount.getId());
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    DeckLog.log("--- Remove: shared_preference_last_account" + " | " + createdAccount.getId());
+                                    editor.remove(sharedPreferenceLastAccount);
+                                    editor.commit(); // Has to be done synchronously
+                                } else {
+                                    accountIsGettingImportedSnackbar.show();
+                                }
                             }
-                        }
-                    });
+                        });
+                    } catch (OfflineException e) {
+                        new AlertDialog.Builder(DrawerActivity.this)
+                                .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
+                                .setPositiveButton(R.string.simple_close, null)
+                                .show();
+                        syncManager.deleteAccount(createdAccount.getId());
+                        DeckLog.log("--- Remove: shared_preference_last_account" + " | " + createdAccount.getId());
+                        editor.remove(sharedPreferenceLastAccount);
+                        editor.commit(); // Has to be done synchronously
+                    }
                 }
             });
 
