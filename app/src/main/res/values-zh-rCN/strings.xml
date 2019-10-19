@@ -115,4 +115,4 @@
     <string name="no_activities">找不到此卡片上的动态。 您需要连接到互联网才能加载和显示动态。</string>
     <string name="rename_column">重命名列</string>
     <string name="share_board">共享面板</string>
-</resources>
+    </resources>

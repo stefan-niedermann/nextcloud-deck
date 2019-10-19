@@ -115,4 +115,5 @@
     <string name="no_activities">No hay actividades en esta tarjeta. Necesita recolectar a Internet para cargar y mostrar las actividades.</string>
     <string name="rename_column">Renombrar columna</string>
     <string name="share_board">Compartir tablero</string>
+    <string name="you_are_currently_offline">Ahora está sin conexión (off-line)</string>
 </resources>

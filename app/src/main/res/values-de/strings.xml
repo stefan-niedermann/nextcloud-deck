@@ -115,4 +115,5 @@
     <string name="no_activities">Auf dieser Karte sind keine Aktivitäten vorhanden. Sie müssen mit dem Internet verbunden sein, um Aktivitäten zu laden und anzuzeigen.</string>
     <string name="rename_column">Spalte umbenennen</string>
     <string name="share_board">Board freigeben</string>
+    <string name="you_are_currently_offline">Sie sind derzeit offline</string>
 </resources>

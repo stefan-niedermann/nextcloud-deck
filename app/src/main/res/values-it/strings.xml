@@ -115,4 +115,5 @@
     <string name="no_activities">Non ci sono attività su questa scheda. Devi essere connesso a Internet per caricare e visualizzare le attività.</string>
     <string name="rename_column">Rinomina colonna</string>
     <string name="share_board">Condividi lavagna</string>
+    <string name="you_are_currently_offline">Non sei attualmente in linea</string>
 </resources>

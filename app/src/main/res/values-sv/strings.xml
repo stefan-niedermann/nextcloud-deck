@@ -113,4 +113,5 @@
     <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att ladda och visa aktiviteter.</string>
     <string name="rename_column">Byt namn på kolumn</string>
     <string name="share_board">Dela tavla</string>
+    <string name="you_are_currently_offline">Du är för närvarande offline</string>
 </resources>

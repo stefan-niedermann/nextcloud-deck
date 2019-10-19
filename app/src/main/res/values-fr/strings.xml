@@ -106,4 +106,5 @@
     <string name="simple_undo">Annuler</string>
     <string name="no_activities">Il n\'y a aucune activité sur cette carte. Vous devez être connectés à Internet pour charger et afficher les activités.</string>
     <string name="rename_column">Renommer la colonne</string>
-    </resources>
+    <string name="you_are_currently_offline">Vous êtes actuellement hors-ligne</string>
+</resources>

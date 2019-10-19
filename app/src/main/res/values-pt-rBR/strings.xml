@@ -115,4 +115,5 @@
     <string name="no_activities">Não há atividades neste cartão. Você precisa conexão à internet para carregar e exibir atividades.</string>
     <string name="rename_column">Renomear coluna</string>
     <string name="share_board">Compartilhar painel</string>
+    <string name="you_are_currently_offline">Você está offline no momento</string>
 </resources>

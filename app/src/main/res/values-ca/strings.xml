@@ -115,4 +115,5 @@
     <string name="no_activities">No hi ha activitats en aquesta targeta. Per carregar i mostrar activitats, heu d’estar connectat a Internet.</string>
     <string name="rename_column">Canvia de nom la columna</string>
     <string name="share_board">Comparteix el tauler</string>
+    <string name="you_are_currently_offline">Ara esteu fra de línia</string>
 </resources>
