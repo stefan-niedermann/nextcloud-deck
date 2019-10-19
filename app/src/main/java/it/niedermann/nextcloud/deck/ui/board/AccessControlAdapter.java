@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.board;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.util.List;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
@@ -63,19 +65,25 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
         holder.switchEdit.setChecked(ac.isPermissionEdit());
         holder.switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ac.setPermissionEdit(isChecked);
+            holder.username.setCompoundDrawables(null, null, holder.syncIcon, null);
             accessControlChangedListener.updateAccessControl(ac);
+            holder.username.setCompoundDrawables(null, null, null, null);
         });
 
         holder.switchManage.setChecked(ac.isPermissionManage());
         holder.switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ac.setPermissionManage(isChecked);
+            holder.username.setCompoundDrawables(null, null, holder.syncIcon, null);
             accessControlChangedListener.updateAccessControl(ac);
+            holder.username.setCompoundDrawables(null, null, null, null);
         });
 
         holder.switchShare.setChecked(ac.isPermissionShare());
         holder.switchShare.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ac.setPermissionShare(isChecked);
+            holder.username.setCompoundDrawables(null, null, holder.syncIcon, null);
             accessControlChangedListener.updateAccessControl(ac);
+            holder.username.setCompoundDrawables(null, null, null, null);
         });
     }
 
@@ -85,6 +93,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
     }
 
     static class ActivitiesViewHolder extends RecyclerView.ViewHolder {
+        @BindDrawable(R.drawable.ic_sync_blue_24dp)
+        Drawable syncIcon;
         @BindView(R.id.avatar)
         ImageView avatar;
         @BindView(R.id.username)
