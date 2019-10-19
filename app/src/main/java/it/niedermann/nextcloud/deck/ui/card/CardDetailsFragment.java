@@ -297,6 +297,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 dueDate.setText(null);
                 dueDateTime.setText(null);
                 fullCard.getCard().setDueDate(null);
+                clearDueDate.setVisibility(View.GONE);
             });
         } else {
             dueDate.setEnabled(false);
@@ -453,17 +454,14 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
         Calendar c = Calendar.getInstance();
         int hourOfDay;
         int minute;
 
         if (dueDateTime.getText() != null && dueDateTime.length() > 0) {
-            clearDueDate.setVisibility(View.VISIBLE);
             hourOfDay = this.fullCard.getCard().getDueDate().getHours();
             minute = this.fullCard.getCard().getDueDate().getMinutes();
         } else {
-            clearDueDate.setVisibility(View.GONE);
             hourOfDay = 0;
             minute = 0;
         }
@@ -472,6 +470,12 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.fullCard.getCard().setDueDate(c.getTime());
         dueDate.setText(dateFormat.format(c.getTime()));
         activity.setDueDate(fullCard.card.getDueDate());
+
+        if(this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
+            clearDueDate.setVisibility(View.GONE);
+        } else {
+            clearDueDate.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -483,5 +487,10 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.fullCard.getCard().getDueDate().setMinutes(minute);
         dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate().getTime()));
         activity.setDueDate(fullCard.card.getDueDate());
+        if(this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
+            clearDueDate.setVisibility(View.GONE);
+        } else {
+            clearDueDate.setVisibility(View.VISIBLE);
+        }
     }
 }
