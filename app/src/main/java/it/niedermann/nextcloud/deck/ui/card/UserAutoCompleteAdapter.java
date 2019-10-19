@@ -41,17 +41,19 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     private List<User> userList = new ArrayList<>();
     private SyncManager syncManager;
     private long accountId;
+    private long boardId;
     private long cardId;
     private LifecycleOwner owner;
 
     @BindInt(R.integer.max_users_suggested)
     int maxUsersSuggested;
 
-    UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long cardId) {
+    UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId, long cardId) {
         ButterKnife.bind(this, activity);
         this.owner = owner;
         this.activity = activity;
         this.accountId = accountId;
+        this.boardId = boardId;
         this.cardId = cardId;
         syncManager = new SyncManager(activity);
     }
@@ -114,7 +116,7 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
                         LiveData<List<User>> liveData = constraint.length() > 0
                                 ? syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
-                                : syncManager.findProposalsForUsersToAssign(accountId, cardId, maxUsersSuggested);
+                                : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, maxUsersSuggested);
                         observeOnce(liveData, owner, users -> {
                             if (users != null) {
                                 filterResults.values = users;

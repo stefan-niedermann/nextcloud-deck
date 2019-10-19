@@ -177,7 +177,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void setupView(long accountId, long boardId, boolean canEdit) {
-        setupPeople(accountId);
+        setupPeople(accountId, boardId);
         setupLabels(accountId, boardId, canEdit);
         setupDueDate();
         setupDescription();
@@ -384,11 +384,11 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         return chip;
     }
 
-    private void setupPeople(long accountId) {
+    private void setupPeople(long accountId, long boardId) {
         if (canEdit) {
             Long localCardId = fullCard.getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId, localCardId));
+            people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId, boardId, localCardId));
             people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
 
