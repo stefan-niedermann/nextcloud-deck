@@ -467,6 +467,8 @@ public class SyncManager {
                                 liveData.postValue(dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId()));
                             }
                         }).doUpSyncFor(new CardPropagationDataProvider(null, board, stack));
+            } else {
+                liveData.postValue(card);
             }
         });
         return liveData;
