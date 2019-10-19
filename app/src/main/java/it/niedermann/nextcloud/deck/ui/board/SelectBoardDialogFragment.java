@@ -19,7 +19,6 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 public class SelectBoardDialogFragment extends DialogFragment {
@@ -28,7 +27,7 @@ public class SelectBoardDialogFragment extends DialogFragment {
 
     private OnBoardSelectedListener onBoardSelectedListener;
 
-    private FullBoard fullBoard = null;
+    private Board board = null;
 
     @BindView(R.id.boards)
     RecyclerView boards;
@@ -55,13 +54,19 @@ public class SelectBoardDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         Activity activity = Objects.requireNonNull(getActivity());
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_board_select, null);
+
+        long accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
+        if(accountId == 0L) {
+            throw new IllegalArgumentException("You must provide an accountId");
+        }
+
         ButterKnife.bind(this, view);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
         dialogBuilder.setTitle(R.string.simple_select);
-        dialogBuilder.setPositiveButton(R.string.simple_select, (dialog, which) -> onBoardSelectedListener.onBoardSelected(fullBoard));
+        dialogBuilder.setPositiveButton(R.string.simple_select, (dialog, which) -> onBoardSelectedListener.onBoardSelected(board));
         SyncManager syncManager = new SyncManager(activity);
-        syncManager.getBoards(getArguments().getLong(KEY_ACCOUNT_ID)).observe(this, (List<Board> boardsList) -> {
+        syncManager.getBoards(accountId).observe(this, (List<Board> boardsList) -> {
             boards.setAdapter(new BoardAdapter(boardsList));
         });
 
@@ -82,7 +87,7 @@ public class SelectBoardDialogFragment extends DialogFragment {
     }
 
     public interface OnBoardSelectedListener {
-        void onBoardSelected(FullBoard fullBoard);
+        void onBoardSelected(Board board);
     }
 
 }

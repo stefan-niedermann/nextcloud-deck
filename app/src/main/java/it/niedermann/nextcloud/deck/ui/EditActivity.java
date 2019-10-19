@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +18,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputLayout;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,11 +31,13 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.board.SelectBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -43,7 +49,9 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AppCompatActivity implements CardDetailsFragment.CardDetailsListener {
+public class EditActivity extends AppCompatActivity implements
+        CardDetailsFragment.CardDetailsListener,
+        SelectBoardDialogFragment.OnBoardSelectedListener {
 
     SyncManager syncManager;
 
@@ -97,6 +105,13 @@ public class EditActivity extends AppCompatActivity implements CardDetailsFragme
 
             createMode = NO_LOCAL_ID.equals(localId);
             if(boardId == 0L) {
+                try {
+//                    syncManager.readAccount()
+                    SingleAccountHelper.getCurrentSingleSignOnAccount(this);
+                    SelectBoardDialogFragment.newInstance(accountId).show(getSupportFragmentManager(), getString(R.string.simple_select));
+                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                    e.printStackTrace();
+                }
             } else {
                 observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
                     canEdit = fullBoard.getBoard().isPermissionEdit();
@@ -254,5 +269,15 @@ public class EditActivity extends AppCompatActivity implements CardDetailsFragme
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onBoardSelected(Board board) {
+        syncManager.getFullBoardById(accountId, board.getLocalId());
+        Intent intent = new Intent(this, EditActivity.class);
+        intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, accountId);
+        intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
+        intent.putExtra(BUNDLE_KEY_LOCAL_ID, localId);
+        startActivityForResult(intent, -1); // FIXME
     }
 }
