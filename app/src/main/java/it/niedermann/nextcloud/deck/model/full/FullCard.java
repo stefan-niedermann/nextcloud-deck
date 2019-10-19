@@ -38,6 +38,16 @@ public class FullCard implements IRemoteEntity {
     @Relation(parentColumn = "localId", entityColumn = "cardId")
     public List<Attachment> attachments;
 
+    public FullCard(FullCard fullCard) {
+        this.card = new Card(fullCard.getCard());
+        this.labelIDs = copyList(fullCard.getLabelIDs());
+        this.labels = copyList(fullCard.getLabels());
+        this.assignedUserIDs = copyList(fullCard.getAssignedUserIDs());
+        this.assignedUsers = copyList(fullCard.getAssignedUsers());
+        this.owner = copyList(fullCard.getOwner());
+        this.attachments = copyList(fullCard.getAttachments());
+    }
+
     public Card getCard() {
         return card;
     }

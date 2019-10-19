@@ -56,6 +56,23 @@ public class Card extends AbstractRemoteEntity {
         this.stackId = stackId;
     }
 
+    public Card(Card card) {
+        this.title = card.getTitle();
+        this.description = card.getDescription();
+        this.stackId = card.getStackId();
+        this.type = card.getType();
+        this.createdAt = card.getCreatedAt();
+        this.deletedAt = card.getDeletedAt();
+        this.attachmentCount = card.getAttachmentCount();
+        this.userId = card.getUserId();
+        this.order = card.getOrder();
+        this.archived = card.isArchived();
+        this.dueDate = card.getDueDate();
+        this.notified = card.isNotified();
+        this.overdue = card.getOverdue();
+        this.commentsUnread = card.getCommentsUnread();
+    }
+
     public boolean isNotified() {
         return notified;
     }

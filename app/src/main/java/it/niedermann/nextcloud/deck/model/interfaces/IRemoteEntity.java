@@ -2,7 +2,9 @@ package it.niedermann.nextcloud.deck.model.interfaces;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 
@@ -77,5 +79,16 @@ public interface IRemoteEntity {
     
     default void setStatusEnum(DBStatus status) {
         getEntity().setStatusEnum(status);
+    }
+
+    default <T> List<T> copyList(List<T> listToCopy) {
+        if (listToCopy == null) {
+            return null;
+        }
+        List<T> list = new ArrayList<>(listToCopy.size());
+        for (T t : listToCopy) {
+            list.add(t);
+        }
+        return list;
     }
 }
