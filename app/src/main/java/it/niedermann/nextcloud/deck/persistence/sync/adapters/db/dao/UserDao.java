@@ -35,6 +35,7 @@ public interface UserDao extends GenericDao<User> {
             "            where ju.userId = u.localId and ju.boardId = :boardId and status <> 3" + // not LOCAL_DELETED
             "    ) " +
             "and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm ) " +
+            "and u.localId <> (select b.ownerId from board b where localId = :boardId)" +
             "ORDER BY u.displayname")
     LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long boardId, final String searchTerm);
 
@@ -78,6 +79,7 @@ public interface UserDao extends GenericDao<User> {
             "            select 1 from accesscontrol ju" +
             "            where ju.userId = u.localId and ju.boardId = :boardId and status <> 3" + // not LOCAL_DELETED
             "    ) " +
+            "and u.localId <> (select b.ownerId from board b where localId = :boardId)" +
             "ORDER BY u.displayname " +
             "LIMIT :topX")
     LiveData<List<User>> findProposalsForUsersToAssignForACL(long accountId, long boardId, int topX);
