@@ -38,7 +38,6 @@
 
     <string name="seconds_ago">sekonda më parë</string>
     <string name="edit">Edito</string>
-    <string name="label_title">Titull</string>
     <string name="label_labels">Përzgjidh etiketat</string>
     <string name="label_description">Përshkrimi</string>
     <string name="hint_assign_people">Cakto përdorues</string>

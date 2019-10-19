@@ -60,7 +60,8 @@
                 android:paddingBottom="@dimen/standard_half_padding"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"
-                tools:listitem="@layout/item_card"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_card" />
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

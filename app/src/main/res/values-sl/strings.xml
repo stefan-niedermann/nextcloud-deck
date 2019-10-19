@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">pred nekaj sekundami</string>
     <string name="edit">Uredi</string>
-    <string name="label_title">Naslov</string>
     <string name="label_labels">Izbor oznak</string>
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Dodeli uporabnike</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">Poteka uvažanje računa</string>
     <string name="not_synced_yet">Še ni usklajeno</string>
     <string name="no_columns">Ni še dodanih paket</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Zmožnost bo na voljo v prihodnjih različicah.</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
     <string name="simple_discard">opusti</string>
     <string name="do_you_want_to_delete_the_current_column">Ali želite izbrisati trenutni paket?</string>
@@ -107,9 +105,6 @@
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
     <string name="pref_value_theme_light">Svetla</string>
-    <string name="unassign_user">Odstrani %1$s</string>
-    <string name="do_you_want_to_unassign_this_user">Ali želite odstraniti %1$s z naloge %2$s?</string>
-    <string name="simple_unassign">Odstrani</string>
     <string name="unassigned_user">Uporabnik %1$s je odstranjen</string>
     <string name="simple_undo">Razveljavi</string>
     <string name="no_activities">Na tej nalogi še ni zaznane nobene dejavnosti. Za prikaz dejavnosti mora biti vzpostavljena povezava z omrežjem.</string>

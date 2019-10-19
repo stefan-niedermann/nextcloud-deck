@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">segundos atrás</string>
     <string name="edit">Editar</string>
-    <string name="label_title">Título</string>
     <string name="label_labels">Selecionar Rótulos</string>
     <string name="label_description">Descrição</string>
     <string name="hint_assign_people">Atribuir usuários</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">Conta está sendo importada</string>
     <string name="not_synced_yet">Ainda não sincronizado</string>
     <string name="no_columns">Nenhuma coluna ainda</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Esse recurso será implementado em uma futura versão.</string>
     <string name="do_you_want_to_save_your_changes">Quer salvar suas alterações?</string>
     <string name="simple_discard">descartar</string>
     <string name="do_you_want_to_delete_the_current_column">Quer excluir a coluna atual?</string>
@@ -107,9 +105,6 @@
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar somente com Wi-Fi</string>
     <string name="pref_value_theme_light">Claro</string>
-    <string name="unassign_user">Desatribuir %1$s</string>
-    <string name="do_you_want_to_unassign_this_user">Quer desatribuir %1$s de %2$s?</string>
-    <string name="simple_unassign">Desatribuir</string>
     <string name="unassigned_user"> %1$s desatribuído</string>
     <string name="simple_undo">Desfazer</string>
     <string name="no_activities">Não há atividades neste cartão. Você precisa conexão à internet para carregar e exibir atividades.</string>

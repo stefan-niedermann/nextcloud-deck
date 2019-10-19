@@ -44,7 +44,6 @@
 
     <string name="seconds_ago"> δευτερόλεπτα πριν </string>
     <string name="edit">Επεξεργασία</string>
-    <string name="label_title">Τίτλος</string>
     <string name="label_labels">Επιλογή Ετικετών</string>
     <string name="label_description">Περιγραφή</string>
     <string name="hint_assign_people">Ορισμός χρηστών</string>
@@ -84,7 +83,6 @@
     <string name="account_is_getting_imported">Ο λογαριασμός εισάγεται</string>
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_columns">Δεν υπάρχουν ακόμα στήλες</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Το χαρακτηριστικό θα υλοποιηθεί σε μελλοντική έκδοση.</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
     <string name="simple_discard">απόρριψη</string>
     <string name="do_you_want_to_delete_the_current_column">Θέλετε να διαγράψετε την τρέχουσα στήλη;</string>
@@ -99,8 +97,6 @@
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
     <string name="pref_value_theme_light">Φωτεινό</string>
-    <string name="unassign_user">Αποδέσμευση %1$s</string>
-    <string name="simple_unassign">Αποδέσμευση</string>
     <string name="simple_undo">Αναίρεση</string>
     <string name="no_activities">Δεν υπάρχουν δραστηριότητες σε αυτή την κάρτα. Θα πρέπει να είστε συνδεδεμένοι στο Ίντερνετ για να φορτώσετε και να εμφανίσετε δραστηριότητες.</string>
     <string name="rename_column">Μετονομασία στήλης</string>

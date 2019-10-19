@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">hai uns segundos</string>
     <string name="edit">Editar</string>
-    <string name="label_title">Titulo</string>
     <string name="label_labels">Seleccionar etiquetas</string>
     <string name="label_description">Descrición</string>
     <string name="hint_assign_people">Asignar usuarios</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">A conta está a importarse</string>
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
     <string name="no_columns">Aínda non hai columnas</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Esta funcionalidade será incluída nunha futura versión.</string>
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
     <string name="simple_discard">desbotar</string>
     <string name="do_you_want_to_delete_the_current_column">Confirma que quere eliminar a columna actual?</string>
@@ -107,9 +105,6 @@
     <string name="pref_value_wifi_and_mobile">Sincronización con WiFi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con WiFi</string>
     <string name="pref_value_theme_light">Claro</string>
-    <string name="unassign_user">Desasignar %1$s</string>
-    <string name="do_you_want_to_unassign_this_user">Quere desasignar %1$s de %2$s?</string>
-    <string name="simple_unassign">Desasignar</string>
     <string name="unassigned_user">Desasignado %1$s</string>
     <string name="simple_undo">Desfacer</string>
     <string name="no_activities">Non hai actividades nesta tarxeta. Para cargar e amosar actividades necesita estar conectado á Internet.</string>

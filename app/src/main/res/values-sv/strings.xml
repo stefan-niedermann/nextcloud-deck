@@ -44,7 +44,6 @@
 
     <string name="seconds_ago">sekunder sedan</string>
     <string name="edit">Redigera</string>
-    <string name="label_title">Titel</string>
     <string name="label_labels">Välj taggar</string>
     <string name="label_description">Beskrivning</string>
     <string name="hint_assign_people">Tilldela användare</string>
@@ -86,7 +85,6 @@
     <string name="account_is_getting_imported">Kontot importeras</string>
     <string name="not_synced_yet">Inte synkroniserad än</string>
     <string name="no_columns">Inga kolumner än</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Denna funktion kommer att implementeras i en framtida version.</string>
     <string name="do_you_want_to_save_your_changes">Vill du spara dina ändringar?</string>
     <string name="simple_discard">kassera</string>
     <string name="do_you_want_to_delete_the_current_column">Vill du ta bort den aktuella kolumnen?</string>
@@ -105,9 +103,6 @@
     <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobil data</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
     <string name="pref_value_theme_light">Ljust</string>
-    <string name="unassign_user">Ta bort tilldelning %1$s</string>
-    <string name="do_you_want_to_unassign_this_user">Vill du ta bort tilldelningen %1$s från %2$s?</string>
-    <string name="simple_unassign">Ta bort tilldelning</string>
     <string name="unassigned_user">Tog bort tilldelning %1$s</string>
     <string name="simple_undo">Ångra</string>
     <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att ladda och visa aktiviteter.</string>

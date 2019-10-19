@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">seconden geleden</string>
     <string name="edit">Bewerken</string>
-    <string name="label_title">Titel</string>
     <string name="label_labels">Kies tags</string>
     <string name="label_description">Beschrijving</string>
     <string name="hint_assign_people">Toewijzen gebruikers</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_columns">Nog geen kolommen</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Deze optie wordt in een volgende versie geïmplementeerd.</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
     <string name="simple_discard">weggooien</string>
     <string name="do_you_want_to_delete_the_current_column">Wil je de huidige kolom verwijderen?</string>

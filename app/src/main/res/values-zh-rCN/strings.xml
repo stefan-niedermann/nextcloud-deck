@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">几秒前</string>
     <string name="edit">编辑</string>
-    <string name="label_title">标题</string>
     <string name="label_labels">选择标签</string>
     <string name="label_description">描述</string>
     <string name="hint_assign_people">指派用户</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">账户已导出</string>
     <string name="not_synced_yet">尚未同步</string>
     <string name="no_columns">暂无列</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">此功能将在未来版本中实现。</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
     <string name="simple_discard">丢弃</string>
     <string name="do_you_want_to_delete_the_current_column">您希望删除当前的栏吗？</string>
@@ -107,9 +105,6 @@
     <string name="pref_value_wifi_and_mobile">在有Wi-Fi和移动数据网络时同步</string>
     <string name="pref_value_wifi_only">仅在Wi-Fi下同步</string>
     <string name="pref_value_theme_light">浅色</string>
-    <string name="unassign_user">取消分配%1$s</string>
-    <string name="do_you_want_to_unassign_this_user"> 您想要取消%1$s对%2$s的分配吗？</string>
-    <string name="simple_unassign">取消分配</string>
     <string name="unassigned_user">已经取消分配%1$s</string>
     <string name="simple_undo">撤消</string>
     <string name="no_activities">找不到此卡片上的动态。 您需要连接到互联网才能加载和显示动态。</string>

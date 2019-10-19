@@ -45,7 +45,6 @@
 
     <string name="seconds_ago">менее минуты</string>
     <string name="edit">Править</string>
-    <string name="label_title">Заголовок</string>
     <string name="label_labels">Выбор меток</string>
     <string name="label_description">Описание</string>
     <string name="hint_assign_people">Назначить карточку пользователю</string>

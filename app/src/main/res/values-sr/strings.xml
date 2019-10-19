@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">пре неколико секунди</string>
     <string name="edit">Измени</string>
-    <string name="label_title">Наслов</string>
     <string name="label_labels">Одаберите ознаке</string>
     <string name="label_description">Опис</string>
     <string name="hint_assign_people">Доделите кориснике</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">Налог се увози</string>
     <string name="not_synced_yet">Још није синхронизовано</string>
     <string name="no_columns">Још нема колона</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Ова функционалност ће бити доступна у неким будућим верзијама.</string>
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
     <string name="simple_discard">одбаци</string>
     <string name="do_you_want_to_delete_the_current_column">Да ли желите да обришете тренутну колону?</string>
@@ -107,9 +105,6 @@
     <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
     <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
     <string name="pref_value_theme_light">Светла</string>
-    <string name="unassign_user">Уклони доделу за %1$s</string>
-    <string name="do_you_want_to_unassign_this_user">Да ли желите да склоните %2$s са %1$s?</string>
-    <string name="simple_unassign">Уклони доделу</string>
     <string name="unassigned_user">Уклоњена додела са %1$s</string>
     <string name="simple_undo">Опозови</string>
     <string name="no_activities">Нема активности на картици. Морате да се повежете на интернет да учитате и прикажете активности.</string>

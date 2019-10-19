@@ -39,7 +39,6 @@
 
     <string name="seconds_ago">数秒前</string>
     <string name="edit">編集</string>
-    <string name="label_title">タイトル</string>
     <string name="label_labels">タグを選択..</string>
     <string name="label_description">説明</string>
     <string name="hint_assign_people">ユーザーを割り当てる</string>

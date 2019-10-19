@@ -41,7 +41,6 @@
 
     <string name="seconds_ago">몇 초 전</string>
     <string name="edit">수정</string>
-    <string name="label_title">제목</string>
     <string name="label_labels">태그 선택</string>
     <string name="label_description">자세히</string>
     <string name="hint_assign_people">사용자 할당</string>

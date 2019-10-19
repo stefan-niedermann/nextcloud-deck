@@ -39,7 +39,6 @@
 
     <string name="seconds_ago">sekúndum síðan</string>
     <string name="edit">Breyta</string>
-    <string name="label_title">Titill</string>
     <string name="label_labels">Veldu merki</string>
     <string name="label_description">Lýsing</string>
     <string name="hint_assign_people">Tilnefna notendur</string>

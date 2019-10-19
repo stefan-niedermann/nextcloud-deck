@@ -45,7 +45,6 @@
 
     <string name="seconds_ago">pár másodperce</string>
     <string name="edit">Szerkesztés</string>
-    <string name="label_title">Cím</string>
     <string name="label_labels">Címkék kiválasztása</string>
     <string name="label_description">Leírás</string>
     <string name="hint_assign_people">Felhasználók hozzárendelése</string>

@@ -17,10 +17,6 @@
         <item name="colorControlHighlight">@android:color/white</item>
     </style>
 
-    <style name="TextView" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@android:color/black</item>
-    </style>
-
     <style name="DarkAppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>

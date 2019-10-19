@@ -45,7 +45,6 @@
 
     <string name="seconds_ago">segundos atrás</string>
     <string name="edit">Editar</string>
-    <string name="label_title">Título </string>
     <string name="label_labels">Selecionar Etiquetas</string>
     <string name="label_description">Descrição</string>
     <string name="hint_assign_people">Atribuir utilizadores</string>

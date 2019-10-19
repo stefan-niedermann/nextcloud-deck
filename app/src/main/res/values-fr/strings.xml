@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">à l\'instant</string>
     <string name="edit">Modifier</string>
-    <string name="label_title">Titre</string>
     <string name="label_labels">Sélectionner les étiquettes</string>
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assigner des utilisateurs</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">Compte en cours d\'import</string>
     <string name="not_synced_yet">Aucune synchronisation pour l\'instant</string>
     <string name="no_columns">Aucune colonne pour l\'instant</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Cette fonctionnalité sera disponible dans une future version.</string>
     <string name="do_you_want_to_save_your_changes">Souhaitez-vous enregistrer vos modifications ?</string>
     <string name="simple_discard">ignorer</string>
     <string name="do_you_want_to_delete_the_current_column">Souhaitez-vous supprimer la colonne actuelle ?</string>

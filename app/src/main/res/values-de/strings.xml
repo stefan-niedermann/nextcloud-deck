@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">Gerade eben</string>
     <string name="edit">Bearbeiten</string>
-    <string name="label_title">Titel</string>
     <string name="label_labels">Schlagworte auswählen</string>
     <string name="label_description">Beschreibung</string>
     <string name="hint_assign_people">Benutzer zuweisen</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">Konto wird importiert</string>
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
     <string name="no_columns">Bislang keine Spalten</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Diese Funktion wird in einer künftigen Version verfügbar sein.</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
     <string name="simple_discard">Verwerfen</string>
     <string name="do_you_want_to_delete_the_current_column">Soll die aktuelle Spalte gelöscht werden?</string>
@@ -107,9 +105,6 @@
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
     <string name="pref_value_theme_light">Hell</string>
-    <string name="unassign_user">Zuordnung von %1$s entfernen</string>
-    <string name="do_you_want_to_unassign_this_user">Möchten Sie die Zuordnung von %1$s zu %2$s entfernen?</string>
-    <string name="simple_unassign">Zuordnung</string>
     <string name="unassigned_user">Zuordnung von %1$s entfernt</string>
     <string name="simple_undo">Rückgängig</string>
     <string name="no_activities">Auf dieser Karte sind keine Aktivitäten vorhanden. Sie müssen mit dem Internet verbunden sein, um Aktivitäten zu laden und anzuzeigen.</string>

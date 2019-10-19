@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">saniye önce</string>
     <string name="edit">Düzenle</string>
-    <string name="label_title">Başlık</string>
     <string name="label_labels">Etiketleri Seçin</string>
     <string name="label_description">Açıklama</string>
     <string name="hint_assign_people">Kullanıcı ata</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">Hesap içe aktarılıyor</string>
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
     <string name="no_columns">Henüz bir sütun eklenmemiş</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Bu özellik gelecek sürümlerde eklenecek.</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
     <string name="simple_discard">yok say</string>
     <string name="do_you_want_to_delete_the_current_column">Geçerli sütunu silmek istiyor musunuz?</string>
@@ -107,9 +105,6 @@
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
     <string name="pref_value_theme_light">Açık</string>
-    <string name="unassign_user">%1$s atamasını kaldır</string>
-    <string name="do_you_want_to_unassign_this_user">%1$s atamasını %2$s üzerinden kaldırmak istediğinize emin misiniz?</string>
-    <string name="simple_unassign">Atamayı kaldır</string>
     <string name="unassigned_user">%1$s atanmamış</string>
     <string name="simple_undo">Geri al</string>
     <string name="no_activities">Bu kart üzerinde yapılmış bir işlem yok. İşlemleri yükleyip görebilmek için İnternet bağlantınızın olması gerekir.</string>

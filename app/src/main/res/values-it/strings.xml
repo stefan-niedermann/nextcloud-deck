@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">secondi fa</string>
     <string name="edit">Modifica</string>
-    <string name="label_title">Titolo</string>
     <string name="label_labels">Seleziona etichette</string>
     <string name="label_description">Descrizione</string>
     <string name="hint_assign_people">Assegna utenti</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">L\'account è in fase di importazione</string>
     <string name="not_synced_yet">Non ancora sincronizzata</string>
     <string name="no_columns">Ancora nessuna colonna</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Questa funzionalità sarà implementata in una versione futura.</string>
     <string name="do_you_want_to_save_your_changes">Vuoi salvare le tue modifiche?</string>
     <string name="simple_discard">scarta</string>
     <string name="do_you_want_to_delete_the_current_column">Vuoi eliminare la colonna attuale?</string>
@@ -107,9 +105,6 @@
     <string name="pref_value_wifi_and_mobile">Sincronizza su Wi-FI e dati mobili</string>
     <string name="pref_value_wifi_only">Sincronizza solo con Wi-Fi</string>
     <string name="pref_value_theme_light">Chiaro</string>
-    <string name="unassign_user">Rimuovi assegnazione di %1$s</string>
-    <string name="do_you_want_to_unassign_this_user">Vuoi rimuovere l\'assegnazione di %1$s da %2$s?</string>
-    <string name="simple_unassign">Rimuovi assegnazione</string>
     <string name="unassigned_user">Assegnazione di %1$s rimossa</string>
     <string name="simple_undo">Annulla</string>
     <string name="no_activities">Non ci sono attività su questa scheda. Devi essere connesso a Internet per caricare e visualizzare le attività.</string>

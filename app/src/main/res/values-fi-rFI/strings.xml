@@ -37,7 +37,6 @@
 
     <string name="seconds_ago">sekuntia sitten</string>
     <string name="edit">Muokkaa</string>
-    <string name="label_title">Otsikko</string>
     <string name="label_labels">Valitse tunnisteet</string>
     <string name="label_description">Kuvaus</string>
     <string name="hint_assign_people">Määritä käyttäjät</string>

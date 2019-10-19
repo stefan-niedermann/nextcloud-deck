@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -90,7 +89,6 @@ public class StackFragment extends Fragment {
 
         adapter = new CardAdapter(boardId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (activity instanceof MainActivity) {
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override

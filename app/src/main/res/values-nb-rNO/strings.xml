@@ -39,7 +39,6 @@
 
     <string name="seconds_ago">sekunder siden</string>
     <string name="edit">Rediger</string>
-    <string name="label_title">Tittel</string>
     <string name="label_labels">Velg merkelapper</string>
     <string name="label_description">Beskrivelse</string>
     <string name="hint_assign_people">Tildel brukere</string>

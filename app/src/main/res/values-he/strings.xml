@@ -43,7 +43,6 @@
 
     <string name="seconds_ago">לפני מספר שניות</string>
     <string name="edit">עריכה</string>
-    <string name="label_title">כותרת</string>
     <string name="label_labels">בחירת תגיות</string>
     <string name="label_description">תיאור</string>
     <string name="hint_assign_people">הקצאת משתמשים</string>

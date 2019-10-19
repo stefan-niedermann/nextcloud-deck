@@ -45,7 +45,6 @@
 
     <string name="seconds_ago">prije nekoliko sekundi</string>
     <string name="edit">Uredi</string>
-    <string name="label_title">Naslov</string>
     <string name="label_labels">Odaberite oznake</string>
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Dodijeli korisnike</string>

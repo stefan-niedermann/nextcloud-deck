@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">fa uns segons</string>
     <string name="edit">Edita</string>
-    <string name="label_title">Títol</string>
     <string name="label_labels">Selecciona etiquetes</string>
     <string name="label_description">Descripció</string>
     <string name="hint_assign_people">Assigna usuaris</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">S\'importa el compte.</string>
     <string name="not_synced_yet">No sincronitzat encara</string>
     <string name="no_columns">Encara no hi ha columnes</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Aquesta característica s’implementarà en una versió futura.</string>
     <string name="do_you_want_to_save_your_changes">Voleu desar els canvis?</string>
     <string name="simple_discard">descarta</string>
     <string name="do_you_want_to_delete_the_current_column">Voleu suprimir la columna actual?</string>
@@ -107,9 +105,6 @@
     <string name="pref_value_wifi_and_mobile">Sincronitza per Wi-Fi i dades mòbils</string>
     <string name="pref_value_wifi_only">Sincronitza només per Wi-Fi</string>
     <string name="pref_value_theme_light">Clar</string>
-    <string name="unassign_user">No assignis %1$s</string>
-    <string name="do_you_want_to_unassign_this_user">Voleu deixar d\'assignar %1$s de %2$s?</string>
-    <string name="simple_unassign">No ho assignis</string>
     <string name="unassigned_user">%1$s sense assignar</string>
     <string name="simple_undo">Desfés</string>
     <string name="no_activities">No hi ha activitats en aquesta targeta. Per carregar i mostrar activitats, heu d’estar connectat a Internet.</string>

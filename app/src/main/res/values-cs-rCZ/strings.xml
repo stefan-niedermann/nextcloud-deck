@@ -46,7 +46,6 @@
 
     <string name="seconds_ago">před několika vteřinami</string>
     <string name="edit">Upravit</string>
-    <string name="label_title">Nadpis</string>
     <string name="label_labels">Vybrat štítky</string>
     <string name="label_description">Popis</string>
     <string name="hint_assign_people">Přiřadit uživatele</string>
@@ -88,7 +87,6 @@
     <string name="account_is_getting_imported">Účet je importován</string>
     <string name="not_synced_yet">Doposud nesesynchronizováno</string>
     <string name="no_columns">Zatím žádné slopce</string>
-    <string name="this_feature_will_be_implemented_in_a_future_version">Tato funkce bude implementována v budoucí verzi.</string>
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
     <string name="simple_discard">zahodit</string>
     <string name="do_you_want_to_delete_the_current_column">Chcete stávající sloupec vymazat?</string>

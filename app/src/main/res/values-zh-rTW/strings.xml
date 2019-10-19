@@ -39,7 +39,6 @@
 
     <string name="seconds_ago">幾秒前</string>
     <string name="edit">編輯</string>
-    <string name="label_title">標題</string>
     <string name="label_labels">選擇Tags</string>
     <string name="label_description">描述</string>
     <string name="hint_assign_people">指派負責人</string>

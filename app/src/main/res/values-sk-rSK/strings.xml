@@ -45,7 +45,6 @@
 
     <string name="seconds_ago">pred niekoľkými sekundami</string>
     <string name="edit">Upraviť</string>
-    <string name="label_title">Názov</string>
     <string name="label_labels">Vybrať štítky</string>
     <string name="label_description">Popis</string>
     <string name="hint_assign_people">Priradiť používateľov</string>
