@@ -115,4 +115,5 @@
     <string name="no_activities">Na tej karcie nie ma żadnych działań. Musisz być podłączony do Internetu, aby ładować i wyświetlać działania.</string>
     <string name="rename_column">Zmień nazwę kolumny</string>
     <string name="share_board">Udostępnij tablicę</string>
+    <string name="you_are_currently_offline">Obecnie jesteś w offline</string>
 </resources>

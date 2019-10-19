@@ -115,4 +115,5 @@
     <string name="no_activities">Non hai actividades nesta tarxeta. Para cargar e amosar actividades necesita estar conectado á Internet.</string>
     <string name="rename_column">Renomear a columna</string>
     <string name="share_board">Taboleiro compartido</string>
+    <string name="you_are_currently_offline">Agora está sen conexión</string>
 </resources>

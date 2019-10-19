@@ -115,4 +115,5 @@
     <string name="no_activities">Na tej nalogi še ni zaznane nobene dejavnosti. Za prikaz dejavnosti mora biti vzpostavljena povezava z omrežjem.</string>
     <string name="rename_column">Preimenuj paket</string>
     <string name="share_board">Souporaba zbirke</string>
+    <string name="you_are_currently_offline">Trenutno povezava z omrežjem ni na voljo.</string>
 </resources>
