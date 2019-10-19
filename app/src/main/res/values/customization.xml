@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- How many avatars should be displayed in the card list view -->
+    <integer name="max_avatar_count">3</integer>
     <!-- How many labels are shown in the card list view before "..." -->
     <integer name="max_labels_shown">3</integer>
     <!-- How many characters of the labels are displayed at the card list view -->

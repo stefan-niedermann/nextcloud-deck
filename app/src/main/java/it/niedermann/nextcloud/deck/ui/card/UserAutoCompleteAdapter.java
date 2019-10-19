@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -42,14 +43,16 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     private long accountId;
     private long cardId;
     private LifecycleOwner owner;
-    private int maxUsersSuggested;
+
+    @BindInt(R.integer.max_users_suggested)
+    int maxUsersSuggested;
 
     public UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long cardId) {
+        ButterKnife.bind(this, activity);
         this.owner = owner;
         this.activity = activity;
         this.accountId = accountId;
         this.cardId = cardId;
-        this.maxUsersSuggested = activity.getResources().getInteger(R.integer.max_users_suggested);
         syncManager = new SyncManager(activity);
     }
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,6 +27,11 @@ public class AboutFragmentLicenseTab extends Fragment {
     @BindView(R.id.about_app_license_button)
     Button appLicenseButton;
 
+    @BindString(R.string.paragraph_start)
+    String paragraphStart;
+    @BindString(R.string.paragraph_end)
+    String paragraphEnd;
+
     @OnClick(R.id.about_app_license_button)
     void openLicense() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_license))));
@@ -36,21 +42,15 @@ public class AboutFragmentLicenseTab extends Fragment {
         View v = inflater.inflate(R.layout.fragment_about_license_tab, container, false);
         ButterKnife.bind(this, v);
         Resources resources = getResources();
-        LinkUtil.setHtml(iconsDisclaimer,
-                resources.getString(R.string.paragraph_start),
-                resources.getString(R.string.about_icons_disclaimer, getAppIconHint(resources), getMdiLink(resources)),
-                resources.getString(R.string.paragraph_end)
-        );
+        LinkUtil.setHtml(iconsDisclaimer, paragraphStart, resources.getString(R.string.about_icons_disclaimer, getAppIconHint(resources), getMdiLink(resources)), paragraphEnd);
         return v;
     }
 
-    private static String getAppIconHint(Resources resources) {
-        return LinkUtil.makeLink(resources, R.string.url_about_icon_author, R.string.about_app_icon_author_link_label) +
-                resources.getString(R.string.paragraph_end) +
-                resources.getString(R.string.paragraph_start);
+    private String getAppIconHint(Resources resources) {
+        return LinkUtil.makeLink(resources, R.string.url_about_icon_author, R.string.about_app_icon_author_link_label) + paragraphEnd + paragraphStart;
     }
 
-    private static String getMdiLink(Resources resources) {
+    private String getMdiLink(Resources resources) {
         return LinkUtil.makeLink(resources, R.string.url_about_icons_disclaimer_mdi, R.string.about_icons_disclaimer_mdi);
     }
 }

@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
@@ -28,6 +30,13 @@ public class AboutActivity extends AppCompatActivity {
     ViewPager mViewPager;
     @BindView(R.id.tabs)
     TabLayout mTabLayout;
+
+    @BindString(R.string.about_credits_tab_title)
+    String creditsTitle;
+    @BindString(R.string.about_license_tab_title)
+    String licenseTitle;
+    @BindString(R.string.about_contribution_tab_title)
+    String contributionTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,7 @@ public class AboutActivity extends AppCompatActivity {
         /**
          * return the right fragment for the given position
          */
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             switch (position) {
@@ -70,7 +80,7 @@ public class AboutActivity extends AppCompatActivity {
                     return new AboutFragmentLicenseTab();
 
                 default:
-                    return null;
+                    throw new IllegalArgumentException("position must be between 0 and 2");
             }
         }
 
@@ -81,16 +91,16 @@ public class AboutActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.about_credits_tab_title);
+                    return creditsTitle;
 
                 case 1:
-                    return getString(R.string.about_contribution_tab_title);
+                    return contributionTitle;
 
                 case 2:
-                    return getString(R.string.about_license_tab_title);
+                    return licenseTitle;
 
                 default:
-                    return null;
+                    throw new IllegalArgumentException("position must be between 0 and 2");
             }
         }
     }

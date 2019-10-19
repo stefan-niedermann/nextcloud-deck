@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -18,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.BuildConfig;
@@ -39,24 +39,31 @@ public class AboutFragmentCreditsTab extends Fragment {
     @BindView(R.id.about_translators)
     TextView aboutTranslators;
 
+    @BindString(R.string.you_are_currently_offline)
+    String offlineText;
+    @BindString(R.string.strong_start)
+    String strongStart;
+    @BindString(R.string.strong_end)
+    String strongEnd;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about_credits_tab, container, false);
         ButterKnife.bind(this, v);
-        LinkUtil.setHtml(aboutVersion, getString(R.string.about_version, getVersionStrongTag(getResources(), BuildConfig.VERSION_NAME)));
+        LinkUtil.setHtml(aboutVersion, getString(R.string.about_version, getVersionStrongTag(BuildConfig.VERSION_NAME)));
         SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
         try {
             syncManager.getServerVersion(new IResponseCallback<Capabilities>(null) {
                 @Override
                 public void onResponse(Capabilities response) {
-                    Objects.requireNonNull(getActivity()).runOnUiThread(() -> LinkUtil.setHtml(aboutServerAppVersion, getVersionStrongTag(getResources(), response.getDeckVersion().toString())));
+                    Objects.requireNonNull(getActivity()).runOnUiThread(() -> LinkUtil.setHtml(aboutServerAppVersion, getVersionStrongTag(response.getDeckVersion().toString())));
                 }
             });
         } catch (OfflineException e) {
-            Spannable offlineText = new SpannableString(getString(R.string.you_are_currently_offline));
-            offlineText.setSpan(new StyleSpan(Typeface.ITALIC), 0, offlineText.length(), 0);
-            offlineText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.fg_secondary)), 0, offlineText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            aboutServerAppVersion.setText(offlineText);
+            Spannable offlineTextSpannable = new SpannableString(offlineText);
+            offlineTextSpannable.setSpan(new StyleSpan(Typeface.ITALIC), 0, offlineTextSpannable.length(), 0);
+            offlineTextSpannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.fg_secondary)), 0, offlineTextSpannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            aboutServerAppVersion.setText(offlineTextSpannable);
         }
         LinkUtil.setHtml(aboutMaintainer, LinkUtil.concatenateResources(v.getResources(),
                 R.string.anchor_start, R.string.url_maintainer, R.string.anchor_middle, R.string.about_maintainer, R.string.anchor_end));
@@ -67,10 +74,7 @@ public class AboutFragmentCreditsTab extends Fragment {
         return v;
     }
 
-    private static String getVersionStrongTag(Resources resources, String version) {
-        return resources.getString(R.string.strong_start) +
-                "v" +
-                version +
-                resources.getString(R.string.strong_end);
+    private String getVersionStrongTag(String version) {
+        return strongStart + "v" + version + strongEnd;
     }
 }

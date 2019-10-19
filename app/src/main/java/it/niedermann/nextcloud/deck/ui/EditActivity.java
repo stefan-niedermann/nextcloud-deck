@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,8 +18,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -44,7 +43,6 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 public class EditActivity extends AppCompatActivity {
 
     SyncManager syncManager;
-    private ActionBar actionBar;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -56,6 +54,11 @@ public class EditActivity extends AppCompatActivity {
     TabLayout tabLayout;
     @BindView(R.id.pager)
     ViewPager pager;
+
+    @BindString(R.string.simple_add)
+    String add;
+    @BindString(R.string.edit)
+    String edit;
 
     private Unbinder unbinder;
     private boolean modified = false;
@@ -80,7 +83,6 @@ public class EditActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        actionBar = Objects.requireNonNull(getSupportActionBar());
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -156,7 +158,7 @@ public class EditActivity extends AppCompatActivity {
     private void setupViewPager() {
         tabLayout.removeAllTabs();
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getResources(), accountId, localId, boardId, canEdit);
+        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), this, accountId, localId, boardId, canEdit);
         pager.setOffscreenPageLimit(2);
         pager.setAdapter(adapter);
         tabLayout.setupWithViewPager(pager);
@@ -164,14 +166,14 @@ public class EditActivity extends AppCompatActivity {
 
     private void setupTitle(boolean createMode) {
         title.setText(fullCard.getCard().getTitle());
-        if(canEdit) {
-            if(createMode) {
+        if (canEdit) {
+            if (createMode) {
                 title.requestFocus();
-                if(fullCard.getCard().getTitle() != null) {
+                if (fullCard.getCard().getTitle() != null) {
                     title.setSelection(fullCard.getCard().getTitle().length());
                 }
             }
-            titleTextInputLayout.setHint(getString(createMode ? R.string.simple_add : R.string.edit));
+            titleTextInputLayout.setHint(createMode ? add : edit);
             title.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -203,8 +205,6 @@ public class EditActivity extends AppCompatActivity {
         if (fullCard != null) {
             fullCard.getCard().setTitle(title);
         }
-        String prefix = NO_LOCAL_ID.equals(localId) ? getString(R.string.add_card) : getString(R.string.edit);
-        actionBar.setTitle(prefix + " " + title);
         modified = true;
     }
 

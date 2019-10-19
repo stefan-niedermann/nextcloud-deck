@@ -41,6 +41,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -84,27 +85,23 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     @BindView(R.id.description)
     RxMDEditText description;
-
     @BindView(R.id.people)
     DelayedAutoCompleteTextView people;
-
     @BindView(R.id.labels)
     DelayedAutoCompleteTextView labels;
-
     @BindView(R.id.peopleList)
     LinearLayout peopleList;
-
     @BindView(R.id.dueDateDate)
     TextView dueDate;
-
     @BindView(R.id.dueDateTime)
     TextView dueDateTime;
-
     @BindView(R.id.clearDueDate)
     ImageView clearDueDate;
-
     @BindView(R.id.labelsGroup)
     ChipGroup labelsGroup;
+
+    @BindDrawable(R.drawable.ic_close_circle_grey600)
+    Drawable closeCircleDrawable;
 
     public CardDetailsFragment() {
     }
@@ -358,7 +355,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         Chip chip = new Chip(activity);
         chip.setText(label.getTitle());
         if (canEdit) {
-            chip.setCloseIcon(activity.getResources().getDrawable(R.drawable.ic_close_circle_grey600));
+            chip.setCloseIcon(closeCircleDrawable);
             chip.setCloseIconVisible(true);
             chip.setOnCloseIconClickListener(v -> {
                 labelsGroup.removeView(chip);

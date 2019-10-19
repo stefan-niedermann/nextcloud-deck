@@ -34,7 +34,9 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -53,7 +55,9 @@ import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+
     private static final String TAG = CardAdapter.class.getCanonicalName();
+
     public static final int REQUEST_CODE_START_EDIT_ACTIVITY = 100;
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
@@ -61,7 +65,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public static final String BUNDLE_KEY_STACK_ID = "stackId";
     public static final String BUNDLE_KEY_CAN_EDIT = "canEdit";
     public static final Long NO_LOCAL_ID = -1L;
-    public static final int MAX_AVATAR_COUNT = 3;
 
     private Context context;
     private List<FullCard> cardList = new LinkedList<>();
@@ -73,7 +76,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private Fragment fragment;
     private boolean pendingEditActivity = false;
 
+    @BindInt(R.integer.max_avatar_count)
+    int maxAvatarCount;
+    @BindInt(R.integer.max_labels_shown)
+    int maxLabelsShown;
+    @BindInt(R.integer.max_labels_chars)
+    int maxLabelsChars;
+
     public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment) {
+        ButterKnife.bind(this, Objects.requireNonNull(fragment.getActivity()));
         this.boardId = boardId;
         this.canEdit = canEdit;
         this.syncManager = syncManager;
@@ -189,8 +200,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     private void setupLabels(@NonNull ChipGroup labels, List<Label> labelList) {
-        int maxLabelsShown = context.getResources().getInteger(R.integer.max_labels_shown);
-        int maxLabelsChars = context.getResources().getInteger(R.integer.max_labels_chars);
         Chip chip;
         for (int i = 0; i < labelList.size(); i++) {
             if (i > maxLabelsShown - 1 && labelList.size() > maxLabelsShown) {
@@ -249,7 +258,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         peopleList.removeAllViews();
         RelativeLayout.LayoutParams avatarLayoutParams;
         int avatarCount;
-        for (avatarCount = 0; avatarCount < card.getAssignedUsers().size() && avatarCount < MAX_AVATAR_COUNT; avatarCount++) {
+        for (avatarCount = 0; avatarCount < card.getAssignedUsers().size() && avatarCount < maxAvatarCount; avatarCount++) {
             avatarLayoutParams = new RelativeLayout.LayoutParams(avatarSize, avatarSize);
             avatarLayoutParams.setMargins(0, 0, avatarCount * context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small), 0);
             avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
