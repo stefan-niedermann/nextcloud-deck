@@ -25,6 +25,13 @@ public class User extends AbstractRemoteEntity {
         this.displayname = displayname;
     }
 
+    public User(User user) {
+        super(user);
+        this.primaryKey = user.getPrimaryKey();
+        this.uid = user.getUid();
+        this.displayname = user.getDisplayname();
+    }
+
     public String getPrimaryKey() {
         return primaryKey;
     }

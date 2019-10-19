@@ -41,6 +41,18 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
     protected Date lastModified;
     protected Date lastModifiedLocal;
 
+    public AbstractRemoteEntity() {
+    }
+
+    public AbstractRemoteEntity(AbstractRemoteEntity abstractRemoteEntity) {
+        this.localId = abstractRemoteEntity.getLocalId();
+        this.accountId = abstractRemoteEntity.getAccountId();
+        this.id = abstractRemoteEntity.getId();
+        this.status = abstractRemoteEntity.getStatus();
+        this.lastModified = abstractRemoteEntity.getLastModified();
+        this.lastModifiedLocal = abstractRemoteEntity.getLastModifiedLocal();
+    }
+
     @Ignore
     @Override
     public IRemoteEntity getEntity() {

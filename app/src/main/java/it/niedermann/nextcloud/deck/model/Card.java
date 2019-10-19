@@ -57,6 +57,7 @@ public class Card extends AbstractRemoteEntity {
     }
 
     public Card(Card card) {
+        super(card);
         this.title = card.getTitle();
         this.description = card.getDescription();
         this.stackId = card.getStackId();

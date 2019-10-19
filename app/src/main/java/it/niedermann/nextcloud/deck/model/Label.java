@@ -26,6 +26,7 @@ public class Label extends AbstractRemoteEntity {
     }
 
     public Label(Label labelToCopy) {
+        super(labelToCopy);
         this.title = labelToCopy.getTitle();
         this.color = labelToCopy.getColor();
         this.boardId = labelToCopy.getBoardId();
