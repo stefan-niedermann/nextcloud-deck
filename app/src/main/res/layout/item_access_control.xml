@@ -8,6 +8,7 @@
     android:padding="@dimen/standard_padding">
 
     <ImageView
+        android:id="@+id/avatar"
         android:layout_width="@dimen/avatar_size"
         android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/standard_margin"

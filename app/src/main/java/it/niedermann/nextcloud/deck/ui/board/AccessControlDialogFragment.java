@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -18,12 +19,9 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.AccessControl;
-import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class AccessControlDialogFragment extends DialogFragment implements
         AccessControlAdapter.AccessControlChangedListener,
@@ -45,7 +43,7 @@ public class AccessControlDialogFragment extends DialogFragment implements
     /**
      * Use newInstance()-Method
      */
-    private AccessControlDialogFragment() {
+    public AccessControlDialogFragment() {
     }
 
     @NonNull
@@ -64,8 +62,8 @@ public class AccessControlDialogFragment extends DialogFragment implements
             throw new IllegalArgumentException("accountId and boardId must be provided");
         } else {
             syncManager = new SyncManager(activity);
-            observeOnce(syncManager.getFullBoardById(accountId, boardId), AccessControlDialogFragment.this, (FullBoard fb) -> {
-                RecyclerView.Adapter adapter = new AccessControlAdapter(fb.getParticipants(), this);
+            syncManager.getAccessControlByLocalBoardId(accountId, boardId).observe(this, (List<AccessControl> accessControlList) -> {
+                RecyclerView.Adapter adapter = new AccessControlAdapter(accessControlList, this, getContext());
                 peopleList.setAdapter(adapter);
                 userAutoCompleteAdapter = new UserAutoCompleteAdapter(this, activity, accountId, boardId);
                 people.setAdapter(userAutoCompleteAdapter);

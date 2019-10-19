@@ -34,7 +34,7 @@ public class EditStackDialogFragment extends DialogFragment {
     /**
      * Use newInstance()-Method
      */
-    private EditStackDialogFragment() {
+    public EditStackDialogFragment() {
     }
 
     @Override

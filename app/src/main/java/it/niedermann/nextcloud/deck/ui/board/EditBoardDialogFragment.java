@@ -43,7 +43,7 @@ public class EditBoardDialogFragment extends DialogFragment {
     /**
      * Use newInstance()-Method
      */
-    private EditBoardDialogFragment() {
+    public EditBoardDialogFragment() {
     }
 
     @Override

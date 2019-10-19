@@ -1,13 +1,19 @@
 package it.niedermann.nextcloud.deck.ui.board;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.util.List;
 
@@ -15,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdapter.ActivitiesViewHolder> {
 
@@ -22,11 +29,13 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
     private List<AccessControl> accessControls;
     @NonNull
     private AccessControlChangedListener accessControlChangedListener;
+    private Context context;
 
-    AccessControlAdapter(@NonNull List<AccessControl> accessControls, @NonNull AccessControlChangedListener accessControlChangedListener) {
+    AccessControlAdapter(@NonNull List<AccessControl> accessControls, @NonNull AccessControlChangedListener accessControlChangedListener, Context context) {
         super();
         this.accessControls = accessControls;
         this.accessControlChangedListener = accessControlChangedListener;
+        this.context = context;
     }
 
     @NonNull
@@ -40,8 +49,12 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
     public void onBindViewHolder(@NonNull ActivitiesViewHolder holder, int position) {
         AccessControl ac = accessControls.get(position);
 
-        if (ac.getUser() != null)
-            holder.username.setText(ac.getUser().getUid());
+        try {
+            ViewUtil.addAvatar(context, holder.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+        } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+            e.printStackTrace();
+        }
+        holder.username.setText(ac.getUser().getDisplayname());
 
         holder.switchEdit.setChecked(ac.isPermissionEdit());
         holder.switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -68,6 +81,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
     }
 
     static class ActivitiesViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.avatar)
+        ImageView avatar;
         @BindView(R.id.username)
         TextView username;
         @BindView(R.id.permission_edit)
