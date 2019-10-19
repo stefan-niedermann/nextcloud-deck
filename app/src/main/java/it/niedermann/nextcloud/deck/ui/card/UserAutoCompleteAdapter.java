@@ -121,8 +121,8 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                         LiveData<List<User>> liveData;
                         if (cardId == 0L) {
                             liveData = constraint.length() > 0
-                                    ? syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
-                                    : syncManager.findProposalsForUsersToAssign(accountId, boardId, maxUsersSuggested);
+                                    ? syncManager.searchUserByUidOrDisplayNameForACL(accountId, boardId, constraint.toString())
+                                    : syncManager.findProposalsForUsersToAssignForACL(accountId, boardId, maxUsersSuggested);
                         } else {
                             liveData = constraint.length() > 0
                                     ? syncManager.searchUserByUidOrDisplayName(accountId, cardId, constraint.toString())

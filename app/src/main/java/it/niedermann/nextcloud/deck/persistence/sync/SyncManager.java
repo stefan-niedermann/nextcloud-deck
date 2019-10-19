@@ -602,8 +602,8 @@ public class SyncManager {
         return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
-    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, final int topX){
-        return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, topX);
+    public LiveData<List<User>> findProposalsForUsersToAssignForACL(final long accountId, long boardId, final int topX){
+        return dataBaseAdapter.findProposalsForUsersToAssignForACL(accountId, boardId, topX);
     }
 
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX){
@@ -631,8 +631,8 @@ public class SyncManager {
         return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, notYetAssignedToLocalCardId, searchTerm);
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm) {
-        return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, searchTerm);
+    public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedInACL, final String searchTerm) {
+        return dataBaseAdapter.searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedInACL, searchTerm);
     }
 
     public LiveData<Board> getBoard(long accountId, long remoteId) {

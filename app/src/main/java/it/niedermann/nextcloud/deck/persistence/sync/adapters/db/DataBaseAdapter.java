@@ -392,9 +392,9 @@ public class DataBaseAdapter {
         return db.getUserDao().searchUserByUidOrDisplayName(accountId, notYetAssignedToLocalCardId, "%"+searchTerm.trim()+"%");
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm){
+    public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedToACL, final String searchTerm){
         validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayName(accountId, "%"+searchTerm.trim()+"%");
+        return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, /*notYetAssignedToACL, */"%"+searchTerm.trim()+"%");
     }
 
     public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm){
@@ -406,8 +406,8 @@ public class DataBaseAdapter {
         return db.getUserDao().findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
-    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, final int topX){
-        return db.getUserDao().findProposalsForUsersToAssign(accountId, boardId, topX);
+    public LiveData<List<User>> findProposalsForUsersToAssignForACL(final long accountId, long boardId, final int topX){
+        return db.getUserDao().findProposalsForUsersToAssignForACL(accountId, boardId, topX);
     }
 
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX){
