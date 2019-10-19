@@ -21,15 +21,31 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/username"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             android:layout_marginBottom="@dimen/standard_half_margin"
-            tools:text="Username"
-            tools:drawableEnd="@drawable/ic_sync_blue_24dp"/>
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                tools:drawableEnd="@drawable/ic_sync_blue_24dp"
+                tools:text="Username" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_gravity="center"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/ic_delete_black_24dp" />
+        </LinearLayout>
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

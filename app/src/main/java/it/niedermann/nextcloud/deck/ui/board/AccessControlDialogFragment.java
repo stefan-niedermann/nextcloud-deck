@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -34,6 +35,7 @@ public class AccessControlDialogFragment extends DialogFragment implements
     private long boardId;
     private SyncManager syncManager;
     private UserAutoCompleteAdapter userAutoCompleteAdapter;
+    private View view;
 
     @BindView(R.id.peopleList)
     RecyclerView peopleList;
@@ -71,6 +73,8 @@ public class AccessControlDialogFragment extends DialogFragment implements
             });
         }
 
+        this.view = view;
+
         return dialogBuilder
                 .setView(view)
                 .setPositiveButton(R.string.simple_close, null)
@@ -94,12 +98,19 @@ public class AccessControlDialogFragment extends DialogFragment implements
     }
 
     @Override
+    public void deleteAccessControl(AccessControl ac) {
+        // TODO implement in syncManager!
+        Toast.makeText(getContext(), "Deleting user permisions is not yet supported.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         AccessControl ac = new AccessControl();
         ac.setPermissionEdit(true);
         ac.setBoardId(boardId);
         ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
         ac.setUserId(userAutoCompleteAdapter.getItem(position).getLocalId());
+        ac.setUser(userAutoCompleteAdapter.getItem(position));
         syncManager.createAccessControl(accountId, ac);
         people.setText("");
     }

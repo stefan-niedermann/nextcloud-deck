@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,6 +65,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
 
         holder.username.setText(ac.getUser().getDisplayname());
         holder.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? holder.syncIcon : null, null);
+        // TODO remove from list when deleted
+        holder.deleteButton.setOnClickListener((v) -> accessControlChangedListener.deleteAccessControl(ac));
 
         holder.switchEdit.setChecked(ac.isPermissionEdit());
         holder.switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -97,6 +100,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
         ImageView avatar;
         @BindView(R.id.username)
         TextView username;
+        @BindView(R.id.delete)
+        AppCompatImageButton deleteButton;
         @BindView(R.id.permission_edit)
         SwitchCompat switchEdit;
         @BindView(R.id.permission_manage)
@@ -112,5 +117,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
 
     public interface AccessControlChangedListener {
         void updateAccessControl(AccessControl accessControl);
+
+        void deleteAccessControl(AccessControl ac);
     }
 }
