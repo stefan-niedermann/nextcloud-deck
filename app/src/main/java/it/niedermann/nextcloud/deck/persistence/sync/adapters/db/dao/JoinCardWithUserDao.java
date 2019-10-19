@@ -31,4 +31,7 @@ public interface JoinCardWithUserDao extends GenericDao<JoinCardWithUser> {
             "where cardId = (select c.localId from card c where c.accountId = :accountId and c.id = :remoteCardId) " +
             "and userId = (select u.localId from user u where u.accountId = :accountId and u.uid = :userUid)")
     void deleteJoinedUserForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, String userUid);
+
+    @Query("select userId from joincardwithuser WHERE cardId = :localCardId and userId IN (:assignedUserIDs) and status <> 3") // not LOCAL_DELETED
+    List<Long> filterDeleted(long localCardId, List<Long> assignedUserIDs);
 }

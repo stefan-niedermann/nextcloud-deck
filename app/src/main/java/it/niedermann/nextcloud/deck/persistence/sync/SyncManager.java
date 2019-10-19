@@ -614,10 +614,10 @@ public class SyncManager {
     public void unassignUserFromCard(User user, Card card) {
         doAsync(() -> {
             dataBaseAdapter.deleteJoinedUserForCard(card.getLocalId(), user.getLocalId());
-            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
-            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             if (serverAdapter.hasInternetConnection()){
+                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+                Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
                 serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<Void>(account) {
                     @Override
                     public void onResponse(Void response) {

@@ -24,7 +24,7 @@ public interface UserDao extends GenericDao<User> {
             "    AND NOT EXISTS (" +
             "            select 1 from joincardwithuser ju" +
             "            where ju.userId = u.localId" +
-            "            and ju.cardId = :notYetAssignedToLocalCardId" +
+            "            and ju.cardId = :notYetAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             "    )" +
             "and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm )")
     LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm);
@@ -52,7 +52,7 @@ public interface UserDao extends GenericDao<User> {
             "    AND NOT EXISTS (" +
             "            select 1 from joincardwithuser ju" +
             "            where ju.userId = u.localId" +
-            "            and ju.cardId = :notAssignedToLocalCardId" +
+            "            and ju.cardId = :notAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             "    )" +
             "    AND" +
             "            (" +
@@ -96,4 +96,8 @@ public interface UserDao extends GenericDao<User> {
             ") DESC" +
             "    LIMIT :topX")
     LiveData<List<User>> findProposalsForUsersToAssignForACL(long accountId, long boardId, int topX);
+
+
+    @Query("SELECT * FROM user WHERE localId IN (:userIDs) and status <> 3") // not LOCAL_DELETED
+    List<User> getUsersByIdsDirectly(List<Long> userIDs);
 }

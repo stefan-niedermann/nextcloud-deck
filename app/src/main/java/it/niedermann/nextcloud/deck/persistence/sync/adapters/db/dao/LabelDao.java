@@ -30,7 +30,10 @@ public interface LabelDao extends GenericDao<Label> {
     Label getLabelsByIdDirectly(final long localLabelID);
 
     @Query("SELECT l.* FROM label l WHERE accountId = :accountId" +
-            " AND NOT EXISTS (select 1 from joincardwithlabel jl where jl.labelId = l.localId and jl.cardId = :notYetAssignedToLocalCardId) " +
+            " AND NOT EXISTS (" +
+                "select 1 from joincardwithlabel jl where jl.labelId = l.localId " +
+                "and jl.cardId = :notYetAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
+            ") " +
             " AND boardId = :boardId and title LIKE :searchTerm")
     LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm);
 
@@ -40,7 +43,10 @@ public interface LabelDao extends GenericDao<Label> {
     @Query("SELECT l.* " +
             "FROM label l LEFT JOIN joincardwithlabel j ON j.labelId = l.localId " +
             "WHERE l.accountId = :accountId AND l.boardId = :boardId " +
-            "AND NOT EXISTS (select 1 from joincardwithlabel jl where jl.labelId = l.localId and jl.cardId = :notAssignedToLocalCardId) " +
+            "AND NOT EXISTS (" +
+                "select 1 from joincardwithlabel jl where jl.labelId = l.localId " +
+                "and jl.cardId = :notAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
+            ") " +
             "GROUP BY l.localId ORDER BY count(*) DESC " +
             "LIMIT :topX")
     LiveData<List<Label>> findProposalsForLabelsToAssign(long accountId, long boardId, long notAssignedToLocalCardId, int topX);

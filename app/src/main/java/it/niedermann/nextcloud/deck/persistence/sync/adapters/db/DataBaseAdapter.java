@@ -102,7 +102,8 @@ public class DataBaseAdapter {
                 card.setLabels(db.getLabelDao().getLabelsByIdsDirectly(filteredIDs));
             }
             if (card.getAssignedUserIDs() != null && !card.getAssignedUserIDs().isEmpty()){
-                card.setAssignedUsers(db.getUserDao().getUsersByIdDirectly(card.getAssignedUserIDs()));
+                List<Long> filteredIDs = db.getJoinCardWithUserDao().filterDeleted(card.getLocalId(), card.getAssignedUserIDs());
+                card.setAssignedUsers(db.getUserDao().getUsersByIdsDirectly(filteredIDs));
             }
         }
     }
@@ -176,11 +177,20 @@ public class DataBaseAdapter {
     }
 
     public void createJoinCardWithLabel(long localLabelId, long localCardId, DBStatus status) {
-        JoinCardWithLabel join = new JoinCardWithLabel();
-        join.setCardId(localCardId);
-        join.setLabelId(localLabelId);
-        join.setStatus(status.getId());
-        db.getJoinCardWithLabelDao().insert(join);
+        JoinCardWithLabel existing = db.getJoinCardWithLabelDao().getJoin(localLabelId, localCardId);
+        if (existing != null && existing.getStatusEnum() == DBStatus.LOCAL_DELETED){
+            // readded!
+            existing.setStatusEnum(DBStatus.LOCAL_EDITED);
+            db.getJoinCardWithLabelDao().update(existing);
+        } else {
+            JoinCardWithLabel join = new JoinCardWithLabel();
+            join.setCardId(localCardId);
+            join.setLabelId(localLabelId);
+            join.setStatus(status.getId());
+            db.getJoinCardWithLabelDao().insert(join);
+        }
+
+
     }
 
     public void deleteJoinedLabelsForCard(long localCardId) {
@@ -206,11 +216,18 @@ public class DataBaseAdapter {
     }
 
     public void createJoinCardWithUser(long localUserId, long localCardId, DBStatus status) {
-        JoinCardWithUser join = new JoinCardWithUser();
-        join.setCardId(localCardId);
-        join.setUserId(localUserId);
-        join.setStatus(status.getId());
-        db.getJoinCardWithUserDao().insert(join);
+        JoinCardWithUser existing = db.getJoinCardWithUserDao().getJoin(localUserId, localCardId);
+        if (existing != null && existing.getStatusEnum() == DBStatus.LOCAL_DELETED){
+            // readded!
+            existing.setStatusEnum(DBStatus.LOCAL_EDITED);
+            db.getJoinCardWithUserDao().update(existing);
+        } else {
+            JoinCardWithUser join = new JoinCardWithUser();
+            join.setCardId(localCardId);
+            join.setUserId(localUserId);
+            join.setStatus(status.getId());
+            db.getJoinCardWithUserDao().insert(join);
+        }
     }
 
     public void deleteJoinedUsersForCard(long localCardId) {
