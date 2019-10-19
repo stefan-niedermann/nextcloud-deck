@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdapter.ActivitiesViewHolder> {
@@ -60,20 +61,19 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
                 e.printStackTrace();
             }
         }
+
         holder.username.setText(ac.getUser().getDisplayname());
+        holder.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? holder.syncIcon : null, null);
 
         holder.switchEdit.setChecked(ac.isPermissionEdit());
         holder.switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ac.setPermissionEdit(isChecked);
-            holder.username.setCompoundDrawables(null, null, holder.syncIcon, null);
             accessControlChangedListener.updateAccessControl(ac);
-            holder.username.setCompoundDrawables(null, null, null, null);
         });
 
         holder.switchManage.setChecked(ac.isPermissionManage());
         holder.switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ac.setPermissionManage(isChecked);
-            holder.username.setCompoundDrawables(null, null, holder.syncIcon, null);
             accessControlChangedListener.updateAccessControl(ac);
             holder.username.setCompoundDrawables(null, null, null, null);
         });
@@ -81,9 +81,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
         holder.switchShare.setChecked(ac.isPermissionShare());
         holder.switchShare.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ac.setPermissionShare(isChecked);
-            holder.username.setCompoundDrawables(null, null, holder.syncIcon, null);
             accessControlChangedListener.updateAccessControl(ac);
-            holder.username.setCompoundDrawables(null, null, null, null);
         });
     }
 
