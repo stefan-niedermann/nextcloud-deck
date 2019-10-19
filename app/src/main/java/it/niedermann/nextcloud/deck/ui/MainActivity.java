@@ -76,6 +76,8 @@ public class MainActivity extends DrawerActivity implements
     ViewPager viewPager;
     @BindView(R.id.no_stacks)
     RelativeLayout noStacks;
+    @BindView(R.id.add_stack)
+    AppCompatImageButton addStackButton;
 
     @BindString(R.string.shared_preference_last_board_for_account_)
     String sharedPreferencesLastBoardForAccount_;
@@ -382,8 +384,10 @@ public class MainActivity extends DrawerActivity implements
         currentBoardHasEditPermission = board.isPermissionEdit();
         if (currentBoardHasEditPermission) {
             fab.show();
+            addStackButton.setOnClickListener((v) -> EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn));
         } else {
             fab.hide();
+            addStackButton.setOnClickListener(null);
         }
 
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
@@ -454,10 +458,6 @@ public class MainActivity extends DrawerActivity implements
                             });
                         })
                         .setNegativeButton(android.R.string.cancel, null).show();
-                break;
-            case R.id.action_card_list_add_column:
-                EditStackDialogFragment.newInstance(NO_STACK_ID)
-                        .show(getSupportFragmentManager(), addColumn);
                 break;
             case R.id.action_card_list_rename_column:
                 // TODO call newInstance with old stack name

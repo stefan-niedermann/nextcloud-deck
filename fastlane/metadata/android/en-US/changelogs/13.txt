@@ -5,3 +5,5 @@
 - Fix "Delete column"-menu disappears in some cases (#182)
 - Title field should have focus when creating a new card (#191)
 - Do not show already assigned users and cards in search (#167)
+- Make user and label assignments cancelable (#180)
+- Create stacks button is now always visible in stack tabs

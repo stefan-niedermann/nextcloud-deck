@@ -82,15 +82,30 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 tools:title="Deck" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/stackLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:tabGravity="center"
-                app:tabIndicatorColor="@color/accent"
-                app:tabMode="fixed"
-                app:tabTextColor="@android:color/white"/>
+                android:orientation="horizontal">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/stackLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                    app:tabGravity="center"
+                    app:tabIndicatorColor="@color/accent"
+                    app:tabMode="fixed"
+                    app:tabTextColor="@android:color/white" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/add_stack"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:selectableItemBackground"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_add_white_24dp" />
+            </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
