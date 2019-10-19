@@ -58,7 +58,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.NO_STACK_ID;
 
-public class MainActivity extends DrawerActivity {
+public class MainActivity extends DrawerActivity implements EditStackDialogFragment.EditStackListener, EditBoardDialogFragment.EditBoardListener {
 
 
     @BindView(R.id.swipe_refresh_layout)
@@ -186,6 +186,7 @@ public class MainActivity extends DrawerActivity {
         }));
     }
 
+    @Override
     public void onCreateStack(String stackName) {
         observeOnce(syncManager.getStacksForBoard(account.getId(), currentBoardId), MainActivity.this, fullStacks -> { // FIXME fullStacks.size() is always 0
             Stack s = new Stack();
@@ -208,6 +209,7 @@ public class MainActivity extends DrawerActivity {
         });
     }
 
+    @Override
     public void onUpdateStack(long localStackId, String stackName) {
         observeOnce(syncManager.getStack(account.getId(), localStackId), MainActivity.this, fullStack -> {
             fullStack.getStack().setTitle(stackName);
@@ -215,6 +217,7 @@ public class MainActivity extends DrawerActivity {
         });
     }
 
+    @Override
     public void onCreateBoard(String title, String color) {
         Board b = new Board();
         b.setTitle(title);
@@ -239,6 +242,7 @@ public class MainActivity extends DrawerActivity {
         });
     }
 
+    @Override
     public void onUpdateBoard(FullBoard fullBoard) {
         syncManager.updateBoard(fullBoard);
     }
@@ -372,9 +376,7 @@ public class MainActivity extends DrawerActivity {
      * @param board Board
      */
     private void displayStacksForBoard(Board board, Account account) {
-        if (toolbar != null) {
-            toolbar.setTitle(board.getTitle());
-        }
+        toolbar.setTitle(board.getTitle());
 
         currentBoardHasEditPermission = board.isPermissionEdit();
         if (currentBoardHasEditPermission) {
@@ -455,6 +457,7 @@ public class MainActivity extends DrawerActivity {
                         .show(getSupportFragmentManager(), addColumn);
                 break;
             case R.id.action_card_list_rename_column:
+                // TODO call newInstance with old stack name
                 EditStackDialogFragment.newInstance(stackAdapter.getItem(viewPager.getCurrentItem()).getStackId())
                         .show(getSupportFragmentManager(), actionCardListRenameColumn);
                 break;

@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +20,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.ui.MainActivity;
 
 public class EditStackDialogFragment extends DialogFragment {
     public static final Long NO_STACK_ID = -1L;
     private static final String KEY_STACK_ID = "board_id";
+    private static final String KEY_OLD_TITLE = "old_title";
     private long stackId = NO_STACK_ID;
+    private EditStackListener editStackListener;
 
     @BindView(R.id.input)
     EditText input;
@@ -33,6 +35,16 @@ public class EditStackDialogFragment extends DialogFragment {
      * Use newInstance()-Method
      */
     private EditStackDialogFragment() {
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof EditStackListener) {
+            this.editStackListener = (EditStackListener) context;
+        } else {
+            throw new ClassCastException("Caller must implement " + EditStackListener.class.getCanonicalName());
+        }
     }
 
     @NonNull
@@ -46,24 +58,17 @@ public class EditStackDialogFragment extends DialogFragment {
                 .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
                     // Do something else
                 });
-        if (getArguments() != null) {
-            stackId = getArguments().getLong(KEY_STACK_ID);
-            if (stackId == NO_STACK_ID) {
-                builder.setTitle(R.string.add_column)
-                        .setPositiveButton(R.string.simple_add, (dialog, which) -> {
-                            ((MainActivity) getActivity()).onCreateStack(input.getText().toString());
-                        });
-            } else {
-                builder.setTitle(R.string.rename_column)
-                        .setPositiveButton(R.string.simple_rename, (dialog, which) -> {
-                            ((MainActivity) getActivity()).onUpdateStack(stackId, input.getText().toString());
-                        });
-            }
-        } else {
+        if (getArguments() == null) {
+            throw new IllegalArgumentException("Please add at least stack id to the arguments");
+        }
+        stackId = getArguments().getLong(KEY_STACK_ID);
+        if (stackId == NO_STACK_ID) {
             builder.setTitle(R.string.add_column)
-                    .setPositiveButton(R.string.simple_add, (dialog, which) -> {
-                        ((MainActivity) getActivity()).onCreateStack(input.getText().toString());
-                    });
+                    .setPositiveButton(R.string.simple_add, (dialog, which) -> editStackListener.onCreateStack(input.getText().toString()));
+        } else {
+            input.setText(getArguments().getString(KEY_OLD_TITLE));
+            builder.setTitle(R.string.rename_column)
+                    .setPositiveButton(R.string.simple_rename, (dialog, which) -> editStackListener.onUpdateStack(stackId, input.getText().toString()));
         }
         return builder.create();
     }
@@ -77,12 +82,23 @@ public class EditStackDialogFragment extends DialogFragment {
     }
 
     public static EditStackDialogFragment newInstance(long stackId) {
+        return newInstance(stackId, null);
+    }
+
+    public static EditStackDialogFragment newInstance(long stackId, String oldTitle) {
         EditStackDialogFragment dialog = new EditStackDialogFragment();
 
         Bundle args = new Bundle();
         args.putLong(KEY_STACK_ID, stackId);
+        args.putString(KEY_OLD_TITLE, oldTitle);
         dialog.setArguments(args);
 
         return dialog;
+    }
+
+    public interface EditStackListener {
+        void onCreateStack(String title);
+
+        void onUpdateStack(long stackId, String title);
     }
 }

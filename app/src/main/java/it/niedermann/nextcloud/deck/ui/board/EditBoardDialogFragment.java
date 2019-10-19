@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.board;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,6 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.helper.colorchooser.ColorChooser;
 
 public class EditBoardDialogFragment extends DialogFragment {
@@ -31,6 +31,8 @@ public class EditBoardDialogFragment extends DialogFragment {
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_BOARD_ID = "board_id";
     private static final Long NO_BOARD_ID = -1L;
+
+    private EditBoardListener editBoardListener;
 
     private FullBoard fullBoard = null;
 
@@ -45,7 +47,18 @@ public class EditBoardDialogFragment extends DialogFragment {
     /**
      * Use newInstance()-Method
      */
-    private EditBoardDialogFragment() {}
+    private EditBoardDialogFragment() {
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof EditBoardListener) {
+            this.editBoardListener = (EditBoardListener) context;
+        } else {
+            throw new ClassCastException("Caller must implement " + EditBoardListener.class.getCanonicalName());
+        }
+    }
 
     @NonNull
     @Override
@@ -60,14 +73,14 @@ public class EditBoardDialogFragment extends DialogFragment {
 
         if (NO_BOARD_ID.equals(boardId)) {
             dialogBuilder.setTitle(R.string.add_board);
-            dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> ((MainActivity) getActivity()).onCreateBoard(boardTitle.getText().toString(), colorChooser.getSelectedColor()));
+            dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(boardTitle.getText().toString(), colorChooser.getSelectedColor()));
             this.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & boardDefaultColor));
         } else {
             dialogBuilder.setTitle(R.string.edit_board);
             dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
                 this.fullBoard.board.setColor(colorChooser.getSelectedColor().substring(1));
                 this.fullBoard.board.setTitle(this.boardTitle.getText().toString());
-                ((MainActivity) getActivity()).onUpdateBoard(fullBoard);
+                editBoardListener.onUpdateBoard(fullBoard);
             });
             new SyncManager(activity).getFullBoardById(Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID), boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 if (fb.board != null) {
@@ -114,6 +127,12 @@ public class EditBoardDialogFragment extends DialogFragment {
         dialog.setArguments(args);
 
         return dialog;
+    }
+
+    public interface EditBoardListener {
+        void onUpdateBoard(FullBoard fullBoard);
+
+        void onCreateBoard(String title, String color);
     }
 
 }
