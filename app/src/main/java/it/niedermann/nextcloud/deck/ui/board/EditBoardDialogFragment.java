@@ -91,8 +91,7 @@ public class EditBoardDialogFragment extends DialogFragment {
 
         return dialogBuilder
                 .setView(view)
-                .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
-                })
+                .setNegativeButton(R.string.simple_cancel, null)
                 .create();
     }
 

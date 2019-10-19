@@ -100,7 +100,7 @@ public class AccessControlDialogFragment extends DialogFragment implements
     @Override
     public void deleteAccessControl(AccessControl ac) {
         // TODO implement in syncManager!
-        Toast.makeText(getContext(), "Deleting user permisions is not yet supported.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Deleting user permissions is not yet supported.", Toast.LENGTH_LONG).show();
     }
 
     @Override

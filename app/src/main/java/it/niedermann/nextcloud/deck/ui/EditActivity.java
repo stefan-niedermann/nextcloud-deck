@@ -96,27 +96,30 @@ public class EditActivity extends AppCompatActivity implements CardDetailsFragme
             syncManager = new SyncManager(this);
 
             createMode = NO_LOCAL_ID.equals(localId);
-            observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
-                canEdit = fullBoard.getBoard().isPermissionEdit();
-                invalidateOptionsMenu();
-                if (createMode) {
-                    fullCard = new FullCard();
-                    fullCard.setLabels(new ArrayList<>());
-                    fullCard.setAssignedUsers(new ArrayList<>());
-                    Card card = new Card();
-                    card.setStackId(stackId);
-                    fullCard.setCard(card);
-                    setupViewPager();
-                    setupTitle(createMode);
-                } else {
-                    observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
-                        fullCard = next;
-                        originalCard = new FullCard(fullCard);
+            if(boardId == 0L) {
+            } else {
+                observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
+                    canEdit = fullBoard.getBoard().isPermissionEdit();
+                    invalidateOptionsMenu();
+                    if (createMode) {
+                        fullCard = new FullCard();
+                        fullCard.setLabels(new ArrayList<>());
+                        fullCard.setAssignedUsers(new ArrayList<>());
+                        Card card = new Card();
+                        card.setStackId(stackId);
+                        fullCard.setCard(card);
                         setupViewPager();
                         setupTitle(createMode);
-                    });
-                }
-            }));
+                    } else {
+                        observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
+                            fullCard = next;
+                            originalCard = new FullCard(fullCard);
+                            setupViewPager();
+                            setupTitle(createMode);
+                        });
+                    }
+                }));
+            }
         } else {
             throw new IllegalArgumentException("No localId argument");
         }
