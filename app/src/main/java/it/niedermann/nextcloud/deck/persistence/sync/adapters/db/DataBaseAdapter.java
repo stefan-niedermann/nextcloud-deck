@@ -397,8 +397,8 @@ public class DataBaseAdapter {
         return db.getLabelDao().searchLabelByTitle(accountId, boardId,"%"+searchTerm.trim()+"%");
     }
 
-    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long notAssignedToLocalCardId, final int topX){
-        return db.getUserDao().findProposalsForUsersToAssign(accountId, notAssignedToLocalCardId, topX);
+    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX){
+        return db.getUserDao().findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX){

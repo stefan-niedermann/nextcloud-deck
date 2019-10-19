@@ -36,10 +36,10 @@ public interface LabelDao extends GenericDao<Label> {
     List<Label> getLocallyChangedLabelsDirectly(long accountId);
 
     @Query("SELECT l.* " +
-            "FROM joincardwithlabel j LEFT JOIN label l ON j.labelId = l.localId " +
+            "FROM label l LEFT JOIN joincardwithlabel j ON j.labelId = l.localId " +
             "WHERE l.accountId = :accountId AND l.boardId = :boardId " +
             "AND NOT EXISTS (select 1 from joincardwithlabel jl where jl.labelId = l.localId and jl.cardId = :notAssignedToLocalCardId) " +
-            "GROUP BY j.labelId ORDER BY count(*) DESC " +
+            "GROUP BY l.localId ORDER BY count(*) DESC " +
             "LIMIT :topX")
     LiveData<List<Label>> findProposalsForLabelsToAssign(long accountId, long boardId, long notAssignedToLocalCardId, int topX);
 }

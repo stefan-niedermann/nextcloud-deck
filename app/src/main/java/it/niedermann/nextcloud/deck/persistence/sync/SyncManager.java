@@ -597,8 +597,8 @@ public class SyncManager {
         });
     }
 
-    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long notAssignedToLocalCardId, final int topX){
-        return dataBaseAdapter.findProposalsForUsersToAssign(accountId, notAssignedToLocalCardId, topX);
+    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX){
+        return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX){
