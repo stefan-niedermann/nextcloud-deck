@@ -20,10 +20,13 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
 
     @NonNull
     private List<AccessControl> accessControls;
+    @NonNull
+    private AccessControlChangedListener accessControlChangedListener;
 
-    public AccessControlAdapter(@NonNull List<AccessControl> accessControls) {
+    AccessControlAdapter(@NonNull List<AccessControl> accessControls, @NonNull AccessControlChangedListener accessControlChangedListener) {
         super();
         this.accessControls = accessControls;
+        this.accessControlChangedListener = accessControlChangedListener;
     }
 
     @NonNull
@@ -43,19 +46,19 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
         holder.switchEdit.setChecked(ac.isPermissionEdit());
         holder.switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ac.setPermissionEdit(isChecked);
-//            syncManager.updateAccessControl(ac);
+            accessControlChangedListener.updateAccessControl(ac);
         });
 
         holder.switchManage.setChecked(ac.isPermissionManage());
         holder.switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ac.setPermissionManage(isChecked);
-//            syncManager.updateAccessControl(ac);
+            accessControlChangedListener.updateAccessControl(ac);
         });
 
         holder.switchShare.setChecked(ac.isPermissionShare());
         holder.switchShare.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ac.setPermissionShare(isChecked);
-//            syncManager.updateAccessControl(ac);
+            accessControlChangedListener.updateAccessControl(ac);
         });
     }
 
@@ -80,4 +83,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
         }
     }
 
+    public interface AccessControlChangedListener {
+        void updateAccessControl(AccessControl accessControl);
+    }
 }

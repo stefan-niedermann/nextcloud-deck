@@ -16,16 +16,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
-public class ShareBoardDialogFragment extends DialogFragment {
+public class ShareBoardDialogFragment extends DialogFragment implements AccessControlAdapter.AccessControlChangedListener {
 
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_BOARD_ID = "board_id";
     private static final Long NO_BOARD_ID = -1L;
+
+    private SyncManager syncManager;
 
     @BindView(R.id.peopleList)
     RecyclerView peopleList;
@@ -50,10 +53,10 @@ public class ShareBoardDialogFragment extends DialogFragment {
         if (NO_BOARD_ID.equals(boardId)) {
             throw new IllegalArgumentException("boardId does not exist");
         } else {
-            SyncManager syncManager = new SyncManager(activity);
+            syncManager = new SyncManager(activity);
             final long accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
             observeOnce(syncManager.getFullBoardById(accountId, boardId), ShareBoardDialogFragment.this, (FullBoard fb) -> {
-                RecyclerView.Adapter adapter = new AccessControlAdapter(fb.getParticipants());
+                RecyclerView.Adapter adapter = new AccessControlAdapter(fb.getParticipants(), this);
                 peopleList.setAdapter(adapter);
             });
         }
@@ -76,4 +79,8 @@ public class ShareBoardDialogFragment extends DialogFragment {
         return dialog;
     }
 
+    @Override
+    public void updateAccessControl(AccessControl accessControl) {
+        syncManager.updateAccessControl(accessControl);
+    }
 }
