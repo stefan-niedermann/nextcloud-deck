@@ -16,6 +16,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,6 +34,7 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -58,6 +60,9 @@ import static it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.NO_S
 
 public class MainActivity extends DrawerActivity {
 
+
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.fab)
     FloatingActionButton fab;
     @BindView(R.id.navigationView)
@@ -166,6 +171,19 @@ public class MainActivity extends DrawerActivity {
 
             }
         });
+
+        swipeRefreshLayout.setOnRefreshListener(() -> syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+            @Override
+            public void onResponse(Boolean response) {
+                runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+                DeckLog.logError(throwable);
+            }
+        }));
     }
 
     public void onCreateStack(String stackName) {

@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -45,8 +43,6 @@ public class StackFragment extends Fragment {
     private long boardId;
     private Account account;
 
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.no_cards)
@@ -100,19 +96,6 @@ public class StackFragment extends Fragment {
                 }
             });
         }
-
-        swipeRefreshLayout.setOnRefreshListener(() -> syncManager.synchronize(new IResponseCallback<Boolean>(account) {
-            @Override
-            public void onResponse(Boolean response) {
-                activity.runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                activity.runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
-                DeckLog.logError(throwable);
-            }
-        }));
 
         refreshView();
         return view;
