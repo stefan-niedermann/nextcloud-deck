@@ -95,7 +95,7 @@ public class DataBaseAdapter {
         return db.getCardDao().getFullCardByLocalIdDirectly(accountId, localId);
     }
 
-    private void readRelationsForCard(FullCard card) {
+    public void readRelationsForCard(FullCard card) {
         if (card != null){
             if (card.getLabelIDs() != null && !card.getLabelIDs().isEmpty()){
                 List<Long> filteredIDs = db.getJoinCardWithLabelDao().filterDeleted(card.getLocalId(), card.getLabelIDs());

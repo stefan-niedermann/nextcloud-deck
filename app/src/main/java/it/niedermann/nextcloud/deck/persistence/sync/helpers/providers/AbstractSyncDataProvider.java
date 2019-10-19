@@ -41,7 +41,8 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         for (T b : listB) {
             boolean found = false;
             for (T a : listA) {
-                if (a.getId().equals(b.getId()) && b.getAccountId() == a.getAccountId()) {
+                if (((a.getLocalId()!= null && b.getLocalId()!= null && a.getLocalId().equals(b.getLocalId()))
+                        || a.getId().equals(b.getId())) && b.getAccountId() == a.getAccountId()) {
                     found = true;
                     break;
                 }

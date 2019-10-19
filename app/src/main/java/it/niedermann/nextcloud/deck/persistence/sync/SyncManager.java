@@ -430,6 +430,7 @@ public class SyncManager {
                 throw new IllegalArgumentException("card to update does not exist.");
             }
 
+            dataBaseAdapter.readRelationsForCard(fullCardFromDB);
             List<User> deletedUsers = AbstractSyncDataProvider.findDelta(card.getAssignedUsers(), fullCardFromDB.getAssignedUsers());
             List<User> addedUsers = AbstractSyncDataProvider.findDelta(fullCardFromDB.getAssignedUsers(), card.getAssignedUsers());
             for (User addedUser : addedUsers) {
