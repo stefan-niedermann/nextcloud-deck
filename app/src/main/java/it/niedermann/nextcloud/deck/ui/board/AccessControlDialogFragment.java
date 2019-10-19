@@ -99,8 +99,8 @@ public class AccessControlDialogFragment extends DialogFragment implements
         ac.setPermissionEdit(true);
         ac.setBoardId(boardId);
         ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
-        ac.setUser(userAutoCompleteAdapter.getItem(position));
-        // TODO set owner?
+        ac.setUserId(userAutoCompleteAdapter.getItem(position).getLocalId());
         syncManager.createAccessControl(accountId, ac);
+        people.setText("");
     }
 }
