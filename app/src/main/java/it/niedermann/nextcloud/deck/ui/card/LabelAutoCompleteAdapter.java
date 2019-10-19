@@ -88,7 +88,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         } else {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.dropdown_item_singleline, parent, false);
+            convertView = inflater.inflate(R.layout.item_autocomplete_dropdown, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }

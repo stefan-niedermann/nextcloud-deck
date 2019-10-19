@@ -84,7 +84,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         this.context = viewGroup.getContext();
-        View v = LayoutInflater.from(this.context).inflate(R.layout.fragment_card, viewGroup, false);
+        View v = LayoutInflater.from(this.context).inflate(R.layout.item_card, viewGroup, false);
         try {
             account = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
         } catch (NextcloudFilesAppAccountNotFoundException e) {

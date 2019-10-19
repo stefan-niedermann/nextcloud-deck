@@ -4,14 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Objects;
 
@@ -19,10 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.enums.ActivityType;
-import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
@@ -31,10 +25,8 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 public class CardActivityFragment extends Fragment {
     private Unbinder unbinder;
 
-    @BindView(R.id.scrollView)
-    ScrollView scrollView;
     @BindView(R.id.activity_list)
-    LinearLayout activitiesList;
+    RecyclerView activitiesList;
     @BindView(R.id.no_activities)
     RelativeLayout noActivities;
 
@@ -65,55 +57,24 @@ public class CardActivityFragment extends Fragment {
         if (args != null) {
             long accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
             long localId = args.getLong(BUNDLE_KEY_LOCAL_ID);
-            long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
-            setupView(accountId, localId, boardId);
+            SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
+            if (syncManager.hasInternetConnection()) {
+                syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) ->
+                        syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
+                            if (activities == null || activities.size() == 0) {
+                                noActivities.setVisibility(View.VISIBLE);
+                                activitiesList.setVisibility(View.GONE);
+                            } else {
+                                noActivities.setVisibility(View.GONE);
+                                activitiesList.setVisibility(View.VISIBLE);
+                                RecyclerView.Adapter adapter = new ActivityAdapter(activities);
+                                activitiesList.setAdapter(adapter);
+                            }
+                        })));
+            }
         }
         return view;
-    }
-
-    private void setupView(long accountId, long localId, long boardId) {
-        SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
-        if (syncManager.hasInternetConnection()) {
-            syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) -> syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
-                if (activities == null || activities.size() == 0) {
-                    noActivities.setVisibility(View.VISIBLE);
-                    scrollView.setVisibility(View.GONE);
-                } else {
-                    noActivities.setVisibility(View.GONE);
-                    scrollView.setVisibility(View.VISIBLE);
-                    activitiesList.removeAllViews();
-                    for (Activity a : activities) {
-                        View v = getLayoutInflater().inflate(R.layout.fragment_card_edit_tab_activity, null);
-                        ((TextView) v.findViewById(R.id.date)).setText(DateUtil.getRelativeDateTimeString(getContext(), a.getLastModified().getTime()));
-                        ((TextView) v.findViewById(R.id.subject)).setText(a.getSubject());
-                        AppCompatImageView type = v.findViewById(R.id.type);
-                        switch (ActivityType.findById(a.getType())) {
-                            case DECK:
-                                break;
-                            case CHANGE:
-                                type.setImageResource(R.drawable.type_change_36dp);
-                                break;
-                            case ADD:
-                                type.setImageResource(R.drawable.type_add_color_36dp);
-                                break;
-                            case DELETE:
-                                type.setImageResource(R.drawable.type_delete_color_36dp);
-                                break;
-                            case ARCHIVE:
-                                break;
-                            case HISTORY:
-                                break;
-                            case FILES:
-                                break;
-                            case COMMENT:
-                                break;
-                        }
-                        activitiesList.addView(v);
-                    }
-                }
-            })));
-        }
     }
 
     @Override

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/standard_padding">
 
@@ -23,8 +23,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/type"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/standard_margin"
             android:layout_marginRight="@dimen/standard_margin"
             app:srcCompat="@drawable/type_change_36dp" />
