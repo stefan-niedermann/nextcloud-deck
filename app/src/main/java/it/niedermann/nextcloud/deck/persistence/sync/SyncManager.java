@@ -441,23 +441,28 @@ public class SyncManager {
 
             List<Label> deletedLabels = AbstractSyncDataProvider.findDelta(card.getLabels(), fullCardFromDB.getLabels());
             List<Label> addedLabels = AbstractSyncDataProvider.findDelta(fullCardFromDB.getLabels(), card.getLabels());
+            for (Label addedLabel : addedLabels) {
+                dataBaseAdapter.createJoinCardWithLabel(addedLabel.getLocalId(), card.getLocalId(), DBStatus.LOCAL_EDITED);
+            }
+            for (Label deletedLabel : deletedLabels) {
+                dataBaseAdapter.deleteJoinedLabelForCard(card.getLocalId(), deletedLabel.getLocalId());
+            }
 
-            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             fullCardFromDB.setCard(card.getCard());
             card.getCard().setStatus(DBStatus.LOCAL_EDITED.getId());
             dataBaseAdapter.updateCard(card.getCard(), false);
-
-            new SyncHelper(serverAdapter, dataBaseAdapter, null)
-                    .setResponseCallback(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(card.getAccountId())) {
-                        @Override
-                        public void onResponse(Boolean response) {
-                            // do nothing
-                        }
-                    }).doUpSyncFor(new CardPropagationDataProvider(null, board, stack));
-
-//            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity();
+            if (serverAdapter.hasInternetConnection()){
+                Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+                new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                        .setResponseCallback(new IResponseCallback<Boolean>(account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                liveData.postValue(dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId()));
+                            }
+                        }).doUpSyncFor(new CardPropagationDataProvider(null, board, stack));
+            }
         });
         return liveData;
     }
