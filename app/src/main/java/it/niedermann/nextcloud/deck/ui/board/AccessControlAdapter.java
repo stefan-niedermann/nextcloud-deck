@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,9 +30,10 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
     private List<AccessControl> accessControls;
     @NonNull
     private AccessControlChangedListener accessControlChangedListener;
+    @Nullable
     private Context context;
 
-    AccessControlAdapter(@NonNull List<AccessControl> accessControls, @NonNull AccessControlChangedListener accessControlChangedListener, Context context) {
+    AccessControlAdapter(@NonNull List<AccessControl> accessControls, @NonNull AccessControlChangedListener accessControlChangedListener, @Nullable Context context) {
         super();
         this.accessControls = accessControls;
         this.accessControlChangedListener = accessControlChangedListener;
@@ -49,10 +51,12 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
     public void onBindViewHolder(@NonNull ActivitiesViewHolder holder, int position) {
         AccessControl ac = accessControls.get(position);
 
-        try {
-            ViewUtil.addAvatar(context, holder.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
-        } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-            e.printStackTrace();
+        if (context != null) {
+            try {
+                ViewUtil.addAvatar(context, holder.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+            } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                e.printStackTrace();
+            }
         }
         holder.username.setText(ac.getUser().getDisplayname());
 
