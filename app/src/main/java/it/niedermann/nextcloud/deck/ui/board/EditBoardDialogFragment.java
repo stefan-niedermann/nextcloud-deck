@@ -4,14 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -98,14 +94,6 @@ public class EditBoardDialogFragment extends DialogFragment {
                 .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
                 })
                 .create();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        boardTitle.requestFocus();
-        Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public static EditBoardDialogFragment newInstance(@NonNull Long accountId, @NonNull Long boardId) {

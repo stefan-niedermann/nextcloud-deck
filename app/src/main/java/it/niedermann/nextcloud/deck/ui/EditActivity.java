@@ -1,11 +1,13 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
@@ -169,6 +171,7 @@ public class EditActivity extends AppCompatActivity {
         if (canEdit) {
             if (createMode) {
                 title.requestFocus();
+                ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 if (fullCard.getCard().getTitle() != null) {
                     title.setSelection(fullCard.getCard().getTitle().length());
                 }

@@ -3,3 +3,4 @@
 - SyncOnWifiOnly causes OfflineException on opening about activity (#165)
 - Move card title to toolbar when opening a card
 - Fix "Delete column"-menu disappears in some cases (#182)
+- Title field should have focus when creating a new card (#191)
