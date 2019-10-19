@@ -432,7 +432,7 @@ public class DataBaseAdapter {
 
     public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedToACL, final String searchTerm){
         validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, /*notYetAssignedToACL, */"%"+searchTerm.trim()+"%");
+        return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%"+searchTerm.trim()+"%");
     }
 
     public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm){
