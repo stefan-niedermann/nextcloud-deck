@@ -318,20 +318,13 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     Label newLabel = new Label(label);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
-                    if (createMode) {
-                        observeOnce(syncManager.createLabel(accountId, newLabel, boardId), CardDetailsFragment.this, createdLabel -> activity.addLabel(createdLabel));
-                    } else {
-                        observeOnce(syncManager.createAndAssignLabelToCard(accountId, newLabel, fullCard.getLocalId()), CardDetailsFragment.this, createdLabel -> {
-                            labelsGroup.addView(createChipFromLabel(label));
-                            labelsGroup.setVisibility(View.VISIBLE);
-                        });
-                    }
+                    observeOnce(syncManager.createLabel(accountId, newLabel, boardId), CardDetailsFragment.this, createdLabel -> {
+                        activity.addLabel(createdLabel);
+                        labelsGroup.addView(createChipFromLabel(label));
+                        labelsGroup.setVisibility(View.VISIBLE);
+                    });
                 } else {
-                    if (createMode) {
-                        activity.addLabel(label);
-                    } else {
-                        syncManager.assignLabelToCard(label, fullCard.getCard());
-                    }
+                    activity.addLabel(label);
                     labelsGroup.addView(createChipFromLabel(label));
                     labelsGroup.setVisibility(View.VISIBLE);
                 }
@@ -360,11 +353,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             chip.setCloseIconVisible(true);
             chip.setOnCloseIconClickListener(v -> {
                 labelsGroup.removeView(chip);
-                if (createMode) {
-                    activity.removeLabel(label);
-                } else {
-                    syncManager.unassignLabelFromCard(label, fullCard.getCard());
-                }
+                activity.removeLabel(label);
             });
         }
         try {
@@ -391,13 +380,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId, boardId, localCardId));
             people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
-
-                if (createMode) {
-                    activity.addUser(user);
-                } else {
-                    syncManager.assignUserToCard(user, fullCard.getCard());
-                }
-
+                activity.addUser(user);
                 if (baseUrl != null) {
                     addAvatar(baseUrl, user);
                 }
@@ -422,21 +405,13 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         avatar.setLayoutParams(avatarLayoutParams);
         if (canEdit) {
             avatar.setOnClickListener(v -> {
-                if (createMode) {
-                    activity.removeUser(user);
-                } else {
-                    syncManager.unassignUserFromCard(user, fullCard.getCard());
-                }
+                activity.removeUser(user);
                 peopleList.removeView(avatar);
                 Snackbar.make(
                         Objects.requireNonNull(getView()), getString(R.string.unassigned_user, user.getDisplayname()),
                         Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_undo, v1 -> {
-                            if (createMode) {
-                                activity.addUser(user);
-                            } else {
-                                syncManager.assignUserToCard(user, fullCard.getCard());
-                            }
+                            activity.addUser(user);
                             addAvatar(baseUrl, user);
                         }).show();
             });
@@ -471,7 +446,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         dueDate.setText(dateFormat.format(c.getTime()));
         activity.setDueDate(fullCard.card.getDueDate());
 
-        if(this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
+        if (this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
             clearDueDate.setVisibility(View.GONE);
         } else {
             clearDueDate.setVisibility(View.VISIBLE);
@@ -487,7 +462,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.fullCard.getCard().getDueDate().setMinutes(minute);
         dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate().getTime()));
         activity.setDueDate(fullCard.card.getDueDate());
-        if(this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
+        if (this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
             clearDueDate.setVisibility(View.GONE);
         } else {
             clearDueDate.setVisibility(View.VISIBLE);
