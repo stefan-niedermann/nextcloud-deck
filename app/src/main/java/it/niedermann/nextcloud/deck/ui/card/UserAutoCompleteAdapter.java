@@ -48,6 +48,10 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     @BindInt(R.integer.max_users_suggested)
     int maxUsersSuggested;
 
+    public UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId) {
+        this(owner, activity, accountId, boardId, 0L);
+    }
+
     UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId, long cardId) {
         ButterKnife.bind(this, activity);
         this.owner = owner;
@@ -114,9 +118,16 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
-                        LiveData<List<User>> liveData = constraint.length() > 0
-                                ? syncManager.searchUserByUidOrDisplayName(accountId, cardId, constraint.toString())
-                                : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, maxUsersSuggested);
+                        LiveData<List<User>> liveData;
+                        if (cardId == 0L) {
+                            liveData = constraint.length() > 0
+                                    ? syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
+                                    : syncManager.findProposalsForUsersToAssign(accountId, boardId, maxUsersSuggested);
+                        } else {
+                            liveData = constraint.length() > 0
+                                    ? syncManager.searchUserByUidOrDisplayName(accountId, cardId, constraint.toString())
+                                    : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, maxUsersSuggested);
+                        }
                         observeOnce(liveData, owner, users -> {
                             if (users != null) {
                                 filterResults.values = users;

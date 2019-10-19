@@ -6,6 +6,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView
+        android:id="@+id/people"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:completionThreshold="1"
+        android:hint="@string/hint_assign_people"
+        android:inputType="text" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/peopleList"
         android:layout_width="match_parent"

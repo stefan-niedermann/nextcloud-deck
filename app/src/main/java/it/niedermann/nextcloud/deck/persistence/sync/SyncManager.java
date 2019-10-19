@@ -255,7 +255,8 @@ public class SyncManager {
     }
 
     public void createAccessControl(long accountId, AccessControl entity) {
-        dataBaseAdapter.createAccessControl(accountId, entity);
+        // TODO - is... here... anything to do?...
+        doAsync(() -> dataBaseAdapter.createAccessControl(accountId, entity));
     }
 
     public AccessControl getAccessControlByRemoteIdDirectly(long accountId, Long id) {
@@ -601,6 +602,10 @@ public class SyncManager {
         return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
+    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, final int topX){
+        return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, topX);
+    }
+
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX){
         return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
@@ -624,6 +629,10 @@ public class SyncManager {
 
     public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm) {
         return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, notYetAssignedToLocalCardId, searchTerm);
+    }
+
+    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm) {
+        return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, searchTerm);
     }
 
     public LiveData<Board> getBoard(long accountId, long remoteId) {

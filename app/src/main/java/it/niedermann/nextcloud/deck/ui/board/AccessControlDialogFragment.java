@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,24 +20,32 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
+import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
-public class ShareBoardDialogFragment extends DialogFragment implements AccessControlAdapter.AccessControlChangedListener {
+public class AccessControlDialogFragment extends DialogFragment implements
+        AccessControlAdapter.AccessControlChangedListener,
+        AdapterView.OnItemClickListener {
 
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_BOARD_ID = "board_id";
-    private static final Long NO_BOARD_ID = -1L;
 
+    private long accountId;
+    private long boardId;
     private SyncManager syncManager;
+    private UserAutoCompleteAdapter userAutoCompleteAdapter;
 
     @BindView(R.id.peopleList)
     RecyclerView peopleList;
+    @BindView(R.id.people)
+    DelayedAutoCompleteTextView people;
 
     /**
      * Use newInstance()-Method
      */
-    private ShareBoardDialogFragment() {
+    private AccessControlDialogFragment() {
     }
 
     @NonNull
@@ -46,18 +55,21 @@ public class ShareBoardDialogFragment extends DialogFragment implements AccessCo
         Activity activity = Objects.requireNonNull(getActivity());
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_board_share, null);
         ButterKnife.bind(this, view);
-        Long boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
+        boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
+        accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
 
-        if (NO_BOARD_ID.equals(boardId)) {
-            throw new IllegalArgumentException("boardId does not exist");
+        if (boardId == 0L || accountId == 0L) {
+            throw new IllegalArgumentException("accountId and boardId must be provided");
         } else {
             syncManager = new SyncManager(activity);
-            final long accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
-            observeOnce(syncManager.getFullBoardById(accountId, boardId), ShareBoardDialogFragment.this, (FullBoard fb) -> {
+            observeOnce(syncManager.getFullBoardById(accountId, boardId), AccessControlDialogFragment.this, (FullBoard fb) -> {
                 RecyclerView.Adapter adapter = new AccessControlAdapter(fb.getParticipants(), this);
                 peopleList.setAdapter(adapter);
+                userAutoCompleteAdapter = new UserAutoCompleteAdapter(this, activity, accountId, boardId);
+                people.setAdapter(userAutoCompleteAdapter);
+                people.setOnItemClickListener(this);
             });
         }
 
@@ -68,8 +80,8 @@ public class ShareBoardDialogFragment extends DialogFragment implements AccessCo
                 .create();
     }
 
-    public static ShareBoardDialogFragment newInstance(@NonNull Long accountId, @NonNull Long boardId) {
-        ShareBoardDialogFragment dialog = new ShareBoardDialogFragment();
+    public static AccessControlDialogFragment newInstance(@NonNull Long accountId, @NonNull Long boardId) {
+        AccessControlDialogFragment dialog = new AccessControlDialogFragment();
 
         Bundle args = new Bundle();
         args.putLong(KEY_ACCOUNT_ID, accountId);
@@ -82,5 +94,16 @@ public class ShareBoardDialogFragment extends DialogFragment implements AccessCo
     @Override
     public void updateAccessControl(AccessControl accessControl) {
         syncManager.updateAccessControl(accessControl);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        AccessControl ac = new AccessControl();
+        ac.setPermissionEdit(true);
+        ac.setBoardId(boardId);
+        ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
+        ac.setUser(userAutoCompleteAdapter.getItem(position));
+        // TODO set owner?
+        syncManager.createAccessControl(accountId, ac);
     }
 }
