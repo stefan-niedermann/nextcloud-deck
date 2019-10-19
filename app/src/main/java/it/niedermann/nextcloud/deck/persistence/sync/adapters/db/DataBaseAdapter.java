@@ -387,14 +387,14 @@ public class DataBaseAdapter {
         return db.getUserDao().getUsersForAccount(accountId);
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm){
+    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm){
         validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayName(accountId, "%"+searchTerm.trim()+"%");
+        return db.getUserDao().searchUserByUidOrDisplayName(accountId, notYetAssignedToLocalCardId, "%"+searchTerm.trim()+"%");
     }
 
-    public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm){
+    public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm){
         validateSearchTerm(searchTerm);
-        return db.getLabelDao().searchLabelByTitle(accountId, boardId,"%"+searchTerm.trim()+"%");
+        return db.getLabelDao().searchLabelByTitle(accountId, boardId,notYetAssignedToLocalCardId,"%"+searchTerm.trim()+"%");
     }
 
     public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX){

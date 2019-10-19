@@ -20,8 +20,14 @@ public interface UserDao extends GenericDao<User> {
     @Query("SELECT * FROM user WHERE accountId = :accountId and uid = :uid")
     LiveData<User> getUserByUid(final long accountId, final String uid);
 
-    @Query("SELECT * FROM user WHERE accountId = :accountId and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm )")
-    LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm);
+    @Query("SELECT u.* FROM user u WHERE accountId = :accountId " +
+            "    AND NOT EXISTS (" +
+            "            select 1 from joincardwithuser ju" +
+            "            where ju.userId = u.localId" +
+            "            and ju.cardId = :notYetAssignedToLocalCardId" +
+            "    )" +
+            "and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm )")
+    LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm);
 
     @Query("SELECT * FROM user WHERE accountId = :accountId and uid = :uid")
     User getUserByUidDirectly(final long accountId, final String uid);

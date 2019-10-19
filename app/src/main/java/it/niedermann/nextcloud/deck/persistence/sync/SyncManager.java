@@ -622,8 +622,8 @@ public class SyncManager {
         return dataBaseAdapter.getUserByUidDirectly(accountId, uid);
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final String searchTerm) {
-        return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, searchTerm);
+    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm) {
+        return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, notYetAssignedToLocalCardId, searchTerm);
     }
 
     public LiveData<Board> getBoard(long accountId, long remoteId) {
@@ -655,8 +655,8 @@ public class SyncManager {
      * @param searchTerm
      * @return
      */
-    public LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, String searchTerm) {
-        return dataBaseAdapter.searchLabelByTitle(accountId, boardId, searchTerm);
+    public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm) {
+        return dataBaseAdapter.searchLabelByTitle(accountId, boardId, notYetAssignedToLocalCardId, searchTerm);
     }
 
     public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
