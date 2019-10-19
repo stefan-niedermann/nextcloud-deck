@@ -107,6 +107,21 @@ public class DataBaseAdapter {
         }
     }
 
+    public void readRelationsForACL(List<AccessControl> acl) {
+        if (acl != null){
+            for (AccessControl accessControl : acl) {
+                readRelationsForACL(accessControl);
+            }
+        }
+    }
+    public void readRelationsForACL(AccessControl acl) {
+        if (acl != null){
+            if (acl.getUserId() != null){
+                acl.setUser(db.getUserDao().getUserByLocalIdDirectly(acl.getUserId()));
+            }
+        }
+    }
+
     private void readRelationsForCard(List<FullCard> card) {
         if (card == null){
             return;
@@ -364,7 +379,9 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
-        return db.getAccessControlDao().getAccessControlByLocalBoardId(accountId, id);
+        return LiveDataHelper.interceptLiveData(db.getAccessControlDao().getAccessControlByLocalBoardId(accountId, id), (acl) -> {
+            readRelationsForACL(acl);
+        });
     }
 
     public void updateAccessControl(AccessControl entity, boolean setStatus) {
