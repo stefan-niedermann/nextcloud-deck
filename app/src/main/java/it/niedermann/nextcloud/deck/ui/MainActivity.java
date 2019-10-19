@@ -189,7 +189,7 @@ public class MainActivity extends DrawerActivity implements
 
     @Override
     public void onCreateStack(String stackName) {
-        observeOnce(syncManager.getStacksForBoard(account.getId(), currentBoardId), MainActivity.this, fullStacks -> { // FIXME fullStacks.size() is always 0
+        observeOnce(syncManager.getStacksForBoard(account.getId(), currentBoardId), MainActivity.this, fullStacks -> {
             Stack s = new Stack();
             s.setTitle(stackName);
             s.setBoardId(currentBoardId);
