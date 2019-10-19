@@ -148,6 +148,8 @@ public class MainActivity extends DrawerActivity implements
             }
         });
 
+        addStackButton.setOnClickListener((v) -> EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn));
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -384,10 +386,10 @@ public class MainActivity extends DrawerActivity implements
         currentBoardHasEditPermission = board.isPermissionEdit();
         if (currentBoardHasEditPermission) {
             fab.show();
-            addStackButton.setOnClickListener((v) -> EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn));
+            addStackButton.setVisibility(View.VISIBLE);
         } else {
             fab.hide();
-            addStackButton.setOnClickListener(null);
+            addStackButton.setVisibility(View.GONE);
         }
 
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
