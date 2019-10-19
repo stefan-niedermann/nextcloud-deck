@@ -62,7 +62,9 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<AccessControl> responder, AccessControl entity) {
-        serverAdapter.createAccessControl(board.getBoard().getId(), entity, responder);
+        AccessControl acl = new AccessControl(entity);
+        acl.setBoardId(board.getBoard().getId());
+        serverAdapter.createAccessControl(board.getBoard().getId(), acl, responder);
     }
 
     @Override

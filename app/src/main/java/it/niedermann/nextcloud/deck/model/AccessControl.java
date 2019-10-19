@@ -36,6 +36,21 @@ public class AccessControl extends AbstractRemoteEntity {
     @SerializedName("participant")
     private User user;
 
+    public AccessControl() {
+        super();
+    }
+
+    public AccessControl(AccessControl accessControl) {
+        this.type = accessControl.getType();
+        this.boardId = accessControl.getBoardId();
+        this.owner = accessControl.isOwner();
+        this.permissionEdit = accessControl.isPermissionEdit();
+        this.permissionShare = accessControl.isPermissionShare();
+        this.permissionManage = accessControl.isPermissionManage();
+        this.userId = accessControl.getUserId();
+        this.user = accessControl.getUser();
+    }
+
     public Long getType() {
         return type;
     }
