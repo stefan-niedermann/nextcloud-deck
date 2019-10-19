@@ -9,3 +9,4 @@
 - Create stacks button is now always visible in stack tabs
 - Enhance modified detection for pressing back button in edit mode (#181)
 - "Unassign card from me" does not work when offline (#189)
+- Share boards with permissions (#148)
