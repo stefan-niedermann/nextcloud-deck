@@ -268,7 +268,12 @@ public class SyncManager {
                 public void onResponse(AccessControl response) {
                     liveData.postValue(response);
                 }
-            });
+            }, ((entity1, response) -> {
+                response.setBoardId(entity.getBoardId());
+                response.setUserId(entity.getUser().getLocalId());
+                    }
+                )
+            );
         });
         return liveData;
     }
