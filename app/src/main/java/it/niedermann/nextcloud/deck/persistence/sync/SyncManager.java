@@ -35,6 +35,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AccessControlDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.ActivityDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
@@ -233,7 +234,7 @@ public class SyncManager {
         });
     }
 
-    public void updateBoard(FullBoard board) {
+    public LiveData<FullBoard> updateBoard(FullBoard board) {
         MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
         long accountId = board.getAccountId();
         doAsync(() -> {
@@ -245,6 +246,7 @@ public class SyncManager {
                 }
             });
         });
+        return liveData;
     }
 
     public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
@@ -255,9 +257,20 @@ public class SyncManager {
         return dataBaseAdapter.getStack(accountId, localStackId);
     }
 
-    public void createAccessControl(long accountId, AccessControl entity) {
-        // TODO - is... here... anything to do?...
-        doAsync(() -> dataBaseAdapter.createAccessControl(accountId, entity));
+    public LiveData<AccessControl> createAccessControl(long accountId, AccessControl entity) {
+        MutableLiveData<AccessControl> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, entity.getBoardId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
+                @Override
+                public void onResponse(AccessControl response) {
+                    liveData.postValue(response);
+                }
+            });
+        });
+        return liveData;
     }
 
     public AccessControl getAccessControlByRemoteIdDirectly(long accountId, Long id) {
@@ -268,10 +281,35 @@ public class SyncManager {
         return dataBaseAdapter.getAccessControlByLocalBoardId(accountId, id);
     }
 
-    public void updateAccessControl(AccessControl entity) {
+    public MutableLiveData<AccessControl> updateAccessControl(AccessControl entity) {
+        MutableLiveData<AccessControl> liveData = new MutableLiveData<>();
         doAsync(() -> {
-            dataBaseAdapter.updateAccessControl(entity, true);
+                Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
+                FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
+                new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(
+                        new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
+                    @Override
+                    public void onResponse(AccessControl response) {
+                        liveData.postValue(response);
+                    }
+                });
         });
+        return liveData;
+    }
+    public MutableLiveData<AccessControl> deleteAccessControl(AccessControl entity) {
+        MutableLiveData<AccessControl> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+                Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
+                FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
+                new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(
+                        new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
+                    @Override
+                    public void onResponse(AccessControl response) {
+                        liveData.postValue(response);
+                    }
+                });
+        });
+        return liveData;
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {

@@ -406,6 +406,11 @@ public class DataBaseAdapter {
         db.getAccessControlDao().update(entity);
     }
 
+    public void deleteAccessControl(AccessControl entity, boolean setStatus) {
+        markAsEditedIfNeeded(entity, setStatus);
+        db.getAccessControlDao().update(entity);
+    }
+
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
         return db.getBoardDao().getFullBoardById(accountId, localId);
     }
@@ -570,4 +575,7 @@ public class DataBaseAdapter {
         db.getActivityDao().delete(activity);
     }
 
+    public List<AccessControl> getLocallyChangedAccessControl(long accountId, long boardId) {
+        return db.getAccessControlDao().getLocallyChangedAccessControl(accountId, boardId);
+    }
 }

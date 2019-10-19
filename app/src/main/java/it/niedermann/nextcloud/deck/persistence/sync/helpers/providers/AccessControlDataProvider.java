@@ -6,15 +6,18 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 
 public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
     private List<AccessControl> acl;
+    private FullBoard board;
 
-    public AccessControlDataProvider(AbstractSyncDataProvider<?> parent, List<AccessControl> acl) {
+    public AccessControlDataProvider(AbstractSyncDataProvider<?> parent, FullBoard board, List<AccessControl> acl) {
         super(parent);
+        this.board = board;
         this.acl = acl;
     }
 
@@ -59,26 +62,26 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<AccessControl> responder, AccessControl entity) {
-        //TODO: implement
+        serverAdapter.createAccessControl(board.getBoard().getId(), entity, responder);
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<AccessControl> callback, AccessControl entity) {
-        //TODO: implement
+        serverAdapter.updateAccessControl(board.getBoard().getId(), entity, callback);
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl accessControl) {
-        //TODO: implement
+        dataBaseAdapter.deleteAccessControl(accessControl, true);
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, AccessControl entity, DataBaseAdapter dataBaseAdapter) {
-        //TODO: implement
+        serverAdapter.deleteAccessControl(board.getBoard().getId(), entity, callback);
     }
 
     @Override
     public List<AccessControl> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        return null;
+        return dataBaseAdapter.getLocallyChangedAccessControl(accountId, board.getId());
     }
 }

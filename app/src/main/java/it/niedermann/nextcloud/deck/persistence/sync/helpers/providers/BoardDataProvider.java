@@ -77,7 +77,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
             for (AccessControl ac : acl){
                 ac.setBoardId(existingEntity.getLocalId());
             }
-            syncHelper.doSyncFor(new AccessControlDataProvider(this, acl));
+            syncHelper.doSyncFor(new AccessControlDataProvider(this, existingEntity, acl));
         }
 
         if (entityFromServer.getStacks() != null && !entityFromServer.getStacks().isEmpty()){

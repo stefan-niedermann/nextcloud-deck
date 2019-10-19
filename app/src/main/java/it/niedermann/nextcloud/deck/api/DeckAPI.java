@@ -4,6 +4,7 @@ package it.niedermann.nextcloud.deck.api;
 import java.util.List;
 
 import io.reactivex.Observable;
+import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -132,4 +133,13 @@ public interface DeckAPI {
     @PUT("board/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}/restore")
     Observable<Attachment> restoreAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
+    // ### ACL
+    @POST("board/{boardId}/acl")
+    Observable<AccessControl> createAccessControl(@Path("boardId") long boardId, @Body AccessControl acl);
+
+    @PUT("board/{boardId}/acl/{aclId}")
+    Observable<AccessControl> updateAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId, @Body AccessControl acl);
+
+    @DELETE("board/{boardId}/acl/{aclId}")
+    Observable<Void> deleteAccessControl(@Path("boardId") long boardId, @Path("aclId") long aclId, @Body AccessControl acl);
 }

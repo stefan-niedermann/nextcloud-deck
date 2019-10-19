@@ -5,6 +5,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import com.google.gson.annotations.SerializedName;
+
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
@@ -31,6 +33,7 @@ public class AccessControl extends AbstractRemoteEntity {
 
     private Long userId;
     @Ignore
+    @SerializedName("participant")
     private User user;
 
     public Long getType() {
@@ -95,5 +98,57 @@ public class AccessControl extends AbstractRemoteEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        AccessControl that = (AccessControl) o;
+
+        if (owner != that.owner) return false;
+        if (permissionEdit != that.permissionEdit) return false;
+        if (permissionShare != that.permissionShare) return false;
+        if (permissionManage != that.permissionManage) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (boardId != null ? !boardId.equals(that.boardId) : that.boardId != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        return user != null ? user.equals(that.user) : that.user == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (boardId != null ? boardId.hashCode() : 0);
+        result = 31 * result + (owner ? 1 : 0);
+        result = 31 * result + (permissionEdit ? 1 : 0);
+        result = 31 * result + (permissionShare ? 1 : 0);
+        result = 31 * result + (permissionManage ? 1 : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "AccessControl{" +
+                "type=" + type +
+                ", boardId=" + boardId +
+                ", owner=" + owner +
+                ", permissionEdit=" + permissionEdit +
+                ", permissionShare=" + permissionShare +
+                ", permissionManage=" + permissionManage +
+                ", userId=" + userId +
+                ", user=" + user +
+                ", localId=" + localId +
+                ", accountId=" + accountId +
+                ", id=" + id +
+                ", status=" + status +
+                ", lastModified=" + lastModified +
+                ", lastModifiedLocal=" + lastModifiedLocal +
+                "} " + super.toString();
     }
 }
