@@ -58,7 +58,10 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.NO_STACK_ID;
 
-public class MainActivity extends DrawerActivity implements EditStackDialogFragment.EditStackListener, EditBoardDialogFragment.EditBoardListener {
+public class MainActivity extends DrawerActivity implements
+        EditStackDialogFragment.EditStackListener,
+        EditBoardDialogFragment.EditBoardListener,
+        StackFragment.OnScrollListener {
 
 
     @BindView(R.id.swipe_refresh_layout)
@@ -163,7 +166,7 @@ public class MainActivity extends DrawerActivity implements EditStackDialogFragm
                         editor.apply();
                     }
                 });
-                showFab();
+                showFabIfEditPermissionGranted();
             }
 
             @Override
@@ -465,13 +468,19 @@ public class MainActivity extends DrawerActivity implements EditStackDialogFragm
         return super.onOptionsItemSelected(item);
     }
 
-    public void hideFab() {
-        this.fab.hide();
-    }
-
-    public void showFab() {
+    private void showFabIfEditPermissionGranted() {
         if (currentBoardHasEditPermission) {
             this.fab.show();
         }
+    }
+
+    @Override
+    public void onScrollUp() {
+        showFabIfEditPermissionGranted();
+    }
+
+    @Override
+    public void onScrollDown() {
+        this.fab.hide();
     }
 }

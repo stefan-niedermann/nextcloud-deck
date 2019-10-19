@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,13 +19,11 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.REQUEST_CODE_START_EDIT_ACTIVITY;
@@ -38,6 +37,7 @@ public class StackFragment extends Fragment {
     private CardAdapter adapter = null;
     private SyncManager syncManager;
     private Activity activity;
+    private OnScrollListener onScrollListener;
 
     private long stackId;
     private long boardId;
@@ -67,6 +67,14 @@ public class StackFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnScrollListener) {
+            this.onScrollListener = (OnScrollListener) context;
+        }
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stack, container, false);
         ButterKnife.bind(this, view);
@@ -85,14 +93,14 @@ public class StackFragment extends Fragment {
 
         adapter = new CardAdapter(boardId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, this);
         recyclerView.setAdapter(adapter);
-        if (activity instanceof MainActivity) {
+        if (onScrollListener != null) {
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     if (dy > 0)
-                        ((MainActivity) activity).hideFab();
+                        onScrollListener.onScrollDown();
                     else if (dy < 0)
-                        ((MainActivity) activity).showFab();
+                        onScrollListener.onScrollUp();
                 }
             });
         }
@@ -105,9 +113,6 @@ public class StackFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_START_EDIT_ACTIVITY) {
-            if (adapter == null) {
-                DeckLog.logError(new IllegalStateException("adapter must not be null!"));
-            }
             adapter.resetPendingEditActivity();
         }
     }
@@ -137,5 +142,11 @@ public class StackFragment extends Fragment {
 
     public long getStackId() {
         return this.stackId;
+    }
+
+    public interface OnScrollListener {
+        void onScrollUp();
+
+        void onScrollDown();
     }
 }
