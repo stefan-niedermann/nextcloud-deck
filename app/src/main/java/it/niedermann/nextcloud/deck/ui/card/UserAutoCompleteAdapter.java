@@ -115,7 +115,7 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                 if (constraint != null) {
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
                         LiveData<List<User>> liveData = constraint.length() > 0
-                                ? syncManager.searchUserByUidOrDisplayName(accountId, constraint.toString())
+                                ? syncManager.searchUserByUidOrDisplayName(accountId, cardId, constraint.toString())
                                 : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, maxUsersSuggested);
                         observeOnce(liveData, owner, users -> {
                             if (users != null) {

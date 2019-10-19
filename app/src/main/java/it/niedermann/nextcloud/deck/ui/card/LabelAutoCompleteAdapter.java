@@ -123,7 +123,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                     lastFilterText = constraint.toString();
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
                         LiveData<List<Label>> liveData = constraint.length() > 0
-                                ? syncManager.searchLabelByTitle(accountId, boardId, constraint.toString())
+                                ? syncManager.searchNotYetAssignedLabelsByTitle(accountId, boardId, cardId, constraint.toString())
                                 : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId, maxLabelsSuggested);
                         observeOnce(liveData, owner, labels -> {
                             if (canManage && constraint.length() > 0) {
