@@ -387,7 +387,7 @@ public class MainActivity extends DrawerActivity implements
         }
 
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
-            if (fullStacks == null || fullStacks.size() == 0) {
+            if (fullStacks == null) {
                 noStacks.setVisibility(View.VISIBLE);
                 currentBoardHasStacks = false;
             } else {
@@ -396,6 +396,13 @@ public class MainActivity extends DrawerActivity implements
 
                 long savedStackId = sharedPreferences.getLong(sharedPreferencesLastStackForAccountAndBoard_ + account.getId() + "_" + this.currentBoardId, NO_STACKS);
                 DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
+                if (fullStacks.size() == 0) {
+                    noStacks.setVisibility(View.VISIBLE);
+                    currentBoardHasStacks = false;
+                } else {
+                    noStacks.setVisibility(View.GONE);
+                    currentBoardHasStacks = true;
+                }
 
                 StackAdapter newStackAdapter = new StackAdapter(getSupportFragmentManager());
                 for (int i = 0; i < fullStacks.size(); i++) {
