@@ -7,3 +7,4 @@
 - Do not show already assigned users and cards in search (#167)
 - Make user and label assignments cancelable (#180)
 - Create stacks button is now always visible in stack tabs
+- Enhance modified detection for pressing back button in edit mode (#181)

@@ -64,8 +64,8 @@ public class EditActivity extends AppCompatActivity implements CardDetailsFragme
     String edit;
 
     private Unbinder unbinder;
-    private boolean modified = false;
 
+    private FullCard originalCard;
     private FullCard fullCard;
 
     private long accountId;
@@ -111,6 +111,7 @@ public class EditActivity extends AppCompatActivity implements CardDetailsFragme
                 } else {
                     observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
                         fullCard = next;
+                        originalCard = new FullCard(fullCard);
                         setupViewPager();
                         setupTitle(createMode);
                     });
@@ -179,7 +180,6 @@ public class EditActivity extends AppCompatActivity implements CardDetailsFragme
             title.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    modified = true;
                     fullCard.getCard().setTitle(title.getText().toString());
                 }
 
@@ -206,7 +206,6 @@ public class EditActivity extends AppCompatActivity implements CardDetailsFragme
     @Override
     public void onDescriptionChanged(String description) {
         this.fullCard.getCard().setDescription(description);
-        modified = true;
     }
 
 
@@ -233,7 +232,6 @@ public class EditActivity extends AppCompatActivity implements CardDetailsFragme
     @Override
     public void onDueDateChanged(Date dueDate) {
         this.fullCard.getCard().setDueDate(dueDate);
-        modified = true;
     }
 
     @Override
@@ -244,7 +242,7 @@ public class EditActivity extends AppCompatActivity implements CardDetailsFragme
 
     @Override
     public void onBackPressed() {
-        if (modified && canEdit) {
+        if (!fullCard.equals(originalCard) && canEdit) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
