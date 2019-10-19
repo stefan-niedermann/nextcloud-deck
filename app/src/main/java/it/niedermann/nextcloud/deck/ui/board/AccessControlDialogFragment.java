@@ -73,8 +73,7 @@ public class AccessControlDialogFragment extends DialogFragment implements
 
         return dialogBuilder
                 .setView(view)
-                .setPositiveButton(R.string.simple_close, (dialog, which) -> {
-                })
+                .setPositiveButton(R.string.simple_close, null)
                 .create();
     }
 
