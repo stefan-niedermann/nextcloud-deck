@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
@@ -42,7 +43,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity implements CardDetailsFragment.CardDetailsListener {
 
     SyncManager syncManager;
 
@@ -133,10 +134,8 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_card_save:
-                saveAndFinish();
-                break;
+        if (item.getItemId() == R.id.action_card_save) {
+            saveAndFinish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -204,38 +203,35 @@ public class EditActivity extends AppCompatActivity {
         unbinder.unbind();
     }
 
-    public void setTitle(String title) {
-        if (fullCard != null) {
-            fullCard.getCard().setTitle(title);
-        }
-        modified = true;
-    }
-
-    public void setDescription(String description) {
+    @Override
+    public void onDescriptionChanged(String description) {
         this.fullCard.getCard().setDescription(description);
         modified = true;
     }
 
 
-    public void addUser(User user) {
+    @Override
+    public void onUserAdded(User user) {
         this.fullCard.getAssignedUsers().add(user);
     }
 
-    public void removeUser(User user) {
+    @Override
+    public void onUserRemoved(User user) {
         this.fullCard.getAssignedUsers().remove(user);
     }
 
-
-    public void addLabel(Label label) {
+    @Override
+    public void onLabelAdded(Label label) {
         this.fullCard.getLabels().add(label);
     }
 
-
-    public void removeLabel(Label label) {
+    @Override
+    public void onLabelRemoved(Label label) {
         this.fullCard.getLabels().remove(label);
     }
 
-    public void setDueDate(Date dueDate) {
+    @Override
+    public void onDueDateChanged(Date dueDate) {
         this.fullCard.getCard().setDueDate(dueDate);
         modified = true;
     }

@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -52,7 +53,6 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
@@ -71,7 +71,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         TimePickerDialog.OnTimeSetListener {
     private static final String TAG = CardDetailsFragment.class.getCanonicalName();
 
-    private boolean createMode;
     private boolean canEdit = false;
     private FullCard fullCard;
     private SyncManager syncManager;
@@ -81,7 +80,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private int avatarSize;
     private LinearLayout.LayoutParams avatarLayoutParams;
     private Unbinder unbinder;
-    private EditActivity activity;
+    private CardDetailsListener cardDetailsListener;
+    private Activity activity;
 
     @BindView(R.id.description)
     RxMDEditText description;
@@ -106,6 +106,21 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     public CardDetailsFragment() {
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof CardDetailsListener) {
+            this.cardDetailsListener = (CardDetailsListener) context;
+        } else {
+            throw new ClassCastException("Caller must implement " + CardDetailsListener.class.getCanonicalName());
+        }
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+        } else {
+            throw new ClassCastException("Calling context must be an activity");
+        }
+    }
+
     public static CardDetailsFragment newInstance(long accountId, long localId, long boardId, boolean canEdit) {
         Bundle bundle = new Bundle();
         bundle.putLong(BUNDLE_KEY_ACCOUNT_ID, accountId);
@@ -123,18 +138,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_card_edit_tab_details, container, false);
-
         unbinder = ButterKnife.bind(this, view);
-
-
-        if (Objects.requireNonNull(getActivity()) instanceof EditActivity) {
-            activity = (EditActivity) getActivity();
-        } else {
-            DeckLog.log("activity is not an instance of EditActivity");
-        }
-
         dateFormat = android.text.format.DateFormat.getDateFormat(activity);
 
         Bundle args = getArguments();
@@ -148,9 +153,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
             syncManager = new SyncManager(activity);
 
-
-            createMode = NO_LOCAL_ID.equals(localId);
-            if (createMode) {
+            if (NO_LOCAL_ID.equals(localId)) {
                 fullCard = new FullCard();
                 fullCard.setCard(new Card());
                 setupView(accountId, boardId, canEdit);
@@ -207,7 +210,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if (fullCard != null) {
-                        activity.setDescription(description.getText().toString());
+                        cardDetailsListener.onDescriptionChanged(description.getText().toString());
                         fullCard.getCard().setDescription(description.getText().toString());
                     }
                 }
@@ -293,7 +296,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             });
 
             clearDueDate.setOnClickListener(v -> {
-                activity.setDueDate(null);
+                cardDetailsListener.onDueDateChanged(null);
                 dueDate.setText(null);
                 dueDateTime.setText(null);
                 fullCard.getCard().setDueDate(null);
@@ -319,12 +322,12 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     newLabel.setTitle(((LabelAutoCompleteAdapter) labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
                     observeOnce(syncManager.createLabel(accountId, newLabel, boardId), CardDetailsFragment.this, createdLabel -> {
-                        activity.addLabel(createdLabel);
+                        cardDetailsListener.onLabelAdded(createdLabel);
                         labelsGroup.addView(createChipFromLabel(label));
                         labelsGroup.setVisibility(View.VISIBLE);
                     });
                 } else {
-                    activity.addLabel(label);
+                    cardDetailsListener.onLabelAdded(label);
                     labelsGroup.addView(createChipFromLabel(label));
                     labelsGroup.setVisibility(View.VISIBLE);
                 }
@@ -353,7 +356,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             chip.setCloseIconVisible(true);
             chip.setOnCloseIconClickListener(v -> {
                 labelsGroup.removeView(chip);
-                activity.removeLabel(label);
+                cardDetailsListener.onLabelRemoved(label);
             });
         }
         try {
@@ -380,7 +383,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId, boardId, localCardId));
             people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
-                activity.addUser(user);
+                cardDetailsListener.onUserAdded(user);
                 if (baseUrl != null) {
                     addAvatar(baseUrl, user);
                 }
@@ -405,13 +408,13 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         avatar.setLayoutParams(avatarLayoutParams);
         if (canEdit) {
             avatar.setOnClickListener(v -> {
-                activity.removeUser(user);
+                cardDetailsListener.onUserRemoved(user);
                 peopleList.removeView(avatar);
                 Snackbar.make(
                         Objects.requireNonNull(getView()), getString(R.string.unassigned_user, user.getDisplayname()),
                         Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_undo, v1 -> {
-                            activity.addUser(user);
+                            cardDetailsListener.onUserAdded(user);
                             addAvatar(baseUrl, user);
                         }).show();
             });
@@ -444,7 +447,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         c.set(year, month, dayOfMonth, hourOfDay, minute);
         this.fullCard.getCard().setDueDate(c.getTime());
         dueDate.setText(dateFormat.format(c.getTime()));
-        activity.setDueDate(fullCard.card.getDueDate());
+        cardDetailsListener.onDueDateChanged(fullCard.card.getDueDate());
 
         if (this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
             clearDueDate.setVisibility(View.GONE);
@@ -461,11 +464,26 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         this.fullCard.getCard().getDueDate().setHours(hourOfDay);
         this.fullCard.getCard().getDueDate().setMinutes(minute);
         dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate().getTime()));
-        activity.setDueDate(fullCard.card.getDueDate());
+        cardDetailsListener.onDueDateChanged(fullCard.card.getDueDate());
         if (this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
             clearDueDate.setVisibility(View.GONE);
         } else {
             clearDueDate.setVisibility(View.VISIBLE);
         }
+    }
+
+    public interface CardDetailsListener {
+
+        void onDescriptionChanged(String toString);
+
+        void onDueDateChanged(Date dueDate);
+
+        void onUserAdded(User user);
+
+        void onUserRemoved(User user);
+
+        void onLabelRemoved(Label label);
+
+        void onLabelAdded(Label createdLabel);
     }
 }
