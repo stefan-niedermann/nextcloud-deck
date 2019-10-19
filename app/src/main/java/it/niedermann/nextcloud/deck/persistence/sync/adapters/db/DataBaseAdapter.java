@@ -363,6 +363,10 @@ public class DataBaseAdapter {
         return db.getAccessControlDao().getAccessControlByRemoteIdDirectly(accountId, id);
     }
 
+    public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
+        return db.getAccessControlDao().getAccessControlByLocalBoardId(accountId, id);
+    }
+
     public void updateAccessControl(AccessControl entity, boolean setStatus) {
         markAsEditedIfNeeded(entity, setStatus);
         db.getAccessControlDao().update(entity);

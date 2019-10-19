@@ -264,6 +264,10 @@ public class SyncManager {
         return dataBaseAdapter.getAccessControlByRemoteIdDirectly(accountId, id);
     }
 
+    public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
+        return dataBaseAdapter.getAccessControlByLocalBoardId(accountId, id);
+    }
+
     public void updateAccessControl(AccessControl entity) {
         doAsync(() -> {
             dataBaseAdapter.updateAccessControl(entity, true);
