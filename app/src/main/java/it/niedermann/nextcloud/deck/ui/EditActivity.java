@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -35,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.Application;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -76,6 +79,10 @@ public class EditActivity extends AppCompatActivity implements
     @BindView(R.id.pager)
     ViewPager pager;
 
+    @BindString(R.string.shared_preference_last_board_for_account_)
+    String sharedPreferencesLastBoardForAccount_;
+    @BindString(R.string.shared_preference_last_stack_for_account_and_board_)
+    String sharedPreferencesLastStackForAccountAndBoard_;
     @BindString(R.string.simple_add)
     String add;
     @BindString(R.string.edit)
@@ -133,6 +140,17 @@ public class EditActivity extends AppCompatActivity implements
                         boardsArray = boardsList.toArray(boardsArray);
                         SpinnerAdapter adapter = new BoardAdapter(this, boardsArray);
                         boardSelector.setAdapter(adapter);
+
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                        long lastBoardId = sharedPreferences.getLong(sharedPreferencesLastBoardForAccount_ + accountId, 0L);
+                        DeckLog.log("--- Read: shared_preference_last_board_for_account_" + account.getId() + " | " + lastBoardId);
+                        if (lastBoardId != 0L) {
+                            for (int i = 0; i < boardsArray.length; i++) {
+                                if (boardsArray[i].getLocalId() == lastBoardId) {
+                                    boardSelector.setSelection(i);
+                                }
+                            }
+                        }
                         boardSelector.setOnItemSelectedListener(this);
                     });
                 });
@@ -308,11 +326,19 @@ public class EditActivity extends AppCompatActivity implements
         boardId = ((Board) boardSelector.getItemAtPosition(position)).getLocalId();
         observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
             canEdit = fullBoard.getBoard().isPermissionEdit();
-            observeOnce(syncManager.getStacksForBoard(accountId, boardId), EditActivity.this, (stacks -> {
-                if(stacks != null && stacks.size() > 0) {
-                    stackId = stacks.get(0).getLocalId();
-                }
-            }));
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            long savedStackId = sharedPreferences.getLong(sharedPreferencesLastStackForAccountAndBoard_ + accountId + "_" + boardId, 0L);
+            DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + accountId + "_" + boardId + " | " + savedStackId);
+            if (savedStackId == 0L) {
+                observeOnce(syncManager.getStacksForBoard(accountId, boardId), EditActivity.this, (stacks -> {
+                    if (stacks != null && stacks.size() > 0) {
+                        stackId = stacks.get(0).getLocalId();
+                    }
+                }));
+            } else {
+                stackId = savedStackId;
+            }
             if (fullCard == null) {
                 invalidateOptionsMenu();
                 fullCard = new FullCard();
