@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
+import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -106,9 +108,10 @@ public class EditActivity extends AppCompatActivity implements
             createMode = NO_LOCAL_ID.equals(localId);
             if(boardId == 0L) {
                 try {
-//                    syncManager.readAccount()
-                    SingleAccountHelper.getCurrentSingleSignOnAccount(this);
-                    SelectBoardDialogFragment.newInstance(accountId).show(getSupportFragmentManager(), getString(R.string.simple_select));
+                    SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(this);
+                    syncManager.readAccount(ssoa.name).observe(this, (Account account) -> {
+                        SelectBoardDialogFragment.newInstance(account.getId()).show(getSupportFragmentManager(), getString(R.string.simple_select));
+                    });
                 } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
                     e.printStackTrace();
                 }

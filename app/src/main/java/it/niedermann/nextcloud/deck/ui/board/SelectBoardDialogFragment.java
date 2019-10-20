@@ -52,13 +52,14 @@ public class SelectBoardDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Activity activity = Objects.requireNonNull(getActivity());
-        View view = activity.getLayoutInflater().inflate(R.layout.dialog_board_select, null);
 
-        long accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
+        final long accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
         if(accountId == 0L) {
             throw new IllegalArgumentException("You must provide an accountId");
         }
+
+        Activity activity = Objects.requireNonNull(getActivity());
+        View view = activity.getLayoutInflater().inflate(R.layout.dialog_board_select, null);
 
         ButterKnife.bind(this, view);
 
@@ -67,7 +68,7 @@ public class SelectBoardDialogFragment extends DialogFragment {
         dialogBuilder.setPositiveButton(R.string.simple_select, (dialog, which) -> onBoardSelectedListener.onBoardSelected(board));
         SyncManager syncManager = new SyncManager(activity);
         syncManager.getBoards(accountId).observe(this, (List<Board> boardsList) -> {
-            boards.setAdapter(new BoardAdapter(boardsList));
+            boards.setAdapter(new BoardAdapter(getContext(), boardsList));
         });
 
         return dialogBuilder
