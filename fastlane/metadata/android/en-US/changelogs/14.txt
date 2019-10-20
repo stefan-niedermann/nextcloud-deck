@@ -1,0 +1,1 @@
+- Shortcuts for create operation (#66)
