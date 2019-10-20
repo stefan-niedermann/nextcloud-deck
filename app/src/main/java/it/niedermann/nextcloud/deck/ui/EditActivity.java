@@ -1,18 +1,21 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.SpinnerAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -25,6 +28,7 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -39,7 +43,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.board.SelectBoardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -53,7 +57,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class EditActivity extends AppCompatActivity implements
         CardDetailsFragment.CardDetailsListener,
-        SelectBoardDialogFragment.OnBoardSelectedListener {
+        AdapterView.OnItemSelectedListener {
 
     SyncManager syncManager;
 
@@ -63,6 +67,8 @@ public class EditActivity extends AppCompatActivity implements
     TextInputLayout titleTextInputLayout;
     @BindView(R.id.title)
     EditText title;
+    @BindView(R.id.boardSelector)
+    AppCompatSpinner boardSelector;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.pager)
@@ -98,49 +104,69 @@ public class EditActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            accountId = extras.getLong(BUNDLE_KEY_ACCOUNT_ID);
-            boardId = extras.getLong(BUNDLE_KEY_BOARD_ID);
-            stackId = extras.getLong(BUNDLE_KEY_STACK_ID);
-            localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
-            syncManager = new SyncManager(this);
+        if (extras == null) {
+            throw new IllegalArgumentException("Provide localId");
+        }
+        accountId = extras.getLong(BUNDLE_KEY_ACCOUNT_ID);
+        boardId = extras.getLong(BUNDLE_KEY_BOARD_ID);
+        stackId = extras.getLong(BUNDLE_KEY_STACK_ID);
+        localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
+        syncManager = new SyncManager(this);
 
-            createMode = NO_LOCAL_ID.equals(localId);
-            if(boardId == 0L) {
-                try {
-                    SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(this);
-                    syncManager.readAccount(ssoa.name).observe(this, (Account account) -> {
-                        SelectBoardDialogFragment.newInstance(account.getId()).show(getSupportFragmentManager(), getString(R.string.simple_select));
+        createMode = NO_LOCAL_ID.equals(localId);
+        if (boardId == 0L) {
+            try {
+                createMode = true;
+                SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(this);
+                syncManager.readAccount(ssoa.name).observe(this, (Account account) -> {
+                    accountId = account.getId();
+                    boardSelector.setVisibility(View.VISIBLE);
+                    syncManager.getBoards(account.getId()).observe(this, (List<Board> boardsList) -> {
+                        for(Board board: boardsList) {
+                            if(!board.isPermissionEdit()) {
+                                boardsList.remove(board);
+                            }
+                        }
+                        Board[] boardsArray = new Board[boardsList.size()];
+                        boardsArray = boardsList.toArray(boardsArray);
+                        SpinnerAdapter adapter = new BoardAdapter(this, boardsArray);
+                        boardSelector.setAdapter(adapter);
+                        boardSelector.setOnItemSelectedListener(this);
                     });
-                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
-                    canEdit = fullBoard.getBoard().isPermissionEdit();
-                    invalidateOptionsMenu();
-                    if (createMode) {
-                        fullCard = new FullCard();
-                        fullCard.setLabels(new ArrayList<>());
-                        fullCard.setAssignedUsers(new ArrayList<>());
-                        Card card = new Card();
-                        card.setStackId(stackId);
-                        fullCard.setCard(card);
-                        setupViewPager();
-                        setupTitle(createMode);
-                    } else {
-                        observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
-                            fullCard = next;
-                            originalCard = new FullCard(fullCard);
-                            setupViewPager();
-                            setupTitle(createMode);
-                        });
-                    }
-                }));
+                });
+            } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                e.printStackTrace();
             }
         } else {
-            throw new IllegalArgumentException("No localId argument");
+            if (accountId == 0L) {
+                throw new IllegalArgumentException("No accountId given");
+            }
+            whenBoardIdIsAvailable();
         }
+    }
+
+    private void whenBoardIdIsAvailable() {
+        observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
+            canEdit = fullBoard.getBoard().isPermissionEdit();
+            invalidateOptionsMenu();
+            if (createMode) {
+                fullCard = new FullCard();
+                fullCard.setLabels(new ArrayList<>());
+                fullCard.setAssignedUsers(new ArrayList<>());
+                Card card = new Card();
+                card.setStackId(stackId);
+                fullCard.setCard(card);
+                setupViewPager();
+                setupTitle(createMode);
+            } else {
+                observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
+                    fullCard = next;
+                    originalCard = new FullCard(fullCard);
+                    setupViewPager();
+                    setupTitle(createMode);
+                });
+            }
+        }));
     }
 
     @Override
@@ -275,12 +301,14 @@ public class EditActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onBoardSelected(Board board) {
-        syncManager.getFullBoardById(accountId, board.getLocalId());
-        Intent intent = new Intent(this, EditActivity.class);
-        intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, accountId);
-        intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
-        intent.putExtra(BUNDLE_KEY_LOCAL_ID, localId);
-        startActivityForResult(intent, -1); // FIXME
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        boardId = ((Board) boardSelector.getItemAtPosition(position)).getLocalId();
+        stackId = 1; // FIXME
+        whenBoardIdIsAvailable();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

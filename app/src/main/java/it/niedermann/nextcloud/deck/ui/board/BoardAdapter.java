@@ -4,13 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,38 +17,37 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHolder> {
+public class BoardAdapter extends ArrayAdapter<Board> {
 
     @NonNull
-    private List<Board> boardsList;
-    @Nullable
     private Context context;
+    private Board selectedBoard;
 
-    public BoardAdapter(@Nullable Context context, @NonNull List<Board> boardsList) {
-        super();
-        this.boardsList = boardsList;
+    public BoardAdapter(@NonNull Context context, @NonNull Board[] boardsList) {
+        super(context, R.layout.item_board, boardsList);
         this.context = context;
     }
 
     @NonNull
     @Override
-    public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board, parent, false);
-        return new BoardViewHolder(v);
-    }
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        Board board = getItem(position);
+        // Check if an existing view is being reused, otherwise inflate the view
 
-    @Override
-    public void onBindViewHolder(@NonNull BoardViewHolder holder, int position) {
-        Board board = boardsList.get(position);
-        holder.boardName.setText(board.getTitle());
-        if(context != null) {
-            holder.boardName.setCompoundDrawables(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()), null, null, null);
+        if (convertView == null) {
+
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_board, parent, false);
+
         }
+        TextView boardName = convertView.findViewById(R.id.boardName);
+        boardName.setText(board.getTitle());
+        boardName.setCompoundDrawables(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()), null, null, null);
+        return convertView;
     }
 
     @Override
-    public int getItemCount() {
-        return boardsList.size();
+    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        return getView(position, convertView, parent);
     }
 
     static class BoardViewHolder extends RecyclerView.ViewHolder {

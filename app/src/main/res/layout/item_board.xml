@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/boardName"
+    android:padding="@dimen/standard_padding"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/standard_padding">
-
-    <TextView
-        android:id="@+id/boardName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/fg_secondary"
-        tools:text="4 days ago" />
-</LinearLayout>
+    android:textColor="@color/fg_secondary"
+    tools:text="4 days ago" />

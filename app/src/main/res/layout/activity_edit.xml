@@ -41,6 +41,14 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/boardSelector"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
