@@ -122,8 +122,8 @@ public class EditActivity extends AppCompatActivity implements
                     accountId = account.getId();
                     boardSelector.setVisibility(View.VISIBLE);
                     syncManager.getBoards(account.getId()).observe(this, (List<Board> boardsList) -> {
-                        for(Board board: boardsList) {
-                            if(!board.isPermissionEdit()) {
+                        for (Board board : boardsList) {
+                            if (!board.isPermissionEdit()) {
                                 boardsList.remove(board);
                             }
                         }
@@ -141,32 +141,28 @@ public class EditActivity extends AppCompatActivity implements
             if (accountId == 0L) {
                 throw new IllegalArgumentException("No accountId given");
             }
-            whenBoardIdIsAvailable();
-        }
-    }
-
-    private void whenBoardIdIsAvailable() {
-        observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
-            canEdit = fullBoard.getBoard().isPermissionEdit();
-            invalidateOptionsMenu();
-            if (createMode) {
-                fullCard = new FullCard();
-                fullCard.setLabels(new ArrayList<>());
-                fullCard.setAssignedUsers(new ArrayList<>());
-                Card card = new Card();
-                card.setStackId(stackId);
-                fullCard.setCard(card);
-                setupViewPager();
-                setupTitle(createMode);
-            } else {
-                observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
-                    fullCard = next;
-                    originalCard = new FullCard(fullCard);
+            observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
+                canEdit = fullBoard.getBoard().isPermissionEdit();
+                invalidateOptionsMenu();
+                if (createMode) {
+                    fullCard = new FullCard();
+                    fullCard.setLabels(new ArrayList<>());
+                    fullCard.setAssignedUsers(new ArrayList<>());
+                    Card card = new Card();
+                    card.setStackId(stackId);
+                    fullCard.setCard(card);
                     setupViewPager();
                     setupTitle(createMode);
-                });
-            }
-        }));
+                } else {
+                    observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
+                        fullCard = next;
+                        originalCard = new FullCard(fullCard);
+                        setupViewPager();
+                        setupTitle(createMode);
+                    });
+                }
+            }));
+        }
     }
 
     @Override
@@ -303,8 +299,25 @@ public class EditActivity extends AppCompatActivity implements
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         boardId = ((Board) boardSelector.getItemAtPosition(position)).getLocalId();
-        stackId = 1; // FIXME
-        whenBoardIdIsAvailable();
+        observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
+            canEdit = fullBoard.getBoard().isPermissionEdit();
+            observeOnce(syncManager.getStacksForBoard(accountId, boardId), EditActivity.this, (stacks -> {
+                if(stacks != null && stacks.size() > 0) {
+                    stackId = stacks.get(0).getLocalId();
+                }
+            }));
+            if (fullCard == null) {
+                invalidateOptionsMenu();
+                fullCard = new FullCard();
+                fullCard.setLabels(new ArrayList<>());
+                fullCard.setAssignedUsers(new ArrayList<>());
+                Card card = new Card();
+                card.setStackId(stackId);
+                fullCard.setCard(card);
+                setupViewPager();
+                setupTitle(createMode);
+            }
+        }));
     }
 
     @Override

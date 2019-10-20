@@ -5,5 +5,6 @@
     android:padding="@dimen/standard_padding"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="@color/fg_secondary"
-    tools:text="4 days ago" />
+    android:textColor="@android:color/white"
+    android:background="@android:color/transparent"
+    tools:text="Awesome board name" />

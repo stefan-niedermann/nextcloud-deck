@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -35,13 +36,15 @@ public class BoardAdapter extends ArrayAdapter<Board> {
         // Check if an existing view is being reused, otherwise inflate the view
 
         if (convertView == null) {
-
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_board, parent, false);
-
         }
         TextView boardName = convertView.findViewById(R.id.boardName);
-        boardName.setText(board.getTitle());
-        boardName.setCompoundDrawables(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()), null, null, null);
+        if(board != null) {
+            boardName.setText(board.getTitle());
+            boardName.setCompoundDrawables(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()), null, null, null);
+        } else {
+            DeckLog.logError(new IllegalArgumentException("board at position " + position + "is null"));
+        }
         return convertView;
     }
 
