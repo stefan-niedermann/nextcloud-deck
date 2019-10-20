@@ -1,10 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
+
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.model.Account;
 
 @Dao
@@ -27,6 +28,9 @@ public interface AccountDao extends GenericDao<Account> {
 
     @Query("SELECT * from account where id = :id")
     LiveData<Account> selectById(long id);
+
+    @Query("SELECT * from account where name = :name")
+    LiveData<Account> selectById(String name);
 
     @Query("SELECT * from account")
     LiveData<List<Account>> selectAll();

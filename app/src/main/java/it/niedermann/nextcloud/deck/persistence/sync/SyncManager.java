@@ -167,6 +167,10 @@ public class SyncManager {
         return dataBaseAdapter.readAccount(id);
     }
 
+    public LiveData<Account> readAccount(String name) {
+        return dataBaseAdapter.readAccount(name);
+    }
+
     public LiveData<List<Account>> readAccounts() {
         return dataBaseAdapter.readAccounts();
     }
