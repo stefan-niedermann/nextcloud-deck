@@ -1,1 +1,2 @@
 - Shortcuts for create operation (#66)
+- Tile for quickly creating a new card
