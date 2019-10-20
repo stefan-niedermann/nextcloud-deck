@@ -42,9 +42,12 @@
         </androidx.appcompat.widget.Toolbar>
 
         <LinearLayout
+            android:id="@+id/selectBoardWrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,9 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:theme="@style/Spinner"
-                android:visibility="gone"
-                tools:listitem="@layout/item_board"
-                tools:visibility="visible" />
+                tools:listitem="@layout/item_board" />
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout

@@ -67,6 +67,8 @@ public class EditActivity extends AppCompatActivity implements
     TextInputLayout titleTextInputLayout;
     @BindView(R.id.title)
     EditText title;
+    @BindView(R.id.selectBoardWrapper)
+    View selectBoardWrapper;
     @BindView(R.id.boardSelector)
     AppCompatSpinner boardSelector;
     @BindView(R.id.tab_layout)
@@ -120,7 +122,7 @@ public class EditActivity extends AppCompatActivity implements
                 SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(this);
                 syncManager.readAccount(ssoa.name).observe(this, (Account account) -> {
                     accountId = account.getId();
-                    boardSelector.setVisibility(View.VISIBLE);
+                    selectBoardWrapper.setVisibility(View.VISIBLE);
                     syncManager.getBoards(account.getId()).observe(this, (List<Board> boardsList) -> {
                         for (Board board : boardsList) {
                             if (!board.isPermissionEdit()) {
