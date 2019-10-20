@@ -60,6 +60,16 @@
             android:name=".ui.exception.ExceptionActivity"
             android:process=":error_activity" />
 
+        <service
+            android:name=".ui.tiles.EditCardTileService"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:label="@string/add_card"
+            android:description="@string/add_a_new_card_using_the_button"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
