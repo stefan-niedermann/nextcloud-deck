@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:completionThreshold="1"
         android:layout_margin="@dimen/standard_padding"
+        android:layout_marginBottom="0dp"
         android:hint="@string/hint_assign_people"
         android:inputType="text" />
 
@@ -20,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/standard_padding"
+        android:paddingTop="0dp"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
