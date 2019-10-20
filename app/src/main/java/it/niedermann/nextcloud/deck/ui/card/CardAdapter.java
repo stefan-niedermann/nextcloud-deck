@@ -58,7 +58,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     private static final String TAG = CardAdapter.class.getCanonicalName();
 
-    public static final int REQUEST_CODE_START_EDIT_ACTIVITY = 100;
+    //    public static final int REQUEST_CODE_START_EDIT_ACTIVITY = 100;
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
     public static final String BUNDLE_KEY_BOARD_ID = "boardId";
@@ -73,8 +73,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private final long boardId;
     private final boolean canEdit;
 
-    private Fragment fragment;
-    private boolean pendingEditActivity = false;
 
     @BindInt(R.integer.max_avatar_count)
     int maxAvatarCount;
@@ -88,7 +86,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         this.boardId = boardId;
         this.canEdit = canEdit;
         this.syncManager = syncManager;
-        this.fragment = fragment;
     }
 
     @NonNull
@@ -115,14 +112,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         viewHolder.card.setOnClickListener((View clickedView) -> {
-            if(!pendingEditActivity) {
-                pendingEditActivity = true;
-                Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
-                intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
-                intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
-                intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
-                fragment.startActivityForResult(intent, REQUEST_CODE_START_EDIT_ACTIVITY);
-            }
+            Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
+            intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
+            intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
+            intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
         });
         if (canEdit) {
             viewHolder.card.setOnLongClickListener((View draggedView) -> {
@@ -323,10 +318,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     public List<FullCard> getCardList() {
         return cardList;
-    }
-
-    public void resetPendingEditActivity() {
-        this.pendingEditActivity = false;
     }
 
     private boolean containsUser(List<User> userList, String username) {
