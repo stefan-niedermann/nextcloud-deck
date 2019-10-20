@@ -143,4 +143,5 @@
     <string name="simple_share">share</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">You have to be connected to the internet in order to add an account.</string>
     <string name="simple_select">Select</string>
+    <string name="owner">owner</string>
 </resources>

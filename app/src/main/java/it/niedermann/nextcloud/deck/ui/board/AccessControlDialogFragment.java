@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
@@ -64,12 +65,17 @@ public class AccessControlDialogFragment extends DialogFragment implements
             throw new IllegalArgumentException("accountId and boardId must be provided");
         } else {
             syncManager = new SyncManager(activity);
-            syncManager.getAccessControlByLocalBoardId(accountId, boardId).observe(this, (List<AccessControl> accessControlList) -> {
-                RecyclerView.Adapter adapter = new AccessControlAdapter(accessControlList, this, getContext());
-                peopleList.setAdapter(adapter);
-                userAutoCompleteAdapter = new UserAutoCompleteAdapter(this, activity, accountId, boardId);
-                people.setAdapter(userAutoCompleteAdapter);
-                people.setOnItemClickListener(this);
+            syncManager.getFullBoardById(accountId, boardId).observe(this, (FullBoard fullBoard) -> {
+                syncManager.getAccessControlByLocalBoardId(accountId, boardId).observe(this, (List<AccessControl> accessControlList) -> {
+                    AccessControl ownerControl = new AccessControl();
+                    ownerControl.setUser(fullBoard.getOwner().get(0));
+                    accessControlList.add(0, ownerControl);
+                    RecyclerView.Adapter adapter = new AccessControlAdapter(accessControlList, this, getContext());
+                    peopleList.setAdapter(adapter);
+                    userAutoCompleteAdapter = new UserAutoCompleteAdapter(this, activity, accountId, boardId);
+                    people.setAdapter(userAutoCompleteAdapter);
+                    people.setOnItemClickListener(this);
+                });
             });
         }
 

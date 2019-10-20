@@ -28,7 +28,10 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdapter.ActivitiesViewHolder> {
+public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
     @NonNull
     private List<AccessControl> accessControls;
@@ -46,46 +49,66 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
 
     @NonNull
     @Override
-    public ActivitiesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_access_control, parent, false);
-        return new ActivitiesViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_access_control_owner, parent, false);
+            return new OwnerViewHolder(v);
+        } else if (viewType == TYPE_ITEM) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_access_control, parent, false);
+            return new AccessControlViewHolder(v);
+        }
+        throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ActivitiesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         AccessControl ac = accessControls.get(position);
+        if (holder instanceof OwnerViewHolder) {
+            OwnerViewHolder ownerHolder = (OwnerViewHolder) holder;
+            ownerHolder.owner.setText(ac.getUser().getDisplayname());
 
-        if (context != null) {
-            try {
-                ViewUtil.addAvatar(context, holder.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
-            } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                e.printStackTrace();
+            if (context != null) {
+                try {
+                    ViewUtil.addAvatar(context, ownerHolder.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                    e.printStackTrace();
+                }
             }
+        } else if (holder instanceof AccessControlViewHolder) {
+            AccessControlViewHolder acHolder = (AccessControlViewHolder) holder;
+
+            if (context != null) {
+                try {
+                    ViewUtil.addAvatar(context, acHolder.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            acHolder.username.setText(ac.getUser().getDisplayname());
+            acHolder.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? acHolder.syncIcon : null, null);
+            // TODO remove from list when deleted
+            acHolder.deleteButton.setOnClickListener((v) -> accessControlChangedListener.deleteAccessControl(ac));
+
+            acHolder.switchEdit.setChecked(ac.isPermissionEdit());
+            acHolder.switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                ac.setPermissionEdit(isChecked);
+                accessControlChangedListener.updateAccessControl(ac);
+            });
+
+            acHolder.switchManage.setChecked(ac.isPermissionManage());
+            acHolder.switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                ac.setPermissionManage(isChecked);
+                accessControlChangedListener.updateAccessControl(ac);
+                acHolder.username.setCompoundDrawables(null, null, null, null);
+            });
+
+            acHolder.switchShare.setChecked(ac.isPermissionShare());
+            acHolder.switchShare.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                ac.setPermissionShare(isChecked);
+                accessControlChangedListener.updateAccessControl(ac);
+            });
         }
-
-        holder.username.setText(ac.getUser().getDisplayname());
-        holder.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? holder.syncIcon : null, null);
-        // TODO remove from list when deleted
-        holder.deleteButton.setOnClickListener((v) -> accessControlChangedListener.deleteAccessControl(ac));
-
-        holder.switchEdit.setChecked(ac.isPermissionEdit());
-        holder.switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ac.setPermissionEdit(isChecked);
-            accessControlChangedListener.updateAccessControl(ac);
-        });
-
-        holder.switchManage.setChecked(ac.isPermissionManage());
-        holder.switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ac.setPermissionManage(isChecked);
-            accessControlChangedListener.updateAccessControl(ac);
-            holder.username.setCompoundDrawables(null, null, null, null);
-        });
-
-        holder.switchShare.setChecked(ac.isPermissionShare());
-        holder.switchShare.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ac.setPermissionShare(isChecked);
-            accessControlChangedListener.updateAccessControl(ac);
-        });
     }
 
     @Override
@@ -93,7 +116,12 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
         return accessControls.size();
     }
 
-    static class ActivitiesViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        return (position == 0) ? TYPE_HEADER : TYPE_ITEM;
+    }
+
+    static class AccessControlViewHolder extends RecyclerView.ViewHolder {
         @BindDrawable(R.drawable.ic_sync_blue_24dp)
         Drawable syncIcon;
         @BindView(R.id.avatar)
@@ -109,7 +137,19 @@ public class AccessControlAdapter extends RecyclerView.Adapter<AccessControlAdap
         @BindView(R.id.permission_share)
         SwitchCompat switchShare;
 
-        private ActivitiesViewHolder(View view) {
+        private AccessControlViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    static class OwnerViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.avatar)
+        ImageView avatar;
+        @BindView(R.id.owner)
+        TextView owner;
+
+        private OwnerViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
