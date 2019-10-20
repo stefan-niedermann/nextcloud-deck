@@ -196,9 +196,9 @@ public class EditActivity extends AppCompatActivity implements
             }
         }
         if (createMode) {
-            observeOnce(syncManager.createFullCard(accountId, boardId, stackId, fullCard), EditActivity.this, (card) -> finish());
+            observeOnce(syncManager.createFullCard(accountId, boardId, stackId, fullCard), EditActivity.this, (card) -> super.finish());
         } else {
-            observeOnce(syncManager.updateCard(fullCard), EditActivity.this, (card) -> finish());
+            observeOnce(syncManager.updateCard(fullCard), EditActivity.this, (card) -> super.finish());
         }
     }
 
@@ -287,14 +287,19 @@ public class EditActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public void finish() {
         if (!fullCard.equals(originalCard) && canEdit) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
-                    .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> saveAndFinish())
-                    .setNegativeButton(R.string.simple_discard, (dialog, whichButton) -> super.onBackPressed()).show();
+                    .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndFinish())
+                    .setNegativeButton(R.string.simple_discard, (dialog, whichButton) -> super.finish()).show();
         } else {
-            super.onBackPressed();
+            super.finish();
         }
     }
 
