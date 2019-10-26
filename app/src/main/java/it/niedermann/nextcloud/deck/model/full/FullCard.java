@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.model.full;
 
 import androidx.room.Embedded;
 import androidx.room.Ignore;
+import androidx.room.Junction;
 import androidx.room.Relation;
 
 import java.util.ArrayList;
@@ -19,17 +20,22 @@ public class FullCard implements IRemoteEntity {
     @Embedded
     public Card card;
 
-    @Relation(entity = JoinCardWithLabel.class, parentColumn = "localId", entityColumn = "cardId", projection = "labelId")
-    public List<Long> labelIDs;
+//    @Relation(entity = JoinCardWithLabel.class, parentColumn = "localId", entityColumn = "cardId", projection = "labelId")
+//    public List<Long> labelIDs;
 
-    @Ignore
+//    @Ignore
+    @Relation(entity = Label.class, parentColumn = "localId", entityColumn = "localId",
+            associateBy = @Junction(value = JoinCardWithLabel.class, parentColumn = "cardId", entityColumn = "labelId"))
+
     public List<Label> labels = new ArrayList<>();
 
 
-    @Relation(entity = JoinCardWithUser.class, parentColumn = "localId", entityColumn = "cardId", projection = "userId")
-    public List<Long> assignedUserIDs;
+//    @Relation(entity = JoinCardWithUser.class, parentColumn = "localId", entityColumn = "cardId", projection = "userId")
+//    public List<Long> assignedUserIDs;
 
-    @Ignore
+//    @Ignore
+    @Relation(entity = User.class, parentColumn = "localId", entityColumn = "localId",
+        associateBy = @Junction(value = JoinCardWithUser.class, parentColumn = "cardId", entityColumn = "userId"))
     public List<User> assignedUsers = new ArrayList<>();
 
     @Relation(parentColumn = "userId", entityColumn = "localId")
@@ -45,9 +51,7 @@ public class FullCard implements IRemoteEntity {
 
     public FullCard(FullCard fullCard) {
         this.card = new Card(fullCard.getCard());
-        this.labelIDs = copyList(fullCard.getLabelIDs());
         this.labels = copyList(fullCard.getLabels());
-        this.assignedUserIDs = copyList(fullCard.getAssignedUserIDs());
         this.assignedUsers = copyList(fullCard.getAssignedUsers());
         this.owner = copyList(fullCard.getOwner());
         this.attachments = copyList(fullCard.getAttachments());
@@ -81,22 +85,6 @@ public class FullCard implements IRemoteEntity {
         return owner;
     }
 
-    public List<Long> getAssignedUserIDs() {
-        return assignedUserIDs;
-    }
-
-    public void setAssignedUserIDs(List<Long> assignedUserIDs) {
-        this.assignedUserIDs = assignedUserIDs;
-    }
-
-    public List<Long> getLabelIDs() {
-        return labelIDs;
-    }
-
-    public void setLabelIDs(List<Long> labelIDs) {
-        this.labelIDs = labelIDs;
-    }
-
     public void setOwner(User owner) {
         List<User> user = new ArrayList<>();
         user.add(owner);
@@ -125,9 +113,7 @@ public class FullCard implements IRemoteEntity {
     public String toString() {
         return "FullCard{" +
                 "card=" + card +
-                ", labelIDs=" + labelIDs +
                 ", labels=" + labels +
-                ", assignedUserIDs=" + assignedUserIDs +
                 ", assignedUsers=" + assignedUsers +
                 ", owner=" + owner +
                 ", attachments=" + attachments +
@@ -142,11 +128,7 @@ public class FullCard implements IRemoteEntity {
         FullCard fullCard = (FullCard) o;
 
         if (card != null ? !card.equals(fullCard.card) : fullCard.card != null) return false;
-        if (labelIDs != null ? !labelIDs.equals(fullCard.labelIDs) : fullCard.labelIDs != null)
-            return false;
         if (labels != null ? !labels.equals(fullCard.labels) : fullCard.labels != null)
-            return false;
-        if (assignedUserIDs != null ? !assignedUserIDs.equals(fullCard.assignedUserIDs) : fullCard.assignedUserIDs != null)
             return false;
         if (assignedUsers != null ? !assignedUsers.equals(fullCard.assignedUsers) : fullCard.assignedUsers != null)
             return false;
@@ -157,9 +139,7 @@ public class FullCard implements IRemoteEntity {
     @Override
     public int hashCode() {
         int result = card != null ? card.hashCode() : 0;
-        result = 31 * result + (labelIDs != null ? labelIDs.hashCode() : 0);
         result = 31 * result + (labels != null ? labels.hashCode() : 0);
-        result = 31 * result + (assignedUserIDs != null ? assignedUserIDs.hashCode() : 0);
         result = 31 * result + (assignedUsers != null ? assignedUsers.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + (attachments != null ? attachments.hashCode() : 0);

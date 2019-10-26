@@ -41,8 +41,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     private void handleOwner(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
-        if (entity.getOwner()!=null && entity.getOwner().size() == 1) {
-            User remoteOwner = entity.getOwner().get(0);
+        if (entity.getOwner()!=null) {
+            User remoteOwner = entity.getOwner();
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
             if (owner == null){
                 dataBaseAdapter.createUser(accountId, remoteOwner);
