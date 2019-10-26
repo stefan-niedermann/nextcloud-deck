@@ -601,7 +601,7 @@ public class SyncManager {
             final long localUserId = user.getLocalId();
             final long localCardId = card.getLocalId();
             JoinCardWithUser joinCardWithUser = dataBaseAdapter.getJoinCardWithUser(localUserId, localCardId);
-            if (joinCardWithUser != null){
+            if (joinCardWithUser != null && joinCardWithUser.getStatus() != DBStatus.LOCAL_DELETED.getId()){
                 return;
             }
             dataBaseAdapter.createJoinCardWithUser(localUserId, localCardId, DBStatus.LOCAL_EDITED);
