@@ -84,6 +84,6 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public List<AccessControl> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        return dataBaseAdapter.getLocallyChangedAccessControl(accountId, board.getId());
+        return dataBaseAdapter.getLocallyChangedAccessControl(accountId, board.getLocalId());
     }
 }

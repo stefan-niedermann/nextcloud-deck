@@ -582,4 +582,7 @@ public class DataBaseAdapter {
     public List<AccessControl> getLocallyChangedAccessControl(long accountId, long boardId) {
         return db.getAccessControlDao().getLocallyChangedAccessControl(accountId, boardId);
     }
+    public List<Long> getBoardIDsOfLocallyChangedAccessControl(long accountId) {
+        return db.getAccessControlDao().getBoardIDsOfLocallyChangedAccessControl(accountId);
+    }
 }

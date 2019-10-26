@@ -22,4 +22,7 @@ public interface AccessControlDao extends GenericDao<AccessControl> {
 
     @Query("SELECT * FROM AccessControl WHERE accountId = :accountId and boardId = :boardId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
     List<AccessControl> getLocallyChangedAccessControl(long accountId, long boardId);
+
+    @Query("SELECT distinct boardId FROM AccessControl WHERE accountId = :accountId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
+    List<Long> getBoardIDsOfLocallyChangedAccessControl(long accountId);
 }
