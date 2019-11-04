@@ -442,9 +442,11 @@ public class SyncManager {
             }
 
             liveData.postValue(card);
-            new SyncHelper(serverAdapter, dataBaseAdapter, null)
-                    .setResponseCallback(IResponseCallback.getDefaultResponseCallback(account))
-                    .doUpSyncFor(new CardDataProvider(null, board, stack));
+            if (serverAdapter.hasInternetConnection()){
+                new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                        .setResponseCallback(IResponseCallback.getDefaultResponseCallback(account))
+                        .doUpSyncFor(new CardDataProvider(null, board, stack));
+            }
         });
         return liveData;
     }

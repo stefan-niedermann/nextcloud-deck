@@ -248,11 +248,11 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         List<FullCard> localCards = dataBaseAdapter.getFullCardsForStackDirectly(accountId, stack.getLocalId());
         List<FullCard> delta = findDelta(entitiesFromServer, localCards);
         for (FullCard cardToDelete : delta) {
+            if (cardToDelete.getId() == null){
+                // not pushed up yet so:
+                continue;
+            }
             if (cardToDelete.getStatus() == DBStatus.LOCAL_MOVED.getId()){
-                if (cardToDelete.getId() == null){
-                    // not pushed up yet so:
-                    continue;
-                } else {
                     //only delete, if the card isn't availible on server anymore.
                     serverAdapter.getCard(board.getId(), stack.getId(), cardToDelete.getId(), new IResponseCallback<FullCard>(new Account(accountId)){
                         @Override
@@ -268,7 +268,6 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                             }
                         }
                     });
-                }
 
                 continue;
             }
