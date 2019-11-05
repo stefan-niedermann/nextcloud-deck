@@ -1,3 +1,5 @@
+⚠️ Requires at least Files app version 3.9.0-RC1 ⚠️
+
 - Shortcuts for create operation (#66)
 - Tile for quickly creating a new card
 - Double-clicking card opens EditActivity twice (#159)
