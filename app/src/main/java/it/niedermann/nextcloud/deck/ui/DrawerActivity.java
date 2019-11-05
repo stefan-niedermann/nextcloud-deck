@@ -39,6 +39,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.AccountImporter;
+import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
@@ -129,64 +130,68 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        AccountImporter.onActivityResult(requestCode, resultCode, data, this, (SingleSignOnAccount account) -> {
-            final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
-            accountLiveData.observe(this, (Account createdAccount) -> {
-                if (accountLiveData.hasError()) {
-                    try {
-                        accountLiveData.throwError();
-                    } catch (SQLiteConstraintException ex) {
-                        Snackbar.make(coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
-                    }
-                } else {
-                    // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
-                    editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
-                    editor.commit();
+        try {
+            AccountImporter.onActivityResult(requestCode, resultCode, data, this, (SingleSignOnAccount account) -> {
+                final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
+                accountLiveData.observe(this, (Account createdAccount) -> {
+                    if (accountLiveData.hasError()) {
+                        try {
+                            accountLiveData.throwError();
+                        } catch (SQLiteConstraintException ex) {
+                            Snackbar.make(coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
+                        editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
+                        editor.commit();
 
-                    try {
-                        syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
-                            @Override
-                            public void onResponse(Capabilities response) {
-                                if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
-                                    deckVersionTooLowSnackbar = Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
-                                        new AlertDialog.Builder(DrawerActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
-                                                .setTitle(R.string.update_deck)
-                                                .setMessage(R.string.deck_outdated_please_update)
-                                                .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
-                                                    Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                    openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
-                                                    startActivity(openURL);
-                                                })
-                                                .setNegativeButton(R.string.simple_discard, null).show();
-                                    });
-                                    deckVersionTooLowSnackbar.show();
-                                    syncManager.deleteAccount(createdAccount.getId());
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    DeckLog.log("--- Remove: shared_preference_last_account" + " | " + createdAccount.getId());
-                                    editor.remove(sharedPreferenceLastAccount);
-                                    editor.commit(); // Has to be done synchronously
-                                } else {
-                                    accountIsGettingImportedSnackbar.show();
+                        try {
+                            syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
+                                @Override
+                                public void onResponse(Capabilities response) {
+                                    if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
+                                        deckVersionTooLowSnackbar = Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
+                                            new AlertDialog.Builder(DrawerActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
+                                                    .setTitle(R.string.update_deck)
+                                                    .setMessage(R.string.deck_outdated_please_update)
+                                                    .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
+                                                        Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                        openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                        startActivity(openURL);
+                                                    })
+                                                    .setNegativeButton(R.string.simple_discard, null).show();
+                                        });
+                                        deckVersionTooLowSnackbar.show();
+                                        syncManager.deleteAccount(createdAccount.getId());
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        DeckLog.log("--- Remove: shared_preference_last_account" + " | " + createdAccount.getId());
+                                        editor.remove(sharedPreferenceLastAccount);
+                                        editor.commit(); // Has to be done synchronously
+                                    } else {
+                                        accountIsGettingImportedSnackbar.show();
+                                    }
                                 }
-                            }
-                        });
-                    } catch (OfflineException e) {
-                        new AlertDialog.Builder(DrawerActivity.this)
-                                .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
-                                .setPositiveButton(R.string.simple_close, null)
-                                .show();
-                        syncManager.deleteAccount(createdAccount.getId());
-                        DeckLog.log("--- Remove: shared_preference_last_account" + " | " + createdAccount.getId());
-                        editor.remove(sharedPreferenceLastAccount);
-                        editor.commit(); // Has to be done synchronously
+                            });
+                        } catch (OfflineException e) {
+                            new AlertDialog.Builder(DrawerActivity.this)
+                                    .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
+                                    .setPositiveButton(R.string.simple_close, null)
+                                    .show();
+                            syncManager.deleteAccount(createdAccount.getId());
+                            DeckLog.log("--- Remove: shared_preference_last_account" + " | " + createdAccount.getId());
+                            editor.remove(sharedPreferenceLastAccount);
+                            editor.commit(); // Has to be done synchronously
+                        }
                     }
-                }
-            });
+                });
 
-            SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
-        });
+                SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
+            });
+        } catch (AccountImportCancelledException e) {
+            // TODO: do nothing?
+        }
     }
 
 

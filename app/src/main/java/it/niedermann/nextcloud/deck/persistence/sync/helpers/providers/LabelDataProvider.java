@@ -80,7 +80,10 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<Label> entitiesFromServer) {
         List<Label> deletedLabels = findDelta(labels, dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, board.getLocalId()).getLabels());
         for (Label deletedLabel : deletedLabels) {
-            dataBaseAdapter.deleteLabelPhysically(deletedLabel);
+            if (deletedLabel.getId()!=null){
+                // preserve new, unsynced card.
+                dataBaseAdapter.deleteLabelPhysically(deletedLabel);
+            }
         }
     }
 }

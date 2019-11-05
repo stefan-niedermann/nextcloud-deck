@@ -31,7 +31,7 @@ public class Card extends AbstractRemoteEntity {
     private String title;
     private String description;
     @NonNull
-    private long stackId;
+    private Long stackId;
     private String type;
     private Date createdAt;
     private Date deletedAt;
@@ -114,11 +114,11 @@ public class Card extends AbstractRemoteEntity {
         this.description = description;
     }
 
-    public long getStackId() {
+    public Long getStackId() {
         return stackId;
     }
 
-    public void setStackId(long stackId) {
+    public void setStackId(Long stackId) {
         this.stackId = stackId;
     }
 
@@ -202,7 +202,7 @@ public class Card extends AbstractRemoteEntity {
         return this.userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

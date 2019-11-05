@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -40,8 +41,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     }
 
     private void handleOwner(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
-        if (entity.getOwner()!=null && entity.getOwner().size() == 1) {
-            User remoteOwner = entity.getOwner().get(0);
+        if (entity.getOwner()!=null) {
+            User remoteOwner = entity.getOwner();
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
             if (owner == null){
                 dataBaseAdapter.createUser(accountId, remoteOwner);
@@ -103,6 +104,11 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
             label.setBoardId(board.getId());
             syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)));
+        }
+
+        List<Long> localBoardIDsWithChangedACL = dataBaseAdapter.getBoardIDsOfLocallyChangedAccessControl(accountId);
+        for (Long boardId : localBoardIDsWithChangedACL) {
+            syncHelper.doUpSyncFor(new AccessControlDataProvider(this, dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId) ,new ArrayList<>()));
         }
 
         Set<Long> syncedBoards = new HashSet<>();

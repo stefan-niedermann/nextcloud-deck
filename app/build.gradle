@@ -34,8 +34,7 @@ android {
 
 dependencies {
     // Single-Sign-On
-//    implementation 'com.github.nextcloud:Android-SingleSignOn:filterAccounts-SNAPSHOT'
-    implementation 'com.github.nextcloud:Android-SingleSignOn:master-SNAPSHOT'
+    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.0-rc1'
 
     // --------------------
     // --- UI-Libraries ---

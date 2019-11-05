@@ -1,11 +1,11 @@
 package it.niedermann.nextcloud.deck.model.full;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.room.Embedded;
 import androidx.room.Ignore;
 import androidx.room.Relation;
+
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -21,7 +21,7 @@ public class FullBoard implements IRemoteEntity {
     public List<Label> labels;
 
     @Relation(parentColumn = "ownerId", entityColumn = "localId")
-    public List<User> owner;
+    public User owner;
 
     @Relation(entity = AccessControl.class, parentColumn = "localId", entityColumn = "boardId")
     public List<AccessControl> participants;
@@ -30,14 +30,12 @@ public class FullBoard implements IRemoteEntity {
     public List<Stack> stacks;
 
 
-    public List<User> getOwner() {
+    public User getOwner() {
         return owner;
     }
 
     public void setOwner(User owner) {
-        List<User> user = new ArrayList<>();
-        user.add(owner);
-        this.owner = user;
+        this.owner = owner;
     }
 
     public Board getBoard() {
@@ -60,10 +58,6 @@ public class FullBoard implements IRemoteEntity {
     @Override
     public IRemoteEntity getEntity() {
         return board;
-    }
-
-    public void setOwner(List<User> owner) {
-        this.owner = owner;
     }
 
     public List<AccessControl> getParticipants() {

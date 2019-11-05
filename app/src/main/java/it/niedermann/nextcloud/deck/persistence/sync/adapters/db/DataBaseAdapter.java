@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -88,24 +89,32 @@ public class DataBaseAdapter {
 
     public FullCard getFullCardByRemoteIdDirectly(long accountId, long remoteId) {
         FullCard card = db.getCardDao().getFullCardByRemoteIdDirectly(accountId, remoteId);
-        readRelationsForCard(card);
+        filterRelationsForCard(card);
         return card;
     }
     public FullCard getFullCardByLocalIdDirectly(long accountId, long localId) {
         return db.getCardDao().getFullCardByLocalIdDirectly(accountId, localId);
     }
 
-    public void readRelationsForCard(FullCard card) {
+    public void filterRelationsForCard(FullCard card) {
         if (card != null){
-            if (card.getLabelIDs() != null && !card.getLabelIDs().isEmpty()){
-                List<Long> filteredIDs = db.getJoinCardWithLabelDao().filterDeleted(card.getLocalId(), card.getLabelIDs());
+            if (card.getLabels() != null && !card.getLabels().isEmpty()){
+                List<Long> filteredIDs = db.getJoinCardWithLabelDao().filterDeleted(card.getLocalId(), getLocalIDs(card.getLabels()));
                 card.setLabels(db.getLabelDao().getLabelsByIdsDirectly(filteredIDs));
             }
-            if (card.getAssignedUserIDs() != null && !card.getAssignedUserIDs().isEmpty()){
-                List<Long> filteredIDs = db.getJoinCardWithUserDao().filterDeleted(card.getLocalId(), card.getAssignedUserIDs());
+            if (card.getAssignedUsers() != null && !card.getAssignedUsers().isEmpty()){
+                List<Long> filteredIDs = db.getJoinCardWithUserDao().filterDeleted(card.getLocalId(), getLocalIDs(card.getAssignedUsers()));
                 card.setAssignedUsers(db.getUserDao().getUsersByIdsDirectly(filteredIDs));
             }
         }
+    }
+
+    private <T> List<Long> getLocalIDs(List<? extends AbstractRemoteEntity> remoteEntityList){
+        ArrayList<Long> ids = new ArrayList<>(remoteEntityList.size());
+        for (AbstractRemoteEntity entity : remoteEntityList) {
+            ids.add(entity.getLocalId());
+        }
+        return ids;
     }
 
     public void readRelationsForACL(List<AccessControl> acl) {
@@ -123,12 +132,12 @@ public class DataBaseAdapter {
         }
     }
 
-    private void readRelationsForCard(List<FullCard> card) {
+    private void filterRelationsForCard(List<FullCard> card) {
         if (card == null){
             return;
         }
         for (FullCard c : card) {
-            readRelationsForCard(c);
+            filterRelationsForCard(c);
         }
     }
 
@@ -137,7 +146,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
-        return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::readRelationsForCard);
+        return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::filterRelationsForCard);
     }
 
     public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId) {
@@ -358,7 +367,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<FullCard>  getCardByLocalId(long accountId, long localCardId) {
-        return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::readRelationsForCard);
+        return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::filterRelationsForCard);
     }
     public List<FullCard> getLocallyChangedCardsDirectly(long accountId) {
         return db.getCardDao().getLocallyChangedCardsDirectly(accountId);
@@ -581,5 +590,8 @@ public class DataBaseAdapter {
 
     public List<AccessControl> getLocallyChangedAccessControl(long accountId, long boardId) {
         return db.getAccessControlDao().getLocallyChangedAccessControl(accountId, boardId);
+    }
+    public List<Long> getBoardIDsOfLocallyChangedAccessControl(long accountId) {
+        return db.getAccessControlDao().getBoardIDsOfLocallyChangedAccessControl(accountId);
     }
 }

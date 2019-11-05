@@ -68,7 +68,7 @@ public class AccessControlDialogFragment extends DialogFragment implements
             syncManager.getFullBoardById(accountId, boardId).observe(this, (FullBoard fullBoard) -> {
                 syncManager.getAccessControlByLocalBoardId(accountId, boardId).observe(this, (List<AccessControl> accessControlList) -> {
                     AccessControl ownerControl = new AccessControl();
-                    ownerControl.setUser(fullBoard.getOwner().get(0));
+                    ownerControl.setUser(fullBoard.getOwner());
                     accessControlList.add(0, ownerControl);
                     RecyclerView.Adapter adapter = new AccessControlAdapter(accessControlList, this, getContext());
                     peopleList.setAdapter(adapter);

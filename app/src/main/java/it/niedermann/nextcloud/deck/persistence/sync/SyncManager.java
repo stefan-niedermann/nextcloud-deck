@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -441,9 +442,11 @@ public class SyncManager {
             }
 
             liveData.postValue(card);
-            new SyncHelper(serverAdapter, dataBaseAdapter, null)
-                    .setResponseCallback(IResponseCallback.getDefaultResponseCallback(account))
-                    .doUpSyncFor(new CardDataProvider(null, board, stack));
+            if (serverAdapter.hasInternetConnection()){
+                new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                        .setResponseCallback(IResponseCallback.getDefaultResponseCallback(account))
+                        .doUpSyncFor(new CardDataProvider(null, board, stack));
+            }
         });
         return liveData;
     }
@@ -481,7 +484,7 @@ public class SyncManager {
                 throw new IllegalArgumentException("card to update does not exist.");
             }
 
-            dataBaseAdapter.readRelationsForCard(fullCardFromDB);
+            dataBaseAdapter.filterRelationsForCard(fullCardFromDB);
             List<User> deletedUsers = AbstractSyncDataProvider.findDelta(card.getAssignedUsers(), fullCardFromDB.getAssignedUsers());
             List<User> addedUsers = AbstractSyncDataProvider.findDelta(fullCardFromDB.getAssignedUsers(), card.getAssignedUsers());
             for (User addedUser : addedUsers) {
@@ -601,7 +604,7 @@ public class SyncManager {
             final long localUserId = user.getLocalId();
             final long localCardId = card.getLocalId();
             JoinCardWithUser joinCardWithUser = dataBaseAdapter.getJoinCardWithUser(localUserId, localCardId);
-            if (joinCardWithUser != null){
+            if (joinCardWithUser != null && joinCardWithUser.getStatus() != DBStatus.LOCAL_DELETED.getId()){
                 return;
             }
             dataBaseAdapter.createJoinCardWithUser(localUserId, localCardId, DBStatus.LOCAL_EDITED);
@@ -797,52 +800,71 @@ public class SyncManager {
         });
     }
 
+
     private void reorderLocally(List<FullCard> cardsOfNewStack, FullCard movedCard, long newStackId, int newOrder) {
         // set new stack and order
-        Card card = movedCard.getCard();
-        int oldOrder = card.getOrder();
-        long oldStackId = card.getStackId();
+        Card movedInnerCard = movedCard.getCard();
+        int oldOrder = movedInnerCard.getOrder();
+        long oldStackId = movedInnerCard.getStackId();
 
-        int updateFromOrder;
-        int updateToOrder;
-        int offset = 1;
+
+        List<Card> changedCards = new ArrayList<>();
+
+        int startingAtOrder = newOrder;
         if (oldStackId == newStackId) {
             // card was only reordered in the same stack
-            card.setStatusEnum(card.getStatus() == DBStatus.LOCAL_MOVED.getId() ? DBStatus.LOCAL_MOVED : DBStatus.LOCAL_EDITED);
+            movedInnerCard.setStatusEnum(movedInnerCard.getStatus() == DBStatus.LOCAL_MOVED.getId() ? DBStatus.LOCAL_MOVED : DBStatus.LOCAL_EDITED);
             // move direction?
             if (oldOrder > newOrder) {
-                //up
-                updateFromOrder = newOrder;
-                updateToOrder = oldOrder;
+                // up
+                changedCards.add(movedCard.getCard());
+                for (FullCard cardToUpdate : cardsOfNewStack) {
+                    Card cardEntity = cardToUpdate.getCard();
+                    if (cardEntity.getOrder() < newOrder) {
+                        continue;
+                    }
+                    if (cardEntity.getOrder() >= oldOrder) {
+                        break;
+                    }
+                    changedCards.add(cardEntity);
+                }
             } else {
                 // down
-                offset = -1;
-                updateFromOrder = oldOrder;
-                updateToOrder = newOrder;
+                startingAtOrder = oldOrder;
+                for (FullCard cardToUpdate : cardsOfNewStack) {
+                    Card cardEntity = cardToUpdate.getCard();
+                    if (cardEntity.getOrder() <= oldOrder) {
+                        continue;
+                    }
+                    if (cardEntity.getOrder() > newOrder) {
+                        break;
+                    }
+                    changedCards.add(cardEntity);
+                }
+                changedCards.add(movedCard.getCard());
             }
         } else {
             // card was moved to an other stack
-            card.setStatusEnum(DBStatus.LOCAL_MOVED);
-            updateFromOrder = newOrder;
-            updateToOrder = cardsOfNewStack.isEmpty() ?
-                    updateFromOrder :
-                    cardsOfNewStack.get(cardsOfNewStack.size() - 1).getCard().getOrder();
+            movedInnerCard.setStackId(newStackId);
+            movedInnerCard.setStatusEnum(DBStatus.LOCAL_MOVED);
+            changedCards.add(movedCard.getCard());
+            for (FullCard fullCard : cardsOfNewStack) {
+                // skip unchanged cards
+                if (fullCard.getCard().getOrder() < newOrder){
+                    continue;
+                }
+                changedCards.add(fullCard.getCard());
+            }
         }
+        reorderAscending(changedCards, startingAtOrder);
 
-        // update cards up to source-order
-        for (FullCard cardToUpdate : cardsOfNewStack) {
-            Card cardEntity = cardToUpdate.getCard();
-            if (cardEntity.getOrder() < updateFromOrder) {
-                continue;
-            }
-            if (cardEntity.getOrder() > updateToOrder) {
-                break;
-            }
-            cardEntity.setOrder(cardEntity.getOrder() + offset);
-            dataBaseAdapter.updateCard(cardEntity, true);
+    }
+
+    private void reorderAscending(List<Card> cardsToReorganize, int startingAtOrder) {
+        for (Card card : cardsToReorganize) {
+            card.setOrder(startingAtOrder);
+            dataBaseAdapter.updateCard(card, card.getStatus() == DBStatus.UP_TO_DATE.getId());
+            startingAtOrder++;
         }
-        card.setStackId(newStackId);
-        card.setOrder(newOrder);
-        dataBaseAdapter.updateCard(card, false);
     }
 }
