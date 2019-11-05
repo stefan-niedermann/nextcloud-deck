@@ -136,6 +136,7 @@ public class MainActivity extends DrawerActivity implements
                 intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
                 intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
                 intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
                     intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(viewPager.getCurrentItem()).getStackId());
                     startActivity(intent);
