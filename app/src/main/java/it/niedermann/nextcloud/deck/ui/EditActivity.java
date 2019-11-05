@@ -98,6 +98,7 @@ public class EditActivity extends AppCompatActivity implements
     private long stackId;
     private long localId;
 
+    private boolean pendingCreation = false;
     private boolean canEdit;
     private boolean createMode;
 
@@ -205,18 +206,21 @@ public class EditActivity extends AppCompatActivity implements
     }
 
     private void saveAndFinish() {
-        //FIXME: nullpointer when no title entered! do not even save without title(?)
-        if (fullCard.getCard().getTitle() != null && fullCard.getCard().getTitle().isEmpty()) {
-            if (!fullCard.getCard().getDescription().isEmpty()) {
-                fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
-            } else {
-                fullCard.getCard().setTitle("");
+        if (!pendingCreation) {
+            pendingCreation = true;
+            //FIXME: nullpointer when no title entered! do not even save without title(?)
+            if (fullCard.getCard().getTitle() != null && fullCard.getCard().getTitle().isEmpty()) {
+                if (!fullCard.getCard().getDescription().isEmpty()) {
+                    fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
+                } else {
+                    fullCard.getCard().setTitle("");
+                }
             }
-        }
-        if (createMode) {
-            observeOnce(syncManager.createFullCard(accountId, boardId, stackId, fullCard), EditActivity.this, (card) -> super.finish());
-        } else {
-            observeOnce(syncManager.updateCard(fullCard), EditActivity.this, (card) -> super.finish());
+            if (createMode) {
+                observeOnce(syncManager.createFullCard(accountId, boardId, stackId, fullCard), EditActivity.this, (card) -> super.finish());
+            } else {
+                observeOnce(syncManager.updateCard(fullCard), EditActivity.this, (card) -> super.finish());
+            }
         }
     }
 
