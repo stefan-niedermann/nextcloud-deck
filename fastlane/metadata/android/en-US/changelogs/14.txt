@@ -5,3 +5,4 @@
 - Offline ACL changes are not synced when online again (#196)
 - Assign / Unassign / Assign does not work when offline (#197)
 - Creating cards: Fastly clicking on the checkmark tries to create card twice (#199)
+- Due date is black in dark mode (#201)

@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Date;
 
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 
 public final class ViewUtil {
@@ -37,7 +38,7 @@ public final class ViewUtil {
         long diff = DateUtil.getDayDifference(new Date(), dueDate);
 
         int backgroundDrawable = 0;
-        int textColor = R.color.black;
+        int textColor = Application.getAppTheme(context) ? R.color.dark_fg_primary : R.color.black;
 
         if (diff == 1) {
             // due date: tomorrow
