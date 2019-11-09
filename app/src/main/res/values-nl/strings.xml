@@ -92,8 +92,12 @@
     <string name="do_you_want_to_delete_the_current_column">Wil je de huidige kolom verwijderen?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Voeg een nieuwe kolom toe via de menuknop (3 stippen)</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
+    <string name="update_deck">Werk deck bij</string>
+    <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
+    <string name="deck_outdated_please_update">Uw deck versie is te oud. Update deze android app om het te kunnen gebruiken.</string>
     <string name="simple_update">Bijwerken</string>
     <string name="simple_delete">Verwijderen</string>
+    <string name="delete_board_message">Dit zal dit bord permanent verwijderen inclusief alle stapels en kaarten.</string>
     <string name="action_card_list_rename_column">Kolomnaam wijzigen</string>
     <string name="simple_rename">Hernoemen</string>
     <string name="simple_settings">Instellingen</string>
@@ -101,8 +105,15 @@
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
     <string name="pref_value_theme_light">Licht</string>
+    <string name="unassigned_user">Niet toegewezen %1$s</string>
     <string name="simple_undo">Ongedaan maken</string>
     <string name="no_activities">Deze kaart heeft geen activiteiten. Verbind met het internet om activiteiten te laden en te tonen.</string>
     <string name="rename_column">Hernoemen kolom</string>
     <string name="share_board">Bord delen</string>
-    </resources>
+    <string name="you_are_currently_offline">U bent op dit moment offline</string>
+    <string name="simple_manage">beheer</string>
+    <string name="simple_share">deel</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">U moet verbonden zijn met het Internet om een account toe te voegen.</string>
+    <string name="simple_select">Selecteer</string>
+    <string name="owner">Eigenaar</string>
+</resources>

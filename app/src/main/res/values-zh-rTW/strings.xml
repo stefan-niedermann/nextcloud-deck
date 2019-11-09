@@ -3,12 +3,14 @@
     <string name="navigation_drawer_close">關閉導覽列</string>
 
     <string name="drawer_current_account">目前帳戶</string>
+    <string name="drawer_middle_account">中間帳號</string>
+    <string name="drawer_end_account">最後帳號</string>
     <string name="drawer_manage_accounts">帳戶管理</string>
 
     <!-- Simple values -->
     <string name="simple_boards">專案</string>
     <string name="simple_cancel">取消</string>
-    <string name="simple_add">建立</string>
+    <string name="simple_add">新增</string>
     <string name="simple_save">儲存</string>
 
     <string name="edit_board">編輯專案</string>
@@ -44,14 +46,9 @@
     <string name="hint_assign_people">指派負責人</string>
     <string name="hint_due_date_date">截止日</string>
     <string name="activity">活動</string>
-    <string name="add_card">建立作業卡</string>
-    <string name="add_column">建立項目</string>
-
     <string name="add_account">新增帳戶</string>
 
     <string name="label_menu">目錄</string>
-    <string name="action_card_assign">指派作業給自己</string>
-    <string name="action_card_unassign">取消指派作業給自己</string>
     <string name="action_card_archive">封存作業</string>
     <string name="action_card_delete">刪除作業</string>
     <string name="add_board">新增專案</string>
@@ -61,9 +58,10 @@
 
     <string name="label_clear_due_date">清除截止日</string>
 
-    <string name="label_add">建立%1$s</string>
+    <string name="label_add">新增%1$s</string>
     <string name="error">發生錯誤</string>
     <string name="simple_copy">複製</string>
+    <string name="simple_exception">例外</string>
     <string name="copied_to_clipboard">複製至剪貼簿中</string>
     <string name="simple_close"> 關閉</string>
 
@@ -71,4 +69,25 @@
     <string name="card_edit_attachments">附件</string>
     <string name="card_edit_activity">活動</string>
     <string name="about_server_app_version_text">伺服器版本</string>
-    </resources>
+    <string name="attachments">附件</string>
+    <string name="account_already_added">帳號已被加入</string>
+    <string name="not_synced_yet">尚未同步完成</string>
+    <string name="do_you_want_to_save_your_changes">您想要儲存您做出的調整嗎</string>
+    <string name="your_deck_version_is_too_old">您的Deck版本過舊</string>
+    <string name="deck_outdated_please_update">您的Deck版本過舊，請至Play Store下載更新</string>
+    <string name="simple_update">更新</string>
+    <string name="simple_delete">刪除</string>
+    <string name="simple_rename">重新命名</string>
+    <string name="simple_settings">設定</string>
+    <string name="settings_theme_title">暗色主題</string>
+    <string name="pref_value_wifi_and_mobile">在使用Wi-Fi與行動網路進行同步</string>
+    <string name="pref_value_wifi_only">只在透過 WI-FI 同步</string>
+    <string name="pref_value_theme_light">亮色</string>
+    <string name="simple_undo">復原</string>
+    <string name="you_are_currently_offline">目前離線中</string>
+    <string name="simple_manage">管理</string>
+    <string name="simple_share">分享</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到網際網路已新增帳號</string>
+    <string name="simple_select">選擇</string>
+    <string name="owner">擁有者</string>
+</resources>

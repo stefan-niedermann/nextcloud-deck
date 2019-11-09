@@ -91,8 +91,13 @@
     <string name="simple_discard">zahodit</string>
     <string name="do_you_want_to_delete_the_current_column">Chcete stávající sloupec vymazat?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Nové sloupce přidáte pomocí nabídky tři tečky.</string>
+    <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
+    <string name="update_deck">Aktualizovat plochu</string>
     <string name="your_deck_version_is_too_old">Vámi používaná verze deck je příliš stará</string>
+    <string name="deck_outdated_please_update">Vámi používaná verze Deck je příliš stará. Prosím aktualizujte, abyste mohli používat tuto Android aplikaci jako klienta.</string>
     <string name="simple_update">Aktualizovat</string>
+    <string name="simple_delete">Smazat</string>
+    <string name="delete_board_message">Toto trvale smaže tuto nástěnku včetně všech skupin a karet.</string>
     <string name="action_card_list_rename_column">Přejmenovat sloupec</string>
     <string name="simple_rename">Přejmenovat</string>
     <string name="simple_settings">Nastavení</string>
@@ -100,4 +105,15 @@
     <string name="pref_value_wifi_and_mobile">Synchronizovat přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchronizovat pouze přes Wi-Fi</string>
     <string name="pref_value_theme_light">Světlý</string>
-    </resources>
+    <string name="unassigned_user">Nepřidělené %1$s</string>
+    <string name="simple_undo">Vrátit zpět</string>
+    <string name="no_activities">Na této kartě nejsou žádné aktivity. Abyste mohli načíst a zobrazit aktivity, musíte být připojeni k internetu.</string>
+    <string name="rename_column">Přejmenovat sloupec</string>
+    <string name="share_board">Sdílet nástěnku</string>
+    <string name="you_are_currently_offline">Momentálně jste offline</string>
+    <string name="simple_manage">spravovat</string>
+    <string name="simple_share">sdílet</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Abyste mohli přidat účet, musíte být připojeni k internetu.</string>
+    <string name="simple_select">Vybrat</string>
+    <string name="owner">vlastník</string>
+</resources>

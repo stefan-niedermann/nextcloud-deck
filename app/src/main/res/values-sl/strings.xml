@@ -111,4 +111,9 @@
     <string name="rename_column">Preimenuj paket</string>
     <string name="share_board">Souporaba zbirke</string>
     <string name="you_are_currently_offline">Trenutno povezava z omrežjem ni na voljo.</string>
+    <string name="simple_manage">upravljanje</string>
+    <string name="simple_share">souporaba</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Za dodajanje računa mora biti vzpostavljena povezava z omrežjem.</string>
+    <string name="simple_select">Izbor</string>
+    <string name="owner">lastnik</string>
 </resources>

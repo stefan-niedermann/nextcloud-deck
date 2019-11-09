@@ -33,7 +33,7 @@
     <string name="about_issues">Du kan rapportera buggar, förbättringsförslag och funktionsönskningar på GitHubs problemhanterare: %1$s</string>
     <string name="about_translate_title">Översätt</string>
     <string name="about_translate">Gå med i Nextcloud-gruppen på Transifex och hjälp oss översätta denna app: %1$s</string>
-    <string name="about_app_license_title">App-licens</string>
+    <string name="about_app_license_title">Applicens</string>
     <string name="about_app_license">Denna app är licensierad under GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Visa licens</string>
     <string name="about_icons_disclaimer_title">Ikoner</string>
@@ -76,7 +76,7 @@
     <string name="card_edit_details">Detaljer</string>
     <string name="card_edit_attachments">Bilagor</string>
     <string name="card_edit_activity">Aktivitet</string>
-    <string name="about_server_app_version_text">Server app-version:</string>
+    <string name="about_server_app_version_text">Server appversion:</string>
     <string name="no_files_attached_to_this_card">Det finns inga filer kopplade till det här kortet.</string>
     <string name="attachments">Bilagor</string>
     <string name="no_cards">Inga kort än</string>
@@ -109,4 +109,9 @@
     <string name="rename_column">Byt namn på kolumn</string>
     <string name="share_board">Dela tavla</string>
     <string name="you_are_currently_offline">Du är för närvarande offline</string>
+    <string name="simple_manage">hantera</string>
+    <string name="simple_share">dela</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Du måste vara ansluten till internet för att lägga till ett konto.</string>
+    <string name="simple_select">Välj</string>
+    <string name="owner">ägare</string>
 </resources>
