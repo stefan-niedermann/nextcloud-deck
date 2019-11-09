@@ -1,5 +1,4 @@
 <resources>
-
     <string name="drawer_header_background">Taustakuva \"Drawer\":in yläosassa</string>
     <string name="drawer_current_account">Nykyinen tili</string>
     <string name="drawer_middle_account">Keskimmäinen tili</string>
@@ -9,7 +8,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Taulut</string>
     <string name="simple_cancel">Peru</string>
-    <string name="simple_add">Luo</string>
+    <string name="simple_add">Lisää</string>
     <string name="simple_save">Tallenna</string>
 
     <string name="edit_board">Muokkaa taulua</string>
@@ -23,6 +22,7 @@
     <string name="about_maintainer_title">Ylläpitäjä</string>
     <string name="about_developers_title">Kehittäjät</string>
     <string name="about_translators_title">Kääntäjät</string>
+    <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testaajat</string>
     <string name="about_source_title">Lähdekoodi</string>
     <string name="about_source">Tämä projekti on GitHubissa: %1$s</string>
@@ -42,8 +42,8 @@
     <string name="hint_assign_people">Määritä käyttäjät</string>
     <string name="hint_due_date_date">Eräpäivä</string>
     <string name="activity">Aktiviteetti</string>
-    <string name="add_card">Luo kortti</string>
-    <string name="add_column">Luo pino</string>
+    <string name="add_card">Lisää kortti</string>
+    <string name="add_column">Lisää sarake</string>
 
     <string name="add_account">Lisää tili</string>
 
@@ -57,12 +57,41 @@
 
     <string name="label_clear_due_date">Poista eräpäivä</string>
 
-    <string name="label_add">Luo %1$s</string>
+    <string name="label_add">Lisää %1$s</string>
     <string name="error">Tapahtui virhe</string>
+    <string name="simple_copy">kopioi</string>
     <string name="simple_exception">Poikkeus</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
     <string name="simple_close">sulje</string>
 
     <string name="card_edit_details">Tiedot</string>
     <string name="card_edit_attachments">Liitteet</string>
+    <string name="no_files_attached_to_this_card">Tähän korttiin ei ole liitetty tiedostoja.</string>
+    <string name="attachments">Liitteet</string>
+    <string name="no_cards">Ei kortteja vielä</string>
+    <string name="no_account">Tiliä ei ole määritetty</string>
+    <string name="account_already_added">Tili on jo lisätty</string>
+    <string name="not_synced_yet">Ei vielä synkronoitu</string>
+    <string name="no_columns">Ei sarakkeita vielä</string>
+    <string name="do_you_want_to_save_your_changes">Haluatko tallentaa muutokset?</string>
+    <string name="simple_discard">hylkää</string>
+    <string name="do_you_want_to_delete_the_current_column">Haluatko poistaa nykyisen sarakkeen?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Lisää uusi sarake kolmen pisteen valikosta.</string>
+    <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
+    <string name="simple_update">Päivitä</string>
+    <string name="simple_delete">Poista</string>
+    <string name="action_card_list_rename_column">Nimeä sarake uudelleen</string>
+    <string name="simple_rename">Nimeä uudelleen</string>
+    <string name="simple_settings">Asetukset</string>
+    <string name="settings_theme_title">Tumma teema</string>
+    <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
+    <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
+    <string name="pref_value_theme_light">Vaalea</string>
+    <string name="simple_undo">Kumoa</string>
+    <string name="rename_column">Nimeä sarake uudelleen</string>
+    <string name="share_board">Jaa taulu</string>
+    <string name="you_are_currently_offline">Et ole yhteydessä verkkoon</string>
+    <string name="simple_manage">hallitse</string>
+    <string name="simple_share">jaa</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Sinun tulee olla yhteydessä internetiin, jotta voit lisätä tilin.</string>
     </resources>

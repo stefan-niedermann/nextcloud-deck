@@ -101,4 +101,5 @@
     <string name="no_activities">Δεν υπάρχουν δραστηριότητες σε αυτή την κάρτα. Θα πρέπει να είστε συνδεδεμένοι στο Ίντερνετ για να φορτώσετε και να εμφανίσετε δραστηριότητες.</string>
     <string name="rename_column">Μετονομασία στήλης</string>
     <string name="share_board">Διαμοιρασμός πίνακα</string>
-    </resources>
+    <string name="owner">ιδιοκτήτης</string>
+</resources>

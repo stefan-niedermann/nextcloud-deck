@@ -111,4 +111,9 @@
     <string name="rename_column">Zmień nazwę kolumny</string>
     <string name="share_board">Udostępnij tablicę</string>
     <string name="you_are_currently_offline">Obecnie jesteś w offline</string>
+    <string name="simple_manage">zarządzać</string>
+    <string name="simple_share">udostępniać</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Musisz mieć połączenie z Internetem, aby dodać konto.</string>
+    <string name="simple_select">Wybierz</string>
+    <string name="owner">właściciel</string>
 </resources>

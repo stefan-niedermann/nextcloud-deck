@@ -92,8 +92,13 @@
     <string name="do_you_want_to_delete_the_current_column">Souhaitez-vous supprimer la colonne actuelle ?</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Ajouter une nouvelle colonne en utilisant le menu \"trois points\".</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
+    <string name="update_deck">Mettre à jour Deck</string>
+    <string name="your_deck_version_is_too_old">Votre version de Deck est trop ancienne</string>
+    <string name="deck_outdated_please_update">Votre version de Deck est trop ancienne. Veuillez la mettre à jour pour utiliser cette application Android comme client.
+</string>
     <string name="simple_update">Mettre à jour</string>
     <string name="simple_delete">Supprimer</string>
+    <string name="delete_board_message">Ceci supprimera définitivement ce tableau, y compris la totalité des piles et des cartes.</string>
     <string name="action_card_list_rename_column">Renommer la colonne</string>
     <string name="simple_rename">Renommer</string>
     <string name="simple_settings">Paramètres</string>
@@ -101,8 +106,15 @@
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
     <string name="pref_value_wifi_only">Synchroniser uniquement en Wifi</string>
     <string name="pref_value_theme_light">Clair</string>
+    <string name="unassigned_user">%1$s non assigné</string>
     <string name="simple_undo">Annuler</string>
     <string name="no_activities">Il n\'y a aucune activité sur cette carte. Vous devez être connectés à Internet pour charger et afficher les activités.</string>
     <string name="rename_column">Renommer la colonne</string>
+    <string name="share_board">Partager le tableau</string>
     <string name="you_are_currently_offline">Vous êtes actuellement hors-ligne</string>
+    <string name="simple_manage">gérer</string>
+    <string name="simple_share">partager</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Vous devez être connectés à Internet pour ajouter un compte.</string>
+    <string name="simple_select">Sélectionner</string>
+    <string name="owner">propriétaire</string>
 </resources>
