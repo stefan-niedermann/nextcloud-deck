@@ -2,7 +2,9 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -866,5 +868,9 @@ public class SyncManager {
             dataBaseAdapter.updateCard(card, card.getStatus() == DBStatus.UP_TO_DATE.getId());
             startingAtOrder++;
         }
+    }
+
+    public void addAttachmentToCard(long accountId, long cardId, @NonNull Uri uri) {
+        // TODO @desperateCoder do something :)
     }
 }
