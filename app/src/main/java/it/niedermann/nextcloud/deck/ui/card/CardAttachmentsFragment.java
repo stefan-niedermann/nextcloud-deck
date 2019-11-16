@@ -7,8 +7,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -27,6 +31,10 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 public class CardAttachmentsFragment extends Fragment {
     private Unbinder unbinder;
 
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
     @BindView(R.id.attachments_list)
     RecyclerView attachmentsList;
     @BindView(R.id.no_attachments)
@@ -60,6 +68,10 @@ public class CardAttachmentsFragment extends Fragment {
                 }
             });
         }
+
+        fab.setOnClickListener(v -> {
+            Snackbar.make(coordinatorLayout, "Adding attachments is not yet implemented", Snackbar.LENGTH_LONG).show();
+        });
 
         return view;
     }
