@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class CardActivityFragment extends Fragment {
@@ -41,11 +42,12 @@ public class CardActivityFragment extends Fragment {
     public CardActivityFragment() {
     }
 
-    public static CardActivityFragment newInstance(long accountId, long localId, long boardId) {
+    public static CardActivityFragment newInstance(long accountId, long localId, long boardId, boolean canEdit) {
         Bundle bundle = new Bundle();
         bundle.putLong(BUNDLE_KEY_ACCOUNT_ID, accountId);
         bundle.putLong(BUNDLE_KEY_BOARD_ID, boardId);
         bundle.putLong(BUNDLE_KEY_LOCAL_ID, localId);
+        bundle.putBoolean(BUNDLE_KEY_CAN_EDIT, canEdit);
 
         CardActivityFragment fragment = new CardActivityFragment();
         fragment.setArguments(bundle);
@@ -65,6 +67,7 @@ public class CardActivityFragment extends Fragment {
         if (args != null) {
             long accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
             long localId = args.getLong(BUNDLE_KEY_LOCAL_ID);
+            boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
 
             SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
             if (syncManager.hasInternetConnection()) {
@@ -81,18 +84,22 @@ public class CardActivityFragment extends Fragment {
                             }
                         })));
             }
-            fab.setOnClickListener(v -> {
-                Snackbar.make(coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
-            });
-            activitiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    if (dy > 0)
-                        fab.hide();
-                    else if (dy < 0)
-                        fab.show();
-                }
-            });
+            if(canEdit) {
+                fab.setOnClickListener(v -> {
+                    Snackbar.make(coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
+                });
+                activitiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                        if (dy > 0)
+                            fab.hide();
+                        else if (dy < 0)
+                            fab.show();
+                    }
+                });
+            } else {
+                fab.hide();
+            }
         }
         return view;
     }

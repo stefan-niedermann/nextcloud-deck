@@ -31,6 +31,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class CardAttachmentsFragment extends Fragment {
@@ -65,6 +66,7 @@ public class CardAttachmentsFragment extends Fragment {
         if (args != null) {
             accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
             cardId = args.getLong(BUNDLE_KEY_LOCAL_ID);
+            boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
 
             syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
             observeOnce(syncManager.getCardByLocalId(accountId, cardId), CardAttachmentsFragment.this, (fullCard) -> {
@@ -81,7 +83,7 @@ public class CardAttachmentsFragment extends Fragment {
                 }
             });
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT && canEdit) {
                 fab.setOnClickListener(v -> {
                     Snackbar.make(coordinatorLayout, "Adding attachments is not yet implemented", Snackbar.LENGTH_LONG).show();
                     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -99,6 +101,8 @@ public class CardAttachmentsFragment extends Fragment {
                             fab.show();
                     }
                 });
+            } else {
+                fab.hide();
             }
         }
 
@@ -123,11 +127,12 @@ public class CardAttachmentsFragment extends Fragment {
     public CardAttachmentsFragment() {
     }
 
-    public static CardAttachmentsFragment newInstance(long accountId, long localId, long boardId) {
+    public static CardAttachmentsFragment newInstance(long accountId, long localId, long boardId, boolean canEdit) {
         Bundle bundle = new Bundle();
         bundle.putLong(BUNDLE_KEY_ACCOUNT_ID, accountId);
         bundle.putLong(BUNDLE_KEY_BOARD_ID, boardId);
         bundle.putLong(BUNDLE_KEY_LOCAL_ID, localId);
+        bundle.putBoolean(BUNDLE_KEY_CAN_EDIT, canEdit);
 
         CardAttachmentsFragment fragment = new CardAttachmentsFragment();
         fragment.setArguments(bundle);
