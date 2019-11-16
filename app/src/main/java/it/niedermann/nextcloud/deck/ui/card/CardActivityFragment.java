@@ -84,6 +84,15 @@ public class CardActivityFragment extends Fragment {
             fab.setOnClickListener(v -> {
                 Snackbar.make(coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
             });
+            activitiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    if (dy > 0)
+                        fab.hide();
+                    else if (dy < 0)
+                        fab.show();
+                }
+            });
         }
         return view;
     }
