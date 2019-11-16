@@ -121,7 +121,7 @@ public class MainActivity extends DrawerActivity implements
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
-        dragAndDrop.register(viewPager);
+        dragAndDrop.register(viewPager, stackLayout);
         dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
             //FIXME: implement me por favour!
             syncManager.reorder(account.getId(), movedCard, stackId, position);

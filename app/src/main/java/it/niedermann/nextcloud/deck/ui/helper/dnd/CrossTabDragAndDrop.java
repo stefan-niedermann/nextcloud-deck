@@ -10,8 +10,11 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import butterknife.BindInt;
@@ -56,7 +59,7 @@ public class CrossTabDragAndDrop {
         this.pxToReactTopBottom = dragAndDropDPtoReactTopBottom * density;
     }
 
-    public void register(final ViewPager viewPager) {
+    public void register(final ViewPager viewPager, TabLayout stackLayout) {
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
 
             DraggedCardLocalState draggedCardLocalState = (DraggedCardLocalState) dragEvent.getLocalState();
@@ -93,7 +96,7 @@ public class CrossTabDragAndDrop {
                         if (shouldSwitchTab && isMovePossible(viewPager, newTabPosition)) {
                             removeItem(currentRecyclerView, cardView, cardAdapter);
                             detectAndKillDuplicatesInNeighbourTab(viewPager, draggedCardLocalState.getDraggedCard(), oldTabPosition, newTabPosition);
-                            switchTab(viewPager, draggedCardLocalState, now, newTabPosition);
+                            switchTab(viewPager, stackLayout, draggedCardLocalState, now, newTabPosition);
                             return true;
                         }
                     }
@@ -138,9 +141,10 @@ public class CrossTabDragAndDrop {
         });
     }
 
-    private void switchTab(ViewPager viewPager, final DraggedCardLocalState draggedCardLocalState, long now, int newPosition) {
+    private void switchTab(ViewPager viewPager, TabLayout stackLayout, final DraggedCardLocalState draggedCardLocalState, long now, int newPosition) {
         draggedCardLocalState.onTabChanged(viewPager, newPosition);
         viewPager.setCurrentItem(newPosition);
+        Objects.requireNonNull(stackLayout.getTabAt(newPosition)).select();
 
         final RecyclerView recyclerView = draggedCardLocalState.getRecyclerView();
         CardAdapter cardAdapter = draggedCardLocalState.getCardAdapter();
@@ -174,7 +178,7 @@ public class CrossTabDragAndDrop {
     }
 
     private static boolean isMovePossible(ViewPager viewPager, int newPosition) {
-        return newPosition < viewPager.getAdapter().getCount() && newPosition >= 0;
+        return newPosition < Objects.requireNonNull(viewPager.getAdapter()).getCount() && newPosition >= 0;
     }
 
     private void detectAndKillDuplicatesInNeighbourTab(ViewPager viewPager, FullCard cardToFind, int oldTabPosition, int newTabPosition) {
