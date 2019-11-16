@@ -90,6 +90,15 @@ public class CardAttachmentsFragment extends Fragment {
 //                    startActivityForResult(intent, REQUEST_CODE_ADD_ATTACHMENT);
                 });
                 fab.show();
+                attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                        if (dy > 0)
+                            fab.hide();
+                        else if (dy < 0)
+                            fab.show();
+                    }
+                });
             }
         }
 
@@ -100,7 +109,7 @@ public class CardAttachmentsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_ADD_ATTACHMENT && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE_ADD_ATTACHMENT && resultCode == Activity.RESULT_OK) {
             Uri uri = null;
             if (data != null) {
                 uri = data.getData();
