@@ -62,7 +62,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Flexbox
-    implementation 'com.google.android:flexbox:1.1.1'
+    implementation 'com.google.android:flexbox:2.0.0'
 
     // Tab-Layout-Helper
     implementation 'com.h6ah4i.android.tablayouthelper:tablayouthelper:1.0.0'
