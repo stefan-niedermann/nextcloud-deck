@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Label;
@@ -39,18 +40,19 @@ public class GsonConfig {
         return new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
                 .setLenient()
-                .registerTypeAdapter(boardList,     new NextcloudArrayDeserializer<>("boards", FullBoard.class))
-                .registerTypeAdapter(board,         new NextcloudDeserializer<>("board", FullBoard.class))
-                .registerTypeAdapter(cardList,      new NextcloudArrayDeserializer<>("cards", FullCard.class))
-                .registerTypeAdapter(card,          new NextcloudDeserializer<>("card", FullCard.class))
-                .registerTypeAdapter(labelList,     new NextcloudArrayDeserializer<>("labels", Label.class))
-                .registerTypeAdapter(label,         new NextcloudDeserializer<>("label", Label.class))
-                .registerTypeAdapter(stackList,     new NextcloudArrayDeserializer<>("stacks", FullStack.class))
-                .registerTypeAdapter(stack,         new NextcloudDeserializer<>("stack", FullStack.class))
-                .registerTypeAdapter(capabilitiesList,     new NextcloudArrayDeserializer<>("capabilities", Capabilities.class))
-                .registerTypeAdapter(capabilities,         new NextcloudDeserializer<>("capability", Capabilities.class))
-                .registerTypeAdapter(activityList,     new NextcloudDeserializer<>("activities", Activity.class))
-                .registerTypeAdapter(activity,         new NextcloudDeserializer<>("activity", Activity.class))
+                .registerTypeAdapter(Date.class,        new GsonUTCDateAdapter())
+                .registerTypeAdapter(boardList,         new NextcloudArrayDeserializer<>("boards", FullBoard.class))
+                .registerTypeAdapter(board,             new NextcloudDeserializer<>("board", FullBoard.class))
+                .registerTypeAdapter(cardList,          new NextcloudArrayDeserializer<>("cards", FullCard.class))
+                .registerTypeAdapter(card,              new NextcloudDeserializer<>("card", FullCard.class))
+                .registerTypeAdapter(labelList,         new NextcloudArrayDeserializer<>("labels", Label.class))
+                .registerTypeAdapter(label,             new NextcloudDeserializer<>("label", Label.class))
+                .registerTypeAdapter(stackList,         new NextcloudArrayDeserializer<>("stacks", FullStack.class))
+                .registerTypeAdapter(stack,             new NextcloudDeserializer<>("stack", FullStack.class))
+                .registerTypeAdapter(capabilitiesList,  new NextcloudArrayDeserializer<>("capabilities", Capabilities.class))
+                .registerTypeAdapter(capabilities,      new NextcloudDeserializer<>("capability", Capabilities.class))
+                .registerTypeAdapter(activityList,      new NextcloudDeserializer<>("activities", Activity.class))
+                .registerTypeAdapter(activity,          new NextcloudDeserializer<>("activity", Activity.class))
                 .create();
     }
 
