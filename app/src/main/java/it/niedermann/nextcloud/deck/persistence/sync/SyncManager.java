@@ -55,7 +55,7 @@ public class SyncManager {
     private ServerAdapter serverAdapter;
 
     public SyncManager(Context context, @Nullable Activity sourceActivity) {
-        if(context == null) {
+        if (context == null) {
             throw new IllegalArgumentException("Provide a valid context.");
         }
         Context applicationContext = context.getApplicationContext();
@@ -159,7 +159,7 @@ public class SyncManager {
         return dataBaseAdapter.createAccount(accout);
     }
 
-    public boolean hasInternetConnection(){
+    public boolean hasInternetConnection() {
         return serverAdapter.hasInternetConnection();
     }
 
@@ -199,7 +199,7 @@ public class SyncManager {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
-            if(owner == null) {
+            if (owner == null) {
                 DeckLog.log("owner is null - this can be the case if the Deck app has never before been opened in the webinterface");
                 liveData.postValue(null);
             } else {
@@ -223,13 +223,17 @@ public class SyncManager {
     public LiveData<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> syncActivitiesForCard(Card card) {
         doAsync(() -> {
             if (serverAdapter.hasInternetConnection()) {
-                new SyncHelper(serverAdapter, dataBaseAdapter, null)
-                        .setResponseCallback(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(card.getAccountId())) {
-                            @Override
-                            public void onResponse(Boolean response) {
-                                // do nothing
-                            }
-                        }).doSyncFor(new ActivityDataProvider(null, card));
+                if (card.getId() != null) {
+                    new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                            .setResponseCallback(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(card.getAccountId())) {
+                                @Override
+                                public void onResponse(Boolean response) {
+                                    // do nothing
+                                }
+                            }).doSyncFor(new ActivityDataProvider(null, card));
+                } else {
+                    DeckLog.log("Can not fetch activities for card \"" + card.getTitle() + "\" because this card does not have a remote id yet.");
+                }
             }
         });
         return dataBaseAdapter.getActivitiesForCard(card.getLocalId());
@@ -279,15 +283,15 @@ public class SyncManager {
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, entity.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(
                     new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
-                @Override
-                public void onResponse(AccessControl response) {
-                    liveData.postValue(response);
-                }
-            }, ((entity1, response) -> {
-                response.setBoardId(entity.getBoardId());
-                response.setUserId(entity.getUser().getLocalId());
+                        @Override
+                        public void onResponse(AccessControl response) {
+                            liveData.postValue(response);
+                        }
+                    }, ((entity1, response) -> {
+                        response.setBoardId(entity.getBoardId());
+                        response.setUserId(entity.getUser().getLocalId());
                     }
-                )
+                    )
             );
         });
         return liveData;
@@ -304,30 +308,31 @@ public class SyncManager {
     public MutableLiveData<AccessControl> updateAccessControl(AccessControl entity) {
         MutableLiveData<AccessControl> liveData = new MutableLiveData<>();
         doAsync(() -> {
-                Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
-                FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
-                new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(
-                        new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
-                    @Override
-                    public void onResponse(AccessControl response) {
-                        liveData.postValue(response);
-                    }
-                });
+            Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
+                        @Override
+                        public void onResponse(AccessControl response) {
+                            liveData.postValue(response);
+                        }
+                    });
         });
         return liveData;
     }
+
     public MutableLiveData<AccessControl> deleteAccessControl(AccessControl entity) {
         MutableLiveData<AccessControl> liveData = new MutableLiveData<>();
         doAsync(() -> {
-                Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
-                FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
-                new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(
-                        new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
-                    @Override
-                    public void onResponse(AccessControl response) {
-                        liveData.postValue(response);
-                    }
-                });
+            Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
+                        @Override
+                        public void onResponse(AccessControl response) {
+                            liveData.postValue(response);
+                        }
+                    });
         });
         return liveData;
     }
@@ -422,6 +427,7 @@ public class SyncManager {
         });
         return liveData;
     }
+
     public LiveData<FullCard> createFullCard(long accountId, long localBoardId, long localStackId, FullCard card) {
 
         MutableLiveData<FullCard> liveData = new MutableLiveData<>();
@@ -438,7 +444,7 @@ public class SyncManager {
             card.getCard().setLocalId(localCardId);
 
             List<User> assignedUsers = card.getAssignedUsers();
-            if (assignedUsers!= null) {
+            if (assignedUsers != null) {
                 for (User assignedUser : assignedUsers) {
                     dataBaseAdapter.createJoinCardWithUser(assignedUser.getLocalId(), localCardId, DBStatus.LOCAL_EDITED);
                 }
@@ -452,7 +458,7 @@ public class SyncManager {
             }
 
             liveData.postValue(card);
-            if (serverAdapter.hasInternetConnection()){
+            if (serverAdapter.hasInternetConnection()) {
                 new SyncHelper(serverAdapter, dataBaseAdapter, null)
                         .setResponseCallback(IResponseCallback.getDefaultResponseCallback(account))
                         .doUpSyncFor(new CardDataProvider(null, board, stack));
@@ -518,7 +524,7 @@ public class SyncManager {
             fullCardFromDB.setCard(card.getCard());
             card.getCard().setStatus(DBStatus.LOCAL_EDITED.getId());
             dataBaseAdapter.updateCard(card.getCard(), false);
-            if (serverAdapter.hasInternetConnection()){
+            if (serverAdapter.hasInternetConnection()) {
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
                 new SyncHelper(serverAdapter, dataBaseAdapter, null)
                         .setResponseCallback(new IResponseCallback<Boolean>(account) {
@@ -600,11 +606,11 @@ public class SyncManager {
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter)
                     .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, new IResponseCallback<Label>(account) {
-                @Override
-                public void onResponse(Label response) {
-                    liveData.postValue(response);
-                }
-            });
+                        @Override
+                        public void onResponse(Label response) {
+                            liveData.postValue(response);
+                        }
+                    });
         });
         return liveData;
     }
@@ -614,14 +620,14 @@ public class SyncManager {
             final long localUserId = user.getLocalId();
             final long localCardId = card.getLocalId();
             JoinCardWithUser joinCardWithUser = dataBaseAdapter.getJoinCardWithUser(localUserId, localCardId);
-            if (joinCardWithUser != null && joinCardWithUser.getStatus() != DBStatus.LOCAL_DELETED.getId()){
+            if (joinCardWithUser != null && joinCardWithUser.getStatus() != DBStatus.LOCAL_DELETED.getId()) {
                 return;
             }
             dataBaseAdapter.createJoinCardWithUser(localUserId, localCardId, DBStatus.LOCAL_EDITED);
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-            if (serverAdapter.hasInternetConnection()){
+            if (serverAdapter.hasInternetConnection()) {
                 serverAdapter.assignUserToCard(board.getId(), stack.getId(), card.getId(), user.getUid(), new IResponseCallback<Void>(account) {
 
                     @Override
@@ -644,7 +650,7 @@ public class SyncManager {
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-            if (serverAdapter.hasInternetConnection()){
+            if (serverAdapter.hasInternetConnection()) {
                 serverAdapter.assignLabelToCard(board.getId(), stack.getId(), card.getId(), label.getId(), new IResponseCallback<Void>(account) {
 
                     @Override
@@ -662,21 +668,21 @@ public class SyncManager {
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-                if (serverAdapter.hasInternetConnection()) {
-                    serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), card.getId(), label.getId(), new IResponseCallback<Void>(account) {
-                        @Override
-                        public void onResponse(Void response) {
-                            dataBaseAdapter.deleteJoinedLabelForCardPhysically(card.getLocalId(), label.getLocalId());
-                        }
-                    });
-                }
+            if (serverAdapter.hasInternetConnection()) {
+                serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), card.getId(), label.getId(), new IResponseCallback<Void>(account) {
+                    @Override
+                    public void onResponse(Void response) {
+                        dataBaseAdapter.deleteJoinedLabelForCardPhysically(card.getLocalId(), label.getLocalId());
+                    }
+                });
+            }
         });
     }
 
     public void unassignUserFromCard(User user, Card card) {
         doAsync(() -> {
             dataBaseAdapter.deleteJoinedUserForCard(card.getLocalId(), user.getLocalId());
-            if (serverAdapter.hasInternetConnection()){
+            if (serverAdapter.hasInternetConnection()) {
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
@@ -690,15 +696,15 @@ public class SyncManager {
         });
     }
 
-    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX){
+    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX) {
         return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
-    public LiveData<List<User>> findProposalsForUsersToAssignForACL(final long accountId, long boardId, final int topX){
+    public LiveData<List<User>> findProposalsForUsersToAssignForACL(final long accountId, long boardId, final int topX) {
         return dataBaseAdapter.findProposalsForUsersToAssignForACL(accountId, boardId, topX);
     }
 
-    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX){
+    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX) {
         return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
@@ -777,7 +783,7 @@ public class SyncManager {
             // read cards of new stack
             List<FullCard> cardsOfNewStack = dataBaseAdapter.getFullCardsForStackDirectly(accountId, newStackId);
             int newOrder = newIndex;
-            if (cardsOfNewStack.size() >  newIndex) {
+            if (cardsOfNewStack.size() > newIndex) {
                 newOrder = cardsOfNewStack.get(newIndex).getCard().getOrder();
             }
             if (newOrder == movedCard.getCard().getOrder() && newStackId == movedCard.getCard().getStackId()) {
@@ -860,7 +866,7 @@ public class SyncManager {
             changedCards.add(movedCard.getCard());
             for (FullCard fullCard : cardsOfNewStack) {
                 // skip unchanged cards
-                if (fullCard.getCard().getOrder() < newOrder){
+                if (fullCard.getCard().getOrder() < newOrder) {
                     continue;
                 }
                 changedCards.add(fullCard.getCard());

@@ -70,21 +70,20 @@ public class CardActivityFragment extends Fragment {
             boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
 
             SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
-            if (syncManager.hasInternetConnection()) {
-                syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) ->
-                        syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
-                            if (activities == null || activities.size() == 0) {
-                                noActivities.setVisibility(View.VISIBLE);
-                                activitiesList.setVisibility(View.GONE);
-                            } else {
-                                noActivities.setVisibility(View.GONE);
-                                activitiesList.setVisibility(View.VISIBLE);
-                                RecyclerView.Adapter adapter = new ActivityAdapter(activities);
-                                activitiesList.setAdapter(adapter);
-                            }
-                        })));
-            }
-            if(canEdit) {
+            syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) -> {
+                syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
+                    if (activities == null || activities.size() == 0) {
+                        noActivities.setVisibility(View.VISIBLE);
+                        activitiesList.setVisibility(View.GONE);
+                    } else {
+                        noActivities.setVisibility(View.GONE);
+                        activitiesList.setVisibility(View.VISIBLE);
+                        RecyclerView.Adapter adapter = new ActivityAdapter(activities);
+                        activitiesList.setAdapter(adapter);
+                    }
+                }));
+            });
+            if (canEdit) {
                 fab.setOnClickListener(v -> {
                     Snackbar.make(coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
                 });
