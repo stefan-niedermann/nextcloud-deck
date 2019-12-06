@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
+import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +14,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -893,30 +894,38 @@ public class SyncManager {
 
     public void addAttachmentToCard(long accountId, long localCardId, @NonNull Uri uri) {
         doAsync(() -> {
-            Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
-            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
-            serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), new File(uri.getPath()), new IResponseCallback<Attachment>(dataBaseAdapter.readAccountDirectly(accountId)) {
-                @Override
-                public void onResponse(Attachment response) {
-                    DeckLog.log("uploading "+uri.getPath()+" successful.");
-                }
-            });
+            if (serverAdapter.hasInternetConnection()) {
+                Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
+                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+
+                ContentResolver cR = dataBaseAdapter.getContext().getContentResolver();
+                MimeTypeMap mime = MimeTypeMap.getSingleton();
+                String type = mime.getExtensionFromMimeType(cR.getType(uri));
+                serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), type, uri, new IResponseCallback<Attachment>(dataBaseAdapter.readAccountDirectly(accountId)) {
+                    @Override
+                    public void onResponse(Attachment response) {
+                        DeckLog.log("uploading " + uri.getPath() + " successful.");
+                    }
+                });
+            }
         });
     }
 
-    public void deleteAttachmentToCard(long accountId, long localCardId, long localAttachmentId) {
+    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
         doAsync(() -> {
-            Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
-            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
-            Attachment attachment = dataBaseAdapter.getAttachmentByLocalIdDirectly(accountId, localAttachmentId);
-            serverAdapter.deleteAttachment(board.getId(), stack.getId(), card.getId(), attachment.getId(), new IResponseCallback<Void>(dataBaseAdapter.readAccountDirectly(accountId)) {
-                @Override
-                public void onResponse(Void response) {
-                    DeckLog.log("deleted Attachment "+attachment.getBasename());
-                }
-            });
+            if (serverAdapter.hasInternetConnection()) {
+                Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
+                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+                Attachment attachment = dataBaseAdapter.getAttachmentByLocalIdDirectly(accountId, localAttachmentId);
+                serverAdapter.deleteAttachment(board.getId(), stack.getId(), card.getId(), attachment.getId(), new IResponseCallback<Void>(dataBaseAdapter.readAccountDirectly(accountId)) {
+                    @Override
+                    public void onResponse(Void response) {
+                        DeckLog.log("deleted Attachment "+attachment.getBasename());
+                    }
+                });
+            }
         });
     }
 }

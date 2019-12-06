@@ -33,6 +33,7 @@ public class Attachment extends AbstractRemoteEntity {
     private String basename;
     private String extension;
     private String filename;
+    private String localPath;
 
     public long getCardId() {
         return cardId;
@@ -130,34 +131,19 @@ public class Attachment extends AbstractRemoteEntity {
         this.filename = filename;
     }
 
-    @Override
-    public String toString() {
-        return "Attachment{" +
-                "cardId=" + cardId +
-                ", type='" + type + '\'' +
-                ", data='" + data + '\'' +
-                ", createdAt=" + createdAt +
-                ", createdBy='" + createdBy + '\'' +
-                ", deletedAt=" + deletedAt +
-                ", filesize=" + filesize +
-                ", mimetype='" + mimetype + '\'' +
-                ", dirname='" + dirname + '\'' +
-                ", basename='" + basename + '\'' +
-                ", extension='" + extension + '\'' +
-                ", filename='" + filename + '\'' +
-                ", localId=" + localId +
-                ", accountId=" + accountId +
-                ", id=" + id +
-                ", status=" + status +
-                ", lastModified=" + lastModified +
-                ", lastModifiedLocal=" + lastModifiedLocal +
-                '}';
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         Attachment that = (Attachment) o;
 
@@ -178,12 +164,15 @@ public class Attachment extends AbstractRemoteEntity {
             return false;
         if (extension != null ? !extension.equals(that.extension) : that.extension != null)
             return false;
-        return filename != null ? filename.equals(that.filename) : that.filename == null;
+        if (filename != null ? !filename.equals(that.filename) : that.filename != null)
+            return false;
+        return localPath != null ? localPath.equals(that.localPath) : that.localPath == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (cardId ^ (cardId >>> 32));
+        int result = super.hashCode();
+        result = 31 * result + (int) (cardId ^ (cardId >>> 32));
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (data != null ? data.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
@@ -195,6 +184,7 @@ public class Attachment extends AbstractRemoteEntity {
         result = 31 * result + (basename != null ? basename.hashCode() : 0);
         result = 31 * result + (extension != null ? extension.hashCode() : 0);
         result = 31 * result + (filename != null ? filename.hashCode() : 0);
+        result = 31 * result + (localPath != null ? localPath.hashCode() : 0);
         return result;
     }
 }

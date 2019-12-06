@@ -31,9 +31,15 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 public class DataBaseAdapter {
 
     private DeckDatabase db;
+    private Context context;
 
     public DataBaseAdapter(Context applicationContext) {
+        this.context = applicationContext;
         this.db = DeckDatabase.getInstance(applicationContext);
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     private <T extends AbstractRemoteEntity> void markAsEditedIfNeeded(T entity, boolean setStatus) {
@@ -488,6 +494,16 @@ public class DataBaseAdapter {
         markAsEditedIfNeeded(attachment, setStatus);
         attachment.setAccountId(accountId);
         db.getAttachmentDao().update(attachment);
+    }
+
+    public void deleteAttachment(long accountId, Attachment attachment, boolean setStatus) {
+        attachment.setAccountId(accountId);
+        if (setStatus) {
+            markAsDeletedIfNeeded(attachment, setStatus);
+            db.getAttachmentDao().update(attachment);
+        } else {
+            db.getAttachmentDao().delete(attachment);
+        }
     }
 
     private void validateSearchTerm(String searchTerm){

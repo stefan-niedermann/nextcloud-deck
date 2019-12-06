@@ -149,6 +149,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
 
     @Override
     public void onAttachmentDeleted(Attachment attachment) {
-        syncManager.deleteAttachmentToCard(accountId, cardId, attachment.getLocalId());
+        syncManager.deleteAttachmentOfCard(accountId, cardId, attachment.getLocalId());
     }
 }

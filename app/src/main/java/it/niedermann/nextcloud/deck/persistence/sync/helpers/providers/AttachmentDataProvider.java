@@ -1,10 +1,19 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import android.content.ContentResolver;
+import android.net.Uri;
+import android.webkit.MimeTypeMap;
+
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -50,12 +59,25 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment) {
-        //TODO: implement
+        dataBaseAdapter.deleteAttachment(accountId, attachment, false);
     }
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
-        //TODO: implement
+        Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, entity.getCardId());
+        Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+        Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+
+        ContentResolver cR = dataBaseAdapter.getContext().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        Uri uri = Uri.fromFile(new File(entity.getLocalPath()));
+        String type = mime.getExtensionFromMimeType(cR.getType(uri));
+        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), type, uri, new IResponseCallback<Attachment>(dataBaseAdapter.readAccountDirectly(accountId)) {
+            @Override
+            public void onResponse(Attachment response) {
+                DeckLog.log("uploading " + uri.getPath() + " successful.");
+            }
+        });
     }
 
     @Override
