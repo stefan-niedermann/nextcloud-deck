@@ -145,4 +145,6 @@
     <string name="simple_select">Select</string>
     <string name="owner">Owner</string>
     <string name="simple_comment">Comment</string>
+    <string name="attachment_delete_message">This will permanently delete this attachment.</string>
+    <string name="delete_attachment">Delete %1$s</string>
 </resources>

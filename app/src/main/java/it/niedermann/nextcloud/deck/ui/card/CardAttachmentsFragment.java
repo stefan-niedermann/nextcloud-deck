@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -34,7 +35,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
-public class CardAttachmentsFragment extends Fragment {
+public class CardAttachmentsFragment extends Fragment implements AttachmentAdapter.AttachmentDeletedListener {
     private Unbinder unbinder;
     private static final String TAG = CardAttachmentsFragment.class.getCanonicalName();
 
@@ -77,7 +78,7 @@ public class CardAttachmentsFragment extends Fragment {
                     this.noAttachments.setVisibility(View.GONE);
                     this.attachmentsList.setVisibility(View.VISIBLE);
                     syncManager.readAccount(accountId).observe(CardAttachmentsFragment.this, (Account account) -> {
-                        RecyclerView.Adapter adapter = new AttachmentAdapter(account, fullCard.getCard().getId(), fullCard.getAttachments());
+                        RecyclerView.Adapter adapter = new AttachmentAdapter(this, account, fullCard.getCard().getId(), fullCard.getAttachments());
                         attachmentsList.setAdapter(adapter);
                     });
                 }
@@ -144,5 +145,10 @@ public class CardAttachmentsFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onAttachmentDeleted(Attachment attachment) {
+        syncManager.deleteAttachmentToCard(accountId, cardId, attachment.getLocalId());
     }
 }

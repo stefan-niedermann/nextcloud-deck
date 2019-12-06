@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:padding="@dimen/standard_padding">
+    android:padding="@dimen/standard_half_padding">
 
 <androidx.appcompat.widget.AppCompatImageView
     android:layout_width="wrap_content"
@@ -14,6 +14,8 @@
     android:layout_gravity="center"
     android:layout_marginEnd="@dimen/standard_margin"
     android:layout_marginRight="@dimen/standard_margin"
+    android:layout_marginLeft="@dimen/standard_half_margin"
+    android:layout_marginStart="@dimen/standard_half_margin"
     app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
 
     <TextView
@@ -29,6 +31,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <TextView
@@ -45,4 +48,17 @@
             android:layout_gravity="end"
             tools:text="Mar 4" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/standard_half_margin"
+        android:layout_marginLeft="@dimen/standard_half_margin"
+        android:background="?android:selectableItemBackground"
+        android:contentDescription="@string/simple_delete"
+        android:padding="@dimen/standard_padding"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_delete_black_24dp" />
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder> {
 
@@ -27,10 +29,13 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     private final long cardRemoteId;
     @NonNull
     private List<Attachment> attachments;
+    @NonNull
+    private AttachmentDeletedListener attachmentDeletedListener;
     private Context context;
 
-    AttachmentAdapter(@NonNull Account account, long cardRemoteId, @NonNull List<Attachment> attachments) {
+    AttachmentAdapter(@NonNull AttachmentDeletedListener attachmentDeletedListener, @NonNull Account account, long cardRemoteId, @NonNull List<Attachment> attachments) {
         super();
+        this.attachmentDeletedListener = attachmentDeletedListener;
         this.attachments = attachments;
         this.account = account;
         this.cardRemoteId = cardRemoteId;
@@ -55,6 +60,14 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
             openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId()));
             context.startActivity(openURL);
         });
+        holder.deleteButton.setOnClickListener((v) -> {
+            new DeleteDialogBuilder(context)
+                    .setTitle(context.getString(R.string.delete_attachment, attachment.getFilename()))
+                    .setMessage(R.string.attachment_delete_message)
+                    .setNegativeButton(R.string.simple_cancel, null)
+                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))
+                    .show();
+        });
     }
 
     @Override
@@ -69,10 +82,16 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         TextView filesize;
         @BindView(R.id.modified)
         TextView modified;
+        @BindView(R.id.deleteButton)
+        ImageButton deleteButton;
 
         private AttachmentViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface AttachmentDeletedListener {
+        void onAttachmentDeleted(Attachment attachment);
     }
 }
