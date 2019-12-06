@@ -1,3 +1,4 @@
 - Creating a label: Display issue (#202)
 - No mark of the selected column (#209)
 - Crash opening not-yet-synced task (#212)
+- Time/Timezone handling (#204, #205, #210)

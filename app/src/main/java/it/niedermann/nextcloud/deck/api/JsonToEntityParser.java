@@ -367,6 +367,9 @@ public class JsonToEntityParser {
             return null;
         } else {
             try {
+                if (jsonElement.getAsString().contains("31")){
+                    DeckLog.log("date-handling: (deserialize) Input: \""+jsonElement.getAsString()+"\" | output: "+formatter.parse(jsonElement.getAsString()));
+                }
                 return formatter.parse(jsonElement.getAsString());
             } catch (ParseException e) {
                 return null;

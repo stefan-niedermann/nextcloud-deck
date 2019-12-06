@@ -879,7 +879,6 @@ public class SyncManager {
             }
         }
         reorderAscending(changedCards, startingAtOrder);
-
     }
 
     private void reorderAscending(List<Card> cardsToReorganize, int startingAtOrder) {

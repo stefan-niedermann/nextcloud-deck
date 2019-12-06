@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import it.niedermann.nextcloud.deck.DeckLog;
+
 public class GsonUTCDateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
 
     private final DateFormat dateFormat;
@@ -28,11 +30,15 @@ public class GsonUTCDateAdapter implements JsonSerializer<Date>, JsonDeserialize
     }
 
     @Override public synchronized JsonElement serialize(Date date, Type type, JsonSerializationContext jsonSerializationContext) {
+        if (dateFormat.format(date).contains("31")){
+            DeckLog.log("date-handling: (serialize) Input: \""+date+"\" | output: "+dateFormat.format(date));
+        }
         return new JsonPrimitive(dateFormat.format(date));
     }
 
     @Override public synchronized Date deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
       try {
+          DeckLog.log("date-handling: (deserialize) Input: \""+jsonElement.getAsString()+"\" | output: "+dateFormat.parse(jsonElement.getAsString()));
         return dateFormat.parse(jsonElement.getAsString());
       } catch (ParseException e) {
         throw new JsonParseException(e);

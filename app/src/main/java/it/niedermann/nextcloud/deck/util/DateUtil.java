@@ -39,14 +39,16 @@ public final class DateUtil {
     /**
      * Get difference between 2 dates in days (hours, minutes will be set to zero).
      *
-     * @param dateFrom  start date
-     * @param dateUntil end date
+     * @param sourceDateFrom  start date
+     * @param sourceDateUntil end date
      * @return difference between the to dates in days.
      */
-    public static long getDayDifference(Date dateFrom, Date dateUntil) {
+    public static long getDayDifference(Date sourceDateFrom, Date sourceDateUntil) {
+        Date dateFrom = new Date(sourceDateFrom.getTime());
         dateFrom.setHours(0);
         dateFrom.setMinutes(0);
 
+        Date dateUntil = new Date(sourceDateUntil.getTime());
         dateUntil.setHours(0);
         dateUntil.setMinutes(0);
 
