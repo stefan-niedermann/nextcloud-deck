@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -159,7 +160,6 @@ public class ServerAdapter {
     public void updateBoard(Board board, IResponseCallback<FullBoard> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateBoard(board.getId(), board), responseCallback);
-
     }
 
     public void createAccessControl(long remoteBoardId, AccessControl acl, IResponseCallback<AccessControl> responseCallback) {
@@ -261,5 +261,15 @@ public class ServerAdapter {
     public void reorder(Long boardId, FullCard movedCard, long newStackId, int newPosition, IResponseCallback<List<FullCard>> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().moveCard(boardId, movedCard.getCard().getStackId(), movedCard.getCard().getId(), new Reorder(newPosition, (int)newStackId)), responseCallback);
+    }
+
+    // ## ATTACHMENTS
+    public void uploadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, File attachment, IResponseCallback<Void> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, attachment), responseCallback);
+    }
+    public void deleteAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, IResponseCallback<Void> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
     }
 }

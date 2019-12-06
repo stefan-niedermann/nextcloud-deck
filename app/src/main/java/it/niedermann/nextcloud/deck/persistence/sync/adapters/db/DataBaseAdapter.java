@@ -475,6 +475,10 @@ public class DataBaseAdapter {
         return db.getAttachmentDao().getAttachmentByRemoteIdDirectly(accountId, id);
     }
 
+    public Attachment getAttachmentByLocalIdDirectly(long accountId, Long id) {
+        return db.getAttachmentDao().getAttachmentByLocalIdDirectly(accountId, id);
+    }
+
     public long createAttachment(long accountId, Attachment attachment) {
         attachment.setAccountId(accountId);
         return db.getAttachmentDao().insert(attachment);

@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.api;
 
 
+import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -23,6 +24,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -122,7 +124,7 @@ public interface DeckAPI {
     Observable<List<Attachment>> getAttachments(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
     @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
-    Observable<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
+    Observable<Void> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Part File attachment);
 
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
     Observable<Attachment> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);

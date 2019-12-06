@@ -15,4 +15,7 @@ public interface AttachmentDao extends GenericDao<Attachment> {
 
     @Query("SELECT * FROM attachment where accountId = :accountId and id = :remoteId")
     Attachment getAttachmentByRemoteIdDirectly(long accountId, Long remoteId);
+
+    @Query("SELECT * FROM attachment where accountId = :accountId and localId = :id")
+    Attachment getAttachmentByLocalIdDirectly(long accountId, Long id);
 }
