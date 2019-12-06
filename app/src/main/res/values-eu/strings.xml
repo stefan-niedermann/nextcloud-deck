@@ -1,0 +1,119 @@
+<resources>
+    <string name="navigation_drawer_open">Ireki nabigatzeko menu lerrakorra</string>
+    <string name="navigation_drawer_close">Itxi nabigatzeko menu lerrakorra</string>
+
+    <string name="drawer_header_background">Goiburuko kutxaren atzeko planoaren irudia</string>
+    <string name="drawer_current_account">Uneko kontua</string>
+    <string name="drawer_middle_account">Tarteko kontua</string>
+    <string name="drawer_end_account">Azken kontua</string>
+    <string name="drawer_manage_accounts">Kudeatu kontuak</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Mahaiak</string>
+    <string name="simple_cancel">Utzi</string>
+    <string name="simple_add">Gehitu</string>
+    <string name="simple_save">Gorde</string>
+
+    <string name="edit_board">Editatu mahaia</string>
+    <string name="archive_board">Artxibatu mahaia</string>
+    <string name="delete_board">Ezabatu mahaia</string>
+
+    <!-- About -->
+    <string name="about">Honi buruz</string>
+    <string name="about_version_title">Bertsioa</string>
+    <string name="about_version">%1$s erabiltzen ari zara</string>
+    <string name="about_maintainer_title">Mantentzailea</string>
+    <string name="about_developers_title">Garatzaileak</string>
+    <string name="about_translators_title">Itzultzaileak</string>
+    <string name="about_translators_transifex">%1$s Nextcloud komunitatea</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_testers_title">Frogatzaileak</string>
+    <string name="about_source_title">Iturburu-kodea</string>
+    <string name="about_source">Proiektu hau GitHuben ostatatuta dago: %1$s</string>
+    <string name="about_issues_title">Arazoak</string>
+    <string name="about_issues">Akatsen berri eman, hobekuntzak proposatu eta ezaugarri berriak eskatu ditzakezu GitHub arazo kontrolatzailean: %1$s</string>
+    <string name="about_translate_title">Itzuli</string>
+    <string name="about_translate">Elkartu Nextcloud taldera Transifexen eta lagundu app hau itzultzen: %1$s</string>
+    <string name="about_app_license_title">Aplikazio lizentzia</string>
+    <string name="about_app_license">Aplikazio hau GNU GENERAL PUBLIC LICENSE v3+ lizentziapean dago.</string>
+    <string name="about_app_license_button">Lizentzia ikusi</string>
+    <string name="about_icons_disclaimer_title">Irudiak</string>
+    <string name="about_icons_disclaimer">Jatorriko ikonoa %1$s(e)k eginda. Appak erabilitako beste ikono guztiak %2$s Google Inc.-ek sortuak eta Apache 2.0 lizentziapean argitatutakoak dira</string>
+    <string name="about_icons_disclaimer_mdi">Material Design ikonoak</string>
+    <string name="about_credits_tab_title">Kredituak</string>
+    <string name="about_contribution_tab_title">Kontribuzio</string>
+    <string name="about_license_tab_title">Lizentzia</string>
+
+    <string name="seconds_ago">duela segundu batzuk</string>
+    <string name="edit">Aldatu</string>
+    <string name="label_labels">Etiketa hautatu</string>
+    <string name="label_description">Deskripzioa</string>
+    <string name="hint_assign_people">Erabiltzaileak esleitu</string>
+    <string name="hint_due_date_date">Epe-muga</string>
+    <string name="activity">Jarduera</string>
+    <string name="add_card">Gehitu txartela</string>
+    <string name="add_column">Gehitu zutabea</string>
+
+    <string name="add_account">Gehitu kontua</string>
+
+    <string name="label_menu">Menua</string>
+    <string name="action_card_assign">Esleitu txartel hau niri</string>
+    <string name="action_card_unassign">Txartel hau niri esleitzeari utzi</string>
+    <string name="action_card_archive">Artxibatu txartela</string>
+    <string name="action_card_delete">Ezabatu txartela</string>
+    <string name="add_board">Gehitu mahaia</string>
+    <string name="action_card_list_add_column">Gehitu zutabea</string>
+    <string name="action_card_list_delete_column">Ezabatu zutabea</string>
+    <string name="simple_title">Izenburua</string>
+
+    <string name="label_clear_due_date">Ezabatu epe-muga</string>
+
+    <string name="label_add">Gehitu %1$s</string>
+    <string name="error">Errore bat agertu da</string>
+    <string name="simple_copy">kopiatu</string>
+    <string name="simple_exception">Salbuespena</string>
+    <string name="copied_to_clipboard">Kopiatu arbelera</string>
+    <string name="simple_close">itxi</string>
+
+    <string name="card_edit_details">Xehetasunak</string>
+    <string name="card_edit_attachments">Eranskinak</string>
+    <string name="card_edit_activity">Jarduera</string>
+    <string name="about_server_app_version_text">Zerbitzariaren app bertsioa:</string>
+    <string name="no_files_attached_to_this_card">Ez dago fitxategirik txartel honi erantsita.</string>
+    <string name="attachments">Eranskinak</string>
+    <string name="no_cards">Ez dago txartelik oraindik</string>
+    <string name="no_account">Ez da konturik konfiguratu</string>
+    <string name="account_already_added">Kontua jada gehituta</string>
+    <string name="account_is_getting_imported">Kontua importatua izaten ari da</string>
+    <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
+    <string name="no_columns">Oraindik zutaberik gabe</string>
+    <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
+    <string name="simple_discard">baztertu</string>
+    <string name="do_you_want_to_delete_the_current_column">Zutabe hau ezabatu nahi duzu?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Gehitu zutabe berria hiru puntuen menua erabiliz.</string>
+    <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
+    <string name="update_deck">Eguneratu sorta</string>
+    <string name="your_deck_version_is_too_old">Zure sorta bertsioa zaharregia da</string>
+    <string name="deck_outdated_please_update">Zure sorta bertsioa zaharregia da. Mesedez eguneratu ezazu android app hau bezero bezala erabiltzeko.</string>
+    <string name="simple_update">Eguneratu</string>
+    <string name="simple_delete">Ezabatu</string>
+    <string name="delete_board_message">Honek mahai hau ezabatuko du karta eta pila guztiak barne.</string>
+    <string name="action_card_list_rename_column">Berrizendatu zutabea</string>
+    <string name="simple_rename">Berrizendatu</string>
+    <string name="simple_settings">Ezarpenak</string>
+    <string name="settings_theme_title">Gai iluna</string>
+    <string name="pref_value_wifi_and_mobile">Sinkronizatu Wi-Fi eta datu mugikorrekin</string>
+    <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
+    <string name="pref_value_theme_light">Argia</string>
+    <string name="unassigned_user">%1$s esleitu gabe</string>
+    <string name="simple_undo">Desegin</string>
+    <string name="no_activities">Ez dago jarduerarik karta honetak. Internetera konektatuta egon behar zara jarduerak kargatzeko eta erakusteko.</string>
+    <string name="rename_column">Berrizendatu zutabea</string>
+    <string name="share_board">Partekatu mahaia</string>
+    <string name="you_are_currently_offline">Offline zaude momentu honetak</string>
+    <string name="simple_manage">kudeatu</string>
+    <string name="simple_share">partekatu</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Kontu bat gehitzeko internetera konektatuta egon behar zara.</string>
+    <string name="simple_select">Hautatu</string>
+    <string name="owner">Jabea</string>
+</resources>

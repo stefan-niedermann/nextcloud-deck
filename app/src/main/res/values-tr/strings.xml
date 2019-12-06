@@ -115,5 +115,5 @@
     <string name="simple_share">paylaş</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Bir hesap ekleyebilmeniz için çalışan bir İnternet bağlantınız olmalı.</string>
     <string name="simple_select">Seçin</string>
-    <string name="owner">sahibi</string>
+    <string name="owner">Sahibi</string>
 </resources>

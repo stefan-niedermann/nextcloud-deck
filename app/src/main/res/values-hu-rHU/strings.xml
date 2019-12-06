@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Táblák</string>
     <string name="simple_cancel">Mégse</string>
+    <string name="simple_add">Hozzáadás</string>
     <string name="simple_save">Mentés</string>
 
     <string name="edit_board">Tábla szerkesztése</string>
@@ -50,11 +51,14 @@
     <string name="hint_assign_people">Felhasználók hozzárendelése</string>
     <string name="hint_due_date_date">Határidő</string>
     <string name="activity">Tevékenység</string>
+    <string name="add_card">Kártya hozzáadása</string>
+    <string name="add_column">Oszlop hozzáadása</string>
+
     <string name="add_account">Fiók hozzáadása</string>
 
     <string name="label_menu">menü</string>
-    <string name="action_card_assign">Kártya hozzárendelése Önhöz</string>
-    <string name="action_card_unassign">Kártya elvétele Öntől</string>
+    <string name="action_card_assign">Kártya hozzám rendelése</string>
+    <string name="action_card_unassign">Kártya elvétele tőlem</string>
     <string name="action_card_archive">Kártya archiválása</string>
     <string name="action_card_delete">Kártya törlése</string>
     <string name="add_board">Tábla hozzáadása</string>
@@ -64,6 +68,7 @@
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
 
+    <string name="label_add">%1$s hozzáadása</string>
     <string name="error">Hiba történt</string>
     <string name="simple_copy">másolat</string>
     <string name="simple_exception">Kivétel</string>
@@ -74,4 +79,41 @@
     <string name="card_edit_attachments">Mellékletek</string>
     <string name="card_edit_activity">Tevékenység</string>
     <string name="about_server_app_version_text">Kiszolgáló alkalmazásverziója:</string>
-    </resources>
+    <string name="no_files_attached_to_this_card">Nincsenek fájlok mellékelve ehhez a kártyához.</string>
+    <string name="attachments">Mellékletek</string>
+    <string name="no_cards">Még nincsenek kártyák</string>
+    <string name="no_account">Nincs fiók beállítva</string>
+    <string name="account_already_added">A fiók már hozzá lett adva</string>
+    <string name="account_is_getting_imported">A fiók importálásra kerül</string>
+    <string name="not_synced_yet">Még nincs szinkronizálva</string>
+    <string name="no_columns">Még nincsenek oszlopok</string>
+    <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
+    <string name="simple_discard">elvetés</string>
+    <string name="do_you_want_to_delete_the_current_column">Biztos, hogy törli a jelenlegi oszlopot?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Új oszlop hozzáadása a három pontos menü segítségével.</string>
+    <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
+    <string name="update_deck">Kártyák frissítése</string>
+    <string name="your_deck_version_is_too_old">A Kártyák verziója túl régi</string>
+    <string name="deck_outdated_please_update">A Kártyák verzió túl régi. Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
+    <string name="simple_update">Frissítés</string>
+    <string name="simple_delete">Törlés</string>
+    <string name="delete_board_message">Ez végleg törli a táblát az összes rakással és kártyával.</string>
+    <string name="action_card_list_rename_column">Oszlop átnevezése</string>
+    <string name="simple_rename">Átnevezés</string>
+    <string name="simple_settings">Beállítások</string>
+    <string name="settings_theme_title">Sötét téma</string>
+    <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fin és mobil adatkapcsolaton</string>
+    <string name="pref_value_wifi_only">Szinkronizálás csak Wi-Fin</string>
+    <string name="pref_value_theme_light">Világos</string>
+    <string name="unassigned_user">Nem hozzárendelt %1$s</string>
+    <string name="simple_undo">Visszavonás</string>
+    <string name="no_activities">Még nincsenek tevékenységek ezen a kártyán. Internetkapcsolatra van szükség, hogy betöltse és megjelenítse a tevékenységeket.</string>
+    <string name="rename_column">Oszlop átnevezése</string>
+    <string name="share_board">Tábla megosztása</string>
+    <string name="you_are_currently_offline">Jelenleg offline</string>
+    <string name="simple_manage">kezelés</string>
+    <string name="simple_share">megosztás</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Internetkapcsolatra van szükség, hogy fiókot adjon hozzá.</string>
+    <string name="simple_select">Kiválasztás</string>
+    <string name="owner">Tulajdonos</string>
+</resources>
