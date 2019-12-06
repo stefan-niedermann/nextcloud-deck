@@ -55,6 +55,10 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         Attachment attachment = attachments.get(position);
         if(attachment.getMimetype().startsWith("image")) {
             holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
+        } else if(attachment.getMimetype().startsWith("audio")) {
+            holder.filetype.setImageResource(R.drawable.ic_music_note_grey600_24dp);
+        } else if(attachment.getMimetype().startsWith("video")) {
+            holder.filetype.setImageResource(R.drawable.ic_local_movies_grey600_24dp);
         }
         holder.filename.setText(attachment.getFilename());
         holder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
