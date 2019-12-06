@@ -322,8 +322,9 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     newLabel.setTitle(((LabelAutoCompleteAdapter) labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
                     observeOnce(syncManager.createLabel(accountId, newLabel, boardId), CardDetailsFragment.this, createdLabel -> {
+                        newLabel.setLocalId(createdLabel.getLocalId());
                         cardDetailsListener.onLabelAdded(createdLabel);
-                        labelsGroup.addView(createChipFromLabel(label));
+                        labelsGroup.addView(createChipFromLabel(newLabel));
                         labelsGroup.setVisibility(View.VISIBLE);
                     });
                 } else {

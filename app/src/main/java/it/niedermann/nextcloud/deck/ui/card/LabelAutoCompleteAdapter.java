@@ -30,8 +30,6 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-
 public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable {
     public static final long CREATE_ID = Long.MIN_VALUE;
     private Context context;
@@ -125,7 +123,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                         LiveData<List<Label>> liveData = constraint.length() > 0
                                 ? syncManager.searchNotYetAssignedLabelsByTitle(accountId, boardId, cardId, constraint.toString())
                                 : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId, maxLabelsSuggested);
-                        observeOnce(liveData, owner, labels -> {
+                        liveData.observe(owner, (labels -> {
                             if (canManage && constraint.length() > 0) {
                                 createLabel.setTitle(String.format(createLabelText, constraint));
                             }
@@ -144,7 +142,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                                 filterResults.values = createLabels;
                                 filterResults.count = createLabels.size();
                             }
-                        });
+                        }));
                     });
                 }
                 return filterResults;
