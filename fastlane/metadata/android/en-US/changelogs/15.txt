@@ -1,2 +1,2 @@
-- Crash opening not-yet-synced task (#202)
+- Crash opening not-yet-synced task (#212)
 - No mark of the selected column (#209)
