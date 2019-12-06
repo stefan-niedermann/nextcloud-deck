@@ -72,6 +72,17 @@ public class SyncManager {
         new Thread(r).start();
     }
 
+    boolean synchronizeEverything() {
+        // TODO do some magic here, but wait with implementation for PoC
+        try {
+            Thread.sleep(2000);
+            return true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void synchronize(IResponseCallback<Boolean> responseCallback) {
         if (responseCallback == null ||
                 responseCallback.getAccount() == null ||
