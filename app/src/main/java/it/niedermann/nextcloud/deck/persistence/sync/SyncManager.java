@@ -891,7 +891,7 @@ public class SyncManager {
         }
     }
 
-    public void addAttachmentToCard(long accountId, long localBoardId, long localStackId, long localCardId, @NonNull Uri uri) {
+    public void addAttachmentToCard(long accountId, long localCardId, @NonNull Uri uri) {
         doAsync(() -> {
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
@@ -905,7 +905,7 @@ public class SyncManager {
         });
     }
 
-    public void deleteAttachmentToCard(long accountId, long localBoardId, long localStackId, long localCardId, long localAttachmentId) {
+    public void deleteAttachmentToCard(long accountId, long localCardId, long localAttachmentId) {
         doAsync(() -> {
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
