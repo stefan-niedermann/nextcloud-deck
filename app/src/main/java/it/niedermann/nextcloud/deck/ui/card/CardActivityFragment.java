@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -30,6 +32,8 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 public class CardActivityFragment extends Fragment {
     private Unbinder unbinder;
 
+    @BindString(R.string.simple_comment)
+    String addComment;
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.fab)
@@ -53,6 +57,14 @@ public class CardActivityFragment extends Fragment {
         fragment.setArguments(bundle);
 
         return fragment;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (!(context instanceof CommentDialogFragment.AddCommentListener)) {
+            throw new ClassCastException("Caller must implement " + CommentDialogFragment.AddCommentListener.class.getCanonicalName());
+        }
     }
 
     @Override
@@ -86,6 +98,7 @@ public class CardActivityFragment extends Fragment {
             if (canEdit) {
                 fab.setOnClickListener(v -> {
                     Snackbar.make(coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
+//                    CommentDialogFragment.newInstance().show(getActivity().getSupportFragmentManager(), addComment);
                 });
                 activitiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override

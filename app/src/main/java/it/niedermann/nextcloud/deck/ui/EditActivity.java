@@ -49,6 +49,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
+import it.niedermann.nextcloud.deck.ui.card.CommentDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -60,6 +61,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class EditActivity extends AppCompatActivity implements
         CardDetailsFragment.CardDetailsListener,
+        CommentDialogFragment.AddCommentListener,
         AdapterView.OnItemSelectedListener {
 
     SyncManager syncManager;
@@ -360,5 +362,10 @@ public class EditActivity extends AppCompatActivity implements
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onCommentAdded(String comment) {
+        syncManager.addCommentToCard(accountId, boardId, localId, comment);
     }
 }

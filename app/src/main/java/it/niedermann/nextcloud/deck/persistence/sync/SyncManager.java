@@ -239,6 +239,12 @@ public class SyncManager {
         return dataBaseAdapter.getActivitiesForCard(card.getLocalId());
     }
 
+    public void addCommentToCard(long accountId, long boardId, long cardId, String comment) {
+        // TODO implement me
+        // No return value required, since the activities are observed and should get notified
+        // Offline-Support needed.
+    }
+
     public void deleteBoard(Board board) {
         long accountId = board.getAccountId();
         doAsync(() -> {
