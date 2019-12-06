@@ -11,7 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">ボード</string>
     <string name="simple_cancel">キャンセル</string>
-    <string name="simple_add">作成</string>
+    <string name="simple_add">追加</string>
     <string name="simple_save">保存</string>
 
     <string name="edit_board">ボードを編集</string>
@@ -21,18 +21,25 @@
     <!-- About -->
     <string name="about">バージョン情報</string>
     <string name="about_version_title">バージョン</string>
+    <string name="about_version">現在%1$sを使用しています</string>
     <string name="about_maintainer_title">管理者</string>
     <string name="about_developers_title">開発者</string>
     <string name="about_translators_title">翻訳者</string>
+    <string name="about_translators_transifex">%1$sのNextcloud コミュニティー</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">テスター</string>
     <string name="about_source_title">ソースコード</string>
+    <string name="about_source">このプロジェクトはGitHub:%1$sにホストされています。</string>
     <string name="about_issues_title">問題</string>
+    <string name="about_issues">GitHub の問題追跡ツールで、バグ、拡張の提案、機能のリクエストを報告できます: %1$s</string>
     <string name="about_translate_title">翻訳</string>
+    <string name="about_translate">Transifex の Nextcloud チームに参加して、このアプリの翻訳を手伝ってください: %1$s</string>
     <string name="about_app_license_title">アプリ ライセンス</string>
     <string name="about_app_license">このアプリケーションは、GNU GENERAL PUBLIC LICENSE v3 +のライセンスを受けています。</string>
     <string name="about_app_license_button">ライセンスを表示</string>
     <string name="about_icons_disclaimer_title">アイコン</string>
+    <string name="about_icons_disclaimer">オリジナルアイコンの作成者 %1$sこのアプリで使用されているsそれ以外のアイコンは Google Inc. が作成した%2$s で、Apache2.0ライセンスの下でライセンスされています。</string>
+    <string name="about_icons_disclaimer_mdi">マテリアルデザインアイコン</string>
     <string name="about_credits_tab_title">クレジット</string>
     <string name="about_contribution_tab_title">貢献</string>
     <string name="about_license_tab_title">ライセンス</string>
@@ -44,13 +51,13 @@
     <string name="hint_assign_people">ユーザーを割り当てる</string>
     <string name="hint_due_date_date">期限</string>
     <string name="activity">アクティビティ</string>
-    <string name="add_card">クレジットカード</string>
-    <string name="add_column">スタックを作る。</string>
+    <string name="add_card">カードを追加</string>
+    <string name="add_column">列を追加</string>
 
     <string name="add_account">アカウントを追加</string>
 
     <string name="label_menu">メニュー</string>
-    <string name="action_card_assign">あなたにカードを割り当てる</string>
+    <string name="action_card_assign">カードを自分に割り当てる</string>
     <string name="action_card_unassign">カードの割り当てを解除する</string>
     <string name="action_card_archive">カードをアーカイブ</string>
     <string name="action_card_delete">削除済みのカード</string>
@@ -61,7 +68,7 @@
 
     <string name="label_clear_due_date">期限を削除</string>
 
-    <string name="label_add">作成 %1$s</string>
+    <string name="label_add">%1$s を追加</string>
     <string name="error">エラーが見つかりました</string>
     <string name="simple_copy">コピー</string>
     <string name="simple_exception">例外</string>
@@ -71,4 +78,42 @@
     <string name="card_edit_details">詳細</string>
     <string name="card_edit_attachments">添付ファイル</string>
     <string name="card_edit_activity">アクティビティ</string>
-    </resources>
+    <string name="about_server_app_version_text">サーバーアプリバージョン：</string>
+    <string name="no_files_attached_to_this_card">このカードに添付されたファイルはありません。</string>
+    <string name="attachments">添付ファイル</string>
+    <string name="no_cards">まだカードはありません</string>
+    <string name="no_account">アカウントが設定されていません。</string>
+    <string name="account_already_added">アカウントはすでに追加されています</string>
+    <string name="account_is_getting_imported">アカウントをインポート中です</string>
+    <string name="not_synced_yet">未同期です</string>
+    <string name="no_columns">まだ列がありません</string>
+    <string name="do_you_want_to_save_your_changes">変更を保存しますか？</string>
+    <string name="simple_discard">破棄</string>
+    <string name="do_you_want_to_delete_the_current_column">現在の列を削除しますか？</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">三本線メニューから新しい列を追加してください．</string>
+    <string name="add_a_new_card_using_the_button">+ボタンで新しいカードを追加</string>
+    <string name="update_deck">端末の更新</string>
+    <string name="your_deck_version_is_too_old">端末のバージョンが旧すぎます</string>
+    <string name="deck_outdated_please_update">端末のバージョンが旧すぎます．このアンドロイドアプリをクライアントとして使うには更新してください．</string>
+    <string name="simple_update">更新</string>
+    <string name="simple_delete">削除</string>
+    <string name="delete_board_message">このボードと内部のすべてのスタックやカードは永久に削除されます．</string>
+    <string name="action_card_list_rename_column">列の名前変更</string>
+    <string name="simple_rename">名前変更</string>
+    <string name="simple_settings">設定</string>
+    <string name="settings_theme_title">ダークテーマ</string>
+    <string name="pref_value_wifi_and_mobile">Wi-Fiおよびモバイル接続時に同期する</string>
+    <string name="pref_value_wifi_only">Wi-Fi接続時のみ同期する</string>
+    <string name="pref_value_theme_light">明るい</string>
+    <string name="unassigned_user">未割当の%1$s</string>
+    <string name="simple_undo">元に戻す</string>
+    <string name="no_activities">このカードにはアクティブティがありません。アクティブティをロードして表示するにはインターネットへの接続が必要です。</string>
+    <string name="rename_column">列の名前変更</string>
+    <string name="share_board">ボードを共有</string>
+    <string name="you_are_currently_offline">現在オフライン</string>
+    <string name="simple_manage">管理</string>
+    <string name="simple_share">共有</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">アカウントの追加にはインターネットへの接続が必要です</string>
+    <string name="simple_select">選択</string>
+    <string name="owner">所有者</string>
+</resources>

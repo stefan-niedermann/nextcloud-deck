@@ -9,14 +9,14 @@
     <string name="drawer_manage_accounts">Spravovat účty</string>
 
     <!-- Simple values -->
-    <string name="simple_boards">Desky</string>
+    <string name="simple_boards">Tabule</string>
     <string name="simple_cancel">Storno</string>
     <string name="simple_add">Přidat</string>
     <string name="simple_save">Uložit</string>
 
-    <string name="edit_board">Upravit nástěnku</string>
-    <string name="archive_board">Archivovat nástěnku</string>
-    <string name="delete_board">Smazat nástěnku</string>
+    <string name="edit_board">Upravit tabuli</string>
+    <string name="archive_board">Archivovat tabuli</string>
+    <string name="delete_board">Smazat tabuli</string>
 
     <!-- About -->
     <string name="about">O aplikaci</string>
@@ -44,7 +44,7 @@
     <string name="about_contribution_tab_title">Příspěvky</string>
     <string name="about_license_tab_title">Licence</string>
 
-    <string name="seconds_ago">před několika vteřinami</string>
+    <string name="seconds_ago">před několika sekundami</string>
     <string name="edit">Upravit</string>
     <string name="label_labels">Vybrat štítky</string>
     <string name="label_description">Popis</string>
@@ -61,7 +61,7 @@
     <string name="action_card_unassign">Zrušit přiřazení karty mě</string>
     <string name="action_card_archive">Archivovat kartu</string>
     <string name="action_card_delete">Smazat kartu</string>
-    <string name="add_board">Přidat nástěnku</string>
+    <string name="add_board">Přidat tabuli</string>
     <string name="action_card_list_add_column">Přidat sloupec</string>
     <string name="action_card_list_delete_column">Smazat sloupec</string>
     <string name="simple_title">Nadpis</string>
@@ -94,10 +94,10 @@
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
     <string name="update_deck">Aktualizovat plochu</string>
     <string name="your_deck_version_is_too_old">Vámi používaná verze deck je příliš stará</string>
-    <string name="deck_outdated_please_update">Vámi používaná verze Deck je příliš stará. Prosím aktualizujte, abyste mohli používat tuto Android aplikaci jako klienta.</string>
+    <string name="deck_outdated_please_update">Vámi používaná verze Deck je příliš stará. Prosíme aktualizujte, abyste mohli používat tuto Android aplikaci jako klienta.</string>
     <string name="simple_update">Aktualizovat</string>
     <string name="simple_delete">Smazat</string>
-    <string name="delete_board_message">Toto trvale smaže tuto nástěnku včetně všech skupin a karet.</string>
+    <string name="delete_board_message">Toto trvale smaže tuto tabuli včetně všech skupin a karet.</string>
     <string name="action_card_list_rename_column">Přejmenovat sloupec</string>
     <string name="simple_rename">Přejmenovat</string>
     <string name="simple_settings">Nastavení</string>
@@ -107,13 +107,13 @@
     <string name="pref_value_theme_light">Světlý</string>
     <string name="unassigned_user">Nepřidělené %1$s</string>
     <string name="simple_undo">Vrátit zpět</string>
-    <string name="no_activities">Na této kartě nejsou žádné aktivity. Abyste mohli načíst a zobrazit aktivity, musíte být připojeni k internetu.</string>
+    <string name="no_activities">Na této kartě nejsou žádné aktivity. Abyste mohli načíst a zobrazit aktivity, je třeba být připojení k Intenetu.</string>
     <string name="rename_column">Přejmenovat sloupec</string>
-    <string name="share_board">Sdílet nástěnku</string>
+    <string name="share_board">Sdílet tabuli</string>
     <string name="you_are_currently_offline">Momentálně jste offline</string>
     <string name="simple_manage">spravovat</string>
     <string name="simple_share">sdílet</string>
-    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Abyste mohli přidat účet, musíte být připojeni k internetu.</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Abyste mohli přidat účet je třeba, abyste byli připojení k Internetu.</string>
     <string name="simple_select">Vybrat</string>
-    <string name="owner">vlastník</string>
+    <string name="owner">Vlastník</string>
 </resources>

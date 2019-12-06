@@ -11,6 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">Ploče</string>
     <string name="simple_cancel">Odustani</string>
+    <string name="simple_add">Dodaj</string>
     <string name="simple_save">Spremi</string>
 
     <string name="edit_board">Uredi ploču</string>
@@ -50,11 +51,14 @@
     <string name="hint_assign_people">Dodijeli korisnike</string>
     <string name="hint_due_date_date">Datum dospijeća</string>
     <string name="activity">Aktivnost</string>
+    <string name="add_card">Dodaj karticu</string>
+    <string name="add_column">Dodaj stupac</string>
+
     <string name="add_account">Dodaj račun</string>
 
     <string name="label_menu">izbornik</string>
-    <string name="action_card_assign">Dodijeli karticu sebi</string>
-    <string name="action_card_unassign">Poništi dodjelu kartice sebi</string>
+    <string name="action_card_assign">Dodijeli mi karticu</string>
+    <string name="action_card_unassign">Ukloni me s kartice</string>
     <string name="action_card_archive">Arhiviraj karticu</string>
     <string name="action_card_delete">Izbriši karticu</string>
     <string name="add_board">Dodaj ploču</string>
@@ -64,6 +68,7 @@
 
     <string name="label_clear_due_date">Izbriši datum dospijeća</string>
 
+    <string name="label_add">Dodaj %1$s</string>
     <string name="error">Pojavila se pogreška</string>
     <string name="simple_copy">kopiraj</string>
     <string name="simple_exception">Izuzetak</string>
@@ -74,4 +79,41 @@
     <string name="card_edit_attachments">Privici</string>
     <string name="card_edit_activity">Aktivnost</string>
     <string name="about_server_app_version_text">Inačica aplikacije poslužitelja:</string>
-    </resources>
+    <string name="no_files_attached_to_this_card">Nema datoteka pridruženih ovoj kartici.</string>
+    <string name="attachments">Privici</string>
+    <string name="no_cards">Još nema kartica</string>
+    <string name="no_account">Nema konfiguriranih računa</string>
+    <string name="account_already_added">Račun je već dodan</string>
+    <string name="account_is_getting_imported">Račun se uvozi</string>
+    <string name="not_synced_yet">Još nije sinkronizirano</string>
+    <string name="no_columns">Još nema stupaca</string>
+    <string name="do_you_want_to_save_your_changes">Želite li spremiti promjene?</string>
+    <string name="simple_discard">odbaci</string>
+    <string name="do_you_want_to_delete_the_current_column">Želite li izbrisati trenutni stupac?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">Dodaj novi stupac putem izbornika označenog s tri točkice.</string>
+    <string name="add_a_new_card_using_the_button">Dodaj novu karticu s pomoću gumba +</string>
+    <string name="update_deck">Ažuriraj Deck</string>
+    <string name="your_deck_version_is_too_old">Vaša inačica Decka je prestara</string>
+    <string name="deck_outdated_please_update">Vaša inačica Decka je prestara. Ažurirajte je kako biste se koristili ovom aplikacijom za Android kao klijentom.</string>
+    <string name="simple_update">Ažuriraj</string>
+    <string name="simple_delete">Izbriši</string>
+    <string name="delete_board_message">Trajno ćete izbrisati ovu ploču, uključujući sve stogove i kartice.</string>
+    <string name="action_card_list_rename_column">Preimenuj stupac</string>
+    <string name="simple_rename">Preimenuj</string>
+    <string name="simple_settings">Postavke</string>
+    <string name="settings_theme_title">Tamna tema</string>
+    <string name="pref_value_wifi_and_mobile">Sinkronizacija putem bežičnih (Wi-Fi) i mobilnih podataka</string>
+    <string name="pref_value_wifi_only">Sinkroniziraj samo putem bežične (Wi-Fi) mreže</string>
+    <string name="pref_value_theme_light">Svijetlo</string>
+    <string name="unassigned_user">Uklonjeno %1$s</string>
+    <string name="simple_undo">Poništi</string>
+    <string name="no_activities">Nema aktivnosti na ovoj kartici. Trebate uspostaviti internetsku vezu za učitavanje i prikaz aktivnosti.</string>
+    <string name="rename_column">Preimenuj stupac</string>
+    <string name="share_board">Dijeli ploču</string>
+    <string name="you_are_currently_offline">Trenutno ste izvan mreže</string>
+    <string name="simple_manage">upravljaj</string>
+    <string name="simple_share">dijeli</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Trebate uspostaviti internetsku vezu za dodavanje računa.</string>
+    <string name="simple_select">Odaberi</string>
+    <string name="owner">Vlasnik</string>
+</resources>

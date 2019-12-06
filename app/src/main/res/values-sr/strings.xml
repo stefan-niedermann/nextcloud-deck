@@ -110,4 +110,10 @@
     <string name="no_activities">Нема активности на картици. Морате да се повежете на интернет да учитате и прикажете активности.</string>
     <string name="rename_column">Преименуј колону</string>
     <string name="share_board">Подели таблу</string>
-    </resources>
+    <string name="you_are_currently_offline">Тренутно сте ван мреже</string>
+    <string name="simple_manage">Управљање</string>
+    <string name="simple_share">Подели</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Морате бити повезани са интернетом да би сте додали налог.</string>
+    <string name="simple_select">Обележи</string>
+    <string name="owner">Власник</string>
+</resources>
