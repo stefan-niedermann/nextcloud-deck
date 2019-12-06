@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.api;
 
 
-import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -16,12 +15,14 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
+import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -123,8 +124,9 @@ public interface DeckAPI {
     @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
     Observable<List<Attachment>> getAttachments(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
 
-    @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
-    Observable<Void> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Part File attachment);
+    @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachment?type=deck_file")
+    @Multipart
+    Observable<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId,  @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
 
     @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
     Observable<Attachment> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);

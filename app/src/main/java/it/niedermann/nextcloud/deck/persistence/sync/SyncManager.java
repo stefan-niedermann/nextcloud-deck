@@ -896,10 +896,10 @@ public class SyncManager {
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
-            serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), new File(uri.getPath()), new IResponseCallback<Void>(dataBaseAdapter.readAccountDirectly(accountId)) {
+            serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), new File(uri.getPath()), new IResponseCallback<Attachment>(dataBaseAdapter.readAccountDirectly(accountId)) {
                 @Override
-                public void onResponse(Void response) {
-                    DeckLog.log("uploading "+uri.getPath()+" successfull.");
+                public void onResponse(Attachment response) {
+                    DeckLog.log("uploading "+uri.getPath()+" successful.");
                 }
             });
         });
