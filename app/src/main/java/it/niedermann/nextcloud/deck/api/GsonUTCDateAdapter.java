@@ -30,9 +30,6 @@ public class GsonUTCDateAdapter implements JsonSerializer<Date>, JsonDeserialize
     }
 
     @Override public synchronized JsonElement serialize(Date date, Type type, JsonSerializationContext jsonSerializationContext) {
-        if (dateFormat.format(date).contains("31")){
-            DeckLog.log("date-handling: (serialize) Input: \""+date+"\" | output: "+dateFormat.format(date));
-        }
         return new JsonPrimitive(dateFormat.format(date));
     }
 

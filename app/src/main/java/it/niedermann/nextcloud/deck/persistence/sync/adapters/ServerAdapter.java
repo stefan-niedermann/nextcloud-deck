@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -10,7 +9,6 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.webkit.MimeTypeMap;
 
 import androidx.annotation.Nullable;
 
@@ -274,7 +272,7 @@ public class ServerAdapter {
     public void uploadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, String contentType, Uri attachmentUri, IResponseCallback<Attachment> responseCallback) {
         ensureInternetConnection();
         File attachment = new File(attachmentUri.getPath());
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse("image/*"), attachment));
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(contentType), attachment));
         MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", attachment.getName(), RequestBody.create(MediaType.parse("text/plain"), "deck_file"));
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart), responseCallback);
     }
