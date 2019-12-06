@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -52,6 +53,9 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         Attachment attachment = attachments.get(position);
+        if(attachment.getMimetype().startsWith("image")) {
+            holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
+        }
         holder.filename.setText(attachment.getFilename());
         holder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
         holder.modified.setText(DateUtils.getRelativeTimeSpanString(context, attachment.getLastModified().getTime()));
@@ -76,6 +80,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     }
 
     static class AttachmentViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.filetype)
+        AppCompatImageView filetype;
         @BindView(R.id.filename)
         TextView filename;
         @BindView(R.id.filesize)
