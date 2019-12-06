@@ -87,7 +87,10 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, Attachment entity, DataBaseAdapter dataBaseAdapter) {
-        //TODO: implement
+        Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, entity.getCardId());
+        Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+        Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+        serverAdapter.deleteAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), callback);
     }
 
     @Override
