@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -53,11 +54,18 @@ public class SyncManager {
     private DataBaseAdapter dataBaseAdapter;
     private ServerAdapter serverAdapter;
 
-    public SyncManager(Activity sourceActivity) {
-        Context applicationContext = sourceActivity.getApplicationContext();
+    public SyncManager(Context context, @Nullable Activity sourceActivity) {
+        if(context == null) {
+            throw new IllegalArgumentException("Provide a valid context.");
+        }
+        Context applicationContext = context.getApplicationContext();
         LastSyncUtil.init(applicationContext);
         dataBaseAdapter = new DataBaseAdapter(applicationContext);
         this.serverAdapter = new ServerAdapter(applicationContext, sourceActivity);
+    }
+
+    public SyncManager(Activity sourceActivity) {
+        this(sourceActivity, sourceActivity);
     }
 
     private void doAsync(Runnable r) {

@@ -9,6 +9,8 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.Nullable;
+
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
@@ -19,8 +21,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import butterknife.BindString;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -42,7 +42,6 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class ServerAdapter {
 
-    @BindString(R.string.pref_key_wifi_only)
     String prefKeyWifiOnly;
 
     private static final DateFormat API_FORMAT =
@@ -54,13 +53,13 @@ public class ServerAdapter {
 
     private Context applicationContext;
     private ApiProvider provider;
-    private Activity sourceActivity;
+    @Nullable private Activity sourceActivity;
     private SharedPreferences lastSyncPref;
 
-    public ServerAdapter(Context applicationContext, Activity sourceActivity) {
+    public ServerAdapter(Context applicationContext, @Nullable Activity sourceActivity) {
         this.applicationContext = applicationContext;
         this.sourceActivity = sourceActivity;
-        ButterKnife.bind(this, sourceActivity);
+        prefKeyWifiOnly = applicationContext.getResources().getString(R.string.pref_key_wifi_only);
         provider = new ApiProvider(applicationContext);
         lastSyncPref = applicationContext.getSharedPreferences(
                 applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);

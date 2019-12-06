@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck.api;
 
 import android.app.Activity;
 
+import androidx.annotation.Nullable;
+
 import com.nextcloud.android.sso.api.NextcloudAPI;
 
 import io.reactivex.Observable;
@@ -10,7 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RequestHelper {
 
-    public static <T> void request(final Activity sourceActivity, final ApiProvider provider, final ObservableProvider<T> call, final IResponseCallback<T> callback){
+    public static <T> void request(@Nullable final Activity sourceActivity, final ApiProvider provider, final ObservableProvider<T> call, final IResponseCallback<T> callback){
 
         if (provider.getDeckAPI() == null){
             provider.initSsoApi(new NextcloudAPI.ApiConnectedListener() {
@@ -25,7 +27,7 @@ public class RequestHelper {
         runRequest(sourceActivity, call.getObservableFromCall(), callback);
     }
 
-    private static <T> void runRequest(final Activity sourceActivity, final Observable<T> request, final IResponseCallback<T> callback){
+    private static <T> void runRequest(@Nullable final Activity sourceActivity, final Observable<T> request, final IResponseCallback<T> callback){
         ResponseConsumer<T> cb = new ResponseConsumer<>(sourceActivity, callback);
         request.subscribeOn(Schedulers.newThread())
                 .subscribe(cb, cb.getExceptionConsumer());
@@ -38,16 +40,20 @@ public class RequestHelper {
 
     public static class ResponseConsumer<T> implements Consumer<T> {
 
-        private Activity sourceActivity;
+        @Nullable private Activity sourceActivity;
         private IResponseCallback<T> callback;
         private Consumer<Throwable> exceptionConsumer = new Consumer<Throwable>() {
             @Override
             public void accept(final Throwable throwable) {
-                sourceActivity.runOnUiThread(() -> callback.onError(throwable) );
+                if(sourceActivity == null) {
+                    callback.onError(throwable);
+                } else {
+                    sourceActivity.runOnUiThread(() -> callback.onError(throwable));
+                }
             }
         };
 
-        public ResponseConsumer(Activity sourceActivity, IResponseCallback<T> callback) {
+        public ResponseConsumer(@Nullable Activity sourceActivity, IResponseCallback<T> callback) {
             this.sourceActivity = sourceActivity;
             this.callback = callback;
         }
