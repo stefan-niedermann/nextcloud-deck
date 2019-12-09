@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -121,15 +122,19 @@ public interface DeckAPI {
 
 
     // ### ATTACHMENTS
-    @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
-    Observable<List<Attachment>> getAttachments(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Header(MODIFIED_SINCE_HEADER) String lastSync);
+    @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
+    Observable<ResponseBody> downloadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
 
-    @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachment?type=deck_file")
+    @GET("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments")
+    Observable<List<Attachment>> getAttachments(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
+
     @Multipart
+    @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachment?type=deck_file")
     Observable<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId,  @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
 
-    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
-    Observable<Attachment> updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);
+    @Multipart
+    @PUT("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachment?type=deck_file")
+    Observable<Attachment>  updateAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId, @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
 
     @DELETE("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments/{attachmentId}")
     Observable<Void> deleteAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId, @Path("attachmentId") long attachmentId);

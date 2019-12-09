@@ -1,30 +1,30 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
-import android.content.ContentResolver;
 import android.net.Uri;
-import android.webkit.MimeTypeMap;
 
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 
 public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment> {
 
-    private FullCard card;
+    private Card card;
+    private Board board;
+    private Stack stack;
     private List<Attachment> attachments;
 
-    public AttachmentDataProvider(AbstractSyncDataProvider<?> parent, FullCard card, List<Attachment> attachments) {
+    public AttachmentDataProvider(AbstractSyncDataProvider<?> parent, Board board, Stack stack, Card card, List<Attachment> attachments) {
         super(parent);
+        this.board = board;
+        this.stack = stack;
         this.card = card;
         this.attachments = attachments;
     }
@@ -41,13 +41,13 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment) {
-        attachment.setCardId(card.getCard().getLocalId());
+        attachment.setCardId(card.getLocalId());
         return dataBaseAdapter.createAttachment(accountId, attachment);
     }
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Attachment attachment, boolean setStatus) {
-        attachment.setCardId(card.getCard().getLocalId());
+        attachment.setCardId(card.getLocalId());
         dataBaseAdapter.updateAttachment(accountId, attachment, setStatus);
     }
 
@@ -64,37 +64,26 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
-        Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, entity.getCardId());
-        Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
-        Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
-
-        ContentResolver cR = dataBaseAdapter.getContext().getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
         Uri uri = Uri.fromFile(new File(entity.getLocalPath()));
-        String type = mime.getExtensionFromMimeType(cR.getType(uri));
-        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), type, uri, new IResponseCallback<Attachment>(dataBaseAdapter.readAccountDirectly(accountId)) {
-            @Override
-            public void onResponse(Attachment response) {
-                DeckLog.log("uploading " + uri.getPath() + " successful.");
-            }
-        });
+        String type = Attachment.getMimetypeForUri(dataBaseAdapter.getContext(), uri);
+        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), type, uri, responder);
     }
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
-        //TODO: implement
+        Uri uri = Uri.fromFile(new File(entity.getLocalPath()));
+        String type = Attachment.getMimetypeForUri(dataBaseAdapter.getContext(), uri);
+        serverAdapter.updateAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), type, uri, callback);
+
     }
 
     @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, Attachment entity, DataBaseAdapter dataBaseAdapter) {
-        Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, entity.getCardId());
-        Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
-        Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
         serverAdapter.deleteAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), callback);
     }
 
     @Override
     public List<Attachment> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        return null;
+        return dataBaseAdapter.getLocallyChangedAttachmentsByLocalCardIdDirectly(accountId, card.getLocalId());
     }
 }

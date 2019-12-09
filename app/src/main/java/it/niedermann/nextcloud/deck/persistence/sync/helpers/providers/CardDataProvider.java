@@ -130,7 +130,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
         if(attachments != null && !attachments.isEmpty()){
-            syncHelper.doSyncFor(new AttachmentDataProvider(this, existingEntity, attachments));
+            syncHelper.doSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), existingEntity.getCard(), attachments));
         }
     }
 

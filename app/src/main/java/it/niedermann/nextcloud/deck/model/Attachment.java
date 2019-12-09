@@ -1,5 +1,10 @@
 package it.niedermann.nextcloud.deck.model;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.net.Uri;
+import android.webkit.MimeTypeMap;
+
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -22,7 +27,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 public class Attachment extends AbstractRemoteEntity {
 
     private long cardId;
-    private String type;
+    private String type = "deck_file";
     private String data;
     private Date createdAt;
     private String createdBy;
@@ -137,6 +142,12 @@ public class Attachment extends AbstractRemoteEntity {
 
     public void setLocalPath(String localPath) {
         this.localPath = localPath;
+    }
+
+    public static String getMimetypeForUri(Context context, Uri uri) {
+        ContentResolver cR = context.getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
     @Override

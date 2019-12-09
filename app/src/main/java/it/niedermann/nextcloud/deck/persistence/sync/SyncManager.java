@@ -1,10 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +42,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AccessControlDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.ActivityDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AttachmentDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardPropagationDataProvider;
@@ -892,40 +891,51 @@ public class SyncManager {
         }
     }
 
-    public void addAttachmentToCard(long accountId, long localCardId, @NonNull Uri uri) {
+    public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull Uri uri) {
+        MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
+            Attachment attachment = new Attachment();
+            attachment.setCardId(localCardId);
+            attachment.setMimetype(Attachment.getMimetypeForUri(dataBaseAdapter.getContext(), uri));
+            attachment.setLocalPath(uri.getPath());
+            attachment.setCreatedAt(new Date());
+            dataBaseAdapter.createAttachment(accountId, attachment);
             if (serverAdapter.hasInternetConnection()) {
                 Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
-
-                ContentResolver cR = dataBaseAdapter.getContext().getContentResolver();
-                MimeTypeMap mime = MimeTypeMap.getSingleton();
-                String type = mime.getExtensionFromMimeType(cR.getType(uri));
-                serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), type, uri, new IResponseCallback<Attachment>(dataBaseAdapter.readAccountDirectly(accountId)) {
-                    @Override
-                    public void onResponse(Attachment response) {
-                        DeckLog.log("uploading " + uri.getPath() + " successful.");
-                    }
-                });
+                Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+                new DataPropagationHelper(serverAdapter, dataBaseAdapter)
+                        .createEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, new IResponseCallback<Attachment>(account) {
+                            @Override
+                            public void onResponse(Attachment response) {
+                                liveData.postValue(response);
+                            }
+                        });
             }
         });
+        return liveData;
     }
 
-    public void deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
+    public LiveData<Attachment> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
+        MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
             if (serverAdapter.hasInternetConnection()) {
                 Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
                 Attachment attachment = dataBaseAdapter.getAttachmentByLocalIdDirectly(accountId, localAttachmentId);
-                serverAdapter.deleteAttachment(board.getId(), stack.getId(), card.getId(), attachment.getId(), new IResponseCallback<Void>(dataBaseAdapter.readAccountDirectly(accountId)) {
-                    @Override
-                    public void onResponse(Void response) {
-                        DeckLog.log("deleted Attachment "+attachment.getBasename());
-                    }
-                });
+                Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+
+                new DataPropagationHelper(serverAdapter, dataBaseAdapter)
+                        .deleteEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, new IResponseCallback<Attachment>(account) {
+                            @Override
+                            public void onResponse(Attachment response) {
+                                liveData.postValue(response);
+                            }
+                        });
             }
         });
+        return liveData;
     }
 }
