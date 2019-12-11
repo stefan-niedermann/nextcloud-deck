@@ -116,4 +116,7 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Kontu bat gehitzeko internetera konektatuta egon behar zara.</string>
     <string name="simple_select">Hautatu</string>
     <string name="owner">Jabea</string>
+    <string name="simple_comment">Iruzkina</string>
+    <string name="attachment_delete_message">Honek atxikitutako fitxategiak betirako ezabatuko ditu.</string>
+    <string name="delete_attachment">Ezabatu %1$s</string>
 </resources>

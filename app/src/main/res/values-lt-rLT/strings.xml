@@ -1,0 +1,100 @@
+<resources>
+    <string name="navigation_drawer_open">Atidaryti naršymo stalčių</string>
+    <string name="navigation_drawer_close">Uždaryti naršymo stalčių</string>
+
+    <string name="drawer_header_background">Stalčiaus antraštės foninis paveikslas</string>
+    <string name="drawer_manage_accounts">Tvarkyti paskyras</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Plokštės</string>
+    <string name="simple_cancel">Atsisakyti</string>
+    <string name="simple_add">Pridėti</string>
+    <string name="simple_save">Įrašyti</string>
+
+    <string name="edit_board">Taisyti plokštę</string>
+    <string name="archive_board">Archyvuoti plokštę</string>
+    <string name="delete_board">Ištrinti plokštę</string>
+
+    <!-- About -->
+    <string name="about">Apie</string>
+    <string name="about_version_title">Versija</string>
+    <string name="about_version">Šiuo metu naudojate %1$s</string>
+    <string name="about_maintainer_title">Prižiūrėtojas</string>
+    <string name="about_developers_title">Plėtotojai</string>
+    <string name="about_translators_title">Vertėjai</string>
+    <string name="about_translators_transifex">Nextcloud bendruomenė, esanti %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_testers_title">Testuotojai</string>
+    <string name="about_source_title">Pradinis kodas</string>
+    <string name="about_translate_title">Versti</string>
+    <string name="about_app_license_title">Programėlės licencija</string>
+    <string name="about_app_license">Ši programėlė yra licencijuota pagal GNU BENDRĄJĄ VIEŠĄJĄ LICENCIJĄ v3+.</string>
+    <string name="about_app_license_button">Rodyti licenciją</string>
+    <string name="about_icons_disclaimer_title">Piktogramos</string>
+    <string name="about_credits_tab_title">Padėkos</string>
+    <string name="about_license_tab_title">Licencija</string>
+
+    <string name="seconds_ago">prieš keletą sekundžių</string>
+    <string name="edit">Taisyti</string>
+    <string name="label_labels">Pasirinkti žymes</string>
+    <string name="label_description">Aprašas</string>
+    <string name="hint_assign_people">Priskirti naudotojus</string>
+    <string name="hint_due_date_date">Galutinis terminas</string>
+    <string name="activity">Veikla</string>
+    <string name="add_card">Pridėti kortelę</string>
+    <string name="add_column">Pridėti stulpelį</string>
+
+    <string name="add_account">Pridėti paskyrą</string>
+
+    <string name="label_menu">meniu</string>
+    <string name="action_card_assign">Priskirti kortelę sau</string>
+    <string name="action_card_archive">Archyvuoti kortelę</string>
+    <string name="action_card_delete">Ištrinti kortelę</string>
+    <string name="add_board">Pridėti plokštę</string>
+    <string name="action_card_list_add_column">Pridėti stulpelį</string>
+    <string name="action_card_list_delete_column">Ištrinti stulpelį</string>
+    <string name="simple_title">Pavadinimas</string>
+
+    <string name="label_clear_due_date">Išvalyti galutinį terminą</string>
+
+    <string name="label_add">Pridėti %1$s</string>
+    <string name="error">Atsirado klaida</string>
+    <string name="simple_exception">Išimtis</string>
+    <string name="copied_to_clipboard">Nukopijuota į iškarpinę</string>
+    <string name="simple_close">užverti</string>
+
+    <string name="card_edit_details">Išsamiau</string>
+    <string name="card_edit_attachments">Priedai</string>
+    <string name="card_edit_activity">Veikla</string>
+    <string name="about_server_app_version_text">Serverio programėlės versija:</string>
+    <string name="no_files_attached_to_this_card">Prie šios kortelės nėra jokių pridėtų priedų.</string>
+    <string name="attachments">Priedai</string>
+    <string name="no_cards">Kol kas kortelių nėra</string>
+    <string name="account_already_added">Paskyra jau pridėta</string>
+    <string name="no_columns">Kol kas stulpelių nėra</string>
+    <string name="do_you_want_to_save_your_changes">Ar norite įrašyti savo pakeitimus?</string>
+    <string name="simple_discard">atmesti</string>
+    <string name="do_you_want_to_delete_the_current_column">Ar norite ištrinti esamą stulpelį?</string>
+    <string name="update_deck">Atnaujinti darbus</string>
+    <string name="your_deck_version_is_too_old">Jūsų darbų versija yra per sena</string>
+    <string name="deck_outdated_please_update">Jūsų darbų versija yra per sena. Atsinaujinkite, norėdami naudoti šią android programėlę kaip kliento programą.</string>
+    <string name="simple_update">Atnaujinti</string>
+    <string name="simple_delete">Ištrinti</string>
+    <string name="delete_board_message">Tai negrįžtamai ištrins šią plokštę, įskaitant visus dėklus bei korteles.</string>
+    <string name="action_card_list_rename_column">Pervadinti stulpelį</string>
+    <string name="simple_rename">Pervadinti</string>
+    <string name="simple_settings">Nustatymai</string>
+    <string name="settings_theme_title">Tamsus apipavidalinimas</string>
+    <string name="pref_value_theme_light">Šviesus</string>
+    <string name="simple_undo">Atšaukti</string>
+    <string name="rename_column">Pervadinti stulpelį</string>
+    <string name="share_board">Bendrinti plokštę</string>
+    <string name="simple_manage">tvarkyti</string>
+    <string name="simple_share">bendrinti</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Norėdami pridėti paskyrą, turite būti prisijungę prie interneto.</string>
+    <string name="simple_select">Pasirinkti</string>
+    <string name="owner">Savininkas</string>
+    <string name="simple_comment">Komentaras</string>
+    <string name="attachment_delete_message">Tai negrįžtamai ištrins šį priedą.</string>
+    <string name="delete_attachment">Ištrinti %1$s</string>
+</resources>

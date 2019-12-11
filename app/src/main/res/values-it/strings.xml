@@ -116,4 +116,7 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Devi essere connesso a Internet per aggiungere un account.</string>
     <string name="simple_select">Seleziona</string>
     <string name="owner">Proprietario</string>
+    <string name="simple_comment">Commento</string>
+    <string name="attachment_delete_message">Questo eliminerà definitivamente questo allegato.</string>
+    <string name="delete_attachment">Elimina %1$s</string>
 </resources>

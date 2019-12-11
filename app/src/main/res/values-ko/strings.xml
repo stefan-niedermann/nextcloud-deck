@@ -11,7 +11,7 @@
     <!-- Simple values -->
     <string name="simple_boards">게시판</string>
     <string name="simple_cancel">취소</string>
-    <string name="simple_add">생성</string>
+    <string name="simple_add">추가</string>
     <string name="simple_save">저장</string>
 
     <string name="edit_board">게시판 편집</string>
@@ -30,10 +30,14 @@
     <string name="about_testers_title">테스터</string>
     <string name="about_source_title">소스 코드</string>
     <string name="about_source">이 프로젝트는 깃허브에 호스팅 중입니다: %1$s</string>
+    <string name="about_issues_title">문제점</string>
+    <string name="about_issues">GitHub 이슈 트래커에서 이 앱의 버그를 보고하거나 기능을 제안할 수 있습니다: &lt;a href=\"%1$s\">&lt;/a></string>
     <string name="about_translate_title">번역</string>
     <string name="about_app_license_title">앱 라이선스</string>
+    <string name="about_app_license">이 앱은 GNU General Public License v3+로 배포됩니다.</string>
     <string name="about_app_license_button">라이선스 보기</string>
     <string name="about_icons_disclaimer_title">아이콘</string>
+    <string name="about_icons_disclaimer">원래 아이콘은 %1$s에 의해서 만들어졌고, 이후에 사용된 아이콘은 Google Inc.에서 제작한 %2$s를 사용하며 Apache 2.0 License로 배포됩니다.</string>
     <string name="about_icons_disclaimer_mdi">Material 디자인 아이콘</string>
     <string name="about_credits_tab_title">크레딧</string>
     <string name="about_contribution_tab_title">기여자</string>
@@ -46,14 +50,14 @@
     <string name="hint_assign_people">사용자 할당</string>
     <string name="hint_due_date_date">만료 날짜</string>
     <string name="activity">활동</string>
-    <string name="add_card">크레딧 카드</string>
-    <string name="add_column">스택 생성</string>
+    <string name="add_card">카드 추가</string>
+    <string name="add_column">열 추가</string>
 
     <string name="add_account">계정 추가</string>
 
     <string name="label_menu">메뉴</string>
-    <string name="action_card_assign">이 카드를 사용자에게 할당</string>
-    <string name="action_card_unassign">사용자로부터 카드 할당 취소</string>
+    <string name="action_card_assign">이 카드를 나에게 할당</string>
+    <string name="action_card_unassign">이 카드를 나에게 할당 해제</string>
     <string name="action_card_archive">보관 카드</string>
     <string name="action_card_delete">카드 삭제</string>
     <string name="add_board">보드 추가</string>
@@ -63,7 +67,7 @@
 
     <string name="label_clear_due_date">만료 날짜 지우기</string>
 
-    <string name="label_add">생성 %1$s</string>
+    <string name="label_add">%1$s(으)로 추가</string>
     <string name="error">오류가 나타남</string>
     <string name="simple_copy">복사</string>
     <string name="simple_exception">예외</string>
@@ -74,4 +78,22 @@
     <string name="card_edit_attachments">첨부</string>
     <string name="card_edit_activity">활동</string>
     <string name="about_server_app_version_text">서버 앱 버전:</string>
+    <string name="no_files_attached_to_this_card">이 카드에 추가된 파일이 없습니다.</string>
+    <string name="attachments">첨부파일</string>
+    <string name="no_cards">아직 카드가 없음</string>
+    <string name="no_account">설정된 계정이 없음</string>
+    <string name="account_already_added">계정이 이미 추가되어있음</string>
+    <string name="account_is_getting_imported">계정을 불러오고 있음</string>
+    <string name="not_synced_yet">아직 동기화되지 않았음</string>
+    <string name="no_columns">아직 열이 없음</string>
+    <string name="do_you_want_to_save_your_changes">변경된 사항을 저장하시겠습니까?</string>
+    <string name="simple_discard">무시</string>
+    <string name="do_you_want_to_delete_the_current_column">선택된 열을 지우시겠습니까?</string>
+    <string name="add_a_new_column_using_the_three_dots_menu">⋮ 메뉴를 통하여 새 열을 만드십시오.</string>
+    <string name="add_a_new_card_using_the_button">더하기 버튼을 사용하여 새 카드를 추가하십시오.</string>
+    <string name="update_deck">덱 업데이트하기</string>
+    <string name="your_deck_version_is_too_old">덱 버전이 너무 오래되었습니다.</string>
+    <string name="deck_outdated_please_update">덱 버전이 너무 오래되었습니다. 안드로이드 클라이언트를 사용하기 위해서는 업데이트가 필요합니다.</string>
+    <string name="simple_update">업데이트</string>
+    <string name="simple_delete">삭제</string>
     </resources>
