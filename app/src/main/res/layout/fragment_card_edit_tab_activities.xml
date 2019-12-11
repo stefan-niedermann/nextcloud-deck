@@ -15,45 +15,14 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_activity" />
 
-    <RelativeLayout
+    <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
         android:id="@+id/no_activities"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="gone">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_above="@+id/no_activity_text"
-            android:layout_gravity="center"
-            android:contentDescription="@null"
-            android:tint="@color/fg_secondary"
-            app:srcCompat="@drawable/ic_activity_light_grey" />
-
-        <TextView
-            android:id="@+id/no_activity_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:text="@string/activity"
-            android:textAlignment="center"
-            android:textSize="@dimen/empty_content_font_size" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/no_activity_text"
-            android:layout_centerHorizontal="true"
-            android:paddingStart="@dimen/standard_padding"
-            android:paddingLeft="@dimen/standard_padding"
-            android:paddingEnd="@dimen/standard_padding"
-            android:paddingRight="@dimen/standard_padding"
-            android:text="@string/no_activities"
-            android:textAlignment="center" />
-    </RelativeLayout>
+        android:visibility="gone"
+        app:description="@string/no_activities"
+        app:image="@drawable/ic_activity_light_grey"
+        app:title="@string/activity" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
