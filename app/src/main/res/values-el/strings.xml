@@ -2,6 +2,7 @@
     <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
 
+    <string name="drawer_header_background">Φωτογραφία φόντου επικεφαλίδας</string>
     <string name="drawer_current_account">Τρέχον λογαριασμός</string>
     <string name="drawer_middle_account">Μεσαίος λογαριασμός</string>
     <string name="drawer_end_account">Τελευταίος λογαριασμός</string>
@@ -37,6 +38,7 @@
     <string name="about_app_license">Αυτή η εφαρμογή υπόκεινται στην άδεια χρήσης GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button"> Προβολή άδειας χρήσης </string>
     <string name="about_icons_disclaimer_title">Εικονίδια</string>
+    <string name="about_icons_disclaimer">Τα αυθεντικά εικονίδια δημιουργήθηκαν από %1$s Όλα τα υπόλοιπα που χρησιμοποιεί αυτή η εφαρμογή είναι %2$sδημιουργήθηκαν απο Google Inc. και αδειοδοτήθηκαν υπό την άδεια Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Εικονίδια Material Design</string>
     <string name="about_credits_tab_title">Μνεία</string>
     <string name="about_contribution_tab_title">Συνεισφορά</string>
@@ -64,6 +66,8 @@
     <string name="action_card_list_delete_column">Διαγραφή στήλης</string>
     <string name="simple_title">Τίτλος</string>
 
+    <string name="label_clear_due_date">Καθαρισμός ημερομηνίας λήξης</string>
+
     <string name="label_add">Προσθήκη %1$s</string>
     <string name="error">Παρουσιάστηκε σφάλμα</string>
     <string name="simple_copy">αντιγραφή</string>
@@ -88,6 +92,7 @@
     <string name="do_you_want_to_delete_the_current_column">Θέλετε να διαγράψετε την τρέχουσα στήλη;</string>
     <string name="add_a_new_column_using_the_three_dots_menu">Προσθέστε νέα στήλη μέσω του μενού των τριών τελειών.</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
+    <string name="update_deck">Ενημέρωση Deck</string>
     <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
     <string name="deck_outdated_please_update">Η έκδοσή σας είναι είναι παλαιά. Παρακαλώ αναβαθμίστε για επιπλέον χρήση.</string>
     <string name="simple_update">Ενημέρωση</string>
@@ -96,7 +101,7 @@
     <string name="action_card_list_rename_column">Μετονομασία στήλης</string>
     <string name="simple_rename">Μετονομασία</string>
     <string name="simple_settings">Ρυθμίσεις</string>
-    <string name="settings_theme_title">Σκοτεινό θέμα</string>
+    <string name="settings_theme_title">Σκούρο θέμα</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
     <string name="pref_value_theme_light">Φωτεινό</string>
@@ -108,6 +113,10 @@
     <string name="you_are_currently_offline">Προς το παρόν αποσυνδεμένος</string>
     <string name="simple_manage">διαχείριση</string>
     <string name="simple_share">Διαμοιράστε</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Πρέπει να είστε συνδεμένοι στο ιντερνετ για να προσθέσετε λογαριασμό.</string>
     <string name="simple_select">Επιλογή</string>
     <string name="owner">Κάτοχος</string>
+    <string name="simple_comment">Σχόλιο</string>
+    <string name="attachment_delete_message">Θα διαγραφεί μόνιμα το συνημμένο.</string>
+    <string name="delete_attachment">Διαγραφή %1$s</string>
 </resources>

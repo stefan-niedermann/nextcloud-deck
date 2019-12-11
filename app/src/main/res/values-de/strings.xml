@@ -116,4 +116,7 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Sie müssen zum Hinzufügen eines Kontos mit dem Internet verbunden sein.</string>
     <string name="simple_select">Auswählen</string>
     <string name="owner">Besitzer</string>
+    <string name="simple_comment">Kommentar</string>
+    <string name="attachment_delete_message">Damit wird dieser Anhang dauerhaft gelöscht.</string>
+    <string name="delete_attachment">%1$s löschen</string>
 </resources>

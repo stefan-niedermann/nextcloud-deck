@@ -116,4 +116,7 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必须连接到互联网以添加账号。</string>
     <string name="simple_select">选择</string>
     <string name="owner">拥有者</string>
+    <string name="simple_comment">注释</string>
+    <string name="attachment_delete_message">这将永久删除此附件。</string>
+    <string name="delete_attachment">删除 %1$s</string>
 </resources>
