@@ -3,4 +3,9 @@
     <declare-styleable name="ColorChooser">
         <attr name="colors" format="reference" />
     </declare-styleable>
+    <declare-styleable name="EmptyContentView">
+        <attr name="title" format="string" />
+        <attr name="description" format="string" />
+        <attr name="image" format="reference" />
+    </declare-styleable>
 </resources>
