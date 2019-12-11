@@ -17,41 +17,14 @@
         tools:listitem="@layout/item_attachment"
         tools:visibility="visible" />
 
-    <RelativeLayout
+    <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
         android:id="@+id/no_attachments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        tools:visibility="gone">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_above="@+id/no_attachments_text"
-            android:layout_gravity="center"
-            android:contentDescription="@null"
-            android:tint="@color/fg_secondary"
-            app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
-
-        <TextView
-            android:id="@+id/no_attachments_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:text="@string/attachments"
-            android:textAlignment="center"
-            android:textSize="@dimen/empty_content_font_size" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/no_attachments_text"
-            android:layout_centerHorizontal="true"
-            android:text="@string/no_files_attached_to_this_card" />
-    </RelativeLayout>
+        android:visibility="gone"
+        app:description="@string/no_files_attached_to_this_card"
+        app:image="@drawable/ic_attach_file_grey600_24dp"
+        app:title="@string/attachments" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
