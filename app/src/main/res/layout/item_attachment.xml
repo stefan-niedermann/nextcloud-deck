@@ -61,5 +61,6 @@
         android:contentDescription="@string/simple_delete"
         android:padding="@dimen/standard_padding"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_delete_black_24dp" />
 </LinearLayout>
