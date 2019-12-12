@@ -24,7 +24,6 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:description="@string/add_a_new_column_using_the_three_dots_menu"
-                app:image="@drawable/ic_app_logo"
                 app:title="@string/no_columns"
                 tools:visibility="visible" />
 

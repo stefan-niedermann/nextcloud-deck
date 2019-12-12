@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:hint="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:contentDescription="@null"
         android:tint="@color/fg_secondary"
-        app:srcCompat="@drawable/ic_app_logo" />
+        hint:src="@drawable/ic_app_logo" />
 
     <TextView
         android:id="@+id/title"
@@ -24,9 +24,9 @@
         android:gravity="center"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:text="@string/app_name_short"
         android:textAlignment="center"
-        android:textSize="@dimen/empty_content_font_size" />
+        android:textSize="@dimen/empty_content_font_size"
+        hint:text="@string/app_name_short" />
 
     <TextView
         android:id="@+id/description"
@@ -38,6 +38,6 @@
         android:paddingLeft="@dimen/standard_padding"
         android:paddingEnd="@dimen/standard_padding"
         android:paddingRight="@dimen/standard_padding"
-        android:text="@string/app_name"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        hint:text="@string/app_name" />
 </RelativeLayout>

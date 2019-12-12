@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         app:description="@string/add_a_new_card_using_the_button"
-        app:image="@drawable/ic_app_logo"
         app:title="@string/no_cards" />
 
     <androidx.recyclerview.widget.RecyclerView
