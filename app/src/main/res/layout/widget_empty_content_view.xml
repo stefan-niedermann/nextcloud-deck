@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:contentDescription="@null"
         android:tint="@color/fg_secondary"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:srcCompat="@drawable/ic_app_logo" />
 
     <TextView
         android:id="@+id/title"
