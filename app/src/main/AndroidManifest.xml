@@ -62,7 +62,7 @@
 
         <service
             android:name=".ui.tiles.EditCardTileService"
-            android:icon="@drawable/ic_launcher_foreground"
+            android:icon="@drawable/ic_app_logo"
             android:label="@string/add_card"
             android:description="@string/add_a_new_card_using_the_button"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">

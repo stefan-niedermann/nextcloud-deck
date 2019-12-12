@@ -18,40 +18,14 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <RelativeLayout
+            <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
                 android:id="@+id/no_stacks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_above="@+id/no_columns_text"
-                    android:layout_marginBottom="-40dp"
-                    android:contentDescription="@null"
-                    android:tint="@color/fg_secondary"
-                    app:srcCompat="@drawable/ic_launcher_foreground" />
-
-                <TextView
-                    android:id="@+id/no_columns_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/standard_padding"
-                    android:text="@string/no_columns"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/empty_content_font_size" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/no_columns_text"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/add_a_new_column_using_the_three_dots_menu" />
-            </RelativeLayout>
-
+                android:visibility="gone"
+                app:description="@string/add_a_new_column_using_the_three_dots_menu"
+                app:title="@string/no_columns"
+                tools:visibility="visible" />
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout"

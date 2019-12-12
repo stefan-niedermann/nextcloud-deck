@@ -40,7 +40,7 @@ public class ColorChooser extends LinearLayout {
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.color_chooser, this, true);
+        inflater.inflate(R.layout.widget_color_chooser, this, true);
         ButterKnife.bind(this);
         initDefaultColors();
     }

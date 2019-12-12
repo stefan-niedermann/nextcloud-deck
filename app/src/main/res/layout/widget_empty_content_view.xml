@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hint="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/standard_padding">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_above="@+id/title"
+        android:layout_gravity="center"
+        android:contentDescription="@null"
+        android:tint="@color/fg_secondary"
+        hint:src="@drawable/ic_app_logo" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textAlignment="center"
+        android:textSize="@dimen/empty_content_font_size"
+        hint:text="@string/app_name_short" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:paddingStart="@dimen/standard_padding"
+        android:paddingLeft="@dimen/standard_padding"
+        android:paddingEnd="@dimen/standard_padding"
+        android:paddingRight="@dimen/standard_padding"
+        android:textAlignment="center"
+        hint:text="@string/app_name" />
+</RelativeLayout>
