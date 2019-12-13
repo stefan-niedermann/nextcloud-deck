@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.settings;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
@@ -13,6 +14,7 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -20,6 +22,8 @@ public class SettingsFragment extends PreferenceFragment {
     String prefKeyWifiOnly;
     @BindString(R.string.pref_key_dark_theme)
     String prefKeyDarkTheme;
+    @BindString(R.string.pref_key_background_sync)
+    String prefKeyBackgroundSync;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +47,13 @@ public class SettingsFragment extends PreferenceFragment {
             Application.setAppTheme(darkTheme);
             getActivity().setResult(Activity.RESULT_OK);
             getActivity().recreate();
+            return true;
+        });
+
+        final ListPreference backgroundSyncPref = (ListPreference) findPreference(prefKeyBackgroundSync);
+        backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+            DeckLog.log("backgroundSync: " + newValue);
+            SyncWorker.register(getActivity().getApplicationContext());
             return true;
         });
     }
