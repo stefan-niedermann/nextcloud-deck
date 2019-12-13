@@ -20,7 +20,7 @@ import it.niedermann.nextcloud.deck.R;
 
 public class SyncWorker extends Worker {
 
-    private static final String TAG = SyncWorker.class.getSimpleName();
+    private static final String TAG = "it.niedermann.nextcloud.deck.background_synchronization";
 
     public SyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
