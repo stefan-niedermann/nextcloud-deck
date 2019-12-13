@@ -12,6 +12,7 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
+    <string name="simple_cancel">Cancel</string>
     <string name="simple_add">Add</string>
     <string name="simple_save">Save</string>
 
@@ -146,6 +147,7 @@
     <string name="owner">Owner</string>
     <string name="simple_comment">Comment</string>
     <string name="attachment_delete_message">This will permanently delete this attachment.</string>
+    <string name="delete_attachment">Delete %1$s</string>
     <string name="no_content">No content yet</string>
     <string name="action_card_move">Move card</string>
     <string name="action_card_move_title">Move %1$s</string>

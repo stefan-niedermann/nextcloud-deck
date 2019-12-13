@@ -75,7 +75,7 @@ public class SyncManager {
     }
 
     boolean synchronizeEverything() {
-        // TODO do some magic here, but wait with implementation for PoC
+        // TODO do some magic here
         try {
             Thread.sleep(2000);
             return true;
