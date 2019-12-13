@@ -31,10 +31,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.work.Constraints;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -53,7 +49,6 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindInt;
 import butterknife.BindString;
@@ -176,13 +171,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                         editor.remove(sharedPreferenceLastAccount);
                                         editor.commit(); // Has to be done synchronously
                                     } else {
-                                        Constraints constraints = new Constraints.Builder()
-                                                .setRequiresCharging(true)
-                                                .build();
-                                        PeriodicWorkRequest work = new PeriodicWorkRequest.Builder(SyncWorker.class, 30, TimeUnit.MINUTES)
-                                                .setConstraints(constraints)
-                                                .build();
-                                        WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(SyncWorker.TAG, ExistingPeriodicWorkPolicy.KEEP, work);
+                                        SyncWorker.register(getApplicationContext());
                                         accountIsGettingImportedSnackbar.show();
                                     }
                                 }

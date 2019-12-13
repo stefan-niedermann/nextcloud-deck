@@ -21,6 +21,32 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="26sp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="?android:attr/editTextPreferenceStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp"
+                android:text="@string/last_background_sync"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/last_background_sync"
+                style="?android:attr/editTextPreferenceStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:paddingStart="5dp"
+                android:paddingLeft="5dp"
+                tools:hint="20 seconds ago"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
+
         <TextView
             style="?android:attr/listSeparatorTextViewStyle"
             android:layout_width="match_parent"
