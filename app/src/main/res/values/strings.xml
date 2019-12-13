@@ -130,6 +130,7 @@
     <string name="simple_rename">Rename</string>
     <string name="simple_settings">Settings</string>
     <string name="settings_theme_title">Dark theme</string>
+    <string name="settings_background_sync">Background synchronization</string>
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
     <string name="pref_value_theme_light">Light</string>
@@ -149,4 +150,8 @@
     <string name="delete_attachment">Delete %1$s</string>
     <string name="no_content">No content yet</string>
     <string name="last_background_sync">Last background sync:</string>
+    <string name="simple_off">Off</string>
+    <string name="minutes_15">15 Minutes</string>
+    <string name="hour_1">1 Hour</string>
+    <string name="hours_6">6 Hours</string>
 </resources>

@@ -3,14 +3,22 @@
 
     <SwitchPreference
         android:defaultValue="@string/pref_value_wifi_and_mobile"
-        android:icon="@drawable/ic_sync_grey600_24dp"
+        android:icon="@drawable/ic_network_wifi_grey600_24dp"
         android:key="@string/pref_key_wifi_only"
         android:title="@string/pref_value_wifi_only" />
+
+    <ListPreference
+        android:defaultValue="@string/minutes_15"
+        android:entries="@array/background_sync_entries"
+        android:entryValues="@array/background_sync_values"
+        android:icon="@drawable/ic_sync_grey600_24dp"
+        android:key="@string/pref_key_background_sync"
+        android:summary="%s"
+        android:title="@string/settings_background_sync" />
 
     <SwitchPreference
         android:defaultValue="@string/pref_value_theme_light"
         android:icon="@drawable/ic_brightness_2_grey600_24dp"
         android:key="@string/pref_key_dark_theme"
         android:title="@string/settings_theme_title" />
-
 </PreferenceScreen>

@@ -43,16 +43,30 @@ public class SyncWorker extends Worker {
     }
 
     public static void register(@NonNull Context context) {
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-        PeriodicWorkRequest work = new PeriodicWorkRequest.Builder(SyncWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
-                .setConstraints(constraints)
-                .build();
-        WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork(SyncWorker.TAG, ExistingPeriodicWorkPolicy.KEEP, work);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        String backgroundSync = sharedPreferences.getString(context.getString(R.string.pref_key_background_sync), context.getString(R.string.pref_value_background_15_minutes));
+        if (!context.getString(R.string.pref_value_background_sync_off).equals(backgroundSync)) {
+            int repeatInterval = 15;
+            TimeUnit unit = TimeUnit.MINUTES;
+            if (context.getString(R.string.pref_value_background_1_hour).equals(backgroundSync)) {
+                repeatInterval = 1;
+                unit = TimeUnit.HOURS;
+            } else if (context.getString(R.string.pref_value_background_6_hours).equals(backgroundSync)) {
+                repeatInterval = 6;
+                unit = TimeUnit.HOURS;
+            }
+            Constraints constraints = new Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build();
+            PeriodicWorkRequest work = new PeriodicWorkRequest.Builder(SyncWorker.class, repeatInterval, unit)
+                    .setConstraints(constraints).build();
+            WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork(SyncWorker.TAG, ExistingPeriodicWorkPolicy.REPLACE, work);
+        } else {
+            deregister(context);
+        }
     }
 
-    public static void deregister(@NonNull Context context) {
+    private static void deregister(@NonNull Context context) {
         WorkManager.getInstance(context.getApplicationContext()).cancelAllWorkByTag(TAG);
     }
 }
