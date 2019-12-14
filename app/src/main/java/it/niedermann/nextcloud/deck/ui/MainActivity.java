@@ -336,7 +336,7 @@ public class MainActivity extends DrawerActivity implements
                                                 syncManager.deleteBoard(board);
                                                 drawer.closeDrawer(GravityCompat.START);
                                             })
-                                            .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
+                                            .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                                             })
                                             .show();
                                     break;

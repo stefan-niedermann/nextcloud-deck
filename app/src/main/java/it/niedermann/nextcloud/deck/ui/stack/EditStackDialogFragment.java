@@ -55,7 +55,7 @@ public class EditStackDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
                 .setView(view)
-                .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                     // Do something else
                 });
         if (getArguments() == null) {

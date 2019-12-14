@@ -52,7 +52,7 @@ public class CommentDialogFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
                 .setView(view)
                 .setTitle(R.string.simple_comment)
-                .setNegativeButton(R.string.simple_cancel, (dialog, which) -> {
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                     // Do something else
                 })
                 .setPositiveButton(R.string.simple_add, (dialog, which) -> addCommentListener.onCommentAdded(input.getText().toString()))

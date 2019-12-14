@@ -20,8 +20,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -32,6 +34,7 @@ import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +49,9 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.DraggedCardLocalState;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
@@ -72,6 +77,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private final SyncManager syncManager;
     private final long boardId;
     private final boolean canEdit;
+    private LifecycleOwner lifecycleOwner;
+    private List<FullStack> availableStacks = new ArrayList<>();
 
 
     @BindInt(R.integer.max_avatar_count)
@@ -83,6 +90,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment) {
         ButterKnife.bind(this, Objects.requireNonNull(fragment.getActivity()));
+        this.lifecycleOwner = fragment;
         this.boardId = boardId;
         this.canEdit = canEdit;
         this.syncManager = syncManager;
@@ -133,6 +141,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 DeckLog.log("onLongClickListener");
                 return true;
             });
+            setupMoveMenu(card.getAccountId(), boardId);
         }
         viewHolder.cardTitle.setText(card.getCard().getTitle());
         String description = card.getCard().getDescription();
@@ -192,6 +201,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         viewHolder.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
+    }
+
+    private void setupMoveMenu(long accountId, long boardId) {
+        syncManager.getStacksForBoard(accountId, boardId).observe(lifecycleOwner, (stacks) -> availableStacks = stacks);
     }
 
     private void setupLabels(@NonNull ChipGroup labels, List<Label> labelList) {
@@ -349,6 +362,26 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
                     DeckLog.logError(e);
                 }
+                return true;
+            }
+            case R.id.action_card_move: {
+                CharSequence[] items = new CharSequence[availableStacks.size()];
+                for (int i = 0; i < availableStacks.size(); i++) {
+                    items[i] = availableStacks.get(i).getStack().getTitle();
+                }
+                final FullCard newCard = card;
+                new AlertDialog.Builder(context)
+                        .setSingleChoiceItems(items, 0, (dialog, which) -> {
+                            dialog.cancel();
+                            newCard.getCard().setStackId(availableStacks.get(which).getStack().getLocalId());
+                            LiveDataHelper.observeOnce(syncManager.updateCard(newCard), lifecycleOwner, (c) -> {
+                                // Nothing to do here...
+                            });
+                            DeckLog.log("Moved card to " + availableStacks.get(which).getStack().getTitle());
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setTitle(R.string.action_card_move)
+                        .show();
                 return true;
             }
             case R.id.action_card_archive: {
