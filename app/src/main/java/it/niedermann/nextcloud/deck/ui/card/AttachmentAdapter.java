@@ -70,7 +70,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         });
         holder.deleteButton.setOnClickListener((v) -> {
             new DeleteDialogBuilder(context)
-                    .setTitle(context.getString(R.string.delete_attachment, attachment.getFilename()))
+                    .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
                     .setMessage(R.string.attachment_delete_message)
                     .setNegativeButton(android.R.string.cancel, null)
                     .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))

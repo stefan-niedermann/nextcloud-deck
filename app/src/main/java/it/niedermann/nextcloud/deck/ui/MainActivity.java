@@ -321,7 +321,7 @@ public class MainActivity extends DrawerActivity implements
                                     break;
                                 case R.id.delete_board:
                                     new DeleteDialogBuilder(this)
-                                            .setTitle(R.string.delete_board)
+                                            .setTitle(getString(R.string.delete_something, board.getTitle()))
                                             .setMessage(R.string.delete_board_message)
                                             .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
                                                 if (board.getLocalId() == currentBoardId) {
