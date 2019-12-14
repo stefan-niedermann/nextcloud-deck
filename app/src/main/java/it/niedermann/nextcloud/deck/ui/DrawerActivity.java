@@ -171,7 +171,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                         editor.remove(sharedPreferenceLastAccount);
                                         editor.commit(); // Has to be done synchronously
                                     } else {
-                                        SyncWorker.register(getApplicationContext());
+                                        SyncWorker.update(getApplicationContext());
                                         accountIsGettingImportedSnackbar.show();
                                     }
                                 }

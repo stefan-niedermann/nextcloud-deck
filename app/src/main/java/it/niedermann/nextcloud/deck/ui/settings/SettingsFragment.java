@@ -52,8 +52,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         final ListPreference backgroundSyncPref = (ListPreference) findPreference(prefKeyBackgroundSync);
         backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-            DeckLog.log("backgroundSync: " + newValue);
-            SyncWorker.register(getActivity().getApplicationContext());
+            SyncWorker.update(getActivity().getApplicationContext(), (String) newValue);
             return true;
         });
     }
