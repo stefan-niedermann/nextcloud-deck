@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -76,21 +77,30 @@ public class SyncHelper {
 
     // Sync App -> Server
     public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider){
+        doUpSyncFor(provider, null);
+    }
+    public <T extends IRemoteEntity> void doUpSyncFor(AbstractSyncDataProvider<T> provider, CountDownLatch countDownLatch){
         List<T> allFromDB = provider.getAllChangedFromDB(dataBaseAdapter, accountId, lastSync);
         if (allFromDB != null && !allFromDB.isEmpty()) {
             for (T entity : allFromDB) {
                 if (entity.getId()!=null) {
                     if (entity.getStatusEnum() == DBStatus.LOCAL_DELETED) {
                         provider.deleteOnServer(serverAdapter, accountId, getDeleteCallback(provider, entity), entity, dataBaseAdapter);
+                        if (countDownLatch != null){
+                            countDownLatch.countDown();
+                        }
                     } else {
-                        provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity), entity);
+                        provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity, countDownLatch), entity);
                     }
                 } else {
-                    provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity), entity);
+                    provider.createOnServer(serverAdapter, dataBaseAdapter, accountId, getUpdateCallback(provider, entity, countDownLatch), entity);
                 }
             }
         } else {
             provider.goDeeperForUpSync(this, serverAdapter, dataBaseAdapter, responseCallback);
+            if (countDownLatch != null){
+                countDownLatch.countDown();
+            }
         }
     }
 
@@ -110,7 +120,7 @@ public class SyncHelper {
         };
     }
 
-    private <T extends IRemoteEntity> IResponseCallback<T> getUpdateCallback(AbstractSyncDataProvider<T> provider, T entity) {
+    private <T extends IRemoteEntity> IResponseCallback<T> getUpdateCallback(AbstractSyncDataProvider<T> provider, T entity, CountDownLatch countDownLatch) {
         return new IResponseCallback<T>(account) {
             @Override
             public void onResponse(T response) {
@@ -119,12 +129,18 @@ public class SyncHelper {
                 update.setStatus(DBStatus.UP_TO_DATE.getId());
                 provider.updateInDB(dataBaseAdapter, accountId, update, false);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
+                if (countDownLatch != null){
+                    countDownLatch.countDown();
+                }
             }
 
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
                 responseCallback.onError(throwable);
+                if (countDownLatch != null){
+                    countDownLatch.countDown();
+                }
             }
         };
     }
