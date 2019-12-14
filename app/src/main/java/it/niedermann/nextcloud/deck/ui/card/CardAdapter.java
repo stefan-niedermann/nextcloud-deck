@@ -88,11 +88,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @BindInt(R.integer.max_labels_chars)
     int maxLabelsChars;
 
-    public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment) {
+    public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, List<FullStack> stacks, @NonNull Fragment fragment) {
         ButterKnife.bind(this, Objects.requireNonNull(fragment.getActivity()));
         this.lifecycleOwner = fragment;
         this.boardId = boardId;
         this.canEdit = canEdit;
+        this.availableStacks = stacks;
         this.syncManager = syncManager;
     }
 
@@ -141,7 +142,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 DeckLog.log("onLongClickListener");
                 return true;
             });
-            setupMoveMenu(card.getAccountId(), boardId);
         }
         viewHolder.cardTitle.setText(card.getCard().getTitle());
         String description = card.getCard().getDescription();
@@ -201,10 +201,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         viewHolder.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
-    }
-
-    private void setupMoveMenu(long accountId, long boardId) {
-        syncManager.getStacksForBoard(accountId, boardId).observe(lifecycleOwner, (stacks) -> availableStacks = stacks);
     }
 
     private void setupLabels(@NonNull ChipGroup labels, List<Label> labelList) {

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,7 @@ public class StackFragment extends Fragment {
     private static final String KEY_BOARD_ID = "boardId";
     private static final String KEY_STACK_ID = "stackId";
     private static final String KEY_ACCOUNT = "account";
+    private static final String KEY_STACKS = "stacks";
     private static final String KEY_HAS_EDIT_PERMISSION = "hasEditPermission";
     private CardAdapter adapter = null;
     private SyncManager syncManager;
@@ -49,12 +51,13 @@ public class StackFragment extends Fragment {
      * @return new fragment instance
      * @see <a href="https://gunhansancar.com/best-practice-to-instantiate-fragments-with-arguments-in-android/">Best Practice to Instantiate Fragments with Arguments in Android</a>
      */
-    public static StackFragment newInstance(long boardId, long stackId, Account account, boolean hasEditPermission) {
+    public static StackFragment newInstance(long boardId, long stackId, Account account, ArrayList<FullStack> fullStacks, boolean hasEditPermission) {
         Bundle bundle = new Bundle();
         bundle.putLong(KEY_BOARD_ID, boardId);
         bundle.putLong(KEY_STACK_ID, stackId);
         bundle.putBoolean(KEY_HAS_EDIT_PERMISSION, hasEditPermission);
         bundle.putSerializable(KEY_ACCOUNT, account);
+        bundle.putSerializable(KEY_STACKS, fullStacks);
 
         StackFragment fragment = new StackFragment();
         fragment.setArguments(bundle);
@@ -87,7 +90,7 @@ public class StackFragment extends Fragment {
 
         syncManager = new SyncManager(activity);
 
-        adapter = new CardAdapter(boardId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, this);
+        adapter = new CardAdapter(boardId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, (List<FullStack>) getArguments().getSerializable(KEY_STACKS), this);
         recyclerView.setAdapter(adapter);
         if (onScrollListener != null) {
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
