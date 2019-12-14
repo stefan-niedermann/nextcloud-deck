@@ -500,6 +500,11 @@ public class SyncManager {
         return updateCard(card);
     }
 
+    public MutableLiveData<FullBoard> archiveBoard(FullBoard board) {
+        // TODO implement
+        return null;
+    }
+
     public MutableLiveData<FullCard> updateCard(FullCard card) {
         MutableLiveData<FullCard> liveData = new MutableLiveData<>();
         doAsync(() -> {
