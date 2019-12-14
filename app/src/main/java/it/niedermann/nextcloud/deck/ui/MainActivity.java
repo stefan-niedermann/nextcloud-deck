@@ -25,7 +25,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -415,7 +414,7 @@ public class MainActivity extends DrawerActivity implements
                 StackAdapter newStackAdapter = new StackAdapter(getSupportFragmentManager());
                 for (int i = 0; i < fullStacks.size(); i++) {
                     FullStack stack = fullStacks.get(i);
-                    newStackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account, new ArrayList<>(fullStacks), currentBoardHasEditPermission), stack.getStack().getTitle());
+                    newStackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), account, currentBoardHasEditPermission), stack.getStack().getTitle());
                     if (stack.getLocalId() == savedStackId) {
                         stackPositionInAdapter = i;
                     }
