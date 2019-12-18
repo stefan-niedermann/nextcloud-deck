@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Πίνακες</string>
-    <string name="simple_cancel">Ακύρωση</string>
     <string name="simple_add">Προσθήκη</string>
     <string name="simple_save">Αποθήκευση</string>
 
     <string name="edit_board">Επεξεργασία πίνακα</string>
     <string name="archive_board">Αρχειοθέτηση πίνακα</string>
     <string name="delete_board">Διαγραφή πίνακα</string>
+    <string name="delete_something">Διαγραφή %1$s</string>
 
     <!-- About -->
     <string name="about">Περί</string>
@@ -118,5 +118,7 @@
     <string name="owner">Κάτοχος</string>
     <string name="simple_comment">Σχόλιο</string>
     <string name="attachment_delete_message">Θα διαγραφεί μόνιμα το συνημμένο.</string>
-    <string name="delete_attachment">Διαγραφή %1$s</string>
+    <string name="no_content">Χωρίς περιεχόμενο ακόμα</string>
+    <string name="action_card_move">Μετακίνηση κάρτας</string>
+    <string name="action_card_move_title">Μετακίνηση %1$s</string>
 </resources>

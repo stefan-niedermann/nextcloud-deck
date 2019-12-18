@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Painéis</string>
-    <string name="simple_cancel">Cancelar</string>
     <string name="simple_add">Adicionar</string>
     <string name="simple_save">Salvar</string>
 
     <string name="edit_board">Editar o painel</string>
     <string name="archive_board">Arquivar o painel</string>
     <string name="delete_board">Excluir o painel</string>
+    <string name="delete_something">Excluir %1$s</string>
 
     <!-- About -->
     <string name="about">Sobre</string>
@@ -118,5 +118,7 @@
     <string name="owner">Proprietário</string>
     <string name="simple_comment">Comentário</string>
     <string name="attachment_delete_message">Isso excluirá permanentemente este anexo.</string>
-    <string name="delete_attachment">Excluir %1$s</string>
+    <string name="no_content">Sem contexto ainda</string>
+    <string name="action_card_move">Move cartão</string>
+    <string name="action_card_move_title">Mover %1$s</string>
 </resources>

@@ -10,14 +10,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">게시판</string>
-    <string name="simple_cancel">취소</string>
     <string name="simple_add">추가</string>
     <string name="simple_save">저장</string>
 
     <string name="edit_board">게시판 편집</string>
     <string name="archive_board">게시판 보관</string>
     <string name="delete_board">게시판 삭제</string>
-
     <!-- About -->
     <string name="about">정보</string>
     <string name="about_version_title">버전</string>

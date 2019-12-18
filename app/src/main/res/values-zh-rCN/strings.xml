@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">面板</string>
-    <string name="simple_cancel">取消</string>
     <string name="simple_add">添加</string>
     <string name="simple_save">保存</string>
 
     <string name="edit_board">编辑面板</string>
     <string name="archive_board">归档面板</string>
     <string name="delete_board">删除面板</string>
+    <string name="delete_something">删除 %1$s</string>
 
     <!-- About -->
     <string name="about">关于</string>
@@ -83,8 +83,8 @@
     <string name="attachments">附件</string>
     <string name="no_cards">暂无卡片</string>
     <string name="no_account">没有已配置的账号</string>
-    <string name="account_already_added">账户已被添加</string>
-    <string name="account_is_getting_imported">账户已导出</string>
+    <string name="account_already_added">账号已被添加</string>
+    <string name="account_is_getting_imported">账号已被导入</string>
     <string name="not_synced_yet">尚未同步</string>
     <string name="no_columns">暂无列</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
@@ -118,5 +118,7 @@
     <string name="owner">拥有者</string>
     <string name="simple_comment">注释</string>
     <string name="attachment_delete_message">这将永久删除此附件。</string>
-    <string name="delete_attachment">删除 %1$s</string>
+    <string name="no_content">暂无内容</string>
+    <string name="action_card_move">移动卡片</string>
+    <string name="action_card_move_title">移动%1$s</string>
 </resources>

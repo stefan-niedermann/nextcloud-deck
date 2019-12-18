@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tableros</string>
-    <string name="simple_cancel">Cancelar</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
 
     <string name="edit_board">Editar tablero</string>
     <string name="archive_board">Archivar tablero</string>
     <string name="delete_board">Eliminar tablero</string>
+    <string name="delete_something">Borrar %1$s</string>
 
     <!-- About -->
     <string name="about">Acerca de</string>
@@ -118,5 +118,7 @@
     <string name="owner">Propietario</string>
     <string name="simple_comment">Comentario</string>
     <string name="attachment_delete_message">Esto borrará permanente el adjunto.</string>
-    <string name="delete_attachment">Borrar %1$s</string>
+    <string name="no_content">Aún no hay contenido</string>
+    <string name="action_card_move">Mover tarjeta</string>
+    <string name="action_card_move_title">Mover %1$s</string>
 </resources>

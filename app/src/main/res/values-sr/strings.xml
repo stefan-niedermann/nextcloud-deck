@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Табле</string>
-    <string name="simple_cancel">Поништи</string>
     <string name="simple_add">Додај</string>
     <string name="simple_save">Сачувај</string>
 
     <string name="edit_board">Измени таблу</string>
     <string name="archive_board">Архивирај таблу</string>
     <string name="delete_board">Избриши таблу</string>
+    <string name="delete_something">Обриши %1$s</string>
 
     <!-- About -->
     <string name="about">О програму</string>
@@ -116,4 +116,9 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Морате бити повезани са интернетом да би сте додали налог.</string>
     <string name="simple_select">Обележи</string>
     <string name="owner">Власник</string>
-    </resources>
+    <string name="simple_comment">Коментар</string>
+    <string name="attachment_delete_message">Ово ће заувек обрисати овај прилог.</string>
+    <string name="no_content">Још нема садржаја</string>
+    <string name="action_card_move">Премести картицу</string>
+    <string name="action_card_move_title">Премести %1$s</string>
+</resources>
