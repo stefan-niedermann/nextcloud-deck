@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tabule</string>
-    <string name="simple_cancel">Storno</string>
     <string name="simple_add">Přidat</string>
     <string name="simple_save">Uložit</string>
 
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
     <string name="delete_board">Smazat tabuli</string>
+    <string name="delete_something">Smazat %1$s</string>
 
     <!-- About -->
     <string name="about">O aplikaci</string>
@@ -118,5 +118,7 @@
     <string name="owner">Vlastník</string>
     <string name="simple_comment">Komentář</string>
     <string name="attachment_delete_message">Toto tuto přílohu nadobro smaže.</string>
-    <string name="delete_attachment">Smazat %1$s</string>
+    <string name="no_content">Zatím žádný osah</string>
+    <string name="action_card_move">Přesunout kartu</string>
+    <string name="action_card_move_title">Přesunout %1$s</string>
 </resources>

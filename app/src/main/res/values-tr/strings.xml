@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Katlar</string>
-    <string name="simple_cancel">İptal</string>
     <string name="simple_add">Ekle</string>
     <string name="simple_save">Kaydet</string>
 
     <string name="edit_board">Panoyu düzenle</string>
     <string name="archive_board">Panoyu arşivle</string>
     <string name="delete_board">Panoyu sil</string>
+    <string name="delete_something">%1$s Sil</string>
 
     <!-- About -->
     <string name="about">Hakkında</string>
@@ -118,5 +118,7 @@
     <string name="owner">Sahibi</string>
     <string name="simple_comment">Açıklama</string>
     <string name="attachment_delete_message">Bu işlem bu ek dosyasını silecek.</string>
-    <string name="delete_attachment">%1$s sil</string>
+    <string name="no_content">Henüz bir içerik yok</string>
+    <string name="action_card_move">Kartı taşı</string>
+    <string name="action_card_move_title">%1$s Taşı</string>
 </resources>

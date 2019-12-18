@@ -10,14 +10,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Zbirke</string>
-    <string name="simple_cancel">Prekliči</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Shrani</string>
 
     <string name="edit_board">Uredi zbirko</string>
     <string name="archive_board">Arhiviraj zbirko</string>
     <string name="delete_board">Izbriši zbirko</string>
-
     <!-- About -->
     <string name="about">O programu</string>
     <string name="about_version_title">Različica</string>

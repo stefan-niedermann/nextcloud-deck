@@ -7,14 +7,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Plokštės</string>
-    <string name="simple_cancel">Atsisakyti</string>
     <string name="simple_add">Pridėti</string>
     <string name="simple_save">Įrašyti</string>
 
     <string name="edit_board">Taisyti plokštę</string>
     <string name="archive_board">Archyvuoti plokštę</string>
     <string name="delete_board">Ištrinti plokštę</string>
-
     <!-- About -->
     <string name="about">Apie</string>
     <string name="about_version_title">Versija</string>
@@ -70,6 +68,7 @@
     <string name="no_files_attached_to_this_card">Prie šios kortelės nėra jokių pridėtų priedų.</string>
     <string name="attachments">Priedai</string>
     <string name="no_cards">Kol kas kortelių nėra</string>
+    <string name="no_account">Nėra sukonfiguruotų paskyrų</string>
     <string name="account_already_added">Paskyra jau pridėta</string>
     <string name="no_columns">Kol kas stulpelių nėra</string>
     <string name="do_you_want_to_save_your_changes">Ar norite įrašyti savo pakeitimus?</string>
@@ -96,5 +95,7 @@
     <string name="owner">Savininkas</string>
     <string name="simple_comment">Komentaras</string>
     <string name="attachment_delete_message">Tai negrįžtamai ištrins šį priedą.</string>
-    <string name="delete_attachment">Ištrinti %1$s</string>
+    <string name="no_content">Kol kas nėra jokio turinio</string>
+    <string name="action_card_move">Perkelti kortelę</string>
+    <string name="action_card_move_title">Perkelti %1$s</string>
 </resources>

@@ -7,14 +7,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Taulut</string>
-    <string name="simple_cancel">Peru</string>
     <string name="simple_add">Lisää</string>
     <string name="simple_save">Tallenna</string>
 
     <string name="edit_board">Muokkaa taulua</string>
     <string name="archive_board">Arkistoi taulu</string>
     <string name="delete_board">Poista taulu</string>
-
     <!-- About -->
     <string name="about">Tietoja</string>
     <string name="about_version_title">Versio</string>

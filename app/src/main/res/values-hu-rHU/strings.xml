@@ -10,14 +10,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Táblák</string>
-    <string name="simple_cancel">Mégse</string>
     <string name="simple_add">Hozzáadás</string>
     <string name="simple_save">Mentés</string>
 
     <string name="edit_board">Tábla szerkesztése</string>
     <string name="archive_board">Tábla archiválása</string>
     <string name="delete_board">Tábla törlése</string>
-
     <!-- About -->
     <string name="about">Névjegy</string>
     <string name="about_version_title">Verzió</string>

@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
-    <string name="simple_cancel">Abbrechen</string>
     <string name="simple_add">Hinzufügen</string>
     <string name="simple_save">Speichern</string>
 
     <string name="edit_board">Board bearbeiten</string>
     <string name="archive_board">Board archivieren</string>
     <string name="delete_board">Board löschen</string>
+    <string name="delete_something">Lösche %1$s</string>
 
     <!-- About -->
     <string name="about">Über</string>
@@ -118,5 +118,7 @@
     <string name="owner">Besitzer</string>
     <string name="simple_comment">Kommentar</string>
     <string name="attachment_delete_message">Damit wird dieser Anhang dauerhaft gelöscht.</string>
-    <string name="delete_attachment">%1$s löschen</string>
+    <string name="no_content">Bislang kein Inhalt</string>
+    <string name="action_card_move">Karte verschieben</string>
+    <string name="action_card_move_title">Verschiebe %1$s</string>
 </resources>

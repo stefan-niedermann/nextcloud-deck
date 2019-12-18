@@ -10,14 +10,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Bord</string>
-    <string name="simple_cancel">Annuleren</string>
     <string name="simple_add">Toevoegen</string>
     <string name="simple_save">Bewaren</string>
 
     <string name="edit_board">Pas canvas aan</string>
     <string name="archive_board">Archiveer canvas</string>
     <string name="delete_board">Verwijder canvas</string>
-
     <!-- About -->
     <string name="about">Over</string>
     <string name="about_version_title">Versie</string>

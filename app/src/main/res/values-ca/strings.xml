@@ -10,14 +10,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Taulells</string>
-    <string name="simple_cancel">Cancel·la</string>
     <string name="simple_add">Afegeix</string>
     <string name="simple_save">Desa</string>
 
     <string name="edit_board">Edita el tauler</string>
     <string name="archive_board">Arxiva el tauler</string>
     <string name="delete_board">Suprimeix el tauler</string>
-
     <!-- About -->
     <string name="about">Quant a</string>
     <string name="about_version_title">Versió</string>

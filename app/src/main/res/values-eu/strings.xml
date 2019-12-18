@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Mahaiak</string>
-    <string name="simple_cancel">Utzi</string>
     <string name="simple_add">Gehitu</string>
     <string name="simple_save">Gorde</string>
 
     <string name="edit_board">Editatu mahaia</string>
     <string name="archive_board">Artxibatu mahaia</string>
     <string name="delete_board">Ezabatu mahaia</string>
+    <string name="delete_something">Ezabatu %1$s</string>
 
     <!-- About -->
     <string name="about">Honi buruz</string>
@@ -118,5 +118,7 @@
     <string name="owner">Jabea</string>
     <string name="simple_comment">Iruzkina</string>
     <string name="attachment_delete_message">Honek atxikitutako fitxategiak betirako ezabatuko ditu.</string>
-    <string name="delete_attachment">Ezabatu %1$s</string>
+    <string name="no_content">Oraindik ez dago edukirik</string>
+    <string name="action_card_move">Mugitu txartela</string>
+    <string name="action_card_move_title">Mugitu %1$s</string>
 </resources>

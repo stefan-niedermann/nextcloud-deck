@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Lavagne</string>
-    <string name="simple_cancel">Annulla</string>
     <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
 
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
     <string name="delete_board">Elimina lavagna</string>
+    <string name="delete_something">Elimina %1$s</string>
 
     <!-- About -->
     <string name="about">Informazioni</string>
@@ -118,5 +118,7 @@
     <string name="owner">Proprietario</string>
     <string name="simple_comment">Commento</string>
     <string name="attachment_delete_message">Questo eliminerà definitivamente questo allegato.</string>
-    <string name="delete_attachment">Elimina %1$s</string>
+    <string name="no_content">Ancora nessun contenuto</string>
+    <string name="action_card_move">Sposta scheda</string>
+    <string name="action_card_move_title">Sposta %1$s</string>
 </resources>

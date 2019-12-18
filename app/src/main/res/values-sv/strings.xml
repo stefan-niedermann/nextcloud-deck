@@ -9,13 +9,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tavlor</string>
-    <string name="simple_cancel">Avbryt</string>
     <string name="simple_add">Lägg till</string>
     <string name="simple_save">Spara</string>
 
     <string name="edit_board">Ändra tavla</string>
     <string name="archive_board">Arkivera tavla</string>
     <string name="delete_board">Radera tavla</string>
+    <string name="delete_something">Radera %1$s</string>
 
     <!-- About -->
     <string name="about">Om</string>
@@ -116,5 +116,7 @@
     <string name="owner">Ägare</string>
     <string name="simple_comment">Kommentar</string>
     <string name="attachment_delete_message">Detta kommer att radera den här bilagan permanent.</string>
-    <string name="delete_attachment">Radera %1$s</string>
+    <string name="no_content">Inget innehåll än</string>
+    <string name="action_card_move">Flytta kort</string>
+    <string name="action_card_move_title">Flytta %1$s</string>
 </resources>

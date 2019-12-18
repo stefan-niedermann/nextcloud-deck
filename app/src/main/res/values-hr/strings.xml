@@ -10,14 +10,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Ploče</string>
-    <string name="simple_cancel">Odustani</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Spremi</string>
 
     <string name="edit_board">Uredi ploču</string>
     <string name="archive_board">Arhiviraj ploču</string>
     <string name="delete_board">Izbriši ploču</string>
-
     <!-- About -->
     <string name="about">Informacije</string>
     <string name="about_version_title">Inačica</string>

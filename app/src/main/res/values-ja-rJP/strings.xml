@@ -10,14 +10,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">ボード</string>
-    <string name="simple_cancel">キャンセル</string>
     <string name="simple_add">追加</string>
     <string name="simple_save">保存</string>
 
     <string name="edit_board">ボードを編集</string>
     <string name="archive_board">ボードをアーカイブ</string>
     <string name="delete_board">ボードを削除</string>
-
     <!-- About -->
     <string name="about">バージョン情報</string>
     <string name="about_version_title">バージョン</string>

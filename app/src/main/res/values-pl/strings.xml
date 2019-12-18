@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tablice</string>
-    <string name="simple_cancel">Anuluj</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Zapisz</string>
 
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
     <string name="delete_board">Usuń tablicę</string>
+    <string name="delete_something">Usuń %1$s</string>
 
     <!-- About -->
     <string name="about">O aplikacji</string>
@@ -118,5 +118,7 @@
     <string name="owner">Właściciel</string>
     <string name="simple_comment">Komentarz</string>
     <string name="attachment_delete_message">Spowoduje to trwałe usunięcie tego załącznika.</string>
-    <string name="delete_attachment">Usuń %1$s</string>
+    <string name="no_content">Brak treści</string>
+    <string name="action_card_move">Przenieś kartę</string>
+    <string name="action_card_move_title">Przenieś %1$s</string>
 </resources>

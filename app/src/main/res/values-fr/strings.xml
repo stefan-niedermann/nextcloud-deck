@@ -10,13 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tableaux</string>
-    <string name="simple_cancel">Annuler</string>
     <string name="simple_add">Ajouter</string>
     <string name="simple_save">Enregistrer</string>
 
     <string name="edit_board">Modifier le tableau</string>
     <string name="archive_board">Archiver le tableau</string>
     <string name="delete_board">Supprimer le tableau</string>
+    <string name="delete_something">Supprimer %1$s</string>
 
     <!-- About -->
     <string name="about">À propos de</string>
@@ -119,5 +119,7 @@
     <string name="owner">Propriétaire</string>
     <string name="simple_comment">Commenter</string>
     <string name="attachment_delete_message">Cette action supprimera définitivement le fichier joint.</string>
-    <string name="delete_attachment">Supprimer %1$s</string>
+    <string name="no_content">Aucun contenu pour l\'instant</string>
+    <string name="action_card_move">Déplacer la carte</string>
+    <string name="action_card_move_title">Déplacer %1$s</string>
 </resources>
