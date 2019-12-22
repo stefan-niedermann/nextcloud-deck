@@ -118,7 +118,7 @@
     <string name="do_you_want_to_save_your_changes">Do you want to save your changes?</string>
     <string name="simple_discard">discard</string>
     <string name="do_you_want_to_delete_the_current_column">Do you want to delete the current column?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Add a new column using the three dots menu.</string>
+    <string name="add_a_new_column_using_the_button">Add a new column using the + button</string>
     <string name="add_a_new_card_using_the_button">Add a new card using the + button</string>
     <string name="update_deck">Update deck</string>
     <string name="your_deck_version_is_too_old">Your deck version is too old</string>
