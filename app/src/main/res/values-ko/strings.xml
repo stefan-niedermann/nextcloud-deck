@@ -87,11 +87,19 @@
     <string name="do_you_want_to_save_your_changes">변경된 사항을 저장하시겠습니까?</string>
     <string name="simple_discard">무시</string>
     <string name="do_you_want_to_delete_the_current_column">선택된 열을 지우시겠습니까?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">⋮ 메뉴를 통하여 새 열을 만드십시오.</string>
     <string name="add_a_new_card_using_the_button">더하기 버튼을 사용하여 새 카드를 추가하십시오.</string>
     <string name="update_deck">덱 업데이트하기</string>
     <string name="your_deck_version_is_too_old">덱 버전이 너무 오래되었습니다.</string>
     <string name="deck_outdated_please_update">덱 버전이 너무 오래되었습니다. 안드로이드 클라이언트를 사용하기 위해서는 업데이트가 필요합니다.</string>
     <string name="simple_update">업데이트</string>
     <string name="simple_delete">삭제</string>
+    <string name="simple_rename">이름 바꾸기</string>
+    <string name="simple_settings">설정</string>
+    <string name="settings_theme_title">어두운 테마</string>
+    <string name="pref_value_theme_light">밝게</string>
+    <string name="simple_undo">실행 취소</string>
+    <string name="simple_share">공유</string>
+    <string name="simple_select">선택</string>
+    <string name="owner">Owner</string>
+    <string name="simple_comment">설명</string>
     </resources>

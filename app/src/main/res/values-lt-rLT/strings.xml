@@ -13,6 +13,8 @@
     <string name="edit_board">Taisyti plokštę</string>
     <string name="archive_board">Archyvuoti plokštę</string>
     <string name="delete_board">Ištrinti plokštę</string>
+    <string name="delete_something">Ištrinti %1$s</string>
+
     <!-- About -->
     <string name="about">Apie</string>
     <string name="about_version_title">Versija</string>
@@ -24,12 +26,14 @@
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testuotojai</string>
     <string name="about_source_title">Pradinis kodas</string>
+    <string name="about_issues_title">Problemos</string>
     <string name="about_translate_title">Versti</string>
     <string name="about_app_license_title">Programėlės licencija</string>
     <string name="about_app_license">Ši programėlė yra licencijuota pagal GNU BENDRĄJĄ VIEŠĄJĄ LICENCIJĄ v3+.</string>
     <string name="about_app_license_button">Rodyti licenciją</string>
     <string name="about_icons_disclaimer_title">Piktogramos</string>
     <string name="about_credits_tab_title">Padėkos</string>
+    <string name="about_contribution_tab_title">Prisidėjo</string>
     <string name="about_license_tab_title">Licencija</string>
 
     <string name="seconds_ago">prieš keletą sekundžių</string>
@@ -57,6 +61,7 @@
 
     <string name="label_add">Pridėti %1$s</string>
     <string name="error">Atsirado klaida</string>
+    <string name="simple_copy">kopija</string>
     <string name="simple_exception">Išimtis</string>
     <string name="copied_to_clipboard">Nukopijuota į iškarpinę</string>
     <string name="simple_close">užverti</string>
@@ -84,6 +89,8 @@
     <string name="simple_rename">Pervadinti</string>
     <string name="simple_settings">Nustatymai</string>
     <string name="settings_theme_title">Tamsus apipavidalinimas</string>
+    <string name="pref_value_wifi_and_mobile">Sinchronizuoti naudojant belaidį (Wi-Fi) ir mobiliuosius duomenis</string>
+    <string name="pref_value_wifi_only">Sinchronizuoti tik naudojant belaidį (Wi-Fi)</string>
     <string name="pref_value_theme_light">Šviesus</string>
     <string name="simple_undo">Atšaukti</string>
     <string name="rename_column">Pervadinti stulpelį</string>

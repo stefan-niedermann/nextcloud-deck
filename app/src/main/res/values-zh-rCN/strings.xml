@@ -90,7 +90,7 @@
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
     <string name="simple_discard">丢弃</string>
     <string name="do_you_want_to_delete_the_current_column">您希望删除当前的栏吗？</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">使用三点目录来添加新列</string>
+    <string name="add_a_new_column_using_the_button">使用 + 按钮添加新一列</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
     <string name="update_deck">更新deck</string>
     <string name="your_deck_version_is_too_old">您deck的版本过旧</string>

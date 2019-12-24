@@ -10,13 +10,12 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Рабочие доски</string>
-    <string name="simple_cancel">Отмена</string>
+    <string name="simple_add">Добавить</string>
     <string name="simple_save">Сохранить</string>
 
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
     <string name="delete_board">Удалить доску</string>
-
     <!-- About -->
     <string name="about">О программе</string>
     <string name="about_version_title">Версия</string>
@@ -50,6 +49,9 @@
     <string name="hint_assign_people">Назначить карточку пользователю</string>
     <string name="hint_due_date_date">Срок исполнения</string>
     <string name="activity">Событие</string>
+    <string name="add_card">Создать карточку</string>
+    <string name="add_column">Добавить колонку</string>
+
     <string name="add_account">Добавить аккаунт</string>
 
     <string name="label_menu">Меню</string>
@@ -74,4 +76,21 @@
     <string name="card_edit_attachments">Вложения</string>
     <string name="card_edit_activity">События</string>
     <string name="about_server_app_version_text">Версия приложения на сервере:</string>
+    <string name="attachments">Вложения</string>
+    <string name="no_account">Учётная запись не настроена</string>
+    <string name="account_already_added">Учётная запись уже добавлена</string>
+    <string name="simple_update">Обновить</string>
+    <string name="simple_delete">Удалить</string>
+    <string name="simple_rename">Переименовать</string>
+    <string name="simple_settings">Параметры</string>
+    <string name="settings_theme_title">Тёмное оформление</string>
+    <string name="pref_value_wifi_and_mobile">Синхр. по Wi-Fi и мобильной связи</string>
+    <string name="pref_value_wifi_only">Синхр. только по Wi-Fi</string>
+    <string name="pref_value_theme_light">Светлый</string>
+    <string name="simple_undo">Отменить</string>
+    <string name="share_board">Поделиться</string>
+    <string name="simple_share">общий ресурс</string>
+    <string name="simple_select">Выбрать</string>
+    <string name="owner">Владелец</string>
+    <string name="simple_comment">Коментарий</string>
     </resources>

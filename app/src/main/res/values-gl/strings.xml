@@ -90,7 +90,7 @@
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
     <string name="simple_discard">desbotar</string>
     <string name="do_you_want_to_delete_the_current_column">Confirma que quere eliminar a columna actual?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Engadir unha columna nova co menú de tres puntos.</string>
+    <string name="add_a_new_column_using_the_button">Engadir unha nova columna co botón +</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
     <string name="update_deck">Actualizar o Deck</string>
     <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>

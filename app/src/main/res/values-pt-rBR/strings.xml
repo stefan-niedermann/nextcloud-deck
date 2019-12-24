@@ -90,7 +90,7 @@
     <string name="do_you_want_to_save_your_changes">Quer salvar suas alterações?</string>
     <string name="simple_discard">descartar</string>
     <string name="do_you_want_to_delete_the_current_column">Quer excluir a coluna atual?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Adicionar uma nova coluna usando o menu de três pontos.</string>
+    <string name="add_a_new_column_using_the_button">Adicione uma nova coluna usando o botão +</string>
     <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
     <string name="update_deck">Atualizar o dock</string>
     <string name="your_deck_version_is_too_old">Sua versão do dock é muito antiga.</string>

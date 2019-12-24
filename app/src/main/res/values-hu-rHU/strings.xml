@@ -88,7 +88,6 @@
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
     <string name="simple_discard">elvetés</string>
     <string name="do_you_want_to_delete_the_current_column">Biztos, hogy törli a jelenlegi oszlopot?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Új oszlop hozzáadása a három pontos menü segítségével.</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
     <string name="update_deck">Kártyák frissítése</string>
     <string name="your_deck_version_is_too_old">A Kártyák verziója túl régi</string>
@@ -114,4 +113,5 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Internetkapcsolatra van szükség, hogy fiókot adjon hozzá.</string>
     <string name="simple_select">Kiválasztás</string>
     <string name="owner">Tulajdonos</string>
+    <string name="simple_comment">Megjegyzés</string>
     </resources>

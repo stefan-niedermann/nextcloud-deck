@@ -16,6 +16,8 @@
     <string name="edit_board">Breyta borði</string>
     <string name="archive_board">Setja borð í geymslu</string>
     <string name="delete_board">Eyða borði</string>
+    <string name="delete_something">Eyða %1$s</string>
+
     <!-- About -->
     <string name="about">Um hugbúnaðinn</string>
     <string name="about_version_title">Útgáfa</string>
