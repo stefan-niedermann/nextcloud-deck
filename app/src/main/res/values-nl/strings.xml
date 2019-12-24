@@ -88,7 +88,6 @@
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
     <string name="simple_discard">weggooien</string>
     <string name="do_you_want_to_delete_the_current_column">Wil je de huidige kolom verwijderen?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Voeg een nieuwe kolom toe via de menuknop (3 stippen)</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
     <string name="update_deck">Werk deck bij</string>
     <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
@@ -113,4 +112,6 @@
     <string name="simple_share">deel</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">U moet verbonden zijn met het Internet om een account toe te voegen.</string>
     <string name="simple_select">Selecteer</string>
+    <string name="owner">Eigenaar</string>
+    <string name="simple_comment">Reactie</string>
     </resources>

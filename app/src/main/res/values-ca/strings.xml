@@ -16,6 +16,8 @@
     <string name="edit_board">Edita el tauler</string>
     <string name="archive_board">Arxiva el tauler</string>
     <string name="delete_board">Suprimeix el tauler</string>
+    <string name="delete_something">Elimina %1$s</string>
+
     <!-- About -->
     <string name="about">Quant a</string>
     <string name="about_version_title">Versió</string>
@@ -88,7 +90,6 @@
     <string name="do_you_want_to_save_your_changes">Voleu desar els canvis?</string>
     <string name="simple_discard">descarta</string>
     <string name="do_you_want_to_delete_the_current_column">Voleu suprimir la columna actual?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Afegiu una columna nova mitjançant el menú de tres punts.</string>
     <string name="add_a_new_card_using_the_button">Afegiu una targeta nova mitjançant el botó +.</string>
     <string name="update_deck">Actualitza el tauler</string>
     <string name="your_deck_version_is_too_old">La versió del tauler és massa antiga.</string>
@@ -114,4 +115,9 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Necessiteu estar connectat a internet per tal d\'afegir un compte</string>
     <string name="simple_select">Selecciona</string>
     <string name="owner">Propietari</string>
-    </resources>
+    <string name="simple_comment">Comentari</string>
+    <string name="attachment_delete_message">Això eliminarà permanent l\'adjunció</string>
+    <string name="no_content">No hi ha contingut encara</string>
+    <string name="action_card_move">Mou la targeta</string>
+    <string name="action_card_move_title">Mou %1$s</string>
+</resources>

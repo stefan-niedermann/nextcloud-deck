@@ -90,7 +90,6 @@
     <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
     <string name="simple_discard">baztertu</string>
     <string name="do_you_want_to_delete_the_current_column">Zutabe hau ezabatu nahi duzu?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Gehitu zutabe berria hiru puntuen menua erabiliz.</string>
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
     <string name="update_deck">Eguneratu sorta</string>
     <string name="your_deck_version_is_too_old">Zure sorta bertsioa zaharregia da</string>

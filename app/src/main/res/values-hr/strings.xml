@@ -88,7 +88,6 @@
     <string name="do_you_want_to_save_your_changes">Želite li spremiti promjene?</string>
     <string name="simple_discard">odbaci</string>
     <string name="do_you_want_to_delete_the_current_column">Želite li izbrisati trenutni stupac?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Dodaj novi stupac putem izbornika označenog s tri točkice.</string>
     <string name="add_a_new_card_using_the_button">Dodaj novu karticu s pomoću gumba +</string>
     <string name="update_deck">Ažuriraj Deck</string>
     <string name="your_deck_version_is_too_old">Vaša inačica Decka je prestara</string>
@@ -114,4 +113,5 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Trebate uspostaviti internetsku vezu za dodavanje računa.</string>
     <string name="simple_select">Odaberi</string>
     <string name="owner">Vlasnik</string>
+    <string name="simple_comment">Komentar</string>
     </resources>

@@ -88,7 +88,7 @@
     <string name="do_you_want_to_save_your_changes">Vill du spara dina ändringar?</string>
     <string name="simple_discard">kassera</string>
     <string name="do_you_want_to_delete_the_current_column">Vill du ta bort den aktuella kolumnen?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Lägg till en ny kolumn med hjälp av menyn med tre punkter.</string>
+    <string name="add_a_new_column_using_the_button">Lägg till en ny kolumn med + knappen</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
     <string name="update_deck">Uppdatera Deck</string>
     <string name="your_deck_version_is_too_old">Din version är för gammal</string>

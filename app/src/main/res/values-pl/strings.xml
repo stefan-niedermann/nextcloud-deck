@@ -90,7 +90,7 @@
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
     <string name="simple_discard">odrzuć</string>
     <string name="do_you_want_to_delete_the_current_column">Czy chcesz usunąć bieżącą kolumnę?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Dodaj nową kolumnę za pomocą menu trzech kropek.</string>
+    <string name="add_a_new_column_using_the_button">Dodaj nową kolumnę za pomocą przycisku +</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +.</string>
     <string name="update_deck">Zaktualizuj deck</string>
     <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>

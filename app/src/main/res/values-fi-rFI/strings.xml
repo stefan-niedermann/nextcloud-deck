@@ -46,6 +46,8 @@
     <string name="add_account">Lisää tili</string>
 
     <string name="label_menu">Valikko</string>
+    <string name="action_card_assign">Määritä kortti minulle</string>
+    <string name="action_card_unassign">Poista kortin määritys minulta</string>
     <string name="action_card_archive">Arkistoi kortti</string>
     <string name="action_card_delete">Poista kortti</string>
     <string name="add_board">Lisää taulu</string>
@@ -64,6 +66,7 @@
 
     <string name="card_edit_details">Tiedot</string>
     <string name="card_edit_attachments">Liitteet</string>
+    <string name="card_edit_activity">Tapahtumat</string>
     <string name="no_files_attached_to_this_card">Tähän korttiin ei ole liitetty tiedostoja.</string>
     <string name="attachments">Liitteet</string>
     <string name="no_cards">Ei kortteja vielä</string>
@@ -74,7 +77,6 @@
     <string name="do_you_want_to_save_your_changes">Haluatko tallentaa muutokset?</string>
     <string name="simple_discard">hylkää</string>
     <string name="do_you_want_to_delete_the_current_column">Haluatko poistaa nykyisen sarakkeen?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Lisää uusi sarake kolmen pisteen valikosta.</string>
     <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
     <string name="simple_update">Päivitä</string>
     <string name="simple_delete">Poista</string>
@@ -92,4 +94,7 @@
     <string name="simple_manage">hallitse</string>
     <string name="simple_share">jaa</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Sinun tulee olla yhteydessä internetiin, jotta voit lisätä tilin.</string>
+    <string name="simple_select">Valitse</string>
+    <string name="owner">Omistaja</string>
+    <string name="simple_comment">Kommentti</string>
     </resources>

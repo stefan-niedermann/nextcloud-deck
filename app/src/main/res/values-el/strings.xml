@@ -90,7 +90,6 @@
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
     <string name="simple_discard">απόρριψη</string>
     <string name="do_you_want_to_delete_the_current_column">Θέλετε να διαγράψετε την τρέχουσα στήλη;</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Προσθέστε νέα στήλη μέσω του μενού των τριών τελειών.</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
     <string name="update_deck">Ενημέρωση Deck</string>
     <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>

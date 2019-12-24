@@ -90,7 +90,7 @@
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
     <string name="simple_discard">zahodit</string>
     <string name="do_you_want_to_delete_the_current_column">Chcete stávající sloupec vymazat?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Nové sloupce přidáte pomocí nabídky tři tečky.</string>
+    <string name="add_a_new_column_using_the_button">Pro přidání nového sloupce použijte tlačítko +</string>
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
     <string name="update_deck">Aktualizovat plochu</string>
     <string name="your_deck_version_is_too_old">Vámi používaná verze deck je příliš stará</string>

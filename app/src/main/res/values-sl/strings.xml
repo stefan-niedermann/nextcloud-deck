@@ -16,6 +16,8 @@
     <string name="edit_board">Uredi zbirko</string>
     <string name="archive_board">Arhiviraj zbirko</string>
     <string name="delete_board">Izbriši zbirko</string>
+    <string name="delete_something">Izbriši %1$s</string>
+
     <!-- About -->
     <string name="about">O programu</string>
     <string name="about_version_title">Različica</string>
@@ -88,7 +90,7 @@
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
     <string name="simple_discard">opusti</string>
     <string name="do_you_want_to_delete_the_current_column">Ali želite izbrisati trenutni paket?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Nov paket je mogoče dodati prek menija treh pik.</string>
+    <string name="add_a_new_column_using_the_button">Dodaj stolpec z pritiskom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
     <string name="update_deck">Posodobi zbirko</string>
     <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
@@ -114,4 +116,9 @@
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Za dodajanje računa mora biti vzpostavljena povezava z omrežjem.</string>
     <string name="simple_select">Izbor</string>
     <string name="owner">Lastnik</string>
-    </resources>
+    <string name="simple_comment">Opomba</string>
+    <string name="attachment_delete_message">S tem boste trajno izbrisali prilogo.</string>
+    <string name="no_content">Ni še dodane vsebine</string>
+    <string name="action_card_move">Premakni nalogo</string>
+    <string name="action_card_move_title">Premakni %1$s</string>
+</resources>

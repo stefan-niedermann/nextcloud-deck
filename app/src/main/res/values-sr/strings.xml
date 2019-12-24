@@ -90,7 +90,6 @@
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
     <string name="simple_discard">одбаци</string>
     <string name="do_you_want_to_delete_the_current_column">Да ли желите да обришете тренутну колону?</string>
-    <string name="add_a_new_column_using_the_three_dots_menu">Додајте нову колону користећи мени са три тачке.</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
     <string name="update_deck">Ажурирај шпил</string>
     <string name="your_deck_version_is_too_old">Верзија Ваше Deck апликације је превише стара</string>
