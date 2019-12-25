@@ -192,21 +192,30 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
             JoinCardWithLabel deletedLabel = dataBaseAdapter.getRemoteIdsForJoin(deletedLabelLocal.getCardId(), deletedLabelLocal.getLabelId());
             if (deletedLabel.getStatusEnum() == DBStatus.LOCAL_DELETED){
-                serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId(), new IResponseCallback<Void>(account) {
-                    @Override
-                    public void onResponse(Void response) {
-                        dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId());
-                    }
-                });
+                if (deletedLabel.getLabelId() == null || deletedLabel.getCardId() == null) {
+                    dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId());
+                } else {
+                    serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId(), new IResponseCallback<Void>(account) {
+                        @Override
+                        public void onResponse(Void response) {
+                            dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId());
+                        }
+                    });
+                }
             } else if (deletedLabel.getStatusEnum() == DBStatus.LOCAL_EDITED){
-                //FIXME: card not created on server by sync yet, or maybe is, but the remote ID isn't available yet. what to do?
-                serverAdapter.assignLabelToCard(board.getId(), stack.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId(), new IResponseCallback<Void>(account) {
-                    @Override
-                    public void onResponse(Void response) {
-                        Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), deletedLabel.getLabelId());
-                        dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
-                    }
-                });
+                if (deletedLabel.getLabelId() == null || deletedLabel.getCardId() == null) {
+                    // Sync next time, the card should be available on server then.
+                    continue;
+                } else {
+                    serverAdapter.assignLabelToCard(board.getId(), stack.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId(), new IResponseCallback<Void>(account) {
+                        @Override
+                        public void onResponse(Void response) {
+                            Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), deletedLabel.getLabelId());
+                            dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
+                        }
+                    });
+                }
+
             }
         }
         List<JoinCardWithUser> deletedUsers = dataBaseAdapter.getAllDeletedUserJoinsWithRemoteIDs();
