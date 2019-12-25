@@ -3,7 +3,9 @@ package it.niedermann.nextcloud.deck.ui.helper.colorchooser;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -46,9 +48,11 @@ public class ColorChooser extends LinearLayout {
     }
 
     private void initDefaultColors() {
+        // initializes the color picker with the default values from board_default_colors (held in colors array)
+        // by looping through the array and creating an ImageView for each color
         for (final String color : colors) {
             ImageView image = new ImageView(getContext());
-            image.setOnClickListener((imageView) -> {
+            image.setOnClickListener((View imageView) -> {
                 if (previouslySelectedImageView != null) { // null when first selection
                     previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
                 }
@@ -60,6 +64,13 @@ public class ColorChooser extends LinearLayout {
             image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
             colorPicker.addView(image);
         }
+        // initializes a final image for the custom color chooser
+        ImageView customColorChooser = new ImageView(getContext());
+        customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, R.color.board_default_custom_color));
+        colorPicker.addView(customColorChooser);
+        customColorChooser.setOnClickListener((View imageView) -> {
+            Log.d("watch", "button click color chooser icon");
+        });
     }
 
     public void selectColor(String newColor) {
