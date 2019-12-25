@@ -11,8 +11,8 @@
     </item>
     <item
         android:drawable="@drawable/ic_colorize_24dp"
-        android:top="2dp"
-        android:bottom="5dp"
-        android:right="5dp"
-        android:left="5dp" />
+        android:top="4dp"
+        android:bottom="4dp"
+        android:right="4dp"
+        android:left="4dp" />
 </layer-list>
