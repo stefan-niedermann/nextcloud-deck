@@ -38,7 +38,6 @@ public class ColorChooser extends LinearLayout {
     private BrightnessSlideBar brightnessSlideBar;
     private ImageView customColorChooser;
 
-
     public ColorChooser(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
@@ -75,7 +74,7 @@ public class ColorChooser extends LinearLayout {
         for (final String color : colors) {
             ImageView image = new ImageView(getContext());
             image.setOnClickListener((View imageView) -> {
-                if (previouslySelectedImageView != null) {
+                if (previouslySelectedImageView != null) { // null when first selection
                     previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
                 }
                 image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_check_36dp, color));
