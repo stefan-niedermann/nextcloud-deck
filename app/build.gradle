@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 28
         versionCode 15
         versionName "0.0.15"
@@ -15,6 +15,7 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -66,6 +67,9 @@ dependencies {
 
     // Tab-Layout-Helper
     implementation 'com.h6ah4i.android.tablayouthelper:tablayouthelper:1.0.0'
+
+    // Custom Color Picker
+    implementation 'com.github.skydoves:colorpickerpreference:2.0.0'
 
     // -------------------------
     // --- Backend-Libraries ---
