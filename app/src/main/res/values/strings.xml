@@ -150,11 +150,11 @@
     <string name="attachment_delete_message">This will permanently delete this attachment.</string>
     <string name="delete_attachment">Delete %1$s</string>
     <string name="no_content">No content yet</string>
-    <string name="action_card_move">Move card</string>
-    <string name="action_card_move_title">Move %1$s</string>
     <string name="last_background_sync">Last background sync:</string>
     <string name="simple_off">Off</string>
     <string name="minutes_15">15 Minutes</string>
     <string name="hour_1">1 Hour</string>
     <string name="hours_6">6 Hours</string>
+    <string name="action_card_move">Move card</string>
+    <string name="action_card_move_title">Move %1$s</string>
 </resources>
