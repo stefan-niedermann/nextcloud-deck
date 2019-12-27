@@ -2,10 +2,10 @@ package it.niedermann.nextcloud.deck.api;
 
 import android.content.Context;
 
+import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-import com.nextcloud.android.sso.exceptions.SSOException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
@@ -25,25 +25,34 @@ public class ApiProvider {
     private NextcloudServerAPI nextcloudAPI;
     private Context context;
     private SingleSignOnAccount ssoAccount;
+    private String ssoAccountName;
 
     public ApiProvider(Context context) {
+        this(context, null);
+    }
+
+    public ApiProvider(Context context, String ssoAccountName) {
         this.context = context;
+        this.ssoAccountName = ssoAccountName;
+        setAccount();
     }
 
     public void initSsoApi(final NextcloudAPI.ApiConnectedListener callback) {
-        try {
-            setAccount();
-            NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), callback);
-            deckAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, DECK_API_ENDPOINT).create(DeckAPI.class);
-            this.nextcloudAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, NC_API_ENDPOINT).create(NextcloudServerAPI.class);
-        } catch (SSOException e) {
-            DeckLog.logError(e);
-            callback.onError(e);
-        }
+        NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), callback);
+        deckAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, DECK_API_ENDPOINT).create(DeckAPI.class);
+        this.nextcloudAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, NC_API_ENDPOINT).create(NextcloudServerAPI.class);
     }
 
-    private void setAccount() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
-        ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+    private void setAccount() {
+        try {
+            if (ssoAccountName == null) {
+                this.ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+            } else {
+                this.ssoAccount = AccountImporter.getSingleSignOnAccount(context, ssoAccountName);
+            }
+        } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
+            DeckLog.logError(e);
+        }
     }
 
     public DeckAPI getDeckAPI() {
@@ -54,18 +63,18 @@ public class ApiProvider {
         return nextcloudAPI;
     }
 
-    public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
-        if (ssoAccount==null){
+    public String getServerUrl(){
+        if (ssoAccount == null) {
             setAccount();
         }
         return ssoAccount.url;
     }
 
-    public String getApiPath(){
+    public String getApiPath() {
         return DECK_API_ENDPOINT;
     }
 
-    public String getApiUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
-        return getServerUrl()+getApiPath();
+    public String getApiUrl() {
+        return getServerUrl() + getApiPath();
     }
 }

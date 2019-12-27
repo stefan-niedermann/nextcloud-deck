@@ -12,9 +12,6 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.Nullable;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -64,15 +61,18 @@ public class ServerAdapter {
     private SharedPreferences lastSyncPref;
 
     public ServerAdapter(Context applicationContext, @Nullable Activity sourceActivity) {
+        this(applicationContext, sourceActivity, null);
+    }
+    public ServerAdapter(Context applicationContext, @Nullable Activity sourceActivity, String ssoAccountName) {
         this.applicationContext = applicationContext;
         this.sourceActivity = sourceActivity;
         prefKeyWifiOnly = applicationContext.getResources().getString(R.string.pref_key_wifi_only);
-        provider = new ApiProvider(applicationContext);
+        provider = new ApiProvider(applicationContext, ssoAccountName);
         lastSyncPref = applicationContext.getSharedPreferences(
                 applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
     }
 
-    public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
+    public String getServerUrl() {
         return provider.getServerUrl();
     }
 
@@ -80,7 +80,7 @@ public class ServerAdapter {
         return provider.getApiPath();
     }
 
-    public String getApiUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
+    public String getApiUrl() {
         return provider.getApiUrl();
     }
 
