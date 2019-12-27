@@ -10,7 +10,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Quadros</string>
-    <string name="simple_cancel">Cancelar</string>
     <string name="simple_save">Guardar</string>
 
     <string name="edit_board">Editar quadro</string>
@@ -58,7 +57,6 @@
     <string name="action_card_archive">Arquivar cartão</string>
     <string name="action_card_delete">Eliminar cartão</string>
     <string name="add_board">Arquivar cartão</string>
-    <string name="action_card_list_add_column">Adicionar coluna</string>
     <string name="action_card_list_delete_column">Eliminar coluna</string>
     <string name="simple_title">Título</string>
 

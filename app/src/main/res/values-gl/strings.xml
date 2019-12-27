@@ -62,7 +62,6 @@
     <string name="action_card_archive">Arquivar a tarxeta</string>
     <string name="action_card_delete">Eliminar a tarxeta</string>
     <string name="add_board">Engadir taboleiro</string>
-    <string name="action_card_list_add_column">Engadir columna</string>
     <string name="action_card_list_delete_column">Eliminar columna</string>
     <string name="simple_title">Titulo</string>
 

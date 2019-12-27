@@ -62,7 +62,6 @@
     <string name="action_card_archive">Archivar tarjeta</string>
     <string name="action_card_delete">Eliminar tarjeta</string>
     <string name="add_board">Añadir tablero</string>
-    <string name="action_card_list_add_column">Añadir columna</string>
     <string name="action_card_list_delete_column">Eliminar columna</string>
     <string name="simple_title">Título</string>
 

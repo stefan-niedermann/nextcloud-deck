@@ -62,7 +62,6 @@
     <string name="action_card_archive">Arquivar cartão</string>
     <string name="action_card_delete">Excluir cartão</string>
     <string name="add_board">Adicionar painel</string>
-    <string name="action_card_list_add_column">Adicionar coluna</string>
     <string name="action_card_list_delete_column">Excluir colunas</string>
     <string name="simple_title">Título</string>
 

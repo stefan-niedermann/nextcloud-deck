@@ -62,7 +62,6 @@
     <string name="action_card_archive">归档卡片</string>
     <string name="action_card_delete">删除卡片</string>
     <string name="add_board">添加面板</string>
-    <string name="action_card_list_add_column">添加列</string>
     <string name="action_card_list_delete_column">删除列</string>
     <string name="simple_title">标题</string>
 

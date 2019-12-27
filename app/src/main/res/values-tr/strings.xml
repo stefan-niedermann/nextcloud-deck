@@ -62,7 +62,6 @@
     <string name="action_card_archive">Kartı arşivle</string>
     <string name="action_card_delete">Kartı sil</string>
     <string name="add_board">Pano ekle</string>
-    <string name="action_card_list_add_column">Sütun ekle</string>
     <string name="action_card_list_delete_column">Sütunu sil</string>
     <string name="simple_title">Başlık</string>
 

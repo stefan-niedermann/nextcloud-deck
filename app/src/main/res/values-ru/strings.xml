@@ -60,7 +60,6 @@
     <string name="action_card_archive">Переместить в архив</string>
     <string name="action_card_delete">Удалить</string>
     <string name="add_board">Добавить доску</string>
-    <string name="action_card_list_add_column">Добавить колонку</string>
     <string name="action_card_list_delete_column">Удалить колонку</string>
     <string name="simple_title">Заголовок</string>
 

@@ -62,7 +62,6 @@
     <string name="action_card_archive">カードをアーカイブ</string>
     <string name="action_card_delete">削除済みのカード</string>
     <string name="add_board">ボードを追加</string>
-    <string name="action_card_list_add_column">columnを追加</string>
     <string name="action_card_list_delete_column">列の削除</string>
     <string name="simple_title">タイトル</string>
 

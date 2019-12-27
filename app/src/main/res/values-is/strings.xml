@@ -62,7 +62,6 @@
     <string name="action_card_archive">Setja spjald í geymslu</string>
     <string name="action_card_delete">Eyða spjaldi</string>
     <string name="add_board">Bæta við borði</string>
-    <string name="action_card_list_add_column">Bæta við dálki</string>
     <string name="action_card_list_delete_column">Eyða dálki</string>
     <string name="simple_title">Titill</string>
 

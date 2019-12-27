@@ -62,7 +62,6 @@
     <string name="action_card_archive">Архивирај картицу</string>
     <string name="action_card_delete">Обриши картицу</string>
     <string name="add_board">Додај таблу</string>
-    <string name="action_card_list_add_column">Додај колону</string>
     <string name="action_card_list_delete_column">Обриши колону</string>
     <string name="simple_title">Наслов</string>
 

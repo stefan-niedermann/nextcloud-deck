@@ -60,7 +60,6 @@
     <string name="action_card_archive">Arhiviraj karticu</string>
     <string name="action_card_delete">Izbriši karticu</string>
     <string name="add_board">Dodaj ploču</string>
-    <string name="action_card_list_add_column">Dodaj stupac</string>
     <string name="action_card_list_delete_column">Izbriši stupac</string>
     <string name="simple_title">Naslov</string>
 

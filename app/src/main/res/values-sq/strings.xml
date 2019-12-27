@@ -8,7 +8,6 @@
     <string name="drawer_end_account">Llogaria e fundit</string>
     <string name="drawer_manage_accounts">Menaxhoni llogaritë</string>
 
-    <string name="simple_cancel">Anullo</string>
     <string name="simple_add">Krijo</string>
     <string name="simple_save">Ruaj</string>
 
@@ -46,7 +45,6 @@
     <string name="add_account">Shtoni llogari</string>
 
     <string name="label_menu">Menu</string>
-    <string name="action_card_list_add_column">Shto kolonë</string>
     <string name="action_card_list_delete_column">Fshi kolonë</string>
     <string name="simple_title">Titull</string>
 

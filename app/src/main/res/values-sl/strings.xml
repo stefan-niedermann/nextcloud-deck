@@ -62,7 +62,6 @@
     <string name="action_card_archive">Arhiviraj nalogo</string>
     <string name="action_card_delete">Izbriši nalogo</string>
     <string name="add_board">Dodaj zbirko</string>
-    <string name="action_card_list_add_column">Dodaj paket</string>
     <string name="action_card_list_delete_column">Izbriši paket</string>
     <string name="simple_title">Naslov</string>
 

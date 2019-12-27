@@ -62,7 +62,6 @@
     <string name="action_card_archive">Αρχειοθέτηση κάρτας</string>
     <string name="action_card_delete"> Διαγραφή κάρτας </string>
     <string name="add_board">Προσθήκη πίνακα</string>
-    <string name="action_card_list_add_column">Προσθήκη στήλης</string>
     <string name="action_card_list_delete_column">Διαγραφή στήλης</string>
     <string name="simple_title">Τίτλος</string>
 

@@ -59,7 +59,6 @@
     <string name="action_card_archive">보관 카드</string>
     <string name="action_card_delete">카드 삭제</string>
     <string name="add_board">보드 추가</string>
-    <string name="action_card_list_add_column">열 추가</string>
     <string name="action_card_list_delete_column">열 삭제</string>
     <string name="simple_title">제목</string>
 

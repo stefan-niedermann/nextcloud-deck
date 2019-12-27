@@ -51,7 +51,6 @@
     <string name="action_card_archive">Arkistoi kortti</string>
     <string name="action_card_delete">Poista kortti</string>
     <string name="add_board">Lisää taulu</string>
-    <string name="action_card_list_add_column">Lisää sarake</string>
     <string name="action_card_list_delete_column">Poista sarake</string>
     <string name="simple_title">Otsikko</string>
 

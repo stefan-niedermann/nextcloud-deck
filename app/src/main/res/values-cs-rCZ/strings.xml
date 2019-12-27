@@ -62,7 +62,6 @@
     <string name="action_card_archive">Archivovat kartu</string>
     <string name="action_card_delete">Smazat kartu</string>
     <string name="add_board">Přidat tabuli</string>
-    <string name="action_card_list_add_column">Přidat sloupec</string>
     <string name="action_card_list_delete_column">Smazat sloupec</string>
     <string name="simple_title">Nadpis</string>
 

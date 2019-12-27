@@ -62,7 +62,6 @@
     <string name="action_card_archive">Artxibatu txartela</string>
     <string name="action_card_delete">Ezabatu txartela</string>
     <string name="add_board">Gehitu mahaia</string>
-    <string name="action_card_list_add_column">Gehitu zutabea</string>
     <string name="action_card_list_delete_column">Ezabatu zutabea</string>
     <string name="simple_title">Izenburua</string>
 

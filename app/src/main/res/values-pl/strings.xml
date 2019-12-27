@@ -62,7 +62,6 @@
     <string name="action_card_archive">Zarchiwizowane karty</string>
     <string name="action_card_delete">Usunięte karty</string>
     <string name="add_board">Dodaj tablicę</string>
-    <string name="action_card_list_add_column">Dodaj kolumnę</string>
     <string name="action_card_list_delete_column">Usuń kolumnę</string>
     <string name="simple_title">Tytuł</string>
 

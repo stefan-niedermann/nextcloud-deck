@@ -62,7 +62,6 @@
     <string name="action_card_archive">Karte archivieren</string>
     <string name="action_card_delete">Karte löschen</string>
     <string name="add_board">Board hinzufügen</string>
-    <string name="action_card_list_add_column">Spalte hinzufügen</string>
     <string name="action_card_list_delete_column">Spalte löschen</string>
     <string name="simple_title">Titel</string>
 

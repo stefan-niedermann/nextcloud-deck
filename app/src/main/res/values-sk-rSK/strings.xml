@@ -10,7 +10,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Nástenky</string>
-    <string name="simple_cancel">Zrušiť</string>
     <string name="simple_save">Uložiť</string>
 
     <string name="edit_board">Upraviť nástenku</string>
@@ -58,7 +57,6 @@
     <string name="action_card_archive">Archivovať kartu</string>
     <string name="action_card_delete">Zmazať kartu</string>
     <string name="add_board">Pridať nástenk</string>
-    <string name="action_card_list_add_column">Pridať stĺpec</string>
     <string name="action_card_list_delete_column">Zmazať stĺpec</string>
     <string name="simple_title">Názov</string>
 

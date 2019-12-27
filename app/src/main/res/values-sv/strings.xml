@@ -60,7 +60,6 @@
     <string name="action_card_archive">Arkivera kort</string>
     <string name="action_card_delete">Radera kort</string>
     <string name="add_board">Lägg till tavla</string>
-    <string name="action_card_list_add_column">Lägg till kolumn</string>
     <string name="action_card_list_delete_column">Radera kolumn</string>
     <string name="simple_title">Titel</string>
 

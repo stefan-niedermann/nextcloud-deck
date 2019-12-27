@@ -12,7 +12,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
-    <string name="simple_cancel">Cancel</string>
     <string name="simple_add">Add</string>
     <string name="simple_save">Save</string>
 
@@ -72,7 +71,6 @@
     <string name="action_card_archive">Archive card</string>
     <string name="action_card_delete">Delete card</string>
     <string name="add_board">Add board</string>
-    <string name="action_card_list_add_column">Add column</string>
     <string name="action_card_list_delete_column">Delete column</string>
     <string name="simple_title">Title</string>
 
@@ -148,7 +146,6 @@
     <string name="owner">Owner</string>
     <string name="simple_comment">Comment</string>
     <string name="attachment_delete_message">This will permanently delete this attachment.</string>
-    <string name="delete_attachment">Delete %1$s</string>
     <string name="no_content">No content yet</string>
     <string name="last_background_sync">Last background sync:</string>
     <string name="simple_off">Off</string>

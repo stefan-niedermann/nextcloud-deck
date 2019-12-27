@@ -10,7 +10,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">לוחות</string>
-    <string name="simple_cancel">ביטול</string>
     <string name="simple_add">יצירה</string>
     <string name="simple_save">שמור</string>
 
@@ -59,7 +58,6 @@
     <string name="action_card_archive">העברת כרטיס לארכיון</string>
     <string name="action_card_delete">מחיקת כרטיס לארכיון</string>
     <string name="add_board">הוספת לוח</string>
-    <string name="action_card_list_add_column">הוספת עמודה</string>
     <string name="simple_title">כותרת</string>
 
     <string name="label_clear_due_date">הסרת מועד התפוגה</string>

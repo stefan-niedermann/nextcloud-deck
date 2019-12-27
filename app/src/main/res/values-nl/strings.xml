@@ -60,7 +60,6 @@
     <string name="action_card_archive">Archiveer kaart</string>
     <string name="action_card_delete">Verwijderen kaart</string>
     <string name="add_board">Toevoegen bord</string>
-    <string name="action_card_list_add_column">Toevoegen kolom</string>
     <string name="action_card_list_delete_column">Verwijder kolom</string>
     <string name="simple_title">Titel</string>
 

@@ -9,7 +9,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">專案</string>
-    <string name="simple_cancel">取消</string>
     <string name="simple_add">新增</string>
     <string name="simple_save">儲存</string>
 
@@ -52,7 +51,6 @@
     <string name="action_card_archive">封存作業</string>
     <string name="action_card_delete">刪除作業</string>
     <string name="add_board">新增專案</string>
-    <string name="action_card_list_add_column">新增欄位</string>
     <string name="action_card_list_delete_column">刪除欄位</string>
     <string name="simple_title">標題</string>
 

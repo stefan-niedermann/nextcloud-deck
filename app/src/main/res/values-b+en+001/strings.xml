@@ -10,7 +10,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Boards</string>
-    <string name="simple_cancel">Cancel</string>
     <string name="simple_add">Create</string>
 
     <!-- About -->
@@ -55,7 +54,6 @@
     <string name="action_card_archive">Archive card</string>
     <string name="action_card_delete">Delete card</string>
     <string name="add_board">Add board</string>
-    <string name="action_card_list_add_column">Add column</string>
     <string name="simple_title">Title</string>
 
     <string name="label_clear_due_date">Clear due date</string>

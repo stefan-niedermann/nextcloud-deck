@@ -10,7 +10,6 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tavler</string>
-    <string name="simple_cancel">Annuller</string>
     <string name="simple_save">Gem</string>
 
     <string name="edit_board">Rediger liste</string>
@@ -58,7 +57,6 @@
     <string name="action_card_archive">Arkivér kort</string>
     <string name="action_card_delete">Slet kort</string>
     <string name="add_board">Tilføj liste</string>
-    <string name="action_card_list_add_column">Tilføj kolonne</string>
     <string name="action_card_list_delete_column">Slet kolonne</string>
     <string name="simple_title">Titel</string>
 

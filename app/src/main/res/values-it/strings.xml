@@ -62,7 +62,6 @@
     <string name="action_card_archive">Archivia scheda</string>
     <string name="action_card_delete">Elimina scheda</string>
     <string name="add_board">Aggiungi lavagna</string>
-    <string name="action_card_list_add_column">Aggiungi colonna</string>
     <string name="action_card_list_delete_column">Elimina colonna</string>
     <string name="simple_title">Titolo</string>
 
