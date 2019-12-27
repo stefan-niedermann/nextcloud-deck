@@ -290,11 +290,11 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Account> readAccount(long id) {
-        return LiveDataHelper.onlyIfChanged(db.getAccountDao().selectById(id));
+        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAccountById(id));
     }
 
     public LiveData<Account> readAccount(String name) {
-        return LiveDataHelper.onlyIfChanged(db.getAccountDao().selectById(name));
+        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAccountByName(name));
     }
 
     public Account readAccountDirectly(long id) {
@@ -302,7 +302,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<Account>> readAccounts() {
-        return LiveDataHelper.onlyIfChanged(db.getAccountDao().selectAll());
+        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAllAccounts());
     }
 
     public LiveData<List<Board>> getBoards(long accountId) {
@@ -518,6 +518,10 @@ public class DataBaseAdapter {
 
     public Account getAccountByIdDirectly(long accountId) {
         return db.getAccountDao().getAccountByIdDirectly(accountId);
+    }
+
+    public List<Account> getAllAccountsDirectly() {
+        return db.getAccountDao().getAllAccountsDirectly();
     }
 
     public User getUserByLocalIdDirectly(long localUserId) {

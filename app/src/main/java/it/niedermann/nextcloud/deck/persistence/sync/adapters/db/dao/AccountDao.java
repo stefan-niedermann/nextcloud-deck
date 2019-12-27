@@ -10,10 +10,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 
 @Dao
 public interface AccountDao extends GenericDao<Account> {
-
-    @Query("SELECT * FROM account")
-    LiveData<List<Account>> getAccounts();
-
     @Query("SELECT count(*) FROM account")
     int countAccountsDirectly();
 
@@ -27,11 +23,14 @@ public interface AccountDao extends GenericDao<Account> {
     Account getAccountByIdDirectly(long id);
 
     @Query("SELECT * from account where id = :id")
-    LiveData<Account> selectById(long id);
+    LiveData<Account> getAccountById(long id);
 
     @Query("SELECT * from account where name = :name")
-    LiveData<Account> selectById(String name);
+    LiveData<Account> getAccountByName(String name);
 
     @Query("SELECT * from account")
-    LiveData<List<Account>> selectAll();
+    LiveData<List<Account>> getAllAccounts();
+
+    @Query("SELECT * from account")
+    List<Account> getAllAccountsDirectly();
 }

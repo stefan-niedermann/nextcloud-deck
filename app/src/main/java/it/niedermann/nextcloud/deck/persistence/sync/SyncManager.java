@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -52,37 +53,60 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class SyncManager {
 
-
     private DataBaseAdapter dataBaseAdapter;
     private ServerAdapter serverAdapter;
 
+    public SyncManager(Activity sourceActivity) {
+        this(sourceActivity, sourceActivity);
+    }
+
     public SyncManager(Context context, @Nullable Activity sourceActivity) {
+        this(context, sourceActivity, null);
+    }
+    public SyncManager(Context context, @Nullable Activity sourceActivity, String ssoAccountName) {
         if (context == null) {
             throw new IllegalArgumentException("Provide a valid context.");
         }
         Context applicationContext = context.getApplicationContext();
         LastSyncUtil.init(applicationContext);
         dataBaseAdapter = new DataBaseAdapter(applicationContext);
-        this.serverAdapter = new ServerAdapter(applicationContext, sourceActivity);
-    }
-
-    public SyncManager(Activity sourceActivity) {
-        this(sourceActivity, sourceActivity);
+        this.serverAdapter = new ServerAdapter(applicationContext, sourceActivity, ssoAccountName);
     }
 
     private void doAsync(Runnable r) {
         new Thread(r).start();
     }
 
-    boolean synchronizeEverything() {
-        // TODO do some magic here
-        try {
-            Thread.sleep(2000);
-            return true;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public boolean synchronizeEverything() {
+        List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
+        if (accounts.size() > 0){
+            final BooleanResultHolder success = new BooleanResultHolder();
+            CountDownLatch latch = new CountDownLatch(accounts.size());
+            try {
+                for (Account account : accounts) {
+                    new SyncManager(dataBaseAdapter.getContext(), null, account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            success.result = success.result && response.booleanValue() ;
+                            latch.countDown();
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            success.result = false;
+                            super.onError(throwable);
+                            latch.countDown();
+                        }
+                    });
+                }
+                latch.await();
+                return success.result;
+            } catch (InterruptedException e) {
+                DeckLog.logError(e);
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
     public void synchronize(IResponseCallback<Boolean> responseCallback) {
@@ -948,5 +972,10 @@ public class SyncManager {
             }
         });
         return liveData;
+    }
+
+
+    private class BooleanResultHolder {
+        public boolean result = true;
     }
 }
