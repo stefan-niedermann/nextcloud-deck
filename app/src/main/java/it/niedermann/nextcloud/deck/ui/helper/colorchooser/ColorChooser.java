@@ -73,7 +73,7 @@ public class ColorChooser extends LinearLayout {
     private void initDefaultColors() {
         for (final String color : colors) {
             ImageView image = new ImageView(getContext());
-            image.setOnClickListener((View imageView) -> {
+            image.setOnClickListener((imageView) -> {
                 if (previouslySelectedImageView != null) { // null when first selection
                     previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
                 }
