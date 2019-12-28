@@ -91,7 +91,7 @@ public class ColorChooser extends LinearLayout {
         // initializes a final image icon for the custom color chooser and, if already set,
         // will set the icon color to the custom color
         customColorChooser = new ImageView(getContext());
-        if (hasCustomColor == false) {
+        if (!hasCustomColor) {
             customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, R.color.board_default_custom_color));
         } else {
             customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, this.selectedColor));
