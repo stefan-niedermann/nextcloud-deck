@@ -426,15 +426,34 @@ public class SyncManager {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
-                @Override
-                public void onResponse(FullStack response) {
-                    liveData.postValue(response);
-                }
-            });
+            updateStack(account, board, stack, liveData);
         });
         return liveData;
 
+    }
+    private void updateStack(Account account, FullBoard board, FullStack stack, MutableLiveData<FullStack> liveData) {
+        doAsync(() -> {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
+                @Override
+                public void onResponse(FullStack response) {
+                    if (liveData != null) {
+                        liveData.postValue(response);
+                    }
+                }
+            });
+        });
+    }
+
+    public void reorderStacks(Board board, List<Stack> stacksInNewOrder) {
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(board.getAccountId());
+            FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+            for (int i = 0; i < stacksInNewOrder.size(); i++) {
+                FullStack s = dataBaseAdapter.getFullStackByLocalIdDirectly(stacksInNewOrder.get(i).getLocalId());
+                s.getStack().setOrder(i);
+                updateStack(account, fullBoard, s, null);
+            }
+        });
     }
 
     public LiveData<FullCard> getCardByLocalId(long accountId, long cardLocalId) {
