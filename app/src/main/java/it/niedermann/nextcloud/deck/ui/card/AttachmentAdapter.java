@@ -62,7 +62,9 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         }
         holder.filename.setText(attachment.getFilename());
         holder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
-        holder.modified.setText(DateUtils.getRelativeTimeSpanString(context, attachment.getLastModified().getTime()));
+        if (attachment.getLastModifiedLocal() != null) {
+            holder.modified.setText(DateUtils.getRelativeTimeSpanString(context, attachment.getLastModifiedLocal().getTime()));
+        }
         holder.filename.getRootView().setOnClickListener((event) -> {
             Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
             openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId()));

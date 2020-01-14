@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -951,6 +953,11 @@ public class SyncManager {
     }
 
     public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull Uri uri) {
+        try {
+            DeckLog.log(getPath(dataBaseAdapter.getContext(), uri));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Attachment attachment = new Attachment();
@@ -974,6 +981,29 @@ public class SyncManager {
             }
         });
         return liveData;
+    }
+
+
+    public static String getPath(Context context, Uri uri) throws URISyntaxException {
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = { "_data" };
+            Cursor cursor = null;
+
+            try {
+                cursor = context.getContentResolver().query(uri, projection, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow("_data");
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+                // Eat it
+            }
+        }
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
     }
 
     public LiveData<Attachment> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {

@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -86,11 +85,11 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT && canEdit) {
                 fab.setOnClickListener(v -> {
-                    Snackbar.make(coordinatorLayout, "Adding attachments is not yet implemented", Snackbar.LENGTH_LONG).show();
+//                    Snackbar.make(coordinatorLayout, "Adding attachments is not yet implemented", Snackbar.LENGTH_LONG).show();
                     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("*/*");
-//                    startActivityForResult(intent, REQUEST_CODE_ADD_ATTACHMENT);
+                    startActivityForResult(intent, REQUEST_CODE_ADD_ATTACHMENT);
                 });
                 fab.show();
                 attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -124,6 +123,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
 
         }
     }
+
 
     public CardAttachmentsFragment() {
     }
