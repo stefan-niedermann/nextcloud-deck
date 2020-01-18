@@ -117,6 +117,10 @@
     <string name="simple_comment">Comentari</string>
     <string name="attachment_delete_message">Això eliminarà permanent l\'adjunció</string>
     <string name="no_content">No hi ha contingut encara</string>
+    <string name="simple_off">Apagat</string>
+    <string name="minutes_15">15 minuts</string>
+    <string name="hour_1">1 hora</string>
+    <string name="hours_6">6 hores</string>
     <string name="action_card_move">Mou la targeta</string>
     <string name="action_card_move_title">Mou %1$s</string>
 </resources>

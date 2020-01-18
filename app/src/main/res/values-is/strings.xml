@@ -109,4 +109,8 @@
     <string name="owner">Eigandi</string>
     <string name="simple_comment">Athugasemd</string>
     <string name="attachment_delete_message">Þetta mun eyða þessu viðhengi varanlega.</string>
+    <string name="simple_off">Slökkt</string>
+    <string name="minutes_15">15 mínútur</string>
+    <string name="hour_1">1 klukkustund</string>
+    <string name="hours_6">6 klukkustundir</string>
     </resources>

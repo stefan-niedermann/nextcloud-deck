@@ -25,11 +25,11 @@
     <string name="about_maintainer_title">维护者</string>
     <string name="about_developers_title">开发者</string>
     <string name="about_translators_title">翻译人员</string>
-    <string name="about_translators_transifex">%1$s上的Nextcloud社区</string>
+    <string name="about_translators_transifex">%1$s 上的 Nextcloud 社区</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">测试者</string>
     <string name="about_source_title">源代码</string>
-    <string name="about_source">此项目托管在GitHub：%1$s</string>
+    <string name="about_source">此项目托管在 GitHub：%1$s</string>
     <string name="about_issues_title">问题</string>
     <string name="about_issues">您您可以在 GitHub issue tracker 上报告 bug，改进建议以及新的特性需求：%1$s</string>
     <string name="about_translate_title">翻译</string>
@@ -38,8 +38,8 @@
     <string name="about_app_license">此程序通过 GNU 通用公共许可证 V3+ 授权。</string>
     <string name="about_app_license_button">查看许可证</string>
     <string name="about_icons_disclaimer_title">图标</string>
-    <string name="about_icons_disclaimer">原创图标来自%1$s。本应用中使用的所有其他图标均来自Google Inc.创建的%2$s，这些图标以Apache 2.0 许可证发布。</string>
-    <string name="about_icons_disclaimer_mdi">Material Design图标</string>
+    <string name="about_icons_disclaimer">原创图标来自 %1$s。本应用中使用的所有其他图标均来自 Google Inc. 创建的 %2$s，这些图标以 Apache 2.0 许可证发布。</string>
+    <string name="about_icons_disclaimer_mdi">Material Design 图标</string>
     <string name="about_credits_tab_title">致谢</string>
     <string name="about_contribution_tab_title">贡献</string>
     <string name="about_license_tab_title">授权</string>
@@ -67,7 +67,7 @@
 
     <string name="label_clear_due_date">清除截止日期</string>
 
-    <string name="label_add">添加%1$s</string>
+    <string name="label_add">添加 %1$s</string>
     <string name="error">发生了一个错误</string>
     <string name="simple_copy">复制</string>
     <string name="simple_exception">异常</string>
@@ -91,9 +91,9 @@
     <string name="do_you_want_to_delete_the_current_column">您希望删除当前的栏吗？</string>
     <string name="add_a_new_column_using_the_button">使用 + 按钮添加新一列</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
-    <string name="update_deck">更新deck</string>
-    <string name="your_deck_version_is_too_old">您deck的版本过旧</string>
-    <string name="deck_outdated_please_update">您deck的版本过旧。您的安卓客户端需要更新才能使用。</string>
+    <string name="update_deck">更新看板</string>
+    <string name="your_deck_version_is_too_old">您的看板版本过旧</string>
+    <string name="deck_outdated_please_update">您的看板版本过旧。请更新此安卓客户端。</string>
     <string name="simple_update">更新</string>
     <string name="simple_delete">删除</string>
     <string name="delete_board_message">此操作将永久删除此面板，包括所有任务和卡片。</string>
@@ -101,8 +101,9 @@
     <string name="simple_rename">重命名</string>
     <string name="simple_settings">设置</string>
     <string name="settings_theme_title">深色主题</string>
-    <string name="pref_value_wifi_and_mobile">在有Wi-Fi和移动数据网络时同步</string>
-    <string name="pref_value_wifi_only">仅在Wi-Fi下同步</string>
+    <string name="settings_background_sync">后台同步</string>
+    <string name="pref_value_wifi_and_mobile">在有 Wi-Fi 和移动数据网络时同步</string>
+    <string name="pref_value_wifi_only">仅在 Wi-Fi 下同步</string>
     <string name="pref_value_theme_light">浅色</string>
     <string name="unassigned_user">已经取消分配%1$s</string>
     <string name="simple_undo">撤消</string>
@@ -118,6 +119,11 @@
     <string name="simple_comment">注释</string>
     <string name="attachment_delete_message">这将永久删除此附件。</string>
     <string name="no_content">暂无内容</string>
+    <string name="last_background_sync">上次后台同步时间：</string>
+    <string name="simple_off">关闭</string>
+    <string name="minutes_15">15 分钟</string>
+    <string name="hour_1">1 小时</string>
+    <string name="hours_6">6 小时</string>
     <string name="action_card_move">移动卡片</string>
-    <string name="action_card_move_title">移动%1$s</string>
+    <string name="action_card_move_title">移动 %1$s</string>
 </resources>

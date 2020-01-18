@@ -89,6 +89,7 @@
     <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
     <string name="simple_discard">baztertu</string>
     <string name="do_you_want_to_delete_the_current_column">Zutabe hau ezabatu nahi duzu?</string>
+    <string name="add_a_new_column_using_the_button">Gehitu zutabe berri bat + botoia erabiliz</string>
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
     <string name="update_deck">Eguneratu sorta</string>
     <string name="your_deck_version_is_too_old">Zure sorta bertsioa zaharregia da</string>
@@ -100,6 +101,7 @@
     <string name="simple_rename">Berrizendatu</string>
     <string name="simple_settings">Ezarpenak</string>
     <string name="settings_theme_title">Gai iluna</string>
+    <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizatu Wi-Fi eta datu mugikorrekin</string>
     <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
     <string name="pref_value_theme_light">Argia</string>
@@ -117,6 +119,11 @@
     <string name="simple_comment">Iruzkina</string>
     <string name="attachment_delete_message">Honek atxikitutako fitxategiak betirako ezabatuko ditu.</string>
     <string name="no_content">Oraindik ez dago edukirik</string>
+    <string name="last_background_sync">Azken atzeko planoko sinkronizazioa:</string>
+    <string name="simple_off">Off</string>
+    <string name="minutes_15">15 minutu</string>
+    <string name="hour_1">Ordu 1</string>
+    <string name="hours_6">6 ordu</string>
     <string name="action_card_move">Mugitu txartela</string>
     <string name="action_card_move_title">Mugitu %1$s</string>
 </resources>

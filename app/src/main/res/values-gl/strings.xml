@@ -101,6 +101,7 @@
     <string name="simple_rename">Renomear</string>
     <string name="simple_settings">Axustes</string>
     <string name="settings_theme_title">Tema escuro</string>
+    <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con WiFi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con WiFi</string>
     <string name="pref_value_theme_light">Claro</string>
@@ -118,6 +119,11 @@
     <string name="simple_comment">Comentario</string>
     <string name="attachment_delete_message">Isto eliminará este anexo  de xeito permanente.</string>
     <string name="no_content">Aínda non hai contido</string>
+    <string name="last_background_sync">Última sincronización do traballo en segundo plano:</string>
+    <string name="simple_off">Apagado</string>
+    <string name="minutes_15">15 minutos</string>
+    <string name="hour_1">1 hora</string>
+    <string name="hours_6">6 horas</string>
     <string name="action_card_move">Mover a tarxeta</string>
     <string name="action_card_move_title">Mover %1$s</string>
 </resources>

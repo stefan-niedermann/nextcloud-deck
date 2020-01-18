@@ -102,6 +102,11 @@
     <string name="simple_comment">Komentaras</string>
     <string name="attachment_delete_message">Tai negrįžtamai ištrins šį priedą.</string>
     <string name="no_content">Kol kas nėra jokio turinio</string>
+    <string name="last_background_sync">Paskutinis foninis sinchronizavimas:</string>
+    <string name="simple_off">Išjungta</string>
+    <string name="minutes_15">15 minučių</string>
+    <string name="hour_1">1 valanda</string>
+    <string name="hours_6">6 valandos</string>
     <string name="action_card_move">Perkelti kortelę</string>
     <string name="action_card_move_title">Perkelti %1$s</string>
 </resources>

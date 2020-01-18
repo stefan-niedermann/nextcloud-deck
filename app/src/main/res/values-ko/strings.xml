@@ -101,4 +101,7 @@
     <string name="simple_select">선택</string>
     <string name="owner">Owner</string>
     <string name="simple_comment">설명</string>
+    <string name="minutes_15">15분</string>
+    <string name="hour_1">1시간</string>
+    <string name="hours_6">6시간</string>
     </resources>

@@ -101,6 +101,7 @@
     <string name="simple_rename">Preimenuj</string>
     <string name="simple_settings">Nastavitve</string>
     <string name="settings_theme_title">Temna tema</string>
+    <string name="settings_background_sync"> Usklajevanje v ozadju</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
     <string name="pref_value_theme_light">Svetla</string>
@@ -118,6 +119,11 @@
     <string name="simple_comment">Opomba</string>
     <string name="attachment_delete_message">S tem boste trajno izbrisali prilogo.</string>
     <string name="no_content">Ni še dodane vsebine</string>
+    <string name="last_background_sync">Zadnje usklajevanje:</string>
+    <string name="simple_off">Onemogočeno</string>
+    <string name="minutes_15">15 minut</string>
+    <string name="hour_1">1 ura</string>
+    <string name="hours_6">6 ur</string>
     <string name="action_card_move">Premakni nalogo</string>
     <string name="action_card_move_title">Premakni %1$s</string>
 </resources>

@@ -102,6 +102,7 @@
     <string name="simple_rename">Renommer</string>
     <string name="simple_settings">Paramètres</string>
     <string name="settings_theme_title">Thème sombre</string>
+    <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
     <string name="pref_value_wifi_only">Synchroniser uniquement en Wifi</string>
     <string name="pref_value_theme_light">Clair</string>
@@ -119,6 +120,11 @@
     <string name="simple_comment">Commenter</string>
     <string name="attachment_delete_message">Cette action supprimera définitivement le fichier joint.</string>
     <string name="no_content">Aucun contenu pour l\'instant</string>
+    <string name="last_background_sync">Dernière synchro en tâche de fond :</string>
+    <string name="simple_off">Éteint</string>
+    <string name="minutes_15">15 Minutes</string>
+    <string name="hour_1">1 Heure</string>
+    <string name="hours_6">6 Heures</string>
     <string name="action_card_move">Déplacer la carte</string>
     <string name="action_card_move_title">Déplacer %1$s</string>
 </resources>

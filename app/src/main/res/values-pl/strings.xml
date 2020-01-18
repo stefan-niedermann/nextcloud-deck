@@ -101,6 +101,7 @@
     <string name="simple_rename">Zmień nazwę</string>
     <string name="simple_settings">Ustawienia</string>
     <string name="settings_theme_title">Ciemny motyw</string>
+    <string name="settings_background_sync">Synchronizacja w tle</string>
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
     <string name="pref_value_theme_light">Jasny</string>
@@ -118,6 +119,11 @@
     <string name="simple_comment">Komentarz</string>
     <string name="attachment_delete_message">Spowoduje to trwałe usunięcie tego załącznika.</string>
     <string name="no_content">Brak treści</string>
+    <string name="last_background_sync">Ostatnia synchronizacja w tle:</string>
+    <string name="simple_off">Wyłączone</string>
+    <string name="minutes_15">15 minut</string>
+    <string name="hour_1">1 godzina</string>
+    <string name="hours_6">6 godzin</string>
     <string name="action_card_move">Przenieś kartę</string>
     <string name="action_card_move_title">Przenieś %1$s</string>
 </resources>

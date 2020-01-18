@@ -89,6 +89,7 @@
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
     <string name="simple_discard">yok say</string>
     <string name="do_you_want_to_delete_the_current_column">Geçerli sütunu silmek istiyor musunuz?</string>
+    <string name="add_a_new_column_using_the_button">+ düğmesini kullanarak yeni bir sütun ekleyebilirsiniz</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
     <string name="update_deck">Tahtayı güncelle</string>
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
@@ -100,6 +101,7 @@
     <string name="simple_rename">Yeniden adlandır</string>
     <string name="simple_settings">Ayarlar</string>
     <string name="settings_theme_title">Koyu tema</string>
+    <string name="settings_background_sync">Arka planda eşitleme</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
     <string name="pref_value_theme_light">Açık</string>
@@ -117,6 +119,11 @@
     <string name="simple_comment">Açıklama</string>
     <string name="attachment_delete_message">Bu işlem bu ek dosyasını silecek.</string>
     <string name="no_content">Henüz bir içerik yok</string>
+    <string name="last_background_sync">Son arka planda eşitleme:</string>
+    <string name="simple_off">Kapalı</string>
+    <string name="minutes_15">15 Dakika</string>
+    <string name="hour_1">1 Saat</string>
+    <string name="hours_6">6 Saat</string>
     <string name="action_card_move">Kartı taşı</string>
     <string name="action_card_move_title">%1$s Taşı</string>
 </resources>

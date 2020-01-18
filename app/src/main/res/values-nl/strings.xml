@@ -16,6 +16,8 @@
     <string name="edit_board">Pas canvas aan</string>
     <string name="archive_board">Archiveer canvas</string>
     <string name="delete_board">Verwijder canvas</string>
+    <string name="delete_something">Verwijder %1$s</string>
+
     <!-- About -->
     <string name="about">Over</string>
     <string name="about_version_title">Versie</string>
@@ -87,6 +89,7 @@
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
     <string name="simple_discard">weggooien</string>
     <string name="do_you_want_to_delete_the_current_column">Wil je de huidige kolom verwijderen?</string>
+    <string name="add_a_new_column_using_the_button">Voeg een nieuwe kolom toe met de \'+\' knop</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
     <string name="update_deck">Werk deck bij</string>
     <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
@@ -98,6 +101,7 @@
     <string name="simple_rename">Hernoemen</string>
     <string name="simple_settings">Instellingen</string>
     <string name="settings_theme_title">Donker thema</string>
+    <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
     <string name="pref_value_theme_light">Licht</string>
@@ -113,4 +117,13 @@
     <string name="simple_select">Selecteer</string>
     <string name="owner">Eigenaar</string>
     <string name="simple_comment">Reactie</string>
-    </resources>
+    <string name="attachment_delete_message">Dit zal deze bijlage permanent verwijderen.</string>
+    <string name="no_content">Nog geen content</string>
+    <string name="last_background_sync">Laatste achtergrond sync:</string>
+    <string name="simple_off">Uit</string>
+    <string name="minutes_15">15 minuten</string>
+    <string name="hour_1">1 uur</string>
+    <string name="hours_6">6 uur</string>
+    <string name="action_card_move">Verplaats kaart</string>
+    <string name="action_card_move_title">Verplaats %1$s</string>
+</resources>
