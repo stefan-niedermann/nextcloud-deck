@@ -96,4 +96,7 @@
     <string name="simple_select">Valitse</string>
     <string name="owner">Omistaja</string>
     <string name="simple_comment">Kommentti</string>
+    <string name="minutes_15">15 minuuttia</string>
+    <string name="hour_1">1 tunti</string>
+    <string name="hours_6">6 tuntia</string>
     </resources>

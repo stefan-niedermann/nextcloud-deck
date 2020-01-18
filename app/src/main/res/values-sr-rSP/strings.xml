@@ -1,0 +1,127 @@
+<resources>
+    <string name="navigation_drawer_open">Otvori navigacionu fioku</string>
+    <string name="navigation_drawer_close">Zatvori navigacionu fioku</string>
+
+    <string name="drawer_header_background">Pozadinska slika zaglavlja fioke</string>
+    <string name="drawer_current_account">Trenutni nalog</string>
+    <string name="drawer_middle_account">Središnji nalog</string>
+    <string name="drawer_end_account">Poslednji nalog</string>
+    <string name="drawer_manage_accounts">Upravljanje nalozima</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Table</string>
+    <string name="simple_add">Dodaj</string>
+    <string name="simple_save">Sačuvaj</string>
+
+    <string name="edit_board">Izmeni tablu</string>
+    <string name="archive_board">Arhiviraj tablu</string>
+    <string name="delete_board">Izbriši tablu</string>
+    <string name="delete_something">Obriši %1$s</string>
+
+    <!-- About -->
+    <string name="about">O programu</string>
+    <string name="about_version_title">Verzija</string>
+    <string name="about_version">Trenutno koristite %1$s</string>
+    <string name="about_maintainer_title">Održavaoc</string>
+    <string name="about_developers_title">Programeri</string>
+    <string name="about_translators_title">Prevodioci</string>
+    <string name="about_translators_transifex">Nekstklaud zajednica na %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_testers_title">Testeri</string>
+    <string name="about_source_title">Izvorni kôd</string>
+    <string name="about_source">Ovaj projekat se nalazi na GitHub-u: %1$s</string>
+    <string name="about_issues_title">Problemi</string>
+    <string name="about_issues">Možete prijaviti greške, predložiti poboljšanja i nove funkcionalnosti na GitHub pratiocu grešaka: %1$s</string>
+    <string name="about_translate_title">Prevedi</string>
+    <string name="about_translate">Pridružite se Nekstklaud timu na Transifeksu i pomozite nam da prevedemo ovu aplikaciju: %1$s</string>
+    <string name="about_app_license_title">Licenca aplikacije</string>
+    <string name="about_app_license">Ova aplikacija je licencirana pod GNUovom opštom javnom licencom v3+.</string>
+    <string name="about_app_license_button">Prikaži licencu</string>
+    <string name="about_icons_disclaimer_title">Ikone</string>
+    <string name="about_icons_disclaimer">Originalne ikone napravio %1$s Sve ostale ikone korišćene u ovoj aplikaciji su %2$s koje je napravio Google Inc. i licencirane su pod Apač 2.0 licencom.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design ikonice</string>
+    <string name="about_credits_tab_title">Zasluge</string>
+    <string name="about_contribution_tab_title">Doprinos</string>
+    <string name="about_license_tab_title">Licenca</string>
+
+    <string name="seconds_ago">pre nekoliko sekundi</string>
+    <string name="edit">Izmeni</string>
+    <string name="label_labels">Odaberite oznake</string>
+    <string name="label_description">Opis</string>
+    <string name="hint_assign_people">Dodelite korisnike</string>
+    <string name="hint_due_date_date">Rok</string>
+    <string name="activity">Aktivnost</string>
+    <string name="add_card">Dodaj karticu</string>
+    <string name="add_column">Dodaj kolonu</string>
+
+    <string name="add_account">Dodajte nalog</string>
+
+    <string name="label_menu">meni</string>
+    <string name="action_card_assign">Dodeli karticu meni</string>
+    <string name="action_card_unassign">Skloni karticu sa mene</string>
+    <string name="action_card_archive">Arhiviraj karticu</string>
+    <string name="action_card_delete">Obriši karticu</string>
+    <string name="add_board">Dodaj tablu</string>
+    <string name="action_card_list_delete_column">Obriši kolonu</string>
+    <string name="simple_title">Naslov</string>
+
+    <string name="label_clear_due_date">Izbriši rok</string>
+
+    <string name="label_add">Dodaj %1$s</string>
+    <string name="error">Došlo je do greške</string>
+    <string name="simple_copy">kopiraj</string>
+    <string name="simple_exception">Izuzetak</string>
+    <string name="copied_to_clipboard">Kopirano u klipbord</string>
+    <string name="simple_close">zatvori</string>
+
+    <string name="card_edit_details">Detalji</string>
+    <string name="card_edit_attachments">Prilozi</string>
+    <string name="card_edit_activity">Aktivnost</string>
+    <string name="about_server_app_version_text">Verzija aplikacije na serveru:</string>
+    <string name="no_files_attached_to_this_card">Nema fajlova zakačenih za ovu karticu.</string>
+    <string name="attachments">Prilozi</string>
+    <string name="no_cards">Još nema kartica</string>
+    <string name="no_account">Nalog nije podešen</string>
+    <string name="account_already_added">Ovaj nalog je već dodat</string>
+    <string name="account_is_getting_imported">Nalog se uvozi</string>
+    <string name="not_synced_yet">Još nije sinhronizovano</string>
+    <string name="no_columns">Još nema kolona</string>
+    <string name="do_you_want_to_save_your_changes">Da li želite da sačuvate izmene?</string>
+    <string name="simple_discard">odbaci</string>
+    <string name="do_you_want_to_delete_the_current_column">Da li želite da obrišete trenutnu kolonu?</string>
+    <string name="add_a_new_column_using_the_button">Dodajte novu kolonu na + dugme</string>
+    <string name="add_a_new_card_using_the_button">Dodajte novu karticu na + dugme</string>
+    <string name="update_deck">Ažuriraj špil</string>
+    <string name="your_deck_version_is_too_old">Verzija Vaše Deck aplikacije je previše stara</string>
+    <string name="deck_outdated_please_update">Verzija Vaše Deck aplikacije je previše stara. Ažurirajte je da biste koristili ovu Android aplikaciju kao klijenta.</string>
+    <string name="simple_update">Ažuriraj</string>
+    <string name="simple_delete">Obriši</string>
+    <string name="delete_board_message">Ovo će trajno da ukloni ovu tablu uključujući sve gomile i kartice.</string>
+    <string name="action_card_list_rename_column">Preimenuj kolonu</string>
+    <string name="simple_rename">Preimenuj</string>
+    <string name="simple_settings">Postavke</string>
+    <string name="settings_theme_title">Tamna tema</string>
+    <string name="pref_value_wifi_and_mobile">Sinhronizuj i na bežičnoj i na mobilnoj vezi</string>
+    <string name="pref_value_wifi_only">Sinhronizuj samo preko bežične veze</string>
+    <string name="pref_value_theme_light">Svetla</string>
+    <string name="unassigned_user">Uklonjena dodela sa %1$s</string>
+    <string name="simple_undo">Opozovi</string>
+    <string name="no_activities">Nema aktivnosti na kartici. Morate da se povežete na internet da učitate i prikažete aktivnosti.</string>
+    <string name="rename_column">Preimenuj kolonu</string>
+    <string name="share_board">Podeli tablu</string>
+    <string name="you_are_currently_offline">Trenutno ste van mreže</string>
+    <string name="simple_manage">Upravljanje</string>
+    <string name="simple_share">Podeli</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Morate biti povezani sa internetom da bi ste dodali nalog.</string>
+    <string name="simple_select">Obeleži</string>
+    <string name="owner">Vlasnik</string>
+    <string name="simple_comment">Komentar</string>
+    <string name="attachment_delete_message">Ovo će zauvek obrisati ovaj prilog.</string>
+    <string name="no_content">Još nema sadržaja</string>
+    <string name="simple_off">Isključena</string>
+    <string name="minutes_15">15 minuta</string>
+    <string name="hour_1">1 sat</string>
+    <string name="hours_6">6 sati</string>
+    <string name="action_card_move">Premesti karticu</string>
+    <string name="action_card_move_title">Premesti %1$s</string>
+</resources>

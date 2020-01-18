@@ -113,4 +113,7 @@
     <string name="simple_select">Kiválasztás</string>
     <string name="owner">Tulajdonos</string>
     <string name="simple_comment">Megjegyzés</string>
+    <string name="minutes_15">15 perc</string>
+    <string name="hour_1">1 óra</string>
+    <string name="hours_6">6 óra</string>
     </resources>

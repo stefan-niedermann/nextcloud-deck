@@ -89,6 +89,7 @@
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
     <string name="simple_discard">одбаци</string>
     <string name="do_you_want_to_delete_the_current_column">Да ли желите да обришете тренутну колону?</string>
+    <string name="add_a_new_column_using_the_button">Додајте нову колону на + дугме</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
     <string name="update_deck">Ажурирај шпил</string>
     <string name="your_deck_version_is_too_old">Верзија Ваше Deck апликације је превише стара</string>
@@ -117,6 +118,10 @@
     <string name="simple_comment">Коментар</string>
     <string name="attachment_delete_message">Ово ће заувек обрисати овај прилог.</string>
     <string name="no_content">Још нема садржаја</string>
+    <string name="simple_off">Искључена</string>
+    <string name="minutes_15">15 минута</string>
+    <string name="hour_1">1 сат</string>
+    <string name="hours_6">6 сати</string>
     <string name="action_card_move">Премести картицу</string>
     <string name="action_card_move_title">Премести %1$s</string>
 </resources>

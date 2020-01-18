@@ -89,6 +89,7 @@
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
     <string name="simple_discard">απόρριψη</string>
     <string name="do_you_want_to_delete_the_current_column">Θέλετε να διαγράψετε την τρέχουσα στήλη;</string>
+    <string name="add_a_new_column_using_the_button">Προσθήκη νέας στήλης με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
     <string name="update_deck">Ενημέρωση Deck</string>
     <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
@@ -100,6 +101,7 @@
     <string name="simple_rename">Μετονομασία</string>
     <string name="simple_settings">Ρυθμίσεις</string>
     <string name="settings_theme_title">Σκούρο θέμα</string>
+    <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
     <string name="pref_value_theme_light">Φωτεινό</string>
@@ -117,6 +119,11 @@
     <string name="simple_comment">Σχόλιο</string>
     <string name="attachment_delete_message">Θα διαγραφεί μόνιμα το συνημμένο.</string>
     <string name="no_content">Χωρίς περιεχόμενο ακόμα</string>
+    <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
+    <string name="simple_off">Απενεργοποίηση </string>
+    <string name="minutes_15">15 Λεπτά</string>
+    <string name="hour_1">1 ώρα</string>
+    <string name="hours_6">6 ώρες</string>
     <string name="action_card_move">Μετακίνηση κάρτας</string>
     <string name="action_card_move_title">Μετακίνηση %1$s</string>
 </resources>

@@ -101,6 +101,7 @@
     <string name="simple_rename">Přejmenovat</string>
     <string name="simple_settings">Nastavení</string>
     <string name="settings_theme_title">Tmavý motiv vzhledu</string>
+    <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchronizovat přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchronizovat pouze přes Wi-Fi</string>
     <string name="pref_value_theme_light">Světlý</string>
@@ -118,6 +119,11 @@
     <string name="simple_comment">Komentář</string>
     <string name="attachment_delete_message">Toto tuto přílohu nadobro smaže.</string>
     <string name="no_content">Zatím žádný osah</string>
+    <string name="last_background_sync">Nejnovější synchronizace na pozadí:</string>
+    <string name="simple_off">Vypnuto</string>
+    <string name="minutes_15">15 minut</string>
+    <string name="hour_1">1 hodina</string>
+    <string name="hours_6">6 hodin</string>
     <string name="action_card_move">Přesunout kartu</string>
     <string name="action_card_move_title">Přesunout %1$s</string>
 </resources>

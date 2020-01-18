@@ -16,6 +16,8 @@
     <string name="edit_board">Uredi ploču</string>
     <string name="archive_board">Arhiviraj ploču</string>
     <string name="delete_board">Izbriši ploču</string>
+    <string name="delete_something">Izbriši %1$s</string>
+
     <!-- About -->
     <string name="about">Informacije</string>
     <string name="about_version_title">Inačica</string>
@@ -87,6 +89,7 @@
     <string name="do_you_want_to_save_your_changes">Želite li spremiti promjene?</string>
     <string name="simple_discard">odbaci</string>
     <string name="do_you_want_to_delete_the_current_column">Želite li izbrisati trenutni stupac?</string>
+    <string name="add_a_new_column_using_the_button">Dodaj novi stupac s pomoću gumba +</string>
     <string name="add_a_new_card_using_the_button">Dodaj novu karticu s pomoću gumba +</string>
     <string name="update_deck">Ažuriraj Deck</string>
     <string name="your_deck_version_is_too_old">Vaša inačica Decka je prestara</string>
@@ -98,6 +101,7 @@
     <string name="simple_rename">Preimenuj</string>
     <string name="simple_settings">Postavke</string>
     <string name="settings_theme_title">Tamna tema</string>
+    <string name="settings_background_sync">Pozadinska sinkronizacija</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizacija putem bežičnih (Wi-Fi) i mobilnih podataka</string>
     <string name="pref_value_wifi_only">Sinkroniziraj samo putem bežične (Wi-Fi) mreže</string>
     <string name="pref_value_theme_light">Svijetlo</string>
@@ -113,4 +117,13 @@
     <string name="simple_select">Odaberi</string>
     <string name="owner">Vlasnik</string>
     <string name="simple_comment">Komentar</string>
-    </resources>
+    <string name="attachment_delete_message">Trajno ćete izbrisati ovaj privitak.</string>
+    <string name="no_content">Još nema sadržaja</string>
+    <string name="last_background_sync">Posljednja pozadinska sinkronizacija:</string>
+    <string name="simple_off">Isključeno</string>
+    <string name="minutes_15">15 minuta</string>
+    <string name="hour_1">1 sat</string>
+    <string name="hours_6">6 sati</string>
+    <string name="action_card_move">Premjesti karticu</string>
+    <string name="action_card_move_title">Premjesti %1$s</string>
+</resources>
