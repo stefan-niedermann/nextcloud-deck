@@ -16,6 +16,8 @@
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
     <string name="delete_board">Удалить доску</string>
+    <string name="delete_something">Удалить %1$s</string>
+
     <!-- About -->
     <string name="about">О программе</string>
     <string name="about_version_title">Версия</string>
@@ -23,21 +25,21 @@
     <string name="about_maintainer_title">Сопровождающий</string>
     <string name="about_developers_title">Разработчики</string>
     <string name="about_translators_title">Переводчики</string>
-    <string name="about_translators_transifex">Nextcloud сообщество на %1$s</string>
+    <string name="about_translators_transifex">Сообщество Nextcloud на сайте %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Тестеры</string>
     <string name="about_source_title">Исходный код</string>
     <string name="about_source">Этот проект размещен на GitHub: %1$s</string>
     <string name="about_issues_title">Проблемы</string>
-    <string name="about_issues">Вы можете сообщить о багах, предложений по улучшению и новых функциях на GitHub issue трекере: %1$s</string>
+    <string name="about_issues">Сообщить об ошибках в программе, предложить улучшения и новые функции возможно в системе отслеживания ошибок на сайте GitHub: %1$s</string>
     <string name="about_translate_title">Помочь с переводом</string>
-    <string name="about_translate">Присоединяйся к команде Nextcloud на Transifex и помоги нам перевести приложение: %1$s</string>
+    <string name="about_translate">Присоединиться к команде переводчиков приложений Nextcloud на русский язык на сайте Transifex: %1$s</string>
     <string name="about_app_license_title">Лицензия приложения</string>
     <string name="about_app_license">Лицензия на программу предоставляется в соответствии с условиями Открытого лицензионного соглашения GNU (GNU GPL) версии 3+.</string>
     <string name="about_app_license_button">Посмотреть лицензию</string>
     <string name="about_icons_disclaimer_title">Значки</string>
-    <string name="about_icons_disclaimer">Настоящие значкок от %1$s используемые в данном приложение %2$s созданы Google Inc. и лицинзированы лицензией Apache 2.0 License.</string>
-    <string name="about_icons_disclaimer_mdi">Material Design значки</string>
+    <string name="about_icons_disclaimer">Исходный значок %1$s, используемый в данном приложении, является частью набора «%2$s», созданного компанией Google Inc. и распространемого в соответствии с лицензией Apache версии 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">значки Material Design</string>
     <string name="about_credits_tab_title">Сообщество</string>
     <string name="about_contribution_tab_title">Участие</string>
     <string name="about_license_tab_title">Лицензия</string>
@@ -50,7 +52,7 @@
     <string name="hint_due_date_date">Срок исполнения</string>
     <string name="activity">Событие</string>
     <string name="add_card">Создать карточку</string>
-    <string name="add_column">Добавить колонку</string>
+    <string name="add_column">Добавить стопку</string>
 
     <string name="add_account">Добавить аккаунт</string>
 
@@ -60,12 +62,13 @@
     <string name="action_card_archive">Переместить в архив</string>
     <string name="action_card_delete">Удалить</string>
     <string name="add_board">Добавить доску</string>
-    <string name="action_card_list_delete_column">Удалить колонку</string>
+    <string name="action_card_list_delete_column">Удалить стопку</string>
     <string name="simple_title">Заголовок</string>
 
     <string name="label_clear_due_date">Удалить срок исполнения</string>
 
-    <string name="error">Появилась ошибка</string>
+    <string name="label_add">Добавить %1$s </string>
+    <string name="error">Произошла ошибка</string>
     <string name="simple_copy">Копировать</string>
     <string name="simple_exception">Исключение</string>
     <string name="copied_to_clipboard">Скопировано в буфер</string>
@@ -75,21 +78,52 @@
     <string name="card_edit_attachments">Вложения</string>
     <string name="card_edit_activity">События</string>
     <string name="about_server_app_version_text">Версия приложения на сервере:</string>
+    <string name="no_files_attached_to_this_card">К этой карточке файлы не прикреплены.</string>
     <string name="attachments">Вложения</string>
+    <string name="no_cards">Ещё нет ни одной карточки</string>
     <string name="no_account">Учётная запись не настроена</string>
     <string name="account_already_added">Учётная запись уже добавлена</string>
+    <string name="account_is_getting_imported">Выполняется импорт учётной записи</string>
+    <string name="not_synced_yet">Ещё не синхронизировано</string>
+    <string name="no_columns">Нет ни одной стопки</string>
+    <string name="do_you_want_to_save_your_changes">Сохранить изменения?</string>
+    <string name="simple_discard">Отменить</string>
+    <string name="do_you_want_to_delete_the_current_column">Удалить это стопку?</string>
+    <string name="add_a_new_column_using_the_button">Нажмите кнопку «+» для добавления новой стопки</string>
+    <string name="add_a_new_card_using_the_button">Нажмите кнопку «+» для добавления новой карточки</string>
+    <string name="update_deck">Обновление deck</string>
+    <string name="your_deck_version_is_too_old">Версия приложения устарела</string>
+    <string name="deck_outdated_please_update">Приложение Deck, установленное на сервере,  устарело. Обновите его, чтобы использовать приложение для Android.</string>
     <string name="simple_update">Обновить</string>
     <string name="simple_delete">Удалить</string>
+    <string name="delete_board_message">Это действие приведёт к удалению этой рабочей доски, всех стопок и карточек.</string>
+    <string name="action_card_list_rename_column">Переименовать стопку</string>
     <string name="simple_rename">Переименовать</string>
     <string name="simple_settings">Параметры</string>
     <string name="settings_theme_title">Тёмное оформление</string>
+    <string name="settings_background_sync">Синхр. в фоновом режиме</string>
     <string name="pref_value_wifi_and_mobile">Синхр. по Wi-Fi и мобильной связи</string>
     <string name="pref_value_wifi_only">Синхр. только по Wi-Fi</string>
     <string name="pref_value_theme_light">Светлый</string>
+    <string name="unassigned_user">Не назначено %1$s</string>
     <string name="simple_undo">Отменить</string>
+    <string name="no_activities">По этой карточке нет истории действий. Для получения такой информации необходимо подключение к интернету.</string>
+    <string name="rename_column">Переименование стопки</string>
     <string name="share_board">Поделиться</string>
+    <string name="you_are_currently_offline">Отсутствует подключение к интернету</string>
+    <string name="simple_manage">Управлять</string>
     <string name="simple_share">общий ресурс</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Для добавления учётной записи необходимо подключение к интернету.</string>
     <string name="simple_select">Выбрать</string>
     <string name="owner">Владелец</string>
     <string name="simple_comment">Коментарий</string>
-    </resources>
+    <string name="attachment_delete_message">Это действие приведёт к удалению этого вложения.</string>
+    <string name="no_content">Содержимого ещё нет</string>
+    <string name="last_background_sync">Последняя фоновая синхронизация:</string>
+    <string name="simple_off">Отключены</string>
+    <string name="minutes_15">15 Минут</string>
+    <string name="hour_1">1 Час</string>
+    <string name="hours_6">6 Часов</string>
+    <string name="action_card_move">Переместить карточку</string>
+    <string name="action_card_move_title">Перемещение %1$s</string>
+</resources>
