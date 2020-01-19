@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -96,9 +97,8 @@ public class CardActivityFragment extends Fragment {
             });
             if (canEdit) {
                 fab.setOnClickListener(v -> {
-//                    Snackbar.make(coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
-                    CommentDialogFragment.newInstance().show(getActivity().getSupportFragmentManager(), addComment);
-                    syncManager.addCommentToCard();
+                    Snackbar.make(coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
+//                    CommentDialogFragment.newInstance().show(getActivity().getSupportFragmentManager(), addComment);
                 });
                 activitiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
