@@ -1,1 +1,3 @@
+- Switch stacks earlier with card drag n drop (#257)
 - Crash if Label starts with a space (#260)
+- An empty card can be created, which stays in sync state forever (#264)

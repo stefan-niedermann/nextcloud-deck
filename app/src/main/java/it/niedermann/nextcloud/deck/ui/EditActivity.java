@@ -51,6 +51,7 @@ import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CommentDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.util.CardUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -169,6 +170,7 @@ public class EditActivity extends AppCompatActivity implements
                 invalidateOptionsMenu();
                 if (createMode) {
                     fullCard = new FullCard();
+                    originalCard = new FullCard();
                     fullCard.setLabels(new ArrayList<>());
                     fullCard.setAssignedUsers(new ArrayList<>());
                     Card card = new Card();
@@ -210,18 +212,24 @@ public class EditActivity extends AppCompatActivity implements
     private void saveAndFinish() {
         if (!pendingCreation) {
             pendingCreation = true;
-            //FIXME: nullpointer when no title entered! do not even save without title(?)
-            if (fullCard.getCard().getTitle() != null && fullCard.getCard().getTitle().isEmpty()) {
-                if (!fullCard.getCard().getDescription().isEmpty()) {
-                    fullCard.getCard().setTitle(fullCard.getCard().getDescription().split("\n")[0]);
-                } else {
-                    fullCard.getCard().setTitle("");
-                }
+            if (fullCard.getCard().getTitle() == null || fullCard.getCard().getTitle().isEmpty()) {
+                fullCard.getCard().setTitle(CardUtil.generateTitleFromDescription(fullCard.getCard().getDescription()));
             }
-            if (createMode) {
-                observeOnce(syncManager.createFullCard(accountId, boardId, stackId, fullCard), EditActivity.this, (card) -> super.finish());
+            if (fullCard.getCard().getTitle().isEmpty()) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Title is mandatory")
+                        .setMessage("Provide at least a title or description")
+                        .setPositiveButton(android.R.string.ok, null)
+                        .setOnDismissListener(dialog -> {
+                            pendingCreation = false;
+                        })
+                        .show();
             } else {
-                observeOnce(syncManager.updateCard(fullCard), EditActivity.this, (card) -> super.finish());
+                if (createMode) {
+                    observeOnce(syncManager.createFullCard(accountId, boardId, stackId, fullCard), EditActivity.this, (card) -> super.finish());
+                } else {
+                    observeOnce(syncManager.updateCard(fullCard), EditActivity.this, (card) -> super.finish());
+                }
             }
         }
     }
