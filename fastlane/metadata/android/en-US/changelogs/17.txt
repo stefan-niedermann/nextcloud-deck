@@ -1,0 +1,4 @@
+- Clicking the + Button when no Board is present leads to FC (#252)
+- Switch stacks earlier with card drag n drop (#257)
+- Crash if Label starts with a space (#260)
+- An empty card can be created, which stays in sync state forever (#264)

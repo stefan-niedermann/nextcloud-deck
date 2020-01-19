@@ -89,6 +89,7 @@
     <string name="do_you_want_to_save_your_changes">変更を保存しますか？</string>
     <string name="simple_discard">破棄</string>
     <string name="do_you_want_to_delete_the_current_column">現在の列を削除しますか？</string>
+    <string name="add_a_new_column_using_the_button">+ ボタンで新しい列を追加</string>
     <string name="add_a_new_card_using_the_button">+ボタンで新しいカードを追加</string>
     <string name="update_deck">端末の更新</string>
     <string name="your_deck_version_is_too_old">端末のバージョンが旧すぎます</string>
@@ -100,6 +101,7 @@
     <string name="simple_rename">名前変更</string>
     <string name="simple_settings">設定</string>
     <string name="settings_theme_title">ダークテーマ</string>
+    <string name="settings_background_sync">バックグラウンド同期</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fiおよびモバイル接続時に同期する</string>
     <string name="pref_value_wifi_only">Wi-Fi接続時のみ同期する</string>
     <string name="pref_value_theme_light">明るい</string>
@@ -117,6 +119,11 @@
     <string name="simple_comment">コメント</string>
     <string name="attachment_delete_message">これにより、この添付ファイルは完全に削除されます。</string>
     <string name="no_content">コンテンツはまだありません</string>
+    <string name="last_background_sync">最後のバックグラウンド同期：</string>
+    <string name="simple_off">オフ</string>
+    <string name="minutes_15">15 分</string>
+    <string name="hour_1">1 時間</string>
+    <string name="hours_6">6 時間</string>
     <string name="action_card_move">カードの移動</string>
     <string name="action_card_move_title">%1$sを移動</string>
 </resources>

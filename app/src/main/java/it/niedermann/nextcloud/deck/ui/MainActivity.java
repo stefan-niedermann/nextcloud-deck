@@ -149,7 +149,13 @@ public class MainActivity extends DrawerActivity implements
             }
         });
 
-        addStackButton.setOnClickListener((v) -> EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn));
+        addStackButton.setOnClickListener((v) -> {
+            if(this.boardsList.size() == 0) {
+                EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+            } else {
+                EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
+            }
+        });
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

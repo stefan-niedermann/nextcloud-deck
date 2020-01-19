@@ -101,6 +101,7 @@
     <string name="simple_rename">Umbenennen</string>
     <string name="simple_settings">Einstellungen</string>
     <string name="settings_theme_title">Dunkles Design</string>
+    <string name="settings_background_sync">Hintergrundsynchronisation</string>
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
     <string name="pref_value_theme_light">Hell</string>
@@ -118,6 +119,11 @@
     <string name="simple_comment">Kommentar</string>
     <string name="attachment_delete_message">Damit wird dieser Anhang dauerhaft gelöscht.</string>
     <string name="no_content">Bislang kein Inhalt</string>
+    <string name="last_background_sync">Letzte Hintergrundsynchronisation:</string>
+    <string name="simple_off">Aus</string>
+    <string name="minutes_15">15 Minuten</string>
+    <string name="hour_1">1 Stunde</string>
+    <string name="hours_6">6 Stunden</string>
     <string name="action_card_move">Karte verschieben</string>
     <string name="action_card_move_title">Verschiebe %1$s</string>
 </resources>

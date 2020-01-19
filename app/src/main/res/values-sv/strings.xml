@@ -2,6 +2,7 @@
     <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
     <string name="navigation_drawer_close">Stäng navigeringslådan</string>
 
+    <string name="drawer_header_background">Bakgrundsbild på appskärmsrubriken</string>
     <string name="drawer_current_account">Nuvarande konto</string>
     <string name="drawer_middle_account">Mittenkonto</string>
     <string name="drawer_end_account">Sista konto</string>
@@ -38,6 +39,7 @@
     <string name="about_app_license_button">Visa licens</string>
     <string name="about_icons_disclaimer_title">Ikoner</string>
     <string name="about_icons_disclaimer">Originalikon gjord av %1$sAlla framtida ikoner använda av appen är %2$s gjorda av Google Inc. och licensierade under Apache 2.0 License.</string>
+    <string name="about_icons_disclaimer_mdi">Ikoner ur Material Design</string>
     <string name="about_credits_tab_title">Tack</string>
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Licens</string>
@@ -99,6 +101,7 @@
     <string name="simple_rename">Byt namn</string>
     <string name="simple_settings">Inställningar</string>
     <string name="settings_theme_title">Mörkt tema</string>
+    <string name="settings_background_sync">Bakgrundssynkronisering</string>
     <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobil data</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
     <string name="pref_value_theme_light">Ljust</string>
@@ -116,6 +119,11 @@
     <string name="simple_comment">Kommentar</string>
     <string name="attachment_delete_message">Detta kommer att radera den här bilagan permanent.</string>
     <string name="no_content">Inget innehåll än</string>
+    <string name="last_background_sync">Senaste bakgrundssynk:</string>
+    <string name="simple_off">Av</string>
+    <string name="minutes_15">15 minuter</string>
+    <string name="hour_1">1 timme</string>
+    <string name="hours_6">6 timmar</string>
     <string name="action_card_move">Flytta kort</string>
     <string name="action_card_move_title">Flytta %1$s</string>
 </resources>

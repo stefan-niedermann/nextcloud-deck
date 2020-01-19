@@ -1,0 +1,118 @@
+<resources>
+    <string name="navigation_drawer_open">کشو ناوبری را باز کنید</string>
+    <string name="navigation_drawer_close">بستن کشو ناوبری</string>
+
+    <string name="drawer_header_background">تصویر پس زمینه هدر کشو</string>
+    <string name="drawer_current_account">حساب جاری</string>
+    <string name="drawer_middle_account">حساب میانه</string>
+    <string name="drawer_end_account">آخرین حساب</string>
+    <string name="drawer_manage_accounts">مدیریت حساب ها </string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">تخته ها</string>
+    <string name="simple_add">افزودن</string>
+    <string name="simple_save">ذخیره</string>
+
+    <string name="edit_board">ویرایش تابلو</string>
+    <string name="archive_board"> بایگانی تابلو</string>
+    <string name="delete_board">حذف تابلو</string>
+    <!-- About -->
+    <string name="about">درباره</string>
+    <string name="about_version_title">نسخه</string>
+    <string name="about_maintainer_title">نگهدار</string>
+    <string name="about_developers_title">توسعه دهندگان</string>
+    <string name="about_translators_title">مترجم</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_testers_title">آزمایش کنندگان</string>
+    <string name="about_source_title">کد منبع</string>
+    <string name="about_issues_title">مسائل</string>
+    <string name="about_translate_title">Translate</string>
+    <string name="about_app_license_title">مجوز برنامه</string>
+    <string name="about_app_license">این برنامه تحت مجوز GNU GENERAL PUBLIC LICENSE v3 + مجاز است.</string>
+    <string name="about_app_license_button">مشاهده مجوز</string>
+    <string name="about_icons_disclaimer_title">آیکون ها</string>
+    <string name="about_icons_disclaimer_mdi">شمایل طراحی مواد</string>
+    <string name="about_credits_tab_title">اعتبارات</string>
+    <string name="about_contribution_tab_title">مشارکت</string>
+    <string name="about_license_tab_title">License</string>
+
+    <string name="seconds_ago">ثانیه‌هایی پیش</string>
+    <string name="edit">ویرایش</string>
+    <string name="label_labels">برچسب ها را انتخاب کنید</string>
+    <string name="label_description">توضیحات</string>
+    <string name="hint_assign_people">اختصاص کاربران</string>
+    <string name="hint_due_date_date">موعد مقرر</string>
+    <string name="activity">فعّالیت</string>
+    <string name="add_card">افزودن کارت</string>
+    <string name="add_column">ستون را اضافه کنید</string>
+
+    <string name="add_account">ایحاد حساب کاربری</string>
+
+    <string name="label_menu">منو</string>
+    <string name="action_card_assign">کارت را به من اختصاص دهید</string>
+    <string name="action_card_unassign">جدا کردن کارت از من</string>
+    <string name="action_card_archive">کارت بایگانی</string>
+    <string name="action_card_delete">حذف کارت</string>
+    <string name="add_board">تخته را اضافه کنید</string>
+    <string name="action_card_list_delete_column">ستون را حذف کنید</string>
+    <string name="simple_title">عنوان</string>
+
+    <string name="label_clear_due_date">تاریخ مقرر را پاک کنید</string>
+
+    <string name="error">خطایی ظاهر شد</string>
+    <string name="simple_copy">کپی</string>
+    <string name="simple_exception">استثنا</string>
+    <string name="copied_to_clipboard">در حافظه رونویسی شد</string>
+    <string name="simple_close">بستن</string>
+
+    <string name="card_edit_details">جزئیات</string>
+    <string name="card_edit_attachments">پیوست ها</string>
+    <string name="card_edit_activity">فعّالیت</string>
+    <string name="about_server_app_version_text">نسخه برنامه سرور:</string>
+    <string name="no_files_attached_to_this_card">هیچ پرونده ای به این کارت وصل نشده است.</string>
+    <string name="attachments">پیوست ها</string>
+    <string name="no_cards">هنوز کارت وجود ندارد</string>
+    <string name="no_account">هیچ حساب پیکربندی نشده است</string>
+    <string name="account_already_added">حساب قبلاً اضافه شده است</string>
+    <string name="account_is_getting_imported">حساب وارد می شود</string>
+    <string name="not_synced_yet">هنوز همگام سازی نشده است</string>
+    <string name="no_columns">هنوز ستونی وجود ندارد</string>
+    <string name="do_you_want_to_save_your_changes">آیا می خواهید تغییرات خود را ذخیره کنید؟</string>
+    <string name="simple_discard">دور انداختن</string>
+    <string name="do_you_want_to_delete_the_current_column">آیا می خواهید ستون فعلی را حذف کنید؟</string>
+    <string name="add_a_new_column_using_the_button">با استفاده از دکمه + یک ستون جدید اضافه کنید</string>
+    <string name="add_a_new_card_using_the_button">با استفاده از دکمه + یک کارت جدید اضافه کنید</string>
+    <string name="update_deck">عرشه را به روز کنید</string>
+    <string name="your_deck_version_is_too_old">نسخه عرشه شما خیلی قدیمی است</string>
+    <string name="deck_outdated_please_update">نسخه عرشه شما خیلی قدیمی است لطفاً برای استفاده از این برنامه اندرویدی به عنوان مشتری ، بروزرسانی کنید.</string>
+    <string name="simple_update">به روز رسانی</string>
+    <string name="simple_delete">حذف</string>
+    <string name="delete_board_message">با این کار برای همیشه این صفحه را شامل همه پشته ها و کارت ها حذف خواهید کرد.</string>
+    <string name="action_card_list_rename_column">تغییر نام ستون</string>
+    <string name="simple_rename">تغییرنام</string>
+    <string name="simple_settings">تنظیمات</string>
+    <string name="settings_theme_title">تم تاریک</string>
+    <string name="settings_background_sync">همگام سازی پس زمینه</string>
+    <string name="pref_value_wifi_and_mobile">همگام سازی داده های Wi-Fi و تلفن همراه</string>
+    <string name="pref_value_wifi_only">همگام سازی فقط در Wi-Fi</string>
+    <string name="pref_value_theme_light">روشن</string>
+    <string name="simple_undo">برگرداندن</string>
+    <string name="no_activities">هیچ فعالیتی در این کارت انجام نشده است. برای بارگیری و نمایش فعالیتها باید به اینترنت متصل شوید.</string>
+    <string name="rename_column">تغییر نام ستون</string>
+    <string name="share_board">صفحه مشترک</string>
+    <string name="you_are_currently_offline">شما در حال حاضر آفلاین هستید</string>
+    <string name="simple_manage">مدیریت</string>
+    <string name="simple_share">اشتراک گذاری</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">برای اضافه کردن حساب باید به اینترنت متصل شوید.</string>
+    <string name="simple_select">انتخاب</string>
+    <string name="owner">Owner</string>
+    <string name="simple_comment">نظر</string>
+    <string name="attachment_delete_message">با این کار برای همیشه این پیوست حذف می شود.</string>
+    <string name="no_content">هنوز محتوا موجود نیست</string>
+    <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
+    <string name="simple_off">خاموش</string>
+    <string name="minutes_15">یک ربع</string>
+    <string name="hour_1">۱ ساعت</string>
+    <string name="hours_6">۶ ساعت</string>
+    <string name="action_card_move">انتقال کارت</string>
+    </resources>
