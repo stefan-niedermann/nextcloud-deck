@@ -60,11 +60,11 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.work:work-runtime:2.2.0'
+    implementation 'androidx.work:work-runtime:2.3.0'
 
 
     // Flexbox
-    implementation 'com.google.android:flexbox:2.0.0'
+    implementation 'com.google.android:flexbox:2.0.1'
 
     // Tab-Layout-Helper
     implementation 'com.h6ah4i.android.tablayouthelper:tablayouthelper:1.0.0'

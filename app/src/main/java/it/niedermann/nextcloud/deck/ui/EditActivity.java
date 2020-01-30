@@ -248,6 +248,7 @@ public class EditActivity extends AppCompatActivity implements
         if (canEdit) {
             if (createMode) {
                 title.requestFocus();
+                // TODO: https://github.com/stefan-niedermann/nextcloud-deck/issues/249 -> if editMode -> https://stackoverflow.com/questions/4804493/how-to-automatically-pop-up-keyboard
                 ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 if (fullCard.getCard().getTitle() != null) {
                     title.setSelection(fullCard.getCard().getTitle().length());
