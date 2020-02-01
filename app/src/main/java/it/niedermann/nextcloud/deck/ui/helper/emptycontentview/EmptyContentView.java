@@ -5,12 +5,12 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +25,7 @@ public class EmptyContentView extends RelativeLayout {
     @BindView(R.id.description)
     TextView description;
     @BindView(R.id.image)
-    ImageView image;
+    AppCompatImageView image;
 
     public EmptyContentView(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -47,7 +47,7 @@ public class EmptyContentView extends RelativeLayout {
         } else {
             description.setText(getResources().getString(descriptionRes));
         }
-        image.setImageDrawable(getResources().getDrawable(a.getResourceId(R.styleable.EmptyContentView_image, R.drawable.ic_app_logo)));
+        image.setImageResource(a.getResourceId(R.styleable.EmptyContentView_image, R.drawable.ic_app_logo));
         a.recycle();
     }
 }
