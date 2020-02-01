@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +27,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -53,7 +53,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
     @BindView(R.id.attachments_list)
     RecyclerView attachmentsList;
     @BindView(R.id.no_attachments)
-    RelativeLayout noAttachments;
+    EmptyContentView emptyContentView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -72,10 +72,10 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
             syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
             observeOnce(syncManager.getCardByLocalId(accountId, cardId), CardAttachmentsFragment.this, (fullCard) -> {
                 if (fullCard.getAttachments().size() == 0) {
-                    this.noAttachments.setVisibility(View.VISIBLE);
+                    this.emptyContentView.setVisibility(View.VISIBLE);
                     this.attachmentsList.setVisibility(View.GONE);
                 } else {
-                    this.noAttachments.setVisibility(View.GONE);
+                    this.emptyContentView.setVisibility(View.GONE);
                     this.attachmentsList.setVisibility(View.VISIBLE);
                     syncManager.readAccount(accountId).observe(CardAttachmentsFragment.this, (Account account) -> {
                         RecyclerView.Adapter adapter = new AttachmentAdapter(this, account, fullCard.getCard().getId(), fullCard.getAttachments());
@@ -104,6 +104,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
                 });
             } else {
                 fab.hide();
+                emptyContentView.hideDescription();
             }
         }
 

@@ -50,4 +50,8 @@ public class EmptyContentView extends RelativeLayout {
         image.setImageResource(a.getResourceId(R.styleable.EmptyContentView_image, R.drawable.ic_app_logo));
         a.recycle();
     }
+
+    public void hideDescription() {
+        description.setVisibility(View.GONE);
+    }
 }
