@@ -46,7 +46,6 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
-import it.niedermann.nextcloud.deck.persistence.util.RealPathUtils;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -279,10 +278,8 @@ public class ServerAdapter {
     }
 
     // ## ATTACHMENTS
-    public void uploadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, String contentType, Uri attachmentUri, IResponseCallback<Attachment> responseCallback) {
+    public void uploadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, String contentType, File attachment, IResponseCallback<Attachment> responseCallback) {
         ensureInternetConnection();
-//        File attachment = new File(getUriRealPath( applicationContext, attachmentUri));
-        File attachment = RealPathUtils.getRealPath(applicationContext, attachmentUri);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(contentType), attachment));
         MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", attachment.getName(), RequestBody.create(MediaType.parse("text/plain"), "deck_file"));
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart), responseCallback);

@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -964,18 +965,13 @@ public class SyncManager {
         }
     }
 
-    public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull Uri uri) {
-        try {
-            DeckLog.log(getPath(dataBaseAdapter.getContext(), uri));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType,  @NonNull File file) {
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Attachment attachment = new Attachment();
             attachment.setCardId(localCardId);
-            attachment.setMimetype(Attachment.getMimetypeForUri(dataBaseAdapter.getContext(), uri));
-            attachment.setLocalPath(uri.getPath());
+            attachment.setMimetype(mimeType);
+            attachment.setLocalPath(file.getAbsolutePath());
             attachment.setCreatedAt(new Date());
             dataBaseAdapter.createAttachment(accountId, attachment);
             if (serverAdapter.hasInternetConnection()) {
