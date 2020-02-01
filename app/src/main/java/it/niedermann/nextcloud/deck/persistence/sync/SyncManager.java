@@ -141,7 +141,14 @@ public class SyncManager {
                             responseCallback.onError(throwable);
                         }
                     });
-                    doAsync(() -> syncHelper.doUpSyncFor(new BoardDataProvider()));
+                    doAsync(() -> {
+                        try {
+                            syncHelper.doUpSyncFor(new BoardDataProvider());
+                        } catch (Throwable e) {
+                            DeckLog.logError(e);
+                            responseCallback.onError(e);
+                        }
+                    });
 
                 }
 
@@ -154,7 +161,12 @@ public class SyncManager {
 
             syncHelper.setResponseCallback(callback);
 
-            syncHelper.doSyncFor(new BoardDataProvider());
+            try {
+                syncHelper.doSyncFor(new BoardDataProvider());
+            } catch (Throwable e) {
+                DeckLog.logError(e);
+                responseCallback.onError(e);
+            }
         });
     }
 

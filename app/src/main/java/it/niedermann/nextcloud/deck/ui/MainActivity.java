@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -44,6 +43,7 @@ import it.niedermann.nextcloud.deck.ui.board.AccessControlDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
+import it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
@@ -75,7 +75,7 @@ public class MainActivity extends DrawerActivity implements
     @BindView(R.id.viewPager)
     ViewPager viewPager;
     @BindView(R.id.no_stacks)
-    RelativeLayout noStacks;
+    EmptyContentView emptyContentView;
     @BindView(R.id.add_stack)
     AppCompatImageButton addStackButton;
 
@@ -397,23 +397,24 @@ public class MainActivity extends DrawerActivity implements
         } else {
             fab.hide();
             addStackButton.setVisibility(View.GONE);
+            emptyContentView.hideDescription();
         }
 
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
-                noStacks.setVisibility(View.VISIBLE);
+                emptyContentView.setVisibility(View.VISIBLE);
                 currentBoardHasStacks = false;
             } else {
-                noStacks.setVisibility(View.GONE);
+                emptyContentView.setVisibility(View.GONE);
                 currentBoardHasStacks = true;
 
                 long savedStackId = sharedPreferences.getLong(sharedPreferencesLastStackForAccountAndBoard_ + account.getId() + "_" + this.currentBoardId, NO_STACKS);
                 DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
                 if (fullStacks.size() == 0) {
-                    noStacks.setVisibility(View.VISIBLE);
+                    emptyContentView.setVisibility(View.VISIBLE);
                     currentBoardHasStacks = false;
                 } else {
-                    noStacks.setVisibility(View.GONE);
+                    emptyContentView.setVisibility(View.GONE);
                     currentBoardHasStacks = true;
                 }
 

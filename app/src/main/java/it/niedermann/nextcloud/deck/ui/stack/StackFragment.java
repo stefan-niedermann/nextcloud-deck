@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,6 +22,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
+import it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView;
 
 public class StackFragment extends Fragment {
 
@@ -38,11 +38,12 @@ public class StackFragment extends Fragment {
     private long stackId;
     private long boardId;
     private Account account;
+    private boolean canEdit;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.no_cards)
-    RelativeLayout noCards;
+    EmptyContentView emptyContentView;
 
     /**
      * @param boardId of the current stack
@@ -82,6 +83,7 @@ public class StackFragment extends Fragment {
         boardId = getArguments().getLong(KEY_BOARD_ID);
         stackId = getArguments().getLong(KEY_STACK_ID);
         account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
+        canEdit = getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION);
 
         activity = Objects.requireNonNull(getActivity());
 
@@ -101,6 +103,10 @@ public class StackFragment extends Fragment {
             });
         }
 
+        if(!canEdit) {
+            emptyContentView.hideDescription();
+        }
+
         refreshView();
         return view;
     }
@@ -110,9 +116,9 @@ public class StackFragment extends Fragment {
             if (stack != null) {
                 syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(StackFragment.this, (List<FullCard> cards) -> {
                     if (cards == null || cards.size() == 0) {
-                        this.noCards.setVisibility(View.VISIBLE);
+                        this.emptyContentView.setVisibility(View.VISIBLE);
                     } else {
-                        this.noCards.setVisibility(View.GONE);
+                        this.emptyContentView.setVisibility(View.GONE);
                         adapter.setCardList(cards);
                     }
                 });

@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.SpinnerAdapter;
@@ -248,7 +247,7 @@ public class EditActivity extends AppCompatActivity implements
         if (canEdit) {
             if (createMode) {
                 title.requestFocus();
-                ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 if (fullCard.getCard().getTitle() != null) {
                     title.setSelection(fullCard.getCard().getTitle().length());
                 }
