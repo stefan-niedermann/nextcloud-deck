@@ -129,11 +129,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PERMISSION) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                startFilePickerIntent();
-            }
-        }
         if (requestCode == REQUEST_CODE_ADD_ATTACHMENT && resultCode == Activity.RESULT_OK) {
             Uri uri = null;
             if (data != null) {
@@ -145,6 +140,16 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                startFilePickerIntent();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 
     public CardAttachmentsFragment() {
     }
