@@ -972,6 +972,7 @@ public class SyncManager {
             attachment.setCardId(localCardId);
             attachment.setMimetype(mimeType);
             attachment.setLocalPath(file.getAbsolutePath());
+            attachment.setFilesize(file.length());
             attachment.setCreatedAt(new Date());
             dataBaseAdapter.createAttachment(accountId, attachment);
             if (serverAdapter.hasInternetConnection()) {

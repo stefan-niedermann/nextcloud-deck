@@ -17,7 +17,9 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.webkit.MimeTypeMap;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.File;
@@ -280,9 +282,23 @@ public class ServerAdapter {
     // ## ATTACHMENTS
     public void uploadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, String contentType, File attachment, IResponseCallback<Attachment> responseCallback) {
         ensureInternetConnection();
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(contentType), attachment));
-        MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", attachment.getName(), RequestBody.create(MediaType.parse("text/plain"), "deck_file"));
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(getMimeType(attachment)), attachment));
+        MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", null, RequestBody.create(MediaType.parse("text/plain"), "deck_file"));
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart), responseCallback);
+    }
+
+    @NonNull
+    static String getMimeType(@NonNull File file) {
+        String type = null;
+        final String url = file.toString();
+        final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+        }
+        if (type == null) {
+            type = "*/*";
+        }
+        return type;
     }
 
     public void getAttachmentsForCard(Long remoteBoardId, long remoteStackId, long remoteCardId, String contentType, Uri attachmentUri, IResponseCallback<List<Attachment>> responseCallback) {

@@ -129,7 +129,7 @@ public interface DeckAPI {
     Observable<List<Attachment>> getAttachments(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId);
 
     @Multipart
-    @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachment?type=deck_file")
+    @POST("boards/{boardId}/stacks/{stackId}/cards/{cardId}/attachments?type=deck_file")
     Observable<Attachment> uploadAttachment(@Path("boardId") long boardId, @Path("stackId") long stackId, @Path("cardId") long cardId,  @Part MultipartBody.Part type, @Part MultipartBody.Part attachment);
 
     @Multipart
