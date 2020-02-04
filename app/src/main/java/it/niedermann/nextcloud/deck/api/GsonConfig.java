@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -36,6 +37,8 @@ public class GsonConfig {
         Type capabilitiesList = new TypeToken<List<Capabilities>>() {}.getType();
         Type activity = new TypeToken<Activity>() {}.getType();
         Type activityList = new TypeToken<List<Activity>>() {}.getType();
+        Type attachment = new TypeToken<Attachment>() {}.getType();
+        Type attachmentList = new TypeToken<List<Attachment>>() {}.getType();
 
         return new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
@@ -53,6 +56,8 @@ public class GsonConfig {
                 .registerTypeAdapter(capabilities,      new NextcloudDeserializer<>("capability", Capabilities.class))
                 .registerTypeAdapter(activityList,      new NextcloudDeserializer<>("activities", Activity.class))
                 .registerTypeAdapter(activity,          new NextcloudDeserializer<>("activity", Activity.class))
+                .registerTypeAdapter(attachmentList,    new NextcloudArrayDeserializer<>("attachments", Attachment.class))
+                .registerTypeAdapter(attachment,        new NextcloudDeserializer<>("attachment", Attachment.class))
                 .create();
     }
 
