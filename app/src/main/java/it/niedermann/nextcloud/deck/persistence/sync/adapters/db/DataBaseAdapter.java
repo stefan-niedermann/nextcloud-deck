@@ -485,6 +485,10 @@ public class DataBaseAdapter {
         return db.getAttachmentDao().getAttachmentByLocalIdDirectly(accountId, id);
     }
 
+    public List<Attachment> getAttachmentsForLocalCardIdDirectly(long accountId, Long localCardId) {
+        return db.getAttachmentDao().getAttachmentsForLocalCardIdDirectly(accountId, localCardId);
+    }
+
     public List<Attachment> getLocallyChangedAttachmentsByLocalCardIdDirectly(long accountId, Long localCardId) {
         return db.getAttachmentDao().getLocallyChangedAttachmentsByLocalCardIdDirectly(accountId, localCardId);
     }

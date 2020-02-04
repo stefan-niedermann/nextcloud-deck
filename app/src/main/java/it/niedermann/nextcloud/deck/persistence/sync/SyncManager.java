@@ -2,8 +2,6 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +12,6 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -971,13 +968,17 @@ public class SyncManager {
             Attachment attachment = new Attachment();
             attachment.setCardId(localCardId);
             attachment.setMimetype(mimeType);
+            attachment.setData(file.getName());
+            attachment.setFilename(file.getName());
+            attachment.setBasename(file.getName());
             attachment.setLocalPath(file.getAbsolutePath());
             attachment.setFilesize(file.length());
-            attachment.setCreatedAt(new Date());
-            dataBaseAdapter.createAttachment(accountId, attachment);
+            Date now = new Date();
+            attachment.setCreatedAt(now);
+            attachment.setLastModifiedLocal(now);
             if (serverAdapter.hasInternetConnection()) {
-                Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
-                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+                FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);
+                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getCard().getStackId());
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
                 new DataPropagationHelper(serverAdapter, dataBaseAdapter)
@@ -993,34 +994,12 @@ public class SyncManager {
     }
 
 
-    public static String getPath(Context context, Uri uri) throws URISyntaxException {
-        if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { "_data" };
-            Cursor cursor = null;
-
-            try {
-                cursor = context.getContentResolver().query(uri, projection, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow("_data");
-                if (cursor.moveToFirst()) {
-                    return cursor.getString(column_index);
-                }
-            } catch (Exception e) {
-                // Eat it
-            }
-        }
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
-        }
-
-        return null;
-    }
-
     public LiveData<Attachment> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
             if (serverAdapter.hasInternetConnection()) {
-                Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
-                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
+                FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);
+                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getCard().getStackId());
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
                 Attachment attachment = dataBaseAdapter.getAttachmentByLocalIdDirectly(accountId, localAttachmentId);
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());

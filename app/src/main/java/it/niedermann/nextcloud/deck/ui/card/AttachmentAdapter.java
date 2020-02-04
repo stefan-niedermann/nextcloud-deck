@@ -60,7 +60,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         } else if(attachment.getMimetype().startsWith("video")) {
             holder.filetype.setImageResource(R.drawable.ic_local_movies_grey600_24dp);
         }
-        holder.filename.setText(attachment.getFilename());
+        holder.filename.setText(attachment.getBasename());
         holder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
         if (attachment.getLastModifiedLocal() != null) {
             holder.modified.setText(DateUtils.getRelativeTimeSpanString(context, attachment.getLastModifiedLocal().getTime()));
