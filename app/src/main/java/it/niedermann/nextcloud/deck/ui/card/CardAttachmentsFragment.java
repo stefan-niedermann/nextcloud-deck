@@ -33,7 +33,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView;
 import it.niedermann.nextcloud.deck.util.FileUtils;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
@@ -75,7 +74,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
             boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
 
             syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
-            observeOnce(syncManager.getCardByLocalId(accountId, cardId), CardAttachmentsFragment.this, (fullCard) -> {
+            syncManager.getCardByLocalId(accountId, cardId).observe(CardAttachmentsFragment.this, (fullCard) -> {
                 if (fullCard.getAttachments().size() == 0) {
                     this.emptyContentView.setVisibility(View.VISIBLE);
                     this.attachmentsList.setVisibility(View.GONE);
