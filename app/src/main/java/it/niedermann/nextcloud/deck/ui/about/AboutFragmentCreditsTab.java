@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.format.DateUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
@@ -90,6 +89,6 @@ public class AboutFragmentCreditsTab extends Fragment {
     }
 
     private String getLastBackgroundSyncStrongTag(long lastBackgroundSync) {
-        return strongStart + DateUtil.getRelativeDateTimeString(getContext(), lastBackgroundSync, DateUtils.SECOND_IN_MILLIS) + strongEnd;
+        return strongStart + DateUtil.getRelativeDateTimeString(getContext(), lastBackgroundSync) + strongEnd;
     }
 }

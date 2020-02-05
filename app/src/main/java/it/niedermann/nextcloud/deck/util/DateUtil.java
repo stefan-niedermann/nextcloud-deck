@@ -56,10 +56,6 @@ public final class DateUtil {
     }
 
     public static CharSequence getRelativeDateTimeString(Context context, long time) {
-        return getRelativeDateTimeString(context, time, DateUtils.DAY_IN_MILLIS);
-    }
-
-    public static CharSequence getRelativeDateTimeString(Context context, long time, long minResolution) {
         if ((System.currentTimeMillis() - time) < 60 * 1000 && System.currentTimeMillis() > time) {
             // < 60 seconds -> seconds ago
             return context.getString(R.string.seconds_ago);
@@ -68,7 +64,7 @@ public final class DateUtil {
             CharSequence dateString = DateUtils.getRelativeDateTimeString(
                     context,
                     time,
-                    minResolution,
+                    DateUtils.SECOND_IN_MILLIS,
                     DateUtils.WEEK_IN_MILLIS,
                     0
             );

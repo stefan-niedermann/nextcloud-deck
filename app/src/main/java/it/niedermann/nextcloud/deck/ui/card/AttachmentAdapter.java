@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.format.DateUtils;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder> {
@@ -54,7 +54,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         Attachment attachment = attachments.get(position);
-        holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE: View.VISIBLE);
+        holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE : View.VISIBLE);
         if (attachment.getMimetype().startsWith("image")) {
             // TODO Glide is currently not yet able to use SSO and fails on authentication
 //            String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
@@ -72,7 +72,13 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         holder.filename.setText(attachment.getBasename());
         holder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
         if (attachment.getLastModifiedLocal() != null) {
-            holder.modified.setText(DateUtils.getRelativeTimeSpanString(context, attachment.getLastModifiedLocal().getTime()));
+            holder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModifiedLocal().getTime()));
+            holder.modified.setVisibility(View.VISIBLE);
+        } else if (attachment.getLastModified() != null) {
+            holder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModified().getTime()));
+            holder.modified.setVisibility(View.VISIBLE);
+        } else {
+            holder.modified.setVisibility(View.GONE);
         }
         holder.filename.getRootView().setOnClickListener((event) -> {
             Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
