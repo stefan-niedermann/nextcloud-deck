@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder> {
@@ -53,6 +54,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         Attachment attachment = attachments.get(position);
+        holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE: View.VISIBLE);
         if (attachment.getMimetype().startsWith("image")) {
             // TODO Glide is currently not yet able to use SSO and fails on authentication
 //            String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
@@ -93,6 +95,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     }
 
     static class AttachmentViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.not_synced_yet)
+        AppCompatImageView notSyncedYet;
         @BindView(R.id.filetype)
         AppCompatImageView filetype;
         @BindView(R.id.filename)
