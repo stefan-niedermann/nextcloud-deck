@@ -6,6 +6,7 @@ import androidx.room.Junction;
 import androidx.room.Relation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -17,6 +18,10 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
 public class FullCard implements IRemoteEntity {
+
+    @Ignore
+    private transient boolean isAttachmentsSorted = false;
+
     @Embedded
     public Card card;
 
@@ -96,6 +101,10 @@ public class FullCard implements IRemoteEntity {
     }
 
     public List<Attachment> getAttachments() {
+        if (!isAttachmentsSorted){
+            Collections.sort(attachments);
+            isAttachmentsSorted = true;
+        }
         return attachments;
     }
 

@@ -43,9 +43,9 @@ public class DataBaseAdapter {
     }
 
     private <T extends AbstractRemoteEntity> void markAsEditedIfNeeded(T entity, boolean setStatus) {
+        entity.setLastModifiedLocal(new Date()); // now.
         if (!setStatus) return;
         entity.setStatusEnum(DBStatus.LOCAL_EDITED);
-        entity.setLastModifiedLocal(new Date()); // now.
     }
 
     private <T extends AbstractRemoteEntity> void markAsDeletedIfNeeded(T entity, boolean setStatus) {
@@ -495,6 +495,7 @@ public class DataBaseAdapter {
 
     public long createAttachment(long accountId, Attachment attachment) {
         attachment.setAccountId(accountId);
+        attachment.setCreatedAt(new Date());
         return db.getAttachmentDao().insert(attachment);
     }
 
