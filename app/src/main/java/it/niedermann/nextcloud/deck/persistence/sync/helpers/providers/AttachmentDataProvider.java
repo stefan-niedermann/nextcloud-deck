@@ -90,6 +90,10 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
         List<Attachment> localAttachments = dataBaseAdapter.getAttachmentsForLocalCardIdDirectly(accountId, card.getLocalId());
         List<Attachment> delta = findDelta(entitiesFromServer, localAttachments);
         for (Attachment attachment : delta) {
+            if (attachment.getId() == null){
+                // not pushed up yet so:
+                continue;
+            }
             dataBaseAdapter.deleteAttachment(accountId, attachment, false);
         }
     }

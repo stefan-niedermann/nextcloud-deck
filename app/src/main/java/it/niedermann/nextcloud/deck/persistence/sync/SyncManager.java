@@ -965,24 +965,37 @@ public class SyncManager {
     public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType,  @NonNull File file) {
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
-            Attachment attachment = new Attachment();
-            attachment.setCardId(localCardId);
-            attachment.setMimetype(mimeType);
-            attachment.setData(file.getName());
-            attachment.setFilename(file.getName());
-            attachment.setBasename(file.getName());
-            attachment.setLocalPath(file.getAbsolutePath());
-            attachment.setFilesize(file.length());
+            Attachment attachment = populateAttachmentEntityForFile(new Attachment(), localCardId, mimeType, file);
             Date now = new Date();
-            attachment.setCreatedAt(now);
             attachment.setLastModifiedLocal(now);
+            attachment.setCreatedAt(now);
+            FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);
+            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getCard().getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter)
+                    .createEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, new IResponseCallback<Attachment>(account) {
+                        @Override
+                        public void onResponse(Attachment response) {
+                            liveData.postValue(response);
+                        }
+                    });
+        });
+        return liveData;
+    }
+
+    public LiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType,  @NonNull File file) {
+        MutableLiveData<Attachment> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Attachment attachment = populateAttachmentEntityForFile(existing, existing.getCardId(), mimeType, file);
+            attachment.setLastModifiedLocal(new Date());
             if (serverAdapter.hasInternetConnection()) {
-                FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);
+                FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, existing.getCardId());
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getCard().getStackId());
                 Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
                 new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                        .createEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, new IResponseCallback<Attachment>(account) {
+                        .updateEntity(new AttachmentDataProvider(null, board, stack, card, Collections.singletonList(attachment)), attachment, new IResponseCallback<Attachment>(account) {
                             @Override
                             public void onResponse(Attachment response) {
                                 liveData.postValue(response);
@@ -991,6 +1004,18 @@ public class SyncManager {
             }
         });
         return liveData;
+    }
+
+    private Attachment populateAttachmentEntityForFile(Attachment target, long localCardId, @NonNull String mimeType, @NonNull File file) {
+        Attachment attachment = target;
+        attachment.setCardId(localCardId);
+        attachment.setMimetype(mimeType);
+        attachment.setData(file.getName());
+        attachment.setFilename(file.getName());
+        attachment.setBasename(file.getName());
+        attachment.setLocalPath(file.getAbsolutePath());
+        attachment.setFilesize(file.length());
+        return attachment;
     }
 
 

@@ -174,7 +174,6 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         FullStack stack;
         Board board;
 
-
         List<JoinCardWithLabel> deletedLabels = dataBaseAdapter.getAllDeletedJoins();
         Account account = callback.getAccount();
         for (JoinCardWithLabel deletedLabelLocal : deletedLabels) {
@@ -249,6 +248,14 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                     }
                 });
             }
+        }
+
+        List<Attachment> attachments = dataBaseAdapter.getLocallyChangedAttachmentsDirectly(account.getId());
+        for (Attachment attachment : attachments) {
+            FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(account.getId(), attachment.getCardId());
+            stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
+            board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            syncHelper.doUpSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), card, Collections.singletonList(attachment)) );
         }
         callback.onResponse(Boolean.TRUE);
     }
