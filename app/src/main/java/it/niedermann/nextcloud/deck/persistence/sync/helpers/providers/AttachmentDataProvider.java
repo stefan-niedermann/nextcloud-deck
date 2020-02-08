@@ -96,5 +96,13 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
             }
             dataBaseAdapter.deleteAttachment(accountId, attachment, false);
         }
+        for (Attachment attachment : entitiesFromServer) {
+            if (attachment.getDeletedAt() != null && attachment.getDeletedAt().getTime() != 0) {
+                Attachment toDelete = dataBaseAdapter.getAttachmentByRemoteIdDirectly(accountId, attachment.getId());
+                if (toDelete != null ) {
+                    dataBaseAdapter.deleteAttachment(accountId, toDelete, false);
+                }
+            }
+        }
     }
 }
