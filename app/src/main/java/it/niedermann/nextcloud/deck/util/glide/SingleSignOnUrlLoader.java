@@ -49,7 +49,6 @@ public class SingleSignOnUrlLoader implements ModelLoader<GlideUrl, InputStream>
     // Public API.
     @SuppressWarnings("WeakerAccess")
     public static class Factory implements ModelLoaderFactory<GlideUrl, InputStream> {
-        private boolean isConnected = false;
         private SingleSignOnUrlLoader loader;
 
         /**
@@ -60,7 +59,6 @@ public class SingleSignOnUrlLoader implements ModelLoader<GlideUrl, InputStream>
                 loader = new SingleSignOnUrlLoader(new NextcloudAPI(context, SingleAccountHelper.getCurrentSingleSignOnAccount(context), GsonConfig.getGson(), new NextcloudAPI.ApiConnectedListener() {
                     @Override
                     public void onConnected() {
-                        isConnected = true;
                         DeckLog.log("success: init SSO-Api");
                     }
 
