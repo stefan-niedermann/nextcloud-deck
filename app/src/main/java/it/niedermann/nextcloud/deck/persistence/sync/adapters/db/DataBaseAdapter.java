@@ -44,8 +44,8 @@ public class DataBaseAdapter {
 
     private <T extends AbstractRemoteEntity> void markAsEditedIfNeeded(T entity, boolean setStatus) {
         if (!setStatus) return;
-        entity.setStatusEnum(DBStatus.LOCAL_EDITED);
         entity.setLastModifiedLocal(new Date()); // now.
+        entity.setStatusEnum(DBStatus.LOCAL_EDITED);
     }
 
     private <T extends AbstractRemoteEntity> void markAsDeletedIfNeeded(T entity, boolean setStatus) {
@@ -485,12 +485,21 @@ public class DataBaseAdapter {
         return db.getAttachmentDao().getAttachmentByLocalIdDirectly(accountId, id);
     }
 
+    public List<Attachment> getAttachmentsForLocalCardIdDirectly(long accountId, Long localCardId) {
+        return db.getAttachmentDao().getAttachmentsForLocalCardIdDirectly(accountId, localCardId);
+    }
+
     public List<Attachment> getLocallyChangedAttachmentsByLocalCardIdDirectly(long accountId, Long localCardId) {
         return db.getAttachmentDao().getLocallyChangedAttachmentsByLocalCardIdDirectly(accountId, localCardId);
     }
 
+    public List<Attachment> getLocallyChangedAttachmentsDirectly(long accountId) {
+        return db.getAttachmentDao().getLocallyChangedAttachmentsDirectly(accountId);
+    }
+
     public long createAttachment(long accountId, Attachment attachment) {
         attachment.setAccountId(accountId);
+        attachment.setCreatedAt(new Date());
         return db.getAttachmentDao().insert(attachment);
     }
 

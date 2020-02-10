@@ -9,6 +9,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
+import java.io.File;
 import java.util.Date;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
@@ -24,7 +25,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
         )
     }
 )
-public class Attachment extends AbstractRemoteEntity {
+public class Attachment extends AbstractRemoteEntity implements Comparable<Attachment> {
 
     private long cardId;
     private String type = "deck_file";
@@ -145,9 +146,20 @@ public class Attachment extends AbstractRemoteEntity {
     }
 
     public static String getMimetypeForUri(Context context, Uri uri) {
-        ContentResolver cR = context.getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
+        String extension;
+
+        //Check uri format to avoid null
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            //If scheme is a content
+            extension = context.getContentResolver().getType(uri);
+        } else {
+            //If scheme is a File
+            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
+            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
+
+        }
+
+        return extension;
     }
 
     @Override
@@ -197,5 +209,41 @@ public class Attachment extends AbstractRemoteEntity {
         result = 31 * result + (filename != null ? filename.hashCode() : 0);
         result = 31 * result + (localPath != null ? localPath.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(Attachment other) {
+        // DESC order
+        long res = other.getModificationTimeForComparsion() - getModificationTimeForComparsion();
+        if (res == 0) {
+            return longToComparsionResult(other.getCreationTimeForComparsion() - getCreationTimeForComparsion());
+        }
+        return longToComparsionResult(res);
+    }
+
+    private static int longToComparsionResult(long diff) {
+        if (diff > 0) {
+            return 1;
+        } else if(diff < 0) {
+            return -1;
+        }
+        return 0;
+    }
+
+    public long getModificationTimeForComparsion() {
+        if (lastModifiedLocal != null) {
+            return lastModifiedLocal.getTime();
+        }
+        if (lastModified != null) {
+            return lastModified.getTime();
+        }
+        return new Date().getTime();
+    }
+
+    public long getCreationTimeForComparsion() {
+        if (createdAt != null) {
+            return createdAt.getTime();
+        }
+        return new Date().getTime();
     }
 }

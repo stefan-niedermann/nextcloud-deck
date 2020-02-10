@@ -34,7 +34,7 @@ public class SyncHelper {
         provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
-                if (response != null && !response.isEmpty()) {
+                if (response != null) {
                     provider.goingDeeper();
                     for (T entityFromServer : response) {
                         entityFromServer.setAccountId(accountId);

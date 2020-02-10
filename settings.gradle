@@ -1,2 +1,5 @@
 include ':app'
+//include ':Android-SingleSignOn'
+
 include ':Android-SingleSignOn'
+project(':Android-SingleSignOn').projectDir = new File('../Android-SingleSignOn')

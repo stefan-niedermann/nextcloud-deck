@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,13 +13,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -28,8 +31,8 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView;
+import it.niedermann.nextcloud.deck.util.FileUtils;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
@@ -40,6 +43,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
     private static final String TAG = CardAttachmentsFragment.class.getCanonicalName();
 
     private static final int REQUEST_CODE_ADD_ATTACHMENT = 1;
+    private static final int REQUEST_PERMISSION = 2;
 
     private SyncManager syncManager;
 
@@ -70,7 +74,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
             boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
 
             syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
-            observeOnce(syncManager.getCardByLocalId(accountId, cardId), CardAttachmentsFragment.this, (fullCard) -> {
+            syncManager.getCardByLocalId(accountId, cardId).observe(CardAttachmentsFragment.this, (fullCard) -> {
                 if (fullCard.getAttachments().size() == 0) {
                     this.emptyContentView.setVisibility(View.VISIBLE);
                     this.attachmentsList.setVisibility(View.GONE);
@@ -86,11 +90,12 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT && canEdit) {
                 fab.setOnClickListener(v -> {
-                    Snackbar.make(coordinatorLayout, "Adding attachments is not yet implemented", Snackbar.LENGTH_LONG).show();
-                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-//                    startActivityForResult(intent, REQUEST_CODE_ADD_ATTACHMENT);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSION);
+                    } else {
+                        startFilePickerIntent();
+                    }
                 });
                 fab.show();
                 attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -112,6 +117,15 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void startFilePickerIntent() {
+//                    Snackbar.make(coordinatorLayout, "Adding attachments is not yet implemented", Snackbar.LENGTH_LONG).show();
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        startActivityForResult(intent, REQUEST_CODE_ADD_ATTACHMENT);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -120,9 +134,22 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
             if (data != null) {
                 uri = data.getData();
                 Log.i(TAG, "Uri: " + uri.toString());
-                syncManager.addAttachmentToCard(accountId, cardId, uri);
+                String path = FileUtils.getPath(getContext(), uri);
+                File uploadFile = new File(path);
+                syncManager.addAttachmentToCard(accountId, cardId, Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
             }
 
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                startFilePickerIntent();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
