@@ -57,18 +57,20 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         Attachment attachment = attachments.get(position);
         holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE : View.VISIBLE);
-        if (attachment.getMimetype().startsWith("image")) {
-            // TODO Glide is currently not yet able to use SSO and fails on authentication
-            String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
-            Glide.with(context)
-                    .load(uri)
-                    .error(R.drawable.ic_image_grey600_24dp)
-                    .into(holder.filetype);
-            holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
-        } else if (attachment.getMimetype().startsWith("audio")) {
-            holder.filetype.setImageResource(R.drawable.ic_music_note_grey600_24dp);
-        } else if (attachment.getMimetype().startsWith("video")) {
-            holder.filetype.setImageResource(R.drawable.ic_local_movies_grey600_24dp);
+        if (attachment.getMimetype() != null) {
+            if (attachment.getMimetype().startsWith("image")) {
+                // TODO Glide is currently not yet able to use SSO and fails on authentication
+                String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
+                Glide.with(context)
+                        .load(uri)
+                        .error(R.drawable.ic_image_grey600_24dp)
+                        .into(holder.filetype);
+                holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
+            } else if (attachment.getMimetype().startsWith("audio")) {
+                holder.filetype.setImageResource(R.drawable.ic_music_note_grey600_24dp);
+            } else if (attachment.getMimetype().startsWith("video")) {
+                holder.filetype.setImageResource(R.drawable.ic_local_movies_grey600_24dp);
+            }
         }
         holder.filename.setText(attachment.getBasename());
         holder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
