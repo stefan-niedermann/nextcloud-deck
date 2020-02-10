@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -23,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
@@ -41,7 +41,7 @@ public class CardActivityFragment extends Fragment {
     @BindView(R.id.activity_list)
     RecyclerView activitiesList;
     @BindView(R.id.no_activities)
-    RelativeLayout noActivities;
+    EmptyContentView emptyContentView;
 
     public CardActivityFragment() {
     }
@@ -85,10 +85,10 @@ public class CardActivityFragment extends Fragment {
             syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) -> {
                 syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
                     if (activities == null || activities.size() == 0) {
-                        noActivities.setVisibility(View.VISIBLE);
+                        emptyContentView.setVisibility(View.VISIBLE);
                         activitiesList.setVisibility(View.GONE);
                     } else {
-                        noActivities.setVisibility(View.GONE);
+                        emptyContentView.setVisibility(View.GONE);
                         activitiesList.setVisibility(View.VISIBLE);
                         RecyclerView.Adapter adapter = new ActivityAdapter(activities);
                         activitiesList.setAdapter(adapter);
@@ -110,6 +110,7 @@ public class CardActivityFragment extends Fragment {
                     }
                 });
             } else {
+                emptyContentView.hideDescription();
                 fab.hide();
             }
         }

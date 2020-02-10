@@ -88,6 +88,7 @@
     <string name="simple_rename">Pervadinti</string>
     <string name="simple_settings">Nustatymai</string>
     <string name="settings_theme_title">Tamsus apipavidalinimas</string>
+    <string name="settings_background_sync">Foninis sinchronizavimas</string>
     <string name="pref_value_wifi_and_mobile">Sinchronizuoti naudojant belaidį (Wi-Fi) ir mobiliuosius duomenis</string>
     <string name="pref_value_wifi_only">Sinchronizuoti tik naudojant belaidį (Wi-Fi)</string>
     <string name="pref_value_theme_light">Šviesus</string>

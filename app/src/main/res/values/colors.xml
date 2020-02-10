@@ -17,7 +17,9 @@
     <color name="due_overdue">#d40000</color>
     <color name="overdue_text_color">#FFFFFF</color>
 
+    <!-- board color picker colors -->
     <color name="board_default_color">#31CC7C</color>
+    <color name="board_default_custom_color">#616161</color>
     <string-array name="board_default_colors">
         <item>#31CC7C</item>
         <item>#317CCC</item>
@@ -26,6 +28,6 @@
         <item>#7C31CC</item>
         <item>#CC317C</item>
         <item>#3A3B3D</item>
-        <item>#CACBCD</item>
+        <!-- <item>#CACBCD</item> -->
     </string-array>
 </resources>

@@ -1,0 +1,129 @@
+<resources>
+    <string name="navigation_drawer_open">Відкрити скриньку налаштувань</string>
+    <string name="navigation_drawer_close">Закрити скриньку налаштувань</string>
+
+    <string name="drawer_header_background">Фонове зображення заголовка скрині</string>
+    <string name="drawer_current_account">Поточний обліковий запис</string>
+    <string name="drawer_middle_account">Проміжний обліковий запис</string>
+    <string name="drawer_end_account">Останній обліковий запис</string>
+    <string name="drawer_manage_accounts">Управління обліковими записами</string>
+
+    <!-- Simple values -->
+    <string name="simple_boards">Дошки</string>
+    <string name="simple_add">Додати</string>
+    <string name="simple_save">Зберегти</string>
+
+    <string name="edit_board">Редагувати дошку</string>
+    <string name="archive_board">Архівувати дошку</string>
+    <string name="delete_board">Видалити дошку</string>
+    <string name="delete_something">Видалити %1$s</string>
+
+    <!-- About -->
+    <string name="about">Про програму</string>
+    <string name="about_version_title">Версія</string>
+    <string name="about_version">Ви використовуєте%1$s</string>
+    <string name="about_maintainer_title">Утримувач</string>
+    <string name="about_developers_title">Розробники</string>
+    <string name="about_translators_title">Перекладачі</string>
+    <string name="about_translators_transifex">Спільнота Nextcloud на %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_testers_title">Тестувальники</string>
+    <string name="about_source_title">Вихідний код</string>
+    <string name="about_source">Цей проект розвернутий на GitHub:%1$s</string>
+    <string name="about_issues_title">Проблеми</string>
+    <string name="about_issues">Ви можете повідомляти про помилки, пропонувати розширення та побажання на GitHub issue tracker:%1$s</string>
+    <string name="about_translate_title">Перекласти</string>
+    <string name="about_translate">Приєднуйтесь до команди Nextcloud на Transifex і допоможіть нам перевести цей додаток:%1$s</string>
+    <string name="about_app_license_title">Ліцензія додатку</string>
+    <string name="about_app_license">Ця програма ліцензована під GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Переглянути ліцензію</string>
+    <string name="about_icons_disclaimer_title">Значки</string>
+    <string name="about_icons_disclaimer">Оригінальний значок, зроблений %1$sВсі додаткові значки, що використовуються у цьому додатку %2$sзроблені Google Inc. і ліцензовані під ліцензією Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
+    <string name="about_credits_tab_title">Подяки</string>
+    <string name="about_contribution_tab_title">Внесок</string>
+    <string name="about_license_tab_title">Ліцензія</string>
+
+    <string name="seconds_ago">секунд тому</string>
+    <string name="edit">Редагувати</string>
+    <string name="label_labels">Обрати мітки</string>
+    <string name="label_description">Опис</string>
+    <string name="hint_assign_people">Додавання користувача</string>
+    <string name="hint_due_date_date">Дата завершення</string>
+    <string name="activity">Активність</string>
+    <string name="add_card">Додати картку</string>
+    <string name="add_column">Додати стовпчик</string>
+
+    <string name="add_account">Додати обліковий запис</string>
+
+    <string name="label_menu">меню</string>
+    <string name="action_card_assign">Призначити картку мені</string>
+    <string name="action_card_unassign">Відв\'язати картку від мене</string>
+    <string name="action_card_archive">Архівувати картку</string>
+    <string name="action_card_delete">Видалити картку</string>
+    <string name="add_board">Додати дошку</string>
+    <string name="action_card_list_delete_column">Видалити стовпчик</string>
+    <string name="simple_title">Назва</string>
+
+    <string name="label_clear_due_date">Очистити до</string>
+
+    <string name="label_add">Додати %1$s</string>
+    <string name="error">Сталася помилка </string>
+    <string name="simple_copy">копіювати</string>
+    <string name="simple_exception">Виняток</string>
+    <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
+    <string name="simple_close">закрити</string>
+
+    <string name="card_edit_details">Деталі</string>
+    <string name="card_edit_attachments">Вкладення</string>
+    <string name="card_edit_activity">Активність</string>
+    <string name="about_server_app_version_text">Версія додатку серверу:</string>
+    <string name="no_files_attached_to_this_card">До цієї картки не прикріплено жодного файла.</string>
+    <string name="attachments">Вкладення</string>
+    <string name="no_cards">Ще немає жодної картки</string>
+    <string name="no_account">Жодного налаштованого облікового запису</string>
+    <string name="account_already_added">Обліковий запис вже додано</string>
+    <string name="account_is_getting_imported">Відбувається імпорт облікового запису</string>
+    <string name="not_synced_yet">Поки не синхронізовано</string>
+    <string name="no_columns">Поки жодного стовпчика</string>
+    <string name="do_you_want_to_save_your_changes">Чи бажаєте Ви зберегти Ваші зміни?</string>
+    <string name="simple_discard">відхилити</string>
+    <string name="do_you_want_to_delete_the_current_column">Чи бажаєте Ви видалити поточний стовпчик?</string>
+    <string name="add_a_new_column_using_the_button">Додайте новий стовпчик за допомогою кнопки +</string>
+    <string name="add_a_new_card_using_the_button">Додайте нову картку за допомогою кнопки +</string>
+    <string name="update_deck">Оновлення дошки</string>
+    <string name="your_deck_version_is_too_old">Версія Вашої дошки надто давня</string>
+    <string name="deck_outdated_please_update">Версія Вашої дошки надто давня. Будь-ласка виконайте оновлення щоб використовувати цей додаток як клієнт android.</string>
+    <string name="simple_update">Оновлення</string>
+    <string name="simple_delete">Видалити</string>
+    <string name="delete_board_message">Дошку буде перманетно видалено разом з усіма картками і стопками</string>
+    <string name="action_card_list_rename_column">Перейменувати стовпчик</string>
+    <string name="simple_rename">Перейменувати</string>
+    <string name="simple_settings">Налаштування</string>
+    <string name="settings_theme_title">Темна тема</string>
+    <string name="settings_background_sync">Фонова синхронізація</string>
+    <string name="pref_value_wifi_and_mobile">Синхронізація за допомогою Wi-Fi та мобільних даних</string>
+    <string name="pref_value_wifi_only">Синхронізація тільки за допомогою WI-Fi</string>
+    <string name="pref_value_theme_light">Світла</string>
+    <string name="unassigned_user">Непризначено %1$s</string>
+    <string name="simple_undo">відмінити</string>
+    <string name="no_activities">На цій картці немає активностей. Ви повинні під\'єднатися до інтернет щоб загрузити і показати активності.</string>
+    <string name="rename_column">Перейменувати стовпчик</string>
+    <string name="share_board">Поширити дошку</string>
+    <string name="you_are_currently_offline">Ви зараз оффлайн</string>
+    <string name="simple_manage">керувати</string>
+    <string name="simple_share">поширити</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Ви повинні під\'єднатися до інтернету щоб додати обліковий запис.</string>
+    <string name="simple_select">Обрати</string>
+    <string name="owner">Власник</string>
+    <string name="simple_comment">Коментар</string>
+    <string name="attachment_delete_message">Це вкладення буде остаточно видалене.</string>
+    <string name="no_content">Жодного коментаря</string>
+    <string name="last_background_sync">Остання фонова синхронізація:</string>
+    <string name="simple_off">Вимкнути</string>
+    <string name="minutes_15">15 хвилин</string>
+    <string name="hour_1">1 година</string>
+    <string name="hours_6">6 годин</string>
+    <string name="action_card_move">Пересунути картку</string>
+    <string name="action_card_move_title">Пересунути %1$s</string>
+</resources>

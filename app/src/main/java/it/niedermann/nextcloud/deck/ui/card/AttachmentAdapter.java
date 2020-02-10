@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.format.DateUtils;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,6 +23,8 @@ import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder> {
@@ -53,16 +56,33 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         Attachment attachment = attachments.get(position);
-        if(attachment.getMimetype().startsWith("image")) {
-            holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
-        } else if(attachment.getMimetype().startsWith("audio")) {
-            holder.filetype.setImageResource(R.drawable.ic_music_note_grey600_24dp);
-        } else if(attachment.getMimetype().startsWith("video")) {
-            holder.filetype.setImageResource(R.drawable.ic_local_movies_grey600_24dp);
+        holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE : View.VISIBLE);
+        if (attachment.getMimetype() != null) {
+            if (attachment.getMimetype().startsWith("image")) {
+                // TODO Glide is currently not yet able to use SSO and fails on authentication
+                String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
+                Glide.with(context)
+                        .load(uri)
+                        .error(R.drawable.ic_image_grey600_24dp)
+                        .into(holder.filetype);
+                holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
+            } else if (attachment.getMimetype().startsWith("audio")) {
+                holder.filetype.setImageResource(R.drawable.ic_music_note_grey600_24dp);
+            } else if (attachment.getMimetype().startsWith("video")) {
+                holder.filetype.setImageResource(R.drawable.ic_local_movies_grey600_24dp);
+            }
         }
-        holder.filename.setText(attachment.getFilename());
+        holder.filename.setText(attachment.getBasename());
         holder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
-        holder.modified.setText(DateUtils.getRelativeTimeSpanString(context, attachment.getLastModified().getTime()));
+        if (attachment.getLastModifiedLocal() != null) {
+            holder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModifiedLocal().getTime()));
+            holder.modified.setVisibility(View.VISIBLE);
+        } else if (attachment.getLastModified() != null) {
+            holder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModified().getTime()));
+            holder.modified.setVisibility(View.VISIBLE);
+        } else {
+            holder.modified.setVisibility(View.GONE);
+        }
         holder.filename.getRootView().setOnClickListener((event) -> {
             Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
             openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId()));
@@ -84,6 +104,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     }
 
     static class AttachmentViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.not_synced_yet)
+        AppCompatImageView notSyncedYet;
         @BindView(R.id.filetype)
         AppCompatImageView filetype;
         @BindView(R.id.filename)

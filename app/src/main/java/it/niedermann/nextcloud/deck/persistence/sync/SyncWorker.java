@@ -52,9 +52,8 @@ public class SyncWorker extends Worker {
     }
 
     public static void update(@NonNull Context context, String preferenceValue) {
-        if (context.getString(R.string.pref_value_background_sync_off).equals(preferenceValue)) {
-            deregister(context);
-        } else {
+        deregister(context);
+        if (!context.getString(R.string.pref_value_background_sync_off).equals(preferenceValue)) {
             int repeatInterval = 15;
             TimeUnit unit = TimeUnit.MINUTES;
             if (context.getString(R.string.pref_value_background_1_hour).equals(preferenceValue)) {

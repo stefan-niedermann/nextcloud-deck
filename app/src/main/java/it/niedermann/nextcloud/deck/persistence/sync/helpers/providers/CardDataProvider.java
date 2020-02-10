@@ -129,9 +129,10 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         }
 
         syncHelper.fixRelations(new CardUserRelationshipProvider(existingEntity.getCard(), existingEntity.getAssignedUsers()));
-        if(attachments != null && !attachments.isEmpty()){
-            syncHelper.doSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), existingEntity.getCard(), attachments));
+        if(attachments == null){
+            attachments = new ArrayList<>();
         }
+        syncHelper.doSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), existingEntity, attachments));
     }
 
     @Override
@@ -172,7 +173,6 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         FullStack stack;
         Board board;
-
 
         List<JoinCardWithLabel> deletedLabels = dataBaseAdapter.getAllDeletedJoins();
         Account account = callback.getAccount();
@@ -248,6 +248,14 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                     }
                 });
             }
+        }
+
+        List<Attachment> attachments = dataBaseAdapter.getLocallyChangedAttachmentsDirectly(account.getId());
+        for (Attachment attachment : attachments) {
+            FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(account.getId(), attachment.getCardId());
+            stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
+            board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            syncHelper.doUpSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), card, Collections.singletonList(attachment)) );
         }
         callback.onResponse(Boolean.TRUE);
     }

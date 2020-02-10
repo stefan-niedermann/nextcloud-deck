@@ -16,21 +16,30 @@
     <string name="edit_board">ویرایش تابلو</string>
     <string name="archive_board"> بایگانی تابلو</string>
     <string name="delete_board">حذف تابلو</string>
+    <string name="delete_something">حذف %1$s</string>
+
     <!-- About -->
     <string name="about">درباره</string>
     <string name="about_version_title">نسخه</string>
+    <string name="about_version">شما در حال استفاده هستید %1$s</string>
     <string name="about_maintainer_title">نگهدار</string>
     <string name="about_developers_title">توسعه دهندگان</string>
     <string name="about_translators_title">مترجم</string>
+    <string name="about_translators_transifex">انجمن نکست کلود در %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">آزمایش کنندگان</string>
     <string name="about_source_title">کد منبع</string>
+    <string name="about_source">این پروژه در GitHub میزبانی شده است: %1$s</string>
     <string name="about_issues_title">مسائل</string>
+    <string name="about_issues">شما می توانید اشکالات ، پیشنهادات پیشرفت و درخواست ویژگی را در ردیاب شماره GitHub گزارش دهید: %1$s</string>
     <string name="about_translate_title">Translate</string>
+    <string name="about_translate">در Transifex به تیم Nextcloud بپیوندید و در ترجمه این برنامه به ما کمک کنید: %1$s</string>
     <string name="about_app_license_title">مجوز برنامه</string>
     <string name="about_app_license">این برنامه تحت مجوز GNU GENERAL PUBLIC LICENSE v3 + مجاز است.</string>
     <string name="about_app_license_button">مشاهده مجوز</string>
     <string name="about_icons_disclaimer_title">آیکون ها</string>
+    <string name="about_icons_disclaimer">نماد اصلی ساخته شده توسط %1$s
+تمام نمادهای دیگر مورد استفاده این برنامه هستند %2$s ساخته شده توسط Google Inc. و تحت مجوز Apache 2.0 مجوز گرفته شده است.</string>
     <string name="about_icons_disclaimer_mdi">شمایل طراحی مواد</string>
     <string name="about_credits_tab_title">اعتبارات</string>
     <string name="about_contribution_tab_title">مشارکت</string>
@@ -59,6 +68,7 @@
 
     <string name="label_clear_due_date">تاریخ مقرر را پاک کنید</string>
 
+    <string name="label_add">افزودن%1$s</string>
     <string name="error">خطایی ظاهر شد</string>
     <string name="simple_copy">کپی</string>
     <string name="simple_exception">استثنا</string>
@@ -96,6 +106,7 @@
     <string name="pref_value_wifi_and_mobile">همگام سازی داده های Wi-Fi و تلفن همراه</string>
     <string name="pref_value_wifi_only">همگام سازی فقط در Wi-Fi</string>
     <string name="pref_value_theme_light">روشن</string>
+    <string name="unassigned_user">دست نخورده %1$s</string>
     <string name="simple_undo">برگرداندن</string>
     <string name="no_activities">هیچ فعالیتی در این کارت انجام نشده است. برای بارگیری و نمایش فعالیتها باید به اینترنت متصل شوید.</string>
     <string name="rename_column">تغییر نام ستون</string>
@@ -115,4 +126,5 @@
     <string name="hour_1">۱ ساعت</string>
     <string name="hours_6">۶ ساعت</string>
     <string name="action_card_move">انتقال کارت</string>
-    </resources>
+    <string name="action_card_move_title">حرکت%1$s</string>
+</resources>

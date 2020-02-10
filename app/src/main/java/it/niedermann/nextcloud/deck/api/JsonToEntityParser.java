@@ -50,6 +50,8 @@ public class JsonToEntityParser {
             return (T) parseActivity(obj);
         }  else if (mType == Capabilities.class) {
             return (T) parseCapabilities(obj);
+        } else if (mType == Attachment.class) {
+            return (T) parseAttachment(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
     }
@@ -237,7 +239,9 @@ public class JsonToEntityParser {
                 JsonObject info = extendedData.getAsJsonObject("info").getAsJsonObject();
                 a.setDirname(info.get("dirname").getAsString());
                 a.setBasename(info.get("basename").getAsString());
-                a.setExtension(info.get("extension").getAsString());
+                if (info.has("extension")) {
+                    a.setExtension(info.get("extension").getAsString());
+                }
                 a.setFilename(info.get("filename").getAsString());
             }
         }
