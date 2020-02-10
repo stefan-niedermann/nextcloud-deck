@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,12 +60,12 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE : View.VISIBLE);
         if (attachment.getMimetype().startsWith("image")) {
             // TODO Glide is currently not yet able to use SSO and fails on authentication
-//            String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
-//            Glide.with(context)
-//                    .load(uri)
-//                    .error(R.drawable.ic_image_grey600_24dp)
-//                    .apply(RequestOptions.circleCropTransform())
-//                    .into(holder.filetype);
+            String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
+            Glide.with(context)
+                    .load(uri)
+                    .error(R.drawable.ic_image_grey600_24dp)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(holder.filetype);
             holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
         } else if (attachment.getMimetype().startsWith("audio")) {
             holder.filetype.setImageResource(R.drawable.ic_music_note_grey600_24dp);
