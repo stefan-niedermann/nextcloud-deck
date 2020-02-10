@@ -1,0 +1,6 @@
+- Attachments 📎 (#211)
+- EmptyContentView is not inflateable on API level 14 (#254)
+- Keyboard doesn't auto pop up when creating new card (#249)
+- Due date needs padding right when user has no edit permission (#242)
+- Adjust empty content views depending on edit permissions (#241)
+- Max card lable length is not enforced correctly (#262)
