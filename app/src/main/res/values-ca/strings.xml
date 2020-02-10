@@ -89,6 +89,7 @@
     <string name="do_you_want_to_save_your_changes">Voleu desar els canvis?</string>
     <string name="simple_discard">descarta</string>
     <string name="do_you_want_to_delete_the_current_column">Voleu suprimir la columna actual?</string>
+    <string name="add_a_new_column_using_the_button">Afegeix una nova columna fent servir el botó +</string>
     <string name="add_a_new_card_using_the_button">Afegiu una targeta nova mitjançant el botó +.</string>
     <string name="update_deck">Actualitza el tauler</string>
     <string name="your_deck_version_is_too_old">La versió del tauler és massa antiga.</string>
@@ -100,6 +101,7 @@
     <string name="simple_rename">Canvia\'n el nom</string>
     <string name="simple_settings">Paràmetres</string>
     <string name="settings_theme_title">Tema fosc</string>
+    <string name="settings_background_sync">Sincronització en segon pla</string>
     <string name="pref_value_wifi_and_mobile">Sincronitza per Wi-Fi i dades mòbils</string>
     <string name="pref_value_wifi_only">Sincronitza només per Wi-Fi</string>
     <string name="pref_value_theme_light">Clar</string>
@@ -117,6 +119,7 @@
     <string name="simple_comment">Comentari</string>
     <string name="attachment_delete_message">Això eliminarà permanent l\'adjunció</string>
     <string name="no_content">No hi ha contingut encara</string>
+    <string name="last_background_sync">Última sincronització en segon pla:</string>
     <string name="simple_off">Apagat</string>
     <string name="minutes_15">15 minuts</string>
     <string name="hour_1">1 hora</string>
