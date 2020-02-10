@@ -15,7 +15,6 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -64,7 +63,6 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
             Glide.with(context)
                     .load(uri)
                     .error(R.drawable.ic_image_grey600_24dp)
-                    .apply(RequestOptions.circleCropTransform())
                     .into(holder.filetype);
             holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
         } else if (attachment.getMimetype().startsWith("audio")) {
