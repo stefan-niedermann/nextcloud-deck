@@ -151,8 +151,7 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
         //Check uri format to avoid null
         if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
             //If scheme is a content
-            final MimeTypeMap mime = MimeTypeMap.getSingleton();
-            extension = mime.getExtensionFromMimeType(context.getContentResolver().getType(uri));
+            extension = context.getContentResolver().getType(uri);
         } else {
             //If scheme is a File
             //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
