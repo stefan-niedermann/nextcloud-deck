@@ -20,7 +20,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.GsonConfig;
 
 /**
- * A simple model loader for fetching media over http/https using OkHttp.
+ * A simple model loader for fetching media over http/https using Nextcloud SSO.
  */
 public class SingleSignOnUrlLoader implements ModelLoader<GlideUrl, InputStream> {
 

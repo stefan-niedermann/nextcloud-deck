@@ -21,7 +21,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 
 
 /**
- * Fetches an {@link InputStream} using the okhttp library.
+ * Fetches an {@link InputStream} using the Nextcloud SSO library.
  */
 public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
     private static final String TAG = SingleSignOnStreamFetcher.class.getCanonicalName();
