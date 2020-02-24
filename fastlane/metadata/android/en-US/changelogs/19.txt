@@ -4,3 +4,5 @@
 - Due date needs padding right when user has no edit permission (#242)
 - Adjust empty content views depending on edit permissions (#241)
 - Max card lable length is not enforced correctly (#262)
+- Display "disabled" instead of `1970-01-01` when background sync is disabled
+- User avatars not updated on modification (#231)
