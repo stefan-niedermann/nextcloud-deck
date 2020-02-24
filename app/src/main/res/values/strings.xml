@@ -154,4 +154,5 @@
     <string name="hours_6">6 Hours</string>
     <string name="action_card_move">Move card</string>
     <string name="action_card_move_title">Move %1$s</string>
+    <string name="simple_disabled">disabled</string>
 </resources>

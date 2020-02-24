@@ -17,8 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import java.util.Objects;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +31,8 @@ import it.niedermann.nextcloud.deck.util.LinkUtil;
 
 public class AboutFragmentCreditsTab extends Fragment {
 
+    private static final int BACKGROUND_SYNC_NEVER_EXECUTED = -1;
+
     @BindView(R.id.about_version)
     TextView aboutVersion;
     @BindView(R.id.about_server_app_version)
@@ -46,35 +46,46 @@ public class AboutFragmentCreditsTab extends Fragment {
 
     @BindString(R.string.shared_preference_last_background_sync)
     String sharedPreferencesLastBackgroundSync;
+    @BindString(R.string.pref_key_background_sync)
+    String sharedPreferencesBackgroundSync;
+    @BindString(R.string.pref_value_background_sync_off)
+    String backgroundSyncOffValue;
     @BindString(R.string.you_are_currently_offline)
     String offlineText;
-    @BindString(R.string.strong_start)
-    String strongStart;
-    @BindString(R.string.strong_end)
-    String strongEnd;
+    @BindString(R.string.simple_disabled)
+    String disabledText;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about_credits_tab, container, false);
         ButterKnife.bind(this, v);
-        LinkUtil.setHtml(aboutVersion, getString(R.string.about_version, getVersionStrongTag(BuildConfig.VERSION_NAME)));
-        SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
+
+        // VERSIONS
+
+        LinkUtil.setHtml(aboutVersion, getString(R.string.about_version, strong("v" + BuildConfig.VERSION_NAME)));
+        SyncManager syncManager = new SyncManager(requireActivity());
         try {
             syncManager.getServerVersion(new IResponseCallback<Capabilities>(null) {
                 @Override
                 public void onResponse(Capabilities response) {
-                    Objects.requireNonNull(getActivity()).runOnUiThread(() -> LinkUtil.setHtml(aboutServerAppVersion, getVersionStrongTag(response.getDeckVersion().toString())));
+                    requireActivity().runOnUiThread(() -> LinkUtil.setHtml(aboutServerAppVersion, strong("v" + response.getDeckVersion().toString())));
                 }
             });
         } catch (OfflineException e) {
-            Spannable offlineTextSpannable = new SpannableString(offlineText);
-            offlineTextSpannable.setSpan(new StyleSpan(Typeface.ITALIC), 0, offlineTextSpannable.length(), 0);
-            offlineTextSpannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.fg_secondary)), 0, offlineTextSpannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            aboutServerAppVersion.setText(offlineTextSpannable);
+            aboutServerAppVersion.setText(disabled(offlineText));
         }
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext()).getApplicationContext());
-        long lastBackgroundSync = sharedPreferences.getLong(sharedPreferencesLastBackgroundSync, 0);
-        LinkUtil.setHtml(lastBackgroundSyncExecutionTime, getLastBackgroundSyncStrongTag(lastBackgroundSync));
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext().getApplicationContext());
+        String settingsBackgroundSync = sharedPreferences.getString(sharedPreferencesBackgroundSync, backgroundSyncOffValue);
+        long lastBackgroundSync = sharedPreferences.getLong(sharedPreferencesLastBackgroundSync, BACKGROUND_SYNC_NEVER_EXECUTED);
+
+        // BACKGROUND SYNC
+
+        lastBackgroundSyncExecutionTime.setText(
+                lastBackgroundSync == BACKGROUND_SYNC_NEVER_EXECUTED || settingsBackgroundSync.equals(backgroundSyncOffValue)
+                        ? disabled(disabledText)
+                        : strong(DateUtil.getRelativeDateTimeString(getContext(), lastBackgroundSync))
+        );
         LinkUtil.setHtml(aboutMaintainer, LinkUtil.concatenateResources(v.getResources(),
                 R.string.anchor_start, R.string.url_maintainer, R.string.anchor_middle, R.string.about_maintainer, R.string.anchor_end));
         LinkUtil.setHtml(aboutTranslators,
@@ -84,11 +95,16 @@ public class AboutFragmentCreditsTab extends Fragment {
         return v;
     }
 
-    private String getVersionStrongTag(String version) {
-        return strongStart + "v" + version + strongEnd;
+    private SpannableString strong(CharSequence text) {
+        SpannableString span = new SpannableString(text);
+        span.setSpan(new StyleSpan(Typeface.BOLD), 0, span.length(), 0);
+        return span;
     }
 
-    private String getLastBackgroundSyncStrongTag(long lastBackgroundSync) {
-        return strongStart + DateUtil.getRelativeDateTimeString(getContext(), lastBackgroundSync) + strongEnd;
+    private SpannableString disabled(CharSequence text) {
+        SpannableString span = new SpannableString(text);
+        span.setSpan(new StyleSpan(Typeface.ITALIC), 0, span.length(), 0);
+        span.setSpan(new ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.fg_secondary)), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return span;
     }
 }

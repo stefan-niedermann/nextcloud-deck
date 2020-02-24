@@ -35,10 +35,10 @@ public final class LinkUtil {
      * @param view      The {@link TextView} which should be filled.
      * @param stringIds The string resource containing HTML tags (escaped by <code>&lt;</code>)
      */
-    public static void setHtml(TextView view, String... stringIds) {
+    public static void setHtml(TextView view, CharSequence... stringIds) {
 
         StringBuilder sb = new StringBuilder();
-        for (String arg : stringIds) {
+        for (CharSequence arg : stringIds) {
             sb.append(arg);
         }
 
