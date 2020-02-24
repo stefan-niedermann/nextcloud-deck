@@ -31,6 +31,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    flavorDimensions "store"
+    productFlavors {
+        fdroid {
+            dimension "store"
+        }
+        play {
+            dimension "store"
+            applicationIdSuffix ".play"
+        }
+    }
 }
 
 dependencies {
@@ -76,6 +87,8 @@ dependencies {
     // -------------------------
     // --- Backend-Libraries ---
     // -------------------------
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.61'
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
