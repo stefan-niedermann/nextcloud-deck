@@ -60,7 +60,7 @@ public class EditBoardDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Activity activity = Objects.requireNonNull(getActivity());
+        Activity activity = requireActivity();
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_board_create, null);
         ButterKnife.bind(this, view);
         Long boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);

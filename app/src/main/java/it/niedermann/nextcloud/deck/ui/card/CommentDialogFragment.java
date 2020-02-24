@@ -46,7 +46,7 @@ public class CommentDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_add_comment, null);
+        View view = requireActivity().getLayoutInflater().inflate(R.layout.dialog_add_comment, null);
         ButterKnife.bind(this, view);
 
         return new AlertDialog.Builder(getActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)

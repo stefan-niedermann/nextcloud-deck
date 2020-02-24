@@ -81,7 +81,7 @@ public class CardActivityFragment extends Fragment {
             long localId = args.getLong(BUNDLE_KEY_LOCAL_ID);
             boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
 
-            SyncManager syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
+            SyncManager syncManager = new SyncManager(requireActivity());
             syncManager.getCardByLocalId(accountId, localId).observe(CardActivityFragment.this, (fullCard) -> {
                 syncManager.syncActivitiesForCard(fullCard.getCard()).observe(CardActivityFragment.this, (activities -> {
                     if (activities == null || activities.size() == 0) {

@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,15 +72,15 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
             cardId = args.getLong(BUNDLE_KEY_LOCAL_ID);
             boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
 
-            syncManager = new SyncManager(Objects.requireNonNull(getActivity()));
-            syncManager.getCardByLocalId(accountId, cardId).observe(CardAttachmentsFragment.this, (fullCard) -> {
+            syncManager = new SyncManager(requireActivity());
+            syncManager.getCardByLocalId(accountId, cardId).observe(getViewLifecycleOwner(), (fullCard) -> {
                 if (fullCard.getAttachments().size() == 0) {
                     this.emptyContentView.setVisibility(View.VISIBLE);
                     this.attachmentsList.setVisibility(View.GONE);
                 } else {
                     this.emptyContentView.setVisibility(View.GONE);
                     this.attachmentsList.setVisibility(View.VISIBLE);
-                    syncManager.readAccount(accountId).observe(CardAttachmentsFragment.this, (Account account) -> {
+                    syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
                         RecyclerView.Adapter adapter = new AttachmentAdapter(this, account, fullCard.getCard().getId(), fullCard.getAttachments());
                         attachmentsList.setAdapter(adapter);
                     });

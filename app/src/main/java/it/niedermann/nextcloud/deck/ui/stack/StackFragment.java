@@ -85,7 +85,7 @@ public class StackFragment extends Fragment {
         account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
         canEdit = getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION);
 
-        activity = Objects.requireNonNull(getActivity());
+        activity = requireActivity();
 
         syncManager = new SyncManager(activity);
 

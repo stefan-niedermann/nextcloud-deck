@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,6 +58,13 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         Attachment attachment = attachments.get(position);
         holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE : View.VISIBLE);
+
+        holder.filename.getRootView().setOnClickListener((event) -> {
+            Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
+            openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId()));
+            context.startActivity(openURL);
+        });
+
         if (attachment.getMimetype() != null) {
             if (attachment.getMimetype().startsWith("image")) {
                 // TODO Glide is currently not yet able to use SSO and fails on authentication
@@ -66,6 +74,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
                         .error(R.drawable.ic_image_grey600_24dp)
                         .into(holder.filetype);
                 holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
+                holder.filename.getRootView().setOnClickListener((v) -> AttachmentDialogFragment.newInstance(uri, attachment.getBasename()).show(((AppCompatActivity) context).getSupportFragmentManager(), "asdf"));
             } else if (attachment.getMimetype().startsWith("audio")) {
                 holder.filetype.setImageResource(R.drawable.ic_music_note_grey600_24dp);
             } else if (attachment.getMimetype().startsWith("video")) {
@@ -83,11 +92,6 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         } else {
             holder.modified.setVisibility(View.GONE);
         }
-        holder.filename.getRootView().setOnClickListener((event) -> {
-            Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
-            openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId()));
-            context.startActivity(openURL);
-        });
         holder.deleteButton.setOnClickListener((v) -> {
             new DeleteDialogBuilder(context)
                     .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
