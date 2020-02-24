@@ -16,6 +16,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import java.util.List;
 
@@ -29,6 +30,9 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder> {
+
+    public static final int VIEW_TYPE_DEFAULT = 2;
+    public static final int VIEW_TYPE_IMAGE = 1;
 
     private final Account account;
     private final long cardRemoteId;
@@ -50,20 +54,22 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     @Override
     public AttachmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
-        View v = LayoutInflater.from(context).inflate(R.layout.item_attachment, parent, false);
-        return new AttachmentViewHolder(v);
+        //noinspection SwitchStatementWithTooFewBranches
+        switch (viewType) {
+            case VIEW_TYPE_IMAGE: {
+                return new ImageAttachmentViewHolder(LayoutInflater.from(context).inflate(R.layout.item_attachment_image, parent, false));
+            }
+            default: {
+                return new DefaultAttachmentViewHolder(LayoutInflater.from(context).inflate(R.layout.item_attachment_default, parent, false));
+            }
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         Attachment attachment = attachments.get(position);
+        int viewType = getItemViewType(position);
         holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE : View.VISIBLE);
-
-        holder.filename.getRootView().setOnClickListener((event) -> {
-            Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
-            openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId()));
-            context.startActivity(openURL);
-        });
 
         if (attachment.getMimetype() != null) {
             if (attachment.getMimetype().startsWith("image")) {
@@ -71,35 +77,59 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
                 String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
                 Glide.with(context)
                         .load(uri)
+                        .transform(new CenterCrop())
                         .error(R.drawable.ic_image_grey600_24dp)
-                        .into(holder.filetype);
-                holder.filetype.setImageResource(R.drawable.ic_image_grey600_24dp);
-                holder.filename.getRootView().setOnClickListener((v) -> AttachmentDialogFragment.newInstance(uri, attachment.getBasename()).show(((AppCompatActivity) context).getSupportFragmentManager(), "asdf"));
+                        .into(holder.preview);
+                holder.preview.setImageResource(R.drawable.ic_image_grey600_24dp);
+                holder.preview.getRootView().setOnClickListener((v) -> AttachmentDialogFragment.newInstance(uri, attachment.getBasename()).show(((AppCompatActivity) context).getSupportFragmentManager(), "preview"));
             } else if (attachment.getMimetype().startsWith("audio")) {
-                holder.filetype.setImageResource(R.drawable.ic_music_note_grey600_24dp);
+                holder.preview.setImageResource(R.drawable.ic_music_note_grey600_24dp);
             } else if (attachment.getMimetype().startsWith("video")) {
-                holder.filetype.setImageResource(R.drawable.ic_local_movies_grey600_24dp);
+                holder.preview.setImageResource(R.drawable.ic_local_movies_grey600_24dp);
             }
         }
-        holder.filename.setText(attachment.getBasename());
-        holder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
-        if (attachment.getLastModifiedLocal() != null) {
-            holder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModifiedLocal().getTime()));
-            holder.modified.setVisibility(View.VISIBLE);
-        } else if (attachment.getLastModified() != null) {
-            holder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModified().getTime()));
-            holder.modified.setVisibility(View.VISIBLE);
-        } else {
-            holder.modified.setVisibility(View.GONE);
+
+        //noinspection SwitchStatementWithTooFewBranches
+        switch (viewType) {
+            case VIEW_TYPE_IMAGE: {
+                ImageAttachmentViewHolder imageHolder = (ImageAttachmentViewHolder) holder;
+                break;
+            }
+            default: {
+                DefaultAttachmentViewHolder defaultHolder = (DefaultAttachmentViewHolder) holder;
+                defaultHolder.filename.getRootView().setOnClickListener((event) -> {
+                    Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
+                    openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId()));
+                    context.startActivity(openURL);
+                });
+                defaultHolder.filename.setText(attachment.getBasename());
+                defaultHolder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
+                if (attachment.getLastModifiedLocal() != null) {
+                    defaultHolder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModifiedLocal().getTime()));
+                    defaultHolder.modified.setVisibility(View.VISIBLE);
+                } else if (attachment.getLastModified() != null) {
+                    defaultHolder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModified().getTime()));
+                    defaultHolder.modified.setVisibility(View.VISIBLE);
+                } else {
+                    defaultHolder.modified.setVisibility(View.GONE);
+                }
+                defaultHolder.deleteButton.setOnClickListener((v) -> {
+                    new DeleteDialogBuilder(context)
+                            .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
+                            .setMessage(R.string.attachment_delete_message)
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))
+                            .show();
+                });
+                break;
+            }
         }
-        holder.deleteButton.setOnClickListener((v) -> {
-            new DeleteDialogBuilder(context)
-                    .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
-                    .setMessage(R.string.attachment_delete_message)
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))
-                    .show();
-        });
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        String mimeType = attachments.get(position).getMimetype();
+        return (mimeType != null && mimeType.startsWith("image")) ? VIEW_TYPE_IMAGE : VIEW_TYPE_DEFAULT;
     }
 
     @Override
@@ -108,10 +138,17 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     }
 
     static class AttachmentViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.preview)
+        AppCompatImageView preview;
         @BindView(R.id.not_synced_yet)
         AppCompatImageView notSyncedYet;
-        @BindView(R.id.filetype)
-        AppCompatImageView filetype;
+
+        AttachmentViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+    static class DefaultAttachmentViewHolder extends AttachmentViewHolder {
         @BindView(R.id.filename)
         TextView filename;
         @BindView(R.id.filesize)
@@ -121,7 +158,15 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         @BindView(R.id.deleteButton)
         ImageButton deleteButton;
 
-        private AttachmentViewHolder(View view) {
+        private DefaultAttachmentViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    static class ImageAttachmentViewHolder extends AttachmentViewHolder {
+
+        private ImageAttachmentViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

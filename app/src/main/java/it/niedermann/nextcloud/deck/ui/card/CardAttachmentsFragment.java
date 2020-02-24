@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -83,6 +84,22 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
                     syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
                         RecyclerView.Adapter adapter = new AttachmentAdapter(this, account, fullCard.getCard().getId(), fullCard.getAttachments());
                         attachmentsList.setAdapter(adapter);
+                        GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
+
+                        glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                            @Override
+                            public int getSpanSize(int position) {
+                                switch (adapter.getItemViewType(position)) {
+                                    case AttachmentAdapter.VIEW_TYPE_IMAGE:
+                                        return 1;
+                                    case AttachmentAdapter.VIEW_TYPE_DEFAULT:
+                                        return 3;
+                                    default:
+                                        return 1;
+                                }
+                            }
+                        });
+                        attachmentsList.setLayoutManager(glm);
                     });
                 }
             });

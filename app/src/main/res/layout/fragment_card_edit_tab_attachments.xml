@@ -13,8 +13,7 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_attachment"
+        tools:listitem="@layout/item_attachment_default"
         tools:visibility="visible" />
 
     <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
