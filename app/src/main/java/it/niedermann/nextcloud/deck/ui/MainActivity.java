@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import androidx.lifecycle.Observer;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -63,6 +65,7 @@ public class MainActivity extends DrawerActivity implements
         EditBoardDialogFragment.EditBoardListener,
         StackFragment.OnScrollListener {
 
+    private static final String TAG = MainActivity.class.getCanonicalName();
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -150,7 +153,7 @@ public class MainActivity extends DrawerActivity implements
         });
 
         addStackButton.setOnClickListener((v) -> {
-            if(this.boardsList.size() == 0) {
+            if (this.boardsList.size() == 0) {
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
             } else {
                 EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
@@ -184,18 +187,26 @@ public class MainActivity extends DrawerActivity implements
             }
         });
 
-        swipeRefreshLayout.setOnRefreshListener(() -> syncManager.synchronize(new IResponseCallback<Boolean>(account) {
-            @Override
-            public void onResponse(Boolean response) {
-                runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            Log.i(TAG, "Clearing Glide memory cache");
+            Glide.get(this).clearMemory();
+            new Thread(() -> {
+                Log.i(TAG, "Clearing Glide disk cache");
+                Glide.get(getApplicationContext()).clearDiskCache();
+            }).start();
+            syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                @Override
+                public void onResponse(Boolean response) {
+                    runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+                }
 
-            @Override
-            public void onError(Throwable throwable) {
-                runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
-                DeckLog.logError(throwable);
-            }
-        }));
+                @Override
+                public void onError(Throwable throwable) {
+                    runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+                    DeckLog.logError(throwable);
+                }
+            });
+        });
     }
 
     @Override
