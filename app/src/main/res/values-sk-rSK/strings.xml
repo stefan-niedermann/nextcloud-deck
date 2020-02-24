@@ -10,11 +10,13 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Nástenky</string>
+    <string name="simple_add">Pridať</string>
     <string name="simple_save">Uložiť</string>
 
     <string name="edit_board">Upraviť nástenku</string>
     <string name="archive_board">Archivovať nástenku</string>
     <string name="delete_board">Zmazať nástenku</string>
+    <string name="delete_something">Zmazať %1$s</string>
 
     <!-- About -->
     <string name="about">O aplikácii</string>
@@ -49,11 +51,14 @@
     <string name="hint_assign_people">Priradiť používateľov</string>
     <string name="hint_due_date_date">Termín dokončenia</string>
     <string name="activity">Aktivita</string>
+    <string name="add_card">Pridať kartu</string>
+    <string name="add_column">Pridať stĺpec</string>
+
     <string name="add_account">Pridať účet</string>
 
     <string name="label_menu">menu</string>
-    <string name="action_card_assign">Priradiť kartu vám</string>
-    <string name="action_card_unassign">Zrušiť priradenie karty vám</string>
+    <string name="action_card_assign">Priradiť kartu mne</string>
+    <string name="action_card_unassign">Zrušiť priradenie karty mne</string>
     <string name="action_card_archive">Archivovať kartu</string>
     <string name="action_card_delete">Zmazať kartu</string>
     <string name="add_board">Pridať nástenk</string>
@@ -62,6 +67,7 @@
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
 
+    <string name="label_add">Pridať %1$s</string>
     <string name="error">Vyskytla sa chyba</string>
     <string name="simple_copy">kopírovať</string>
     <string name="simple_exception">Výnimka</string>
@@ -72,4 +78,52 @@
     <string name="card_edit_attachments">Prílohy</string>
     <string name="card_edit_activity">Aktivita</string>
     <string name="about_server_app_version_text">Verzia aplikácie na serveri:</string>
-    </resources>
+    <string name="no_files_attached_to_this_card">K tejto karte nie sú pripojené žiadne súbory.</string>
+    <string name="attachments">Prílohy</string>
+    <string name="no_cards">Zatiaľ žiadne karty</string>
+    <string name="no_account">Nie je nastavený žiadny účet</string>
+    <string name="account_already_added">Účet už bol pridaný</string>
+    <string name="account_is_getting_imported">Účet sa importuje</string>
+    <string name="not_synced_yet">Zatiaľ nie je synchronizovaný</string>
+    <string name="no_columns">Zatiaľ žiadne stĺpce</string>
+    <string name="do_you_want_to_save_your_changes">Chcete uložiť zmeny?</string>
+    <string name="simple_discard">odhodiť</string>
+    <string name="do_you_want_to_delete_the_current_column">Chcete odstrániť aktuálny stĺpec?</string>
+    <string name="add_a_new_column_using_the_button">Pridajte nový stĺpec pomocou tlačidla +</string>
+    <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
+    <string name="update_deck">Aktualizovať balíček</string>
+    <string name="your_deck_version_is_too_old">Verzia vášho balíčka je príliš stará</string>
+    <string name="deck_outdated_please_update">Verzia vášho balíčka je príliš stará. Ak chcete túto aplikáciu pre Android používať ako klienta, aktualizujte ju.</string>
+    <string name="simple_update">Aktualizovať</string>
+    <string name="simple_delete">Zmazať</string>
+    <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých stĺpcov a kariet.</string>
+    <string name="action_card_list_rename_column">Premenovať stĺpec</string>
+    <string name="simple_rename">Premenovať</string>
+    <string name="simple_settings">Nastavenia</string>
+    <string name="settings_theme_title">Tmavý motív</string>
+    <string name="settings_background_sync">Synchronizácia na pozadí</string>
+    <string name="pref_value_wifi_and_mobile">Synchronizovať na Wi-Fi a mobilných dátach</string>
+    <string name="pref_value_wifi_only">Synchronizovať len na Wi-Fi</string>
+    <string name="pref_value_theme_light">Svetlý</string>
+    <string name="unassigned_user">Nepriradené %1$s</string>
+    <string name="simple_undo">Odvolať</string>
+    <string name="no_activities">Na tejto karte nie sú žiadne aktivity. Na načítanie a zobrazenie aktivít musíte byť pripojení k internetu.</string>
+    <string name="rename_column">Premenovať stĺpec</string>
+    <string name="share_board">Zdieľať nástenku</string>
+    <string name="you_are_currently_offline">Momentálne ste offline</string>
+    <string name="simple_manage">spravovať</string>
+    <string name="simple_share">sprístupniť</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Ak chcete pridať účet, musíte byť pripojení k internetu.</string>
+    <string name="simple_select">Vybrať</string>
+    <string name="owner">Majiteľ</string>
+    <string name="simple_comment">Komentár</string>
+    <string name="attachment_delete_message">Táto príloha sa natrvalo odstráni.</string>
+    <string name="no_content">Zatiaľ žiadny obsah</string>
+    <string name="last_background_sync">Posledná synchronizácia na pozadí:</string>
+    <string name="simple_off">Vypnúť</string>
+    <string name="minutes_15">15 minút</string>
+    <string name="hour_1">1 hodina</string>
+    <string name="hours_6">6 hodín</string>
+    <string name="action_card_move">Presunúť kartu</string>
+    <string name="action_card_move_title">Preusnúť %1$s</string>
+</resources>
