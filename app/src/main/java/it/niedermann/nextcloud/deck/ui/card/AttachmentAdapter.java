@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,7 +8,6 @@ import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -70,6 +70,18 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         Attachment attachment = attachments.get(position);
         int viewType = getItemViewType(position);
         holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE : View.VISIBLE);
+        holder.preview.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+            ((Activity) context).getMenuInflater().inflate(R.menu.attachment_menu, menu);
+            menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
+                new DeleteDialogBuilder(context)
+                        .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
+                        .setMessage(R.string.attachment_delete_message)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))
+                        .show();
+                return false;
+            });
+        });
 
         if (attachment.getMimetype() != null) {
             if (attachment.getMimetype().startsWith("image")) {
@@ -113,14 +125,6 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
                 } else {
                     defaultHolder.modified.setVisibility(View.GONE);
                 }
-                defaultHolder.deleteButton.setOnClickListener((v) -> {
-                    new DeleteDialogBuilder(context)
-                            .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
-                            .setMessage(R.string.attachment_delete_message)
-                            .setNegativeButton(android.R.string.cancel, null)
-                            .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))
-                            .show();
-                });
                 break;
             }
         }
@@ -155,8 +159,6 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         TextView filesize;
         @BindView(R.id.modified)
         TextView modified;
-        @BindView(R.id.deleteButton)
-        ImageButton deleteButton;
 
         private DefaultAttachmentViewHolder(View view) {
             super(view);
