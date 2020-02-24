@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:padding="@dimen/standard_half_padding">
+    android:padding="@dimen/standard_padding">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -27,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:translationY="-8dp"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_sync_blue_24dp"
             tools:visibility="visible" />
@@ -54,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:textColor="@color/fg_secondary"
             tools:text="1.98 MB" />
 
         <TextView
@@ -61,6 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:textColor="@color/fg_secondary"
             tools:text="Mar 4" />
     </LinearLayout>
 </LinearLayout>

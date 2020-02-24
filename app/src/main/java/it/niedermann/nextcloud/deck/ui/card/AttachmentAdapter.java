@@ -1,14 +1,18 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +32,9 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder> {
 
@@ -69,6 +76,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         Attachment attachment = attachments.get(position);
         int viewType = getItemViewType(position);
+        String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
         holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE : View.VISIBLE);
         holder.preview.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             ((Activity) context).getMenuInflater().inflate(R.menu.attachment_menu, menu);
@@ -81,12 +89,22 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
                         .show();
                 return false;
             });
+            menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> {
+                final android.content.ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
+                if (clipboardManager != null) {
+                    clipboardManager.setPrimaryClip(clipData);
+                    Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e(TAG, "clipboardManager is null");
+                }
+                return false;
+            });
         });
 
         if (attachment.getMimetype() != null) {
             if (attachment.getMimetype().startsWith("image")) {
                 // TODO Glide is currently not yet able to use SSO and fails on authentication
-                String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
                 Glide.with(context)
                         .load(uri)
                         .transform(new CenterCrop())

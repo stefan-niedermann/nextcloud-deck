@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/delete"
+        android:icon="@drawable/ic_delete_black_24dp"
         android:title="@string/simple_delete"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@android:id/copyUrl"
+        android:title="@android:string/copyUrl"
+        app:showAsAction="ifRoom" />
 </menu>
