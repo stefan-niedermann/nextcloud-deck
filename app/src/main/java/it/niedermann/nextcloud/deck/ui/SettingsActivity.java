@@ -14,8 +14,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.settings.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
-    private static final int RESULT_CANCELED = 1;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -30,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        setResult(RESULT_CANCELED);
+        setResult(RESULT_OK);
         getFragmentManager().beginTransaction()
                 .add(R.id.settings_layout, new SettingsFragment())
                 .commit();
