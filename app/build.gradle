@@ -88,6 +88,13 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
 
+    // -----------------------
+    // --- Other libraries ---
+    // -----------------------
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+
     // -------------
     // --- Tests ---
     // -------------
