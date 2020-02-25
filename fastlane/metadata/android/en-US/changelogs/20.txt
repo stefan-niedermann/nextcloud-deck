@@ -1,0 +1,4 @@
+- Attachments 📎 (#211)
+- Display "disabled" instead of `1970-01-01` when background sync is disabled
+- User avatars not updated on modification (#231)
+- Fix multidex issue with old android devices
