@@ -1,1 +1,3 @@
+- Introducing flavors for parallel installation of F-Droid, Play Store and Dev (pipeline) versions
+- Fix kotlin build dependency (https://f-droid.org/wiki/page/it.niedermann.nextcloud.deck/lastbuild_19)
 - NPE on drag after dark-mode toggle (#253)
