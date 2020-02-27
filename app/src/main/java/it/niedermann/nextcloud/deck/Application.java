@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.multidex.MultiDex;
 
 public class Application extends android.app.Application {
 
@@ -12,6 +13,12 @@ public class Application extends android.app.Application {
     public void onCreate() {
         setAppTheme(getAppTheme(getApplicationContext()));
         super.onCreate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     public static void setAppTheme(Boolean darkTheme) {

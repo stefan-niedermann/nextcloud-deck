@@ -16,6 +16,8 @@
     <string name="edit_board">게시판 편집</string>
     <string name="archive_board">게시판 보관</string>
     <string name="delete_board">게시판 삭제</string>
+    <string name="delete_something">%1$s 삭제</string>
+
     <!-- About -->
     <string name="about">정보</string>
     <string name="about_version_title">버전</string>
@@ -31,6 +33,7 @@
     <string name="about_issues_title">문제점</string>
     <string name="about_issues">GitHub 이슈 트래커에서 이 앱의 버그를 보고하거나 기능을 제안할 수 있습니다: &lt;a href=\"%1$s\">&lt;/a></string>
     <string name="about_translate_title">번역</string>
+    <string name="about_translate">Transifex의 Nextcloud팀에 가입해서 번역을 도와주세요: %1$s</string>
     <string name="about_app_license_title">앱 라이선스</string>
     <string name="about_app_license">이 앱은 GNU General Public License v3+로 배포됩니다.</string>
     <string name="about_app_license_button">라이선스 보기</string>
@@ -86,22 +89,41 @@
     <string name="do_you_want_to_save_your_changes">변경된 사항을 저장하시겠습니까?</string>
     <string name="simple_discard">무시</string>
     <string name="do_you_want_to_delete_the_current_column">선택된 열을 지우시겠습니까?</string>
-    <string name="add_a_new_card_using_the_button">더하기 버튼을 사용하여 새 카드를 추가하십시오.</string>
+    <string name="add_a_new_column_using_the_button">+ 버튼을 사용하여 열 추가</string>
+    <string name="add_a_new_card_using_the_button">+ 버튼을 사용하여 새 카드를 추가</string>
     <string name="update_deck">덱 업데이트하기</string>
     <string name="your_deck_version_is_too_old">덱 버전이 너무 오래되었습니다.</string>
     <string name="deck_outdated_please_update">덱 버전이 너무 오래되었습니다. 안드로이드 클라이언트를 사용하기 위해서는 업데이트가 필요합니다.</string>
     <string name="simple_update">업데이트</string>
     <string name="simple_delete">삭제</string>
+    <string name="delete_board_message">이 행동은 스택과 카드를 포함한 게시판을 영구히 삭제합니다.</string>
+    <string name="action_card_list_rename_column">열 이름 바꾸기</string>
     <string name="simple_rename">이름 바꾸기</string>
     <string name="simple_settings">설정</string>
     <string name="settings_theme_title">어두운 테마</string>
+    <string name="settings_background_sync">백그라운드 동기화</string>
+    <string name="pref_value_wifi_and_mobile">Wi-Fi나 모바일 데이터를 사용해 동기화</string>
+    <string name="pref_value_wifi_only">Wi-Fi만 사용해 동기화</string>
     <string name="pref_value_theme_light">밝게</string>
+    <string name="unassigned_user">할당되지 않은 %1$s</string>
     <string name="simple_undo">실행 취소</string>
+    <string name="no_activities">카드에 활동이 없습니다. 인터넷에 연결되어 있어야만 활동을 불러올 수 있습니다.</string>
+    <string name="rename_column">열 이름 바꾸기</string>
+    <string name="share_board">게시판 공유</string>
+    <string name="you_are_currently_offline">현재 오프라인</string>
+    <string name="simple_manage">관리</string>
     <string name="simple_share">공유</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">인터넷에 연결되어 있어야만 계정을 추가할 수 있습니다.</string>
     <string name="simple_select">선택</string>
     <string name="owner">Owner</string>
     <string name="simple_comment">설명</string>
+    <string name="attachment_delete_message">이 행동은 첨부파일을 영구히 삭제합니다.</string>
+    <string name="no_content">아직 내용 없음</string>
+    <string name="last_background_sync">마지막 백그라운드 동기화:</string>
+    <string name="simple_off">꺼짐</string>
     <string name="minutes_15">15분</string>
     <string name="hour_1">1시간</string>
     <string name="hours_6">6시간</string>
-    </resources>
+    <string name="action_card_move">카드 이동</string>
+    <string name="action_card_move_title">%1$s 이동</string>
+</resources>

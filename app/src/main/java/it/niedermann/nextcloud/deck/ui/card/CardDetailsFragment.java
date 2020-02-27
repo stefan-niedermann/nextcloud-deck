@@ -31,9 +31,9 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+import com.yydcdut.markdown.MarkdownEditText;
+import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
-import com.yydcdut.rxmarkdown.RxMDEditText;
-import com.yydcdut.rxmarkdown.RxMarkdown;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,7 +58,6 @@ import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
-import rx.Subscriber;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -84,7 +83,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private Activity activity;
 
     @BindView(R.id.description)
-    RxMDEditText description;
+    MarkdownEditText description;
     @BindView(R.id.people)
     DelayedAutoCompleteTextView people;
     @BindView(R.id.labels)
@@ -188,24 +187,10 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     private void setupDescription() {
         if (canEdit) {
-            RxMarkdown.live(description)
-                    .config(MarkDownUtil.getMarkDownConfiguration(description.getContext()).build())
-                    .factory(EditFactory.create())
-                    .intoObservable()
-                    .subscribe(new Subscriber<CharSequence>() {
-                        @Override
-                        public void onCompleted() {
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                        }
-
-                        @Override
-                        public void onNext(CharSequence charSequence) {
-                            description.setText(charSequence, TextView.BufferType.SPANNABLE);
-                        }
-                    });
+            MarkdownProcessor markdownProcessor = new MarkdownProcessor(requireContext());
+            markdownProcessor.config(MarkDownUtil.getMarkDownConfiguration(description.getContext()).build());
+            markdownProcessor.factory(EditFactory.create());
+            markdownProcessor.live(description);
             description.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
