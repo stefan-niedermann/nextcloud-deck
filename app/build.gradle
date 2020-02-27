@@ -32,13 +32,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    flavorDimensions "store"
+    flavorDimensions "version"
     productFlavors {
         fdroid {
-            dimension "store"
+            dimension "version"
+        }
+        dev {
+            dimension "version"
+            applicationIdSuffix ".dev"
         }
         play {
-            dimension "store"
+            dimension "version"
             applicationIdSuffix ".play"
         }
     }
