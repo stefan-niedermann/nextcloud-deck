@@ -40,8 +40,9 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 ## 🏁 Planned features
 * Full [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r) compatibility
-* Support for comments (https://github.com/stefan-niedermann/nextcloud-deck/issues/207)
-* Support for Android intents (https://github.com/stefan-niedermann/nextcloud-deck/issues/248)* Offline capabilities
+* [Support for comments](https://github.com/stefan-niedermann/nextcloud-deck/issues/207)
+* [Support for Android intents](https://github.com/stefan-niedermann/nextcloud-deck/issues/248)
+* Offline capabilities
 
 ## 👪 Join the team
 * Test the app with different devices
