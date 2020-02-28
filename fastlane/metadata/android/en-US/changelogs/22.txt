@@ -1,0 +1,1 @@
+- Wrap card title to new line(s) if length exceeds width of screen (#261)
