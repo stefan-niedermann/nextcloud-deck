@@ -6,7 +6,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/stefan-niedermann/nextcloud-deck.svg)](https://github.com/stefan-niedermann/nextcloud-deck/stargazers)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-⚠️⚠️⚠️ **This app is still under heavy development. A release for Play Store will be published as soon as this app is usable productively** (see https://github.com/stefan-niedermann/nextcloud-deck/issues/35) ⚠️⚠️⚠️
+⚠️ **This app is still under heavy development. A release for Play Store will be published soon.** ⚠️
 
 An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
@@ -40,6 +40,8 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 ## 🏁 Planned features
 * Full [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r) compatibility
+* [Support for comments](https://github.com/stefan-niedermann/nextcloud-deck/issues/207)
+* [Support for Android intents](https://github.com/stefan-niedermann/nextcloud-deck/issues/248)
 * Offline capabilities
 
 ## 👪 Join the team
