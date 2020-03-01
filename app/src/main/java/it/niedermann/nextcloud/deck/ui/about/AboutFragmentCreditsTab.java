@@ -11,18 +11,15 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.databinding.FragmentAboutCreditsTabBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -33,66 +30,46 @@ public class AboutFragmentCreditsTab extends Fragment {
 
     private static final int BACKGROUND_SYNC_NEVER_EXECUTED = -1;
 
-    @BindView(R.id.about_version)
-    TextView aboutVersion;
-    @BindView(R.id.about_server_app_version)
-    TextView aboutServerAppVersion;
-    @BindView(R.id.about_maintainer)
-    TextView aboutMaintainer;
-    @BindView(R.id.about_translators)
-    TextView aboutTranslators;
-    @BindView(R.id.last_background_sync)
-    TextView lastBackgroundSyncExecutionTime;
-
-    @BindString(R.string.shared_preference_last_background_sync)
-    String sharedPreferencesLastBackgroundSync;
-    @BindString(R.string.pref_key_background_sync)
-    String sharedPreferencesBackgroundSync;
-    @BindString(R.string.pref_value_background_sync_off)
-    String backgroundSyncOffValue;
-    @BindString(R.string.you_are_currently_offline)
-    String offlineText;
-    @BindString(R.string.simple_disabled)
-    String disabledText;
+    private FragmentAboutCreditsTabBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_about_credits_tab, container, false);
-        ButterKnife.bind(this, v);
+        binding = FragmentAboutCreditsTabBinding.inflate(inflater, container, false);
 
         // VERSIONS
 
-        LinkUtil.setHtml(aboutVersion, getString(R.string.about_version, strong("v" + BuildConfig.VERSION_NAME)));
+        LinkUtil.setHtml(binding.aboutVersion, getString(R.string.about_version, strong("v" + BuildConfig.VERSION_NAME)));
         SyncManager syncManager = new SyncManager(requireActivity());
         try {
             syncManager.getServerVersion(new IResponseCallback<Capabilities>(null) {
                 @Override
                 public void onResponse(Capabilities response) {
-                    requireActivity().runOnUiThread(() -> LinkUtil.setHtml(aboutServerAppVersion, strong("v" + response.getDeckVersion().toString())));
+                    requireActivity().runOnUiThread(() -> LinkUtil.setHtml(binding.aboutServerAppVersion, strong("v" + response.getDeckVersion().toString())));
                 }
             });
         } catch (OfflineException e) {
-            aboutServerAppVersion.setText(disabled(offlineText));
+            binding.aboutServerAppVersion.setText(disabled(getString(R.string.you_are_currently_offline)));
         }
 
+        String backgroundSyncOffValue = getString(R.string.pref_value_background_sync_off);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext().getApplicationContext());
-        String settingsBackgroundSync = sharedPreferences.getString(sharedPreferencesBackgroundSync, backgroundSyncOffValue);
-        long lastBackgroundSync = sharedPreferences.getLong(sharedPreferencesLastBackgroundSync, BACKGROUND_SYNC_NEVER_EXECUTED);
+        String settingsBackgroundSync = sharedPreferences.getString(getString(R.string.pref_key_background_sync), backgroundSyncOffValue);
+        long lastBackgroundSync = sharedPreferences.getLong(getString(R.string.shared_preference_last_background_sync), BACKGROUND_SYNC_NEVER_EXECUTED);
 
         // BACKGROUND SYNC
 
-        lastBackgroundSyncExecutionTime.setText(
+        binding.lastBackgroundSync.setText(
                 lastBackgroundSync == BACKGROUND_SYNC_NEVER_EXECUTED || settingsBackgroundSync.equals(backgroundSyncOffValue)
-                        ? disabled(disabledText)
+                        ? disabled(getString(R.string.simple_disabled))
                         : strong(DateUtil.getRelativeDateTimeString(getContext(), lastBackgroundSync))
         );
-        LinkUtil.setHtml(aboutMaintainer, LinkUtil.concatenateResources(v.getResources(),
+        LinkUtil.setHtml(binding.aboutMaintainer, LinkUtil.concatenateResources(getResources(),
                 R.string.anchor_start, R.string.url_maintainer, R.string.anchor_middle, R.string.about_maintainer, R.string.anchor_end));
-        LinkUtil.setHtml(aboutTranslators,
-                v.getResources().getString(R.string.about_translators_transifex, LinkUtil.concatenateResources(v.getResources(),
+        LinkUtil.setHtml(binding.aboutTranslators,
+                getString(R.string.about_translators_transifex, LinkUtil.concatenateResources(getResources(),
                         R.string.anchor_start, R.string.url_translations, R.string.anchor_middle, R.string.about_translators_transifex_label, R.string.anchor_end
                 )));
-        return v;
+        return binding.getRoot();
     }
 
     private SpannableString strong(CharSequence text) {

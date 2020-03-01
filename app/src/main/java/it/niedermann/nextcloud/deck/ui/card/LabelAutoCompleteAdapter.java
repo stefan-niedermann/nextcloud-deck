@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,12 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindColor;
-import butterknife.BindInt;
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteDropdownBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -43,15 +37,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     private String lastFilterText;
     private boolean canManage = false;
 
-    @BindInt(R.integer.max_labels_suggested)
-    int maxLabelsSuggested;
-    @BindString(R.string.label_add)
-    String createLabelText;
-    @BindColor(R.color.grey600)
-    int createLabelColor;
-
     LabelAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId, long cardId) {
-        ButterKnife.bind(this, activity);
         this.owner = owner;
         this.context = activity;
         this.accountId = accountId;
@@ -64,7 +50,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                 createLabel.setLocalId(CREATE_ID);
                 createLabel.setBoardId(boardId);
                 createLabel.setAccountId(accountId);
-                createLabel.setColor(Integer.toHexString(createLabelColor));
+                createLabel.setColor(Integer.toHexString(context.getResources().getColor(R.color.grey600)));
                 canManage = true;
             }
         });
@@ -93,8 +79,9 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
         } else {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_autocomplete_dropdown, parent, false);
-            holder = new ViewHolder(convertView);
+            ItemAutocompleteDropdownBinding binding = ItemAutocompleteDropdownBinding.inflate(inflater, parent, false);
+            holder = new ViewHolder(binding);
+            convertView = binding.getRoot();
             convertView.setTag(holder);
         }
 
@@ -103,10 +90,10 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
             iconResource = R.drawable.ic_plus;
         }
 
-        holder.icon.setImageDrawable(
+        holder.binding.icon.setImageDrawable(
                 ViewUtil.getTintedImageView(context, iconResource,"#" + getItem(position).getColor()
                 ));
-        holder.label.setText(getItem(position).getTitle());
+        holder.binding.label.setText(getItem(position).getTitle());
         return convertView;
     }
 
@@ -122,11 +109,11 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
                     Objects.requireNonNull(((Fragment) owner).getActivity()).runOnUiThread(() -> {
                         LiveData<List<Label>> liveData = constraint.toString().trim().length() > 0
                                 ? syncManager.searchNotYetAssignedLabelsByTitle(accountId, boardId, cardId, constraint.toString())
-                                : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId, maxLabelsSuggested);
+                                : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId, context.getResources().getInteger(R.integer.max_labels_suggested));
                         liveData.observe(owner, (labels -> {
                             final boolean constraintLengthGreaterZero = constraint.toString().trim().length() > 0;
                             if (canManage && constraintLengthGreaterZero) {
-                                createLabel.setTitle(String.format(createLabelText, constraint));
+                                createLabel.setTitle(String.format(context.getString(R.string.label_add), constraint));
                             }
                             if (labels != null) {
                                 if (canManage && constraintLengthGreaterZero) {
@@ -168,13 +155,10 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     }
 
     static class ViewHolder {
-        @BindView(R.id.icon)
-        ImageView icon;
-        @BindView(R.id.label)
-        TextView label;
+        ItemAutocompleteDropdownBinding binding;
 
-        ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+        ViewHolder(ItemAutocompleteDropdownBinding binding) {
+            this.binding = binding;
         }
     }
 }

@@ -11,12 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,9 +23,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
@@ -64,10 +63,10 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         //noinspection SwitchStatementWithTooFewBranches
         switch (viewType) {
             case VIEW_TYPE_IMAGE: {
-                return new ImageAttachmentViewHolder(LayoutInflater.from(context).inflate(R.layout.item_attachment_image, parent, false));
+                return new ImageAttachmentViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false));
             }
             default: {
-                return new DefaultAttachmentViewHolder(LayoutInflater.from(context).inflate(R.layout.item_attachment_default, parent, false));
+                return new DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false));
             }
         }
     }
@@ -77,8 +76,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         Attachment attachment = attachments.get(position);
         int viewType = getItemViewType(position);
         String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
-        holder.notSyncedYet.setVisibility(attachment.getStatusEnum() == DBStatus.UP_TO_DATE ? View.GONE : View.VISIBLE);
-        holder.preview.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+        holder.setNotSyncedYetStatus(attachment.getStatusEnum() == DBStatus.UP_TO_DATE);
+        holder.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             ((Activity) context).getMenuInflater().inflate(R.menu.attachment_menu, menu);
             menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
                 new DeleteDialogBuilder(context)
@@ -109,13 +108,13 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
                         .load(uri)
                         .transform(new CenterCrop())
                         .error(R.drawable.ic_image_grey600_24dp)
-                        .into(holder.preview);
-                holder.preview.setImageResource(R.drawable.ic_image_grey600_24dp);
-                holder.preview.getRootView().setOnClickListener((v) -> AttachmentDialogFragment.newInstance(uri, attachment.getBasename()).show(((AppCompatActivity) context).getSupportFragmentManager(), "preview"));
+                        .into(holder.getPreview());
+                holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
+                holder.getPreview().getRootView().setOnClickListener((v) -> AttachmentDialogFragment.newInstance(uri, attachment.getBasename()).show(((AppCompatActivity) context).getSupportFragmentManager(), "preview"));
             } else if (attachment.getMimetype().startsWith("audio")) {
-                holder.preview.setImageResource(R.drawable.ic_music_note_grey600_24dp);
+                holder.getPreview().setImageResource(R.drawable.ic_music_note_grey600_24dp);
             } else if (attachment.getMimetype().startsWith("video")) {
-                holder.preview.setImageResource(R.drawable.ic_local_movies_grey600_24dp);
+                holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
             }
         }
 
@@ -127,21 +126,21 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
             }
             default: {
                 DefaultAttachmentViewHolder defaultHolder = (DefaultAttachmentViewHolder) holder;
-                defaultHolder.filename.getRootView().setOnClickListener((event) -> {
+                defaultHolder.binding.filename.getRootView().setOnClickListener((event) -> {
                     Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
                     openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId()));
                     context.startActivity(openURL);
                 });
-                defaultHolder.filename.setText(attachment.getBasename());
-                defaultHolder.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
+                defaultHolder.binding.filename.setText(attachment.getBasename());
+                defaultHolder.binding.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
                 if (attachment.getLastModifiedLocal() != null) {
-                    defaultHolder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModifiedLocal().getTime()));
-                    defaultHolder.modified.setVisibility(View.VISIBLE);
+                    defaultHolder.binding.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModifiedLocal().getTime()));
+                    defaultHolder.binding.modified.setVisibility(View.VISIBLE);
                 } else if (attachment.getLastModified() != null) {
-                    defaultHolder.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModified().getTime()));
-                    defaultHolder.modified.setVisibility(View.VISIBLE);
+                    defaultHolder.binding.modified.setText(DateUtil.getRelativeDateTimeString(context, attachment.getLastModified().getTime()));
+                    defaultHolder.binding.modified.setVisibility(View.VISIBLE);
                 } else {
-                    defaultHolder.modified.setVisibility(View.GONE);
+                    defaultHolder.binding.modified.setVisibility(View.GONE);
                 }
                 break;
             }
@@ -159,36 +158,63 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         return attachments.size();
     }
 
-    static class AttachmentViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.preview)
-        AppCompatImageView preview;
-        @BindView(R.id.not_synced_yet)
-        AppCompatImageView notSyncedYet;
-
+    static abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
         AttachmentViewHolder(@NonNull View itemView) {
             super(itemView);
         }
+
+        abstract View getRootView();
+
+        abstract ImageView getPreview();
+
+        abstract void setNotSyncedYetStatus(boolean synced);
     }
 
     static class DefaultAttachmentViewHolder extends AttachmentViewHolder {
-        @BindView(R.id.filename)
-        TextView filename;
-        @BindView(R.id.filesize)
-        TextView filesize;
-        @BindView(R.id.modified)
-        TextView modified;
+        ItemAttachmentDefaultBinding binding;
 
-        private DefaultAttachmentViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        private DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        @Override
+        View getRootView() {
+            return binding.getRoot();
+        }
+
+        @Override
+        ImageView getPreview() {
+            return binding.preview;
+        }
+
+        @Override
+        void setNotSyncedYetStatus(boolean synced) {
+            binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
         }
     }
 
     static class ImageAttachmentViewHolder extends AttachmentViewHolder {
+        ItemAttachmentImageBinding binding;
 
-        private ImageAttachmentViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        private ImageAttachmentViewHolder(ItemAttachmentImageBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        @Override
+        View getRootView() {
+            return binding.getRoot();
+        }
+
+        @Override
+        ImageView getPreview() {
+            return binding.preview;
+        }
+
+        @Override
+        void setNotSyncedYetStatus(boolean synced) {
+            binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
         }
     }
 

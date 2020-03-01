@@ -9,10 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -39,7 +36,7 @@ public class BoardAdapter extends ArrayAdapter<Board> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_board, parent, false);
         }
         TextView boardName = convertView.findViewById(R.id.boardName);
-        if(board != null) {
+        if (board != null) {
             boardName.setText(board.getTitle());
             boardName.setCompoundDrawables(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()), null, null, null);
         } else {
@@ -51,16 +48,6 @@ public class BoardAdapter extends ArrayAdapter<Board> {
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return getView(position, convertView, parent);
-    }
-
-    static class BoardViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.boardName)
-        TextView boardName;
-
-        private BoardViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
     }
 
 }

@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.board;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
@@ -13,21 +12,20 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.DialogBoardShareBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
-import it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView;
 
 public class AccessControlDialogFragment extends DialogFragment implements
         AccessControlAdapter.AccessControlChangedListener,
         AdapterView.OnItemClickListener {
+
+    private DialogBoardShareBinding binding;
 
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_BOARD_ID = "board_id";
@@ -36,12 +34,6 @@ public class AccessControlDialogFragment extends DialogFragment implements
     private long boardId;
     private SyncManager syncManager;
     private UserAutoCompleteAdapter userAutoCompleteAdapter;
-    private View view;
-
-    @BindView(R.id.peopleList)
-    RecyclerView peopleList;
-    @BindView(R.id.people)
-    DelayedAutoCompleteTextView people;
 
     /**
      * Use newInstance()-Method
@@ -53,36 +45,32 @@ public class AccessControlDialogFragment extends DialogFragment implements
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Activity activity = requireActivity();
-        View view = activity.getLayoutInflater().inflate(R.layout.dialog_board_share, null);
-        ButterKnife.bind(this, view);
-        boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
-        accountId = Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID);
+        binding = DialogBoardShareBinding.inflate(getLayoutInflater());
+        boardId = requireArguments().getLong(KEY_BOARD_ID);
+        accountId = requireArguments().getLong(KEY_ACCOUNT_ID);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
 
         if (boardId == 0L || accountId == 0L) {
             throw new IllegalArgumentException("accountId and boardId must be provided");
         } else {
-            syncManager = new SyncManager(activity);
+            syncManager = new SyncManager(requireActivity());
             syncManager.getFullBoardById(accountId, boardId).observe(this, (FullBoard fullBoard) -> {
                 syncManager.getAccessControlByLocalBoardId(accountId, boardId).observe(this, (List<AccessControl> accessControlList) -> {
                     AccessControl ownerControl = new AccessControl();
                     ownerControl.setUser(fullBoard.getOwner());
                     accessControlList.add(0, ownerControl);
                     RecyclerView.Adapter adapter = new AccessControlAdapter(accessControlList, this, getContext());
-                    peopleList.setAdapter(adapter);
-                    userAutoCompleteAdapter = new UserAutoCompleteAdapter(this, activity, accountId, boardId);
-                    people.setAdapter(userAutoCompleteAdapter);
-                    people.setOnItemClickListener(this);
+                    binding.peopleList.setAdapter(adapter);
+                    userAutoCompleteAdapter = new UserAutoCompleteAdapter(this, requireActivity(), accountId, boardId);
+                    binding.people.setAdapter(userAutoCompleteAdapter);
+                    binding.people.setOnItemClickListener(this);
                 });
             });
         }
 
-        this.view = view;
-
         return dialogBuilder
-                .setView(view)
+                .setView(binding.getRoot())
                 .setPositiveButton(R.string.simple_close, null)
                 .create();
     }
@@ -118,6 +106,6 @@ public class AccessControlDialogFragment extends DialogFragment implements
         ac.setUserId(userAutoCompleteAdapter.getItem(position).getLocalId());
         ac.setUser(userAutoCompleteAdapter.getItem(position));
         syncManager.createAccessControl(accountId, ac);
-        people.setText("");
+        binding.people.setText("");
     }
 }

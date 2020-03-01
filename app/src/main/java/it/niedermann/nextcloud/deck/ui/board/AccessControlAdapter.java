@@ -1,17 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.board;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
@@ -20,10 +14,9 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.util.List;
 
-import butterknife.BindDrawable;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.ItemAccessControlBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemAccessControlOwnerBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -51,11 +44,11 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_access_control_owner, parent, false);
-            return new OwnerViewHolder(v);
+            ItemAccessControlOwnerBinding binding = ItemAccessControlOwnerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new OwnerViewHolder(binding);
         } else if (viewType == TYPE_ITEM) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_access_control, parent, false);
-            return new AccessControlViewHolder(v);
+            ItemAccessControlBinding binding = ItemAccessControlBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new AccessControlViewHolder(binding);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
@@ -65,11 +58,11 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         AccessControl ac = accessControls.get(position);
         if (holder instanceof OwnerViewHolder) {
             OwnerViewHolder ownerHolder = (OwnerViewHolder) holder;
-            ownerHolder.owner.setText(ac.getUser().getDisplayname());
+            ownerHolder.binding.owner.setText(ac.getUser().getDisplayname());
 
             if (context != null) {
                 try {
-                    ViewUtil.addAvatar(context, ownerHolder.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+                    ViewUtil.addAvatar(context, ownerHolder.binding.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
                 } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
                     e.printStackTrace();
                 }
@@ -79,32 +72,32 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (context != null) {
                 try {
-                    ViewUtil.addAvatar(context, acHolder.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+                    ViewUtil.addAvatar(context, acHolder.binding.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
                 } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
                     e.printStackTrace();
                 }
             }
 
-            acHolder.username.setText(ac.getUser().getDisplayname());
-            acHolder.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? acHolder.syncIcon : null, null);
+            acHolder.binding.username.setText(ac.getUser().getDisplayname());
+            acHolder.binding.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? context.getResources().getDrawable(R.drawable.ic_sync_blue_24dp) : null, null);
             // TODO remove from list when deleted
-            acHolder.deleteButton.setOnClickListener((v) -> accessControlChangedListener.deleteAccessControl(ac));
+            acHolder.binding.delete.setOnClickListener((v) -> accessControlChangedListener.deleteAccessControl(ac));
 
-            acHolder.switchEdit.setChecked(ac.isPermissionEdit());
-            acHolder.switchEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            acHolder.binding.permissionEdit.setChecked(ac.isPermissionEdit());
+            acHolder.binding.permissionEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 ac.setPermissionEdit(isChecked);
                 accessControlChangedListener.updateAccessControl(ac);
             });
 
-            acHolder.switchManage.setChecked(ac.isPermissionManage());
-            acHolder.switchManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            acHolder.binding.permissionManage.setChecked(ac.isPermissionManage());
+            acHolder.binding.permissionManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 ac.setPermissionManage(isChecked);
                 accessControlChangedListener.updateAccessControl(ac);
-                acHolder.username.setCompoundDrawables(null, null, null, null);
+                acHolder.binding.username.setCompoundDrawables(null, null, null, null);
             });
 
-            acHolder.switchShare.setChecked(ac.isPermissionShare());
-            acHolder.switchShare.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            acHolder.binding.permissionShare.setChecked(ac.isPermissionShare());
+            acHolder.binding.permissionShare.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 ac.setPermissionShare(isChecked);
                 accessControlChangedListener.updateAccessControl(ac);
             });
@@ -122,36 +115,22 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     static class AccessControlViewHolder extends RecyclerView.ViewHolder {
-        @BindDrawable(R.drawable.ic_sync_blue_24dp)
-        Drawable syncIcon;
-        @BindView(R.id.avatar)
-        ImageView avatar;
-        @BindView(R.id.username)
-        TextView username;
-        @BindView(R.id.delete)
-        AppCompatImageButton deleteButton;
-        @BindView(R.id.permission_edit)
-        SwitchCompat switchEdit;
-        @BindView(R.id.permission_manage)
-        SwitchCompat switchManage;
-        @BindView(R.id.permission_share)
-        SwitchCompat switchShare;
+        //        @BindDrawable(R.drawable.ic_sync_blue_24dp)
+//        Drawable syncIcon;
+        ItemAccessControlBinding binding;
 
-        private AccessControlViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        private AccessControlViewHolder(ItemAccessControlBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 
     static class OwnerViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.avatar)
-        ImageView avatar;
-        @BindView(R.id.owner)
-        TextView owner;
+        ItemAccessControlOwnerBinding binding;
 
-        private OwnerViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        private OwnerViewHolder(ItemAccessControlOwnerBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 

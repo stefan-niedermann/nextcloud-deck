@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,11 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindInt;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteDropdownBinding;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -37,7 +33,7 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
-    private Context activity;
+    private Context context;
     private List<User> userList = new ArrayList<>();
     private SyncManager syncManager;
     private long accountId;
@@ -45,17 +41,13 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     private long cardId;
     private LifecycleOwner owner;
 
-    @BindInt(R.integer.max_users_suggested)
-    int maxUsersSuggested;
-
     public UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId) {
         this(owner, activity, accountId, boardId, 0L);
     }
 
     UserAutoCompleteAdapter(@NonNull LifecycleOwner owner, Activity activity, long accountId, long boardId, long cardId) {
-        ButterKnife.bind(this, activity);
         this.owner = owner;
-        this.activity = activity;
+        this.context = activity;
         this.accountId = accountId;
         this.boardId = boardId;
         this.cardId = cardId;
@@ -83,18 +75,19 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            LayoutInflater inflater = (LayoutInflater) activity
+            LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_autocomplete_dropdown, parent, false);
-            holder = new ViewHolder(convertView);
+            ItemAutocompleteDropdownBinding binding = ItemAutocompleteDropdownBinding.inflate(inflater, parent, false);
+            holder = new ViewHolder(binding);
+            convertView = binding.getRoot();
             convertView.setTag(holder);
         }
 
         try {
-            SingleSignOnAccount account = SingleAccountHelper.getCurrentSingleSignOnAccount(activity);
+            SingleSignOnAccount account = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
             ViewUtil.addAvatar(
-                    activity,
-                    holder.icon,
+                    context,
+                    holder.binding.icon,
                     account.url,
                     getItem(position).getUid(),
                     R.drawable.ic_person_grey600_24dp
@@ -105,7 +98,7 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
             DeckLog.logError(e);
         }
 
-        holder.label.setText(getItem(position).getDisplayname());
+        holder.binding.label.setText(getItem(position).getDisplayname());
         return convertView;
     }
 
@@ -122,11 +115,11 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
                         if (cardId == 0L) {
                             liveData = constraint.toString().trim().length() > 0
                                     ? syncManager.searchUserByUidOrDisplayNameForACL(accountId, boardId, constraint.toString())
-                                    : syncManager.findProposalsForUsersToAssignForACL(accountId, boardId, maxUsersSuggested);
+                                    : syncManager.findProposalsForUsersToAssignForACL(accountId, boardId, context.getResources().getInteger(R.integer.max_users_suggested));
                         } else {
                             liveData = constraint.toString().trim().length() > 0
                                     ? syncManager.searchUserByUidOrDisplayName(accountId, cardId, constraint.toString())
-                                    : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, maxUsersSuggested);
+                                    : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, context.getResources().getInteger(R.integer.max_users_suggested));
                         }
                         observeOnce(liveData, owner, users -> {
                             if (users != null) {
@@ -158,13 +151,10 @@ public class UserAutoCompleteAdapter extends BaseAdapter implements Filterable {
     }
 
     static class ViewHolder {
-        @BindView(R.id.icon)
-        ImageView icon;
-        @BindView(R.id.label)
-        TextView label;
+        ItemAutocompleteDropdownBinding binding;
 
-        ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+        ViewHolder(ItemAutocompleteDropdownBinding binding) {
+            this.binding = binding;
         }
     }
 }
