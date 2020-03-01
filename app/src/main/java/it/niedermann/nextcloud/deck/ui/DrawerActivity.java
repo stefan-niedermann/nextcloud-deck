@@ -15,7 +15,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -75,23 +74,22 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
     protected ActivityMainBinding binding;
 
-    String accountIsGettingImported = getString(R.string.account_is_getting_imported);
-    String accountAlreadyAdded = getString(R.string.account_already_added);
-    String sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
-    String urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
-    String addBoard = getString(R.string.add_board);
-    String noAccount = getString(R.string.no_account);
-    String addAccount = getString(R.string.add_account);
-    int minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
-    int minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
-    int minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
+    String accountIsGettingImported;
+    String accountAlreadyAdded;
+    String sharedPreferenceLastAccount;
+    String urlFragmentUpdateDeck;
+    String addBoard;
+    String noAccount;
+    String addAccount;
+    int minimumServerAppMajor;
+    int minimumServerAppMinor;
+    int minimumServerAppPatch;
 
     protected List<Account> accountsList = new ArrayList<>();
     protected Account account;
     protected boolean accountChooserActive = false;
     protected SyncManager syncManager;
     protected SharedPreferences sharedPreferences;
-    private HeaderViewHolder headerViewHolder;
     private Snackbar deckVersionTooLowSnackbar = null;
     private Snackbar accountIsGettingImportedSnackbar;
 
@@ -184,13 +182,22 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        accountIsGettingImported = getString(R.string.account_is_getting_imported);
+        accountAlreadyAdded = getString(R.string.account_already_added);
+        sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
+        urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
+        addBoard = getString(R.string.add_board);
+        noAccount = getString(R.string.no_account);
+        addAccount = getString(R.string.add_account);
+        minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
+        minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
+        minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
+
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setSupportActionBar(binding.toolbar);
 
         accountIsGettingImportedSnackbar = Snackbar.make(binding.coordinatorLayout, accountIsGettingImported, Snackbar.LENGTH_INDEFINITE);
 
-        View header = binding.navigationView.getHeaderView(0);
-        headerViewHolder = new HeaderViewHolder(header);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -200,6 +207,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         binding.navigationView.setNavigationItemSelectedListener(this);
         syncManager = new SyncManager(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        NavHeaderMainBinding headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
 
         syncManager.hasAccounts().observe(this, (Boolean hasAccounts) -> {
             if (hasAccounts != null && hasAccounts) {
@@ -215,7 +224,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             syncManager = new SyncManager(this);
                             setHeaderView();
-                            ViewUtil.addAvatar(this, headerViewHolder.binding.drawerCurrentAccount, this.account.getUrl(), this.account.getUserName(), R.mipmap.ic_launcher_round);
+                            ViewUtil.addAvatar(this, headerBinding.drawerCurrentAccount, this.account.getUrl(), this.account.getUserName(), R.mipmap.ic_launcher_round);
                             // TODO show spinner
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 registerAutoSyncOnNetworkAvailable();
@@ -412,14 +421,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     }
 
     abstract void buildSidenavMenu();
-
-    static class HeaderViewHolder {
-        NavHeaderMainBinding binding;
-
-        HeaderViewHolder(View view) {
-            NavHeaderMainBinding.bind(view);
-        }
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void registerAutoSyncOnNetworkAvailable() {
