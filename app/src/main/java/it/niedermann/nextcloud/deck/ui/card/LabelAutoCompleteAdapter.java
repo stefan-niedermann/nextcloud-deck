@@ -155,7 +155,7 @@ public class LabelAutoCompleteAdapter extends BaseAdapter implements Filterable 
     }
 
     static class ViewHolder {
-        ItemAutocompleteDropdownBinding binding;
+        private ItemAutocompleteDropdownBinding binding;
 
         ViewHolder(ItemAutocompleteDropdownBinding binding) {
             this.binding = binding;

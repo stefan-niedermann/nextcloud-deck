@@ -21,10 +21,10 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class ColorChooser extends LinearLayout {
 
+    private WidgetColorChooserBinding binding;
+
     private Context context;
     private String[] colors;
-
-    WidgetColorChooserBinding binding;
 
     private String selectedColor;
     private String previouslySelectedColor;

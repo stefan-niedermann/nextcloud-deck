@@ -60,14 +60,15 @@ public class MainActivity extends DrawerActivity implements
 
     private static final String TAG = MainActivity.class.getCanonicalName();
 
-    String sharedPreferencesLastBoardForAccount_;
-    String sharedPreferencesLastStackForAccountAndBoard_;
-    String simpleSettings;
-    String simpleBoards;
-    String about;
-    String shareBoard;
-    String editBoard;
-    String addColumn;
+    private String sharedPreferencesLastBoardForAccount_;
+    private String sharedPreferencesLastStackForAccountAndBoard_;
+    private String simpleSettings;
+    private String simpleBoards;
+    private String about;
+    private String shareBoard;
+    private String editBoard;
+    private String addColumn;
+    private String addBoard;
 
     private StackAdapter stackAdapter;
     private List<Board> boardsList;
@@ -93,6 +94,7 @@ public class MainActivity extends DrawerActivity implements
         shareBoard = getString(R.string.share_board);
         editBoard = getString(R.string.edit_board);
         addColumn = getString(R.string.add_column);
+        addBoard = getString(R.string.add_board);
 
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
