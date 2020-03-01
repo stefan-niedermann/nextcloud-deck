@@ -60,14 +60,14 @@ public class MainActivity extends DrawerActivity implements
 
     private static final String TAG = MainActivity.class.getCanonicalName();
 
-    String sharedPreferencesLastBoardForAccount_ = getString(R.string.shared_preference_last_board_for_account_);
-    String sharedPreferencesLastStackForAccountAndBoard_ = getString(R.string.shared_preference_last_stack_for_account_and_board_);
-    String simpleSettings = getString(R.string.simple_settings);
-    String simpleBoards = getString(R.string.simple_boards);
-    String about = getString(R.string.about);
-    String shareBoard = getString(R.string.share_board);
-    String editBoard = getString(R.string.edit_board);
-    String addColumn = getString(R.string.add_column);
+    String sharedPreferencesLastBoardForAccount_;
+    String sharedPreferencesLastStackForAccountAndBoard_;
+    String simpleSettings;
+    String simpleBoards;
+    String about;
+    String shareBoard;
+    String editBoard;
+    String addColumn;
 
     private StackAdapter stackAdapter;
     private List<Board> boardsList;
@@ -84,6 +84,15 @@ public class MainActivity extends DrawerActivity implements
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        sharedPreferencesLastBoardForAccount_ = getString(R.string.shared_preference_last_board_for_account_);
+        sharedPreferencesLastStackForAccountAndBoard_ = getString(R.string.shared_preference_last_stack_for_account_and_board_);
+        simpleSettings = getString(R.string.simple_settings);
+        simpleBoards = getString(R.string.simple_boards);
+        about = getString(R.string.about);
+        shareBoard = getString(R.string.share_board);
+        editBoard = getString(R.string.edit_board);
+        addColumn = getString(R.string.add_column);
 
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
