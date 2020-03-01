@@ -7,43 +7,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.FragmentAboutLicenseTabBinding;
 import it.niedermann.nextcloud.deck.util.LinkUtil;
 
 public class AboutFragmentLicenseTab extends Fragment {
 
-    @BindView(R.id.about_icons_disclaimer)
-    TextView iconsDisclaimer;
-    @BindView(R.id.about_app_license_button)
-    Button appLicenseButton;
+    FragmentAboutLicenseTabBinding binding;
 
-    @BindString(R.string.paragraph_start)
-    String paragraphStart;
-    @BindString(R.string.paragraph_end)
-    String paragraphEnd;
-
-    @OnClick(R.id.about_app_license_button)
-    void openLicense() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_license))));
-    }
+    private String paragraphStart;
+    private String paragraphEnd;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_about_license_tab, container, false);
-        ButterKnife.bind(this, v);
+        binding = FragmentAboutLicenseTabBinding.inflate(inflater, container, false);
         Resources resources = getResources();
-        LinkUtil.setHtml(iconsDisclaimer, paragraphStart, resources.getString(R.string.about_icons_disclaimer, getAppIconHint(resources), getMdiLink(resources)), paragraphEnd);
-        return v;
+        paragraphStart = getString(R.string.paragraph_start);
+        paragraphEnd = getString(R.string.paragraph_end);
+        binding.aboutAppLicenseButton.setOnClickListener((v) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_license)))));
+        LinkUtil.setHtml(binding.aboutIconsDisclaimer, paragraphStart, getString(R.string.about_icons_disclaimer, getAppIconHint(resources), getMdiLink(resources)), paragraphEnd);
+        return binding.getRoot();
     }
 
     private String getAppIconHint(Resources resources) {

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,21 +17,14 @@ import com.bumptech.glide.Glide;
 
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.DialogAttachmentBinding;
 
 public class AttachmentDialogFragment extends DialogFragment {
 
     private static final String BUNDLE_KEY_URL = "url";
     private static final String BUNDLE_KEY_ALT = "alt";
-
-    @BindView(R.id.image)
-    ImageView image;
-
-//    @BindView(R.id.progressBar)
-//    ProgressBar progressBar;
 
     /**
      * Use newInstance()-Method
@@ -43,8 +35,7 @@ public class AttachmentDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = requireActivity().getLayoutInflater().inflate(R.layout.dialog_attachment, null);
-        ButterKnife.bind(this, view);
+        it.niedermann.nextcloud.deck.databinding.DialogAttachmentBinding binding = DialogAttachmentBinding.inflate(getLayoutInflater());
 
         Glide.with(this)
 //                .addDefaultRequestListener(new RequestListener<Object>() {
@@ -63,12 +54,12 @@ public class AttachmentDialogFragment extends DialogFragment {
 //                    }
 //                })
                 .load(requireArguments().getString(BUNDLE_KEY_URL))
-                .into(image);
-        image.setContentDescription(requireArguments().getString(BUNDLE_KEY_ALT));
-        image.getRootView().setOnClickListener((v) -> dismiss());
+                .into(binding.image);
+        binding.image.setContentDescription(requireArguments().getString(BUNDLE_KEY_ALT));
+        binding.image.getRootView().setOnClickListener((v) -> dismiss());
 
         return new AlertDialog.Builder(requireActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
-                .setView(view)
+                .setView(binding.getRoot())
                 .create();
     }
 

@@ -9,8 +9,6 @@ import android.preference.SwitchPreference;
 
 import androidx.annotation.Nullable;
 
-import butterknife.BindString;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -18,29 +16,20 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 
 public class SettingsFragment extends PreferenceFragment {
 
-    @BindString(R.string.pref_key_wifi_only)
-    String prefKeyWifiOnly;
-    @BindString(R.string.pref_key_dark_theme)
-    String prefKeyDarkTheme;
-    @BindString(R.string.pref_key_background_sync)
-    String prefKeyBackgroundSync;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ButterKnife.bind(this, getActivity());
-
         addPreferencesFromResource(R.xml.settings);
 
-        final SwitchPreference wifiOnlyPref = (SwitchPreference) findPreference(prefKeyWifiOnly);
+        final SwitchPreference wifiOnlyPref = (SwitchPreference) findPreference(getString(R.string.pref_key_wifi_only));
         wifiOnlyPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
             Boolean syncOnWifiOnly = (Boolean) newValue;
             DeckLog.log("syncOnWifiOnly: " + syncOnWifiOnly);
             return true;
         });
 
-        final SwitchPreference themePref = (SwitchPreference) findPreference(prefKeyDarkTheme);
+        final SwitchPreference themePref = (SwitchPreference) findPreference(getString(R.string.pref_key_dark_theme));
         themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
             Boolean darkTheme = (Boolean) newValue;
             DeckLog.log("darkTheme: " + darkTheme);
@@ -50,7 +39,7 @@ public class SettingsFragment extends PreferenceFragment {
             return true;
         });
 
-        final ListPreference backgroundSyncPref = (ListPreference) findPreference(prefKeyBackgroundSync);
+        final ListPreference backgroundSyncPref = (ListPreference) findPreference(getString(R.string.pref_key_background_sync));
         backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
             SyncWorker.update(getActivity().getApplicationContext(), (String) newValue);
             return true;

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,10 +15,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 
 public class EditStackDialogFragment extends DialogFragment {
     public static final Long NO_STACK_ID = -1L;
@@ -28,8 +26,7 @@ public class EditStackDialogFragment extends DialogFragment {
     private long stackId = NO_STACK_ID;
     private EditStackListener editStackListener;
 
-    @BindView(R.id.input)
-    EditText input;
+    private DialogStackCreateBinding binding;
 
     /**
      * Use newInstance()-Method
@@ -50,11 +47,10 @@ public class EditStackDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = requireActivity().getLayoutInflater().inflate(R.layout.dialog_stack_create, null);
-        ButterKnife.bind(this, view);
+        binding = DialogStackCreateBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
-                .setView(view)
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
+                .setView(binding.getRoot())
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                     // Do something else
                 });
@@ -64,11 +60,11 @@ public class EditStackDialogFragment extends DialogFragment {
         stackId = getArguments().getLong(KEY_STACK_ID);
         if (stackId == NO_STACK_ID) {
             builder.setTitle(R.string.add_column)
-                    .setPositiveButton(R.string.simple_add, (dialog, which) -> editStackListener.onCreateStack(input.getText().toString()));
+                    .setPositiveButton(R.string.simple_add, (dialog, which) -> editStackListener.onCreateStack(binding.input.getText().toString()));
         } else {
-            input.setText(getArguments().getString(KEY_OLD_TITLE));
+            binding.input.setText(getArguments().getString(KEY_OLD_TITLE));
             builder.setTitle(R.string.rename_column)
-                    .setPositiveButton(R.string.simple_rename, (dialog, which) -> editStackListener.onUpdateStack(stackId, input.getText().toString()));
+                    .setPositiveButton(R.string.simple_rename, (dialog, which) -> editStackListener.onUpdateStack(stackId, binding.input.getText().toString()));
         }
         return builder.create();
     }
@@ -76,7 +72,7 @@ public class EditStackDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        input.requestFocus();
+        binding.input.requestFocus();
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return super.onCreateView(inflater, container, savedInstanceState);
     }

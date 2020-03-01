@@ -11,17 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.SpinnerAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputLayout;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
@@ -31,13 +26,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -64,33 +56,9 @@ public class EditActivity extends AppCompatActivity implements
         CommentDialogFragment.AddCommentListener,
         AdapterView.OnItemSelectedListener {
 
-    SyncManager syncManager;
+    private ActivityEditBinding binding;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.titleTextInputLayout)
-    TextInputLayout titleTextInputLayout;
-    @BindView(R.id.title)
-    EditText title;
-    @BindView(R.id.selectBoardWrapper)
-    View selectBoardWrapper;
-    @BindView(R.id.boardSelector)
-    AppCompatSpinner boardSelector;
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.pager)
-    ViewPager pager;
-
-    @BindString(R.string.shared_preference_last_board_for_account_)
-    String sharedPreferencesLastBoardForAccount_;
-    @BindString(R.string.shared_preference_last_stack_for_account_and_board_)
-    String sharedPreferencesLastStackForAccountAndBoard_;
-    @BindString(R.string.simple_add)
-    String add;
-    @BindString(R.string.edit)
-    String edit;
-
-    private Unbinder unbinder;
+    private SyncManager syncManager;
 
     private FullCard originalCard;
     private FullCard fullCard;
@@ -110,10 +78,10 @@ public class EditActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        setContentView(R.layout.activity_edit);
-        unbinder = ButterKnife.bind(this);
+        binding = ActivityEditBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -132,7 +100,7 @@ public class EditActivity extends AppCompatActivity implements
                 SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(this);
                 syncManager.readAccount(ssoa.name).observe(this, (Account account) -> {
                     accountId = account.getId();
-                    selectBoardWrapper.setVisibility(View.VISIBLE);
+                    binding.selectBoardWrapper.setVisibility(View.VISIBLE);
                     syncManager.getBoards(account.getId()).observe(this, (List<Board> boardsList) -> {
                         for (Board board : boardsList) {
                             if (!board.isPermissionEdit()) {
@@ -142,19 +110,19 @@ public class EditActivity extends AppCompatActivity implements
                         Board[] boardsArray = new Board[boardsList.size()];
                         boardsArray = boardsList.toArray(boardsArray);
                         SpinnerAdapter adapter = new BoardAdapter(this, boardsArray);
-                        boardSelector.setAdapter(adapter);
+                        binding.boardSelector.setAdapter(adapter);
 
                         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                        long lastBoardId = sharedPreferences.getLong(sharedPreferencesLastBoardForAccount_ + accountId, 0L);
+                        long lastBoardId = sharedPreferences.getLong(getString(R.string.shared_preference_last_board_for_account_) + accountId, 0L);
                         DeckLog.log("--- Read: shared_preference_last_board_for_account_" + account.getId() + " | " + lastBoardId);
                         if (lastBoardId != 0L) {
                             for (int i = 0; i < boardsArray.length; i++) {
                                 if (boardsArray[i].getLocalId() == lastBoardId) {
-                                    boardSelector.setSelection(i);
+                                    binding.boardSelector.setSelection(i);
                                 }
                             }
                         }
-                        boardSelector.setOnItemSelectedListener(this);
+                        binding.boardSelector.setOnItemSelectedListener(this);
                     });
                 });
             } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
@@ -234,29 +202,29 @@ public class EditActivity extends AppCompatActivity implements
     }
 
     private void setupViewPager() {
-        tabLayout.removeAllTabs();
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        binding.tabLayout.removeAllTabs();
+        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), this, accountId, localId, boardId, canEdit);
-        pager.setOffscreenPageLimit(2);
-        pager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(pager);
+        binding.pager.setOffscreenPageLimit(2);
+        binding.pager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.pager);
     }
 
     private void setupTitle(boolean createMode) {
-        title.setText(fullCard.getCard().getTitle());
+        binding.title.setText(fullCard.getCard().getTitle());
         if (canEdit) {
             if (createMode) {
-                title.requestFocus();
+                binding.title.requestFocus();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 if (fullCard.getCard().getTitle() != null) {
-                    title.setSelection(fullCard.getCard().getTitle().length());
+                    binding.title.setSelection(fullCard.getCard().getTitle().length());
                 }
             }
-            titleTextInputLayout.setHint(createMode ? add : edit);
-            title.addTextChangedListener(new TextWatcher() {
+            binding.titleTextInputLayout.setHint(getString(createMode ? R.string.simple_add : R.string.edit));
+            binding.title.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    fullCard.getCard().setTitle(title.getText().toString());
+                    fullCard.getCard().setTitle(binding.title.getText().toString());
                 }
 
                 @Override
@@ -268,22 +236,15 @@ public class EditActivity extends AppCompatActivity implements
                 }
             });
         } else {
-            titleTextInputLayout.setHintEnabled(false);
-            title.setEnabled(false);
+            binding.titleTextInputLayout.setHintEnabled(false);
+            binding.title.setEnabled(false);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override
     public void onDescriptionChanged(String description) {
         this.fullCard.getCard().setDescription(description);
     }
-
 
     @Override
     public void onUserAdded(User user) {
@@ -336,12 +297,12 @@ public class EditActivity extends AppCompatActivity implements
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        boardId = ((Board) boardSelector.getItemAtPosition(position)).getLocalId();
+        boardId = ((Board) binding.boardSelector.getItemAtPosition(position)).getLocalId();
         observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
             canEdit = fullBoard.getBoard().isPermissionEdit();
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            long savedStackId = sharedPreferences.getLong(sharedPreferencesLastStackForAccountAndBoard_ + accountId + "_" + boardId, 0L);
+            long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, 0L);
             DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + accountId + "_" + boardId + " | " + savedStackId);
             if (savedStackId == 0L) {
                 observeOnce(syncManager.getStacksForBoard(accountId, boardId), EditActivity.this, (stacks -> {

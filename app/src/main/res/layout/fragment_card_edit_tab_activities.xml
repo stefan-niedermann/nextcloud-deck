@@ -8,7 +8,7 @@
     tools:context=".ui.EditActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_list"
+        android:id="@+id/activities_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
@@ -16,7 +16,7 @@
         tools:listitem="@layout/item_activity" />
 
     <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
-        android:id="@+id/no_activities"
+        android:id="@+id/empty_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"

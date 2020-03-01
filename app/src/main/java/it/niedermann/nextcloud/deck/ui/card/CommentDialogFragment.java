@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,16 +15,14 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.DialogAddCommentBinding;
 
 public class CommentDialogFragment extends DialogFragment {
     private AddCommentListener addCommentListener;
 
-    @BindView(R.id.input)
-    EditText input;
+    private DialogAddCommentBinding binding;
 
     /**
      * Use newInstance()-Method
@@ -46,23 +43,22 @@ public class CommentDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = requireActivity().getLayoutInflater().inflate(R.layout.dialog_add_comment, null);
-        ButterKnife.bind(this, view);
+        binding = DialogAddCommentBinding.inflate(getLayoutInflater());
 
-        return new AlertDialog.Builder(getActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
-                .setView(view)
+        return new AlertDialog.Builder(requireActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
+                .setView(binding.getRoot())
                 .setTitle(R.string.simple_comment)
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                     // Do something else
                 })
-                .setPositiveButton(R.string.simple_add, (dialog, which) -> addCommentListener.onCommentAdded(input.getText().toString()))
+                .setPositiveButton(R.string.simple_add, (dialog, which) -> addCommentListener.onCommentAdded(binding.input.getText().toString()))
                 .create();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        input.requestFocus();
+        binding.input.requestFocus();
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return super.onCreateView(inflater, container, savedInstanceState);
     }

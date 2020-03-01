@@ -14,23 +14,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView;
 import it.niedermann.nextcloud.deck.util.FileUtils;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -39,8 +32,9 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_ED
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class CardAttachmentsFragment extends Fragment implements AttachmentAdapter.AttachmentDeletedListener {
-    private Unbinder unbinder;
     private static final String TAG = CardAttachmentsFragment.class.getCanonicalName();
+
+    private FragmentCardEditTabAttachmentsBinding binding;
 
     private static final int REQUEST_CODE_ADD_ATTACHMENT = 1;
     private static final int REQUEST_PERMISSION = 2;
@@ -50,22 +44,12 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
     private long accountId;
     private long cardId;
 
-    @BindView(R.id.coordinatorLayout)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-    @BindView(R.id.attachments_list)
-    RecyclerView attachmentsList;
-    @BindView(R.id.no_attachments)
-    EmptyContentView emptyContentView;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_card_edit_tab_attachments, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
 
         Bundle args = getArguments();
         if (args != null) {
@@ -76,14 +60,14 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
             syncManager = new SyncManager(requireActivity());
             syncManager.getCardByLocalId(accountId, cardId).observe(getViewLifecycleOwner(), (fullCard) -> {
                 if (fullCard.getAttachments().size() == 0) {
-                    this.emptyContentView.setVisibility(View.VISIBLE);
-                    this.attachmentsList.setVisibility(View.GONE);
+                    this.binding.emptyContentView.setVisibility(View.VISIBLE);
+                    this.binding.attachmentsList.setVisibility(View.GONE);
                 } else {
-                    this.emptyContentView.setVisibility(View.GONE);
-                    this.attachmentsList.setVisibility(View.VISIBLE);
+                    this.binding.emptyContentView.setVisibility(View.GONE);
+                    this.binding.attachmentsList.setVisibility(View.VISIBLE);
                     syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
                         RecyclerView.Adapter adapter = new AttachmentAdapter(this, account, fullCard.getCard().getId(), fullCard.getAttachments());
-                        attachmentsList.setAdapter(adapter);
+                        binding.attachmentsList.setAdapter(adapter);
                         GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
 
                         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -99,13 +83,13 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
                                 }
                             }
                         });
-                        attachmentsList.setLayoutManager(glm);
+                        binding.attachmentsList.setLayoutManager(glm);
                     });
                 }
             });
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT && canEdit) {
-                fab.setOnClickListener(v -> {
+                binding.fab.setOnClickListener(v -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                                 REQUEST_PERMISSION);
@@ -113,24 +97,24 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
                         startFilePickerIntent();
                     }
                 });
-                fab.show();
-                attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                binding.fab.show();
+                binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                         if (dy > 0)
-                            fab.hide();
+                            binding.fab.hide();
                         else if (dy < 0)
-                            fab.show();
+                            binding.fab.show();
                     }
                 });
             } else {
-                fab.hide();
-                emptyContentView.hideDescription();
+                binding.fab.hide();
+                binding.emptyContentView.hideDescription();
             }
         }
 
 
-        return view;
+        return binding.getRoot();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -183,12 +167,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
         fragment.setArguments(bundle);
 
         return fragment;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

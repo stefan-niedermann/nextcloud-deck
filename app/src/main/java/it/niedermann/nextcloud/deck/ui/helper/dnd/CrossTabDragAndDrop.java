@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import butterknife.BindInt;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -38,25 +36,15 @@ public class CrossTabDragAndDrop {
     private long lastSwap = 0;
     private long lastMove = 0;
 
-    @BindInt(R.integer.drag_n_drop_dp_to_react)
-    int dragAndDropDPtoReact;
-    @BindInt(R.integer.drag_n_drop_dp_to_react_top_bottom)
-    int dragAndDropDPtoReactTopBottom;
-    @BindInt(R.integer.drag_n_drop_ms_to_react)
-    int msToReact;
-    @BindInt(R.integer.drag_n_drop_dp_to_react_top_bottom)
-    int msToReactOnMove;
-
     private final float pxToReactTopBottom;
 
     private final Set<CardMovedByDragListener> moveListenerList = new HashSet<>(1);
 
     public CrossTabDragAndDrop(Activity activity) {
         this.activity = activity;
-        ButterKnife.bind(this, activity);
         final float density = activity.getResources().getDisplayMetrics().density;
-        this.pxToReact = dragAndDropDPtoReact * density;
-        this.pxToReactTopBottom = dragAndDropDPtoReactTopBottom * density;
+        this.pxToReact = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react) * density;
+        this.pxToReactTopBottom = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * density;
     }
 
     public void register(final ViewPager viewPager, TabLayout stackLayout) {
@@ -78,7 +66,7 @@ public class CrossTabDragAndDrop {
                     activity.getWindowManager().getDefaultDisplay().getSize(size);
 
                     long now = System.currentTimeMillis();
-                    if (lastSwap + msToReact < now) { // don't change Tabs so fast!
+                    if (lastSwap + activity.getResources().getInteger(R.integer.drag_n_drop_ms_to_react) < now) { // don't change Tabs so fast!
                         int oldTabPosition = viewPager.getCurrentItem();
 
                         boolean shouldSwitchTab = true;
@@ -111,7 +99,7 @@ public class CrossTabDragAndDrop {
                     }
 
 
-                    if (lastMove + msToReactOnMove < now){
+                    if (lastMove + activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) < now) {
                         //push around the other cards
                         View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
@@ -182,10 +170,10 @@ public class CrossTabDragAndDrop {
     }
 
     private void detectAndKillDuplicatesInNeighbourTab(ViewPager viewPager, FullCard cardToFind, int oldTabPosition, int newTabPosition) {
-        int tabPositionToCheck = newTabPosition > oldTabPosition ? newTabPosition+1 : newTabPosition-1;
+        int tabPositionToCheck = newTabPosition > oldTabPosition ? newTabPosition + 1 : newTabPosition - 1;
 
         if (isMovePossible(viewPager, tabPositionToCheck)) {
-            viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);
@@ -203,7 +191,7 @@ public class CrossTabDragAndDrop {
                             List<FullCard> cardList = cardAdapter.getCardList();
                             for (int i = 0; i < cardList.size(); i++) {
                                 FullCard c = cardList.get(i);
-                                if (cardToFind.getCard().getLocalId().equals(c.getLocalId())){
+                                if (cardToFind.getCard().getLocalId().equals(c.getLocalId())) {
                                     cardAdapter.removeItem(i);
                                     cardAdapter.notifyItemRemoved(i);
 //                                    DeckLog.log("dnd removed dupe at tab "+tabPositionToCheck+": "+c.getCard().getTitle());
@@ -231,11 +219,11 @@ public class CrossTabDragAndDrop {
         }
     }
 
-    public void addCardMovedByDragListener(CardMovedByDragListener listener){
+    public void addCardMovedByDragListener(CardMovedByDragListener listener) {
         moveListenerList.add(listener);
     }
 
-    public void removeCardMovedByDragListener(CardMovedByDragListener listener){
+    public void removeCardMovedByDragListener(CardMovedByDragListener listener) {
         moveListenerList.remove(listener);
     }
 }
