@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,7 +25,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
@@ -37,13 +35,10 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
-import butterknife.BindInt;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
@@ -59,7 +54,7 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHolder> {
 
     private static final String TAG = CardAdapter.class.getCanonicalName();
 
@@ -80,16 +75,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private LifecycleOwner lifecycleOwner;
     private List<FullStack> availableStacks = new ArrayList<>();
 
-
-    @BindInt(R.integer.max_avatar_count)
-    int maxAvatarCount;
-    @BindInt(R.integer.max_labels_shown)
-    int maxLabelsShown;
-    @BindInt(R.integer.max_labels_chars)
-    int maxLabelsChars;
+    private int maxAvatarCount;
+    private int maxLabelsShown;
+    private int maxLabelsChars;
 
     public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment) {
-        ButterKnife.bind(this, Objects.requireNonNull(fragment.getActivity()));
         this.lifecycleOwner = fragment;
         this.boardId = boardId;
         this.canEdit = canEdit;
@@ -98,9 +88,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @NonNull
     @Override
-    public CardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        this.context = viewGroup.getContext();
-        View v = LayoutInflater.from(this.context).inflate(R.layout.item_card, viewGroup, false);
+    public ItemCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+        context = viewGroup.getContext();
+
+        maxAvatarCount = context.getResources().getInteger(R.integer.max_avatar_count);
+        maxLabelsShown = context.getResources().getInteger(R.integer.max_labels_shown);
+        maxLabelsChars = context.getResources().getInteger(R.integer.max_labels_chars);
+
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        ItemCardBinding binding = ItemCardBinding.inflate(layoutInflater, viewGroup, false);
         try {
             account = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
         } catch (NextcloudFilesAppAccountNotFoundException e) {
@@ -108,18 +104,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         } catch (NoCurrentAccountSelectedException e) {
             DeckLog.logError(e);
         }
-        return new CardViewHolder(v);
+        return new ItemCardViewHolder(binding);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ItemCardViewHolder viewHolder, int position) {
         FullCard card = cardList.get(position);
         if (!canEdit) {
-            ((ViewManager) viewHolder.cardMenu.getParent()).removeView(viewHolder.cardMenu);
+            ((ViewManager) viewHolder.binding.cardMenu.getParent()).removeView(viewHolder.binding.cardMenu);
         }
 
-        viewHolder.card.setOnClickListener((View clickedView) -> {
+        viewHolder.binding.card.setOnClickListener((View clickedView) -> {
             Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
             intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
             intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
@@ -128,79 +124,79 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             context.startActivity(intent);
         });
         if (canEdit) {
-            viewHolder.card.setOnLongClickListener((View draggedView) -> {
+            viewHolder.binding.card.setOnLongClickListener((View draggedView) -> {
                 ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId() + "");
 
                 // Starts the drag
                 draggedView.startDrag(dragData,  // the data to be dragged
                         new View.DragShadowBuilder(draggedView),  // the drag shadow builder
-                        new DraggedCardLocalState(card, viewHolder.card, this, position),      // no need to use local data
+                        new DraggedCardLocalState(card, viewHolder.binding.card, this, position),      // no need to use local data
                         0          // flags (not currently used, set to 0)
                 );
-                viewHolder.card.setVisibility(View.INVISIBLE);
+                viewHolder.binding.card.setVisibility(View.INVISIBLE);
                 DeckLog.log("onLongClickListener");
                 return true;
             });
             setupMoveMenu(card.getAccountId(), boardId);
         }
-        viewHolder.cardTitle.setText(card.getCard().getTitle());
+        viewHolder.binding.cardTitle.setText(card.getCard().getTitle());
         String description = card.getCard().getDescription();
         if (description != null && description.length() > 0) {
-            viewHolder.cardDescription.setText(card.getCard().getDescription());
-            viewHolder.cardDescription.setVisibility(View.VISIBLE);
+            viewHolder.binding.cardDescription.setText(card.getCard().getDescription());
+            viewHolder.binding.cardDescription.setVisibility(View.VISIBLE);
         } else {
-            viewHolder.cardDescription.setVisibility(View.GONE);
+            viewHolder.binding.cardDescription.setVisibility(View.GONE);
         }
 
         boolean showDetails = false;
 
         if (card.getAssignedUsers() != null && card.getAssignedUsers().size() > 0 && account.url != null) {
-            setupAvatars(viewHolder.peopleList, card);
-            viewHolder.peopleList.setVisibility(View.VISIBLE);
+            setupAvatars(viewHolder.binding.peopleList, card);
+            viewHolder.binding.peopleList.setVisibility(View.VISIBLE);
             showDetails = true;
         } else {
-            viewHolder.peopleList.setVisibility(View.GONE);
+            viewHolder.binding.peopleList.setVisibility(View.GONE);
         }
 
         if (DBStatus.LOCAL_EDITED.equals(card.getStatusEnum())) {
-            viewHolder.notSyncedYet.setVisibility(View.VISIBLE);
+            viewHolder.binding.notSyncedYet.setVisibility(View.VISIBLE);
         }
 
         if (card.getCard().getDueDate() != null) {
-            setupDueDate(viewHolder.cardDueDate, card.getCard());
-            viewHolder.cardDueDate.setVisibility(View.VISIBLE);
+            setupDueDate(viewHolder.binding.cardDueDate, card.getCard());
+            viewHolder.binding.cardDueDate.setVisibility(View.VISIBLE);
             showDetails = true;
         } else {
-            viewHolder.cardDueDate.setVisibility(View.GONE);
+            viewHolder.binding.cardDueDate.setVisibility(View.GONE);
         }
 
         final int attachmentsCount = card.getAttachments().size();
 
         if (attachmentsCount == 0) {
-            viewHolder.cardCountAttachments.setVisibility(View.GONE);
+            viewHolder.binding.cardCountAttachments.setVisibility(View.GONE);
         } else {
-            setupAttachmentCount(viewHolder.cardCountAttachments, attachmentsCount);
+            setupAttachmentCount(viewHolder.binding.cardCountAttachments, attachmentsCount);
 
-            viewHolder.cardCountAttachments.setVisibility(View.VISIBLE);
+            viewHolder.binding.cardCountAttachments.setVisibility(View.VISIBLE);
             showDetails = true;
         }
 
-        viewHolder.labels.removeAllViews();
+        viewHolder.binding.labels.removeAllViews();
         if (card.getLabels() != null && card.getLabels().size() > 0) {
-            setupLabels(viewHolder.labels, card.getLabels());
-            viewHolder.labels.setVisibility(View.VISIBLE);
+            setupLabels(viewHolder.binding.labels, card.getLabels());
+            viewHolder.binding.labels.setVisibility(View.VISIBLE);
             showDetails = true;
         } else {
-            viewHolder.labels.setVisibility(View.GONE);
+            viewHolder.binding.labels.setVisibility(View.GONE);
         }
 
         if (showDetails) {
-            viewHolder.detailsContainer.setVisibility(View.VISIBLE);
+            viewHolder.binding.cardDetailsContainer.setVisibility(View.VISIBLE);
         } else {
-            viewHolder.detailsContainer.setVisibility(View.GONE);
+            viewHolder.binding.cardDetailsContainer.setVisibility(View.GONE);
         }
 
-        viewHolder.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
+        viewHolder.binding.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
     }
 
     private void setupMoveMenu(long accountId, long boardId) {
@@ -377,7 +373,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                             LiveDataHelper.observeOnce(syncManager.updateCard(newCard), lifecycleOwner, (c) -> {
                                 // Nothing to do here...
                             });
-                            DeckLog.log("Moved card \"" + card.getCard().getTitle() +  "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
+                            DeckLog.log("Moved card \"" + card.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
                         })
                         .setNegativeButton(android.R.string.cancel, null)
                         .setTitle(context.getString(R.string.action_card_move_title, card.getCard().getTitle()))
@@ -396,31 +392,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return true;
     }
 
-    static class CardViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.card)
-        MaterialCardView card;
-        @BindView(R.id.card_title)
-        TextView cardTitle;
-        @BindView(R.id.card_description)
-        TextView cardDescription;
-        @BindView(R.id.card_details_container)
-        LinearLayout detailsContainer;
-        @BindView(R.id.peopleList)
-        RelativeLayout peopleList;
-        @BindView(R.id.labels)
-        ChipGroup labels;
-        @BindView(R.id.card_due_date)
-        TextView cardDueDate;
-        @BindView(R.id.card_count_attachments)
-        TextView cardCountAttachments;
-        @BindView(R.id.card_menu)
-        ImageView cardMenu;
-        @BindView(R.id.not_synced_yet)
-        ImageView notSyncedYet;
+    static class ItemCardViewHolder extends RecyclerView.ViewHolder {
+        ItemCardBinding binding;
 
-        private CardViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        private ItemCardViewHolder(ItemCardBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }
