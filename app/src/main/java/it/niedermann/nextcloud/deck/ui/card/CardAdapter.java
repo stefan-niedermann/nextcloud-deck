@@ -393,7 +393,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     }
 
     static class ItemCardViewHolder extends RecyclerView.ViewHolder {
-        ItemCardBinding binding;
+        private ItemCardBinding binding;
 
         private ItemCardViewHolder(ItemCardBinding binding) {
             super(binding.getRoot());

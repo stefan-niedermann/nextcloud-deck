@@ -76,7 +76,7 @@ public class ExceptionActivity extends AppCompatActivity {
         return sw.toString();
     }
 
-    void copyStacktraceToClipboard() {
+    private void copyStacktraceToClipboard() {
         final android.content.ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText(getString(R.string.simple_exception), "```\n" + binding.stacktrace.getText() + "\n```");
         clipboardManager.setPrimaryClip(clipData);

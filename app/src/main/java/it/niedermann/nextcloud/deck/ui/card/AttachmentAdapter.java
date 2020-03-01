@@ -163,11 +163,11 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
             super(itemView);
         }
 
-        abstract View getRootView();
+        abstract protected View getRootView();
 
-        abstract ImageView getPreview();
+        abstract protected ImageView getPreview();
 
-        abstract void setNotSyncedYetStatus(boolean synced);
+        abstract protected void setNotSyncedYetStatus(boolean synced);
     }
 
     static class DefaultAttachmentViewHolder extends AttachmentViewHolder {
@@ -179,23 +179,23 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         }
 
         @Override
-        View getRootView() {
+        protected View getRootView() {
             return binding.getRoot();
         }
 
         @Override
-        ImageView getPreview() {
+        protected ImageView getPreview() {
             return binding.preview;
         }
 
         @Override
-        void setNotSyncedYetStatus(boolean synced) {
+        protected void setNotSyncedYetStatus(boolean synced) {
             binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
         }
     }
 
     static class ImageAttachmentViewHolder extends AttachmentViewHolder {
-        ItemAttachmentImageBinding binding;
+        private ItemAttachmentImageBinding binding;
 
         private ImageAttachmentViewHolder(ItemAttachmentImageBinding binding) {
             super(binding.getRoot());
@@ -203,17 +203,17 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
         }
 
         @Override
-        View getRootView() {
+        protected View getRootView() {
             return binding.getRoot();
         }
 
         @Override
-        ImageView getPreview() {
+        protected ImageView getPreview() {
             return binding.preview;
         }
 
         @Override
-        void setNotSyncedYetStatus(boolean synced) {
+        protected void setNotSyncedYetStatus(boolean synced) {
             binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
         }
     }

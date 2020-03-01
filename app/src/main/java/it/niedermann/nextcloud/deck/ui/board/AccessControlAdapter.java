@@ -114,10 +114,10 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         return (position == 0) ? TYPE_HEADER : TYPE_ITEM;
     }
 
-    static class AccessControlViewHolder extends RecyclerView.ViewHolder {
+    private static class AccessControlViewHolder extends RecyclerView.ViewHolder {
         //        @BindDrawable(R.drawable.ic_sync_blue_24dp)
 //        Drawable syncIcon;
-        ItemAccessControlBinding binding;
+        private ItemAccessControlBinding binding;
 
         private AccessControlViewHolder(ItemAccessControlBinding binding) {
             super(binding.getRoot());
@@ -125,8 +125,8 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    static class OwnerViewHolder extends RecyclerView.ViewHolder {
-        ItemAccessControlOwnerBinding binding;
+    private static class OwnerViewHolder extends RecyclerView.ViewHolder {
+        private ItemAccessControlOwnerBinding binding;
 
         private OwnerViewHolder(ItemAccessControlOwnerBinding binding) {
             super(binding.getRoot());

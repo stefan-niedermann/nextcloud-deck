@@ -74,16 +74,15 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
     protected ActivityMainBinding binding;
 
-    String accountIsGettingImported;
-    String accountAlreadyAdded;
-    String sharedPreferenceLastAccount;
-    String urlFragmentUpdateDeck;
-    String addBoard;
-    String noAccount;
-    String addAccount;
-    int minimumServerAppMajor;
-    int minimumServerAppMinor;
-    int minimumServerAppPatch;
+    private String accountAlreadyAdded;
+    private String sharedPreferenceLastAccount;
+    private String urlFragmentUpdateDeck;
+    private String addBoard;
+    private String noAccount;
+    private String addAccount;
+    private int minimumServerAppMajor;
+    private int minimumServerAppMinor;
+    private int minimumServerAppPatch;
 
     protected List<Account> accountsList = new ArrayList<>();
     protected Account account;
@@ -182,7 +181,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        accountIsGettingImported = getString(R.string.account_is_getting_imported);
         accountAlreadyAdded = getString(R.string.account_already_added);
         sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
         urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
@@ -196,7 +194,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setSupportActionBar(binding.toolbar);
 
-        accountIsGettingImportedSnackbar = Snackbar.make(binding.coordinatorLayout, accountIsGettingImported, Snackbar.LENGTH_INDEFINITE);
+        accountIsGettingImportedSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

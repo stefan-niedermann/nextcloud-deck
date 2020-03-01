@@ -68,7 +68,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
     }
 
     static class ActivitiesViewHolder extends RecyclerView.ViewHolder {
-        ItemActivityBinding binding;
+        private ItemActivityBinding binding;
 
         private ActivitiesViewHolder(ItemActivityBinding binding) {
             super(binding.getRoot());

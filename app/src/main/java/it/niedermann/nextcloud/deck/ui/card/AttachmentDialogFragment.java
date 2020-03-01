@@ -35,7 +35,7 @@ public class AttachmentDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        it.niedermann.nextcloud.deck.databinding.DialogAttachmentBinding binding = DialogAttachmentBinding.inflate(getLayoutInflater());
+        DialogAttachmentBinding binding = DialogAttachmentBinding.inflate(getLayoutInflater());
 
         Glide.with(this)
 //                .addDefaultRequestListener(new RequestListener<Object>() {

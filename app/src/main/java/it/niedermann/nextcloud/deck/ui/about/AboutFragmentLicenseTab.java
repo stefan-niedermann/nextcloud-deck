@@ -17,14 +17,12 @@ import it.niedermann.nextcloud.deck.util.LinkUtil;
 
 public class AboutFragmentLicenseTab extends Fragment {
 
-    FragmentAboutLicenseTabBinding binding;
-
     private String paragraphStart;
     private String paragraphEnd;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentAboutLicenseTabBinding.inflate(inflater, container, false);
+        FragmentAboutLicenseTabBinding binding = FragmentAboutLicenseTabBinding.inflate(inflater, container, false);
         Resources resources = getResources();
         paragraphStart = getString(R.string.paragraph_start);
         paragraphEnd = getString(R.string.paragraph_end);
