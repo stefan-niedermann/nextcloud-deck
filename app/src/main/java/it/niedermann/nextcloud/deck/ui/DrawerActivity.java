@@ -16,8 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,10 +25,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -50,14 +45,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindInt;
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
+import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
@@ -80,35 +73,18 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     protected static final long NO_BOARDS = -1;
     protected static final long NO_STACKS = -1;
 
-    @BindView(R.id.coordinatorLayout)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.navigationView)
-    NavigationView navigationView;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    protected ActivityMainBinding binding;
 
-    @BindString(R.string.account_is_getting_imported)
-    String accountIsGettingImported;
-    @BindString(R.string.account_already_added)
-    String accountAlreadyAdded;
-    @BindString(R.string.shared_preference_last_account)
-    String sharedPreferenceLastAccount;
-    @BindString(R.string.url_fragment_update_deck)
-    String urlFragmentUpdateDeck;
-    @BindString(R.string.add_board)
-    String addBoard;
-    @BindString(R.string.no_account)
-    String noAccount;
-    @BindString(R.string.add_account)
-    String addAccount;
-    @BindInt(R.integer.minimum_server_app_major)
-    int minimumServerAppMajor;
-    @BindInt(R.integer.minimum_server_app_minor)
-    int minimumServerAppMinor;
-    @BindInt(R.integer.minimum_server_app_patch)
-    int minimumServerAppPatch;
+    String accountIsGettingImported = getString(R.string.account_is_getting_imported);
+    String accountAlreadyAdded = getString(R.string.account_already_added);
+    String sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
+    String urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
+    String addBoard = getString(R.string.add_board);
+    String noAccount = getString(R.string.no_account);
+    String addAccount = getString(R.string.add_account);
+    int minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
+    int minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
+    int minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
 
     protected List<Account> accountsList = new ArrayList<>();
     protected Account account;
@@ -145,7 +121,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             try {
                                 accountLiveData.throwError();
                             } catch (SQLiteConstraintException ex) {
-                                Snackbar.make(coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
                             }
                         } else {
                             // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
@@ -159,7 +135,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                     @Override
                                     public void onResponse(Capabilities response) {
                                         if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
-                                            deckVersionTooLowSnackbar = Snackbar.make(coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
+                                            deckVersionTooLowSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
                                                 new AlertDialog.Builder(DrawerActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
                                                         .setTitle(R.string.update_deck)
                                                         .setMessage(R.string.deck_outdated_please_update)
@@ -209,19 +185,19 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         super.onCreate(savedInstanceState);
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
 
-        accountIsGettingImportedSnackbar = Snackbar.make(coordinatorLayout, accountIsGettingImported, Snackbar.LENGTH_INDEFINITE);
+        accountIsGettingImportedSnackbar = Snackbar.make(binding.coordinatorLayout, accountIsGettingImported, Snackbar.LENGTH_INDEFINITE);
 
-        View header = navigationView.getHeaderView(0);
+        View header = binding.navigationView.getHeaderView(0);
         headerViewHolder = new HeaderViewHolder(header);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
+        binding.navigationView.setNavigationItemSelectedListener(this);
         syncManager = new SyncManager(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -239,7 +215,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
                             syncManager = new SyncManager(this);
                             setHeaderView();
-                            ViewUtil.addAvatar(this, headerViewHolder.currentAccountAvatar, this.account.getUrl(), this.account.getUserName(), R.mipmap.ic_launcher_round);
+                            ViewUtil.addAvatar(this, headerViewHolder.binding.drawerCurrentAccount, this.account.getUrl(), this.account.getUserName(), R.mipmap.ic_launcher_round);
                             // TODO show spinner
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 registerAutoSyncOnNetworkAvailable();
@@ -261,7 +237,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
             }
         });
 
-        navigationView.getHeaderView(0).findViewById(R.id.drawer_header_view).setOnClickListener(v -> {
+        binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_header_view).setOnClickListener(v -> {
             this.accountChooserActive = !this.accountChooserActive;
             if (accountChooserActive) {
                 buildSidenavAccountChooser();
@@ -300,8 +276,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -347,24 +323,24 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     boardSelected(item.getItemId(), account);
             }
         }
-        drawer.closeDrawer(GravityCompat.START);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     protected abstract void boardSelected(int itemId, Account account);
 
     protected void setHeaderView() {
-        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), account.getUrl(), account.getUserName(), R.mipmap.ic_launcher_round);
-        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(account.getName());
+        ViewUtil.addAvatar(this, binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), account.getUrl(), account.getUserName(), R.mipmap.ic_launcher_round);
+        ((TextView) binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(account.getName());
     }
 
     protected void setNoAccountHeaderView() {
-        ViewUtil.addAvatar(this, navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), null, "", R.mipmap.ic_launcher_round);
-        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(noAccount);
+        ViewUtil.addAvatar(this, binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), null, "", R.mipmap.ic_launcher_round);
+        ((TextView) binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(noAccount);
     }
 
     private void buildSidenavAccountChooser() {
-        Menu menu = navigationView.getMenu();
+        Menu menu = binding.navigationView.getMenu();
         menu.clear();
         if (accountsList == null || accountsList.size() == 0) {
             Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name_short);
@@ -427,7 +403,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
                     syncManager.deleteAccount(account.getId());
                     buildSidenavAccountChooser();
-                    drawer.closeDrawer(GravityCompat.START);
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
                 });
                 m.setActionView(contextMenu);
             }
@@ -438,20 +414,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     abstract void buildSidenavMenu();
 
     static class HeaderViewHolder {
-        @BindView(R.id.drawer_current_account)
-        ImageView currentAccountAvatar;
-        @BindView(R.id.drawer_account_middle)
-        ImageView accountMiddleAvatar;
-        @BindView(R.id.drawer_account_end)
-        ImageView accountEndAvatar;
-
-        @BindView(R.id.drawer_menu_toggle)
-        LinearLayout drawerMenuToggle;
-        @BindView(R.id.drawer_account_chooser_toggle)
-        ImageView drawerMenuToggleIcon;
+        NavHeaderMainBinding binding;
 
         HeaderViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            NavHeaderMainBinding.bind(view);
         }
     }
 

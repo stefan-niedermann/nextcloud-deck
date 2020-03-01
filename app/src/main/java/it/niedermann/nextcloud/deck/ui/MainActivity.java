@@ -16,26 +16,20 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper;
 
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -45,7 +39,6 @@ import it.niedermann.nextcloud.deck.ui.board.AccessControlDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
-import it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
@@ -67,39 +60,14 @@ public class MainActivity extends DrawerActivity implements
 
     private static final String TAG = MainActivity.class.getCanonicalName();
 
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-    @BindView(R.id.navigationView)
-    NavigationView navigationView;
-    @BindView(R.id.stackLayout)
-    TabLayout stackLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-    @BindView(R.id.no_stacks)
-    EmptyContentView emptyContentView;
-    @BindView(R.id.add_stack)
-    AppCompatImageButton addStackButton;
-
-    @BindString(R.string.shared_preference_last_board_for_account_)
-    String sharedPreferencesLastBoardForAccount_;
-    @BindString(R.string.shared_preference_last_stack_for_account_and_board_)
-    String sharedPreferencesLastStackForAccountAndBoard_;
-    @BindString(R.string.simple_settings)
-    String simpleSettings;
-    @BindString(R.string.simple_boards)
-    String simpleBoards;
-    @BindString(R.string.about)
-    String about;
-    @BindString(R.string.share_board)
-    String shareBoard;
-    @BindString(R.string.edit_board)
-    String editBoard;
-    @BindString(R.string.add_column)
-    String addColumn;
-    @BindString(R.string.action_card_list_rename_column)
-    String actionCardListRenameColumn;
+    String sharedPreferencesLastBoardForAccount_ = getString(R.string.shared_preference_last_board_for_account_);
+    String sharedPreferencesLastStackForAccountAndBoard_ = getString(R.string.shared_preference_last_stack_for_account_and_board_);
+    String simpleSettings = getString(R.string.simple_settings);
+    String simpleBoards = getString(R.string.simple_boards);
+    String about = getString(R.string.about);
+    String shareBoard = getString(R.string.share_board);
+    String editBoard = getString(R.string.edit_board);
+    String addColumn = getString(R.string.add_column);
 
     private StackAdapter stackAdapter;
     private List<Board> boardsList;
@@ -113,8 +81,10 @@ public class MainActivity extends DrawerActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
@@ -124,16 +94,16 @@ public class MainActivity extends DrawerActivity implements
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
-        dragAndDrop.register(viewPager, stackLayout);
+        dragAndDrop.register(binding.viewPager, binding.stackLayout);
         dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
             //FIXME: implement me por favour!
             syncManager.reorder(account.getId(), movedCard, stackId, position);
             DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
         });
 
-        fab.setOnClickListener((View view) -> {
+        binding.fab.setOnClickListener((View view) -> {
             if (this.boardsList == null) {
-                Snackbar.make(coordinatorLayout, "Please add an account first", Snackbar.LENGTH_LONG);
+                Snackbar.make(binding.coordinatorLayout, "Please add an account first", Snackbar.LENGTH_LONG);
             } else if (this.boardsList.size() > 0) {
                 Intent intent = new Intent(this, EditActivity.class);
                 intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
@@ -141,7 +111,7 @@ public class MainActivity extends DrawerActivity implements
                 intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
-                    intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(viewPager.getCurrentItem()).getStackId());
+                    intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId());
                     startActivity(intent);
                 } catch (IndexOutOfBoundsException e) {
                     EditStackDialogFragment.newInstance(NO_STACK_ID)
@@ -152,7 +122,7 @@ public class MainActivity extends DrawerActivity implements
             }
         });
 
-        addStackButton.setOnClickListener((v) -> {
+        binding.addStackButton.setOnClickListener((v) -> {
             if (this.boardsList.size() == 0) {
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
             } else {
@@ -160,7 +130,7 @@ public class MainActivity extends DrawerActivity implements
             }
         });
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -168,7 +138,7 @@ public class MainActivity extends DrawerActivity implements
 
             @Override
             public void onPageSelected(int position) {
-                viewPager.post(() -> {
+                binding.viewPager.post(() -> {
                     // Remember last stack for this board
                     if (stackAdapter.getCount() >= position) {
                         long currentStackId = stackAdapter.getItem(position).getStackId();
@@ -187,7 +157,7 @@ public class MainActivity extends DrawerActivity implements
             }
         });
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
             Log.i(TAG, "Clearing Glide memory cache");
             Glide.get(this).clearMemory();
             new Thread(() -> {
@@ -197,12 +167,12 @@ public class MainActivity extends DrawerActivity implements
             syncManager.synchronize(new IResponseCallback<Boolean>(account) {
                 @Override
                 public void onResponse(Boolean response) {
-                    runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+                    runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
-                    runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+                    runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
                     DeckLog.logError(throwable);
                 }
             });
@@ -227,7 +197,7 @@ public class MainActivity extends DrawerActivity implements
             // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
             DeckLog.log("Create Stack with account id = " + account.getId());
             syncManager.createStack(account.getId(), s).observe(MainActivity.this, (stack) -> {
-                viewPager.setCurrentItem(stackAdapter.getCount());
+                binding.viewPager.setCurrentItem(stackAdapter.getCount());
             });
         });
     }
@@ -248,7 +218,7 @@ public class MainActivity extends DrawerActivity implements
         b.setColor(colorToSet);
         observeOnce(syncManager.createBoard(account.getId(), b), this, board -> {
             if (board == null) {
-                Snackbar.make(coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG);
+                Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG);
             } else {
                 boardsList.add(board.getBoard());
                 currentBoardId = board.getLocalId();
@@ -302,8 +272,8 @@ public class MainActivity extends DrawerActivity implements
 
     @Override
     protected void buildSidenavMenu() {
-        navigationView.setItemIconTintList(null);
-        Menu menu = navigationView.getMenu();
+        binding.navigationView.setItemIconTintList(null);
+        Menu menu = binding.navigationView.getMenu();
         menu.clear();
         SubMenu boardsMenu = menu.addSubMenu(simpleBoards);
         if (boardsList != null) {
@@ -333,7 +303,7 @@ public class MainActivity extends DrawerActivity implements
                                     break;
                                 case R.id.archive_board:
                                     // TODO implement
-                                    Snackbar.make(drawer, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(binding.drawerLayout, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
                                     break;
                                 case R.id.delete_board:
                                     new DeleteDialogBuilder(this)
@@ -351,7 +321,7 @@ public class MainActivity extends DrawerActivity implements
                                                     }
                                                 }
                                                 syncManager.deleteBoard(board);
-                                                drawer.closeDrawer(GravityCompat.START);
+                                                binding.drawerLayout.closeDrawer(GravityCompat.START);
                                             })
                                             .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                                             })
@@ -399,33 +369,33 @@ public class MainActivity extends DrawerActivity implements
      * @param board Board
      */
     private void displayStacksForBoard(Board board, Account account) {
-        toolbar.setTitle(board.getTitle());
+        binding.toolbar.setTitle(board.getTitle());
 
         currentBoardHasEditPermission = board.isPermissionEdit();
         if (currentBoardHasEditPermission) {
-            fab.show();
-            addStackButton.setVisibility(View.VISIBLE);
+            binding.fab.show();
+            binding.addStackButton.setVisibility(View.VISIBLE);
         } else {
-            fab.hide();
-            addStackButton.setVisibility(View.GONE);
-            emptyContentView.hideDescription();
+            binding.fab.hide();
+            binding.addStackButton.setVisibility(View.GONE);
+            binding.emptyContentView.hideDescription();
         }
 
         syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
-                emptyContentView.setVisibility(View.VISIBLE);
+                binding.emptyContentView.setVisibility(View.VISIBLE);
                 currentBoardHasStacks = false;
             } else {
-                emptyContentView.setVisibility(View.GONE);
+                binding.emptyContentView.setVisibility(View.GONE);
                 currentBoardHasStacks = true;
 
                 long savedStackId = sharedPreferences.getLong(sharedPreferencesLastStackForAccountAndBoard_ + account.getId() + "_" + this.currentBoardId, NO_STACKS);
                 DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
                 if (fullStacks.size() == 0) {
-                    emptyContentView.setVisibility(View.VISIBLE);
+                    binding.emptyContentView.setVisibility(View.VISIBLE);
                     currentBoardHasStacks = false;
                 } else {
-                    emptyContentView.setVisibility(View.GONE);
+                    binding.emptyContentView.setVisibility(View.GONE);
                     currentBoardHasStacks = true;
                 }
 
@@ -439,12 +409,12 @@ public class MainActivity extends DrawerActivity implements
                 }
                 stackAdapter = newStackAdapter;
                 runOnUiThread(() -> {
-                    viewPager.setAdapter(newStackAdapter);
+                    binding.viewPager.setAdapter(newStackAdapter);
 
-                    new TabLayoutHelper(stackLayout, viewPager).setAutoAdjustTabModeEnabled(true);
+                    new TabLayoutHelper(binding.stackLayout, binding.viewPager).setAutoAdjustTabModeEnabled(true);
 
-                    viewPager.setCurrentItem(stackPositionInAdapter);
-                    stackLayout.setupWithViewPager(viewPager);
+                    binding.viewPager.setCurrentItem(stackPositionInAdapter);
+                    binding.stackLayout.setupWithViewPager(binding.viewPager);
                 });
             }
             invalidateOptionsMenu();
@@ -472,7 +442,7 @@ public class MainActivity extends DrawerActivity implements
                         .setTitle(R.string.action_card_list_delete_column)
                         .setMessage(R.string.do_you_want_to_delete_the_current_column)
                         .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> {
-                            long stackId = stackAdapter.getItem(viewPager.getCurrentItem()).getStackId();
+                            long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId();
                             observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
                                 DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
                                 syncManager.deleteStack(fullStack.getStack());
@@ -482,8 +452,8 @@ public class MainActivity extends DrawerActivity implements
                 break;
             case R.id.action_card_list_rename_column:
                 // TODO call newInstance with old stack name
-                EditStackDialogFragment.newInstance(stackAdapter.getItem(viewPager.getCurrentItem()).getStackId())
-                        .show(getSupportFragmentManager(), actionCardListRenameColumn);
+                EditStackDialogFragment.newInstance(stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId())
+                        .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -491,7 +461,7 @@ public class MainActivity extends DrawerActivity implements
 
     private void showFabIfEditPermissionGranted() {
         if (currentBoardHasEditPermission) {
-            this.fab.show();
+            binding.fab.show();
         }
     }
 
@@ -502,6 +472,6 @@ public class MainActivity extends DrawerActivity implements
 
     @Override
     public void onScrollDown() {
-        this.fab.hide();
+        binding.fab.hide();
     }
 }

@@ -19,7 +19,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
-                android:id="@+id/no_stacks"
+                android:id="@+id/empty_content_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -73,7 +73,7 @@
                     app:tabTextColor="@android:color/white" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/add_stack"
+                    android:id="@+id/add_stack_button"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
                     android:background="?android:selectableItemBackground"

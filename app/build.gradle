@@ -31,7 +31,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    viewBinding {
+        enabled = true
+    }
     flavorDimensions "version"
     productFlavors {
         fdroid {
