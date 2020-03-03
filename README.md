@@ -6,7 +6,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/stefan-niedermann/nextcloud-deck.svg)](https://github.com/stefan-niedermann/nextcloud-deck/stargazers)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-⚠️ **This app is still under heavy development. A release for Play Store will be published soon.** ⚠️
+⚠️ **This app is still under heavy development.** ⚠️
 
 An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
@@ -15,6 +15,9 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 [![Latest Release](https://img.shields.io/github/v/tag/stefan-niedermann/nextcloud-deck?label=latest+release&sort=semver)](https://github.com/stefan-niedermann/nextcloud-deck/releases)
 [![F-Droid Release](https://img.shields.io/f-droid/v/it.niedermann.nextcloud.deck)](https://f-droid.org/de/packages/it.niedermann.nextcloud.deck/)
 
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+      alt="Get it on Play Store"
+      height="80">](https://play.google.com/apps/testing/it.niedermann.nextcloud.deck.play
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/repository/browse/?fdid=it.niedermann.nextcloud.deck)
