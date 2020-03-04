@@ -126,4 +126,6 @@
     <string name="hours_6">6 uur</string>
     <string name="action_card_move">Verplaats kaart</string>
     <string name="action_card_move_title">Verplaats %1$s</string>
+    <string name="simple_disabled">uitgeschakeld</string>
+    <string name="simple_copied">Gekopieerd</string>
 </resources>

@@ -126,4 +126,6 @@
     <string name="hours_6">6 Saat</string>
     <string name="action_card_move">Kartı taşı</string>
     <string name="action_card_move_title">%1$s Taşı</string>
+    <string name="simple_disabled">devre dışı</string>
+    <string name="simple_copied">Kopyalandı</string>
 </resources>

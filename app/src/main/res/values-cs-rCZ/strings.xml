@@ -126,4 +126,6 @@
     <string name="hours_6">každých 6 hodin</string>
     <string name="action_card_move">Přesunout kartu</string>
     <string name="action_card_move_title">Přesunout %1$s</string>
+    <string name="simple_disabled">vypnuto</string>
+    <string name="simple_copied">Zkopírováno</string>
 </resources>

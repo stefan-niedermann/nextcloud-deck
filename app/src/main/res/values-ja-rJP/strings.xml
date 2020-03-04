@@ -126,4 +126,5 @@
     <string name="hours_6">6 時間</string>
     <string name="action_card_move">カードの移動</string>
     <string name="action_card_move_title">%1$sを移動</string>
+    <string name="simple_copied">コピーしました</string>
 </resources>

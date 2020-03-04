@@ -126,4 +126,5 @@
     <string name="hours_6">6 hodín</string>
     <string name="action_card_move">Presunúť kartu</string>
     <string name="action_card_move_title">Preusnúť %1$s</string>
+    <string name="simple_copied">Skopírované</string>
 </resources>
