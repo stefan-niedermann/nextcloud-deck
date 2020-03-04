@@ -43,7 +43,7 @@ public class CommentDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        binding = DialogAddCommentBinding.inflate(getLayoutInflater());
+        binding = DialogAddCommentBinding.inflate(requireActivity().getLayoutInflater());
 
         return new AlertDialog.Builder(requireActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
                 .setView(binding.getRoot())

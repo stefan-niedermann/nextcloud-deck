@@ -35,7 +35,7 @@ public class AttachmentDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        DialogAttachmentBinding binding = DialogAttachmentBinding.inflate(getLayoutInflater());
+        DialogAttachmentBinding binding = DialogAttachmentBinding.inflate(requireActivity().getLayoutInflater());
 
         Glide.with(this)
 //                .addDefaultRequestListener(new RequestListener<Object>() {
