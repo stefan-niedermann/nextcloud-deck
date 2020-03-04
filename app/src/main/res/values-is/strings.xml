@@ -113,4 +113,5 @@
     <string name="minutes_15">15 mínútur</string>
     <string name="hour_1">1 klukkustund</string>
     <string name="hours_6">6 klukkustundir</string>
-    </resources>
+    <string name="simple_copied">Afritað</string>
+</resources>

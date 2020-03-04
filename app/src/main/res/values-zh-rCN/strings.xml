@@ -126,4 +126,6 @@
     <string name="hours_6">6 小时</string>
     <string name="action_card_move">移动卡片</string>
     <string name="action_card_move_title">移动 %1$s</string>
+    <string name="simple_disabled">已禁用</string>
+    <string name="simple_copied">已复制</string>
 </resources>

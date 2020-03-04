@@ -126,4 +126,5 @@
     <string name="hours_6">6 ur</string>
     <string name="action_card_move">Premakni nalogo</string>
     <string name="action_card_move_title">Premakni %1$s</string>
+    <string name="simple_copied">Kopirano!</string>
 </resources>

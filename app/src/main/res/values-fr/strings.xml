@@ -127,4 +127,6 @@
     <string name="hours_6">6 Heures</string>
     <string name="action_card_move">Déplacer la carte</string>
     <string name="action_card_move_title">Déplacer %1$s</string>
+    <string name="simple_disabled">désactivé</string>
+    <string name="simple_copied">Copié</string>
 </resources>
