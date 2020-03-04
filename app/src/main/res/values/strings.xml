@@ -156,4 +156,5 @@
     <string name="action_card_move_title">Move %1$s</string>
     <string name="simple_disabled">disabled</string>
     <string name="simple_copied">Copied</string>
+    <string name="please_add_an_account_first">Please add an account first</string>
 </resources>

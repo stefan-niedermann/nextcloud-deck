@@ -2,3 +2,4 @@
 - Migrate from ButterKnife to ViewBinding (#285)
 - Card context menu is cut off (#290)
 - Fix label margins and paddings
+- Handle exceptions when no account has been imported yet

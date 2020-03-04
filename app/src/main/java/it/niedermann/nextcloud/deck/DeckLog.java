@@ -7,11 +7,31 @@ import java.io.StringWriter;
 
 public class DeckLog {
 
-    public static void log(String message) {
-        StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
-        String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") -> ";
-        Log.d(DeckConsts.DEBUG_TAG, source + message);
+    public enum Severity {
+        VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
     }
+
+    public static void log(String message) {
+        log(message, Severity.DEBUG);
+    }
+
+    public static void log(String message, Severity severity) {
+        StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
+        String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
+        switch(severity) {
+            case VERBOSE: Log.v(DeckConsts.DEBUG_TAG, source);
+                break;
+            case DEBUG: Log.d(DeckConsts.DEBUG_TAG, source);
+                break;
+            case INFO: Log.i(DeckConsts.DEBUG_TAG, source);
+                break;
+            case WARN: Log.w(DeckConsts.DEBUG_TAG, source);
+                break;
+            case ERROR: Log.e(DeckConsts.DEBUG_TAG, source);
+                break;
+        }
+    }
+
     public static void logError(Throwable e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -22,15 +42,15 @@ public class DeckLog {
         Log.d(DeckConsts.DEBUG_TAG, source + stacktrace);
     }
 
-    public static void printCurrentStacktrace(){
+    public static void printCurrentStacktrace() {
         log(getCurrentStacktrace(4));
     }
 
-    public static String getCurrentStacktrace(){
+    public static String getCurrentStacktrace() {
         return getCurrentStacktrace(4);
     }
 
-    private static String getCurrentStacktrace(int offset){
+    private static String getCurrentStacktrace(@SuppressWarnings("SameParameterValue") int offset) {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
         StringBuffer buff = new StringBuffer();
         for (int i = offset; i < elements.length; i++) {

@@ -254,7 +254,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         });
     }
 
-    private void showAccountPicker() {
+    protected void showAccountPicker() {
         if (deckVersionTooLowSnackbar != null) {
             deckVersionTooLowSnackbar.dismiss();
         }

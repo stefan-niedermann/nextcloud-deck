@@ -45,6 +45,7 @@ import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+import static it.niedermann.nextcloud.deck.DeckLog.Severity.INFO;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
@@ -107,14 +108,17 @@ public class MainActivity extends DrawerActivity implements
         CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
         dragAndDrop.register(binding.viewPager, binding.stackLayout);
         dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
-            //FIXME: implement me por favour!
             syncManager.reorder(account.getId(), movedCard, stackId, position);
             DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
         });
 
         binding.fab.setOnClickListener((View view) -> {
             if (this.boardsList == null) {
-                Snackbar.make(binding.coordinatorLayout, "Please add an account first", Snackbar.LENGTH_LONG);
+                DeckLog.log("FAB has been clicked, but boardsList is null... Asking to add an account", INFO);
+                Snackbar
+                        .make(binding.coordinatorLayout, R.string.please_add_an_account_first, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_add, (v) -> showAccountPicker())
+                        .show();
             } else if (this.boardsList.size() > 0) {
                 Intent intent = new Intent(this, EditActivity.class);
                 intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
@@ -134,10 +138,18 @@ public class MainActivity extends DrawerActivity implements
         });
 
         binding.addStackButton.setOnClickListener((v) -> {
-            if (this.boardsList.size() == 0) {
-                EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+            if (this.boardsList == null) {
+                DeckLog.log("Add stack has been added but boardsList is null, displaying account picker", INFO);
+                Snackbar
+                        .make(binding.coordinatorLayout, R.string.please_add_an_account_first, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_add, (view) -> showAccountPicker())
+                        .show();
             } else {
-                EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
+                if (this.boardsList.size() == 0) {
+                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+                } else {
+                    EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
+                }
             }
         });
 
