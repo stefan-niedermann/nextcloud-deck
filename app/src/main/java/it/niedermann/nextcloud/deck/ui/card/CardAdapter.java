@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -209,8 +210,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
             if (i > maxLabelsShown - 1 && labelList.size() > maxLabelsShown) {
                 chip = new Chip(context);
                 chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
-                chip.setCloseIconStartPadding(0);
-                chip.setCloseIconEndPadding(0);
+                chip.setEnsureMinTouchTargetSize(false);
                 chip.setTextStartPadding(0);
                 chip.setTextEndPadding(0);
                 labels.addView(chip);
@@ -218,11 +218,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
             }
             Label label = labelList.get(i);
             chip = new Chip(context);
+            chip.setEnsureMinTouchTargetSize(false);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            }
             String labelTitle = label.getTitle();
             if (labelTitle.length() > maxLabelsChars - 1) {
                 chip.setText(labelTitle.substring(0, maxLabelsChars));
             } else {
-                chip.setText(" " + labelTitle.substring(0, 1) + " ");
+                chip.setText(labelTitle.substring(0, 1));
             }
 
             try {
@@ -242,7 +246,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         if (attachmentsCount > 99) {
             cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
         } else if (attachmentsCount > 1) {
-            cardCountAttachments.setText(attachmentsCount + "");
+            cardCountAttachments.setText(String.valueOf(attachmentsCount));
         } else if (attachmentsCount == 1) {
             cardCountAttachments.setText("");
         }
