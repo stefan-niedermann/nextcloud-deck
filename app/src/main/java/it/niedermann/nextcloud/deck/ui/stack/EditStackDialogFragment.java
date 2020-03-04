@@ -47,7 +47,7 @@ public class EditStackDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        binding = DialogStackCreateBinding.inflate(getLayoutInflater());
+        binding = DialogStackCreateBinding.inflate(requireActivity().getLayoutInflater());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
                 .setView(binding.getRoot())

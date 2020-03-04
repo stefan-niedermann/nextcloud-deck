@@ -48,7 +48,7 @@ public class EditBoardDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DialogBoardCreateBinding.inflate(getLayoutInflater());
+        binding = DialogBoardCreateBinding.inflate(requireActivity().getLayoutInflater());
 
         Long boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
 

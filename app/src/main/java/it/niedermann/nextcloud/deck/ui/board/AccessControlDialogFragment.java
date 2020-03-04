@@ -45,7 +45,7 @@ public class AccessControlDialogFragment extends DialogFragment implements
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DialogBoardShareBinding.inflate(getLayoutInflater());
+        binding = DialogBoardShareBinding.inflate(requireActivity().getLayoutInflater());
         boardId = requireArguments().getLong(KEY_BOARD_ID);
         accountId = requireArguments().getLong(KEY_ACCOUNT_ID);
 
