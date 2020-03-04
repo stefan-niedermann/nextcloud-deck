@@ -71,8 +71,7 @@
                 android:id="@+id/card_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="-16dp"
-                android:layout_marginRight="-16dp"
+                android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/label_menu"
                 android:padding="@dimen/standard_quarter_padding"
                 app:srcCompat="@drawable/ic_menu" />
@@ -99,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_quarter_margin"
-            android:layout_marginBottom="@dimen/standard_half_margin"
+            android:layout_marginBottom="@dimen/standard_quarter_margin"
             android:orientation="horizontal">
 
             <com.google.android.material.chip.ChipGroup
@@ -114,6 +113,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
                 android:gravity="end">
 
                 <androidx.appcompat.widget.AppCompatTextView

@@ -1,1 +1,3 @@
 - Wrap card title to new line(s) if length exceeds width of screen (#261)
+- Migrate from ButterKnife to ViewBinding (#285)
+- Card context menu is cut off (#290)
