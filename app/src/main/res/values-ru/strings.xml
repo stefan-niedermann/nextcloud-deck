@@ -126,4 +126,6 @@
     <string name="hours_6">6 Часов</string>
     <string name="action_card_move">Переместить карточку</string>
     <string name="action_card_move_title">Перемещение %1$s</string>
+    <string name="simple_disabled">отключено</string>
+    <string name="simple_copied">Скопировано</string>
 </resources>

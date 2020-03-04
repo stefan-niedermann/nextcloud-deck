@@ -126,4 +126,6 @@
     <string name="hours_6">6 godzin</string>
     <string name="action_card_move">Przenieś kartę</string>
     <string name="action_card_move_title">Przenieś %1$s</string>
+    <string name="simple_disabled">wyłączony</string>
+    <string name="simple_copied">Skopiowano</string>
 </resources>

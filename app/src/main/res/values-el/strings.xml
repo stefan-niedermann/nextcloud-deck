@@ -126,4 +126,6 @@
     <string name="hours_6">6 ώρες</string>
     <string name="action_card_move">Μετακίνηση κάρτας</string>
     <string name="action_card_move_title">Μετακίνηση %1$s</string>
+    <string name="simple_disabled">απενεργοποιημένο</string>
+    <string name="simple_copied">Αντιγράφτηκε</string>
 </resources>

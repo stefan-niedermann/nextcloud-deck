@@ -74,6 +74,7 @@
     <string name="no_cards">Kol kas kortelių nėra</string>
     <string name="no_account">Nėra sukonfiguruotų paskyrų</string>
     <string name="account_already_added">Paskyra jau pridėta</string>
+    <string name="not_synced_yet">Kol kas nesinchronizuota</string>
     <string name="no_columns">Kol kas stulpelių nėra</string>
     <string name="do_you_want_to_save_your_changes">Ar norite įrašyti savo pakeitimus?</string>
     <string name="simple_discard">atmesti</string>
@@ -95,6 +96,7 @@
     <string name="simple_undo">Atšaukti</string>
     <string name="rename_column">Pervadinti stulpelį</string>
     <string name="share_board">Bendrinti plokštę</string>
+    <string name="you_are_currently_offline">Šiuo metu esate atsijungę nuo interneto</string>
     <string name="simple_manage">tvarkyti</string>
     <string name="simple_share">bendrinti</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Norėdami pridėti paskyrą, turite būti prisijungę prie interneto.</string>
@@ -110,4 +112,6 @@
     <string name="hours_6">6 valandos</string>
     <string name="action_card_move">Perkelti kortelę</string>
     <string name="action_card_move_title">Perkelti %1$s</string>
+    <string name="simple_disabled">išjungta</string>
+    <string name="simple_copied">Nukopijuota</string>
 </resources>
