@@ -17,7 +17,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
       alt="Get it on Play Store"
-      height="80">](https://play.google.com/apps/testing/it.niedermann.nextcloud.deck.play)
+      height="80">](https://play.google.com/store/apps/details?id=it.niedermann.nextcloud.deck.play)
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/repository/browse/?fdid=it.niedermann.nextcloud.deck)
