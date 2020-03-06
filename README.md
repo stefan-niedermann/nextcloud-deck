@@ -6,8 +6,6 @@
 [![GitHub stars](https://img.shields.io/github/stars/stefan-niedermann/nextcloud-deck.svg)](https://github.com/stefan-niedermann/nextcloud-deck/stargazers)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-⚠️ **This app is still under heavy development.**
-
 An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 ## ▶️ Access
@@ -35,11 +33,13 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 | ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/0.0.13-4.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/0.0.13-5.png) |
 
 ## 🚀 Features
-* Supports multiple accounts
-* Assign cards to users
-* Create, edit and delete boards
-* Create and delete stacks
-* Create, edit and delete cards
+  * Multiple accounts 👥
+  * Offline-capabilities 🔌
+  * Manage cards, columns and boards 📝
+  * Supports attachments 📎
+  * Supports activities ⚡
+  * Dark mode 🌙
+  * Translated in many languages 🌎
 
 ## 🏁 Planned features
 * Full [API](https://documenter.getpostman.com/view/4848351/RWMCtV4r) compatibility

@@ -1,20 +1,18 @@
-⚠️⚠️⚠️ WARNING ⚠️⚠️⚠️
-
-This app is still under heavy development. Do not yet use it productively but only for testing purposes at your own risk
-
 An Android client for Nextcloud Deck App¹.
 
 🚀 Features
-* Supports multiple accounts
-* Assign cards to users
-* Create, edit and delete boards
-* Create and delete stacks
-* Create, edit and delete cards
+* Multiple accounts 👥
+* Offline-capabilities 🔌
+* Manage cards, columns and boards 📝
+* Supports attachments 📎
+* Supports activities ⚡
+* Dark mode 🌙
+* Translated in many languages 🌎
 
 🔗 Requirements
-- Nextcloud³ instance running
-- Nextcloud Files² app installed (version 3.2.2 or later)
-- Nextcloud Deck¹ app enabled (version 0.6.4 or later)
+* Nextcloud³ instance running
+* Nextcloud Files² app installed (version 3.2.2 or later)
+* Nextcloud Deck¹ app enabled (version 0.6.4 or later)
 
 📓 License
 All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).
