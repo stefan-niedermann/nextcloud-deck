@@ -6,7 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
@@ -18,6 +21,12 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 public class AboutActivity extends AppCompatActivity {
 
+    private final static int[] tabTitles = new int[]{
+            R.string.about_credits_tab_title,
+            R.string.about_contribution_tab_title,
+            R.string.about_license_tab_title
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
@@ -28,28 +37,19 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-        binding.viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager()));
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), getLifecycle()));
+        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
     }
 
-    private class TabsPagerAdapter extends FragmentPagerAdapter {
+    private static class TabsPagerAdapter extends FragmentStateAdapter {
 
-        @SuppressWarnings("WeakerAccess")
-        public TabsPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        TabsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+            super(fragmentManager, lifecycle);
         }
 
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        /**
-         * return the right fragment for the given position
-         */
         @NonNull
         @Override
-        public Fragment getItem(int position) {
+        public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
                     return new AboutFragmentCreditsTab();
@@ -62,21 +62,9 @@ public class AboutActivity extends AppCompatActivity {
             }
         }
 
-        /**
-         * generate title based on given position
-         */
         @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getString(R.string.about_credits_tab_title);
-                case 1:
-                    return getString(R.string.about_contribution_tab_title);
-                case 2:
-                    return getString(R.string.about_license_tab_title);
-                default:
-                    throw new IllegalArgumentException("position must be between 0 and 2");
-            }
+        public int getItemCount() {
+            return tabTitles.length;
         }
     }
 
