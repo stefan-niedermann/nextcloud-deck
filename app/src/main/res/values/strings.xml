@@ -44,7 +44,8 @@
     <string name="about_app_license_button">View license</string>
     <string name="about_app_icon_author_link_label" translatable="false">GitHub</string>
     <string name="about_icons_disclaimer_title">Icons</string>
-    <string name="about_icons_disclaimer">Original icon made by %1$s. All further icons used by this app are %2$s made by Google Inc. and licensed under the Apache 2.0 License.</string>
+    <string name="about_icons_disclaimer_app_icon">For the original icon see %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">All further icons used by this app are %1$s made by Google Inc. and licensed under the Apache 2.0 License.</string>
     <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Contribution</string>

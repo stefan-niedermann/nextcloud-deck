@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.about;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.disabled;
+import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.strong;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.url;
 
@@ -61,11 +63,8 @@ public class AboutFragmentCreditsTab extends Fragment {
                         : strong(DateUtil.getRelativeDateTimeString(getContext(), lastBackgroundSync))
         );
         binding.aboutMaintainer.setText(url(getString(R.string.about_maintainer), getString(R.string.url_maintainer)));
-        binding.aboutTranslators.setText(getString(
-                R.string.about_translators_transifex,
-                url(getString(R.string.about_translators_transifex_label), getString(R.string.url_translations))
-                )
-        );
+        binding.aboutMaintainer.setMovementMethod(new LinkMovementMethod());
+        setTextWithURL(binding.aboutTranslators, getResources(), R.string.about_translators_transifex, R.string.about_translators_transifex_label, R.string.url_translations);
         return binding.getRoot();
     }
 }
