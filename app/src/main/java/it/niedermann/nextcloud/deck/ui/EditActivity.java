@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
@@ -57,8 +58,13 @@ public class EditActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener {
 
     private ActivityEditBinding binding;
-
     private SyncManager syncManager;
+
+    private static final int[] tabTitles = new int[]{
+            R.string.card_edit_details,
+            R.string.card_edit_attachments,
+            R.string.card_edit_activity
+    };
 
     private FullCard originalCard;
     private FullCard fullCard;
@@ -204,10 +210,10 @@ public class EditActivity extends AppCompatActivity implements
     private void setupViewPager() {
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), this, accountId, localId, boardId, canEdit);
+        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle(), accountId, localId, boardId, canEdit);
         binding.pager.setOffscreenPageLimit(2);
         binding.pager.setAdapter(adapter);
-        binding.tabLayout.setupWithViewPager(binding.pager);
+        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(tabTitles[position])).attach();
     }
 
     private void setupTitle(boolean createMode) {
