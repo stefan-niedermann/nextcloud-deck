@@ -8,7 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
+import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 
 public class CrossTabDragAndDrop {
 
@@ -47,7 +48,7 @@ public class CrossTabDragAndDrop {
         this.pxToReactTopBottom = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * density;
     }
 
-    public void register(final ViewPager viewPager, TabLayout stackLayout) {
+    public void register(final ViewPager2 viewPager, TabLayout stackLayout) {
         viewPager.setOnDragListener((View v, DragEvent dragEvent) -> {
 
             DraggedCardLocalState draggedCardLocalState = (DraggedCardLocalState) dragEvent.getLocalState();
@@ -129,7 +130,7 @@ public class CrossTabDragAndDrop {
         });
     }
 
-    private void switchTab(ViewPager viewPager, TabLayout stackLayout, final DraggedCardLocalState draggedCardLocalState, long now, int newPosition) {
+    private void switchTab(ViewPager2 viewPager, TabLayout stackLayout, final DraggedCardLocalState draggedCardLocalState, long now, int newPosition) {
         draggedCardLocalState.onTabChanged(viewPager, newPosition);
         viewPager.setCurrentItem(newPosition);
         Objects.requireNonNull(stackLayout.getTabAt(newPosition)).select();
@@ -165,24 +166,24 @@ public class CrossTabDragAndDrop {
         lastSwap = now;
     }
 
-    private static boolean isMovePossible(ViewPager viewPager, int newPosition) {
-        return newPosition < Objects.requireNonNull(viewPager.getAdapter()).getCount() && newPosition >= 0;
+    private static boolean isMovePossible(ViewPager2 viewPager, int newPosition) {
+        return newPosition < Objects.requireNonNull(viewPager.getAdapter()).getItemCount() && newPosition >= 0;
     }
 
-    private void detectAndKillDuplicatesInNeighbourTab(ViewPager viewPager, FullCard cardToFind, int oldTabPosition, int newTabPosition) {
+    private void detectAndKillDuplicatesInNeighbourTab(ViewPager2 viewPager, FullCard cardToFind, int oldTabPosition, int newTabPosition) {
         int tabPositionToCheck = newTabPosition > oldTabPosition ? newTabPosition + 1 : newTabPosition - 1;
 
         if (isMovePossible(viewPager, tabPositionToCheck)) {
-            viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
                 @Override
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);
-                    viewPager.removeOnPageChangeListener(this);
-                    StackAdapter stackAdapter = (StackAdapter) viewPager.getAdapter();
+                    viewPager.unregisterOnPageChangeCallback(this);
+                    StackAdapter stackAdapter = Objects.requireNonNull((StackAdapter) viewPager.getAdapter());
 
                     DeckLog.log("### tabPositionToCheck: " + tabPositionToCheck);
-                    DeckLog.log("### item: " + stackAdapter.getItem(tabPositionToCheck).getAdapter());
-                    CardAdapter cardAdapter = stackAdapter.getItem(tabPositionToCheck).getAdapter();
+                    DeckLog.log("### item: " + ((StackFragment) stackAdapter.createFragment(tabPositionToCheck)).getAdapter());
+                    CardAdapter cardAdapter = ((StackFragment) stackAdapter.createFragment(tabPositionToCheck)).getAdapter();
                     cardAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                         @Override
                         public void onChanged() {

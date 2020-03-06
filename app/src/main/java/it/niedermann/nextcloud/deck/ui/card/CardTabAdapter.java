@@ -8,10 +8,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class CardTabAdapter extends FragmentStateAdapter {
 
-    private long accountId;
-    private long localId;
-    private long boardId;
-    private boolean canEdit;
+    private final long accountId;
+    private final long localId;
+    private final long boardId;
+    private final boolean canEdit;
 
     public CardTabAdapter(@NonNull FragmentManager fm, @NonNull Lifecycle lifecycle, long accountId, long localId, long boardId, boolean canEdit) {
         super(fm, lifecycle);

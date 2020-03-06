@@ -2,9 +2,10 @@ package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
@@ -26,19 +27,22 @@ public class DraggedCardLocalState {
     }
 
 
-    public void onDragStart(ViewPager viewPager){
-        StackFragment stackFragment = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
-        currentStackId = stackFragment.getStackId();
+    public void onDragStart(ViewPager2 viewPager) {
+        FullStack fullStack = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+        StackFragment stackFragment = ((StackFragment) ((StackAdapter) viewPager.getAdapter()).createFragment(viewPager.getCurrentItem()));
+        currentStackId = fullStack.getLocalId();
         recyclerView = stackFragment.getRecyclerView();
 
     }
-    public void onTabChanged(ViewPager viewPager, int newTabPosition){
+
+    public void onTabChanged(ViewPager2 viewPager, int newTabPosition) {
         if (insertedListener != null) {
             recyclerView.removeOnChildAttachStateChangeListener(insertedListener);
             insertedListener = null;
         }
-        StackFragment stackFragment = ((StackAdapter) viewPager.getAdapter()).getItem(newTabPosition);
-        currentStackId = stackFragment.getStackId();
+        FullStack fullStack = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+        StackFragment stackFragment = ((StackFragment) ((StackAdapter) viewPager.getAdapter()).createFragment(viewPager.getCurrentItem()));
+        currentStackId = fullStack.getLocalId();
         this.recyclerView = stackFragment.getRecyclerView();
         this.cardAdapter = (CardAdapter) recyclerView.getAdapter();
     }
