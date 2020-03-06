@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -21,6 +20,7 @@ import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
@@ -75,7 +75,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
     private int avatarSize;
     private LinearLayout.LayoutParams avatarLayoutParams;
     private CardDetailsListener cardDetailsListener;
-    private Activity activity;
+    private AppCompatActivity activity;
 
     public CardDetailsFragment() {
     }
@@ -88,10 +88,10 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         } else {
             throw new ClassCastException("Caller must implement " + CardDetailsListener.class.getCanonicalName());
         }
-        if (context instanceof Activity) {
-            this.activity = (Activity) context;
+        if (context instanceof AppCompatActivity) {
+            this.activity = (AppCompatActivity) context;
         } else {
-            throw new ClassCastException("Calling context must be an activity");
+            throw new ClassCastException("Calling context must be an " + AppCompatActivity.class.getCanonicalName());
         }
     }
 
@@ -273,10 +273,10 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         if (canEdit) {
             Long localCardId = fullCard.getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.labels.setAdapter(new LabelAutoCompleteAdapter(this, activity, accountId, boardId, localCardId));
+            binding.labels.setAdapter(new LabelAutoCompleteAdapter(activity, accountId, boardId, localCardId));
             binding.labels.setOnItemClickListener((adapterView, view, position, id) -> {
                 Label label = (Label) adapterView.getItemAtPosition(position);
-                if (LabelAutoCompleteAdapter.CREATE_ID == label.getLocalId()) {
+                if (LabelAutoCompleteAdapter.ITEM_CREATE == label.getLocalId()) {
                     Label newLabel = new Label(label);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
@@ -340,7 +340,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         if (canEdit) {
             Long localCardId = fullCard.getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.people.setAdapter(new UserAutoCompleteAdapter(this, activity, accountId, boardId, localCardId));
+            binding.people.setAdapter(new UserAutoCompleteAdapter(activity, accountId, boardId, localCardId));
             binding.people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
                 cardDetailsListener.onUserAdded(user);

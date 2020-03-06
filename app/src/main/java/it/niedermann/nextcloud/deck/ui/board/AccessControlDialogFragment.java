@@ -62,7 +62,7 @@ public class AccessControlDialogFragment extends DialogFragment implements
                     accessControlList.add(0, ownerControl);
                     RecyclerView.Adapter adapter = new AccessControlAdapter(accessControlList, this, getContext());
                     binding.peopleList.setAdapter(adapter);
-                    userAutoCompleteAdapter = new UserAutoCompleteAdapter(this, requireActivity(), accountId, boardId);
+                    userAutoCompleteAdapter = new UserAutoCompleteAdapter(requireActivity(), accountId, boardId);
                     binding.people.setAdapter(userAutoCompleteAdapter);
                     binding.people.setOnItemClickListener(this);
                 });
