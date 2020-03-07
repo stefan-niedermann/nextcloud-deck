@@ -32,15 +32,10 @@ public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implemen
     protected final LayoutInflater inflater;
 
     protected AutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
-        this(activity, accountId, boardId, cardId, new ArrayList<>());
-    }
-
-    protected AutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId, @NonNull List<ItemType> itemsToExclude) {
         this.activity = activity;
         this.accountId = accountId;
         this.boardId = boardId;
         this.cardId = cardId;
-        this.itemsToExclude.addAll(itemsToExclude);
         this.syncManager = new SyncManager(activity);
         this.inflater = activity.getLayoutInflater();
     }

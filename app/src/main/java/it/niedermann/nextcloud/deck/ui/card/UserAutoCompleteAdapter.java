@@ -13,7 +13,6 @@ import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -85,14 +84,10 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
                                     : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, activity.getResources().getInteger(R.integer.max_users_suggested));
                         }
                         observeOnce(liveData, activity, users -> {
-                            if (users != null) {
-                                filterResults.values = users;
-                                filterResults.count = users.size();
-                                publishResults(constraint, filterResults);
-                            } else {
-                                filterResults.values = new ArrayList<>();
-                                filterResults.count = 0;
-                            }
+                            users.removeAll(itemsToExclude);
+                            filterResults.values = users;
+                            filterResults.count = users.size();
+                            publishResults(constraint, filterResults);
                         });
                     });
                 }

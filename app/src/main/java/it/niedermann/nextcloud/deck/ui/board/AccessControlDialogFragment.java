@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardShareBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
@@ -100,12 +101,14 @@ public class AccessControlDialogFragment extends DialogFragment implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         AccessControl ac = new AccessControl();
+        User user = userAutoCompleteAdapter.getItem(position);
         ac.setPermissionEdit(true);
         ac.setBoardId(boardId);
         ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
-        ac.setUserId(userAutoCompleteAdapter.getItem(position).getLocalId());
-        ac.setUser(userAutoCompleteAdapter.getItem(position));
+        ac.setUserId(user.getLocalId());
+        ac.setUser(user);
         syncManager.createAccessControl(accountId, ac);
         binding.people.setText("");
+        userAutoCompleteAdapter.exclude(user);
     }
 }

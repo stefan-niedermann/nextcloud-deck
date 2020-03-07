@@ -348,6 +348,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             binding.people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
                 cardDetailsListener.onUserAdded(user);
+                ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
                 if (baseUrl != null) {
                     addAvatar(baseUrl, user);
                 }
@@ -374,11 +375,13 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             avatar.setOnClickListener(v -> {
                 cardDetailsListener.onUserRemoved(user);
                 binding.peopleList.removeView(avatar);
+                ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
                 Snackbar.make(
                         Objects.requireNonNull(getView()), getString(R.string.unassigned_user, user.getDisplayname()),
                         Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_undo, v1 -> {
                             cardDetailsListener.onUserAdded(user);
+                            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
                             addAvatar(baseUrl, user);
                         }).show();
             });
