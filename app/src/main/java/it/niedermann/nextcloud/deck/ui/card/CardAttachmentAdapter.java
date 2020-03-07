@@ -95,9 +95,9 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
 
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
-        Attachment attachment = attachments.get(position);
-        int viewType = getItemViewType(position);
-        String uri = AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
+        final Attachment attachment = attachments.get(position);
+        final int viewType = getItemViewType(position);
+        @Nullable final String uri = attachment.getId() == null ? null : AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
         holder.setNotSyncedYetStatus(attachment.getStatusEnum() == DBStatus.UP_TO_DATE);
         holder.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflator.inflate(R.menu.attachment_menu, menu);
@@ -111,15 +111,20 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
                 return false;
             });
             menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> {
+                if (uri == null) {
+                    Toast.makeText(context, "Not yet synced", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
                 final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
-                if (clipboardManager != null) {
+                if (clipboardManager == null) {
+                    Log.e(TAG, "clipboardManager is null");
+                    return false;
+                } else {
                     clipboardManager.setPrimaryClip(clipData);
                     Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e(TAG, "clipboardManager is null");
                 }
-                return false;
+                return true;
             });
         });
 
