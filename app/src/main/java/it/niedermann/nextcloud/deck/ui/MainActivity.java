@@ -469,9 +469,11 @@ public class MainActivity extends DrawerActivity implements
                         .setNegativeButton(android.R.string.cancel, null).show();
                 break;
             case R.id.action_card_list_rename_column:
-                // TODO call newInstance with old stack name
-                EditStackDialogFragment.newInstance(stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId())
-                        .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
+                long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+                observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
+                    EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
+                            .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
+                });
                 break;
         }
         return super.onOptionsItemSelected(item);
