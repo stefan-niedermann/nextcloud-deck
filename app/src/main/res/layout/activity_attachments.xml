@@ -23,14 +23,14 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@null"
-        android:transitionName="@string/transition_attachment_preview"
-        tools:src="@drawable/ic_image_grey600_24dp"
-        tools:targetApi="lollipop" />
+<!--    <androidx.appcompat.widget.AppCompatImageView-->
+<!--        android:id="@+id/image"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:contentDescription="@null"-->
+<!--        android:transitionName="@string/transition_attachment_preview"-->
+<!--        tools:src="@drawable/ic_image_grey600_24dp"-->
+<!--        tools:targetApi="lollipop" />-->
 </LinearLayout>

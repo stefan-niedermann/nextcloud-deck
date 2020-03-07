@@ -70,7 +70,7 @@ public class CardActivityFragment extends Fragment {
                     } else {
                         binding.emptyContentView.setVisibility(View.GONE);
                         binding.activitiesList.setVisibility(View.VISIBLE);
-                        RecyclerView.Adapter adapter = new ActivityAdapter(activities);
+                        RecyclerView.Adapter adapter = new CardActivityAdapter(activities);
                         binding.activitiesList.setAdapter(adapter);
                     }
                 }));

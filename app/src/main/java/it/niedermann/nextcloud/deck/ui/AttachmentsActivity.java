@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.bumptech.glide.Glide;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -13,8 +12,8 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.ActivityAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.attachments.AttachmentAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -51,26 +50,34 @@ public class AttachmentsActivity extends AppCompatActivity {
                     List<Attachment> attachments = fullCard.getAttachments();
                     if (fullCard.getAttachments().size() == 0) {
                         DeckLog.logError(new IllegalStateException(AttachmentsActivity.class.getSimpleName() + " called, but card " + fullCard.getLocalId() + "has no attachments"));
-                        finish();
-                    } else {
-                        if (currentAttachment != 0L) {
-                            for (Attachment a : attachments) {
-                                if (a.getLocalId() == currentAttachment) {
-                                    Glide.with(this)
-                                            .load(AttachmentUtil.getUrl(account.getUrl(), fullCard.getId(), a.getId()))
-                                            .into(binding.image);
-                                    binding.toolbar.setTitle(a.getBasename());
-                                    break;
-                                }
+                        supportFinishAfterTransition();
+                        return;
+                    }
+                    RecyclerView.Adapter adapter = new AttachmentAdapter(account, fullCard.getId(), attachments);
+                    binding.viewPager.setAdapter(adapter);
+                    if (currentAttachment != 0L) {
+                        for (int i = 0; i < attachments.size(); i++) {
+                            if (attachments.get(i).getLocalId() == currentAttachment) {
+                                binding.viewPager.setCurrentItem(i, false);
+                                break;
                             }
-                        } else {
-                            DeckLog.logError(new IllegalStateException("No " + BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID + " was provided. Falling back to displaying first image."));
-                            Glide.with(this)
-                                    .load(AttachmentUtil.getUrl(account.getUrl(), fullCard.getId(), attachments.get(0).getId()))
-                                    .into(binding.image);
-                            binding.toolbar.setTitle(attachments.get(0).getBasename());
                         }
                     }
+                    // TODO
+                    // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
+                    // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
+//                    setEnterSharedElementCallback(new SharedElementCallback() {
+//                        @Override
+//                        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+//                            View view = binding.viewPager.getRootView();
+//                            if (view == null) {
+//                                return;
+//                            }
+//                            // Map the first shared element name to the child ImageView.
+//                            sharedElements.put(names.get(0), view.findViewById(R.id.image));
+//                            Log.v("SHARED", "names" + names);
+//                        }
+//                    });
                 }));
     }
 

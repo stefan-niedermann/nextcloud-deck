@@ -31,7 +31,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
-public class CardAttachmentsFragment extends Fragment implements AttachmentAdapter.AttachmentDeletedListener {
+public class CardAttachmentsFragment extends Fragment implements CardAttachmentAdapter.AttachmentDeletedListener {
     private static final String TAG = CardAttachmentsFragment.class.getCanonicalName();
 
     private FragmentCardEditTabAttachmentsBinding binding;
@@ -66,7 +66,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
                     this.binding.emptyContentView.setVisibility(View.GONE);
                     this.binding.attachmentsList.setVisibility(View.VISIBLE);
                     syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
-                        RecyclerView.Adapter adapter = new AttachmentAdapter(
+                        RecyclerView.Adapter adapter = new CardAttachmentAdapter(
                                 requireActivity().getMenuInflater(),
                                 this,
                                 account,
@@ -74,15 +74,25 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
                                 fullCard.getCard().getId(),
                                 fullCard.getAttachments());
                         binding.attachmentsList.setAdapter(adapter);
+
+                        // TODO
+                        // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
+                        // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
+//                        setExitSharedElementCallback(new SharedElementCallback() {
+//                            @Override
+//                            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+//                                Log.v("SHARED", "names" + names);
+//                            }
+//                        });
                         GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
 
                         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                             @Override
                             public int getSpanSize(int position) {
                                 switch (adapter.getItemViewType(position)) {
-                                    case AttachmentAdapter.VIEW_TYPE_IMAGE:
+                                    case CardAttachmentAdapter.VIEW_TYPE_IMAGE:
                                         return 1;
-                                    case AttachmentAdapter.VIEW_TYPE_DEFAULT:
+                                    case CardAttachmentAdapter.VIEW_TYPE_DEFAULT:
                                         return 3;
                                     default:
                                         return 1;
@@ -94,7 +104,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
                 }
             });
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT && canEdit) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && canEdit) {
                 binding.fab.setOnClickListener(v -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},

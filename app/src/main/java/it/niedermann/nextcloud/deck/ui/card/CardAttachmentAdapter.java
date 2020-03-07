@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.text.format.Formatter;
-import android.transition.Explode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -42,7 +41,7 @@ import static it.niedermann.nextcloud.deck.ui.AttachmentsActivity.BUNDLE_KEY_CUR
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
-public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder> {
+public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAdapter.AttachmentViewHolder> {
 
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
@@ -57,7 +56,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     private AttachmentDeletedListener attachmentDeletedListener;
     private Context context;
 
-    AttachmentAdapter(@NonNull MenuInflater menuInflator, @NonNull AttachmentDeletedListener attachmentDeletedListener, @NonNull Account account, long cardLocalId, long cardRemoteId, @NonNull List<Attachment> attachments) {
+    CardAttachmentAdapter(@NonNull MenuInflater menuInflator, @NonNull AttachmentDeletedListener attachmentDeletedListener, @NonNull Account account, long cardLocalId, long cardRemoteId, @NonNull List<Attachment> attachments) {
         super();
         this.menuInflator = menuInflator;
         this.attachmentDeletedListener = attachmentDeletedListener;
@@ -126,8 +125,9 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
                     intent.putExtra(BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID, attachment.getLocalId());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && context instanceof Activity) {
-                        ((Activity) context).getWindow().setSharedElementEnterTransition(new Explode());
-                        context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, holder.getPreview(), context.getString(R.string.transition_attachment_preview)).toBundle());
+                        String transitionName = context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId()));
+                        holder.getPreview().setTransitionName(transitionName);
+                        context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, holder.getPreview(), transitionName).toBundle());
                     } else {
                         context.startActivity(intent);
                     }
