@@ -23,8 +23,8 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
     private String lastFilterText;
     private boolean canManage = false;
 
-    LabelAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId, List<Label> itemsToExclude) {
-        super(activity, accountId, boardId, cardId, itemsToExclude);
+    LabelAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
+        super(activity, accountId, boardId, cardId);
         syncManager.getFullBoardById(accountId, boardId).observe(activity, (fullBoard) -> {
             if (fullBoard.getBoard().isPermissionManage()) {
                 canManage = true;

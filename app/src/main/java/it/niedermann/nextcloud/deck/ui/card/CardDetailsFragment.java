@@ -273,7 +273,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         if (canEdit) {
             Long localCardId = fullCard.getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.labels.setAdapter(new LabelAutoCompleteAdapter(activity, accountId, boardId, localCardId, fullCard.getLabels()));
+            binding.labels.setAdapter(new LabelAutoCompleteAdapter(activity, accountId, boardId, localCardId));
             binding.labels.setOnItemClickListener((adapterView, view, position, id) -> {
                 Label label = (Label) adapterView.getItemAtPosition(position);
                 if (LabelAutoCompleteAdapter.ITEM_CREATE == label.getLocalId()) {
