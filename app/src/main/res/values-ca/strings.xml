@@ -38,7 +38,6 @@
     <string name="about_app_license">Aquesta aplicació està llicenciada sota la LLICÈNCIA PÚBLICA GENERAL DE GNU v3+.</string>
     <string name="about_app_license_button">Mostra la llicència</string>
     <string name="about_icons_disclaimer_title">Icones</string>
-    <string name="about_icons_disclaimer">Icona original feta per %1$s Totes les altres icones emprades per aquesta aplicació estan %2$s fetes per Google Inc. i llicenciades sota la llicència Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Icones Material Design</string>
     <string name="about_credits_tab_title">Crèdits</string>
     <string name="about_contribution_tab_title">Contribució</string>
@@ -127,4 +126,4 @@
     <string name="action_card_move">Mou la targeta</string>
     <string name="action_card_move_title">Mou %1$s</string>
     <string name="simple_copied">Copiat</string>
-</resources>
+    </resources>

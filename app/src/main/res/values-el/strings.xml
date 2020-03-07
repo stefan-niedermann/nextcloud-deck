@@ -38,7 +38,6 @@
     <string name="about_app_license">Αυτή η εφαρμογή υπόκεινται στην άδεια χρήσης GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button"> Προβολή άδειας χρήσης </string>
     <string name="about_icons_disclaimer_title">Εικονίδια</string>
-    <string name="about_icons_disclaimer">Τα αυθεντικά εικονίδια δημιουργήθηκαν από %1$s Όλα τα υπόλοιπα που χρησιμοποιεί αυτή η εφαρμογή είναι %2$sδημιουργήθηκαν απο Google Inc. και αδειοδοτήθηκαν υπό την άδεια Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Εικονίδια Material Design</string>
     <string name="about_credits_tab_title">Μνεία</string>
     <string name="about_contribution_tab_title">Συνεισφορά</string>
@@ -128,4 +127,5 @@
     <string name="action_card_move_title">Μετακίνηση %1$s</string>
     <string name="simple_disabled">απενεργοποιημένο</string>
     <string name="simple_copied">Αντιγράφτηκε</string>
+    <string name="please_add_an_account_first">Παρακαλώ προσθέστε λογαριασμό πρώτα</string>
 </resources>

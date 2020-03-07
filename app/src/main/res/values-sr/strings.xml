@@ -38,7 +38,6 @@
     <string name="about_app_license">Ова апликација је лиценцирана под ГНУовом општом јавном лиценцом в3+.</string>
     <string name="about_app_license_button">Прикажи лиценцу</string>
     <string name="about_icons_disclaimer_title">Иконе</string>
-    <string name="about_icons_disclaimer">Оригиналне иконе направио %1$s Све остале иконе коришћене у овој апликацији су %2$s које је направио Гугл и лиценциране су под Апач 2.0 лиценцом.</string>
     <string name="about_icons_disclaimer_mdi">Иконе у Материјал дизајну</string>
     <string name="about_credits_tab_title">Заслуге</string>
     <string name="about_contribution_tab_title">Допринос</string>
@@ -128,4 +127,4 @@
     <string name="action_card_move_title">Премести %1$s</string>
     <string name="simple_disabled">искључено</string>
     <string name="simple_copied">Копирано</string>
-</resources>
+    </resources>

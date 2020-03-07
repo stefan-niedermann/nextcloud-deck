@@ -38,7 +38,6 @@
     <string name="about_app_license">Diese Anwendung ist unter der GNU GENERAL PUBLIC LICENSE v3 + lizenziert.</string>
     <string name="about_app_license_button">Lizenz anzeigen</string>
     <string name="about_icons_disclaimer_title">Icons</string>
-    <string name="about_icons_disclaimer">das ursprüngliche Icon wurde erstellt von %1$s Alle weiteren von dieser App benutzten Icons sind %2$s und wurden erstellt von  Google Inc. und lizenziert unter einer Apache 2.0 Lizenz.</string>
     <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Beitrag</string>
@@ -128,4 +127,5 @@
     <string name="action_card_move_title">Verschiebe %1$s</string>
     <string name="simple_disabled">Deaktiviert</string>
     <string name="simple_copied">Kopiert</string>
+    <string name="please_add_an_account_first">Bitte zuerst ein Konto hinzufügen</string>
 </resources>

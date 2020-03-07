@@ -38,7 +38,6 @@
     <string name="about_app_license">此程式依照 GNU GENERAL PUBLIC LICENSE v3+ 方式授權使用</string>
     <string name="about_app_license_button">檢視授權條款</string>
     <string name="about_icons_disclaimer_title">圖示</string>
-    <string name="about_icons_disclaimer">原創圖示由 %1$s 製作，其他 App 使用的圖示均為 Google Inc. 製作的 %2$s，並依 Apache 2.0 條款授權。</string>
     <string name="about_icons_disclaimer_mdi">Material Design 圖示</string>
     <string name="about_credits_tab_title">致謝</string>
     <string name="about_contribution_tab_title">貢獻</string>
@@ -128,4 +127,4 @@
     <string name="action_card_move_title">移動 %1$s</string>
     <string name="simple_disabled">已停用</string>
     <string name="simple_copied">已複製</string>
-</resources>
+    </resources>

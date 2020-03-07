@@ -38,7 +38,6 @@
     <string name="about_app_license">Deze applicatie valt onder de GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Licentie weergeven</string>
     <string name="about_icons_disclaimer_title">Pictogrammen</string>
-    <string name="about_icons_disclaimer">Originele pictogram gemaakt door %1$s. Alle andere pictogrammen gebruikt door deze app zijn %2$s gemaakt door Google Inc. en gelicenseerd onder de Apache 2.0 Licensie.</string>
     <string name="about_icons_disclaimer_mdi">Material Design iconen</string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Bijdrage</string>
@@ -128,4 +127,4 @@
     <string name="action_card_move_title">Verplaats %1$s</string>
     <string name="simple_disabled">uitgeschakeld</string>
     <string name="simple_copied">Gekopieerd</string>
-</resources>
+    </resources>

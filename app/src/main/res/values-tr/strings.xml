@@ -38,7 +38,6 @@
     <string name="about_app_license">Bu uygulama GNU GENEL KAMU LİSANSI v3+ sürümü koşulları altında dağıtılmaktadır.</string>
     <string name="about_app_license_button">Lisansı görüntüle</string>
     <string name="about_icons_disclaimer_title">Simgeler</string>
-    <string name="about_icons_disclaimer">Özgün simgeyi %1$s tarafından yapılmıştır. Bu uygulamanın kullandığı tüm diğer simgeler %2$s Google Inc. tarafından yapılmıştır veApache 2.0 Lisansı koşulları altında dağıtılmaktadır.</string>
     <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Emeği Geçenler</string>
     <string name="about_contribution_tab_title">Katkıda Bulunanlar</string>
@@ -128,4 +127,4 @@
     <string name="action_card_move_title">%1$s Taşı</string>
     <string name="simple_disabled">devre dışı</string>
     <string name="simple_copied">Kopyalandı</string>
-</resources>
+    </resources>
