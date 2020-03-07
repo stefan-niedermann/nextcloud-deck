@@ -25,7 +25,7 @@
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_label_grey600_24dp" />
 
-            <it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView
+            <it.niedermann.nextcloud.deck.ui.widget.ToggleAutoCompleteTextView
                 android:id="@+id/labels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_person_grey600_24dp" />
 
-            <it.niedermann.nextcloud.deck.ui.widget.DelayedAutoCompleteTextView
+            <it.niedermann.nextcloud.deck.ui.widget.ToggleAutoCompleteTextView
                 android:id="@+id/people"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

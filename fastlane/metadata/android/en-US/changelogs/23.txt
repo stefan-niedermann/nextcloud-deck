@@ -2,3 +2,4 @@
 - Migrate to ViewPager2 in AboutActivity and EditActivity (#284)
 - Populate rename stack dialog with old stack title
 - Prevent adding labels and users more than once (#276)
+- Tags menu doesn't show a second time (#256)
