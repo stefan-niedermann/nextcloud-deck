@@ -14,11 +14,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -30,8 +33,12 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUN
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentClickedListener;
+import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentDeletedListener;
+import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
+import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 
-public class CardAttachmentsFragment extends Fragment implements CardAttachmentAdapter.AttachmentDeletedListener {
+public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
     private static final String TAG = CardAttachmentsFragment.class.getCanonicalName();
 
     private FragmentCardEditTabAttachmentsBinding binding;
@@ -43,6 +50,8 @@ public class CardAttachmentsFragment extends Fragment implements CardAttachmentA
 
     private long accountId;
     private long cardId;
+
+    private int clickedItemPosition;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -69,6 +78,7 @@ public class CardAttachmentsFragment extends Fragment implements CardAttachmentA
                         RecyclerView.Adapter adapter = new CardAttachmentAdapter(
                                 requireActivity().getMenuInflater(),
                                 this,
+                                this,
                                 account,
                                 fullCard.getCard().getLocalId(),
                                 fullCard.getCard().getId(),
@@ -78,21 +88,29 @@ public class CardAttachmentsFragment extends Fragment implements CardAttachmentA
                         // TODO
                         // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
                         // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
-//                        setExitSharedElementCallback(new SharedElementCallback() {
-//                            @Override
-//                            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-//                                Log.v("SHARED", "names" + names);
-//                            }
-//                        });
+                        setExitSharedElementCallback(new SharedElementCallback() {
+                            @Override
+                            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                                CardAttachmentAdapter.AttachmentViewHolder selectedViewHolder = (CardAttachmentAdapter.AttachmentViewHolder) binding.attachmentsList
+                                        .findViewHolderForAdapterPosition(clickedItemPosition);
+                                if (selectedViewHolder == null) {
+                                    Log.i(TAG, "selectedViewHolder is null");
+                                    return;
+                                }
+                                Log.i(TAG, "Putting into map: " + names.get(0) + " = " + selectedViewHolder.getPreview());
+                                // Map the first shared element name to the child ImageView.
+                                sharedElements.put(names.get(0), selectedViewHolder.getPreview());
+                            }
+                        });
                         GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
 
                         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                             @Override
                             public int getSpanSize(int position) {
                                 switch (adapter.getItemViewType(position)) {
-                                    case CardAttachmentAdapter.VIEW_TYPE_IMAGE:
+                                    case VIEW_TYPE_IMAGE:
                                         return 1;
-                                    case CardAttachmentAdapter.VIEW_TYPE_DEFAULT:
+                                    case VIEW_TYPE_DEFAULT:
                                         return 3;
                                     default:
                                         return 1;
@@ -186,5 +204,10 @@ public class CardAttachmentsFragment extends Fragment implements CardAttachmentA
     @Override
     public void onAttachmentDeleted(Attachment attachment) {
         syncManager.deleteAttachmentOfCard(accountId, cardId, attachment.getLocalId());
+    }
+
+    @Override
+    public void onAttachmentClicked(int position) {
+        this.clickedItemPosition = position;
     }
 }

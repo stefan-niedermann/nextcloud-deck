@@ -1,14 +1,19 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.SharedElementCallback;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Map;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -19,6 +24,8 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUN
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class AttachmentsActivity extends AppCompatActivity {
+
+    private static final String TAG = AttachmentsActivity.class.getCanonicalName();
 
     private ActivityAttachmentsBinding binding;
 
@@ -31,6 +38,7 @@ public class AttachmentsActivity extends AppCompatActivity {
 
         binding = ActivityAttachmentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        supportPostponeEnterTransition();
 
         setSupportActionBar(binding.toolbar);
 
@@ -66,18 +74,26 @@ public class AttachmentsActivity extends AppCompatActivity {
                     // TODO
                     // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
                     // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
-//                    setEnterSharedElementCallback(new SharedElementCallback() {
-//                        @Override
-//                        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-//                            View view = binding.viewPager.getRootView();
-//                            if (view == null) {
-//                                return;
-//                            }
-//                            // Map the first shared element name to the child ImageView.
-//                            sharedElements.put(names.get(0), view.findViewById(R.id.image));
-//                            Log.v("SHARED", "names" + names);
-//                        }
-//                    });
+                    setEnterSharedElementCallback(new SharedElementCallback() {
+                        @Override
+                        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                            // Locate the image view at the primary fragment (the ImageFragment
+                            // that is currently visible). To locate the fragment, call
+                            // instantiateItem with the selection position.
+                            // At this stage, the method will simply return the fragment at the
+                            // position and will not create a new one.
+//                            ((AttachmentAdapter) binding.viewPager.getAdapter()).
+//                                        .(viewPager, binding.viewPager.getCurrentItem());
+
+                            // Map the first shared element name to the child ImageView.
+                            Log.i(TAG, "Mapping " + getString(R.string.transition_attachment_preview, String.valueOf(attachments.get(binding.viewPager.getCurrentItem()).getLocalId())) + " to " + binding.viewPager.getRootView().findViewById(R.id.preview));
+                            sharedElements.put(
+                                    getString(R.string.transition_attachment_preview, String.valueOf(attachments.get(binding.viewPager.getCurrentItem()).getLocalId())),
+                                    binding.viewPager.getRootView().findViewById(R.id.preview)
+                            );
+                            Log.v("SHARED", "names" + names);
+                        }
+                    });
                 }));
     }
 

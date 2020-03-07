@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,13 +54,24 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
     @NonNull
     private List<Attachment> attachments;
     @NonNull
-    private AttachmentDeletedListener attachmentDeletedListener;
+    private final AttachmentDeletedListener attachmentDeletedListener;
+    @Nullable
+    private final AttachmentClickedListener attachmentClickedListener;
     private Context context;
 
-    CardAttachmentAdapter(@NonNull MenuInflater menuInflator, @NonNull AttachmentDeletedListener attachmentDeletedListener, @NonNull Account account, long cardLocalId, long cardRemoteId, @NonNull List<Attachment> attachments) {
+    CardAttachmentAdapter(
+            @NonNull MenuInflater menuInflator,
+            @NonNull AttachmentDeletedListener attachmentDeletedListener,
+            @Nullable AttachmentClickedListener attachmentClickedListener,
+            @NonNull Account account,
+            long cardLocalId,
+            long cardRemoteId,
+            @NonNull List<Attachment> attachments
+    ) {
         super();
         this.menuInflator = menuInflator;
         this.attachmentDeletedListener = attachmentDeletedListener;
+        this.attachmentClickedListener = attachmentClickedListener;
         this.attachments = attachments;
         this.account = account;
         this.cardRemoteId = cardRemoteId;
@@ -119,6 +131,9 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
                         .into(holder.getPreview());
                 holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
                 holder.getPreview().getRootView().setOnClickListener((v) -> {
+                    if (attachmentClickedListener != null) {
+                        attachmentClickedListener.onAttachmentClicked(position);
+                    }
                     Intent intent = new Intent(context, AttachmentsActivity.class);
                     intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
                     intent.putExtra(BUNDLE_KEY_LOCAL_ID, cardLocalId);
@@ -241,5 +256,9 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
 
     public interface AttachmentDeletedListener {
         void onAttachmentDeleted(Attachment attachment);
+    }
+
+    public interface AttachmentClickedListener {
+        void onAttachmentClicked(int position);
     }
 }
