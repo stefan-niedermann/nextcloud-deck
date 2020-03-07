@@ -105,7 +105,7 @@ public class MainActivity extends DrawerActivity implements
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
-        dragAndDrop.register(binding.viewPager, binding.stackLayout);
+        dragAndDrop.register(binding.viewPager, binding.stackLayout, getSupportFragmentManager());
         dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
             syncManager.reorder(account.getId(), movedCard, stackId, position);
             DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
