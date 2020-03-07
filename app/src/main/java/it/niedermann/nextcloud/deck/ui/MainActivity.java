@@ -459,21 +459,14 @@ public class MainActivity extends DrawerActivity implements
                 new DeleteDialogBuilder(this)
                         .setTitle(R.string.action_card_list_delete_column)
                         .setMessage(R.string.do_you_want_to_delete_the_current_column)
-                        .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> {
-                            long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                            observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
-                                DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
-                                syncManager.deleteStack(fullStack.getStack());
-                            });
-                        })
+                        .setPositiveButton(R.string.simple_delete,
+                                (dialog, whichButton) -> syncManager.deleteStack(stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStack()))
                         .setNegativeButton(android.R.string.cancel, null).show();
                 break;
             case R.id.action_card_list_rename_column:
-                long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
-                    EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
-                            .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
-                });
+                final FullStack fullStack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
+                EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
+                        .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
                 break;
         }
         return super.onOptionsItemSelected(item);
