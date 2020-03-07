@@ -85,7 +85,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                                 fullCard.getAttachments());
                         binding.attachmentsList.setAdapter(adapter);
 
-                        // TODO
                         // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
                         // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
                         setExitSharedElementCallback(new SharedElementCallback() {
@@ -93,15 +92,12 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                             public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
                                 CardAttachmentAdapter.AttachmentViewHolder selectedViewHolder = (CardAttachmentAdapter.AttachmentViewHolder) binding.attachmentsList
                                         .findViewHolderForAdapterPosition(clickedItemPosition);
-                                if (selectedViewHolder == null) {
-                                    Log.i(TAG, "selectedViewHolder is null");
-                                    return;
+                                if (selectedViewHolder != null) {
+                                    sharedElements.put(names.get(0), selectedViewHolder.getPreview());
                                 }
-                                Log.i(TAG, "Putting into map: " + names.get(0) + " = " + selectedViewHolder.getPreview());
-                                // Map the first shared element name to the child ImageView.
-                                sharedElements.put(names.get(0), selectedViewHolder.getPreview());
                             }
                         });
+
                         GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
 
                         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
