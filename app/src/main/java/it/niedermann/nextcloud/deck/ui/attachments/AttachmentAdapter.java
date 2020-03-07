@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -63,16 +63,18 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model,
                                                         Target<Drawable> target, boolean isFirstResource) {
-                                // TODO better cast check
-                                ((AppCompatActivity) context).supportStartPostponedEnterTransition();
+                                if (context instanceof FragmentActivity) {
+                                    ((FragmentActivity) context).supportStartPostponedEnterTransition();
+                                }
                                 return false;
                             }
 
                             @Override
                             public boolean onResourceReady(Drawable resource, Object model,
                                                            Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                // TODO better cast check
-                                ((AppCompatActivity) context).supportStartPostponedEnterTransition();
+                                if (context instanceof FragmentActivity) {
+                                    ((FragmentActivity) context).supportStartPostponedEnterTransition();
+                                }
                                 return false;
                             }
                         })
