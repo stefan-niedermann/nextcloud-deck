@@ -38,7 +38,6 @@
     <string name="about_app_license">Ez az alkalmazás a GNU GENERAL PUBLIC LICENSE v3+ verziója alatt kerül közreadásra.</string>
     <string name="about_app_license_button">Licenc megtekintése</string>
     <string name="about_icons_disclaimer_title">Ikonok</string>
-    <string name="about_icons_disclaimer">Az eredeti ikont %1$s készítette. Az alkalmazás által használt összes többi %2$s a Google készítette, és azok Apache 2.0 License alatt érhetőek el.</string>
     <string name="about_icons_disclaimer_mdi">Material Design ikont</string>
     <string name="about_credits_tab_title">Köszönetnyilvánítás</string>
     <string name="about_contribution_tab_title">Közreműködés</string>
@@ -127,4 +126,4 @@
     <string name="action_card_move">Kártya áthelyezése</string>
     <string name="action_card_move_title">%1$s áthelyezése</string>
     <string name="simple_copied">Másolva</string>
-</resources>
+    </resources>

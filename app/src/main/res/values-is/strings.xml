@@ -38,7 +38,6 @@
     <string name="about_app_license">Þessu forriti er dreift með almenna GNU GENERAL PUBLIC notkunarleyfinu v3+.</string>
     <string name="about_app_license_button">Skoða notkunarleyfi</string>
     <string name="about_icons_disclaimer_title">Táknmyndir</string>
-    <string name="about_icons_disclaimer">Upprunaleg táknmynd er gerð af %1$sAllar aðrar táknmyndir eru úr %2$s safninu frá Google Inc. og eru þær gefnar út með Apache 2.0 notkunarleyfi.</string>
     <string name="about_icons_disclaimer_mdi">Material Design táknmyndir</string>
     <string name="about_credits_tab_title">Þakkir til</string>
     <string name="about_contribution_tab_title">Framlög</string>
@@ -114,4 +113,4 @@
     <string name="hour_1">1 klukkustund</string>
     <string name="hours_6">6 klukkustundir</string>
     <string name="simple_copied">Afritað</string>
-</resources>
+    </resources>

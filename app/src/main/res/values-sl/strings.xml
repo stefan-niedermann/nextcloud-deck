@@ -38,7 +38,6 @@
     <string name="about_app_license">Program je objavljen pod pogoji Splošnega javnega dovoljenja (GNU GPL) različice 3 ali novejše.</string>
     <string name="about_app_license_button">Podrobno besedilo dovoljenja</string>
     <string name="about_icons_disclaimer_title">Ikone</string>
-    <string name="about_icons_disclaimer">Ikono programa je ustvaril %1$s. Vse ostale ikone, uporabljene v programu, so del zbirke %2$s, ki jo je pod pogoji dovoljenja Apache 2.0 objavilo podjetje Google Inc..</string>
     <string name="about_icons_disclaimer_mdi">Ikone Material Design</string>
     <string name="about_credits_tab_title">Zasluge</string>
     <string name="about_contribution_tab_title">Skupnost</string>
@@ -126,5 +125,7 @@
     <string name="hours_6">6 ur</string>
     <string name="action_card_move">Premakni nalogo</string>
     <string name="action_card_move_title">Premakni %1$s</string>
+    <string name="simple_disabled">onemogočeno</string>
     <string name="simple_copied">Kopirano!</string>
+    <string name="please_add_an_account_first">Najprej je treba dodati račun</string>
 </resources>

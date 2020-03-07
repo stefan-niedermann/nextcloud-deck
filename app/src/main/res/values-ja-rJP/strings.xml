@@ -38,7 +38,6 @@
     <string name="about_app_license">このアプリケーションは、GNU GENERAL PUBLIC LICENSE v3 +のライセンスを受けています。</string>
     <string name="about_app_license_button">ライセンスを表示</string>
     <string name="about_icons_disclaimer_title">アイコン</string>
-    <string name="about_icons_disclaimer">オリジナルアイコンの作成者 %1$sこのアプリで使用されているsそれ以外のアイコンは Google Inc. が作成した%2$s で、Apache2.0ライセンスの下でライセンスされています。</string>
     <string name="about_icons_disclaimer_mdi">マテリアルデザインアイコン</string>
     <string name="about_credits_tab_title">クレジット</string>
     <string name="about_contribution_tab_title">貢献</string>
@@ -127,4 +126,4 @@
     <string name="action_card_move">カードの移動</string>
     <string name="action_card_move_title">%1$sを移動</string>
     <string name="simple_copied">コピーしました</string>
-</resources>
+    </resources>

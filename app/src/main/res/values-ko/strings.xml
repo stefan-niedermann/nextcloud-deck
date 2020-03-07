@@ -38,7 +38,6 @@
     <string name="about_app_license">이 앱은 GNU General Public License v3+로 배포됩니다.</string>
     <string name="about_app_license_button">라이선스 보기</string>
     <string name="about_icons_disclaimer_title">아이콘</string>
-    <string name="about_icons_disclaimer">원래 아이콘은 %1$s에 의해서 만들어졌고, 이후에 사용된 아이콘은 Google Inc.에서 제작한 %2$s를 사용하며 Apache 2.0 License로 배포됩니다.</string>
     <string name="about_icons_disclaimer_mdi">Material 디자인 아이콘</string>
     <string name="about_credits_tab_title">크레딧</string>
     <string name="about_contribution_tab_title">기여자</string>
@@ -127,4 +126,4 @@
     <string name="action_card_move">카드 이동</string>
     <string name="action_card_move_title">%1$s 이동</string>
     <string name="simple_copied">복사됨</string>
-</resources>
+    </resources>

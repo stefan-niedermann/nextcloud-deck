@@ -38,7 +38,6 @@
     <string name="about_app_license">此程序通过 GNU 通用公共许可证 V3+ 授权。</string>
     <string name="about_app_license_button">查看许可证</string>
     <string name="about_icons_disclaimer_title">图标</string>
-    <string name="about_icons_disclaimer">原创图标来自 %1$s。本应用中使用的所有其他图标均来自 Google Inc. 创建的 %2$s，这些图标以 Apache 2.0 许可证发布。</string>
     <string name="about_icons_disclaimer_mdi">Material Design 图标</string>
     <string name="about_credits_tab_title">致谢</string>
     <string name="about_contribution_tab_title">贡献</string>
@@ -128,4 +127,4 @@
     <string name="action_card_move_title">移动 %1$s</string>
     <string name="simple_disabled">已禁用</string>
     <string name="simple_copied">已复制</string>
-</resources>
+    </resources>

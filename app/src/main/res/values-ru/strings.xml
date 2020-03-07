@@ -38,7 +38,6 @@
     <string name="about_app_license">Лицензия на программу предоставляется в соответствии с условиями Открытого лицензионного соглашения GNU (GNU GPL) версии 3+.</string>
     <string name="about_app_license_button">Посмотреть лицензию</string>
     <string name="about_icons_disclaimer_title">Значки</string>
-    <string name="about_icons_disclaimer">Исходный значок %1$s, используемый в данном приложении, является частью набора «%2$s», созданного компанией Google Inc. и распространемого в соответствии с лицензией Apache версии 2.0.</string>
     <string name="about_icons_disclaimer_mdi">значки Material Design</string>
     <string name="about_credits_tab_title">Сообщество</string>
     <string name="about_contribution_tab_title">Участие</string>
@@ -128,4 +127,5 @@
     <string name="action_card_move_title">Перемещение %1$s</string>
     <string name="simple_disabled">отключено</string>
     <string name="simple_copied">Скопировано</string>
+    <string name="please_add_an_account_first">Начните с добавления учётной записи</string>
 </resources>

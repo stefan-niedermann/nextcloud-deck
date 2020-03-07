@@ -38,7 +38,6 @@
     <string name="about_app_license">Denna app är licensierad under GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Visa licens</string>
     <string name="about_icons_disclaimer_title">Ikoner</string>
-    <string name="about_icons_disclaimer">Originalikon gjord av %1$sAlla framtida ikoner använda av appen är %2$s gjorda av Google Inc. och licensierade under Apache 2.0 License.</string>
     <string name="about_icons_disclaimer_mdi">Ikoner ur Material Design</string>
     <string name="about_credits_tab_title">Tack</string>
     <string name="about_contribution_tab_title">Bidrag</string>
@@ -128,4 +127,5 @@
     <string name="action_card_move_title">Flytta %1$s</string>
     <string name="simple_disabled">inaktiverad</string>
     <string name="simple_copied">Kopierad</string>
+    <string name="please_add_an_account_first">Lägg till ett konto först</string>
 </resources>

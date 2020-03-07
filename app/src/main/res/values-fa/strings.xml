@@ -38,8 +38,6 @@
     <string name="about_app_license">این برنامه تحت مجوز GNU GENERAL PUBLIC LICENSE v3 + مجاز است.</string>
     <string name="about_app_license_button">مشاهده مجوز</string>
     <string name="about_icons_disclaimer_title">آیکون ها</string>
-    <string name="about_icons_disclaimer">نماد اصلی ساخته شده توسط %1$s
-تمام نمادهای دیگر مورد استفاده این برنامه هستند %2$s ساخته شده توسط Google Inc. و تحت مجوز Apache 2.0 مجوز گرفته شده است.</string>
     <string name="about_icons_disclaimer_mdi">شمایل طراحی مواد</string>
     <string name="about_credits_tab_title">اعتبارات</string>
     <string name="about_contribution_tab_title">مشارکت</string>
