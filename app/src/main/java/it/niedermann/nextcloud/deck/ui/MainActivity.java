@@ -43,6 +43,7 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
+import it.niedermann.nextcloud.deck.util.TabLayoutHelper;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.DeckLog.Severity.INFO;
@@ -428,8 +429,9 @@ public class MainActivity extends DrawerActivity implements
                 stackAdapter = new StackAdapter(getSupportFragmentManager(), getLifecycle(), fullStacks, account, currentBoardId, currentBoardHasEditPermission);
                 binding.viewPager.setAdapter(stackAdapter);
                 runOnUiThread(() -> {
-                    new TabLayoutMediator(binding.stackLayout, binding.viewPager, (tab, position) -> tab.setText(fullStacks.get(position).getStack().getTitle())).attach();
-//                    new TabLayoutHelper(binding.stackLayout, binding.viewPager).setAutoAdjustTabModeEnabled(true);
+                    TabLayoutHelper.TabTitleGenerator tabTitleGenerator = (position) -> fullStacks.get(position).getStack().getTitle();
+                    new TabLayoutMediator(binding.stackLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position))).attach();
+                    new TabLayoutHelper(binding.stackLayout, binding.viewPager, tabTitleGenerator).setAutoAdjustTabModeEnabled(true);
                     binding.viewPager.setCurrentItem(stackPositionInAdapter);
                 });
             }
