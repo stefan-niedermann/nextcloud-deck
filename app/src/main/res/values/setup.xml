@@ -33,4 +33,7 @@
     <integer name="minimum_server_app_major" translatable="false">0</integer>
     <integer name="minimum_server_app_minor" translatable="false">6</integer>
     <integer name="minimum_server_app_patch" translatable="false">4</integer>
+
+    <!-- Transitions -->
+    <string name="transition_attachment_preview" translatable="false">transition_attachment_preview</string>
 </resources>

@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/standard_half_margin"
+            android:transitionName="@string/transition_attachment_preview"
             app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
 
         <androidx.appcompat.widget.AppCompatImageView

@@ -66,7 +66,13 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
                     this.binding.emptyContentView.setVisibility(View.GONE);
                     this.binding.attachmentsList.setVisibility(View.VISIBLE);
                     syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
-                        RecyclerView.Adapter adapter = new AttachmentAdapter(this, account, fullCard.getCard().getId(), fullCard.getAttachments());
+                        RecyclerView.Adapter adapter = new AttachmentAdapter(
+                                requireActivity().getMenuInflater(),
+                                this,
+                                account,
+                                fullCard.getCard().getLocalId(),
+                                fullCard.getCard().getId(),
+                                fullCard.getAttachments());
                         binding.attachmentsList.setAdapter(adapter);
                         GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
 
@@ -130,15 +136,13 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ADD_ATTACHMENT && resultCode == Activity.RESULT_OK) {
-            Uri uri = null;
             if (data != null) {
-                uri = data.getData();
+                Uri uri = data.getData();
                 Log.i(TAG, "Uri: " + uri.toString());
                 String path = FileUtils.getPath(getContext(), uri);
                 File uploadFile = new File(path);
                 syncManager.addAttachmentToCard(accountId, cardId, Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
             }
-
         }
     }
 
