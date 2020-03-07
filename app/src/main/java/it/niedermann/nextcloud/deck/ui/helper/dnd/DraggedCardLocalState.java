@@ -31,11 +31,12 @@ public class DraggedCardLocalState {
         FullStack fullStack = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
         StackFragment stackFragment = ((StackFragment) ((StackAdapter) viewPager.getAdapter()).createFragment(viewPager.getCurrentItem()));
         currentStackId = fullStack.getLocalId();
+        // FIXME throws NullPointer
         recyclerView = stackFragment.getRecyclerView();
 
     }
 
-    public void onTabChanged(ViewPager2 viewPager, int newTabPosition) {
+    public void onTabChanged(ViewPager2 viewPager) {
         if (insertedListener != null) {
             recyclerView.removeOnChildAttachStateChangeListener(insertedListener);
             insertedListener = null;
@@ -43,6 +44,7 @@ public class DraggedCardLocalState {
         FullStack fullStack = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
         StackFragment stackFragment = ((StackFragment) ((StackAdapter) viewPager.getAdapter()).createFragment(viewPager.getCurrentItem()));
         currentStackId = fullStack.getLocalId();
+        // FIXME throws probably NullPointer
         this.recyclerView = stackFragment.getRecyclerView();
         this.cardAdapter = (CardAdapter) recyclerView.getAdapter();
     }
