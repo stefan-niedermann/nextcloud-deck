@@ -1,3 +1,4 @@
 - Get rid of HTML formatting in strings.xml (#286)
 - Migrate to ViewPager2 in AboutActivity and EditActivity (#284)
 - Populate rename stack dialog with old stack title
+- Add labels: possible adding a label more than once (#276)

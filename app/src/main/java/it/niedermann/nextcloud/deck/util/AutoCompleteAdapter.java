@@ -22,6 +22,8 @@ public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implemen
     @NonNull
     protected List<ItemType> itemList = new ArrayList<>();
     @NonNull
+    protected List<ItemType> itemsToExclude = new ArrayList<>();
+    @NonNull
     protected SyncManager syncManager;
     protected final long accountId;
     protected final long boardId;
@@ -30,10 +32,15 @@ public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implemen
     protected final LayoutInflater inflater;
 
     protected AutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
+        this(activity, accountId, boardId, cardId, new ArrayList<>());
+    }
+
+    protected AutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId, @NonNull List<ItemType> itemsToExclude) {
         this.activity = activity;
         this.accountId = accountId;
         this.boardId = boardId;
         this.cardId = cardId;
+        this.itemsToExclude.addAll(itemsToExclude);
         this.syncManager = new SyncManager(activity);
         this.inflater = activity.getLayoutInflater();
     }
@@ -75,5 +82,13 @@ public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implemen
                 notifyDataSetInvalidated();
             }
         }
+    }
+
+    public void exclude(ItemType item) {
+        this.itemsToExclude.add(item);
+    }
+
+    public void include(ItemType item) {
+        this.itemsToExclude.remove(item);
     }
 }

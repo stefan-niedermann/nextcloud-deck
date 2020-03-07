@@ -273,20 +273,23 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         if (canEdit) {
             Long localCardId = fullCard.getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.labels.setAdapter(new LabelAutoCompleteAdapter(activity, accountId, boardId, localCardId));
+            binding.labels.setAdapter(new LabelAutoCompleteAdapter(activity, accountId, boardId, localCardId, fullCard.getLabels()));
             binding.labels.setOnItemClickListener((adapterView, view, position, id) -> {
                 Label label = (Label) adapterView.getItemAtPosition(position);
                 if (LabelAutoCompleteAdapter.ITEM_CREATE == label.getLocalId()) {
                     Label newLabel = new Label(label);
+                    newLabel.setBoardId(boardId);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
                     observeOnce(syncManager.createLabel(accountId, newLabel, boardId), CardDetailsFragment.this, createdLabel -> {
                         newLabel.setLocalId(createdLabel.getLocalId());
+                        ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(createdLabel);
                         cardDetailsListener.onLabelAdded(createdLabel);
                         binding.labelsGroup.addView(createChipFromLabel(newLabel));
                         binding.labelsGroup.setVisibility(View.VISIBLE);
                     });
                 } else {
+                    ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(label);
                     cardDetailsListener.onLabelAdded(label);
                     binding.labelsGroup.addView(createChipFromLabel(label));
                     binding.labelsGroup.setVisibility(View.VISIBLE);
@@ -317,6 +320,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             chip.setOnCloseIconClickListener(v -> {
                 binding.labelsGroup.removeView(chip);
                 cardDetailsListener.onLabelRemoved(label);
+                ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(label);
             });
         }
         try {
