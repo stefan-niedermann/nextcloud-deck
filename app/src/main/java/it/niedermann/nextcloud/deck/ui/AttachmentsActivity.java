@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.SharedElementCallback;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,11 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 
 public class AttachmentsActivity extends AppCompatActivity {
 
-    private static final String TAG = AttachmentsActivity.class.getCanonicalName();
-
     private ActivityAttachmentsBinding binding;
 
     public static final String BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID = "currentAttachmenLocaltId";
+
+    private ViewPager2.OnPageChangeCallback onPageChangeCallback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,6 @@ public class AttachmentsActivity extends AppCompatActivity {
 
         syncManager.readAccount(accountId).observe(this, account ->
                 syncManager.getCardByLocalId(accountId, cardLocalId).observe(this, fullCard -> {
-                    binding.toolbar.setSubtitle(fullCard.getCard().getTitle());
                     final List<Attachment> attachments = new ArrayList<>();
                     for (Attachment a : fullCard.getAttachments()) {
                         if (a.getMimetype().startsWith("image")) {
@@ -66,8 +66,17 @@ public class AttachmentsActivity extends AppCompatActivity {
                         supportFinishAfterTransition();
                         return;
                     }
+                    binding.toolbar.setSubtitle(fullCard.getCard().getTitle());
+                    onPageChangeCallback = new ViewPager2.OnPageChangeCallback() {
+                        @Override
+                        public void onPageSelected(int position) {
+                            super.onPageSelected(position);
+                            binding.toolbar.setTitle(attachments.get(position).getBasename());
+                        }
+                    };
                     RecyclerView.Adapter adapter = new AttachmentAdapter(account, fullCard.getId(), attachments);
                     binding.viewPager.setAdapter(adapter);
+                    binding.viewPager.registerOnPageChangeCallback(onPageChangeCallback);
                     if (currentAttachment != 0L) {
                         for (int i = 0; i < attachments.size(); i++) {
                             if (attachments.get(i).getLocalId() == currentAttachment) {
@@ -109,5 +118,11 @@ public class AttachmentsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         supportFinishAfterTransition();
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        binding.viewPager.unregisterOnPageChangeCallback(onPageChangeCallback);
+        super.onDestroy();
     }
 }
