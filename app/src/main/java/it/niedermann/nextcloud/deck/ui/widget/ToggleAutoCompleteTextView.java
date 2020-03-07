@@ -9,8 +9,6 @@ import android.widget.AdapterView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 
-import it.niedermann.nextcloud.deck.DeckLog;
-
 /**
  * This AutoCompleteTextView implementation closes the dropdown on each second click
  */
@@ -22,10 +20,8 @@ public class ToggleAutoCompleteTextView extends AppCompatAutoCompleteTextView {
         super(context, attrs);
         setOnClickListener((v) -> {
             if (hideOnNextClick) {
-                DeckLog.log("clicked twice, hide dropdown");
                 dismissDropDown();
             } else {
-                DeckLog.log("clicked once, hide dropdown");
                 performFiltering(getText(), 0);
                 showDropDown();
             }
@@ -36,9 +32,8 @@ public class ToggleAutoCompleteTextView extends AppCompatAutoCompleteTextView {
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener l) {
         super.setOnItemClickListener((parent, view, position, id) -> {
-            DeckLog.log("clicked ITEM SELECTED");
-            hideOnNextClick = false;
             l.onItemClick(parent, view, position, id);
+            hideOnNextClick = false;
         });
     }
 
@@ -61,12 +56,10 @@ public class ToggleAutoCompleteTextView extends AppCompatAutoCompleteTextView {
                                   Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
         if (focused && getAdapter() != null) {
-            DeckLog.log("clicked FOCUSED, show dropdown");
             hideOnNextClick = true;
             performFiltering(getText(), 0);
             showDropDown();
         } else {
-            DeckLog.log("clicked FOCUSED leave");
             hideOnNextClick = false;
         }
     }
