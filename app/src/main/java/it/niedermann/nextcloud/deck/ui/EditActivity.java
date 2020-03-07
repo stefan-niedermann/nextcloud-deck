@@ -190,8 +190,8 @@ public class EditActivity extends AppCompatActivity implements
             }
             if (fullCard.getCard().getTitle().isEmpty()) {
                 new AlertDialog.Builder(this)
-                        .setTitle("Title is mandatory")
-                        .setMessage("Provide at least a title or description")
+                        .setTitle(R.string.title_is_mandatory)
+                        .setMessage(R.string.provide_at_least_a_title_or_description)
                         .setPositiveButton(android.R.string.ok, null)
                         .setOnDismissListener(dialog -> {
                             pendingCreation = false;
