@@ -1,1 +1,2 @@
 - Swipe through attachments of a card
+- Enhance side-swipe to change stacks smoother
