@@ -112,6 +112,7 @@ public class MainActivity extends DrawerActivity implements
             DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
         });
 
+
         binding.fab.setOnClickListener((View view) -> {
             if (this.boardsList == null) {
                 DeckLog.log("FAB has been clicked, but boardsList is null... Asking to add an account", INFO);
@@ -176,7 +177,7 @@ public class MainActivity extends DrawerActivity implements
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                enableDisableSwipeRefresh( state == ViewPager.SCROLL_STATE_IDLE );
             }
         });
 
@@ -200,6 +201,12 @@ public class MainActivity extends DrawerActivity implements
                 }
             });
         });
+    }
+
+    private void enableDisableSwipeRefresh(boolean enable) {
+        if (binding.swipeRefreshLayout != null) {
+            binding.swipeRefreshLayout.setEnabled(enable);
+        }
     }
 
     @Override
