@@ -177,7 +177,7 @@ public class MainActivity extends DrawerActivity implements
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                enableDisableSwipeRefresh( state == ViewPager.SCROLL_STATE_IDLE );
+                binding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
 
@@ -201,12 +201,6 @@ public class MainActivity extends DrawerActivity implements
                 }
             });
         });
-    }
-
-    private void enableDisableSwipeRefresh(boolean enable) {
-        if (binding.swipeRefreshLayout != null) {
-            binding.swipeRefreshLayout.setEnabled(enable);
-        }
     }
 
     @Override
