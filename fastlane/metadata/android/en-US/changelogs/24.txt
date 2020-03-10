@@ -1,2 +1,3 @@
 - Swipe through attachments of a card
-- Enhance side-swipe to change stacks smoother
+- Enhance side-swipe to change stacks smoother (#299)
+- App crashes after sharing a board (#310)
