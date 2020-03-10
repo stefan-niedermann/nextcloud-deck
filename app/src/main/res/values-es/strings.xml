@@ -38,6 +38,8 @@
     <string name="about_app_license">Esta aplicación está bajo la Licencia Pública General GNU v3+.</string>
     <string name="about_app_license_button">Ver licencia</string>
     <string name="about_icons_disclaimer_title">Iconos</string>
+    <string name="about_icons_disclaimer_app_icon">Para el icono original vea %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Todos los demás iconos usados por esta app %1$sestán creados por Google Inc. y bajo la licencia Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Iconos de diseño Material.</string>
     <string name="about_credits_tab_title">Créditos</string>
     <string name="about_contribution_tab_title">Contribuir</string>
@@ -128,4 +130,6 @@
     <string name="simple_disabled">Deshabilitado</string>
     <string name="simple_copied">Copiado</string>
     <string name="please_add_an_account_first">Por favor, añade primero una cuenta..</string>
-    </resources>
+    <string name="title_is_mandatory">El título es obligatorio</string>
+    <string name="provide_at_least_a_title_or_description">Indique al menos un título o una descripción</string>
+</resources>

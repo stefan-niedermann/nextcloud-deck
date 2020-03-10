@@ -130,4 +130,6 @@
     <string name="simple_disabled">devre dışı</string>
     <string name="simple_copied">Kopyalandı</string>
     <string name="please_add_an_account_first">Lütfen önce bir hesap ekleyin</string>
-    </resources>
+    <string name="title_is_mandatory">Başlığın yazılması zorunludur</string>
+    <string name="provide_at_least_a_title_or_description">Lütfen en azından başlığı ya da açıklamayı yazın</string>
+</resources>
