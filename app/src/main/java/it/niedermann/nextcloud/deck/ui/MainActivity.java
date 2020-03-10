@@ -1,9 +1,11 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -182,12 +184,20 @@ public class MainActivity extends DrawerActivity implements
         });
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
-            Log.i(TAG, "Clearing Glide memory cache");
-            Glide.get(this).clearMemory();
-            new Thread(() -> {
-                Log.i(TAG, "Clearing Glide disk cache");
-                Glide.get(getApplicationContext()).clearDiskCache();
-            }).start();
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null) {
+                NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+                if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                    DeckLog.info("Clearing Glide memory cache");
+                    Glide.get(this).clearMemory();
+                    new Thread(() -> {
+                        DeckLog.info("Clearing Glide disk cache");
+                        Glide.get(getApplicationContext()).clearDiskCache();
+                    }).start();
+                } else {
+                    DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
+                }
+            } else DeckLog.warn("ConnectivityManager is null");
             syncManager.synchronize(new IResponseCallback<Boolean>(account) {
                 @Override
                 public void onResponse(Boolean response) {

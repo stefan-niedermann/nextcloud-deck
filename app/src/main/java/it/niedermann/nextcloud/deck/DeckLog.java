@@ -11,23 +11,48 @@ public class DeckLog {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
     }
 
+    public static void verbose(String message) {
+        log(message, Severity.VERBOSE, 4);
+    }
+
     public static void log(String message) {
-        log(message, Severity.DEBUG);
+        log(message, Severity.DEBUG, 4);
+    }
+
+    public static void info(String message) {
+        log(message, Severity.INFO, 4);
+    }
+
+    public static void warn(String message) {
+        log(message, Severity.WARN, 4);
+    }
+
+    public static void error(String message) {
+        log(message, Severity.ERROR, 4);
     }
 
     public static void log(String message, Severity severity) {
-        StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
+        log(message, severity, 3);
+    }
+
+    private static void log(String message, Severity severity, int stackTracePosition) {
+        StackTraceElement caller = Thread.currentThread().getStackTrace()[4];
         String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
-        switch(severity) {
-            case VERBOSE: Log.v(DeckConsts.DEBUG_TAG, source);
+        switch (severity) {
+            case VERBOSE:
+                Log.v(DeckConsts.DEBUG_TAG, source);
                 break;
-            case DEBUG: Log.d(DeckConsts.DEBUG_TAG, source);
+            case DEBUG:
+                Log.d(DeckConsts.DEBUG_TAG, source);
                 break;
-            case INFO: Log.i(DeckConsts.DEBUG_TAG, source);
+            case INFO:
+                Log.i(DeckConsts.DEBUG_TAG, source);
                 break;
-            case WARN: Log.w(DeckConsts.DEBUG_TAG, source);
+            case WARN:
+                Log.w(DeckConsts.DEBUG_TAG, source);
                 break;
-            case ERROR: Log.e(DeckConsts.DEBUG_TAG, source);
+            case ERROR:
+                Log.e(DeckConsts.DEBUG_TAG, source);
                 break;
         }
     }
