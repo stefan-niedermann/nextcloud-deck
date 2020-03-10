@@ -386,11 +386,15 @@ public class MainActivity extends DrawerActivity implements
             currentBoardId = currentBoard.getLocalId();
             displayStacksForBoard(currentBoard, this.account);
         } else {
-            for (Board board : boardsList) {
-                if (currentBoardId == board.getLocalId()) {
-                    displayStacksForBoard(board, this.account);
-                    break;
+            if(boardsList != null) {
+                for (Board board : boardsList) {
+                    if (currentBoardId == board.getLocalId()) {
+                        displayStacksForBoard(board, this.account);
+                        break;
+                    }
                 }
+            } else {
+                DeckLog.error("boardsList is null, cannot display stacks for board.");
             }
         }
     }
