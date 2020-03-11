@@ -130,4 +130,6 @@
     <string name="simple_disabled">wyłączony</string>
     <string name="simple_copied">Skopiowano</string>
     <string name="please_add_an_account_first">Najpierw dodaj konto</string>
-    </resources>
+    <string name="title_is_mandatory">Tytuł jest obowiązkowy</string>
+    <string name="provide_at_least_a_title_or_description">Podaj co najmniej tytuł lub opis</string>
+</resources>
