@@ -1,0 +1,2 @@
+- Hide "add menu" board if no account has been imported.
+- Language updates
