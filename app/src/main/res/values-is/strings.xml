@@ -89,12 +89,14 @@
     <string name="simple_discard">henda</string>
     <string name="do_you_want_to_delete_the_current_column">Viltu eyða fyrirliggjandi dálki?</string>
     <string name="update_deck">Uppfæra borð</string>
+    <string name="your_deck_version_is_too_old">Útgáfan þín af deck er of gömul</string>
     <string name="simple_update">Uppfæra</string>
     <string name="simple_delete">Eyða</string>
     <string name="action_card_list_rename_column">Endurnefna dálk</string>
     <string name="simple_rename">Endurnefna</string>
     <string name="simple_settings">Stillingar</string>
     <string name="settings_theme_title">Dökkt þema</string>
+    <string name="settings_background_sync">Samstilling í bakgrunni</string>
     <string name="pref_value_wifi_and_mobile">Samstilla á WiFi-neti og farsímatengingu</string>
     <string name="pref_value_wifi_only">Aðeins samstilla á WiFi-neti</string>
     <string name="pref_value_theme_light">Ljóst</string>
@@ -102,15 +104,24 @@
     <string name="simple_undo">Afturkalla</string>
     <string name="rename_column">Endurnefna dálk</string>
     <string name="share_board">Deila borði</string>
+    <string name="you_are_currently_offline">Þú ert ekki tengdur við netið</string>
     <string name="simple_manage">skipuleggja</string>
     <string name="simple_share">deila</string>
     <string name="simple_select">Velja</string>
     <string name="owner">Eigandi</string>
     <string name="simple_comment">Athugasemd</string>
     <string name="attachment_delete_message">Þetta mun eyða þessu viðhengi varanlega.</string>
+    <string name="no_content">Ekkert efni ennþá</string>
+    <string name="last_background_sync">Síðasta samstilling í bakgrunni:</string>
     <string name="simple_off">Slökkt</string>
     <string name="minutes_15">15 mínútur</string>
     <string name="hour_1">1 klukkustund</string>
     <string name="hours_6">6 klukkustundir</string>
+    <string name="action_card_move">Færa spjald</string>
+    <string name="action_card_move_title">Færa %1$s</string>
+    <string name="simple_disabled">óvirkt</string>
     <string name="simple_copied">Afritað</string>
-    </resources>
+    <string name="please_add_an_account_first">Bættu fyrst við notandaaðgangi</string>
+    <string name="title_is_mandatory">Titill er nauðsynlegur</string>
+    <string name="provide_at_least_a_title_or_description">Gefðu upp í það minnsta titil eða lýsingu</string>
+</resources>
