@@ -1,8 +1,11 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +19,8 @@ import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGrant
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
+import java.util.Objects;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityImportAccountBinding;
@@ -25,6 +30,24 @@ public class ImportAccountActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_IMPORT_ACCOUNT = 1;
     public static final String EXTRA_IMPORTED_ACCOUNT = "importedAccount";
+
+    private ActivityImportAccountBinding binding;
+    private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager conn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.addButton.setEnabled(Objects.requireNonNull(conn).isDefaultNetworkActive());
+                binding.networkHint.setVisibility(conn.isDefaultNetworkActive() ? View.GONE : View.INVISIBLE);
+            } else {
+                NetworkInfo networkInfo = Objects.requireNonNull(conn).getActiveNetworkInfo();
+                if (networkInfo != null) {
+                    binding.addButton.setEnabled(networkInfo.isConnected());
+                    binding.networkHint.setVisibility(networkInfo.isConnected() ? View.GONE : View.INVISIBLE);
+                }
+            }
+        }
+    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -38,28 +61,14 @@ public class ImportAccountActivity extends AppCompatActivity {
 
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        ActivityImportAccountBinding binding = ActivityImportAccountBinding.inflate(getLayoutInflater());
+        binding = ActivityImportAccountBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
 
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(networkReceiver, filter);
+
         binding.welcomeText.setText(getString(R.string.welcome_text, getString(R.string.app_name)));
-
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (cm != null) {
-                cm.addDefaultNetworkActiveListener(() -> {
-                    binding.addButton.setEnabled(cm.isDefaultNetworkActive());
-                    binding.networkHint.setVisibility(cm.isDefaultNetworkActive() ? View.GONE : View.INVISIBLE);
-                });
-                binding.addButton.setEnabled(cm.isDefaultNetworkActive());
-                binding.networkHint.setVisibility(cm.isDefaultNetworkActive() ? View.GONE : View.INVISIBLE);
-            } else {
-                binding.networkHint.setVisibility(View.VISIBLE);
-            }
-        } else {
-            binding.networkHint.setVisibility(View.VISIBLE);
-        }
-
         binding.addButton.setOnClickListener((v) -> {
             try {
                 AccountImporter.pickNewAccount(this);
@@ -79,6 +88,13 @@ public class ImportAccountActivity extends AppCompatActivity {
         super.onSupportNavigateUp();
         setResult(RESULT_CANCELED);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregisters BroadcastReceiver when app is destroyed.
+        this.unregisterReceiver(networkReceiver);
     }
 
     @Override
