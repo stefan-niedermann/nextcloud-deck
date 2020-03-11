@@ -357,8 +357,7 @@ public class MainActivity extends DrawerActivity implements
                                                 syncManager.deleteBoard(board);
                                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
                                             })
-                                            .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                                            })
+                                            .setNegativeButton(android.R.string.cancel, null)
                                             .show();
                                     break;
                             }
@@ -377,8 +376,8 @@ public class MainActivity extends DrawerActivity implements
                     m.setActionView(contextMenu);
                 }
             }
+            boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
         }
-        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
         menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, simpleSettings).setIcon(R.drawable.ic_settings_grey600_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, about).setIcon(R.drawable.ic_info_outline_grey_24dp);
         if (currentBoardId == NO_BOARDS && boardsList.size() > 0) {
@@ -386,7 +385,7 @@ public class MainActivity extends DrawerActivity implements
             currentBoardId = currentBoard.getLocalId();
             displayStacksForBoard(currentBoard, this.account);
         } else {
-            if(boardsList != null) {
+            if (boardsList != null) {
                 for (Board board : boardsList) {
                     if (currentBoardId == board.getLocalId()) {
                         displayStacksForBoard(board, this.account);
