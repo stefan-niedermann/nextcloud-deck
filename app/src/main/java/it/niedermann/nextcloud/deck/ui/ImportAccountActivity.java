@@ -111,6 +111,8 @@ public class ImportAccountActivity extends AppCompatActivity {
                             binding.status.setVisibility(View.GONE);
                             binding.progressCircular.setVisibility(View.VISIBLE);
                         });
+
+                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
                         SyncManager syncManager = new SyncManager(ImportAccountActivity.this);
                         final WrappedLiveData<Account> accountLiveData = syncManager.createAccount(new Account(account.name, account.userId, account.url));
                         accountLiveData.observe(ImportAccountActivity.this, (Account createdAccount) -> {
@@ -165,8 +167,6 @@ public class ImportAccountActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
-                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
                     }
                 });
             } catch (AccountImportCancelledException e) {
