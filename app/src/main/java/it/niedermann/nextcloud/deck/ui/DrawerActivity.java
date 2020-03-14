@@ -247,6 +247,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     }
                 });
             } else {
+                accountSet(null);
                 Intent intent = new Intent(this, ImportAccountActivity.class);
                 startActivityForResult(intent, ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
             }
@@ -288,11 +289,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         }
     }
 
-    protected abstract void accountSet(Account account);
+    protected abstract void accountSet(@Nullable Account account);
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (accountChooserActive) {
+            //noinspection SwitchStatementWithTooFewBranches
             switch (item.getItemId()) {
                 case MENU_ID_ADD_ACCOUNT:
                     showAccountPicker();
