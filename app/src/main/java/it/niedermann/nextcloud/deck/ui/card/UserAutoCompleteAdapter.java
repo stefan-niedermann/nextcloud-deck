@@ -13,7 +13,6 @@ import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -31,7 +30,8 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
         this(activity, accountId, boardId, NO_CARD);
     }
 
-    UserAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
+    @SuppressWarnings("WeakerAccess")
+    public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
         super(activity, accountId, boardId, cardId);
     }
 
@@ -56,9 +56,7 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
                     getItem(position).getUid(),
                     R.drawable.ic_person_grey600_24dp
             );
-        } catch (NextcloudFilesAppAccountNotFoundException e) {
-            DeckLog.logError(e);
-        } catch (NoCurrentAccountSelectedException e) {
+        } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
             DeckLog.logError(e);
         }
 
@@ -85,14 +83,10 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
                                     : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, activity.getResources().getInteger(R.integer.max_users_suggested));
                         }
                         observeOnce(liveData, activity, users -> {
-                            if (users != null) {
-                                filterResults.values = users;
-                                filterResults.count = users.size();
-                                publishResults(constraint, filterResults);
-                            } else {
-                                filterResults.values = new ArrayList<>();
-                                filterResults.count = 0;
-                            }
+                            users.removeAll(itemsToExclude);
+                            filterResults.values = users;
+                            filterResults.count = users.size();
+                            publishResults(constraint, filterResults);
                         });
                     });
                 }

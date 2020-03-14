@@ -37,7 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -278,15 +277,18 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 Label label = (Label) adapterView.getItemAtPosition(position);
                 if (LabelAutoCompleteAdapter.ITEM_CREATE == label.getLocalId()) {
                     Label newLabel = new Label(label);
+                    newLabel.setBoardId(boardId);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
                     observeOnce(syncManager.createLabel(accountId, newLabel, boardId), CardDetailsFragment.this, createdLabel -> {
                         newLabel.setLocalId(createdLabel.getLocalId());
+                        ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(createdLabel);
                         cardDetailsListener.onLabelAdded(createdLabel);
                         binding.labelsGroup.addView(createChipFromLabel(newLabel));
                         binding.labelsGroup.setVisibility(View.VISIBLE);
                     });
                 } else {
+                    ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(label);
                     cardDetailsListener.onLabelAdded(label);
                     binding.labelsGroup.addView(createChipFromLabel(label));
                     binding.labelsGroup.setVisibility(View.VISIBLE);
@@ -317,6 +319,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             chip.setOnCloseIconClickListener(v -> {
                 binding.labelsGroup.removeView(chip);
                 cardDetailsListener.onLabelRemoved(label);
+                ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(label);
             });
         }
         try {
@@ -344,6 +347,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             binding.people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
                 cardDetailsListener.onUserAdded(user);
+                ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
                 if (baseUrl != null) {
                     addAvatar(baseUrl, user);
                 }
@@ -370,11 +374,13 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
             avatar.setOnClickListener(v -> {
                 cardDetailsListener.onUserRemoved(user);
                 binding.peopleList.removeView(avatar);
+                ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
                 Snackbar.make(
-                        Objects.requireNonNull(getView()), getString(R.string.unassigned_user, user.getDisplayname()),
+                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
                         Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_undo, v1 -> {
                             cardDetailsListener.onUserAdded(user);
+                            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
                             addAvatar(baseUrl, user);
                         }).show();
             });

@@ -1,0 +1,2 @@
+- Improve first run experience (#314)
+- Prevent crash when adding attachments to new cards (#318)

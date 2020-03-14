@@ -955,9 +955,14 @@ public class SyncManager {
     }
 
     private void reorderAscending(List<Card> cardsToReorganize, int startingAtOrder) {
+        Date now = new Date();
         for (Card card : cardsToReorganize) {
             card.setOrder(startingAtOrder);
-            dataBaseAdapter.updateCard(card, card.getStatus() == DBStatus.UP_TO_DATE.getId());
+            if (card.getStatus() == DBStatus.UP_TO_DATE.getId()){
+                card.setStatusEnum(DBStatus.LOCAL_EDITED_SILENT);
+                card.setLastModifiedLocal(now);
+            }
+            dataBaseAdapter.updateCard(card, false);
             startingAtOrder++;
         }
     }

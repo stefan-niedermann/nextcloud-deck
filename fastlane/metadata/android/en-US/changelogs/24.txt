@@ -1,0 +1,5 @@
+- Swipe through attachments of a card
+- Enhance side-swipe to change stacks smoother (#299)
+- App crashes after sharing a board (#310)
+- Only clear glide cache when currently online (#307)
+- Fix NPE when toggling drawer header without any account

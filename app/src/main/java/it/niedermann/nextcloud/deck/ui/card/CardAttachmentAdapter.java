@@ -6,20 +6,22 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import java.util.List;
 
@@ -29,31 +31,51 @@ import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.ui.AttachmentsActivity;
+import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static androidx.constraintlayout.widget.Constraints.TAG;
+import static it.niedermann.nextcloud.deck.ui.AttachmentsActivity.BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
-public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder> {
+public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAdapter.AttachmentViewHolder> {
 
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
 
+    private final MenuInflater menuInflator;
     private final Account account;
     private final long cardRemoteId;
+    private final long cardLocalId;
     @NonNull
     private List<Attachment> attachments;
     @NonNull
-    private AttachmentDeletedListener attachmentDeletedListener;
+    private final AttachmentDeletedListener attachmentDeletedListener;
+    @Nullable
+    private final AttachmentClickedListener attachmentClickedListener;
     private Context context;
 
-    AttachmentAdapter(@NonNull AttachmentDeletedListener attachmentDeletedListener, @NonNull Account account, long cardRemoteId, @NonNull List<Attachment> attachments) {
+    CardAttachmentAdapter(
+            @NonNull MenuInflater menuInflator,
+            @NonNull AttachmentDeletedListener attachmentDeletedListener,
+            @Nullable AttachmentClickedListener attachmentClickedListener,
+            @NonNull Account account,
+            long cardLocalId,
+            long cardRemoteId,
+            @NonNull List<Attachment> attachments
+    ) {
         super();
+        this.menuInflator = menuInflator;
         this.attachmentDeletedListener = attachmentDeletedListener;
+        this.attachmentClickedListener = attachmentClickedListener;
         this.attachments = attachments;
         this.account = account;
         this.cardRemoteId = cardRemoteId;
+        this.cardLocalId = cardLocalId;
     }
 
     @NonNull
@@ -73,12 +95,12 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
 
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
-        Attachment attachment = attachments.get(position);
-        int viewType = getItemViewType(position);
-        String uri = account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId();
+        final Attachment attachment = attachments.get(position);
+        final int viewType = getItemViewType(position);
+        @Nullable final String uri = attachment.getId() == null ? null : AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
         holder.setNotSyncedYetStatus(attachment.getStatusEnum() == DBStatus.UP_TO_DATE);
         holder.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
-            ((Activity) context).getMenuInflater().inflate(R.menu.attachment_menu, menu);
+            menuInflator.inflate(R.menu.attachment_menu, menu);
             menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
                 new DeleteDialogBuilder(context)
                         .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
@@ -89,28 +111,47 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
                 return false;
             });
             menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> {
-                final android.content.ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+                if (uri == null) {
+                    Toast.makeText(context, "Not yet synced", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
-                if (clipboardManager != null) {
+                if (clipboardManager == null) {
+                    Log.e(TAG, "clipboardManager is null");
+                    return false;
+                } else {
                     clipboardManager.setPrimaryClip(clipData);
                     Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e(TAG, "clipboardManager is null");
                 }
-                return false;
+                return true;
             });
         });
 
         if (attachment.getMimetype() != null) {
             if (attachment.getMimetype().startsWith("image")) {
-                // TODO Glide is currently not yet able to use SSO and fails on authentication
                 Glide.with(context)
                         .load(uri)
-                        .transform(new CenterCrop())
                         .error(R.drawable.ic_image_grey600_24dp)
                         .into(holder.getPreview());
                 holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
-                holder.getPreview().getRootView().setOnClickListener((v) -> AttachmentDialogFragment.newInstance(uri, attachment.getBasename()).show(((AppCompatActivity) context).getSupportFragmentManager(), "preview"));
+                holder.getPreview().getRootView().setOnClickListener((v) -> {
+                    if (attachmentClickedListener != null) {
+                        attachmentClickedListener.onAttachmentClicked(position);
+                    }
+                    Intent intent = new Intent(context, AttachmentsActivity.class);
+                    intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
+                    intent.putExtra(BUNDLE_KEY_LOCAL_ID, cardLocalId);
+                    intent.putExtra(BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID, attachment.getLocalId());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && context instanceof Activity) {
+                        String transitionName = context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId()));
+                        holder.getPreview().setTransitionName(transitionName);
+                        context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, holder.getPreview(), transitionName).toBundle());
+                    } else {
+                        context.startActivity(intent);
+                    }
+                });
             } else if (attachment.getMimetype().startsWith("audio")) {
                 holder.getPreview().setImageResource(R.drawable.ic_music_note_grey600_24dp);
             } else if (attachment.getMimetype().startsWith("video")) {
@@ -127,8 +168,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
             default: {
                 DefaultAttachmentViewHolder defaultHolder = (DefaultAttachmentViewHolder) holder;
                 defaultHolder.binding.filename.getRootView().setOnClickListener((event) -> {
-                    Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
-                    openURL.setData(Uri.parse(account.getUrl() + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachment.getId()));
+                    Intent openURL = new Intent(Intent.ACTION_VIEW);
+                    openURL.setData(Uri.parse(AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId())));
                     context.startActivity(openURL);
                 });
                 defaultHolder.binding.filename.setText(attachment.getBasename());
@@ -220,5 +261,9 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
 
     public interface AttachmentDeletedListener {
         void onAttachmentDeleted(Attachment attachment);
+    }
+
+    public interface AttachmentClickedListener {
+        void onAttachmentClicked(int position);
     }
 }

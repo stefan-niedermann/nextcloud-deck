@@ -38,7 +38,8 @@
     <string name="about_app_license">Cette application est sous licence GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Voir la licence</string>
     <string name="about_icons_disclaimer_title">Icônes</string>
-    <string name="about_icons_disclaimer">Icône originale réalisée par %1$s. Toutes les autres icônes utilisées par cette application sont %2$s réalisées par Google Inc. et sous licence Apache 2.0.</string>
+    <string name="about_icons_disclaimer_app_icon">Pour l’icône original voir %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Les icônes suivantes utilisées dans cette applications sont %1$s réalisées par Google Inc. et sous licence Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Icônes Material Design</string>
     <string name="about_credits_tab_title">Crédits</string>
     <string name="about_contribution_tab_title">Contribution</string>
@@ -129,4 +130,7 @@
     <string name="action_card_move_title">Déplacer %1$s</string>
     <string name="simple_disabled">désactivé</string>
     <string name="simple_copied">Copié</string>
+    <string name="please_add_an_account_first">Veuillez d’abord ajouter un compte</string>
+    <string name="title_is_mandatory">Le titre est obligatoire</string>
+    <string name="provide_at_least_a_title_or_description">Renseignez le titre ou la description</string>
 </resources>

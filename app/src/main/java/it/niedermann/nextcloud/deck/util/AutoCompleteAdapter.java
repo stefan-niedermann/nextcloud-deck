@@ -22,6 +22,8 @@ public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implemen
     @NonNull
     protected List<ItemType> itemList = new ArrayList<>();
     @NonNull
+    protected List<ItemType> itemsToExclude = new ArrayList<>();
+    @NonNull
     protected SyncManager syncManager;
     protected final long accountId;
     protected final long boardId;
@@ -75,5 +77,13 @@ public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implemen
                 notifyDataSetInvalidated();
             }
         }
+    }
+
+    public void exclude(ItemType item) {
+        this.itemsToExclude.add(item);
+    }
+
+    public void include(ItemType item) {
+        this.itemsToExclude.remove(item);
     }
 }

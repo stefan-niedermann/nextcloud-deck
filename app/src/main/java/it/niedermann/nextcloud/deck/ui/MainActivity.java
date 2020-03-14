@@ -1,15 +1,18 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.PopupMenu;
@@ -22,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -73,7 +77,8 @@ public class MainActivity extends DrawerActivity implements
     private String addBoard;
 
     private StackAdapter stackAdapter;
-    private List<Board> boardsList;
+    private @Nullable
+    List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
 
@@ -110,6 +115,7 @@ public class MainActivity extends DrawerActivity implements
             syncManager.reorder(account.getId(), movedCard, stackId, position);
             DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
         });
+
 
         binding.fab.setOnClickListener((View view) -> {
             if (this.boardsList == null) {
@@ -180,17 +186,25 @@ public class MainActivity extends DrawerActivity implements
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                binding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
-            Log.i(TAG, "Clearing Glide memory cache");
-            Glide.get(this).clearMemory();
-            new Thread(() -> {
-                Log.i(TAG, "Clearing Glide disk cache");
-                Glide.get(getApplicationContext()).clearDiskCache();
-            }).start();
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null) {
+                NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+                if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                    DeckLog.info("Clearing Glide memory cache");
+                    Glide.get(this).clearMemory();
+                    new Thread(() -> {
+                        DeckLog.info("Clearing Glide disk cache");
+                        Glide.get(getApplicationContext()).clearDiskCache();
+                    }).start();
+                } else {
+                    DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
+                }
+            } else DeckLog.warn("ConnectivityManager is null");
             syncManager.synchronize(new IResponseCallback<Boolean>(account) {
                 @Override
                 public void onResponse(Boolean response) {
@@ -247,6 +261,9 @@ public class MainActivity extends DrawerActivity implements
             if (board == null) {
                 Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG);
             } else {
+                if (boardsList == null) {
+                    boardsList = new ArrayList<>();
+                }
                 boardsList.add(board.getBoard());
                 currentBoardId = board.getLocalId();
                 buildSidenavMenu();
@@ -268,33 +285,42 @@ public class MainActivity extends DrawerActivity implements
     }
 
     @Override
-    protected void accountSet(Account account) {
-        currentBoardId = sharedPreferences.getLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), NO_BOARDS);
-        DeckLog.log("--- Read: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
+    protected void accountSet(@Nullable Account account) {
+        if (account != null) {
+            currentBoardId = sharedPreferences.getLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), NO_BOARDS);
+            DeckLog.log("--- Read: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
 
-        if (boardsLiveData != null && boardsLiveDataObserver != null) {
-            boardsLiveData.removeObserver(boardsLiveDataObserver);
-        }
+            if (boardsLiveData != null && boardsLiveDataObserver != null) {
+                boardsLiveData.removeObserver(boardsLiveDataObserver);
+            }
 
-        boardsLiveData = syncManager.getBoards(account.getId());
-        boardsLiveDataObserver = (List<Board> boards) -> {
-            boardsList = boards;
+            boardsLiveData = syncManager.getBoards(account.getId());
+            boardsLiveDataObserver = (List<Board> boards) -> {
+                boardsList = boards;
+                buildSidenavMenu();
+            };
+            boardsLiveData.observe(this, boardsLiveDataObserver);
+        } else {
+            boardsList = null;
             buildSidenavMenu();
-        };
-        boardsLiveData.observe(this, boardsLiveDataObserver);
+        }
     }
 
     @Override
     protected void boardSelected(int itemId, Account account) {
-        Board selectedBoard = boardsList.get(itemId);
-        currentBoardId = selectedBoard.getLocalId();
-        displayStacksForBoard(selectedBoard, account);
+        if (boardsList != null) {
+            Board selectedBoard = boardsList.get(itemId);
+            currentBoardId = selectedBoard.getLocalId();
+            displayStacksForBoard(selectedBoard, account);
 
-        // Remember last board for this account
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
-        editor.putLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), currentBoardId);
-        editor.apply();
+            // Remember last board for this account
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
+            editor.putLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), currentBoardId);
+            editor.apply();
+        } else {
+            DeckLog.logError(new IllegalStateException("boardsList is null but it shouldn't be."));
+        }
     }
 
     @Override
@@ -350,8 +376,7 @@ public class MainActivity extends DrawerActivity implements
                                                 syncManager.deleteBoard(board);
                                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
                                             })
-                                            .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                                            })
+                                            .setNegativeButton(android.R.string.cancel, null)
                                             .show();
                                     break;
                             }
@@ -370,22 +395,25 @@ public class MainActivity extends DrawerActivity implements
                     m.setActionView(contextMenu);
                 }
             }
-        }
-        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
-        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, simpleSettings).setIcon(R.drawable.ic_settings_grey600_24dp);
-        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, about).setIcon(R.drawable.ic_info_outline_grey_24dp);
-        if (currentBoardId == NO_BOARDS && boardsList.size() > 0) {
-            Board currentBoard = boardsList.get(0);
-            currentBoardId = currentBoard.getLocalId();
-            displayStacksForBoard(currentBoard, this.account);
-        } else {
-            for (Board board : boardsList) {
-                if (currentBoardId == board.getLocalId()) {
-                    displayStacksForBoard(board, this.account);
-                    break;
+            boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
+
+            if (currentBoardId == NO_BOARDS && boardsList.size() > 0) {
+                Board currentBoard = boardsList.get(0);
+                currentBoardId = currentBoard.getLocalId();
+                displayStacksForBoard(currentBoard, this.account);
+            } else {
+                for (Board board : boardsList) {
+                    if (currentBoardId == board.getLocalId()) {
+                        displayStacksForBoard(board, this.account);
+                        break;
+                    }
                 }
             }
+        } else {
+            displayStacksForBoard(null, null);
         }
+        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, simpleSettings).setIcon(R.drawable.ic_settings_grey600_24dp);
+        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, about).setIcon(R.drawable.ic_info_outline_grey_24dp);
     }
 
     int stackPositionInAdapter = 0;
@@ -395,10 +423,10 @@ public class MainActivity extends DrawerActivity implements
      *
      * @param board Board
      */
-    private void displayStacksForBoard(Board board, Account account) {
-        binding.toolbar.setTitle(board.getTitle());
+    private void displayStacksForBoard(@Nullable Board board, @Nullable Account account) {
+        binding.toolbar.setTitle(board == null ? getString(R.string.app_name) : board.getTitle());
 
-        currentBoardHasEditPermission = board.isPermissionEdit();
+        currentBoardHasEditPermission = board != null && board.isPermissionEdit();
         if (currentBoardHasEditPermission) {
             binding.fab.show();
             binding.addStackButton.setVisibility(View.VISIBLE);
@@ -408,35 +436,42 @@ public class MainActivity extends DrawerActivity implements
             binding.emptyContentView.hideDescription();
         }
 
-        syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
-            if (fullStacks == null) {
-                binding.emptyContentView.setVisibility(View.VISIBLE);
-                currentBoardHasStacks = false;
-            } else {
-                binding.emptyContentView.setVisibility(View.GONE);
-                currentBoardHasStacks = true;
-
-                long savedStackId = sharedPreferences.getLong(sharedPreferencesLastStackForAccountAndBoard_ + account.getId() + "_" + this.currentBoardId, NO_STACKS);
-                DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
-                if (fullStacks.size() == 0) {
+        if (board != null && account != null) {
+            binding.stackLayout.setVisibility(View.VISIBLE);
+            binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
+            syncManager.getStacksForBoard(account.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
+                if (fullStacks == null) {
                     binding.emptyContentView.setVisibility(View.VISIBLE);
                     currentBoardHasStacks = false;
                 } else {
                     binding.emptyContentView.setVisibility(View.GONE);
                     currentBoardHasStacks = true;
-                }
 
-                stackAdapter = new StackAdapter(getSupportFragmentManager(), getLifecycle(), fullStacks, account, currentBoardId, currentBoardHasEditPermission);
-                binding.viewPager.setAdapter(stackAdapter);
-                runOnUiThread(() -> {
-                    TabLayoutHelper.TabTitleGenerator tabTitleGenerator = (position) -> fullStacks.get(position).getStack().getTitle();
-                    new TabLayoutMediator(binding.stackLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position))).attach();
-                    new TabLayoutHelper(binding.stackLayout, binding.viewPager, tabTitleGenerator).setAutoAdjustTabModeEnabled(true);
-                    binding.viewPager.setCurrentItem(stackPositionInAdapter);
-                });
-            }
-            invalidateOptionsMenu();
-        });
+                    long savedStackId = sharedPreferences.getLong(sharedPreferencesLastStackForAccountAndBoard_ + account.getId() + "_" + this.currentBoardId, NO_STACKS);
+                    DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + account.getId() + "_" + this.currentBoardId + " | " + savedStackId);
+                    if (fullStacks.size() == 0) {
+                        binding.emptyContentView.setVisibility(View.VISIBLE);
+                        currentBoardHasStacks = false;
+                    } else {
+                        binding.emptyContentView.setVisibility(View.GONE);
+                        currentBoardHasStacks = true;
+                    }
+
+                    stackAdapter = new StackAdapter(getSupportFragmentManager(), getLifecycle(), fullStacks, account, currentBoardId, currentBoardHasEditPermission);
+                    binding.viewPager.setAdapter(stackAdapter);
+                    runOnUiThread(() -> {
+                        TabLayoutHelper.TabTitleGenerator tabTitleGenerator = (position) -> fullStacks.get(position).getStack().getTitle();
+                        new TabLayoutMediator(binding.stackLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position))).attach();
+                        new TabLayoutHelper(binding.stackLayout, binding.viewPager, tabTitleGenerator).setAutoAdjustTabModeEnabled(true);
+                        binding.viewPager.setCurrentItem(stackPositionInAdapter);
+                    });
+                }
+                invalidateOptionsMenu();
+            });
+        } else {
+            binding.stackLayout.setVisibility(View.GONE);
+            binding.swipeRefreshLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override

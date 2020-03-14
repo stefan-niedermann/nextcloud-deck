@@ -15,13 +15,13 @@ import it.niedermann.nextcloud.deck.model.enums.ActivityType;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
-public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ActivitiesViewHolder> {
+public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapter.ActivitiesViewHolder> {
 
     @NonNull
     private List<Activity> activities;
     private Context context;
 
-    public ActivityAdapter(@NonNull List<Activity> activities) {
+    public CardActivityAdapter(@NonNull List<Activity> activities) {
         super();
         this.activities = activities;
     }

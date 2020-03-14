@@ -38,7 +38,6 @@
     <string name="about_app_license">Ova je aplikacija licencirana pod OPĆOM JAVNOM LICENCOM ZA GNU v3+.</string>
     <string name="about_app_license_button">Pogledaj licencu</string>
     <string name="about_icons_disclaimer_title">Ikone</string>
-    <string name="about_icons_disclaimer">Izvornu ikonu izradio je %1$sSve daljnje ikone koje se koriste u ovoj aplikaciji su %2$s koje je izradio Google Inc. i licencirane su pod licencom Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Ikone materijalnog dizajna</string>
     <string name="about_credits_tab_title">Zasluge</string>
     <string name="about_contribution_tab_title">Doprinos</string>
@@ -127,4 +126,4 @@
     <string name="action_card_move">Premjesti karticu</string>
     <string name="action_card_move_title">Premjesti %1$s</string>
     <string name="simple_copied">Kopirano</string>
-</resources>
+    </resources>

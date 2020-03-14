@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -112,9 +111,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     @Override
     public void onBindViewHolder(@NonNull ItemCardViewHolder viewHolder, int position) {
         FullCard card = cardList.get(position);
-        if (!canEdit) {
-            ((ViewManager) viewHolder.binding.cardMenu.getParent()).removeView(viewHolder.binding.cardMenu);
-        }
 
         viewHolder.binding.card.setOnClickListener((View clickedView) -> {
             Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
@@ -139,6 +135,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
                 return true;
             });
             setupMoveMenu(card.getAccountId(), boardId);
+        } else {
+            viewHolder.binding.cardMenu.setVisibility(View.GONE);
         }
         viewHolder.binding.cardTitle.setText(card.getCard().getTitle());
         String description = card.getCard().getDescription();

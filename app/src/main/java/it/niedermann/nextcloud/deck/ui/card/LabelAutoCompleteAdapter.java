@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.R;
@@ -74,28 +73,18 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
                                 ? syncManager.searchNotYetAssignedLabelsByTitle(accountId, boardId, cardId, constraint.toString())
                                 : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId, activity.getResources().getInteger(R.integer.max_labels_suggested));
                         liveData.observe(activity, (labels -> {
+                            labels.removeAll(itemsToExclude);
                             final boolean constraintLengthGreaterZero = constraint.toString().trim().length() > 0;
                             if (canManage && constraintLengthGreaterZero) {
                                 if (createLabel == null) {
                                     throw new IllegalStateException("Owner has right to edit card, but createLable is null");
                                 }
                                 createLabel.setTitle(String.format(activity.getString(R.string.label_add), constraint));
+                                labels.add(createLabel);
                             }
-                            if (labels != null) {
-                                if (canManage && constraintLengthGreaterZero) {
-                                    labels.add(createLabel);
-                                }
-                                filterResults.values = labels;
-                                filterResults.count = labels.size();
-                                publishResults(constraint, filterResults);
-                            } else {
-                                List<Label> createLabels = new ArrayList<>();
-                                if (canManage && constraintLengthGreaterZero) {
-                                    createLabels.add(createLabel);
-                                }
-                                filterResults.values = createLabels;
-                                filterResults.count = createLabels.size();
-                            }
+                            filterResults.values = labels;
+                            filterResults.count = labels.size();
+                            publishResults(constraint, filterResults);
                         }));
                     });
                 }

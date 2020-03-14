@@ -6,20 +6,24 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -30,8 +34,13 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUN
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentClickedListener;
+import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentDeletedListener;
+import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
+import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 
-public class CardAttachmentsFragment extends Fragment implements AttachmentAdapter.AttachmentDeletedListener {
+public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
     private static final String TAG = CardAttachmentsFragment.class.getCanonicalName();
 
     private FragmentCardEditTabAttachmentsBinding binding;
@@ -44,6 +53,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
     private long accountId;
     private long cardId;
 
+    private int clickedItemPosition;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
@@ -55,61 +66,88 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
         if (args != null) {
             accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
             cardId = args.getLong(BUNDLE_KEY_LOCAL_ID);
-            boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
-
-            syncManager = new SyncManager(requireActivity());
-            syncManager.getCardByLocalId(accountId, cardId).observe(getViewLifecycleOwner(), (fullCard) -> {
-                if (fullCard.getAttachments().size() == 0) {
-                    this.binding.emptyContentView.setVisibility(View.VISIBLE);
-                    this.binding.attachmentsList.setVisibility(View.GONE);
-                } else {
-                    this.binding.emptyContentView.setVisibility(View.GONE);
-                    this.binding.attachmentsList.setVisibility(View.VISIBLE);
-                    syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
-                        RecyclerView.Adapter adapter = new AttachmentAdapter(this, account, fullCard.getCard().getId(), fullCard.getAttachments());
-                        binding.attachmentsList.setAdapter(adapter);
-                        GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
-
-                        glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                            @Override
-                            public int getSpanSize(int position) {
-                                switch (adapter.getItemViewType(position)) {
-                                    case AttachmentAdapter.VIEW_TYPE_IMAGE:
-                                        return 1;
-                                    case AttachmentAdapter.VIEW_TYPE_DEFAULT:
-                                        return 3;
-                                    default:
-                                        return 1;
-                                }
-                            }
-                        });
-                        binding.attachmentsList.setLayoutManager(glm);
-                    });
-                }
-            });
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT && canEdit) {
-                binding.fab.setOnClickListener(v -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                REQUEST_PERMISSION);
-                    } else {
-                        startFilePickerIntent();
-                    }
-                });
-                binding.fab.show();
-                binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                        if (dy > 0)
-                            binding.fab.hide();
-                        else if (dy < 0)
-                            binding.fab.show();
-                    }
-                });
+            if (cardId == NO_LOCAL_ID) {
+                this.binding.saveCardBeforeAddAttachments.setVisibility(View.VISIBLE);
+                this.binding.attachmentsList.setVisibility(View.GONE);
+                this.binding.emptyContentView.setVisibility(View.GONE);
+                this.binding.fab.setVisibility(View.GONE);
             } else {
-                binding.fab.hide();
-                binding.emptyContentView.hideDescription();
+                boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
+
+                syncManager = new SyncManager(requireActivity());
+                syncManager.getCardByLocalId(accountId, cardId).observe(getViewLifecycleOwner(), (fullCard) -> {
+                    if (fullCard.getAttachments().size() == 0) {
+                        this.binding.emptyContentView.setVisibility(View.VISIBLE);
+                        this.binding.attachmentsList.setVisibility(View.GONE);
+                    } else {
+                        this.binding.emptyContentView.setVisibility(View.GONE);
+                        this.binding.attachmentsList.setVisibility(View.VISIBLE);
+                        syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
+                            RecyclerView.Adapter adapter = new CardAttachmentAdapter(
+                                    requireActivity().getMenuInflater(),
+                                    this,
+                                    this,
+                                    account,
+                                    fullCard.getCard().getLocalId(),
+                                    fullCard.getCard().getId(),
+                                    fullCard.getAttachments());
+                            binding.attachmentsList.setAdapter(adapter);
+
+                            // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
+                            // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
+                            setExitSharedElementCallback(new SharedElementCallback() {
+                                @Override
+                                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                                    CardAttachmentAdapter.AttachmentViewHolder selectedViewHolder = (CardAttachmentAdapter.AttachmentViewHolder) binding.attachmentsList
+                                            .findViewHolderForAdapterPosition(clickedItemPosition);
+                                    if (selectedViewHolder != null) {
+                                        sharedElements.put(names.get(0), selectedViewHolder.getPreview());
+                                    }
+                                }
+                            });
+
+                            GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
+
+                            glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                                @Override
+                                public int getSpanSize(int position) {
+                                    switch (adapter.getItemViewType(position)) {
+                                        case VIEW_TYPE_IMAGE:
+                                            return 1;
+                                        case VIEW_TYPE_DEFAULT:
+                                            return 3;
+                                        default:
+                                            return 1;
+                                    }
+                                }
+                            });
+                            binding.attachmentsList.setLayoutManager(glm);
+                        });
+                    }
+                });
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && canEdit) {
+                    binding.fab.setOnClickListener(v -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    REQUEST_PERMISSION);
+                        } else {
+                            startFilePickerIntent();
+                        }
+                    });
+                    binding.fab.show();
+                    binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                            if (dy > 0)
+                                binding.fab.hide();
+                            else if (dy < 0)
+                                binding.fab.show();
+                        }
+                    });
+                } else {
+                    binding.fab.hide();
+                    binding.emptyContentView.hideDescription();
+                }
             }
         }
 
@@ -119,7 +157,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void startFilePickerIntent() {
-//                    Snackbar.make(coordinatorLayout, "Adding attachments is not yet implemented", Snackbar.LENGTH_LONG).show();
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
@@ -130,15 +167,31 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ADD_ATTACHMENT && resultCode == Activity.RESULT_OK) {
-            Uri uri = null;
             if (data != null) {
-                uri = data.getData();
-                Log.i(TAG, "Uri: " + uri.toString());
-                String path = FileUtils.getPath(getContext(), uri);
-                File uploadFile = new File(path);
-                syncManager.addAttachmentToCard(accountId, cardId, Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
+                Uri uri = data.getData();
+                if (uri != null) {
+                    DeckLog.info("Uri: " + uri.toString());
+                    String path = FileUtils.getPath(getContext(), uri);
+                    if (path != null) {
+                        File uploadFile = new File(path);
+                        if (cardId == NO_LOCAL_ID) {
+                            if (getActivity() instanceof AttachmentAddedToNewCardListener) {
+                                Toast.makeText(getContext(), "You need to save the card first.", Toast.LENGTH_LONG).show();
+//                                Attachment attachment = new Attachment();
+//                                ((AttachmentAddedToNewCardListener) getActivity()).attachmentAddedToNewCard(attachment);
+                            }
+                        } else {
+                            syncManager.addAttachmentToCard(accountId, cardId, Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
+                        }
+                    } else {
+                        DeckLog.warn("path to file is null");
+                    }
+                } else {
+                    DeckLog.warn("data.getDate() returned null");
+                }
+            } else {
+                DeckLog.warn("data is null");
             }
-
         }
     }
 
@@ -172,5 +225,14 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentAdapt
     @Override
     public void onAttachmentDeleted(Attachment attachment) {
         syncManager.deleteAttachmentOfCard(accountId, cardId, attachment.getLocalId());
+    }
+
+    @Override
+    public void onAttachmentClicked(int position) {
+        this.clickedItemPosition = position;
+    }
+
+    public interface AttachmentAddedToNewCardListener {
+        void attachmentAddedToNewCard(Attachment attachment);
     }
 }

@@ -38,7 +38,6 @@
     <string name="about_app_license">Ця програма ліцензована під GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Переглянути ліцензію</string>
     <string name="about_icons_disclaimer_title">Значки</string>
-    <string name="about_icons_disclaimer">Оригінальний значок, зроблений %1$sВсі додаткові значки, що використовуються у цьому додатку %2$sзроблені Google Inc. і ліцензовані під ліцензією Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Подяки</string>
     <string name="about_contribution_tab_title">Внесок</string>

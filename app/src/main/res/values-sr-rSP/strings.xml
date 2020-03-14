@@ -38,7 +38,6 @@
     <string name="about_app_license">Ova aplikacija je licencirana pod GNUovom opštom javnom licencom v3+.</string>
     <string name="about_app_license_button">Prikaži licencu</string>
     <string name="about_icons_disclaimer_title">Ikone</string>
-    <string name="about_icons_disclaimer">Originalne ikone napravio %1$s Sve ostale ikone korišćene u ovoj aplikaciji su %2$s koje je napravio Google Inc. i licencirane su pod Apač 2.0 licencom.</string>
     <string name="about_icons_disclaimer_mdi">Material Design ikonice</string>
     <string name="about_credits_tab_title">Zasluge</string>
     <string name="about_contribution_tab_title">Doprinos</string>

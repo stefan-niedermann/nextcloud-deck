@@ -47,10 +47,20 @@
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
         <activity
+            android:name=".ui.AttachmentsActivity"
+            android:theme="@style/TransparentTheme"
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.EditActivity" />
+
+        <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/simple_settings"
             android:theme="@style/AppTheme"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
+
+        <activity
+            android:name=".ui.ImportAccountActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.AboutActivity"
