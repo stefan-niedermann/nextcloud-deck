@@ -37,7 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -377,7 +376,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 binding.peopleList.removeView(avatar);
                 ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
                 Snackbar.make(
-                        Objects.requireNonNull(getView()), getString(R.string.unassigned_user, user.getDisplayname()),
+                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
                         Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_undo, v1 -> {
                             cardDetailsListener.onUserAdded(user);

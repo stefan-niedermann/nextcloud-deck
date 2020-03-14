@@ -153,4 +153,5 @@
     <string name="provide_at_least_a_title_or_description">Provide at least a title or description</string>
     <string name="welcome_text">Welcome to %1$s</string>
     <string name="choose_account">Choose Account</string>
+    <string name="save_card_before_attachment">The card needs to be saved before attachments can be added.</string>
 </resources>

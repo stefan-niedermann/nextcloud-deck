@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
@@ -39,11 +40,13 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
+import it.niedermann.nextcloud.deck.ui.card.CardAttachmentsFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CommentDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
+import kotlin.NotImplementedError;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -55,6 +58,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 public class EditActivity extends AppCompatActivity implements
         CardDetailsFragment.CardDetailsListener,
         CommentDialogFragment.AddCommentListener,
+        CardAttachmentsFragment.AttachmentAddedToNewCardListener,
         AdapterView.OnItemSelectedListener {
 
     private ActivityEditBinding binding;
@@ -341,5 +345,10 @@ public class EditActivity extends AppCompatActivity implements
     @Override
     public void onCommentAdded(String comment) {
         syncManager.addCommentToCard(accountId, boardId, localId, comment);
+    }
+
+    @Override
+    public void attachmentAddedToNewCard(Attachment attachment) {
+        DeckLog.logError(new NotImplementedError("Attaching files to a card which has not been saved yet is not supported."));
     }
 }
