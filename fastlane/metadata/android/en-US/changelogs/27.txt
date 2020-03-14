@@ -1,0 +1,1 @@
+- Make attachment grid responsive

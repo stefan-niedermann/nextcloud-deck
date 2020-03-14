@@ -10,6 +10,8 @@
     <integer name="max_users_suggested">3</integer>
     <!-- How many labels should be suggested when clicking on the assigned labels input field -->
     <integer name="max_labels_suggested">3</integer>
+    <!-- How many dp should one column in the attachments grid have -->
+    <integer name="max_dp_attachment_column">110</integer>
     <!-- How many microseconds should be waited before switching to another tab when dragging cards -->
     <integer name="drag_n_drop_ms_to_react">500</integer>
     <!-- How many dp from border should one be away before switching to another tab when dragging cards -->
