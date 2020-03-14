@@ -72,6 +72,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         this.account = account;
         this.cardRemoteId = cardRemoteId;
         this.cardLocalId = cardLocalId;
+        setHasStableIds(true);
     }
 
     @NonNull
@@ -87,6 +88,11 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
                 return new DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false));
             }
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return attachments.get(position).getLocalId();
     }
 
     @Override
@@ -251,6 +257,16 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         private ImageAttachmentViewHolder(ItemAttachmentImageBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+        }
+
+        @Override
+        public void bind(Attachment attachment, boolean selected) {
+            super.bind(attachment, selected);
+            @Nullable final String uri = attachment.getId() == null ? null : AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
+            Glide.with(context)
+                    .load(uri)
+                    .error(R.drawable.ic_image_grey600_24dp)
+                    .into(getPreview());
         }
 
         @Override
