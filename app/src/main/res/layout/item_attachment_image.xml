@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <it.niedermann.nextcloud.deck.ui.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_width="110dp"
+    tools:layout_height="110dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/preview"
@@ -26,4 +27,14 @@
         android:visibility="gone"
         app:srcCompat="@drawable/ic_sync_blue_24dp"
         tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:translationX="-8dp"
+        android:translationY="8dp"
+        android:background="@drawable/selector_attachment" />
 </it.niedermann.nextcloud.deck.ui.widget.SquareRelativeLayout>

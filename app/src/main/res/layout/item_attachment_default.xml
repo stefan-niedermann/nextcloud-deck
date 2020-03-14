@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/standard_padding"
-    android:background="@drawable/selector_attachment">
+    android:padding="@dimen/standard_padding">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -21,6 +20,12 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/standard_half_margin"
             app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_attachment" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/not_synced_yet"
