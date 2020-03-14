@@ -22,8 +22,8 @@
             app:srcCompat="@drawable/ic_attach_file_grey600_24dp" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_gravity="center"
             android:background="@drawable/selector_attachment" />
 

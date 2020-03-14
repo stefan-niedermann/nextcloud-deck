@@ -106,13 +106,16 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                                     fullCard.getCard().getId(),
                                     fullCard.getAttachments());
                             binding.attachmentsList.setAdapter(adapter);
-                            selectionTracker = new SelectionTracker.Builder<Long>(
+                            selectionTracker = new SelectionTracker.Builder<>(
                                     "my-selection-id",
                                     binding.attachmentsList,
                                     new CardAttachmentKeyProvider(1, fullCard.getAttachments()),
                                     new CardAttachmentLookup(binding.attachmentsList),
                                     StorageStrategy.createLongStorage()
                             ).build();
+                            if (savedInstanceState != null) {
+                                selectionTracker.onRestoreInstanceState(savedInstanceState);
+                            }
                             ((CardAttachmentAdapter) adapter).setSelectionTracker(selectionTracker);
                             if (getActivity() instanceof EditActivity) {
                                 selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
@@ -280,7 +283,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         void attachmentAddedToNewCard(Attachment attachment);
     }
 
-    public static class CardAttachmentKeyProvider extends ItemKeyProvider {
+    public static class CardAttachmentKeyProvider extends ItemKeyProvider<Long> {
         private final List<Attachment> itemList;
 
         CardAttachmentKeyProvider(int scope, List<Attachment> itemList) {
@@ -290,14 +293,14 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
         @Nullable
         @Override
-        public Object getKey(int position) {
+        public Long getKey(int position) {
             return itemList.get(position).getLocalId();
         }
 
         @Override
-        public int getPosition(@NonNull Object key) {
+        public int getPosition(@NonNull Long key) {
             for (int i = 0; i < itemList.size(); i++) {
-                if (key == itemList.get(i).getLocalId()) {
+                if (key.equals(itemList.get(i).getLocalId())) {
                     return i;
                 }
             }
@@ -306,7 +309,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
 
-    public static class CardAttachmentLookup extends ItemDetailsLookup {
+    public static class CardAttachmentLookup extends ItemDetailsLookup<Long> {
 
         private final RecyclerView recyclerView;
 
@@ -316,7 +319,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
         @Nullable
         @Override
-        public ItemDetails getItemDetails(@NonNull MotionEvent e) {
+        public ItemDetails<Long> getItemDetails(@NonNull MotionEvent e) {
             View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
             if (view != null) {
                 RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
@@ -358,5 +361,11 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         public void onDestroyActionMode(ActionMode actionMode) {
             selectionTracker.clearSelection();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        selectionTracker.onSaveInstanceState(outState);
     }
 }

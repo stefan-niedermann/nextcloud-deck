@@ -217,7 +217,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
 
         abstract protected void setNotSyncedYetStatus(boolean synced);
 
-        ItemDetailsLookup.ItemDetails getItemDetails() {
+        ItemDetailsLookup.ItemDetails<Long> getItemDetails() {
             return new CardAttachmentDetail(getAdapterPosition(), attachments.get(getAdapterPosition()).getLocalId());
         }
 
@@ -294,7 +294,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         void onAttachmentClicked(int position);
     }
 
-    public static class CardAttachmentDetail extends ItemDetailsLookup.ItemDetails {
+    public static class CardAttachmentDetail extends ItemDetailsLookup.ItemDetails<Long> {
         private final int adapterPosition;
         private final long selectionKey;
 
@@ -310,7 +310,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
 
         @Nullable
         @Override
-        public Object getSelectionKey() {
+        public Long getSelectionKey() {
             return selectionKey;
         }
     }
