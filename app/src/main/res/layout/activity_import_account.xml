@@ -57,4 +57,16 @@
         android:textSize="18sp"
         android:visibility="gone"
         tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/network_hint"
+        android:layout_marginTop="32dp"
+        android:gravity="center_horizontal"
+        android:text="@string/you_have_to_be_connected_to_the_internet_in_order_to_add_an_account"
+        android:textAlignment="center"
+        android:textColor="@color/fg_secondary"
+        android:textSize="18sp" />
 </RelativeLayout>
