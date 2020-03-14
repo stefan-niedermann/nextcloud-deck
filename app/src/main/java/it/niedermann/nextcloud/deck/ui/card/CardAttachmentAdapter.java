@@ -1,24 +1,22 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.recyclerview.selection.ItemDetailsLookup;
+import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -34,10 +32,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.AttachmentsActivity;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 
-import static android.content.Context.CLIPBOARD_SERVICE;
-import static androidx.constraintlayout.widget.Constraints.TAG;
 import static it.niedermann.nextcloud.deck.ui.AttachmentsActivity.BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -58,6 +53,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
     @Nullable
     private final AttachmentClickedListener attachmentClickedListener;
     private Context context;
+    private SelectionTracker<Long> selectionTracker;
 
     CardAttachmentAdapter(
             @NonNull MenuInflater menuInflator,
@@ -99,34 +95,34 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         final int viewType = getItemViewType(position);
         @Nullable final String uri = attachment.getId() == null ? null : AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
         holder.setNotSyncedYetStatus(attachment.getStatusEnum() == DBStatus.UP_TO_DATE);
-        holder.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
-            menuInflator.inflate(R.menu.attachment_menu, menu);
-            menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
-                new DeleteDialogBuilder(context)
-                        .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
-                        .setMessage(R.string.attachment_delete_message)
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))
-                        .show();
-                return false;
-            });
-            menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> {
-                if (uri == null) {
-                    Toast.makeText(context, "Not yet synced", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
-                if (clipboardManager == null) {
-                    Log.e(TAG, "clipboardManager is null");
-                    return false;
-                } else {
-                    clipboardManager.setPrimaryClip(clipData);
-                    Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            });
-        });
+//        holder.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+//            menuInflator.inflate(R.menu.attachment_menu, menu);
+//            menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
+//                new DeleteDialogBuilder(context)
+//                        .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
+//                        .setMessage(R.string.attachment_delete_message)
+//                        .setNegativeButton(android.R.string.cancel, null)
+//                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))
+//                        .show();
+//                return false;
+//            });
+//            menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> {
+//                if (uri == null) {
+//                    Toast.makeText(context, "Not yet synced", Toast.LENGTH_SHORT).show();
+//                    return false;
+//                }
+//                final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+//                ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
+//                if (clipboardManager == null) {
+//                    Log.e(TAG, "clipboardManager is null");
+//                    return false;
+//                } else {
+//                    clipboardManager.setPrimaryClip(clipData);
+//                    Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
+//                }
+//                return true;
+//            });
+//        });
 
         if (attachment.getMimetype() != null) {
             if (attachment.getMimetype().startsWith("image")) {
@@ -157,6 +153,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
             } else if (attachment.getMimetype().startsWith("video")) {
                 holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
             }
+            holder.bind(attachment, selectionTracker.isSelected(attachment.getLocalId()));
         }
 
         //noinspection SwitchStatementWithTooFewBranches
@@ -199,7 +196,11 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         return attachments.size();
     }
 
-    static abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
+    void setSelectionTracker(SelectionTracker<Long> selectionTracker) {
+        this.selectionTracker = selectionTracker;
+    }
+
+    abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
         AttachmentViewHolder(@NonNull View itemView) {
             super(itemView);
         }
@@ -209,9 +210,18 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         abstract protected ImageView getPreview();
 
         abstract protected void setNotSyncedYetStatus(boolean synced);
+
+        ItemDetailsLookup.ItemDetails getItemDetails() {
+            return new CardAttachmentDetail(getAdapterPosition(), attachments.get(getAdapterPosition()).getLocalId());
+        }
+
+        public void bind(Attachment attachment, boolean selected) {
+            itemView.setActivated(selected);
+        }
     }
 
-    static class DefaultAttachmentViewHolder extends AttachmentViewHolder {
+
+    class DefaultAttachmentViewHolder extends AttachmentViewHolder {
         ItemAttachmentDefaultBinding binding;
 
         private DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding binding) {
@@ -235,7 +245,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         }
     }
 
-    static class ImageAttachmentViewHolder extends AttachmentViewHolder {
+    class ImageAttachmentViewHolder extends AttachmentViewHolder {
         private ItemAttachmentImageBinding binding;
 
         private ImageAttachmentViewHolder(ItemAttachmentImageBinding binding) {
@@ -257,6 +267,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         protected void setNotSyncedYetStatus(boolean synced) {
             binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
         }
+
     }
 
     public interface AttachmentDeletedListener {
@@ -266,4 +277,26 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
     public interface AttachmentClickedListener {
         void onAttachmentClicked(int position);
     }
+
+    public static class CardAttachmentDetail extends ItemDetailsLookup.ItemDetails {
+        private final int adapterPosition;
+        private final long selectionKey;
+
+        CardAttachmentDetail(int adapterPosition, long selectionKey) {
+            this.adapterPosition = adapterPosition;
+            this.selectionKey = selectionKey;
+        }
+
+        @Override
+        public int getPosition() {
+            return adapterPosition;
+        }
+
+        @Nullable
+        @Override
+        public Object getSelectionKey() {
+            return selectionKey;
+        }
+    }
+
 }

@@ -15,6 +15,7 @@ import android.widget.SpinnerAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -69,6 +70,8 @@ public class EditActivity extends AppCompatActivity implements
             R.string.card_edit_attachments,
             R.string.card_edit_activity
     };
+
+    private ActionMode actionMode;
 
     private FullCard originalCard;
     private FullCard fullCard;
@@ -303,6 +306,14 @@ public class EditActivity extends AppCompatActivity implements
         } else {
             super.finish();
         }
+    }
+
+    public ActionMode getActionMode() {
+        return this.actionMode;
+    }
+
+    public void setActionMode(ActionMode actionMode) {
+        this.actionMode = actionMode;
     }
 
     @Override

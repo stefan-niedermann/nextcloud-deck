@@ -2,12 +2,17 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -15,8 +20,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.selection.ItemDetailsLookup;
+import androidx.recyclerview.selection.ItemKeyProvider;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +40,7 @@ import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBi
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.EditActivity;
 import it.niedermann.nextcloud.deck.util.FileUtils;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -46,6 +57,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     private static final String TAG = CardAttachmentsFragment.class.getCanonicalName();
 
     private FragmentCardEditTabAttachmentsBinding binding;
+    private SelectionTracker<Long> selectionTracker;
 
     private static final int REQUEST_CODE_ADD_ATTACHMENT = 1;
     private static final int REQUEST_PERMISSION = 2;
@@ -94,6 +106,34 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                                     fullCard.getCard().getId(),
                                     fullCard.getAttachments());
                             binding.attachmentsList.setAdapter(adapter);
+                            selectionTracker = new SelectionTracker.Builder<Long>(
+                                    "my-selection-id",
+                                    binding.attachmentsList,
+                                    new CardAttachmentKeyProvider(1, fullCard.getAttachments()),
+                                    new CardAttachmentLookup(binding.attachmentsList),
+                                    StorageStrategy.createLongStorage()
+                            ).build();
+                            ((CardAttachmentAdapter) adapter).setSelectionTracker(selectionTracker);
+                            if (getActivity() instanceof EditActivity) {
+                                selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
+                                    @Override
+                                    public void onSelectionChanged() {
+                                        super.onSelectionChanged();
+                                        ActionMode actionMode = ((EditActivity) requireActivity()).getActionMode();
+                                        if (selectionTracker.hasSelection() && actionMode == null) {
+                                            ((EditActivity) requireActivity()).startSupportActionMode(new ActionModeController(requireContext(), selectionTracker));
+                                        } else if (!selectionTracker.hasSelection() && actionMode != null) {
+                                            actionMode.finish();
+                                            ((EditActivity) requireActivity()).setActionMode(null);
+                                        } else {
+//                                            requireActivity().setMenuItemTitle(selectionTracker.getSelection().size());
+                                        }
+                                        for (Long aLong : selectionTracker.getSelection()) {
+                                            Log.i(TAG, String.valueOf(aLong));
+                                        }
+                                    }
+                                });
+                            }
 
                             // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
                             // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
@@ -238,5 +278,85 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     public interface AttachmentAddedToNewCardListener {
         void attachmentAddedToNewCard(Attachment attachment);
+    }
+
+    public static class CardAttachmentKeyProvider extends ItemKeyProvider {
+        private final List<Attachment> itemList;
+
+        CardAttachmentKeyProvider(int scope, List<Attachment> itemList) {
+            super(scope);
+            this.itemList = itemList;
+        }
+
+        @Nullable
+        @Override
+        public Object getKey(int position) {
+            return itemList.get(position).getLocalId();
+        }
+
+        @Override
+        public int getPosition(@NonNull Object key) {
+            for (int i = 0; i < itemList.size(); i++) {
+                if (key == itemList.get(i).getLocalId()) {
+                    return i;
+                }
+            }
+            throw new IllegalArgumentException("Could not find an attachment with key " + key);
+        }
+    }
+
+
+    public static class CardAttachmentLookup extends ItemDetailsLookup {
+
+        private final RecyclerView recyclerView;
+
+        CardAttachmentLookup(RecyclerView recyclerView) {
+            this.recyclerView = recyclerView;
+        }
+
+        @Nullable
+        @Override
+        public ItemDetails getItemDetails(@NonNull MotionEvent e) {
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            if (view != null) {
+                RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
+                if (viewHolder instanceof CardAttachmentAdapter.AttachmentViewHolder) {
+                    return ((CardAttachmentAdapter.AttachmentViewHolder) viewHolder).getItemDetails();
+                }
+            }
+
+            return null;
+        }
+    }
+
+    public static class ActionModeController implements ActionMode.Callback {
+
+        private final Context context;
+        private final SelectionTracker selectionTracker;
+
+        ActionModeController(Context context, SelectionTracker selectionTracker) {
+            this.context = context;
+            this.selectionTracker = selectionTracker;
+        }
+
+        @Override
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            selectionTracker.clearSelection();
+        }
     }
 }
