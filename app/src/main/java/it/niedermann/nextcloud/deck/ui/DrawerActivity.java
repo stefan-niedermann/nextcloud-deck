@@ -61,8 +61,6 @@ import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.ui.ImportAccountActivity.EXTRA_IMPORTED_ACCOUNT;
-
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected static final int MENU_ID_ABOUT = -1;
     protected static final int MENU_ID_ADD_BOARD = -2;
@@ -112,15 +110,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 recreate();
             }
         } else if (requestCode == ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT) {
-            if (resultCode == RESULT_CANCELED) {
+            if (resultCode != RESULT_OK) {
                 finish();
-            } else {
-                if (data.getExtras() == null || data.getExtras().get(EXTRA_IMPORTED_ACCOUNT) == null) {
-                    DeckLog.logError(new IllegalArgumentException("Please provide new SingleSignOnAccount in this scenario."));
-                } else {
-                    //noinspection ConstantConditions
-                    importNewAccount((SingleSignOnAccount) data.getExtras().get(EXTRA_IMPORTED_ACCOUNT));
-                }
             }
         } else {
             try {
