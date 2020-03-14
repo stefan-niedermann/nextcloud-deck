@@ -42,6 +42,8 @@ public class ImportAccountActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+    private String prefKeyWifiOnly;
+    private boolean originalWifiOnlyValue = false;
     private String sharedPreferenceLastAccount;
     private String urlFragmentUpdateDeck;
     private int minimumServerAppMajor;
@@ -61,6 +63,7 @@ public class ImportAccountActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
+        prefKeyWifiOnly = getString(R.string.pref_key_wifi_only);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
         urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
@@ -68,11 +71,14 @@ public class ImportAccountActivity extends AppCompatActivity {
         minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
         minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
 
+        originalWifiOnlyValue = sharedPreferences.getBoolean(prefKeyWifiOnly, false);
+
         binding.welcomeText.setText(getString(R.string.welcome_text, getString(R.string.app_name)));
         binding.addButton.setOnClickListener((v) -> {
             binding.status.setText("");
             binding.addButton.setEnabled(false);
             binding.updateDeckButton.setVisibility(View.GONE);
+            disableWifiPref();
             try {
                 AccountImporter.pickNewAccount(this);
             } catch (NextcloudFilesAppNotInstalledException e) {
@@ -124,6 +130,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     DeckLog.error("Account has already been added, this should not be the case");
                                     DeckLog.logError(ex);
                                     setStatusText(ex.getMessage());
+                                    restoreWifiPref();
                                 }
                             } else {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
@@ -148,6 +155,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                 });
                                                 rollbackAccountCreation(syncManager, createdAccount.getId());
                                             } else {
+                                                restoreWifiPref();
                                                 SyncWorker.update(getApplicationContext());
                                                 setResult(RESULT_OK);
                                                 finish();
@@ -171,6 +179,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                 });
             } catch (AccountImportCancelledException e) {
                 runOnUiThread(() -> binding.addButton.setEnabled(true));
+                restoreWifiPref();
                 DeckLog.info("Account import has been canceled.");
             }
         }
@@ -191,6 +200,7 @@ public class ImportAccountActivity extends AppCompatActivity {
         editor.remove(sharedPreferenceLastAccount);
         editor.commit(); // Has to be done synchronously
         runOnUiThread(() -> binding.addButton.setEnabled(true));
+        restoreWifiPref();
     }
 
     private void setStatusText(@StringRes int statusText) {
@@ -204,5 +214,21 @@ public class ImportAccountActivity extends AppCompatActivity {
             binding.status.setVisibility(View.VISIBLE);
             binding.status.setText(statusText);
         });
+    }
+
+    @SuppressLint("ApplySharedPref")
+    private void disableWifiPref() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        DeckLog.info("--- Temporarily disable sync on wifi only setting");
+        editor.putBoolean(prefKeyWifiOnly, false);
+        editor.commit();
+
+    }
+
+    private void restoreWifiPref() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        DeckLog.info("--- Restoring sync on wifi only setting");
+        editor.putBoolean(prefKeyWifiOnly, originalWifiOnlyValue);
+        editor.apply();
     }
 }

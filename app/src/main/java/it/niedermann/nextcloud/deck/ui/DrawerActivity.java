@@ -112,6 +112,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         } else if (requestCode == ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT) {
             if (resultCode != RESULT_OK) {
                 finish();
+            } else {
+                accountChooserActive = false;
             }
         } else {
             try {
