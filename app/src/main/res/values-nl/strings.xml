@@ -38,6 +38,8 @@
     <string name="about_app_license">Deze applicatie valt onder de GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Licentie weergeven</string>
     <string name="about_icons_disclaimer_title">Pictogrammen</string>
+    <string name="about_icons_disclaimer_app_icon">Voor het originele icoon zie %1$s</string>
+    <string name="about_icons_disclaimer_mdi_icons">Alle andere pictogrammen in deze app zijn %1$s gemaakt door Google Inc. en zijn gelicenseerd onder de Apache 2.0 Licensie.</string>
     <string name="about_icons_disclaimer_mdi">Material Design iconen</string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Bijdrage</string>
@@ -127,4 +129,7 @@
     <string name="action_card_move_title">Verplaats %1$s</string>
     <string name="simple_disabled">uitgeschakeld</string>
     <string name="simple_copied">Gekopieerd</string>
-    </resources>
+    <string name="please_add_an_account_first">Voeg eerst een account toe</string>
+    <string name="title_is_mandatory">Titel is verplicht</string>
+    <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
+</resources>
