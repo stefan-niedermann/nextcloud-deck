@@ -46,7 +46,6 @@ import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CommentDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
-import kotlin.NotImplementedError;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -150,6 +149,7 @@ public class EditActivity extends AppCompatActivity implements
                     originalCard = new FullCard();
                     fullCard.setLabels(new ArrayList<>());
                     fullCard.setAssignedUsers(new ArrayList<>());
+                    fullCard.setAttachments(new ArrayList<>());
                     Card card = new Card();
                     card.setStackId(stackId);
                     fullCard.setCard(card);
@@ -349,6 +349,6 @@ public class EditActivity extends AppCompatActivity implements
 
     @Override
     public void attachmentAddedToNewCard(Attachment attachment) {
-        DeckLog.logError(new NotImplementedError("Attaching files to a card which has not been saved yet is not supported."));
+        fullCard.getAttachments().add(attachment);
     }
 }
