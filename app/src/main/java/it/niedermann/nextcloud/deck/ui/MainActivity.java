@@ -186,7 +186,7 @@ public class MainActivity extends DrawerActivity implements
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                binding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
+                binding.swipeRefreshLayout.setEnabled(state == ViewPager2.SCROLL_STATE_IDLE);
             }
         });
 
