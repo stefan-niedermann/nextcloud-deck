@@ -39,7 +39,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 public class ImportAccountActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_IMPORT_ACCOUNT = 1;
-    private SyncManager syncManager;
     private SharedPreferences sharedPreferences;
     private String sharedPreferenceLastAccount;
     private String urlFragmentUpdateDeck;
@@ -76,7 +75,6 @@ public class ImportAccountActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-        syncManager = new SyncManager(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
         urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
@@ -124,7 +122,8 @@ public class ImportAccountActivity extends AppCompatActivity {
             AccountImporter.onActivityResult(requestCode, resultCode, data, ImportAccountActivity.this, new AccountImporter.IAccountAccessGranted() {
                 @Override
                 public void accountAccessGranted(SingleSignOnAccount account) {
-                    binding.error.setText("Importing...");
+                    ImportAccountActivity.this.runOnUiThread(() -> binding.error.setText("Importing..."));
+                    SyncManager syncManager = new SyncManager(ImportAccountActivity.this);
                     final WrappedLiveData<Account> accountLiveData = syncManager.createAccount(new Account(account.name, account.userId, account.url));
                     accountLiveData.observe(ImportAccountActivity.this, (Account createdAccount) -> {
                         if (accountLiveData.hasError()) {
@@ -141,13 +140,13 @@ public class ImportAccountActivity extends AppCompatActivity {
                             editor.commit();
 
                             try {
-                                binding.error.setText("Checking server app version");
+                                ImportAccountActivity.this.runOnUiThread(() -> binding.error.setText("Checking server app version"));
                                 syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
                                     @Override
                                     public void onResponse(Capabilities response) {
                                         DeckLog.info("onResponse");
                                         if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
-                                            binding.error.setText("Version too low");
+                                            ImportAccountActivity.this.runOnUiThread(() -> binding.error.setText("Version too low"));
 //                                deckVersionTooLowSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
 //                                    new AlertDialog.Builder(ImportAccountActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
 //                                            .setTitle(R.string.update_deck)
@@ -160,9 +159,9 @@ public class ImportAccountActivity extends AppCompatActivity {
 //                                            .setNegativeButton(R.string.simple_discard, null).show();
 //                                });
 //                                deckVersionTooLowSnackbar.show();
-                                            rollbackAccountCreation(createdAccount.getId());
+                                            rollbackAccountCreation(syncManager, createdAccount.getId());
                                         } else {
-                                            binding.error.setText("Importing...");
+                                            ImportAccountActivity.this.runOnUiThread(() -> binding.error.setText("Importing..."));
                                             SyncWorker.update(getApplicationContext());
                                             setResult(RESULT_OK);
                                             finish();
@@ -174,8 +173,8 @@ public class ImportAccountActivity extends AppCompatActivity {
                                         DeckLog.error("onError");
                                         throwable.printStackTrace();
                                         DeckLog.logError(throwable);
-                                        binding.error.setText(throwable.getMessage());
-                                        rollbackAccountCreation(createdAccount.getId());
+                                        ImportAccountActivity.this.runOnUiThread(() -> binding.error.setText(throwable.getMessage()));
+                                        rollbackAccountCreation(syncManager, createdAccount.getId());
                                         super.onError(throwable);
                                     }
                                 });
@@ -185,7 +184,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                         .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
                                         .setPositiveButton(R.string.simple_close, null)
                                         .show();
-                                rollbackAccountCreation(createdAccount.getId());
+                                rollbackAccountCreation(syncManager, createdAccount.getId());
                             }
                         }
                     });
@@ -205,7 +204,7 @@ public class ImportAccountActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ApplySharedPref")
-    private void rollbackAccountCreation(final long accountId) {
+    private void rollbackAccountCreation(@NonNull SyncManager syncManager, final long accountId) {
         DeckLog.log("Rolling back account creation for " + accountId);
         syncManager.deleteAccount(accountId);
         SharedPreferences.Editor editor = sharedPreferences.edit();
