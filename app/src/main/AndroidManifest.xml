@@ -43,7 +43,7 @@
 
         <activity
             android:name=".ui.SelectCardActivity"
-            android:label="@string/simple_select"
+            android:label="@string/app_name_short"
             android:theme="@style/SplashTheme">
 
             <intent-filter>
