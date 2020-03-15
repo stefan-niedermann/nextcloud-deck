@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -106,7 +108,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                                 }
                             });
 
-                            GridLayoutManager glm = new GridLayoutManager(getActivity(), 3);
+                            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                            int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
+                            GridLayoutManager glm = new GridLayoutManager(getActivity(), spanCount);
 
                             glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                                 @Override
@@ -115,7 +119,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                                         case VIEW_TYPE_IMAGE:
                                             return 1;
                                         case VIEW_TYPE_DEFAULT:
-                                            return 3;
+                                            return spanCount;
                                         default:
                                             return 1;
                                     }

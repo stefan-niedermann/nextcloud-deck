@@ -25,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.view.GravityCompat;
+import androidx.lifecycle.MediatorLiveData;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -36,6 +37,7 @@ import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
@@ -59,7 +61,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
+
+import static androidx.lifecycle.Transformations.switchMap;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected static final int MENU_ID_ABOUT = -1;
@@ -217,41 +222,50 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
         NavHeaderMainBinding headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
 
-        syncManager.hasAccounts().observe(this, (Boolean hasAccounts) -> {
-            if (hasAccounts != null && hasAccounts) {
-                syncManager.readAccounts().observe(this, (List<Account> accounts) -> {
-                    DeckLog.log("+++ readAccounts()");
-                    accountsList = accounts;
-                    long lastAccountId = sharedPreferences.getLong(sharedPreferenceLastAccount, NO_ACCOUNTS);
-                    DeckLog.log("--- Read: shared_preference_last_account" + " | " + lastAccountId);
-
-                    for (Account account : accounts) {
-                        if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNTS) {
-                            this.account = account;
-                            SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
-                            syncManager = new SyncManager(this);
-                            setHeaderView();
-                            ViewUtil.addAvatar(this, headerBinding.drawerCurrentAccount, this.account.getUrl(), this.account.getUserName(), R.mipmap.ic_launcher_round);
-                            // TODO show spinner
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                registerAutoSyncOnNetworkAvailable();
-                            } else {
-                                syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
-                                    @Override
-                                    public void onResponse(Boolean response) {
-                                        accountIsGettingImportedSnackbar.dismiss();
-                                    }
-                                });
-                            }
-                            accountSet(this.account);
-                            break;
-                        }
-                    }
-                });
+        switchMap(syncManager.hasAccounts(), hasAccounts -> {
+            if (hasAccounts) {
+                return syncManager.readAccounts();
             } else {
                 accountSet(null);
                 Intent intent = new Intent(this, ImportAccountActivity.class);
                 startActivityForResult(intent, ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                return new MediatorLiveData<>();
+            }
+        }).observe(this, (List<Account> accounts) -> {
+            DeckLog.log("+++ readAccounts()");
+            accountsList = accounts;
+            long lastAccountId = sharedPreferences.getLong(sharedPreferenceLastAccount, NO_ACCOUNTS);
+            DeckLog.log("--- Read: shared_preference_last_account" + " | " + lastAccountId);
+
+            for (Account account : accounts) {
+                if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNTS) {
+                    this.account = account;
+                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                    syncManager = new SyncManager(this);
+                    setHeaderView();
+                    ViewUtil.addAvatar(this, headerBinding.drawerCurrentAccount, this.account.getUrl(), this.account.getUserName(), R.mipmap.ic_launcher_round);
+                    // TODO show spinner
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        registerAutoSyncOnNetworkAvailable();
+                    } else {
+                        syncManager.synchronize(new IResponseCallback<Boolean>(this.account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                accountIsGettingImportedSnackbar.dismiss();
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                    ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, DrawerActivity.this);
+                                }
+                            }
+                        });
+                    }
+                    accountSet(this.account);
+                    break;
+                }
             }
         });
 
@@ -438,6 +452,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             public void onResponse(Boolean response) {
                                 accountIsGettingImportedSnackbar.dismiss();
                                 DeckLog.log("Auto-Sync after connection available successful");
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                    ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, DrawerActivity.this);
+                                }
                             }
                         });
                     }
