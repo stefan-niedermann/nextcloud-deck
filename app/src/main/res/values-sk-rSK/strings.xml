@@ -38,6 +38,8 @@
     <string name="about_app_license">Táto aplikácie je licencovaná pod GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Zobraziť licenciu</string>
     <string name="about_icons_disclaimer_title">Ikony</string>
+    <string name="about_icons_disclaimer_app_icon">Pôvodnú ikonu nájdete %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Všetky ďalšie ikony, ktoré používa táto aplikácia, sú %1$s vyrobené spoločnosťou Google Inc. a licencované na základe licencie Apache 2.0 License.</string>
     <string name="about_icons_disclaimer_mdi">Ikony v štýle Material Design</string>
     <string name="about_credits_tab_title">Zásluhy</string>
     <string name="about_contribution_tab_title">Príspevok</string>
@@ -125,5 +127,9 @@
     <string name="hours_6">6 hodín</string>
     <string name="action_card_move">Presunúť kartu</string>
     <string name="action_card_move_title">Preusnúť %1$s</string>
+    <string name="simple_disabled">zakázané</string>
     <string name="simple_copied">Skopírované</string>
-    </resources>
+    <string name="please_add_an_account_first">Najskôr pridajte účet</string>
+    <string name="title_is_mandatory">Názov je povinný</string>
+    <string name="provide_at_least_a_title_or_description">Uveďte aspoň názov alebo popis</string>
+</resources>
