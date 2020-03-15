@@ -109,20 +109,22 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                         .into(holder.getPreview());
                 holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
                 holder.getPreview().getRootView().setOnClickListener((v) -> {
-                    if (attachmentClickedListener != null) {
-                        attachmentClickedListener.onAttachmentClicked(position);
-                    }
-                    Intent intent = new Intent(context, AttachmentsActivity.class);
-                    intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
-                    intent.putExtra(BUNDLE_KEY_LOCAL_ID, cardLocalId);
-                    intent.putExtra(BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID, attachment.getLocalId());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && context instanceof Activity) {
-                        String transitionName = context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId()));
-                        holder.getPreview().setTransitionName(transitionName);
-                        context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, holder.getPreview(), transitionName).toBundle());
-                    } else {
-                        context.startActivity(intent);
+                    if(!selectionTracker.hasSelection()) {
+                        if (attachmentClickedListener != null) {
+                            attachmentClickedListener.onAttachmentClicked(position);
+                        }
+                        Intent intent = new Intent(context, AttachmentsActivity.class);
+                        intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
+                        intent.putExtra(BUNDLE_KEY_LOCAL_ID, cardLocalId);
+                        intent.putExtra(BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID, attachment.getLocalId());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && context instanceof Activity) {
+                            String transitionName = context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId()));
+                            holder.getPreview().setTransitionName(transitionName);
+                            context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, holder.getPreview(), transitionName).toBundle());
+                        } else {
+                            context.startActivity(intent);
+                        }
                     }
                 });
             } else if (attachment.getMimetype().startsWith("audio")) {
