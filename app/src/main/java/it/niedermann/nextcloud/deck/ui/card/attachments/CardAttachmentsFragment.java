@@ -117,12 +117,22 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                                     public void onSelectionChanged() {
                                         super.onSelectionChanged();
                                         if (selectionTracker.hasSelection() && actionMode == null) {
-                                            actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(new ActionModeController(requireContext(), selectionTracker, CardAttachmentsFragment.this));
+                                            actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(
+                                                    new ActionModeController(
+                                                            requireContext(),
+                                                            account.getUrl(),
+                                                            fullCard.getId(),
+                                                            fullCard.getAttachments(),
+                                                            selectionTracker,
+                                                            CardAttachmentsFragment.this
+                                                    )
+                                            );
                                         } else if (!selectionTracker.hasSelection() && actionMode != null) {
                                             actionMode.finish();
                                             actionMode = null;
                                         } else if (actionMode != null) {
                                             actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size()));
+                                            actionMode.invalidate();
                                         }
                                     }
                                 });
