@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.card;
+package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.Manifest;
 import android.app.Activity;
@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -23,8 +22,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.selection.ItemDetailsLookup;
-import androidx.recyclerview.selection.ItemKeyProvider;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -48,10 +45,8 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentClickedListener;
-import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentDeletedListener;
-import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
-import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
+import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
+import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 
 public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
     private static final String TAG = CardAttachmentsFragment.class.getCanonicalName();
@@ -143,7 +138,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                             setExitSharedElementCallback(new SharedElementCallback() {
                                 @Override
                                 public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                                    CardAttachmentAdapter.AttachmentViewHolder selectedViewHolder = (CardAttachmentAdapter.AttachmentViewHolder) binding.attachmentsList
+                                    AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
                                             .findViewHolderForAdapterPosition(clickedItemPosition);
                                     if (selectedViewHolder != null) {
                                         sharedElements.put(names.get(0), selectedViewHolder.getPreview());
@@ -283,54 +278,10 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         void attachmentAddedToNewCard(Attachment attachment);
     }
 
-    public static class CardAttachmentKeyProvider extends ItemKeyProvider<Long> {
-        private final List<Attachment> itemList;
-
-        CardAttachmentKeyProvider(int scope, List<Attachment> itemList) {
-            super(scope);
-            this.itemList = itemList;
-        }
-
-        @Nullable
-        @Override
-        public Long getKey(int position) {
-            return itemList.get(position).getLocalId();
-        }
-
-        @Override
-        public int getPosition(@NonNull Long key) {
-            for (int i = 0; i < itemList.size(); i++) {
-                if (key.equals(itemList.get(i).getLocalId())) {
-                    return i;
-                }
-            }
-            throw new IllegalArgumentException("Could not find an attachment with key " + key);
-        }
-    }
 
 
-    public static class CardAttachmentLookup extends ItemDetailsLookup<Long> {
 
-        private final RecyclerView recyclerView;
 
-        CardAttachmentLookup(RecyclerView recyclerView) {
-            this.recyclerView = recyclerView;
-        }
-
-        @Nullable
-        @Override
-        public ItemDetails<Long> getItemDetails(@NonNull MotionEvent e) {
-            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
-            if (view != null) {
-                RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
-                if (viewHolder instanceof CardAttachmentAdapter.AttachmentViewHolder) {
-                    return ((CardAttachmentAdapter.AttachmentViewHolder) viewHolder).getItemDetails();
-                }
-            }
-
-            return null;
-        }
-    }
 
     public static class ActionModeController implements ActionMode.Callback {
 

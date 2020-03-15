@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.card;
+package it.niedermann.nextcloud.deck.ui.card.activities;
 
 import android.app.Dialog;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.card;
+package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,12 +10,10 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,7 +35,7 @@ import static it.niedermann.nextcloud.deck.ui.AttachmentsActivity.BUNDLE_KEY_CUR
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
-public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAdapter.AttachmentViewHolder> {
+public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
 
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
@@ -82,10 +80,19 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         //noinspection SwitchStatementWithTooFewBranches
         switch (viewType) {
             case VIEW_TYPE_IMAGE: {
-                return new ImageAttachmentViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false));
+                return new ImageAttachmentViewHolder(
+                        ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false),
+                        attachments,
+                        context,
+                        account.getUrl(),
+                        cardRemoteId
+                );
             }
             default: {
-                return new DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false));
+                return new DefaultAttachmentViewHolder(
+                        ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false),
+                        attachments
+                );
             }
         }
     }
@@ -206,113 +213,5 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         this.selectionTracker = selectionTracker;
     }
 
-    abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
-        AttachmentViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
-        abstract protected View getRootView();
-
-        abstract protected ImageView getPreview();
-
-        abstract protected void setNotSyncedYetStatus(boolean synced);
-
-        ItemDetailsLookup.ItemDetails<Long> getItemDetails() {
-            return new CardAttachmentDetail(getAdapterPosition(), attachments.get(getAdapterPosition()).getLocalId());
-        }
-
-        public void bind(Attachment attachment, boolean selected) {
-            itemView.setActivated(selected);
-        }
-    }
-
-
-    class DefaultAttachmentViewHolder extends AttachmentViewHolder {
-        ItemAttachmentDefaultBinding binding;
-
-        private DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        @Override
-        protected View getRootView() {
-            return binding.getRoot();
-        }
-
-        @Override
-        protected ImageView getPreview() {
-            return binding.preview;
-        }
-
-        @Override
-        protected void setNotSyncedYetStatus(boolean synced) {
-            binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    class ImageAttachmentViewHolder extends AttachmentViewHolder {
-        private ItemAttachmentImageBinding binding;
-
-        private ImageAttachmentViewHolder(ItemAttachmentImageBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        @Override
-        public void bind(Attachment attachment, boolean selected) {
-            super.bind(attachment, selected);
-            @Nullable final String uri = attachment.getId() == null ? null : AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
-            Glide.with(context)
-                    .load(uri)
-                    .error(R.drawable.ic_image_grey600_24dp)
-                    .into(getPreview());
-        }
-
-        @Override
-        protected View getRootView() {
-            return binding.getRoot();
-        }
-
-        @Override
-        protected ImageView getPreview() {
-            return binding.preview;
-        }
-
-        @Override
-        protected void setNotSyncedYetStatus(boolean synced) {
-            binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
-        }
-
-    }
-
-    public interface AttachmentDeletedListener {
-        void onAttachmentDeleted(Attachment attachment);
-    }
-
-    public interface AttachmentClickedListener {
-        void onAttachmentClicked(int position);
-    }
-
-    public static class CardAttachmentDetail extends ItemDetailsLookup.ItemDetails<Long> {
-        private final int adapterPosition;
-        private final long selectionKey;
-
-        CardAttachmentDetail(int adapterPosition, long selectionKey) {
-            this.adapterPosition = adapterPosition;
-            this.selectionKey = selectionKey;
-        }
-
-        @Override
-        public int getPosition() {
-            return adapterPosition;
-        }
-
-        @Nullable
-        @Override
-        public Long getSelectionKey() {
-            return selectionKey;
-        }
-    }
 
 }
