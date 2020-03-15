@@ -86,7 +86,7 @@ public class ExceptionUtil {
     }
 
     public static void handleHttpRequestFailedException(NextcloudHttpRequestFailedException exception, View targetView, Activity activity) {
-        String debugInfos = ExceptionUtil.getDebugInfos(activity, exception);
+        final String debugInfos = ExceptionUtil.getDebugInfos(activity, exception);
         final ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(CLIPBOARD_SERVICE);
         switch (exception.getStatusCode()) {
             case 302: {
@@ -96,7 +96,7 @@ public class ExceptionUtil {
                                     .setTitle(R.string.server_misconfigured)
                                     .setMessage(activity.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
                                     .setPositiveButton(android.R.string.copy, (a, b) -> {
-                                        ClipData clipData = ClipData.newPlainText(activity.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
+                                        final ClipData clipData = ClipData.newPlainText(activity.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
                                         Objects.requireNonNull(clipboardManager).setPrimaryClip(clipData);
                                         Toast.makeText(activity.getApplicationContext(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
                                         a.dismiss();

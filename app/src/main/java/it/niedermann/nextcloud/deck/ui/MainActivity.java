@@ -424,7 +424,7 @@ public class MainActivity extends DrawerActivity implements
      *
      * @param board Board
      */
-    private void displayStacksForBoard(@Nullable Board board, @Nullable Account account) {
+    protected void displayStacksForBoard(@Nullable Board board, @Nullable Account account) {
         binding.toolbar.setTitle(board == null ? getString(R.string.app_name) : board.getTitle());
 
         currentBoardHasEditPermission = board != null && board.isPermissionEdit();
@@ -521,7 +521,7 @@ public class MainActivity extends DrawerActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    private void showFabIfEditPermissionGranted() {
+    protected void showFabIfEditPermissionGranted() {
         if (currentBoardHasEditPermission) {
             binding.fab.show();
         }
