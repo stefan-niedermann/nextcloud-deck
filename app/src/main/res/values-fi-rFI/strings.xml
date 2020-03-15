@@ -13,6 +13,8 @@
     <string name="edit_board">Muokkaa taulua</string>
     <string name="archive_board">Arkistoi taulu</string>
     <string name="delete_board">Poista taulu</string>
+    <string name="delete_something">Poista %1$s</string>
+
     <!-- About -->
     <string name="about">Tietoja</string>
     <string name="about_version_title">Versio</string>
@@ -66,6 +68,7 @@
     <string name="card_edit_details">Tiedot</string>
     <string name="card_edit_attachments">Liitteet</string>
     <string name="card_edit_activity">Tapahtumat</string>
+    <string name="about_server_app_version_text">Palvelimen sovelluksen versio:</string>
     <string name="no_files_attached_to_this_card">Tähän korttiin ei ole liitetty tiedostoja.</string>
     <string name="attachments">Liitteet</string>
     <string name="no_cards">Ei kortteja vielä</string>
@@ -76,6 +79,7 @@
     <string name="do_you_want_to_save_your_changes">Haluatko tallentaa muutokset?</string>
     <string name="simple_discard">hylkää</string>
     <string name="do_you_want_to_delete_the_current_column">Haluatko poistaa nykyisen sarakkeen?</string>
+    <string name="add_a_new_column_using_the_button">Lisää uusi sarake painamalla +</string>
     <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
     <string name="simple_update">Päivitä</string>
     <string name="simple_delete">Poista</string>
@@ -83,6 +87,7 @@
     <string name="simple_rename">Nimeä uudelleen</string>
     <string name="simple_settings">Asetukset</string>
     <string name="settings_theme_title">Tumma teema</string>
+    <string name="settings_background_sync">Taustasynkronointi</string>
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
     <string name="pref_value_theme_light">Vaalea</string>
@@ -96,9 +101,17 @@
     <string name="simple_select">Valitse</string>
     <string name="owner">Omistaja</string>
     <string name="simple_comment">Kommentti</string>
+    <string name="attachment_delete_message">Tämä poistaa liitteen pysyvästi.</string>
+    <string name="no_content">Ei vielä sisältöä</string>
+    <string name="last_background_sync">Viimeisin taustasynkronointi:</string>
+    <string name="simple_off">Pois</string>
     <string name="minutes_15">15 minuuttia</string>
     <string name="hour_1">1 tunti</string>
     <string name="hours_6">6 tuntia</string>
     <string name="action_card_move">Siirrä kortti</string>
+    <string name="simple_disabled">poistettu käytöstä</string>
     <string name="simple_copied">Kopioitu</string>
+    <string name="please_add_an_account_first">Lisää ensin tili</string>
+    <string name="title_is_mandatory">Otsikko on pakollinen</string>
+    <string name="provide_at_least_a_title_or_description">Anna vähintään otsikko tai kuvaus</string>
     </resources>

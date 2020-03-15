@@ -133,4 +133,4 @@
     <string name="please_add_an_account_first">Veuillez d’abord ajouter un compte</string>
     <string name="title_is_mandatory">Le titre est obligatoire</string>
     <string name="provide_at_least_a_title_or_description">Renseignez le titre ou la description</string>
-</resources>
+    </resources>
