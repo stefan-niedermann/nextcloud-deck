@@ -36,6 +36,7 @@ import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
@@ -59,6 +60,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -240,6 +242,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                                     @Override
                                     public void onResponse(Boolean response) {
                                         accountIsGettingImportedSnackbar.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        super.onError(throwable);
+                                        if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                            ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, DrawerActivity.this);
+                                        }
                                     }
                                 });
                             }
@@ -438,6 +448,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                             public void onResponse(Boolean response) {
                                 accountIsGettingImportedSnackbar.dismiss();
                                 DeckLog.log("Auto-Sync after connection available successful");
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                    ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, DrawerActivity.this);
+                                }
                             }
                         });
                     }

@@ -1,1 +1,2 @@
 - Make attachment grid responsive
+- Display some hints for common error responses of the server
