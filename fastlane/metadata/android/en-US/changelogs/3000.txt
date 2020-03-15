@@ -1,2 +1,3 @@
-- Make attachment grid responsive
-- Display some hints for common error responses of the server
+- 🖼️ Make attachment grid responsive (for tablets)
+- ℹ️ Display some hints for common error responses of the server
+- 🌎 Language updates
