@@ -43,7 +43,7 @@
 
         <activity
             android:name=".ui.SelectCardActivity"
-            android:label="@string/app_name_short"
+            android:label="@string/share_add_to_card"
             android:theme="@style/SplashTheme">
 
             <intent-filter>
