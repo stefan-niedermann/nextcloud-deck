@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -40,22 +39,17 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
 
-    private final MenuInflater menuInflator;
     private final Account account;
     private final long cardRemoteId;
     private final long cardLocalId;
     @NonNull
     private List<Attachment> attachments;
-    @NonNull
-    private final AttachmentDeletedListener attachmentDeletedListener;
     @Nullable
     private final AttachmentClickedListener attachmentClickedListener;
     private Context context;
     private SelectionTracker<Long> selectionTracker;
 
     CardAttachmentAdapter(
-            @NonNull MenuInflater menuInflator,
-            @NonNull AttachmentDeletedListener attachmentDeletedListener,
             @Nullable AttachmentClickedListener attachmentClickedListener,
             @NonNull Account account,
             long cardLocalId,
@@ -63,8 +57,6 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             @NonNull List<Attachment> attachments
     ) {
         super();
-        this.menuInflator = menuInflator;
-        this.attachmentDeletedListener = attachmentDeletedListener;
         this.attachmentClickedListener = attachmentClickedListener;
         this.attachments = attachments;
         this.account = account;
@@ -184,6 +176,5 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     void setSelectionTracker(SelectionTracker<Long> selectionTracker) {
         this.selectionTracker = selectionTracker;
     }
-
 
 }
