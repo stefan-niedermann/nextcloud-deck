@@ -274,7 +274,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        selectionTracker.onSaveInstanceState(outState);
+        if (selectionTracker != null) {
+            selectionTracker.onSaveInstanceState(outState);
+        }
     }
 
     public CardAttachmentsFragment() {
