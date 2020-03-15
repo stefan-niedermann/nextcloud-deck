@@ -24,6 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
+import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.DeckLog.Severity.INFO;
@@ -210,6 +212,9 @@ public class MainActivity extends DrawerActivity implements
                 @Override
                 public void onError(Throwable throwable) {
                     runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
+                    if (throwable instanceof NextcloudHttpRequestFailedException) {
+                        ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this);
+                    }
                     DeckLog.logError(throwable);
                 }
             });
@@ -419,7 +424,7 @@ public class MainActivity extends DrawerActivity implements
      *
      * @param board Board
      */
-    private void displayStacksForBoard(@Nullable Board board, @Nullable Account account) {
+    protected void displayStacksForBoard(@Nullable Board board, @Nullable Account account) {
         binding.toolbar.setTitle(board == null ? getString(R.string.app_name) : board.getTitle());
 
         currentBoardHasEditPermission = board != null && board.isPermissionEdit();
@@ -516,7 +521,7 @@ public class MainActivity extends DrawerActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    private void showFabIfEditPermissionGranted() {
+    protected void showFabIfEditPermissionGranted() {
         if (currentBoardHasEditPermission) {
             binding.fab.show();
         }

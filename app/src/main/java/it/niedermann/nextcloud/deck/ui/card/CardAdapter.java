@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -75,15 +76,23 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     private LifecycleOwner lifecycleOwner;
     private List<FullStack> availableStacks = new ArrayList<>();
 
+    @Nullable
+    private final SelectCardListener selectCardListener;
+
     private int maxAvatarCount;
     private int maxLabelsShown;
     private int maxLabelsChars;
 
     public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment) {
+        this(boardId, canEdit, syncManager, fragment, null);
+    }
+
+    public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
         this.lifecycleOwner = fragment;
         this.boardId = boardId;
         this.canEdit = canEdit;
         this.syncManager = syncManager;
+        this.selectCardListener = selectCardListener;
     }
 
     @NonNull
@@ -113,14 +122,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         FullCard card = cardList.get(position);
 
         viewHolder.binding.card.setOnClickListener((View clickedView) -> {
-            Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
-            intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
-            intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
-            intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            if (selectCardListener == null) {
+                Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
+                intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
+                intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
+                intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            } else {
+                selectCardListener.onCardSelected(card);
+            }
         });
-        if (canEdit) {
+        if (canEdit && selectCardListener == null) {
             viewHolder.binding.card.setOnLongClickListener((View draggedView) -> {
                 ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId() + "");
 
@@ -401,5 +414,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    public interface SelectCardListener {
+        void onCardSelected(FullCard fullCard);
     }
 }
