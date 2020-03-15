@@ -52,6 +52,7 @@ public class ActionModeController implements ActionMode.Callback {
                             for (Long attachmentLocalId : s) {
                                 attachmentDeletedListener.onAttachmentDeleted(attachmentLocalId);
                             }
+                            actionMode.finish();
                         })
                         .show();
                 return true;

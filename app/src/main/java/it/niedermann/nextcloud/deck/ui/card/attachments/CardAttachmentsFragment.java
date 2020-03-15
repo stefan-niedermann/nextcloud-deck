@@ -104,7 +104,9 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                                     new CardAttachmentKeyProvider(1, fullCard.getAttachments()),
                                     new CardAttachmentLookup(binding.attachmentsList),
                                     StorageStrategy.createLongStorage()
-                            ).build();
+                            )
+//                                    .withSelectionPredicate(SelectionPredicates.createSelectAnything())
+                                    .build();
                             if (savedInstanceState != null) {
                                 selectionTracker.onRestoreInstanceState(savedInstanceState);
                             }
@@ -115,12 +117,12 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                                     public void onSelectionChanged() {
                                         super.onSelectionChanged();
                                         if (selectionTracker.hasSelection() && actionMode == null) {
-                                            ((AppCompatActivity) requireActivity()).startSupportActionMode(new ActionModeController(requireContext(), selectionTracker, CardAttachmentsFragment.this));
+                                            actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(new ActionModeController(requireContext(), selectionTracker, CardAttachmentsFragment.this));
                                         } else if (!selectionTracker.hasSelection() && actionMode != null) {
                                             actionMode.finish();
                                             actionMode = null;
                                         } else if (actionMode != null) {
-                                            actionMode.setTitle(selectionTracker.getSelection().size());
+                                            actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size()));
                                         }
                                     }
                                 });

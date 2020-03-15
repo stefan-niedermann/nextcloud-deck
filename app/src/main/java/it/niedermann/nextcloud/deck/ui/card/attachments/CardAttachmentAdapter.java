@@ -136,7 +136,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         //noinspection SwitchStatementWithTooFewBranches
         switch (viewType) {
             case VIEW_TYPE_IMAGE: {
-                ImageAttachmentViewHolder imageHolder = (ImageAttachmentViewHolder) holder;
+//                ImageAttachmentViewHolder imageHolder = (ImageAttachmentViewHolder) holder;
                 break;
             }
             default: {
