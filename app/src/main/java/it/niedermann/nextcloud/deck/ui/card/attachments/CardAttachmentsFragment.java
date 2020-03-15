@@ -2,16 +2,12 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -19,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
@@ -53,6 +50,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     private FragmentCardEditTabAttachmentsBinding binding;
     private SelectionTracker<Long> selectionTracker;
+
+    private ActionMode actionMode;
 
     private static final int REQUEST_CODE_ADD_ATTACHMENT = 1;
     private static final int REQUEST_PERMISSION = 2;
@@ -112,22 +111,18 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                                 selectionTracker.onRestoreInstanceState(savedInstanceState);
                             }
                             ((CardAttachmentAdapter) adapter).setSelectionTracker(selectionTracker);
-                            if (getActivity() instanceof EditActivity) {
+                            if (getActivity() instanceof AppCompatActivity) {
                                 selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
                                     @Override
                                     public void onSelectionChanged() {
                                         super.onSelectionChanged();
-                                        ActionMode actionMode = ((EditActivity) requireActivity()).getActionMode();
                                         if (selectionTracker.hasSelection() && actionMode == null) {
-                                            ((EditActivity) requireActivity()).startSupportActionMode(new ActionModeController(requireContext(), selectionTracker));
+                                            ((EditActivity) requireActivity()).startSupportActionMode(new ActionModeController(requireContext(), selectionTracker, CardAttachmentsFragment.this));
                                         } else if (!selectionTracker.hasSelection() && actionMode != null) {
                                             actionMode.finish();
-                                            ((EditActivity) requireActivity()).setActionMode(null);
-                                        } else {
-//                                            requireActivity().setMenuItemTitle(selectionTracker.getSelection().size());
-                                        }
-                                        for (Long aLong : selectionTracker.getSelection()) {
-                                            Log.i(TAG, String.valueOf(aLong));
+                                            actionMode = null;
+                                        } else if (actionMode != null) {
+                                            actionMode.setTitle(selectionTracker.getSelection().size());
                                         }
                                     }
                                 });
@@ -265,8 +260,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     @Override
-    public void onAttachmentDeleted(Attachment attachment) {
-        syncManager.deleteAttachmentOfCard(accountId, cardId, attachment.getLocalId());
+    public void onAttachmentDeleted(long attachmentLocalId) {
+        syncManager.deleteAttachmentOfCard(accountId, cardId, attachmentLocalId);
     }
 
     @Override
@@ -276,37 +271,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     public interface AttachmentAddedToNewCardListener {
         void attachmentAddedToNewCard(Attachment attachment);
-    }
-
-    public static class ActionModeController implements ActionMode.Callback {
-
-        private final Context context;
-        private final SelectionTracker selectionTracker;
-
-        ActionModeController(Context context, SelectionTracker selectionTracker) {
-            this.context = context;
-            this.selectionTracker = selectionTracker;
-        }
-
-        @Override
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode actionMode) {
-            selectionTracker.clearSelection();
-        }
     }
 
     @Override

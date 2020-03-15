@@ -9,6 +9,7 @@
         <item name="android:elevation" tools:targetApi="lollipop">@null</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <style name="AppTheme.EditText" parent="ThemeOverlay.MaterialComponents.Dark">
@@ -25,6 +26,7 @@
         <item name="android:textViewStyle">@style/DarkTextView</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <style name="DarkTextView" parent="Widget.AppCompat.TextView">

@@ -15,7 +15,6 @@ import android.widget.SpinnerAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ActionMode;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -41,10 +40,10 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
-import it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentsFragment;
-import it.niedermann.nextcloud.deck.ui.card.details.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import it.niedermann.nextcloud.deck.ui.card.activities.CommentDialogFragment;
+import it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentsFragment;
+import it.niedermann.nextcloud.deck.ui.card.details.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 import kotlin.NotImplementedError;
@@ -70,8 +69,6 @@ public class EditActivity extends AppCompatActivity implements
             R.string.card_edit_attachments,
             R.string.card_edit_activity
     };
-
-    private ActionMode actionMode;
 
     private FullCard originalCard;
     private FullCard fullCard;
@@ -308,13 +305,13 @@ public class EditActivity extends AppCompatActivity implements
         }
     }
 
-    public ActionMode getActionMode() {
-        return this.actionMode;
-    }
-
-    public void setActionMode(ActionMode actionMode) {
-        this.actionMode = actionMode;
-    }
+//    public ActionMode getActionMode() {
+//        return this.actionMode;
+//    }
+//
+//    public void setActionMode(ActionMode actionMode) {
+//        this.actionMode = actionMode;
+//    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

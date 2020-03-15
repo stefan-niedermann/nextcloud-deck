@@ -108,34 +108,6 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         final int viewType = getItemViewType(position);
         @Nullable final String uri = attachment.getId() == null ? null : AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
         holder.setNotSyncedYetStatus(attachment.getStatusEnum() == DBStatus.UP_TO_DATE);
-//        holder.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
-//            menuInflator.inflate(R.menu.attachment_menu, menu);
-//            menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
-//                new DeleteDialogBuilder(context)
-//                        .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
-//                        .setMessage(R.string.attachment_delete_message)
-//                        .setNegativeButton(android.R.string.cancel, null)
-//                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))
-//                        .show();
-//                return false;
-//            });
-//            menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> {
-//                if (uri == null) {
-//                    Toast.makeText(context, "Not yet synced", Toast.LENGTH_SHORT).show();
-//                    return false;
-//                }
-//                final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
-//                ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
-//                if (clipboardManager == null) {
-//                    Log.e(TAG, "clipboardManager is null");
-//                    return false;
-//                } else {
-//                    clipboardManager.setPrimaryClip(clipData);
-//                    Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
-//                }
-//                return true;
-//            });
-//        });
 
         if (attachment.getMimetype() != null) {
             if (attachment.getMimetype().startsWith("image")) {
