@@ -20,6 +20,7 @@ import androidx.appcompat.view.ActionMode;
 import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StableIdKeyProvider;
 import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,7 +47,6 @@ import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAda
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 
 public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
-    private static final String TAG = CardAttachmentsFragment.class.getCanonicalName();
 
     private FragmentCardEditTabAttachmentsBinding binding;
     private SelectionTracker<Long> selectionTracker;
@@ -84,6 +84,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
                 syncManager = new SyncManager(requireActivity());
                 syncManager.getCardByLocalId(accountId, cardId).observe(getViewLifecycleOwner(), (fullCard) -> {
+                    DeckLog.info("SELECTION = Updating Card");
                     if (fullCard.getAttachments().size() == 0) {
                         this.binding.emptyContentView.setVisibility(View.VISIBLE);
                         this.binding.attachmentsList.setVisibility(View.GONE);
@@ -91,51 +92,66 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                         this.binding.emptyContentView.setVisibility(View.GONE);
                         this.binding.attachmentsList.setVisibility(View.VISIBLE);
                         syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
+                            DeckLog.info("SELECTION == Updating Account");
                             CardAttachmentAdapter adapter = new CardAttachmentAdapter(
                                     this,
                                     account,
                                     fullCard.getCard().getLocalId(),
                                     fullCard.getCard().getId(),
                                     fullCard.getAttachments());
+                            DeckLog.info("SELECTION == Created Adapter");
                             binding.attachmentsList.setAdapter(adapter);
-                            selectionTracker = new SelectionTracker.Builder<>(
-                                    Objects.requireNonNull(CardAttachmentAdapter.class.getCanonicalName()),
-                                    binding.attachmentsList,
-                                    new CardAttachmentKeyProvider(1, fullCard.getAttachments()),
-                                    new CardAttachmentLookup(binding.attachmentsList),
-                                    StorageStrategy.createLongStorage()
-                            )
-//                                    .withSelectionPredicate(SelectionPredicates.createSelectAnything())
-                                    .build();
-                            if (savedInstanceState != null) {
-                                selectionTracker.onRestoreInstanceState(savedInstanceState);
-                            }
-                            adapter.setSelectionTracker(selectionTracker);
-                            if (getActivity() instanceof AppCompatActivity) {
-                                selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
-                                    @Override
-                                    public void onSelectionChanged() {
-                                        super.onSelectionChanged();
-                                        if (selectionTracker.hasSelection() && actionMode == null) {
-                                            actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(
-                                                    new ActionModeController(
-                                                            requireContext(),
-                                                            account.getUrl(),
-                                                            fullCard.getId(),
-                                                            fullCard.getAttachments(),
-                                                            selectionTracker,
-                                                            CardAttachmentsFragment.this
-                                                    )
-                                            );
-                                        } else if (!selectionTracker.hasSelection() && actionMode != null) {
-                                            actionMode.finish();
-                                            actionMode = null;
-                                        } else if (actionMode != null) {
-                                            actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size()));
-                                            actionMode.invalidate();
+                            DeckLog.info("SELECTION == Setting Adapter");
+                            DeckLog.info("SELECTION == selectionTracker == null: " + (selectionTracker == null));
+                            if (selectionTracker == null) {
+                                DeckLog.info("SELECTION == Creating SelectionTracker");
+                                selectionTracker = new SelectionTracker.Builder<>(
+                                        Objects.requireNonNull(CardAttachmentAdapter.class.getCanonicalName()),
+                                        binding.attachmentsList,
+                                        new StableIdKeyProvider(binding.attachmentsList), // new CardAttachmentKeyProvider(1, fullCard.getAttachments()),
+                                        new CardAttachmentLookup(binding.attachmentsList),
+                                        StorageStrategy.createLongStorage()
+                                ).build();
+                                if (getActivity() instanceof AppCompatActivity) {
+                                    DeckLog.info("SELECTION == Adding Observer");
+                                    selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
+                                        @Override
+                                        public void onSelectionChanged() {
+                                            super.onSelectionChanged();
+                                            DeckLog.info("SELECTION === onSelectionChanged()");
+                                            if (selectionTracker.hasSelection() && actionMode == null) {
+                                                DeckLog.info("SELECTION === Starting ActionMode");
+                                                actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(
+                                                        new ActionModeController(
+                                                                requireContext(),
+                                                                account.getUrl(),
+                                                                fullCard.getId(),
+                                                                fullCard.getAttachments(),
+                                                                selectionTracker,
+                                                                CardAttachmentsFragment.this
+                                                        )
+                                                );
+                                            } else if (!selectionTracker.hasSelection() && actionMode != null) {
+                                                DeckLog.info("SELECTION === Finishing ActionMode");
+                                                actionMode.finish();
+                                                actionMode = null;
+                                            } else if (actionMode != null) {
+                                                DeckLog.info("SELECTION === Updating Counter in ActionMode bar");
+                                                actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size()));
+                                                actionMode.invalidate();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
+                                DeckLog.info("SELECTION == setSelectionTracker (selectionTracker was previously null");
+                                adapter.setSelectionTracker(selectionTracker);
+                                if (savedInstanceState != null) {
+                                    DeckLog.info("SELECTION == Restore Instance State for SelectionTracker");
+                                    selectionTracker.onRestoreInstanceState(savedInstanceState);
+                                }
+                            } else {
+                                DeckLog.info("SELECTION == setSelectionTracker (selectionTracker was previously not null)");
+                                adapter.setSelectionTracker(selectionTracker);
                             }
 
                             // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
@@ -178,6 +194,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                                     REQUEST_PERMISSION);
                         } else {
+                            DeckLog.info("SELECTION == FAB clicked -> Finish ActionMode");
+                            actionMode.finish();
                             startFilePickerIntent();
                         }
                     });

@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
@@ -109,7 +110,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                         .into(holder.getPreview());
                 holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
                 holder.getPreview().getRootView().setOnClickListener((v) -> {
-                    if(!selectionTracker.hasSelection()) {
+                    if (selectionTracker != null && !selectionTracker.hasSelection()) {
                         if (attachmentClickedListener != null) {
                             attachmentClickedListener.onAttachmentClicked(position);
                         }
@@ -132,7 +133,9 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             } else if (attachment.getMimetype().startsWith("video")) {
                 holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
             }
-            holder.bind(attachment, selectionTracker.isSelected(attachment.getLocalId()));
+            DeckLog.info("SELECTION ===== ViewHolder: SelectionTracker is null: " + (selectionTracker == null));
+            DeckLog.info("SELECTION ===== ViewHolder: Attachment: " + attachment.getLocalId() + " selectionTracker.isSelected: " + (selectionTracker != null && selectionTracker.isSelected(attachment.getLocalId())));
+            holder.bind(attachment, selectionTracker != null && selectionTracker.isSelected(attachment.getLocalId()));
         }
 
         //noinspection SwitchStatementWithTooFewBranches
@@ -176,6 +179,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     }
 
     void setSelectionTracker(SelectionTracker<Long> selectionTracker) {
+        DeckLog.info("SELECTION ==== Adapter: Set Selection Tracker" + selectionTracker);
         this.selectionTracker = selectionTracker;
     }
 

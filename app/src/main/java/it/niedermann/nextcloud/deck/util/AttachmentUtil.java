@@ -12,7 +12,9 @@ public class AttachmentUtil {
     }
 
     @Nullable
-    public static String getUrl(String accountUrl, long cardRemoteId, long attachmentRemoteId) {
-        return accountUrl == null ? null : accountUrl + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachmentRemoteId;
+    public static String getUrl(String accountUrl, Long cardRemoteId, Long attachmentRemoteId) {
+        return (accountUrl == null || cardRemoteId == null || attachmentRemoteId == null)
+                ? null
+                : accountUrl + "/index.php/apps/deck/cards/" + cardRemoteId + "/attachment/" + attachmentRemoteId;
     }
 }

@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.widget.RecyclerView;
 
+import it.niedermann.nextcloud.deck.DeckLog;
+
 public class CardAttachmentLookup extends ItemDetailsLookup<Long> {
 
     @NonNull
@@ -28,6 +30,7 @@ public class CardAttachmentLookup extends ItemDetailsLookup<Long> {
             }
         }
 
+        DeckLog.logError(new IllegalArgumentException("Could not found a viewholder under MotionEvent e"));
         return null;
     }
 }
