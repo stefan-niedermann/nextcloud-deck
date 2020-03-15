@@ -9,9 +9,10 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.Attachment;
 
 public class CardAttachmentKeyProvider extends ItemKeyProvider<Long> {
+    @NonNull
     private final List<Attachment> itemList;
 
-    CardAttachmentKeyProvider(int scope, List<Attachment> itemList) {
+    CardAttachmentKeyProvider(int scope, @NonNull List<Attachment> itemList) {
         super(scope);
         this.itemList = itemList;
     }

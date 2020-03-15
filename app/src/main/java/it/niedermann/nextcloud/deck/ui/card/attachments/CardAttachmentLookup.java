@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CardAttachmentLookup extends ItemDetailsLookup<Long> {
 
+    @NonNull
     private final RecyclerView recyclerView;
 
-    CardAttachmentLookup(RecyclerView recyclerView) {
+    CardAttachmentLookup(@NonNull RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
     }
 

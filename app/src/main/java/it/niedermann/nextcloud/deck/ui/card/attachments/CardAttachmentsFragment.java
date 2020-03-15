@@ -278,11 +278,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         void attachmentAddedToNewCard(Attachment attachment);
     }
 
-
-
-
-
-
     public static class ActionModeController implements ActionMode.Callback {
 
         private final Context context;
