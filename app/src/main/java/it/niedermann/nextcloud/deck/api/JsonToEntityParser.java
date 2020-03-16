@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 public class JsonToEntityParser {
@@ -52,8 +53,19 @@ public class JsonToEntityParser {
             return (T) parseCapabilities(obj);
         } else if (mType == Attachment.class) {
             return (T) parseAttachment(obj);
+        } else if (mType == DeckComment.class) {
+            return (T) parseComment(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
+    }
+
+    private static DeckComment parseComment(JsonObject obj) {
+        DeckComment comment = new DeckComment();
+        JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+        if (data.isJsonArray()) {
+            //FIXME: problem: we get one object (ocs->data), which might be an array. gsonConfig cant tell apart.
+        }
+        return comment;
     }
 
 

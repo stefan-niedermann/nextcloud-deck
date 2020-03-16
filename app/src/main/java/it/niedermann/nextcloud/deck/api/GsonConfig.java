@@ -15,6 +15,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.DeckComment;
 
 /**
  * Created by david on 27.06.17.
@@ -39,6 +40,8 @@ public class GsonConfig {
         Type activityList = new TypeToken<List<Activity>>() {}.getType();
         Type attachment = new TypeToken<Attachment>() {}.getType();
         Type attachmentList = new TypeToken<List<Attachment>>() {}.getType();
+        Type comment = new TypeToken<DeckComment>() {}.getType();
+        Type commentList = new TypeToken<List<DeckComment>>() {}.getType();
 
         return new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
@@ -58,6 +61,8 @@ public class GsonConfig {
                 .registerTypeAdapter(activity,          new NextcloudDeserializer<>("activity", Activity.class))
                 .registerTypeAdapter(attachmentList,    new NextcloudArrayDeserializer<>("attachments", Attachment.class))
                 .registerTypeAdapter(attachment,        new NextcloudDeserializer<>("attachment", Attachment.class))
+                .registerTypeAdapter(commentList,       new NextcloudArrayDeserializer<>("comments", Attachment.class))
+                .registerTypeAdapter(comment,           new NextcloudDeserializer<>("comment", Attachment.class))
                 .create();
     }
 
