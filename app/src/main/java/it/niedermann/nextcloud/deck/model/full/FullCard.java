@@ -34,11 +34,6 @@ public class FullCard implements IRemoteEntity {
 
     public List<Label> labels = new ArrayList<>();
 
-
-//    @Relation(entity = JoinCardWithUser.class, parentColumn = "localId", entityColumn = "cardId", projection = "userId")
-//    public List<Long> assignedUserIDs;
-
-//    @Ignore
     @Relation(entity = User.class, parentColumn = "localId", entityColumn = "localId",
         associateBy = @Junction(value = JoinCardWithUser.class, parentColumn = "cardId", entityColumn = "userId"))
     public List<User> assignedUsers = new ArrayList<>();
