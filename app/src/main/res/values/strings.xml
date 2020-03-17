@@ -161,4 +161,5 @@
     <string name="server_error_explanation">Your server responded with a HTTP 503 status code. This can be the case if the server is currently in maintenance mode. Please contact your administrator or us for support. You can find our contact information in the about-section.</string>
     <string name="share_add_to_card">Add to card</string>
     <string name="share_success">Successfully added %1$s to %2$s</string>
+    <string name="could_not_copy_to_clipboard">Could not copy to clipboard</string>
 </resources>
