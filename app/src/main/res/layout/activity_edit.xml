@@ -34,6 +34,7 @@
                     android:layout_marginRight="16dp"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine"
+                    android:maxLines="5"
                     android:maxLength="100"
                     app:theme="@style/AppTheme.EditText"
                     tools:text="Fancy card title" />
