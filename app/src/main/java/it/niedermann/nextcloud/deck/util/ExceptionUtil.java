@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.util;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -32,15 +33,15 @@ public class ExceptionUtil {
 
     }
 
-    public static String getDebugInfos(Activity activity, Throwable throwable) {
+    public static String getDebugInfos(Context context, Throwable throwable) {
         List<Throwable> throwables = new ArrayList<>();
         throwables.add(throwable);
-        return getDebugInfos(activity, throwables);
+        return getDebugInfos(context, throwables);
     }
 
-    public static String getDebugInfos(Activity activity, List<Throwable> throwables) {
+    public static String getDebugInfos(Context context, List<Throwable> throwables) {
         StringBuilder debugInfos = new StringBuilder(""
-                + getAppVersions(activity)
+                + getAppVersions(context)
                 + "\n\n---\n"
                 + getDeviceInfos()
                 + "\n\n---"
@@ -51,19 +52,20 @@ public class ExceptionUtil {
         return debugInfos.toString();
     }
 
-    private static String getAppVersions(Activity activity) {
+    private static String getAppVersions(Context context) {
         String versions = "";
         try {
-            PackageInfo pInfo = activity.getApplicationContext().getPackageManager().getPackageInfo(activity.getApplicationContext().getPackageName(), 0);
+            PackageInfo pInfo = context.getApplicationContext().getPackageManager().getPackageInfo(context.getApplicationContext().getPackageName(), 0);
             versions += "App Version: " + pInfo.versionName;
             versions += "\nApp Version Code: " + pInfo.versionCode;
+            versions += "\nApp ID: " + context.getPackageName();
         } catch (PackageManager.NameNotFoundException e) {
             versions += "\nApp Version: " + e.getMessage();
             e.printStackTrace();
         }
 
         try {
-            versions += "\nFiles App Version Code: " + VersionCheckHelper.getNextcloudFilesVersionCode(activity);
+            versions += "\nFiles App Version Code: " + VersionCheckHelper.getNextcloudFilesVersionCode(context);
         } catch (PackageManager.NameNotFoundException e) {
             versions += "\nFiles App Version Code: " + e.getMessage();
             e.printStackTrace();
