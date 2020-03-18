@@ -1,3 +1,4 @@
 - 📥 Add Deck as a "share to" location (#248)
 - 🔘 Preselect current stack when moving a card via three-dots-menu
 - ✏️ Limit visible card title to 5 lines (scrollable), so it cannot cover the whole screen
+- 📎 Temporarily fix uploading attachments for Android 10

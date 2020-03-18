@@ -43,22 +43,31 @@ public class SelectCardActivity extends MainActivity implements CardAdapter.Sele
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        receivedIntent = getIntent();
-        receivedAction = receivedIntent.getAction();
-        receivedType = receivedIntent.getType();
-        DeckLog.info(receivedAction);
-        DeckLog.info(receivedType);
         try {
+            receivedIntent = getIntent();
+            receivedAction = receivedIntent.getAction();
+            receivedType = receivedIntent.getType();
+            DeckLog.info(receivedAction);
+            DeckLog.info(receivedType);
             isFile = !receivedType.startsWith("text/");
             if (isFile) {
                 receivedUri = receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (receivedUri != null) {
-                    String path = FileUtils.getPath(this, receivedUri);
-                    if (path != null) {
-                        uploadFile = new File(path);
-                        binding.toolbar.setSubtitle(uploadFile.getName());
-                    } else {
-                        throw new IllegalArgumentException("Could not find path for given Uri " + receivedUri.toString());
+                    try {
+                        String path = FileUtils.getPath(this, receivedUri);
+                        if (path != null) {
+                            uploadFile = new File(path);
+                            binding.toolbar.setSubtitle(uploadFile.getName());
+                        } else {
+                            throw new IllegalArgumentException("Could not find path for given Uri " + receivedUri.toString());
+                        }
+                    } catch (IllegalArgumentException e) {
+                        DeckLog.logError(e);
+                        new AlertDialog.Builder(this)
+                                .setTitle(R.string.error)
+                                .setMessage(R.string.operation_not_yet_supported)
+                                .setPositiveButton(R.string.simple_close, (a, b) -> finish())
+                                .create().show();
                     }
                 } else {
                     throw new IllegalArgumentException("Could not find any file for receivedUri = " + receivedUri);
@@ -67,8 +76,8 @@ public class SelectCardActivity extends MainActivity implements CardAdapter.Sele
                 receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT);
                 binding.toolbar.setSubtitle(receivedText);
             }
-        } catch (Exception e) {
-            handleException(e);
+        } catch (Throwable throwable) {
+            handleException(throwable);
         }
     }
 
@@ -82,8 +91,8 @@ public class SelectCardActivity extends MainActivity implements CardAdapter.Sele
             }
             syncManager.updateCard(fullCard);
             finish();
-        } catch (Exception e) {
-            handleException(e);
+        } catch (Throwable throwable) {
+            handleException(throwable);
         }
     }
 
