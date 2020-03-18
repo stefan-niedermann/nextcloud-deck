@@ -6,7 +6,8 @@ import java.util.List;
 import io.reactivex.Observable;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
-import it.niedermann.nextcloud.deck.model.ocs.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -30,7 +31,7 @@ public interface NextcloudServerAPI {
             "Content-Type: application/json;charset=utf-8"
     })
     @GET("apps/deck/api/v1.0/cards/{cardId}/comments")
-    Observable<List<DeckComment>> getCommentsForCard(@Path("cardId") long cardId);
+    Observable<OcsComment> getCommentsForCard(@Path("cardId") long cardId);
 
     @Headers({
             "Accept: application/json",
@@ -38,7 +39,7 @@ public interface NextcloudServerAPI {
             "Content-Type: application/json;charset=utf-8"
     })
     @POST("apps/deck/api/v1.0/cards/{cardId}/comments")
-    Observable<List<DeckComment>> createCommentForCard(@Path("cardId") long cardId, @Body DeckComment comment);
+    Observable<OcsComment> createCommentForCard(@Path("cardId") long cardId, @Body DeckComment comment);
 
     @Headers({
             "Accept: application/json",
@@ -46,7 +47,7 @@ public interface NextcloudServerAPI {
             "Content-Type: application/json;charset=utf-8"
     })
     @PUT("apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}")
-    Observable<List<DeckComment>> updateCommentForCard(@Path("cardId") long cardId, @Body DeckComment comment);
+    Observable<OcsComment> updateCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId, @Body DeckComment comment);
 
     @Headers({
             "Accept: application/json",
@@ -54,5 +55,5 @@ public interface NextcloudServerAPI {
             "Content-Type: application/json;charset=utf-8"
     })
     @DELETE("apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}")
-    Observable<List<DeckComment>> deleteCommentForCard(@Path("cardId") long cardId);
+    Observable<Void> deleteCommentForCard(@Path("cardId") long cardId, @Path("commentId") long commentId);
 }

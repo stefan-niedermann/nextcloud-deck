@@ -38,6 +38,8 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
 import it.niedermann.nextcloud.deck.util.DateUtil;
@@ -313,5 +315,25 @@ public class ServerAdapter {
     public void restoreAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, IResponseCallback<Attachment> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().restoreAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
+    }
+
+    public void getCommentsForRemoteCardId(Long remoteCardId, IResponseCallback<OcsComment> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCommentsForCard(remoteCardId), responseCallback);
+    }
+
+    public void createCommentForCard(DeckComment comment, IResponseCallback<OcsComment> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().createCommentForCard(comment.getObjectId(), comment), responseCallback);
+    }
+
+    public void updateCommentForCard(DeckComment comment, IResponseCallback<OcsComment> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().updateCommentForCard(comment.getObjectId(), comment.getId(), comment), responseCallback);
+    }
+
+    public void deleteCommentForCard(DeckComment comment, IResponseCallback<Void> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().deleteCommentForCard(comment.getObjectId(), comment.getId()), responseCallback);
     }
 }

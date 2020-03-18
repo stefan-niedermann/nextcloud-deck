@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
@@ -630,5 +631,22 @@ public class DataBaseAdapter {
     }
     public List<Long> getBoardIDsOfLocallyChangedAccessControl(long accountId) {
         return db.getAccessControlDao().getBoardIDsOfLocallyChangedAccessControl(accountId);
+    }
+
+    public DeckComment getCommentByRemoteIdDirectly(long accountId, Long remoteCommentId) {
+        // FIXME impl
+    }
+
+    public long createComment(long accountId, DeckComment comment) {
+        comment.setAccountId(accountId);
+        // FIXME impl
+    }
+
+    public void updateComment(DeckComment comment, boolean setStatus) {
+        // FIXME impl
+    }
+
+    public void deleteComment(DeckComment comment) {
+        // FIXME impl
     }
 }
