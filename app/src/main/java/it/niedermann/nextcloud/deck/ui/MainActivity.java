@@ -3,16 +3,30 @@ package it.niedermann.nextcloud.deck.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.PopupMenu;
@@ -20,11 +34,23 @@ import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper;
+import com.nextcloud.android.sso.AccountImporter;
+import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
+import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
+import com.nextcloud.android.sso.model.SingleSignOnAccount;
+import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,22 +61,33 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
+import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.board.AccessControlDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
+import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+import it.niedermann.nextcloud.deck.ui.stack.StackFragment.OnScrollListener;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.DeckLog.Severity.INFO;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -60,12 +97,25 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.NO_STACK_ID;
 
-public class MainActivity extends DrawerActivity implements
-        EditStackDialogFragment.EditStackListener,
-        EditBoardDialogFragment.EditBoardListener,
-        StackFragment.OnScrollListener {
+public class MainActivity extends AppCompatActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener {
 
-    private static final String TAG = MainActivity.class.getCanonicalName();
+    protected ActivityMainBinding binding;
+
+    protected static final int MENU_ID_ABOUT = -1;
+    protected static final int MENU_ID_ADD_BOARD = -2;
+    protected static final int MENU_ID_SETTINGS = -3;
+    protected static final int MENU_ID_ADD_ACCOUNT = -2;
+    protected static final int ACTIVITY_ABOUT = 1;
+    protected static final int ACTIVITY_SETTINGS = 2;
+    protected static final long NO_ACCOUNTS = -1;
+    protected static final long NO_BOARDS = -1;
+    protected static final long NO_STACKS = -1;
+    @NonNull
+    protected List<Account> accountsList = new ArrayList<>();
+    protected Account account;
+    protected boolean accountChooserActive = false;
+    protected SyncManager syncManager;
+    protected SharedPreferences sharedPreferences;
 
     private String sharedPreferencesLastBoardForAccount_;
     private String sharedPreferencesLastStackForAccountAndBoard_;
@@ -78,17 +128,32 @@ public class MainActivity extends DrawerActivity implements
     private String addBoard;
 
     private StackAdapter stackAdapter;
-    private @Nullable
-    List<Board> boardsList;
+    @Nullable
+    private List<Board> boardsList;
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
 
     private long currentBoardId = 0;
+    private long currentStackId = 0;
     private boolean currentBoardHasEditPermission = false;
     private boolean currentBoardHasStacks = false;
+    private String accountAlreadyAdded;
+    private String sharedPreferenceLastAccount;
+    private String urlFragmentUpdateDeck;
+    private String noAccount;
+    private String addAccount;
+    private int minimumServerAppMajor;
+    private int minimumServerAppMinor;
+    private int minimumServerAppPatch;
+    private Snackbar deckVersionTooLowSnackbar = null;
+    private Snackbar accountIsGettingImportedSnackbar;
+    private ConnectivityManager.NetworkCallback networkCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -103,130 +168,229 @@ public class MainActivity extends DrawerActivity implements
         editBoard = getString(R.string.edit_board);
         addColumn = getString(R.string.add_column);
         addBoard = getString(R.string.add_board);
+        accountAlreadyAdded = getString(R.string.account_already_added);
+        sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
+        urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
+        noAccount = getString(R.string.no_account);
+        addAccount = getString(R.string.add_account);
+        minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
+        minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
+        minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
 
-        super.onCreate(savedInstanceState);
-        Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
+        setSupportActionBar(binding.toolbar);
+        accountIsGettingImportedSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
 
-        stackAdapter = new StackAdapter(getSupportFragmentManager());
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        binding.navigationView.setNavigationItemSelectedListener(this);
+        syncManager = new SyncManager(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        NavHeaderMainBinding headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
+
+        switchMap(syncManager.hasAccounts(), hasAccounts -> {
+            if (hasAccounts) {
+                return syncManager.readAccounts();
+            } else {
+                setCurrentAccount(null);
+                startActivityForResult(new Intent(this, ImportAccountActivity.class), ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT);
+                return null;
+            }
+        }).observe(this, (List<Account> accounts) -> {
+            if (accounts == null) {
+                throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null");
+            }
+
+            accountsList = accounts;
+
+            long lastAccountId = sharedPreferences.getLong(sharedPreferenceLastAccount, NO_ACCOUNTS);
+            DeckLog.log("--- Read: shared_preference_last_account" + " | " + lastAccountId);
+
+            for (Account account : accountsList) {
+                if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNTS) {
+                    this.account = account;
+                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                    syncManager = new SyncManager(this);
+                    setHeaderView();
+                    ViewUtil.addAvatar(this, headerBinding.drawerCurrentAccount, this.account.getUrl(), this.account.getUserName(), R.mipmap.ic_launcher_round);
+                    // TODO show spinner
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        registerAutoSyncOnNetworkAvailable();
+                    } else {
+                        syncManager.synchronize(new IResponseCallback<Boolean>(MainActivity.this.account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                MainActivity.this.accountIsGettingImportedSnackbar.dismiss();
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                    ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, MainActivity.this.binding.coordinatorLayout, MainActivity.this);
+                                }
+                            }
+                        });
+                    }
+                    setCurrentAccount(this.account);
+                    break;
+                }
+            }
+
+            binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_header_view).setOnClickListener(v1 -> {
+                this.accountChooserActive = !this.accountChooserActive;
+                if (accountChooserActive) {
+                    buildSidenavAccountChooser();
+                } else {
+                    buildSidenavMenu();
+                }
+            });
+
+            stackAdapter = new StackAdapter(getSupportFragmentManager());
+
+            CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
+            dragAndDrop.register(binding.viewPager, binding.stackLayout);
+            dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
+                syncManager.reorder(account.getId(), movedCard, stackId, position);
+                DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
+            });
+
+
+            binding.fab.setOnClickListener((View view) -> {
+                if (this.boardsList == null) {
+                    DeckLog.log("FAB has been clicked, but boardsList is null... Asking to add an account", INFO);
+                    Snackbar
+                            .make(binding.coordinatorLayout, R.string.please_add_an_account_first, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.simple_add, (v) -> showAccountPicker())
+                            .show();
+                } else if (this.boardsList.size() > 0) {
+                    Intent intent = new Intent(this, EditActivity.class);
+                    intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
+                    intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
+                    intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    try {
+                        intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId());
+                        startActivity(intent);
+                    } catch (IndexOutOfBoundsException e) {
+                        EditStackDialogFragment.newInstance(NO_STACK_ID)
+                                .show(getSupportFragmentManager(), addColumn);
+                    }
+                } else {
+                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+                }
+            });
+
+            binding.addStackButton.setOnClickListener((v) -> {
+                if (this.boardsList == null) {
+                    DeckLog.log("Add stack has been added but boardsList is null, displaying account picker", INFO);
+                    Snackbar
+                            .make(binding.coordinatorLayout, R.string.please_add_an_account_first, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.simple_add, (view) -> showAccountPicker())
+                            .show();
+                } else {
+                    if (this.boardsList.size() == 0) {
+                        EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+                    } else {
+                        EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
+                    }
+                }
+            });
+
+            binding.viewPager.addOnPageChangeListener(new OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    binding.viewPager.post(() -> {
+                        // Remember last stack for this board
+                        if (stackAdapter.getCount() >= position) {
+                            currentStackId = stackAdapter.getItem(position).getStackId();
+                        }
+                    });
+                    showFabIfEditPermissionGranted();
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                    binding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
+                }
+            });
+
+            binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                if (cm != null) {
+                    NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+                    if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                        DeckLog.info("Clearing Glide memory cache");
+                        Glide.get(this).clearMemory();
+                        new Thread(() -> {
+                            DeckLog.info("Clearing Glide disk cache");
+                            Glide.get(getApplicationContext()).clearDiskCache();
+                        }).start();
+                    } else {
+                        DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
+                    }
+                } else DeckLog.warn("ConnectivityManager is null");
+                syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                    @Override
+                    public void onResponse(Boolean response) {
+                        runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
+                        if (throwable instanceof NextcloudHttpRequestFailedException) {
+                            ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this);
+                        }
+                        DeckLog.logError(throwable);
+                    }
+                });
+            });
+        });
 
         //TODO limit this call only to lower API levels like KitKat because they crash without
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
-        CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
-        dragAndDrop.register(binding.viewPager, binding.stackLayout);
-        dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
-            syncManager.reorder(account.getId(), movedCard, stackId, position);
-            DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
-        });
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        DeckLog.log("onSaveInstanceState");
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (this.account == null) {
+            DeckLog.log("--- Remove: shared_preference_last_account");
+            editor.remove(sharedPreferenceLastAccount);
+        } else {
+            DeckLog.log("--- Write: shared_preference_last_account" + " | " + this.account.getId());
+            editor.putLong(sharedPreferenceLastAccount, this.account.getId());
 
+            // Remember last board for this account
+            DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
+            editor.putLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), currentBoardId);
 
-        binding.fab.setOnClickListener((View view) -> {
-            if (this.boardsList == null) {
-                DeckLog.log("FAB has been clicked, but boardsList is null... Asking to add an account", INFO);
-                Snackbar
-                        .make(binding.coordinatorLayout, R.string.please_add_an_account_first, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_add, (v) -> showAccountPicker())
-                        .show();
-            } else if (this.boardsList.size() > 0) {
-                Intent intent = new Intent(this, EditActivity.class);
-                intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
-                intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
-                intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                try {
-                    intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId());
-                    startActivity(intent);
-                } catch (IndexOutOfBoundsException e) {
-                    EditStackDialogFragment.newInstance(NO_STACK_ID)
-                            .show(getSupportFragmentManager(), addColumn);
-                }
-            } else {
-                EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
-            }
-        });
+            DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + account.getId() + "_" + currentBoardId + " | " + currentStackId);
+            editor.putLong(sharedPreferencesLastStackForAccountAndBoard_ + account.getId() + "_" + currentBoardId, currentStackId);
+        }
+        editor.apply();
+        super.onSaveInstanceState(outState);
+    }
 
-        binding.addStackButton.setOnClickListener((v) -> {
-            if (this.boardsList == null) {
-                DeckLog.log("Add stack has been added but boardsList is null, displaying account picker", INFO);
-                Snackbar
-                        .make(binding.coordinatorLayout, R.string.please_add_an_account_first, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_add, (view) -> showAccountPicker())
-                        .show();
-            } else {
-                if (this.boardsList.size() == 0) {
-                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
-                } else {
-                    EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
-                }
-            }
-        });
-
-        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                binding.viewPager.post(() -> {
-                    // Remember last stack for this board
-                    if (stackAdapter.getCount() >= position) {
-                        long currentStackId = stackAdapter.getItem(position).getStackId();
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + account.getId() + "_" + currentBoardId + " | " + currentStackId);
-                        editor.putLong(sharedPreferencesLastStackForAccountAndBoard_ + account.getId() + "_" + currentBoardId, currentStackId);
-                        editor.apply();
-                    }
-                });
-                showFabIfEditPermissionGranted();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                binding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
-            }
-        });
-
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (cm != null) {
-                NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
-                if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-                    DeckLog.info("Clearing Glide memory cache");
-                    Glide.get(this).clearMemory();
-                    new Thread(() -> {
-                        DeckLog.info("Clearing Glide disk cache");
-                        Glide.get(getApplicationContext()).clearDiskCache();
-                    }).start();
-                } else {
-                    DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
-                }
-            } else DeckLog.warn("ConnectivityManager is null");
-            syncManager.synchronize(new IResponseCallback<Boolean>(account) {
-                @Override
-                public void onResponse(Boolean response) {
-                    runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
-                    if (throwable instanceof NextcloudHttpRequestFailedException) {
-                        ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this);
-                    }
-                    DeckLog.logError(throwable);
-                }
-            });
-        });
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
     public void onCreateStack(String stackName) {
         observeOnce(syncManager.getStacksForBoard(account.getId(), currentBoardId), MainActivity.this, fullStacks -> {
-            Stack s = new Stack();
-            s.setTitle(stackName);
-            s.setBoardId(currentBoardId);
+            Stack s = new Stack(stackName, currentBoardId);
             int heighestOrder = 0;
             for (FullStack fullStack : fullStacks) {
                 int currentStackOrder = fullStack.stack.getOrder();
@@ -270,12 +434,6 @@ public class MainActivity extends DrawerActivity implements
                 buildSidenavMenu();
 
                 EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
-
-                // Remember last board for this account
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
-                editor.putLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), currentBoardId);
-                editor.apply();
             }
         });
     }
@@ -285,8 +443,7 @@ public class MainActivity extends DrawerActivity implements
         syncManager.updateBoard(fullBoard);
     }
 
-    @Override
-    protected void accountSet(@Nullable Account account) {
+    protected void setCurrentAccount(@Nullable Account account) {
         if (account != null) {
             currentBoardId = sharedPreferences.getLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), NO_BOARDS);
             DeckLog.log("--- Read: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
@@ -307,24 +464,16 @@ public class MainActivity extends DrawerActivity implements
         }
     }
 
-    @Override
     protected void boardSelected(int itemId, Account account) {
         if (boardsList != null) {
             Board selectedBoard = boardsList.get(itemId);
             currentBoardId = selectedBoard.getLocalId();
             displayStacksForBoard(selectedBoard, account);
-
-            // Remember last board for this account
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            DeckLog.log("--- Write: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
-            editor.putLong(sharedPreferencesLastBoardForAccount_ + this.account.getId(), currentBoardId);
-            editor.apply();
         } else {
             DeckLog.logError(new IllegalStateException("boardsList is null but it shouldn't be."));
         }
     }
 
-    @Override
     protected void buildSidenavMenu() {
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
@@ -535,5 +684,252 @@ public class MainActivity extends DrawerActivity implements
     @Override
     public void onScrollDown() {
         binding.fab.hide();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        AccountImporter.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MainActivity.ACTIVITY_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                recreate();
+            }
+        } else if (requestCode == ImportAccountActivity.REQUEST_CODE_IMPORT_ACCOUNT) {
+            if (resultCode != RESULT_OK) {
+                finish();
+            } else {
+                accountChooserActive = false;
+            }
+        } else {
+            try {
+                AccountImporter.onActivityResult(requestCode, resultCode, data, this, this::importNewAccount);
+            } catch (AccountImportCancelledException e) {
+                DeckLog.info("Account import has been canceled.");
+            }
+        }
+    }
+
+    private void importNewAccount(SingleSignOnAccount account) {
+
+        final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
+        accountLiveData.observe(this, (Account createdAccount) -> {
+            if (accountLiveData.hasError()) {
+                try {
+                    accountLiveData.throwError();
+                } catch (SQLiteConstraintException ex) {
+                    Snackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
+                }
+            } else {
+                Account oldAccount = this.account;
+                this.account = createdAccount;
+
+                try {
+                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
+                        @Override
+                        public void onResponse(Capabilities response) {
+                            if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
+                                deckVersionTooLowSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
+                                    new AlertDialog.Builder(MainActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
+                                            .setTitle(R.string.update_deck)
+                                            .setMessage(R.string.deck_outdated_please_update)
+                                            .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
+                                                Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                startActivity(openURL);
+                                            })
+                                            .setNegativeButton(R.string.simple_discard, null).show();
+                                });
+                                deckVersionTooLowSnackbar.show();
+                                syncManager.deleteAccount(createdAccount.getId());
+                                this.account = oldAccount;
+                            } else {
+                                SyncWorker.update(getApplicationContext());
+                                accountIsGettingImportedSnackbar.show();
+                            }
+                        }
+                    });
+                } catch (OfflineException e) {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
+                            .setPositiveButton(R.string.simple_close, null)
+                            .show();
+                    syncManager.deleteAccount(createdAccount.getId());
+                    this.account = oldAccount;
+                }
+            }
+        });
+
+        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
+    }
+
+    protected void showAccountPicker() {
+        if (deckVersionTooLowSnackbar != null) {
+            deckVersionTooLowSnackbar.dismiss();
+        }
+
+        try {
+            AccountImporter.pickNewAccount(this);
+        } catch (NextcloudFilesAppNotInstalledException e) {
+            UiExceptionManager.showDialogForException(this, e);
+            Log.w("Deck", "=============================================================");
+            Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
+            e.printStackTrace();
+        } catch (AndroidGetAccountsPermissionNotGranted e) {
+            AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (accountChooserActive) {
+            //noinspection SwitchStatementWithTooFewBranches
+            switch (item.getItemId()) {
+                case MainActivity.MENU_ID_ADD_ACCOUNT:
+                    showAccountPicker();
+                    break;
+                default:
+                    this.account = accountsList.get(item.getItemId());
+                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                    syncManager = new SyncManager(this);
+                    setHeaderView();
+                    accountChooserActive = false;
+                    setCurrentAccount(this.account);
+            }
+        } else {
+            switch (item.getItemId()) {
+                case MainActivity.MENU_ID_ABOUT:
+                    Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
+                    startActivityForResult(aboutIntent, MainActivity.ACTIVITY_ABOUT);
+                    break;
+                case MainActivity.MENU_ID_SETTINGS:
+                    Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                    startActivityForResult(settingsIntent, MainActivity.ACTIVITY_SETTINGS);
+                    break;
+                case MainActivity.MENU_ID_ADD_BOARD:
+                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+                    break;
+                default:
+                    boardSelected(item.getItemId(), account);
+            }
+        }
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    protected void setHeaderView() {
+        ViewUtil.addAvatar(this, binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_current_account), account.getUrl(), account.getUserName(), R.mipmap.ic_launcher_round);
+        ((TextView) binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_username_full)).setText(account.getName());
+    }
+
+    private void buildSidenavAccountChooser() {
+        Menu menu = binding.navigationView.getMenu();
+        menu.clear();
+        int index = 0;
+        for (Account account : this.accountsList) {
+            final int currentIndex = index;
+            MenuItem m = menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
+            AppCompatImageButton contextMenu = new AppCompatImageButton(this);
+            contextMenu.setBackgroundDrawable(null);
+
+            String uri = account.getUrl() + "/index.php/avatar/" + Uri.encode(account.getUserName()) + "/56";
+            Glide.with(this)
+                    .load(uri)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            m.setIcon(resource);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+                    });
+
+            contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_delete_black_24dp, R.color.grey600));
+            contextMenu.setOnClickListener((v) -> {
+                if (currentIndex != 0) { // Select first account after deletion
+                    this.account = accountsList.get(0);
+                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                    syncManager = new SyncManager(this);
+                    setCurrentAccount(this.account);
+                    setHeaderView();
+                    accountChooserActive = false;
+                } else if (accountsList.size() > 1) { // Select second account after deletion
+                    this.account = accountsList.get(1);
+                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.account.getName());
+                    syncManager = new SyncManager(this);
+                    setCurrentAccount(this.account);
+                    setHeaderView();
+                    accountChooserActive = false;
+                } else {
+                    setCurrentAccount(null);
+                }
+
+                syncManager.deleteAccount(account.getId());
+                buildSidenavAccountChooser();
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+            });
+            m.setActionView(contextMenu);
+        }
+        menu.add(Menu.NONE, MainActivity.MENU_ID_ADD_ACCOUNT, Menu.NONE, addAccount).setIcon(R.drawable.ic_person_add_black_24dp);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void registerAutoSyncOnNetworkAvailable() {
+        final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkRequest.Builder builder = new NetworkRequest.Builder();
+
+        if (connectivityManager != null) {
+            if (networkCallback == null) {
+                networkCallback = new ConnectivityManager.NetworkCallback() {
+                    @Override
+                    public void onAvailable(@NonNull Network network) {
+                        DeckLog.log("Got Network connection");
+                        syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                accountIsGettingImportedSnackbar.dismiss();
+                                DeckLog.log("Auto-Sync after connection available successful");
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                    ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this);
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onLost(@NonNull Network network) {
+                        DeckLog.log("Network lost");
+                    }
+                };
+            }
+            try {
+                connectivityManager.unregisterNetworkCallback(networkCallback);
+            } catch (IllegalArgumentException ignored) {
+            }
+            connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
+        }
     }
 }

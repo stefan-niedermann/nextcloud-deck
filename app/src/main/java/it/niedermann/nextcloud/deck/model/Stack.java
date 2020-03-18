@@ -10,17 +10,27 @@ import java.util.Date;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(
-    inheritSuperIndices = true,
-    indices = {@Index("boardId")},
-    foreignKeys = {
-        @ForeignKey(
-            entity = Board.class,
-            parentColumns = "localId",
-            childColumns = "boardId", onDelete = ForeignKey.CASCADE
-        )
-    }
+        inheritSuperIndices = true,
+        indices = {@Index("boardId")},
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Board.class,
+                        parentColumns = "localId",
+                        childColumns = "boardId", onDelete = ForeignKey.CASCADE
+                )
+        }
 )
 public class Stack extends AbstractRemoteEntity {
+
+    public Stack() {
+
+    }
+
+    public Stack(String title, long boardId) {
+        this.title = title;
+        this.boardId = boardId;
+    }
+
     private String title;
 
     @NonNull
