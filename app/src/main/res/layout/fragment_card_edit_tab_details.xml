@@ -39,8 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp" />
-
+            android:layout_marginLeft="40dp"
+            android:animateLayoutChanges="true" />
 
         <LinearLayout
             android:id="@+id/colorPicker"
@@ -74,6 +74,7 @@
                 android:id="@+id/dueDateTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:enabled="true"
                 android:focusable="false"
@@ -94,7 +95,7 @@
                 android:paddingLeft="@dimen/standard_half_padding"
                 android:paddingEnd="@dimen/standard_half_padding"
                 android:paddingRight="@dimen/standard_half_padding"
-                app:srcCompat="@drawable/ic_close_circle_grey600"/>
+                app:srcCompat="@drawable/ic_close_circle_grey600" />
         </LinearLayout>
 
         <LinearLayout
