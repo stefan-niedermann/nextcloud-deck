@@ -12,6 +12,7 @@
     <string name="simple_boards">面板</string>
     <string name="simple_add">添加</string>
     <string name="simple_save">保存</string>
+    <string name="simple_more">更多</string>
 
     <string name="edit_board">编辑面板</string>
     <string name="archive_board">归档面板</string>
@@ -127,4 +128,5 @@
     <string name="action_card_move_title">移动 %1$s</string>
     <string name="simple_disabled">已禁用</string>
     <string name="simple_copied">已复制</string>
+    <string name="server_error">服务器错误</string>
     </resources>

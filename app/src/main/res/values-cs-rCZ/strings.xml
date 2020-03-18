@@ -12,6 +12,7 @@
     <string name="simple_boards">Tabule</string>
     <string name="simple_add">Přidat</string>
     <string name="simple_save">Uložit</string>
+    <string name="simple_more">Další</string>
 
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
@@ -132,4 +133,13 @@
     <string name="please_add_an_account_first">Nejprve přidejte účet</string>
     <string name="title_is_mandatory">Nadpis je třeba zadat</string>
     <string name="provide_at_least_a_title_or_description">Zadejte alespoň nadpis nebo popis</string>
+    <string name="welcome_text">Vítejte v %1$s</string>
+    <string name="choose_account">Zvolte účet</string>
+    <string name="save_card_before_attachment">Aby bylo možné přidávat přílohy je třeba, aby karta byla nejprve uložena.</string>
+    <string name="server_misconfigured">Server není nastavený správně</string>
+    <string name="server_misconfigured_explanation">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient. Kontaktní údaje na podporu naleznete v sekci „O aplikaci“.</string>
+    <string name="server_error">Chyba serveru</string>
+    <string name="server_error_explanation">Vámi využívaný server odpověděl HTTP stavovým kódem 503. Může to být tím, že na serveru právě probíhá údržba. Obraťte se na jeho správce nebo na autory této aplikace (kontaktní údaje naleznete v sekci „O aplikaci“).</string>
+    <string name="share_add_to_card">Přidat do karty</string>
+    <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
     </resources>
