@@ -12,6 +12,7 @@
     <string name="simple_boards">Borð</string>
     <string name="simple_add">Bæta við</string>
     <string name="simple_save">Vista</string>
+    <string name="simple_more">Meira</string>
 
     <string name="edit_board">Breyta borði</string>
     <string name="archive_board">Setja borð í geymslu</string>
@@ -124,4 +125,5 @@
     <string name="please_add_an_account_first">Bættu fyrst við notandaaðgangi</string>
     <string name="title_is_mandatory">Titill er nauðsynlegur</string>
     <string name="provide_at_least_a_title_or_description">Gefðu upp í það minnsta titil eða lýsingu</string>
+    <string name="server_error">Villa frá þjóni</string>
     </resources>

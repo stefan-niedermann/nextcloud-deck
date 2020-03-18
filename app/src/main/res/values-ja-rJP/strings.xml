@@ -12,6 +12,7 @@
     <string name="simple_boards">ボード</string>
     <string name="simple_add">追加</string>
     <string name="simple_save">保存</string>
+    <string name="simple_more">さらに表示</string>
 
     <string name="edit_board">ボードを編集</string>
     <string name="archive_board">ボードをアーカイブ</string>
@@ -131,4 +132,5 @@
     <string name="please_add_an_account_first">初めにアカウントを追加してください</string>
     <string name="title_is_mandatory">タイトルは必須です</string>
     <string name="provide_at_least_a_title_or_description">少なくともタイトルまたは説明を入力してください</string>
+    <string name="server_error">サーバーエラー</string>
     </resources>

@@ -12,6 +12,7 @@
     <string name="simple_boards">Painéis</string>
     <string name="simple_add">Adicionar</string>
     <string name="simple_save">Salvar</string>
+    <string name="simple_more">Mais</string>
 
     <string name="edit_board">Editar o painel</string>
     <string name="archive_board">Arquivar o painel</string>
@@ -132,4 +133,13 @@
     <string name="please_add_an_account_first">Adicione uma conta primeiro</string>
     <string name="title_is_mandatory">O título é obrigatório</string>
     <string name="provide_at_least_a_title_or_description">Forneça ao menos um título ou descrição</string>
+    <string name="welcome_text">Bem-vindo ao %1$s</string>
+    <string name="choose_account">Encerrar a Conta</string>
+    <string name="save_card_before_attachment">O cartão precisa ser salvo antes que anexos sejam adicionados.</string>
+    <string name="server_misconfigured">Servidor mal configurado</string>
+    <string name="server_misconfigured_explanation">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck ou ele está configurado incorretamente. Isso pode ser causado por alterações personalizadas no arquivo .htaccess ou aplicativos Nextcloud como o Client OID. Você pode encontrar informações de contato para suporte na seção \"Sobre\".</string>
+    <string name="server_error">Erro no servidor</string>
+    <string name="server_error_explanation">Seu servidor respondeu com um código de status HTTP 503. Pode ser que o servidor esteja atualmente em manutenção. Entre em contato com seu administrador ou conosco para obter suporte. Você pode encontrar nossas informações de contato na seção \"Sobre\".</string>
+    <string name="share_add_to_card">Adicionar ao cartão</string>
+    <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
     </resources>

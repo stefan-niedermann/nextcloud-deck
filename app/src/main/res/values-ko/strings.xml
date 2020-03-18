@@ -12,6 +12,7 @@
     <string name="simple_boards">게시판</string>
     <string name="simple_add">추가</string>
     <string name="simple_save">저장</string>
+    <string name="simple_more">더 보기</string>
 
     <string name="edit_board">게시판 편집</string>
     <string name="archive_board">게시판 보관</string>
@@ -126,4 +127,5 @@
     <string name="action_card_move">카드 이동</string>
     <string name="action_card_move_title">%1$s 이동</string>
     <string name="simple_copied">복사됨</string>
+    <string name="server_error">서버 오류</string>
     </resources>

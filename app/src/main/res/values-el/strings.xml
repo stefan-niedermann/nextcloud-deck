@@ -12,6 +12,7 @@
     <string name="simple_boards">Πίνακες</string>
     <string name="simple_add">Προσθήκη</string>
     <string name="simple_save">Αποθήκευση</string>
+    <string name="simple_more">Περισσότερα</string>
 
     <string name="edit_board">Επεξεργασία πίνακα</string>
     <string name="archive_board">Αρχειοθέτηση πίνακα</string>
@@ -132,4 +133,5 @@
     <string name="please_add_an_account_first">Παρακαλώ προσθέστε λογαριασμό πρώτα</string>
     <string name="title_is_mandatory">Υποχρεωτικός τίτλος</string>
     <string name="provide_at_least_a_title_or_description">Προσθέστε τουλάχιστον τίτλο ή περιγραφή</string>
+    <string name="server_error">Σφάλμα διακομιστή</string>
     </resources>

@@ -12,6 +12,7 @@
     <string name="simple_boards">Tavlor</string>
     <string name="simple_add">Lägg till</string>
     <string name="simple_save">Spara</string>
+    <string name="simple_more">Mer</string>
 
     <string name="edit_board">Ändra tavla</string>
     <string name="archive_board">Arkivera tavla</string>
@@ -132,4 +133,13 @@
     <string name="please_add_an_account_first">Lägg till ett konto först</string>
     <string name="title_is_mandatory">Titel är obligatorisk</string>
     <string name="provide_at_least_a_title_or_description">Ange åtminstone en titel eller beskrivning</string>
+    <string name="welcome_text">Välkommen till %1$s</string>
+    <string name="choose_account">Välj konto</string>
+    <string name="save_card_before_attachment">Kortet måste sparas innan bilagor kan läggas till.</string>
+    <string name="server_misconfigured">Server felkonfigurerad</string>
+    <string name="server_misconfigured_explanation">Din server svarade med en statuskod HTTP 302, vilket indikerar att du inte har installerat Deck-appen på din server eller att något är felkonfigurerat. Detta kan orsakas av anpassningar i en .htaccess-fil eller av Nextcloud-appar som OID Client. Du hittar vår kontaktinformation för support i Om-avsnittet.</string>
+    <string name="server_error">Serverfel</string>
+    <string name="server_error_explanation">Din server svarade med statuskod HTTP 503. Detta kan hända om servern för närvarande är i underhållsläge. Kontakta din administratör eller oss för support. Du hittar vår kontaktinformation i Om-avsnittet.</string>
+    <string name="share_add_to_card">Lägg till i kort</string>
+    <string name="share_success">La till %1$s till %2$s</string>
     </resources>

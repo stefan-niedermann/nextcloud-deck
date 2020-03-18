@@ -12,6 +12,7 @@
     <string name="simple_boards">Ploče</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Spremi</string>
+    <string name="simple_more">Više</string>
 
     <string name="edit_board">Uredi ploču</string>
     <string name="archive_board">Arhiviraj ploču</string>
@@ -126,4 +127,5 @@
     <string name="action_card_move">Premjesti karticu</string>
     <string name="action_card_move_title">Premjesti %1$s</string>
     <string name="simple_copied">Kopirano</string>
+    <string name="server_error">Greška poslužitelja</string>
     </resources>

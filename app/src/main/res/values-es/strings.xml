@@ -12,6 +12,7 @@
     <string name="simple_boards">Tableros</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
+    <string name="simple_more">Menú</string>
 
     <string name="edit_board">Editar tablero</string>
     <string name="archive_board">Archivar tablero</string>
@@ -132,4 +133,5 @@
     <string name="please_add_an_account_first">Por favor, añade primero una cuenta..</string>
     <string name="title_is_mandatory">El título es obligatorio</string>
     <string name="provide_at_least_a_title_or_description">Indique al menos un título o una descripción</string>
+    <string name="server_error">Error en el servidor</string>
     </resources>

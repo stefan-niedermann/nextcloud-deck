@@ -1,4 +1,7 @@
 <resources>
+    <string name="navigation_drawer_open">Avaa hakuvalikko</string>
+    <string name="navigation_drawer_close">Sulje hakuvalikko</string>
+
     <string name="drawer_header_background">Taustakuva \"Drawer\":in yläosassa</string>
     <string name="drawer_current_account">Nykyinen tili</string>
     <string name="drawer_middle_account">Keskimmäinen tili</string>
@@ -9,6 +12,7 @@
     <string name="simple_boards">Taulut</string>
     <string name="simple_add">Lisää</string>
     <string name="simple_save">Tallenna</string>
+    <string name="simple_more">Lisää</string>
 
     <string name="edit_board">Muokkaa taulua</string>
     <string name="archive_board">Arkistoi taulu</string>
@@ -22,17 +26,24 @@
     <string name="about_maintainer_title">Ylläpitäjä</string>
     <string name="about_developers_title">Kehittäjät</string>
     <string name="about_translators_title">Kääntäjät</string>
+    <string name="about_translators_transifex">Nextcloud-yhteisö paikassa %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testaajat</string>
     <string name="about_source_title">Lähdekoodi</string>
     <string name="about_source">Tämä projekti on GitHubissa: %1$s</string>
     <string name="about_issues_title">Ongelmat</string>
+    <string name="about_issues">Voit raportoida virheitä ja ehdottaa parannuksia ja uusia tomintoja GitHub:n ongelmien seuraaja toiminnolla: %1$s</string>
     <string name="about_translate_title">Käännä</string>
+    <string name="about_translate">Liity Nextcloud joukkoon Transflex:ssa ja auta meitä tämän sovelluksen käännöstyössä: %1$s</string>
     <string name="about_app_license_title">Sovelluslisenssi</string>
     <string name="about_app_license">Tämä sovellus on GNU GENERAL PUBLIC LICENSE v3+ -lisensoitu.</string>
     <string name="about_app_license_button">Näytä lisenssi</string>
     <string name="about_icons_disclaimer_title">Kuvakkeet</string>
+    <string name="about_icons_disclaimer_app_icon">Katso alkuperäinen kuvake %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Kaikki muut tämän sovelluksen kuvakkeet on %1$s tehnyt Google Inc. ja ne on lisensoitu Apache 2.0 lisenssillä.</string>
+    <string name="about_icons_disclaimer_mdi">Kuvakkeet</string>
     <string name="about_credits_tab_title">Tekijät</string>
+    <string name="about_contribution_tab_title">Kontribuutio</string>
     <string name="about_license_tab_title">Lisenssi</string>
 
     <string name="seconds_ago">sekuntia sitten</string>
@@ -74,6 +85,7 @@
     <string name="no_cards">Ei kortteja vielä</string>
     <string name="no_account">Tiliä ei ole määritetty</string>
     <string name="account_already_added">Tili on jo lisätty</string>
+    <string name="account_is_getting_imported">Tiliä tuodaan sisään</string>
     <string name="not_synced_yet">Ei vielä synkronoitu</string>
     <string name="no_columns">Ei sarakkeita vielä</string>
     <string name="do_you_want_to_save_your_changes">Haluatko tallentaa muutokset?</string>
@@ -81,8 +93,12 @@
     <string name="do_you_want_to_delete_the_current_column">Haluatko poistaa nykyisen sarakkeen?</string>
     <string name="add_a_new_column_using_the_button">Lisää uusi sarake painamalla +</string>
     <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
+    <string name="update_deck">Päivitä pakka</string>
+    <string name="your_deck_version_is_too_old">Pakan versio on liian vanha</string>
+    <string name="deck_outdated_please_update">Pakan versio on liian vanha. Päivitä kayttämällä tätä android sovellusta asiakkaana.</string>
     <string name="simple_update">Päivitä</string>
     <string name="simple_delete">Poista</string>
+    <string name="delete_board_message">Tämä tuhoaa pysyvästi laudan sisältäen pinot ja kortit.</string>
     <string name="action_card_list_rename_column">Nimeä sarake uudelleen</string>
     <string name="simple_rename">Nimeä uudelleen</string>
     <string name="simple_settings">Asetukset</string>
@@ -91,7 +107,9 @@
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
     <string name="pref_value_theme_light">Vaalea</string>
+    <string name="unassigned_user">Ei määritelty%1$s</string>
     <string name="simple_undo">Kumoa</string>
+    <string name="no_activities">Tällä kortilla ei ole toimintoja. Tarvitset internetyhteyden toimintojen lataamiseen ja näyttämiseen.</string>
     <string name="rename_column">Nimeä sarake uudelleen</string>
     <string name="share_board">Jaa taulu</string>
     <string name="you_are_currently_offline">Et ole yhteydessä verkkoon</string>
@@ -109,9 +127,19 @@
     <string name="hour_1">1 tunti</string>
     <string name="hours_6">6 tuntia</string>
     <string name="action_card_move">Siirrä kortti</string>
+    <string name="action_card_move_title">Siirrä %1$s</string>
     <string name="simple_disabled">poistettu käytöstä</string>
     <string name="simple_copied">Kopioitu</string>
     <string name="please_add_an_account_first">Lisää ensin tili</string>
     <string name="title_is_mandatory">Otsikko on pakollinen</string>
     <string name="provide_at_least_a_title_or_description">Anna vähintään otsikko tai kuvaus</string>
+    <string name="welcome_text">Tervetuloa kohteeseen %1$s</string>
+    <string name="choose_account">Valitse tili</string>
+    <string name="save_card_before_attachment">Kortti pitää tallentaa ennen kuin liitetiedostoja voidaan lisätä.</string>
+    <string name="server_misconfigured">Virheelliset palvelimen asetukset</string>
+    <string name="server_misconfigured_explanation">Palvelimesi vastasi HTTP 302 tilakoodilla, joka tarkoittaa, että Deck/pakka sovellusta ei ole asennettu palvelimellesi tai jossain on virheelliset asetukset. Tämän voi aiheuttaa muunneltu .htaccess tiedosto tai Nextcloud sovellus kuten OID asiakas. Tukipalvelun yhteystiedot löytyvät muuta valikosta. </string>
+    <string name="server_error">Palvelinvirhe</string>
+    <string name="server_error_explanation">Palvelimesi vastasi HTTP 503 tilakoodilla. Tämä voi tarkoittaa, että palvelin on ylläpitotilassa. Ota yhteyttä ylläpitoon tai meidän tukipalveluun. Tukipalvelun yhteystiedot loytyvät muuta valikosta.</string>
+    <string name="share_add_to_card">Lisää kortille</string>
+    <string name="share_success">Onnistuneesti lisätty %1$s kohteeseen %2$s</string>
     </resources>

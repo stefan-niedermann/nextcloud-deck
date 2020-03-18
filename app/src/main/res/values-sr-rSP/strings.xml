@@ -12,6 +12,7 @@
     <string name="simple_boards">Table</string>
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Sačuvaj</string>
+    <string name="simple_more">Još</string>
 
     <string name="edit_board">Izmeni tablu</string>
     <string name="archive_board">Arhiviraj tablu</string>

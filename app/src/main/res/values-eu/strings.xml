@@ -12,6 +12,7 @@
     <string name="simple_boards">Mahaiak</string>
     <string name="simple_add">Gehitu</string>
     <string name="simple_save">Gorde</string>
+    <string name="simple_more">Gehiago</string>
 
     <string name="edit_board">Editatu mahaia</string>
     <string name="archive_board">Artxibatu mahaia</string>
@@ -127,4 +128,5 @@
     <string name="action_card_move_title">Mugitu %1$s</string>
     <string name="simple_disabled">desgaituta</string>
     <string name="simple_copied">Kopiatuta</string>
+    <string name="server_error">Zerbitzari akatsa</string>
     </resources>
