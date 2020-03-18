@@ -12,6 +12,7 @@
     <string name="simple_boards">Taboleiros</string>
     <string name="simple_add">Engadir</string>
     <string name="simple_save">Gardar</string>
+    <string name="simple_more">Máis</string>
 
     <string name="edit_board">Editar taboleiro</string>
     <string name="archive_board">Arquivar taboleiro</string>
@@ -132,4 +133,13 @@
     <string name="please_add_an_account_first">Engada antes unha conta</string>
     <string name="title_is_mandatory">O título é obrigatorio</string>
     <string name="provide_at_least_a_title_or_description">Forneza polo menos un título ou descrición</string>
+    <string name="welcome_text">Dámoslle a benvida a %1$s</string>
+    <string name="choose_account">Escolla unha conta</string>
+    <string name="save_card_before_attachment">Ten que gardar a tarxeta antes de engadir anexos.</string>
+    <string name="server_misconfigured">Configuración incorrecta do servidor</string>
+    <string name="server_misconfigured_explanation">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como OID Client. Pode atopar a nosa información de contacto para asistencia na sección «Sobre».</string>
+    <string name="server_error">Produciuse un erro de servidor</string>
+    <string name="server_error_explanation">O seu servidor respondeu cun código de estado HTTP 503. Pode ser o caso se o servidor está actualmente en modo de mantemento. Póñase en contacto co seu administrador ou con nós para obter asistencia. Pode atopar a nosa información de contacto na sección «Sobre».</string>
+    <string name="share_add_to_card">Engadir á tarxeta</string>
+    <string name="share_success">%1$s foi engadido satisfactoriamente  a %2$s</string>
     </resources>

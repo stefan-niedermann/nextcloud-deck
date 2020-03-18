@@ -12,6 +12,7 @@
     <string name="simple_boards">Рабочие доски</string>
     <string name="simple_add">Добавить</string>
     <string name="simple_save">Сохранить</string>
+    <string name="simple_more">Больше</string>
 
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
@@ -132,4 +133,5 @@
     <string name="please_add_an_account_first">Начните с добавления учётной записи</string>
     <string name="title_is_mandatory">Требуется указать заголовок</string>
     <string name="provide_at_least_a_title_or_description">Создайте заголовок или описание</string>
+    <string name="server_error">Ошибка сервера</string>
     </resources>

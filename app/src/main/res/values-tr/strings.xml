@@ -12,6 +12,7 @@
     <string name="simple_boards">Katlar</string>
     <string name="simple_add">Ekle</string>
     <string name="simple_save">Kaydet</string>
+    <string name="simple_more">Daha Fazla</string>
 
     <string name="edit_board">Panoyu düzenle</string>
     <string name="archive_board">Panoyu arşivle</string>
@@ -132,4 +133,5 @@
     <string name="please_add_an_account_first">Lütfen önce bir hesap ekleyin</string>
     <string name="title_is_mandatory">Başlığın yazılması zorunludur</string>
     <string name="provide_at_least_a_title_or_description">Lütfen en azından başlığı ya da açıklamayı yazın</string>
+    <string name="server_error">Sunucu sorunu</string>
     </resources>

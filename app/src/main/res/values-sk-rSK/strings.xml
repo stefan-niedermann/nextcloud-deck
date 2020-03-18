@@ -12,6 +12,7 @@
     <string name="simple_boards">Nástenky</string>
     <string name="simple_add">Pridať</string>
     <string name="simple_save">Uložiť</string>
+    <string name="simple_more">Viac</string>
 
     <string name="edit_board">Upraviť nástenku</string>
     <string name="archive_board">Archivovať nástenku</string>
@@ -132,4 +133,5 @@
     <string name="please_add_an_account_first">Najskôr pridajte účet</string>
     <string name="title_is_mandatory">Názov je povinný</string>
     <string name="provide_at_least_a_title_or_description">Uveďte aspoň názov alebo popis</string>
+    <string name="server_error">Chyba servera</string>
     </resources>

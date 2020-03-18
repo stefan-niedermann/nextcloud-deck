@@ -12,6 +12,7 @@
     <string name="simple_boards">Táblák</string>
     <string name="simple_add">Hozzáadás</string>
     <string name="simple_save">Mentés</string>
+    <string name="simple_more">Továbbiak</string>
 
     <string name="edit_board">Tábla szerkesztése</string>
     <string name="archive_board">Tábla archiválása</string>
@@ -126,4 +127,5 @@
     <string name="action_card_move">Kártya áthelyezése</string>
     <string name="action_card_move_title">%1$s áthelyezése</string>
     <string name="simple_copied">Másolva</string>
+    <string name="server_error">Szerver hiba</string>
     </resources>
