@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.model.ocs;
+package it.niedermann.nextcloud.deck.model.ocs.comment;
 
 public class Mention {
     private Long id;

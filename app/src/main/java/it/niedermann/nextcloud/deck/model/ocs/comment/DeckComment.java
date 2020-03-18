@@ -1,9 +1,11 @@
-package it.niedermann.nextcloud.deck.model.ocs;
+package it.niedermann.nextcloud.deck.model.ocs.comment;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +33,8 @@ public class DeckComment extends AbstractRemoteEntity {
     private String actorId;
     private String actorDisplayName;
     private String message;
-    private List<Mention> mentions;
+    @Ignore
+    private List<Mention> mentions = new ArrayList<>();
 
     public  DeckComment() {
     }
@@ -43,12 +46,28 @@ public class DeckComment extends AbstractRemoteEntity {
         setMessage(message);
     }
 
+    public Long getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(Long objectId) {
+        this.objectId = objectId;
+    }
+
     public String getActorType() {
         return actorType;
     }
 
+    public void setActorType(String actorType) {
+        this.actorType = actorType;
+    }
+
     public Date getCreationDateTime() {
         return creationDateTime;
+    }
+
+    public void setCreationDateTime(Date creationDateTime) {
+        this.creationDateTime = creationDateTime;
     }
 
     public String getActorId() {
@@ -71,11 +90,23 @@ public class DeckComment extends AbstractRemoteEntity {
         return message;
     }
 
+    public List<Mention> getMentions() {
+        return mentions;
+    }
+
+    public void setMentions(List<Mention> mentions) {
+        this.mentions = mentions;
+    }
+
     public void setMessage(String message) {
         if (message!= null && message.length() > MAX_MESSAGE_LENGTH) {
             throw new IllegalArgumentException("The server won't accept messages longer than "+MAX_MESSAGE_LENGTH+" characters!");
         }
         this.message = message;
+    }
+
+    public void addMention(Mention mention) {
+        mentions.add(mention);
     }
 
     @Override

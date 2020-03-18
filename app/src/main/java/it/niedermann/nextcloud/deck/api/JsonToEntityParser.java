@@ -28,8 +28,10 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
-import it.niedermann.nextcloud.deck.model.ocs.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
+import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 
 public class JsonToEntityParser {
     private static SimpleDateFormat formatter = new SimpleDateFormat(GsonConfig.DATE_PATTERN);
@@ -53,19 +55,59 @@ public class JsonToEntityParser {
             return (T) parseCapabilities(obj);
         } else if (mType == Attachment.class) {
             return (T) parseAttachment(obj);
-        } else if (mType == DeckComment.class) {
-            return (T) parseComment(obj);
+        } else if (mType == OcsComment.class) {
+            return (T) parseOcsComment(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
     }
 
-    private static DeckComment parseComment(JsonObject obj) {
-        DeckComment comment = new DeckComment();
+    private static OcsComment parseOcsComment(JsonObject obj) {
+        DeckLog.log(obj.toString());
+        OcsComment comment = new OcsComment();
         JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
         if (data.isJsonArray()) {
-            //FIXME: problem: we get one object (ocs->data), which might be an array. gsonConfig cant tell apart.
+            for (JsonElement deckComment : data.getAsJsonArray()) {
+                comment.addComment(parseDeckComment(deckComment));
+            }
+        } else {
+            comment.addComment(parseDeckComment(data));
         }
         return comment;
+    }
+
+    private static DeckComment parseDeckComment(JsonElement data) {
+        DeckLog.log(data.toString());
+        JsonObject commentJson = data.getAsJsonObject();
+        DeckComment deckComment = new DeckComment();
+
+        deckComment.setId(commentJson.get("id").getAsLong());
+        deckComment.setObjectId(commentJson.get("objectId").getAsLong());
+        deckComment.setMessage(commentJson.get("message").getAsString());
+        deckComment.setActorId(commentJson.get("actorId").getAsString());
+        deckComment.setActorDisplayName(commentJson.get("actorDisplayName").getAsString());
+        deckComment.setActorType(commentJson.get("actorType").getAsString());
+        deckComment.setCreationDateTime(getTimestampFromString(commentJson.get("creationDateTime")));
+
+        JsonElement mentions = commentJson.get("mentions");
+        if (mentions != null && mentions.isJsonArray()) {
+            for (JsonElement mention : mentions.getAsJsonArray()) {
+                parseMention(mention);
+            }
+        }
+
+        return deckComment;
+    }
+
+    private static Mention parseMention(JsonElement mentionJson) {
+        Mention mention = new Mention();
+        DeckLog.log(mentionJson.toString());
+
+        JsonObject mentionObject = mentionJson.getAsJsonObject();
+        mention.setMentionId(mentionObject.get("mentionId").getAsString());
+        mention.setMentionType(mentionObject.get("mentionType").getAsString());
+        mention.setMentionDisplayName(mentionObject.get("mentionDisplayName").getAsString());
+
+        return mention;
     }
 
 
