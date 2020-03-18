@@ -21,7 +21,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -221,15 +220,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     private void setupLabels(@NonNull ChipGroup labels, List<Label> labelList) {
         Chip chip;
         for (int i = 0; i < labelList.size(); i++) {
-            if (i > maxLabelsShown - 1 && labelList.size() > maxLabelsShown) {
-                chip = new Chip(context);
-                chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
-                chip.setEnsureMinTouchTargetSize(false);
-                chip.setTextStartPadding(0);
-                chip.setTextEndPadding(0);
-                labels.addView(chip);
-                break;
-            }
+//            if (i > maxLabelsShown - 1 && labelList.size() > maxLabelsShown) {
+//                chip = new Chip(context);
+//                chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
+//                chip.setEnsureMinTouchTargetSize(false);
+//                chip.setTextStartPadding(0);
+//                chip.setTextEndPadding(0);
+//                labels.addView(chip);
+//                break;
+//            }
             Label label = labelList.get(i);
             chip = new Chip(context);
             chip.setEnsureMinTouchTargetSize(false);
@@ -242,6 +241,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
             } else {
                 chip.setText(labelTitle.substring(0, 1));
             }
+            chip.setText(labelTitle);
 
             try {
                 int labelColor = Color.parseColor("#" + label.getColor());

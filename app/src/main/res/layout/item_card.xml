@@ -56,17 +56,6 @@
                 app:srcCompat="@drawable/ic_sync_blue_24dp"
                 tools:visibility="visible" />
 
-            <TextView
-                android:id="@+id/card_due_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/due_tomorrow_background"
-                android:maxLines="1"
-                android:minLines="0"
-                android:padding="@dimen/standard_quarter_padding"
-                tools:text="tomorrow" />
-
             <ImageView
                 android:id="@+id/card_menu"
                 android:layout_width="wrap_content"
@@ -93,6 +82,18 @@
             android:textSize="16sp"
             tools:text="This is a card description" />
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/labels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_half_margin"
+            android:layout_marginBottom="@dimen/standard_half_margin"
+            android:layout_weight="1"
+            android:animateLayoutChanges="true"
+            app:chipSpacingHorizontal="6dp"
+            app:chipSpacingVertical="6dp"
+            app:singleLine="false" />
+
         <LinearLayout
             android:id="@+id/card_details_container"
             android:layout_width="match_parent"
@@ -101,14 +102,16 @@
             android:layout_marginBottom="@dimen/standard_quarter_margin"
             android:orientation="horizontal">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/labels"
+            <TextView
+                android:id="@+id/card_due_date"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/standard_half_margin"
-                android:layout_marginRight="@dimen/standard_half_margin"
-                android:layout_weight="1"
-                android:animateLayoutChanges="true" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/due_tomorrow_background"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="@dimen/standard_quarter_padding"
+                tools:text="tomorrow" />
 
             <RelativeLayout
                 android:layout_width="0dp"
