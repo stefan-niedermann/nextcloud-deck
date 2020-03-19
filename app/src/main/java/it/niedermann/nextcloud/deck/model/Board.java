@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.model;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Date;
@@ -26,6 +27,7 @@ public class Board extends AbstractRemoteEntity {
 
     }
 
+    @Ignore
     public Board(String title, String color) {
         this.title = title;
         this.color = color;
