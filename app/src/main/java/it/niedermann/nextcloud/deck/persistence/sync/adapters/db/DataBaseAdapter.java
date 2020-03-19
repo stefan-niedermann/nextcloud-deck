@@ -649,4 +649,8 @@ public class DataBaseAdapter {
     public void deleteComment(DeckComment comment) {
         // FIXME impl
     }
+
+    public List<DeckComment> getLocallyChangedComments(long accountId) {
+        // FIXME impl
+    }
 }
