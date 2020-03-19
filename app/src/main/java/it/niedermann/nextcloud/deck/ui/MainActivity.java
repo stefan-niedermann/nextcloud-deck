@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -17,18 +16,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -36,9 +31,6 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.h6ah4i.android.tablayouthelper.TabLayoutHelper;
@@ -52,7 +44,6 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -71,7 +62,6 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
-import it.niedermann.nextcloud.deck.ui.board.AccessControlDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -82,6 +72,9 @@ import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment.OnScrollListener;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
+import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
+import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerAccountListener;
+import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerBoardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -93,16 +86,16 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.NO_STACK_ID;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOUNT;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
 
-public class MainActivity extends AppCompatActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, DrawerBoardListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
 
-    protected static final int MENU_ID_ABOUT = -1;
-    protected static final int MENU_ID_ADD_BOARD = -2;
-    protected static final int MENU_ID_SETTINGS = -3;
-    protected static final int MENU_ID_ADD_ACCOUNT = -2;
     protected static final int ACTIVITY_ABOUT = 1;
     protected static final int ACTIVITY_SETTINGS = 2;
     protected static final long NO_ACCOUNTS = -1;
@@ -117,11 +110,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
     private String sharedPreferencesLastBoardForAccount_;
     private String sharedPreferencesLastStackForAccountAndBoard_;
-    private String simpleSettings;
-    private String simpleBoards;
-    private String about;
-    private String shareBoard;
-    private String editBoard;
     private String addColumn;
     private String addBoard;
 
@@ -141,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     private String accountAlreadyAdded;
     private String sharedPreferenceLastAccount;
     private String urlFragmentUpdateDeck;
-    private String addAccount;
     private int minimumServerAppMajor;
     private int minimumServerAppMinor;
     private int minimumServerAppPatch;
@@ -162,17 +149,11 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
         sharedPreferencesLastBoardForAccount_ = getString(R.string.shared_preference_last_board_for_account_);
         sharedPreferencesLastStackForAccountAndBoard_ = getString(R.string.shared_preference_last_stack_for_account_and_board_);
-        simpleSettings = getString(R.string.simple_settings);
-        simpleBoards = getString(R.string.simple_boards);
-        about = getString(R.string.about);
-        shareBoard = getString(R.string.share_board);
-        editBoard = getString(R.string.edit_board);
         addColumn = getString(R.string.add_column);
         addBoard = getString(R.string.add_board);
         accountAlreadyAdded = getString(R.string.account_already_added);
         sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
         urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
-        addAccount = getString(R.string.add_account);
         minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
         minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
         minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
@@ -343,17 +324,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-//    @Override
-//    protected void onSaveInstanceState(@NonNull Bundle outState) {
-//        DeckLog.log("onSaveInstanceState");
-//        if (this.currentAccount == null) {
-//            DeckLog.log("--- Remove: shared_preference_last_account");
-//            editor.remove(sharedPreferenceLastAccount);
-//        } else {
-//        }
-//        super.onSaveInstanceState(outState);
-//    }
-
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -433,6 +403,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             if (boards == null) {
                 throw new IllegalStateException("List<Board> boards must not be null.");
             }
+
             boardsList = boards;
 
             for (int i = 0; i < boardsList.size(); i++) {
@@ -514,129 +485,15 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     private void inflateAccountMenu() {
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        int index = 0;
-        for (Account account : this.accountsList) {
-            final int currentIndex = index;
-            MenuItem m = menu.add(Menu.NONE, index++, Menu.NONE, account.getName()).setIcon(R.drawable.ic_person_grey600_24dp);
-            AppCompatImageButton contextMenu = new AppCompatImageButton(this);
-            contextMenu.setBackgroundDrawable(null);
-
-            String uri = account.getUrl() + "/index.php/avatar/" + Uri.encode(account.getUserName()) + "/56";
-            Glide.with(this)
-                    .load(uri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(new CustomTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                            m.setIcon(resource);
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                        }
-                    });
-
-            contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_delete_black_24dp, R.color.grey600));
-            contextMenu.setOnClickListener((v) -> {
-                if (currentIndex != 0) { // Select first account after deletion
-                    setCurrentAccount(accountsList.get(0));
-                } else if (accountsList.size() > 1) { // Select second account after deletion
-                    setCurrentAccount(accountsList.get(1));
-                }
-
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                Map<String, ?> allEntries = sharedPreferences.getAll();
-                DeckLog.log("--- Remove: " + sharedPreferencesLastBoardForAccount_ + account.getId());
-                editor.remove(sharedPreferencesLastBoardForAccount_ + account.getId());
-                for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-                    if (entry.getKey().startsWith(sharedPreferencesLastStackForAccountAndBoard_ + account.getId())) {
-                        DeckLog.log("--- Remove: " + entry.getKey());
-                        editor.remove(entry.getKey());
-                    }
-                }
-                DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + currentAccount.getId() + "_" + currentBoardId + " | " + currentStackId);
-                editor.apply();
-
-                syncManager.deleteAccount(account.getId());
-            });
-            m.setActionView(contextMenu);
-        }
-        menu.add(Menu.NONE, MainActivity.MENU_ID_ADD_ACCOUNT, Menu.NONE, addAccount).setIcon(R.drawable.ic_person_add_black_24dp);
+        DrawerMenuUtil.inflateAccounts(this, menu, this.accountsList);
     }
 
     protected void inflateBoardMenu() {
+
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        SubMenu boardsMenu = menu.addSubMenu(simpleBoards);
-        int index = 0;
-        for (Board board : boardsList) {
-            final int currentIndex = index;
-            MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(this, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
-            if (board.isPermissionManage()) {
-                AppCompatImageButton contextMenu = new AppCompatImageButton(this);
-                contextMenu.setBackgroundDrawable(null);
-                contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_menu, R.color.grey600));
-                contextMenu.setOnClickListener((v) -> {
-                    PopupMenu popup = new PopupMenu(MainActivity.this, contextMenu);
-                    popup.getMenuInflater().inflate(R.menu.navigation_context_menu, popup.getMenu());
-                    final int SHARE_BOARD_ID = -1;
-                    if (board.isPermissionShare()) {
-                        MenuItem shareItem = popup.getMenu().add(Menu.NONE, SHARE_BOARD_ID, 5, R.string.share_board);
-                    }
-                    popup.setOnMenuItemClickListener((MenuItem item) -> {
-                        switch (item.getItemId()) {
-                            case SHARE_BOARD_ID:
-                                AccessControlDialogFragment.newInstance(currentAccount.getId(), board.getLocalId()).show(getSupportFragmentManager(), shareBoard);
-                                break;
-                            case R.id.edit_board:
-                                EditBoardDialogFragment.newInstance(currentAccount.getId(), board.getLocalId()).show(getSupportFragmentManager(), editBoard);
-                                break;
-                            case R.id.archive_board:
-                                // TODO implement
-                                Snackbar.make(binding.drawerLayout, "Archiving boards is not yet supported.", Snackbar.LENGTH_LONG).show();
-                                break;
-                            case R.id.delete_board:
-                                new DeleteDialogBuilder(this)
-                                        .setTitle(getString(R.string.delete_something, board.getTitle()))
-                                        .setMessage(R.string.delete_board_message)
-                                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
-                                            if (board.getLocalId() == currentBoardId) {
-                                                if (currentIndex > 0) { // Select first board after deletion
-                                                    setCurrentBoard(boardsList.get(0));
-                                                } else if (boardsList.size() > 1) { // Select second board after deletion
-                                                    setCurrentBoard(boardsList.get(1));
-                                                } else { // No other board is available, open create dialog
-                                                    binding.toolbar.setTitle(R.string.app_name_short);
-                                                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
-                                                }
-                                            }
-                                            syncManager.deleteBoard(board);
-                                            binding.drawerLayout.closeDrawer(GravityCompat.START);
-                                        })
-                                        .setNegativeButton(android.R.string.cancel, null)
-                                        .show();
-                                break;
-                        }
-                        return true;
-                    });
-                    popup.show();
-                });
-                m.setActionView(contextMenu);
-            } else if (board.isPermissionShare()) {
-                AppCompatImageButton contextMenu = new AppCompatImageButton(this);
-                contextMenu.setBackgroundDrawable(null);
-                contextMenu.setImageDrawable(ViewUtil.getTintedImageView(this, R.drawable.ic_share_grey600_18dp, R.color.grey600));
-                contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(currentAccount.getId(), board.getLocalId()).show(getSupportFragmentManager(), shareBoard));
-                m.setActionView(contextMenu);
-            }
-        }
-
-        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
-
-        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, simpleSettings).setIcon(R.drawable.ic_settings_grey600_24dp);
-        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, about).setIcon(R.drawable.ic_info_outline_grey_24dp);
+        DrawerMenuUtil.inflateBoards(this, menu, currentAccount.getId(), currentBoardId, this.boardsList);
     }
 
     @Override
@@ -644,7 +501,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         if (accountChooserActive) {
             //noinspection SwitchStatementWithTooFewBranches
             switch (item.getItemId()) {
-                case MainActivity.MENU_ID_ADD_ACCOUNT:
+                case MENU_ID_ADD_ACCOUNT:
                     if (deckVersionTooLowSnackbar != null) {
                         deckVersionTooLowSnackbar.dismiss();
                     }
@@ -664,15 +521,15 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             }
         } else {
             switch (item.getItemId()) {
-                case MainActivity.MENU_ID_ABOUT:
+                case MENU_ID_ABOUT:
                     Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
                     startActivityForResult(aboutIntent, MainActivity.ACTIVITY_ABOUT);
                     break;
-                case MainActivity.MENU_ID_SETTINGS:
+                case MENU_ID_SETTINGS:
                     Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
                     startActivityForResult(settingsIntent, MainActivity.ACTIVITY_SETTINGS);
                     break;
-                case MainActivity.MENU_ID_ADD_BOARD:
+                case MENU_ID_ADD_BOARD:
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
                     break;
                 default:
@@ -804,6 +661,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                                             } else {
                                                 SyncWorker.update(getApplicationContext());
                                                 accountIsGettingImportedSnackbar.show();
+                                                setCurrentAccount(account);
                                             }
                                         }
                                     });
@@ -878,5 +736,32 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             }
             connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
         }
+    }
+
+    @Override
+    public void onAccountChosen(@NonNull Account account) {
+        setCurrentAccount(account);
+    }
+
+    @Override
+    public void onAccountDeleted(@NonNull Long accountId) {
+        syncManager.deleteAccount(accountId);
+    }
+
+    @Override
+    public void onBoardChosen(@NonNull Board board) {
+        setCurrentBoard(board);
+    }
+
+    @Override
+    public void onBoardDeleted(@NonNull Board board) {
+        syncManager.deleteBoard(board);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void onLastBoardDeleted() {
+        binding.toolbar.setTitle(R.string.app_name_short);
+        EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
     }
 }

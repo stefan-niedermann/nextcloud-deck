@@ -8,8 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import java.util.Objects;
-
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardCreateBinding;
@@ -50,7 +48,7 @@ public class EditBoardDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         binding = DialogBoardCreateBinding.inflate(requireActivity().getLayoutInflater());
 
-        Long boardId = Objects.requireNonNull(getArguments()).getLong(KEY_BOARD_ID);
+        Long boardId = requireArguments().getLong(KEY_BOARD_ID);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
 
@@ -65,7 +63,7 @@ public class EditBoardDialogFragment extends DialogFragment {
                 this.fullBoard.board.setTitle(binding.input.getText().toString());
                 editBoardListener.onUpdateBoard(fullBoard);
             });
-            new SyncManager(requireActivity()).getFullBoardById(Objects.requireNonNull(getArguments()).getLong(KEY_ACCOUNT_ID), boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
+            new SyncManager(requireActivity()).getFullBoardById(requireArguments().getLong(KEY_ACCOUNT_ID), boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 if (fb.board != null) {
                     this.fullBoard = fb;
                     String title = this.fullBoard.getBoard().getTitle();
