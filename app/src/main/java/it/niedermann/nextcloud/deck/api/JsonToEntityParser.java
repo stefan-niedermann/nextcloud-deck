@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.api;
 
-import android.util.Log;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -46,9 +43,9 @@ public class JsonToEntityParser {
             return (T) parseStack(obj);
         } else if (mType == Label.class) {
             return (T) parseLabel(obj);
-        }  else if (mType == Activity.class) {
+        } else if (mType == Activity.class) {
             return (T) parseActivity(obj);
-        }  else if (mType == Capabilities.class) {
+        } else if (mType == Capabilities.class) {
             return (T) parseCapabilities(obj);
         } else if (mType == Attachment.class) {
             return (T) parseAttachment(obj);
@@ -91,7 +88,7 @@ public class JsonToEntityParser {
 
         if (e.has("acl") && !e.get("acl").isJsonNull()) {
             JsonElement assignedUsers = e.get("acl");
-            if (assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() > 0){
+            if (assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() > 0) {
                 JsonArray assignedUsersArray = assignedUsers.getAsJsonArray();
 
                 List<AccessControl> acl = new ArrayList<>();
@@ -106,19 +103,19 @@ public class JsonToEntityParser {
         if (e.has("permissions")) {
             JsonElement permissions = e.get("permissions");
             JsonObject permissionsObject = permissions.getAsJsonObject();
-            if (permissionsObject.has("PERMISSION_READ")){
+            if (permissionsObject.has("PERMISSION_READ")) {
                 JsonElement read = permissionsObject.get("PERMISSION_READ");
                 fullBoard.getBoard().setPermissionRead(read.getAsBoolean());
             }
-            if (permissionsObject.has("PERMISSION_EDIT")){
+            if (permissionsObject.has("PERMISSION_EDIT")) {
                 JsonElement read = permissionsObject.get("PERMISSION_EDIT");
                 fullBoard.getBoard().setPermissionEdit(read.getAsBoolean());
             }
-            if (permissionsObject.has("PERMISSION_MANAGE")){
+            if (permissionsObject.has("PERMISSION_MANAGE")) {
                 JsonElement read = permissionsObject.get("PERMISSION_MANAGE");
                 fullBoard.getBoard().setPermissionManage(read.getAsBoolean());
             }
-            if (permissionsObject.has("PERMISSION_SHARE")){
+            if (permissionsObject.has("PERMISSION_SHARE")) {
                 JsonElement read = permissionsObject.get("PERMISSION_SHARE");
                 fullBoard.getBoard().setPermissionShare(read.getAsBoolean());
             }
@@ -127,14 +124,14 @@ public class JsonToEntityParser {
         JsonElement owner = e.get("owner");
         if (owner != null) {
             if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                Log.d(DeckConsts.DEBUG_TAG, "owner is Primitive, skipping");
+                DeckLog.verbose("owner is Primitive, skipping");
             } else
                 fullBoard.setOwner(parseUser(owner.getAsJsonObject()));
         }
         return fullBoard;
     }
 
-    protected static AccessControl parseAcl(JsonObject aclJson){
+    protected static AccessControl parseAcl(JsonObject aclJson) {
         DeckLog.verbose(aclJson.toString());
         AccessControl acl = new AccessControl();
 
@@ -262,7 +259,7 @@ public class JsonToEntityParser {
         DeckLog.verbose(e.toString());
         Capabilities capabilities = new Capabilities();
 
-        if (e.has("ocs")){
+        if (e.has("ocs")) {
             JsonObject ocs = e.getAsJsonObject("ocs");
             if (ocs.has("data")) {
                 JsonObject data = ocs.getAsJsonObject("data");
@@ -282,9 +279,9 @@ public class JsonToEntityParser {
                         JsonObject deck = caps.getAsJsonObject("deck");
                         if (deck.has("version")) {
                             String version = deck.get("version").getAsString();
-                            if (version != null && !version.trim().isEmpty()){
+                            if (version != null && !version.trim().isEmpty()) {
                                 String[] split = version.split("\\.");
-                                if (split.length > 0){
+                                if (split.length > 0) {
                                     major = Integer.parseInt(split[0]);
                                     if (split.length > 1) {
                                         minor = Integer.parseInt(split[1]);
@@ -307,7 +304,7 @@ public class JsonToEntityParser {
         DeckLog.verbose(e.toString());
         List<Activity> activityList = new ArrayList<>();
 
-        if (e.has("ocs")){
+        if (e.has("ocs")) {
             JsonObject ocs = e.getAsJsonObject("ocs");
             if (ocs.has("data")) {
                 JsonArray data = ocs.getAsJsonArray("data");
@@ -316,7 +313,7 @@ public class JsonToEntityParser {
                     JsonObject activityObject = activityJson.getAsJsonObject();
 
                     activity.setId(activityObject.get("activity_id").getAsLong());
-                    activity.setType(ActivityType.findByPath(getNullAsEmptyString(activityObject.get( "icon"))).getId());
+                    activity.setType(ActivityType.findByPath(getNullAsEmptyString(activityObject.get("icon"))).getId());
                     activity.setSubject(getNullAsEmptyString(activityObject.get("subject")));
                     activity.setCardId(activityObject.get("object_id").getAsLong());
                     activity.setLastModified(getTimestampFromString(activityObject.get("datetime")));
@@ -382,7 +379,7 @@ public class JsonToEntityParser {
         if (jsonElement.isJsonNull()) {
             return null;
         } else {
-            return new Date (jsonElement.getAsLong() * 1000);
+            return new Date(jsonElement.getAsLong() * 1000);
         }
     }
 }

@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -101,30 +100,27 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     protected static final long NO_ACCOUNTS = -1;
     protected static final long NO_BOARDS = -1;
     protected static final long NO_STACKS = -1;
+
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
     protected Account currentAccount;
     protected boolean accountChooserActive = false;
     protected SyncManager syncManager;
     protected SharedPreferences sharedPreferences;
-
-    private String sharedPreferencesLastBoardForAccount_;
-    private String sharedPreferencesLastStackForAccountAndBoard_;
-    private String addColumn;
-    private String addBoard;
-
     private StackAdapter stackAdapter;
     @NonNull
     private List<Board> boardsList = new ArrayList<>();
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
-
     private long currentBoardId = 0;
     private long currentStackId = 0;
 
     private boolean currentBoardHasEditPermission = false;
     private boolean currentBoardHasStacks = false;
     private boolean firstAccountAdded = false;
+    private Snackbar deckVersionTooLowSnackbar = null;
+    private Snackbar accountIsGettingImportedSnackbar;
+    private ConnectivityManager.NetworkCallback networkCallback;
 
     private String accountAlreadyAdded;
     private String sharedPreferenceLastAccount;
@@ -132,9 +128,10 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     private int minimumServerAppMajor;
     private int minimumServerAppMinor;
     private int minimumServerAppPatch;
-    private Snackbar deckVersionTooLowSnackbar = null;
-    private Snackbar accountIsGettingImportedSnackbar;
-    private ConnectivityManager.NetworkCallback networkCallback;
+    private String sharedPreferencesLastBoardForAccount_;
+    private String sharedPreferencesLastStackForAccountAndBoard_;
+    private String addColumn;
+    private String addBoard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -519,8 +516,8 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                         AccountImporter.pickNewAccount(this);
                     } catch (NextcloudFilesAppNotInstalledException e) {
                         UiExceptionManager.showDialogForException(this, e);
-                        Log.w("Deck", "=============================================================");
-                        Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
+                        DeckLog.warn("=============================================================");
+                        DeckLog.warn("Nextcloud app is not installed. Cannot choose account");
                         e.printStackTrace();
                     } catch (AndroidGetAccountsPermissionNotGranted e) {
                         AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
@@ -576,16 +573,17 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                             });
                         })
                         .setNegativeButton(android.R.string.cancel, null).show();
-                break;
+                return true;
             case R.id.action_card_list_rename_column:
                 long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId();
                 observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack -> {
                     EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
                             .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
                 });
-                break;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     protected void showFabIfEditPermissionGranted() {
@@ -629,6 +627,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 }
                 break;
             default:
+                // TODO Merge with ImportAccountActivity
                 try {
                     AccountImporter.onActivityResult(requestCode, resultCode, data, this, (account) -> {
                         final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));

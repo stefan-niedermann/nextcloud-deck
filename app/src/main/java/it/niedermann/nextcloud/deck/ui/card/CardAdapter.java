@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -249,7 +248,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
                 chip.setChipBackgroundColor(c);
                 chip.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));
             } catch (IllegalArgumentException e) {
-                Log.e(TAG, "error parsing label color", e);
+                DeckLog.logError(e);
             }
 
             labels.addView(chip);

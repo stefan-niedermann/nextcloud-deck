@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -25,6 +24,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
@@ -37,7 +37,6 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
-import static androidx.constraintlayout.widget.Constraints.TAG;
 import static it.niedermann.nextcloud.deck.ui.AttachmentsActivity.BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -118,7 +117,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
                 final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
                 if (clipboardManager == null) {
-                    Log.e(TAG, "clipboardManager is null");
+                    DeckLog.warn("clipboardManager is null");
                     return false;
                 } else {
                     clipboardManager.setPrimaryClip(clipData);
