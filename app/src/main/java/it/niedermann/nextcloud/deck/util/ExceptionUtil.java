@@ -129,6 +129,27 @@ public class ExceptionUtil {
                             ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);
                         })
                         .show();
+                break;
+            }
+            default: {
+                Snackbar.make(targetView, R.string.error, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_more, v -> {
+                            AlertDialog dialog = new AlertDialog.Builder(activity)
+                                    .setTitle(R.string.server_error)
+                                    .setMessage(debugInfos)
+                                    .setPositiveButton(android.R.string.copy, (a, b) -> {
+                                        ClipData clipData = ClipData.newPlainText(activity.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
+                                        Objects.requireNonNull(clipboardManager).setPrimaryClip(clipData);
+                                        Toast.makeText(activity.getApplicationContext(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+                                        a.dismiss();
+                                    })
+                                    .setNegativeButton(R.string.simple_close, null)
+                                    .create();
+                            dialog.show();
+                            ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);
+                        })
+                        .show();
+                break;
             }
         }
 

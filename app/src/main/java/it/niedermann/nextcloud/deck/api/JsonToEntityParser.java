@@ -60,7 +60,7 @@ public class JsonToEntityParser {
     protected static FullBoard parseBoard(JsonObject e) {
         FullBoard fullBoard = new FullBoard();
 
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
         board.setColor(getNullAsEmptyString(e.get("color")));
@@ -135,7 +135,7 @@ public class JsonToEntityParser {
     }
 
     protected static AccessControl parseAcl(JsonObject aclJson){
-        DeckLog.log(aclJson.toString());
+        DeckLog.verbose(aclJson.toString());
         AccessControl acl = new AccessControl();
 
         if (aclJson.has("participant") && !aclJson.get("participant").isJsonNull()) {
@@ -156,7 +156,7 @@ public class JsonToEntityParser {
     }
 
     protected static FullCard parseCard(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         FullCard fullCard = new FullCard();
         Card card = new Card();
         fullCard.setCard(card);
@@ -211,7 +211,7 @@ public class JsonToEntityParser {
         JsonElement owner = e.get("owner");
         if (owner != null) {
             if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                DeckLog.log("owner is Primitive, skipping");
+                DeckLog.verbose("owner is Primitive, skipping");
             } else
                 fullCard.setOwner(parseUser(owner.getAsJsonObject()));
         }
@@ -221,7 +221,7 @@ public class JsonToEntityParser {
     }
 
     protected static Attachment parseAttachment(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         Attachment a = new Attachment();
         a.setId(e.get("id").getAsLong());
         a.setCardId(e.get("cardId").getAsLong());
@@ -250,7 +250,7 @@ public class JsonToEntityParser {
     }
 
     protected static User parseUser(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         User user = new User();
         user.setDisplayname(getNullAsEmptyString(e.get("displayname")));
         user.setPrimaryKey(getNullAsEmptyString(e.get("primaryKey")));
@@ -259,7 +259,7 @@ public class JsonToEntityParser {
     }
 
     protected static Capabilities parseCapabilities(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         Capabilities capabilities = new Capabilities();
 
         if (e.has("ocs")){
@@ -304,7 +304,7 @@ public class JsonToEntityParser {
     }
 
     protected static List<Activity> parseActivity(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         List<Activity> activityList = new ArrayList<>();
 
         if (e.has("ocs")){
@@ -329,7 +329,7 @@ public class JsonToEntityParser {
     }
 
     protected static FullStack parseStack(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         FullStack fullStack = new FullStack();
         Stack stack = new Stack();
         stack.setTitle(getNullAsEmptyString(e.get("title")));
@@ -352,7 +352,7 @@ public class JsonToEntityParser {
     }
 
     protected static Label parseLabel(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         Label label = new Label();
         label.setId(e.get("id").getAsLong());
         //todo: last modified!

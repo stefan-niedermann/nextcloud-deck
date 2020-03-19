@@ -13,7 +13,7 @@ public class StackAdapter extends FragmentStatePagerAdapter {
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
     public StackAdapter(FragmentManager fm) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     @NonNull
