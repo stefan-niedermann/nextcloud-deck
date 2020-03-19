@@ -1,6 +1,24 @@
 package it.niedermann.nextcloud.deck.model.ocs.comment;
 
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+@Entity(inheritSuperIndices = true,
+        indices = {
+                @Index("commentId")
+        },
+        foreignKeys = {
+                @ForeignKey(
+                        entity = DeckComment.class,
+                        parentColumns = "localId",
+                        childColumns = "commentId", onDelete = ForeignKey.CASCADE
+                )
+        }
+)
 public class Mention {
+    @PrimaryKey(autoGenerate = true)
     private Long id;
     private Long commentId;
     private String mentionId;

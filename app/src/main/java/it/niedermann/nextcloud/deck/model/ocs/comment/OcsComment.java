@@ -8,6 +8,13 @@ import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 public class OcsComment implements IRemoteEntity {
     List<DeckComment> comments = new ArrayList<>();
 
+    public OcsComment() {
+    }
+
+    public OcsComment(List<DeckComment> comments) {
+        this.comments = comments;
+    }
+
     public List<DeckComment> getComments() {
         return comments;
     }

@@ -84,7 +84,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
 
     @Override
     public List<OcsComment> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        return dataBaseAdapter.getLocallyChangedComments(accountId);
+        return new OcsComment(dataBaseAdapter.getLocallyChangedComments(accountId)).split();
     }
 
     @Override
