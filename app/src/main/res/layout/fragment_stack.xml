@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
-        android:id="@+id/empty_content_view"
+        android:id="@+id/empty_content_view_stacks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"

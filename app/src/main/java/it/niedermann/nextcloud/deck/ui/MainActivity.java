@@ -360,10 +360,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
     @Override
     public void onCreateBoard(String title, String color) {
-        Board b = new Board();
-        b.setTitle(title);
-        String colorToSet = color.startsWith("#") ? color.substring(1) : color;
-        b.setColor(colorToSet);
+        Board b = new Board(title, color.startsWith("#") ? color.substring(1) : color);
         observeOnce(syncManager.createBoard(currentAccount.getId(), b), this, board -> {
             if (board == null) {
                 Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG);
@@ -406,11 +403,15 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
             boardsList = boards;
 
-            for (int i = 0; i < boardsList.size(); i++) {
-                if (currentBoardId == boardsList.get(i).getLocalId() || currentBoardId == NO_BOARDS) {
-                    setCurrentBoard(boardsList.get(i));
-                    break;
+            if (boardsList.size() > 0) {
+                for (int i = 0; i < boardsList.size(); i++) {
+                    if (currentBoardId == boardsList.get(i).getLocalId() || currentBoardId == NO_BOARDS) {
+                        setCurrentBoard(boardsList.get(i));
+                        break;
+                    }
                 }
+            } else {
+                clearCurrentBoard();
             }
             inflateBoardMenu();
         };
@@ -421,6 +422,15 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         accountChooserActive = false;
         inflateAccountMenu();
         binding.drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    protected void clearCurrentBoard() {
+        binding.toolbar.setTitle(R.string.app_name_short);
+        binding.swipeRefreshLayout.setVisibility(View.GONE);
+        binding.addStackButton.setVisibility(View.GONE);
+        binding.stackLayout.setVisibility(View.GONE);
+        binding.emptyContentViewStacks.setVisibility(View.GONE);
+        binding.emptyContentViewBoards.setVisibility(View.VISIBLE);
     }
 
     protected void setCurrentBoard(@NonNull Board board) {
@@ -440,9 +450,10 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         } else {
             binding.fab.hide();
             binding.addStackButton.setVisibility(View.GONE);
-            binding.emptyContentView.hideDescription();
+            binding.emptyContentViewStacks.hideDescription();
         }
 
+        binding.emptyContentViewBoards.setVisibility(View.GONE);
         binding.stackLayout.setVisibility(View.VISIBLE);
         binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
         syncManager.getStacksForBoard(this.currentAccount.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
@@ -452,10 +463,10 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             currentBoardHasStacks = true;
 
             if (fullStacks.size() == 0) {
-                binding.emptyContentView.setVisibility(View.VISIBLE);
+                binding.emptyContentViewStacks.setVisibility(View.VISIBLE);
                 currentBoardHasStacks = false;
             } else {
-                binding.emptyContentView.setVisibility(View.GONE);
+                binding.emptyContentViewStacks.setVisibility(View.GONE);
                 currentBoardHasStacks = true;
             }
 
@@ -489,7 +500,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     }
 
     protected void inflateBoardMenu() {
-
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
@@ -522,12 +532,10 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         } else {
             switch (item.getItemId()) {
                 case MENU_ID_ABOUT:
-                    Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
-                    startActivityForResult(aboutIntent, MainActivity.ACTIVITY_ABOUT);
+                    startActivityForResult(new Intent(getApplicationContext(), AboutActivity.class), MainActivity.ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_SETTINGS:
-                    Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-                    startActivityForResult(settingsIntent, MainActivity.ACTIVITY_SETTINGS);
+                    startActivityForResult(new Intent(getApplicationContext(), SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);
                     break;
                 case MENU_ID_ADD_BOARD:
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
@@ -623,7 +631,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             default:
                 try {
                     AccountImporter.onActivityResult(requestCode, resultCode, data, this, (account) -> {
-
                         final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
                         accountLiveData.observe(this, (Account createdAccount) -> {
                             if (accountLiveData.hasError()) {
@@ -761,7 +768,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
     @Override
     public void onLastBoardDeleted() {
-        binding.toolbar.setTitle(R.string.app_name_short);
+        clearCurrentBoard();
         EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
     }
 }

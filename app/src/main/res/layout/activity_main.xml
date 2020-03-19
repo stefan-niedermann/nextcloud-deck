@@ -19,7 +19,15 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
-                android:id="@+id/empty_content_view"
+                android:id="@+id/empty_content_view_boards"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:description="@string/add_a_new_board_using_the_button"
+                app:title="@string/no_boards" />
+
+            <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
+                android:id="@+id/empty_content_view_stacks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"

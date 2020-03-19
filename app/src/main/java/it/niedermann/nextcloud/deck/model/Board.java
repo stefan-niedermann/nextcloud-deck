@@ -22,6 +22,15 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 )
 public class Board extends AbstractRemoteEntity {
 
+    public Board() {
+
+    }
+
+    public Board(String title, String color) {
+        this.title = title;
+        this.color = color;
+    }
+
     private String title;
     private long ownerId;
     private String color;
