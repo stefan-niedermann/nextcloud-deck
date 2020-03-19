@@ -52,6 +52,7 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -253,6 +254,13 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
             });
 
+            binding.addStackButton.setOnClickListener((v) -> {
+                if (this.boardsList.size() == 0) {
+                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+                } else {
+                    EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
+                }
+            });
 
             binding.fab.setOnClickListener((View view) -> {
                 if (this.boardsList.size() > 0) {
@@ -269,14 +277,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                     }
                 } else {
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
-                }
-            });
-
-            binding.addStackButton.setOnClickListener((v) -> {
-                if (this.boardsList.size() == 0) {
-                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
-                } else {
-                    EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
                 }
             });
 
@@ -544,6 +544,20 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 } else if (accountsList.size() > 1) { // Select second account after deletion
                     setCurrentAccount(accountsList.get(1));
                 }
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Map<String, ?> allEntries = sharedPreferences.getAll();
+                DeckLog.log("--- Remove: " + sharedPreferencesLastBoardForAccount_ + account.getId());
+                editor.remove(sharedPreferencesLastBoardForAccount_ + account.getId());
+                for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+                    if (entry.getKey().startsWith(sharedPreferencesLastStackForAccountAndBoard_ + account.getId())) {
+                        DeckLog.log("--- Remove: " + entry.getKey());
+                        editor.remove(entry.getKey());
+                    }
+                }
+                DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + currentAccount.getId() + "_" + currentBoardId + " | " + currentStackId);
+                editor.apply();
+
                 syncManager.deleteAccount(account.getId());
             });
             m.setActionView(contextMenu);
@@ -623,6 +637,50 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
         menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, simpleSettings).setIcon(R.drawable.ic_settings_grey600_24dp);
         menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, about).setIcon(R.drawable.ic_info_outline_grey_24dp);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (accountChooserActive) {
+            //noinspection SwitchStatementWithTooFewBranches
+            switch (item.getItemId()) {
+                case MainActivity.MENU_ID_ADD_ACCOUNT:
+                    if (deckVersionTooLowSnackbar != null) {
+                        deckVersionTooLowSnackbar.dismiss();
+                    }
+                    try {
+                        AccountImporter.pickNewAccount(this);
+                    } catch (NextcloudFilesAppNotInstalledException e) {
+                        UiExceptionManager.showDialogForException(this, e);
+                        Log.w("Deck", "=============================================================");
+                        Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
+                        e.printStackTrace();
+                    } catch (AndroidGetAccountsPermissionNotGranted e) {
+                        AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
+                    }
+                    break;
+                default:
+                    setCurrentAccount(accountsList.get(item.getItemId()));
+            }
+        } else {
+            switch (item.getItemId()) {
+                case MainActivity.MENU_ID_ABOUT:
+                    Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
+                    startActivityForResult(aboutIntent, MainActivity.ACTIVITY_ABOUT);
+                    break;
+                case MainActivity.MENU_ID_SETTINGS:
+                    Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                    startActivityForResult(settingsIntent, MainActivity.ACTIVITY_SETTINGS);
+                    break;
+                case MainActivity.MENU_ID_ADD_BOARD:
+                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+                    break;
+                default:
+                    setCurrentBoard(boardsList.get(item.getItemId()));
+            }
+        }
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override
@@ -729,7 +787,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                                         @Override
                                         public void onResponse(Capabilities response) {
                                             if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
-                                                deckVersionTooLowSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
+                                                deckVersionTooLowSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction(R.string.simple_more, v -> {
                                                     new AlertDialog.Builder(MainActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
                                                             .setTitle(R.string.update_deck)
                                                             .setMessage(R.string.deck_outdated_please_update)
@@ -755,6 +813,9 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                                             .setPositiveButton(R.string.simple_close, null)
                                             .show();
                                     syncManager.deleteAccount(createdAccount.getId());
+                                    if (oldAccount == null) {
+                                        throw new IllegalStateException("Could not revert to old account because it was null.");
+                                    }
                                     this.currentAccount = oldAccount;
                                 }
                             }
@@ -775,50 +836,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (accountChooserActive) {
-            //noinspection SwitchStatementWithTooFewBranches
-            switch (item.getItemId()) {
-                case MainActivity.MENU_ID_ADD_ACCOUNT:
-                    if (deckVersionTooLowSnackbar != null) {
-                        deckVersionTooLowSnackbar.dismiss();
-                    }
-                    try {
-                        AccountImporter.pickNewAccount(this);
-                    } catch (NextcloudFilesAppNotInstalledException e) {
-                        UiExceptionManager.showDialogForException(this, e);
-                        Log.w("Deck", "=============================================================");
-                        Log.w("Deck", "Nextcloud app is not installed. Cannot choose account");
-                        e.printStackTrace();
-                    } catch (AndroidGetAccountsPermissionNotGranted e) {
-                        AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
-                    }
-                    break;
-                default:
-                    setCurrentAccount(accountsList.get(item.getItemId()));
-            }
-        } else {
-            switch (item.getItemId()) {
-                case MainActivity.MENU_ID_ABOUT:
-                    Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
-                    startActivityForResult(aboutIntent, MainActivity.ACTIVITY_ABOUT);
-                    break;
-                case MainActivity.MENU_ID_SETTINGS:
-                    Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-                    startActivityForResult(settingsIntent, MainActivity.ACTIVITY_SETTINGS);
-                    break;
-                case MainActivity.MENU_ID_ADD_BOARD:
-                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
-                    break;
-                default:
-                    setCurrentBoard(boardsList.get(item.getItemId()));
-            }
-        }
-        binding.drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
