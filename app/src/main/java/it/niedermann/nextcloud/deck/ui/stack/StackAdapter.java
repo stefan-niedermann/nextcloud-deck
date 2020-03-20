@@ -2,8 +2,7 @@ package it.niedermann.nextcloud.deck.ui.stack;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
@@ -14,18 +13,14 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 
 public class StackAdapter extends FragmentStateAdapter {
     @NonNull
-    private final List<FullStack> stackList = new ArrayList<>();
-    @NonNull
-    private final Account account;
-    private final long boardId;
-    private final boolean canEdit;
+    private List<FullStack> stackList = new ArrayList<>();
+    private Account account;
+    private long boardId;
+    private boolean canEdit;
 
-    public StackAdapter(@NonNull FragmentManager fm, @NonNull Lifecycle lifecycle, @NonNull List<FullStack> stackList, @NonNull Account account, long boardId, boolean canEdit) {
-        super(fm, lifecycle);
-        this.stackList.addAll(stackList);
-        this.account = account;
-        this.boardId = boardId;
-        this.canEdit = canEdit;
+    public StackAdapter(@NonNull FragmentActivity fragmentActivity) {
+        super(fragmentActivity);
+        setHasStableIds(true);
     }
 
     @Override
@@ -37,9 +32,37 @@ public class StackAdapter extends FragmentStateAdapter {
         return stackList.get(position);
     }
 
+    @Override
+    public long getItemId(int position) {
+        return stackList.get(position).getLocalId();
+    }
+
+    @Override
+    public boolean containsItem(long itemId) {
+        for (FullStack stack : stackList) {
+            if (stack.getLocalId() == itemId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         return StackFragment.newInstance(boardId, stackList.get(position).getLocalId(), account, canEdit);
+    }
+
+    public void setStacks(@NonNull List<FullStack> fullStacks, @NonNull Account currentAccount, long currentBoardId, boolean currentBoardHasEditPermission) {
+        this.stackList = fullStacks;
+        this.account = currentAccount;
+        this.boardId = currentBoardId;
+        this.canEdit = currentBoardHasEditPermission;
+        notifyDataSetChanged();
+    }
+
+    public void addStack(FullStack stack) {
+        this.stackList.add(stack);
+        notifyItemInserted(stackList.size() - 1);
     }
 }

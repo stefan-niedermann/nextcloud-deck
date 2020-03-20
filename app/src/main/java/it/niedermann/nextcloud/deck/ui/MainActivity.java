@@ -67,13 +67,13 @@ import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
-import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment.OnScrollListener;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerAccountListener;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerBoardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
+import it.niedermann.nextcloud.deck.util.TabLayoutHelper;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static androidx.lifecycle.Transformations.switchMap;
@@ -222,10 +222,11 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 }
             });
 
-            stackAdapter = new StackAdapter(getSupportFragmentManager());
+            stackAdapter = new StackAdapter(getSupportFragmentManager(), getLifecycle(), new ArrayList<>(), currentAccount, currentBoardId, currentBoardHasEditPermission);
+            binding.viewPager.setAdapter(stackAdapter);
 
             CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
-            dragAndDrop.register(binding.viewPager, binding.stackTitles);
+            dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
             dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
                 syncManager.reorder(currentAccount.getId(), movedCard, stackId, position);
                 DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
@@ -474,21 +475,20 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + this.currentAccount.getId() + "_" + this.currentBoardId + " | " + savedStackId);
 
             int stackPositionInAdapter = 0;
-            stackAdapter = new StackAdapter(getSupportFragmentManager());
+            stackAdapter.setStacks(fullStacks, currentAccount, currentBoardId, currentBoardHasEditPermission);
+
             for (int i = 0; i < fullStacks.size(); i++) {
-                FullStack stack = fullStacks.get(i);
-                stackAdapter.addFragment(StackFragment.newInstance(board.getLocalId(), stack.getStack().getLocalId(), this.currentAccount, currentBoardHasEditPermission), stack.getStack().getTitle());
-                if (stack.getLocalId() == savedStackId) {
+                if (fullStacks.get(i).getLocalId() == savedStackId) {
                     stackPositionInAdapter = i;
+                    break;
                 }
             }
             final int stackPositionInAdapterClone = stackPositionInAdapter;
-            binding.viewPager.setAdapter(stackAdapter);
             runOnUiThread(() -> {
                 TabLayoutHelper.TabTitleGenerator tabTitleGenerator = (position) -> fullStacks.get(position).getStack().getTitle();
-                new TabLayoutMediator(binding.stackLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position))).attach();
-                new TabLayoutHelper(binding.stackLayout, binding.viewPager, tabTitleGenerator).setAutoAdjustTabModeEnabled(true);
-                binding.viewPager.setCurrentItem(stackPositionInAdapter);
+                new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position))).attach();
+                new TabLayoutHelper(binding.stackTitles, binding.viewPager, tabTitleGenerator).setAutoAdjustTabModeEnabled(true);
+                binding.viewPager.setCurrentItem(stackPositionInAdapterClone);
             });
             invalidateOptionsMenu();
         });
@@ -570,7 +570,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                         .setTitle(R.string.action_card_list_delete_column)
                         .setMessage(R.string.do_you_want_to_delete_the_current_column)
                         .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> {
-                            long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId();
+                            long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                             observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack -> {
                                 DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
                                 syncManager.deleteStack(fullStack.getStack());
@@ -579,7 +579,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                         .setNegativeButton(android.R.string.cancel, null).show();
                 return true;
             case R.id.action_card_list_rename_column:
-                long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId();
+                long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                 observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack -> {
                     EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
                             .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
@@ -772,7 +772,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     @Override
     public void onLastBoardDeleted() {
         clearCurrentBoard();
-        stackAdapter.clear();
         EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
     }
 }
