@@ -27,7 +27,6 @@ public interface NextcloudServerAPI {
 
     @Headers({
             "Accept: application/json",
-            "OCS-APIRequest: true",
             "Content-Type: application/json;charset=utf-8"
     })
     @GET("apps/deck/api/v1.0/cards/{cardId}/comments")
@@ -35,7 +34,6 @@ public interface NextcloudServerAPI {
 
     @Headers({
             "Accept: application/json",
-            "OCS-APIRequest: true",
             "Content-Type: application/json;charset=utf-8"
     })
     @POST("apps/deck/api/v1.0/cards/{cardId}/comments")
@@ -43,7 +41,6 @@ public interface NextcloudServerAPI {
 
     @Headers({
             "Accept: application/json",
-            "OCS-APIRequest: true",
             "Content-Type: application/json;charset=utf-8"
     })
     @PUT("apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}")
@@ -51,7 +48,6 @@ public interface NextcloudServerAPI {
 
     @Headers({
             "Accept: application/json",
-            "OCS-APIRequest: true",
             "Content-Type: application/json;charset=utf-8"
     })
     @DELETE("apps/deck/api/v1.0/cards/{cardId}/comments/{commentId}")
