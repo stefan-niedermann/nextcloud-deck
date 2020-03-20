@@ -77,8 +77,8 @@ public class CardActivityFragment extends Fragment {
             });
             if (canEdit) {
                 binding.fab.setOnClickListener(v -> {
-                    Snackbar.make(binding.coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
-//                    CommentDialogFragment.newInstance().show(getActivity().getSupportFragmentManager(), addComment);
+//                    Snackbar.make(binding.coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
+                    CommentDialogFragment.newInstance().show(requireActivity().getSupportFragmentManager(), getString(R.string.simple_comment));
                 });
                 binding.activitiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
