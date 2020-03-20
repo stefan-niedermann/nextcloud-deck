@@ -14,13 +14,14 @@ import it.niedermann.nextcloud.deck.databinding.DialogBoardCreateBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
+import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
+
 public class EditBoardDialogFragment extends DialogFragment {
 
     private DialogBoardCreateBinding binding;
 
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_BOARD_ID = "board_id";
-    private static final Long NO_BOARD_ID = -1L;
 
     private EditBoardListener editBoardListener;
 

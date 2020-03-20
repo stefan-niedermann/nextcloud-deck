@@ -63,7 +63,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
@@ -77,13 +76,15 @@ import it.niedermann.nextcloud.deck.util.TabLayoutHelper;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static androidx.lifecycle.Transformations.switchMap;
+import static it.niedermann.nextcloud.deck.Application.NO_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
+import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOUNT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
@@ -96,9 +97,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
     protected static final int ACTIVITY_ABOUT = 1;
     protected static final int ACTIVITY_SETTINGS = 2;
-    protected static final long NO_ACCOUNTS = -1;
-    protected static final long NO_BOARDS = -1;
-    protected static final long NO_STACKS = -1;
 
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
@@ -112,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
     private long currentBoardId = 0;
-    private long currentStackId = 0;
 
     private boolean currentBoardHasEditPermission = false;
     private boolean currentBoardHasStacks = false;
@@ -122,15 +119,12 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     private ConnectivityManager.NetworkCallback networkCallback;
 
     private String accountAlreadyAdded;
-    private String sharedPreferenceLastAccount;
     private String urlFragmentUpdateDeck;
+    private String addColumn;
+    private String addBoard;
     private int minimumServerAppMajor;
     private int minimumServerAppMinor;
     private int minimumServerAppPatch;
-    private String sharedPreferencesLastBoardForAccount_;
-    private String sharedPreferencesLastStackForAccountAndBoard_;
-    private String addColumn;
-    private String addBoard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,12 +137,9 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
         setContentView(binding.getRoot());
 
-        sharedPreferencesLastBoardForAccount_ = getString(R.string.shared_preference_last_board_for_account_);
-        sharedPreferencesLastStackForAccountAndBoard_ = getString(R.string.shared_preference_last_stack_for_account_and_board_);
         addColumn = getString(R.string.add_column);
         addBoard = getString(R.string.add_board);
         accountAlreadyAdded = getString(R.string.account_already_added);
-        sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
         urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
         minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
         minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
@@ -156,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
         setSupportActionBar(binding.toolbar);
         accountIsGettingImportedSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
-
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -181,11 +171,10 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
             accountsList = accounts;
 
-            long lastAccountId = sharedPreferences.getLong(sharedPreferenceLastAccount, NO_ACCOUNTS);
-            DeckLog.log("--- Read: shared_preference_last_account" + " | " + lastAccountId);
+            long lastAccountId = Application.readCurrentAccountId(this);
 
             for (Account account : accountsList) {
-                if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNTS) {
+                if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNT_ID) {
                     setCurrentAccount(account);
                     if (!firstAccountAdded) {
                         DeckLog.info("Syncing the current account on app start");
@@ -222,15 +211,15 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 }
             });
 
-            stackAdapter = new StackAdapter(getSupportFragmentManager(), getLifecycle(), new ArrayList<>(), currentAccount, currentBoardId, currentBoardHasEditPermission);
+            stackAdapter = new StackAdapter(this);
             binding.viewPager.setAdapter(stackAdapter);
 
-            CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
-            dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
-            dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
-                syncManager.reorder(currentAccount.getId(), movedCard, stackId, position);
-                DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
-            });
+//            CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
+//            dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
+//            dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
+//                syncManager.reorder(currentAccount.getId(), movedCard, stackId, position);
+//                DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
+//            });
 
             binding.addStackButton.setOnClickListener((v) -> {
                 if (this.boardsList.size() == 0) {
@@ -248,16 +237,10 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                     intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     try {
-                        final int currentItem = binding.viewPager.getCurrentItem();
-                        if (stackAdapter.getItemCount() >= currentItem) {
-                            intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(currentItem).getLocalId());
-                            startActivity(intent);
-                        } else {
-                            DeckLog.logError(new IllegalStateException("Tried to get item<" + FullStack.class.getSimpleName() + "> #" + currentItem + " but stackAdapter has only " + stackAdapter.getItemCount()));
-                        }
+                        intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId());
+                        startActivity(intent);
                     } catch (IndexOutOfBoundsException e) {
-                        EditStackDialogFragment.newInstance(NO_STACK_ID)
-                                .show(getSupportFragmentManager(), addColumn);
+                        EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
                     }
                 } else {
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
@@ -273,11 +256,9 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                     binding.viewPager.post(() -> {
                         // stackAdapter size might differ from position when an account has been deleted
                         if (stackAdapter.getItemCount() >= position) {
-                            currentStackId = stackAdapter.getItem(position).getLocalId();
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + currentAccount.getId() + "_" + currentBoardId + " | " + currentStackId);
-                            editor.putLong(sharedPreferencesLastStackForAccountAndBoard_ + currentAccount.getId() + "_" + currentBoardId, currentStackId);
-                            editor.apply();
+                            Application.saveCurrentStackId(getApplicationContext(), currentAccount.getId(), currentBoardId, stackAdapter.getItem(position).getLocalId());
+                        } else {
+                            DeckLog.logError(new IllegalStateException("Tried to save current Stack which cannot be available (stackAdapter doesn't have this position)"));
                         }
                     });
 
@@ -386,13 +367,9 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         this.currentAccount = account;
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.currentAccount.getName());
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        DeckLog.log("--- Write: shared_preference_last_account" + " | " + this.currentAccount.getId());
-        editor.putLong(sharedPreferenceLastAccount, this.currentAccount.getId());
-        editor.apply();
+        Application.saveCurrentAccountId(this, this.currentAccount.getId());
 
-        currentBoardId = sharedPreferences.getLong(sharedPreferencesLastBoardForAccount_ + this.currentAccount.getId(), NO_BOARDS);
-        DeckLog.log("--- Read: shared_preference_last_board_for_account_" + account.getId() + " | " + currentBoardId);
+        currentBoardId = Application.readCurrentBoardId(this, this.currentAccount.getId());
 
         if (boardsLiveData != null && boardsLiveDataObserver != null) {
             boardsLiveData.removeObserver(boardsLiveDataObserver);
@@ -408,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
             if (boardsList.size() > 0) {
                 for (int i = 0; i < boardsList.size(); i++) {
-                    if (currentBoardId == boardsList.get(i).getLocalId() || currentBoardId == NO_BOARDS) {
+                    if (currentBoardId == boardsList.get(i).getLocalId() || currentBoardId == NO_BOARD_ID) {
                         setCurrentBoard(boardsList.get(i));
                         break;
                     }
@@ -438,10 +415,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     protected void setCurrentBoard(@NonNull Board board) {
         this.currentBoardId = board.getLocalId();
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        DeckLog.log("--- Write: shared_preference_last_board_for_account_" + this.currentAccount.getId() + " | " + this.currentBoardId);
-        editor.putLong(sharedPreferencesLastBoardForAccount_ + this.currentAccount.getId(), this.currentBoardId);
-        editor.apply();
+        Application.saveCurrentBoardId(this, currentAccount.getId(), this.currentBoardId);
 
         binding.toolbar.setTitle(board.getTitle());
         currentBoardHasEditPermission = board.isPermissionEdit();
@@ -471,14 +445,11 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 currentBoardHasStacks = true;
             }
 
-            long savedStackId = sharedPreferences.getLong(sharedPreferencesLastStackForAccountAndBoard_ + this.currentAccount.getId() + "_" + this.currentBoardId, NO_STACKS);
-            DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + this.currentAccount.getId() + "_" + this.currentBoardId + " | " + savedStackId);
-
             int stackPositionInAdapter = 0;
             stackAdapter.setStacks(fullStacks, currentAccount, currentBoardId, currentBoardHasEditPermission);
 
             for (int i = 0; i < fullStacks.size(); i++) {
-                if (fullStacks.get(i).getLocalId() == savedStackId) {
+                if (fullStacks.get(i).getLocalId() == Application.readCurrentStackId(this, this.currentAccount.getId(), this.currentBoardId)) {
                     stackPositionInAdapter = i;
                     break;
                 }

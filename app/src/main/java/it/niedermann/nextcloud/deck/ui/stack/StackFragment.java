@@ -72,10 +72,10 @@ public class StackFragment extends Fragment {
             throw new IllegalArgumentException("account and localStackId are required arguments.");
         }
 
-        boardId = getArguments().getLong(KEY_BOARD_ID);
-        stackId = getArguments().getLong(KEY_STACK_ID);
-        account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
-        canEdit = getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION);
+        boardId = requireArguments().getLong(KEY_BOARD_ID);
+        stackId = requireArguments().getLong(KEY_STACK_ID);
+        account = (Account) requireArguments().getSerializable(KEY_ACCOUNT);
+        canEdit = requireArguments().getBoolean(KEY_HAS_EDIT_PERMISSION);
 
         activity = requireActivity();
 
