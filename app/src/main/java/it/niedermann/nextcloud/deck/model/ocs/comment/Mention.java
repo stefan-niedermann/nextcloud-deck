@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.model.ocs.comment;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -28,6 +29,7 @@ public class Mention {
     public Mention() {
     }
 
+    @Ignore
     public Mention(Long commentId, String mentionId, String mentionType, String mentionDisplayName) {
         this.commentId = commentId;
         this.mentionId = mentionId;
