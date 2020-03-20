@@ -37,4 +37,10 @@ public class StackAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return mFragmentList.size();
     }
+
+    public void clear() {
+        this.mFragmentList.clear();
+        this.mFragmentTitleList.clear();
+        notifyDataSetChanged();
+    }
 }

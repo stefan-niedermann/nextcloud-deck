@@ -70,7 +70,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/stackLayout"
+                    android:id="@+id/stackTitles"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

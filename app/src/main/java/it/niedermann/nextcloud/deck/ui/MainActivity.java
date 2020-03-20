@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             stackAdapter = new StackAdapter(getSupportFragmentManager());
 
             CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
-            dragAndDrop.register(binding.viewPager, binding.stackLayout);
+            dragAndDrop.register(binding.viewPager, binding.stackTitles);
             dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
                 syncManager.reorder(currentAccount.getId(), movedCard, stackId, position);
                 DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
@@ -425,7 +425,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         binding.toolbar.setTitle(R.string.app_name_short);
         binding.swipeRefreshLayout.setVisibility(View.GONE);
         binding.addStackButton.setVisibility(View.GONE);
-        binding.stackLayout.setVisibility(View.GONE);
         binding.emptyContentViewStacks.setVisibility(View.GONE);
         binding.emptyContentViewBoards.setVisibility(View.VISIBLE);
     }
@@ -451,7 +450,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         }
 
         binding.emptyContentViewBoards.setVisibility(View.GONE);
-        binding.stackLayout.setVisibility(View.VISIBLE);
         binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
         syncManager.getStacksForBoard(this.currentAccount.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
@@ -482,9 +480,9 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             final int stackPositionInAdapterClone = stackPositionInAdapter;
             binding.viewPager.setAdapter(stackAdapter);
             runOnUiThread(() -> {
-                new TabLayoutHelper(binding.stackLayout, binding.viewPager).setAutoAdjustTabModeEnabled(true);
+                new TabLayoutHelper(binding.stackTitles, binding.viewPager).setAutoAdjustTabModeEnabled(true);
                 binding.viewPager.setCurrentItem(stackPositionInAdapterClone);
-                binding.stackLayout.setupWithViewPager(binding.viewPager);
+                binding.stackTitles.setupWithViewPager(binding.viewPager);
             });
             invalidateOptionsMenu();
         });
@@ -768,6 +766,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     @Override
     public void onLastBoardDeleted() {
         clearCurrentBoard();
+        stackAdapter.clear();
         EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
     }
 }
