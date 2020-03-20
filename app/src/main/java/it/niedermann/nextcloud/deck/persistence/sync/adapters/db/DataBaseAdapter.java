@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -910,6 +911,26 @@ public class DataBaseAdapter {
         SingleCardWidgetModel model = new SingleCardWidgetModel();
         model.setWidgetId(widgetId);
         db.getSingleCardWidgetModelDao().delete(model);
+    }
+
+    public long createStackWidget(int appWidgetId, long accountId, long stackId, boolean darkTheme) {
+        StackWidgetModel model = new StackWidgetModel();
+        model.setAppWidgetId(appWidgetId);
+        model.setAccountId(accountId);
+        model.setStackId(stackId);
+        model.setDarkTheme(darkTheme);
+
+        return db.getStackWidgetModelDao().insert(model);
+    }
+
+    public StackWidgetModel getStackWidgetModel(int appWidgetId) {
+        return db.getStackWidgetModelDao().getStackWidgetByRemoteId(appWidgetId);
+    }
+
+    public void deleteStackWidget(int appWidgetId) {
+        StackWidgetModel model = new StackWidgetModel();
+        model.setAppWidgetId(appWidgetId);
+        db.getStackWidgetModelDao().delete(model);
     }
 
     public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {

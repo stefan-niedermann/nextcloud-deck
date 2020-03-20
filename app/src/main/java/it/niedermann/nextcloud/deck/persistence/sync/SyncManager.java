@@ -36,6 +36,7 @@ import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -1692,6 +1693,23 @@ public class SyncManager {
     @AnyThread
     public void deleteSingleCardWidgetModel(int widgetId) {
         doAsync(() -> dataBaseAdapter.deleteSingleCardWidget(widgetId));
+    }
+
+    public void addStackWidget(int appWidgetId, long accountId, long stackId, boolean darkTheme) {
+        doAsync(() -> dataBaseAdapter.createStackWidget(appWidgetId, accountId, stackId, darkTheme));
+    }
+
+    @WorkerThread
+    public StackWidgetModel getStackWidgetModelDirectly(int appWidgetId) throws NoSuchElementException {
+        final StackWidgetModel model = dataBaseAdapter.getStackWidgetModel(appWidgetId);
+        if (model == null) {
+            throw new NoSuchElementException();
+        }
+        return model;
+    }
+
+    public void deleteStackWidgetModel(int appWidgetId) {
+        doAsync(() -> dataBaseAdapter.deleteStackWidget(appWidgetId));
     }
 
     private static class BooleanResultHolder {

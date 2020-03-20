@@ -126,6 +126,26 @@
             android:name=".ui.exception.ExceptionActivity"
             android:process=":error_activity" />
 
+        <activity
+            android:name=".ui.appwidget.StackWidgetConfigurationActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="it.niedermann.nextcloud.deck.ui.appwidget.StackWidget"
+            android:label="@string/widget_stack_title">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/stack_widget_provider" />
+        </receiver>
+
         <service
             android:name=".ui.tiles.EditCardTileService"
             android:description="@string/add_a_new_card_using_the_button"
@@ -137,6 +157,9 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".ui.appwidget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity
             android:name=".ui.widget.singlecard.SelectCardForWidgetActivity"

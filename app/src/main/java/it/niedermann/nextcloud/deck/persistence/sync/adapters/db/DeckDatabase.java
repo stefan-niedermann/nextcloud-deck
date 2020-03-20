@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -51,6 +52,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
 
 @Database(
@@ -73,6 +75,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 DeckComment.class,
                 Mention.class,
                 SingleCardWidgetModel.class,
+                StackWidgetModel.class,
         },
         exportSchema = false,
         version = 15
@@ -202,6 +205,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_10_11)
                 .addMigrations(MIGRATION_11_12)
                 .addMigrations(MIGRATION_12_13)
+                .addMigrations(MIGRATION_12_13)
                 .addMigrations(MIGRATION_13_14)
                 .addMigrations(new Migration(14, 15) {
                     @Override
@@ -256,4 +260,6 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract MentionDao getMentionDao();
 
     public abstract SingleCardWidgetModelDao getSingleCardWidgetModelDao();
+
+    public abstract StackWidgetModelDao getStackWidgetModelDao();
 }

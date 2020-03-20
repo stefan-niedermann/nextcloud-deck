@@ -13,6 +13,10 @@
     <color name="bg_info_box">#dddddd</color>
     <color name="bg_card">@android:color/white</color>
     <color name="bg_card_wrapper">#fafafa</color>
+    <color name="widget_fg">#000000</color>
+    <color name="widget_entry_fg">#333333</color>
+
+    <color name="avatars_overlapping_border_color">#ffffff</color>
 
     <color name="dark_fg_primary">#e5e5e5</color>
 

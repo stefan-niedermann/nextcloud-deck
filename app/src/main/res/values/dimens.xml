@@ -23,4 +23,10 @@
     <dimen name="drawer_header_subtext">12sp</dimen>
     <dimen name="text_size_attachments">14sp</dimen>
     <dimen name="empty_content_font_size">26sp</dimen>
+
+    <dimen name="widget_stack_card_padding">4dp</dimen>
+    <dimen name="widget_stack_card_width">26dp</dimen>
+    <dimen name="widget_stack_card_height">26dp</dimen>
+    <dimen name="widget_stack_icon_width">30dp</dimen>
+    <dimen name="widget_stack_header_height">36dp</dimen>
 </resources>

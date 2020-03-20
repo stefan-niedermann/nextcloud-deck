@@ -48,9 +48,9 @@ import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSuffici
 
 public class PrepareCreateActivity extends AppCompatActivity implements Branded {
 
-    private ActivityPrepareCreateBinding binding;
+    protected ActivityPrepareCreateBinding binding;
 
-    private SyncManager syncManager;
+    protected SyncManager syncManager;
 
     private boolean brandingEnabled;
 
@@ -58,7 +58,7 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
     private long lastBoardId;
     private long lastStackId;
 
-    private ArrayAdapter<Account> accountAdapter;
+    protected ArrayAdapter<Account> accountAdapter;
     private ArrayAdapter<Board> boardAdapter;
     private ArrayAdapter<FullStack> stackAdapter;
 
@@ -189,7 +189,7 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
     /**
      * Starts EditActivity and passes parameters.
      */
-    private void onSubmit() {
+    protected void onSubmit() {
         final Account account = accountAdapter.getItem(binding.accountSelect.getSelectedItemPosition());
         if (account != null) {
             final long boardId = binding.boardSelect.getSelectedItemId();

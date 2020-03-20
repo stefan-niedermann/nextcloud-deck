@@ -268,6 +268,7 @@
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
     <string name="share_link">Share link</string>
     <string name="archive_cards">Archive cards</string>
+
     <string name="manage_accounts">Manage accounts</string>
     <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
@@ -281,4 +282,8 @@
     </plurals>
     <string name="simple_report">Report</string>
     <string name="error_action_open_battery_settings">Battery settings</string>
+
+    <string name="widget_stack_title">Stack</string>
+    <string name="widget_stack_header_icon">Widget header icon</string>
+    <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
 </resources>
