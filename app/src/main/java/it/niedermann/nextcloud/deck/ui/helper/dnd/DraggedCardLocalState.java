@@ -1,10 +1,12 @@
 package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
@@ -26,20 +28,38 @@ public class DraggedCardLocalState {
     }
 
 
-    public void onDragStart(ViewPager viewPager){
-        StackFragment stackFragment = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
-        currentStackId = stackFragment.getStackId();
-        recyclerView = stackFragment.getRecyclerView();
+    public void onDragStart(ViewPager2 viewPager, FragmentManager fm) {
+        FullStack fullStack = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+//        StackFragment stackFragment = ((StackFragment) ((StackAdapter) viewPager.getAdapter()).createFragment(viewPager.getCurrentItem()));
+
+        currentStackId = fullStack.getLocalId();
+
+        // FIXME throws NullPointer
+        if (fm.findFragmentById(viewPager.getCurrentItem()) instanceof StackFragment) {
+            recyclerView = ((StackFragment) fm.findFragmentById(viewPager.getCurrentItem())).getRecyclerView();
+        } else {
+            throw new IllegalArgumentException("fragment with id " + viewPager.getCurrentItem() + " is not StackFragment but " +
+                    fm.findFragmentById(viewPager.getCurrentItem()).getClass().getCanonicalName());
+        }
 
     }
-    public void onTabChanged(ViewPager viewPager, int newTabPosition){
+
+    public void onTabChanged(ViewPager2 viewPager, FragmentManager fm) {
         if (insertedListener != null) {
             recyclerView.removeOnChildAttachStateChangeListener(insertedListener);
             insertedListener = null;
         }
-        StackFragment stackFragment = ((StackAdapter) viewPager.getAdapter()).getItem(newTabPosition);
-        currentStackId = stackFragment.getStackId();
-        this.recyclerView = stackFragment.getRecyclerView();
+        FullStack fullStack = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+//        StackFragment stackFragment = ((StackFragment) ((StackAdapter) viewPager.getAdapter()).createFragment(viewPager.getCurrentItem()));
+        currentStackId = fullStack.getLocalId();
+        // FIXME throws probably NullPointer
+//        this.recyclerView = stackFragment.getRecyclerView();
+        if (fm.findFragmentById(viewPager.getCurrentItem()) instanceof StackFragment) {
+            recyclerView = ((StackFragment) fm.findFragmentById(viewPager.getCurrentItem())).getRecyclerView();
+        } else {
+            throw new IllegalArgumentException("fragment with id " + viewPager.getCurrentItem() + " is not StackFragment but " +
+                    fm.findFragmentById(viewPager.getCurrentItem()).getClass().getCanonicalName());
+        }
         this.cardAdapter = (CardAdapter) recyclerView.getAdapter();
     }
 

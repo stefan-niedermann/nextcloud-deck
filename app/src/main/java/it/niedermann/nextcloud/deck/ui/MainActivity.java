@@ -26,13 +26,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.h6ah4i.android.tablayouthelper.TabLayoutHelper;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
@@ -248,17 +247,23 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                     intent.putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     try {
-                        intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId());
-                        startActivity(intent);
+                        final int currentItem = binding.viewPager.getCurrentItem();
+                        if (stackAdapter.getItemCount() >= currentItem) {
+                            intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(currentItem).getLocalId());
+                            startActivity(intent);
+                        } else {
+                            DeckLog.logError(new IllegalStateException("Tried to get item<" + FullStack.class.getSimpleName() + "> #" + currentItem + " but stackAdapter has only " + stackAdapter.getItemCount()));
+                        }
                     } catch (IndexOutOfBoundsException e) {
-                        EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
+                        EditStackDialogFragment.newInstance(NO_STACK_ID)
+                                .show(getSupportFragmentManager(), addColumn);
                     }
                 } else {
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
                 }
             });
 
-            binding.viewPager.addOnPageChangeListener(new OnPageChangeListener() {
+            binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { /* Silence is gold */ }
 
@@ -266,8 +271,8 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 public void onPageSelected(int position) {
                     binding.viewPager.post(() -> {
                         // stackAdapter size might differ from position when an account has been deleted
-                        if (stackAdapter.getCount() >= position) {
-                            currentStackId = stackAdapter.getItem(position).getStackId();
+                        if (stackAdapter.getItemCount() >= position) {
+                            currentStackId = stackAdapter.getItem(position).getLocalId();
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             DeckLog.log("--- Write: shared_preference_last_stack_for_account_and_board_" + currentAccount.getId() + "_" + currentBoardId + " | " + currentStackId);
                             editor.putLong(sharedPreferencesLastStackForAccountAndBoard_ + currentAccount.getId() + "_" + currentBoardId, currentStackId);
@@ -280,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-                    binding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
+                    binding.swipeRefreshLayout.setEnabled(state == ViewPager2.SCROLL_STATE_IDLE);
                 }
             });
 
@@ -342,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
             DeckLog.log("Create Stack with account id = " + currentAccount.getId());
             syncManager.createStack(currentAccount.getId(), s).observe(MainActivity.this, (stack) -> {
-                binding.viewPager.setCurrentItem(stackAdapter.getCount());
+                binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
             });
         });
     }
@@ -480,9 +485,10 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             final int stackPositionInAdapterClone = stackPositionInAdapter;
             binding.viewPager.setAdapter(stackAdapter);
             runOnUiThread(() -> {
-                new TabLayoutHelper(binding.stackTitles, binding.viewPager).setAutoAdjustTabModeEnabled(true);
-                binding.viewPager.setCurrentItem(stackPositionInAdapterClone);
-                binding.stackTitles.setupWithViewPager(binding.viewPager);
+                TabLayoutHelper.TabTitleGenerator tabTitleGenerator = (position) -> fullStacks.get(position).getStack().getTitle();
+                new TabLayoutMediator(binding.stackLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position))).attach();
+                new TabLayoutHelper(binding.stackLayout, binding.viewPager, tabTitleGenerator).setAutoAdjustTabModeEnabled(true);
+                binding.viewPager.setCurrentItem(stackPositionInAdapter);
             });
             invalidateOptionsMenu();
         });

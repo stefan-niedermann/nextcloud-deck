@@ -130,10 +130,6 @@ public class StackFragment extends Fragment {
         return binding.recyclerView;
     }
 
-    public long getStackId() {
-        return this.stackId;
-    }
-
     public interface OnScrollListener {
         void onScrollUp();
 
