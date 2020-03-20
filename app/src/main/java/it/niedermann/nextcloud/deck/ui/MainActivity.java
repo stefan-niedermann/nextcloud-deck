@@ -448,15 +448,17 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             int stackPositionInAdapter = 0;
             stackAdapter.setStacks(fullStacks, currentAccount, currentBoardId, currentBoardHasEditPermission);
 
+            long currentStackId =
+                    Application.readCurrentStackId(this, this.currentAccount.getId(), this.currentBoardId);
             for (int i = 0; i < fullStacks.size(); i++) {
-                if (fullStacks.get(i).getLocalId() == Application.readCurrentStackId(this, this.currentAccount.getId(), this.currentBoardId)) {
+                if (fullStacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
                     stackPositionInAdapter = i;
                     break;
                 }
             }
             final int stackPositionInAdapterClone = stackPositionInAdapter;
             runOnUiThread(() -> {
-                TabLayoutHelper.TabTitleGenerator tabTitleGenerator = (position) -> fullStacks.get(position).getStack().getTitle();
+                TabLayoutHelper.TabTitleGenerator tabTitleGenerator = position -> fullStacks.size() >= position + 1 ? fullStacks.get(position).getStack().getTitle() : "";
                 new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position))).attach();
                 new TabLayoutHelper(binding.stackTitles, binding.viewPager, tabTitleGenerator).setAutoAdjustTabModeEnabled(true);
                 binding.viewPager.setCurrentItem(stackPositionInAdapterClone);
@@ -551,10 +553,9 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 return true;
             case R.id.action_card_list_rename_column:
                 long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack -> {
-                    EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
-                            .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
-                });
+                observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack ->
+                        EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
+                                .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column)));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

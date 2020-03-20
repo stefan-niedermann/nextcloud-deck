@@ -49,11 +49,11 @@ public class EditBoardDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         binding = DialogBoardCreateBinding.inflate(requireActivity().getLayoutInflater());
 
-        Long boardId = requireArguments().getLong(KEY_BOARD_ID);
+        long boardId = requireArguments().getLong(KEY_BOARD_ID);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
 
-        if (NO_BOARD_ID.equals(boardId)) {
+        if (boardId == NO_BOARD_ID) {
             dialogBuilder.setTitle(R.string.add_board);
             dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(binding.input.getText().toString(), binding.colorChooser.getSelectedColor()));
             binding.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & getResources().getColor(R.color.board_default_color)));

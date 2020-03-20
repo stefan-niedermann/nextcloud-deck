@@ -20,7 +20,6 @@ public class StackAdapter extends FragmentStateAdapter {
 
     public StackAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-        setHasStableIds(true);
     }
 
     @Override
