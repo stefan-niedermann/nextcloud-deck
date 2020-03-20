@@ -34,12 +34,14 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.ActivityDao
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.BoardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CommentDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithLabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithPermissionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithUserDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.LabelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
@@ -130,4 +132,8 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract UserDao getUserDao();
 
     public abstract AttachmentDao getAttachmentDao();
+
+    public abstract CommentDao getCommentDao();
+
+    public abstract MentionDao getMentionDao();
 }

@@ -1,12 +1,12 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
@@ -44,7 +44,17 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, OcsComment ocsComment) {
         DeckComment comment = ocsComment.getSingle();
         comment.setObjectId(card.getLocalId());
-        return dataBaseAdapter.createComment(accountId, comment);
+        comment.setLocalId(dataBaseAdapter.createComment(accountId, comment));
+        persistMentions(dataBaseAdapter, comment);
+        return comment.getLocalId();
+    }
+
+    private void persistMentions(DataBaseAdapter dataBaseAdapter, DeckComment comment) {
+        dataBaseAdapter.clearMentionsForCommentId(comment.getLocalId());
+        for (Mention mention : comment.getMentions()) {
+            mention.setCommentId(comment.getLocalId());
+            mention.setId(dataBaseAdapter.createMention(mention));
+        }
     }
 
     @Override
@@ -53,12 +63,13 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         comment.setAccountId(accountId);
         comment.setObjectId(card.getLocalId());
         dataBaseAdapter.updateComment(comment, setStatus);
+        persistMentions(dataBaseAdapter, comment);
     }
 
     @Override
     public void deleteInDB(DataBaseAdapter dataBaseAdapter, long accountId, OcsComment ocsComment) {
         DeckComment comment = ocsComment.getSingle();
-        dataBaseAdapter.deleteComment(comment);
+        dataBaseAdapter.deleteComment(comment, false);
     }
 
     @Override
@@ -90,6 +101,6 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     @Override
     public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<OcsComment> entitiesFromServer) {
         // FIXME: get this to work
-        oh, look, a compile error! *shrug*
+//        oh, look, a compile error! *shrug*
     }
 }

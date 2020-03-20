@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
@@ -634,23 +635,37 @@ public class DataBaseAdapter {
     }
 
     public DeckComment getCommentByRemoteIdDirectly(long accountId, Long remoteCommentId) {
-        // FIXME impl
+        return db.getCommentDao().getCommentByRemoteIdDirectly(accountId, remoteCommentId);
     }
 
     public long createComment(long accountId, DeckComment comment) {
         comment.setAccountId(accountId);
-        // FIXME impl
+        return db.getCommentDao().insert(comment);
     }
 
     public void updateComment(DeckComment comment, boolean setStatus) {
-        // FIXME impl
+        markAsEditedIfNeeded(comment, setStatus);
+        db.getCommentDao().update(comment);
     }
 
-    public void deleteComment(DeckComment comment) {
-        // FIXME impl
+    public void deleteComment(DeckComment comment, boolean setStatus) {
+        markAsDeletedIfNeeded(comment, setStatus);
+        if (setStatus) {
+            db.getCommentDao().update(comment);
+        } else {
+            db.getCommentDao().delete(comment);
+        }
     }
 
     public List<DeckComment> getLocallyChangedComments(long accountId) {
-        // FIXME impl
+        return db.getCommentDao().getLocallyChangedCommentsDirectly(accountId);
+    }
+
+    public void clearMentionsForCommentId(long commentID) {
+        db.getMentionDao().clearMentionsForCommentId(commentID);
+    }
+
+    public long createMention(Mention mention) {
+        return db.getMentionDao().insert(mention);
     }
 }
