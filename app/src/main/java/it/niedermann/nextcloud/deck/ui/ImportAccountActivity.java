@@ -145,7 +145,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
                                         @Override
                                         public void onResponse(Capabilities response) {
-                                            if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
+                                            if (response.getDeckVersion().compareTo(new Version("", minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
                                                 setStatusText(R.string.deck_outdated_please_update);
                                                 runOnUiThread(() -> {
                                                     binding.updateDeckButton.setOnClickListener((v) -> {
