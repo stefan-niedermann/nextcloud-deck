@@ -12,6 +12,7 @@
     <string name="simple_boards">Taulells</string>
     <string name="simple_add">Afegeix</string>
     <string name="simple_save">Desa</string>
+    <string name="simple_more">Més</string>
 
     <string name="edit_board">Edita el tauler</string>
     <string name="archive_board">Arxiva el tauler</string>
@@ -126,4 +127,5 @@
     <string name="action_card_move">Mou la targeta</string>
     <string name="action_card_move_title">Mou %1$s</string>
     <string name="simple_copied">Copiat</string>
+    <string name="server_error">Error del servidor</string>
     </resources>

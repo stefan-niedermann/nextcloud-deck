@@ -12,6 +12,7 @@
     <string name="simple_boards">تخته ها</string>
     <string name="simple_add">افزودن</string>
     <string name="simple_save">ذخیره</string>
+    <string name="simple_more">بیش‌تر</string>
 
     <string name="edit_board">ویرایش تابلو</string>
     <string name="archive_board"> بایگانی تابلو</string>
@@ -125,4 +126,5 @@
     <string name="hours_6">۶ ساعت</string>
     <string name="action_card_move">انتقال کارت</string>
     <string name="action_card_move_title">حرکت%1$s</string>
+    <string name="server_error">خطای سرور</string>
     </resources>

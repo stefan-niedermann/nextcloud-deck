@@ -12,6 +12,7 @@
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Hinzufügen</string>
     <string name="simple_save">Speichern</string>
+    <string name="simple_more">mehr</string>
 
     <string name="edit_board">Board bearbeiten</string>
     <string name="archive_board">Board archivieren</string>
@@ -132,4 +133,13 @@
     <string name="please_add_an_account_first">Bitte zuerst ein Konto hinzufügen</string>
     <string name="title_is_mandatory">Titel ist obligatorisch</string>
     <string name="provide_at_least_a_title_or_description">Mindestens einen Titel oder eine Beschreibung eingeben</string>
+    <string name="welcome_text">Willkommen zu %1$s</string>
+    <string name="choose_account">Konto auswählen</string>
+    <string name="save_card_before_attachment">Die Karte muss gespeichert werden bevor Anhänge hinzugefügt werden können.</string>
+    <string name="server_misconfigured">Server falsch konfiguriert</string>
+    <string name="server_misconfigured_explanation">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID Client verursacht werden. Unsere Kontaktinformationen zur Unterstützung finden Sie im Info-Bereich.</string>
+    <string name="server_error">Serverfehler</string>
+    <string name="server_error_explanation">Ihr Server hat mit einem HTTP 503-Statuscode geantwortet. Dies kann der Fall sein, wenn sich der Server derzeit im Wartungsmodus befindet. Bitte wenden Sie sich an Ihren Administrator oder an uns, um Unterstützung zu erhalten. Unsere Kontaktinformationen finden Sie im Info-Bereich.</string>
+    <string name="share_add_to_card">Zur Karte hinzufügen</string>
+    <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
     </resources>

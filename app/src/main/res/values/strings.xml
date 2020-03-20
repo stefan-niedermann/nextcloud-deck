@@ -80,6 +80,7 @@
 
     <string name="label_add">Add %1$s</string>
     <string name="error">An error appeared</string>
+    <string name="operation_not_yet_supported">Not yet supported</string>
     <string name="simple_copy">copy</string>
     <string name="simple_exception">Exception</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
@@ -161,4 +162,6 @@
     <string name="server_error_explanation">Your server responded with a HTTP 503 status code. This can be the case if the server is currently in maintenance mode. Please contact your administrator or us for support. You can find our contact information in the about-section.</string>
     <string name="share_add_to_card">Add to card</string>
     <string name="share_success">Successfully added %1$s to %2$s</string>
+    <string name="could_not_copy_to_clipboard">Could not copy to clipboard</string>
+    <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
 </resources>

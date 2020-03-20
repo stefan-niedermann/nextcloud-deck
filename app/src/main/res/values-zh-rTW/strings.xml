@@ -12,6 +12,7 @@
     <string name="simple_boards">專案</string>
     <string name="simple_add">新增</string>
     <string name="simple_save">儲存</string>
+    <string name="simple_more">更多</string>
 
     <string name="edit_board">編輯佈告欄</string>
     <string name="archive_board">封存佈告欄</string>
@@ -127,4 +128,5 @@
     <string name="action_card_move_title">移動 %1$s</string>
     <string name="simple_disabled">已停用</string>
     <string name="simple_copied">已複製</string>
+    <string name="server_error">伺服器錯誤</string>
     </resources>

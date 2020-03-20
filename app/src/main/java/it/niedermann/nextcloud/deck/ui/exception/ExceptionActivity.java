@@ -24,6 +24,11 @@ public class ExceptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Throwable throwable = ((Throwable) getIntent().getSerializableExtra(KEY_THROWABLE));
+
+        if (throwable == null) {
+            throwable = new Exception("Could not get exception");
+        }
+
         throwable.printStackTrace();
 
         setSupportActionBar(binding.toolbar);
@@ -41,7 +46,11 @@ public class ExceptionActivity extends AppCompatActivity {
     private void copyStacktraceToClipboard() {
         final android.content.ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText(getString(R.string.simple_exception), "```\n" + debugInfo + "\n```");
-        clipboardManager.setPrimaryClip(clipData);
-        Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+        if (clipboardManager != null) {
+            clipboardManager.setPrimaryClip(clipData);
+            Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.could_not_copy_to_clipboard, Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -72,6 +73,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     private SingleSignOnAccount account;
     private final SyncManager syncManager;
     private final long boardId;
+    private final long stackId;
     private final boolean canEdit;
     private LifecycleOwner lifecycleOwner;
     private List<FullStack> availableStacks = new ArrayList<>();
@@ -83,13 +85,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     private int maxLabelsShown;
     private int maxLabelsChars;
 
-    public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment) {
-        this(boardId, canEdit, syncManager, fragment, null);
+    public CardAdapter(long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment) {
+        this(boardId, stackId, canEdit, syncManager, fragment, null);
     }
 
-    public CardAdapter(long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
+    public CardAdapter(long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
         this.lifecycleOwner = fragment;
         this.boardId = boardId;
+        this.stackId = stackId;
         this.canEdit = canEdit;
         this.syncManager = syncManager;
         this.selectCardListener = selectCardListener;
@@ -376,13 +379,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
                 return true;
             }
             case R.id.action_card_move: {
+                int currentStackItem = 0;
                 CharSequence[] items = new CharSequence[availableStacks.size()];
                 for (int i = 0; i < availableStacks.size(); i++) {
-                    items[i] = availableStacks.get(i).getStack().getTitle();
+                    final Stack stack = availableStacks.get(i).getStack();
+                    items[i] = stack.getTitle();
+                    if (stack.getLocalId().equals(stackId)) {
+                        currentStackItem = i;
+                    }
                 }
                 final FullCard newCard = card;
                 new AlertDialog.Builder(context)
-                        .setSingleChoiceItems(items, 0, (dialog, which) -> {
+                        .setSingleChoiceItems(items, currentStackItem, (dialog, which) -> {
                             dialog.cancel();
                             newCard.getCard().setStackId(availableStacks.get(which).getStack().getLocalId());
                             LiveDataHelper.observeOnce(syncManager.updateCard(newCard), lifecycleOwner, (c) -> {

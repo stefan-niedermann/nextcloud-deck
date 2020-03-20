@@ -12,6 +12,7 @@
     <string name="simple_boards">Lavagne</string>
     <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
+    <string name="simple_more">Altro</string>
 
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
@@ -132,4 +133,13 @@
     <string name="please_add_an_account_first">Aggiungi prima un account</string>
     <string name="title_is_mandatory">Il titolo è obbligatorio</string>
     <string name="provide_at_least_a_title_or_description">Fornisci almeno un titolo e una descrizione</string>
+    <string name="welcome_text">Benvenuto in %1$s</string>
+    <string name="choose_account">Scegli account</string>
+    <string name="save_card_before_attachment">La scheda deve essere salvata prima di poter aggiungere allegati.</string>
+    <string name="server_misconfigured">Configurazione server non corretta</string>
+    <string name="server_misconfigured_explanation">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causata da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client. Puoi trovare le nostre informazioni di contatto per supporto nella sezione Informazioni.</string>
+    <string name="server_error">Errore del server</string>
+    <string name="server_error_explanation">Il tuo server ha risposto con un codice di stato HTTP 503. Questo può verificarsi se il server è attualmente in modalità di manutenzione. Contatta il tuo amministratore o il nostro supporto. Puoi trovare le nostre informazioni di contatto nella sezione Informazioni.</string>
+    <string name="share_add_to_card">Aggiungi a scheda</string>
+    <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
     </resources>

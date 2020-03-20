@@ -82,9 +82,9 @@ public class StackFragment extends Fragment {
         syncManager = new SyncManager(activity);
 
         if(requireActivity() instanceof CardAdapter.SelectCardListener) {
-            adapter = new CardAdapter(boardId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, this, (CardAdapter.SelectCardListener) requireActivity());
+            adapter = new CardAdapter(boardId, stackId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, this, (CardAdapter.SelectCardListener) requireActivity());
         } else {
-            adapter = new CardAdapter(boardId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, this);
+            adapter = new CardAdapter(boardId, stackId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, this);
         }
         binding.recyclerView.setAdapter(adapter);
         if (onScrollListener != null) {

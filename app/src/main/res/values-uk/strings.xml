@@ -12,6 +12,7 @@
     <string name="simple_boards">Дошки</string>
     <string name="simple_add">Додати</string>
     <string name="simple_save">Зберегти</string>
+    <string name="simple_more">Додатково</string>
 
     <string name="edit_board">Редагувати дошку</string>
     <string name="archive_board">Архівувати дошку</string>
@@ -125,4 +126,5 @@
     <string name="hours_6">6 годин</string>
     <string name="action_card_move">Пересунути картку</string>
     <string name="action_card_move_title">Пересунути %1$s</string>
+    <string name="server_error">Помилка серверу</string>
     </resources>
