@@ -360,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         Board b = new Board(title, color.startsWith("#") ? color.substring(1) : color);
         observeOnce(syncManager.createBoard(currentAccount.getId(), b), this, board -> {
             if (board == null) {
-                Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG);
+                Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG).show();
             } else {
                 boardsList.add(board.getBoard());
                 currentBoardId = board.getLocalId();
