@@ -38,6 +38,9 @@ public class DeckComment extends AbstractRemoteEntity {
 
     public  DeckComment() {
     }
+    public  DeckComment(String message) {
+        setMessage(message);
+    }
 
     public DeckComment(long cardId, String actorId, String actorDisplayName, String message) {
         this.objectId = cardId;
