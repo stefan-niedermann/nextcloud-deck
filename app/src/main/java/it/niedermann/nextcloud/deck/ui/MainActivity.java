@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 public void onPageSelected(int position) {
                     binding.viewPager.post(() -> {
                         // stackAdapter size might differ from position when an account has been deleted
-                        if (stackAdapter.getItemCount() >= position) {
+                        if (stackAdapter.getItemCount() > position) {
                             Application.saveCurrentStackId(getApplicationContext(), currentAccount.getId(), currentBoardId, stackAdapter.getItem(position).getLocalId());
                         } else {
                             DeckLog.logError(new IllegalStateException("Tried to save current Stack which cannot be available (stackAdapter doesn't have this position)"));
