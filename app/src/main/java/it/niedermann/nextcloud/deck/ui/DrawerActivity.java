@@ -150,7 +150,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                     syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
                         @Override
                         public void onResponse(Capabilities response) {
-                            if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
+                            if (response.getDeckVersion().compareTo(new Version("", minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
                                 deckVersionTooLowSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction("Learn more", v -> {
                                     new AlertDialog.Builder(DrawerActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
                                             .setTitle(R.string.update_deck)

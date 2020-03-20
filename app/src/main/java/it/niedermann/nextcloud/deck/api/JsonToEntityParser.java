@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -32,6 +34,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 public class JsonToEntityParser {
     private static SimpleDateFormat formatter = new SimpleDateFormat(GsonConfig.DATE_PATTERN);
+    private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("[0-9]+");
 
     static {
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -258,6 +261,14 @@ public class JsonToEntityParser {
         return user;
     }
 
+    private static String extractNumber(String containsNumbers) {
+        Matcher matcher = NUMBER_EXTRACTION_PATTERN.matcher(containsNumbers);
+        if (matcher.find()){
+            return matcher.group();
+        }
+        return "0";
+    }
+
     protected static Capabilities parseCapabilities(JsonObject e) {
         DeckLog.log(e.toString());
         Capabilities capabilities = new Capabilities();
@@ -268,28 +279,29 @@ public class JsonToEntityParser {
                 JsonObject data = ocs.getAsJsonObject("data");
                 if (data.has("version")) {
                     JsonObject version = data.getAsJsonObject("version");
-                    int major = version.get("major").getAsInt();
-                    int minor = version.get("minor").getAsInt();
-                    int micro = version.get("micro").getAsInt();
-                    Version v = new Version(major, minor, micro);
+                    int major = Integer.parseInt(extractNumber(version.get("major").getAsString()));
+                    int minor = Integer.parseInt(extractNumber(version.get("minor").getAsString()));
+                    int micro = Integer.parseInt(extractNumber(version.get("micro").getAsString()));
+                    Version v = new Version(version.toString(), major, minor, micro);
                     capabilities.setNextcloudVersion(v);
                 }
 
                 int major = 0, minor = 0, micro = 0;
+                String version = "";
                 if (data.has("capabilities")) {
                     JsonObject caps = data.getAsJsonObject("capabilities");
                     if (caps.has("deck")) {
                         JsonObject deck = caps.getAsJsonObject("deck");
                         if (deck.has("version")) {
-                            String version = deck.get("version").getAsString();
+                            version = deck.get("version").getAsString();
                             if (version != null && !version.trim().isEmpty()){
                                 String[] split = version.split("\\.");
                                 if (split.length > 0){
-                                    major = Integer.parseInt(split[0]);
+                                    major = Integer.parseInt(extractNumber(split[0]));
                                     if (split.length > 1) {
-                                        minor = Integer.parseInt(split[1]);
+                                        minor = Integer.parseInt(extractNumber(split[1]));
                                         if (split.length > 2) {
-                                            micro = Integer.parseInt(split[2]);
+                                            micro = Integer.parseInt(extractNumber(split[2]));
                                         }
                                     }
                                 }
@@ -297,7 +309,7 @@ public class JsonToEntityParser {
                         }
                     }
                 }
-                capabilities.setDeckVersion(new Version(major, minor, micro));
+                capabilities.setDeckVersion(new Version(version, major, minor, micro));
             }
         }
         return capabilities;
