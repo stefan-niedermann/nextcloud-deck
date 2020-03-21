@@ -668,4 +668,8 @@ public class DataBaseAdapter {
     public long createMention(Mention mention) {
         return db.getMentionDao().insert(mention);
     }
+
+    public List<DeckComment> getCommentByLocalCardIdDirectly(Long localCardId) {
+        return db.getCommentDao().getCommentByLocalCardIdDirectly(localCardId);
+    }
 }
