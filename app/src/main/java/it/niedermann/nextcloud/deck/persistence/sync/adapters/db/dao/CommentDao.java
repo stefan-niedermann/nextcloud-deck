@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
@@ -10,8 +9,6 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
 @Dao
 public interface CommentDao extends GenericDao<DeckComment> {
-    @Query("SELECT * FROM DeckComment where objectId = :cardId")
-    LiveData<List<DeckComment>> getCommentsForCard(long cardId);
 
     @Query("SELECT * FROM DeckComment where accountId = :accountId and id = :remoteId")
     DeckComment getCommentByRemoteIdDirectly(long accountId, Long remoteId);
@@ -27,4 +24,7 @@ public interface CommentDao extends GenericDao<DeckComment> {
 
     @Query("SELECT * FROM DeckComment WHERE accountId = :accountId and objectId = :localCardId")
     List<DeckComment> getCommentsForLocalCardIdDirectly(long accountId, Long localCardId);
+
+    @Query("SELECT * FROM DeckComment where objectId = :cardId")
+    List<DeckComment> getCommentByLocalCardIdDirectly(Long localCardId);
 }

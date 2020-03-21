@@ -100,7 +100,12 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
 
     @Override
     public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<OcsComment> entitiesFromServer) {
-        // FIXME: get this to work
-//        oh, look, a compile error! *shrug*
+        List<OcsComment> deletedComments = findDelta(entitiesFromServer, new OcsComment(dataBaseAdapter.getCommentByLocalCardIdDirectly(card.getLocalId())).split());
+        for (OcsComment deletedComment : deletedComments) {
+            if (deletedComment.getId()!=null){
+                // preserve new, unsynced comment.
+                dataBaseAdapter.deleteComment(deletedComment.getSingle(), false);
+            }
+        }
     }
 }
