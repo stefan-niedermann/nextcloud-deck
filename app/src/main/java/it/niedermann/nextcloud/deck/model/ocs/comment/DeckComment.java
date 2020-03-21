@@ -38,6 +38,7 @@ public class DeckComment extends AbstractRemoteEntity {
 
     public  DeckComment() {
     }
+    @Ignore
     public  DeckComment(String message) {
         setMessage(message);
     }
