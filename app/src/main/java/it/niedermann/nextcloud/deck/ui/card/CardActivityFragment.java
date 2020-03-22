@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabActivitiesBinding;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
@@ -20,7 +18,6 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_ED
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class CardActivityFragment extends Fragment {
-
 
     private FragmentCardEditTabActivitiesBinding binding;
 
@@ -38,14 +35,6 @@ public class CardActivityFragment extends Fragment {
         fragment.setArguments(bundle);
 
         return fragment;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (!(context instanceof CommentDialogFragment.AddCommentListener)) {
-            throw new ClassCastException("Caller must implement " + CommentDialogFragment.AddCommentListener.class.getCanonicalName());
-        }
     }
 
     @Override
@@ -74,24 +63,6 @@ public class CardActivityFragment extends Fragment {
                     }
                 }));
             });
-            if (canEdit) {
-                binding.fab.setOnClickListener(v -> {
-//                    Snackbar.make(binding.coordinatorLayout, "Adding comments is not yet implemented", Snackbar.LENGTH_LONG).show();
-                    CommentDialogFragment.newInstance().show(requireActivity().getSupportFragmentManager(), getString(R.string.simple_comment));
-                });
-                binding.activitiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                        if (dy > 0)
-                            binding.fab.hide();
-                        else if (dy < 0)
-                            binding.fab.show();
-                    }
-                });
-            } else {
-                binding.emptyContentView.hideDescription();
-                binding.fab.hide();
-            }
         }
         return binding.getRoot();
     }
