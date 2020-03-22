@@ -1,7 +1,11 @@
 package it.niedermann.nextcloud.deck.model.ocs;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Capabilities {
-    public static Capabilities cache = null;
+    // accountID - Capabiliy
+    public static Map<Long, Capabilities> cache = new HashMap<>();
 
     Version deckVersion;
     Version nextcloudVersion;
