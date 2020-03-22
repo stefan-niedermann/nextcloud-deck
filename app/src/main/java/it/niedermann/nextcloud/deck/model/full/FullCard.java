@@ -5,6 +5,8 @@ import androidx.room.Ignore;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,6 +57,7 @@ public class FullCard implements IRemoteEntity {
         this.assignedUsers = copyList(fullCard.getAssignedUsers());
         this.owner = copyList(fullCard.getOwner());
         this.attachments = copyList(fullCard.getAttachments());
+        this.commentIDs = copyList(fullCard.getCommentIDs());
     }
 
     public Card getCard() {
@@ -125,6 +128,7 @@ public class FullCard implements IRemoteEntity {
         return card;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "FullCard{" +
@@ -143,7 +147,6 @@ public class FullCard implements IRemoteEntity {
 
         FullCard fullCard = (FullCard) o;
 
-        if (isAttachmentsSorted != fullCard.isAttachmentsSorted) return false;
         if (card != null ? !card.equals(fullCard.card) : fullCard.card != null) return false;
         if (labels != null ? !labels.equals(fullCard.labels) : fullCard.labels != null)
             return false;
