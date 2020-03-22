@@ -145,7 +145,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
                         @Override
                         public void onResponse(Capabilities response) {
-                            if (response.getDeckVersion().compareTo(new Version("", 1, 0, 0)) <= 0) {
+                            if (response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0) {
+                                DeckLog.info("Display comments, version is: " + response.getDeckVersion().getOriginalVersion());
                                 requireActivity().getSupportFragmentManager()
                                         .beginTransaction()
                                         .add(
@@ -155,6 +156,8 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                                         )
                                         .disallowAddToBackStack()
                                         .commit();
+                            } else {
+                                DeckLog.info("Hide comments, version is too low: " + response.getDeckVersion().getOriginalVersion());
                             }
                         }
                     });
