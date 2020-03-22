@@ -42,10 +42,9 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 import static it.niedermann.nextcloud.deck.ui.AttachmentsActivity.BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAdapter.AttachmentViewHolder> {
-
-    public static final long NO_ATTACHMENT_ID = -1L;
 
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
@@ -81,7 +80,8 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
 
     @Override
     public long getItemId(int position) {
-        return attachments.get(position).getLocalId();
+        Long id = attachments.get(position).getLocalId();
+        return id == null ? NO_LOCAL_ID : id;
     }
 
     @NonNull

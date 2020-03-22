@@ -39,7 +39,6 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentClickedListener;
 import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentDeletedListener;
-import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.NO_ATTACHMENT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 
@@ -185,7 +184,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                     a.setLocalPath(path);
                     a.setLastModifiedLocal(now);
                     a.setCreatedAt(now);
-                    a.setLocalId(NO_ATTACHMENT_ID);
                     ((NewCardAttachmentHandler) getActivity()).attachmentAdded(a);
                     adapter.addAttachment(a);
                     updateEmptyContentView();
