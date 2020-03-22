@@ -190,9 +190,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         if (attachmentsCount == 0) {
             viewHolder.binding.cardCountAttachments.setVisibility(View.GONE);
         } else {
-            setupAttachmentCount(viewHolder.binding.cardCountAttachments, attachmentsCount);
+            setupCounter(viewHolder.binding.cardCountAttachments, attachmentsCount);
 
             viewHolder.binding.cardCountAttachments.setVisibility(View.VISIBLE);
+            showDetails = true;
+        }
+
+        final int commentsCount = card.getCommentCount();
+
+        if (commentsCount == 0) {
+            viewHolder.binding.cardCountComments.setVisibility(View.GONE);
+        } else {
+            setupCounter(viewHolder.binding.cardCountComments, commentsCount);
+
+            viewHolder.binding.cardCountComments.setVisibility(View.VISIBLE);
             showDetails = true;
         }
 
@@ -256,13 +267,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         }
     }
 
-    private void setupAttachmentCount(@NonNull TextView cardCountAttachments, int attachmentsCount) {
-        if (attachmentsCount > 99) {
-            cardCountAttachments.setText(context.getString(R.string.attachment_count_max_value));
-        } else if (attachmentsCount > 1) {
-            cardCountAttachments.setText(String.valueOf(attachmentsCount));
-        } else if (attachmentsCount == 1) {
-            cardCountAttachments.setText("");
+    private void setupCounter(@NonNull TextView textView, int count) {
+        if (count > 99) {
+            textView.setText(context.getString(R.string.counter_max_value));
+        } else if (count > 1) {
+            textView.setText(String.valueOf(count));
+        } else if (count == 1) {
+            textView.setText("");
         }
     }
 
