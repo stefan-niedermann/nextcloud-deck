@@ -29,6 +29,7 @@
             android:layout_weight="1"
             android:autofillHints="@null"
             android:hint="@string/simple_comment"
+            android:imeOptions="actionSend"
             android:inputType="text"
             android:maxLength="@integer/comment_max_length"
             android:paddingEnd="@dimen/standard_half_padding"
