@@ -40,12 +40,16 @@ import java.util.Locale;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.card.comments.CardCommentsFragment;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
@@ -135,6 +139,26 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                     binding.description.setText(fullCard.getCard().getDescription());
                     setupView(accountId, boardId, canEdit);
                 });
+
+                // Comments API only available starting with version 1.0.0-alpha1
+                syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (account) -> {
+                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
+                        @Override
+                        public void onResponse(Capabilities response) {
+                            if (response.getDeckVersion().compareTo(new Version("", 1, 0, 0)) <= 0) {
+                                requireActivity().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .add(
+                                                R.id.commentsFragment,
+                                                CardCommentsFragment.newInstance(accountId, localId, boardId, canEdit),
+                                                CardCommentsFragment.class.getCanonicalName()
+                                        )
+                                        .disallowAddToBackStack()
+                                        .commit();
+                            }
+                        }
+                    });
+                });
             }
         }
 
@@ -147,7 +171,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
             DeckLog.logError(e);
         }
-
         return binding.getRoot();
     }
 

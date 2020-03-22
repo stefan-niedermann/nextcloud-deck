@@ -44,7 +44,7 @@ import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardAttachmentsFragment.NewCardAttachmentHandler;
 import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment.CardDetailsListener;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
-import it.niedermann.nextcloud.deck.ui.card.CommentDialogFragment.AddCommentListener;
+import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -55,7 +55,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AppCompatActivity implements CardDetailsListener, AddCommentListener, NewCardAttachmentHandler, OnItemSelectedListener {
+public class EditActivity extends AppCompatActivity implements CardDetailsListener, CommentAddedListener, NewCardAttachmentHandler, OnItemSelectedListener {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
