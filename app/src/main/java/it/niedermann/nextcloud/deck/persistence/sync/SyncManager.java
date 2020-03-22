@@ -577,6 +577,15 @@ public class SyncManager {
                 }
             }
 
+            if (card.getAttachments() != null) {
+                for (Attachment attachment : card.getAttachments()) {
+                    if (attachment.getLocalId() == null) {
+                        attachment.setCardId(localCardId);
+                        dataBaseAdapter.createAttachment(accountId, attachment);
+                    }
+                }
+            }
+
             liveData.postValue(card);
             if (serverAdapter.hasInternetConnection()) {
                 new SyncHelper(serverAdapter, dataBaseAdapter, null)

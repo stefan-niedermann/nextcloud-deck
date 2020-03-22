@@ -1,0 +1,2 @@
+- 🏷️ Animate chipgroups (#326)
+- 📎 Add attachments while creating a new card (#320)
