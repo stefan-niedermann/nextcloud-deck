@@ -37,7 +37,11 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
 
     @Override
     public OcsComment getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, OcsComment entity) {
-        return OcsComment.of(dataBaseAdapter.getCommentByRemoteIdDirectly(accountId, entity.getId()));
+        DeckComment comment = dataBaseAdapter.getCommentByRemoteIdDirectly(accountId, entity.getId());
+        if (comment == null) {
+            return null;
+        }
+        return OcsComment.of(comment);
     }
 
     @Override
@@ -95,7 +99,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
 
     @Override
     public List<OcsComment> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
-        return new OcsComment(dataBaseAdapter.getLocallyChangedComments(accountId)).split();
+        return new OcsComment(dataBaseAdapter.getLocallyChangedCommentsByLocalCardIdDirectly(accountId, card.getLocalId())).split();
     }
 
     @Override

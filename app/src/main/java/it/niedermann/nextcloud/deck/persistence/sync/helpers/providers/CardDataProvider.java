@@ -133,6 +133,8 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             attachments = new ArrayList<>();
         }
         syncHelper.doSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), existingEntity, attachments));
+
+        syncHelper.doSyncFor(new DeckCommentsDataProvider(this, existingEntity.getCard()));
     }
 
     @Override
@@ -257,6 +259,12 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             syncHelper.doUpSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), card, Collections.singletonList(attachment)) );
         }
+
+        List<Card> cardsWithChangedComments = dataBaseAdapter.getCardsWithLocallyChangedCommentsDirectly(account.getId());
+        for (Card card : cardsWithChangedComments) {
+            syncHelper.doUpSyncFor(new DeckCommentsDataProvider(this, card));
+        }
+
         callback.onResponse(Boolean.TRUE);
     }
 

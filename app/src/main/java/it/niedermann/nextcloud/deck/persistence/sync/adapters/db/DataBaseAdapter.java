@@ -657,8 +657,8 @@ public class DataBaseAdapter {
         }
     }
 
-    public List<DeckComment> getLocallyChangedComments(long accountId) {
-        return db.getCommentDao().getLocallyChangedCommentsDirectly(accountId);
+    public List<DeckComment> getLocallyChangedCommentsByLocalCardIdDirectly(long accountId, long localCardId) {
+        return db.getCommentDao().getLocallyChangedCommentsByLocalCardIdDirectly(accountId, localCardId);
     }
 
     public void clearMentionsForCommentId(long commentID) {
@@ -671,5 +671,9 @@ public class DataBaseAdapter {
 
     public List<DeckComment> getCommentByLocalCardIdDirectly(Long localCardId) {
         return db.getCommentDao().getCommentByLocalCardIdDirectly(localCardId);
+    }
+
+    public List<Card> getCardsWithLocallyChangedCommentsDirectly(Long accountId) {
+        return db.getCardDao().getCardsWithLocallyChangedCommentsDirectly(accountId);
     }
 }
