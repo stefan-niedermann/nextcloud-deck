@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
 public class FullCard implements IRemoteEntity {
 
@@ -25,10 +26,6 @@ public class FullCard implements IRemoteEntity {
     @Embedded
     public Card card;
 
-//    @Relation(entity = JoinCardWithLabel.class, parentColumn = "localId", entityColumn = "cardId", projection = "labelId")
-//    public List<Long> labelIDs;
-
-//    @Ignore
     @Relation(entity = Label.class, parentColumn = "localId", entityColumn = "localId",
             associateBy = @Junction(value = JoinCardWithLabel.class, parentColumn = "cardId", entityColumn = "labelId"))
 
@@ -43,6 +40,9 @@ public class FullCard implements IRemoteEntity {
 
     @Relation(parentColumn = "localId", entityColumn = "cardId")
     public List<Attachment> attachments;
+
+    @Relation(entity = DeckComment.class, parentColumn = "localId", entityColumn = "objectId", projection = "localId")
+    public List<Long> commentIDs;
 
 
     public FullCard() {
@@ -79,6 +79,18 @@ public class FullCard implements IRemoteEntity {
 
     public void setAssignedUsers(List<User> assignedUsers) {
         this.assignedUsers = assignedUsers;
+    }
+
+    public void setCommentIDs(List<Long> commentIDs) {
+        this.commentIDs = commentIDs;
+    }
+
+    public List<Long> getCommentIDs() {
+        return commentIDs;
+    }
+
+    public int getCommentCount(){
+        return  commentIDs == null ? 0 : commentIDs.size();
     }
 
     public List<User> getOwner() {
@@ -131,22 +143,27 @@ public class FullCard implements IRemoteEntity {
 
         FullCard fullCard = (FullCard) o;
 
+        if (isAttachmentsSorted != fullCard.isAttachmentsSorted) return false;
         if (card != null ? !card.equals(fullCard.card) : fullCard.card != null) return false;
         if (labels != null ? !labels.equals(fullCard.labels) : fullCard.labels != null)
             return false;
         if (assignedUsers != null ? !assignedUsers.equals(fullCard.assignedUsers) : fullCard.assignedUsers != null)
             return false;
         if (owner != null ? !owner.equals(fullCard.owner) : fullCard.owner != null) return false;
-        return attachments != null ? attachments.equals(fullCard.attachments) : fullCard.attachments == null;
+        if (attachments != null ? !attachments.equals(fullCard.attachments) : fullCard.attachments != null)
+            return false;
+        return commentIDs != null ? commentIDs.equals(fullCard.commentIDs) : fullCard.commentIDs == null;
     }
 
     @Override
     public int hashCode() {
-        int result = card != null ? card.hashCode() : 0;
+        int result = (isAttachmentsSorted ? 1 : 0);
+        result = 31 * result + (card != null ? card.hashCode() : 0);
         result = 31 * result + (labels != null ? labels.hashCode() : 0);
         result = 31 * result + (assignedUsers != null ? assignedUsers.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + (attachments != null ? attachments.hashCode() : 0);
+        result = 31 * result + (commentIDs != null ? commentIDs.hashCode() : 0);
         return result;
     }
 }
