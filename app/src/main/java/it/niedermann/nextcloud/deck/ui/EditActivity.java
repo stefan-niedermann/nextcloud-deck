@@ -39,6 +39,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardAttachmentsFragment.NewCardAttachmentHandler;
@@ -340,7 +341,7 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     }
 
     @Override
-    public void onCommentAdded(String comment) {
+    public void onCommentAdded(DeckComment comment) {
         syncManager.addCommentToCard(accountId, boardId, localId, comment);
     }
 

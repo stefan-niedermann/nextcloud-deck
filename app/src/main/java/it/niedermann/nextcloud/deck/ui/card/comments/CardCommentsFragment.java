@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import java.util.List;
+import java.util.Date;
 
 import it.niedermann.nextcloud.deck.databinding.FragmentCardCommentsBinding;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -22,6 +22,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 public class CardCommentsFragment extends Fragment {
 
     private FragmentCardCommentsBinding binding;
+    private String temporaryActorDisplayNameForNewComments = "";
 
     private boolean canEdit = false;
 
@@ -50,6 +51,7 @@ public class CardCommentsFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             long localId = args.getLong(BUNDLE_KEY_LOCAL_ID);
+            long accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
             if (args.containsKey(BUNDLE_KEY_CAN_EDIT)) {
                 this.canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
             }
@@ -57,7 +59,10 @@ public class CardCommentsFragment extends Fragment {
             if (canEdit && getActivity() instanceof CommentAddedListener) {
                 binding.addCommentLayout.setVisibility(View.VISIBLE);
                 binding.fab.setOnClickListener(v -> {
-                    ((CommentAddedListener) requireActivity()).onCommentAdded(binding.message.getText().toString());
+                    DeckComment comment = new DeckComment(binding.message.getText().toString());
+                    comment.setActorDisplayName(temporaryActorDisplayNameForNewComments);
+                    comment.setCreationDateTime(new Date());
+                    ((CommentAddedListener) requireActivity()).onCommentAdded(comment);
                     binding.message.setText(null);
                 });
             } else {
@@ -65,9 +70,12 @@ public class CardCommentsFragment extends Fragment {
             }
 
             SyncManager syncManager = new SyncManager(requireActivity());
-            syncManager.getCommentsForLocalCardId(localId).observe(requireActivity(), (List<DeckComment> comments) -> {
-                CardCommentsAdapter adapter = new CardCommentsAdapter(requireContext(), comments);
-                binding.comments.setAdapter(adapter);
+            syncManager.getCommentsForLocalCardId(localId).observe(requireActivity(), (comments) -> {
+                syncManager.readAccount(accountId).observe(requireActivity(), (account) -> {
+                    temporaryActorDisplayNameForNewComments = account.getUserName();
+                    CardCommentsAdapter adapter = new CardCommentsAdapter(requireContext(), comments, account);
+                    binding.comments.setAdapter(adapter);
+                });
             });
         }
         return binding.getRoot();

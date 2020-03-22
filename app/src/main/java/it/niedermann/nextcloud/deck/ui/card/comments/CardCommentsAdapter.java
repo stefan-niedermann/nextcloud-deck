@@ -9,18 +9,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
+import it.niedermann.nextcloud.deck.util.DimensionUtil;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapter.ItemCommentViewHolder> {
 
-    private Context context;
-    private List<DeckComment> comments;
+    private final Context context;
+    private final List<DeckComment> comments;
+    private final Account account;
 
-    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments) {
+    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account) {
         this.context = context;
         this.comments = comments;
+        this.account = account;
         setHasStableIds(true);
     }
 
@@ -32,10 +38,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     @NonNull
     @Override
     public ItemCommentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        context = viewGroup.getContext();
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ItemCommentBinding binding = ItemCommentBinding.inflate(layoutInflater, viewGroup, false);
-        return new ItemCommentViewHolder(binding);
+        return new ItemCommentViewHolder(ItemCommentBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
     }
 
     @Override
@@ -44,6 +47,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         viewHolder.binding.actorDisplayName.setText(comment.getActorDisplayName());
         viewHolder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
         viewHolder.binding.message.setText(comment.getMessage());
+        ViewUtil.addAvatar(context, viewHolder.binding.avatar, account.getUrl(), account.getUserName(), DimensionUtil.getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
     }
 
 
