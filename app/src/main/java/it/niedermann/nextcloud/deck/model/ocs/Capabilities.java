@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Capabilities {
     // accountID - Capabiliy
-    public static Map<Long, Capabilities> cache = new HashMap<>();
+    public static final Map<Long, Capabilities> CACHE = new HashMap<>();
 
     Version deckVersion;
     Version nextcloudVersion;

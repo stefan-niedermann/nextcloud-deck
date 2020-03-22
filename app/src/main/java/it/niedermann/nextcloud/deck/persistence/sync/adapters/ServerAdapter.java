@@ -147,15 +147,15 @@ public class ServerAdapter {
                 responseCallback);
     }
     public void getCapabilities(IResponseCallback<Capabilities> responseCallback) {
-        if (Capabilities.cache.containsKey(responseCallback.getAccount().getId())) {
-            responseCallback.onResponse(Capabilities.cache.get(responseCallback.getAccount().getId()));
+        if (Capabilities.CACHE.containsKey(responseCallback.getAccount().getId())) {
+            responseCallback.onResponse(Capabilities.CACHE.get(responseCallback.getAccount().getId()));
             return;
         }
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCapabilities(), new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
             @Override
             public void onResponse(Capabilities response) {
-                Capabilities.cache.put(responseCallback.getAccount().getId(), response);
+                Capabilities.CACHE.put(responseCallback.getAccount().getId(), response);
                 responseCallback.onResponse(response);
             }
 
