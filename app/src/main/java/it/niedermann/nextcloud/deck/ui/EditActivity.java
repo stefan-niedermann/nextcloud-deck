@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.SpinnerAdapter;
 
 import androidx.appcompat.app.AlertDialog;
@@ -40,10 +41,10 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
-import it.niedermann.nextcloud.deck.ui.card.CardAttachmentsFragment;
-import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment;
+import it.niedermann.nextcloud.deck.ui.card.CardAttachmentsFragment.NewCardAttachmentHandler;
+import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment.CardDetailsListener;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
-import it.niedermann.nextcloud.deck.ui.card.CommentDialogFragment;
+import it.niedermann.nextcloud.deck.ui.card.CommentDialogFragment.AddCommentListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -54,11 +55,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AppCompatActivity implements
-        CardDetailsFragment.CardDetailsListener,
-        CommentDialogFragment.AddCommentListener,
-        CardAttachmentsFragment.AttachmentAddedToNewCardListener,
-        AdapterView.OnItemSelectedListener {
+public class EditActivity extends AppCompatActivity implements CardDetailsListener, AddCommentListener, NewCardAttachmentHandler, OnItemSelectedListener {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
@@ -348,7 +345,12 @@ public class EditActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void attachmentAddedToNewCard(Attachment attachment) {
+    public void attachmentAdded(Attachment attachment) {
         fullCard.getAttachments().add(attachment);
+    }
+
+    @Override
+    public void attachmentRemoved(Attachment attachment) {
+        fullCard.getAttachments().remove(attachment);
     }
 }
