@@ -305,6 +305,41 @@ public class SyncManager {
         });
     }
 
+    public void updateComment(long accountId, long localCardId, long localCommentId, String comment) {
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
+            DeckComment entity = dataBaseAdapter.getCommentByRemoteIdDirectly(accountId, localCommentId);
+            entity.setMessage(comment);
+            OcsComment commentEntity = OcsComment.of(entity);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new DeckCommentsDataProvider(null, card), commentEntity, new IResponseCallback<OcsComment>(account) {
+                @Override
+                public void onResponse(OcsComment response) {
+                    // nothing so far
+                }
+            });
+        });
+    }
+
+    public void deleteComment(long accountId, long localCardId, long localCommentId) {
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
+            DeckComment entity = dataBaseAdapter.getCommentByRemoteIdDirectly(accountId, localCommentId);
+            OcsComment commentEntity = OcsComment.of(entity);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new DeckCommentsDataProvider(null, card), commentEntity, new IResponseCallback<OcsComment>(account) {
+                @Override
+                public void onResponse(OcsComment response) {
+                    // nothing so far
+                }
+            });
+        });
+    }
+
+    public LiveData<List<DeckComment>> getCommentsForLocalCardId(long localCardId) {
+        return dataBaseAdapter.getCommentsForLocalCardId(localCardId);
+    }
+
     public void deleteBoard(Board board) {
         long accountId = board.getAccountId();
         doAsync(() -> {
