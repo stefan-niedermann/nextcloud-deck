@@ -23,7 +23,6 @@ public class CardCommentsFragment extends Fragment {
 
     private FragmentCardCommentsBinding binding;
 
-    private SyncManager syncManager;
     private boolean canEdit = false;
 
     public CardCommentsFragment() {
@@ -65,7 +64,7 @@ public class CardCommentsFragment extends Fragment {
                 binding.addCommentLayout.setVisibility(View.GONE);
             }
 
-            syncManager = new SyncManager(requireActivity());
+            SyncManager syncManager = new SyncManager(requireActivity());
             syncManager.getCommentsForLocalCardId(localId).observe(requireActivity(), (List<DeckComment> comments) -> {
                 CardCommentsAdapter adapter = new CardCommentsAdapter(requireContext(), comments);
                 binding.comments.setAdapter(adapter);
