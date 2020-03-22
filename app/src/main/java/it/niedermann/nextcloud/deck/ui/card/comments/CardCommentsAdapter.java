@@ -11,6 +11,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapter.ItemCommentViewHolder> {
 
@@ -41,6 +42,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     public void onBindViewHolder(@NonNull ItemCommentViewHolder viewHolder, int position) {
         DeckComment comment = comments.get(position);
         viewHolder.binding.actorDisplayName.setText(comment.getActorDisplayName());
+        viewHolder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
         viewHolder.binding.message.setText(comment.getMessage());
     }
 

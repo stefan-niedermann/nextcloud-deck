@@ -30,6 +30,7 @@
             android:autofillHints="@null"
             android:hint="@string/simple_comment"
             android:inputType="text"
+            android:maxLength="@integer/comment_max_length"
             android:paddingEnd="@dimen/standard_half_padding"
             android:paddingRight="@dimen/standard_half_padding"
             tools:ignore="RtlSymmetry" />

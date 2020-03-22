@@ -18,4 +18,6 @@
     <integer name="drag_n_drop_dp_to_react">30</integer>
     <!-- How many dp from top / bottom border should one be away before scrolling top / down when dragging cards -->
     <integer name="drag_n_drop_dp_to_react_top_bottom">100</integer>
+    <!-- Maximum characters of a comment. Caution: Server allow maximum 1000 characters! -->
+    <integer name="comment_max_length">1000</integer>
 </resources>
