@@ -66,6 +66,7 @@ public class SyncManager {
     public SyncManager(Context context, @Nullable Activity sourceActivity) {
         this(context, sourceActivity, null);
     }
+
     public SyncManager(Context context, @Nullable Activity sourceActivity, String ssoAccountName) {
         if (context == null) {
             throw new IllegalArgumentException("Provide a valid context.");
@@ -82,7 +83,7 @@ public class SyncManager {
 
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
-        if (accounts.size() > 0){
+        if (accounts.size() > 0) {
             final BooleanResultHolder success = new BooleanResultHolder();
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
@@ -90,7 +91,7 @@ public class SyncManager {
                     new SyncManager(dataBaseAdapter.getContext(), null, account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
                         @Override
                         public void onResponse(Boolean response) {
-                            success.result = success.result && response.booleanValue() ;
+                            success.result = success.result && response.booleanValue();
                             latch.countDown();
                         }
 
@@ -291,11 +292,11 @@ public class SyncManager {
         return dataBaseAdapter.getActivitiesForCard(card.getLocalId());
     }
 
-    public void addCommentToCard(long accountId, long boardId, long cardId, String comment) {
+    public void addCommentToCard(long accountId, long boardId, long cardId, DeckComment comment) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, cardId);
-            OcsComment commentEntity = OcsComment.of(new DeckComment(comment));
+            OcsComment commentEntity = OcsComment.of(comment);
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new DeckCommentsDataProvider(null, card), commentEntity, new IResponseCallback<OcsComment>(account) {
                 @Override
                 public void onResponse(OcsComment response) {
@@ -489,6 +490,7 @@ public class SyncManager {
         return liveData;
 
     }
+
     private void updateStack(Account account, FullBoard board, FullStack stack, MutableLiveData<FullStack> liveData) {
         doAsync(() -> {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
@@ -1013,7 +1015,7 @@ public class SyncManager {
         Date now = new Date();
         for (Card card : cardsToReorganize) {
             card.setOrder(startingAtOrder);
-            if (card.getStatus() == DBStatus.UP_TO_DATE.getId()){
+            if (card.getStatus() == DBStatus.UP_TO_DATE.getId()) {
                 card.setStatusEnum(DBStatus.LOCAL_EDITED_SILENT);
                 card.setLastModifiedLocal(now);
             }
@@ -1022,7 +1024,7 @@ public class SyncManager {
         }
     }
 
-    public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType,  @NonNull File file) {
+    public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file) {
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(new Attachment(), localCardId, mimeType, file);
@@ -1044,7 +1046,7 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType,  @NonNull File file) {
+    public LiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType, @NonNull File file) {
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(existing, existing.getCardId(), mimeType, file);
