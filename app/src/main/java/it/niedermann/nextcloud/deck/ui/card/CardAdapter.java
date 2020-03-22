@@ -267,11 +267,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     }
 
     private void setupDueDate(@NonNull TextView cardDueDate, Card card) {
-        cardDueDate.setText(
-                DateUtil.getRelativeDateTimeString(
-                        this.context,
-                        card.getDueDate().getTime())
-        );
+        cardDueDate.setText(DateUtil.getRelativeDateTimeString(this.context, card.getDueDate().getTime()));
         ViewUtil.themeDueDate(this.context, cardDueDate, card.getDueDate());
     }
 
