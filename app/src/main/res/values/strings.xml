@@ -64,7 +64,7 @@
     <string name="add_card">Add card</string>
     <string name="add_column">Add column</string>
 
-    <string name="attachment_count_max_value" translatable="false">+99</string>
+    <string name="counter_max_value" translatable="false">+99</string>
     <string name="add_account">Add account</string>
 
     <string name="label_menu">menu</string>
