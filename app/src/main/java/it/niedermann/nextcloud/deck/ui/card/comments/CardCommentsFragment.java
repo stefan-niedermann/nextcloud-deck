@@ -65,6 +65,7 @@ public class CardCommentsFragment extends Fragment {
                     ((CommentAddedListener) requireActivity()).onCommentAdded(comment);
                     binding.message.setText(null);
                 });
+                binding.message.setOnEditorActionListener((v, actionId, event) -> binding.fab.performClick());
             } else {
                 binding.addCommentLayout.setVisibility(View.GONE);
             }
