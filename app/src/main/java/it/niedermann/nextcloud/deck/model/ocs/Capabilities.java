@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.model.ocs;
 
 public class Capabilities {
+    public static Capabilities cache = null;
+
     Version deckVersion;
     Version nextcloudVersion;
 
