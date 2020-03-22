@@ -29,6 +29,6 @@ public interface CommentDao extends GenericDao<DeckComment> {
     @Query("SELECT * FROM DeckComment where objectId = :localCardId")
     List<DeckComment> getCommentByLocalCardIdDirectly(Long localCardId);
 
-    @Query("SELECT * FROM DeckComment where objectId = :localCardId")
+    @Query("SELECT * FROM DeckComment where objectId = :localCardId order by creationDateTime desc")
     LiveData<List<DeckComment>> getCommentByLocalCardId(Long localCardId);
 }
