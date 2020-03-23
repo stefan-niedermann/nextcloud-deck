@@ -21,8 +21,6 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 
 public class CardCommentsFragment extends Fragment {
 
-    private FragmentCardEditTabCommentsBinding binding;
-
     private Long accountId;
     private long localId;
     private boolean canEdit = false;
@@ -55,9 +53,8 @@ public class CardCommentsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentCardEditTabCommentsBinding.inflate(inflater, container, false);
+        FragmentCardEditTabCommentsBinding binding = FragmentCardEditTabCommentsBinding.inflate(inflater, container, false);
 
-        binding.comments.setNestedScrollingEnabled(false);
         SyncManager syncManager = new SyncManager(requireActivity());
         syncManager.readAccount(accountId).observe(requireActivity(), (account -> {
             syncManager.getCommentsForLocalCardId(localId).observe(requireActivity(),
