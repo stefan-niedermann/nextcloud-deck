@@ -19,7 +19,6 @@ public class BoardAdapter extends ArrayAdapter<Board> {
 
     @NonNull
     private Context context;
-    private Board selectedBoard;
 
     public BoardAdapter(@NonNull Context context, @NonNull Board[] boardsList) {
         super(context, R.layout.item_board, boardsList);
