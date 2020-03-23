@@ -76,11 +76,11 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         for (Mention m : mentions) {
             final String mentionId = "@" + m.getMentionId();
             final String mentionDisplayName = " " + m.getMentionDisplayName();
-            int index = messageBuilder.toString().indexOf(mentionId);
+            int index = messageBuilder.toString().lastIndexOf(mentionId);
             while (index >= 0) {
                 messageBuilder.setSpan(new ImageSpan(context, R.drawable.ic_person_grey600_24dp), index, index + mentionId.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 messageBuilder.insert(index + mentionId.length(), mentionDisplayName);
-                index = messageBuilder.toString().indexOf(mentionId + mentionDisplayName.length(), index + 1);
+                index = messageBuilder.toString().substring(0, index).lastIndexOf(mentionId);
             }
         }
         tv.setText(messageBuilder);

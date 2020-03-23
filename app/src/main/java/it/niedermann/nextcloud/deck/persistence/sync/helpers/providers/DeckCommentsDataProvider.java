@@ -59,6 +59,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
             mention.setCommentId(comment.getLocalId());
             mention.setId(dataBaseAdapter.createMention(mention));
         }
+
     }
 
     @Override
