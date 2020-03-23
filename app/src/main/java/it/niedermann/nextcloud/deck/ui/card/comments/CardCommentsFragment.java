@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.Date;
@@ -20,6 +22,8 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_ED
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class CardCommentsFragment extends Fragment {
+
+    private FragmentCardEditTabCommentsBinding binding;
 
     private Long accountId;
     private long localId;
@@ -53,7 +57,7 @@ public class CardCommentsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentCardEditTabCommentsBinding binding = FragmentCardEditTabCommentsBinding.inflate(inflater, container, false);
+        binding = FragmentCardEditTabCommentsBinding.inflate(inflater, container, false);
 
         SyncManager syncManager = new SyncManager(requireActivity());
         syncManager.readAccount(accountId).observe(requireActivity(), (account -> {
@@ -74,5 +78,14 @@ public class CardCommentsFragment extends Fragment {
             }
         }));
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (canEdit) {
+            binding.message.requestFocus();
+            requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
     }
 }
