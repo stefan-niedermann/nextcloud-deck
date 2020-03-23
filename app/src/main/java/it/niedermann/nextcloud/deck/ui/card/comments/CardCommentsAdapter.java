@@ -105,6 +105,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
 
                         @Override
                         public void onLoadCleared(@Nullable Drawable placeholder) {
+                            // silence is gold
                         }
                     });
         }
