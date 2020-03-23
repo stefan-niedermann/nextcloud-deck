@@ -236,18 +236,38 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
                             boardId,
                             canEdit,
                             hasCommentsAbility);
-                    binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
-                    binding.pager.setAdapter(adapter);
-                    new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(
-                            hasCommentsAbility
-                                    ? tabTitlesWithComments[position]
-                                    : tabTitles[position]
-                    )).attach();
+                    runOnUiThread(() -> {
+                        binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
+                        binding.pager.setAdapter(adapter);
+                        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(
+                                hasCommentsAbility
+                                        ? tabTitlesWithComments[position]
+                                        : tabTitles[position]
+                        )).attach();
+                    });
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
                     DeckLog.logError(throwable);
+                    boolean hasCommentsAbility = false;
+                    CardTabAdapter adapter = new CardTabAdapter(
+                            getSupportFragmentManager(),
+                            getLifecycle(),
+                            accountId,
+                            localId,
+                            boardId,
+                            canEdit,
+                            hasCommentsAbility);
+                    runOnUiThread(() -> {
+                        binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
+                        binding.pager.setAdapter(adapter);
+                        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(
+                                hasCommentsAbility
+                                        ? tabTitlesWithComments[position]
+                                        : tabTitles[position]
+                        )).attach();
+                    });
                     super.onError(throwable);
                 }
             });
