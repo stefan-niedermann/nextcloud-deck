@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/standard_padding">
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/standard_padding"
+        android:paddingLeft="@dimen/standard_padding"
+        android:paddingEnd="@dimen/standard_padding"
+        android:paddingRight="@dimen/standard_padding"
+        android:paddingBottom="@dimen/standard_padding"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:reverseLayout="true"
+        tools:listitem="@layout/item_comment" />
 
     <LinearLayout
         android:id="@+id/addCommentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginBottom="@dimen/standard_margin"
-        android:orientation="horizontal">
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/colorBackground"
+        android:orientation="horizontal"
+        android:padding="@dimen/standard_margin">
 
         <ImageView
             android:layout_width="@dimen/icon_size_details"
@@ -39,7 +52,10 @@
             android:maxLength="@integer/comment_max_length"
             android:paddingEnd="@dimen/standard_half_padding"
             android:paddingRight="@dimen/standard_half_padding"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry">
+
+            <requestFocus />
+        </EditText>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -51,12 +67,4 @@
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_send_white_24dp" />
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/comments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_margin"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_comment" />
-</LinearLayout>
+</RelativeLayout>
