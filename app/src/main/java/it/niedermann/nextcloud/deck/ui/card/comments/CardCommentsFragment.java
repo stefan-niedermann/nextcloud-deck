@@ -70,6 +70,7 @@ public class CardCommentsFragment extends Fragment {
                 binding.addCommentLayout.setVisibility(View.GONE);
             }
 
+            binding.comments.setNestedScrollingEnabled(false);
             SyncManager syncManager = new SyncManager(requireActivity());
             syncManager.getCommentsForLocalCardId(localId).observe(requireActivity(), (comments) -> {
                 syncManager.readAccount(accountId).observe(requireActivity(), (account) -> {
