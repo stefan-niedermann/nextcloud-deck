@@ -151,7 +151,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                                         .beginTransaction()
                                         .add(
                                                 R.id.commentsFragment,
-                                                CardCommentsFragment.newInstance(accountId, localId, boardId, canEdit),
+                                                CardCommentsFragment.newInstance(account, localId, canEdit),
                                                 CardCommentsFragment.class.getCanonicalName()
                                         )
                                         .disallowAddToBackStack()
