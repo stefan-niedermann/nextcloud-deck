@@ -94,7 +94,7 @@ public class JsonToEntityParser {
         JsonElement mentions = commentJson.get("mentions");
         if (mentions != null && mentions.isJsonArray()) {
             for (JsonElement mention : mentions.getAsJsonArray()) {
-                parseMention(mention);
+                deckComment.addMention(parseMention(mention));
             }
         }
 
