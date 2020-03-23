@@ -29,8 +29,9 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
+
+import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapter.ItemCommentViewHolder> {
 
@@ -59,7 +60,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     @Override
     public void onBindViewHolder(@NonNull ItemCommentViewHolder viewHolder, int position) {
         DeckComment comment = comments.get(position);
-        ViewUtil.addAvatar(context, viewHolder.binding.avatar, account.getUrl(), account.getUserName(), DimensionUtil.getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+        ViewUtil.addAvatar(context, viewHolder.binding.avatar, account.getUrl(), account.getUserName(), getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         viewHolder.binding.message.setText(comment.getMessage());
         viewHolder.binding.actorDisplayName.setText(comment.getActorDisplayName());
         viewHolder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
@@ -93,7 +94,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
             Glide.with(context)
                     .asBitmap()
                     .placeholder(R.drawable.ic_person_grey600_24dp)
-                    .load(account.getUrl() + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/64")
+                    .load(account.getUrl() + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/" + getAvatarDimension(context, R.dimen.icon_size_details))
                     .apply(RequestOptions.circleCropTransform())
                     .into(new CustomTarget<Bitmap>() {
                         @Override
