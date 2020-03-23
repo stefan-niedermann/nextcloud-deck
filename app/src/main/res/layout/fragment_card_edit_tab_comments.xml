@@ -15,13 +15,22 @@
         android:layout_marginBottom="@dimen/standard_margin"
         android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="@dimen/icon_size_details"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:contentDescription="@null"
+            android:tint="@color/grey600"
+            app:srcCompat="@drawable/ic_comment_white_24dp" />
+
         <EditText
             android:id="@+id/message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/avatar_size_plus_standard_margin"
-            android:layout_marginLeft="@dimen/avatar_size_plus_standard_margin"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1"
             android:autofillHints="@null"
             android:hint="@string/simple_comment"
@@ -32,13 +41,14 @@
             android:paddingRight="@dimen/standard_half_padding"
             tools:ignore="RtlSymmetry" />
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/add_comment"
-            android:tint="@color/primary"
+            android:tint="@android:color/white"
+            app:fabSize="mini"
             app:srcCompat="@drawable/ic_send_white_24dp" />
     </LinearLayout>
 
