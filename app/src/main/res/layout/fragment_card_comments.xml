@@ -19,7 +19,7 @@
             android:layout_marginRight="@dimen/standard_margin"
             android:contentDescription="@null"
             android:tint="@color/grey600"
-            app:srcCompat="@drawable/ic_insert_comment_white_24dp" />
+            app:srcCompat="@drawable/ic_comment_white_24dp" />
 
         <EditText
             android:id="@+id/message"
