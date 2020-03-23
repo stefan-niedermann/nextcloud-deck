@@ -28,9 +28,6 @@ public class CardCommentsFragment extends Fragment {
     private long localId;
     private boolean canEdit = false;
 
-    public CardCommentsFragment() {
-    }
-
     public static CardCommentsFragment newInstance(Account account, long localId, boolean canEdit) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(BUNDLE_KEY_ACCOUNT, account);
