@@ -31,6 +31,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -39,6 +40,8 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
@@ -64,6 +67,13 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     private static final int[] tabTitles = new int[]{
             R.string.card_edit_details,
             R.string.card_edit_attachments,
+            R.string.card_edit_activity
+    };
+
+    private static final int[] tabTitlesWithComments = new int[]{
+            R.string.card_edit_details,
+            R.string.card_edit_attachments,
+            R.string.card_edit_comments,
             R.string.card_edit_activity
     };
 
@@ -210,10 +220,38 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     private void setupViewPager() {
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle(), accountId, localId, boardId, canEdit);
-        binding.pager.setOffscreenPageLimit(2);
-        binding.pager.setAdapter(adapter);
-        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(tabTitles[position])).attach();
+
+
+        // Comments API only available starting with version 1.0.0-alpha1
+        syncManager.readAccount(accountId).observe(this, (account) -> {
+            syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
+                @Override
+                public void onResponse(Capabilities response) {
+                    boolean hasCommentsAbility = (response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0);
+                    CardTabAdapter adapter = new CardTabAdapter(
+                            getSupportFragmentManager(),
+                            getLifecycle(),
+                            accountId,
+                            localId,
+                            boardId,
+                            canEdit,
+                            hasCommentsAbility);
+                    binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
+                    binding.pager.setAdapter(adapter);
+                    new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(
+                            hasCommentsAbility
+                                    ? tabTitlesWithComments[position]
+                                    : tabTitles[position]
+                    )).attach();
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    DeckLog.logError(throwable);
+                    super.onError(throwable);
+                }
+            });
+        });
     }
 
     private void setupTitle(boolean createMode) {
