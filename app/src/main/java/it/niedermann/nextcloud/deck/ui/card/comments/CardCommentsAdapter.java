@@ -2,10 +2,9 @@ package it.niedermann.nextcloud.deck.ui.card.comments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
-import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -22,10 +21,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.text.DateFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
@@ -65,52 +61,53 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         DeckComment comment = comments.get(position);
         ViewUtil.addAvatar(context, viewHolder.binding.avatar, account.getUrl(), account.getUserName(), DimensionUtil.getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         viewHolder.binding.message.setText(comment.getMessage());
-        setupMentions(comment.getMentions(), viewHolder.binding.message);
         viewHolder.binding.actorDisplayName.setText(comment.getActorDisplayName());
         viewHolder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
         TooltipCompat.setTooltipText(viewHolder.binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getCreationDateTime()));
+        setupMentions(comment.getMentions(), viewHolder.binding.message);
     }
 
     private void setupMentions(List<Mention> mentions, TextView tv) {
-//            int count = (str.split("@" + mentions.size(), -1).length) - 1;
-        new Thread(() -> {
-            Map<Mention, Bitmap> mentionAvatarMap = new HashMap<>(mentions.size());
-            CountDownLatch responseWaiter = new CountDownLatch(mentionAvatarMap.size());
-            for (Mention m : mentions) {
-                Glide.with(context)
-                        .asBitmap()
-                        .load(account.getUrl() + "/index.php/avatar/" + m.getMentionId() + "/64?v=4")
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(new CustomTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                mentionAvatarMap.put(m, resource);
-                                responseWaiter.countDown();
-                            }
+        SpannableStringBuilder messageBuilder = new SpannableStringBuilder(tv.getText());
 
-                            @Override
-                            public void onLoadCleared(@Nullable Drawable placeholder) {
-                            }
-                        });
+        // Step 1
+        // Add avatar icons and display names
+        for (Mention m : mentions) {
+            final String mentionId = "@" + m.getMentionId();
+            final String mentionDisplayName = " " + m.getMentionDisplayName();
+            int index = messageBuilder.toString().indexOf(mentionId);
+            while (index >= 0) {
+                messageBuilder.setSpan(new ImageSpan(context, R.drawable.ic_person_grey600_24dp), index, index + mentionId.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                messageBuilder.insert(index + mentionId.length(), mentionDisplayName);
+                index = messageBuilder.toString().indexOf(mentionId + mentionDisplayName.length(), index + 1);
             }
-            try {
-                responseWaiter.await();
-                SpannableString string = new SpannableString(tv.getText());
-                for (Mention m : mentionAvatarMap.keySet()) {
-                    if (tv.getText().toString().contains("@" + m.getMentionId())) {
-                        Bitmap avatar = mentionAvatarMap.get(m);
-                        if (avatar == null) {
-                            avatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_person_grey600_24dp);
+        }
+        tv.setText(messageBuilder);
+
+        // Step 2
+        // Replace avatar icons with real avatars
+        final ImageSpan[] list = messageBuilder.getSpans(0, messageBuilder.length(), ImageSpan.class);
+        for (ImageSpan span : list) {
+            final int spanStart = messageBuilder.getSpanStart(span);
+            final int spanEnd = messageBuilder.getSpanEnd(span);
+            Glide.with(context)
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_person_grey600_24dp)
+                    .load(account.getUrl() + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/64")
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            messageBuilder.removeSpan(span);
+                            messageBuilder.setSpan(new ImageSpan(context, resource), spanStart, spanEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         }
-                        string.setSpan(new ImageSpan(context, avatar), tv.getText().toString().indexOf("@" + m.getMentionId()), tv.getText().toString().indexOf("@" + m.getMentionId()) + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        tv.setText(string);
-                    }
-                    tv.invalidate();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                        }
+                    });
+        }
+        tv.setText(messageBuilder);
     }
 
 
