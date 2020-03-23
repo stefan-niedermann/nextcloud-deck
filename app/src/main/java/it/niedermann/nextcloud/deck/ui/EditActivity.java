@@ -66,16 +66,16 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     private SyncManager syncManager;
 
     private static final int[] tabTitles = new int[]{
-            R.string.card_edit_details,
-            R.string.card_edit_attachments,
-            R.string.card_edit_activity
+            R.drawable.ic_home_grey600_24dp,
+            R.drawable.ic_attach_file_grey600_24dp,
+            R.drawable.ic_activity_light_grey
     };
 
     private static final int[] tabTitlesWithComments = new int[]{
-            R.string.card_edit_details,
-            R.string.card_edit_attachments,
-            R.string.card_edit_comments,
-            R.string.card_edit_activity
+            R.drawable.ic_home_grey600_24dp,
+            R.drawable.ic_attach_file_grey600_24dp,
+            R.drawable.type_comment_grey600_36dp,
+            R.drawable.ic_activity_light_grey
     };
 
     private FullCard originalCard;
@@ -256,7 +256,7 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
         runOnUiThread(() -> {
             binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
             binding.pager.setAdapter(adapter);
-            new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(
+            new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setIcon(
                     hasCommentsAbility
                             ? tabTitlesWithComments[position]
                             : tabTitles[position]
