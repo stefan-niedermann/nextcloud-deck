@@ -33,6 +33,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -224,53 +225,42 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
 
         // Comments API only available starting with version 1.0.0-alpha1
         syncManager.readAccount(accountId).observe(this, (account) -> {
-            syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
-                @Override
-                public void onResponse(Capabilities response) {
-                    boolean hasCommentsAbility = (response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0);
-                    CardTabAdapter adapter = new CardTabAdapter(
-                            getSupportFragmentManager(),
-                            getLifecycle(),
-                            accountId,
-                            localId,
-                            boardId,
-                            canEdit,
-                            hasCommentsAbility);
-                    runOnUiThread(() -> {
-                        binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
-                        binding.pager.setAdapter(adapter);
-                        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(
-                                hasCommentsAbility
-                                        ? tabTitlesWithComments[position]
-                                        : tabTitles[position]
-                        )).attach();
-                    });
-                }
+            try {
+                syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
+                    @Override
+                    public void onResponse(Capabilities response) {
+                        setupTabs((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
+                    }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    DeckLog.logError(throwable);
-                    boolean hasCommentsAbility = false;
-                    CardTabAdapter adapter = new CardTabAdapter(
-                            getSupportFragmentManager(),
-                            getLifecycle(),
-                            accountId,
-                            localId,
-                            boardId,
-                            canEdit,
-                            hasCommentsAbility);
-                    runOnUiThread(() -> {
-                        binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
-                        binding.pager.setAdapter(adapter);
-                        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(
-                                hasCommentsAbility
-                                        ? tabTitlesWithComments[position]
-                                        : tabTitles[position]
-                        )).attach();
-                    });
-                    super.onError(throwable);
-                }
-            });
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                        setupTabs(false);
+                    }
+                });
+            } catch (OfflineException e) {
+                setupTabs(false);
+            }
+        });
+    }
+
+    private void setupTabs(boolean hasCommentsAbility) {
+        CardTabAdapter adapter = new CardTabAdapter(
+                getSupportFragmentManager(),
+                getLifecycle(),
+                accountId,
+                localId,
+                boardId,
+                canEdit,
+                hasCommentsAbility);
+        runOnUiThread(() -> {
+            binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
+            binding.pager.setAdapter(adapter);
+            new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(
+                    hasCommentsAbility
+                            ? tabTitlesWithComments[position]
+                            : tabTitles[position]
+            )).attach();
         });
     }
 
