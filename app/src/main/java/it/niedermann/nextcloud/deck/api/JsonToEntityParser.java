@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.api;
 
-import android.util.Log;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,7 +13,6 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -184,7 +181,7 @@ public class JsonToEntityParser {
         JsonElement owner = e.get("owner");
         if (owner != null) {
             if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                Log.d(DeckConsts.DEBUG_TAG, "owner is Primitive, skipping");
+                DeckLog.log("owner is Primitive, skipping");
             } else
                 fullBoard.setOwner(parseUser(owner.getAsJsonObject()));
         }
