@@ -31,7 +31,9 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -39,6 +41,8 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
@@ -65,6 +69,26 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
             R.string.card_edit_details,
             R.string.card_edit_attachments,
             R.string.card_edit_activity
+    };
+
+    private static final int[] tabTitlesWithComments = new int[]{
+            R.string.card_edit_details,
+            R.string.card_edit_attachments,
+            R.string.card_edit_comments,
+            R.string.card_edit_activity
+    };
+
+    private static final int[] tabIcons = new int[]{
+            R.drawable.ic_home_grey600_24dp,
+            R.drawable.ic_attach_file_grey600_24dp,
+            R.drawable.ic_activity_light_grey
+    };
+
+    private static final int[] tabIconsWithComments = new int[]{
+            R.drawable.ic_home_grey600_24dp,
+            R.drawable.ic_attach_file_grey600_24dp,
+            R.drawable.type_comment_grey600_36dp,
+            R.drawable.ic_activity_light_grey
     };
 
     private FullCard originalCard;
@@ -210,10 +234,54 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     private void setupViewPager() {
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle(), accountId, localId, boardId, canEdit);
-        binding.pager.setOffscreenPageLimit(2);
-        binding.pager.setAdapter(adapter);
-        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(tabTitles[position])).attach();
+
+
+        // Comments API only available starting with version 1.0.0-alpha1
+        syncManager.readAccount(accountId).observe(this, (account) -> {
+            try {
+                syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
+                    @Override
+                    public void onResponse(Capabilities response) {
+                        setupTabs((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                        setupTabs(false);
+                    }
+                });
+            } catch (OfflineException e) {
+                setupTabs(false);
+            }
+        });
+    }
+
+    private void setupTabs(boolean hasCommentsAbility) {
+        CardTabAdapter adapter = new CardTabAdapter(
+                getSupportFragmentManager(),
+                getLifecycle(),
+                accountId,
+                localId,
+                boardId,
+                canEdit,
+                hasCommentsAbility);
+        runOnUiThread(() -> {
+            binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
+            binding.pager.setAdapter(adapter);
+            new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
+                tab.setIcon(
+                        hasCommentsAbility
+                                ? tabIconsWithComments[position]
+                                : tabIcons[position]
+                );
+                tab.setContentDescription(
+                        hasCommentsAbility
+                                ? tabTitlesWithComments[position]
+                                : tabTitles[position]
+                );
+            }).attach();
+        });
     }
 
     private void setupTitle(boolean createMode) {
