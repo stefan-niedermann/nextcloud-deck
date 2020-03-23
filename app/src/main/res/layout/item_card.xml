@@ -140,8 +140,8 @@
                     android:maxLines="1"
                     android:minLines="0"
                     android:padding="@dimen/standard_quarter_padding"
-                    app:drawableLeftCompat="@drawable/ic_insert_comment_white_24dp"
-                    app:drawableStartCompat="@drawable/ic_insert_comment_white_24dp"
+                    app:drawableLeftCompat="@drawable/ic_comment_white_24dp"
+                    app:drawableStartCompat="@drawable/ic_comment_white_24dp"
                     app:drawableTint="@color/grey600"
                     tools:text="1" />
 
