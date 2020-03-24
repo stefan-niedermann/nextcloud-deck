@@ -17,6 +17,8 @@ import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBindi
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -62,10 +64,21 @@ public class CardCommentsFragment extends Fragment {
         SyncManager syncManager = new SyncManager(requireActivity());
         syncManager.readAccount(accountId).observe(requireActivity(), (account -> {
             syncManager.getCommentsForLocalCardId(localId).observe(requireActivity(),
-                    (comments) -> binding.comments.setAdapter(new CardCommentsAdapter(requireContext(), comments, account)));
+                    (comments) -> {
+                        if (comments != null && comments.size() > 0) {
+                            binding.emptyContentView.setVisibility(GONE);
+                            binding.comments.setVisibility(VISIBLE);
+                            binding.comments.setAdapter(new CardCommentsAdapter(requireContext(), comments, account));
+                        } else {
+                            binding.emptyContentView.setVisibility(VISIBLE);
+                            binding.comments.setVisibility(GONE);
+                        }
+                    });
             if (canEdit && getActivity() instanceof CommentAddedListener) {
-                binding.addCommentLayout.setVisibility(View.VISIBLE);
+                binding.addCommentLayout.setVisibility(VISIBLE);
                 binding.fab.setOnClickListener(v -> {
+                    binding.emptyContentView.setVisibility(GONE);
+                    binding.comments.setVisibility(VISIBLE);
                     DeckComment comment = new DeckComment(binding.message.getText().toString());
                     comment.setActorDisplayName(account.getUserName());
                     comment.setCreationDateTime(new Date());
@@ -74,7 +87,7 @@ public class CardCommentsFragment extends Fragment {
                 });
                 binding.message.setOnEditorActionListener((v, actionId, event) -> binding.fab.performClick());
             } else {
-                binding.addCommentLayout.setVisibility(View.GONE);
+                binding.addCommentLayout.setVisibility(GONE);
             }
         }));
         return binding.getRoot();

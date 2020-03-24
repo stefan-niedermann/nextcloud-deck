@@ -15,6 +15,15 @@
         app:reverseLayout="true"
         tools:listitem="@layout/item_comment" />
 
+    <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
+        android:id="@+id/empty_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:description="@string/no_comments_yet"
+        app:image="@drawable/type_comment_grey600_36dp"
+        app:title="@string/card_edit_comments" />
+
     <LinearLayout
         android:id="@+id/addCommentLayout"
         android:layout_width="match_parent"
@@ -43,7 +52,7 @@
             android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1"
             android:autofillHints="@null"
-            android:hint="@string/simple_comment"
+            android:hint="@string/add_comment"
             android:imeOptions="actionSend"
             android:inputType="text"
             android:maxLength="@integer/comment_max_length"

@@ -166,4 +166,5 @@
     <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
     <string name="add_comment">Add comment</string>
     <string name="card_edit_comments">Comments</string>
+    <string name="no_comments_yet">No comments yet</string>
 </resources>
