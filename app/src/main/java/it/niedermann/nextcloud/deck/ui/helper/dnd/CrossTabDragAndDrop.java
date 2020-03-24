@@ -133,8 +133,8 @@ public class CrossTabDragAndDrop {
     }
 
     private void switchTab(ViewPager2 viewPager, TabLayout stackLayout, FragmentManager fm, final DraggedCardLocalState draggedCardLocalState, long now, int newPosition) {
-        draggedCardLocalState.onTabChanged(viewPager, fm);
         viewPager.setCurrentItem(newPosition);
+        draggedCardLocalState.onTabChanged(viewPager, fm);
         Objects.requireNonNull(stackLayout.getTabAt(newPosition)).select();
 
         final RecyclerView recyclerView = draggedCardLocalState.getRecyclerView();
