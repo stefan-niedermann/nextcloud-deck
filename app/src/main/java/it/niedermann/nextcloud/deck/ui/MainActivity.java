@@ -64,6 +64,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
@@ -218,12 +219,12 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             stackAdapter = new StackAdapter(this);
             binding.viewPager.setAdapter(stackAdapter);
 
-//            CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
-//            dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
-//            dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
-//                syncManager.reorder(currentAccount.getId(), movedCard, stackId, position);
-//                DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
-//            });
+            CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
+            dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
+            dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
+                syncManager.reorder(currentAccount.getId(), movedCard, stackId, position);
+                DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
+            });
 
             binding.addStackButton.setOnClickListener((v) -> {
                 if (this.boardsList.size() == 0) {
