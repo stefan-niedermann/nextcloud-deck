@@ -11,10 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/addCommentLayout"
-        android:paddingStart="@dimen/standard_padding"
-        android:paddingLeft="@dimen/standard_padding"
-        android:paddingEnd="@dimen/standard_padding"
-        android:paddingRight="@dimen/standard_padding"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:reverseLayout="true"
         tools:listitem="@layout/item_comment" />
@@ -25,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="?android:attr/colorBackground"
-        android:orientation="horizontal"
         android:clipToPadding="false"
+        android:orientation="horizontal"
         android:padding="@dimen/standard_margin">
 
         <ImageView
