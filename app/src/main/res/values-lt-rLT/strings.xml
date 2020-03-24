@@ -61,6 +61,7 @@
 
     <string name="label_add">Pridėti %1$s</string>
     <string name="error">Atsirado klaida</string>
+    <string name="operation_not_yet_supported">Kol kas nepalaikoma</string>
     <string name="simple_copy">kopija</string>
     <string name="simple_exception">Išimtis</string>
     <string name="copied_to_clipboard">Nukopijuota į iškarpinę</string>

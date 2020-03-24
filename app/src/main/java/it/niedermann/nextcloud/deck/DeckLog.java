@@ -6,8 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class DeckLog {
-
-    private static final String DEBUG_TAG = "deck";
+    public static final String TAG = DeckLog.class.getCanonicalName();
 
     public enum Severity {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
@@ -42,19 +41,19 @@ public class DeckLog {
         String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
         switch (severity) {
             case VERBOSE:
-                Log.v(DEBUG_TAG, source);
+                Log.v(TAG, source);
                 break;
             case DEBUG:
-                Log.d(DEBUG_TAG, source);
+                Log.d(TAG, source);
                 break;
             case INFO:
-                Log.i(DEBUG_TAG, source);
+                Log.i(TAG, source);
                 break;
             case WARN:
-                Log.w(DEBUG_TAG, source);
+                Log.w(TAG, source);
                 break;
             case ERROR:
-                Log.e(DEBUG_TAG, source);
+                Log.e(TAG, source);
                 break;
         }
     }
@@ -66,7 +65,7 @@ public class DeckLog {
         String stacktrace = sw.toString(); // stack trace as a string
         StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
         String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") -> ";
-        Log.d(DEBUG_TAG, source + stacktrace);
+        Log.d(TAG, source + stacktrace);
     }
 
     public static void printCurrentStacktrace() {

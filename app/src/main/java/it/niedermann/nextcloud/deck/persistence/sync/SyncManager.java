@@ -35,6 +35,8 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -47,6 +49,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.Attachmen
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardPropagationDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.DeckCommentsDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
@@ -63,6 +66,7 @@ public class SyncManager {
     public SyncManager(Context context, @Nullable Activity sourceActivity) {
         this(context, sourceActivity, null);
     }
+
     public SyncManager(Context context, @Nullable Activity sourceActivity, String ssoAccountName) {
         if (context == null) {
             throw new IllegalArgumentException("Provide a valid context.");
@@ -79,7 +83,7 @@ public class SyncManager {
 
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
-        if (accounts.size() > 0){
+        if (accounts.size() > 0) {
             final BooleanResultHolder success = new BooleanResultHolder();
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
@@ -87,7 +91,7 @@ public class SyncManager {
                     new SyncManager(dataBaseAdapter.getContext(), null, account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
                         @Override
                         public void onResponse(Boolean response) {
-                            success.result = success.result && response.booleanValue() ;
+                            success.result = success.result && response.booleanValue();
                             latch.countDown();
                         }
 
@@ -288,10 +292,53 @@ public class SyncManager {
         return dataBaseAdapter.getActivitiesForCard(card.getLocalId());
     }
 
-    public void addCommentToCard(long accountId, long boardId, long cardId, String comment) {
-        // TODO implement me
-        // No return value required, since the activities are observed and should get notified
-        // Offline-Support needed.
+    public void addCommentToCard(long accountId, long boardId, long cardId, DeckComment comment) {
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, cardId);
+            OcsComment commentEntity = OcsComment.of(comment);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new DeckCommentsDataProvider(null, card), commentEntity, new IResponseCallback<OcsComment>(account) {
+                @Override
+                public void onResponse(OcsComment response) {
+                    // nothing so far
+                }
+            });
+        });
+    }
+
+    public void updateComment(long accountId, long localCardId, long localCommentId, String comment) {
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
+            DeckComment entity = dataBaseAdapter.getCommentByRemoteIdDirectly(accountId, localCommentId);
+            entity.setMessage(comment);
+            OcsComment commentEntity = OcsComment.of(entity);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new DeckCommentsDataProvider(null, card), commentEntity, new IResponseCallback<OcsComment>(account) {
+                @Override
+                public void onResponse(OcsComment response) {
+                    // nothing so far
+                }
+            });
+        });
+    }
+
+    public void deleteComment(long accountId, long localCardId, long localCommentId) {
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
+            DeckComment entity = dataBaseAdapter.getCommentByRemoteIdDirectly(accountId, localCommentId);
+            OcsComment commentEntity = OcsComment.of(entity);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new DeckCommentsDataProvider(null, card), commentEntity, new IResponseCallback<OcsComment>(account) {
+                @Override
+                public void onResponse(OcsComment response) {
+                    // nothing so far
+                }
+            });
+        });
+    }
+
+    public LiveData<List<DeckComment>> getCommentsForLocalCardId(long localCardId) {
+        return dataBaseAdapter.getCommentsForLocalCardId(localCardId);
     }
 
     public void deleteBoard(Board board) {
@@ -443,6 +490,7 @@ public class SyncManager {
         return liveData;
 
     }
+
     private void updateStack(Account account, FullBoard board, FullStack stack, MutableLiveData<FullStack> liveData) {
         doAsync(() -> {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
@@ -528,6 +576,15 @@ public class SyncManager {
             if (labels != null) {
                 for (Label label : labels) {
                     dataBaseAdapter.createJoinCardWithLabel(label.getLocalId(), localCardId, DBStatus.LOCAL_EDITED);
+                }
+            }
+
+            if (card.getAttachments() != null) {
+                for (Attachment attachment : card.getAttachments()) {
+                    if (attachment.getLocalId() == null) {
+                        attachment.setCardId(localCardId);
+                        dataBaseAdapter.createAttachment(accountId, attachment);
+                    }
                 }
             }
 
@@ -958,7 +1015,7 @@ public class SyncManager {
         Date now = new Date();
         for (Card card : cardsToReorganize) {
             card.setOrder(startingAtOrder);
-            if (card.getStatus() == DBStatus.UP_TO_DATE.getId()){
+            if (card.getStatus() == DBStatus.UP_TO_DATE.getId()) {
                 card.setStatusEnum(DBStatus.LOCAL_EDITED_SILENT);
                 card.setLastModifiedLocal(now);
             }
@@ -967,7 +1024,7 @@ public class SyncManager {
         }
     }
 
-    public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType,  @NonNull File file) {
+    public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file) {
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(new Attachment(), localCardId, mimeType, file);
@@ -989,7 +1046,7 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType,  @NonNull File file) {
+    public LiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType, @NonNull File file) {
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(existing, existing.getCardId(), mimeType, file);

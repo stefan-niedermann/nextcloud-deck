@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.bumptech.glide.Glide;
@@ -21,11 +22,11 @@ public final class ViewUtil {
     private ViewUtil() {
     }
 
-    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int errorResource) {
+    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, @DrawableRes int errorResource) {
         addAvatar(context, avatar, baseUrl, userId, DimensionUtil.getAvatarDimension(context), errorResource);
     }
 
-    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int avatarSize, int errorResource) {
+    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int avatarSize, @DrawableRes int errorResource) {
         String uri = baseUrl + "/index.php/avatar/" + Uri.encode(userId) + "/" + avatarSize;
         Glide.with(context)
                 .load(uri)

@@ -146,7 +146,6 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
             DeckLog.logError(e);
         }
-
         return binding.getRoot();
     }
 

@@ -7,6 +7,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -26,18 +27,22 @@ import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.ActivityDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AttachmentDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.BoardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CardDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.CommentDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithLabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithPermissionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinBoardWithUserDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWithLabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWithUserDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.LabelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
@@ -59,9 +64,11 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 Stack.class,
                 User.class,
                 Activity.class,
+                DeckComment.class,
+                Mention.class,
         },
         exportSchema = false,
-        version = 8
+        version = 9
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -69,6 +76,22 @@ public abstract class DeckDatabase extends RoomDatabase {
 
     private static final String DECK_DB_NAME = "NC_DECK_DB.db";
     private static volatile DeckDatabase instance;
+
+    private static final Migration MIGRATION_8_9 = new Migration(8, 9) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `DeckComment` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER, `objectId` INTEGER, `actorType` TEXT, `creationDateTime` INTEGER, `actorId` TEXT, `actorDisplayName` TEXT, `message` TEXT, FOREIGN KEY(`objectId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE TABLE `Mention` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `commentId` INTEGER, `mentionId` TEXT, `mentionType` TEXT, `mentionDisplayName` TEXT, FOREIGN KEY(`commentId`) REFERENCES `DeckComment`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE INDEX `index_DeckComment_accountId` ON `DeckComment` (`accountId`)");
+            database.execSQL("CREATE INDEX `comment_accID` ON `DeckComment` (`accountId`)");
+            database.execSQL("CREATE UNIQUE INDEX `index_DeckComment_accountId_id` ON `DeckComment` (`accountId`, `id`)");
+            database.execSQL("CREATE INDEX `index_DeckComment_id` ON `DeckComment` (`id`)");
+            database.execSQL("CREATE INDEX `index_DeckComment_lastModifiedLocal` ON `DeckComment` (`lastModifiedLocal`)");
+            database.execSQL("CREATE INDEX `index_DeckComment_objectId` ON `DeckComment` (`objectId`)");
+            database.execSQL("CREATE INDEX `index_Mention_commentId` ON `Mention` (`commentId`)");
+        }
+    };
+
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
 
@@ -93,6 +116,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 DeckDatabase.class,
                 DECK_DB_NAME)
                 //FIXME: remove destructive Migration as soon as schema is stable!
+                .addMigrations(MIGRATION_8_9)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
@@ -126,4 +150,8 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract UserDao getUserDao();
 
     public abstract AttachmentDao getAttachmentDao();
+
+    public abstract CommentDao getCommentDao();
+
+    public abstract MentionDao getMentionDao();
 }

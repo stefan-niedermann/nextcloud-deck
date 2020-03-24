@@ -71,6 +71,7 @@
 
     <string name="label_add">Přidat %1$s</string>
     <string name="error">Objevila se chyba</string>
+    <string name="operation_not_yet_supported">Zatím nepodorováno</string>
     <string name="simple_copy">zkopírovat</string>
     <string name="simple_exception">Výjimka</string>
     <string name="copied_to_clipboard">Zkopírováno do schránky</string>
@@ -142,4 +143,6 @@
     <string name="server_error_explanation">Vámi využívaný server odpověděl HTTP stavovým kódem 503. Může to být tím, že na serveru právě probíhá údržba. Obraťte se na jeho správce nebo na autory této aplikace (kontaktní údaje naleznete v sekci „O aplikaci“).</string>
     <string name="share_add_to_card">Přidat do karty</string>
     <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
-    </resources>
+    <string name="could_not_copy_to_clipboard">Nedaří se zkopírovat do schránky</string>
+    <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
+</resources>

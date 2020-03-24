@@ -71,6 +71,7 @@
 
     <string name="label_add">Ajouter %1$s</string>
     <string name="error">Une erreur est survenue</string>
+    <string name="operation_not_yet_supported">Non supporté actuellement</string>
     <string name="simple_copy">copier</string>
     <string name="simple_exception">Exception</string>
     <string name="copied_to_clipboard">Copié dans le presse-papier</string>
@@ -143,4 +144,6 @@
     <string name="server_error_explanation">Votre serveur a répondu avec le code d\'état HTTP 503. Cela peut être le cas si le serveur est actuellement en mode maintenance. Veuillez contacter votre administrateur ou nous pour obtenir de l\'aide. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
     <string name="share_add_to_card">Ajouter à la carte</string>
     <string name="share_success">Ajout de %1$s à %2$s réussit</string>
-    </resources>
+    <string name="could_not_copy_to_clipboard">Impossible de copier dans le presse-papiers</string>
+    <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
+</resources>

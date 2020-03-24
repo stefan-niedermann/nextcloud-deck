@@ -64,7 +64,7 @@
     <string name="add_card">Add card</string>
     <string name="add_column">Add column</string>
 
-    <string name="attachment_count_max_value" translatable="false">+99</string>
+    <string name="counter_max_value" translatable="false">+99</string>
     <string name="add_account">Add account</string>
 
     <string name="label_menu">menu</string>
@@ -164,6 +164,9 @@
     <string name="share_success">Successfully added %1$s to %2$s</string>
     <string name="could_not_copy_to_clipboard">Could not copy to clipboard</string>
     <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
+    <string name="add_comment">Add comment</string>
+    <string name="card_edit_comments">Comments</string>
+    <string name="no_comments_yet">No comments yet</string>
     <string name="no_boards">No boards yet</string>
     <string name="add_a_new_board_using_the_button">Add a new board using the + button</string>
 </resources>

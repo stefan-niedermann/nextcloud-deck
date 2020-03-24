@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -40,6 +41,7 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 import static it.niedermann.nextcloud.deck.ui.AttachmentsActivity.BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAdapter.AttachmentViewHolder> {
 
@@ -48,10 +50,11 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
 
     private final MenuInflater menuInflator;
     private final Account account;
-    private final long cardRemoteId;
+    @Nullable
+    private Long cardRemoteId = null;
     private final long cardLocalId;
     @NonNull
-    private List<Attachment> attachments;
+    private List<Attachment> attachments = new ArrayList<>();
     @NonNull
     private final AttachmentDeletedListener attachmentDeletedListener;
     @Nullable
@@ -63,18 +66,21 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
             @NonNull AttachmentDeletedListener attachmentDeletedListener,
             @Nullable AttachmentClickedListener attachmentClickedListener,
             @NonNull Account account,
-            long cardLocalId,
-            long cardRemoteId,
-            @NonNull List<Attachment> attachments
+            long cardLocalId
     ) {
         super();
         this.menuInflator = menuInflator;
         this.attachmentDeletedListener = attachmentDeletedListener;
         this.attachmentClickedListener = attachmentClickedListener;
-        this.attachments = attachments;
         this.account = account;
-        this.cardRemoteId = cardRemoteId;
         this.cardLocalId = cardLocalId;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        Long id = attachments.get(position).getLocalId();
+        return id == null ? NO_LOCAL_ID : id;
     }
 
     @NonNull
@@ -83,12 +89,10 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         this.context = parent.getContext();
         //noinspection SwitchStatementWithTooFewBranches
         switch (viewType) {
-            case VIEW_TYPE_IMAGE: {
+            case VIEW_TYPE_IMAGE:
                 return new ImageAttachmentViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false));
-            }
-            default: {
+            default:
                 return new DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false));
-            }
         }
     }
 
@@ -96,7 +100,9 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         final Attachment attachment = attachments.get(position);
         final int viewType = getItemViewType(position);
-        @Nullable final String uri = attachment.getId() == null ? null : AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
+        @Nullable final String uri = (attachment.getId() == null || cardRemoteId == null)
+                ? null :
+                AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
         holder.setNotSyncedYetStatus(attachment.getStatusEnum() == DBStatus.UP_TO_DATE);
         holder.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflator.inflate(R.menu.attachment_menu, menu);
@@ -109,31 +115,31 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
                         .show();
                 return false;
             });
-            menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> {
-                if (uri == null) {
-                    Toast.makeText(context, "Not yet synced", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
-                if (clipboardManager == null) {
-                    DeckLog.warn("clipboardManager is null");
-                    return false;
-                } else {
-                    clipboardManager.setPrimaryClip(clipData);
-                    Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            });
+            if (uri == null) {
+                menu.findItem(android.R.id.copyUrl).setVisible(false);
+            } else {
+                menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> {
+                    final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
+                    if (clipboardManager == null) {
+                        Log.e(TAG, "clipboardManager is null");
+                        return false;
+                    } else {
+                        clipboardManager.setPrimaryClip(clipData);
+                        Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                });
+            }
         });
 
         if (attachment.getMimetype() != null) {
             if (attachment.getMimetype().startsWith("image")) {
+                holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
                 Glide.with(context)
                         .load(uri)
                         .error(R.drawable.ic_image_grey600_24dp)
                         .into(holder.getPreview());
-                holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
                 holder.getPreview().getRootView().setOnClickListener((v) -> {
                     if (attachmentClickedListener != null) {
                         attachmentClickedListener.onAttachmentClicked(position);
@@ -161,16 +167,18 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         //noinspection SwitchStatementWithTooFewBranches
         switch (viewType) {
             case VIEW_TYPE_IMAGE: {
-                ImageAttachmentViewHolder imageHolder = (ImageAttachmentViewHolder) holder;
+//                ImageAttachmentViewHolder imageHolder = (ImageAttachmentViewHolder) holder;
                 break;
             }
             default: {
                 DefaultAttachmentViewHolder defaultHolder = (DefaultAttachmentViewHolder) holder;
-                defaultHolder.binding.filename.getRootView().setOnClickListener((event) -> {
-                    Intent openURL = new Intent(Intent.ACTION_VIEW);
-                    openURL.setData(Uri.parse(AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId())));
-                    context.startActivity(openURL);
-                });
+                if (cardRemoteId != null) {
+                    defaultHolder.binding.filename.getRootView().setOnClickListener((event) -> {
+                        Intent openURL = new Intent(Intent.ACTION_VIEW);
+                        openURL.setData(Uri.parse(AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId())));
+                        context.startActivity(openURL);
+                    });
+                }
                 defaultHolder.binding.filename.setText(attachment.getBasename());
                 defaultHolder.binding.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
                 if (attachment.getLastModifiedLocal() != null) {
@@ -196,6 +204,27 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
     @Override
     public int getItemCount() {
         return attachments.size();
+    }
+
+    public void setAttachments(@NonNull List<Attachment> attachments, long cardRemoteId) {
+        this.cardRemoteId = cardRemoteId;
+        this.attachments = attachments;
+        notifyDataSetChanged();
+    }
+
+    public void addAttachment(Attachment a) {
+        this.attachments.add(a);
+        notifyItemInserted(this.attachments.size());
+    }
+
+    public void removeAttachment(Attachment a) {
+        for (int i = 0; i < this.attachments.size(); i++) {
+            if (this.attachments.get(i).equals(a)) {
+                this.attachments.remove(i);
+                notifyItemRemoved(i);
+                return;
+            }
+        }
     }
 
     static abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {

@@ -71,6 +71,7 @@
 
     <string name="label_add">Engadir %1$s</string>
     <string name="error">Apareceu un erro</string>
+    <string name="operation_not_yet_supported">Aínda non está admitido</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_exception">Excepción</string>
     <string name="copied_to_clipboard">Copiado no portapapeis.</string>
@@ -142,4 +143,6 @@
     <string name="server_error_explanation">O seu servidor respondeu cun código de estado HTTP 503. Pode ser o caso se o servidor está actualmente en modo de mantemento. Póñase en contacto co seu administrador ou con nós para obter asistencia. Pode atopar a nosa información de contacto na sección «Sobre».</string>
     <string name="share_add_to_card">Engadir á tarxeta</string>
     <string name="share_success">%1$s foi engadido satisfactoriamente  a %2$s</string>
-    </resources>
+    <string name="could_not_copy_to_clipboard">Non foi posíbel copiar ao portapapeis</string>
+    <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
+</resources>

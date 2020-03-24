@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/addCommentLayout"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:reverseLayout="true"
+        tools:listitem="@layout/item_comment" />
+
+    <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
+        android:id="@+id/empty_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:description="@string/no_comments_yet"
+        app:image="@drawable/type_comment_grey600_36dp"
+        app:title="@string/card_edit_comments" />
+
+    <LinearLayout
+        android:id="@+id/addCommentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/colorBackground"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:padding="@dimen/standard_margin">
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_details"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:contentDescription="@null"
+            android:tint="@color/grey600"
+            app:srcCompat="@drawable/ic_comment_white_24dp" />
+
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_weight="1"
+            android:autofillHints="@null"
+            android:hint="@string/add_comment"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:maxLength="@integer/comment_max_length"
+            android:paddingEnd="@dimen/standard_half_padding"
+            android:paddingRight="@dimen/standard_half_padding"
+            tools:ignore="RtlSymmetry">
+
+            <requestFocus />
+        </EditText>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/add_comment"
+            android:tint="@android:color/white"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_send_white_24dp" />
+    </LinearLayout>
+</RelativeLayout>

@@ -38,6 +38,8 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
 import it.niedermann.nextcloud.deck.util.DateUtil;
@@ -145,8 +147,23 @@ public class ServerAdapter {
                 responseCallback);
     }
     public void getCapabilities(IResponseCallback<Capabilities> responseCallback) {
+        if (Capabilities.CACHE.containsKey(responseCallback.getAccount().getId())) {
+            responseCallback.onResponse(Capabilities.CACHE.get(responseCallback.getAccount().getId()));
+            return;
+        }
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCapabilities(), new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
+            @Override
+            public void onResponse(Capabilities response) {
+                Capabilities.CACHE.put(responseCallback.getAccount().getId(), response);
+                responseCallback.onResponse(response);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                responseCallback.onError(throwable);
+            }
+        });
     }
 
     public void getActivitiesForCard(long cardId, IResponseCallback<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> responseCallback) {
@@ -313,5 +330,25 @@ public class ServerAdapter {
     public void restoreAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, IResponseCallback<Attachment> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().restoreAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
+    }
+
+    public void getCommentsForRemoteCardId(Long remoteCardId, IResponseCallback<OcsComment> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCommentsForCard(remoteCardId), responseCallback);
+    }
+
+    public void createCommentForCard(DeckComment comment, IResponseCallback<OcsComment> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().createCommentForCard(comment.getObjectId(), comment), responseCallback);
+    }
+
+    public void updateCommentForCard(DeckComment comment, IResponseCallback<OcsComment> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().updateCommentForCard(comment.getObjectId(), comment.getId(), comment), responseCallback);
+    }
+
+    public void deleteCommentForCard(DeckComment comment, IResponseCallback<Void> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().deleteCommentForCard(comment.getObjectId(), comment.getId()), responseCallback);
     }
 }

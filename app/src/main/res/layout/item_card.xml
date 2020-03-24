@@ -104,11 +104,12 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/labels"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/standard_half_margin"
                 android:layout_marginRight="@dimen/standard_half_margin"
                 android:layout_weight="1"
-                android:animateLayoutChanges="true" />
+                android:animateLayoutChanges="true"
+                tools:layout_height="match_parent" />
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -129,6 +130,22 @@
                     app:drawableStartCompat="@drawable/ic_attach_file_grey600_24dp"
                     tools:text="1" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/card_count_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/card_count_attachments"
+                    android:layout_toRightOf="@id/card_count_attachments"
+                    android:drawablePadding="@dimen/standard_quarter_padding"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:minLines="0"
+                    android:padding="@dimen/standard_quarter_padding"
+                    app:drawableLeftCompat="@drawable/ic_comment_white_24dp"
+                    app:drawableStartCompat="@drawable/ic_comment_white_24dp"
+                    app:drawableTint="@color/grey600"
+                    tools:text="1" />
+
                 <RelativeLayout
                     android:id="@+id/peopleList"
                     android:layout_width="wrap_content"
@@ -137,8 +154,8 @@
                     android:layout_marginLeft="@dimen/standard_half_padding"
                     android:layout_marginEnd="0dp"
                     android:layout_marginRight="0dp"
-                    android:layout_toEndOf="@+id/card_count_attachments"
-                    android:layout_toRightOf="@id/card_count_attachments"
+                    android:layout_toEndOf="@+id/card_count_comments"
+                    android:layout_toRightOf="@id/card_count_comments"
                     android:gravity="end"
                     android:orientation="horizontal" />
 

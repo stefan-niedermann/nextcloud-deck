@@ -5,6 +5,8 @@ import androidx.room.Ignore;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +18,7 @@ import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
 public class FullCard implements IRemoteEntity {
 
@@ -25,20 +28,11 @@ public class FullCard implements IRemoteEntity {
     @Embedded
     public Card card;
 
-//    @Relation(entity = JoinCardWithLabel.class, parentColumn = "localId", entityColumn = "cardId", projection = "labelId")
-//    public List<Long> labelIDs;
-
-//    @Ignore
     @Relation(entity = Label.class, parentColumn = "localId", entityColumn = "localId",
             associateBy = @Junction(value = JoinCardWithLabel.class, parentColumn = "cardId", entityColumn = "labelId"))
 
     public List<Label> labels = new ArrayList<>();
 
-
-//    @Relation(entity = JoinCardWithUser.class, parentColumn = "localId", entityColumn = "cardId", projection = "userId")
-//    public List<Long> assignedUserIDs;
-
-//    @Ignore
     @Relation(entity = User.class, parentColumn = "localId", entityColumn = "localId",
         associateBy = @Junction(value = JoinCardWithUser.class, parentColumn = "cardId", entityColumn = "userId"))
     public List<User> assignedUsers = new ArrayList<>();
@@ -48,6 +42,9 @@ public class FullCard implements IRemoteEntity {
 
     @Relation(parentColumn = "localId", entityColumn = "cardId")
     public List<Attachment> attachments;
+
+    @Relation(entity = DeckComment.class, parentColumn = "localId", entityColumn = "objectId", projection = "localId")
+    public List<Long> commentIDs;
 
 
     public FullCard() {
@@ -60,6 +57,7 @@ public class FullCard implements IRemoteEntity {
         this.assignedUsers = copyList(fullCard.getAssignedUsers());
         this.owner = copyList(fullCard.getOwner());
         this.attachments = copyList(fullCard.getAttachments());
+        this.commentIDs = copyList(fullCard.getCommentIDs());
     }
 
     public Card getCard() {
@@ -84,6 +82,18 @@ public class FullCard implements IRemoteEntity {
 
     public void setAssignedUsers(List<User> assignedUsers) {
         this.assignedUsers = assignedUsers;
+    }
+
+    public void setCommentIDs(List<Long> commentIDs) {
+        this.commentIDs = commentIDs;
+    }
+
+    public List<Long> getCommentIDs() {
+        return commentIDs;
+    }
+
+    public int getCommentCount(){
+        return  commentIDs == null ? 0 : commentIDs.size();
     }
 
     public List<User> getOwner() {
@@ -118,6 +128,7 @@ public class FullCard implements IRemoteEntity {
         return card;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "FullCard{" +
@@ -142,16 +153,20 @@ public class FullCard implements IRemoteEntity {
         if (assignedUsers != null ? !assignedUsers.equals(fullCard.assignedUsers) : fullCard.assignedUsers != null)
             return false;
         if (owner != null ? !owner.equals(fullCard.owner) : fullCard.owner != null) return false;
-        return attachments != null ? attachments.equals(fullCard.attachments) : fullCard.attachments == null;
+        if (attachments != null ? !attachments.equals(fullCard.attachments) : fullCard.attachments != null)
+            return false;
+        return commentIDs != null ? commentIDs.equals(fullCard.commentIDs) : fullCard.commentIDs == null;
     }
 
     @Override
     public int hashCode() {
-        int result = card != null ? card.hashCode() : 0;
+        int result = (isAttachmentsSorted ? 1 : 0);
+        result = 31 * result + (card != null ? card.hashCode() : 0);
         result = 31 * result + (labels != null ? labels.hashCode() : 0);
         result = 31 * result + (assignedUsers != null ? assignedUsers.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + (attachments != null ? attachments.hashCode() : 0);
+        result = 31 * result + (commentIDs != null ? commentIDs.hashCode() : 0);
         return result;
     }
 }

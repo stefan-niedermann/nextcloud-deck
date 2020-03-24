@@ -52,12 +52,14 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
                 holder.binding.type.setImageResource(R.drawable.type_delete_color_36dp);
                 break;
             case ARCHIVE:
+                holder.binding.type.setImageResource(R.drawable.type_archive_grey600_36dp);
                 break;
             case HISTORY:
                 break;
             case FILES:
                 break;
             case COMMENT:
+                holder.binding.type.setImageResource(R.drawable.type_comment_grey600_36dp);
                 break;
         }
     }
