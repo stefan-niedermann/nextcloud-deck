@@ -12,7 +12,7 @@
     <string name="simple_boards">Boards</string>
     <string name="simple_add">Hinzufügen</string>
     <string name="simple_save">Speichern</string>
-    <string name="simple_more">mehr</string>
+    <string name="simple_more">Mehr</string>
 
     <string name="edit_board">Board bearbeiten</string>
     <string name="archive_board">Board archivieren</string>
@@ -71,6 +71,7 @@
 
     <string name="label_add">%1$s hinzufügen</string>
     <string name="error">Es ist ein Fehler aufgetreten</string>
+    <string name="operation_not_yet_supported">Wird bislang noch nicht unterstützt</string>
     <string name="simple_copy">kopieren</string>
     <string name="simple_exception">Ausnahme</string>
     <string name="copied_to_clipboard">In die Zwischenablage kopiert</string>
@@ -95,7 +96,7 @@
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
     <string name="update_deck">Deck aktualisieren</string>
     <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
-    <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt. Bitte aktualisieren Sie Deckum diese Android-App als Client verwenden zu können.</string>
+    <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt. Bitte aktualisieren Sie Deck um diese Android-App als Client verwenden zu können.</string>
     <string name="simple_update">Aktualisieren</string>
     <string name="simple_delete">Löschen</string>
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Stapel und Karten löschen.</string>
@@ -133,7 +134,7 @@
     <string name="please_add_an_account_first">Bitte zuerst ein Konto hinzufügen</string>
     <string name="title_is_mandatory">Titel ist obligatorisch</string>
     <string name="provide_at_least_a_title_or_description">Mindestens einen Titel oder eine Beschreibung eingeben</string>
-    <string name="welcome_text">Willkommen zu %1$s</string>
+    <string name="welcome_text">Willkommen bei %1$s</string>
     <string name="choose_account">Konto auswählen</string>
     <string name="save_card_before_attachment">Die Karte muss gespeichert werden bevor Anhänge hinzugefügt werden können.</string>
     <string name="server_misconfigured">Server falsch konfiguriert</string>
@@ -142,4 +143,6 @@
     <string name="server_error_explanation">Ihr Server hat mit einem HTTP 503-Statuscode geantwortet. Dies kann der Fall sein, wenn sich der Server derzeit im Wartungsmodus befindet. Bitte wenden Sie sich an Ihren Administrator oder an uns, um Unterstützung zu erhalten. Unsere Kontaktinformationen finden Sie im Info-Bereich.</string>
     <string name="share_add_to_card">Zur Karte hinzufügen</string>
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
-    </resources>
+    <string name="could_not_copy_to_clipboard">Konnte nicht in die Zwischenablage kopieren</string>
+    <string name="shared_error">Das Teilen von Inhalten aus Apps von Drittanbietern wird noch nicht vollständig unterstützt. Bitte versuchen Sie zuerst, die Datei herunterzuladen und dann aus Ihrem Dateimanager oder aus Ihrer Galerie freizugeben.</string>
+</resources>

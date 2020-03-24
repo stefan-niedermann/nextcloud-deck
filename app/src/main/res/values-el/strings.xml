@@ -71,6 +71,7 @@
 
     <string name="label_add">Προσθήκη %1$s</string>
     <string name="error">Παρουσιάστηκε σφάλμα</string>
+    <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
     <string name="simple_copy">αντιγραφή</string>
     <string name="simple_exception">Εξαίρεση</string>
     <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
@@ -133,5 +134,15 @@
     <string name="please_add_an_account_first">Παρακαλώ προσθέστε λογαριασμό πρώτα</string>
     <string name="title_is_mandatory">Υποχρεωτικός τίτλος</string>
     <string name="provide_at_least_a_title_or_description">Προσθέστε τουλάχιστον τίτλο ή περιγραφή</string>
+    <string name="welcome_text">Καλώς ήρθατε στο %1$s</string>
+    <string name="choose_account">Επιλέξτε Λογαριασμό</string>
+    <string name="save_card_before_attachment">Η κάρτα πρέπει να αποθηκευτεί πριν προστεθούν συνημμένα.</string>
+    <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
+    <string name="server_misconfigured_explanation">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client. Μπορείτε να βρείτε πληροφορίες επικοινωνίας της υποστήριξης στο τμήμα περί.</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
-    </resources>
+    <string name="server_error_explanation">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Παρακαλώ επικοινωνήστε με τον διαχειριστή ή μαζί μας για υποστήριξη. Μπορείτε να βρείτε πληροφορίες επικοινωνίας της υποστήριξης στο τμήμα περί.</string>
+    <string name="share_add_to_card">Προσθήκη στην κάρτα</string>
+    <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
+    <string name="could_not_copy_to_clipboard">Δεν μπορεί να αντιγραφή στο πρόχειρο</string>
+    <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
+</resources>

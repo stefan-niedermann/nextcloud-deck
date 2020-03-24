@@ -71,6 +71,7 @@
 
     <string name="label_add">Añadir %1$s</string>
     <string name="error">Ha aparecido un error</string>
+    <string name="operation_not_yet_supported">No está soportado todavía</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_exception">Excepción</string>
     <string name="copied_to_clipboard">Copiado al portapapeles</string>
@@ -133,5 +134,15 @@
     <string name="please_add_an_account_first">Por favor, añade primero una cuenta..</string>
     <string name="title_is_mandatory">El título es obligatorio</string>
     <string name="provide_at_least_a_title_or_description">Indique al menos un título o una descripción</string>
+    <string name="welcome_text">Bienvenido a %1$s</string>
+    <string name="choose_account">Elegir Cuenta</string>
+    <string name="save_card_before_attachment">La tarjeta debe guardarse antes de añadir archivos adjuntos.</string>
+    <string name="server_misconfigured">Servidor mal configurado</string>
+    <string name="server_misconfigured_explanation">Su servidor tiene respuesta con el código de estado HTTP 302, lo que implica que no ha instalado la aplicación Deck en su servidor o que algo está mal configurado. Esto puede ser causado por anulaciones personalizadas en un en un archivo .htaccess o por aplicaciones de Nexcloud como OID Client. Encontrarás información de contacto de soporte en la sección acerca de. </string>
     <string name="server_error">Error en el servidor</string>
-    </resources>
+    <string name="server_error_explanation">Su servidor respondió con un código de estado HTTP 503. Este puede ser el caso si el servidor está actualmente en modo de mantenimiento. Póngase en contacto con su administrador o con nosotros para obtener asistencia. Puede encontrar nuestra información de contacto en la sección acerca de.</string>
+    <string name="share_add_to_card">Añadir a la tarjeta</string>
+    <string name="share_success">Añadido satisfactoriamente %1$s a %2$s</string>
+    <string name="could_not_copy_to_clipboard">No se puede copiar al portapapeles</string>
+    <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
+</resources>

@@ -71,6 +71,7 @@
 
     <string name="label_add">Aggiungi %1$s</string>
     <string name="error">Si è verificato un errore</string>
+    <string name="operation_not_yet_supported">Non ancora supportato</string>
     <string name="simple_copy">copia</string>
     <string name="simple_exception">Eccezione</string>
     <string name="copied_to_clipboard">Copiato negli appunti</string>
@@ -142,4 +143,6 @@
     <string name="server_error_explanation">Il tuo server ha risposto con un codice di stato HTTP 503. Questo può verificarsi se il server è attualmente in modalità di manutenzione. Contatta il tuo amministratore o il nostro supporto. Puoi trovare le nostre informazioni di contatto nella sezione Informazioni.</string>
     <string name="share_add_to_card">Aggiungi a scheda</string>
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
-    </resources>
+    <string name="could_not_copy_to_clipboard">Impossibile copiare negli appunti</string>
+    <string name="shared_error">La condivisione della condivisione di contenuti di applicazioni di terze parti non è ancora supportata. Prova a scaricarli prima e poi condividili dal gestore dei file nativo o dalla galleria.</string>
+</resources>

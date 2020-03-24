@@ -71,6 +71,7 @@
 
     <string name="label_add">Lägg till %1$s</string>
     <string name="error">Ett fel inträffade</string>
+    <string name="operation_not_yet_supported">Stöds inte än</string>
     <string name="simple_copy">kopiera</string>
     <string name="simple_exception">Undantag</string>
     <string name="copied_to_clipboard">Kopierat till urklipp</string>
@@ -142,4 +143,6 @@
     <string name="server_error_explanation">Din server svarade med statuskod HTTP 503. Detta kan hända om servern för närvarande är i underhållsläge. Kontakta din administratör eller oss för support. Du hittar vår kontaktinformation i Om-avsnittet.</string>
     <string name="share_add_to_card">Lägg till i kort</string>
     <string name="share_success">La till %1$s till %2$s</string>
-    </resources>
+    <string name="could_not_copy_to_clipboard">Kunde inte kopiera till urklipp</string>
+    <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Försök att ladda ner det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
+</resources>
