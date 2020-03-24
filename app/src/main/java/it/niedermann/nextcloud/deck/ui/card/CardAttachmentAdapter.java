@@ -122,7 +122,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
                     final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                     ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
                     if (clipboardManager == null) {
-                        Log.e(TAG, "clipboardManager is null");
+                        DeckLog.error("clipboardManager is null");
                         return false;
                     } else {
                         clipboardManager.setPrimaryClip(clipData);
