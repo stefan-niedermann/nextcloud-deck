@@ -64,6 +64,7 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
+    boolean hasCommentsAbility = false;
 
     private static final int[] tabTitles = new int[]{
             R.string.card_edit_details,
@@ -235,6 +236,30 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        CardTabAdapter adapter = new CardTabAdapter(
+                getSupportFragmentManager(),
+                getLifecycle(),
+                accountId,
+                localId,
+                boardId,
+                canEdit);
+        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
+            tab.setIcon(
+                    hasCommentsAbility
+                            ? tabIconsWithComments[position]
+                            : tabIcons[position]
+            );
+            tab.setContentDescription(
+                    hasCommentsAbility
+                            ? tabTitlesWithComments[position]
+                            : tabTitles[position]
+            );
+        });
+        runOnUiThread(() -> {
+            binding.pager.setOffscreenPageLimit(2);
+            binding.pager.setAdapter(adapter);
+            mediator.attach();
+        });
 
         // Comments API only available starting with version 1.0.0-alpha1
         syncManager.readAccount(accountId).observe(this, (account) -> {
@@ -242,45 +267,24 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
                 syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
                     @Override
                     public void onResponse(Capabilities response) {
-                        setupTabs((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
+                        hasCommentsAbility = ((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
+                        if (hasCommentsAbility) {
+                            runOnUiThread(() -> {
+                                mediator.detach();
+                                adapter.enableComments();
+                                binding.pager.setOffscreenPageLimit(3);
+                                mediator.attach();
+                            });
+                        }
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         super.onError(throwable);
-                        setupTabs(false);
                     }
                 });
-            } catch (OfflineException e) {
-                setupTabs(false);
+            } catch (OfflineException ignored) {
             }
-        });
-    }
-
-    private void setupTabs(boolean hasCommentsAbility) {
-        CardTabAdapter adapter = new CardTabAdapter(
-                getSupportFragmentManager(),
-                getLifecycle(),
-                accountId,
-                localId,
-                boardId,
-                canEdit,
-                hasCommentsAbility);
-        runOnUiThread(() -> {
-            binding.pager.setOffscreenPageLimit(hasCommentsAbility ? 3 : 2);
-            binding.pager.setAdapter(adapter);
-            new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
-                tab.setIcon(
-                        hasCommentsAbility
-                                ? tabIconsWithComments[position]
-                                : tabIcons[position]
-                );
-                tab.setContentDescription(
-                        hasCommentsAbility
-                                ? tabTitlesWithComments[position]
-                                : tabTitles[position]
-                );
-            }).attach();
         });
     }
 
