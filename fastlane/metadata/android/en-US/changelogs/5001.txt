@@ -1,0 +1,1 @@
+- 🐞 Do not try to sync comments when server version is too low
