@@ -204,8 +204,7 @@ public class CrossTabDragAndDrop {
                             }
                         });
                     } else {
-                        throw new IllegalArgumentException("fragment with id " + viewPager.getCurrentItem() + " is not StackFragment but " +
-                                fragment.getClass().getCanonicalName());
+                        throw new IllegalArgumentException("fragment with tag f" + stackAdapter.getItemId(tabPositionToCheck) + " is not a StackFragment");
                     }
                 }
             });

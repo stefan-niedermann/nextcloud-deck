@@ -29,7 +29,7 @@ public class DraggedCardLocalState {
     }
 
 
-    public void onDragStart(ViewPager2 viewPager, FragmentManager fm) {
+    void onDragStart(ViewPager2 viewPager, FragmentManager fm) {
         FullStack fullStack = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
 //        StackFragment stackFragment = ((StackFragment) ((StackAdapter) viewPager.getAdapter()).createFragment(viewPager.getCurrentItem()));
 
@@ -41,13 +41,12 @@ public class DraggedCardLocalState {
         if (fragment instanceof StackFragment) {
             recyclerView = ((StackFragment) fragment).getRecyclerView();
         } else {
-            throw new IllegalArgumentException("fragment with id " + viewPager.getCurrentItem() + " is not StackFragment but " +
-                    fragment.getClass().getCanonicalName());
+            throw new IllegalArgumentException("fragment with tag f" + viewPager.getAdapter().getItemId(viewPager.getCurrentItem()) + " is not a StackFragment");
         }
 
     }
 
-    public void onTabChanged(ViewPager2 viewPager, FragmentManager fm) {
+    void onTabChanged(ViewPager2 viewPager, FragmentManager fm) {
         if (insertedListener != null) {
             recyclerView.removeOnChildAttachStateChangeListener(insertedListener);
             insertedListener = null;
@@ -58,13 +57,12 @@ public class DraggedCardLocalState {
         if (fragment instanceof StackFragment) {
             recyclerView = ((StackFragment) fragment).getRecyclerView();
         } else {
-            throw new IllegalArgumentException("fragment with id " + viewPager.getCurrentItem() + " is not StackFragment but " +
-                    fragment.getClass().getCanonicalName());
+            throw new IllegalArgumentException("fragment with tag f" + viewPager.getAdapter().getItemId(viewPager.getCurrentItem()) + " is not a StackFragment");
         }
         this.cardAdapter = (CardAdapter) recyclerView.getAdapter();
     }
 
-    public long getCurrentStackId() {
+    long getCurrentStackId() {
         return currentStackId;
     }
 
@@ -72,7 +70,7 @@ public class DraggedCardLocalState {
         this.currentStackId = currentStackId;
     }
 
-    public FullCard getDraggedCard() {
+    FullCard getDraggedCard() {
         return draggedCard;
     }
 
@@ -80,15 +78,15 @@ public class DraggedCardLocalState {
         this.draggedCard = draggedCard;
     }
 
-    public CardView getDraggedView() {
+    CardView getDraggedView() {
         return draggedView;
     }
 
-    public void setDraggedView(CardView draggedView) {
+    void setDraggedView(CardView draggedView) {
         this.draggedView = draggedView;
     }
 
-    public CardAdapter getCardAdapter() {
+    CardAdapter getCardAdapter() {
         return cardAdapter;
     }
 
@@ -96,11 +94,11 @@ public class DraggedCardLocalState {
         this.cardAdapter = cardAdapter;
     }
 
-    public int getPositionInCardAdapter() {
+    int getPositionInCardAdapter() {
         return positionInCardAdapter;
     }
 
-    public void setPositionInCardAdapter(int positionInCardAdapter) {
+    void setPositionInCardAdapter(int positionInCardAdapter) {
         this.positionInCardAdapter = positionInCardAdapter;
     }
 
@@ -108,11 +106,11 @@ public class DraggedCardLocalState {
         return insertedListener;
     }
 
-    public void setInsertedListener(RecyclerView.OnChildAttachStateChangeListener insertedListener) {
+    void setInsertedListener(RecyclerView.OnChildAttachStateChangeListener insertedListener) {
         this.insertedListener = insertedListener;
     }
 
-    public RecyclerView getRecyclerView() {
+    RecyclerView getRecyclerView() {
         return recyclerView;
     }
 
