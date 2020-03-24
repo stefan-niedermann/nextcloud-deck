@@ -262,30 +262,32 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
         });
 
         // Comments API only available starting with version 1.0.0-alpha1
-        syncManager.readAccount(accountId).observe(this, (account) -> {
-            try {
-                syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
-                    @Override
-                    public void onResponse(Capabilities response) {
-                        hasCommentsAbility = ((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
-                        if (hasCommentsAbility) {
-                            runOnUiThread(() -> {
-                                mediator.detach();
-                                adapter.enableComments();
-                                binding.pager.setOffscreenPageLimit(3);
-                                mediator.attach();
-                            });
+        if (!createMode) {
+            syncManager.readAccount(accountId).observe(this, (account) -> {
+                try {
+                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
+                        @Override
+                        public void onResponse(Capabilities response) {
+                            hasCommentsAbility = ((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
+                            if (hasCommentsAbility) {
+                                runOnUiThread(() -> {
+                                    mediator.detach();
+                                    adapter.enableComments();
+                                    binding.pager.setOffscreenPageLimit(3);
+                                    mediator.attach();
+                                });
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        super.onError(throwable);
-                    }
-                });
-            } catch (OfflineException ignored) {
-            }
-        });
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                        }
+                    });
+                } catch (OfflineException ignored) {
+                }
+            });
+        }
     }
 
     private void setupTitle(boolean createMode) {
