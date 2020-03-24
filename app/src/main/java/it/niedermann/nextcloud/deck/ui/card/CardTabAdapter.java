@@ -14,7 +14,7 @@ public class CardTabAdapter extends FragmentStateAdapter {
     private final long localId;
     private final long boardId;
     private final boolean canEdit;
-    private final boolean hasCommentsAbility;
+    private boolean hasCommentsAbility = false;
 
     public CardTabAdapter(
             @NonNull FragmentManager fm,
@@ -22,15 +22,13 @@ public class CardTabAdapter extends FragmentStateAdapter {
             long accountId,
             long localId,
             long boardId,
-            boolean canEdit,
-            boolean hasCommentsAbility
+            boolean canEdit
     ) {
         super(fm, lifecycle);
         this.accountId = accountId;
         this.localId = localId;
         this.boardId = boardId;
         this.canEdit = canEdit;
-        this.hasCommentsAbility = hasCommentsAbility;
     }
 
     @NonNull
@@ -51,6 +49,29 @@ public class CardTabAdapter extends FragmentStateAdapter {
                 }
             default:
                 throw new IllegalArgumentException("position " + position + " is not available");
+        }
+    }
+
+    public void enableComments() {
+        this.hasCommentsAbility = true;
+        notifyItemInserted(2);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        if (!this.hasCommentsAbility) {
+            return position;
+        } else {
+            switch (position) {
+                case 0:
+                case 1:
+                    return position;
+                case 2: // Comments tab is on position 2
+                    return 3;
+                case 3: // Activities tab moved to position 3
+                default:
+                    return 2;
+            }
         }
     }
 
