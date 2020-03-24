@@ -145,6 +145,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 DeckLog.log("--- Write: shared_preference_last_account" + " | " + createdAccount.getId());
                 editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
                 editor.commit();
+                SingleAccountHelper.setCurrentAccount(getApplicationContext(), createdAccount.getName());
+                syncManager = new SyncManager(DrawerActivity.this);
 
                 try {
                     syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
@@ -186,8 +188,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 }
             }
         });
-
-        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
     }
 
 
