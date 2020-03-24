@@ -321,6 +321,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
 
     public void addItem(FullCard fullCard, int position) {
         cardList.add(position, fullCard);
+        notifyItemInserted(position);
     }
 
     public void moveItem(int fromPosition, int toPosition) {

@@ -162,9 +162,6 @@ public class CrossTabDragAndDrop {
         draggedCardLocalState.setInsertedListener(onChildAttachStateChangeListener);
         recyclerView.addOnChildAttachStateChangeListener(onChildAttachStateChangeListener);
 
-        cardAdapter.notifyItemInserted(positionToInsert);
-        cardAdapter.notifyItemChanged(positionToInsert);
-
         lastSwap = now;
     }
 
