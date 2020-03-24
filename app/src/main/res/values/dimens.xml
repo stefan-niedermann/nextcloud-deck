@@ -13,6 +13,7 @@
     <dimen name="avatar_size_small">32dp</dimen>
     <dimen name="avatar_overlapping_small">20dp</dimen>
     <dimen name="zero">0dp</dimen>
+    <dimen name="icon_size_details">24dp</dimen>
     <dimen name="nav_drawer_header_avatar">56dp</dimen>
     <dimen name="nav_drawer_header_avatar_other_accounts_size">40dp</dimen>
     <dimen name="nav_drawer_header_avatar_second_account_margin">56dp</dimen>

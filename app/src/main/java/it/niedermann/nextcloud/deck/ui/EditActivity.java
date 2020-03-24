@@ -31,7 +31,9 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -39,12 +41,15 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardAttachmentsFragment.NewCardAttachmentHandler;
 import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment.CardDetailsListener;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
-import it.niedermann.nextcloud.deck.ui.card.CommentDialogFragment.AddCommentListener;
+import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -55,15 +60,36 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AppCompatActivity implements CardDetailsListener, AddCommentListener, NewCardAttachmentHandler, OnItemSelectedListener {
+public class EditActivity extends AppCompatActivity implements CardDetailsListener, CommentAddedListener, NewCardAttachmentHandler, OnItemSelectedListener {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
+    boolean hasCommentsAbility = false;
 
     private static final int[] tabTitles = new int[]{
             R.string.card_edit_details,
             R.string.card_edit_attachments,
             R.string.card_edit_activity
+    };
+
+    private static final int[] tabTitlesWithComments = new int[]{
+            R.string.card_edit_details,
+            R.string.card_edit_attachments,
+            R.string.card_edit_comments,
+            R.string.card_edit_activity
+    };
+
+    private static final int[] tabIcons = new int[]{
+            R.drawable.ic_home_grey600_24dp,
+            R.drawable.ic_attach_file_grey600_24dp,
+            R.drawable.ic_activity_light_grey
+    };
+
+    private static final int[] tabIconsWithComments = new int[]{
+            R.drawable.ic_home_grey600_24dp,
+            R.drawable.ic_attach_file_grey600_24dp,
+            R.drawable.type_comment_grey600_36dp,
+            R.drawable.ic_activity_light_grey
     };
 
     private FullCard originalCard;
@@ -194,9 +220,7 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
                         .setTitle(R.string.title_is_mandatory)
                         .setMessage(R.string.provide_at_least_a_title_or_description)
                         .setPositiveButton(android.R.string.ok, null)
-                        .setOnDismissListener(dialog -> {
-                            pendingCreation = false;
-                        })
+                        .setOnDismissListener(dialog -> pendingCreation = false)
                         .show();
             } else {
                 if (createMode) {
@@ -211,10 +235,57 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     private void setupViewPager() {
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle(), accountId, localId, boardId, canEdit);
-        binding.pager.setOffscreenPageLimit(2);
-        binding.pager.setAdapter(adapter);
-        new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> tab.setText(tabTitles[position])).attach();
+
+        CardTabAdapter adapter = new CardTabAdapter(
+                getSupportFragmentManager(),
+                getLifecycle(),
+                accountId,
+                localId,
+                boardId,
+                canEdit);
+        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
+            tab.setIcon(
+                    hasCommentsAbility
+                            ? tabIconsWithComments[position]
+                            : tabIcons[position]
+            );
+            tab.setContentDescription(
+                    hasCommentsAbility
+                            ? tabTitlesWithComments[position]
+                            : tabTitles[position]
+            );
+        });
+        runOnUiThread(() -> {
+            binding.pager.setOffscreenPageLimit(2);
+            binding.pager.setAdapter(adapter);
+            mediator.attach();
+        });
+
+        // Comments API only available starting with version 1.0.0-alpha1
+        syncManager.readAccount(accountId).observe(this, (account) -> {
+            try {
+                syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
+                    @Override
+                    public void onResponse(Capabilities response) {
+                        hasCommentsAbility = ((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
+                        if (hasCommentsAbility) {
+                            runOnUiThread(() -> {
+                                mediator.detach();
+                                adapter.enableComments();
+                                binding.pager.setOffscreenPageLimit(3);
+                                mediator.attach();
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                    }
+                });
+            } catch (OfflineException ignored) {
+            }
+        });
     }
 
     private void setupTitle(boolean createMode) {
@@ -340,7 +411,7 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     }
 
     @Override
-    public void onCommentAdded(String comment) {
+    public void onCommentAdded(DeckComment comment) {
         syncManager.addCommentToCard(accountId, boardId, localId, comment);
     }
 

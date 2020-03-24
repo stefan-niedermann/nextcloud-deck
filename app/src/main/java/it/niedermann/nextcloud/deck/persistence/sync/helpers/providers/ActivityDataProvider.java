@@ -31,6 +31,7 @@ public class ActivityDataProvider extends AbstractSyncDataProvider<Activity> {
 
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Activity activity) {
+//        activity.getType() //FIXME: filter out comments!
         activity.setAccountId(accountId);
         activity.setCardId(card.getLocalId());
         return dataBaseAdapter.createActivity(accountId, activity);

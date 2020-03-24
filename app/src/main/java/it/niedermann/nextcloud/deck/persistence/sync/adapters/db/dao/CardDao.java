@@ -56,4 +56,7 @@ public interface CardDao extends GenericDao<Card> {
     @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId and stackId = :localStackId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
     List<FullCard> getLocallyChangedCardsByLocalStackIdDirectly(long accountId, long localStackId);
+
+    @Query("SELECT * FROM card c WHERE accountId = :accountId and exists ( select 1 from DeckComment dc where dc.objectId = c.localId and dc.status<>1)")
+    List<Card> getCardsWithLocallyChangedCommentsDirectly(Long accountId);
 }

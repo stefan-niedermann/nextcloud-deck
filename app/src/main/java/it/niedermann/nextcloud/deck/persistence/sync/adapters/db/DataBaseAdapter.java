@@ -25,6 +25,8 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
@@ -630,5 +632,60 @@ public class DataBaseAdapter {
     }
     public List<Long> getBoardIDsOfLocallyChangedAccessControl(long accountId) {
         return db.getAccessControlDao().getBoardIDsOfLocallyChangedAccessControl(accountId);
+    }
+
+    public LiveData<List<DeckComment>> getCommentsForLocalCardId(long localCardId) {
+        return LiveDataHelper.interceptLiveData(db.getCommentDao().getCommentByLocalCardId(localCardId), (list) -> {
+            for (DeckComment deckComment : list) {
+                deckComment.setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
+            }
+        });
+    }
+
+    public DeckComment getCommentByRemoteIdDirectly(long accountId, Long remoteCommentId) {
+        return db.getCommentDao().getCommentByRemoteIdDirectly(accountId, remoteCommentId);
+    }
+
+    public DeckComment getCommentByLocalIdDirectly(long accountId, Long localCommentId) {
+        return db.getCommentDao().getCommentByLocalIdDirectly(accountId, localCommentId);
+    }
+
+    public long createComment(long accountId, DeckComment comment) {
+        comment.setAccountId(accountId);
+        return db.getCommentDao().insert(comment);
+    }
+
+    public void updateComment(DeckComment comment, boolean setStatus) {
+        markAsEditedIfNeeded(comment, setStatus);
+        db.getCommentDao().update(comment);
+    }
+
+    public void deleteComment(DeckComment comment, boolean setStatus) {
+        markAsDeletedIfNeeded(comment, setStatus);
+        if (setStatus) {
+            db.getCommentDao().update(comment);
+        } else {
+            db.getCommentDao().delete(comment);
+        }
+    }
+
+    public List<DeckComment> getLocallyChangedCommentsByLocalCardIdDirectly(long accountId, long localCardId) {
+        return db.getCommentDao().getLocallyChangedCommentsByLocalCardIdDirectly(accountId, localCardId);
+    }
+
+    public void clearMentionsForCommentId(long commentID) {
+        db.getMentionDao().clearMentionsForCommentId(commentID);
+    }
+
+    public long createMention(Mention mention) {
+        return db.getMentionDao().insert(mention);
+    }
+
+    public List<DeckComment> getCommentByLocalCardIdDirectly(Long localCardId) {
+        return db.getCommentDao().getCommentByLocalCardIdDirectly(localCardId);
+    }
+
+    public List<Card> getCardsWithLocallyChangedCommentsDirectly(Long accountId) {
+        return db.getCardDao().getCardsWithLocallyChangedCommentsDirectly(accountId);
     }
 }

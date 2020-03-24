@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class DeckLog {
+    public static final String TAG = DeckLog.class.getCanonicalName();
 
     public enum Severity {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
@@ -36,23 +37,23 @@ public class DeckLog {
     }
 
     private static void log(String message, Severity severity, int stackTracePosition) {
-        StackTraceElement caller = Thread.currentThread().getStackTrace()[4];
+        StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
         String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
         switch (severity) {
             case VERBOSE:
-                Log.v(DeckConsts.DEBUG_TAG, source);
+                Log.v(TAG, source);
                 break;
             case DEBUG:
-                Log.d(DeckConsts.DEBUG_TAG, source);
+                Log.d(TAG, source);
                 break;
             case INFO:
-                Log.i(DeckConsts.DEBUG_TAG, source);
+                Log.i(TAG, source);
                 break;
             case WARN:
-                Log.w(DeckConsts.DEBUG_TAG, source);
+                Log.w(TAG, source);
                 break;
             case ERROR:
-                Log.e(DeckConsts.DEBUG_TAG, source);
+                Log.e(TAG, source);
                 break;
         }
     }
@@ -64,7 +65,7 @@ public class DeckLog {
         String stacktrace = sw.toString(); // stack trace as a string
         StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
         String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") -> ";
-        Log.d(DeckConsts.DEBUG_TAG, source + stacktrace);
+        Log.d(TAG, source + stacktrace);
     }
 
     public static void printCurrentStacktrace() {

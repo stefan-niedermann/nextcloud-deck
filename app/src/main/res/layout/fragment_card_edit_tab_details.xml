@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fillViewport="true">
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
@@ -18,7 +18,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/standard_margin"
                 android:layout_marginRight="@dimen/standard_margin"
@@ -50,7 +50,7 @@
 
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/standard_margin"
                 android:layout_marginRight="@dimen/standard_margin"
@@ -105,7 +105,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/standard_margin"
                 android:layout_marginRight="@dimen/standard_margin"
@@ -131,13 +131,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_margin"
-            android:layout_weight="1"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/icon_size_details"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="@dimen/standard_margin"
@@ -155,5 +154,18 @@
                 android:inputType="textMultiLine|textCapSentences"
                 android:scrollbars="vertical" />
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/commentsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard_margin" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 </ScrollView>

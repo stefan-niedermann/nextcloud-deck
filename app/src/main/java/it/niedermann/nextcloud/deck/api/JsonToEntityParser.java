@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.api;
 
-import android.util.Log;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,7 +13,6 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import it.niedermann.nextcloud.deck.DeckConsts;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -31,6 +28,9 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
+import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 
 public class JsonToEntityParser {
     private static SimpleDateFormat formatter = new SimpleDateFormat(GsonConfig.DATE_PATTERN);
@@ -55,15 +55,66 @@ public class JsonToEntityParser {
             return (T) parseCapabilities(obj);
         } else if (mType == Attachment.class) {
             return (T) parseAttachment(obj);
+        } else if (mType == OcsComment.class) {
+            return (T) parseOcsComment(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
+    }
+
+    private static OcsComment parseOcsComment(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        OcsComment comment = new OcsComment();
+        JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+        if (data.isJsonArray()) {
+            for (JsonElement deckComment : data.getAsJsonArray()) {
+                comment.addComment(parseDeckComment(deckComment));
+            }
+        } else {
+            comment.addComment(parseDeckComment(data));
+        }
+        return comment;
+    }
+
+    private static DeckComment parseDeckComment(JsonElement data) {
+        DeckLog.verbose(data.toString());
+        JsonObject commentJson = data.getAsJsonObject();
+        DeckComment deckComment = new DeckComment();
+
+        deckComment.setId(commentJson.get("id").getAsLong());
+        deckComment.setObjectId(commentJson.get("objectId").getAsLong());
+        deckComment.setMessage(commentJson.get("message").getAsString());
+        deckComment.setActorId(commentJson.get("actorId").getAsString());
+        deckComment.setActorDisplayName(commentJson.get("actorDisplayName").getAsString());
+        deckComment.setActorType(commentJson.get("actorType").getAsString());
+        deckComment.setCreationDateTime(getTimestampFromString(commentJson.get("creationDateTime")));
+
+        JsonElement mentions = commentJson.get("mentions");
+        if (mentions != null && mentions.isJsonArray()) {
+            for (JsonElement mention : mentions.getAsJsonArray()) {
+                deckComment.addMention(parseMention(mention));
+            }
+        }
+
+        return deckComment;
+    }
+
+    private static Mention parseMention(JsonElement mentionJson) {
+        Mention mention = new Mention();
+        DeckLog.verbose(mentionJson.toString());
+
+        JsonObject mentionObject = mentionJson.getAsJsonObject();
+        mention.setMentionId(mentionObject.get("mentionId").getAsString());
+        mention.setMentionType(mentionObject.get("mentionType").getAsString());
+        mention.setMentionDisplayName(mentionObject.get("mentionDisplayName").getAsString());
+
+        return mention;
     }
 
 
     protected static FullBoard parseBoard(JsonObject e) {
         FullBoard fullBoard = new FullBoard();
 
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         Board board = new Board();
         board.setTitle(getNullAsEmptyString(e.get("title")));
         board.setColor(getNullAsEmptyString(e.get("color")));
@@ -130,7 +181,7 @@ public class JsonToEntityParser {
         JsonElement owner = e.get("owner");
         if (owner != null) {
             if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                Log.d(DeckConsts.DEBUG_TAG, "owner is Primitive, skipping");
+                DeckLog.verbose("owner is Primitive, skipping");
             } else
                 fullBoard.setOwner(parseUser(owner.getAsJsonObject()));
         }
@@ -138,7 +189,7 @@ public class JsonToEntityParser {
     }
 
     protected static AccessControl parseAcl(JsonObject aclJson){
-        DeckLog.log(aclJson.toString());
+        DeckLog.verbose(aclJson.toString());
         AccessControl acl = new AccessControl();
 
         if (aclJson.has("participant") && !aclJson.get("participant").isJsonNull()) {
@@ -159,7 +210,7 @@ public class JsonToEntityParser {
     }
 
     protected static FullCard parseCard(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         FullCard fullCard = new FullCard();
         Card card = new Card();
         fullCard.setCard(card);
@@ -214,7 +265,7 @@ public class JsonToEntityParser {
         JsonElement owner = e.get("owner");
         if (owner != null) {
             if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                DeckLog.log("owner is Primitive, skipping");
+                DeckLog.verbose("owner is Primitive, skipping");
             } else
                 fullCard.setOwner(parseUser(owner.getAsJsonObject()));
         }
@@ -224,7 +275,7 @@ public class JsonToEntityParser {
     }
 
     protected static Attachment parseAttachment(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         Attachment a = new Attachment();
         a.setId(e.get("id").getAsLong());
         a.setCardId(e.get("cardId").getAsLong());
@@ -253,7 +304,7 @@ public class JsonToEntityParser {
     }
 
     protected static User parseUser(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         User user = new User();
         user.setDisplayname(getNullAsEmptyString(e.get("displayname")));
         user.setPrimaryKey(getNullAsEmptyString(e.get("primaryKey")));
@@ -270,7 +321,7 @@ public class JsonToEntityParser {
     }
 
     protected static Capabilities parseCapabilities(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         Capabilities capabilities = new Capabilities();
 
         if (e.has("ocs")){
@@ -316,7 +367,7 @@ public class JsonToEntityParser {
     }
 
     protected static List<Activity> parseActivity(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         List<Activity> activityList = new ArrayList<>();
 
         if (e.has("ocs")){
@@ -341,7 +392,7 @@ public class JsonToEntityParser {
     }
 
     protected static FullStack parseStack(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         FullStack fullStack = new FullStack();
         Stack stack = new Stack();
         stack.setTitle(getNullAsEmptyString(e.get("title")));
@@ -364,7 +415,7 @@ public class JsonToEntityParser {
     }
 
     protected static Label parseLabel(JsonObject e) {
-        DeckLog.log(e.toString());
+        DeckLog.verbose(e.toString());
         Label label = new Label();
         label.setId(e.get("id").getAsLong());
         //todo: last modified!
