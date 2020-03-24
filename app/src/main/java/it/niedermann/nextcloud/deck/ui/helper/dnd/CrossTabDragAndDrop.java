@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -182,13 +183,13 @@ public class CrossTabDragAndDrop {
                     viewPager.unregisterOnPageChangeCallback(this);
                     StackAdapter stackAdapter = Objects.requireNonNull((StackAdapter) viewPager.getAdapter());
 
-                    DeckLog.log("### tabPositionToCheck: " + tabPositionToCheck);
-                    DeckLog.log("### item: " + ((StackFragment) stackAdapter.createFragment(tabPositionToCheck)).getAdapter());
-//                    CardAdapter cardAdapter = ((StackFragment) stackAdapter.createFragment(tabPositionToCheck)).getAdapter();
+                    DeckLog.verbose("### tabPositionToCheck: " + tabPositionToCheck);
+                    DeckLog.verbose("### item: " + ((StackFragment) stackAdapter.createFragment(tabPositionToCheck)).getAdapter());
 
+                    Fragment fragment = fm.findFragmentByTag("f" + stackAdapter.getItemId(viewPager.getCurrentItem() + 1));
 
-                    if (fm.findFragmentById(viewPager.getCurrentItem()) instanceof StackFragment) {
-                        CardAdapter cardAdapter = ((StackFragment) fm.findFragmentById(viewPager.getCurrentItem())).getAdapter();
+                    if (fragment instanceof StackFragment) {
+                        CardAdapter cardAdapter = ((StackFragment) fragment).getAdapter();
                         cardAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                             @Override
                             public void onChanged() {
@@ -208,7 +209,7 @@ public class CrossTabDragAndDrop {
                         });
                     } else {
                         throw new IllegalArgumentException("fragment with id " + viewPager.getCurrentItem() + " is not StackFragment but " +
-                                fm.findFragmentById(viewPager.getCurrentItem()).getClass().getCanonicalName());
+                                fragment.getClass().getCanonicalName());
                     }
                 }
             });

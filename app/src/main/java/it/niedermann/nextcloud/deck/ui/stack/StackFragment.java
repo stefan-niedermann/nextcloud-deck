@@ -122,6 +122,7 @@ public class StackFragment extends Fragment {
         }));
     }
 
+
     public CardAdapter getAdapter() {
         return adapter;
     }

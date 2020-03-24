@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -34,12 +35,14 @@ public class DraggedCardLocalState {
 
         currentStackId = fullStack.getLocalId();
 
+        Fragment fragment = fm.findFragmentByTag("f" + viewPager.getAdapter().getItemId(viewPager.getCurrentItem()));
+
         // FIXME throws NullPointer
-        if (fm.findFragmentById(viewPager.getCurrentItem()) instanceof StackFragment) {
-            recyclerView = ((StackFragment) fm.findFragmentById(viewPager.getCurrentItem())).getRecyclerView();
+        if (fragment instanceof StackFragment) {
+            recyclerView = ((StackFragment) fragment).getRecyclerView();
         } else {
             throw new IllegalArgumentException("fragment with id " + viewPager.getCurrentItem() + " is not StackFragment but " +
-                    fm.findFragmentById(viewPager.getCurrentItem()).getClass().getCanonicalName());
+                    fragment.getClass().getCanonicalName());
         }
 
     }
@@ -50,15 +53,13 @@ public class DraggedCardLocalState {
             insertedListener = null;
         }
         FullStack fullStack = ((StackAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
-//        StackFragment stackFragment = ((StackFragment) ((StackAdapter) viewPager.getAdapter()).createFragment(viewPager.getCurrentItem()));
         currentStackId = fullStack.getLocalId();
-        // FIXME throws probably NullPointer
-//        this.recyclerView = stackFragment.getRecyclerView();
-        if (fm.findFragmentById(viewPager.getCurrentItem()) instanceof StackFragment) {
-            recyclerView = ((StackFragment) fm.findFragmentById(viewPager.getCurrentItem())).getRecyclerView();
+        Fragment fragment = fm.findFragmentByTag("f" + viewPager.getAdapter().getItemId(viewPager.getCurrentItem()));
+        if (fragment instanceof StackFragment) {
+            recyclerView = ((StackFragment) fragment).getRecyclerView();
         } else {
             throw new IllegalArgumentException("fragment with id " + viewPager.getCurrentItem() + " is not StackFragment but " +
-                    fm.findFragmentById(viewPager.getCurrentItem()).getClass().getCanonicalName());
+                    fragment.getClass().getCanonicalName());
         }
         this.cardAdapter = (CardAdapter) recyclerView.getAdapter();
     }

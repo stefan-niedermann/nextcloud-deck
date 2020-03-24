@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
             stackAdapter = new StackAdapter(this);
             binding.viewPager.setAdapter(stackAdapter);
+            binding.viewPager.setOffscreenPageLimit(2);
 
             CrossTabDragAndDrop dragAndDrop = new CrossTabDragAndDrop(this);
             dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
