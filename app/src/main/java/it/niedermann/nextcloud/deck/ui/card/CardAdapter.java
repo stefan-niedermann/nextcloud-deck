@@ -57,10 +57,6 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHolder> {
 
-    private static final String TAG = CardAdapter.class.getCanonicalName();
-
-    //    public static final int REQUEST_CODE_START_EDIT_ACTIVITY = 100;
-    public static final String BUNDLE_KEY_ACCOUNT = "account";
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
     public static final String BUNDLE_KEY_BOARD_ID = "boardId";

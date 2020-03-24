@@ -60,8 +60,6 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 public class CardDetailsFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
-    private static final String TAG = CardDetailsFragment.class.getCanonicalName();
-
     private FragmentCardEditTabDetailsBinding binding;
 
     private boolean canEdit = false;

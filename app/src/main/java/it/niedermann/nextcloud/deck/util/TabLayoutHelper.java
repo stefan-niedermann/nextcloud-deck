@@ -32,30 +32,31 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import it.niedermann.nextcloud.deck.DeckLog;
+
 
 public class TabLayoutHelper {
-    protected TabLayout mTabLayout;
-    protected TabTitleGenerator mTabTitleGenerator;
-    protected ViewPager2 mViewPager;
+    private TabLayout mTabLayout;
+    private TabTitleGenerator mTabTitleGenerator;
+    private ViewPager2 mViewPager;
 
-    protected TabLayout.OnTabSelectedListener mInternalOnTabSelectedListener;
-    protected FixedTabLayoutOnPageChangeListener mInternalTabLayoutOnPageChangeListener;
-    //    protected ViewPager2.OnAdapterChangeListener mInternalOnAdapterChangeListener;
-    protected RecyclerView.AdapterDataObserver mInternalDataSetObserver;
-    protected Runnable mAdjustTabModeRunnable;
-    protected Runnable mSetTabsFromPagerAdapterRunnable;
-    protected Runnable mUpdateScrollPositionRunnable;
-    protected boolean mAutoAdjustTabMode = false;
-    protected boolean mDuringSetTabsFromPagerAdapter;
+    private TabLayout.OnTabSelectedListener mInternalOnTabSelectedListener;
+    private FixedTabLayoutOnPageChangeListener mInternalTabLayoutOnPageChangeListener;
+    private RecyclerView.AdapterDataObserver mInternalDataSetObserver;
+    private Runnable mAdjustTabModeRunnable;
+    private Runnable mSetTabsFromPagerAdapterRunnable;
+    private Runnable mUpdateScrollPositionRunnable;
+    private boolean mAutoAdjustTabMode = false;
+    private boolean mDuringSetTabsFromPagerAdapter;
 
     /**
      * Constructor.
      *
      * @param tabLayout         TabLayout instance
      * @param viewPager         ViewPager2 instance
-     * @param tabTitleGenerator
+     * @param tabTitleGenerator TabTitleGenerator instance
      */
-    public TabLayoutHelper(@NonNull TabLayout tabLayout, @NonNull ViewPager2 viewPager, TabTitleGenerator tabTitleGenerator) {
+    public TabLayoutHelper(@NonNull TabLayout tabLayout, @NonNull ViewPager2 viewPager, @NonNull TabTitleGenerator tabTitleGenerator) {
         RecyclerView.Adapter adapter = viewPager.getAdapter();
 
         if (adapter == null) {
@@ -82,12 +83,12 @@ public class TabLayoutHelper {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                handleOnTabUnselected(tab);
+                // Do nothing
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                handleOnTabReselected(tab);
+                // Do nothing
             }
         };
 
@@ -109,24 +110,6 @@ public class TabLayoutHelper {
     //
 
     /**
-     * Retrieve underlying TabLayout instance.
-     *
-     * @return TabLayout instance
-     */
-    public TabLayout getTabLayout() {
-        return mTabLayout;
-    }
-
-    /**
-     * Retrieve ViewPager instance.
-     *
-     * @return ViewPager instance
-     */
-    public ViewPager2 getViewPager() {
-        return mViewPager;
-    }
-
-    /**
      * Sets auto tab mode adjustment enabled
      *
      * @param enabled True for enabled, otherwise false.
@@ -145,15 +128,6 @@ public class TabLayoutHelper {
     }
 
     /**
-     * Gets whether auto tab mode adjustment is enabled.
-     *
-     * @return True for enabled, otherwise false.
-     */
-    public boolean isAutoAdjustTabModeEnabled() {
-        return mAutoAdjustTabMode;
-    }
-
-    /**
      * Unregister internal listener objects, release object references, etc.
      * This method should be called in order to avoid memory leaks.
      */
@@ -162,12 +136,7 @@ public class TabLayoutHelper {
         cancelPendingSetTabsFromPagerAdapter();
         cancelPendingUpdateScrollPosition();
 
-//        if (mInternalOnAdapterChangeListener != null) {
-//            mViewPager.removeOnAdapterChangeListener(mInternalOnAdapterChangeListener);
-//            mInternalOnAdapterChangeListener = null;
-//        }
         if (mInternalDataSetObserver != null) {
-//            mViewPager.getAdapter().unregisterDataSetObserver(mInternalDataSetObserver);
             mInternalDataSetObserver = null;
         }
         if (mInternalOnTabSelectedListener != null) {
@@ -175,19 +144,18 @@ public class TabLayoutHelper {
             mInternalOnTabSelectedListener = null;
         }
         if (mInternalTabLayoutOnPageChangeListener != null) {
-//            mViewPager.removeOnPageChangeListener(mInternalTabLayoutOnPageChangeListener);
             mInternalTabLayoutOnPageChangeListener = null;
         }
         mViewPager = null;
         mTabLayout = null;
     }
 
-    public void updateAllTabs() {
-        int count = mTabLayout.getTabCount();
-        for (int i = 0; i < count; i++) {
-            updateTab(mTabLayout.getTabAt(i));
-        }
-    }
+//    public void updateAllTabs() {
+//        int count = mTabLayout.getTabCount();
+//        for (int i = 0; i < count; i++) {
+//            updateTab(mTabLayout.getTabAt(i));
+//        }
+//    }
 
     /**
      * Override this method if you want to use custom tab layout.
@@ -196,7 +164,7 @@ public class TabLayoutHelper {
      * @param position  Position of the item
      * @return TabLayout.Tab
      */
-    protected TabLayout.Tab onCreateTab(TabLayout tabLayout, int position) {
+    private TabLayout.Tab onCreateTab(TabLayout tabLayout, int position) {
         TabLayout.Tab tab = tabLayout.newTab();
         tab.setText(mTabTitleGenerator.getTitle(position));
         return tab;
@@ -211,7 +179,7 @@ public class TabLayoutHelper {
      *
      * @param tab Tab
      */
-    protected void onUpdateTab(TabLayout.Tab tab) {
+    private void onUpdateTab(TabLayout.Tab tab) {
         if (tab.getCustomView() == null) {
             tab.setCustomView(null); // invokes update() method internally.
         }
@@ -220,7 +188,7 @@ public class TabLayoutHelper {
     //
     // internal methods
     //
-    protected void handleOnDataSetChanged() {
+    private void handleOnDataSetChanged() {
         cancelPendingUpdateScrollPosition();
         cancelPendingSetTabsFromPagerAdapter();
 
@@ -236,7 +204,7 @@ public class TabLayoutHelper {
         mTabLayout.post(mSetTabsFromPagerAdapterRunnable);
     }
 
-    protected void handleOnTabSelected(TabLayout.Tab tab) {
+    private void handleOnTabSelected(TabLayout.Tab tab) {
         if (mDuringSetTabsFromPagerAdapter) {
             return;
         }
@@ -244,55 +212,28 @@ public class TabLayoutHelper {
         cancelPendingUpdateScrollPosition();
     }
 
-    protected void handleOnTabUnselected(TabLayout.Tab tab) {
-        if (mDuringSetTabsFromPagerAdapter) {
-            return;
-        }
-    }
-
-    protected void handleOnTabReselected(TabLayout.Tab tab) {
-        if (mDuringSetTabsFromPagerAdapter) {
-            return;
-        }
-    }
-
-    protected void handleOnAdapterChanged(ViewPager2 viewPager, RecyclerView.Adapter oldAdapter, RecyclerView.Adapter newAdapter) {
-        if (!mViewPager.equals(viewPager)) {
-            return;
-        }
-
-        if (oldAdapter != null) {
-            oldAdapter.unregisterAdapterDataObserver(mInternalDataSetObserver);
-        }
-        if (newAdapter != null) {
-            newAdapter.registerAdapterDataObserver(mInternalDataSetObserver);
-        }
-
-        setTabsFromPagerAdapter(mTabLayout, newAdapter, mViewPager.getCurrentItem());
-    }
-
-    protected void cancelPendingAdjustTabMode() {
+    private void cancelPendingAdjustTabMode() {
         if (mAdjustTabModeRunnable != null) {
             mTabLayout.removeCallbacks(mAdjustTabModeRunnable);
             mAdjustTabModeRunnable = null;
         }
     }
 
-    protected void cancelPendingSetTabsFromPagerAdapter() {
+    private void cancelPendingSetTabsFromPagerAdapter() {
         if (mSetTabsFromPagerAdapterRunnable != null) {
             mTabLayout.removeCallbacks(mSetTabsFromPagerAdapterRunnable);
             mSetTabsFromPagerAdapterRunnable = null;
         }
     }
 
-    protected void cancelPendingUpdateScrollPosition() {
+    private void cancelPendingUpdateScrollPosition() {
         if (mUpdateScrollPositionRunnable != null) {
             mTabLayout.removeCallbacks(mUpdateScrollPositionRunnable);
             mUpdateScrollPositionRunnable = null;
         }
     }
 
-    protected void adjustTabMode(int prevScrollX) {
+    private void adjustTabMode(int prevScrollX) {
         if (mAdjustTabModeRunnable != null) {
             return;
         }
@@ -313,11 +254,11 @@ public class TabLayoutHelper {
         }
     }
 
-    protected TabLayout.Tab createNewTab(TabLayout tabLayout, int position) {
+    private TabLayout.Tab createNewTab(TabLayout tabLayout, int position) {
         return onCreateTab(tabLayout, position);
     }
 
-    protected void setupWithViewPager(@NonNull TabLayout tabLayout, @NonNull ViewPager2 viewPager) {
+    private void setupWithViewPager(@NonNull TabLayout tabLayout, @NonNull ViewPager2 viewPager) {
         final RecyclerView.Adapter adapter = viewPager.getAdapter();
         if (adapter == null) {
             throw new IllegalArgumentException("ViewPager does not have a PagerAdapter set");
@@ -328,12 +269,11 @@ public class TabLayoutHelper {
         viewPager.getAdapter().registerAdapterDataObserver(mInternalDataSetObserver);
 
         viewPager.registerOnPageChangeCallback(mInternalTabLayoutOnPageChangeListener);
-//        viewPager.addOnAdapterChangeListener(mInternalOnAdapterChangeListener);
 
         tabLayout.addOnTabSelectedListener(mInternalOnTabSelectedListener);
     }
 
-    public void setTabsFromPagerAdapter(@NonNull TabLayout tabLayout, @Nullable RecyclerView.Adapter adapter, int currentItem) {
+    private void setTabsFromPagerAdapter(@NonNull TabLayout tabLayout, @Nullable RecyclerView.Adapter adapter, int currentItem) {
         try {
             mDuringSetTabsFromPagerAdapter = true;
 
@@ -353,8 +293,9 @@ public class TabLayoutHelper {
 
                 // select current tab
                 currentItem = Math.min(currentItem, count - 1);
-                if (currentItem >= 0) {
-                    tabLayout.getTabAt(currentItem).select();
+                TabLayout.Tab tab = tabLayout.getTabAt(currentItem);
+                if (currentItem >= 0 && tab != null) {
+                    tab.select();
                 }
             }
 
@@ -373,11 +314,11 @@ public class TabLayoutHelper {
         }
     }
 
-    protected void updateTab(TabLayout.Tab tab) {
+    private void updateTab(TabLayout.Tab tab) {
         onUpdateTab(tab);
     }
 
-    protected int determineTabMode(@NonNull TabLayout tabLayout) {
+    private int determineTabMode(@NonNull TabLayout tabLayout) {
         LinearLayout slidingTabStrip = (LinearLayout) tabLayout.getChildAt(0);
 
         int childCount = slidingTabStrip.getChildCount();
@@ -408,7 +349,7 @@ public class TabLayoutHelper {
                 ? TabLayout.MODE_FIXED : TabLayout.MODE_SCROLLABLE;
     }
 
-    protected void adjustTabModeInternal(@NonNull TabLayout tabLayout, int prevScrollX) {
+    private void adjustTabModeInternal(@NonNull TabLayout tabLayout, int prevScrollX) {
         int prevTabMode = tabLayout.getTabMode();
 
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -450,7 +391,7 @@ public class TabLayoutHelper {
         private int mPreviousScrollState;
         private int mScrollState;
 
-        public FixedTabLayoutOnPageChangeListener(TabLayout tabLayout) {
+        FixedTabLayoutOnPageChangeListener(TabLayout tabLayout) {
             mTabLayoutRef = new WeakReference<>(tabLayout);
         }
 
@@ -509,11 +450,11 @@ public class TabLayoutHelper {
             }
         }
 
-        public static void selectTab(TabLayout tabLayout, TabLayout.Tab tab, boolean updateIndicator) {
+        static void selectTab(TabLayout tabLayout, TabLayout.Tab tab, boolean updateIndicator) {
             try {
                 mMethodSelectTab.invoke(tabLayout, tab, updateIndicator);
             } catch (IllegalAccessException e) {
-                new IllegalStateException(e);
+                DeckLog.logError(new IllegalStateException(e));
             } catch (InvocationTargetException e) {
                 throw handleInvocationTargetException(e);
             }
