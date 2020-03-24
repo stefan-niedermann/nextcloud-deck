@@ -630,7 +630,6 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 }
                 break;
             default:
-                // TODO Merge with ImportAccountActivity
                 try {
                     AccountImporter.onActivityResult(requestCode, resultCode, data, this, (account) -> {
                         final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));

@@ -70,7 +70,7 @@ public class DrawerMenuUtil {
 
                         @Override
                         public void onLoadCleared(@Nullable Drawable placeholder) {
-
+                            // Nothing to do here
                         }
                     });
 
@@ -127,21 +127,18 @@ public class DrawerMenuUtil {
                     PopupMenu popup = new PopupMenu(context, contextMenu);
                     popup.getMenuInflater().inflate(R.menu.navigation_context_menu, popup.getMenu());
                     final int SHARE_BOARD_ID = -1;
-                    if (board.isPermissionShare()) {
-                        MenuItem shareItem = popup.getMenu().add(Menu.NONE, SHARE_BOARD_ID, 5, R.string.share_board);
-                    }
                     popup.setOnMenuItemClickListener((MenuItem item) -> {
                         switch (item.getItemId()) {
                             case SHARE_BOARD_ID:
                                 AccessControlDialogFragment.newInstance(currentAccountId, board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard);
-                                break;
+                                return true;
                             case R.id.edit_board:
                                 EditBoardDialogFragment.newInstance(currentAccountId, board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
-                                break;
+                                return true;
                             case R.id.archive_board:
                                 // TODO implement
                                 Toast.makeText(context, "Archiving boards is not yet supported.", Toast.LENGTH_LONG).show();
-                                break;
+                                return true;
                             case R.id.delete_board:
                                 new DeleteDialogBuilder(context)
                                         .setTitle(context.getString(R.string.delete_something, board.getTitle()))
@@ -160,9 +157,10 @@ public class DrawerMenuUtil {
                                         })
                                         .setNegativeButton(android.R.string.cancel, null)
                                         .show();
-                                break;
+                                return true;
+                            default:
+                                return false;
                         }
-                        return true;
                     });
                     popup.show();
                 });
@@ -194,6 +192,7 @@ public class DrawerMenuUtil {
         void onBoardDeleted(@NonNull Board board);
 
         default void onLastBoardDeleted() {
+            // Optional
         }
     }
 }

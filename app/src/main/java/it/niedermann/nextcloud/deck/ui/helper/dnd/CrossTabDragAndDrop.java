@@ -7,7 +7,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -23,8 +22,8 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
-import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
-import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+
+import static it.niedermann.nextcloud.deck.ui.helper.dnd.DnDUtil.getStackFragment;
 
 public class CrossTabDragAndDrop {
 
@@ -109,7 +108,6 @@ public class CrossTabDragAndDrop {
                         if (viewUnder != null) {
                             int toPositon = currentRecyclerView.getChildAdapterPosition(viewUnder);
                             if (toPositon != -1) {
-//                                DeckLog.log("dnd childUnder: "+((TextView)((LinearLayout)((LinearLayout)((CardView) viewUnder).getChildAt(0)).getChildAt(0)).getChildAt(0)).getText());
                                 int fromPosition = currentRecyclerView.getChildAdapterPosition(cardView);
                                 if (fromPosition != -1 && fromPosition != toPositon) {
                                     cardAdapter.moveItem(fromPosition, toPositon);
@@ -178,32 +176,24 @@ public class CrossTabDragAndDrop {
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);
                     viewPager.unregisterOnPageChangeCallback(this);
-                    StackAdapter stackAdapter = Objects.requireNonNull((StackAdapter) viewPager.getAdapter());
-
-                    Fragment fragment = fm.findFragmentByTag("f" + stackAdapter.getItemId(tabPositionToCheck));
-
-                    if (fragment instanceof StackFragment) {
-                        CardAdapter cardAdapter = ((StackFragment) fragment).getAdapter();
-                        cardAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-                            @Override
-                            public void onChanged() {
-                                super.onChanged();
-                                cardAdapter.unregisterAdapterDataObserver(this);
-                                List<FullCard> cardList = cardAdapter.getCardList();
-                                for (int i = 0; i < cardList.size(); i++) {
-                                    FullCard c = cardList.get(i);
-                                    if (cardToFind.getCard().getLocalId().equals(c.getLocalId())) {
-                                        cardAdapter.removeItem(i);
-                                        cardAdapter.notifyItemRemoved(i);
-                                        DeckLog.verbose("DnD removed dupe at tab " + tabPositionToCheck + ": " + c.getCard().getTitle());
-                                        break;
-                                    }
+                    CardAdapter cardAdapter = getStackFragment(fm, Objects.requireNonNull(viewPager.getAdapter()).getItemId(tabPositionToCheck)).getAdapter();
+                    cardAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                        @Override
+                        public void onChanged() {
+                            super.onChanged();
+                            cardAdapter.unregisterAdapterDataObserver(this);
+                            List<FullCard> cardList = cardAdapter.getCardList();
+                            for (int i = 0; i < cardList.size(); i++) {
+                                FullCard c = cardList.get(i);
+                                if (cardToFind.getCard().getLocalId().equals(c.getLocalId())) {
+                                    cardAdapter.removeItem(i);
+                                    cardAdapter.notifyItemRemoved(i);
+                                    DeckLog.verbose("DnD removed dupe at tab " + tabPositionToCheck + ": " + c.getCard().getTitle());
+                                    break;
                                 }
                             }
-                        });
-                    } else {
-                        throw new IllegalArgumentException("fragment with tag f" + stackAdapter.getItemId(tabPositionToCheck) + " is not a StackFragment");
-                    }
+                        }
+                    });
                 }
             });
         }

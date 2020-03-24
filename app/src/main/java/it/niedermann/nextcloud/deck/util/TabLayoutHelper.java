@@ -257,7 +257,7 @@ public class TabLayoutHelper {
     }
 
     protected void handleOnAdapterChanged(ViewPager2 viewPager, RecyclerView.Adapter oldAdapter, RecyclerView.Adapter newAdapter) {
-        if (mViewPager != viewPager) {
+        if (!mViewPager.equals(viewPager)) {
             return;
         }
 
@@ -305,12 +305,9 @@ public class TabLayoutHelper {
             adjustTabModeInternal(mTabLayout, prevScrollX);
         } else {
             final int prevScrollX1 = prevScrollX;
-            mAdjustTabModeRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    mAdjustTabModeRunnable = null;
-                    adjustTabModeInternal(mTabLayout, prevScrollX1);
-                }
+            mAdjustTabModeRunnable = () -> {
+                mAdjustTabModeRunnable = null;
+                adjustTabModeInternal(mTabLayout, prevScrollX1);
             };
             mTabLayout.post(mAdjustTabModeRunnable);
         }
@@ -340,7 +337,6 @@ public class TabLayoutHelper {
         try {
             mDuringSetTabsFromPagerAdapter = true;
 
-            int prevSelectedTab = tabLayout.getSelectedTabPosition();
             int prevScrollX = tabLayout.getScrollX();
 
             // remove all tabs
@@ -468,15 +464,13 @@ public class TabLayoutHelper {
         public void onPageScrolled(int position, float positionOffset,
                                    int positionOffsetPixels) {
             final TabLayout tabLayout = mTabLayoutRef.get();
-            if (tabLayout != null) {
-                if (shouldUpdateScrollPosition()) {
-                    // Update the scroll position, only update the text selection if we're being
-                    // dragged (or we're settling after a drag)
-                    final boolean updateText = (mScrollState == ViewPager2.SCROLL_STATE_DRAGGING)
-                            || (mScrollState == ViewPager2.SCROLL_STATE_SETTLING
-                            && mPreviousScrollState == ViewPager2.SCROLL_STATE_DRAGGING);
-                    tabLayout.setScrollPosition(position, positionOffset, updateText);
-                }
+            if (tabLayout != null && shouldUpdateScrollPosition()) {
+                // Update the scroll position, only update the text selection if we're being
+                // dragged (or we're settling after a drag)
+                final boolean updateText = (mScrollState == ViewPager2.SCROLL_STATE_DRAGGING)
+                        || (mScrollState == ViewPager2.SCROLL_STATE_SETTLING
+                        && mPreviousScrollState == ViewPager2.SCROLL_STATE_DRAGGING);
+                tabLayout.setScrollPosition(position, positionOffset, updateText);
             }
         }
 
