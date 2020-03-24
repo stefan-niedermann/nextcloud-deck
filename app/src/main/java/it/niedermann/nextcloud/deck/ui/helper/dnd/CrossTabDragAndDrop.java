@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
@@ -197,7 +198,7 @@ public class CrossTabDragAndDrop {
                                     if (cardToFind.getCard().getLocalId().equals(c.getLocalId())) {
                                         cardAdapter.removeItem(i);
                                         cardAdapter.notifyItemRemoved(i);
-//                                    DeckLog.log("dnd removed dupe at tab "+tabPositionToCheck+": "+c.getCard().getTitle());
+                                        DeckLog.verbose("DnD removed dupe at tab " + tabPositionToCheck + ": " + c.getCard().getTitle());
                                         break;
                                     }
                                 }
