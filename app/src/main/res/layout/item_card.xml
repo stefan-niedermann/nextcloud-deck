@@ -108,7 +108,8 @@
                 android:layout_marginEnd="@dimen/standard_half_margin"
                 android:layout_marginRight="@dimen/standard_half_margin"
                 android:layout_weight="1"
-                android:animateLayoutChanges="true" />
+                android:animateLayoutChanges="true"
+                tools:layout_height="match_parent" />
 
             <RelativeLayout
                 android:layout_width="0dp"
