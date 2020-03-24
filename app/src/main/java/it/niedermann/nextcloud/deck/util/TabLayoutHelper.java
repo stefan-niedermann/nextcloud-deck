@@ -66,6 +66,7 @@ public class TabLayoutHelper {
         mViewPager = viewPager;
         mTabTitleGenerator = tabTitleGenerator;
 
+
         mInternalDataSetObserver = new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
@@ -92,12 +93,13 @@ public class TabLayoutHelper {
 
         mInternalTabLayoutOnPageChangeListener = new FixedTabLayoutOnPageChangeListener(mTabLayout);
 
-//        mInternalOnAdapterChangeListener = new ViewPager2.OnAdapterChangeListener() {
-//            @Override
-//            public void onAdapterChanged(@NonNull ViewPager2 viewPager, @Nullable RecyclerView.Adapter oldAdapter, @Nullable RecyclerView.Adapter newAdapter) {
-//                handleOnAdapterChanged(viewPager, oldAdapter, newAdapter);
-//            }
-//        };
+
+        viewPager.getAdapter().registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                setTabsFromPagerAdapter(mTabLayout, viewPager.getAdapter(), viewPager.getCurrentItem());
+            }
+        });
 
         setupWithViewPager(mTabLayout, mViewPager);
     }
@@ -198,6 +200,10 @@ public class TabLayoutHelper {
         TabLayout.Tab tab = tabLayout.newTab();
         tab.setText(mTabTitleGenerator.getTitle(position));
         return tab;
+    }
+
+    public void setTabTitleGenerator(TabTitleGenerator mTabTitleGenerator) {
+        this.mTabTitleGenerator = mTabTitleGenerator;
     }
 
     /**
@@ -330,7 +336,7 @@ public class TabLayoutHelper {
         tabLayout.addOnTabSelectedListener(mInternalOnTabSelectedListener);
     }
 
-    protected void setTabsFromPagerAdapter(@NonNull TabLayout tabLayout, @Nullable RecyclerView.Adapter adapter, int currentItem) {
+    public void setTabsFromPagerAdapter(@NonNull TabLayout tabLayout, @Nullable RecyclerView.Adapter adapter, int currentItem) {
         try {
             mDuringSetTabsFromPagerAdapter = true;
 

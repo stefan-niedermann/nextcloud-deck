@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -125,7 +126,9 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     private int minimumServerAppMajor;
     private int minimumServerAppMinor;
     private int minimumServerAppPatch;
-    private TabLayoutMediator mediator;
+    @Nullable private TabLayoutMediator mediator;
+    @Nullable
+    private TabLayoutHelper tabLayoutHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -469,11 +472,20 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 }
                 newMediator.attach();
                 setStackMediator(newMediator);
-                new TabLayoutHelper(binding.stackTitles, binding.viewPager, tabTitleGenerator).setAutoAdjustTabModeEnabled(true);
                 binding.viewPager.setCurrentItem(stackPositionInAdapterClone);
+                updateTabLayoutHelper(tabTitleGenerator);
             });
             invalidateOptionsMenu();
         });
+    }
+
+    private void updateTabLayoutHelper(TabLayoutHelper.TabTitleGenerator tabTitleGenerator) {
+        if (this.tabLayoutHelper == null) {
+            this.tabLayoutHelper = new TabLayoutHelper(binding.stackTitles, binding.viewPager, tabTitleGenerator);
+            tabLayoutHelper.setAutoAdjustTabModeEnabled(true);
+        } else {
+            tabLayoutHelper.setTabTitleGenerator(tabTitleGenerator);
+        }
     }
 
     private void setStackMediator(TabLayoutMediator newMediator) {
