@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     private int minimumServerAppMajor;
     private int minimumServerAppMinor;
     private int minimumServerAppPatch;
+    private TabLayoutMediator mediator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -366,6 +367,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     protected void setCurrentAccount(@NonNull Account account) {
         this.currentAccount = account;
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.currentAccount.getName());
+        syncManager = new SyncManager(this);
 
         Application.saveCurrentAccountId(this, this.currentAccount.getId());
 
@@ -431,6 +433,8 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
 
         binding.emptyContentViewBoards.setVisibility(View.GONE);
         binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
+
+
         syncManager.getStacksForBoard(this.currentAccount.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
                 throw new IllegalStateException("Stack must not be null");
@@ -457,14 +461,23 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 }
             }
             final int stackPositionInAdapterClone = stackPositionInAdapter;
+            TabLayoutHelper.TabTitleGenerator tabTitleGenerator = position -> fullStacks.size() > position ? fullStacks.get(position).getStack().getTitle() : "ERROR";
+            TabLayoutMediator newMediator = new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position)));
             runOnUiThread(() -> {
-                TabLayoutHelper.TabTitleGenerator tabTitleGenerator = position -> fullStacks.size() >= position + 1 ? fullStacks.get(position).getStack().getTitle() : "";
-                new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position))).attach();
+                if (mediator != null) {
+                    mediator.detach();
+                }
+                newMediator.attach();
+                setStackMediator(newMediator);
                 new TabLayoutHelper(binding.stackTitles, binding.viewPager, tabTitleGenerator).setAutoAdjustTabModeEnabled(true);
                 binding.viewPager.setCurrentItem(stackPositionInAdapterClone);
             });
             invalidateOptionsMenu();
         });
+    }
+
+    private void setStackMediator(TabLayoutMediator newMediator) {
+        this.mediator = newMediator;
     }
 
     private void inflateAccountMenu() {
