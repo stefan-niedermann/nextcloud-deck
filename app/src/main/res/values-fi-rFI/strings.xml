@@ -142,4 +142,5 @@
     <string name="server_error_explanation">Palvelimesi vastasi HTTP 503 tilakoodilla. Tämä voi tarkoittaa, että palvelin on ylläpitotilassa. Ota yhteyttä ylläpitoon tai meidän tukipalveluun. Tukipalvelun yhteystiedot loytyvät muuta valikosta.</string>
     <string name="share_add_to_card">Lisää kortille</string>
     <string name="share_success">Onnistuneesti lisätty %1$s kohteeseen %2$s</string>
+    <string name="could_not_copy_to_clipboard">Ei voitu kopioida leikepöydälle</string>
     </resources>

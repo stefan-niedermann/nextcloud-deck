@@ -71,6 +71,7 @@
 
     <string name="label_add">Dodaj %1$s</string>
     <string name="error">Prišlo je do napake</string>
+    <string name="operation_not_yet_supported">Možnost še ni podprta</string>
     <string name="simple_copy">kopiraj</string>
     <string name="simple_exception">Izjema</string>
     <string name="copied_to_clipboard">Kopirano v odložišče</string>
@@ -133,5 +134,15 @@
     <string name="please_add_an_account_first">Najprej je treba dodati račun</string>
     <string name="title_is_mandatory">Naslov je obvezen</string>
     <string name="provide_at_least_a_title_or_description">Vpisati je treba vsaj naslov oziroma opis</string>
+    <string name="welcome_text">Dobrodošli v %1$s</string>
+    <string name="choose_account">Izbor računa</string>
+    <string name="save_card_before_attachment">Nalogo je treba shraniti, preden je mogoče dodati prilogo.</string>
+    <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
+    <string name="server_misconfigured_explanation">Prejet je odziv strežnika s kodo stanja HTTP 302, kar kaže na to, da ni nameščen program Deck, ali pa so napačne nastavitve. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID. Stopite v stik s skrbnikom, ali pa se obrnite za podporo na nas.</string>
     <string name="server_error">Napaka strežnika</string>
-    </resources>
+    <string name="server_error_explanation">Prejet je odziv strežnika s kodo stanja HTTP 503. To se lahko zgodi, če je strežnik trenutno v vzdrževalnem načinu. Stopite v stik s skrbnikom, ali pa se obrnite za podporo na nas.</string>
+    <string name="share_add_to_card">Dodaj k nalogi</string>
+    <string name="share_success">Uspešno dodano %1$s v %2$s</string>
+    <string name="could_not_copy_to_clipboard">Predmeta ni mogoče kopirati v odložišče</string>
+    <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
+</resources>

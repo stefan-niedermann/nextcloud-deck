@@ -71,6 +71,7 @@
 
     <string name="label_add">Добавить %1$s </string>
     <string name="error">Произошла ошибка</string>
+    <string name="operation_not_yet_supported">Ещё не поддерживается</string>
     <string name="simple_copy">Копировать</string>
     <string name="simple_exception">Исключение</string>
     <string name="copied_to_clipboard">Скопировано в буфер</string>
@@ -133,5 +134,12 @@
     <string name="please_add_an_account_first">Начните с добавления учётной записи</string>
     <string name="title_is_mandatory">Требуется указать заголовок</string>
     <string name="provide_at_least_a_title_or_description">Создайте заголовок или описание</string>
+    <string name="welcome_text">Добро пожаловать в %1$s</string>
+    <string name="choose_account">Выберите учётную запись</string>
+    <string name="save_card_before_attachment">Перед добавлением вложений карточку необходимо сохранить.</string>
+    <string name="server_misconfigured">Сервер не настроен</string>
     <string name="server_error">Ошибка сервера</string>
+    <string name="share_add_to_card">Добавить в карточку</string>
+    <string name="share_success">%1$s добавлено в %2$s</string>
+    <string name="could_not_copy_to_clipboard">Не удалось скопировать в буфер обмена.</string>
     </resources>

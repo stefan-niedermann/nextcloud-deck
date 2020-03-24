@@ -71,6 +71,7 @@
 
     <string name="label_add">Adicionar %1$s</string>
     <string name="error">Ocorreu um erro</string>
+    <string name="operation_not_yet_supported">Ainda não suportado</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_exception">Exceção</string>
     <string name="copied_to_clipboard">Copiado para a área de transferência</string>
@@ -142,4 +143,6 @@
     <string name="server_error_explanation">Seu servidor respondeu com um código de status HTTP 503. Pode ser que o servidor esteja atualmente em manutenção. Entre em contato com seu administrador ou conosco para obter suporte. Você pode encontrar nossas informações de contato na seção \"Sobre\".</string>
     <string name="share_add_to_card">Adicionar ao cartão</string>
     <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
-    </resources>
+    <string name="could_not_copy_to_clipboard">Não foi possível copiar para a área de transferência</string>
+    <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
+</resources>
