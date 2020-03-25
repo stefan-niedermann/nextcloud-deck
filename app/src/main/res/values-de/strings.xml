@@ -145,4 +145,4 @@
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
     <string name="could_not_copy_to_clipboard">Konnte nicht in die Zwischenablage kopieren</string>
     <string name="shared_error">Das Teilen von Inhalten aus Apps von Drittanbietern wird noch nicht vollständig unterstützt. Bitte versuchen Sie zuerst, die Datei herunterzuladen und dann aus Ihrem Dateimanager oder aus Ihrer Galerie freizugeben.</string>
-</resources>
+    </resources>

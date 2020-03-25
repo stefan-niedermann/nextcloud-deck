@@ -145,4 +145,4 @@
     <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
     <string name="could_not_copy_to_clipboard">Não foi possível copiar para a área de transferência</string>
     <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
-</resources>
+    </resources>

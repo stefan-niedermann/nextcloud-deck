@@ -145,4 +145,4 @@
     <string name="share_success">%1$s foi engadido satisfactoriamente  a %2$s</string>
     <string name="could_not_copy_to_clipboard">Non foi posíbel copiar ao portapapeis</string>
     <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
-</resources>
+    </resources>
