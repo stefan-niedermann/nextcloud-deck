@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <it.niedermann.nextcloud.deck.ui.helper.emptycontentview.EmptyContentView
+    <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
         android:id="@+id/empty_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <it.niedermann.nextcloud.deck.ui.widget.ToggleAutoCompleteTextView
+    <it.niedermann.nextcloud.deck.ui.view.ToggleAutoCompleteTextView
         android:id="@+id/people"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

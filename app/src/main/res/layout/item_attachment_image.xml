@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<it.niedermann.nextcloud.deck.ui.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<it.niedermann.nextcloud.deck.ui.view.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,4 +26,4 @@
         android:visibility="gone"
         app:srcCompat="@drawable/ic_sync_blue_24dp"
         tools:visibility="visible" />
-</it.niedermann.nextcloud.deck.ui.widget.SquareRelativeLayout>
+</it.niedermann.nextcloud.deck.ui.view.SquareRelativeLayout>

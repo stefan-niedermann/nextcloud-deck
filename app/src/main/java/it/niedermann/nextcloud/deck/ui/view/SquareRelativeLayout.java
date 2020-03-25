@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.widget;
+package it.niedermann.nextcloud.deck.ui.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

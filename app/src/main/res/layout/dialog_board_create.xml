@@ -18,7 +18,7 @@
         <requestFocus />
     </EditText>
 
-    <it.niedermann.nextcloud.deck.ui.helper.colorchooser.ColorChooser
+    <it.niedermann.nextcloud.deck.ui.view.ColorChooser
         android:id="@+id/colorChooser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
