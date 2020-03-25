@@ -39,6 +39,7 @@
     <string name="about_app_license">Ez az alkalmazás a GNU GENERAL PUBLIC LICENSE v3+ verziója alatt kerül közreadásra.</string>
     <string name="about_app_license_button">Licenc megtekintése</string>
     <string name="about_icons_disclaimer_title">Ikonok</string>
+    <string name="about_icons_disclaimer_app_icon">Az eredeti ikon itt található: %1$s.</string>
     <string name="about_icons_disclaimer_mdi">Material Design ikont</string>
     <string name="about_credits_tab_title">Köszönetnyilvánítás</string>
     <string name="about_contribution_tab_title">Közreműködés</string>
@@ -69,6 +70,7 @@
 
     <string name="label_add">%1$s hozzáadása</string>
     <string name="error">Hiba történt</string>
+    <string name="operation_not_yet_supported">Még nincs támogatva</string>
     <string name="simple_copy">másolat</string>
     <string name="simple_exception">Kivétel</string>
     <string name="copied_to_clipboard">Vágólapra másolva</string>
@@ -126,6 +128,9 @@
     <string name="hours_6">6 óra</string>
     <string name="action_card_move">Kártya áthelyezése</string>
     <string name="action_card_move_title">%1$s áthelyezése</string>
+    <string name="simple_disabled">letiltva</string>
     <string name="simple_copied">Másolva</string>
+    <string name="title_is_mandatory">A cím megadása kötelező</string>
+    <string name="provide_at_least_a_title_or_description">Kérem, adjon meg címet vagy leírást</string>
     <string name="server_error">Szerver hiba</string>
     </resources>

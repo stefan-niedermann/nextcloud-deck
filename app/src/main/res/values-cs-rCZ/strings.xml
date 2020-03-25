@@ -145,4 +145,4 @@
     <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
     <string name="could_not_copy_to_clipboard">Nedaří se zkopírovat do schránky</string>
     <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
-</resources>
+    </resources>

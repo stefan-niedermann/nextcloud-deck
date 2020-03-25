@@ -145,4 +145,4 @@
     <string name="share_success">Añadido satisfactoriamente %1$s a %2$s</string>
     <string name="could_not_copy_to_clipboard">No se puede copiar al portapapeles</string>
     <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
-</resources>
+    </resources>
