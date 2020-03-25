@@ -82,6 +82,7 @@ import static it.niedermann.nextcloud.deck.Application.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -533,7 +534,8 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         } else {
             switch (item.getItemId()) {
                 case MENU_ID_ABOUT:
-                    startActivityForResult(new Intent(getApplicationContext(), AboutActivity.class), MainActivity.ACTIVITY_ABOUT);
+                    startActivityForResult(new Intent(getApplicationContext(), AboutActivity.class)
+                            .putExtra(BUNDLE_KEY_ACCOUNT, currentAccount), MainActivity.ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_SETTINGS:
                     startActivityForResult(new Intent(getApplicationContext(), SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);
