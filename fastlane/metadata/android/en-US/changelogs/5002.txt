@@ -1,0 +1,15 @@
+0.5.2
+
+- 🐞 Fix exception when opening the "about"-section
+- 🔧 Uses AndroidX preference library
+
+0.5.1
+
+- 🐞 Do not try to sync comments when server version is too low
+
+0.5.0
+
+- 💬 Add support for comments - requires at least server version 1.0.0-alpha1 (#207)
+- 🐞 Allow login with alpha- and beta versions of server app
+- 🏷️ Animate chipgroups (#326)
+- 📎 Add attachments while creating a new card (#320)

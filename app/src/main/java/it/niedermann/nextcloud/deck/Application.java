@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 
@@ -10,6 +9,7 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 import static androidx.multidex.MultiDex.install;
+import androidx.preference.PreferenceManager;
 
 public class Application extends android.app.Application {
 

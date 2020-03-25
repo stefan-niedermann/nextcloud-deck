@@ -6,8 +6,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 5001
-        versionName "0.5.1"
+        versionCode 5002
+        versionName "0.5.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -74,6 +74,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.work:work-runtime:2.3.4'
+    implementation 'androidx.preference:preference:1.1.0'
 
 
     // Flexbox

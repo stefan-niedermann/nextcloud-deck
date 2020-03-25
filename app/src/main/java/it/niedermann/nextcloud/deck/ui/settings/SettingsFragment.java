@@ -2,47 +2,57 @@ package it.niedermann.nextcloud.deck.ui.settings;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
 
-import androidx.annotation.Nullable;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreference;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.settings, rootKey);
 
-        addPreferencesFromResource(R.xml.settings);
+        final SwitchPreference wifiOnlyPref = findPreference(getString(R.string.pref_key_wifi_only));
+        if (wifiOnlyPref != null) {
+            wifiOnlyPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                Boolean syncOnWifiOnly = (Boolean) newValue;
+                DeckLog.log("syncOnWifiOnly: " + syncOnWifiOnly);
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_wifi_only) + "\"");
+        }
 
-        final SwitchPreference wifiOnlyPref = (SwitchPreference) findPreference(getString(R.string.pref_key_wifi_only));
-        wifiOnlyPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-            Boolean syncOnWifiOnly = (Boolean) newValue;
-            DeckLog.log("syncOnWifiOnly: " + syncOnWifiOnly);
-            return true;
-        });
+        final SwitchPreference themePref = findPreference(getString(R.string.pref_key_dark_theme));
+        if (themePref != null) {
+            themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                Boolean darkTheme = (Boolean) newValue;
+                DeckLog.log("darkTheme: " + darkTheme);
+                Application.setAppTheme(darkTheme);
+                requireActivity().setResult(Activity.RESULT_OK);
+                requireActivity().recreate();
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_dark_theme) + "\"");
+        }
 
-        final SwitchPreference themePref = (SwitchPreference) findPreference(getString(R.string.pref_key_dark_theme));
-        themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-            Boolean darkTheme = (Boolean) newValue;
-            DeckLog.log("darkTheme: " + darkTheme);
-            Application.setAppTheme(darkTheme);
-            getActivity().setResult(Activity.RESULT_OK);
-            getActivity().recreate();
-            return true;
-        });
+        final ListPreference backgroundSyncPref = findPreference(getString(R.string.pref_key_background_sync));
+        if (backgroundSyncPref != null) {
+            backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                SyncWorker.update(requireContext().getApplicationContext(), (String) newValue);
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_background_sync) + "\"");
+        }
 
-        final ListPreference backgroundSyncPref = (ListPreference) findPreference(getString(R.string.pref_key_background_sync));
-        backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-            SyncWorker.update(getActivity().getApplicationContext(), (String) newValue);
-            return true;
-        });
     }
 }

@@ -2,24 +2,27 @@ package it.niedermann.nextcloud.deck.ui.about;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutCreditsTabBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.disabled;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.strong;
@@ -37,17 +40,21 @@ public class AboutFragmentCreditsTab extends Fragment {
 
         // VERSIONS
 
-        binding.aboutVersion.setText(getString(R.string.about_version, strong("v" + BuildConfig.VERSION_NAME)));
+        binding.aboutVersion.setText(getString(R.string.about_version, strong(BuildConfig.VERSION_NAME)));
         SyncManager syncManager = new SyncManager(requireActivity());
-        try {
-            syncManager.getServerVersion(new IResponseCallback<Capabilities>(null) {
-                @Override
-                public void onResponse(Capabilities response) {
-                    requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong("v" + response.getDeckVersion().toString())));
-                }
-            });
-        } catch (OfflineException e) {
-            binding.aboutServerAppVersion.setText(disabled(getString(R.string.you_are_currently_offline), requireContext()));
+        if (getArguments() != null && getArguments().containsKey(BUNDLE_KEY_ACCOUNT)) {
+            try {
+                syncManager.getServerVersion(new IResponseCallback<Capabilities>((Account) getArguments().getSerializable(BUNDLE_KEY_ACCOUNT)) {
+                    @Override
+                    public void onResponse(Capabilities response) {
+                        requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong(response.getDeckVersion().getOriginalVersion())));
+                    }
+                });
+            } catch (OfflineException e) {
+                binding.aboutServerAppVersion.setText(disabled(getString(R.string.you_are_currently_offline), requireContext()));
+            }
+        } else {
+            binding.aboutServerAppVersionContainer.setVisibility(View.GONE);
         }
 
         String backgroundSyncOffValue = getString(R.string.pref_value_background_sync_off);
@@ -66,5 +73,20 @@ public class AboutFragmentCreditsTab extends Fragment {
         binding.aboutMaintainer.setMovementMethod(new LinkMovementMethod());
         setTextWithURL(binding.aboutTranslators, getResources(), R.string.about_translators_transifex, R.string.about_translators_transifex_label, R.string.url_translations);
         return binding.getRoot();
+    }
+
+    public static AboutFragmentCreditsTab newInstance() {
+        return new AboutFragmentCreditsTab();
+    }
+
+    public static AboutFragmentCreditsTab newInstance(@Nullable Account account) {
+        if (account == null) {
+            return newInstance();
+        }
+        AboutFragmentCreditsTab fragment = new AboutFragmentCreditsTab();
+        Bundle args = new Bundle();
+        args.putSerializable(BUNDLE_KEY_ACCOUNT, account);
+        fragment.setArguments(args);
+        return fragment;
     }
 }

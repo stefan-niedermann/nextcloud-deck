@@ -28,7 +28,7 @@
     <string name="about_maintainer_title">Maintainer</string>
     <string name="about_maintainer" translatable="false">Niedermann IT-Dienstleistungen</string>
     <string name="about_developers_title">Developers</string>
-    <string name="about_developers" translatable="false">Stefan Niedermann, Artur Dawtjan, Andy Scherzinger</string>
+    <string name="about_developers" translatable="false">Stefan Niedermann, Artur Dawtjan</string>
     <string name="about_translators_title">Translators</string>
     <string name="about_translators_transifex">Nextcloud community on %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
