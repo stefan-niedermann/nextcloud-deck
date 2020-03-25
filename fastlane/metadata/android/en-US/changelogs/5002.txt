@@ -1,0 +1,2 @@
+- Fix exception when opening the "about"-section
+- Uses AndroidX preference library

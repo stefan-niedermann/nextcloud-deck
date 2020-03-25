@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,10 +15,13 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.about.AboutFragmentContributingTab;
 import it.niedermann.nextcloud.deck.ui.about.AboutFragmentCreditsTab;
 import it.niedermann.nextcloud.deck.ui.about.AboutFragmentLicenseTab;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -37,14 +41,20 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-        binding.viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), getLifecycle()));
+        binding.viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), getLifecycle(), (Account) getIntent().getSerializableExtra(BUNDLE_KEY_ACCOUNT)));
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
+
+        setResult(RESULT_OK);
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {
 
-        TabsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+        @Nullable
+        private final Account account;
+
+        TabsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, @Nullable Account account) {
             super(fragmentManager, lifecycle);
+            this.account = account;
         }
 
         @NonNull
@@ -52,7 +62,7 @@ public class AboutActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    return new AboutFragmentCreditsTab();
+                    return AboutFragmentCreditsTab.newInstance(account);
                 case 1:
                     return new AboutFragmentContributingTab();
                 case 2:

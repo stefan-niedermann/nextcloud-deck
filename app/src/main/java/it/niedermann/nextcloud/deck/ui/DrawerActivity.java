@@ -65,6 +65,7 @@ import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static androidx.lifecycle.Transformations.switchMap;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected static final int MENU_ID_ABOUT = -1;
@@ -332,7 +333,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         } else {
             switch (item.getItemId()) {
                 case MENU_ID_ABOUT:
-                    Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
+                    Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class)
+                            .putExtra(BUNDLE_KEY_ACCOUNT, account);
                     startActivityForResult(aboutIntent, ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_SETTINGS:
