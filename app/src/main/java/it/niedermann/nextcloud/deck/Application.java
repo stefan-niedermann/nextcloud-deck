@@ -2,10 +2,10 @@ package it.niedermann.nextcloud.deck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
+import androidx.preference.PreferenceManager;
 
 public class Application extends android.app.Application {
 

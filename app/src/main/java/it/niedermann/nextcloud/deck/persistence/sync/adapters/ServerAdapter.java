@@ -8,11 +8,11 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.text.DateFormat;

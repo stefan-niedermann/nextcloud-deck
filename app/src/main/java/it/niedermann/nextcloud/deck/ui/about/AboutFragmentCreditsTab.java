@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.about;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
@@ -37,13 +37,13 @@ public class AboutFragmentCreditsTab extends Fragment {
 
         // VERSIONS
 
-        binding.aboutVersion.setText(getString(R.string.about_version, strong("v" + BuildConfig.VERSION_NAME)));
+        binding.aboutVersion.setText(getString(R.string.about_version, strong(BuildConfig.VERSION_NAME)));
         SyncManager syncManager = new SyncManager(requireActivity());
         try {
             syncManager.getServerVersion(new IResponseCallback<Capabilities>(null) {
                 @Override
                 public void onResponse(Capabilities response) {
-                    requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong("v" + response.getDeckVersion().toString())));
+                    requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong(response.getDeckVersion().getOriginalVersion())));
                 }
             });
         } catch (OfflineException e) {

@@ -25,7 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         setResult(RESULT_OK);
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager()
+                .beginTransaction()
                 .add(R.id.settings_layout, new SettingsFragment())
                 .commit();
     }

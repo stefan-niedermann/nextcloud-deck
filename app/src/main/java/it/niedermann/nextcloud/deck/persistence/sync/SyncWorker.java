@@ -2,9 +2,9 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.NetworkType;
