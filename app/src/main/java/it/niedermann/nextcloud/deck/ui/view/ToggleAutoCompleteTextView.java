@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.widget;
+package it.niedermann.nextcloud.deck.ui.view;
 
 import android.content.Context;
 import android.graphics.Rect;
