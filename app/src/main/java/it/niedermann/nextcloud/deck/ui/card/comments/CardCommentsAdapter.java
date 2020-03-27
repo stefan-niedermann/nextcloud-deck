@@ -32,6 +32,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.util.DateUtil;
@@ -101,6 +102,11 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
                 return true;
             });
         });
+
+        if (DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum())) {
+            holder.binding.notSyncedYet.setVisibility(View.VISIBLE);
+        }
+
         TooltipCompat.setTooltipText(holder.binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getCreationDateTime()));
         setupMentions(comment.getMentions(), holder.binding.message);
     }

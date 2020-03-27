@@ -104,7 +104,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         @Nullable final String uri = (attachment.getId() == null || cardRemoteId == null)
                 ? null :
                 AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
-        holder.setNotSyncedYetStatus(attachment.getStatusEnum() == DBStatus.UP_TO_DATE);
+        holder.setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()));
         holder.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflator.inflate(R.menu.attachment_menu, menu);
             menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
