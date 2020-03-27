@@ -4,18 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:padding="@dimen/standard_padding">
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="@dimen/avatar_size"
-        android:layout_height="@dimen/avatar_size"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginRight="@dimen/standard_margin"
-        android:contentDescription="@null"
-        app:srcCompat="@drawable/ic_person_grey600_24dp"
-        tools:srcCompat="@tools:sample/avatars" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/standard_half_margin"
+        android:layout_marginRight="@dimen/standard_half_margin">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/standard_half_margin"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_person_grey600_24dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/not_synced_yet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_sync_blue_24dp"
+            tools:visibility="visible" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="0dp"

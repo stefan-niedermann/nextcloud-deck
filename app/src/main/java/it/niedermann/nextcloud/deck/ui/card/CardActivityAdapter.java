@@ -1,8 +1,14 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,15 +21,21 @@ import it.niedermann.nextcloud.deck.model.enums.ActivityType;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapter.ActivitiesViewHolder> {
 
     @NonNull
-    private List<Activity> activities;
+    private final List<Activity> activities;
+    @NonNull
+    private final MenuInflater menuInflater;
     private Context context;
 
-    public CardActivityAdapter(@NonNull List<Activity> activities) {
+    public CardActivityAdapter(@NonNull List<Activity> activities, @NonNull MenuInflater menuInflater) {
         super();
         this.activities = activities;
+        this.menuInflater = menuInflater;
     }
 
     @NonNull
@@ -39,9 +51,23 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
         Activity activity = activities.get(position);
         holder.binding.date.setText(DateUtil.getRelativeDateTimeString(context, activity.getLastModified().getTime()));
         holder.binding.subject.setText(activity.getSubject());
+        holder.binding.getRoot().setOnClickListener(View::showContextMenu);
+        holder.binding.getRoot().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+            menuInflater.inflate(R.menu.activity_menu, menu);
+            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> {
+                final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(activity.getSubject(), activity.getSubject());
+                if (clipboardManager == null) {
+                    Log.e(TAG, "clipboardManager is null");
+                    Toast.makeText(context, R.string.could_not_copy_to_clipboard, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
+                return true;
+            });
+        });
         switch (ActivityType.findById(activity.getType())) {
-            case DECK:
-                break;
             case CHANGE:
                 holder.binding.type.setImageResource(R.drawable.type_change_36dp);
                 break;
@@ -54,8 +80,8 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
             case ARCHIVE:
                 holder.binding.type.setImageResource(R.drawable.type_archive_grey600_36dp);
                 break;
+            case DECK:
             case HISTORY:
-                break;
             case FILES:
                 break;
             case COMMENT:

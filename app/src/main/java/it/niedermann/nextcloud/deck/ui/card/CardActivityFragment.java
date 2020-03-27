@@ -14,7 +14,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class CardActivityFragment extends Fragment {
@@ -24,12 +23,11 @@ public class CardActivityFragment extends Fragment {
     public CardActivityFragment() {
     }
 
-    public static CardActivityFragment newInstance(long accountId, long localId, long boardId, boolean canEdit) {
+    public static CardActivityFragment newInstance(long accountId, long localId, long boardId) {
         Bundle bundle = new Bundle();
         bundle.putLong(BUNDLE_KEY_ACCOUNT_ID, accountId);
         bundle.putLong(BUNDLE_KEY_BOARD_ID, boardId);
         bundle.putLong(BUNDLE_KEY_LOCAL_ID, localId);
-        bundle.putBoolean(BUNDLE_KEY_CAN_EDIT, canEdit);
 
         CardActivityFragment fragment = new CardActivityFragment();
         fragment.setArguments(bundle);
@@ -47,7 +45,6 @@ public class CardActivityFragment extends Fragment {
         if (args != null) {
             long accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
             long localId = args.getLong(BUNDLE_KEY_LOCAL_ID);
-            boolean canEdit = args.getBoolean(BUNDLE_KEY_CAN_EDIT);
 
             SyncManager syncManager = new SyncManager(requireActivity());
             syncManager.getCardByLocalId(accountId, localId).observe(getViewLifecycleOwner(), (fullCard) -> {
@@ -58,7 +55,7 @@ public class CardActivityFragment extends Fragment {
                     } else {
                         binding.emptyContentView.setVisibility(View.GONE);
                         binding.activitiesList.setVisibility(View.VISIBLE);
-                        RecyclerView.Adapter adapter = new CardActivityAdapter(activities);
+                        RecyclerView.Adapter adapter = new CardActivityAdapter(activities, requireActivity().getMenuInflater());
                         binding.activitiesList.setAdapter(adapter);
                     }
                 }));

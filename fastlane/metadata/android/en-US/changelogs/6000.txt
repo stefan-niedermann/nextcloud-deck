@@ -1,0 +1,4 @@
+- ⚡ Copy activity to clipboard (#343)
+- 💬 Copy comments to clipboard (#342)
+- 💬 Delete comments (#341)
+- 💬 Display sync icon on not yet synced comments (#346)
