@@ -46,6 +46,9 @@ public class CardCommentsFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        if (!(requireActivity() instanceof CommentDeletedListener)) {
+            throw new IllegalArgumentException("Caller must implement \"" + CommentDeletedListener.class.getCanonicalName() + "\"");
+        }
         Bundle args = getArguments();
         if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT_ID) || !args.containsKey(BUNDLE_KEY_LOCAL_ID)) {
             throw new IllegalArgumentException("Arguments must at least contain an account and the local card id");
@@ -68,7 +71,7 @@ public class CardCommentsFragment extends Fragment {
                         if (comments != null && comments.size() > 0) {
                             binding.emptyContentView.setVisibility(GONE);
                             binding.comments.setVisibility(VISIBLE);
-                            binding.comments.setAdapter(new CardCommentsAdapter(requireContext(), comments, account, requireActivity().getMenuInflater()));
+                            binding.comments.setAdapter(new CardCommentsAdapter(requireContext(), comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity()));
                         } else {
                             binding.emptyContentView.setVisibility(VISIBLE);
                             binding.comments.setVisibility(GONE);

@@ -51,12 +51,15 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     private final Account account;
     @NonNull
     private final MenuInflater menuInflater;
+    @NonNull
+    private final CommentDeletedListener commentDeletedListener;
 
-    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater) {
+    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener) {
         this.context = context;
         this.comments = comments;
         this.account = account;
         this.menuInflater = menuInflater;
+        this.commentDeletedListener = commentDeletedListener;
         setHasStableIds(true);
     }
 
@@ -80,7 +83,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         holder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
         holder.binding.getRoot().setOnClickListener(View::showContextMenu);
         holder.binding.getRoot().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
-            menuInflater.inflate(R.menu.activity_menu, menu);
+            menuInflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> {
                 final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText(comment.getMessage(), comment.getMessage());
@@ -91,6 +94,10 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
                 }
                 clipboardManager.setPrimaryClip(clipData);
                 Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
+                return true;
+            });
+            menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
+                commentDeletedListener.onCommentDeleted(comment.getLocalId());
                 return true;
             });
         });

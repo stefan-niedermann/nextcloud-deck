@@ -50,6 +50,7 @@ import it.niedermann.nextcloud.deck.ui.card.CardAttachmentsFragment.NewCardAttac
 import it.niedermann.nextcloud.deck.ui.card.CardDetailsFragment.CardDetailsListener;
 import it.niedermann.nextcloud.deck.ui.card.CardTabAdapter;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
+import it.niedermann.nextcloud.deck.ui.card.comments.CommentDeletedListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -60,7 +61,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AppCompatActivity implements CardDetailsListener, CommentAddedListener, NewCardAttachmentHandler, OnItemSelectedListener {
+public class EditActivity extends AppCompatActivity implements CardDetailsListener, CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler, OnItemSelectedListener {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
@@ -425,5 +426,10 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     @Override
     public void attachmentRemoved(Attachment attachment) {
         fullCard.getAttachments().remove(attachment);
+    }
+
+    @Override
+    public void onCommentDeleted(Long localCommentId) {
+        syncManager.deleteComment(this.accountId, this.localId, localCommentId);
     }
 }
