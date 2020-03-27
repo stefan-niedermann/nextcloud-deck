@@ -326,7 +326,7 @@ public class SyncManager {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId);
-            DeckComment entity = dataBaseAdapter.getCommentByRemoteIdDirectly(accountId, localCommentId);
+            DeckComment entity = dataBaseAdapter.getCommentByLocalIdDirectly(accountId, localCommentId);
             OcsComment commentEntity = OcsComment.of(entity);
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new DeckCommentsDataProvider(null, card), commentEntity, new IResponseCallback<OcsComment>(account) {
                 @Override
