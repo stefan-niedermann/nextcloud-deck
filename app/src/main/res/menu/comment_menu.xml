@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@android:id/copyUrl"
-        android:title="@android:string/copyUrl"
+        android:id="@android:id/copy"
+        android:title="@android:string/copy"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/delete"
