@@ -68,8 +68,6 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
             });
         });
         switch (ActivityType.findById(activity.getType())) {
-            case DECK:
-                break;
             case CHANGE:
                 holder.binding.type.setImageResource(R.drawable.type_change_36dp);
                 break;
@@ -82,8 +80,8 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
             case ARCHIVE:
                 holder.binding.type.setImageResource(R.drawable.type_archive_grey600_36dp);
                 break;
+            case DECK:
             case HISTORY:
-                break;
             case FILES:
                 break;
             case COMMENT:
