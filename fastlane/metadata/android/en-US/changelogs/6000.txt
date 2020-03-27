@@ -1,0 +1,1 @@
+- ⚡ Copy activity to clipboard (#343)
