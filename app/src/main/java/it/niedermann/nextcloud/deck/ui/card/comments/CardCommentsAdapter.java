@@ -1,14 +1,20 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,18 +37,26 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapter.ItemCommentViewHolder> {
 
+    @NonNull
     private final Context context;
+    @NonNull
     private final List<DeckComment> comments;
+    @NonNull
     private final Account account;
+    @NonNull
+    private final MenuInflater menuInflater;
 
-    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account) {
+    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater) {
         this.context = context;
         this.comments = comments;
         this.account = account;
+        this.menuInflater = menuInflater;
         setHasStableIds(true);
     }
 
@@ -58,14 +72,30 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemCommentViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ItemCommentViewHolder holder, int position) {
         DeckComment comment = comments.get(position);
-        ViewUtil.addAvatar(context, viewHolder.binding.avatar, account.getUrl(), account.getUserName(), getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
-        viewHolder.binding.message.setText(comment.getMessage());
-        viewHolder.binding.actorDisplayName.setText(comment.getActorDisplayName());
-        viewHolder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
-        TooltipCompat.setTooltipText(viewHolder.binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getCreationDateTime()));
-        setupMentions(comment.getMentions(), viewHolder.binding.message);
+        ViewUtil.addAvatar(context, holder.binding.avatar, account.getUrl(), account.getUserName(), getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+        holder.binding.message.setText(comment.getMessage());
+        holder.binding.actorDisplayName.setText(comment.getActorDisplayName());
+        holder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
+        holder.binding.getRoot().setOnClickListener(View::showContextMenu);
+        holder.binding.getRoot().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+            menuInflater.inflate(R.menu.activity_menu, menu);
+            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> {
+                final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(comment.getMessage(), comment.getMessage());
+                if (clipboardManager == null) {
+                    Log.e(TAG, "clipboardManager is null");
+                    Toast.makeText(context, R.string.could_not_copy_to_clipboard, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
+                return true;
+            });
+        });
+        TooltipCompat.setTooltipText(holder.binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getCreationDateTime()));
+        setupMentions(comment.getMentions(), holder.binding.message);
     }
 
     private void setupMentions(List<Mention> mentions, TextView tv) {
@@ -115,7 +145,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
 
     @Override
     public int getItemCount() {
-        return comments == null ? 0 : comments.size();
+        return comments.size();
     }
 
     static class ItemCommentViewHolder extends RecyclerView.ViewHolder {
