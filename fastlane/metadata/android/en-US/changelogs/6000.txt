@@ -1,2 +1,3 @@
 - ⚡ Copy activity to clipboard (#343)
 - 💬 Copy comments to clipboard (#342)
+- 💬 Delete comments (#341)
