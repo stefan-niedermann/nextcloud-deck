@@ -145,4 +145,7 @@
     <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
     <string name="could_not_copy_to_clipboard">Δεν μπορεί να αντιγραφή στο πρόχειρο</string>
     <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
-    </resources>
+    <string name="add_comment">Προσθήκη σχολίου</string>
+    <string name="card_edit_comments">Σχόλια</string>
+    <string name="no_comments_yet">Δεν υπάρχουν ακόμα σχόλια</string>
+</resources>

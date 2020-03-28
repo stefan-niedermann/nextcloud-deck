@@ -129,4 +129,5 @@
     <string name="simple_disabled">已停用</string>
     <string name="simple_copied">已複製</string>
     <string name="server_error">伺服器錯誤</string>
+    <string name="card_edit_comments">留言</string>
     </resources>

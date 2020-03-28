@@ -134,4 +134,5 @@
     <string name="title_is_mandatory">Titel is verplicht</string>
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="server_error">Serverfout</string>
+    <string name="card_edit_comments">Reacties</string>
     </resources>

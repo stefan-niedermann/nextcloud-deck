@@ -118,4 +118,5 @@
     <string name="simple_copied">Nukopijuota</string>
     <string name="please_add_an_account_first">Iš pradžių, pridėkite paskyrą</string>
     <string name="server_error">Serverio klaida</string>
+    <string name="card_edit_comments">Komentarai</string>
     </resources>

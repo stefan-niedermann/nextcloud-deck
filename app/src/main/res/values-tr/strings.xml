@@ -134,4 +134,5 @@
     <string name="title_is_mandatory">Başlığın yazılması zorunludur</string>
     <string name="provide_at_least_a_title_or_description">Lütfen en azından başlığı ya da açıklamayı yazın</string>
     <string name="server_error">Sunucu sorunu</string>
+    <string name="card_edit_comments">Açıklamalar</string>
     </resources>

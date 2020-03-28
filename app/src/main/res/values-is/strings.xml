@@ -126,4 +126,5 @@
     <string name="title_is_mandatory">Titill er nauðsynlegur</string>
     <string name="provide_at_least_a_title_or_description">Gefðu upp í það minnsta titil eða lýsingu</string>
     <string name="server_error">Villa frá þjóni</string>
+    <string name="card_edit_comments">Athugasemdir</string>
     </resources>

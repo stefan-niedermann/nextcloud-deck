@@ -143,4 +143,5 @@
     <string name="share_add_to_card">Lisää kortille</string>
     <string name="share_success">Onnistuneesti lisätty %1$s kohteeseen %2$s</string>
     <string name="could_not_copy_to_clipboard">Ei voitu kopioida leikepöydälle</string>
+    <string name="card_edit_comments">Kommentit</string>
     </resources>
