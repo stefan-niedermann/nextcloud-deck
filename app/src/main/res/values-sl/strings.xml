@@ -145,4 +145,5 @@
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
     <string name="could_not_copy_to_clipboard">Predmeta ni mogoče kopirati v odložišče</string>
     <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
+    <string name="card_edit_comments">Opombe</string>
     </resources>

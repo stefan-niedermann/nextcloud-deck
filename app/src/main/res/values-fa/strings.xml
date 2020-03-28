@@ -127,4 +127,5 @@
     <string name="action_card_move">انتقال کارت</string>
     <string name="action_card_move_title">حرکت%1$s</string>
     <string name="server_error">خطای سرور</string>
+    <string name="card_edit_comments">نظرات</string>
     </resources>

@@ -145,4 +145,5 @@
     <string name="share_success">La till %1$s till %2$s</string>
     <string name="could_not_copy_to_clipboard">Kunde inte kopiera till urklipp</string>
     <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Försök att ladda ner det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
+    <string name="card_edit_comments">Kommentarer</string>
     </resources>

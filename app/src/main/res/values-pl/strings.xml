@@ -145,4 +145,7 @@
     <string name="share_success">Pomyślnie dodano %1$s do %2$s</string>
     <string name="could_not_copy_to_clipboard">Nie można skopiować do schowka</string>
     <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
-    </resources>
+    <string name="add_comment">Dodaj komentarz</string>
+    <string name="card_edit_comments">Komentarze</string>
+    <string name="no_comments_yet">Brak komentarzy</string>
+</resources>

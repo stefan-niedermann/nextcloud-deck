@@ -133,4 +133,5 @@
     <string name="title_is_mandatory">タイトルは必須です</string>
     <string name="provide_at_least_a_title_or_description">少なくともタイトルまたは説明を入力してください</string>
     <string name="server_error">サーバーエラー</string>
+    <string name="card_edit_comments">コメント</string>
     </resources>

@@ -145,4 +145,7 @@
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
     <string name="could_not_copy_to_clipboard">Impossibile copiare negli appunti</string>
     <string name="shared_error">La condivisione della condivisione di contenuti di applicazioni di terze parti non è ancora supportata. Prova a scaricarli prima e poi condividili dal gestore dei file nativo o dalla galleria.</string>
-    </resources>
+    <string name="add_comment">Aggiungi commento</string>
+    <string name="card_edit_comments">Commenti</string>
+    <string name="no_comments_yet">Ancora nessun commento</string>
+</resources>

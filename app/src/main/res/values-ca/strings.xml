@@ -128,4 +128,5 @@
     <string name="action_card_move_title">Mou %1$s</string>
     <string name="simple_copied">Copiat</string>
     <string name="server_error">Error del servidor</string>
+    <string name="card_edit_comments">Comentaris</string>
     </resources>

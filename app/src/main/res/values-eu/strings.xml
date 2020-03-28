@@ -39,6 +39,8 @@
     <string name="about_app_license">Aplikazio hau GNU GENERAL PUBLIC LICENSE v3+ lizentziapean dago.</string>
     <string name="about_app_license_button">Lizentzia ikusi</string>
     <string name="about_icons_disclaimer_title">Irudiak</string>
+    <string name="about_icons_disclaimer_app_icon">Jatorrizko ikonora jotzeko ikusi %1$s. </string>
+    <string name="about_icons_disclaimer_mdi_icons">App honetan erabilitako gainontzeko ikonoen egilea %1$s Google Inc. da eta Apache 2.0 lizentzia daukate. </string>
     <string name="about_icons_disclaimer_mdi">Material Design ikonoak</string>
     <string name="about_credits_tab_title">Kredituak</string>
     <string name="about_contribution_tab_title">Kontribuzio</string>
@@ -69,6 +71,7 @@
 
     <string name="label_add">Gehitu %1$s</string>
     <string name="error">Errore bat agertu da</string>
+    <string name="operation_not_yet_supported">Oraingoz ez da onartzen</string>
     <string name="simple_copy">kopiatu</string>
     <string name="simple_exception">Salbuespena</string>
     <string name="copied_to_clipboard">Kopiatu arbelera</string>
@@ -131,6 +134,18 @@
     <string name="please_add_an_account_first">Mesedez, gehitu kontu bat lehenengo</string>
     <string name="title_is_mandatory">Izenburua jartzea nahitaezkoa da</string>
     <string name="provide_at_least_a_title_or_description">Jarri gutxienez izenburu edo deskribapen bat</string>
+    <string name="welcome_text">Ongi etorri %1$s(e)ra</string>
     <string name="choose_account">Aukeratu kontua</string>
+    <string name="save_card_before_attachment">Txartela gorde egin behar da eranskinak gehitu aurretik.</string>
+    <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
+    <string name="server_misconfigured_explanation">Zure zerbitzariak HTTP 302 kode batekin erantzun du, horrek esan nahi du aplikazioa instalatu duzula baina ez dagoela ondo konfiguratuta. Hau .htaccess fitxategiko erregela bereziengatik izan daiteke edo baita OID Bezeroa izeneko aplikazioagatik. Honi buruzko atalean lor dezakezu gurekin harremanetan jartzeko modua.</string>
     <string name="server_error">Zerbitzari akatsa</string>
-    </resources>
+    <string name="server_error_explanation">Zure zerbitzariak HTTP 503 egoera kodea erantzun du. Hori izan daiteke zerbitzaria une honetan mantentze-lan moduan dagoelako. Jarri harremanetan zure administratzailearekin edo gurekin, laguntzeko. Begira ezazu nola egin, gurekin kontaktatzeko atalean.</string>
+    <string name="share_add_to_card">Gehitu txartelera</string>
+    <string name="share_success">%1$s ondo gehitu da %2$s -ra</string>
+    <string name="could_not_copy_to_clipboard">Ezin izan da arbelera kopiatu</string>
+    <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
+    <string name="add_comment">Gehitu iruzkina</string>
+    <string name="card_edit_comments">Iruzkinak</string>
+    <string name="no_comments_yet">Iruzkinik ez oraindik</string>
+</resources>

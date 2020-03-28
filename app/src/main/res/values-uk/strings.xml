@@ -127,4 +127,5 @@
     <string name="action_card_move">Пересунути картку</string>
     <string name="action_card_move_title">Пересунути %1$s</string>
     <string name="server_error">Помилка серверу</string>
+    <string name="card_edit_comments">Коментарі</string>
     </resources>

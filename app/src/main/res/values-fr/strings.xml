@@ -146,4 +146,7 @@
     <string name="share_success">Ajout de %1$s à %2$s réussit</string>
     <string name="could_not_copy_to_clipboard">Impossible de copier dans le presse-papiers</string>
     <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
-    </resources>
+    <string name="add_comment">Ajouter un commentaire</string>
+    <string name="card_edit_comments">Commentaires</string>
+    <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>
+</resources>

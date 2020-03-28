@@ -134,4 +134,5 @@
     <string name="title_is_mandatory">Наслов је обавезан</string>
     <string name="provide_at_least_a_title_or_description">Дајте бар наслов или опис</string>
     <string name="server_error">Грешка на серверу</string>
+    <string name="card_edit_comments">Коментари</string>
     </resources>
