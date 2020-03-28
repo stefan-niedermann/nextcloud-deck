@@ -121,6 +121,7 @@ public class CrossTabDragAndDrop {
                 }
                 case DragEvent.ACTION_DROP: {
                     SCROLL_HELPER.stopScroll();
+                    // FIXME doesn't work
                     cardView.setVisibility(View.VISIBLE);
                     notifyListeners(draggedCardLocalState);
                     break;

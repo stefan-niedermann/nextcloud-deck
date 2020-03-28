@@ -108,14 +108,15 @@ public class StackFragment extends Fragment {
             if (stack != null) {
                 syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(getViewLifecycleOwner(), (List<FullCard> cards) -> {
                     activity.runOnUiThread(() -> {
-                        if (cards == null || cards.size() == 0) {
-                            binding.emptyContentView.setVisibility(View.VISIBLE);
-                        } else {
+                        if (cards != null && cards.size() > 0) {
                             binding.emptyContentView.setVisibility(View.GONE);
                             adapter.setCardList(cards);
-                            for(int i = 0; i < getRecyclerView().getChildCount(); i++) {
-                                binding.recyclerView.getChildAt(i).setVisibility(View.VISIBLE);
+                            // FIXME this is just a workaround for dropping cards in an empty stack (see CrossTabDragAndDrop on ACTION_DROP)
+                            if(binding.recyclerView.getChildCount() > 0) {
+                                binding.recyclerView.getChildAt(0).setVisibility(View.VISIBLE);
                             }
+                        } else {
+                            binding.emptyContentView.setVisibility(View.VISIBLE);
                         }
                     });
                 });
