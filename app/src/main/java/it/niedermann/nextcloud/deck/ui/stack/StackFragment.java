@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
+import it.niedermann.nextcloud.deck.ui.card.CardAdapter.SelectCardListener;
 
 public class StackFragment extends Fragment {
 
@@ -59,6 +60,18 @@ public class StackFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
+        Bundle bundle = getArguments();
+        if (bundle == null || !bundle.containsKey(KEY_ACCOUNT) || !bundle.containsKey(KEY_BOARD_ID) || !bundle.containsKey(KEY_STACK_ID)) {
+            throw new IllegalArgumentException("account, boardId and localStackId are required arguments.");
+        }
+
+        boardId = bundle.getLong(KEY_BOARD_ID);
+        stackId = bundle.getLong(KEY_STACK_ID);
+        account = (Account) bundle.getSerializable(KEY_ACCOUNT);
+
+        canEdit = bundle.getBoolean(KEY_HAS_EDIT_PERMISSION);
+
         if (context instanceof OnScrollListener) {
             this.onScrollListener = (OnScrollListener) context;
         }
@@ -67,26 +80,14 @@ public class StackFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentStackBinding.inflate(inflater, container, false);
-
-        if (getArguments() == null) {
-            throw new IllegalArgumentException("account and localStackId are required arguments.");
-        }
-
-        boardId = requireArguments().getLong(KEY_BOARD_ID);
-        stackId = requireArguments().getLong(KEY_STACK_ID);
-        account = (Account) requireArguments().getSerializable(KEY_ACCOUNT);
-        canEdit = requireArguments().getBoolean(KEY_HAS_EDIT_PERMISSION);
-
         activity = requireActivity();
 
         syncManager = new SyncManager(activity);
 
-        if(requireActivity() instanceof CardAdapter.SelectCardListener) {
-            adapter = new CardAdapter(boardId, stackId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, this, (CardAdapter.SelectCardListener) requireActivity());
-        } else {
-            adapter = new CardAdapter(boardId, stackId, getArguments().getBoolean(KEY_HAS_EDIT_PERMISSION), syncManager, this);
-        }
+        adapter = new CardAdapter(boardId, stackId, canEdit, syncManager, this, (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
+
         binding.recyclerView.setAdapter(adapter);
+
         if (onScrollListener != null) {
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -103,23 +104,24 @@ public class StackFragment extends Fragment {
             binding.emptyContentView.hideDescription();
         }
 
-        refreshView();
-        return binding.getRoot();
-    }
-
-    private void refreshView() {
-        activity.runOnUiThread(() -> syncManager.getStack(account.getId(), stackId).observe(getViewLifecycleOwner(), (FullStack stack) -> {
+        syncManager.getStack(account.getId(), stackId).observe(getViewLifecycleOwner(), (FullStack stack) -> {
             if (stack != null) {
                 syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(getViewLifecycleOwner(), (List<FullCard> cards) -> {
-                    if (cards == null || cards.size() == 0) {
-                        binding.emptyContentView.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.emptyContentView.setVisibility(View.GONE);
-                        adapter.setCardList(cards);
-                    }
+                    activity.runOnUiThread(() -> {
+                        if (cards == null || cards.size() == 0) {
+                            binding.emptyContentView.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.emptyContentView.setVisibility(View.GONE);
+                            adapter.setCardList(cards);
+                            for(int i = 0; i < getRecyclerView().getChildCount(); i++) {
+                                binding.recyclerView.getChildAt(i).setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
                 });
             }
-        }));
+        });
+        return binding.getRoot();
     }
 
     public CardAdapter getAdapter() {

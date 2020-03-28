@@ -82,10 +82,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     private int maxLabelsShown;
     private int maxLabelsChars;
 
-    public CardAdapter(long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment) {
-        this(boardId, stackId, canEdit, syncManager, fragment, null);
-    }
-
     public CardAdapter(long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
         this.lifecycleOwner = fragment;
         this.boardId = boardId;
@@ -93,6 +89,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         this.canEdit = canEdit;
         this.syncManager = syncManager;
         this.selectCardListener = selectCardListener;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return cardList.get(position).getLocalId();
     }
 
     @NonNull
@@ -308,15 +310,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     }
 
     public void setCardList(@NonNull List<FullCard> cardList) {
-        this.cardList = cardList;
+        this.cardList.clear();
+        this.cardList.addAll(cardList);
         notifyDataSetChanged();
     }
 
-    public FullCard getItem(int position) {
-        return cardList.get(position);
-    }
-
-    public void addItem(FullCard fullCard, int position) {
+    public void insertItem(FullCard fullCard, int position) {
         cardList.add(position, fullCard);
         notifyItemInserted(position);
     }

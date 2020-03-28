@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
             dragAndDrop.addCardMovedByDragListener((movedCard, stackId, position) -> {
                 syncManager.reorder(currentAccount.getId(), movedCard, stackId, position);
-                DeckLog.log("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
+                DeckLog.info("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
             });
 
             binding.addStackButton.setOnClickListener((v) -> {

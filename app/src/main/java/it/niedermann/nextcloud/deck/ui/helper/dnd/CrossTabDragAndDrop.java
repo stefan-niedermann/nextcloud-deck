@@ -142,7 +142,7 @@ public class CrossTabDragAndDrop {
         View firstVisibleView = recyclerView.getChildAt(0);
         int positionToInsert = firstVisibleView == null ? 0 : recyclerView.getChildAdapterPosition(firstVisibleView) + 1;
 
-        cardAdapter.addItem(draggedCardLocalState.getDraggedCard(), positionToInsert);
+        cardAdapter.insertItem(draggedCardLocalState.getDraggedCard(), positionToInsert);
 
         RecyclerView.OnChildAttachStateChangeListener onChildAttachStateChangeListener = new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
