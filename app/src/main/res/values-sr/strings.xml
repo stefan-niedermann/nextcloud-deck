@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Рок</string>
     <string name="activity">Активност</string>
     <string name="add_card">Додај картицу</string>
-    <string name="add_column">Додај колону</string>
+    <string name="add_list">Додај колону</string>
 
     <string name="add_account">Додај налог</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Архивирај картицу</string>
     <string name="action_card_delete">Обриши картицу</string>
     <string name="add_board">Додај таблу</string>
-    <string name="action_card_list_delete_column">Обриши колону</string>
+    <string name="delete_list">Обриши колону</string>
     <string name="simple_title">Наслов</string>
 
     <string name="label_clear_due_date">Избриши рок</string>
@@ -87,11 +87,11 @@
     <string name="account_already_added">Налог је већ додат</string>
     <string name="account_is_getting_imported">Налог се увози</string>
     <string name="not_synced_yet">Још није синхронизовано</string>
-    <string name="no_columns">Још нема колона</string>
+    <string name="no_lists_yet">Још нема колона</string>
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
     <string name="simple_discard">одбаци</string>
-    <string name="do_you_want_to_delete_the_current_column">Да ли желите да обришете тренутну колону?</string>
-    <string name="add_a_new_column_using_the_button">Додајте нову колону на + дугме</string>
+    <string name="do_you_want_to_delete_the_current_list">Да ли желите да обришете тренутну колону?</string>
+    <string name="add_a_new_list_using_the_button">Додајте нову колону на + дугме</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
     <string name="update_deck">Ажурирај шпил</string>
     <string name="your_deck_version_is_too_old">Ваша верзија Шпила је превише стара</string>
@@ -99,7 +99,7 @@
     <string name="simple_update">Ажурирај</string>
     <string name="simple_delete">Обриши</string>
     <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све гомиле и картице.</string>
-    <string name="action_card_list_rename_column">Преименуј колону</string>
+    <string name="action_card_list_rename_list">Преименуј колону</string>
     <string name="simple_rename">Преименуј</string>
     <string name="simple_settings">Поставке</string>
     <string name="settings_theme_title">Тамна тема</string>
@@ -110,7 +110,7 @@
     <string name="unassigned_user">Раздужен %1$s</string>
     <string name="simple_undo">Опозови</string>
     <string name="no_activities">Нема активности на овој картици. Морате бити повезани на интернет да бисте учитали и приказали активности.</string>
-    <string name="rename_column">Преименуј колону</string>
+    <string name="rename_list">Преименуј колону</string>
     <string name="share_board">Подели таблу</string>
     <string name="you_are_currently_offline">Тренутно сте ван мреже</string>
     <string name="simple_manage">управљај</string>

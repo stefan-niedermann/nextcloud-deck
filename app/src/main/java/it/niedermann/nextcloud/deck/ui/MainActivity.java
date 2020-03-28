@@ -74,7 +74,7 @@ public class MainActivity extends DrawerActivity implements
     private String about;
     private String shareBoard;
     private String editBoard;
-    private String addColumn;
+    private String addList;
     private String addBoard;
 
     private StackAdapter stackAdapter;
@@ -101,7 +101,7 @@ public class MainActivity extends DrawerActivity implements
         about = getString(R.string.about);
         shareBoard = getString(R.string.share_board);
         editBoard = getString(R.string.edit_board);
-        addColumn = getString(R.string.add_column);
+        addList = getString(R.string.add_list);
         addBoard = getString(R.string.add_board);
 
         super.onCreate(savedInstanceState);
@@ -138,7 +138,7 @@ public class MainActivity extends DrawerActivity implements
                     startActivity(intent);
                 } catch (IndexOutOfBoundsException e) {
                     EditStackDialogFragment.newInstance(NO_STACK_ID)
-                            .show(getSupportFragmentManager(), addColumn);
+                            .show(getSupportFragmentManager(), addList);
                 }
             } else {
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
@@ -156,7 +156,7 @@ public class MainActivity extends DrawerActivity implements
                 if (this.boardsList.size() == 0) {
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
                 } else {
-                    EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
+                    EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
                 }
             }
         });
@@ -269,7 +269,7 @@ public class MainActivity extends DrawerActivity implements
                 currentBoardId = board.getLocalId();
                 buildSidenavMenu();
 
-                EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addColumn);
+                EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
 
                 // Remember last board for this account
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -486,8 +486,8 @@ public class MainActivity extends DrawerActivity implements
         MenuInflater inflater = getMenuInflater();
         if (currentBoardHasEditPermission) {
             inflater.inflate(R.menu.card_list_menu, menu);
-            menu.findItem(R.id.action_card_list_rename_column).setVisible(currentBoardHasStacks);
-            menu.findItem(R.id.action_card_list_delete_column).setVisible(currentBoardHasStacks);
+            menu.findItem(R.id.rename_list).setVisible(currentBoardHasStacks);
+            menu.findItem(R.id.delete_list).setVisible(currentBoardHasStacks);
         } else {
             menu.clear();
         }
@@ -497,10 +497,10 @@ public class MainActivity extends DrawerActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_card_list_delete_column:
+            case R.id.delete_list:
                 new DeleteDialogBuilder(this)
-                        .setTitle(R.string.action_card_list_delete_column)
-                        .setMessage(R.string.do_you_want_to_delete_the_current_column)
+                        .setTitle(R.string.delete_list)
+                        .setMessage(R.string.do_you_want_to_delete_the_current_list)
                         .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> {
                             long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId();
                             observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
@@ -510,11 +510,11 @@ public class MainActivity extends DrawerActivity implements
                         })
                         .setNegativeButton(android.R.string.cancel, null).show();
                 break;
-            case R.id.action_card_list_rename_column:
+            case R.id.rename_list:
                 long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getStackId();
                 observeOnce(syncManager.getStack(account.getId(), stackId), MainActivity.this, fullStack -> {
                     EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
-                            .show(getSupportFragmentManager(), getString(R.string.action_card_list_rename_column));
+                            .show(getSupportFragmentManager(), getString(R.string.rename_list));
                 });
                 break;
         }

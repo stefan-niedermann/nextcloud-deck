@@ -52,7 +52,7 @@
     <string name="hint_due_date_date">Data de venciment</string>
     <string name="activity">Activitat</string>
     <string name="add_card">Afegeix una targeta</string>
-    <string name="add_column">Afegeix una columna</string>
+    <string name="add_list">Afegeix una columna</string>
 
     <string name="add_account">Afegeix un compte</string>
 
@@ -62,7 +62,7 @@
     <string name="action_card_archive">Arxiva la targeta</string>
     <string name="action_card_delete">Suprimeix targeta</string>
     <string name="add_board">Afegeix una taula</string>
-    <string name="action_card_list_delete_column">Suprimeix la columna</string>
+    <string name="delete_list">Suprimeix la columna</string>
     <string name="simple_title">Títol</string>
 
     <string name="label_clear_due_date">Neteja la data de venciment</string>
@@ -85,11 +85,11 @@
     <string name="account_already_added">El compte ja s\'ha afegit.</string>
     <string name="account_is_getting_imported">S\'importa el compte.</string>
     <string name="not_synced_yet">No sincronitzat encara</string>
-    <string name="no_columns">Encara no hi ha columnes</string>
+    <string name="no_lists_yet">Encara no hi ha columnes</string>
     <string name="do_you_want_to_save_your_changes">Voleu desar els canvis?</string>
     <string name="simple_discard">descarta</string>
-    <string name="do_you_want_to_delete_the_current_column">Voleu suprimir la columna actual?</string>
-    <string name="add_a_new_column_using_the_button">Afegeix una nova columna fent servir el botó +</string>
+    <string name="do_you_want_to_delete_the_current_list">Voleu suprimir la columna actual?</string>
+    <string name="add_a_new_list_using_the_button">Afegeix una nova columna fent servir el botó +</string>
     <string name="add_a_new_card_using_the_button">Afegiu una targeta nova mitjançant el botó +.</string>
     <string name="update_deck">Actualitza el tauler</string>
     <string name="your_deck_version_is_too_old">La versió del tauler és massa antiga.</string>
@@ -97,7 +97,7 @@
     <string name="simple_update">Actualitza</string>
     <string name="simple_delete">Eliminar</string>
     <string name="delete_board_message">Això suprimirà definitivament aquest tauler, incloses totes les piles i targetes.</string>
-    <string name="action_card_list_rename_column">Canvia de nom la columna</string>
+    <string name="action_card_list_rename_list">Canvia de nom la columna</string>
     <string name="simple_rename">Canvia\'n el nom</string>
     <string name="simple_settings">Paràmetres</string>
     <string name="settings_theme_title">Tema fosc</string>
@@ -108,7 +108,7 @@
     <string name="unassigned_user">%1$s sense assignar</string>
     <string name="simple_undo">Desfés</string>
     <string name="no_activities">No hi ha activitats en aquesta targeta. Per carregar i mostrar activitats, heu d’estar connectat a Internet.</string>
-    <string name="rename_column">Canvia de nom la columna</string>
+    <string name="rename_list">Canvia de nom la columna</string>
     <string name="share_board">Comparteix el tauler</string>
     <string name="you_are_currently_offline">Ara esteu fora de línia</string>
     <string name="simple_manage">gestiona</string>

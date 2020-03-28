@@ -45,7 +45,7 @@
     <string name="add_account">Shtoni llogari</string>
 
     <string name="label_menu">Menu</string>
-    <string name="action_card_list_delete_column">Fshi kolonë</string>
+    <string name="delete_list">Fshi kolonë</string>
     <string name="simple_title">Titull</string>
 
     <string name="label_clear_due_date">Hiq datën e mbarimit</string>

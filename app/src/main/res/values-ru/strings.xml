@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Срок исполнения</string>
     <string name="activity">Событие</string>
     <string name="add_card">Создать карточку</string>
-    <string name="add_column">Добавить стопку</string>
+    <string name="add_list">Добавить стопку</string>
 
     <string name="add_account">Добавить аккаунт</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Переместить в архив</string>
     <string name="action_card_delete">Удалить</string>
     <string name="add_board">Добавить доску</string>
-    <string name="action_card_list_delete_column">Удалить стопку</string>
+    <string name="delete_list">Удалить стопку</string>
     <string name="simple_title">Заголовок</string>
 
     <string name="label_clear_due_date">Удалить срок исполнения</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Учётная запись уже добавлена</string>
     <string name="account_is_getting_imported">Выполняется импорт учётной записи</string>
     <string name="not_synced_yet">Ещё не синхронизировано</string>
-    <string name="no_columns">Нет ни одной стопки</string>
+    <string name="no_lists_yet">Нет ни одной стопки</string>
     <string name="do_you_want_to_save_your_changes">Сохранить изменения?</string>
     <string name="simple_discard">Отменить</string>
-    <string name="do_you_want_to_delete_the_current_column">Удалить это стопку?</string>
-    <string name="add_a_new_column_using_the_button">Нажмите кнопку «+» для добавления новой стопки</string>
+    <string name="do_you_want_to_delete_the_current_list">Удалить это стопку?</string>
+    <string name="add_a_new_list_using_the_button">Нажмите кнопку «+» для добавления новой стопки</string>
     <string name="add_a_new_card_using_the_button">Нажмите кнопку «+» для добавления новой карточки</string>
     <string name="update_deck">Обновление deck</string>
     <string name="your_deck_version_is_too_old">Версия приложения устарела</string>
@@ -100,7 +100,7 @@
     <string name="simple_update">Обновить</string>
     <string name="simple_delete">Удалить</string>
     <string name="delete_board_message">Это действие приведёт к удалению этой рабочей доски, всех стопок и карточек.</string>
-    <string name="action_card_list_rename_column">Переименовать стопку</string>
+    <string name="action_card_list_rename_list">Переименовать стопку</string>
     <string name="simple_rename">Переименовать</string>
     <string name="simple_settings">Параметры</string>
     <string name="settings_theme_title">Тёмное оформление</string>
@@ -111,7 +111,7 @@
     <string name="unassigned_user">Не назначено %1$s</string>
     <string name="simple_undo">Отменить</string>
     <string name="no_activities">По этой карточке нет истории действий. Для получения такой информации необходимо подключение к интернету.</string>
-    <string name="rename_column">Переименование стопки</string>
+    <string name="rename_list">Переименование стопки</string>
     <string name="share_board">Поделиться</string>
     <string name="you_are_currently_offline">Отсутствует подключение к интернету</string>
     <string name="simple_manage">Управлять</string>

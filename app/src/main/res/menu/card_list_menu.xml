@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/action_card_list_rename_column"
-        android:title="@string/action_card_list_rename_column"
+        android:id="@+id/rename_list"
+        android:title="@string/rename_list"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_card_list_delete_column"
-        android:title="@string/action_card_list_delete_column"
+        android:id="@+id/delete_list"
+        android:title="@string/delete_list"
         android:visible="false"
         app:showAsAction="never"
         tools:visible="true" />

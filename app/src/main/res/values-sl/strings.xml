@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Datum preteka</string>
     <string name="activity">Dejavnost</string>
     <string name="add_card">Dodaj nalogo</string>
-    <string name="add_column">Dodaj paket</string>
+    <string name="add_list">Dodaj paket</string>
 
     <string name="add_account">Dodaj račun</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Arhiviraj nalogo</string>
     <string name="action_card_delete">Izbriši nalogo</string>
     <string name="add_board">Dodaj zbirko</string>
-    <string name="action_card_list_delete_column">Izbriši paket</string>
+    <string name="delete_list">Izbriši paket</string>
     <string name="simple_title">Naslov</string>
 
     <string name="label_clear_due_date">Počisti datum poteka</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Račun je že dodan</string>
     <string name="account_is_getting_imported">Poteka uvažanje računa</string>
     <string name="not_synced_yet">Še ni usklajeno</string>
-    <string name="no_columns">Ni še dodanih paket</string>
+    <string name="no_lists_yet">Ni še dodanih paket</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
     <string name="simple_discard">opusti</string>
-    <string name="do_you_want_to_delete_the_current_column">Ali želite izbrisati trenutni paket?</string>
-    <string name="add_a_new_column_using_the_button">Dodaj stolpec z pritiskom na gumb +</string>
+    <string name="do_you_want_to_delete_the_current_list">Ali želite izbrisati trenutni paket?</string>
+    <string name="add_a_new_list_using_the_button">Dodaj stolpec z pritiskom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
     <string name="update_deck">Posodobi zbirko</string>
     <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
@@ -100,7 +100,7 @@
     <string name="simple_update">Posodobi</string>
     <string name="simple_delete">Izbriši</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
-    <string name="action_card_list_rename_column">Preimenuj paket</string>
+    <string name="action_card_list_rename_list">Preimenuj paket</string>
     <string name="simple_rename">Preimenuj</string>
     <string name="simple_settings">Nastavitve</string>
     <string name="settings_theme_title">Temna tema</string>
@@ -111,7 +111,7 @@
     <string name="unassigned_user">Uporabnik %1$s je odstranjen</string>
     <string name="simple_undo">Razveljavi</string>
     <string name="no_activities">Na tej nalogi še ni zaznane nobene dejavnosti. Za prikaz dejavnosti mora biti vzpostavljena povezava z omrežjem.</string>
-    <string name="rename_column">Preimenuj paket</string>
+    <string name="rename_list">Preimenuj paket</string>
     <string name="share_board">Souporaba zbirke</string>
     <string name="you_are_currently_offline">Trenutno povezava z omrežjem ni na voljo.</string>
     <string name="simple_manage">upravljanje</string>

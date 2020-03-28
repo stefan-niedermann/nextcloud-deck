@@ -52,7 +52,7 @@
     <string name="hint_due_date_date">Дата завершення</string>
     <string name="activity">Активність</string>
     <string name="add_card">Додати картку</string>
-    <string name="add_column">Додати стовпчик</string>
+    <string name="add_list">Додати стовпчик</string>
 
     <string name="add_account">Додати обліковий запис</string>
 
@@ -62,7 +62,7 @@
     <string name="action_card_archive">Архівувати картку</string>
     <string name="action_card_delete">Видалити картку</string>
     <string name="add_board">Додати дошку</string>
-    <string name="action_card_list_delete_column">Видалити стовпчик</string>
+    <string name="delete_list">Видалити стовпчик</string>
     <string name="simple_title">Назва</string>
 
     <string name="label_clear_due_date">Очистити до</string>
@@ -85,11 +85,11 @@
     <string name="account_already_added">Обліковий запис вже додано</string>
     <string name="account_is_getting_imported">Відбувається імпорт облікового запису</string>
     <string name="not_synced_yet">Поки не синхронізовано</string>
-    <string name="no_columns">Поки жодного стовпчика</string>
+    <string name="no_lists_yet">Поки жодного стовпчика</string>
     <string name="do_you_want_to_save_your_changes">Чи бажаєте Ви зберегти Ваші зміни?</string>
     <string name="simple_discard">відхилити</string>
-    <string name="do_you_want_to_delete_the_current_column">Чи бажаєте Ви видалити поточний стовпчик?</string>
-    <string name="add_a_new_column_using_the_button">Додайте новий стовпчик за допомогою кнопки +</string>
+    <string name="do_you_want_to_delete_the_current_list">Чи бажаєте Ви видалити поточний стовпчик?</string>
+    <string name="add_a_new_list_using_the_button">Додайте новий стовпчик за допомогою кнопки +</string>
     <string name="add_a_new_card_using_the_button">Додайте нову картку за допомогою кнопки +</string>
     <string name="update_deck">Оновлення дошки</string>
     <string name="your_deck_version_is_too_old">Версія Вашої дошки надто давня</string>
@@ -97,7 +97,7 @@
     <string name="simple_update">Оновлення</string>
     <string name="simple_delete">Видалити</string>
     <string name="delete_board_message">Дошку буде перманетно видалено разом з усіма картками і стопками</string>
-    <string name="action_card_list_rename_column">Перейменувати стовпчик</string>
+    <string name="action_card_list_rename_list">Перейменувати стовпчик</string>
     <string name="simple_rename">Перейменувати</string>
     <string name="simple_settings">Налаштування</string>
     <string name="settings_theme_title">Темна тема</string>
@@ -108,7 +108,7 @@
     <string name="unassigned_user">Непризначено %1$s</string>
     <string name="simple_undo">відмінити</string>
     <string name="no_activities">На цій картці немає активностей. Ви повинні під\'єднатися до інтернет щоб загрузити і показати активності.</string>
-    <string name="rename_column">Перейменувати стовпчик</string>
+    <string name="rename_list">Перейменувати стовпчик</string>
     <string name="share_board">Поширити дошку</string>
     <string name="you_are_currently_offline">Ви зараз оффлайн</string>
     <string name="simple_manage">керувати</string>

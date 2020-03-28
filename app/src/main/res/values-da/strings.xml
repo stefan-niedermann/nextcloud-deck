@@ -57,7 +57,7 @@
     <string name="action_card_archive">Arkivér kort</string>
     <string name="action_card_delete">Slet kort</string>
     <string name="add_board">Tilføj liste</string>
-    <string name="action_card_list_delete_column">Slet kolonne</string>
+    <string name="delete_list">Slet kolonne</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Ryd forfaldsdato</string>

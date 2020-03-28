@@ -53,7 +53,7 @@
     <string name="hint_due_date_date">期限</string>
     <string name="activity">アクティビティ</string>
     <string name="add_card">カードを追加</string>
-    <string name="add_column">列を追加</string>
+    <string name="add_list">列を追加</string>
 
     <string name="add_account">アカウントを追加</string>
 
@@ -63,7 +63,7 @@
     <string name="action_card_archive">カードをアーカイブ</string>
     <string name="action_card_delete">削除済みのカード</string>
     <string name="add_board">ボードを追加</string>
-    <string name="action_card_list_delete_column">列の削除</string>
+    <string name="delete_list">列の削除</string>
     <string name="simple_title">タイトル</string>
 
     <string name="label_clear_due_date">期限を削除</string>
@@ -86,11 +86,11 @@
     <string name="account_already_added">アカウントはすでに追加されています</string>
     <string name="account_is_getting_imported">アカウントをインポート中です</string>
     <string name="not_synced_yet">未同期です</string>
-    <string name="no_columns">まだ列がありません</string>
+    <string name="no_lists_yet">まだ列がありません</string>
     <string name="do_you_want_to_save_your_changes">変更を保存しますか？</string>
     <string name="simple_discard">破棄</string>
-    <string name="do_you_want_to_delete_the_current_column">現在の列を削除しますか？</string>
-    <string name="add_a_new_column_using_the_button">+ ボタンで新しい列を追加</string>
+    <string name="do_you_want_to_delete_the_current_list">現在の列を削除しますか？</string>
+    <string name="add_a_new_list_using_the_button">+ ボタンで新しい列を追加</string>
     <string name="add_a_new_card_using_the_button">+ボタンで新しいカードを追加</string>
     <string name="update_deck">端末の更新</string>
     <string name="your_deck_version_is_too_old">端末のバージョンが旧すぎます</string>
@@ -98,7 +98,7 @@
     <string name="simple_update">更新</string>
     <string name="simple_delete">削除</string>
     <string name="delete_board_message">このボードと内部のすべてのスタックやカードは永久に削除されます．</string>
-    <string name="action_card_list_rename_column">列の名前変更</string>
+    <string name="action_card_list_rename_list">列の名前変更</string>
     <string name="simple_rename">名前変更</string>
     <string name="simple_settings">設定</string>
     <string name="settings_theme_title">ダークテーマ</string>
@@ -109,7 +109,7 @@
     <string name="unassigned_user">未割当の%1$s</string>
     <string name="simple_undo">元に戻す</string>
     <string name="no_activities">このカードにはアクティブティがありません。アクティブティをロードして表示するにはインターネットへの接続が必要です。</string>
-    <string name="rename_column">列の名前変更</string>
+    <string name="rename_list">列の名前変更</string>
     <string name="share_board">ボードを共有</string>
     <string name="you_are_currently_offline">現在オフライン</string>
     <string name="simple_manage">管理</string>

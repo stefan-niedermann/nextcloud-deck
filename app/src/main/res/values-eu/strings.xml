@@ -52,7 +52,7 @@
     <string name="hint_due_date_date">Epe-muga</string>
     <string name="activity">Jarduera</string>
     <string name="add_card">Gehitu txartela</string>
-    <string name="add_column">Gehitu zutabea</string>
+    <string name="add_list">Gehitu zutabea</string>
 
     <string name="add_account">Gehitu kontua</string>
 
@@ -62,7 +62,7 @@
     <string name="action_card_archive">Artxibatu txartela</string>
     <string name="action_card_delete">Ezabatu txartela</string>
     <string name="add_board">Gehitu mahaia</string>
-    <string name="action_card_list_delete_column">Ezabatu zutabea</string>
+    <string name="delete_list">Ezabatu zutabea</string>
     <string name="simple_title">Izenburua</string>
 
     <string name="label_clear_due_date">Ezabatu epe-muga</string>
@@ -85,11 +85,11 @@
     <string name="account_already_added">Kontua jada gehituta</string>
     <string name="account_is_getting_imported">Kontua importatua izaten ari da</string>
     <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
-    <string name="no_columns">Oraindik zutaberik gabe</string>
+    <string name="no_lists_yet">Oraindik zutaberik gabe</string>
     <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
     <string name="simple_discard">baztertu</string>
-    <string name="do_you_want_to_delete_the_current_column">Zutabe hau ezabatu nahi duzu?</string>
-    <string name="add_a_new_column_using_the_button">Gehitu zutabe berri bat + botoia erabiliz</string>
+    <string name="do_you_want_to_delete_the_current_list">Zutabe hau ezabatu nahi duzu?</string>
+    <string name="add_a_new_list_using_the_button">Gehitu zutabe berri bat + botoia erabiliz</string>
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
     <string name="update_deck">Eguneratu sorta</string>
     <string name="your_deck_version_is_too_old">Zure sorta bertsioa zaharregia da</string>
@@ -97,7 +97,7 @@
     <string name="simple_update">Eguneratu</string>
     <string name="simple_delete">Ezabatu</string>
     <string name="delete_board_message">Honek mahai hau ezabatuko du karta eta pila guztiak barne.</string>
-    <string name="action_card_list_rename_column">Berrizendatu zutabea</string>
+    <string name="action_card_list_rename_list">Berrizendatu zutabea</string>
     <string name="simple_rename">Berrizendatu</string>
     <string name="simple_settings">Ezarpenak</string>
     <string name="settings_theme_title">Gai iluna</string>
@@ -108,7 +108,7 @@
     <string name="unassigned_user">%1$s esleitu gabe</string>
     <string name="simple_undo">Desegin</string>
     <string name="no_activities">Ez dago jarduerarik karta honetak. Internetera konektatuta egon behar zara jarduerak kargatzeko eta erakusteko.</string>
-    <string name="rename_column">Berrizendatu zutabea</string>
+    <string name="rename_list">Berrizendatu zutabea</string>
     <string name="share_board">Partekatu mahaia</string>
     <string name="you_are_currently_offline">Offline zaude momentu honetak</string>
     <string name="simple_manage">kudeatu</string>

@@ -23,8 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                app:description="@string/add_a_new_column_using_the_button"
-                app:title="@string/no_columns"
+                app:description="@string/add_a_new_list_using_the_button"
+                app:title="@string/no_lists_yet"
                 tools:visibility="visible" />
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

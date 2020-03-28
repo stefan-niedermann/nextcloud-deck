@@ -59,11 +59,11 @@ public class EditStackDialogFragment extends DialogFragment {
         }
         stackId = getArguments().getLong(KEY_STACK_ID);
         if (stackId == NO_STACK_ID) {
-            builder.setTitle(R.string.add_column)
+            builder.setTitle(R.string.add_list)
                     .setPositiveButton(R.string.simple_add, (dialog, which) -> editStackListener.onCreateStack(binding.input.getText().toString()));
         } else {
             binding.input.setText(getArguments().getString(KEY_OLD_TITLE));
-            builder.setTitle(R.string.rename_column)
+            builder.setTitle(R.string.rename_list)
                     .setPositiveButton(R.string.simple_rename, (dialog, which) -> editStackListener.onUpdateStack(stackId, binding.input.getText().toString()));
         }
         return builder.create();

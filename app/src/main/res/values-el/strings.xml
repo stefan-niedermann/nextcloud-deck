@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Προθεσμία</string>
     <string name="activity">Δραστηριότητα</string>
     <string name="add_card">Προσθήκη κάρτας</string>
-    <string name="add_column">Προσθήκη στήλης</string>
+    <string name="add_list">Προσθήκη στήλης</string>
 
     <string name="add_account"> Προσθήκη λογαριασμού </string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Αρχειοθέτηση κάρτας</string>
     <string name="action_card_delete"> Διαγραφή κάρτας </string>
     <string name="add_board">Προσθήκη πίνακα</string>
-    <string name="action_card_list_delete_column">Διαγραφή στήλης</string>
+    <string name="delete_list">Διαγραφή στήλης</string>
     <string name="simple_title">Τίτλος</string>
 
     <string name="label_clear_due_date">Καθαρισμός ημερομηνίας λήξης</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Ο λογαριασμός έχει προστεθεί ήδη</string>
     <string name="account_is_getting_imported">Ο λογαριασμός εισάγεται</string>
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
-    <string name="no_columns">Δεν υπάρχουν ακόμα στήλες</string>
+    <string name="no_lists_yet">Δεν υπάρχουν ακόμα στήλες</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
     <string name="simple_discard">απόρριψη</string>
-    <string name="do_you_want_to_delete_the_current_column">Θέλετε να διαγράψετε την τρέχουσα στήλη;</string>
-    <string name="add_a_new_column_using_the_button">Προσθήκη νέας στήλης με το κουμπί +</string>
+    <string name="do_you_want_to_delete_the_current_list">Θέλετε να διαγράψετε την τρέχουσα στήλη;</string>
+    <string name="add_a_new_list_using_the_button">Προσθήκη νέας στήλης με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
     <string name="update_deck">Ενημέρωση Deck</string>
     <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
@@ -100,7 +100,7 @@
     <string name="simple_update">Ενημέρωση</string>
     <string name="simple_delete">Διαγραφή</string>
     <string name="delete_board_message">Αυτό θα διαγράψει μόνιμα τον πίνακα με όλες τις δέσμες και τις κάρτες.</string>
-    <string name="action_card_list_rename_column">Μετονομασία στήλης</string>
+    <string name="action_card_list_rename_list">Μετονομασία στήλης</string>
     <string name="simple_rename">Μετονομασία</string>
     <string name="simple_settings">Ρυθμίσεις</string>
     <string name="settings_theme_title">Σκούρο θέμα</string>
@@ -111,7 +111,7 @@
     <string name="unassigned_user">Αδιάθετα %1$s</string>
     <string name="simple_undo">Αναίρεση</string>
     <string name="no_activities">Δεν υπάρχουν δραστηριότητες σε αυτή την κάρτα. Θα πρέπει να είστε συνδεδεμένοι στο Ίντερνετ για να φορτώσετε και να εμφανίσετε δραστηριότητες.</string>
-    <string name="rename_column">Μετονομασία στήλης</string>
+    <string name="rename_list">Μετονομασία στήλης</string>
     <string name="share_board">Διαμοιρασμός πίνακα</string>
     <string name="you_are_currently_offline">Προς το παρόν αποσυνδεμένος</string>
     <string name="simple_manage">διαχείριση</string>

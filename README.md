@@ -35,7 +35,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 ## 🚀 Features
   * Multiple accounts 👥
   * Offline-capabilities 🔌
-  * Manage cards, columns and boards 📝
+  * Manage cards, lists and boards 📝
   * Supports attachments 📎
   * Supports activities ⚡
   * Dark mode 🌙

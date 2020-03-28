@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Bitiş tarihi</string>
     <string name="activity">Etkinlik</string>
     <string name="add_card">Kart ekle</string>
-    <string name="add_column">Sütun ekle</string>
+    <string name="add_list">Sütun ekle</string>
 
     <string name="add_account">Hesap ekle</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Kartı arşivle</string>
     <string name="action_card_delete">Kartı sil</string>
     <string name="add_board">Pano ekle</string>
-    <string name="action_card_list_delete_column">Sütunu sil</string>
+    <string name="delete_list">Sütunu sil</string>
     <string name="simple_title">Başlık</string>
 
     <string name="label_clear_due_date">Bitiş tarihini temizle</string>
@@ -87,11 +87,11 @@
     <string name="account_already_added">Hesap zaten eklenmiş</string>
     <string name="account_is_getting_imported">Hesap içe aktarılıyor</string>
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
-    <string name="no_columns">Henüz bir sütun eklenmemiş</string>
+    <string name="no_lists_yet">Henüz bir sütun eklenmemiş</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
     <string name="simple_discard">yok say</string>
-    <string name="do_you_want_to_delete_the_current_column">Geçerli sütunu silmek istiyor musunuz?</string>
-    <string name="add_a_new_column_using_the_button">+ düğmesini kullanarak yeni bir sütun ekleyebilirsiniz</string>
+    <string name="do_you_want_to_delete_the_current_list">Geçerli sütunu silmek istiyor musunuz?</string>
+    <string name="add_a_new_list_using_the_button">+ düğmesini kullanarak yeni bir sütun ekleyebilirsiniz</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
     <string name="update_deck">Tahtayı güncelle</string>
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
@@ -99,7 +99,7 @@
     <string name="simple_update">Güncelle</string>
     <string name="simple_delete">Sil</string>
     <string name="delete_board_message">Bu işlem içindeki tüm deste ve kartlarla birlikte bu panoyu silecek.</string>
-    <string name="action_card_list_rename_column">Sütunu yeniden adlandır</string>
+    <string name="action_card_list_rename_list">Sütunu yeniden adlandır</string>
     <string name="simple_rename">Yeniden adlandır</string>
     <string name="simple_settings">Ayarlar</string>
     <string name="settings_theme_title">Koyu tema</string>
@@ -110,7 +110,7 @@
     <string name="unassigned_user">%1$s atanmamış</string>
     <string name="simple_undo">Geri al</string>
     <string name="no_activities">Bu kart üzerinde yapılmış bir işlem yok. İşlemleri yükleyip görebilmek için İnternet bağlantınızın olması gerekir.</string>
-    <string name="rename_column">Sütunu yeniden adlandır</string>
+    <string name="rename_list">Sütunu yeniden adlandır</string>
     <string name="share_board">Panoyu paylaş</string>
     <string name="you_are_currently_offline">Şu anda çevrimdışısınız</string>
     <string name="simple_manage">yönet</string>
