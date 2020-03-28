@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Data devida</string>
     <string name="activity">Atividade</string>
     <string name="add_card">Adicionar cartão</string>
-    <string name="add_column">Adicionar coluna</string>
+    <string name="add_list">Adicionar coluna</string>
 
     <string name="add_account">Adicionar conta</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Arquivar cartão</string>
     <string name="action_card_delete">Excluir cartão</string>
     <string name="add_board">Adicionar painel</string>
-    <string name="action_card_list_delete_column">Excluir colunas</string>
+    <string name="delete_list">Excluir colunas</string>
     <string name="simple_title">Título</string>
 
     <string name="label_clear_due_date">Remover data devida</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Conta já adicionada</string>
     <string name="account_is_getting_imported">Conta está sendo importada</string>
     <string name="not_synced_yet">Ainda não sincronizado</string>
-    <string name="no_columns">Nenhuma coluna ainda</string>
+    <string name="no_lists_yet">Nenhuma coluna ainda</string>
     <string name="do_you_want_to_save_your_changes">Quer salvar suas alterações?</string>
     <string name="simple_discard">descartar</string>
-    <string name="do_you_want_to_delete_the_current_column">Quer excluir a coluna atual?</string>
-    <string name="add_a_new_column_using_the_button">Adicione uma nova coluna usando o botão +</string>
+    <string name="do_you_want_to_delete_the_current_list">Quer excluir a coluna atual?</string>
+    <string name="add_a_new_list_using_the_button">Adicione uma nova coluna usando o botão +</string>
     <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
     <string name="update_deck">Atualizar o dock</string>
     <string name="your_deck_version_is_too_old">Sua versão do dock é muito antiga.</string>
@@ -100,7 +100,7 @@
     <string name="simple_update">Atualizar</string>
     <string name="simple_delete">Excluir</string>
     <string name="delete_board_message">Isso excluirá permanentemente este painel, incluindo as pilhas e cartões.</string>
-    <string name="action_card_list_rename_column">Renomear coluna</string>
+    <string name="action_card_list_rename_list">Renomear coluna</string>
     <string name="simple_rename">Renomear</string>
     <string name="simple_settings">Configurações</string>
     <string name="settings_theme_title">Tema escuro</string>
@@ -111,7 +111,7 @@
     <string name="unassigned_user"> %1$s desatribuído</string>
     <string name="simple_undo">Desfazer</string>
     <string name="no_activities">Não há atividades neste cartão. Você precisa conexão à internet para carregar e exibir atividades.</string>
-    <string name="rename_column">Renomear coluna</string>
+    <string name="rename_list">Renomear coluna</string>
     <string name="share_board">Compartilhar painel</string>
     <string name="you_are_currently_offline">Você está offline no momento</string>
     <string name="simple_manage">gerenciar</string>
@@ -145,4 +145,7 @@
     <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
     <string name="could_not_copy_to_clipboard">Não foi possível copiar para a área de transferência</string>
     <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
-    </resources>
+    <string name="add_comment">Adicionar comentário</string>
+    <string name="card_edit_comments">Comentários</string>
+    <string name="no_comments_yet">Nenhum comentário ainda</string>
+</resources>

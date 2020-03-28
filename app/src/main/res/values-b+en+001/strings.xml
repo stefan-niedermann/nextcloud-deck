@@ -44,7 +44,7 @@
     <string name="hint_due_date_date">Due date</string>
     <string name="activity">Activity</string>
     <string name="add_card">Create card</string>
-    <string name="add_column">Create stack</string>
+    <string name="add_list">Create stack</string>
 
     <string name="add_account">Add account</string>
 

@@ -57,7 +57,7 @@
     <string name="action_card_archive">Arquivar cartão</string>
     <string name="action_card_delete">Eliminar cartão</string>
     <string name="add_board">Arquivar cartão</string>
-    <string name="action_card_list_delete_column">Eliminar coluna</string>
+    <string name="delete_list">Eliminar coluna</string>
     <string name="simple_title">Título</string>
 
     <string name="label_clear_due_date">Limpar data limite</string>

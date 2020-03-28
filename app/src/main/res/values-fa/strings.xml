@@ -52,7 +52,7 @@
     <string name="hint_due_date_date">موعد مقرر</string>
     <string name="activity">فعّالیت</string>
     <string name="add_card">افزودن کارت</string>
-    <string name="add_column">ستون را اضافه کنید</string>
+    <string name="add_list">ستون را اضافه کنید</string>
 
     <string name="add_account">ایحاد حساب کاربری</string>
 
@@ -62,7 +62,7 @@
     <string name="action_card_archive">کارت بایگانی</string>
     <string name="action_card_delete">حذف کارت</string>
     <string name="add_board">تخته را اضافه کنید</string>
-    <string name="action_card_list_delete_column">ستون را حذف کنید</string>
+    <string name="delete_list">ستون را حذف کنید</string>
     <string name="simple_title">عنوان</string>
 
     <string name="label_clear_due_date">تاریخ مقرر را پاک کنید</string>
@@ -85,11 +85,11 @@
     <string name="account_already_added">حساب قبلاً اضافه شده است</string>
     <string name="account_is_getting_imported">حساب وارد می شود</string>
     <string name="not_synced_yet">هنوز همگام سازی نشده است</string>
-    <string name="no_columns">هنوز ستونی وجود ندارد</string>
+    <string name="no_lists_yet">هنوز ستونی وجود ندارد</string>
     <string name="do_you_want_to_save_your_changes">آیا می خواهید تغییرات خود را ذخیره کنید؟</string>
     <string name="simple_discard">دور انداختن</string>
-    <string name="do_you_want_to_delete_the_current_column">آیا می خواهید ستون فعلی را حذف کنید؟</string>
-    <string name="add_a_new_column_using_the_button">با استفاده از دکمه + یک ستون جدید اضافه کنید</string>
+    <string name="do_you_want_to_delete_the_current_list">آیا می خواهید ستون فعلی را حذف کنید؟</string>
+    <string name="add_a_new_list_using_the_button">با استفاده از دکمه + یک ستون جدید اضافه کنید</string>
     <string name="add_a_new_card_using_the_button">با استفاده از دکمه + یک کارت جدید اضافه کنید</string>
     <string name="update_deck">عرشه را به روز کنید</string>
     <string name="your_deck_version_is_too_old">نسخه عرشه شما خیلی قدیمی است</string>
@@ -97,7 +97,7 @@
     <string name="simple_update">به روز رسانی</string>
     <string name="simple_delete">حذف</string>
     <string name="delete_board_message">با این کار برای همیشه این صفحه را شامل همه پشته ها و کارت ها حذف خواهید کرد.</string>
-    <string name="action_card_list_rename_column">تغییر نام ستون</string>
+    <string name="action_card_list_rename_list">تغییر نام ستون</string>
     <string name="simple_rename">تغییرنام</string>
     <string name="simple_settings">تنظیمات</string>
     <string name="settings_theme_title">تم تاریک</string>
@@ -108,7 +108,7 @@
     <string name="unassigned_user">دست نخورده %1$s</string>
     <string name="simple_undo">برگرداندن</string>
     <string name="no_activities">هیچ فعالیتی در این کارت انجام نشده است. برای بارگیری و نمایش فعالیتها باید به اینترنت متصل شوید.</string>
-    <string name="rename_column">تغییر نام ستون</string>
+    <string name="rename_list">تغییر نام ستون</string>
     <string name="share_board">صفحه مشترک</string>
     <string name="you_are_currently_offline">شما در حال حاضر آفلاین هستید</string>
     <string name="simple_manage">مدیریت</string>
@@ -127,4 +127,5 @@
     <string name="action_card_move">انتقال کارت</string>
     <string name="action_card_move_title">حرکت%1$s</string>
     <string name="server_error">خطای سرور</string>
+    <string name="card_edit_comments">نظرات</string>
     </resources>

@@ -53,7 +53,7 @@
     <string name="hint_due_date_date">Határidő</string>
     <string name="activity">Tevékenység</string>
     <string name="add_card">Kártya hozzáadása</string>
-    <string name="add_column">Oszlop hozzáadása</string>
+    <string name="add_list">Oszlop hozzáadása</string>
 
     <string name="add_account">Fiók hozzáadása</string>
 
@@ -63,7 +63,7 @@
     <string name="action_card_archive">Kártya archiválása</string>
     <string name="action_card_delete">Kártya törlése</string>
     <string name="add_board">Tábla hozzáadása</string>
-    <string name="action_card_list_delete_column">Oszlop törlése</string>
+    <string name="delete_list">Oszlop törlése</string>
     <string name="simple_title">Cím</string>
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
@@ -87,11 +87,11 @@
     <string name="account_already_added">A fiók már hozzá lett adva</string>
     <string name="account_is_getting_imported">A fiók importálásra kerül</string>
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
-    <string name="no_columns">Még nincsenek oszlopok</string>
+    <string name="no_lists_yet">Még nincsenek oszlopok</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
     <string name="simple_discard">elvetés</string>
-    <string name="do_you_want_to_delete_the_current_column">Biztos, hogy törli a jelenlegi oszlopot?</string>
-    <string name="add_a_new_column_using_the_button">Új oszlop hozzáadása a + gombbal</string>
+    <string name="do_you_want_to_delete_the_current_list">Biztos, hogy törli a jelenlegi oszlopot?</string>
+    <string name="add_a_new_list_using_the_button">Új oszlop hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
     <string name="update_deck">Kártyák frissítése</string>
     <string name="your_deck_version_is_too_old">A Kártyák verziója túl régi</string>
@@ -99,7 +99,7 @@
     <string name="simple_update">Frissítés</string>
     <string name="simple_delete">Törlés</string>
     <string name="delete_board_message">Ez végleg törli a táblát az összes rakással és kártyával.</string>
-    <string name="action_card_list_rename_column">Oszlop átnevezése</string>
+    <string name="action_card_list_rename_list">Oszlop átnevezése</string>
     <string name="simple_rename">Átnevezés</string>
     <string name="simple_settings">Beállítások</string>
     <string name="settings_theme_title">Sötét téma</string>
@@ -110,7 +110,7 @@
     <string name="unassigned_user">Nem hozzárendelt %1$s</string>
     <string name="simple_undo">Visszavonás</string>
     <string name="no_activities">Még nincsenek tevékenységek ezen a kártyán. Internetkapcsolatra van szükség, hogy betöltse és megjelenítse a tevékenységeket.</string>
-    <string name="rename_column">Oszlop átnevezése</string>
+    <string name="rename_list">Oszlop átnevezése</string>
     <string name="share_board">Tábla megosztása</string>
     <string name="you_are_currently_offline">Jelenleg offline</string>
     <string name="simple_manage">kezelés</string>
@@ -133,4 +133,5 @@
     <string name="title_is_mandatory">A cím megadása kötelező</string>
     <string name="provide_at_least_a_title_or_description">Kérem, adjon meg címet vagy leírást</string>
     <string name="server_error">Szerver hiba</string>
+    <string name="card_edit_comments">Hozzászólások</string>
     </resources>

@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="activity">Activiteit</string>
     <string name="add_card">Toevoegen kaart</string>
-    <string name="add_column">Toevoegen kolom</string>
+    <string name="add_list">Toevoegen kolom</string>
 
     <string name="add_account">Account toevoegen</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Archiveer kaart</string>
     <string name="action_card_delete">Verwijderen kaart</string>
     <string name="add_board">Toevoegen bord</string>
-    <string name="action_card_list_delete_column">Verwijder kolom</string>
+    <string name="delete_list">Verwijder kolom</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Wis vervaldatum</string>
@@ -87,11 +87,11 @@
     <string name="account_already_added">Account al toegevoegd.</string>
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
-    <string name="no_columns">Nog geen kolommen</string>
+    <string name="no_lists_yet">Nog geen kolommen</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
     <string name="simple_discard">weggooien</string>
-    <string name="do_you_want_to_delete_the_current_column">Wil je de huidige kolom verwijderen?</string>
-    <string name="add_a_new_column_using_the_button">Voeg een nieuwe kolom toe met de \'+\' knop</string>
+    <string name="do_you_want_to_delete_the_current_list">Wil je de huidige kolom verwijderen?</string>
+    <string name="add_a_new_list_using_the_button">Voeg een nieuwe kolom toe met de \'+\' knop</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
     <string name="update_deck">Werk deck bij</string>
     <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
@@ -99,7 +99,7 @@
     <string name="simple_update">Bijwerken</string>
     <string name="simple_delete">Verwijderen</string>
     <string name="delete_board_message">Dit zal dit bord permanent verwijderen inclusief alle stapels en kaarten.</string>
-    <string name="action_card_list_rename_column">Kolomnaam wijzigen</string>
+    <string name="action_card_list_rename_list">Kolomnaam wijzigen</string>
     <string name="simple_rename">Hernoemen</string>
     <string name="simple_settings">Instellingen</string>
     <string name="settings_theme_title">Donker thema</string>
@@ -110,7 +110,7 @@
     <string name="unassigned_user">Niet toegewezen %1$s</string>
     <string name="simple_undo">Ongedaan maken</string>
     <string name="no_activities">Deze kaart heeft geen activiteiten. Verbind met het internet om activiteiten te laden en te tonen.</string>
-    <string name="rename_column">Hernoemen kolom</string>
+    <string name="rename_list">Hernoemen kolom</string>
     <string name="share_board">Bord delen</string>
     <string name="you_are_currently_offline">U bent op dit moment offline</string>
     <string name="simple_manage">beheer</string>
@@ -134,4 +134,5 @@
     <string name="title_is_mandatory">Titel is verplicht</string>
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="server_error">Serverfout</string>
+    <string name="card_edit_comments">Reacties</string>
     </resources>

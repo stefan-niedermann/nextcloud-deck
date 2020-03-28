@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Data realizacji</string>
     <string name="activity">Aktywność</string>
     <string name="add_card">Dodaj kartę</string>
-    <string name="add_column">Dodaj kolumnę</string>
+    <string name="add_list">Dodaj kolumnę</string>
 
     <string name="add_account">Dodaj konto</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Zarchiwizowane karty</string>
     <string name="action_card_delete">Usunięte karty</string>
     <string name="add_board">Dodaj tablicę</string>
-    <string name="action_card_list_delete_column">Usuń kolumnę</string>
+    <string name="delete_list">Usuń kolumnę</string>
     <string name="simple_title">Tytuł</string>
 
     <string name="label_clear_due_date">Wyczyść termin</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Konto już dodane</string>
     <string name="account_is_getting_imported">Importowanie konta</string>
     <string name="not_synced_yet">Jeszcze nie zsynchronizowane</string>
-    <string name="no_columns">Brak kolumn</string>
+    <string name="no_lists_yet">Brak kolumn</string>
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
     <string name="simple_discard">odrzuć</string>
-    <string name="do_you_want_to_delete_the_current_column">Czy chcesz usunąć bieżącą kolumnę?</string>
-    <string name="add_a_new_column_using_the_button">Dodaj nową kolumnę za pomocą przycisku +</string>
+    <string name="do_you_want_to_delete_the_current_list">Czy chcesz usunąć bieżącą kolumnę?</string>
+    <string name="add_a_new_list_using_the_button">Dodaj nową kolumnę za pomocą przycisku +</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +.</string>
     <string name="update_deck">Zaktualizuj deck</string>
     <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
@@ -100,7 +100,7 @@
     <string name="simple_update">Aktualizuj</string>
     <string name="simple_delete">Usuń</string>
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tablicy, w tym wszystkich stosów i kart.</string>
-    <string name="action_card_list_rename_column">Zmień nazwę kolumny</string>
+    <string name="action_card_list_rename_list">Zmień nazwę kolumny</string>
     <string name="simple_rename">Zmień nazwę</string>
     <string name="simple_settings">Ustawienia</string>
     <string name="settings_theme_title">Ciemny motyw</string>
@@ -111,7 +111,7 @@
     <string name="unassigned_user">Nieprzypisane %1$s</string>
     <string name="simple_undo">Cofnij</string>
     <string name="no_activities">Na tej karcie nie ma żadnych działań. Musisz być podłączony do Internetu, aby ładować i wyświetlać działania.</string>
-    <string name="rename_column">Zmień nazwę kolumny</string>
+    <string name="rename_list">Zmień nazwę kolumny</string>
     <string name="share_board">Udostępnij tablicę</string>
     <string name="you_are_currently_offline">Obecnie jesteś w offline</string>
     <string name="simple_manage">zarządzać</string>
@@ -145,4 +145,7 @@
     <string name="share_success">Pomyślnie dodano %1$s do %2$s</string>
     <string name="could_not_copy_to_clipboard">Nie można skopiować do schowka</string>
     <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
-    </resources>
+    <string name="add_comment">Dodaj komentarz</string>
+    <string name="card_edit_comments">Komentarze</string>
+    <string name="no_comments_yet">Brak komentarzy</string>
+</resources>

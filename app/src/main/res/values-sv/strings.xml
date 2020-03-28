@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Slutdatum</string>
     <string name="activity">Aktivitet</string>
     <string name="add_card">Lägg till kort</string>
-    <string name="add_column">Lägg till kolumn</string>
+    <string name="add_list">Lägg till kolumn</string>
 
     <string name="add_account">Lägg till konto</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Arkivera kort</string>
     <string name="action_card_delete">Radera kort</string>
     <string name="add_board">Lägg till tavla</string>
-    <string name="action_card_list_delete_column">Radera kolumn</string>
+    <string name="delete_list">Radera kolumn</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Rensa slutdatum</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Konto redan tillagt</string>
     <string name="account_is_getting_imported">Kontot importeras</string>
     <string name="not_synced_yet">Inte synkroniserad än</string>
-    <string name="no_columns">Inga kolumner än</string>
+    <string name="no_lists_yet">Inga kolumner än</string>
     <string name="do_you_want_to_save_your_changes">Vill du spara dina ändringar?</string>
     <string name="simple_discard">kassera</string>
-    <string name="do_you_want_to_delete_the_current_column">Vill du ta bort den aktuella kolumnen?</string>
-    <string name="add_a_new_column_using_the_button">Lägg till en ny kolumn med + knappen</string>
+    <string name="do_you_want_to_delete_the_current_list">Vill du ta bort den aktuella kolumnen?</string>
+    <string name="add_a_new_list_using_the_button">Lägg till en ny kolumn med + knappen</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
     <string name="update_deck">Uppdatera Deck</string>
     <string name="your_deck_version_is_too_old">Din version är för gammal</string>
@@ -100,7 +100,7 @@
     <string name="simple_update">Uppdatera</string>
     <string name="simple_delete">Radera</string>
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla staplar och kort.</string>
-    <string name="action_card_list_rename_column">Byt namn på kolumn</string>
+    <string name="action_card_list_rename_list">Byt namn på kolumn</string>
     <string name="simple_rename">Byt namn</string>
     <string name="simple_settings">Inställningar</string>
     <string name="settings_theme_title">Mörkt tema</string>
@@ -111,7 +111,7 @@
     <string name="unassigned_user">Tog bort tilldelning %1$s</string>
     <string name="simple_undo">Ångra</string>
     <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att ladda och visa aktiviteter.</string>
-    <string name="rename_column">Byt namn på kolumn</string>
+    <string name="rename_list">Byt namn på kolumn</string>
     <string name="share_board">Dela tavla</string>
     <string name="you_are_currently_offline">Du är för närvarande offline</string>
     <string name="simple_manage">hantera</string>
@@ -145,4 +145,5 @@
     <string name="share_success">La till %1$s till %2$s</string>
     <string name="could_not_copy_to_clipboard">Kunde inte kopiera till urklipp</string>
     <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Försök att ladda ner det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
+    <string name="card_edit_comments">Kommentarer</string>
     </resources>

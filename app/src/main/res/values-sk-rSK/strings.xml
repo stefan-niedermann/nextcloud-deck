@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Termín dokončenia</string>
     <string name="activity">Aktivita</string>
     <string name="add_card">Pridať kartu</string>
-    <string name="add_column">Pridať stĺpec</string>
+    <string name="add_list">Pridať stĺpec</string>
 
     <string name="add_account">Pridať účet</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Archivovať kartu</string>
     <string name="action_card_delete">Zmazať kartu</string>
     <string name="add_board">Pridať nástenk</string>
-    <string name="action_card_list_delete_column">Zmazať stĺpec</string>
+    <string name="delete_list">Zmazať stĺpec</string>
     <string name="simple_title">Názov</string>
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Účet už bol pridaný</string>
     <string name="account_is_getting_imported">Účet sa importuje</string>
     <string name="not_synced_yet">Zatiaľ nie je synchronizovaný</string>
-    <string name="no_columns">Zatiaľ žiadne stĺpce</string>
+    <string name="no_lists_yet">Zatiaľ žiadne stĺpce</string>
     <string name="do_you_want_to_save_your_changes">Chcete uložiť zmeny?</string>
     <string name="simple_discard">odhodiť</string>
-    <string name="do_you_want_to_delete_the_current_column">Chcete odstrániť aktuálny stĺpec?</string>
-    <string name="add_a_new_column_using_the_button">Pridajte nový stĺpec pomocou tlačidla +</string>
+    <string name="do_you_want_to_delete_the_current_list">Chcete odstrániť aktuálny stĺpec?</string>
+    <string name="add_a_new_list_using_the_button">Pridajte nový stĺpec pomocou tlačidla +</string>
     <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
     <string name="update_deck">Aktualizovať balíček</string>
     <string name="your_deck_version_is_too_old">Verzia vášho balíčka je príliš stará</string>
@@ -100,7 +100,7 @@
     <string name="simple_update">Aktualizovať</string>
     <string name="simple_delete">Zmazať</string>
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých stĺpcov a kariet.</string>
-    <string name="action_card_list_rename_column">Premenovať stĺpec</string>
+    <string name="action_card_list_rename_list">Premenovať stĺpec</string>
     <string name="simple_rename">Premenovať</string>
     <string name="simple_settings">Nastavenia</string>
     <string name="settings_theme_title">Tmavý motív</string>
@@ -111,7 +111,7 @@
     <string name="unassigned_user">Nepriradené %1$s</string>
     <string name="simple_undo">Odvolať</string>
     <string name="no_activities">Na tejto karte nie sú žiadne aktivity. Na načítanie a zobrazenie aktivít musíte byť pripojení k internetu.</string>
-    <string name="rename_column">Premenovať stĺpec</string>
+    <string name="rename_list">Premenovať stĺpec</string>
     <string name="share_board">Zdieľať nástenku</string>
     <string name="you_are_currently_offline">Momentálne ste offline</string>
     <string name="simple_manage">spravovať</string>
@@ -145,4 +145,7 @@
     <string name="share_success">%1$s úspešne pridané do %2$s</string>
     <string name="could_not_copy_to_clipboard">Nepodarilo sa skopírovať do schránky</string>
     <string name="shared_error">Zdieľanie obsahu z aplikácií tretích strán zatiaľ nie je úplne podporované. Skúste si ho najprv stiahnuť a potom ho zdieľajte zo svojho správcu súborov alebo z galérie.</string>
-    </resources>
+    <string name="add_comment">Pridať komentár</string>
+    <string name="card_edit_comments">Komentáre</string>
+    <string name="no_comments_yet">Zatiaľ žiadne komentáre</string>
+</resources>

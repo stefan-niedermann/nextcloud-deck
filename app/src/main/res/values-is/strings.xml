@@ -52,7 +52,7 @@
     <string name="hint_due_date_date">Skiladagur</string>
     <string name="activity">Virkni</string>
     <string name="add_card">Bæta við spjaldi</string>
-    <string name="add_column">Bæta við dálki</string>
+    <string name="add_list">Bæta við dálki</string>
 
     <string name="add_account">Bæta við notandaaðgangi</string>
 
@@ -62,7 +62,7 @@
     <string name="action_card_archive">Setja spjald í geymslu</string>
     <string name="action_card_delete">Eyða spjaldi</string>
     <string name="add_board">Bæta við borði</string>
-    <string name="action_card_list_delete_column">Eyða dálki</string>
+    <string name="delete_list">Eyða dálki</string>
     <string name="simple_title">Titill</string>
 
     <string name="label_clear_due_date">Fjarlægja skiladag</string>
@@ -85,15 +85,15 @@
     <string name="account_already_added">Aðgangi þegar bætt við</string>
     <string name="account_is_getting_imported">Verið er að flytja inn aðgang</string>
     <string name="not_synced_yet">Ekki ennþá samstillt</string>
-    <string name="no_columns">Engir dálkar ennþá</string>
+    <string name="no_lists_yet">Engir dálkar ennþá</string>
     <string name="do_you_want_to_save_your_changes">Viltu vista breytingarnar þínar?</string>
     <string name="simple_discard">henda</string>
-    <string name="do_you_want_to_delete_the_current_column">Viltu eyða fyrirliggjandi dálki?</string>
+    <string name="do_you_want_to_delete_the_current_list">Viltu eyða fyrirliggjandi dálki?</string>
     <string name="update_deck">Uppfæra borð</string>
     <string name="your_deck_version_is_too_old">Útgáfan þín af deck er of gömul</string>
     <string name="simple_update">Uppfæra</string>
     <string name="simple_delete">Eyða</string>
-    <string name="action_card_list_rename_column">Endurnefna dálk</string>
+    <string name="action_card_list_rename_list">Endurnefna dálk</string>
     <string name="simple_rename">Endurnefna</string>
     <string name="simple_settings">Stillingar</string>
     <string name="settings_theme_title">Dökkt þema</string>
@@ -103,7 +103,7 @@
     <string name="pref_value_theme_light">Ljóst</string>
     <string name="unassigned_user">Tók úthlutun af %1$s</string>
     <string name="simple_undo">Afturkalla</string>
-    <string name="rename_column">Endurnefna dálk</string>
+    <string name="rename_list">Endurnefna dálk</string>
     <string name="share_board">Deila borði</string>
     <string name="you_are_currently_offline">Þú ert ekki tengdur við netið</string>
     <string name="simple_manage">skipuleggja</string>
@@ -126,4 +126,5 @@
     <string name="title_is_mandatory">Titill er nauðsynlegur</string>
     <string name="provide_at_least_a_title_or_description">Gefðu upp í það minnsta titil eða lýsingu</string>
     <string name="server_error">Villa frá þjóni</string>
+    <string name="card_edit_comments">Athugasemdir</string>
     </resources>

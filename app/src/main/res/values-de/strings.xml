@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
     <string name="activity">Aktivität</string>
     <string name="add_card">Karte hinzufügen</string>
-    <string name="add_column">Spalte hinzufügen</string>
+    <string name="add_list">Spalte hinzufügen</string>
 
     <string name="add_account">Konto hinzufügen</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Karte archivieren</string>
     <string name="action_card_delete">Karte löschen</string>
     <string name="add_board">Board hinzufügen</string>
-    <string name="action_card_list_delete_column">Spalte löschen</string>
+    <string name="delete_list">Spalte löschen</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Fälligkeitsdatum löschen</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Konto wurde bereits hinzugefügt</string>
     <string name="account_is_getting_imported">Konto wird importiert</string>
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
-    <string name="no_columns">Bislang keine Spalten</string>
+    <string name="no_lists_yet">Bislang keine Spalten</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
     <string name="simple_discard">Verwerfen</string>
-    <string name="do_you_want_to_delete_the_current_column">Soll die aktuelle Spalte gelöscht werden?</string>
-    <string name="add_a_new_column_using_the_button">Eine neue Spalte mit der + Taste hinzufügen</string>
+    <string name="do_you_want_to_delete_the_current_list">Soll die aktuelle Spalte gelöscht werden?</string>
+    <string name="add_a_new_list_using_the_button">Eine neue Spalte mit der + Taste hinzufügen</string>
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
     <string name="update_deck">Deck aktualisieren</string>
     <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
@@ -100,7 +100,7 @@
     <string name="simple_update">Aktualisieren</string>
     <string name="simple_delete">Löschen</string>
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Stapel und Karten löschen.</string>
-    <string name="action_card_list_rename_column">Spalte umbenennen</string>
+    <string name="action_card_list_rename_list">Spalte umbenennen</string>
     <string name="simple_rename">Umbenennen</string>
     <string name="simple_settings">Einstellungen</string>
     <string name="settings_theme_title">Dunkles Design</string>
@@ -111,7 +111,7 @@
     <string name="unassigned_user">Zuordnung von %1$s entfernt</string>
     <string name="simple_undo">Rückgängig</string>
     <string name="no_activities">Auf dieser Karte sind keine Aktivitäten vorhanden. Sie müssen mit dem Internet verbunden sein, um Aktivitäten zu laden und anzuzeigen.</string>
-    <string name="rename_column">Spalte umbenennen</string>
+    <string name="rename_list">Spalte umbenennen</string>
     <string name="share_board">Board freigeben</string>
     <string name="you_are_currently_offline">Sie sind derzeit offline</string>
     <string name="simple_manage">Verwalten</string>
@@ -145,4 +145,7 @@
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
     <string name="could_not_copy_to_clipboard">Konnte nicht in die Zwischenablage kopieren</string>
     <string name="shared_error">Das Teilen von Inhalten aus Apps von Drittanbietern wird noch nicht vollständig unterstützt. Bitte versuchen Sie zuerst, die Datei herunterzuladen und dann aus Ihrem Dateimanager oder aus Ihrer Galerie freizugeben.</string>
-    </resources>
+    <string name="add_comment">Kommentar hinzufügen</string>
+    <string name="card_edit_comments">Kommentare</string>
+    <string name="no_comments_yet">Noch keine Kommentare vorhanden</string>
+</resources>

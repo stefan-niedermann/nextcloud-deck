@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Date d\'échéance</string>
     <string name="activity">Activité</string>
     <string name="add_card">Ajouter une carte</string>
-    <string name="add_column"> Ajouter une colonne</string>
+    <string name="add_list"> Ajouter une colonne</string>
 
     <string name="add_account">Ajouter un compte</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Archiver la carte</string>
     <string name="action_card_delete">Supprimer la carte</string>
     <string name="add_board">Ajouter un tableau</string>
-    <string name="action_card_list_delete_column">Supprimer la colonne</string>
+    <string name="delete_list">Supprimer la colonne</string>
     <string name="simple_title">Titre</string>
 
     <string name="label_clear_due_date">Effacer la date d\'échéance</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Compte déjà ajouté</string>
     <string name="account_is_getting_imported">Compte en cours d\'import</string>
     <string name="not_synced_yet">Aucune synchronisation pour l\'instant</string>
-    <string name="no_columns">Aucune colonne pour l\'instant</string>
+    <string name="no_lists_yet">Aucune colonne pour l\'instant</string>
     <string name="do_you_want_to_save_your_changes">Souhaitez-vous enregistrer vos modifications ?</string>
     <string name="simple_discard">ignorer</string>
-    <string name="do_you_want_to_delete_the_current_column">Souhaitez-vous supprimer la colonne actuelle ?</string>
-    <string name="add_a_new_column_using_the_button">Ajoutez une nouvelle colonne avec le bouton +</string>
+    <string name="do_you_want_to_delete_the_current_list">Souhaitez-vous supprimer la colonne actuelle ?</string>
+    <string name="add_a_new_list_using_the_button">Ajoutez une nouvelle colonne avec le bouton +</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
     <string name="update_deck">Mettre à jour Deck</string>
     <string name="your_deck_version_is_too_old">Votre version de Deck est trop ancienne</string>
@@ -101,7 +101,7 @@
     <string name="simple_update">Mettre à jour</string>
     <string name="simple_delete">Supprimer</string>
     <string name="delete_board_message">Ceci supprimera définitivement ce tableau, y compris la totalité des piles et des cartes.</string>
-    <string name="action_card_list_rename_column">Renommer la colonne</string>
+    <string name="action_card_list_rename_list">Renommer la colonne</string>
     <string name="simple_rename">Renommer</string>
     <string name="simple_settings">Paramètres</string>
     <string name="settings_theme_title">Thème sombre</string>
@@ -112,7 +112,7 @@
     <string name="unassigned_user">%1$s non assigné</string>
     <string name="simple_undo">Annuler</string>
     <string name="no_activities">Il n\'y a aucune activité sur cette carte. Vous devez être connectés à Internet pour charger et afficher les activités.</string>
-    <string name="rename_column">Renommer la colonne</string>
+    <string name="rename_list">Renommer la colonne</string>
     <string name="share_board">Partager le tableau</string>
     <string name="you_are_currently_offline">Vous êtes actuellement hors-ligne</string>
     <string name="simple_manage">gérer</string>
@@ -146,4 +146,7 @@
     <string name="share_success">Ajout de %1$s à %2$s réussit</string>
     <string name="could_not_copy_to_clipboard">Impossible de copier dans le presse-papiers</string>
     <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
-    </resources>
+    <string name="add_comment">Ajouter un commentaire</string>
+    <string name="card_edit_comments">Commentaires</string>
+    <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>
+</resources>

@@ -54,7 +54,7 @@
     <string name="hint_due_date_date">Fecha de fin</string>
     <string name="activity">Actividad</string>
     <string name="add_card">Añadir tarjeta</string>
-    <string name="add_column">Añadir columna</string>
+    <string name="add_list">Añadir columna</string>
 
     <string name="add_account">Añadir cuenta</string>
 
@@ -64,7 +64,7 @@
     <string name="action_card_archive">Archivar tarjeta</string>
     <string name="action_card_delete">Eliminar tarjeta</string>
     <string name="add_board">Añadir tablero</string>
-    <string name="action_card_list_delete_column">Eliminar columna</string>
+    <string name="delete_list">Eliminar columna</string>
     <string name="simple_title">Título</string>
 
     <string name="label_clear_due_date">Borrar fecha de finalización</string>
@@ -88,11 +88,11 @@
     <string name="account_already_added">Cuenta ya añadida</string>
     <string name="account_is_getting_imported">La cuenta está siendo importada</string>
     <string name="not_synced_yet">No sincronizado todavía</string>
-    <string name="no_columns">No hay columnas disponibles</string>
+    <string name="no_lists_yet">No hay columnas disponibles</string>
     <string name="do_you_want_to_save_your_changes">¿Desea guardar los cambios?</string>
     <string name="simple_discard">descartar</string>
-    <string name="do_you_want_to_delete_the_current_column">¿Desea borrar la columna actual?</string>
-    <string name="add_a_new_column_using_the_button">Añadir una nueva columna usando el botón +</string>
+    <string name="do_you_want_to_delete_the_current_list">¿Desea borrar la columna actual?</string>
+    <string name="add_a_new_list_using_the_button">Añadir una nueva columna usando el botón +</string>
     <string name="add_a_new_card_using_the_button">Añadir una nueva tarjeta usando el botón +</string>
     <string name="update_deck">Actualizar el Deck</string>
     <string name="your_deck_version_is_too_old">Su versión del Deck es muy antigua </string>
@@ -100,7 +100,7 @@
     <string name="simple_update">Actualizar</string>
     <string name="simple_delete">Eliminar</string>
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las pilas y tarjetas.</string>
-    <string name="action_card_list_rename_column">Renombrar columna</string>
+    <string name="action_card_list_rename_list">Renombrar columna</string>
     <string name="simple_rename">Renombrar</string>
     <string name="simple_settings">Configuración</string>
     <string name="settings_theme_title">Tema oscuro</string>
@@ -111,7 +111,7 @@
     <string name="unassigned_user">No asignado %1$s</string>
     <string name="simple_undo">Deshacer</string>
     <string name="no_activities">No hay actividades en esta tarjeta. Necesita recolectar a Internet para cargar y mostrar las actividades.</string>
-    <string name="rename_column">Renombrar columna</string>
+    <string name="rename_list">Renombrar columna</string>
     <string name="share_board">Compartir tablero</string>
     <string name="you_are_currently_offline">Ahora está sin conexión (off-line)</string>
     <string name="simple_manage">Organizar</string>
@@ -145,4 +145,7 @@
     <string name="share_success">Añadido satisfactoriamente %1$s a %2$s</string>
     <string name="could_not_copy_to_clipboard">No se puede copiar al portapapeles</string>
     <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
-    </resources>
+    <string name="add_comment">Agregar comentario</string>
+    <string name="card_edit_comments">Comentarios</string>
+    <string name="no_comments_yet">Todavía no hay comentarios.</string>
+</resources>

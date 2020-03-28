@@ -48,7 +48,7 @@
     <string name="hint_due_date_date">תאריך יעד</string>
     <string name="activity">פעילות</string>
     <string name="add_card">יצירת כרטיס</string>
-    <string name="add_column">יצירת חפיסה</string>
+    <string name="add_list">יצירת חפיסה</string>
 
     <string name="add_account">הוספת חשבון</string>
 
