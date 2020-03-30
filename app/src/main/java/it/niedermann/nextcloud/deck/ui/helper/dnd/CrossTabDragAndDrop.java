@@ -121,7 +121,7 @@ public class CrossTabDragAndDrop {
                 }
                 case DragEvent.ACTION_DROP: {
                     SCROLL_HELPER.stopScroll();
-                    // FIXME doesn't work
+                    // FIXME Fires sometimes BEFORE OnChildAttachStateChangeListener
                     cardView.setVisibility(View.VISIBLE);
                     notifyListeners(draggedCardLocalState);
                     break;
@@ -137,18 +137,12 @@ public class CrossTabDragAndDrop {
         Objects.requireNonNull(stackLayout.getTabAt(newPosition)).select();
 
         final RecyclerView recyclerView = draggedCardLocalState.getRecyclerView();
-        CardAdapter cardAdapter = draggedCardLocalState.getCardAdapter();
-
-        //insert card in new tab
-        View firstVisibleView = recyclerView.getChildAt(0);
-        int positionToInsert = firstVisibleView == null ? 0 : recyclerView.getChildAdapterPosition(firstVisibleView) + 1;
-
-        //FIXME: this doesn't fire a UI refresh!
-        cardAdapter.insertItem(draggedCardLocalState.getDraggedCard(), positionToInsert);
+        final CardAdapter cardAdapter = draggedCardLocalState.getCardAdapter();
 
         RecyclerView.OnChildAttachStateChangeListener onChildAttachStateChangeListener = new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(@NonNull View view) {
+                // FIXME Fires sometimes AFTER ACTION_DROP
                 recyclerView.removeOnChildAttachStateChangeListener(this);
                 draggedCardLocalState.setInsertedListener(null);
                 CardView cardView = (CardView) view;
@@ -161,6 +155,12 @@ public class CrossTabDragAndDrop {
         };
         draggedCardLocalState.setInsertedListener(onChildAttachStateChangeListener);
         recyclerView.addOnChildAttachStateChangeListener(onChildAttachStateChangeListener);
+
+
+        //insert card in new tab
+        View firstVisibleView = recyclerView.getChildAt(0);
+        int positionToInsert = firstVisibleView == null ? 0 : recyclerView.getChildAdapterPosition(firstVisibleView) + 1;
+        cardAdapter.insertItem(draggedCardLocalState.getDraggedCard(), positionToInsert);
 
         lastSwap = now;
     }

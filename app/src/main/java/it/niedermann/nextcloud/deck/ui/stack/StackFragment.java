@@ -16,7 +16,6 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter.SelectCardListener;
@@ -104,25 +103,20 @@ public class StackFragment extends Fragment {
             binding.emptyContentView.hideDescription();
         }
 
-        //FIXME: noone needs the outer getStack. having only the inner getFullCardsForStack is totally fine.
-        syncManager.getStack(account.getId(), stackId).observe(getViewLifecycleOwner(), (FullStack stack) -> {
-            if (stack != null) {
-                syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(getViewLifecycleOwner(), (List<FullCard> cards) -> {
-                    activity.runOnUiThread(() -> {
-                        if (cards != null && cards.size() > 0) {
-                            binding.emptyContentView.setVisibility(View.GONE);
-                            adapter.setCardList(cards);
-                            //FIXME: the problem i see is in setCardList. it doesn't really update the UI somehow.
-                            // FIXME this is just a workaround for dropping cards in an empty stack (see CrossTabDragAndDrop on ACTION_DROP)
-                            if(binding.recyclerView.getChildCount() > 0) {
-                                binding.recyclerView.getChildAt(0).setVisibility(View.VISIBLE);
-                            }
-                        } else {
-                            binding.emptyContentView.setVisibility(View.VISIBLE);
-                        }
-                    });
-                });
-            }
+        syncManager.getFullCardsForStack(account.getId(), stackId).observe(getViewLifecycleOwner(), (List<FullCard> cards) -> {
+            activity.runOnUiThread(() -> {
+                if (cards != null && cards.size() > 0) {
+                    binding.emptyContentView.setVisibility(View.GONE);
+                    adapter.setCardList(cards);
+                    // FIXME the problem i see is in setCardList. it doesn't really update the UI somehow.
+                    // FIXME this is just a workaround for dropping cards in an empty stack (see CrossTabDragAndDrop on ACTION_DROP)
+                    if(binding.recyclerView.getChildCount() > 0) {
+                        binding.recyclerView.getChildAt(0).setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    binding.emptyContentView.setVisibility(View.VISIBLE);
+                }
+            });
         });
         return binding.getRoot();
     }
