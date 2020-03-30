@@ -81,8 +81,8 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         holder.binding.message.setText(comment.getMessage());
         holder.binding.actorDisplayName.setText(comment.getActorDisplayName());
         holder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
-        holder.binding.getRoot().setOnClickListener(View::showContextMenu);
-        holder.binding.getRoot().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+        holder.itemView.setOnClickListener(View::showContextMenu);
+        holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> {
                 final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);

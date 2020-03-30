@@ -51,8 +51,8 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
         final Activity activity = activities.get(position);
         holder.binding.date.setText(DateUtil.getRelativeDateTimeString(context, activity.getLastModified().getTime()));
         holder.binding.subject.setText(activity.getSubject());
-        holder.binding.getRoot().setOnClickListener(View::showContextMenu);
-        holder.binding.getRoot().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+        holder.itemView.setOnClickListener(View::showContextMenu);
+        holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.activity_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> {
                 final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
