@@ -130,9 +130,7 @@ public class ExceptionUtil {
                                     .setTitle(R.string.server_error)
                                     .setMessage(debugInfos)
                                     .setPositiveButton(android.R.string.copy, (a, b) -> {
-                                        ClipData clipData = ClipData.newPlainText(activity.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
-                                        Objects.requireNonNull(clipboardManager).setPrimaryClip(clipData);
-                                        Toast.makeText(activity.getApplicationContext(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+                                        copyToClipboard(activity, activity.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
                                         a.dismiss();
                                     })
                                     .setNegativeButton(R.string.simple_close, null)
