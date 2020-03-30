@@ -1,8 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +39,7 @@ import static it.niedermann.nextcloud.deck.ui.AttachmentsActivity.BUNDLE_KEY_CUR
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAdapter.AttachmentViewHolder> {
 
@@ -119,18 +117,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
             if (uri == null) {
                 menu.findItem(android.R.id.copyUrl).setVisible(false);
             } else {
-                menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> {
-                    final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
-                    ClipData clipData = ClipData.newPlainText(attachment.getFilename(), uri);
-                    if (clipboardManager == null) {
-                        DeckLog.error("clipboardManager is null");
-                        return false;
-                    } else {
-                        clipboardManager.setPrimaryClip(clipData);
-                        Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                });
+                menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> copyToClipboard(context, attachment.getFilename(), uri));
             }
         });
 

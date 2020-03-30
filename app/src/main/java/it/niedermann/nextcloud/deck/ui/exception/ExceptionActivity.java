@@ -1,9 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.exception;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityExceptionBinding;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
+
+import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 public class ExceptionActivity extends AppCompatActivity {
 
@@ -39,18 +38,7 @@ public class ExceptionActivity extends AppCompatActivity {
 
         binding.stacktrace.setText(debugInfo);
 
-        binding.copy.setOnClickListener((v) -> copyStacktraceToClipboard());
+        binding.copy.setOnClickListener((v) -> copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
         binding.close.setOnClickListener((v) -> finish());
-    }
-
-    private void copyStacktraceToClipboard() {
-        final android.content.ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText(getString(R.string.simple_exception), "```\n" + debugInfo + "\n```");
-        if (clipboardManager != null) {
-            clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, R.string.could_not_copy_to_clipboard, Toast.LENGTH_LONG).show();
-        }
     }
 }

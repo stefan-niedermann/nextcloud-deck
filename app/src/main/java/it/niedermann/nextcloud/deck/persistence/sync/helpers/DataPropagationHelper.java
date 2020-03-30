@@ -38,7 +38,7 @@ public class DataPropagationHelper {
                             actionOnResponse.onResponse(entity, response);
                         }
                         response.setStatus(DBStatus.UP_TO_DATE.getId());
-                        provider.updateInDB(dataBaseAdapter, accountId, response);
+                        provider.updateInDB(dataBaseAdapter, accountId, response, false);
                         callback.onResponse(response);
                     }).start();
                 }

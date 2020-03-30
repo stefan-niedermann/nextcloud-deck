@@ -1,20 +1,16 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,8 +34,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static android.content.Context.CLIPBOARD_SERVICE;
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapter.ItemCommentViewHolder> {
@@ -84,18 +79,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         holder.itemView.setOnClickListener(View::showContextMenu);
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.comment_menu, menu);
-            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> {
-                final ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText(comment.getMessage(), comment.getMessage());
-                if (clipboardManager == null) {
-                    Log.e(TAG, "clipboardManager is null");
-                    Toast.makeText(context, R.string.could_not_copy_to_clipboard, Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                clipboardManager.setPrimaryClip(clipData);
-                Toast.makeText(context, R.string.simple_copied, Toast.LENGTH_SHORT).show();
-                return true;
-            });
+            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(context, comment.getMessage()));
             menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
                 commentDeletedListener.onCommentDeleted(comment.getLocalId());
                 return true;
