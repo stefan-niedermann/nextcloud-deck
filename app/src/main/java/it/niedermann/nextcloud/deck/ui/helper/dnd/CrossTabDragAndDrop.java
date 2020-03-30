@@ -143,6 +143,7 @@ public class CrossTabDragAndDrop {
         View firstVisibleView = recyclerView.getChildAt(0);
         int positionToInsert = firstVisibleView == null ? 0 : recyclerView.getChildAdapterPosition(firstVisibleView) + 1;
 
+        //FIXME: this doesn't fire a UI refresh!
         cardAdapter.insertItem(draggedCardLocalState.getDraggedCard(), positionToInsert);
 
         RecyclerView.OnChildAttachStateChangeListener onChildAttachStateChangeListener = new RecyclerView.OnChildAttachStateChangeListener() {

@@ -104,6 +104,7 @@ public class StackFragment extends Fragment {
             binding.emptyContentView.hideDescription();
         }
 
+        //FIXME: noone needs the outer getStack. having only the inner getFullCardsForStack is totally fine.
         syncManager.getStack(account.getId(), stackId).observe(getViewLifecycleOwner(), (FullStack stack) -> {
             if (stack != null) {
                 syncManager.getFullCardsForStack(account.getId(), stack.getLocalId()).observe(getViewLifecycleOwner(), (List<FullCard> cards) -> {
@@ -111,6 +112,7 @@ public class StackFragment extends Fragment {
                         if (cards != null && cards.size() > 0) {
                             binding.emptyContentView.setVisibility(View.GONE);
                             adapter.setCardList(cards);
+                            //FIXME: the problem i see is in setCardList. it doesn't really update the UI somehow.
                             // FIXME this is just a workaround for dropping cards in an empty stack (see CrossTabDragAndDrop on ACTION_DROP)
                             if(binding.recyclerView.getChildCount() > 0) {
                                 binding.recyclerView.getChildAt(0).setVisibility(View.VISIBLE);
