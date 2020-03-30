@@ -19,19 +19,15 @@ import java.util.Set;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
 public class CrossTabDragAndDrop<
         TabFragment extends Fragment & DragAndDropTab<ItemAdapter>,
         ItemAdapter extends RecyclerView.Adapter<?> & DragAndDropAdapter<ItemModel>,
-        ItemModel extends IRemoteEntity
+        ItemModel extends DragAndDropModel
         > {
 
     private static final ScrollHelper SCROLL_HELPER = new ScrollHelper();
 
-    public interface ItemMovedByDragListener<ItemModel> {
-        void onItemMoved(ItemModel movedItem, long tabId, int position);
-    }
 
     private final Context context;
     private final float pxToReact;
@@ -175,7 +171,7 @@ public class CrossTabDragAndDrop<
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);
                     viewPager.unregisterOnPageChangeCallback(this);
-                    ItemAdapter itemAdapter = DnDUtil.<TabFragment>getTabFragment(fm, Objects.requireNonNull(viewPager.getAdapter()).getItemId(tabPositionToCheck)).getAdapter();
+                    ItemAdapter itemAdapter = DragAndDropUtil.<TabFragment>getTabFragment(fm, Objects.requireNonNull(viewPager.getAdapter()).getItemId(tabPositionToCheck)).getAdapter();
                     itemAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                         @Override
                         public void onChanged() {
@@ -184,7 +180,7 @@ public class CrossTabDragAndDrop<
                             List<ItemModel> itemList = itemAdapter.getItemList();
                             for (int i = 0; i < itemList.size(); i++) {
                                 ItemModel c = itemList.get(i);
-                                if (itemToFind.getLocalId().equals(c.getLocalId())) {
+                                if (itemToFind.getComparableId().equals(c.getComparableId())) {
                                     itemAdapter.removeItem(i);
                                     itemAdapter.notifyItemRemoved(i);
                                     DeckLog.verbose("DnD removed dupe at tab " + tabPositionToCheck + ": " + c.toString());

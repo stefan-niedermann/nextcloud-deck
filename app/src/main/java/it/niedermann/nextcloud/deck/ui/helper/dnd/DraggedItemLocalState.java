@@ -32,7 +32,7 @@ public class DraggedItemLocalState<
 
     protected void onDragStart(ViewPager2 viewPager, FragmentManager fm) {
         this.currentTabId = Objects.requireNonNull(viewPager.getAdapter()).getItemId(viewPager.getCurrentItem());
-        this.recyclerView = DnDUtil.<TabFragment>getTabFragment(fm, currentTabId).getRecyclerView();
+        this.recyclerView = DragAndDropUtil.<TabFragment>getTabFragment(fm, currentTabId).getRecyclerView();
     }
 
     protected void onTabChanged(ViewPager2 viewPager, FragmentManager fm) {
@@ -41,7 +41,7 @@ public class DraggedItemLocalState<
             this.insertedListener = null;
         }
         this.currentTabId = Objects.requireNonNull(viewPager.getAdapter()).getItemId(viewPager.getCurrentItem());
-        this.recyclerView = DnDUtil.<TabFragment>getTabFragment(fm, currentTabId).getRecyclerView();
+        this.recyclerView = DragAndDropUtil.<TabFragment>getTabFragment(fm, currentTabId).getRecyclerView();
         this.itemAdapter = (ItemAdapter) recyclerView.getAdapter();
     }
 

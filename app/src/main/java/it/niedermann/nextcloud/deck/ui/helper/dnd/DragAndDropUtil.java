@@ -6,9 +6,9 @@ import androidx.fragment.app.FragmentManager;
 
 // Public util
 @SuppressWarnings("WeakerAccess")
-public class DnDUtil {
+public class DragAndDropUtil {
 
-    private DnDUtil() {
+    private DragAndDropUtil() {
         // Util class
     }
 
