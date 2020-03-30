@@ -9,7 +9,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.Objects;
 
-// API available for same-package-classes
 @SuppressWarnings("WeakerAccess")
 public class DraggedItemLocalState<
         TabFragment extends Fragment & DragAndDropTab<ItemAdapter>,

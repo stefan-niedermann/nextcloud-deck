@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressWarnings("WeakerAccess")
 public class ScrollHelper implements Runnable {
 
     private static final int SROLL_SPEED = 200;

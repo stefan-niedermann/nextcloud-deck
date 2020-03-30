@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 
 public class CrossTabDragAndDrop<
@@ -26,8 +26,8 @@ public class CrossTabDragAndDrop<
         ItemModel extends DragAndDropModel
         > {
 
+    private static final String TAG = CrossTabDragAndDrop.class.getCanonicalName();
     private static final ScrollHelper SCROLL_HELPER = new ScrollHelper();
-
 
     private final Context context;
     private final float pxToReact;
@@ -183,7 +183,7 @@ public class CrossTabDragAndDrop<
                                 if (itemToFind.getComparableId().equals(c.getComparableId())) {
                                     itemAdapter.removeItem(i);
                                     itemAdapter.notifyItemRemoved(i);
-                                    DeckLog.verbose("DnD removed dupe at tab " + tabPositionToCheck + ": " + c.toString());
+                                    Log.v(TAG, "DnD removed dupe at tab " + tabPositionToCheck + ": " + c.toString());
                                     break;
                                 }
                             }
