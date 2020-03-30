@@ -46,13 +46,14 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
-import it.niedermann.nextcloud.deck.ui.helper.dnd.DraggedCardLocalState;
+import it.niedermann.nextcloud.deck.ui.helper.dnd.DragAndDropAdapter;
+import it.niedermann.nextcloud.deck.ui.helper.dnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHolder> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHolder> implements DragAndDropAdapter<FullCard> {
 
     public static final String BUNDLE_KEY_ACCOUNT = "account";
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
@@ -132,7 +133,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
                 // Starts the drag
                 draggedView.startDrag(dragData,  // the data to be dragged
                         new View.DragShadowBuilder(draggedView),  // the drag shadow builder
-                        new DraggedCardLocalState(card, viewHolder.binding.card, this, position),      // no need to use local data
+                        new DraggedItemLocalState(card, viewHolder.binding.card, this, position),      // no need to use local data
                         0          // flags (not currently used, set to 0)
                 );
                 viewHolder.binding.card.setVisibility(View.INVISIBLE);
@@ -307,6 +308,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         notifyItemInserted(position);
     }
 
+    @Override
+    public List<FullCard> getItemList() {
+        return this.cardList;
+    }
+
     public void moveItem(int fromPosition, int toPosition) {
         cardList.add(toPosition, cardList.remove(fromPosition));
         notifyItemMoved(fromPosition, toPosition);
@@ -333,10 +339,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         } else {
             menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
         }
-    }
-
-    public List<FullCard> getCardList() {
-        return cardList;
     }
 
     public void setCardList(@NonNull List<FullCard> cardList) {
