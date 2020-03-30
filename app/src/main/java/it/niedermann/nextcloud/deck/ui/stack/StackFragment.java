@@ -19,8 +19,9 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter.SelectCardListener;
+import it.niedermann.nextcloud.deck.ui.helper.dnd.DragAndDropTab;
 
-public class StackFragment extends Fragment {
+public class StackFragment extends Fragment implements DragAndDropTab<CardAdapter> {
 
     private static final String KEY_BOARD_ID = "boardId";
     private static final String KEY_STACK_ID = "stackId";
@@ -121,10 +122,12 @@ public class StackFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
     public CardAdapter getAdapter() {
         return adapter;
     }
 
+    @Override
     public RecyclerView getRecyclerView() {
         return binding.recyclerView;
     }
