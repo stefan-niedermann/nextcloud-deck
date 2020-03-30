@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -27,6 +25,8 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.FileUtils;
+
+import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 public class SelectCardActivity extends MainActivity implements CardAdapter.SelectCardListener {
 
@@ -103,10 +103,7 @@ public class SelectCardActivity extends MainActivity implements CardAdapter.Sele
                 .setTitle(R.string.error)
                 .setMessage(debugInfos)
                 .setPositiveButton(android.R.string.copy, (a, b) -> {
-                    final ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                    final ClipData clipData = ClipData.newPlainText(throwable.getMessage(), "```\n" + debugInfos + "\n```");
-                    Objects.requireNonNull(clipboardManager).setPrimaryClip(clipData);
-                    Toast.makeText(getApplicationContext(), R.string.copied_to_clipboard, Toast.LENGTH_LONG).show();
+                    copyToClipboard(this, throwable.getMessage(), "```\n" + debugInfos + "\n```");
                     finish();
                 })
                 .setNegativeButton(R.string.simple_close, (d, w) -> finish())
