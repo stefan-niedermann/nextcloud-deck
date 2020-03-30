@@ -21,7 +21,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
       height="80">](https://f-droid.org/repository/browse/?fdid=it.niedermann.nextcloud.deck)
 [<img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png"
       alt="Donate with PayPal"
-      height="80">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=W523CNHTD7ARQ&source=url)
+      height="80">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZD39ZE7MGEGBL&source=url)
 [<img src="https://raw.githubusercontent.com/stefan-niedermann/DonateButtons/master/LiberaPay.png"
       alt="Donate using Liberapay"
       height="80">](https://liberapay.com/stefan-niedermann/donate)
