@@ -71,7 +71,7 @@ public class CardCommentsFragment extends Fragment {
                         if (comments != null && comments.size() > 0) {
                             binding.emptyContentView.setVisibility(GONE);
                             binding.comments.setVisibility(VISIBLE);
-                            binding.comments.setAdapter(new CardCommentsAdapter(requireContext(), comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity()));
+                            binding.comments.setAdapter(new CardCommentsAdapter(comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity()));
                         } else {
                             binding.emptyContentView.setVisibility(VISIBLE);
                             binding.comments.setVisibility(GONE);

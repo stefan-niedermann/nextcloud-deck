@@ -30,7 +30,6 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
     private final List<Activity> activities;
     @NonNull
     private final MenuInflater menuInflater;
-    private Context context;
 
     public CardActivityAdapter(@NonNull List<Activity> activities, @NonNull MenuInflater menuInflater) {
         super();
@@ -41,14 +40,15 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
     @NonNull
     @Override
     public ActivitiesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        this.context = parent.getContext();
+        final Context context = parent.getContext();
         ItemActivityBinding binding = ItemActivityBinding.inflate(LayoutInflater.from(context), parent, false);
         return new ActivitiesViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ActivitiesViewHolder holder, int position) {
-        Activity activity = activities.get(position);
+        final Context context = holder.itemView.getContext();
+        final Activity activity = activities.get(position);
         holder.binding.date.setText(DateUtil.getRelativeDateTimeString(context, activity.getLastModified().getTime()));
         holder.binding.subject.setText(activity.getSubject());
         holder.binding.getRoot().setOnClickListener(View::showContextMenu);

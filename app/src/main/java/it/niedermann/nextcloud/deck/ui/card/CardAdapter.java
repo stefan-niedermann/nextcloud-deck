@@ -27,10 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
-import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -39,6 +35,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -64,26 +61,24 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     public static final String BUNDLE_KEY_STACK_ID = "stackId";
     public static final String BUNDLE_KEY_CAN_EDIT = "canEdit";
     public static final Long NO_LOCAL_ID = -1L;
-
-    private Context context;
-    private List<FullCard> cardList = new LinkedList<>();
-    private SingleSignOnAccount account;
     private final SyncManager syncManager;
+    private final Account account;
     private final long boardId;
     private final long stackId;
     private final boolean canEdit;
-    private LifecycleOwner lifecycleOwner;
-    private List<FullStack> availableStacks = new ArrayList<>();
-
     @Nullable
     private final SelectCardListener selectCardListener;
-
+    private List<FullCard> cardList = new LinkedList<>();
+    private LifecycleOwner lifecycleOwner;
+    private List<FullStack> availableStacks = new ArrayList<>();
     private int maxAvatarCount;
     private int maxLabelsShown;
     private int maxLabelsChars;
+    private String counterMaxValue;
 
-    public CardAdapter(long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
+    public CardAdapter(@NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
         this.lifecycleOwner = fragment;
+        this.account = account;
         this.boardId = boardId;
         this.stackId = stackId;
         this.canEdit = canEdit;
@@ -100,28 +95,23 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     @NonNull
     @Override
     public ItemCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        context = viewGroup.getContext();
+        final Context context = viewGroup.getContext();
 
         maxAvatarCount = context.getResources().getInteger(R.integer.max_avatar_count);
         maxLabelsShown = context.getResources().getInteger(R.integer.max_labels_shown);
         maxLabelsChars = context.getResources().getInteger(R.integer.max_labels_chars);
+        counterMaxValue = context.getString(R.string.counter_max_value);
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ItemCardBinding binding = ItemCardBinding.inflate(layoutInflater, viewGroup, false);
-        try {
-            account = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
-        } catch (NextcloudFilesAppAccountNotFoundException e) {
-            DeckLog.logError(e);
-        } catch (NoCurrentAccountSelectedException e) {
-            DeckLog.logError(e);
-        }
         return new ItemCardViewHolder(binding);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ItemCardViewHolder viewHolder, int position) {
-        FullCard card = cardList.get(position);
+        final Context context = viewHolder.itemView.getContext();
+        final FullCard card = cardList.get(position);
 
         viewHolder.binding.card.setOnClickListener((View clickedView) -> {
             if (selectCardListener == null) {
@@ -164,7 +154,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
 
         boolean showDetails = false;
 
-        if (card.getAssignedUsers() != null && card.getAssignedUsers().size() > 0 && account.url != null) {
+        if (card.getAssignedUsers() != null && card.getAssignedUsers().size() > 0) {
             setupAvatars(viewHolder.binding.peopleList, card);
             viewHolder.binding.peopleList.setVisibility(View.VISIBLE);
             showDetails = true;
@@ -229,6 +219,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     }
 
     private void setupLabels(@NonNull ChipGroup labels, List<Label> labelList) {
+        final Context context = labels.getContext();
         Chip chip;
         for (int i = 0; i < labelList.size(); i++) {
             if (i > maxLabelsShown - 1 && labelList.size() > maxLabelsShown) {
@@ -268,7 +259,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
 
     private void setupCounter(@NonNull TextView textView, int count) {
         if (count > 99) {
-            textView.setText(context.getString(R.string.counter_max_value));
+            textView.setText(counterMaxValue);
         } else if (count > 1) {
             textView.setText(String.valueOf(count));
         } else if (count == 1) {
@@ -277,11 +268,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     }
 
     private void setupDueDate(@NonNull TextView cardDueDate, Card card) {
-        cardDueDate.setText(DateUtil.getRelativeDateTimeString(this.context, card.getDueDate().getTime()));
-        ViewUtil.themeDueDate(this.context, cardDueDate, card.getDueDate());
+        final Context context = cardDueDate.getContext();
+        cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().getTime()));
+        ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate());
     }
 
     private void setupAvatars(@NonNull RelativeLayout peopleList, FullCard card) {
+        final Context context = peopleList.getContext();
         int avatarSize = DimensionUtil.getAvatarDimension(context, R.dimen.avatar_size_small);
         peopleList.removeAllViews();
         RelativeLayout.LayoutParams avatarLayoutParams;
@@ -294,7 +287,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
             avatar.setLayoutParams(avatarLayoutParams);
             peopleList.addView(avatar);
             avatar.requestLayout();
-            ViewUtil.addAvatar(context, avatar, account.url, card.getAssignedUsers().get(avatarCount).getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
+            ViewUtil.addAvatar(context, avatar, account.getUrl(), card.getAssignedUsers().get(avatarCount).getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
         }
 
         // Recalculate container size based on avatar count
@@ -307,12 +300,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     @Override
     public int getItemCount() {
         return cardList == null ? 0 : cardList.size();
-    }
-
-    public void setCardList(@NonNull List<FullCard> cardList) {
-        this.cardList.clear();
-        this.cardList.addAll(cardList);
-        notifyDataSetChanged();
     }
 
     public void insertItem(FullCard fullCard, int position) {
@@ -331,16 +318,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     }
 
     private void onOverflowIconClicked(View view, FullCard card) {
+        final Context context = view.getContext();
         PopupMenu popup = new PopupMenu(context, view);
         popup.inflate(R.menu.card_menu);
         prepareOptionsMenu(popup.getMenu(), card);
 
-        popup.setOnMenuItemClickListener(item -> optionsItemSelected(item, card));
+        popup.setOnMenuItemClickListener(item -> optionsItemSelected(context, item, card));
         popup.show();
     }
 
     private void prepareOptionsMenu(Menu menu, FullCard card) {
-        if (containsUser(card.getAssignedUsers(), account.userId)) {
+        if (containsUser(card.getAssignedUsers(), account.getUserName())) {
             menu.removeItem(menu.findItem(R.id.action_card_assign).getItemId());
         } else {
             menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
@@ -349,6 +337,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
 
     public List<FullCard> getCardList() {
         return cardList;
+    }
+
+    public void setCardList(@NonNull List<FullCard> cardList) {
+        this.cardList.clear();
+        this.cardList.addAll(cardList);
+        notifyDataSetChanged();
     }
 
     private boolean containsUser(List<User> userList, String username) {
@@ -362,24 +356,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         return false;
     }
 
-    private boolean optionsItemSelected(MenuItem item, FullCard card) {
+    private boolean optionsItemSelected(Context context, MenuItem item, FullCard card) {
         switch (item.getItemId()) {
             case R.id.action_card_assign: {
-                try {
-                    SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
-                    new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), ssoa.userId), card.getCard())).start();
-                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                    DeckLog.logError(e);
-                }
+                new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), account.getUserName()), card.getCard())).start();
                 return true;
             }
             case R.id.action_card_unassign: {
-                try {
-                    SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
-                    new Thread(() -> syncManager.unassignUserFromCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), ssoa.userId), card.getCard())).start();
-                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                    DeckLog.logError(e);
-                }
+                new Thread(() -> syncManager.unassignUserFromCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), account.getUserName()), card.getCard())).start();
                 return true;
             }
             case R.id.action_card_move: {
@@ -419,6 +403,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         return true;
     }
 
+    public interface SelectCardListener {
+        void onCardSelected(FullCard fullCard);
+    }
+
     static class ItemCardViewHolder extends RecyclerView.ViewHolder {
         private ItemCardBinding binding;
 
@@ -426,9 +414,5 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
             super(binding.getRoot());
             this.binding = binding;
         }
-    }
-
-    public interface SelectCardListener {
-        void onCardSelected(FullCard fullCard);
     }
 }

@@ -84,7 +84,7 @@ public class StackFragment extends Fragment {
 
         syncManager = new SyncManager(activity);
 
-        adapter = new CardAdapter(boardId, stackId, canEdit, syncManager, this, (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
+        adapter = new CardAdapter(account, boardId, stackId, canEdit, syncManager, this, (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
 
         binding.recyclerView.setAdapter(adapter);
 

@@ -45,8 +45,6 @@ import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension
 public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapter.ItemCommentViewHolder> {
 
     @NonNull
-    private final Context context;
-    @NonNull
     private final List<DeckComment> comments;
     @NonNull
     private final Account account;
@@ -55,8 +53,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     @NonNull
     private final CommentDeletedListener commentDeletedListener;
 
-    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener) {
-        this.context = context;
+    CardCommentsAdapter(@NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener) {
         this.comments = comments;
         this.account = account;
         this.menuInflater = menuInflater;
@@ -77,7 +74,9 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ItemCommentViewHolder holder, int position) {
-        DeckComment comment = comments.get(position);
+        final Context context = holder.itemView.getContext();
+        final DeckComment comment = comments.get(position);
+
         ViewUtil.addAvatar(context, holder.binding.avatar, account.getUrl(), account.getUserName(), getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         holder.binding.message.setText(comment.getMessage());
         holder.binding.actorDisplayName.setText(comment.getActorDisplayName());
@@ -112,6 +111,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     }
 
     private void setupMentions(List<Mention> mentions, TextView tv) {
+        Context context = tv.getContext();
         SpannableStringBuilder messageBuilder = new SpannableStringBuilder(tv.getText());
 
         // Step 1
