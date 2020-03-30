@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
-import android.app.Activity;
-import android.graphics.Point;
+import android.content.Context;
 import android.view.DragEvent;
 import android.view.View;
 
@@ -33,7 +32,7 @@ public class CrossTabDragAndDrop {
         void onCardMoved(FullCard movedCard, long stackId, int position);
     }
 
-    private final Activity activity;
+    private final Context context;
     private final float pxToReact;
     private long lastSwap = 0;
     private long lastMove = 0;
@@ -42,11 +41,11 @@ public class CrossTabDragAndDrop {
 
     private final Set<CardMovedByDragListener> moveListenerList = new HashSet<>(1);
 
-    public CrossTabDragAndDrop(Activity activity) {
-        this.activity = activity;
-        final float density = activity.getResources().getDisplayMetrics().density;
-        this.pxToReact = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react) * density;
-        this.pxToReactTopBottom = activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * density;
+    public CrossTabDragAndDrop(@NonNull Context context) {
+        this.context = context;
+        final float density = context.getResources().getDisplayMetrics().density;
+        this.pxToReact = context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react) * density;
+        this.pxToReactTopBottom = context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * density;
     }
 
     public void register(final ViewPager2 viewPager, TabLayout stackLayout, FragmentManager fm) {
@@ -64,11 +63,10 @@ public class CrossTabDragAndDrop {
                     RecyclerView currentRecyclerView = draggedCardLocalState.getRecyclerView();
                     CardAdapter cardAdapter = draggedCardLocalState.getCardAdapter();
 
-                    Point size = new Point();
-                    activity.getWindowManager().getDefaultDisplay().getSize(size);
+                    final int displayX = context.getResources().getDisplayMetrics().widthPixels;
 
                     long now = System.currentTimeMillis();
-                    if (lastSwap + activity.getResources().getInteger(R.integer.drag_n_drop_ms_to_react) < now) { // don't change Tabs so fast!
+                    if (lastSwap + context.getResources().getInteger(R.integer.drag_n_drop_ms_to_react) < now) { // don't change Tabs so fast!
                         int oldTabPosition = viewPager.getCurrentItem();
 
                         boolean shouldSwitchTab = true;
@@ -77,7 +75,7 @@ public class CrossTabDragAndDrop {
                         // change tab? if yes, which direction?
                         if (dragEvent.getX() <= pxToReact) {
                             newTabPosition = oldTabPosition - 1;
-                        } else if (dragEvent.getX() >= size.x - pxToReact) {
+                        } else if (dragEvent.getX() >= displayX - pxToReact) {
                             newTabPosition = oldTabPosition + 1;
                         } else {
                             shouldSwitchTab = false;
@@ -101,7 +99,7 @@ public class CrossTabDragAndDrop {
                     }
 
 
-                    if (lastMove + activity.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) < now) {
+                    if (lastMove + context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) < now) {
                         //push around the other cards
                         View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
