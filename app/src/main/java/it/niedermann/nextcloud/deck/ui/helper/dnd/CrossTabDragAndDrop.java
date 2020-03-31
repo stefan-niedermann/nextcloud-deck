@@ -114,6 +114,7 @@ public class CrossTabDragAndDrop<
                     break;
                 }
                 case DragEvent.ACTION_DROP: {
+                    draggedItemLocalState.getRecyclerView().removeOnChildAttachStateChangeListener(draggedItemLocalState.getInsertedListener());
                     SCROLL_HELPER.stopScroll();
                     // FIXME Fires sometimes BEFORE OnChildAttachStateChangeListener
                     draggedView.setVisibility(View.VISIBLE);

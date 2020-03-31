@@ -76,6 +76,10 @@ public class DraggedItemLocalState<
         this.insertedListener = insertedListener;
     }
 
+    public RecyclerView.OnChildAttachStateChangeListener getInsertedListener() {
+        return insertedListener;
+    }
+
     protected RecyclerView getRecyclerView() {
         return recyclerView;
     }
