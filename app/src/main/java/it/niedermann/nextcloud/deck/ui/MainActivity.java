@@ -533,6 +533,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                     break;
                 default:
                     setCurrentAccount(accountsList.get(item.getItemId()));
+                    break;
             }
         } else {
             switch (item.getItemId()) {
@@ -548,6 +549,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                     break;
                 default:
                     setCurrentBoard(boardsList.get(item.getItemId()));
+                    break;
             }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);

@@ -150,13 +150,6 @@ public class TabLayoutHelper {
         mTabLayout = null;
     }
 
-//    public void updateAllTabs() {
-//        int count = mTabLayout.getTabCount();
-//        for (int i = 0; i < count; i++) {
-//            updateTab(mTabLayout.getTabAt(i));
-//        }
-//    }
-
     /**
      * Override this method if you want to use custom tab layout.
      *
@@ -193,12 +186,7 @@ public class TabLayoutHelper {
         cancelPendingSetTabsFromPagerAdapter();
 
         if (mSetTabsFromPagerAdapterRunnable == null) {
-            mSetTabsFromPagerAdapterRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    setTabsFromPagerAdapter(mTabLayout, mViewPager.getAdapter(), mViewPager.getCurrentItem());
-                }
-            };
+            mSetTabsFromPagerAdapterRunnable = () -> setTabsFromPagerAdapter(mTabLayout, mViewPager.getAdapter(), mViewPager.getCurrentItem());
         }
 
         mTabLayout.post(mSetTabsFromPagerAdapterRunnable);
@@ -233,22 +221,19 @@ public class TabLayoutHelper {
         }
     }
 
-    private void adjustTabMode(int prevScrollX) {
+    private void adjustTabMode(final int prevScrollX) {
+        final int prevScrollXMinZero = prevScrollX < 0 ? mTabLayout.getScrollX() : prevScrollX;
+
         if (mAdjustTabModeRunnable != null) {
             return;
         }
 
-        if (prevScrollX < 0) {
-            prevScrollX = mTabLayout.getScrollX();
-        }
-
         if (ViewCompat.isLaidOut(mTabLayout)) {
-            adjustTabModeInternal(mTabLayout, prevScrollX);
+            adjustTabModeInternal(mTabLayout, prevScrollXMinZero);
         } else {
-            final int prevScrollX1 = prevScrollX;
             mAdjustTabModeRunnable = () -> {
                 mAdjustTabModeRunnable = null;
-                adjustTabModeInternal(mTabLayout, prevScrollX1);
+                adjustTabModeInternal(mTabLayout, prevScrollXMinZero);
             };
             mTabLayout.post(mAdjustTabModeRunnable);
         }
@@ -273,7 +258,7 @@ public class TabLayoutHelper {
         tabLayout.addOnTabSelectedListener(mInternalOnTabSelectedListener);
     }
 
-    private void setTabsFromPagerAdapter(@NonNull TabLayout tabLayout, @Nullable RecyclerView.Adapter adapter, int currentItem) {
+    private void setTabsFromPagerAdapter(@NonNull TabLayout tabLayout, @Nullable RecyclerView.Adapter adapter, final int currentItem) {
         try {
             mDuringSetTabsFromPagerAdapter = true;
 
@@ -292,9 +277,9 @@ public class TabLayoutHelper {
                 }
 
                 // select current tab
-                currentItem = Math.min(currentItem, count - 1);
-                TabLayout.Tab tab = tabLayout.getTabAt(currentItem);
-                if (currentItem >= 0 && tab != null) {
+                final int currentItemPosition = Math.min(currentItem, count - 1);
+                TabLayout.Tab tab = tabLayout.getTabAt(currentItemPosition);
+                if (currentItemPosition >= 0 && tab != null) {
                     tab.select();
                 }
             }
@@ -370,12 +355,9 @@ public class TabLayoutHelper {
                 tabLayout.scrollTo(prevScrollX, 0);
             } else {
                 // scroll to current selected tab
-                mUpdateScrollPositionRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        mUpdateScrollPositionRunnable = null;
-                        updateScrollPosition();
-                    }
+                mUpdateScrollPositionRunnable = () -> {
+                    mUpdateScrollPositionRunnable = null;
+                    updateScrollPosition();
                 };
                 mTabLayout.post(mUpdateScrollPositionRunnable);
             }
@@ -408,10 +390,7 @@ public class TabLayoutHelper {
             if (tabLayout != null && shouldUpdateScrollPosition()) {
                 // Update the scroll position, only update the text selection if we're being
                 // dragged (or we're settling after a drag)
-                final boolean updateText = (mScrollState == ViewPager2.SCROLL_STATE_DRAGGING)
-                        || (mScrollState == ViewPager2.SCROLL_STATE_SETTLING
-                        && mPreviousScrollState == ViewPager2.SCROLL_STATE_DRAGGING);
-                tabLayout.setScrollPosition(position, positionOffset, updateText);
+                tabLayout.setScrollPosition(position, positionOffset, true);
             }
         }
 
@@ -433,13 +412,14 @@ public class TabLayoutHelper {
     }
 
 
-    static class Internal {
+    private static class Internal {
         private static final Method mMethodSelectTab;
 
         static {
             mMethodSelectTab = getAccessiblePrivateMethod(TabLayout.class, "selectTab", TabLayout.Tab.class, boolean.class);
         }
 
+        @SuppressWarnings("SameParameterValue")
         private static Method getAccessiblePrivateMethod(Class<?> targetClass, String methodName, Class<?>... params) throws RuntimeException {
             try {
                 Method m = targetClass.getDeclaredMethod(methodName, params);
@@ -450,7 +430,7 @@ public class TabLayoutHelper {
             }
         }
 
-        static void selectTab(TabLayout tabLayout, TabLayout.Tab tab, boolean updateIndicator) {
+        private static void selectTab(TabLayout tabLayout, TabLayout.Tab tab, boolean updateIndicator) {
             try {
                 mMethodSelectTab.invoke(tabLayout, tab, updateIndicator);
             } catch (IllegalAccessException e) {
