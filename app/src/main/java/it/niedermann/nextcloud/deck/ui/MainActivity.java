@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
             binding.viewPager.setAdapter(stackAdapter);
             binding.viewPager.setOffscreenPageLimit(2);
 
-            CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard> dragAndDrop = new CrossTabDragAndDrop<>(this);
+            CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard> dragAndDrop = new CrossTabDragAndDrop<>(getResources());
             dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
             dragAndDrop.addItemMovedByDragListener((movedCard, stackId, position) -> {
                 syncManager.reorder(currentAccount.getId(), movedCard, stackId, position);

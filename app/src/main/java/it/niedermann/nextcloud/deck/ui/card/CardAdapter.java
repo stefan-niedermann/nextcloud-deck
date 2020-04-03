@@ -127,16 +127,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
             }
         });
         if (canEdit && selectCardListener == null) {
-            viewHolder.binding.card.setOnLongClickListener((View draggedView) -> {
+            viewHolder.binding.card.setOnLongClickListener((v) -> {
                 ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId() + "");
 
                 // Starts the drag
-                draggedView.startDrag(dragData,  // the data to be dragged
-                        new View.DragShadowBuilder(draggedView),  // the drag shadow builder
+                v.startDrag(dragData,  // the data to be dragged
+                        new View.DragShadowBuilder(v),  // the drag shadow builder
                         new DraggedItemLocalState<>(card, viewHolder.binding.card, this, position),      // no need to use local data
                         0          // flags (not currently used, set to 0)
                 );
-                viewHolder.binding.card.setVisibility(View.INVISIBLE);
                 DeckLog.log("onLongClickListener");
                 return true;
             });

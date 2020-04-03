@@ -1,8 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
-import android.content.Context;
 import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
@@ -33,21 +31,19 @@ public class CrossTabDragAndDrop<
 
     private final float pxToReact;
     private final float pxToReactTopBottom;
-    private final float dragAndDropMsToReact;
-    private final float dragAndDropMsToReactTopBottom;
+    private final int dragAndDropMsToReact;
+    private final int dragAndDropMsToReactTopBottom;
     private final int displayX;
     private long lastSwap = 0;
     private long lastMove = 0;
 
     private final Set<ItemMovedByDragListener<ItemModel>> moveListenerList = new HashSet<>(1);
 
-    public CrossTabDragAndDrop(@NonNull Context context) {
-        final Resources resources = context.getResources();
-        final DisplayMetrics metrics = resources.getDisplayMetrics();
-
-        this.pxToReact = context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react) * metrics.density;
-        this.pxToReactTopBottom = context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * metrics.density;
-        this.displayX = metrics.widthPixels;
+    public CrossTabDragAndDrop(@NonNull Resources resources) {
+        this.displayX = resources.getDisplayMetrics().widthPixels;
+        final float density = resources.getDisplayMetrics().density;
+        this.pxToReact = resources.getInteger(R.integer.drag_n_drop_dp_to_react) * density;
+        this.pxToReactTopBottom = resources.getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * density;
         this.dragAndDropMsToReact = resources.getInteger(R.integer.drag_n_drop_ms_to_react);
         this.dragAndDropMsToReactTopBottom = resources.getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom);
     }
