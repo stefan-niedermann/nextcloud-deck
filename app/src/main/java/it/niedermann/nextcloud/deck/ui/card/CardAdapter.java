@@ -133,7 +133,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
                 // Starts the drag
                 draggedView.startDrag(dragData,  // the data to be dragged
                         new View.DragShadowBuilder(draggedView),  // the drag shadow builder
-                        new DraggedItemLocalState(card, viewHolder.binding.card, this, position),      // no need to use local data
+                        new DraggedItemLocalState<>(card, viewHolder.binding.card, this, position),      // no need to use local data
                         0          // flags (not currently used, set to 0)
                 );
                 viewHolder.binding.card.setVisibility(View.INVISIBLE);
@@ -163,9 +163,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
             viewHolder.binding.peopleList.setVisibility(View.GONE);
         }
 
-        if (DBStatus.LOCAL_EDITED.equals(card.getStatusEnum())) {
-            viewHolder.binding.notSyncedYet.setVisibility(View.VISIBLE);
-        }
+        viewHolder.binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(card.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
         if (card.getCard().getDueDate() != null) {
             setupDueDate(viewHolder.binding.cardDueDate, card.getCard());
