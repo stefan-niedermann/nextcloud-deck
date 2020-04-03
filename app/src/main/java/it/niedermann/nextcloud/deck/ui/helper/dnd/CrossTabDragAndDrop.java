@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.helper.dnd;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
@@ -29,20 +31,25 @@ public class CrossTabDragAndDrop<
     private static final String TAG = CrossTabDragAndDrop.class.getCanonicalName();
     private static final ScrollHelper SCROLL_HELPER = new ScrollHelper();
 
-    private final Context context;
     private final float pxToReact;
+    private final float pxToReactTopBottom;
+    private final float dragAndDropMsToReact;
+    private final float dragAndDropMsToReactTopBottom;
+    private final int displayX;
     private long lastSwap = 0;
     private long lastMove = 0;
-
-    private final float pxToReactTopBottom;
 
     private final Set<ItemMovedByDragListener<ItemModel>> moveListenerList = new HashSet<>(1);
 
     public CrossTabDragAndDrop(@NonNull Context context) {
-        this.context = context;
-        final float density = context.getResources().getDisplayMetrics().density;
-        this.pxToReact = context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react) * density;
-        this.pxToReactTopBottom = context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * density;
+        final Resources resources = context.getResources();
+        final DisplayMetrics metrics = resources.getDisplayMetrics();
+
+        this.pxToReact = context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react) * metrics.density;
+        this.pxToReactTopBottom = context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * metrics.density;
+        this.displayX = metrics.widthPixels;
+        this.dragAndDropMsToReact = resources.getInteger(R.integer.drag_n_drop_ms_to_react);
+        this.dragAndDropMsToReactTopBottom = resources.getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom);
     }
 
     public void register(final ViewPager2 viewPager, TabLayout stackLayout, FragmentManager fm) {
@@ -59,10 +66,8 @@ public class CrossTabDragAndDrop<
                     RecyclerView currentRecyclerView = draggedItemLocalState.getRecyclerView();
                     ItemAdapter itemAdapter = draggedItemLocalState.getItemAdapter();
 
-                    final int displayX = context.getResources().getDisplayMetrics().widthPixels;
-
                     long now = System.currentTimeMillis();
-                    if (lastSwap + context.getResources().getInteger(R.integer.drag_n_drop_ms_to_react) < now) { // don't change Tabs so fast!
+                    if (lastSwap + dragAndDropMsToReact < now) { // don't change Tabs so fast!
                         int oldTabPosition = viewPager.getCurrentItem();
 
                         boolean shouldSwitchTab = true;
@@ -94,8 +99,7 @@ public class CrossTabDragAndDrop<
                         SCROLL_HELPER.stopScroll();
                     }
 
-
-                    if (lastMove + context.getResources().getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) < now) {
+                    if (lastMove + dragAndDropMsToReactTopBottom < now) {
                         //push around the other items
                         View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
 
@@ -116,7 +120,6 @@ public class CrossTabDragAndDrop<
                 case DragEvent.ACTION_DROP: {
                     draggedItemLocalState.getRecyclerView().removeOnChildAttachStateChangeListener(draggedItemLocalState.getInsertedListener());
                     SCROLL_HELPER.stopScroll();
-                    // FIXME Fires sometimes BEFORE OnChildAttachStateChangeListener
                     draggedView.setVisibility(View.VISIBLE);
                     notifyListeners(draggedItemLocalState);
                     break;
@@ -137,7 +140,6 @@ public class CrossTabDragAndDrop<
         RecyclerView.OnChildAttachStateChangeListener onChildAttachStateChangeListener = new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(@NonNull View view) {
-                // FIXME Fires sometimes AFTER ACTION_DROP
                 recyclerView.removeOnChildAttachStateChangeListener(this);
                 draggedItemLocalState.setInsertedListener(null);
                 view.setVisibility(View.INVISIBLE);
@@ -149,7 +151,6 @@ public class CrossTabDragAndDrop<
         };
         draggedItemLocalState.setInsertedListener(onChildAttachStateChangeListener);
         recyclerView.addOnChildAttachStateChangeListener(onChildAttachStateChangeListener);
-
 
         //insert item in new tab
         View firstVisibleView = recyclerView.getChildAt(0);

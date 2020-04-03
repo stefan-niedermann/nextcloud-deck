@@ -114,9 +114,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
         final Context context = viewHolder.itemView.getContext();
         final FullCard card = cardList.get(position);
 
-        viewHolder.binding.card.setOnClickListener((View clickedView) -> {
+        viewHolder.binding.card.setOnClickListener((v) -> {
             if (selectCardListener == null) {
-                Intent intent = new Intent(clickedView.getContext(), EditActivity.class);
+                Intent intent = new Intent(v.getContext(), EditActivity.class);
                 intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
                 intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
                 intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
