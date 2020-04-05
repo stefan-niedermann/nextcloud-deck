@@ -23,7 +23,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUN
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
-public class CardCommentsFragment extends Fragment {
+public class CardCommentsFragment extends Fragment implements CommentEditedListener {
 
     private FragmentCardEditTabCommentsBinding binding;
 
@@ -71,7 +71,11 @@ public class CardCommentsFragment extends Fragment {
                         if (comments != null && comments.size() > 0) {
                             binding.emptyContentView.setVisibility(GONE);
                             binding.comments.setVisibility(VISIBLE);
-                            binding.comments.setAdapter(new CardCommentsAdapter(requireContext(), comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity()));
+                            if (requireActivity() instanceof CommentEditedListener) {
+                                binding.comments.setAdapter(new CardCommentsAdapter(requireContext(), comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity(), (CommentEditedListener) requireActivity(), requireActivity().getSupportFragmentManager()));
+                            } else {
+                                binding.comments.setAdapter(new CardCommentsAdapter(requireContext(), comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity()));
+                            }
                         } else {
                             binding.emptyContentView.setVisibility(VISIBLE);
                             binding.comments.setVisibility(GONE);
@@ -103,5 +107,10 @@ public class CardCommentsFragment extends Fragment {
             binding.message.requestFocus();
             requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    @Override
+    public void onCommentEdited(String comment) {
+
     }
 }

@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@android:id/edit"
+        android:title="@string/edit"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@android:id/copy"
         android:title="@android:string/copy"
         app:showAsAction="ifRoom" />

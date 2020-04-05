@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -49,13 +50,24 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     private final MenuInflater menuInflater;
     @NonNull
     private final CommentDeletedListener commentDeletedListener;
+    @Nullable
+    private final CommentEditedListener commentEditedListener;
+    @Nullable
+    private final FragmentManager fragmentManager;
 
     CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener) {
+        this(context, comments, account, menuInflater, commentDeletedListener, null, null);
+        setHasStableIds(true);
+    }
+
+    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener, @Nullable CommentEditedListener commentEditedListener, @Nullable FragmentManager fragmentManager) {
         this.context = context;
         this.comments = comments;
         this.account = account;
         this.menuInflater = menuInflater;
         this.commentDeletedListener = commentDeletedListener;
+        this.commentEditedListener = commentEditedListener;
+        this.fragmentManager = fragmentManager;
         setHasStableIds(true);
     }
 
@@ -85,6 +97,14 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
                 commentDeletedListener.onCommentDeleted(comment.getLocalId());
                 return true;
             });
+            if (commentEditedListener != null && fragmentManager != null) {
+                menu.findItem(android.R.id.edit).setOnMenuItemClickListener(item -> {
+                    CardCommentsEditDialogFragment.newInstance().show(fragmentManager, CardCommentsAdapter.class.getCanonicalName());
+                    return true;
+                });
+            } else {
+                menu.findItem(android.R.id.edit).setVisible(false);
+            }
         });
 
         if (DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum())) {
