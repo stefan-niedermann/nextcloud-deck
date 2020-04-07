@@ -157,10 +157,25 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                 });
                                                 rollbackAccountCreation(syncManager, createdAccount.getId());
                                             } else {
-                                                restoreWifiPref();
-                                                SyncWorker.update(getApplicationContext());
-                                                setResult(RESULT_OK);
-                                                finish();
+                                                syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                                                    @Override
+                                                    public void onResponse(Boolean response) {
+                                                        restoreWifiPref();
+                                                        SyncWorker.update(getApplicationContext());
+                                                        setResult(RESULT_OK);
+                                                        finish();
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable throwable) {
+                                                        super.onError(throwable);
+                                                        setStatusText(throwable.getMessage());
+                                                        if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                                            ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.scrollView, ImportAccountActivity.this);
+                                                        }
+                                                        rollbackAccountCreation(syncManager, createdAccount.getId());
+                                                    }
+                                                });
                                             }
                                         }
 

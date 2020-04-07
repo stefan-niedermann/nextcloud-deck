@@ -2,14 +2,18 @@ package it.niedermann.nextcloud.deck.model.ocs;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Version implements Comparable<Version>{
+public class Version implements Comparable<Version> {
     private String originalVersion;
     private int major;
     private int minor;
     private int patch;
 
     public Version(String originalVersion, int major, int minor, int patch) {
+        this(major, minor, patch);
         this.originalVersion = originalVersion;
+    }
+
+    public Version(int major, int minor, int patch) {
         this.major = major;
         this.minor = minor;
         this.patch = patch;
@@ -39,7 +43,7 @@ public class Version implements Comparable<Version>{
         this.patch = patch;
     }
 
-    public boolean isGreaterOrEqualTo(Version v){
+    public boolean isGreaterOrEqualTo(Version v) {
         return compareTo(v) >= 0;
     }
 

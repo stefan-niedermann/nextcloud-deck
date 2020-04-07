@@ -1,40 +1,67 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StackAdapter extends FragmentStatePagerAdapter {
-    private final List<StackFragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.full.FullStack;
 
-    public StackAdapter(FragmentManager fm) {
-        super(fm);
+public class StackAdapter extends FragmentStateAdapter {
+    @NonNull
+    private List<FullStack> stackList = new ArrayList<>();
+    private Account account;
+    private long boardId;
+    private boolean canEdit;
+
+    public StackAdapter(@NonNull FragmentActivity fragmentActivity) {
+        super(fragmentActivity);
+    }
+
+    @Override
+    public int getItemCount() {
+        return stackList.size();
+    }
+
+    public FullStack getItem(int position) {
+        return stackList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return stackList.get(position).getLocalId();
+    }
+
+    @Override
+    public boolean containsItem(long itemId) {
+        for (FullStack stack : stackList) {
+            if (stack.getLocalId() == itemId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @NonNull
     @Override
-    public StackFragment getItem(int position) {
-        return mFragmentList.get(position);
+    public Fragment createFragment(int position) {
+        return StackFragment.newInstance(boardId, stackList.get(position).getLocalId(), account, canEdit);
     }
 
-    public void addFragment(StackFragment fragment, String title) {
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
+    public void setStacks(@NonNull List<FullStack> fullStacks, @NonNull Account currentAccount, long currentBoardId, boolean currentBoardHasEditPermission) {
+        this.stackList = fullStacks;
+        this.account = currentAccount;
+        this.boardId = currentBoardId;
+        this.canEdit = currentBoardHasEditPermission;
+        notifyDataSetChanged();
     }
 
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
-    }
-
-    @Override
-    public int getCount() {
-        return mFragmentList.size();
+    public void addStack(FullStack stack) {
+        this.stackList.add(stack);
+        notifyItemInserted(stackList.size() - 1);
     }
 }

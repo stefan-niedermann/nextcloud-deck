@@ -928,27 +928,36 @@ public class SyncManager {
 //            if (serverAdapter.hasInternetConnection()){
 //                // call reorder
 //                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
+//                Stack newStack = newStackId == stack.getLocalId() ? stack :  dataBaseAdapter.getStackByLocalIdDirectly(newStackId);
 //                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
 //                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-//                serverAdapter.reorder(board.getId(), movedCard, stack.getId(), newOrder, new IResponseCallback<List<FullCard>>(account){
+//                serverAdapter.reorder(board.getId(), stack.getId(), movedCard.getId(), newStack.getId(), newOrder, new IResponseCallback<List<FullCard>>(account){
 //
 //                    @Override
 //                    public void onResponse(List<FullCard> response) {
 //                        for (FullCard fullCard : response) {
-//                            DeckLog.log("move: stackid "+fullCard.getCard().getStackId());
+//                            Card card = fullCard.getCard();
+//                            card.setAccountId(accountId);
+//                            card.setStackId(dataBaseAdapter.getLocalStackIdByRemoteStackIdDirectly(accountId, card.getStackId()));
+//                            card.setStatusEnum(DBStatus.UP_TO_DATE);
+//                            dataBaseAdapter.updateCard(card, false);
+//                            DeckLog.log("move: stackid "+card.getStackId());
 //                        }
 //                    }
 //                });
 //            } else {
             reorderLocally(cardsOfNewStack, movedCard, newStackId, newOrder);
             //FIXME: remove the sync-block, when commentblock up there is activated. (waiting for deck server bugfix)
-            synchronize(new IResponseCallback<Boolean>(dataBaseAdapter.getAccountByIdDirectly(accountId)) {
+            Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
+            Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
+            new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
                 @Override
                 public void onResponse(Boolean response) {
-
+                    // doNothing();
                 }
-            });
-//            }
+            }).doUpSyncFor(new StackDataProvider(null, board));
+//        }
         });
     }
 
@@ -1008,10 +1017,10 @@ public class SyncManager {
                 changedCards.add(fullCard.getCard());
             }
         }
-        reorderAscending(changedCards, startingAtOrder);
+        reorderAscending(movedInnerCard, changedCards, startingAtOrder);
     }
 
-    private void reorderAscending(List<Card> cardsToReorganize, int startingAtOrder) {
+    private void reorderAscending(Card movedCard, List<Card> cardsToReorganize, int startingAtOrder) {
         Date now = new Date();
         for (Card card : cardsToReorganize) {
             card.setOrder(startingAtOrder);
@@ -1019,8 +1028,13 @@ public class SyncManager {
                 card.setStatusEnum(DBStatus.LOCAL_EDITED_SILENT);
                 card.setLastModifiedLocal(now);
             }
-            dataBaseAdapter.updateCard(card, false);
             startingAtOrder++;
+        }
+        //update the moved one first, because otherwise a bunch of livedata is fired, leading the card to dispose and reappear
+        cardsToReorganize.remove(movedCard);
+        dataBaseAdapter.updateCard(movedCard, false);
+        for (Card card : cardsToReorganize) {
+            dataBaseAdapter.updateCard(card, false);
         }
     }
 

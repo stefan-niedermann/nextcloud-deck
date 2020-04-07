@@ -41,8 +41,6 @@ import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension
 public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapter.ItemCommentViewHolder> {
 
     @NonNull
-    private final Context context;
-    @NonNull
     private final List<DeckComment> comments;
     @NonNull
     private final Account account;
@@ -57,7 +55,6 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
 
     CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener) {
         this(context, comments, account, menuInflater, commentDeletedListener, null, null);
-        setHasStableIds(true);
     }
 
     CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener, @Nullable CommentEditedListener commentEditedListener, @Nullable FragmentManager fragmentManager) {
@@ -84,13 +81,15 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ItemCommentViewHolder holder, int position) {
-        DeckComment comment = comments.get(position);
+        final Context context = holder.itemView.getContext();
+        final DeckComment comment = comments.get(position);
+
         ViewUtil.addAvatar(context, holder.binding.avatar, account.getUrl(), account.getUserName(), getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         holder.binding.message.setText(comment.getMessage());
         holder.binding.actorDisplayName.setText(comment.getActorDisplayName());
         holder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
-        holder.binding.getRoot().setOnClickListener(View::showContextMenu);
-        holder.binding.getRoot().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+        holder.itemView.setOnClickListener(View::showContextMenu);
+        holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(context, comment.getMessage()));
             menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
@@ -116,6 +115,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     }
 
     private void setupMentions(List<Mention> mentions, TextView tv) {
+        Context context = tv.getContext();
         SpannableStringBuilder messageBuilder = new SpannableStringBuilder(tv.getText());
 
         // Step 1

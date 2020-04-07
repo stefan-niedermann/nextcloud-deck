@@ -44,7 +44,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
 
-    private final MenuInflater menuInflator;
+    private final MenuInflater menuInflater;
     private final Account account;
     @Nullable
     private Long cardRemoteId = null;
@@ -55,17 +55,16 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
     private final AttachmentDeletedListener attachmentDeletedListener;
     @Nullable
     private final AttachmentClickedListener attachmentClickedListener;
-    private Context context;
 
     CardAttachmentAdapter(
-            @NonNull MenuInflater menuInflator,
+            @NonNull MenuInflater menuInflater,
             @NonNull AttachmentDeletedListener attachmentDeletedListener,
             @Nullable AttachmentClickedListener attachmentClickedListener,
             @NonNull Account account,
             long cardLocalId
     ) {
         super();
-        this.menuInflator = menuInflator;
+        this.menuInflater = menuInflater;
         this.attachmentDeletedListener = attachmentDeletedListener;
         this.attachmentClickedListener = attachmentClickedListener;
         this.account = account;
@@ -82,11 +81,11 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
     @NonNull
     @Override
     public AttachmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        this.context = parent.getContext();
-        //noinspection SwitchStatementWithTooFewBranches
+        final Context context = parent.getContext();
         switch (viewType) {
             case VIEW_TYPE_IMAGE:
                 return new ImageAttachmentViewHolder(ItemAttachmentImageBinding.inflate(LayoutInflater.from(context), parent, false));
+            case VIEW_TYPE_DEFAULT:
             default:
                 return new DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding.inflate(LayoutInflater.from(context), parent, false));
         }
@@ -94,14 +93,16 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
 
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
+        final Context context = holder.itemView.getContext();
         final Attachment attachment = attachments.get(position);
         final int viewType = getItemViewType(position);
+
         @Nullable final String uri = (attachment.getId() == null || cardRemoteId == null)
                 ? null :
                 AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
         holder.setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()));
-        holder.getRootView().setOnCreateContextMenuListener((menu, v, menuInfo) -> {
-            menuInflator.inflate(R.menu.attachment_menu, menu);
+        holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+            menuInflater.inflate(R.menu.attachment_menu, menu);
             menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
                 new DeleteDialogBuilder(context)
                         .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
@@ -118,14 +119,14 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
             }
         });
 
-        if (attachment.getMimetype() != null) {
-            if (attachment.getMimetype().startsWith("image")) {
+        switch (viewType) {
+            case VIEW_TYPE_IMAGE: {
                 holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
                 Glide.with(context)
                         .load(uri)
                         .error(R.drawable.ic_image_grey600_24dp)
                         .into(holder.getPreview());
-                holder.getPreview().getRootView().setOnClickListener((v) -> {
+                holder.itemView.setOnClickListener((v) -> {
                     if (attachmentClickedListener != null) {
                         attachmentClickedListener.onAttachmentClicked(position);
                     }
@@ -142,23 +143,22 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
                         context.startActivity(intent);
                     }
                 });
-            } else if (attachment.getMimetype().startsWith("audio")) {
-                holder.getPreview().setImageResource(R.drawable.ic_music_note_grey600_24dp);
-            } else if (attachment.getMimetype().startsWith("video")) {
-                holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
-            }
-        }
-
-        //noinspection SwitchStatementWithTooFewBranches
-        switch (viewType) {
-            case VIEW_TYPE_IMAGE: {
-//                ImageAttachmentViewHolder imageHolder = (ImageAttachmentViewHolder) holder;
                 break;
             }
+            case VIEW_TYPE_DEFAULT:
             default: {
                 DefaultAttachmentViewHolder defaultHolder = (DefaultAttachmentViewHolder) holder;
+
+                if (attachment.getMimetype() != null) {
+                    if (attachment.getMimetype().startsWith("audio")) {
+                        holder.getPreview().setImageResource(R.drawable.ic_music_note_grey600_24dp);
+                    } else if (attachment.getMimetype().startsWith("video")) {
+                        holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
+                    }
+                }
+
                 if (cardRemoteId != null) {
-                    defaultHolder.binding.filename.getRootView().setOnClickListener((event) -> {
+                    defaultHolder.itemView.setOnClickListener((event) -> {
                         Intent openURL = new Intent(Intent.ACTION_VIEW);
                         openURL.setData(Uri.parse(AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId())));
                         context.startActivity(openURL);
@@ -217,8 +217,6 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
             super(itemView);
         }
 
-        abstract protected View getRootView();
-
         abstract protected ImageView getPreview();
 
         abstract protected void setNotSyncedYetStatus(boolean synced);
@@ -230,11 +228,6 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         private DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-        }
-
-        @Override
-        protected View getRootView() {
-            return binding.getRoot();
         }
 
         @Override
@@ -254,11 +247,6 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
         private ImageAttachmentViewHolder(ItemAttachmentImageBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-        }
-
-        @Override
-        protected View getRootView() {
-            return binding.getRoot();
         }
 
         @Override

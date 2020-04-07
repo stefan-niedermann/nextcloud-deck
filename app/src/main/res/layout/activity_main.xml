@@ -19,7 +19,15 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
-                android:id="@+id/empty_content_view"
+                android:id="@+id/empty_content_view_boards"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:description="@string/add_a_new_board_using_the_button"
+                app:title="@string/no_boards" />
+
+            <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
+                android:id="@+id/empty_content_view_stacks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -36,7 +44,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.viewpager.widget.ViewPager
+                <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -62,7 +70,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/stackLayout"
+                    android:id="@+id/stackTitles"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

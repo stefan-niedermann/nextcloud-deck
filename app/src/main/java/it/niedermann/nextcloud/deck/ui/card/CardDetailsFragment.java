@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +59,6 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class CardDetailsFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
-
-    private static final String TAG = CardDetailsFragment.class.getCanonicalName();
 
     private FragmentCardEditTabDetailsBinding binding;
 
@@ -333,7 +330,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
                 DrawableCompat.setTint(wrapDrawable, ColorUtils.setAlphaComponent(color, 150));
             }
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, "error parsing label color", e);
+            DeckLog.logError(e);
         }
         return chip;
     }
