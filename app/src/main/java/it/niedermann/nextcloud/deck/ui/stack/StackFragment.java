@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
-import it.niedermann.nextcloud.deck.ui.card.CardAdapter.SelectCardListener;
+import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.ui.dnd.DragAndDropTab;
 
 public class StackFragment extends Fragment implements DragAndDropTab<CardAdapter> {
