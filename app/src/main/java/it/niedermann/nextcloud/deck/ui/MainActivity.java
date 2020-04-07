@@ -63,15 +63,15 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
-import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment.EditBoardListener;
+import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
+import it.niedermann.nextcloud.deck.ui.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.helper.dnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
-import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment.EditStackListener;
+import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
+import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
-import it.niedermann.nextcloud.deck.ui.stack.StackFragment.OnScrollListener;
 import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerAccountListener;
@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     private int minimumServerAppMajor;
     private int minimumServerAppMinor;
     private int minimumServerAppPatch;
-    @Nullable private TabLayoutMediator mediator;
+    @Nullable
+    private TabLayoutMediator mediator;
     @Nullable
     private TabLayoutHelper tabLayoutHelper;
 

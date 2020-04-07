@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.card;
+package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +38,8 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
-public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAdapter.AttachmentViewHolder> {
+@SuppressWarnings("WeakerAccess")
+public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
 
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
@@ -210,61 +210,5 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<CardAttachmentAd
                 return;
             }
         }
-    }
-
-    static abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
-        AttachmentViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
-        abstract protected ImageView getPreview();
-
-        abstract protected void setNotSyncedYetStatus(boolean synced);
-    }
-
-    static class DefaultAttachmentViewHolder extends AttachmentViewHolder {
-        ItemAttachmentDefaultBinding binding;
-
-        private DefaultAttachmentViewHolder(ItemAttachmentDefaultBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        @Override
-        protected ImageView getPreview() {
-            return binding.preview;
-        }
-
-        @Override
-        protected void setNotSyncedYetStatus(boolean synced) {
-            binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    static class ImageAttachmentViewHolder extends AttachmentViewHolder {
-        private ItemAttachmentImageBinding binding;
-
-        private ImageAttachmentViewHolder(ItemAttachmentImageBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        @Override
-        protected ImageView getPreview() {
-            return binding.preview;
-        }
-
-        @Override
-        protected void setNotSyncedYetStatus(boolean synced) {
-            binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    public interface AttachmentDeletedListener {
-        void onAttachmentDeleted(Attachment attachment);
-    }
-
-    public interface AttachmentClickedListener {
-        void onAttachmentClicked(int position);
     }
 }

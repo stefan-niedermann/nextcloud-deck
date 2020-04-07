@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.card;
+package it.niedermann.nextcloud.deck.ui.card.activities;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,13 +19,14 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
-public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapter.ActivitiesViewHolder> {
+public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityViewHolder> {
 
     @NonNull
     private final List<Activity> activities;
     @NonNull
     private final MenuInflater menuInflater;
 
+    @SuppressWarnings("WeakerAccess")
     public CardActivityAdapter(@NonNull List<Activity> activities, @NonNull MenuInflater menuInflater) {
         super();
         this.activities = activities;
@@ -34,14 +35,14 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
 
     @NonNull
     @Override
-    public ActivitiesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CardActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final Context context = parent.getContext();
         ItemActivityBinding binding = ItemActivityBinding.inflate(LayoutInflater.from(context), parent, false);
-        return new ActivitiesViewHolder(binding);
+        return new CardActivityViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ActivitiesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CardActivityViewHolder holder, int position) {
         final Context context = holder.itemView.getContext();
         final Activity activity = activities.get(position);
         holder.binding.date.setText(DateUtil.getRelativeDateTimeString(context, activity.getLastModified().getTime()));
@@ -78,14 +79,4 @@ public class CardActivityAdapter extends RecyclerView.Adapter<CardActivityAdapte
     public int getItemCount() {
         return activities.size();
     }
-
-    static class ActivitiesViewHolder extends RecyclerView.ViewHolder {
-        private ItemActivityBinding binding;
-
-        private ActivitiesViewHolder(ItemActivityBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
-
 }

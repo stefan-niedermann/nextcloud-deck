@@ -6,7 +6,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import it.niedermann.nextcloud.deck.ui.card.activities.CardActivityFragment;
+import it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentsFragment;
 import it.niedermann.nextcloud.deck.ui.card.comments.CardCommentsFragment;
+import it.niedermann.nextcloud.deck.ui.card.details.CardDetailsFragment;
 
 public class CardTabAdapter extends FragmentStateAdapter {
 

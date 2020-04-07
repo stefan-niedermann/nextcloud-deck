@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.card;
+package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.Manifest;
 import android.app.Activity;
@@ -37,10 +37,8 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentClickedListener;
-import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.AttachmentDeletedListener;
-import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
-import static it.niedermann.nextcloud.deck.ui.card.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
+import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
+import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 
 public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
     private FragmentCardEditTabAttachmentsBinding binding;
@@ -105,7 +103,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
                     setExitSharedElementCallback(new SharedElementCallback() {
                         @Override
                         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                            CardAttachmentAdapter.AttachmentViewHolder selectedViewHolder = (CardAttachmentAdapter.AttachmentViewHolder) binding.attachmentsList
+                            AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
                                     .findViewHolderForAdapterPosition(clickedItemPosition);
                             if (selectedViewHolder != null) {
                                 sharedElements.put(names.get(0), selectedViewHolder.getPreview());
@@ -239,11 +237,6 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         this.clickedItemPosition = position;
     }
 
-    public interface NewCardAttachmentHandler {
-        void attachmentAdded(Attachment attachment);
-
-        void attachmentRemoved(Attachment attachment);
-    }
 
     private void updateEmptyContentView() {
         if (this.adapter == null || this.adapter.getItemCount() == 0) {

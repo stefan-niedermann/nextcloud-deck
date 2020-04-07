@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.board;
+package it.niedermann.nextcloud.deck.ui.board.accesscontrol;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -22,9 +22,7 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 
-public class AccessControlDialogFragment extends DialogFragment implements
-        AccessControlAdapter.AccessControlChangedListener,
-        AdapterView.OnItemClickListener {
+public class AccessControlDialogFragment extends DialogFragment implements AccessControlChangedListener, AdapterView.OnItemClickListener {
 
     private DialogBoardShareBinding binding;
 

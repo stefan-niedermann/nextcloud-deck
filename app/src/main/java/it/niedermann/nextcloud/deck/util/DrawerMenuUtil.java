@@ -28,8 +28,8 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.ui.board.AccessControlDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlDialogFragment;
 
 public class DrawerMenuUtil {
     public static final int MENU_ID_ADD_ACCOUNT = -2;

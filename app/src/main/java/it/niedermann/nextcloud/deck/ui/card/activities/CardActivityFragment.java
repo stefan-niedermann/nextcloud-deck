@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.card;
+package it.niedermann.nextcloud.deck.ui.card.activities;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

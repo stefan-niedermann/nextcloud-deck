@@ -102,10 +102,6 @@ public class EditBoardDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    public interface EditBoardListener {
-        void onUpdateBoard(FullBoard fullBoard);
 
-        void onCreateBoard(String title, String color);
-    }
 
 }

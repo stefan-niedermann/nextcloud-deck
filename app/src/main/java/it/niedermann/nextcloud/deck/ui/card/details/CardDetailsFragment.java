@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.card;
+package it.niedermann.nextcloud.deck.ui.card.details;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -45,6 +45,8 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
+import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
@@ -426,20 +428,5 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         } else {
             binding.clearDueDate.setVisibility(View.VISIBLE);
         }
-    }
-
-    public interface CardDetailsListener {
-
-        void onDescriptionChanged(String toString);
-
-        void onDueDateChanged(Date dueDate);
-
-        void onUserAdded(User user);
-
-        void onUserRemoved(User user);
-
-        void onLabelRemoved(Label label);
-
-        void onLabelAdded(Label createdLabel);
     }
 }

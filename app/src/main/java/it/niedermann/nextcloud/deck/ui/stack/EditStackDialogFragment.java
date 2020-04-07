@@ -92,10 +92,4 @@ public class EditStackDialogFragment extends DialogFragment {
 
         return dialog;
     }
-
-    public interface EditStackListener {
-        void onCreateStack(String title);
-
-        void onUpdateStack(long stackId, String title);
-    }
 }

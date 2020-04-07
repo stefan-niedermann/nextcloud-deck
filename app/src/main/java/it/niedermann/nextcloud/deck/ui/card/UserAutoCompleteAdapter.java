@@ -30,7 +30,6 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
         this(activity, accountId, boardId, NO_CARD);
     }
 
-    @SuppressWarnings("WeakerAccess")
     public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
         super(activity, accountId, boardId, cardId);
     }

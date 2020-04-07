@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.board;
+package it.niedermann.nextcloud.deck.ui.board.accesscontrol;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -114,29 +114,4 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         return (position == 0) ? TYPE_HEADER : TYPE_ITEM;
     }
 
-    private static class AccessControlViewHolder extends RecyclerView.ViewHolder {
-        //        @BindDrawable(R.drawable.ic_sync_blue_24dp)
-//        Drawable syncIcon;
-        private ItemAccessControlBinding binding;
-
-        private AccessControlViewHolder(ItemAccessControlBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
-
-    private static class OwnerViewHolder extends RecyclerView.ViewHolder {
-        private ItemAccessControlOwnerBinding binding;
-
-        private OwnerViewHolder(ItemAccessControlOwnerBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
-
-    public interface AccessControlChangedListener {
-        void updateAccessControl(AccessControl accessControl);
-
-        void deleteAccessControl(AccessControl ac);
-    }
 }

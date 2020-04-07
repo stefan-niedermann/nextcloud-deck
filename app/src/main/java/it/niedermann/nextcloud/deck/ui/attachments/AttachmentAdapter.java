@@ -25,7 +25,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
-public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.AttachmentViewHolder> {
+public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
 
     private final Account account;
     private final long cardRemoteId;
@@ -87,14 +87,5 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.At
     @Override
     public int getItemCount() {
         return attachments.size();
-    }
-
-    static class AttachmentViewHolder extends RecyclerView.ViewHolder {
-        private ItemAttachmentBinding binding;
-
-        private AttachmentViewHolder(ItemAttachmentBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
     }
 }

@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter.SelectCardListener;
-import it.niedermann.nextcloud.deck.ui.helper.dnd.DragAndDropTab;
+import it.niedermann.nextcloud.deck.ui.dnd.DragAndDropTab;
 
 public class StackFragment extends Fragment implements DragAndDropTab<CardAdapter> {
 
@@ -125,11 +125,5 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
     @Override
     public RecyclerView getRecyclerView() {
         return binding.recyclerView;
-    }
-
-    public interface OnScrollListener {
-        void onScrollUp();
-
-        void onScrollDown();
     }
 }

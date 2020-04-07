@@ -59,9 +59,4 @@ public class StackAdapter extends FragmentStateAdapter {
         this.canEdit = currentBoardHasEditPermission;
         notifyDataSetChanged();
     }
-
-    public void addStack(FullStack stack) {
-        this.stackList.add(stack);
-        notifyItemInserted(stackList.size() - 1);
-    }
 }

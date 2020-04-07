@@ -20,7 +20,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
-import it.niedermann.nextcloud.deck.ui.helper.dnd.DragAndDropModel;
+import it.niedermann.nextcloud.deck.ui.dnd.DragAndDropModel;
 
 public class FullCard implements IRemoteEntity, DragAndDropModel {
 

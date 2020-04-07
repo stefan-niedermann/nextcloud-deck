@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.helper.dnd;
+package it.niedermann.nextcloud.deck.ui.dnd;
 
 import java.util.List;
 
