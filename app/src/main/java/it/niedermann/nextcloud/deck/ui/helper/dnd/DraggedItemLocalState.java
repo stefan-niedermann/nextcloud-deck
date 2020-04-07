@@ -15,6 +15,9 @@ public class DraggedItemLocalState<
         ItemAdapter extends RecyclerView.Adapter<?> & DragAndDropAdapter<ItemModel>,
         ItemModel> {
     private ItemModel draggedCard;
+    /** The original dragged view */
+    private final View originalDraggedView;
+    /** The currently dragged view (can change when the tab changes */
     private View draggedView;
     private ItemAdapter itemAdapter;
     private int positionInCardAdapter;
@@ -25,6 +28,7 @@ public class DraggedItemLocalState<
     public DraggedItemLocalState(ItemModel draggedCard, View draggedView, ItemAdapter itemAdapter, int positionInCardAdapter) {
         this.draggedCard = draggedCard;
         this.draggedView = draggedView;
+        this.originalDraggedView = draggedView;
         this.itemAdapter = itemAdapter;
         this.positionInCardAdapter = positionInCardAdapter;
     }
@@ -50,6 +54,10 @@ public class DraggedItemLocalState<
 
     protected ItemModel getDraggedItemModel() {
         return draggedCard;
+    }
+
+    protected View getOriginalDraggedView() {
+        return originalDraggedView;
     }
 
     protected View getDraggedView() {

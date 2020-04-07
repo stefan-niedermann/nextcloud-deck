@@ -111,10 +111,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ItemCardViewHolder viewHolder, int position) {
-        // FIXME workaround: after drag & drop the livedata fires 2x, the second time the root view is still INVISIBLE
-        if(viewHolder.binding.getRoot().getVisibility() != View.VISIBLE) {
-            viewHolder.binding.getRoot().setVisibility(View.VISIBLE);
-        }
         final Context context = viewHolder.itemView.getContext();
         final FullCard card = cardList.get(position);
 

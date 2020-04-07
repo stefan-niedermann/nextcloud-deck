@@ -106,6 +106,8 @@ public class CrossTabDragAndDrop<
                     draggedItemLocalState.getRecyclerView().removeOnChildAttachStateChangeListener(draggedItemLocalState.getInsertedListener());
                     SCROLL_HELPER.stopScroll();
                     draggedView.setVisibility(View.VISIBLE);
+                    // Clean up the original dragged view, so the next onBindViewHolder() will not display the view at the position of the original dragged view as View.INVISIBLE
+                    draggedItemLocalState.getOriginalDraggedView().setVisibility(View.VISIBLE);
                     notifyListeners(draggedItemLocalState);
                     break;
                 }
