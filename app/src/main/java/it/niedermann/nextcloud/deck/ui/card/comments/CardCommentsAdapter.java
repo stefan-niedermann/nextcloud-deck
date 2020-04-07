@@ -48,17 +48,14 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     private final MenuInflater menuInflater;
     @NonNull
     private final CommentDeletedListener commentDeletedListener;
-    @Nullable
-    private final CommentEditedListener commentEditedListener;
-    @Nullable
+    @NonNull
     private final FragmentManager fragmentManager;
 
-    CardCommentsAdapter(@NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener, @Nullable CommentEditedListener commentEditedListener, @Nullable FragmentManager fragmentManager) {
+    CardCommentsAdapter(@NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener, @NonNull FragmentManager fragmentManager) {
         this.comments = comments;
         this.account = account;
         this.menuInflater = menuInflater;
         this.commentDeletedListener = commentDeletedListener;
-        this.commentEditedListener = commentEditedListener;
         this.fragmentManager = fragmentManager;
         setHasStableIds(true);
     }
@@ -79,7 +76,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         final Context context = holder.itemView.getContext();
         final DeckComment comment = comments.get(position);
 
-        ViewUtil.addAvatar(context, holder.binding.avatar, account.getUrl(), account.getUserName(), getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+        ViewUtil.addAvatar(context, holder.binding.avatar, account.getUrl(), comment.getActorId(), getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         holder.binding.message.setText(comment.getMessage());
         holder.binding.actorDisplayName.setText(comment.getActorDisplayName());
         holder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
@@ -87,16 +84,17 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(context, comment.getMessage()));
-            menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
-                commentDeletedListener.onCommentDeleted(comment.getLocalId());
-                return true;
-            });
-            if (commentEditedListener != null && fragmentManager != null && account.getUserName().equals(comment.getActorId())) {
+            if(account.getUserName().equals(comment.getActorId())) {
+                menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
+                    commentDeletedListener.onCommentDeleted(comment.getLocalId());
+                    return true;
+                });
                 menu.findItem(android.R.id.edit).setOnMenuItemClickListener(item -> {
                     CardCommentsEditDialogFragment.newInstance(comment.getLocalId(), comment.getMessage()).show(fragmentManager, CardCommentsAdapter.class.getCanonicalName());
                     return true;
                 });
             } else {
+                menu.findItem(R.id.delete).setVisible(false);
                 menu.findItem(android.R.id.edit).setVisible(false);
             }
         });

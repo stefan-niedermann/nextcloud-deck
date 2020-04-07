@@ -72,7 +72,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
                         if (comments != null && comments.size() > 0) {
                             binding.emptyContentView.setVisibility(GONE);
                             binding.comments.setVisibility(VISIBLE);
-                            binding.comments.setAdapter(new CardCommentsAdapter(comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity(), this, getChildFragmentManager()));
+                            binding.comments.setAdapter(new CardCommentsAdapter(comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity(), getChildFragmentManager()));
                         } else {
                             binding.emptyContentView.setVisibility(VISIBLE);
                             binding.comments.setVisibility(GONE);
