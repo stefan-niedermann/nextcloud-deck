@@ -38,7 +38,7 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension;
 
-public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapter.ItemCommentViewHolder> {
+public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> {
 
     @NonNull
     private final List<DeckComment> comments;
@@ -84,7 +84,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(context, comment.getMessage()));
-            if(account.getUserName().equals(comment.getActorId())) {
+            if (account.getUserName().equals(comment.getActorId())) {
                 menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
                     commentDeletedListener.onCommentDeleted(comment.getLocalId());
                     return true;
@@ -150,18 +150,8 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
         tv.setText(messageBuilder);
     }
 
-
     @Override
     public int getItemCount() {
         return comments.size();
-    }
-
-    static class ItemCommentViewHolder extends RecyclerView.ViewHolder {
-        private ItemCommentBinding binding;
-
-        private ItemCommentViewHolder(ItemCommentBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
     }
 }

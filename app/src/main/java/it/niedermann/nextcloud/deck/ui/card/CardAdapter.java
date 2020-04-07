@@ -53,7 +53,7 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHolder> implements DragAndDropAdapter<FullCard> {
+public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard> {
 
     public static final String BUNDLE_KEY_ACCOUNT = "account";
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
@@ -400,18 +400,5 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemCardViewHo
             }
         }
         return true;
-    }
-
-    public interface SelectCardListener {
-        void onCardSelected(FullCard fullCard);
-    }
-
-    static class ItemCardViewHolder extends RecyclerView.ViewHolder {
-        private ItemCardBinding binding;
-
-        private ItemCardViewHolder(ItemCardBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
     }
 }
