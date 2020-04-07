@@ -19,9 +19,12 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAddCommentBinding;
 
 public class CardCommentsEditDialogFragment extends DialogFragment {
+    private static final String BUNDLE_KEY_COMMENT_ID = "commentId";
+    private static final String BUNDLE_KEY_COMMENT_MESSAGE = "commentMessage";
     private CommentEditedListener addCommentListener;
 
     private DialogAddCommentBinding binding;
+    private Bundle args;
 
     /**
      * Use newInstance()-Method
@@ -32,10 +35,16 @@ public class CardCommentsEditDialogFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof CommentEditedListener) {
+        args = getArguments();
+        if (args == null || !args.containsKey(BUNDLE_KEY_COMMENT_ID)) {
+            throw new IllegalArgumentException("Please provide at least local comment id");
+        }
+        if (getParentFragment() instanceof CommentEditedListener) {
+            this.addCommentListener = (CommentEditedListener) getParentFragment();
+        } else if (context instanceof CommentEditedListener) {
             this.addCommentListener = (CommentEditedListener) context;
         } else {
-            throw new ClassCastException("Caller must implement " + CommentEditedListener.class.getCanonicalName());
+            throw new ClassCastException("Context or parent fragment must implement " + CommentEditedListener.class.getCanonicalName());
         }
     }
 
@@ -47,23 +56,29 @@ public class CardCommentsEditDialogFragment extends DialogFragment {
         return new AlertDialog.Builder(requireActivity())
                 .setView(binding.getRoot())
                 .setTitle(R.string.simple_comment)
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                    // Do something else
-                })
-                .setPositiveButton(R.string.simple_add, (dialog, which) -> addCommentListener.onCommentEdited(binding.input.getText().toString()))
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.simple_update, (dialog, which) -> addCommentListener.onCommentEdited(requireArguments().getLong(BUNDLE_KEY_COMMENT_ID), binding.input.getText().toString()))
                 .create();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (args.containsKey(BUNDLE_KEY_COMMENT_MESSAGE)) {
+            binding.input.setText(args.getString(BUNDLE_KEY_COMMENT_MESSAGE));
+        }
         binding.input.requestFocus();
         Objects.requireNonNull(requireDialog().getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public static CardCommentsEditDialogFragment newInstance() {
-        return new CardCommentsEditDialogFragment();
+    public static DialogFragment newInstance(@NonNull Long commentLocalId, String message) {
+        Bundle bundle = new Bundle();
+        bundle.putLong(BUNDLE_KEY_COMMENT_ID, commentLocalId);
+        bundle.putString(BUNDLE_KEY_COMMENT_MESSAGE, message);
+        DialogFragment fragment = new CardCommentsEditDialogFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 }
 

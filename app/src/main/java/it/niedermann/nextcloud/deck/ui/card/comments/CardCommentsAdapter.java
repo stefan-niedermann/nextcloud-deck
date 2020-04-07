@@ -53,12 +53,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
     @Nullable
     private final FragmentManager fragmentManager;
 
-    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener) {
-        this(context, comments, account, menuInflater, commentDeletedListener, null, null);
-    }
-
-    CardCommentsAdapter(@NonNull Context context, @NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener, @Nullable CommentEditedListener commentEditedListener, @Nullable FragmentManager fragmentManager) {
-        this.context = context;
+    CardCommentsAdapter(@NonNull List<DeckComment> comments, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener, @Nullable CommentEditedListener commentEditedListener, @Nullable FragmentManager fragmentManager) {
         this.comments = comments;
         this.account = account;
         this.menuInflater = menuInflater;
@@ -96,9 +91,9 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
                 commentDeletedListener.onCommentDeleted(comment.getLocalId());
                 return true;
             });
-            if (commentEditedListener != null && fragmentManager != null) {
+            if (commentEditedListener != null && fragmentManager != null && account.getUserName().equals(comment.getActorId())) {
                 menu.findItem(android.R.id.edit).setOnMenuItemClickListener(item -> {
-                    CardCommentsEditDialogFragment.newInstance().show(fragmentManager, CardCommentsAdapter.class.getCanonicalName());
+                    CardCommentsEditDialogFragment.newInstance(comment.getLocalId(), comment.getMessage()).show(fragmentManager, CardCommentsAdapter.class.getCanonicalName());
                     return true;
                 });
             } else {
@@ -106,9 +101,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<CardCommentsAdapte
             }
         });
 
-        if (DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum())) {
-            holder.binding.notSyncedYet.setVisibility(View.VISIBLE);
-        }
+        holder.binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
         TooltipCompat.setTooltipText(holder.binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getCreationDateTime()));
         setupMentions(comment.getMentions(), holder.binding.message);

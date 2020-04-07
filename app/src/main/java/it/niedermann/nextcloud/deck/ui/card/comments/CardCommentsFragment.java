@@ -26,6 +26,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 public class CardCommentsFragment extends Fragment implements CommentEditedListener {
 
     private FragmentCardEditTabCommentsBinding binding;
+    private SyncManager syncManager;
 
     private Long accountId;
     private long localId;
@@ -64,18 +65,14 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
                              Bundle savedInstanceState) {
         binding = FragmentCardEditTabCommentsBinding.inflate(inflater, container, false);
 
-        SyncManager syncManager = new SyncManager(requireActivity());
+        syncManager = new SyncManager(requireActivity());
         syncManager.readAccount(accountId).observe(requireActivity(), (account -> {
             syncManager.getCommentsForLocalCardId(localId).observe(requireActivity(),
                     (comments) -> {
                         if (comments != null && comments.size() > 0) {
                             binding.emptyContentView.setVisibility(GONE);
                             binding.comments.setVisibility(VISIBLE);
-                            if (requireActivity() instanceof CommentEditedListener) {
-                                binding.comments.setAdapter(new CardCommentsAdapter(comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity(), (CommentEditedListener) requireActivity(), requireActivity().getSupportFragmentManager()));
-                            } else {
-                                binding.comments.setAdapter(new CardCommentsAdapter(requireContext(), comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity()));
-                            }
+                            binding.comments.setAdapter(new CardCommentsAdapter(comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity(), this, getChildFragmentManager()));
                         } else {
                             binding.emptyContentView.setVisibility(VISIBLE);
                             binding.comments.setVisibility(GONE);
@@ -110,7 +107,7 @@ public class CardCommentsFragment extends Fragment implements CommentEditedListe
     }
 
     @Override
-    public void onCommentEdited(String comment) {
-
+    public void onCommentEdited(Long id, String comment) {
+        syncManager.updateComment(accountId, localId, id, comment);
     }
 }
