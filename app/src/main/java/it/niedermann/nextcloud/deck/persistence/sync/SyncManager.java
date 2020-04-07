@@ -1017,10 +1017,10 @@ public class SyncManager {
                 changedCards.add(fullCard.getCard());
             }
         }
-        reorderAscending(changedCards, startingAtOrder);
+        reorderAscending(movedInnerCard, changedCards, startingAtOrder);
     }
 
-    private void reorderAscending(List<Card> cardsToReorganize, int startingAtOrder) {
+    private void reorderAscending(Card movedCard, List<Card> cardsToReorganize, int startingAtOrder) {
         Date now = new Date();
         for (Card card : cardsToReorganize) {
             card.setOrder(startingAtOrder);
@@ -1028,8 +1028,13 @@ public class SyncManager {
                 card.setStatusEnum(DBStatus.LOCAL_EDITED_SILENT);
                 card.setLastModifiedLocal(now);
             }
-            dataBaseAdapter.updateCard(card, false);
             startingAtOrder++;
+        }
+        //update the moved one first, because otherwise a bunch of livedata is fired, leading the card to dispose and reappear
+        cardsToReorganize.remove(movedCard);
+        dataBaseAdapter.updateCard(movedCard, false);
+        for (Card card : cardsToReorganize) {
+            dataBaseAdapter.updateCard(card, false);
         }
     }
 
