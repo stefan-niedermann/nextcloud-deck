@@ -87,7 +87,6 @@
         <activity
             android:name=".ui.PushNotificationActivity"
             android:label="@string/app_name"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.PushNotificationActivity"
             android:theme="@style/AppTheme" />
 
         <activity
