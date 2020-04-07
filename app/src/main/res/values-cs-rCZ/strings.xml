@@ -52,11 +52,16 @@
     <string name="label_description">Popis</string>
     <string name="hint_assign_people">Přiřadit uživatele</string>
     <string name="hint_due_date_date">Datum termínu</string>
-    <string name="activity">Aktivita</string>
-    <string name="add_card">Přidat kartu</string>
-    <string name="add_list">Přidat sloupec</string>
-
     <string name="add_account">Přidat účet</string>
+    <string name="choose_account">Zvolte účet</string>
+
+    <string name="add_card">Přidat kartu</string>
+
+    <string name="activity">Aktivita</string>
+
+    <string name="add_list">Přidat seznam</string>
+    <string name="rename_list">Přejmenovat seznam</string>
+    <string name="delete_list">Smazat seznam</string>
 
     <string name="label_menu">nabídka</string>
     <string name="action_card_assign">Přiřadit kartu sobě</string>
@@ -64,12 +69,11 @@
     <string name="action_card_archive">Archivovat kartu</string>
     <string name="action_card_delete">Smazat kartu</string>
     <string name="add_board">Přidat tabuli</string>
-    <string name="delete_list">Smazat sloupec</string>
     <string name="simple_title">Nadpis</string>
 
     <string name="label_clear_due_date">Vymazat termín</string>
-
     <string name="label_add">Přidat %1$s</string>
+
     <string name="error">Objevila se chyba</string>
     <string name="operation_not_yet_supported">Zatím nepodorováno</string>
     <string name="simple_copy">zkopírovat</string>
@@ -88,19 +92,18 @@
     <string name="account_already_added">Účet už je přidán</string>
     <string name="account_is_getting_imported">Účet je importován</string>
     <string name="not_synced_yet">Doposud nesynchronizováno</string>
-    <string name="no_lists_yet">Zatím žádné slopce</string>
+    <string name="no_lists_yet">Zatím žádné seznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
     <string name="simple_discard">zahodit</string>
-    <string name="do_you_want_to_delete_the_current_list">Chcete stávající sloupec vymazat?</string>
-    <string name="add_a_new_list_using_the_button">Pro přidání nového sloupce použijte tlačítko +</string>
+    <string name="do_you_want_to_delete_the_current_list">Opravdu chcete tento seznam smazat?</string>
+    <string name="add_a_new_list_using_the_button">Nový seznam přidáte tlačítkem +</string>
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
     <string name="update_deck">Aktualizujte Deck</string>
     <string name="your_deck_version_is_too_old">Vámi používaná verze Deck je příliš stará</string>
     <string name="deck_outdated_please_update">Vámi používaná verze Deck na straně serveru je příliš stará. Prosíme aktualizujte, abyste mohli používat tuto Android aplikaci jako klienta.</string>
     <string name="simple_update">Aktualizovat</string>
     <string name="simple_delete">Smazat</string>
-    <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech sloupců a karet.</string>
-    <string name="action_card_list_rename_list">Přejmenovat sloupec</string>
+    <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
     <string name="simple_rename">Přejmenovat</string>
     <string name="simple_settings">Nastavení</string>
     <string name="settings_theme_title">Tmavý motiv vzhledu</string>
@@ -111,7 +114,6 @@
     <string name="unassigned_user">Nepřidělené %1$s</string>
     <string name="simple_undo">Vrátit zpět</string>
     <string name="no_activities">Na této kartě nejsou žádné aktivity. Abyste mohli načíst a zobrazit aktivity, je třeba být připojení k Intenetu.</string>
-    <string name="rename_list">Přejmenovat sloupec</string>
     <string name="share_board">Sdílet tabuli</string>
     <string name="you_are_currently_offline">V tuto chvíli nejste připojení k Internetu</string>
     <string name="simple_manage">spravovat</string>
@@ -135,7 +137,6 @@
     <string name="title_is_mandatory">Nadpis je třeba zadat</string>
     <string name="provide_at_least_a_title_or_description">Zadejte alespoň nadpis nebo popis</string>
     <string name="welcome_text">Vítejte v %1$s</string>
-    <string name="choose_account">Zvolte účet</string>
     <string name="save_card_before_attachment">Aby bylo možné přidávat přílohy je třeba, aby karta byla nejprve uložena.</string>
     <string name="server_misconfigured">Server není nastavený správně</string>
     <string name="server_misconfigured_explanation">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient. Kontaktní údaje na podporu naleznete v sekci „O aplikaci“.</string>

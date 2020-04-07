@@ -14,9 +14,9 @@
     <string name="simple_save">Salvar</string>
     <string name="simple_more">Mais</string>
 
-    <string name="edit_board">Editar o painel</string>
-    <string name="archive_board">Arquivar o painel</string>
-    <string name="delete_board">Excluir o painel</string>
+    <string name="edit_board">Editar painel</string>
+    <string name="archive_board">Arquivar painel</string>
+    <string name="delete_board">Excluir painel</string>
     <string name="delete_something">Excluir %1$s</string>
 
     <!-- About -->
@@ -36,11 +36,11 @@
     <string name="about_translate_title">Traduzir</string>
     <string name="about_translate">Junte-se à equipe do Nextcloud no Transifex e ajude a traduzir este aplicativo: %1$s</string>
     <string name="about_app_license_title">Licença do aplicativo</string>
-    <string name="about_app_license">Esta aplicação está licenciada sob a GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license">Este aplicativo está licenciado sob a GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Ver licença</string>
     <string name="about_icons_disclaimer_title">Ícones</string>
     <string name="about_icons_disclaimer_app_icon">Para o ícone original veja %1$s.</string>
-    <string name="about_icons_disclaimer_mdi_icons">Todos os outros ícones usados por este aplicativo são %1$sfeitos pelo Google Inc. e licenciados sob a Licença Apache 2.0. </string>
+    <string name="about_icons_disclaimer_mdi_icons">Todos os outros ícones usados por este aplicativo são %1$s feitos pelo Google Inc. e licenciados sob a Licença Apache 2.0. </string>
     <string name="about_icons_disclaimer_mdi">Ícones de Design Material</string>
     <string name="about_credits_tab_title">Créditos</string>
     <string name="about_contribution_tab_title">Contribuição</string>
@@ -48,28 +48,32 @@
 
     <string name="seconds_ago">segundos atrás</string>
     <string name="edit">Editar</string>
-    <string name="label_labels">Selecionar Rótulos</string>
+    <string name="label_labels">Selecionar etiquetas</string>
     <string name="label_description">Descrição</string>
     <string name="hint_assign_people">Atribuir usuários</string>
-    <string name="hint_due_date_date">Data devida</string>
-    <string name="activity">Atividade</string>
-    <string name="add_card">Adicionar cartão</string>
-    <string name="add_list">Adicionar coluna</string>
-
+    <string name="hint_due_date_date">Data de vencimento</string>
     <string name="add_account">Adicionar conta</string>
+    <string name="choose_account">Escolher conta</string>
+
+    <string name="add_card">Adicionar cartão</string>
+
+    <string name="activity">Atividade</string>
+
+    <string name="add_list">Adicionar lista</string>
+    <string name="rename_list">Renomear lista</string>
+    <string name="delete_list">Excluir lista</string>
 
     <string name="label_menu">menu</string>
-    <string name="action_card_assign">Atribuir um cartão a mim</string>
-    <string name="action_card_unassign">Desatribuir um cartão de mim</string>
+    <string name="action_card_assign">Atribuir o cartão a mim</string>
+    <string name="action_card_unassign">Desvincular o cartão de mim</string>
     <string name="action_card_archive">Arquivar cartão</string>
     <string name="action_card_delete">Excluir cartão</string>
     <string name="add_board">Adicionar painel</string>
-    <string name="delete_list">Excluir colunas</string>
     <string name="simple_title">Título</string>
 
-    <string name="label_clear_due_date">Remover data devida</string>
-
+    <string name="label_clear_due_date">Remover data de vencimento</string>
     <string name="label_add">Adicionar %1$s</string>
+
     <string name="error">Ocorreu um erro</string>
     <string name="operation_not_yet_supported">Ainda não suportado</string>
     <string name="simple_copy">copiar</string>
@@ -88,30 +92,28 @@
     <string name="account_already_added">Conta já adicionada</string>
     <string name="account_is_getting_imported">Conta está sendo importada</string>
     <string name="not_synced_yet">Ainda não sincronizado</string>
-    <string name="no_lists_yet">Nenhuma coluna ainda</string>
-    <string name="do_you_want_to_save_your_changes">Quer salvar suas alterações?</string>
+    <string name="no_lists_yet">Ainda sem listas</string>
+    <string name="do_you_want_to_save_your_changes">Deseja salvar suas alterações?</string>
     <string name="simple_discard">descartar</string>
-    <string name="do_you_want_to_delete_the_current_list">Quer excluir a coluna atual?</string>
-    <string name="add_a_new_list_using_the_button">Adicione uma nova coluna usando o botão +</string>
+    <string name="do_you_want_to_delete_the_current_list">Deseja excluir a lista atual?</string>
+    <string name="add_a_new_list_using_the_button">Adicione uma nova lista usando o botão +</string>
     <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
     <string name="update_deck">Atualizar o dock</string>
     <string name="your_deck_version_is_too_old">Sua versão do dock é muito antiga.</string>
     <string name="deck_outdated_please_update">Sua versão do dock é muito antiga. Atualize-a para usar este aplicativo Android como cliente.</string>
     <string name="simple_update">Atualizar</string>
     <string name="simple_delete">Excluir</string>
-    <string name="delete_board_message">Isso excluirá permanentemente este painel, incluindo as pilhas e cartões.</string>
-    <string name="action_card_list_rename_list">Renomear coluna</string>
+    <string name="delete_board_message">Isso excluirá permanentemente este painel incluindo listas e cartões.</string>
     <string name="simple_rename">Renomear</string>
     <string name="simple_settings">Configurações</string>
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
-    <string name="pref_value_wifi_only">Sincronizar somente com Wi-Fi</string>
+    <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
     <string name="pref_value_theme_light">Claro</string>
     <string name="unassigned_user"> %1$s desatribuído</string>
     <string name="simple_undo">Desfazer</string>
-    <string name="no_activities">Não há atividades neste cartão. Você precisa conexão à internet para carregar e exibir atividades.</string>
-    <string name="rename_list">Renomear coluna</string>
+    <string name="no_activities">Não há atividades neste cartão. Você precisa estar conectado com a internet para carregar e exibir atividades.</string>
     <string name="share_board">Compartilhar painel</string>
     <string name="you_are_currently_offline">Você está offline no momento</string>
     <string name="simple_manage">gerenciar</string>
@@ -122,12 +124,12 @@
     <string name="simple_comment">Comentário</string>
     <string name="attachment_delete_message">Isso excluirá permanentemente este anexo.</string>
     <string name="no_content">Sem contexto ainda</string>
-    <string name="last_background_sync">Última sincronização em segundo plano</string>
+    <string name="last_background_sync">Última sincronização em segundo plano:</string>
     <string name="simple_off">Desligar</string>
     <string name="minutes_15">15 minutos</string>
     <string name="hour_1">1 hora</string>
     <string name="hours_6">6 horas</string>
-    <string name="action_card_move">Move cartão</string>
+    <string name="action_card_move">Mover cartão</string>
     <string name="action_card_move_title">Mover %1$s</string>
     <string name="simple_disabled">desativado</string>
     <string name="simple_copied">Copiado</string>
@@ -135,7 +137,6 @@
     <string name="title_is_mandatory">O título é obrigatório</string>
     <string name="provide_at_least_a_title_or_description">Forneça ao menos um título ou descrição</string>
     <string name="welcome_text">Bem-vindo ao %1$s</string>
-    <string name="choose_account">Encerrar a Conta</string>
     <string name="save_card_before_attachment">O cartão precisa ser salvo antes que anexos sejam adicionados.</string>
     <string name="server_misconfigured">Servidor mal configurado</string>
     <string name="server_misconfigured_explanation">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck ou ele está configurado incorretamente. Isso pode ser causado por alterações personalizadas no arquivo .htaccess ou aplicativos Nextcloud como o Client OID. Você pode encontrar informações de contato para suporte na seção \"Sobre\".</string>

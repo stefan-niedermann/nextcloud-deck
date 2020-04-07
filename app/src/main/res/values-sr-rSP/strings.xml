@@ -50,11 +50,12 @@
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Dodelite korisnike</string>
     <string name="hint_due_date_date">Rok</string>
-    <string name="activity">Aktivnost</string>
-    <string name="add_card">Dodaj karticu</string>
-    <string name="add_list">Dodaj kolonu</string>
-
     <string name="add_account">Dodajte nalog</string>
+    <string name="choose_account">Odaberite nalog</string>
+
+    <string name="add_card">Dodaj karticu</string>
+
+    <string name="activity">Aktivnost</string>
 
     <string name="label_menu">meni</string>
     <string name="action_card_assign">Dodeli karticu meni</string>
@@ -62,12 +63,11 @@
     <string name="action_card_archive">Arhiviraj karticu</string>
     <string name="action_card_delete">Obriši karticu</string>
     <string name="add_board">Dodaj tablu</string>
-    <string name="delete_list">Obriši kolonu</string>
     <string name="simple_title">Naslov</string>
 
     <string name="label_clear_due_date">Izbriši rok</string>
-
     <string name="label_add">Dodaj %1$s</string>
+
     <string name="error">Došlo je do greške</string>
     <string name="simple_copy">kopiraj</string>
     <string name="simple_exception">Izuzetak</string>
@@ -85,19 +85,14 @@
     <string name="account_already_added">Ovaj nalog je već dodat</string>
     <string name="account_is_getting_imported">Nalog se uvozi</string>
     <string name="not_synced_yet">Još nije sinhronizovano</string>
-    <string name="no_lists_yet">Još nema kolona</string>
     <string name="do_you_want_to_save_your_changes">Da li želite da sačuvate izmene?</string>
     <string name="simple_discard">odbaci</string>
-    <string name="do_you_want_to_delete_the_current_list">Da li želite da obrišete trenutnu kolonu?</string>
-    <string name="add_a_new_list_using_the_button">Dodajte novu kolonu na + dugme</string>
     <string name="add_a_new_card_using_the_button">Dodajte novu karticu na + dugme</string>
     <string name="update_deck">Ažuriraj špil</string>
     <string name="your_deck_version_is_too_old">Verzija Vaše Deck aplikacije je previše stara</string>
     <string name="deck_outdated_please_update">Verzija Vaše Deck aplikacije je previše stara. Ažurirajte je da biste koristili ovu Android aplikaciju kao klijenta.</string>
     <string name="simple_update">Ažuriraj</string>
     <string name="simple_delete">Obriši</string>
-    <string name="delete_board_message">Ovo će trajno da ukloni ovu tablu uključujući sve gomile i kartice.</string>
-    <string name="action_card_list_rename_list">Preimenuj kolonu</string>
     <string name="simple_rename">Preimenuj</string>
     <string name="simple_settings">Postavke</string>
     <string name="settings_theme_title">Tamna tema</string>
@@ -107,7 +102,6 @@
     <string name="unassigned_user">Uklonjena dodela sa %1$s</string>
     <string name="simple_undo">Opozovi</string>
     <string name="no_activities">Nema aktivnosti na kartici. Morate da se povežete na internet da učitate i prikažete aktivnosti.</string>
-    <string name="rename_list">Preimenuj kolonu</string>
     <string name="share_board">Podeli tablu</string>
     <string name="you_are_currently_offline">Trenutno ste van mreže</string>
     <string name="simple_manage">Upravljanje</string>
