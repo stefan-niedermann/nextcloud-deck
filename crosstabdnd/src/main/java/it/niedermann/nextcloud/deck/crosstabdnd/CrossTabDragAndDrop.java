@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.dnd;
+package it.niedermann.nextcloud.deck.crosstabdnd;
 
 import android.content.res.Resources;
 import android.util.Log;
@@ -17,8 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
-import it.niedermann.nextcloud.deck.R;
 
 public class CrossTabDragAndDrop<
         TabFragment extends Fragment & DragAndDropTab<ItemAdapter>,
@@ -43,9 +41,9 @@ public class CrossTabDragAndDrop<
         this.displayX = resources.getDisplayMetrics().widthPixels;
         final float density = resources.getDisplayMetrics().density;
         this.pxToReact = resources.getInteger(R.integer.drag_n_drop_dp_to_react) * density;
-        this.pxToReactTopBottom = resources.getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom) * density;
-        this.dragAndDropMsToReact = resources.getInteger(R.integer.drag_n_drop_ms_to_react);
         this.dragAndDropMsToReactTopBottom = resources.getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom);
+        this.pxToReactTopBottom = dragAndDropMsToReactTopBottom * density;
+        this.dragAndDropMsToReact = resources.getInteger(R.integer.drag_n_drop_ms_to_react);
     }
 
     public void register(final ViewPager2 viewPager, TabLayout stackLayout, FragmentManager fm) {

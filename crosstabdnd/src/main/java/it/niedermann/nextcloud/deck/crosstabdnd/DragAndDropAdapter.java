@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.dnd;
+package it.niedermann.nextcloud.deck.crosstabdnd;
 
 import java.util.List;
 

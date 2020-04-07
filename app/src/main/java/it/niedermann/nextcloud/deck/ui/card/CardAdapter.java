@@ -34,6 +34,8 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.crosstabdnd.DragAndDropAdapter;
+import it.niedermann.nextcloud.deck.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -46,8 +48,6 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.ui.EditActivity;
-import it.niedermann.nextcloud.deck.ui.dnd.DragAndDropAdapter;
-import it.niedermann.nextcloud.deck.ui.dnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;

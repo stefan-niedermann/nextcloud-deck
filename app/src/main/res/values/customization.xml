@@ -12,12 +12,6 @@
     <integer name="max_labels_suggested">3</integer>
     <!-- How many dp should one column in the attachments grid have -->
     <integer name="max_dp_attachment_column">110</integer>
-    <!-- How many microseconds should be waited before switching to another tab when dragging cards -->
-    <integer name="drag_n_drop_ms_to_react">500</integer>
-    <!-- How many dp from border should one be away before switching to another tab when dragging cards -->
-    <integer name="drag_n_drop_dp_to_react">30</integer>
-    <!-- How many dp from top / bottom border should one be away before scrolling top / down when dragging cards -->
-    <integer name="drag_n_drop_dp_to_react_top_bottom">100</integer>
     <!-- Maximum characters of a comment. Caution: Server allow maximum 1000 characters! -->
     <integer name="comment_max_length">1000</integer>
 </resources>

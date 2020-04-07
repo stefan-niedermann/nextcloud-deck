@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.crosstabdnd.DragAndDropModel;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinCardWithLabel;
@@ -20,7 +21,6 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
-import it.niedermann.nextcloud.deck.ui.dnd.DragAndDropModel;
 
 public class FullCard implements IRemoteEntity, DragAndDropModel {
 
