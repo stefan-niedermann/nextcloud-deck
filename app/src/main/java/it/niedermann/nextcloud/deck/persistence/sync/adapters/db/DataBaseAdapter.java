@@ -688,4 +688,8 @@ public class DataBaseAdapter {
     public List<Card> getCardsWithLocallyChangedCommentsDirectly(Long accountId) {
         return db.getCardDao().getCardsWithLocallyChangedCommentsDirectly(accountId);
     }
+
+    public Long getLocalStackIdByRemoteStackIdDirectly(long accountId, Long stackId) {
+        return db.getStackDao().getLocalStackIdByRemoteStackIdDirectly(accountId, stackId);
+    }
 }

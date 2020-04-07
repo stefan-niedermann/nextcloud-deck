@@ -19,8 +19,9 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 
+import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
+
 public class EditStackDialogFragment extends DialogFragment {
-    public static final Long NO_STACK_ID = -1L;
     private static final String KEY_STACK_ID = "board_id";
     private static final String KEY_OLD_TITLE = "old_title";
     private long stackId = NO_STACK_ID;

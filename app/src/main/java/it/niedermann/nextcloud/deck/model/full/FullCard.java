@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.model.full;
 
+import androidx.annotation.NonNull;
 import androidx.room.Embedded;
 import androidx.room.Ignore;
 import androidx.room.Junction;
@@ -19,8 +20,9 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.ui.helper.dnd.DragAndDropModel;
 
-public class FullCard implements IRemoteEntity {
+public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Ignore
     private transient boolean isAttachmentsSorted = false;
@@ -34,7 +36,7 @@ public class FullCard implements IRemoteEntity {
     public List<Label> labels = new ArrayList<>();
 
     @Relation(entity = User.class, parentColumn = "localId", entityColumn = "localId",
-        associateBy = @Junction(value = JoinCardWithUser.class, parentColumn = "cardId", entityColumn = "userId"))
+            associateBy = @Junction(value = JoinCardWithUser.class, parentColumn = "cardId", entityColumn = "userId"))
     public List<User> assignedUsers = new ArrayList<>();
 
     @Relation(parentColumn = "userId", entityColumn = "localId")
@@ -92,8 +94,8 @@ public class FullCard implements IRemoteEntity {
         return commentIDs;
     }
 
-    public int getCommentCount(){
-        return  commentIDs == null ? 0 : commentIDs.size();
+    public int getCommentCount() {
+        return commentIDs == null ? 0 : commentIDs.size();
     }
 
     public List<User> getOwner() {
@@ -111,7 +113,7 @@ public class FullCard implements IRemoteEntity {
     }
 
     public List<Attachment> getAttachments() {
-        if (!isAttachmentsSorted){
+        if (!isAttachmentsSorted) {
             Collections.sort(attachments);
             isAttachmentsSorted = true;
         }
@@ -168,5 +170,11 @@ public class FullCard implements IRemoteEntity {
         result = 31 * result + (attachments != null ? attachments.hashCode() : 0);
         result = 31 * result + (commentIDs != null ? commentIDs.hashCode() : 0);
         return result;
+    }
+
+    @NonNull
+    @Override
+    public Long getComparableId() {
+        return getLocalId();
     }
 }

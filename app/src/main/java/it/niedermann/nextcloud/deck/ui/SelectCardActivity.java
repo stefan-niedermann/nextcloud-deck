@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import java.io.File;
@@ -18,7 +17,6 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -130,17 +128,15 @@ public class SelectCardActivity extends MainActivity implements CardAdapter.Sele
     }
 
     @Override
-    protected void displayStacksForBoard(@Nullable Board board, @Nullable Account account) {
-        super.displayStacksForBoard(board, account);
+    protected void setCurrentBoard(@NonNull Board board) {
+        super.setCurrentBoard(board);
         binding.addStackButton.setVisibility(View.GONE);
         binding.fab.setVisibility(View.GONE);
         binding.toolbar.setTitle(R.string.simple_select);
     }
 
     @Override
-    protected void showFabIfEditPermissionGranted() {
-        // Do nothing
-    }
+    protected void showFabIfEditPermissionGranted() { /* Silence is gold */ }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
