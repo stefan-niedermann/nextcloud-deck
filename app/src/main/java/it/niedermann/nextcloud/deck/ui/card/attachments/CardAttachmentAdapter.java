@@ -191,7 +191,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         return attachments.size();
     }
 
-    public void setAttachments(@NonNull List<Attachment> attachments, long cardRemoteId) {
+    public void setAttachments(@NonNull List<Attachment> attachments, @Nullable Long cardRemoteId) {
         this.cardRemoteId = cardRemoteId;
         this.attachments = attachments;
         notifyDataSetChanged();
