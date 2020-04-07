@@ -81,7 +81,8 @@ public class CrossTabDragAndDrop<
                         if (shouldSwitchTab && isMovePossible(viewPager, newTabPosition)) {
                             removeItem(currentRecyclerView, draggedView, itemAdapter);
                             detectAndKillDuplicatesInNeighbourTab(viewPager, draggedItemLocalState.getDraggedItemModel(), fm, oldTabPosition, newTabPosition);
-                            switchTab(viewPager, stackLayout, fm, draggedItemLocalState, now, newTabPosition);
+                            switchTab(dragEvent, viewPager, stackLayout, fm, draggedItemLocalState, now, newTabPosition);
+
                             return true;
                         }
                     }
@@ -97,19 +98,7 @@ public class CrossTabDragAndDrop<
 
                     if (lastMove + dragAndDropMsToReactTopBottom < now) {
                         //push around the other items
-                        View viewUnder = currentRecyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
-
-                        if (viewUnder != null) {
-                            int toPositon = currentRecyclerView.getChildAdapterPosition(viewUnder);
-                            if (toPositon != -1) {
-                                int fromPosition = currentRecyclerView.getChildAdapterPosition(draggedView);
-                                if (fromPosition != -1 && fromPosition != toPositon) {
-                                    itemAdapter.moveItem(fromPosition, toPositon);
-                                    draggedItemLocalState.setPositionInItemAdapter(toPositon);
-                                    lastMove = now;
-                                }
-                            }
-                        }
+                        pushAroundItems(draggedView, currentRecyclerView, dragEvent, itemAdapter, draggedItemLocalState, now);
                     }
                     break;
                 }
@@ -125,7 +114,7 @@ public class CrossTabDragAndDrop<
         });
     }
 
-    private void switchTab(ViewPager2 viewPager, TabLayout stackLayout, FragmentManager fm, final DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel> draggedItemLocalState, long now, int newPosition) {
+    private void switchTab(DragEvent dragEvent, ViewPager2 viewPager, TabLayout stackLayout, FragmentManager fm, final DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel> draggedItemLocalState, long now, int newPosition) {
         viewPager.setCurrentItem(newPosition);
         draggedItemLocalState.onTabChanged(viewPager, fm);
         Objects.requireNonNull(stackLayout.getTabAt(newPosition)).select();
@@ -140,6 +129,7 @@ public class CrossTabDragAndDrop<
                 draggedItemLocalState.setInsertedListener(null);
                 view.setVisibility(View.INVISIBLE);
                 draggedItemLocalState.setDraggedView(view);
+                pushAroundItems(view, recyclerView, dragEvent, itemAdapter, (DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel>) draggedItemLocalState, now);
             }
 
             @Override
@@ -154,6 +144,22 @@ public class CrossTabDragAndDrop<
         itemAdapter.insertItem(draggedItemLocalState.getDraggedItemModel(), positionToInsert);
 
         lastSwap = now;
+    }
+
+    private void pushAroundItems(@NonNull View view, RecyclerView recyclerView, DragEvent dragEvent, ItemAdapter itemAdapter, DraggedItemLocalState<TabFragment, ItemAdapter, ItemModel> draggedItemLocalState, long now) {
+        View viewUnder = recyclerView.findChildViewUnder(dragEvent.getX(), dragEvent.getY());
+
+        if (viewUnder != null) {
+            int toPositon = recyclerView.getChildAdapterPosition(viewUnder);
+            if (toPositon != -1) {
+                int fromPosition = recyclerView.getChildAdapterPosition(view);
+                if (fromPosition != -1 && fromPosition != toPositon) {
+                    itemAdapter.moveItem(fromPosition, toPositon);
+                    draggedItemLocalState.setPositionInItemAdapter(toPositon);
+                    lastMove = now;
+                }
+            }
+        }
     }
 
     private static boolean isMovePossible(ViewPager2 viewPager, int newPosition) {
