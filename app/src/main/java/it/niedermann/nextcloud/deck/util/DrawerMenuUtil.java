@@ -127,6 +127,9 @@ public class DrawerMenuUtil {
                     PopupMenu popup = new PopupMenu(context, contextMenu);
                     popup.getMenuInflater().inflate(R.menu.navigation_context_menu, popup.getMenu());
                     final int SHARE_BOARD_ID = -1;
+                    if (board.isPermissionShare()) {
+                        popup.getMenu().add(Menu.NONE, SHARE_BOARD_ID, 5, R.string.share_board);
+                    }
                     popup.setOnMenuItemClickListener((MenuItem item) -> {
                         switch (item.getItemId()) {
                             case SHARE_BOARD_ID:
