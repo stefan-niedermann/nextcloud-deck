@@ -109,13 +109,6 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
                 if (cards != null && cards.size() > 0) {
                     binding.emptyContentView.setVisibility(View.GONE);
                     adapter.setCardList(cards);
-                    // FIXME Workaround for not properly displaying cards again after drag'n'dropping them into another list
-                    for (int i = 0; i < binding.recyclerView.getChildCount(); i++) {
-                        View cardView = binding.recyclerView.getChildAt(i);
-                        if (cardView != null && cardView.getVisibility() == View.INVISIBLE) {
-                            cardView.setVisibility(View.VISIBLE);
-                        }
-                    }
                 } else {
                     binding.emptyContentView.setVisibility(View.VISIBLE);
                 }

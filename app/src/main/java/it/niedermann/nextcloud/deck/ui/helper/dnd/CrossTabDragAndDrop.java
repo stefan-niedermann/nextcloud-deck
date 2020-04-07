@@ -154,8 +154,10 @@ public class CrossTabDragAndDrop<
             if (toPositon != -1) {
                 int fromPosition = recyclerView.getChildAdapterPosition(view);
                 if (fromPosition != -1 && fromPosition != toPositon) {
-                    itemAdapter.moveItem(fromPosition, toPositon);
-                    draggedItemLocalState.setPositionInItemAdapter(toPositon);
+                    recyclerView.post(() -> {
+                        itemAdapter.moveItem(fromPosition, toPositon);
+                        draggedItemLocalState.setPositionInItemAdapter(toPositon);
+                    });
                     lastMove = now;
                 }
             }
