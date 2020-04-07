@@ -52,11 +52,16 @@
     <string name="label_description">Beskrivning</string>
     <string name="hint_assign_people">Tilldela användare</string>
     <string name="hint_due_date_date">Slutdatum</string>
-    <string name="activity">Aktivitet</string>
-    <string name="add_card">Lägg till kort</string>
-    <string name="add_list">Lägg till kolumn</string>
-
     <string name="add_account">Lägg till konto</string>
+    <string name="choose_account">Välj konto</string>
+
+    <string name="add_card">Lägg till kort</string>
+
+    <string name="activity">Aktivitet</string>
+
+    <string name="add_list">Lägg till lista...</string>
+    <string name="rename_list">Byt namn på lista</string>
+    <string name="delete_list">Radera lista</string>
 
     <string name="label_menu">meny</string>
     <string name="action_card_assign">Tilldela kort till mig</string>
@@ -64,12 +69,11 @@
     <string name="action_card_archive">Arkivera kort</string>
     <string name="action_card_delete">Radera kort</string>
     <string name="add_board">Lägg till tavla</string>
-    <string name="delete_list">Radera kolumn</string>
     <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Rensa slutdatum</string>
-
     <string name="label_add">Lägg till %1$s</string>
+
     <string name="error">Ett fel inträffade</string>
     <string name="operation_not_yet_supported">Stöds inte än</string>
     <string name="simple_copy">kopiera</string>
@@ -88,30 +92,28 @@
     <string name="account_already_added">Konto redan tillagt</string>
     <string name="account_is_getting_imported">Kontot importeras</string>
     <string name="not_synced_yet">Inte synkroniserad än</string>
-    <string name="no_lists_yet">Inga kolumner än</string>
+    <string name="no_lists_yet">Inga listor än</string>
     <string name="do_you_want_to_save_your_changes">Vill du spara dina ändringar?</string>
     <string name="simple_discard">kassera</string>
-    <string name="do_you_want_to_delete_the_current_list">Vill du ta bort den aktuella kolumnen?</string>
-    <string name="add_a_new_list_using_the_button">Lägg till en ny kolumn med + knappen</string>
+    <string name="do_you_want_to_delete_the_current_list">Vill du ta bort den aktuella listan?</string>
+    <string name="add_a_new_list_using_the_button">Lägg till en ny lista med + knappen</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
     <string name="update_deck">Uppdatera Deck</string>
     <string name="your_deck_version_is_too_old">Din version är för gammal</string>
     <string name="deck_outdated_please_update">Din version av Deck är för gammal. Uppdatera för att använda den här Android-appen som klient.</string>
     <string name="simple_update">Uppdatera</string>
     <string name="simple_delete">Radera</string>
-    <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla staplar och kort.</string>
-    <string name="action_card_list_rename_list">Byt namn på kolumn</string>
+    <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
     <string name="simple_rename">Byt namn</string>
     <string name="simple_settings">Inställningar</string>
     <string name="settings_theme_title">Mörkt tema</string>
     <string name="settings_background_sync">Bakgrundssynkronisering</string>
-    <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobil data</string>
+    <string name="pref_value_wifi_and_mobile">Synkronisera med Wi-Fi och mobildata</string>
     <string name="pref_value_wifi_only">Synkronisera endast med Wi-Fi</string>
     <string name="pref_value_theme_light">Ljust</string>
     <string name="unassigned_user">Tog bort tilldelning %1$s</string>
     <string name="simple_undo">Ångra</string>
-    <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att ladda och visa aktiviteter.</string>
-    <string name="rename_list">Byt namn på kolumn</string>
+    <string name="no_activities">Det finns inga aktiviteter på det här kortet. Du måste vara ansluten till internet för att läsa in och visa aktiviteter.</string>
     <string name="share_board">Dela tavla</string>
     <string name="you_are_currently_offline">Du är för närvarande offline</string>
     <string name="simple_manage">hantera</string>
@@ -135,7 +137,6 @@
     <string name="title_is_mandatory">Titel är obligatorisk</string>
     <string name="provide_at_least_a_title_or_description">Ange åtminstone en titel eller beskrivning</string>
     <string name="welcome_text">Välkommen till %1$s</string>
-    <string name="choose_account">Välj konto</string>
     <string name="save_card_before_attachment">Kortet måste sparas innan bilagor kan läggas till.</string>
     <string name="server_misconfigured">Server felkonfigurerad</string>
     <string name="server_misconfigured_explanation">Din server svarade med en statuskod HTTP 302, vilket indikerar att du inte har installerat Deck-appen på din server eller att något är felkonfigurerat. Detta kan orsakas av anpassningar i en .htaccess-fil eller av Nextcloud-appar som OID Client. Du hittar vår kontaktinformation för support i Om-avsnittet.</string>
@@ -144,6 +145,8 @@
     <string name="share_add_to_card">Lägg till i kort</string>
     <string name="share_success">La till %1$s till %2$s</string>
     <string name="could_not_copy_to_clipboard">Kunde inte kopiera till urklipp</string>
-    <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Försök att ladda ner det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
+    <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
+    <string name="add_comment">Lägg till kommentar</string>
     <string name="card_edit_comments">Kommentarer</string>
-    </resources>
+    <string name="no_comments_yet">Inga kommentarer än</string>
+</resources>

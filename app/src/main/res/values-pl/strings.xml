@@ -52,11 +52,16 @@
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Przydziel użytkowników</string>
     <string name="hint_due_date_date">Data realizacji</string>
-    <string name="activity">Aktywność</string>
-    <string name="add_card">Dodaj kartę</string>
-    <string name="add_list">Dodaj kolumnę</string>
-
     <string name="add_account">Dodaj konto</string>
+    <string name="choose_account">Wybierz konto</string>
+
+    <string name="add_card">Dodaj kartę</string>
+
+    <string name="activity">Aktywność</string>
+
+    <string name="add_list">Dodaj listę</string>
+    <string name="rename_list">Zmień nazwę listy</string>
+    <string name="delete_list">Usuń listę</string>
 
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Przydziel kartę</string>
@@ -64,12 +69,11 @@
     <string name="action_card_archive">Zarchiwizowane karty</string>
     <string name="action_card_delete">Usunięte karty</string>
     <string name="add_board">Dodaj tablicę</string>
-    <string name="delete_list">Usuń kolumnę</string>
     <string name="simple_title">Tytuł</string>
 
     <string name="label_clear_due_date">Wyczyść termin</string>
-
     <string name="label_add">Dodaj %1$s</string>
+
     <string name="error">Wystąpił błąd</string>
     <string name="operation_not_yet_supported">Jeszcze nie obsługiwane</string>
     <string name="simple_copy">kopiuj</string>
@@ -88,19 +92,18 @@
     <string name="account_already_added">Konto już dodane</string>
     <string name="account_is_getting_imported">Importowanie konta</string>
     <string name="not_synced_yet">Jeszcze nie zsynchronizowane</string>
-    <string name="no_lists_yet">Brak kolumn</string>
+    <string name="no_lists_yet">Brak list</string>
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
     <string name="simple_discard">odrzuć</string>
-    <string name="do_you_want_to_delete_the_current_list">Czy chcesz usunąć bieżącą kolumnę?</string>
-    <string name="add_a_new_list_using_the_button">Dodaj nową kolumnę za pomocą przycisku +</string>
+    <string name="do_you_want_to_delete_the_current_list">Czy chcesz usunąć bieżącą listę?</string>
+    <string name="add_a_new_list_using_the_button">Dodaj nową listę za pomocą przycisku +</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +.</string>
     <string name="update_deck">Zaktualizuj deck</string>
     <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
     <string name="deck_outdated_please_update">Twoja wersja deck jest nieaktualna. Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
     <string name="simple_update">Aktualizuj</string>
     <string name="simple_delete">Usuń</string>
-    <string name="delete_board_message">Spowoduje to trwałe usunięcie tablicy, w tym wszystkich stosów i kart.</string>
-    <string name="action_card_list_rename_list">Zmień nazwę kolumny</string>
+    <string name="delete_board_message">Spowoduje to trwałe usunięcie tej tablicy, w tym wszystkich list i kart.</string>
     <string name="simple_rename">Zmień nazwę</string>
     <string name="simple_settings">Ustawienia</string>
     <string name="settings_theme_title">Ciemny motyw</string>
@@ -111,7 +114,6 @@
     <string name="unassigned_user">Nieprzypisane %1$s</string>
     <string name="simple_undo">Cofnij</string>
     <string name="no_activities">Na tej karcie nie ma żadnych działań. Musisz być podłączony do Internetu, aby ładować i wyświetlać działania.</string>
-    <string name="rename_list">Zmień nazwę kolumny</string>
     <string name="share_board">Udostępnij tablicę</string>
     <string name="you_are_currently_offline">Obecnie jesteś w offline</string>
     <string name="simple_manage">zarządzać</string>
@@ -135,7 +137,6 @@
     <string name="title_is_mandatory">Tytuł jest obowiązkowy</string>
     <string name="provide_at_least_a_title_or_description">Podaj co najmniej tytuł lub opis</string>
     <string name="welcome_text">Witamy w %1$s</string>
-    <string name="choose_account">Wybierz konto</string>
     <string name="save_card_before_attachment">Kartę należy zapisać przed dodaniem załączników.</string>
     <string name="server_misconfigured">Serwer źle skonfigurowany</string>
     <string name="server_misconfigured_explanation">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client. Nasze informacje kontaktowe dotyczące wsparcia można znaleźć w dziale \"O nas\".</string>

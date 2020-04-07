@@ -51,11 +51,12 @@
     <string name="label_description">Leírás</string>
     <string name="hint_assign_people">Felhasználók hozzárendelése</string>
     <string name="hint_due_date_date">Határidő</string>
-    <string name="activity">Tevékenység</string>
-    <string name="add_card">Kártya hozzáadása</string>
-    <string name="add_list">Oszlop hozzáadása</string>
-
     <string name="add_account">Fiók hozzáadása</string>
+    <string name="choose_account">Válasszon fiókot</string>
+
+    <string name="add_card">Kártya hozzáadása</string>
+
+    <string name="activity">Tevékenység</string>
 
     <string name="label_menu">menü</string>
     <string name="action_card_assign">Kártya hozzám rendelése</string>
@@ -63,12 +64,11 @@
     <string name="action_card_archive">Kártya archiválása</string>
     <string name="action_card_delete">Kártya törlése</string>
     <string name="add_board">Tábla hozzáadása</string>
-    <string name="delete_list">Oszlop törlése</string>
     <string name="simple_title">Cím</string>
 
     <string name="label_clear_due_date">Határidő eltávolítása</string>
-
     <string name="label_add">%1$s hozzáadása</string>
+
     <string name="error">Hiba történt</string>
     <string name="operation_not_yet_supported">Még nincs támogatva</string>
     <string name="simple_copy">másolat</string>
@@ -87,19 +87,14 @@
     <string name="account_already_added">A fiók már hozzá lett adva</string>
     <string name="account_is_getting_imported">A fiók importálásra kerül</string>
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
-    <string name="no_lists_yet">Még nincsenek oszlopok</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
     <string name="simple_discard">elvetés</string>
-    <string name="do_you_want_to_delete_the_current_list">Biztos, hogy törli a jelenlegi oszlopot?</string>
-    <string name="add_a_new_list_using_the_button">Új oszlop hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
     <string name="update_deck">Kártyák frissítése</string>
     <string name="your_deck_version_is_too_old">A Kártyák verziója túl régi</string>
     <string name="deck_outdated_please_update">A Kártyák verzió túl régi. Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
     <string name="simple_update">Frissítés</string>
     <string name="simple_delete">Törlés</string>
-    <string name="delete_board_message">Ez végleg törli a táblát az összes rakással és kártyával.</string>
-    <string name="action_card_list_rename_list">Oszlop átnevezése</string>
     <string name="simple_rename">Átnevezés</string>
     <string name="simple_settings">Beállítások</string>
     <string name="settings_theme_title">Sötét téma</string>
@@ -110,7 +105,6 @@
     <string name="unassigned_user">Nem hozzárendelt %1$s</string>
     <string name="simple_undo">Visszavonás</string>
     <string name="no_activities">Még nincsenek tevékenységek ezen a kártyán. Internetkapcsolatra van szükség, hogy betöltse és megjelenítse a tevékenységeket.</string>
-    <string name="rename_list">Oszlop átnevezése</string>
     <string name="share_board">Tábla megosztása</string>
     <string name="you_are_currently_offline">Jelenleg offline</string>
     <string name="simple_manage">kezelés</string>

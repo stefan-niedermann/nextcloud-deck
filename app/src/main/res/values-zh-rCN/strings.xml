@@ -39,6 +39,8 @@
     <string name="about_app_license">此程序通过 GNU 通用公共许可证 V3+ 授权。</string>
     <string name="about_app_license_button">查看许可证</string>
     <string name="about_icons_disclaimer_title">图标</string>
+    <string name="about_icons_disclaimer_app_icon">原创图标请查看 %1$s。</string>
+    <string name="about_icons_disclaimer_mdi_icons">本应用中使用的所有其他图标均来自 Google Inc. 创建的 %1$s，这些图标以 Apache 2.0 许可证发布。</string>
     <string name="about_icons_disclaimer_mdi">Material Design 图标</string>
     <string name="about_credits_tab_title">致谢</string>
     <string name="about_contribution_tab_title">贡献</string>
@@ -50,11 +52,14 @@
     <string name="label_description">描述</string>
     <string name="hint_assign_people">指派用户</string>
     <string name="hint_due_date_date">截止日期</string>
-    <string name="activity">动态</string>
-    <string name="add_card">新建卡片</string>
-    <string name="add_list">添加列</string>
-
     <string name="add_account">添加账号</string>
+    <string name="choose_account">选择账号</string>
+
+    <string name="add_card">新建卡片</string>
+
+    <string name="activity">动态</string>
+
+    <string name="delete_list">删除列表</string>
 
     <string name="label_menu">菜单</string>
     <string name="action_card_assign">将卡片指派给我</string>
@@ -62,12 +67,11 @@
     <string name="action_card_archive">归档卡片</string>
     <string name="action_card_delete">删除卡片</string>
     <string name="add_board">添加面板</string>
-    <string name="delete_list">删除列</string>
     <string name="simple_title">标题</string>
 
     <string name="label_clear_due_date">清除截止日期</string>
-
     <string name="label_add">添加 %1$s</string>
+
     <string name="error">发生了一个错误</string>
     <string name="simple_copy">复制</string>
     <string name="simple_exception">异常</string>
@@ -85,19 +89,15 @@
     <string name="account_already_added">账号已被添加</string>
     <string name="account_is_getting_imported">账号已被导入</string>
     <string name="not_synced_yet">尚未同步</string>
-    <string name="no_lists_yet">暂无列</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
     <string name="simple_discard">丢弃</string>
-    <string name="do_you_want_to_delete_the_current_list">您希望删除当前的栏吗？</string>
-    <string name="add_a_new_list_using_the_button">使用 + 按钮添加新一列</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
     <string name="update_deck">更新看板</string>
     <string name="your_deck_version_is_too_old">您的看板版本过旧</string>
     <string name="deck_outdated_please_update">您的看板版本过旧。请更新此安卓客户端。</string>
     <string name="simple_update">更新</string>
     <string name="simple_delete">删除</string>
-    <string name="delete_board_message">此操作将永久删除此面板，包括所有任务和卡片。</string>
-    <string name="action_card_list_rename_list">重命名列</string>
+    <string name="delete_board_message">此操作将永久删除此面板，包括所有列表和卡片。</string>
     <string name="simple_rename">重命名</string>
     <string name="simple_settings">设置</string>
     <string name="settings_theme_title">深色主题</string>
@@ -108,7 +108,6 @@
     <string name="unassigned_user">已经取消分配%1$s</string>
     <string name="simple_undo">撤消</string>
     <string name="no_activities">找不到此卡片上的动态。 您需要连接到互联网才能加载和显示动态。</string>
-    <string name="rename_list">重命名列</string>
     <string name="share_board">共享面板</string>
     <string name="you_are_currently_offline">您当前已离线</string>
     <string name="simple_manage">管理</string>
@@ -128,6 +127,14 @@
     <string name="action_card_move_title">移动 %1$s</string>
     <string name="simple_disabled">已禁用</string>
     <string name="simple_copied">已复制</string>
+    <string name="please_add_an_account_first">请先添加一个账号</string>
+    <string name="title_is_mandatory">标题是必需的</string>
+    <string name="provide_at_least_a_title_or_description">提供至少一个标题或描述</string>
+    <string name="welcome_text">欢迎来到 %1$s</string>
+    <string name="save_card_before_attachment">卡片在可以添加附件之前需要先保存。</string>
+    <string name="server_misconfigured">配置错误的服务器</string>
     <string name="server_error">服务器错误</string>
+    <string name="share_add_to_card">添加到卡片</string>
+    <string name="share_success">成功将 %1$s 添加到 %2$s</string>
     <string name="card_edit_comments">评论</string>
     </resources>

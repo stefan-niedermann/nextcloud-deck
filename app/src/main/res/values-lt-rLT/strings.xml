@@ -43,23 +43,25 @@
     <string name="label_description">Aprašas</string>
     <string name="hint_assign_people">Priskirti naudotojus</string>
     <string name="hint_due_date_date">Galutinis terminas</string>
-    <string name="activity">Veikla</string>
-    <string name="add_card">Pridėti kortelę</string>
-    <string name="add_list">Pridėti stulpelį</string>
-
     <string name="add_account">Pridėti paskyrą</string>
+    <string name="choose_account">Parinkti paskyrą</string>
+
+    <string name="add_card">Pridėti kortelę</string>
+
+    <string name="activity">Veikla</string>
+
+    <string name="delete_list">Ištrinti sąrašą</string>
 
     <string name="label_menu">meniu</string>
     <string name="action_card_assign">Priskirti kortelę sau</string>
     <string name="action_card_archive">Archyvuoti kortelę</string>
     <string name="action_card_delete">Ištrinti kortelę</string>
     <string name="add_board">Pridėti plokštę</string>
-    <string name="delete_list">Ištrinti stulpelį</string>
     <string name="simple_title">Pavadinimas</string>
 
     <string name="label_clear_due_date">Išvalyti galutinį terminą</string>
-
     <string name="label_add">Pridėti %1$s</string>
+
     <string name="error">Atsirado klaida</string>
     <string name="operation_not_yet_supported">Kol kas nepalaikoma</string>
     <string name="simple_copy">kopija</string>
@@ -77,17 +79,13 @@
     <string name="no_account">Nėra sukonfiguruotų paskyrų</string>
     <string name="account_already_added">Paskyra jau pridėta</string>
     <string name="not_synced_yet">Kol kas nesinchronizuota</string>
-    <string name="no_lists_yet">Kol kas stulpelių nėra</string>
     <string name="do_you_want_to_save_your_changes">Ar norite įrašyti savo pakeitimus?</string>
     <string name="simple_discard">atmesti</string>
-    <string name="do_you_want_to_delete_the_current_list">Ar norite ištrinti esamą stulpelį?</string>
     <string name="update_deck">Atnaujinti darbus</string>
     <string name="your_deck_version_is_too_old">Jūsų darbų versija yra per sena</string>
     <string name="deck_outdated_please_update">Jūsų darbų versija yra per sena. Atsinaujinkite, norėdami naudoti šią android programėlę kaip kliento programą.</string>
     <string name="simple_update">Atnaujinti</string>
     <string name="simple_delete">Ištrinti</string>
-    <string name="delete_board_message">Tai negrįžtamai ištrins šią plokštę, įskaitant visus dėklus bei korteles.</string>
-    <string name="action_card_list_rename_list">Pervadinti stulpelį</string>
     <string name="simple_rename">Pervadinti</string>
     <string name="simple_settings">Nustatymai</string>
     <string name="settings_theme_title">Tamsus apipavidalinimas</string>
@@ -96,7 +94,6 @@
     <string name="pref_value_wifi_only">Sinchronizuoti tik naudojant belaidį (Wi-Fi)</string>
     <string name="pref_value_theme_light">Šviesus</string>
     <string name="simple_undo">Atšaukti</string>
-    <string name="rename_list">Pervadinti stulpelį</string>
     <string name="share_board">Bendrinti plokštę</string>
     <string name="you_are_currently_offline">Šiuo metu esate atsijungę nuo interneto</string>
     <string name="simple_manage">tvarkyti</string>
