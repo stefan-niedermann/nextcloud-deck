@@ -87,7 +87,11 @@
         <activity
             android:name=".ui.PushNotificationActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.exception.ExceptionActivity"
