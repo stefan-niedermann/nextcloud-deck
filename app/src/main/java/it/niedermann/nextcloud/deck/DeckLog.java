@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class DeckLog {
-    public static final String TAG = DeckLog.class.getCanonicalName();
+    public static final String TAG = "";//DeckLog.class.getCanonicalName();
 
     public enum Severity {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR

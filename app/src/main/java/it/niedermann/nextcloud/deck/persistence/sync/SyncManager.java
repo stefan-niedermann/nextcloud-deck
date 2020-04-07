@@ -928,14 +928,20 @@ public class SyncManager {
 //            if (serverAdapter.hasInternetConnection()){
 //                // call reorder
 //                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
+//                Stack newStack = newStackId == stack.getLocalId() ? stack :  dataBaseAdapter.getStackByLocalIdDirectly(newStackId);
 //                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
 //                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-//                serverAdapter.reorder(board.getId(), movedCard, stack.getId(), newOrder, new IResponseCallback<List<FullCard>>(account){
+//                serverAdapter.reorder(board.getId(), stack.getId(), movedCard.getId(), newStack.getId(), newOrder, new IResponseCallback<List<FullCard>>(account){
 //
 //                    @Override
 //                    public void onResponse(List<FullCard> response) {
 //                        for (FullCard fullCard : response) {
-//                            DeckLog.log("move: stackid "+fullCard.getCard().getStackId());
+//                            Card card = fullCard.getCard();
+//                            card.setAccountId(accountId);
+//                            card.setStackId(dataBaseAdapter.getLocalStackIdByRemoteStackIdDirectly(accountId, card.getStackId()));
+//                            card.setStatusEnum(DBStatus.UP_TO_DATE);
+//                            dataBaseAdapter.updateCard(card, false);
+//                            DeckLog.log("move: stackid "+card.getStackId());
 //                        }
 //                    }
 //                });
