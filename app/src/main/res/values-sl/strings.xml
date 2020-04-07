@@ -52,11 +52,16 @@
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Dodeli uporabnike</string>
     <string name="hint_due_date_date">Datum preteka</string>
-    <string name="activity">Dejavnost</string>
-    <string name="add_card">Dodaj nalogo</string>
-    <string name="add_list">Dodaj paket</string>
-
     <string name="add_account">Dodaj račun</string>
+    <string name="choose_account">Izbor računa</string>
+
+    <string name="add_card">Dodaj nalogo</string>
+
+    <string name="activity">Dejavnost</string>
+
+    <string name="add_list">Dodaj seznam</string>
+    <string name="rename_list">Preimenuj seznam</string>
+    <string name="delete_list">Izbriši seznam</string>
 
     <string name="label_menu">Meni</string>
     <string name="action_card_assign">Nalogo dodeli meni</string>
@@ -64,12 +69,11 @@
     <string name="action_card_archive">Arhiviraj nalogo</string>
     <string name="action_card_delete">Izbriši nalogo</string>
     <string name="add_board">Dodaj zbirko</string>
-    <string name="delete_list">Izbriši paket</string>
     <string name="simple_title">Naslov</string>
 
     <string name="label_clear_due_date">Počisti datum poteka</string>
-
     <string name="label_add">Dodaj %1$s</string>
+
     <string name="error">Prišlo je do napake</string>
     <string name="operation_not_yet_supported">Možnost še ni podprta</string>
     <string name="simple_copy">kopiraj</string>
@@ -88,11 +92,11 @@
     <string name="account_already_added">Račun je že dodan</string>
     <string name="account_is_getting_imported">Poteka uvažanje računa</string>
     <string name="not_synced_yet">Še ni usklajeno</string>
-    <string name="no_lists_yet">Ni še dodanih paket</string>
+    <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
     <string name="simple_discard">opusti</string>
-    <string name="do_you_want_to_delete_the_current_list">Ali želite izbrisati trenutni paket?</string>
-    <string name="add_a_new_list_using_the_button">Dodaj stolpec z pritiskom na gumb +</string>
+    <string name="do_you_want_to_delete_the_current_list">Ali želite izbrisati trenutni seznam?</string>
+    <string name="add_a_new_list_using_the_button">Nov seznam dodate s klikom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
     <string name="update_deck">Posodobi zbirko</string>
     <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
@@ -100,7 +104,6 @@
     <string name="simple_update">Posodobi</string>
     <string name="simple_delete">Izbriši</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
-    <string name="action_card_list_rename_list">Preimenuj paket</string>
     <string name="simple_rename">Preimenuj</string>
     <string name="simple_settings">Nastavitve</string>
     <string name="settings_theme_title">Temna tema</string>
@@ -111,7 +114,6 @@
     <string name="unassigned_user">Uporabnik %1$s je odstranjen</string>
     <string name="simple_undo">Razveljavi</string>
     <string name="no_activities">Na tej nalogi še ni zaznane nobene dejavnosti. Za prikaz dejavnosti mora biti vzpostavljena povezava z omrežjem.</string>
-    <string name="rename_list">Preimenuj paket</string>
     <string name="share_board">Souporaba zbirke</string>
     <string name="you_are_currently_offline">Trenutno povezava z omrežjem ni na voljo.</string>
     <string name="simple_manage">upravljanje</string>
@@ -135,7 +137,6 @@
     <string name="title_is_mandatory">Naslov je obvezen</string>
     <string name="provide_at_least_a_title_or_description">Vpisati je treba vsaj naslov oziroma opis</string>
     <string name="welcome_text">Dobrodošli v %1$s</string>
-    <string name="choose_account">Izbor računa</string>
     <string name="save_card_before_attachment">Nalogo je treba shraniti, preden je mogoče dodati prilogo.</string>
     <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
     <string name="server_misconfigured_explanation">Prejet je odziv strežnika s kodo stanja HTTP 302, kar kaže na to, da ni nameščen program Deck, ali pa so napačne nastavitve. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID. Stopite v stik s skrbnikom, ali pa se obrnite za podporo na nas.</string>
@@ -145,5 +146,7 @@
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
     <string name="could_not_copy_to_clipboard">Predmeta ni mogoče kopirati v odložišče</string>
     <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
+    <string name="add_comment">Dodaj opombo</string>
     <string name="card_edit_comments">Opombe</string>
-    </resources>
+    <string name="no_comments_yet">Ni še dodane nobene opombe</string>
+</resources>

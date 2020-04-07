@@ -28,7 +28,7 @@
     <string name="about_translators_title">Itzultzaileak</string>
     <string name="about_translators_transifex">%1$s Nextcloud komunitatea</string>
     <string name="about_translators_transifex_label">Transifex</string>
-    <string name="about_testers_title">Frogatzaileak</string>
+    <string name="about_testers_title">Probatzaileak</string>
     <string name="about_source_title">Iturburu-kodea</string>
     <string name="about_source">Proiektu hau GitHuben ostatatuta dago: %1$s</string>
     <string name="about_issues_title">Arazoak</string>
@@ -37,39 +37,43 @@
     <string name="about_translate">Elkartu Nextcloud taldera Transifexen eta lagundu app hau itzultzen: %1$s</string>
     <string name="about_app_license_title">Aplikazio lizentzia</string>
     <string name="about_app_license">Aplikazio hau GNU GENERAL PUBLIC LICENSE v3+ lizentziapean dago.</string>
-    <string name="about_app_license_button">Lizentzia ikusi</string>
+    <string name="about_app_license_button">Ikusi lizentzia</string>
     <string name="about_icons_disclaimer_title">Irudiak</string>
     <string name="about_icons_disclaimer_app_icon">Jatorrizko ikonora jotzeko ikusi %1$s. </string>
     <string name="about_icons_disclaimer_mdi_icons">App honetan erabilitako gainontzeko ikonoen egilea %1$s Google Inc. da eta Apache 2.0 lizentzia daukate. </string>
     <string name="about_icons_disclaimer_mdi">Material Design ikonoak</string>
     <string name="about_credits_tab_title">Kredituak</string>
-    <string name="about_contribution_tab_title">Kontribuzio</string>
+    <string name="about_contribution_tab_title">Lagundu!</string>
     <string name="about_license_tab_title">Lizentzia</string>
 
-    <string name="seconds_ago">duela segundu batzuk</string>
-    <string name="edit">Aldatu</string>
-    <string name="label_labels">Etiketa hautatu</string>
-    <string name="label_description">Deskripzioa</string>
-    <string name="hint_assign_people">Erabiltzaileak esleitu</string>
+    <string name="seconds_ago">segundo lehenago</string>
+    <string name="edit">Editatu</string>
+    <string name="label_labels">Hautatu etiketak</string>
+    <string name="label_description">Deskribapena</string>
+    <string name="hint_assign_people">Esleitu erabiltzaileak</string>
     <string name="hint_due_date_date">Epe-muga</string>
-    <string name="activity">Jarduera</string>
-    <string name="add_card">Gehitu txartela</string>
-    <string name="add_list">Gehitu zutabea</string>
-
     <string name="add_account">Gehitu kontua</string>
+    <string name="choose_account">Aukeratu kontua</string>
 
-    <string name="label_menu">Menua</string>
+    <string name="add_card">Gehitu txartela</string>
+
+    <string name="activity">Jarduera</string>
+
+    <string name="add_list">Zerrenda gehitu</string>
+    <string name="rename_list">Zerrenda berrizendatu</string>
+    <string name="delete_list">Zerrenda ezabatu</string>
+
+    <string name="label_menu">menua</string>
     <string name="action_card_assign">Esleitu txartel hau niri</string>
     <string name="action_card_unassign">Txartel hau niri esleitzeari utzi</string>
     <string name="action_card_archive">Artxibatu txartela</string>
     <string name="action_card_delete">Ezabatu txartela</string>
     <string name="add_board">Gehitu mahaia</string>
-    <string name="delete_list">Ezabatu zutabea</string>
     <string name="simple_title">Izenburua</string>
 
     <string name="label_clear_due_date">Ezabatu epe-muga</string>
-
     <string name="label_add">Gehitu %1$s</string>
+
     <string name="error">Errore bat agertu da</string>
     <string name="operation_not_yet_supported">Oraingoz ez da onartzen</string>
     <string name="simple_copy">kopiatu</string>
@@ -88,19 +92,18 @@
     <string name="account_already_added">Kontua jada gehituta</string>
     <string name="account_is_getting_imported">Kontua importatua izaten ari da</string>
     <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
-    <string name="no_lists_yet">Oraindik zutaberik gabe</string>
+    <string name="no_lists_yet">Ez dago zerrendarik</string>
     <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
     <string name="simple_discard">baztertu</string>
-    <string name="do_you_want_to_delete_the_current_list">Zutabe hau ezabatu nahi duzu?</string>
-    <string name="add_a_new_list_using_the_button">Gehitu zutabe berri bat + botoia erabiliz</string>
+    <string name="do_you_want_to_delete_the_current_list">Uneko zerrenda ezabatu egin nahi duzu?</string>
+    <string name="add_a_new_list_using_the_button">Gehitu zerrenda berria + botoia erabiliz</string>
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
     <string name="update_deck">Eguneratu sorta</string>
     <string name="your_deck_version_is_too_old">Zure sorta bertsioa zaharregia da</string>
     <string name="deck_outdated_please_update">Zure sorta bertsioa zaharregia da. Mesedez eguneratu ezazu android app hau bezero bezala erabiltzeko.</string>
     <string name="simple_update">Eguneratu</string>
     <string name="simple_delete">Ezabatu</string>
-    <string name="delete_board_message">Honek mahai hau ezabatuko du karta eta pila guztiak barne.</string>
-    <string name="action_card_list_rename_list">Berrizendatu zutabea</string>
+    <string name="delete_board_message">Honek mahai hau eta bertako zerrenda eta txartel guztiak ezabatuko ditu.</string>
     <string name="simple_rename">Berrizendatu</string>
     <string name="simple_settings">Ezarpenak</string>
     <string name="settings_theme_title">Gai iluna</string>
@@ -111,7 +114,6 @@
     <string name="unassigned_user">%1$s esleitu gabe</string>
     <string name="simple_undo">Desegin</string>
     <string name="no_activities">Ez dago jarduerarik karta honetak. Internetera konektatuta egon behar zara jarduerak kargatzeko eta erakusteko.</string>
-    <string name="rename_list">Berrizendatu zutabea</string>
     <string name="share_board">Partekatu mahaia</string>
     <string name="you_are_currently_offline">Offline zaude momentu honetak</string>
     <string name="simple_manage">kudeatu</string>
@@ -135,7 +137,6 @@
     <string name="title_is_mandatory">Izenburua jartzea nahitaezkoa da</string>
     <string name="provide_at_least_a_title_or_description">Jarri gutxienez izenburu edo deskribapen bat</string>
     <string name="welcome_text">Ongi etorri %1$s(e)ra</string>
-    <string name="choose_account">Aukeratu kontua</string>
     <string name="save_card_before_attachment">Txartela gorde egin behar da eranskinak gehitu aurretik.</string>
     <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
     <string name="server_misconfigured_explanation">Zure zerbitzariak HTTP 302 kode batekin erantzun du, horrek esan nahi du aplikazioa instalatu duzula baina ez dagoela ondo konfiguratuta. Hau .htaccess fitxategiko erregela bereziengatik izan daiteke edo baita OID Bezeroa izeneko aplikazioagatik. Honi buruzko atalean lor dezakezu gurekin harremanetan jartzeko modua.</string>

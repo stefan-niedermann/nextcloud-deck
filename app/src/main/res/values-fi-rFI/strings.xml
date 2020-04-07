@@ -52,11 +52,14 @@
     <string name="label_description">Kuvaus</string>
     <string name="hint_assign_people">Määritä käyttäjät</string>
     <string name="hint_due_date_date">Eräpäivä</string>
-    <string name="activity">Aktiviteetti</string>
-    <string name="add_card">Lisää kortti</string>
-    <string name="add_list">Lisää sarake</string>
-
     <string name="add_account">Lisää tili</string>
+    <string name="choose_account">Valitse tili</string>
+
+    <string name="add_card">Lisää kortti</string>
+
+    <string name="activity">Aktiviteetti</string>
+
+    <string name="delete_list">Poista lista</string>
 
     <string name="label_menu">Valikko</string>
     <string name="action_card_assign">Määritä kortti minulle</string>
@@ -64,12 +67,11 @@
     <string name="action_card_archive">Arkistoi kortti</string>
     <string name="action_card_delete">Poista kortti</string>
     <string name="add_board">Lisää taulu</string>
-    <string name="delete_list">Poista sarake</string>
     <string name="simple_title">Otsikko</string>
 
     <string name="label_clear_due_date">Poista eräpäivä</string>
-
     <string name="label_add">Lisää %1$s</string>
+
     <string name="error">Tapahtui virhe</string>
     <string name="simple_copy">kopioi</string>
     <string name="simple_exception">Poikkeus</string>
@@ -87,19 +89,14 @@
     <string name="account_already_added">Tili on jo lisätty</string>
     <string name="account_is_getting_imported">Tiliä tuodaan sisään</string>
     <string name="not_synced_yet">Ei vielä synkronoitu</string>
-    <string name="no_lists_yet">Ei sarakkeita vielä</string>
     <string name="do_you_want_to_save_your_changes">Haluatko tallentaa muutokset?</string>
     <string name="simple_discard">hylkää</string>
-    <string name="do_you_want_to_delete_the_current_list">Haluatko poistaa nykyisen sarakkeen?</string>
-    <string name="add_a_new_list_using_the_button">Lisää uusi sarake painamalla +</string>
     <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
     <string name="update_deck">Päivitä pakka</string>
     <string name="your_deck_version_is_too_old">Pakan versio on liian vanha</string>
     <string name="deck_outdated_please_update">Pakan versio on liian vanha. Päivitä kayttämällä tätä android sovellusta asiakkaana.</string>
     <string name="simple_update">Päivitä</string>
     <string name="simple_delete">Poista</string>
-    <string name="delete_board_message">Tämä tuhoaa pysyvästi laudan sisältäen pinot ja kortit.</string>
-    <string name="action_card_list_rename_list">Nimeä sarake uudelleen</string>
     <string name="simple_rename">Nimeä uudelleen</string>
     <string name="simple_settings">Asetukset</string>
     <string name="settings_theme_title">Tumma teema</string>
@@ -110,7 +107,6 @@
     <string name="unassigned_user">Ei määritelty%1$s</string>
     <string name="simple_undo">Kumoa</string>
     <string name="no_activities">Tällä kortilla ei ole toimintoja. Tarvitset internetyhteyden toimintojen lataamiseen ja näyttämiseen.</string>
-    <string name="rename_list">Nimeä sarake uudelleen</string>
     <string name="share_board">Jaa taulu</string>
     <string name="you_are_currently_offline">Et ole yhteydessä verkkoon</string>
     <string name="simple_manage">hallitse</string>
@@ -134,7 +130,6 @@
     <string name="title_is_mandatory">Otsikko on pakollinen</string>
     <string name="provide_at_least_a_title_or_description">Anna vähintään otsikko tai kuvaus</string>
     <string name="welcome_text">Tervetuloa kohteeseen %1$s</string>
-    <string name="choose_account">Valitse tili</string>
     <string name="save_card_before_attachment">Kortti pitää tallentaa ennen kuin liitetiedostoja voidaan lisätä.</string>
     <string name="server_misconfigured">Virheelliset palvelimen asetukset</string>
     <string name="server_misconfigured_explanation">Palvelimesi vastasi HTTP 302 tilakoodilla, joka tarkoittaa, että Deck/pakka sovellusta ei ole asennettu palvelimellesi tai jossain on virheelliset asetukset. Tämän voi aiheuttaa muunneltu .htaccess tiedosto tai Nextcloud sovellus kuten OID asiakas. Tukipalvelun yhteystiedot löytyvät muuta valikosta. </string>
