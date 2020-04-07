@@ -21,12 +21,13 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
+import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.FileUtils;
 
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
-public class SelectCardActivity extends MainActivity implements CardAdapter.SelectCardListener {
+public class SelectCardActivity extends MainActivity implements SelectCardListener {
 
     Intent receivedIntent;
     String receivedAction;
