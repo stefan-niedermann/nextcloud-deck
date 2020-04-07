@@ -3,3 +3,5 @@
 - 💬 Delete comments (#341)
 - 💬 Display sync icon on not yet synced comments (#346)
 - 🌎 Wording of column and stack confusing (#292)
+- 🐞 Crash when opening unsynchronised card (#363)
+- 🔧 Rewrite main view and drag and drop
