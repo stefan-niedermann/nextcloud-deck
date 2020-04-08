@@ -2,9 +2,9 @@ package it.niedermann.nextcloud.deck.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
@@ -50,16 +51,10 @@ public class ExceptionUtil {
     }
 
     private static String getAppVersions(Context context) {
-        String versions = "";
-        try {
-            PackageInfo pInfo = context.getApplicationContext().getPackageManager().getPackageInfo(context.getApplicationContext().getPackageName(), 0);
-            versions += "App Version: " + pInfo.versionName;
-            versions += "\nApp Version Code: " + pInfo.versionCode;
-            versions += "\nApp ID: " + context.getPackageName();
-        } catch (PackageManager.NameNotFoundException e) {
-            versions += "\nApp Version: " + e.getMessage();
-            e.printStackTrace();
-        }
+        String versions = ""
+                + "App Version: " + BuildConfig.VERSION_NAME + "\n"
+                + "App Version Code: " + BuildConfig.VERSION_CODE + "\n"
+                + "App Flavor: " + BuildConfig.FLAVOR + "\n";
 
         try {
             versions += "\nFiles App Version Code: " + VersionCheckHelper.getNextcloudFilesVersionCode(context);
@@ -72,10 +67,11 @@ public class ExceptionUtil {
 
     private static String getDeviceInfos() {
         return ""
-                + "\nOS Version: " + System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")"
-                + "\nOS API Level: " + android.os.Build.VERSION.SDK_INT
-                + "\nDevice: " + android.os.Build.DEVICE
-                + "\nModel (and Product): " + android.os.Build.MODEL + " (" + android.os.Build.PRODUCT + ")";
+                + "\nOS Version: " + System.getProperty("os.version") + "(" + Build.VERSION.INCREMENTAL + ")"
+                + "\nOS API Level: " + Build.VERSION.SDK_INT
+                + "\nDevice: " + Build.DEVICE
+                + "\nManufacturer: " + Build.MANUFACTURER
+                + "\nModel (and Product): " + Build.MODEL + " (" + Build.PRODUCT + ")";
     }
 
     private static String getStacktraceOf(Throwable e) {
