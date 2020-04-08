@@ -2,11 +2,16 @@ package it.niedermann.nextcloud.deck.model.ocs;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Version implements Comparable<Version> {
-    private String originalVersion;
-    private int major;
-    private int minor;
-    private int patch;
+    private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("[0-9]+");
+
+    private String originalVersion = "?";
+    private int major = 0;
+    private int minor = 0;
+    private int patch = 0;
 
     public Version(String originalVersion, int major, int minor, int patch) {
         this(major, minor, patch);
@@ -53,6 +58,31 @@ public class Version implements Comparable<Version> {
 
     public void setOriginalVersion(String originalVersion) {
         this.originalVersion = originalVersion;
+    }
+
+    public static Version of(String versionString) {
+        int major = 0, minor = 0, micro = 0;
+        if (versionString != null) {
+            String[] split = versionString.split("\\.");
+            if (split.length > 0){
+                major = extractNumber(split[0]);
+                if (split.length > 1) {
+                    minor = extractNumber(split[1]);
+                    if (split.length > 2) {
+                        micro = extractNumber(split[2]);
+                    }
+                }
+            }
+        }
+        return new Version(versionString, major, minor, micro);
+    }
+
+    private static int extractNumber(String containsNumbers) {
+        Matcher matcher = NUMBER_EXTRACTION_PATTERN.matcher(containsNumbers);
+        if (matcher.find()){
+            return Integer.parseInt(matcher.group());
+        }
+        return 0;
     }
 
     /**

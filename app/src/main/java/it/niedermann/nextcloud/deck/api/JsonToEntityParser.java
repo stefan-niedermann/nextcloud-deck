@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -34,7 +32,6 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 
 public class JsonToEntityParser {
     private static SimpleDateFormat formatter = new SimpleDateFormat(GsonConfig.DATE_PATTERN);
-    private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("[0-9]+");
 
     static {
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -312,13 +309,6 @@ public class JsonToEntityParser {
         return user;
     }
 
-    private static String extractNumber(String containsNumbers) {
-        Matcher matcher = NUMBER_EXTRACTION_PATTERN.matcher(containsNumbers);
-        if (matcher.find()){
-            return matcher.group();
-        }
-        return "0";
-    }
 
     protected static Capabilities parseCapabilities(JsonObject e) {
         DeckLog.verbose(e.toString());
@@ -330,14 +320,10 @@ public class JsonToEntityParser {
                 JsonObject data = ocs.getAsJsonObject("data");
                 if (data.has("version")) {
                     JsonObject version = data.getAsJsonObject("version");
-                    int major = Integer.parseInt(extractNumber(version.get("major").getAsString()));
-                    int minor = Integer.parseInt(extractNumber(version.get("minor").getAsString()));
-                    int micro = Integer.parseInt(extractNumber(version.get("micro").getAsString()));
-                    Version v = new Version(version.toString(), major, minor, micro);
+                    Version v = Version.of(version.get("string").getAsString());
                     capabilities.setNextcloudVersion(v);
                 }
 
-                int major = 0, minor = 0, micro = 0;
                 String version = "";
                 if (data.has("capabilities")) {
                     JsonObject caps = data.getAsJsonObject("capabilities");
@@ -345,22 +331,11 @@ public class JsonToEntityParser {
                         JsonObject deck = caps.getAsJsonObject("deck");
                         if (deck.has("version")) {
                             version = deck.get("version").getAsString();
-                            if (version != null && !version.trim().isEmpty()){
-                                String[] split = version.split("\\.");
-                                if (split.length > 0){
-                                    major = Integer.parseInt(extractNumber(split[0]));
-                                    if (split.length > 1) {
-                                        minor = Integer.parseInt(extractNumber(split[1]));
-                                        if (split.length > 2) {
-                                            micro = Integer.parseInt(extractNumber(split[2]));
-                                        }
-                                    }
-                                }
-                            }
+
                         }
                     }
                 }
-                capabilities.setDeckVersion(new Version(version, major, minor, micro));
+                capabilities.setDeckVersion(Version.of(version));
             }
         }
         return capabilities;
