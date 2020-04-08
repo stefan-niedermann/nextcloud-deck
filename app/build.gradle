@@ -80,9 +80,6 @@ dependencies {
     // Flexbox
     implementation 'com.google.android:flexbox:2.0.1'
 
-    // Tab-Layout-Helper
-    implementation 'com.h6ah4i.android.tablayouthelper:tablayouthelper:1.0.0'
-
     // Custom Color Picker
     implementation 'com.github.skydoves:colorpickerpreference:2.0.0'
 
