@@ -79,6 +79,11 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".ui.pickstack.PickStackActivity"
+            android:label="@string/simple_select"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
