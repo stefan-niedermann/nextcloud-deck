@@ -44,11 +44,13 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
+import it.niedermann.android.tablayouthelper.TabLayoutHelper;
+import it.niedermann.android.tablayouthelper.TabTitleGenerator;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.crosstabdnd.CrossTabDragAndDrop;
 import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
 import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
@@ -77,7 +79,6 @@ import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerAccountListener;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerBoardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
-import it.niedermann.nextcloud.deck.util.TabLayoutHelper;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static androidx.lifecycle.Transformations.switchMap;
@@ -325,6 +326,14 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (tabLayoutHelper != null) {
+            tabLayoutHelper.release();
+        }
+    }
+
+    @Override
     public void onCreateStack(String stackName) {
         observeOnce(syncManager.getStacksForBoard(currentAccount.getId(), currentBoardId), MainActivity.this, fullStacks -> {
             Stack s = new Stack(stackName, currentBoardId);
@@ -471,7 +480,14 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 }
             }
             final int stackPositionInAdapterClone = stackPositionInAdapter;
-            TabLayoutHelper.TabTitleGenerator tabTitleGenerator = position -> fullStacks.size() > position ? fullStacks.get(position).getStack().getTitle() : "ERROR";
+            TabTitleGenerator tabTitleGenerator = position -> {
+                if (fullStacks.size() > position) {
+                    return fullStacks.get(position).getStack().getTitle();
+                } else {
+                    DeckLog.logError(new IllegalStateException("Could not generate tab title for position " + position + " because list size is only " + fullStacks.size()));
+                    return "ERROR";
+                }
+            };
             TabLayoutMediator newMediator = new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position)));
             runOnUiThread(() -> {
                 if (mediator != null) {
@@ -486,10 +502,9 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         });
     }
 
-    private void updateTabLayoutHelper(TabLayoutHelper.TabTitleGenerator tabTitleGenerator) {
+    private void updateTabLayoutHelper(@NonNull TabTitleGenerator tabTitleGenerator) {
         if (this.tabLayoutHelper == null) {
             this.tabLayoutHelper = new TabLayoutHelper(binding.stackTitles, binding.viewPager, tabTitleGenerator);
-            tabLayoutHelper.setAutoAdjustTabModeEnabled(true);
         } else {
             tabLayoutHelper.setTabTitleGenerator(tabTitleGenerator);
         }

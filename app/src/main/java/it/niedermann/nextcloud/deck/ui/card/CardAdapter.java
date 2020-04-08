@@ -32,10 +32,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
+import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.crosstabdnd.DragAndDropAdapter;
-import it.niedermann.nextcloud.deck.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;

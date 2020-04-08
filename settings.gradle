@@ -1,2 +1,3 @@
 include ':app'
-include ':crosstabdnd'
+include ':cross-tab-drag-and-drop'
+include ':tab-layout-helper'
