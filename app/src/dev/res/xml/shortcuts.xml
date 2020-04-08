@@ -9,7 +9,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="it.niedermann.nextcloud.deck.ui.pickstack.PickStackActivity"
-            android:targetPackage="it.niedermann.nextcloud.deck" />
+            android:targetPackage="it.niedermann.nextcloud.deck.dev" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 </shortcuts>
