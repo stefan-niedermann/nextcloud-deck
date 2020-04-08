@@ -23,9 +23,15 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
+import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static androidx.lifecycle.Transformations.switchMap;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class PickStackActivity extends AppCompatActivity {
 
@@ -139,12 +145,28 @@ public class PickStackActivity extends AppCompatActivity {
         stacksLiveData.observe(this, stacksObserver);
     }
 
+    /**
+     * Starts EditActivity and passes parameters.
+     */
     private void onSubmit() {
-        // Start EditActivity and pass parameters
-        long accountId = binding.accountSelect.getSelectedItemId();
-        long boardId = binding.boardSelect.getSelectedItemId();
-        long stackId = binding.stackSelect.getSelectedItemId();
+        final long accountId = binding.accountSelect.getSelectedItemId();
+        final long boardId = binding.boardSelect.getSelectedItemId();
+        final long stackId = binding.stackSelect.getSelectedItemId();
 
+        Intent intent = new Intent(getApplicationContext(), EditActivity.class);
 
+        intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, accountId);
+        intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
+        intent.putExtra(BUNDLE_KEY_STACK_ID, stackId);
+        intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+        Application.saveCurrentAccountId(this, accountId);
+        Application.saveCurrentBoardId(this, accountId, boardId);
+        Application.saveCurrentStackId(this, accountId, boardId, stackId);
+
+        finish();
     }
 }
