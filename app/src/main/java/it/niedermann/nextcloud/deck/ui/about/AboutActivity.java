@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.ui.about;
 
 import android.os.Bundle;
 
@@ -16,9 +16,6 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.ui.about.AboutFragmentContributingTab;
-import it.niedermann.nextcloud.deck.ui.about.AboutFragmentCreditsTab;
-import it.niedermann.nextcloud.deck.ui.about.AboutFragmentLicenseTab;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;

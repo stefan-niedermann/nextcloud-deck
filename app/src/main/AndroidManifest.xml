@@ -57,18 +57,18 @@
         </activity>
 
         <activity
-            android:name=".ui.EditActivity"
+            android:name=".ui.card.EditActivity"
             android:label="@string/edit"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".ui.AttachmentsActivity"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.EditActivity"
+            android:name=".ui.attachments.AttachmentsActivity"
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.card.EditActivity"
             android:theme="@style/TransparentTheme" />
 
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:label="@string/simple_settings"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
             android:theme="@style/AppTheme" />
@@ -79,7 +79,7 @@
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".ui.AboutActivity"
+            android:name=".ui.about.AboutActivity"
             android:label="@string/about"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
             android:theme="@style/AppTheme" />
