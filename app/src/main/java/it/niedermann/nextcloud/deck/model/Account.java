@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 @Entity(indices = {@Index(value = "name", unique = true)})
@@ -63,6 +64,17 @@ public class Account implements Serializable {
     }
 
     public Account() {
+    }
+
+    public void applyCapabilities(Capabilities capabilities) {
+        maintenanceEnabled = capabilities.isMaintenanceEnabled();
+        if (!isMaintenanceEnabled()) {
+            color = capabilities.getColor();
+            textColor = capabilities.getTextColor();
+            if (capabilities.getDeckVersion()!=null) {
+                serverDeckVersion = capabilities.getDeckVersion().getOriginalVersion();
+            }
+        }
     }
 
     public Long getId() {
@@ -124,10 +136,6 @@ public class Account implements Serializable {
 
     public Version getServerDeckVersionAsObject() {
         return Version.of(serverDeckVersion);
-    }
-
-    public void setServerDeckVersion(Version serverDeckVersion) {
-        this.serverDeckVersion = serverDeckVersion.getOriginalVersion();
     }
 
     @NonNull

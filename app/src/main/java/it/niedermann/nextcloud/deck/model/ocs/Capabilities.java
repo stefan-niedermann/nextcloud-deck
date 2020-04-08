@@ -12,7 +12,6 @@ public class Capabilities {
 
     private String color = "#0082c9";
     private String textColor = "#ffffff";
-    private String serverDeckVersion = "0.6.4";
     private boolean maintenanceEnabled = false;
 
     public Capabilities() {
@@ -52,14 +51,6 @@ public class Capabilities {
 
     public void setTextColor(String textColor) {
         this.textColor = textColor;
-    }
-
-    public String getServerDeckVersion() {
-        return serverDeckVersion;
-    }
-
-    public void setServerDeckVersion(String serverDeckVersion) {
-        this.serverDeckVersion = serverDeckVersion;
     }
 
     public boolean isMaintenanceEnabled() {

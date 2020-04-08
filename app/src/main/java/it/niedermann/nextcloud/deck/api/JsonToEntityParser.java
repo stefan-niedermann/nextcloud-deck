@@ -316,6 +316,11 @@ public class JsonToEntityParser {
 
         if (e.has("ocs")){
             JsonObject ocs = e.getAsJsonObject("ocs");
+            if (ocs.has("meta")) {
+                int statuscode = ocs.getAsJsonObject("meta").get("statuscode").getAsInt();
+                capabilities.setMaintenanceEnabled(statuscode==503);
+
+            }
             if (ocs.has("data")) {
                 JsonObject data = ocs.getAsJsonObject("data");
                 if (data.has("version")) {
@@ -333,6 +338,11 @@ public class JsonToEntityParser {
                             version = deck.get("version").getAsString();
 
                         }
+                    }
+                    if (caps.has("theming")) {
+                        JsonObject theming = caps.getAsJsonObject("theming");
+                        capabilities.setColor(theming.get("color").getAsString());
+                        capabilities.setTextColor(theming.get("color-text").getAsString());
                     }
                 }
                 capabilities.setDeckVersion(Version.of(version));
