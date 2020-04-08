@@ -62,7 +62,7 @@
             android:layout_weight=".5"
             android:text="@string/simple_close" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/copy"
             style="@style/PrimaryCTAButton"
             android:layout_width="wrap_content"

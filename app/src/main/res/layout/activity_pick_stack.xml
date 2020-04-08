@@ -15,8 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-            app:title="@string/simple_select"
+            app:title="@string/add_card"
             app:titleTextColor="@android:color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -69,13 +68,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancel"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/standard_half_margin"
             android:layout_marginRight="@dimen/standard_half_margin"
             android:layout_weight=".5"
-            android:text="@string/simple_select" />
+            android:text="@android:string/cancel"
+            app:backgroundTint="@android:color/white" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submit"
@@ -85,6 +85,6 @@
             android:layout_marginStart="@dimen/standard_half_margin"
             android:layout_marginLeft="@dimen/standard_half_margin"
             android:layout_weight=".5"
-            android:text="@string/simple_select" />
+            android:text="@string/add_card" />
     </LinearLayout>
 </RelativeLayout>
