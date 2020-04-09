@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.preparecreate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -142,10 +141,10 @@ public class PrepareCreateActivity extends AppCompatActivity {
             }
         });
 
-        binding.accountSelect.setOnItemSelectedListener((OnItemSelectedListener) (parent, view, position, id) ->
+        binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
                 updateLiveDataSource(boardsLiveData, boardsObserver, syncManager.getBoardsWithEditPermission(parent.getSelectedItemId())));
 
-        binding.boardSelect.setOnItemSelectedListener((OnItemSelectedListener) (parent, view, position, id) ->
+        binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
                 updateLiveDataSource(stacksLiveData, stacksObserver, syncManager.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId())));
 
         binding.cancel.setOnClickListener((v) -> finish());
@@ -186,15 +185,5 @@ public class PrepareCreateActivity extends AppCompatActivity {
         Application.saveCurrentStackId(this, accountId, boardId, stackId);
 
         finish();
-    }
-
-    /**
-     * Default interface implementation
-     */
-    private interface OnItemSelectedListener extends AdapterView.OnItemSelectedListener {
-        @Override
-        default void onNothingSelected(AdapterView<?> parent) {
-            // Nothing to do here...
-        }
     }
 }
