@@ -145,6 +145,7 @@ public class Card extends AbstractRemoteEntity {
 
     public void setDescription(String description) {
         this.description = description;
+        this.taskStatus = null;
     }
 
     public Long getStackId() {
