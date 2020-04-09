@@ -39,6 +39,10 @@ public class PickStackActivity extends AppCompatActivity {
 
     private SyncManager syncManager;
 
+    private long lastAccountId;
+    private long lastBoardId;
+    private long lastStackId;
+
     private ArrayAdapter<Account> accountAdapter;
     private ArrayAdapter<Board> boardAdapter;
     private ArrayAdapter<FullStack> stackAdapter;
@@ -49,14 +53,44 @@ public class PickStackActivity extends AppCompatActivity {
     private Observer<List<Board>> boardsObserver = (boards) -> {
         boardAdapter.clear();
         boardAdapter.addAll(boards);
+        binding.boardSelect.setEnabled(true);
+
+        if (boards.size() > 0) {
+            binding.boardSelect.setEnabled(true);
+
+            for (Board board : boards) {
+                if (board.getLocalId() == lastBoardId) {
+                    binding.boardSelect.setSelection(boardAdapter.getPosition(board));
+                    break;
+                }
+            }
+        } else {
+            binding.boardSelect.setEnabled(false);
+            binding.submit.setEnabled(false);
+        }
     };
 
     @Nullable
     private LiveData<List<FullStack>> stacksLiveData;
     @NonNull
-    private Observer<List<FullStack>> stacksObserver = (stacks) -> {
+    private Observer<List<FullStack>> stacksObserver = (fullStacks) -> {
         stackAdapter.clear();
-        stackAdapter.addAll(stacks);
+        stackAdapter.addAll(fullStacks);
+
+        if (fullStacks.size() > 0) {
+            binding.stackSelect.setEnabled(true);
+            binding.submit.setEnabled(true);
+
+            for (FullStack fullStack : fullStacks) {
+                if (fullStack.getLocalId() == lastStackId) {
+                    binding.stackSelect.setSelection(stackAdapter.getPosition(fullStack));
+                    break;
+                }
+            }
+        } else {
+            binding.stackSelect.setEnabled(false);
+            binding.submit.setEnabled(false);
+        }
     };
 
     @Override
@@ -72,10 +106,13 @@ public class PickStackActivity extends AppCompatActivity {
 
         accountAdapter = new AccountAdapter(this);
         binding.accountSelect.setAdapter(accountAdapter);
+        binding.accountSelect.setEnabled(false);
         boardAdapter = new BoardAdapter(this);
         binding.boardSelect.setAdapter(boardAdapter);
+        binding.stackSelect.setEnabled(false);
         stackAdapter = new StackAdapter(this);
         binding.stackSelect.setAdapter(stackAdapter);
+        binding.stackSelect.setEnabled(false);
 
         syncManager = new SyncManager(this);
 
@@ -87,13 +124,24 @@ public class PickStackActivity extends AppCompatActivity {
                 return null;
             }
         }).observe(this, (List<Account> accounts) -> {
-            if (accounts == null) {
-                throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null");
+            if (accounts == null || accounts.size() == 0) {
+                throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null or has no entry");
             }
+
+            lastAccountId = Application.readCurrentAccountId(this);
+            lastBoardId = Application.readCurrentBoardId(this, lastAccountId);
+            lastStackId = Application.readCurrentStackId(this, lastAccountId, lastBoardId);
+
             accountAdapter.clear();
             accountAdapter.addAll(accounts);
-            // TODO preselect current account
-            long lastAccountId = Application.readCurrentAccountId(this);
+            binding.accountSelect.setEnabled(true);
+
+            for (Account account : accounts) {
+                if (account.getId() == lastAccountId) {
+                    binding.accountSelect.setSelection(accountAdapter.getPosition(account));
+                    break;
+                }
+            }
         });
 
         binding.accountSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
