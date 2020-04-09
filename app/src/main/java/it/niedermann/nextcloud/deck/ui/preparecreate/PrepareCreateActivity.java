@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.preparecreate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
@@ -15,7 +14,6 @@ import androidx.lifecycle.Observer;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.Application;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPrepareCreateBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -144,53 +142,25 @@ public class PrepareCreateActivity extends AppCompatActivity {
             }
         });
 
-        binding.accountSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateBoardsSource(parent.getSelectedItemId());
-            }
+        binding.accountSelect.setOnItemSelectedListener((OnItemSelectedListener) (parent, view, position, id) ->
+                updateLiveDataSource(boardsLiveData, boardsObserver, syncManager.getBoardsWithEditPermission(parent.getSelectedItemId())));
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Nothing to do here
-            }
-        });
+        binding.boardSelect.setOnItemSelectedListener((OnItemSelectedListener) (parent, view, position, id) ->
+                updateLiveDataSource(stacksLiveData, stacksObserver, syncManager.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId())));
 
-        binding.boardSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Object selectedItem = parent.getSelectedItem();
-                if (selectedItem instanceof Board) {
-                    Board board = (Board) selectedItem;
-                    updateStacksSource(board.getAccountId(), board.getLocalId());
-                } else {
-                    DeckLog.logError(new IllegalArgumentException("parent.getSelectedItem() did not return an instance of " + FullStack.class.getCanonicalName() + " but " + selectedItem.getClass().getCanonicalName()));
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Nothing to do here
-            }
-        });
         binding.cancel.setOnClickListener((v) -> finish());
         binding.submit.setOnClickListener((v) -> onSubmit());
     }
 
-    private void updateBoardsSource(long accountId) {
-        if (boardsLiveData != null) {
-            boardsLiveData.removeObserver(boardsObserver);
+    /**
+     * Updates the source of the given liveData and de- and reregisters the given observer.
+     */
+    private <T> void updateLiveDataSource(@Nullable LiveData<T> liveData, Observer<T> observer, LiveData<T> newSource) {
+        if (liveData != null) {
+            liveData.removeObserver(observer);
         }
-        boardsLiveData = syncManager.getBoardsWithEditPermission(accountId);
-        boardsLiveData.observe(this, boardsObserver);
-    }
-
-    private void updateStacksSource(long accountId, long boardId) {
-        if (stacksLiveData != null) {
-            stacksLiveData.removeObserver(stacksObserver);
-        }
-        stacksLiveData = syncManager.getStacksForBoard(accountId, boardId);
-        stacksLiveData.observe(this, stacksObserver);
+        liveData = newSource;
+        liveData.observe(PrepareCreateActivity.this, observer);
     }
 
     /**
@@ -216,5 +186,15 @@ public class PrepareCreateActivity extends AppCompatActivity {
         Application.saveCurrentStackId(this, accountId, boardId, stackId);
 
         finish();
+    }
+
+    /**
+     * Default interface implementation
+     */
+    private interface OnItemSelectedListener extends AdapterView.OnItemSelectedListener {
+        @Override
+        default void onNothingSelected(AdapterView<?> parent) {
+            // Nothing to do here...
+        }
     }
 }
