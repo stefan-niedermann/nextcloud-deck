@@ -101,42 +101,36 @@
                 android:layout_weight="1">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/card_count_attachments"
+                    android:id="@+id/card_count_comments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/standard_quarter_padding"
                     android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:minLines="0"
                     android:padding="@dimen/standard_quarter_padding"
-                    app:drawableLeftCompat="@drawable/ic_attach_file_grey600_24dp"
-                    app:drawableStartCompat="@drawable/ic_attach_file_grey600_24dp"
-                    tools:text="1" />
+                    app:drawableLeftCompat="@drawable/ic_comment_white_24dp"
+                    app:drawableStartCompat="@drawable/ic_comment_white_24dp"
+                    app:drawableTint="@color/grey600"
+                    tools:text="2" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/card_count_tasks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:minLines="0"
                     android:padding="@dimen/standard_quarter_padding"
                     app:drawableLeftCompat="@drawable/ic_check_grey600_24dp"
                     app:drawableStartCompat="@drawable/ic_check_grey600_24dp"
                     tools:text="1/2" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/card_count_comments"
+                    android:id="@+id/card_count_attachments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/standard_quarter_padding"
                     android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:minLines="0"
                     android:padding="@dimen/standard_quarter_padding"
-                    app:drawableLeftCompat="@drawable/ic_comment_white_24dp"
-                    app:drawableStartCompat="@drawable/ic_comment_white_24dp"
-                    app:drawableTint="@color/grey600"
-                    tools:text="1" />
+                    app:drawableLeftCompat="@drawable/ic_attach_file_grey600_24dp"
+                    app:drawableStartCompat="@drawable/ic_attach_file_grey600_24dp"
+                    tools:text="3" />
             </LinearLayout>
 
             <LinearLayout
