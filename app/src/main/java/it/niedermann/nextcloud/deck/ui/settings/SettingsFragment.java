@@ -53,6 +53,5 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         } else {
             DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_background_sync) + "\"");
         }
-
     }
 }

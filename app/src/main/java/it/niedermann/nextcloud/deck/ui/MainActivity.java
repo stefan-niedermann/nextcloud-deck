@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -306,7 +307,7 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
                     syncManager.getServerVersion(new IResponseCallback<Capabilities>(currentAccount) {
                         @Override
                         public void onResponse(Capabilities response) {
-                            Application.setNextcloudTheme(MainActivity.this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor()));
+                            runOnUiThread(() -> Application.setNextcloudTheme(MainActivity.this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor())));
                         }
                     });
                 }).start();
@@ -342,7 +343,7 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
         binding.addStackButton.setBackgroundColor(mainColor);
         binding.addStackButton.setColorFilter(textColor);
         headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
-        binding.fab.setBackgroundColor(mainColor);
+        binding.fab.setSupportBackgroundTintList(new ColorStateList(new int[][]{new int[]{}}, new int[]{mainColor}));
         binding.fab.setColorFilter(textColor);
     }
 
