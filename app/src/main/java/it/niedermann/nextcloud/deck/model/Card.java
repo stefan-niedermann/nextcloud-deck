@@ -30,7 +30,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 )
 public class Card extends AbstractRemoteEntity {
 
-    private static Pattern PATTERN_MD_TASK = Pattern.compile("\\[(\\*| )\\]");
+    private static Pattern PATTERN_MD_TASK = Pattern.compile("\\[([xX ])]");
     public class TaskStatus {
         public int taskCount;
         public int doneCount;
@@ -96,7 +96,8 @@ public class Card extends AbstractRemoteEntity {
                 Matcher matcher = PATTERN_MD_TASK.matcher(description);
                 while (matcher.find()){
                     count++;
-                    if (matcher.group().charAt(1) == '*'){
+                    char c = matcher.group().charAt(1);
+                    if (c == 'x' || c == 'X'){
                         done++;
                     }
                 }
