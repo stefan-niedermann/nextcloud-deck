@@ -1,42 +1,28 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.SpinnerAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
-import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import it.niedermann.nextcloud.deck.Application;
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
-import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
@@ -45,7 +31,6 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.board.BoardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.attachments.NewCardAttachmentHandler;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentDeletedListener;
@@ -60,7 +45,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AppCompatActivity implements CardDetailsListener, CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler, OnItemSelectedListener {
+public class EditActivity extends AppCompatActivity implements CardDetailsListener, CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
@@ -106,88 +91,56 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
         super.onCreate(savedInstanceState);
+
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
+        setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
 
         binding = ActivityEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            throw new IllegalArgumentException("Provide localId");
+        Bundle args = getIntent().getExtras();
+
+        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT_ID) || !args.containsKey(BUNDLE_KEY_BOARD_ID) || !args.containsKey(BUNDLE_KEY_STACK_ID)) {
+            throw new IllegalArgumentException("Provide at least accountId, boardId and stackId so we know where to create this new card.");
         }
-        accountId = extras.getLong(BUNDLE_KEY_ACCOUNT_ID);
-        boardId = extras.getLong(BUNDLE_KEY_BOARD_ID);
-        stackId = extras.getLong(BUNDLE_KEY_STACK_ID);
-        localId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
+
+        accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
+        boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
+        stackId = args.getLong(BUNDLE_KEY_STACK_ID);
+        localId = args.getLong(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
+
         syncManager = new SyncManager(this);
 
-        createMode = NO_LOCAL_ID.equals(localId);
-        if (boardId == 0L) {
-            try {
-                createMode = true;
-                SingleSignOnAccount ssoa = SingleAccountHelper.getCurrentSingleSignOnAccount(this);
-                syncManager.readAccount(ssoa.name).observe(this, (Account account) -> {
-                    accountId = account.getId();
-                    binding.selectBoardWrapper.setVisibility(View.VISIBLE);
-                    syncManager.getBoards(account.getId()).observe(this, (List<Board> boardsList) -> {
-                        for (Board board : boardsList) {
-                            if (!board.isPermissionEdit()) {
-                                boardsList.remove(board);
-                            }
-                        }
-                        Board[] boardsArray = new Board[boardsList.size()];
-                        boardsArray = boardsList.toArray(boardsArray);
-                        SpinnerAdapter adapter = new BoardAdapter(this, boardsArray);
-                        binding.boardSelector.setAdapter(adapter);
+        if (localId == NO_LOCAL_ID) {
+            createMode = true;
+        }
 
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                        long lastBoardId = sharedPreferences.getLong(getString(R.string.shared_preference_last_board_for_account_) + accountId, 0L);
-                        DeckLog.log("--- Read: shared_preference_last_board_for_account_" + account.getId() + " | " + lastBoardId);
-                        if (lastBoardId != 0L) {
-                            for (int i = 0; i < boardsArray.length; i++) {
-                                if (boardsArray[i].getLocalId() == lastBoardId) {
-                                    binding.boardSelector.setSelection(i);
-                                }
-                            }
-                        }
-                        binding.boardSelector.setOnItemSelectedListener(this);
-                    });
-                });
-            } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                e.printStackTrace();
-            }
-        } else {
-            if (accountId == 0L) {
-                throw new IllegalArgumentException("No accountId given");
-            }
-            observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
-                canEdit = fullBoard.getBoard().isPermissionEdit();
-                invalidateOptionsMenu();
-                if (createMode) {
-                    fullCard = new FullCard();
-                    originalCard = new FullCard();
-                    fullCard.setLabels(new ArrayList<>());
-                    fullCard.setAssignedUsers(new ArrayList<>());
-                    fullCard.setAttachments(new ArrayList<>());
-                    Card card = new Card();
-                    card.setStackId(stackId);
-                    fullCard.setCard(card);
+        observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
+            canEdit = fullBoard.getBoard().isPermissionEdit();
+            invalidateOptionsMenu();
+            if (createMode) {
+                fullCard = new FullCard();
+                originalCard = new FullCard();
+                fullCard.setLabels(new ArrayList<>());
+                fullCard.setAssignedUsers(new ArrayList<>());
+                fullCard.setAttachments(new ArrayList<>());
+                Card card = new Card();
+                card.setStackId(stackId);
+                fullCard.setCard(card);
+                setupViewPager();
+                setupTitle(createMode);
+            } else {
+                observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
+                    fullCard = next;
+                    originalCard = new FullCard(fullCard);
                     setupViewPager();
                     setupTitle(createMode);
-                } else {
-                    observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
-                        fullCard = next;
-                        originalCard = new FullCard(fullCard);
-                        setupViewPager();
-                        setupTitle(createMode);
-                    });
-                }
-            }));
-        }
+                });
+            }
+        }));
     }
 
     @Override
@@ -373,43 +326,6 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
         } else {
             super.finish();
         }
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        boardId = ((Board) binding.boardSelector.getItemAtPosition(position)).getLocalId();
-        observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
-            canEdit = fullBoard.getBoard().isPermissionEdit();
-
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            long savedStackId = sharedPreferences.getLong(getString(R.string.shared_preference_last_stack_for_account_and_board_) + accountId + "_" + boardId, 0L);
-            DeckLog.log("--- Read: shared_preference_last_stack_for_account_and_board" + accountId + "_" + boardId + " | " + savedStackId);
-            if (savedStackId == 0L) {
-                observeOnce(syncManager.getStacksForBoard(accountId, boardId), EditActivity.this, (stacks -> {
-                    if (stacks != null && stacks.size() > 0) {
-                        stackId = stacks.get(0).getLocalId();
-                    }
-                }));
-            } else {
-                stackId = savedStackId;
-            }
-            if (fullCard == null) {
-                invalidateOptionsMenu();
-                fullCard = new FullCard();
-                fullCard.setLabels(new ArrayList<>());
-                fullCard.setAssignedUsers(new ArrayList<>());
-                Card card = new Card();
-                card.setStackId(stackId);
-                fullCard.setCard(card);
-                setupViewPager();
-                setupTitle(createMode);
-            }
-        }));
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     @Override
