@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,13 +17,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -47,7 +43,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -72,8 +67,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     private LifecycleOwner lifecycleOwner;
     private List<FullStack> availableStacks = new ArrayList<>();
     private int maxAvatarCount;
-    private int maxLabelsShown;
-    private int maxLabelsChars;
     private String counterMaxValue;
 
     public CardAdapter(@NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
@@ -98,8 +91,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         final Context context = viewGroup.getContext();
 
         maxAvatarCount = context.getResources().getInteger(R.integer.max_avatar_count);
-        maxLabelsShown = context.getResources().getInteger(R.integer.max_labels_shown);
-        maxLabelsChars = context.getResources().getInteger(R.integer.max_labels_chars);
         counterMaxValue = context.getString(R.string.counter_max_value);
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -143,14 +134,11 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         } else {
             viewHolder.binding.cardMenu.setVisibility(View.GONE);
         }
-        viewHolder.binding.cardTitle.setText(card.getCard().getTitle());
-
-        boolean showDetails = false;
+        viewHolder.binding.cardTitle.setText(card.getCard().getTitle().trim());
 
         if (card.getAssignedUsers() != null && card.getAssignedUsers().size() > 0) {
             setupAvatars(viewHolder.binding.peopleList, card);
             viewHolder.binding.peopleList.setVisibility(View.VISIBLE);
-            showDetails = true;
         } else {
             viewHolder.binding.peopleList.setVisibility(View.GONE);
         }
@@ -160,7 +148,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         if (card.getCard().getDueDate() != null) {
             setupDueDate(viewHolder.binding.cardDueDate, card.getCard());
             viewHolder.binding.cardDueDate.setVisibility(View.VISIBLE);
-            showDetails = true;
         } else {
             viewHolder.binding.cardDueDate.setVisibility(View.GONE);
         }
@@ -171,9 +158,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             viewHolder.binding.cardCountAttachments.setVisibility(View.GONE);
         } else {
             setupCounter(viewHolder.binding.cardCountAttachments, attachmentsCount);
-
             viewHolder.binding.cardCountAttachments.setVisibility(View.VISIBLE);
-            showDetails = true;
         }
 
         final int commentsCount = card.getCommentCount();
@@ -184,15 +169,14 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             setupCounter(viewHolder.binding.cardCountComments, commentsCount);
 
             viewHolder.binding.cardCountComments.setVisibility(View.VISIBLE);
-            showDetails = true;
         }
 
-        viewHolder.binding.labels.removeAllViews();
-        if (card.getLabels() != null && card.getLabels().size() > 0) {
-            setupLabels(viewHolder.binding.labels, card.getLabels());
+        List<Label> labels = card.getLabels();
+        if (labels != null && labels.size() > 0) {
+            viewHolder.binding.labels.updateLabels(labels);
             viewHolder.binding.labels.setVisibility(View.VISIBLE);
-            showDetails = true;
         } else {
+            viewHolder.binding.labels.removeAllViews();
             viewHolder.binding.labels.setVisibility(View.GONE);
         }
 
@@ -201,45 +185,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
     private void setupMoveMenu(long accountId, long boardId) {
         syncManager.getStacksForBoard(accountId, boardId).observe(lifecycleOwner, (stacks) -> availableStacks = stacks);
-    }
-
-    private void setupLabels(@NonNull ChipGroup labels, List<Label> labelList) {
-        final Context context = labels.getContext();
-        Chip chip;
-        for (int i = 0; i < labelList.size(); i++) {
-            if (i > maxLabelsShown - 1 && labelList.size() > maxLabelsShown) {
-                chip = new Chip(context);
-                chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_more_horiz_black_24dp));
-                chip.setEnsureMinTouchTargetSize(false);
-                chip.setTextStartPadding(0);
-                chip.setTextEndPadding(0);
-                labels.addView(chip);
-                break;
-            }
-            Label label = labelList.get(i);
-            chip = new Chip(context);
-            chip.setEnsureMinTouchTargetSize(false);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            }
-            String labelTitle = label.getTitle();
-            if (labelTitle.length() > maxLabelsChars - 1) {
-                chip.setText(labelTitle.substring(0, maxLabelsChars));
-            } else {
-                chip.setText(labelTitle.substring(0, 1));
-            }
-
-            try {
-                int labelColor = Color.parseColor("#" + label.getColor());
-                ColorStateList c = ColorStateList.valueOf(labelColor);
-                chip.setChipBackgroundColor(c);
-                chip.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));
-            } catch (IllegalArgumentException e) {
-                DeckLog.logError(e);
-            }
-
-            labels.addView(chip);
-        }
     }
 
     private void setupCounter(@NonNull TextView textView, int count) {
@@ -252,13 +197,13 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         }
     }
 
-    private void setupDueDate(@NonNull TextView cardDueDate, Card card) {
+    private void setupDueDate(@NonNull TextView cardDueDate, @NotNull Card card) {
         final Context context = cardDueDate.getContext();
         cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().getTime()));
         ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate());
     }
 
-    private void setupAvatars(@NonNull RelativeLayout peopleList, FullCard card) {
+    private void setupAvatars(@NonNull RelativeLayout peopleList, @NotNull FullCard card) {
         final Context context = peopleList.getContext();
         int avatarSize = DimensionUtil.getAvatarDimension(context, R.dimen.avatar_size_small);
         peopleList.removeAllViews();
@@ -307,7 +252,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         notifyItemRemoved(position);
     }
 
-    private void onOverflowIconClicked(View view, FullCard card) {
+    private void onOverflowIconClicked(@NotNull View view, FullCard card) {
         final Context context = view.getContext();
         PopupMenu popup = new PopupMenu(context, view);
         popup.inflate(R.menu.card_menu);
@@ -317,7 +262,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         popup.show();
     }
 
-    private void prepareOptionsMenu(Menu menu, FullCard card) {
+    private void prepareOptionsMenu(Menu menu, @NotNull FullCard card) {
         if (containsUser(card.getAssignedUsers(), account.getUserName())) {
             menu.removeItem(menu.findItem(R.id.action_card_assign).getItemId());
         } else {
@@ -331,6 +276,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         notifyDataSetChanged();
     }
 
+    @Contract("null, _ -> false")
     private boolean containsUser(List<User> userList, String username) {
         if (userList != null) {
             for (User user : userList) {
@@ -342,7 +288,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         return false;
     }
 
-    private boolean optionsItemSelected(Context context, MenuItem item, FullCard card) {
+    private boolean optionsItemSelected(Context context, @NotNull MenuItem item, FullCard card) {
         switch (item.getItemId()) {
             case R.id.action_card_assign: {
                 new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), account.getUserName()), card.getCard())).start();
