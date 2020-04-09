@@ -118,6 +118,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                 Intent intent = new Intent(v.getContext(), EditActivity.class);
                 intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
                 intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
+                intent.putExtra(BUNDLE_KEY_STACK_ID, card.getCard().getStackId());
                 intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -135,7 +136,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                         new DraggedItemLocalState<>(card, viewHolder.binding.card, this, position),      // no need to use local data
                         0          // flags (not currently used, set to 0)
                 );
-                DeckLog.log("onLongClickListener");
+                DeckLog.log("Starting drag and drop");
                 return true;
             });
             setupMoveMenu(card.getAccountId(), boardId);

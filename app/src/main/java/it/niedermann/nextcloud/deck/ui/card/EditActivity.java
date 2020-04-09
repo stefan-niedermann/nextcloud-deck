@@ -103,20 +103,24 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
 
         Bundle args = getIntent().getExtras();
 
-        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT_ID) || !args.containsKey(BUNDLE_KEY_BOARD_ID) || !args.containsKey(BUNDLE_KEY_STACK_ID)) {
-            throw new IllegalArgumentException("Provide at least accountId, boardId and stackId so we know where to create this new card.");
+        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT_ID) || !args.containsKey(BUNDLE_KEY_BOARD_ID)) {
+            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT_ID + " and " + BUNDLE_KEY_BOARD_ID + " so we know where to create this new card.");
         }
 
         accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
         boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
-        stackId = args.getLong(BUNDLE_KEY_STACK_ID);
         localId = args.getLong(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
-
-        syncManager = new SyncManager(this);
 
         if (localId == NO_LOCAL_ID) {
             createMode = true;
+            if (args.containsKey(BUNDLE_KEY_STACK_ID)) {
+                stackId = args.getLong(BUNDLE_KEY_STACK_ID);
+            } else {
+                throw new IllegalArgumentException("When creating a card, passing the " + BUNDLE_KEY_STACK_ID + " is mandatory");
+            }
         }
+
+        syncManager = new SyncManager(this);
 
         observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
             canEdit = fullBoard.getBoard().isPermissionEdit();

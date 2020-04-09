@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
@@ -46,7 +45,6 @@ public class Card extends AbstractRemoteEntity {
 
     private String title;
     private String description;
-    @NonNull
     private Long stackId;
     private String type;
     private Date createdAt;
@@ -54,7 +52,6 @@ public class Card extends AbstractRemoteEntity {
     private int attachmentCount;
 
     private Long userId;
-    @NonNull
     private int order;
     private boolean archived;
     @SerializedName("duedate")
