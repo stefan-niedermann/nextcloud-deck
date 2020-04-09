@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -17,12 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
@@ -100,7 +101,7 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOU
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
 
-public class MainActivity extends AppCompatActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, DrawerBoardListener {
+public class MainActivity extends AbstractThemableActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, DrawerBoardListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
@@ -301,6 +302,14 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                         DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
                     }
                 } else DeckLog.warn("ConnectivityManager is null");
+                new Thread(() -> {
+                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(currentAccount) {
+                        @Override
+                        public void onResponse(Capabilities response) {
+                            Application.setNextcloudTheme(MainActivity.this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor()));
+                        }
+                    });
+                }).start();
                 syncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
                     @Override
                     public void onResponse(Boolean response) {
@@ -324,8 +333,17 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+    public void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
+        super.applyNextcloudTheme(mainColor, textColor);
+        binding.toolbar.setBackgroundColor(mainColor);
+        binding.toolbar.setTitleTextColor(textColor);
+        binding.stackTitles.setBackgroundColor(mainColor);
+        binding.stackTitles.setTabTextColors(textColor, textColor);
+        binding.addStackButton.setBackgroundColor(mainColor);
+        binding.addStackButton.setColorFilter(textColor);
+        headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
+        binding.fab.setBackgroundColor(mainColor);
+        binding.fab.setColorFilter(textColor);
     }
 
     @Override
@@ -389,6 +407,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     protected void setCurrentAccount(@NonNull Account account) {
         this.currentAccount = account;
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.currentAccount.getName());
+        Application.setNextcloudTheme(MainActivity.this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor()));
         syncManager = new SyncManager(this);
 
         Application.saveCurrentAccountId(this, this.currentAccount.getId());

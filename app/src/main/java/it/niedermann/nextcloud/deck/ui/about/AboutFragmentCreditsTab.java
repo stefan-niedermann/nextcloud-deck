@@ -43,16 +43,18 @@ public class AboutFragmentCreditsTab extends Fragment {
         binding.aboutVersion.setText(getString(R.string.about_version, strong(BuildConfig.VERSION_NAME)));
         SyncManager syncManager = new SyncManager(requireActivity());
         if (getArguments() != null && getArguments().containsKey(BUNDLE_KEY_ACCOUNT)) {
-            try {
-                syncManager.getServerVersion(new IResponseCallback<Capabilities>((Account) getArguments().getSerializable(BUNDLE_KEY_ACCOUNT)) {
-                    @Override
-                    public void onResponse(Capabilities response) {
-                        requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong(response.getDeckVersion().getOriginalVersion())));
-                    }
-                });
-            } catch (OfflineException e) {
-                binding.aboutServerAppVersion.setText(disabled(getString(R.string.you_are_currently_offline), requireContext()));
-            }
+            new Thread(() -> {
+                try {
+                    syncManager.getServerVersion(new IResponseCallback<Capabilities>((Account) getArguments().getSerializable(BUNDLE_KEY_ACCOUNT)) {
+                        @Override
+                        public void onResponse(Capabilities response) {
+                            requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong(response.getDeckVersion().getOriginalVersion())));
+                        }
+                    });
+                } catch (OfflineException e) {
+                    requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(disabled(getString(R.string.you_are_currently_offline), requireContext())));
+                }
+            }).start();
         } else {
             binding.aboutServerAppVersionContainer.setVisibility(View.GONE);
         }

@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -31,6 +30,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.AbstractThemableActivity;
 import it.niedermann.nextcloud.deck.ui.card.attachments.NewCardAttachmentHandler;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentDeletedListener;
@@ -45,7 +45,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AppCompatActivity implements CardDetailsListener, CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler {
+public class EditActivity extends AbstractThemableActivity implements CardDetailsListener, CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
@@ -221,28 +221,30 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
         // Comments API only available starting with version 1.0.0-alpha1
         if (!createMode) {
             syncManager.readAccount(accountId).observe(this, (account) -> {
-                try {
-                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
-                        @Override
-                        public void onResponse(Capabilities response) {
-                            hasCommentsAbility = ((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
-                            if (hasCommentsAbility) {
-                                runOnUiThread(() -> {
-                                    mediator.detach();
-                                    adapter.enableComments();
-                                    binding.pager.setOffscreenPageLimit(3);
-                                    mediator.attach();
-                                });
+                new Thread(() -> {
+                    try {
+                        syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
+                            @Override
+                            public void onResponse(Capabilities response) {
+                                hasCommentsAbility = ((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
+                                if (hasCommentsAbility) {
+                                    runOnUiThread(() -> {
+                                        mediator.detach();
+                                        adapter.enableComments();
+                                        binding.pager.setOffscreenPageLimit(3);
+                                        mediator.attach();
+                                    });
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onError(Throwable throwable) {
-                            super.onError(throwable);
-                        }
-                    });
-                } catch (OfflineException ignored) {
-                }
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                            }
+                        });
+                    } catch (OfflineException ignored) {
+                    }
+                }).start();
             });
         }
     }
@@ -350,5 +352,14 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     @Override
     public void onCommentDeleted(Long localCommentId) {
         syncManager.deleteComment(this.accountId, this.localId, localCommentId);
+    }
+
+    @Override
+    public void applyNextcloudTheme(int mainColor, int textColor) {
+        super.applyNextcloudTheme(mainColor, textColor);
+        binding.toolbar.setBackgroundColor(mainColor);
+        binding.toolbar.setTitleTextColor(textColor);
+        binding.tabLayout.setBackgroundColor(mainColor);
+        binding.tabLayout.setTabTextColors(textColor, textColor);
     }
 }

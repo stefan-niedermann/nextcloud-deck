@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
@@ -16,12 +15,14 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.ui.AbstractThemableActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends AbstractThemableActivity {
 
+    private ActivityAboutBinding binding;
     private final static int[] tabTitles = new int[]{
             R.string.about_credits_tab_title,
             R.string.about_contribution_tab_title,
@@ -34,7 +35,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        ActivityAboutBinding binding = ActivityAboutBinding.inflate(getLayoutInflater());
+        binding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
@@ -79,5 +80,14 @@ public class AboutActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish(); // close this activity as oppose to navigating up
         return true;
+    }
+
+    @Override
+    public void applyNextcloudTheme(int mainColor, int textColor) {
+        super.applyNextcloudTheme(mainColor, textColor);
+        binding.toolbar.setBackgroundColor(mainColor);
+        binding.toolbar.setTitleTextColor(textColor);
+        binding.tabLayout.setBackgroundColor(mainColor);
+        binding.tabLayout.setTabTextColors(textColor, textColor);
     }
 }
