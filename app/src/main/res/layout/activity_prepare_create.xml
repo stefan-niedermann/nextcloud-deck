@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:prompt="@string/choose_account"
                 android:spinnerMode="dialog"
-                tools:listitem="@layout/item_pick_stack_account" />
+                tools:listitem="@layout/item_prepare_create_account" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/board_select"

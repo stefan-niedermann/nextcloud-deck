@@ -1,56 +1,41 @@
 package it.niedermann.nextcloud.deck.ui.preparecreate;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemPickStackAccountBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateAccountBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension;
 
-public class AccountAdapter extends ArrayAdapter<Account> {
-
-    @NonNull
-    private final LayoutInflater inflater;
+public class AccountAdapter extends AbstractAdapter<Account> {
 
     @SuppressWarnings("WeakerAccess")
     public AccountAdapter(@NonNull Context context) {
-        super(context, R.layout.item_pick_stack_account);
-        setDropDownViewResource(R.layout.item_pick_stack_account);
-        inflater = LayoutInflater.from(context);
+        super(context, R.layout.item_prepare_create_account);
     }
 
     @Override
-    public boolean hasStableIds() {
-        return true;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return Objects.requireNonNull(getItem(position)).getId();
+    protected long getItemId(@NonNull Account item) {
+        return item.getId();
     }
 
     @NotNull
     @Override
     public View getView(int position, View convertView, @NotNull ViewGroup parent) {
-        final ItemPickStackAccountBinding binding;
+        final ItemPrepareCreateAccountBinding binding;
         if (convertView == null) {
-            binding = ItemPickStackAccountBinding.inflate(inflater, parent, false);
+            binding = ItemPrepareCreateAccountBinding.inflate(inflater, parent, false);
         } else {
-            binding = ItemPickStackAccountBinding.bind(convertView);
+            binding = ItemPrepareCreateAccountBinding.bind(convertView);
         }
 
         final Account item = getItem(position);
@@ -62,10 +47,5 @@ public class AccountAdapter extends ArrayAdapter<Account> {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }
         return binding.getRoot();
-    }
-
-    @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getView(position, convertView, parent);
     }
 }

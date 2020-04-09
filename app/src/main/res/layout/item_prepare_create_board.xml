@@ -15,7 +15,6 @@
         android:layout_marginEnd="@dimen/standard_margin"
         android:layout_marginRight="@dimen/standard_margin"
         android:contentDescription="@null"
-        android:padding="@dimen/standard_half_padding"
         app:srcCompat="@drawable/circle_grey600_36dp"
         tools:tint="@color/board_default_color" />
 
