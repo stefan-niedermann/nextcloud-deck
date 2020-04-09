@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Build;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -36,10 +34,6 @@ public class LabelChip extends Chip {
         params.setMargins(0, 0, 10, 0);
         setLayoutParams(params);
 
-        setEnsureMinTouchTargetSize(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        }
         setText(label.getTitle());
         setEllipsize(TextUtils.TruncateAt.END);
 
