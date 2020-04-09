@@ -1,53 +1,38 @@
 package it.niedermann.nextcloud.deck.ui.preparecreate;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemPickStackStackBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateStackBinding;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 
-public class StackAdapter extends ArrayAdapter<FullStack> {
-
-    @NonNull
-    private final LayoutInflater inflater;
+public class StackAdapter extends AbstractAdapter<FullStack> {
 
     @SuppressWarnings("WeakerAccess")
     public StackAdapter(@NonNull Context context) {
-        super(context, R.layout.item_pick_stack_account);
-        setDropDownViewResource(R.layout.item_pick_stack_account);
-        inflater = LayoutInflater.from(context);
+        super(context, R.layout.item_prepare_create_stack);
     }
 
     @Override
-    public boolean hasStableIds() {
-        return true;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return Objects.requireNonNull(getItem(position)).getLocalId();
+    protected long getItemId(@NonNull FullStack item) {
+        return item.getLocalId();
     }
 
     @NotNull
     @Override
     public View getView(int position, View convertView, @NotNull ViewGroup parent) {
-        final ItemPickStackStackBinding binding;
+        final ItemPrepareCreateStackBinding binding;
         if (convertView == null) {
-            binding = ItemPickStackStackBinding.inflate(inflater, parent, false);
+            binding = ItemPrepareCreateStackBinding.inflate(inflater, parent, false);
         } else {
-            binding = ItemPickStackStackBinding.bind(convertView);
+            binding = ItemPrepareCreateStackBinding.bind(convertView);
         }
 
         final FullStack item = getItem(position);
@@ -57,10 +42,5 @@ public class StackAdapter extends ArrayAdapter<FullStack> {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }
         return binding.getRoot();
-    }
-
-    @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getView(position, convertView, parent);
     }
 }
