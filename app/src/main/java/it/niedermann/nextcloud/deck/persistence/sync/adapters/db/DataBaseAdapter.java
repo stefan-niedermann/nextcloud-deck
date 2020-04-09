@@ -311,6 +311,11 @@ public class DataBaseAdapter {
         return LiveDataHelper.onlyIfChanged(db.getBoardDao().getBoardsForAccount(accountId));
     }
 
+    public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
+        // FIXME @desperateCoder only with edit permission
+        return LiveDataHelper.onlyIfChanged(db.getBoardDao().getBoardsForAccount(accountId));
+    }
+
     public WrappedLiveData<Board> createBoard(long accountId, Board board) {
         return LiveDataHelper.wrapInLiveData(() -> {
             board.setAccountId(accountId);

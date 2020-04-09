@@ -181,7 +181,7 @@ public class PickStackActivity extends AppCompatActivity {
         if (boardsLiveData != null) {
             boardsLiveData.removeObserver(boardsObserver);
         }
-        boardsLiveData = syncManager.getBoards(accountId);
+        boardsLiveData = syncManager.getBoardsWithEditPermission(accountId);
         boardsLiveData.observe(this, boardsObserver);
     }
 
