@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.util;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -8,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.widget.TextViewCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -23,10 +26,12 @@ public final class ViewUtil {
     }
 
     public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, @DrawableRes int errorResource) {
+        // TODO get context from ImageView?
         addAvatar(context, avatar, baseUrl, userId, DimensionUtil.getAvatarDimension(context), errorResource);
     }
 
     public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int avatarSize, @DrawableRes int errorResource) {
+        // TODO get context from ImageView?
         String uri = baseUrl + "/index.php/avatar/" + Uri.encode(userId) + "/" + avatarSize;
         Glide.with(context)
                 .load(uri)
@@ -39,7 +44,7 @@ public final class ViewUtil {
         long diff = DateUtil.getDayDifference(new Date(), dueDate);
 
         int backgroundDrawable = 0;
-        int textColor = Application.getAppTheme(context) ? R.color.dark_fg_primary : R.color.black;
+        int textColor = Application.getAppTheme(context) ? R.color.dark_fg_primary : R.color.grey600;
 
         if (diff == 1) {
             // due date: tomorrow
@@ -55,9 +60,10 @@ public final class ViewUtil {
 
         cardDueDate.setBackgroundResource(backgroundDrawable);
         cardDueDate.setTextColor(context.getResources().getColor(textColor));
+        TextViewCompat.setCompoundDrawableTintList(cardDueDate, new ColorStateList(new int[][]{new int[]{}}, new int[]{context.getResources().getColor(textColor)}));
     }
 
-    public static Drawable getTintedImageView(Context context, int imageId, String color) {
+    public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @NonNull String color) {
         Drawable drawable;
         Drawable wrapped;
         drawable = context.getResources().getDrawable(imageId);
@@ -66,7 +72,7 @@ public final class ViewUtil {
         return drawable;
     }
 
-    public static Drawable getTintedImageView(Context context, int imageId, int colorId) {
+    public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, int colorId) {
         return getTintedImageView(context, imageId, context.getResources().getString(colorId));
     }
 }

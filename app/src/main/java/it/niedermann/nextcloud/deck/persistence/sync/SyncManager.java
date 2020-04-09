@@ -255,6 +255,10 @@ public class SyncManager {
         return dataBaseAdapter.getBoards(accountId);
     }
 
+    public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
+        return dataBaseAdapter.getBoardsWithEditPermission(accountId);
+    }
+
     public LiveData<FullBoard> createBoard(long accountId, Board board) {
         MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
         doAsync(() -> {

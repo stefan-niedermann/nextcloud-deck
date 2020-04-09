@@ -65,10 +65,13 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
+import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.settings.SettingsActivity;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
@@ -176,8 +179,8 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 return null;
             }
         }).observe(this, (List<Account> accounts) -> {
-            if (accounts == null) {
-                throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null");
+            if (accounts == null || accounts.size() == 0) {
+                throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null or has no entry");
             }
 
             accountsList = accounts;

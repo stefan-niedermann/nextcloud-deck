@@ -9,19 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/standard_padding">
+        android:padding="@dimen/spacer_2x">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/spacer_2x"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_marginRight="@dimen/spacer_2x"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_label_grey600_24dp" />
 
@@ -46,14 +46,14 @@
             android:id="@+id/colorPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin">
+            android:layout_marginTop="@dimen/spacer_2x">
 
 
             <ImageView
                 android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_marginRight="@dimen/spacer_2x"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
 
@@ -91,24 +91,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/label_clear_due_date"
-                android:paddingStart="@dimen/standard_half_padding"
-                android:paddingLeft="@dimen/standard_half_padding"
-                android:paddingEnd="@dimen/standard_half_padding"
-                android:paddingRight="@dimen/standard_half_padding"
+                android:paddingStart="@dimen/spacer_1x"
+                android:paddingLeft="@dimen/spacer_1x"
+                android:paddingEnd="@dimen/spacer_1x"
+                android:paddingRight="@dimen/spacer_1x"
                 app:srcCompat="@drawable/ic_close_circle_grey600" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/spacer_2x"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_marginRight="@dimen/spacer_2x"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_person_grey600_24dp" />
 
@@ -132,15 +132,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/spacer_2x"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="@dimen/icon_size_details"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_marginRight="@dimen/spacer_2x"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
 
@@ -163,7 +163,7 @@
                 android:id="@+id/commentsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_margin" />
+                android:layout_marginTop="@dimen/spacer_2x" />
 
         </RelativeLayout>
 

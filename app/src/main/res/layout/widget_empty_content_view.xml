@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/standard_padding">
+    android:padding="@dimen/spacer_2x">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image"
@@ -34,10 +34,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
-        android:paddingStart="@dimen/standard_padding"
-        android:paddingLeft="@dimen/standard_padding"
-        android:paddingEnd="@dimen/standard_padding"
-        android:paddingRight="@dimen/standard_padding"
+        android:paddingStart="@dimen/spacer_2x"
+        android:paddingLeft="@dimen/spacer_2x"
+        android:paddingEnd="@dimen/spacer_2x"
+        android:paddingRight="@dimen/spacer_2x"
         android:textAlignment="center"
         hint:text="@string/app_name" />
 </RelativeLayout>

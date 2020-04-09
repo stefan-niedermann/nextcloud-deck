@@ -9,6 +9,8 @@ import androidx.room.Index;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
@@ -28,6 +30,20 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 )
 public class Card extends AbstractRemoteEntity {
 
+    private static Pattern PATTERN_MD_TASK = Pattern.compile("\\[([xX ])]");
+    public class TaskStatus {
+        public int taskCount;
+        public int doneCount;
+
+        public TaskStatus(int taskCount, int doneCount) {
+            this.taskCount = taskCount;
+            this.doneCount = doneCount;
+        }
+    }
+
+    @Ignore
+    private TaskStatus taskStatus = null;
+
     private String title;
     private String description;
     @NonNull
@@ -38,7 +54,6 @@ public class Card extends AbstractRemoteEntity {
     private int attachmentCount;
 
     private Long userId;
-    @NonNull
     private int order;
     private boolean archived;
     @SerializedName("duedate")
@@ -72,6 +87,24 @@ public class Card extends AbstractRemoteEntity {
         this.notified = card.isNotified();
         this.overdue = card.getOverdue();
         this.commentsUnread = card.getCommentsUnread();
+    }
+
+    public TaskStatus getTaskStatus(){
+        if (taskStatus == null){
+            int count = 0, done = 0;
+            if (description != null) {
+                Matcher matcher = PATTERN_MD_TASK.matcher(description);
+                while (matcher.find()){
+                    count++;
+                    char c = matcher.group().charAt(1);
+                    if (c == 'x' || c == 'X'){
+                        done++;
+                    }
+                }
+            }
+            taskStatus = new TaskStatus(count, done);
+        }
+        return taskStatus;
     }
 
     public boolean isNotified() {
@@ -112,6 +145,7 @@ public class Card extends AbstractRemoteEntity {
 
     public void setDescription(String description) {
         this.description = description;
+        this.taskStatus = null;
     }
 
     public Long getStackId() {

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/spacer_2x">
 
         <TextView
             android:layout_width="wrap_content"
@@ -17,7 +17,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             android:drawableTop="@mipmap/ic_launcher"
-            android:drawablePadding="@dimen/standard_padding"
+            android:drawablePadding="@dimen/spacer_2x"
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="26sp" />

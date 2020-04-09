@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/spacer_2x">
 
         <TextView
             style="?android:attr/listSeparatorTextViewStyle"
@@ -22,9 +22,9 @@
             android:padding="10dp"
             android:text="@string/about_app_license" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/about_app_license_button"
-            style="@style/PrimaryCTAButton"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/about_app_license_button" />
@@ -33,7 +33,7 @@
             style="?android:attr/listSeparatorTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/spacer_2x"
             android:text="@string/about_icons_disclaimer_title" />
 
         <TextView

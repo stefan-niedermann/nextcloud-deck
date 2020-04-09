@@ -172,4 +172,7 @@
     <string name="no_comments_yet">No comments yet</string>
     <string name="no_boards">No boards yet</string>
     <string name="add_a_new_board_using_the_button">Add a new board using the + button</string>
+    <string name="choose_board">Choose board</string>
+    <string name="choose_list">Choose list</string>
+    <string name="task_count">%1$s/%2$s</string>
 </resources>

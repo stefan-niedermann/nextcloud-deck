@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.ui.settings;
 
 import android.os.Bundle;
 
@@ -9,7 +9,6 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivitySettingsBinding;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.settings.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
