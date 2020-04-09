@@ -17,40 +17,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="@dimen/standard_padding"
-        android:paddingLeft="@dimen/standard_padding"
-        android:paddingTop="@dimen/standard_half_padding"
-        android:paddingEnd="@dimen/standard_padding"
-        android:paddingRight="@dimen/standard_padding"
-        android:paddingBottom="@dimen/standard_half_padding">
+        android:padding="@dimen/standard_half_padding">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/card_title"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:padding="@dimen/standard_quarter_padding"
-                android:paddingStart="0dp"
-                android:paddingLeft="0dp"
+                android:layout_toStartOf="@id/not_synced_yet"
+                android:layout_toLeftOf="@id/not_synced_yet"
                 android:textSize="18sp"
                 tools:ignore="RtlSymmetry"
-                tools:text="This is a really longCard Title" />
+                tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut l" />
 
             <ImageView
                 android:id="@+id/not_synced_yet"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_quarter_margin"
+                android:layout_toStartOf="@id/card_due_date"
+                android:layout_toLeftOf="@id/card_due_date"
                 android:contentDescription="@string/not_synced_yet"
                 android:visibility="gone"
                 app:srcCompat="@drawable/ic_sync_blue_24dp"
@@ -60,106 +50,85 @@
                 android:id="@+id/card_due_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="center"
                 android:background="@drawable/due_tomorrow_background"
                 android:maxLines="1"
                 android:minLines="0"
                 android:padding="@dimen/standard_quarter_padding"
                 tools:text="tomorrow" />
+        </RelativeLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/labels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/standard_half_margin"
+            android:layout_marginRight="@dimen/standard_half_margin"
+            android:layout_weight="1"
+            android:animateLayoutChanges="true"
+            tools:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="end">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_count_attachments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="@dimen/standard_quarter_padding"
+                app:drawableLeftCompat="@drawable/ic_attach_file_grey600_24dp"
+                app:drawableStartCompat="@drawable/ic_attach_file_grey600_24dp"
+                tools:text="1" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_count_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/card_count_attachments"
+                android:layout_toRightOf="@id/card_count_attachments"
+                android:drawablePadding="@dimen/standard_quarter_padding"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:minLines="0"
+                android:padding="@dimen/standard_quarter_padding"
+                app:drawableLeftCompat="@drawable/ic_comment_white_24dp"
+                app:drawableStartCompat="@drawable/ic_comment_white_24dp"
+                app:drawableTint="@color/grey600"
+                tools:text="1" />
+
+            <RelativeLayout
+                android:id="@+id/peopleList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_half_padding"
+                android:layout_marginLeft="@dimen/standard_half_padding"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_toEndOf="@+id/card_count_comments"
+                android:layout_toRightOf="@id/card_count_comments"
+                android:gravity="end"
+                android:orientation="horizontal" />
 
             <ImageView
                 android:id="@+id/card_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/peopleList"
+                android:layout_toRightOf="@id/peopleList"
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/label_menu"
                 android:padding="@dimen/standard_quarter_padding"
                 app:srcCompat="@drawable/ic_menu" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/card_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
-            android:paddingTop="@dimen/standard_quarter_padding"
-            android:paddingEnd="@dimen/standard_padding"
-            android:paddingRight="@dimen/standard_padding"
-            android:paddingBottom="@dimen/standard_half_padding"
-            android:textColor="@color/fg_secondary"
-            android:textSize="16sp"
-            tools:text="This is a card description" />
-
-        <LinearLayout
-            android:id="@+id/card_details_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_quarter_margin"
-            android:layout_marginBottom="@dimen/standard_quarter_margin"
-            android:orientation="horizontal">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/labels"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/standard_half_margin"
-                android:layout_marginRight="@dimen/standard_half_margin"
-                android:layout_weight="1"
-                android:animateLayoutChanges="true"
-                tools:layout_height="match_parent" />
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="end">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/card_count_attachments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:minLines="0"
-                    android:padding="@dimen/standard_quarter_padding"
-                    app:drawableLeftCompat="@drawable/ic_attach_file_grey600_24dp"
-                    app:drawableStartCompat="@drawable/ic_attach_file_grey600_24dp"
-                    tools:text="1" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/card_count_comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/card_count_attachments"
-                    android:layout_toRightOf="@id/card_count_attachments"
-                    android:drawablePadding="@dimen/standard_quarter_padding"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:minLines="0"
-                    android:padding="@dimen/standard_quarter_padding"
-                    app:drawableLeftCompat="@drawable/ic_comment_white_24dp"
-                    app:drawableStartCompat="@drawable/ic_comment_white_24dp"
-                    app:drawableTint="@color/grey600"
-                    tools:text="1" />
-
-                <RelativeLayout
-                    android:id="@+id/peopleList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/standard_half_padding"
-                    android:layout_marginLeft="@dimen/standard_half_padding"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_toEndOf="@+id/card_count_comments"
-                    android:layout_toRightOf="@id/card_count_comments"
-                    android:gravity="end"
-                    android:orientation="horizontal" />
-
-            </RelativeLayout>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

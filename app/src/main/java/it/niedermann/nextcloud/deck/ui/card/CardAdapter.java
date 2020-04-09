@@ -143,13 +143,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             viewHolder.binding.cardMenu.setVisibility(View.GONE);
         }
         viewHolder.binding.cardTitle.setText(card.getCard().getTitle());
-        String description = card.getCard().getDescription();
-        if (description != null && description.length() > 0) {
-            viewHolder.binding.cardDescription.setText(card.getCard().getDescription());
-            viewHolder.binding.cardDescription.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.binding.cardDescription.setVisibility(View.GONE);
-        }
 
         boolean showDetails = false;
 
@@ -200,12 +193,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             showDetails = true;
         } else {
             viewHolder.binding.labels.setVisibility(View.GONE);
-        }
-
-        if (showDetails) {
-            viewHolder.binding.cardDetailsContainer.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.binding.cardDetailsContainer.setVisibility(View.GONE);
         }
 
         viewHolder.binding.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
