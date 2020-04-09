@@ -33,9 +33,9 @@
                 android:id="@+id/card_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="4sp"
                 android:layout_weight="1"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 tools:ignore="RtlSymmetry"
                 tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut l" />
 
@@ -43,7 +43,7 @@
                 android:id="@+id/not_synced_yet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_half_margin"
+                android:layout_marginTop="8sp"
                 android:contentDescription="@string/not_synced_yet"
                 android:visibility="gone"
                 app:srcCompat="@drawable/ic_sync_blue_24dp"
@@ -76,7 +76,7 @@
             android:id="@+id/labels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_half_margin"
             android:animateLayoutChanges="true"
             android:paddingStart="@dimen/standard_padding"
             android:paddingLeft="@dimen/standard_padding"
@@ -88,7 +88,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_half_margin"
             android:baselineAligned="false"
             android:paddingStart="@dimen/standard_half_padding"
             android:paddingLeft="@dimen/standard_half_padding"
