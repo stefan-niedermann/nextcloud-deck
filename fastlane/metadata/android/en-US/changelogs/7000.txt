@@ -1,0 +1,1 @@
+- ➕ Fix adding cards via tile and shortcuts (#358)
