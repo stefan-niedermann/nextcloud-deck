@@ -179,8 +179,8 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                 return null;
             }
         }).observe(this, (List<Account> accounts) -> {
-            if (accounts == null) {
-                throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null");
+            if (accounts == null || accounts.size() == 0) {
+                throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null or has no entry");
             }
 
             accountsList = accounts;

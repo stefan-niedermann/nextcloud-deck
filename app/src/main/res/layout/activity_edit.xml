@@ -43,30 +43,6 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <LinearLayout
-            android:id="@+id/selectBoardWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/boardSelector"
-                android:padding="@dimen/standard_padding"
-                android:text="@string/simple_select"
-                android:textColor="@android:color/white" />
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/boardSelector"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:theme="@style/Spinner"
-                tools:listitem="@layout/item_board" />
-        </LinearLayout>
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"

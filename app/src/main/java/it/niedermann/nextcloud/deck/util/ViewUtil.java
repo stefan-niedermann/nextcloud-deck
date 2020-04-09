@@ -23,10 +23,12 @@ public final class ViewUtil {
     }
 
     public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, @DrawableRes int errorResource) {
+        // TODO get context from ImageView?
         addAvatar(context, avatar, baseUrl, userId, DimensionUtil.getAvatarDimension(context), errorResource);
     }
 
     public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int avatarSize, @DrawableRes int errorResource) {
+        // TODO get context from ImageView?
         String uri = baseUrl + "/index.php/avatar/" + Uri.encode(userId) + "/" + avatarSize;
         Glide.with(context)
                 .load(uri)
