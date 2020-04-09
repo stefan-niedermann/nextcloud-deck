@@ -180,6 +180,14 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             viewHolder.binding.labels.setVisibility(View.GONE);
         }
 
+        Card.TaskStatus taskStatus = card.getCard().getTaskStatus();
+        if (taskStatus.taskCount > 0) {
+            viewHolder.binding.cardCountTasks.setText(context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
+            viewHolder.binding.cardCountTasks.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.binding.cardCountTasks.setVisibility(View.GONE);
+        }
+
         viewHolder.binding.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
     }
 
