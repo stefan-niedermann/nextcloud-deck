@@ -13,6 +13,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.chip.Chip;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 
@@ -30,8 +31,7 @@ public class LabelChip extends Chip {
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
 
-        // TODO Margin right from dp values
-        params.setMargins(0, 0, 10, 0);
+        params.setMargins(0, 0, Math.round(context.getResources().getDimension(R.dimen.standard_half_margin)), 0);
         setLayoutParams(params);
 
         setText(label.getTitle());
