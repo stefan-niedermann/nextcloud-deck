@@ -79,7 +79,7 @@
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".ui.pickstack.PickStackActivity"
+            android:name=".ui.preparecreate.PrepareCreateActivity"
             android:label="@string/simple_select"
             android:theme="@style/AppTheme" />
 

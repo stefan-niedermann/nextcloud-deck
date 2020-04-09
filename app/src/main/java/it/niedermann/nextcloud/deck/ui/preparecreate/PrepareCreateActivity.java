@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.pickstack;
+package it.niedermann.nextcloud.deck.ui.preparecreate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ActivityPickStackBinding;
+import it.niedermann.nextcloud.deck.databinding.ActivityPrepareCreateBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -33,9 +33,9 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class PickStackActivity extends AppCompatActivity {
+public class PrepareCreateActivity extends AppCompatActivity {
 
-    private ActivityPickStackBinding binding;
+    private ActivityPrepareCreateBinding binding;
 
     private SyncManager syncManager;
 
@@ -100,7 +100,7 @@ public class PickStackActivity extends AppCompatActivity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
 
-        binding = ActivityPickStackBinding.inflate(getLayoutInflater());
+        binding = ActivityPrepareCreateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 

@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.pickstack;
+package it.niedermann.nextcloud.deck.ui.preparecreate;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,16 +15,19 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemPickStackStackBinding;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.databinding.ItemPickStackAccountBinding;
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class StackAdapter extends ArrayAdapter<FullStack> {
+import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension;
+
+public class AccountAdapter extends ArrayAdapter<Account> {
 
     @NonNull
     private final LayoutInflater inflater;
 
     @SuppressWarnings("WeakerAccess")
-    public StackAdapter(@NonNull Context context) {
+    public AccountAdapter(@NonNull Context context) {
         super(context, R.layout.item_pick_stack_account);
         setDropDownViewResource(R.layout.item_pick_stack_account);
         inflater = LayoutInflater.from(context);
@@ -37,22 +40,24 @@ public class StackAdapter extends ArrayAdapter<FullStack> {
 
     @Override
     public long getItemId(int position) {
-        return Objects.requireNonNull(getItem(position)).getLocalId();
+        return Objects.requireNonNull(getItem(position)).getId();
     }
 
     @NotNull
     @Override
     public View getView(int position, View convertView, @NotNull ViewGroup parent) {
-        final ItemPickStackStackBinding binding;
+        final ItemPickStackAccountBinding binding;
         if (convertView == null) {
-            binding = ItemPickStackStackBinding.inflate(inflater, parent, false);
+            binding = ItemPickStackAccountBinding.inflate(inflater, parent, false);
         } else {
-            binding = ItemPickStackStackBinding.bind(convertView);
+            binding = ItemPickStackAccountBinding.bind(convertView);
         }
 
-        final FullStack item = getItem(position);
+        final Account item = getItem(position);
         if (item != null) {
-            binding.stackTitle.setText(item.getStack().getTitle());
+            binding.username.setText(item.getUserName());
+            binding.instance.setText(item.getUrl());
+            ViewUtil.addAvatar(binding.avatar.getContext(), binding.avatar, item.getUrl(), item.getUserName(), getAvatarDimension(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         } else {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }

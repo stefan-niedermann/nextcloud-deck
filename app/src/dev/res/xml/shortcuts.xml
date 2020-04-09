@@ -8,7 +8,7 @@
         android:shortcutShortLabel="@string/simple_add">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="it.niedermann.nextcloud.deck.ui.pickstack.PickStackActivity"
+            android:targetClass="it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateActivity"
             android:targetPackage="it.niedermann.nextcloud.deck.dev" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>

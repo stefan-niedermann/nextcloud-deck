@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.pickstack;
+package it.niedermann.nextcloud.deck.ui.preparecreate;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,19 +15,17 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemPickStackAccountBinding;
-import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.databinding.ItemPickStackBoardBinding;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension;
-
-public class AccountAdapter extends ArrayAdapter<Account> {
+public class BoardAdapter extends ArrayAdapter<Board> {
 
     @NonNull
     private final LayoutInflater inflater;
 
     @SuppressWarnings("WeakerAccess")
-    public AccountAdapter(@NonNull Context context) {
+    public BoardAdapter(@NonNull Context context) {
         super(context, R.layout.item_pick_stack_account);
         setDropDownViewResource(R.layout.item_pick_stack_account);
         inflater = LayoutInflater.from(context);
@@ -40,24 +38,23 @@ public class AccountAdapter extends ArrayAdapter<Account> {
 
     @Override
     public long getItemId(int position) {
-        return Objects.requireNonNull(getItem(position)).getId();
+        return Objects.requireNonNull(getItem(position)).getLocalId();
     }
 
     @NotNull
     @Override
     public View getView(int position, View convertView, @NotNull ViewGroup parent) {
-        final ItemPickStackAccountBinding binding;
+        final ItemPickStackBoardBinding binding;
         if (convertView == null) {
-            binding = ItemPickStackAccountBinding.inflate(inflater, parent, false);
+            binding = ItemPickStackBoardBinding.inflate(inflater, parent, false);
         } else {
-            binding = ItemPickStackAccountBinding.bind(convertView);
+            binding = ItemPickStackBoardBinding.bind(convertView);
         }
 
-        final Account item = getItem(position);
+        final Board item = getItem(position);
         if (item != null) {
-            binding.username.setText(item.getUserName());
-            binding.instance.setText(item.getUrl());
-            ViewUtil.addAvatar(binding.avatar.getContext(), binding.avatar, item.getUrl(), item.getUserName(), getAvatarDimension(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+            binding.boardTitle.setText(item.getTitle());
+            binding.avatar.setImageDrawable(ViewUtil.getTintedImageView(binding.avatar.getContext(), R.drawable.circle_grey600_36dp, "#" + item.getColor()));
         } else {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }
