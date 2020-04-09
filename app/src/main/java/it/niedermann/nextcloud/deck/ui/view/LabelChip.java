@@ -31,7 +31,7 @@ public class LabelChip extends Chip {
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
 
-        params.setMargins(0, 0, Math.round(context.getResources().getDimension(R.dimen.standard_half_margin)), 0);
+        params.setMargins(0, 0, Math.round(context.getResources().getDimension(R.dimen.spacer_1x)), 0);
         setLayoutParams(params);
 
         setText(label.getTitle());

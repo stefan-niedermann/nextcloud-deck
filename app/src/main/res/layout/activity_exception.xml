@@ -22,7 +22,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/standard_margin">
+        android:padding="@dimen/spacer_2x">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/message"
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="@dimen/standard_margin"
+        android:padding="@dimen/spacer_2x"
         android:scrollbars="horizontal|vertical"
         android:textIsSelectable="true"
         app:fontFamily="monospace" />
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:orientation="horizontal"
-        android:padding="@dimen/standard_margin"
+        android:padding="@dimen/spacer_2x"
         android:weightSum="1.0">
 
         <com.google.android.material.button.MaterialButton
@@ -59,8 +59,8 @@
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/standard_half_margin"
-            android:layout_marginRight="@dimen/standard_half_margin"
+            android:layout_marginEnd="@dimen/spacer_1x"
+            android:layout_marginRight="@dimen/spacer_1x"
             android:layout_weight=".5"
             android:text="@string/simple_close"
             app:backgroundTint="@android:color/white" />
@@ -70,8 +70,8 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_half_margin"
-            android:layout_marginLeft="@dimen/standard_half_margin"
+            android:layout_marginStart="@dimen/spacer_1x"
+            android:layout_marginLeft="@dimen/spacer_1x"
             android:layout_weight=".5"
             android:text="@string/simple_copy" />
 

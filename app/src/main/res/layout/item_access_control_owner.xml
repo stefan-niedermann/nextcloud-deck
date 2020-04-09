@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/standard_padding">
+    android:padding="@dimen/spacer_2x">
 
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="@dimen/avatar_size"
         android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginRight="@dimen/standard_margin"
+        android:layout_marginEnd="@dimen/spacer_2x"
+        android:layout_marginRight="@dimen/spacer_2x"
         android:contentDescription="@null"
         app:srcCompat="@drawable/ic_person_grey600_24dp"
         tools:srcCompat="@tools:sample/avatars" />

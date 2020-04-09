@@ -9,7 +9,7 @@
         android:id="@+id/colorPicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginTop="@dimen/spacer_2x"
         app:alignItems="stretch"
         app:flexWrap="wrap"
         app:justifyContent="space_between" />

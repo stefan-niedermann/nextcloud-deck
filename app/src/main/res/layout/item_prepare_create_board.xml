@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/standard_padding"
+    android:padding="@dimen/spacer_2x"
     tools:ignore="UseCompoundDrawables">
 
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="@dimen/avatar_size"
         android:layout_height="@dimen/avatar_size"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginRight="@dimen/standard_margin"
+        android:layout_marginEnd="@dimen/spacer_2x"
+        android:layout_marginRight="@dimen/spacer_2x"
         android:contentDescription="@null"
         app:srcCompat="@drawable/circle_grey600_36dp"
         tools:tint="@color/board_default_color" />
