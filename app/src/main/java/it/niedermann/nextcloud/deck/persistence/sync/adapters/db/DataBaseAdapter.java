@@ -312,8 +312,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
-        // FIXME @desperateCoder only with edit permission
-        return LiveDataHelper.onlyIfChanged(db.getBoardDao().getBoardsForAccount(accountId));
+        return LiveDataHelper.onlyIfChanged(db.getBoardDao().getBoardsWithEditPermissionsForAccount(accountId));
     }
 
     public WrappedLiveData<Board> createBoard(long accountId, Board board) {
