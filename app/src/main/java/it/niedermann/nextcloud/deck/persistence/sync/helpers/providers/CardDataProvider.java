@@ -19,7 +19,6 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -137,9 +136,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         }
         syncHelper.doSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), existingEntity, attachments));
 
-        // TODO comments min version - can be removed when app min version == 1.0.0
-        Capabilities capabilities = Capabilities.CACHE.get(callback.getAccount().getId());
-        if (capabilities != null && capabilities.getDeckVersion().isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0))) {
+        if (callback.getAccount().getServerDeckVersionAsObject().isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0))) {
             DeckLog.verbose("Comments - Version is OK, SYNC");
             syncHelper.doSyncFor(new DeckCommentsDataProvider(this, existingEntity.getCard()));
         } else {
