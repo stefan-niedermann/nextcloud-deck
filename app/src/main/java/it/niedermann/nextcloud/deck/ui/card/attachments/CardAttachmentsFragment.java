@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
@@ -40,7 +42,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 
-public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
+public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener, Application.NextcloudTheme {
     private FragmentCardEditTabAttachmentsBinding binding;
 
     private static final int REQUEST_CODE_ADD_ATTACHMENT = 1;
@@ -150,6 +152,18 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Application.registerThemableComponent(requireContext(), this);
+    }
+
+    @Override
+    public void onPause() {
+        Application.deregisterThemableComponent(this);
+        super.onPause();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ADD_ATTACHMENT && resultCode == Activity.RESULT_OK) {
@@ -246,5 +260,11 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             this.binding.emptyContentView.setVisibility(View.GONE);
             this.binding.attachmentsList.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void applyNextcloudTheme(int mainColor, int textColor) {
+        binding.fab.setSupportBackgroundTintList(new ColorStateList(new int[][]{new int[]{}}, new int[]{mainColor}));
+        binding.fab.setColorFilter(textColor);
     }
 }
