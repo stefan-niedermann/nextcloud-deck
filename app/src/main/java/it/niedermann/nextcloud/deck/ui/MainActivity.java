@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -27,7 +26,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -338,21 +336,7 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
     @Override
     public void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
         super.applyNextcloudTheme(mainColor, textColor);
-        binding.toolbar.setBackgroundColor(mainColor);
-        binding.toolbar.setTitleTextColor(textColor);
-        Drawable drawable = binding.toolbar.getOverflowIcon();
-        if(drawable != null) {
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable.mutate(), textColor);
-            binding.toolbar.setOverflowIcon(drawable);
-        }
-
-        Drawable navigationDrawable = binding.toolbar.getNavigationIcon();
-        if(navigationDrawable != null) {
-            navigationDrawable = DrawableCompat.wrap(navigationDrawable);
-            DrawableCompat.setTint(navigationDrawable.mutate(), textColor);
-            binding.toolbar.setNavigationIcon(navigationDrawable);
-        }
+        applyNextcloudTheme(mainColor, textColor, binding.toolbar);
         binding.stackTitles.setBackgroundColor(mainColor);
         binding.stackTitles.setTabTextColors(textColor, textColor);
         binding.stackTitles.setSelectedTabIndicatorColor(textColor);

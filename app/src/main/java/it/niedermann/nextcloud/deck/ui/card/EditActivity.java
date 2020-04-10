@@ -1,8 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,7 +10,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -343,21 +340,7 @@ public class EditActivity extends AbstractThemableActivity implements CardDetail
     @Override
     public void applyNextcloudTheme(int mainColor, int textColor) {
         super.applyNextcloudTheme(mainColor, textColor);
-        binding.toolbar.setBackgroundColor(mainColor);
-        binding.toolbar.setTitleTextColor(textColor);
-        Drawable drawable = binding.toolbar.getOverflowIcon();
-        if(drawable != null) {
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable.mutate(), textColor);
-            binding.toolbar.setOverflowIcon(drawable);
-        }
-
-        Drawable navigationDrawable = binding.toolbar.getNavigationIcon();
-        if(navigationDrawable != null) {
-            navigationDrawable.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
-            binding.toolbar.setNavigationIcon(navigationDrawable);
-        }
-
+        applyNextcloudTheme(mainColor, textColor, binding.toolbar);
         binding.title.setTextColor(textColor);
         binding.tabLayout.setBackgroundColor(mainColor);
         binding.tabLayout.setTabIconTint(new ColorStateList(new int[][]{new int[]{}}, new int[]{textColor}));
