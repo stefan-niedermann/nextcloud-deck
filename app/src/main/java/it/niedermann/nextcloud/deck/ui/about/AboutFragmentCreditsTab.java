@@ -45,7 +45,7 @@ public class AboutFragmentCreditsTab extends Fragment {
         if (getArguments() != null && getArguments().containsKey(BUNDLE_KEY_ACCOUNT)) {
             new Thread(() -> {
                 try {
-                    syncManager.getServerVersion(new IResponseCallback<Capabilities>((Account) getArguments().getSerializable(BUNDLE_KEY_ACCOUNT)) {
+                    syncManager.refreshCapabilities(new IResponseCallback<Capabilities>((Account) getArguments().getSerializable(BUNDLE_KEY_ACCOUNT)) {
                         @Override
                         public void onResponse(Capabilities response) {
                             requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong(response.getDeckVersion().getOriginalVersion())));

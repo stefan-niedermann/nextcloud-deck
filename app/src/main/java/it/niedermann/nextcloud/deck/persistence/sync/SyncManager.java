@@ -239,7 +239,7 @@ public class SyncManager {
         return dataBaseAdapter.readAccounts();
     }
 
-    public void getServerVersion(IResponseCallback<Capabilities> callback) {
+    public void refreshCapabilities(IResponseCallback<Capabilities> callback) {
         serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(callback.getAccount()) {
             @Override
             public void onResponse(Capabilities response) {

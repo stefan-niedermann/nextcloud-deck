@@ -223,7 +223,7 @@ public class EditActivity extends AbstractThemableActivity implements CardDetail
             syncManager.readAccount(accountId).observe(this, (account) -> {
                 new Thread(() -> {
                     try {
-                        syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
+                        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
                             @Override
                             public void onResponse(Capabilities response) {
                                 hasCommentsAbility = ((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));

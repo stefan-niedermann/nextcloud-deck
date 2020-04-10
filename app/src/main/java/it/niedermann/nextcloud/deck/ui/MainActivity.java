@@ -694,7 +694,7 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
                                 this.currentAccount = createdAccount;
 
                                 try {
-                                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
+                                    syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
                                         @Override
                                         public void onResponse(Capabilities response) {
                                             if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
