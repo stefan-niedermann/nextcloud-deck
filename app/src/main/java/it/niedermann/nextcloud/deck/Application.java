@@ -32,20 +32,26 @@ public class Application extends android.app.Application {
     public void onCreate() {
         setAppTheme(getAppTheme(getApplicationContext()));
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        DeckLog.log("--- Read: shared_preference_theme_main");
-        DeckLog.log("--- Read: shared_preference_theme_text");
-        final int mainColor = sharedPreferences.getInt("shared_preference_theme_main", getApplicationContext().getResources().getColor(R.color.primary));
-        final int textColor = sharedPreferences.getInt("shared_preference_theme_text", getApplicationContext().getResources().getColor(android.R.color.white));
+        @ColorInt final int mainColor = readNextcloudThemeMainColor(getApplicationContext());
+        @ColorInt final int textColor = readNextcloudThemeTextColor(getApplicationContext());
         applyNextcloudTheme(mainColor, textColor);
+
         super.onCreate();
     }
+
+    // --------
+    // Multidex
+    // --------
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         install(this);
     }
+
+    // -----------------
+    // Day / Night theme
+    // -----------------
 
     public static void setAppTheme(Boolean darkTheme) {
         setDefaultNightMode(darkTheme ? MODE_NIGHT_YES : MODE_NIGHT_NO);
@@ -56,15 +62,16 @@ public class Application extends android.app.Application {
         return prefs.getBoolean(context.getString(R.string.pref_key_dark_theme), false);
     }
 
+    // -----------------
+    // Nextcloud theming
+    // -----------------
+
     public static void registerThemableComponent(@NonNull Context context, @NonNull NextcloudTheme themableComponent) {
         if (!themableComponents.contains(themableComponent)) {
             themableComponents.add(themableComponent);
 
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-            DeckLog.log("--- Read: shared_preference_theme_main");
-            DeckLog.log("--- Read: shared_preference_theme_text");
-            final int mainColor = sharedPreferences.getInt("shared_preference_theme_main", context.getApplicationContext().getResources().getColor(R.color.primary));
-            final int textColor = sharedPreferences.getInt("shared_preference_theme_text", context.getApplicationContext().getResources().getColor(android.R.color.white));
+            @ColorInt final int mainColor = readNextcloudThemeMainColor(context);
+            @ColorInt final int textColor = readNextcloudThemeTextColor(context);
             themableComponent.applyNextcloudTheme(mainColor, textColor);
         }
     }
@@ -76,7 +83,35 @@ public class Application extends android.app.Application {
     }
 
     public static void setNextcloudTheme(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
-        applyNextcloudTheme(mainColor, textColor);
+        @ColorInt final int currentMainColor = readNextcloudThemeMainColor(context);
+        @ColorInt final int currentTextColor = readNextcloudThemeTextColor(context);
+        if (mainColor != currentMainColor || textColor != currentTextColor) {
+            applyNextcloudTheme(mainColor, textColor);
+            saveNextcloudThemeColors(context, mainColor, textColor);
+        }
+    }
+
+    public static void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
+        for (NextcloudTheme themableComponent : themableComponents) {
+            themableComponent.applyNextcloudTheme(mainColor, textColor);
+        }
+    }
+
+    @ColorInt
+    public static int readNextcloudThemeMainColor(@NonNull Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        DeckLog.log("--- Read: shared_preference_theme_main");
+        return sharedPreferences.getInt("shared_preference_theme_main", context.getApplicationContext().getResources().getColor(R.color.primary));
+    }
+
+    @ColorInt
+    public static int readNextcloudThemeTextColor(@NonNull Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        DeckLog.log("--- Read: shared_preference_theme_text");
+        return sharedPreferences.getInt("shared_preference_theme_text", context.getApplicationContext().getResources().getColor(android.R.color.white));
+    }
+
+    public static void saveNextcloudThemeColors(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
         DeckLog.log("--- Write: shared_preference_theme_text" + " | " + textColor);
@@ -85,11 +120,9 @@ public class Application extends android.app.Application {
         editor.apply();
     }
 
-    public static void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
-        for (NextcloudTheme themableComponent : themableComponents) {
-            themableComponent.applyNextcloudTheme(mainColor, textColor);
-        }
-    }
+    // --------------------------------------
+    // Current account / board / stack states
+    // --------------------------------------
 
     public static void saveCurrentAccountId(@NonNull Context context, long accountId) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();

@@ -307,7 +307,7 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
                     syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(currentAccount) {
                         @Override
                         public void onResponse(Capabilities response) {
-                            runOnUiThread(() -> Application.setNextcloudTheme(MainActivity.this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor())));
+                            runOnUiThread(() -> Application.setNextcloudTheme(MainActivity.this, Color.parseColor(response.getColor()), Color.parseColor(response.getTextColor())));
                         }
                     });
                 }).start();
