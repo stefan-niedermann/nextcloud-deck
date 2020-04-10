@@ -18,15 +18,12 @@ import java.util.Date;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
-import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -221,30 +218,15 @@ public class EditActivity extends AbstractThemableActivity implements CardDetail
         // Comments API only available starting with version 1.0.0-alpha1
         if (!createMode) {
             syncManager.readAccount(accountId).observe(this, (account) -> {
-                new Thread(() -> {
-                    try {
-                        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
-                            @Override
-                            public void onResponse(Capabilities response) {
-                                hasCommentsAbility = ((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
-                                if (hasCommentsAbility) {
-                                    runOnUiThread(() -> {
-                                        mediator.detach();
-                                        adapter.enableComments();
-                                        binding.pager.setOffscreenPageLimit(3);
-                                        mediator.attach();
-                                    });
-                                }
-                            }
-
-                            @Override
-                            public void onError(Throwable throwable) {
-                                super.onError(throwable);
-                            }
-                        });
-                    } catch (OfflineException ignored) {
-                    }
-                }).start();
+                hasCommentsAbility = ((account.getServerDeckVersionAsObject().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
+                if (hasCommentsAbility) {
+                    runOnUiThread(() -> {
+                        mediator.detach();
+                        adapter.enableComments();
+                        binding.pager.setOffscreenPageLimit(3);
+                        mediator.attach();
+                    });
+                }
             });
         }
     }

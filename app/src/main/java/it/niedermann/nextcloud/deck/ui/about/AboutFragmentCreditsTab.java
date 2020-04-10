@@ -14,12 +14,8 @@ import androidx.preference.PreferenceManager;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutCreditsTabBinding;
-import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
@@ -41,20 +37,9 @@ public class AboutFragmentCreditsTab extends Fragment {
         // VERSIONS
 
         binding.aboutVersion.setText(getString(R.string.about_version, strong(BuildConfig.VERSION_NAME)));
-        SyncManager syncManager = new SyncManager(requireActivity());
         if (getArguments() != null && getArguments().containsKey(BUNDLE_KEY_ACCOUNT)) {
-            new Thread(() -> {
-                try {
-                    syncManager.refreshCapabilities(new IResponseCallback<Capabilities>((Account) getArguments().getSerializable(BUNDLE_KEY_ACCOUNT)) {
-                        @Override
-                        public void onResponse(Capabilities response) {
-                            requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong(response.getDeckVersion().getOriginalVersion())));
-                        }
-                    });
-                } catch (OfflineException e) {
-                    requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(disabled(getString(R.string.you_are_currently_offline), requireContext())));
-                }
-            }).start();
+            Account account = (Account) requireArguments().getSerializable(BUNDLE_KEY_ACCOUNT);
+            requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong(account == null ? getString(R.string.simple_error) : account.getServerDeckVersion())));
         } else {
             binding.aboutServerAppVersionContainer.setVisibility(View.GONE);
         }

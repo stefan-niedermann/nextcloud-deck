@@ -304,7 +304,7 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
                     }
                 } else DeckLog.warn("ConnectivityManager is null");
                 new Thread(() -> {
-                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(currentAccount) {
+                    syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(currentAccount) {
                         @Override
                         public void onResponse(Capabilities response) {
                             runOnUiThread(() -> Application.setNextcloudTheme(MainActivity.this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor())));
