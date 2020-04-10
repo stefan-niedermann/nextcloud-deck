@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -338,11 +340,23 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
         super.applyNextcloudTheme(mainColor, textColor);
         applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
         applyNextcloudThemeToTablayout(mainColor, textColor, binding.stackTitles);
+
         binding.addStackButton.setBackgroundColor(mainColor);
         binding.addStackButton.setColorFilter(textColor);
-        headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
         binding.fab.setSupportBackgroundTintList(new ColorStateList(new int[][]{new int[]{}}, new int[]{mainColor}));
         binding.fab.setColorFilter(textColor);
+
+        headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
+        headerBinding.drawerAppTitle.setTextColor(textColor);
+        headerBinding.drawerAppTitle.setShadowLayer(2, 0.5f, 0, mainColor);
+        headerBinding.drawerUsernameFull.setTextColor(textColor);
+        headerBinding.drawerUsernameFull.setShadowLayer(2, 0.5f, 0, mainColor);
+
+        final Drawable overflowDrawable = headerBinding.drawerAccountChooserToggle.getDrawable();
+        if (overflowDrawable != null) {
+            overflowDrawable.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
+            headerBinding.drawerAccountChooserToggle.setImageDrawable(overflowDrawable);
+        }
     }
 
     @Override

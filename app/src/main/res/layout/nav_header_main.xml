@@ -76,6 +76,7 @@
                 tools:ignore="RtlSymmetry">
 
                 <TextView
+                    android:id="@+id/drawer_app_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
