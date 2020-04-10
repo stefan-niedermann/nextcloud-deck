@@ -14,7 +14,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 
 public class LabelLayout extends FlexboxLayout {
 
-    private List<LabelChip> labelList = new LinkedList<>();
+    private List<LabelChip> chipList = new LinkedList<>();
 
     public LabelLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -32,17 +32,17 @@ public class LabelLayout extends FlexboxLayout {
      * Remove all labels from the view which are not in the labels list
      */
     private void removeObsoleteLabels(List<Label> labels) {
-        labelList:
-        for (int i = 0; i < labelList.size(); i++) {
-            LabelChip currentChip = labelList.get(i);
+        chipList:
+        for (int i = 0; i < chipList.size(); i++) {
+            LabelChip currentChip = chipList.get(i);
             final Long existingLabelLocalId = currentChip.getLabelLocalId();
             for (Label label : labels) {
                 if (existingLabelLocalId.equals(label.getLocalId())) {
-                    continue labelList;
+                    continue chipList;
                 }
             }
             removeViewAt(i);
-            labelList.remove(currentChip);
+            chipList.remove(currentChip);
             i--;
         }
     }
@@ -51,19 +51,19 @@ public class LabelLayout extends FlexboxLayout {
      * Add all labels to the view which are not yet in the view but in the labels list
      */
     private void addNewLabels(List<Label> labels) {
-        int oldLabelSize = labelList.size();
+        int oldLabelSize = chipList.size();
         labelList:
         for (Label label : labels) {
             for (int i = 0; i < oldLabelSize; i++) {
-                final LabelChip chip = labelList.get(i);
-                final Long existingLabelLocalId = chip.getLabelLocalId();
+                final LabelChip currentChip = chipList.get(i);
+                final Long existingLabelLocalId = currentChip.getLabelLocalId();
                 if (existingLabelLocalId.equals(label.getLocalId())) {
                     continue labelList;
                 }
             }
             LabelChip chip = new LabelChip(getContext(), label);
             addView(chip);
-            labelList.add(chip);
+            chipList.add(chip);
         }
     }
 }
