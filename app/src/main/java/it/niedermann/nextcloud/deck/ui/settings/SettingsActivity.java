@@ -41,7 +41,6 @@ public class SettingsActivity extends AbstractThemableActivity {
     @Override
     public void applyNextcloudTheme(int mainColor, int textColor) {
         super.applyNextcloudTheme(mainColor, textColor);
-        binding.toolbar.setBackgroundColor(mainColor);
-        binding.toolbar.setTitleTextColor(textColor);
+        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
     }
 }

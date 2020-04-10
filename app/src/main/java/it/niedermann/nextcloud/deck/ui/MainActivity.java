@@ -336,10 +336,8 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
     @Override
     public void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
         super.applyNextcloudTheme(mainColor, textColor);
-        applyNextcloudTheme(mainColor, textColor, binding.toolbar);
-        binding.stackTitles.setBackgroundColor(mainColor);
-        binding.stackTitles.setTabTextColors(textColor, textColor);
-        binding.stackTitles.setSelectedTabIndicatorColor(textColor);
+        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
+        applyNextcloudThemeToTablayout(mainColor, textColor, binding.stackTitles);
         binding.addStackButton.setBackgroundColor(mainColor);
         binding.addStackButton.setColorFilter(textColor);
         headerBinding.drawerHeaderView.setBackgroundColor(mainColor);

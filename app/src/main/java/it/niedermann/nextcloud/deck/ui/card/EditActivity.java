@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -340,10 +339,8 @@ public class EditActivity extends AbstractThemableActivity implements CardDetail
     @Override
     public void applyNextcloudTheme(int mainColor, int textColor) {
         super.applyNextcloudTheme(mainColor, textColor);
-        applyNextcloudTheme(mainColor, textColor, binding.toolbar);
+        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
+        applyNextcloudThemeToTablayout(mainColor, textColor, binding.tabLayout);
         binding.title.setTextColor(textColor);
-        binding.tabLayout.setBackgroundColor(mainColor);
-        binding.tabLayout.setTabIconTint(new ColorStateList(new int[][]{new int[]{}}, new int[]{textColor}));
-        binding.tabLayout.setSelectedTabIndicatorColor(textColor);
     }
 }

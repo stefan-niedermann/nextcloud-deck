@@ -85,9 +85,7 @@ public class AboutActivity extends AbstractThemableActivity {
     @Override
     public void applyNextcloudTheme(int mainColor, int textColor) {
         super.applyNextcloudTheme(mainColor, textColor);
-        binding.toolbar.setBackgroundColor(mainColor);
-        binding.toolbar.setTitleTextColor(textColor);
-        binding.tabLayout.setBackgroundColor(mainColor);
-        binding.tabLayout.setTabTextColors(textColor, textColor);
+        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
+        applyNextcloudThemeToTablayout(mainColor, textColor, binding.tabLayout);
     }
 }

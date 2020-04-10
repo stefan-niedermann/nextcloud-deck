@@ -190,8 +190,7 @@ public class PrepareCreateActivity extends AbstractThemableActivity {
     @Override
     public void applyNextcloudTheme(int mainColor, int textColor) {
         super.applyNextcloudTheme(mainColor, textColor);
-        binding.toolbar.setBackgroundColor(mainColor);
-        binding.toolbar.setTitleTextColor(textColor);
+        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
         binding.submit.setBackgroundColor(mainColor);
         binding.submit.setTextColor(textColor);
     }

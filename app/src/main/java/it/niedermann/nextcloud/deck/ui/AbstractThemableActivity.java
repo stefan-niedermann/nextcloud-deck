@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -15,10 +16,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.google.android.material.tabs.TabLayout;
+
 import it.niedermann.nextcloud.deck.Application;
 
 public abstract class AbstractThemableActivity extends AppCompatActivity implements Application.NextcloudTheme {
 
+    /**
+     * Member variable needed for onCreateOptionsMenu()-callback
+     */
     @Nullable
     @ColorInt
     private Integer textColor = null;
@@ -44,6 +50,7 @@ public abstract class AbstractThemableActivity extends AppCompatActivity impleme
     @CallSuper
     @Override
     public void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
+        this.textColor = textColor;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -66,8 +73,7 @@ public abstract class AbstractThemableActivity extends AppCompatActivity impleme
         return super.onCreateOptionsMenu(menu);
     }
 
-    protected void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor, @NonNull Toolbar toolbar) {
-        this.textColor = textColor;
+    protected void applyNextcloudThemeToToolbar(@ColorInt int mainColor, @ColorInt int textColor, @NonNull Toolbar toolbar) {
         toolbar.setBackgroundColor(mainColor);
         toolbar.setTitleTextColor(textColor);
         final Drawable overflowDrawable = toolbar.getOverflowIcon();
@@ -81,5 +87,11 @@ public abstract class AbstractThemableActivity extends AppCompatActivity impleme
             navigationDrawable.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
             toolbar.setNavigationIcon(navigationDrawable);
         }
+    }
+
+    protected void applyNextcloudThemeToTablayout(@ColorInt int mainColor, @ColorInt int textColor, @NonNull TabLayout tabLayout) {
+        tabLayout.setBackgroundColor(mainColor);
+        tabLayout.setTabIconTint(new ColorStateList(new int[][]{new int[]{}}, new int[]{textColor}));
+        tabLayout.setSelectedTabIndicatorColor(textColor);
     }
 }
