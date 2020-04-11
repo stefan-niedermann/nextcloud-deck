@@ -21,6 +21,8 @@ public class Application extends android.app.Application {
     public static final long NO_BOARD_ID = -1L;
     public static final long NO_STACK_ID = -1L;
 
+    private static boolean enableNextcloudTheme;
+
     public interface NextcloudTheme {
         void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor);
     }
@@ -32,10 +34,12 @@ public class Application extends android.app.Application {
     public void onCreate() {
         setAppTheme(getAppTheme(getApplicationContext()));
 
-        @ColorInt final int mainColor = readNextcloudThemeMainColor(getApplicationContext());
-        @ColorInt final int textColor = readNextcloudThemeTextColor(getApplicationContext());
-        applyNextcloudTheme(mainColor, textColor);
-
+        enableNextcloudTheme = getApplicationContext().getResources().getBoolean(R.bool.enable_nextcloud_theme);
+        if (enableNextcloudTheme) {
+            @ColorInt final int mainColor = readNextcloudThemeMainColor(getApplicationContext());
+            @ColorInt final int textColor = readNextcloudThemeTextColor(getApplicationContext());
+            applyNextcloudTheme(mainColor, textColor);
+        }
         super.onCreate();
     }
 
@@ -67,7 +71,7 @@ public class Application extends android.app.Application {
     // -----------------
 
     public static void registerThemableComponent(@NonNull Context context, @NonNull NextcloudTheme themableComponent) {
-        if (!themableComponents.contains(themableComponent)) {
+        if (enableNextcloudTheme && !themableComponents.contains(themableComponent)) {
             themableComponents.add(themableComponent);
 
             @ColorInt final int mainColor = readNextcloudThemeMainColor(context);
@@ -77,16 +81,16 @@ public class Application extends android.app.Application {
     }
 
     public static void deregisterThemableComponent(@NonNull NextcloudTheme themableComponent) {
-        if (themableComponents.contains(themableComponent)) {
-            themableComponents.add(themableComponent);
-        }
+        themableComponents.remove(themableComponent);
     }
 
     public static void setNextcloudTheme(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
         @ColorInt final int currentMainColor = readNextcloudThemeMainColor(context);
         @ColorInt final int currentTextColor = readNextcloudThemeTextColor(context);
         if (mainColor != currentMainColor || textColor != currentTextColor) {
-            applyNextcloudTheme(mainColor, textColor);
+            if (enableNextcloudTheme) {
+                applyNextcloudTheme(mainColor, textColor);
+            }
             saveNextcloudThemeColors(context, mainColor, textColor);
         }
     }
