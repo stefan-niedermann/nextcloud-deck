@@ -149,4 +149,9 @@
     <string name="add_comment">Aggiungi commento</string>
     <string name="card_edit_comments">Commenti</string>
     <string name="no_comments_yet">Ancora nessun commento</string>
-    </resources>
+    <string name="no_boards">Ancora nessuna lavagna</string>
+    <string name="add_a_new_board_using_the_button">Aggiungi una nuova lavagna utilizzando il pulsante +</string>
+    <string name="choose_board">Scegli lavagna</string>
+    <string name="choose_list">Scegli elenco</string>
+    <string name="task_count">%1$s/%2$s</string>
+</resources>

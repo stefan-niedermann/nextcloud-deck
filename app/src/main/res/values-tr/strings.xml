@@ -59,6 +59,8 @@
 
     <string name="activity">Etkinlik</string>
 
+    <string name="add_list">Liste ekle</string>
+    <string name="rename_list">Listeyi yeniden adlandır</string>
     <string name="delete_list">Listeyi sil</string>
 
     <string name="label_menu">menü</string>
@@ -73,6 +75,7 @@
     <string name="label_add">%1$s ekle</string>
 
     <string name="error">Bir sorun çıktı</string>
+    <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
     <string name="simple_copy">kopyala</string>
     <string name="simple_exception">İstisna</string>
     <string name="copied_to_clipboard">Panoya kopyalandı</string>
@@ -89,14 +92,18 @@
     <string name="account_already_added">Hesap zaten eklenmiş</string>
     <string name="account_is_getting_imported">Hesap içe aktarılıyor</string>
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
+    <string name="no_lists_yet">Henüz bir liste yok</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
     <string name="simple_discard">yok say</string>
+    <string name="do_you_want_to_delete_the_current_list">Geçerli listeyi silmek istiyor musunuz?</string>
+    <string name="add_a_new_list_using_the_button">+ düğmesini kullanarak yeni bir liste ekleyebilirsiniz</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
     <string name="update_deck">Tahtayı güncelle</string>
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
     <string name="deck_outdated_please_update">Tahta sürümünüz çok eski. Lütfen bu android uygulamasını istemci olarak kullanabilmek için deck sürümünü güncelleyin.</string>
     <string name="simple_update">Güncelle</string>
     <string name="simple_delete">Sil</string>
+    <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="simple_rename">Yeniden adlandır</string>
     <string name="simple_settings">Ayarlar</string>
     <string name="settings_theme_title">Koyu tema</string>
@@ -129,9 +136,19 @@
     <string name="please_add_an_account_first">Lütfen önce bir hesap ekleyin</string>
     <string name="title_is_mandatory">Başlığın yazılması zorunludur</string>
     <string name="provide_at_least_a_title_or_description">Lütfen en azından başlığı ya da açıklamayı yazın</string>
+    <string name="welcome_text">%1$s panonuza hoşgeldiniz</string>
+    <string name="save_card_before_attachment">Ek dosyaları ekleyebilmek için kartın kaydedilmesi gerekiyor.</string>
+    <string name="server_misconfigured">Sunucu yapılandırması hatalı</string>
+    <string name="server_misconfigured_explanation">Sunucunuz, üzerine Deck uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir. Destek almak için iletişim bilgilerimizi hakkında bölümünde bulabilirsiniz.</string>
     <string name="server_error">Sunucu sorunu</string>
-    <string name="share_add_to_card">Sepete ekle</string>
+    <string name="server_error_explanation">Sunucunuz HTTP 503 durum kodu ile yanıt verdi. Bu durum sunucunun bakım kipinde olmasından kaynaklanabilir. Lütfen sorunu çözmek için sistem yöneticinizle ya da bizimle görüşün. Destek almak için iletişim bilgilerimizi hakkında bölümünde bulabilirsiniz.</string>
+    <string name="share_add_to_card">Karta ekle</string>
+    <string name="share_success">%1$s, %2$s üzerine eklendi</string>
+    <string name="could_not_copy_to_clipboard">Panoya kopyalanamadı</string>
+    <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
     <string name="add_comment">Yorum ekle</string>
-    <string name="card_edit_comments">Açıklamalar</string>
-    <string name="no_comments_yet">Henüz yorum yok</string>
+    <string name="card_edit_comments">Yorumlar</string>
+    <string name="no_comments_yet">Henüz bir yorum yok</string>
+    <string name="no_boards">Henüz bir pano yok</string>
+    <string name="add_a_new_board_using_the_button">+ düğmesini kullanarak yeni bir pano ekleyebilirsiniz</string>
     </resources>

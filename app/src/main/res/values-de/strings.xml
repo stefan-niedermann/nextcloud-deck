@@ -149,4 +149,9 @@
     <string name="add_comment">Kommentar hinzufügen</string>
     <string name="card_edit_comments">Kommentare</string>
     <string name="no_comments_yet">Noch keine Kommentare vorhanden</string>
-    </resources>
+    <string name="no_boards">Noch keine Boards vorhanden</string>
+    <string name="add_a_new_board_using_the_button">Ein neues Board mit der +-Taste hinzufügen</string>
+    <string name="choose_board">Board auswählen</string>
+    <string name="choose_list">Liste auswählen</string>
+    <string name="task_count">%1$s/%2$s</string>
+</resources>

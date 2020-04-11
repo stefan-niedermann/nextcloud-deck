@@ -149,4 +149,9 @@
     <string name="add_comment">Engadir comentario</string>
     <string name="card_edit_comments">Comentarios</string>
     <string name="no_comments_yet">Aínda non hai comentarios</string>
-    </resources>
+    <string name="no_boards">Aínda non hai taboleiros</string>
+    <string name="add_a_new_board_using_the_button">Engadir un novo taboleiro co botón +</string>
+    <string name="choose_board">Escolla o taboleiro</string>
+    <string name="choose_list">Escolla a lista</string>
+    <string name="task_count">%1$s/%2$s</string>
+</resources>
