@@ -10,6 +10,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Label;
 
 public class LabelLayout extends FlexboxLayout {
@@ -34,6 +35,13 @@ public class LabelLayout extends FlexboxLayout {
         this.chipList.clear();
     }
 
+    @Override
+    public void removeViewAt(int index) {
+        // TODO this should also remove the item from chipList
+        DeckLog.logError(new UnsupportedOperationException("Not implemented yet"));
+        super.removeViewAt(index);
+    }
+
     /**
      * Remove all labels from the view which are not in the labels list
      */
@@ -47,7 +55,7 @@ public class LabelLayout extends FlexboxLayout {
                     continue chipList;
                 }
             }
-            removeViewAt(i);
+            super.removeViewAt(i);
             chipList.remove(currentChip);
             i--;
         }
