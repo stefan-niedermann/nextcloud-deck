@@ -105,7 +105,7 @@ public abstract class AbstractThemableActivity extends AppCompatActivity impleme
     protected void applyNextcloudThemeToTablayout(@ColorInt int mainColor, @ColorInt int textColor, @NonNull TabLayout tabLayout) {
         tabLayout.setBackgroundColor(mainColor);
         tabLayout.setTabTextColors(textColor, textColor);
-        tabLayout.setTabIconTint(new ColorStateList(new int[][]{new int[]{}}, new int[]{textColor}));
+        tabLayout.setTabIconTint(ColorStateList.valueOf(textColor));
         tabLayout.setSelectedTabIndicatorColor(textColor);
     }
 }

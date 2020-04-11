@@ -264,7 +264,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
 
     @Override
     public void applyNextcloudTheme(int mainColor, int textColor) {
-        binding.fab.setSupportBackgroundTintList(new ColorStateList(new int[][]{new int[]{}}, new int[]{mainColor}));
+        binding.fab.setSupportBackgroundTintList(ColorStateList.valueOf(mainColor));
         binding.fab.setColorFilter(textColor);
     }
 }

@@ -60,7 +60,7 @@ public final class ViewUtil {
 
         cardDueDate.setBackgroundResource(backgroundDrawable);
         cardDueDate.setTextColor(context.getResources().getColor(textColor));
-        TextViewCompat.setCompoundDrawableTintList(cardDueDate, new ColorStateList(new int[][]{new int[]{}}, new int[]{context.getResources().getColor(textColor)}));
+        TextViewCompat.setCompoundDrawableTintList(cardDueDate, ColorStateList.valueOf(context.getResources().getColor(textColor)));
     }
 
     public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @NonNull String color) {

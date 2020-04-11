@@ -343,7 +343,7 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
 
         binding.addStackButton.setBackgroundColor(mainColor);
         binding.addStackButton.setColorFilter(textColor);
-        binding.fab.setSupportBackgroundTintList(new ColorStateList(new int[][]{new int[]{}}, new int[]{mainColor}));
+        binding.fab.setSupportBackgroundTintList(ColorStateList.valueOf(mainColor));
         binding.fab.setColorFilter(textColor);
 
         headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
