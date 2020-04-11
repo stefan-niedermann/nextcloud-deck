@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -119,21 +120,16 @@ public abstract class BrandedActivity extends AppCompatActivity implements Appli
     }
 
     public static void applyBrandToEditText(@ColorInt int mainColor, @ColorInt int textColor, @NonNull EditText editText) {
-        final boolean isDarkTheme = Application.getAppTheme(editText.getContext());
         final Drawable background = editText.getBackground();
         final ColorFilter oldColorFilter = DrawableCompat.getColorFilter(background);
         final View.OnFocusChangeListener oldOnFocusChangeListener = editText.getOnFocusChangeListener();
 
-        // Since we may collide with dark theme in this area, we have to make sure that the color is visible depending on the background
-        @ColorInt final int finalMainColor;
-        if (isDarkTheme && mainColor == Color.BLACK) {
-            finalMainColor = Color.WHITE;
-        } else if (!isDarkTheme && mainColor == Color.WHITE) {
-            finalMainColor = Color.BLACK;
-        } else {
-            finalMainColor = mainColor;
-        }
+        @ColorInt final int finalMainColor = getColorDependingOnTheme(editText.getContext(), mainColor);
 
+        final boolean isFocused = editText.isFocused();
+        if (isFocused) {
+            editText.clearFocus();
+        }
         editText.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 background.setColorFilter(finalMainColor, PorterDuff.Mode.SRC_ATOP);
@@ -144,5 +140,23 @@ public abstract class BrandedActivity extends AppCompatActivity implements Appli
                 oldOnFocusChangeListener.onFocusChange(v, hasFocus);
             }
         });
+        if (isFocused) {
+            editText.requestFocus();
+        }
+    }
+
+    /**
+     * Since we may collide with dark theme in this area, we have to make sure that the color is visible depending on the background
+     */
+    @ColorInt
+    public static int getColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
+        final boolean isDarkTheme = Application.getAppTheme(context);
+        if (isDarkTheme && mainColor == Color.BLACK) {
+            return Color.WHITE;
+        } else if (!isDarkTheme && mainColor == Color.WHITE) {
+            return Color.BLACK;
+        } else {
+            return mainColor;
+        }
     }
 }

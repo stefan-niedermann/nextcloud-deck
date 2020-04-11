@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -20,9 +19,11 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 
-public class AccessControlDialogFragment extends DialogFragment implements AccessControlChangedListener, AdapterView.OnItemClickListener {
+public class AccessControlDialogFragment extends BrandedDialogFragment implements AccessControlChangedListener, AdapterView.OnItemClickListener {
 
     private DialogBoardShareBinding binding;
 
@@ -108,5 +109,11 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         syncManager.createAccessControl(accountId, ac);
         binding.people.setText("");
         userAutoCompleteAdapter.exclude(user);
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        super.applyBrand(mainColor, textColor);
+        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.people);
     }
 }

@@ -11,17 +11,18 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 
 import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
+import it.niedermann.nextcloud.deck.ui.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
 
-public class EditStackDialogFragment extends DialogFragment {
+public class EditStackDialogFragment extends BrandedDialogFragment {
     private static final String KEY_STACK_ID = "board_id";
     private static final String KEY_OLD_TITLE = "old_title";
     private long stackId = NO_STACK_ID;
@@ -91,5 +92,11 @@ public class EditStackDialogFragment extends DialogFragment {
         dialog.setArguments(args);
 
         return dialog;
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        super.applyBrand(mainColor, textColor);
+        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.input);
     }
 }
