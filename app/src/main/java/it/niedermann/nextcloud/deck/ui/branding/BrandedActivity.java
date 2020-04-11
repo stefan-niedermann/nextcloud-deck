@@ -28,7 +28,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.M;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.getContrastRatio;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.isColorDark;
 
 public abstract class BrandedActivity extends AppCompatActivity implements Branded {
@@ -153,14 +153,13 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
     @ColorInt
     public static int getColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
         final boolean isDarkTheme = Application.getAppTheme(context);
-        if (isDarkTheme && getContrastRatio(mainColor, Color.BLACK) < 1.5f) {
-            DeckLog.info("[BRAND] Contrast ration between " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and BLACK is " + getContrastRatio(mainColor, Color.BLACK) + ". Falling back to WHITE");
+        if (isDarkTheme && !contrastRatioIsSufficient(mainColor, Color.BLACK)) {
+            DeckLog.verbose("Contrast ratio between brand color " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and dark theme is too low. Falling back to WHITE as brand color.");
             return Color.WHITE;
-        } else if (!isDarkTheme && getContrastRatio(mainColor, Color.WHITE) < 1.5f) {
-            DeckLog.info("[BRAND] Contrast ration between " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and WHITE is " + getContrastRatio(mainColor, Color.WHITE) + ". Falling back to BLACK");
+        } else if (!isDarkTheme && !contrastRatioIsSufficient(mainColor, Color.WHITE)) {
+            DeckLog.verbose("Contrast ratio between brand color " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and light theme is too low. Falling back to BLACK as brand color.");
             return Color.BLACK;
         } else {
-            DeckLog.info("[BRAND] Contrast should be fine.");
             return mainColor;
         }
     }
