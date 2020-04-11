@@ -28,6 +28,12 @@ public class LabelLayout extends FlexboxLayout {
         addNewLabels(labels);
     }
 
+    @Override
+    public void removeAllViews() {
+        super.removeAllViews();
+        this.chipList.clear();
+    }
+
     /**
      * Remove all labels from the view which are not in the labels list
      */
