@@ -4,9 +4,7 @@ import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
 
-/**
- * Helper implementation to deal with color related functionality.
- */
+@SuppressWarnings("WeakerAccess")
 public final class ColorUtil {
     private ColorUtil() {
     }
@@ -26,18 +24,22 @@ public final class ColorUtil {
     }
 
     public static int getBrightness(@ColorInt int color) {
-        int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
+        final int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
 
         return (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
                 * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
     }
 
     public static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
-        int brightnessOne = getBrightness(colorOne);
-        int brightnessTwo = getBrightness(colorTwo);
+        final int brightnessOne = getBrightness(colorOne);
+        final int brightnessTwo = getBrightness(colorTwo);
 
         return (brightnessOne > brightnessTwo)
                 ? (double) brightnessOne / (double) brightnessTwo
                 : (double) brightnessTwo / (double) brightnessOne;
+    }
+
+    public static boolean contrastRatioIsSufficient(@ColorInt int colorOne, @ColorInt int colorTwo) {
+        return getContrastRatio(colorOne, colorTwo) > 1.5f;
     }
 }
