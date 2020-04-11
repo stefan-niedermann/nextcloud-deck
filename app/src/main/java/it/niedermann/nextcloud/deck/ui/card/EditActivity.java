@@ -1,14 +1,21 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.res.ColorStateList;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.graphics.drawable.DrawableCompat;
 
@@ -344,7 +351,32 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
         binding.title.setTextColor(textColor);
-        DrawableCompat.setTint(binding.title.getBackground(), textColor);
+        DrawableCompat.setTintList(binding.title.getBackground(), ColorStateList.valueOf(textColor));
+        applyBrandToTitle(textColor, binding.title);
         binding.titleTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(textColor));
+    }
+
+    private static void applyBrandToTitle(@ColorInt int textColor, @NonNull EditText editText) {
+        final Drawable background = editText.getBackground();
+        final ColorFilter oldColorFilter = DrawableCompat.getColorFilter(background);
+        final View.OnFocusChangeListener oldOnFocusChangeListener = editText.getOnFocusChangeListener();
+
+        final boolean isFocused = editText.isFocused();
+        if (isFocused) {
+            editText.clearFocus();
+        }
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                background.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
+            } else {
+                background.setColorFilter(oldColorFilter);
+            }
+            if (oldOnFocusChangeListener != null) {
+                oldOnFocusChangeListener.onFocusChange(v, hasFocus);
+            }
+        });
+        if (isFocused) {
+            editText.requestFocus();
+        }
     }
 }

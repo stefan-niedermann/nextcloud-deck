@@ -14,14 +14,13 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:navigationIcon="@drawable/ic_close_white_24dp"
-            app:titleTextColor="@android:color/white">
+            app:navigationIcon="@drawable/ic_close_white_24dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/titleTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:theme="@style/AppTheme.EditText"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 tools:hint="Edit">
 
                 <EditText
@@ -34,8 +33,7 @@
                     android:inputType="textMultiLine"
                     android:maxLength="100"
                     android:maxLines="5"
-                    app:theme="@style/AppTheme.EditText"
-                    tools:text="Fancy card title" />
+                    tools:text="@tools:sample/lorem" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
