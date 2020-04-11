@@ -47,6 +47,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
@@ -56,15 +57,14 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.app.DatePickerDialog.OnDateSetListener;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.BrandedActivity.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class CardDetailsFragment extends Fragment implements Application.Branded, OnDateSetListener,
-        OnTimeSetListener {
+public class CardDetailsFragment extends Fragment implements Branded, OnDateSetListener, OnTimeSetListener {
 
     private FragmentCardEditTabDetailsBinding binding;
 

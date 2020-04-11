@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivitySettingsBinding;
-import it.niedermann.nextcloud.deck.ui.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 public class SettingsActivity extends BrandedActivity {

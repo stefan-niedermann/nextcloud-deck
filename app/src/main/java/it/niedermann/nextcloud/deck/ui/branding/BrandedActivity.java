@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.ui.branding;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -23,13 +23,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import it.niedermann.nextcloud.deck.Application;
+import it.niedermann.nextcloud.deck.DeckLog;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.M;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.getContrastRatio;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.isColorDark;
 
-public abstract class BrandedActivity extends AppCompatActivity implements Application.Branded {
+public abstract class BrandedActivity extends AppCompatActivity implements Branded {
 
     /**
      * Member variable needed for onCreateOptionsMenu()-callback
@@ -151,11 +153,14 @@ public abstract class BrandedActivity extends AppCompatActivity implements Appli
     @ColorInt
     public static int getColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
         final boolean isDarkTheme = Application.getAppTheme(context);
-        if (isDarkTheme && mainColor == Color.BLACK) {
+        if (isDarkTheme && getContrastRatio(mainColor, Color.BLACK) < 1.5f) {
+            DeckLog.info("[BRAND] Contrast ration between " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and BLACK is " + getContrastRatio(mainColor, Color.BLACK) + ". Falling back to WHITE");
             return Color.WHITE;
-        } else if (!isDarkTheme && mainColor == Color.WHITE) {
+        } else if (!isDarkTheme && getContrastRatio(mainColor, Color.WHITE) < 1.5f) {
+            DeckLog.info("[BRAND] Contrast ration between " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and WHITE is " + getContrastRatio(mainColor, Color.WHITE) + ". Falling back to BLACK");
             return Color.BLACK;
         } else {
+            DeckLog.info("[BRAND] Contrast should be fine.");
             return mainColor;
         }
     }

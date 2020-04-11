@@ -13,10 +13,11 @@ import androidx.fragment.app.Fragment;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutLicenseTabBinding;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
 
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 
-public class AboutFragmentLicenseTab extends Fragment implements Application.Branded {
+public class AboutFragmentLicenseTab extends Fragment implements Branded {
 
     private FragmentAboutLicenseTabBinding binding;
 

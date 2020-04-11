@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference
+    <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
         android:defaultValue="@string/pref_value_wifi_and_mobile"
         android:icon="@drawable/ic_network_wifi_grey600_24dp"
         android:key="@string/pref_key_wifi_only"
@@ -16,7 +16,7 @@
         android:summary="%s"
         android:title="@string/settings_background_sync" />
 
-    <SwitchPreference
+    <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
         android:defaultValue="@string/pref_value_theme_light"
         android:icon="@drawable/ic_brightness_2_grey600_24dp"
         android:key="@string/pref_key_dark_theme"

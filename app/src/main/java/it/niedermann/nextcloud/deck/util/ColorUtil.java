@@ -22,11 +22,22 @@ public final class ColorUtil {
     }
 
     public static boolean isColorDark(@ColorInt int color) {
+        return getBrightness(color) < 200;
+    }
+
+    public static int getBrightness(@ColorInt int color) {
         int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
 
-        int brightness = (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
+        return (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
                 * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
+    }
 
-        return brightness < 200;
+    public static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
+        int brightnessOne = getBrightness(colorOne);
+        int brightnessTwo = getBrightness(colorTwo);
+
+        return (brightnessOne > brightnessTwo)
+                ? (double) brightnessOne / (double) brightnessTwo
+                : (double) brightnessTwo / (double) brightnessOne;
     }
 }

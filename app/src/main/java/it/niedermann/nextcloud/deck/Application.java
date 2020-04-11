@@ -10,6 +10,8 @@ import androidx.preference.PreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
+
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
@@ -22,10 +24,6 @@ public class Application extends android.app.Application {
     public static final long NO_STACK_ID = -1L;
 
     private static boolean enableBrand;
-
-    public interface Branded {
-        void applyBrand(@ColorInt int mainColor, @ColorInt int textColor);
-    }
 
     @NonNull
     private static List<Branded> brandedComponents = new ArrayList<>();

@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.ui.branding;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment;
 
 import it.niedermann.nextcloud.deck.Application;
 
-public class BrandedDialogFragment extends DialogFragment implements Application.Branded {
+public class BrandedDialogFragment extends DialogFragment implements Branded {
 
     @Override
     public void onResume() {

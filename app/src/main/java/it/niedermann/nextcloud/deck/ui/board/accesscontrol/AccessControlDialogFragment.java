@@ -19,8 +19,8 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.BrandedActivity;
-import it.niedermann.nextcloud.deck.ui.BrandedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 
 public class AccessControlDialogFragment extends BrandedDialogFragment implements AccessControlChangedListener, AdapterView.OnItemClickListener {

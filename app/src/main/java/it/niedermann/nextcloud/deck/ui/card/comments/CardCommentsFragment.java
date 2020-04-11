@@ -17,16 +17,17 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.BrandedActivity.applyBrandToEditText;
-import static it.niedermann.nextcloud.deck.ui.BrandedActivity.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
-public class CardCommentsFragment extends Fragment implements Application.Branded, CommentEditedListener {
+public class CardCommentsFragment extends Fragment implements Branded, CommentEditedListener {
 
     private FragmentCardEditTabCommentsBinding binding;
     private SyncManager syncManager;

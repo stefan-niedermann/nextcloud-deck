@@ -17,8 +17,8 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
-import it.niedermann.nextcloud.deck.ui.BrandedActivity;
-import it.niedermann.nextcloud.deck.ui.BrandedDialogFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
 
