@@ -1,11 +1,14 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
@@ -15,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import it.niedermann.nextcloud.deck.Application;
@@ -24,7 +28,7 @@ import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.M;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.isColorDark;
 
-public abstract class AbstractThemableActivity extends AppCompatActivity implements Application.NextcloudTheme {
+public abstract class BrandedActivity extends AppCompatActivity implements Application.Branded {
 
     /**
      * Member variable needed for onCreateOptionsMenu()-callback
@@ -36,24 +40,24 @@ public abstract class AbstractThemableActivity extends AppCompatActivity impleme
     @Override
     protected void onResume() {
         super.onResume();
-        Application.registerThemableComponent(this, this);
+        Application.registerBrandedComponent(this, this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Application.deregisterThemableComponent(this);
+        Application.deregisterBrandedComponent(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Application.deregisterThemableComponent(this);
+        Application.deregisterBrandedComponent(this);
     }
 
     @CallSuper
     @Override
-    public void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
+    public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
         this.textColor = textColor;
         if (SDK_INT >= LOLLIPOP) { // Set status bar color
             final Window window = getWindow();
@@ -86,7 +90,7 @@ public abstract class AbstractThemableActivity extends AppCompatActivity impleme
         return super.onCreateOptionsMenu(menu);
     }
 
-    protected void applyNextcloudThemeToToolbar(@ColorInt int mainColor, @ColorInt int textColor, @NonNull Toolbar toolbar) {
+    protected static void applyBrandToPrimaryToolbar(@ColorInt int mainColor, @ColorInt int textColor, @NonNull Toolbar toolbar) {
         toolbar.setBackgroundColor(mainColor);
         toolbar.setTitleTextColor(textColor);
         final Drawable overflowDrawable = toolbar.getOverflowIcon();
@@ -102,10 +106,43 @@ public abstract class AbstractThemableActivity extends AppCompatActivity impleme
         }
     }
 
-    protected void applyNextcloudThemeToTablayout(@ColorInt int mainColor, @ColorInt int textColor, @NonNull TabLayout tabLayout) {
+    protected static void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @ColorInt int textColor, @NonNull TabLayout tabLayout) {
         tabLayout.setBackgroundColor(mainColor);
         tabLayout.setTabTextColors(textColor, textColor);
         tabLayout.setTabIconTint(ColorStateList.valueOf(textColor));
         tabLayout.setSelectedTabIndicatorColor(textColor);
+    }
+
+    public static void applyBrandToFAB(@ColorInt int mainColor, @ColorInt int textColor, @NonNull FloatingActionButton fab) {
+        fab.setSupportBackgroundTintList(ColorStateList.valueOf(mainColor));
+        fab.setColorFilter(textColor);
+    }
+
+    public static void applyBrandToEditText(@ColorInt int mainColor, @ColorInt int textColor, @NonNull EditText editText) {
+        final boolean isDarkTheme = Application.getAppTheme(editText.getContext());
+        final Drawable background = editText.getBackground();
+        final ColorFilter oldColorFilter = DrawableCompat.getColorFilter(background);
+        final View.OnFocusChangeListener oldOnFocusChangeListener = editText.getOnFocusChangeListener();
+
+        // Since we may collide with dark theme in this area, we have to make sure that the color is visible depending on the background
+        @ColorInt final int finalMainColor;
+        if (isDarkTheme && mainColor == Color.BLACK) {
+            finalMainColor = Color.WHITE;
+        } else if (!isDarkTheme && mainColor == Color.WHITE) {
+            finalMainColor = Color.BLACK;
+        } else {
+            finalMainColor = mainColor;
+        }
+
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                background.setColorFilter(finalMainColor, PorterDuff.Mode.SRC_ATOP);
+            } else {
+                background.setColorFilter(oldColorFilter);
+            }
+            if (oldOnFocusChangeListener != null) {
+                oldOnFocusChangeListener.onFocusChange(v, hasFocus);
+            }
+        });
     }
 }

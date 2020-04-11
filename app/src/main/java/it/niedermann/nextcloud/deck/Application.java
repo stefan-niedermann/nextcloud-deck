@@ -21,24 +21,24 @@ public class Application extends android.app.Application {
     public static final long NO_BOARD_ID = -1L;
     public static final long NO_STACK_ID = -1L;
 
-    private static boolean enableNextcloudTheme;
+    private static boolean enableBrand;
 
-    public interface NextcloudTheme {
-        void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor);
+    public interface Branded {
+        void applyBrand(@ColorInt int mainColor, @ColorInt int textColor);
     }
 
     @NonNull
-    private static List<NextcloudTheme> themableComponents = new ArrayList<>();
+    private static List<Branded> brandedComponents = new ArrayList<>();
 
     @Override
     public void onCreate() {
         setAppTheme(getAppTheme(getApplicationContext()));
 
-        enableNextcloudTheme = getApplicationContext().getResources().getBoolean(R.bool.enable_nextcloud_theme);
-        if (enableNextcloudTheme) {
-            @ColorInt final int mainColor = readNextcloudThemeMainColor(getApplicationContext());
-            @ColorInt final int textColor = readNextcloudThemeTextColor(getApplicationContext());
-            applyNextcloudTheme(mainColor, textColor);
+        enableBrand = getApplicationContext().getResources().getBoolean(R.bool.enable_brand);
+        if (enableBrand) {
+            @ColorInt final int mainColor = readBrandMainColor(getApplicationContext());
+            @ColorInt final int textColor = readBrandTextColor(getApplicationContext());
+            applyBrand(mainColor, textColor);
         }
         super.onCreate();
     }
@@ -66,56 +66,56 @@ public class Application extends android.app.Application {
         return prefs.getBoolean(context.getString(R.string.pref_key_dark_theme), false);
     }
 
-    // -----------------
-    // Nextcloud theming
-    // -----------------
+    // --------
+    // Branding
+    // --------
 
-    public static void registerThemableComponent(@NonNull Context context, @NonNull NextcloudTheme themableComponent) {
-        if (enableNextcloudTheme && !themableComponents.contains(themableComponent)) {
-            themableComponents.add(themableComponent);
+    public static void registerBrandedComponent(@NonNull Context context, @NonNull Branded brandedComponent) {
+        if (enableBrand && !brandedComponents.contains(brandedComponent)) {
+            brandedComponents.add(brandedComponent);
 
-            @ColorInt final int mainColor = readNextcloudThemeMainColor(context);
-            @ColorInt final int textColor = readNextcloudThemeTextColor(context);
-            themableComponent.applyNextcloudTheme(mainColor, textColor);
+            @ColorInt final int mainColor = readBrandMainColor(context);
+            @ColorInt final int textColor = readBrandTextColor(context);
+            brandedComponent.applyBrand(mainColor, textColor);
         }
     }
 
-    public static void deregisterThemableComponent(@NonNull NextcloudTheme themableComponent) {
-        themableComponents.remove(themableComponent);
+    public static void deregisterBrandedComponent(@NonNull Branded brandedComponent) {
+        brandedComponents.remove(brandedComponent);
     }
 
-    public static void setNextcloudTheme(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
-        @ColorInt final int currentMainColor = readNextcloudThemeMainColor(context);
-        @ColorInt final int currentTextColor = readNextcloudThemeTextColor(context);
+    public static void setBrand(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
+        @ColorInt final int currentMainColor = readBrandMainColor(context);
+        @ColorInt final int currentTextColor = readBrandTextColor(context);
         if (mainColor != currentMainColor || textColor != currentTextColor) {
-            if (enableNextcloudTheme) {
-                applyNextcloudTheme(mainColor, textColor);
+            if (enableBrand) {
+                applyBrand(mainColor, textColor);
             }
-            saveNextcloudThemeColors(context, mainColor, textColor);
+            saveBrandColors(context, mainColor, textColor);
         }
     }
 
-    public static void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
-        for (NextcloudTheme themableComponent : themableComponents) {
-            themableComponent.applyNextcloudTheme(mainColor, textColor);
+    public static void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
+        for (Branded themableComponent : brandedComponents) {
+            themableComponent.applyBrand(mainColor, textColor);
         }
     }
 
     @ColorInt
-    public static int readNextcloudThemeMainColor(@NonNull Context context) {
+    public static int readBrandMainColor(@NonNull Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         DeckLog.log("--- Read: shared_preference_theme_main");
         return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.primary));
     }
 
     @ColorInt
-    public static int readNextcloudThemeTextColor(@NonNull Context context) {
+    public static int readBrandTextColor(@NonNull Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         DeckLog.log("--- Read: shared_preference_theme_text");
         return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_text), context.getApplicationContext().getResources().getColor(android.R.color.white));
     }
 
-    public static void saveNextcloudThemeColors(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
+    public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
         DeckLog.log("--- Write: shared_preference_theme_text" + " | " + textColor);

@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +33,7 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.util.FileUtils;
 
+import static it.niedermann.nextcloud.deck.ui.BrandedActivity.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
@@ -42,7 +42,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 
-public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener, Application.NextcloudTheme {
+public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener, Application.Branded {
     private FragmentCardEditTabAttachmentsBinding binding;
 
     private static final int REQUEST_CODE_ADD_ATTACHMENT = 1;
@@ -154,12 +154,12 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     @Override
     public void onResume() {
         super.onResume();
-        Application.registerThemableComponent(requireContext(), this);
+        Application.registerBrandedComponent(requireContext(), this);
     }
 
     @Override
     public void onPause() {
-        Application.deregisterThemableComponent(this);
+        Application.deregisterBrandedComponent(this);
         super.onPause();
     }
 
@@ -263,8 +263,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     }
 
     @Override
-    public void applyNextcloudTheme(int mainColor, int textColor) {
-        binding.fab.setSupportBackgroundTintList(ColorStateList.valueOf(mainColor));
-        binding.fab.setColorFilter(textColor);
+    public void applyBrand(int mainColor, int textColor) {
+        applyBrandToFAB(mainColor, textColor, binding.fab);
     }
 }

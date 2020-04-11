@@ -15,12 +15,12 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.ui.AbstractThemableActivity;
+import it.niedermann.nextcloud.deck.ui.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 
-public class AboutActivity extends AbstractThemableActivity {
+public class AboutActivity extends BrandedActivity {
 
     private ActivityAboutBinding binding;
     private final static int[] tabTitles = new int[]{
@@ -83,9 +83,9 @@ public class AboutActivity extends AbstractThemableActivity {
     }
 
     @Override
-    public void applyNextcloudTheme(int mainColor, int textColor) {
-        super.applyNextcloudTheme(mainColor, textColor);
-        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
-        applyNextcloudThemeToTablayout(mainColor, textColor, binding.tabLayout);
+    public void applyBrand(int mainColor, int textColor) {
+        super.applyBrand(mainColor, textColor);
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
     }
 }

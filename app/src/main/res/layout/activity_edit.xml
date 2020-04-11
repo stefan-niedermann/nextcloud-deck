@@ -19,7 +19,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/titleTextInputLayout"
-                style="@style/AppTheme.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:theme="@style/AppTheme.EditText"
@@ -27,7 +26,6 @@
 
                 <EditText
                     android:id="@+id/title"
-                    style="@style/AppTheme.EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"

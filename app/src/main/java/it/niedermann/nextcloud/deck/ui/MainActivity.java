@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -104,7 +103,7 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOU
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
 
-public class MainActivity extends AbstractThemableActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, DrawerBoardListener {
+public class MainActivity extends BrandedActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, DrawerBoardListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
@@ -309,7 +308,7 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
                     syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(currentAccount) {
                         @Override
                         public void onResponse(Capabilities response) {
-                            runOnUiThread(() -> Application.setNextcloudTheme(MainActivity.this, Color.parseColor(response.getColor()), Color.parseColor(response.getTextColor())));
+                            runOnUiThread(() -> Application.setBrand(MainActivity.this, Color.parseColor(response.getColor()), Color.parseColor(response.getTextColor())));
                         }
                     });
                 }).start();
@@ -336,15 +335,14 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
     }
 
     @Override
-    public void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
-        super.applyNextcloudTheme(mainColor, textColor);
-        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
-        applyNextcloudThemeToTablayout(mainColor, textColor, binding.stackTitles);
+    public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
+        super.applyBrand(mainColor, textColor);
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.stackTitles);
+        applyBrandToFAB(mainColor, textColor, binding.fab);
 
         binding.addStackButton.setBackgroundColor(mainColor);
         binding.addStackButton.setColorFilter(textColor);
-        binding.fab.setSupportBackgroundTintList(ColorStateList.valueOf(mainColor));
-        binding.fab.setColorFilter(textColor);
 
         headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
         headerBinding.drawerAppTitle.setTextColor(textColor);
@@ -420,7 +418,7 @@ public class MainActivity extends AbstractThemableActivity implements EditStackL
     protected void setCurrentAccount(@NonNull Account account) {
         this.currentAccount = account;
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.currentAccount.getName());
-        Application.setNextcloudTheme(MainActivity.this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor()));
+        Application.setBrand(MainActivity.this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor()));
         syncManager = new SyncManager(this);
 
         Application.saveCurrentAccountId(this, this.currentAccount.getId());

@@ -7,10 +7,10 @@ import androidx.annotation.Nullable;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivitySettingsBinding;
-import it.niedermann.nextcloud.deck.ui.AbstractThemableActivity;
+import it.niedermann.nextcloud.deck.ui.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-public class SettingsActivity extends AbstractThemableActivity {
+public class SettingsActivity extends BrandedActivity {
 
     private ActivitySettingsBinding binding;
 
@@ -39,8 +39,8 @@ public class SettingsActivity extends AbstractThemableActivity {
     }
 
     @Override
-    public void applyNextcloudTheme(int mainColor, int textColor) {
-        super.applyNextcloudTheme(mainColor, textColor);
-        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
+    public void applyBrand(int mainColor, int textColor) {
+        super.applyBrand(mainColor, textColor);
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
     }
 }

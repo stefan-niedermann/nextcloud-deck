@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.AbstractThemableActivity;
+import it.niedermann.nextcloud.deck.ui.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -30,7 +30,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class PrepareCreateActivity extends AbstractThemableActivity {
+public class PrepareCreateActivity extends BrandedActivity {
 
     private ActivityPrepareCreateBinding binding;
 
@@ -188,9 +188,9 @@ public class PrepareCreateActivity extends AbstractThemableActivity {
     }
 
     @Override
-    public void applyNextcloudTheme(int mainColor, int textColor) {
-        super.applyNextcloudTheme(mainColor, textColor);
-        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
+    public void applyBrand(int mainColor, int textColor) {
+        super.applyBrand(mainColor, textColor);
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         binding.submit.setBackgroundColor(mainColor);
         binding.submit.setTextColor(textColor);
     }

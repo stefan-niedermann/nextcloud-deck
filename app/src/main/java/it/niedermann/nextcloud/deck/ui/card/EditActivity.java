@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.AbstractThemableActivity;
+import it.niedermann.nextcloud.deck.ui.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.card.attachments.NewCardAttachmentHandler;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentDeletedListener;
@@ -44,7 +44,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AbstractThemableActivity implements CardDetailsListener, CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler {
+public class EditActivity extends BrandedActivity implements CardDetailsListener, CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
@@ -339,10 +339,10 @@ public class EditActivity extends AbstractThemableActivity implements CardDetail
     }
 
     @Override
-    public void applyNextcloudTheme(int mainColor, int textColor) {
-        super.applyNextcloudTheme(mainColor, textColor);
-        applyNextcloudThemeToToolbar(mainColor, textColor, binding.toolbar);
-        applyNextcloudThemeToTablayout(mainColor, textColor, binding.tabLayout);
+    public void applyBrand(int mainColor, int textColor) {
+        super.applyBrand(mainColor, textColor);
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
         binding.title.setTextColor(textColor);
         DrawableCompat.setTint(binding.title.getBackground(), textColor);
         binding.titleTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(textColor));
