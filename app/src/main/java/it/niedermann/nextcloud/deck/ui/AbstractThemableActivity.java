@@ -3,10 +3,9 @@ package it.niedermann.nextcloud.deck.ui;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.Menu;
+import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
@@ -19,6 +18,11 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import com.google.android.material.tabs.TabLayout;
 
 import it.niedermann.nextcloud.deck.Application;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Build.VERSION_CODES.M;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.isColorDark;
 
 public abstract class AbstractThemableActivity extends AppCompatActivity implements Application.NextcloudTheme {
 
@@ -51,10 +55,19 @@ public abstract class AbstractThemableActivity extends AppCompatActivity impleme
     @Override
     public void applyNextcloudTheme(@ColorInt int mainColor, @ColorInt int textColor) {
         this.textColor = textColor;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (SDK_INT >= LOLLIPOP) { // Set status bar color
+            final Window window = getWindow();
             window.setStatusBarColor(mainColor);
+            if (SDK_INT >= M) { // Set icon and text color of status bar
+                final View decorView = window.getDecorView();
+                if (isColorDark(mainColor)) {
+                    int flags = decorView.getSystemUiVisibility();
+                    flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                    decorView.setSystemUiVisibility(flags);
+                } else {
+                    decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                }
+            }
         }
     }
 
