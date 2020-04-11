@@ -239,8 +239,16 @@ public class SyncManager {
         return dataBaseAdapter.readAccounts();
     }
 
-    public void getServerVersion(IResponseCallback<Capabilities> callback) {
-        serverAdapter.getCapabilities(callback);
+    public void refreshCapabilities(IResponseCallback<Capabilities> callback) {
+        serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(callback.getAccount()) {
+            @Override
+            public void onResponse(Capabilities response) {
+                Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
+                acc.applyCapabilities(response);
+                dataBaseAdapter.updateAccount(acc);
+                callback.onResponse(response);
+            }
+        });
     }
 
     public LiveData<List<Board>> getBoards(long accountId) {

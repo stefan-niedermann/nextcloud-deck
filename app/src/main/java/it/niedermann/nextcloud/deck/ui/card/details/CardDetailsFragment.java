@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card.details;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -37,6 +38,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
@@ -52,15 +54,17 @@ import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+import static android.app.DatePickerDialog.OnDateSetListener;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.BrandedActivity.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class CardDetailsFragment extends Fragment implements DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener {
+public class CardDetailsFragment extends Fragment implements Application.Branded, OnDateSetListener,
+        OnTimeSetListener {
 
     private FragmentCardEditTabDetailsBinding binding;
 
@@ -186,7 +190,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     private TimePickerDialog createTimePickerDialogFromDate(
             @NonNull Context context,
-            @Nullable TimePickerDialog.OnTimeSetListener listener,
+            @Nullable OnTimeSetListener listener,
             @Nullable Date date
     ) {
         int hourOfDay = 0;
@@ -201,7 +205,7 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
 
     private DatePickerDialog createDatePickerDialogFromDate(
             @NonNull Context context,
-            @Nullable DatePickerDialog.OnDateSetListener listener,
+            @Nullable OnDateSetListener listener,
             @Nullable Date date
     ) {
         int year;
@@ -428,5 +432,26 @@ public class CardDetailsFragment extends Fragment implements DatePickerDialog.On
         } else {
             binding.clearDueDate.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Application.registerBrandedComponent(requireContext(), this);
+    }
+
+    @Override
+    public void onPause() {
+        Application.deregisterBrandedComponent(this);
+        super.onPause();
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        applyBrandToEditText(mainColor, textColor, binding.labels);
+        applyBrandToEditText(mainColor, textColor, binding.dueDateDate);
+        applyBrandToEditText(mainColor, textColor, binding.dueDateTime);
+        applyBrandToEditText(mainColor, textColor, binding.people);
+        applyBrandToEditText(mainColor, textColor, binding.description);
     }
 }

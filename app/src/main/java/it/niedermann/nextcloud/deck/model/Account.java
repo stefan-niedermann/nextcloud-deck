@@ -1,12 +1,16 @@
 package it.niedermann.nextcloud.deck.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+
+import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 
 @Entity(indices = {@Index(value = "name", unique = true)})
 public class Account implements Serializable {
@@ -24,6 +28,22 @@ public class Account implements Serializable {
 
     @NonNull
     private String url;
+
+    @NonNull
+    @ColumnInfo(defaultValue = "#0082c9")
+    private String color = "#0082c9";
+
+    @NonNull
+    @ColumnInfo(defaultValue = "#ffffff")
+    private String textColor = "#ffffff";
+
+    @NonNull
+    @ColumnInfo(defaultValue = "0.6.4")
+    private String serverDeckVersion = "0.6.4";
+
+    @NonNull
+    @ColumnInfo(defaultValue = "0")
+    private boolean maintenanceEnabled = false;
 
     @Ignore
     public Account(Long id, @NonNull String name, @NonNull String userName, @NonNull String url) {
@@ -44,6 +64,17 @@ public class Account implements Serializable {
     }
 
     public Account() {
+    }
+
+    public void applyCapabilities(Capabilities capabilities) {
+        maintenanceEnabled = capabilities.isMaintenanceEnabled();
+        if (!isMaintenanceEnabled()) {
+            color = capabilities.getColor();
+            textColor = capabilities.getTextColor();
+            if (capabilities.getDeckVersion()!=null) {
+                serverDeckVersion = capabilities.getDeckVersion().getOriginalVersion();
+            }
+        }
     }
 
     public Long getId() {
@@ -79,6 +110,49 @@ public class Account implements Serializable {
 
     public void setUrl(@NonNull String url) {
         this.url = url;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    @NonNull
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(@NonNull String color) {
+        this.color = color;
+    }
+
+    @NonNull
+    public String getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(@NonNull String textColor) {
+        this.textColor = textColor;
+    }
+
+    public Version getServerDeckVersionAsObject() {
+        return Version.of(serverDeckVersion);
+    }
+
+    @NonNull
+    public String getServerDeckVersion() {
+        return serverDeckVersion;
+    }
+
+    public void setServerDeckVersion(@NonNull String serverDeckVersion) {
+        this.serverDeckVersion = serverDeckVersion;
+    }
+
+    public boolean isMaintenanceEnabled() {
+        return maintenanceEnabled;
+    }
+
+    public void setMaintenanceEnabled(boolean maintenanceEnabled) {
+        this.maintenanceEnabled = maintenanceEnabled;
     }
 
     @Override

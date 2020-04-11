@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -17,12 +20,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
@@ -100,7 +103,7 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOU
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
 
-public class MainActivity extends AppCompatActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, DrawerBoardListener {
+public class MainActivity extends BrandedActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, DrawerBoardListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
@@ -162,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
         setSupportActionBar(binding.toolbar);
         accountIsGettingImportedSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -301,6 +304,14 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                         DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
                     }
                 } else DeckLog.warn("ConnectivityManager is null");
+                new Thread(() -> {
+                    syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(currentAccount) {
+                        @Override
+                        public void onResponse(Capabilities response) {
+                            runOnUiThread(() -> Application.setBrand(MainActivity.this, Color.parseColor(response.getColor()), Color.parseColor(response.getTextColor())));
+                        }
+                    });
+                }).start();
                 syncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
                     @Override
                     public void onResponse(Boolean response) {
@@ -324,8 +335,26 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+    public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
+        super.applyBrand(mainColor, textColor);
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.stackTitles);
+        applyBrandToFAB(mainColor, textColor, binding.fab);
+
+        binding.addStackButton.setBackgroundColor(mainColor);
+        binding.addStackButton.setColorFilter(textColor);
+
+        headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
+        headerBinding.drawerAppTitle.setTextColor(textColor);
+        headerBinding.drawerAppTitle.setShadowLayer(2, 0.5f, 0, mainColor);
+        headerBinding.drawerUsernameFull.setTextColor(textColor);
+        headerBinding.drawerUsernameFull.setShadowLayer(2, 0.5f, 0, mainColor);
+
+        final Drawable overflowDrawable = headerBinding.drawerAccountChooserToggle.getDrawable();
+        if (overflowDrawable != null) {
+            overflowDrawable.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
+            headerBinding.drawerAccountChooserToggle.setImageDrawable(overflowDrawable);
+        }
     }
 
     @Override
@@ -389,6 +418,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
     protected void setCurrentAccount(@NonNull Account account) {
         this.currentAccount = account;
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.currentAccount.getName());
+        Application.setBrand(MainActivity.this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor()));
         syncManager = new SyncManager(this);
 
         Application.saveCurrentAccountId(this, this.currentAccount.getId());
@@ -674,7 +704,7 @@ public class MainActivity extends AppCompatActivity implements EditStackListener
                                 this.currentAccount = createdAccount;
 
                                 try {
-                                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
+                                    syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
                                         @Override
                                         public void onResponse(Capabilities response) {
                                             if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {

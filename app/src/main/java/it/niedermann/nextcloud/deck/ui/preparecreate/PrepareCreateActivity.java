@@ -6,7 +6,6 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
@@ -19,6 +18,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -30,7 +30,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class PrepareCreateActivity extends AppCompatActivity {
+public class PrepareCreateActivity extends BrandedActivity {
 
     private ActivityPrepareCreateBinding binding;
 
@@ -185,5 +185,13 @@ public class PrepareCreateActivity extends AppCompatActivity {
         Application.saveCurrentStackId(this, accountId, boardId, stackId);
 
         finish();
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        super.applyBrand(mainColor, textColor);
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+        binding.submit.setBackgroundColor(mainColor);
+        binding.submit.setTextColor(textColor);
     }
 }

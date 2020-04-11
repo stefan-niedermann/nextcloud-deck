@@ -6,17 +6,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardCreateBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
 
-public class EditBoardDialogFragment extends DialogFragment {
+public class EditBoardDialogFragment extends BrandedDialogFragment {
 
     private DialogBoardCreateBinding binding;
 
@@ -102,6 +103,9 @@ public class EditBoardDialogFragment extends DialogFragment {
         return dialog;
     }
 
-
-
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        super.applyBrand(mainColor, textColor);
+        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.input);
+    }
 }

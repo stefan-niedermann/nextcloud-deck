@@ -142,7 +142,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                 editor.commit();
 
                                 try {
-                                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(createdAccount) {
+                                    syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
                                         @Override
                                         public void onResponse(Capabilities response) {
                                             if (response.getDeckVersion().compareTo(new Version("", minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {

@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,7 +10,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -19,18 +20,16 @@ import java.util.Date;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
-import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.card.attachments.NewCardAttachmentHandler;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentDeletedListener;
@@ -45,7 +44,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends AppCompatActivity implements CardDetailsListener, CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler {
+public class EditActivity extends BrandedActivity implements CardDetailsListener, CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
@@ -221,27 +220,14 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
         // Comments API only available starting with version 1.0.0-alpha1
         if (!createMode) {
             syncManager.readAccount(accountId).observe(this, (account) -> {
-                try {
-                    syncManager.getServerVersion(new IResponseCallback<Capabilities>(account) {
-                        @Override
-                        public void onResponse(Capabilities response) {
-                            hasCommentsAbility = ((response.getDeckVersion().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
-                            if (hasCommentsAbility) {
-                                runOnUiThread(() -> {
-                                    mediator.detach();
-                                    adapter.enableComments();
-                                    binding.pager.setOffscreenPageLimit(3);
-                                    mediator.attach();
-                                });
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable throwable) {
-                            super.onError(throwable);
-                        }
+                hasCommentsAbility = ((account.getServerDeckVersionAsObject().compareTo(new Version("1.0.0", 1, 0, 0)) >= 0));
+                if (hasCommentsAbility) {
+                    runOnUiThread(() -> {
+                        mediator.detach();
+                        adapter.enableComments();
+                        binding.pager.setOffscreenPageLimit(3);
+                        mediator.attach();
                     });
-                } catch (OfflineException ignored) {
                 }
             });
         }
@@ -350,5 +336,15 @@ public class EditActivity extends AppCompatActivity implements CardDetailsListen
     @Override
     public void onCommentDeleted(Long localCommentId) {
         syncManager.deleteComment(this.accountId, this.localId, localCommentId);
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        super.applyBrand(mainColor, textColor);
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
+        binding.title.setTextColor(textColor);
+        DrawableCompat.setTint(binding.title.getBackground(), textColor);
+        binding.titleTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(textColor));
     }
 }

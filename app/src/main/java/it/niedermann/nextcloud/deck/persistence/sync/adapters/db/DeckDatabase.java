@@ -68,7 +68,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 Mention.class,
         },
         exportSchema = false,
-        version = 9
+        version = 10
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -89,6 +89,16 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("CREATE INDEX `index_DeckComment_lastModifiedLocal` ON `DeckComment` (`lastModifiedLocal`)");
             database.execSQL("CREATE INDEX `index_DeckComment_objectId` ON `DeckComment` (`objectId`)");
             database.execSQL("CREATE INDEX `index_Mention_commentId` ON `Mention` (`commentId`)");
+        }
+    };
+
+    private static final Migration MIGRATION_9_10 = new Migration(9, 10) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `Account` ADD `color` TEXT NOT NULL DEFAULT '#0082c9'");
+            database.execSQL("ALTER TABLE `Account` ADD `textColor` TEXT NOT NULL DEFAULT '#ffffff'");
+            database.execSQL("ALTER TABLE `Account` ADD `serverDeckVersion` TEXT NOT NULL DEFAULT '0.6.4'");
+            database.execSQL("ALTER TABLE `Account` ADD `maintenanceEnabled` INTEGER NOT NULL DEFAULT 0");
         }
     };
 
@@ -117,6 +127,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 DECK_DB_NAME)
                 //FIXME: remove destructive Migration as soon as schema is stable!
                 .addMigrations(MIGRATION_8_9)
+                .addMigrations(MIGRATION_9_10)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
