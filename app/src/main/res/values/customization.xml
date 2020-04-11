@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Apply the theme of the instance for each account to UI elements -->
-    <bool name="enable_brand">true</bool>
+    <!-- Apply the brand of the instance for each account to UI elements -->
+    <bool name="enable_brand">false</bool>
     <!-- How many avatars should be displayed in the card list view -->
     <integer name="max_avatar_count">3</integer>
     <!-- How many users should be suggested when clicking on the assigned users input field -->
