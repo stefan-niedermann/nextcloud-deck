@@ -101,22 +101,22 @@ public class Application extends android.app.Application {
     public static int readNextcloudThemeMainColor(@NonNull Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         DeckLog.log("--- Read: shared_preference_theme_main");
-        return sharedPreferences.getInt("shared_preference_theme_main", context.getApplicationContext().getResources().getColor(R.color.primary));
+        return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.primary));
     }
 
     @ColorInt
     public static int readNextcloudThemeTextColor(@NonNull Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         DeckLog.log("--- Read: shared_preference_theme_text");
-        return sharedPreferences.getInt("shared_preference_theme_text", context.getApplicationContext().getResources().getColor(android.R.color.white));
+        return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_text), context.getApplicationContext().getResources().getColor(android.R.color.white));
     }
 
     public static void saveNextcloudThemeColors(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
         DeckLog.log("--- Write: shared_preference_theme_text" + " | " + textColor);
-        editor.putInt("shared_preference_theme_main", mainColor);
-        editor.putInt("shared_preference_theme_text", textColor);
+        editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
+        editor.putInt(context.getString(R.string.shared_preference_theme_text), textColor);
         editor.apply();
     }
 
