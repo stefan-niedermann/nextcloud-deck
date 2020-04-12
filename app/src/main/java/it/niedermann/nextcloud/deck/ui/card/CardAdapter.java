@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +42,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -317,7 +317,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                     }
                 }
                 final FullCard newCard = card;
-                new AlertDialog.Builder(context)
+                new BrandedAlertDialogBuilder(context)
                         .setSingleChoiceItems(items, currentStackItem, (dialog, which) -> {
                             dialog.cancel();
                             newCard.getCard().setStackId(availableStacks.get(which).getStack().getLocalId());

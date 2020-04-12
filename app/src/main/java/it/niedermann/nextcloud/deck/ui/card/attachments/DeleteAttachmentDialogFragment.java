@@ -10,9 +10,9 @@ import androidx.fragment.app.DialogFragment;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Attachment;
-import it.niedermann.nextcloud.deck.ui.view.DeleteDialogFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 
-public class DeleteAttachmentDialogFragment extends DeleteDialogFragment {
+public class DeleteAttachmentDialogFragment extends DialogFragment {
 
     private static final String KEY_ATTACHMENT = "attachment";
 
@@ -47,7 +47,7 @@ public class DeleteAttachmentDialogFragment extends DeleteDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
+        AlertDialog.Builder builder = new BrandedDeleteAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.delete_something, attachment.getFilename()))
                 .setMessage(R.string.attachment_delete_message)
                 .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> deleteAttachmentListener.onAttachmentDeleted(attachment))

@@ -10,7 +10,6 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Objects;
@@ -18,6 +17,7 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAddCommentBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
@@ -55,7 +55,7 @@ public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogAddCommentBinding.inflate(requireActivity().getLayoutInflater());
 
-        return new AlertDialog.Builder(requireActivity())
+        return new BrandedAlertDialogBuilder(requireActivity())
                 .setView(binding.getRoot())
                 .setTitle(R.string.simple_comment)
                 .setNegativeButton(android.R.string.cancel, null)
@@ -85,7 +85,6 @@ public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
-        super.applyBrand(mainColor, textColor);
         BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.input);
     }
 }

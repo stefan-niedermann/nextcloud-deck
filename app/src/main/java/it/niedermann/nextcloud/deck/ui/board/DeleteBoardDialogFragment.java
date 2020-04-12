@@ -10,9 +10,9 @@ import androidx.fragment.app.DialogFragment;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.ui.view.DeleteDialogFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 
-public class DeleteBoardDialogFragment extends DeleteDialogFragment {
+public class DeleteBoardDialogFragment extends DialogFragment {
 
     private static final String KEY_BOARD = "board";
 
@@ -44,7 +44,7 @@ public class DeleteBoardDialogFragment extends DeleteDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
+        AlertDialog.Builder builder = new BrandedDeleteAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.delete_something, board.getTitle()))
                 .setMessage(R.string.delete_board_message)
                 .setPositiveButton(R.string.simple_delete, (dialog, which) -> deleteBoardListener.onBoardDeleted(board))

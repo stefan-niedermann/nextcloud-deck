@@ -9,9 +9,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.ui.view.DeleteDialogFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 
-public class DeleteStackDialogFragment extends DeleteDialogFragment {
+public class DeleteStackDialogFragment extends DialogFragment {
 
     private static final String KEY_STACK_ID = "stack_id";
 
@@ -44,7 +44,7 @@ public class DeleteStackDialogFragment extends DeleteDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
+        AlertDialog.Builder builder = new BrandedDeleteAlertDialogBuilder(requireContext())
                 .setTitle(R.string.delete_list)
                 .setMessage(R.string.do_you_want_to_delete_the_current_list)
                 .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> deleteStackListener.onStackDeleted(stackId))

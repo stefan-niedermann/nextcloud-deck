@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.deck.databinding.DialogBoardCreateBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
@@ -28,7 +29,9 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
     private FullBoard fullBoard = null;
 
     /**
-     * Use newInstance()-Method
+     * Use newInstance()-Method(dialog, which) -> {
+     * // Do something else
+     * }
      */
     public EditBoardDialogFragment() {
     }
@@ -51,7 +54,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
 
         long boardId = requireArguments().getLong(KEY_BOARD_ID);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
+        AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         if (boardId == NO_BOARD_ID) {
             dialogBuilder.setTitle(R.string.add_board);
@@ -104,7 +107,6 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
-        super.applyBrand(mainColor, textColor);
         BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.input);
     }
 }

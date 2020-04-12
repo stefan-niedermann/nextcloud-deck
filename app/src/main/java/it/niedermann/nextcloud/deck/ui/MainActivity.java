@@ -25,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
@@ -73,6 +72,7 @@ import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -696,7 +696,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                         public void onResponse(Capabilities response) {
                                             if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
                                                 deckVersionTooLowSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction(R.string.simple_more, v -> {
-                                                    new AlertDialog.Builder(MainActivity.this)
+                                                    new BrandedAlertDialogBuilder(MainActivity.this)
                                                             .setTitle(R.string.update_deck)
                                                             .setMessage(R.string.deck_outdated_please_update)
                                                             .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
@@ -717,7 +717,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                         }
                                     });
                                 } catch (OfflineException e) {
-                                    new AlertDialog.Builder(MainActivity.this)
+                                    new BrandedAlertDialogBuilder(MainActivity.this)
                                             .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
                                             .setPositiveButton(R.string.simple_close, null)
                                             .show();

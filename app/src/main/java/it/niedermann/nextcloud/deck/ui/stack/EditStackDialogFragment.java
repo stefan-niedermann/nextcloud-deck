@@ -17,6 +17,7 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
@@ -50,11 +51,9 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogStackCreateBinding.inflate(requireActivity().getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
+        AlertDialog.Builder builder = new BrandedAlertDialogBuilder(requireActivity())
                 .setView(binding.getRoot())
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                    // Do something else
-                });
+                .setNegativeButton(android.R.string.cancel, null);
         if (getArguments() == null) {
             throw new IllegalArgumentException("Please add at least stack id to the arguments");
         }
@@ -95,7 +94,6 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
-        super.applyBrand(mainColor, textColor);
         BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.input);
     }
 }

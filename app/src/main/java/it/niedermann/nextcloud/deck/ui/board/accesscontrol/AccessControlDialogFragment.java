@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,10 +20,11 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 
-public class AccessControlDialogFragment extends BrandedDialogFragment implements AccessControlChangedListener, AdapterView.OnItemClickListener {
+public class AccessControlDialogFragment extends BrandedDialogFragment implements AccessControlChangedListener, OnItemClickListener {
 
     private DialogBoardShareBinding binding;
 
@@ -48,7 +50,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         boardId = requireArguments().getLong(KEY_BOARD_ID);
         accountId = requireArguments().getLong(KEY_ACCOUNT_ID);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
+        AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         if (boardId == 0L || accountId == 0L) {
             throw new IllegalArgumentException("accountId and boardId must be provided");
@@ -112,7 +114,6 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
-        super.applyBrand(mainColor, textColor);
         BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.people);
     }
 }

@@ -17,7 +17,6 @@ import android.widget.EditText;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.tabs.TabLayout;
@@ -38,6 +37,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.attachments.NewCardAttachmentHandler;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentDeletedListener;
@@ -180,7 +180,7 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
                 fullCard.getCard().setTitle(CardUtil.generateTitleFromDescription(fullCard.getCard().getDescription()));
             }
             if (fullCard.getCard().getTitle().isEmpty()) {
-                new AlertDialog.Builder(this)
+                new BrandedAlertDialogBuilder(this)
                         .setTitle(R.string.title_is_mandatory)
                         .setMessage(R.string.provide_at_least_a_title_or_description)
                         .setPositiveButton(android.R.string.ok, null)
@@ -316,7 +316,7 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
     @Override
     public void finish() {
         if (!fullCard.equals(originalCard) && canEdit) {
-            new AlertDialog.Builder(this)
+            new BrandedAlertDialogBuilder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
                     .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndFinish())
