@@ -149,4 +149,6 @@
     <string name="add_comment">Pridať komentár</string>
     <string name="card_edit_comments">Komentáre</string>
     <string name="no_comments_yet">Zatiaľ žiadne komentáre</string>
+    <string name="no_boards">Zatiaľ žiadne nástenky</string>
+    <string name="add_a_new_board_using_the_button">Pridajte novú nástenku pomocou tlačidla +</string>
     </resources>

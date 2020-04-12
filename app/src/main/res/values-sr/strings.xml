@@ -59,6 +59,8 @@
 
     <string name="activity">Активност</string>
 
+    <string name="add_list">Додај списак</string>
+    <string name="rename_list">Преименуј списак</string>
     <string name="delete_list">Обриши списак</string>
 
     <string name="label_menu">мени</string>
@@ -73,6 +75,7 @@
     <string name="label_add">Додај %1$s</string>
 
     <string name="error">Дошло је до грешке</string>
+    <string name="operation_not_yet_supported">Није још подржано</string>
     <string name="simple_copy">копирај</string>
     <string name="simple_exception">Изузетак</string>
     <string name="copied_to_clipboard">Копирано у клипборд</string>
@@ -89,14 +92,18 @@
     <string name="account_already_added">Налог је већ додат</string>
     <string name="account_is_getting_imported">Налог се увози</string>
     <string name="not_synced_yet">Још није синхронизовано</string>
+    <string name="no_lists_yet">Нема још спискова</string>
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
     <string name="simple_discard">одбаци</string>
+    <string name="do_you_want_to_delete_the_current_list">Да ли желите да обришете тренутни списак?</string>
+    <string name="add_a_new_list_using_the_button">Додај нови списак користећи + дугме</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
     <string name="update_deck">Ажурирај шпил</string>
     <string name="your_deck_version_is_too_old">Ваша верзија Шпила је превише стара</string>
     <string name="deck_outdated_please_update">Верзија апликације Шпил је стара. Ажурирајте да бисте користили ову Андроид апликацију као клијента.</string>
     <string name="simple_update">Ажурирај</string>
     <string name="simple_delete">Обриши</string>
+    <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све спискове и картице.</string>
     <string name="simple_rename">Преименуј</string>
     <string name="simple_settings">Поставке</string>
     <string name="settings_theme_title">Тамна тема</string>
@@ -129,6 +136,22 @@
     <string name="please_add_an_account_first">Прво додајте налог</string>
     <string name="title_is_mandatory">Наслов је обавезан</string>
     <string name="provide_at_least_a_title_or_description">Дајте бар наслов или опис</string>
+    <string name="welcome_text">Добродошли у %1$s</string>
+    <string name="save_card_before_attachment">Картица мора да се сачува пре него што може да јој се дода прилог.</string>
+    <string name="server_misconfigured">Сервер није добро конфигурисан</string>
+    <string name="server_misconfigured_explanation">Сервер је одговорио са HTTP 302 кодом, што значи да немате инсталирану Deck апликацију или да Вам сервер није правилно конфигурисан. Ово може да буде проузорковано произвољним додавањима у .htaccess фајлу или другим Некстклауд апликацијама као што је OID Client. Можете наћи наше контакт информације за подршку у секцији О програму.</string>
     <string name="server_error">Грешка на серверу</string>
+    <string name="server_error_explanation">Сервер је одговорио са HTTP 503 кодом. Ово може да значи да је сервер у режиму одржавања. Контактирајте администратора или нас за подршку. Можете наћи наше контакт информације за подршку у секцији О програму. </string>
+    <string name="share_add_to_card">Додај на картицу</string>
+    <string name="share_success">Успешно додат %1$s на %2$s</string>
+    <string name="could_not_copy_to_clipboard">Не могу да копирам у оставу</string>
+    <string name="shared_error">Дељење садржаја од апликација треће стране још није у потпуности подржано. Пробајте прво да преузмете садржај у целости и онда га поделите из менаџера фајлова или из галерије.</string>
+    <string name="add_comment">Додај коментар</string>
     <string name="card_edit_comments">Коментари</string>
-    </resources>
+    <string name="no_comments_yet">Још нема коментара</string>
+    <string name="no_boards">Још нема табли</string>
+    <string name="add_a_new_board_using_the_button">Додајте нову таблу преко + дугмета</string>
+    <string name="choose_board">Одаберите таблу</string>
+    <string name="choose_list">Одаберите списак</string>
+    <string name="task_count">%1$s/%2$s</string>
+</resources>

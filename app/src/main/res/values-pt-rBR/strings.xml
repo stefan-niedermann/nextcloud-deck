@@ -149,4 +149,6 @@
     <string name="add_comment">Adicionar comentário</string>
     <string name="card_edit_comments">Comentários</string>
     <string name="no_comments_yet">Nenhum comentário ainda</string>
+    <string name="no_boards">Sem painéis ainda</string>
+    <string name="add_a_new_board_using_the_button">Adicionar um novo painel usando o botão +</string>
     </resources>
