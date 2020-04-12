@@ -16,17 +16,11 @@
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_close_white_24dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/titleTextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                tools:hint="Edit">
-
                 <EditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:importantForAutofill="no"
@@ -34,8 +28,6 @@
                     android:maxLength="100"
                     android:maxLines="5"
                     tools:text="@tools:sample/lorem" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.appcompat.widget.Toolbar>
 

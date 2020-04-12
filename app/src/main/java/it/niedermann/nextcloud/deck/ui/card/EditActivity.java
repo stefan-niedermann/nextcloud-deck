@@ -22,7 +22,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -252,7 +251,7 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
                     binding.title.setSelection(fullCard.getCard().getTitle().length());
                 }
             }
-            binding.titleTextInputLayout.setHint(getString(createMode ? R.string.simple_add : R.string.edit));
+            binding.title.setHint(getString(createMode ? R.string.simple_add : R.string.edit));
             binding.title.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -268,7 +267,7 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
                 }
             });
         } else {
-            binding.titleTextInputLayout.setHintEnabled(false);
+//            binding.titleTextInputLayout.setHintEnabled(false);
             binding.title.setEnabled(false);
         }
     }
@@ -352,17 +351,15 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
         super.applyBrand(mainColor, textColor);
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
-        final int highlightColor = Color.argb(77, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
-        binding.title.setHighlightColor(highlightColor);
-        binding.title.setTextColor(textColor);
-        DrawableCompat.setTintList(binding.title.getBackground(), ColorStateList.valueOf(textColor));
         applyBrandToTitle(textColor, binding.title);
-        binding.titleTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(textColor));
-
-        applyBrandToTitleWrapper(textColor, binding.titleTextInputLayout);
     }
 
     private static void applyBrandToTitle(@ColorInt int textColor, @NonNull EditText editText) {
+        final int highlightColor = Color.argb(77, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
+        editText.setHighlightColor(highlightColor);
+        editText.setTextColor(textColor);
+        DrawableCompat.setTintList(editText.getBackground(), ColorStateList.valueOf(textColor));
+
         final Drawable background = editText.getBackground();
         final ColorFilter oldColorFilter = DrawableCompat.getColorFilter(background);
         final View.OnFocusChangeListener oldOnFocusChangeListener = editText.getOnFocusChangeListener();
@@ -373,33 +370,11 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
         }
         editText.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
+                editText.setHintTextColor(textColor);
+                editText.setTextColor(textColor);
                 background.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
             } else {
                 background.setColorFilter(oldColorFilter);
-            }
-            if (oldOnFocusChangeListener != null) {
-                oldOnFocusChangeListener.onFocusChange(v, hasFocus);
-            }
-        });
-        if (isFocused) {
-            editText.requestFocus();
-        }
-    }
-
-    private static void applyBrandToTitleWrapper(@ColorInt int textColor, @NonNull TextInputLayout editText) {
-        final Drawable background = editText.getBackground();
-//        final ColorFilter oldColorFilter = DrawableCompat.getColorFilter(background);
-        final View.OnFocusChangeListener oldOnFocusChangeListener = editText.getOnFocusChangeListener();
-
-        final boolean isFocused = editText.isFocused();
-        if (isFocused) {
-            editText.clearFocus();
-        }
-        editText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                background.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
-            } else {
-//                background.setColorFilter(oldColorFilter);
             }
             if (oldOnFocusChangeListener != null) {
                 oldOnFocusChangeListener.onFocusChange(v, hasFocus);
