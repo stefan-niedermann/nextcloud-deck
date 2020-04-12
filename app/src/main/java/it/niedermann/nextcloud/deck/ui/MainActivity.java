@@ -332,7 +332,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             });
         });
 
-        //TODO limit this call only to lower API levels like KitKat because they crash without
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
