@@ -14,7 +14,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.util.Objects;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
@@ -51,7 +50,7 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogStackCreateBinding.inflate(requireActivity().getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
                 .setView(binding.getRoot())
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                     // Do something else

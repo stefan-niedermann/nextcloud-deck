@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardCreateBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
@@ -52,7 +51,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
 
         long boardId = requireArguments().getLong(KEY_BOARD_ID);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
 
         if (boardId == NO_BOARD_ID) {
             dialogBuilder.setTitle(R.string.add_board);

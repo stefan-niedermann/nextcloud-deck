@@ -697,7 +697,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                         public void onResponse(Capabilities response) {
                                             if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
                                                 deckVersionTooLowSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction(R.string.simple_more, v -> {
-                                                    new AlertDialog.Builder(MainActivity.this, Application.getAppTheme(getApplicationContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert)
+                                                    new AlertDialog.Builder(MainActivity.this)
                                                             .setTitle(R.string.update_deck)
                                                             .setMessage(R.string.deck_outdated_please_update)
                                                             .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {

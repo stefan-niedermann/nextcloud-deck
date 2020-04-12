@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardShareBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
@@ -49,7 +48,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         boardId = requireArguments().getLong(KEY_BOARD_ID);
         accountId = requireArguments().getLong(KEY_ACCOUNT_ID);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
 
         if (boardId == 0L || accountId == 0L) {
             throw new IllegalArgumentException("accountId and boardId must be provided");
