@@ -132,6 +132,8 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
         if (isFocused) {
             editText.clearFocus();
         }
+        final int highlightColor = Color.argb(77, Color.red(finalMainColor), Color.green(finalMainColor), Color.blue(finalMainColor));
+        editText.setHighlightColor(highlightColor);
         editText.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 background.setColorFilter(finalMainColor, PorterDuff.Mode.SRC_ATOP);

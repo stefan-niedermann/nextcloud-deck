@@ -69,6 +69,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
+import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
@@ -76,15 +77,15 @@ import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.settings.SettingsActivity;
+import it.niedermann.nextcloud.deck.ui.stack.DeleteStackDialogFragment;
+import it.niedermann.nextcloud.deck.ui.stack.DeleteStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
-import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerAccountListener;
-import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerBoardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -104,7 +105,7 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOU
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
 
-public class MainActivity extends BrandedActivity implements EditStackListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, DrawerBoardListener {
+public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
@@ -369,7 +370,7 @@ public class MainActivity extends BrandedActivity implements EditStackListener, 
     @Override
     public void onCreateStack(String stackName) {
         observeOnce(syncManager.getStacksForBoard(currentAccount.getId(), currentBoardId), MainActivity.this, fullStacks -> {
-            Stack s = new Stack(stackName, currentBoardId);
+            final Stack s = new Stack(stackName, currentBoardId);
             int heighestOrder = 0;
             for (FullStack fullStack : fullStacks) {
                 int currentStackOrder = fullStack.stack.getOrder();
@@ -378,12 +379,8 @@ public class MainActivity extends BrandedActivity implements EditStackListener, 
                 }
             }
             s.setOrder(heighestOrder);
-            //TODO: returns liveData of the created stack (once!) as desired
-            // original to do: should return ID of the created stack, so one can immediately switch to the new board after creation
-            DeckLog.log("Create Stack with account id = " + currentAccount.getId());
-            syncManager.createStack(currentAccount.getId(), s).observe(MainActivity.this, (stack) -> {
-                binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
-            });
+            DeckLog.info("Create Stack with account id = " + currentAccount.getId());
+            syncManager.createStack(currentAccount.getId(), s).observe(MainActivity.this, (stack) -> binding.viewPager.setCurrentItem(stackAdapter.getItemCount()));
         });
     }
 
@@ -558,7 +555,7 @@ public class MainActivity extends BrandedActivity implements EditStackListener, 
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, currentAccount.getId(), currentBoardId, this.boardsList);
+        DrawerMenuUtil.inflateBoards(this, menu, currentAccount.getId(), this.boardsList);
     }
 
     @Override
@@ -621,25 +618,15 @@ public class MainActivity extends BrandedActivity implements EditStackListener, 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
             case R.id.delete_list:
-                new DeleteDialogBuilder(this)
-                        .setTitle(R.string.delete_list)
-                        .setMessage(R.string.do_you_want_to_delete_the_current_list)
-                        .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> {
-                            long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                            observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack -> {
-                                DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
-                                syncManager.deleteStack(fullStack.getStack());
-                            });
-                        })
-                        .setNegativeButton(android.R.string.cancel, null).show();
+                DeleteStackDialogFragment.newInstance(stackId).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
                 return true;
             case R.id.rename_list:
-                long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                 observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack ->
                         EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
-                                .show(getSupportFragmentManager(), getString(R.string.rename_list)));
+                                .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -814,19 +801,28 @@ public class MainActivity extends BrandedActivity implements EditStackListener, 
     }
 
     @Override
-    public void onBoardChosen(@NonNull Board board) {
-        setCurrentBoard(board);
+    public void onStackDeleted(Long stackLocalId) {
+        long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+        observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack -> {
+            DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
+            syncManager.deleteStack(fullStack.getStack());
+        });
     }
 
     @Override
-    public void onBoardDeleted(@NonNull Board board) {
+    public void onBoardDeleted(Board board) {
+        final int index = this.boardsList.indexOf(board);
+        if (board.getLocalId() == currentBoardId) {
+            if (index > 0) { // Select first board after deletion
+                setCurrentBoard(this.boardsList.get(0));
+            } else if (this.boardsList.size() > 1) { // Select second board after deletion
+                setCurrentBoard(this.boardsList.get(1));
+            } else { // No other board is available, open create dialog
+                clearCurrentBoard();
+                EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+            }
+        }
         syncManager.deleteBoard(board);
         binding.drawerLayout.closeDrawer(GravityCompat.START);
-    }
-
-    @Override
-    public void onLastBoardDeleted() {
-        clearCurrentBoard();
-        EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
     }
 }

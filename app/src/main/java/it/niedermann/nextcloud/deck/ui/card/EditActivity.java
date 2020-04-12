@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -350,10 +352,14 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
         super.applyBrand(mainColor, textColor);
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
+        final int highlightColor = Color.argb(77, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
+        binding.title.setHighlightColor(highlightColor);
         binding.title.setTextColor(textColor);
         DrawableCompat.setTintList(binding.title.getBackground(), ColorStateList.valueOf(textColor));
         applyBrandToTitle(textColor, binding.title);
         binding.titleTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(textColor));
+
+        applyBrandToTitleWrapper(textColor, binding.titleTextInputLayout);
     }
 
     private static void applyBrandToTitle(@ColorInt int textColor, @NonNull EditText editText) {
@@ -370,6 +376,30 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
                 background.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
             } else {
                 background.setColorFilter(oldColorFilter);
+            }
+            if (oldOnFocusChangeListener != null) {
+                oldOnFocusChangeListener.onFocusChange(v, hasFocus);
+            }
+        });
+        if (isFocused) {
+            editText.requestFocus();
+        }
+    }
+
+    private static void applyBrandToTitleWrapper(@ColorInt int textColor, @NonNull TextInputLayout editText) {
+        final Drawable background = editText.getBackground();
+//        final ColorFilter oldColorFilter = DrawableCompat.getColorFilter(background);
+        final View.OnFocusChangeListener oldOnFocusChangeListener = editText.getOnFocusChangeListener();
+
+        final boolean isFocused = editText.isFocused();
+        if (isFocused) {
+            editText.clearFocus();
+        }
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                background.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
+            } else {
+//                background.setColorFilter(oldColorFilter);
             }
             if (oldOnFocusChangeListener != null) {
                 oldOnFocusChangeListener.onFocusChange(v, hasFocus);
