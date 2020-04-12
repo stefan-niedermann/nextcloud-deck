@@ -74,7 +74,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark"
                     app:tabGravity="center"
                     app:tabIndicatorColor="@color/accent"
                     app:tabMode="fixed"
@@ -84,9 +83,11 @@
                     android:id="@+id/add_stack_button"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:background="@android:color/transparent"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_add_white_24dp" />
+                    android:foreground="?android:selectableItemBackground"
+                    app:srcCompat="@drawable/ic_add_white_24dp"
+                    tools:ignore="UnusedAttribute" />
             </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>

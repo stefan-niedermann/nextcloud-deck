@@ -14,30 +14,20 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:navigationIcon="@drawable/ic_close_white_24dp"
-            app:titleTextColor="@android:color/white">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/titleTextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:theme="@style/AppTheme.EditText"
-                tools:hint="Edit">
+            app:navigationIcon="@drawable/ic_close_white_24dp">
 
                 <EditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine"
                     android:maxLength="100"
                     android:maxLines="5"
-                    app:theme="@style/AppTheme.EditText"
-                    tools:text="Fancy card title" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                    tools:text="@tools:sample/lorem" />
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.ui.board.DeleteBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlDialogFragment;
 
@@ -101,11 +102,10 @@ public class DrawerMenuUtil {
         menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, context.getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }
 
-    public static <T extends FragmentActivity & DrawerBoardListener> void inflateBoards(
+    public static <T extends FragmentActivity> void inflateBoards(
             @NonNull T context,
             @NonNull Menu menu,
             @NonNull Long currentAccountId,
-            long currentBoardId,
             @NonNull List<Board> boards) {
         final String addBoard = context.getString(R.string.add_board);
         final String simpleBoards = context.getString(R.string.simple_boards);
@@ -143,23 +143,7 @@ public class DrawerMenuUtil {
                                 Toast.makeText(context, "Archiving boards is not yet supported.", Toast.LENGTH_LONG).show();
                                 return true;
                             case R.id.delete_board:
-                                new DeleteDialogBuilder(context)
-                                        .setTitle(context.getString(R.string.delete_something, board.getTitle()))
-                                        .setMessage(R.string.delete_board_message)
-                                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
-                                            if (board.getLocalId() == currentBoardId) {
-                                                if (currentIndex > 0) { // Select first board after deletion
-                                                    context.onBoardChosen(boards.get(0));
-                                                } else if (boards.size() > 1) { // Select second board after deletion
-                                                    context.onBoardChosen(boards.get(1));
-                                                } else { // No other board is available, open create dialog
-                                                    context.onLastBoardDeleted();
-                                                }
-                                            }
-                                            context.onBoardDeleted(board);
-                                        })
-                                        .setNegativeButton(android.R.string.cancel, null)
-                                        .show();
+                                DeleteBoardDialogFragment.newInstance(board).show(context.getSupportFragmentManager(), DeleteBoardDialogFragment.class.getCanonicalName());
                                 return true;
                             default:
                                 return false;
@@ -187,15 +171,5 @@ public class DrawerMenuUtil {
         void onAccountChosen(@NonNull Account account);
 
         void onAccountDeleted(@NonNull Long accountId);
-    }
-
-    public interface DrawerBoardListener {
-        void onBoardChosen(@NonNull Board board);
-
-        void onBoardDeleted(@NonNull Board board);
-
-        default void onLastBoardDeleted() {
-            // Optional
-        }
     }
 }

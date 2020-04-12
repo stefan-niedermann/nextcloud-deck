@@ -5,6 +5,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
@@ -21,7 +22,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
             )
         }
 )
-public class Board extends AbstractRemoteEntity {
+public class Board extends AbstractRemoteEntity implements Serializable {
 
     public Board() {
 

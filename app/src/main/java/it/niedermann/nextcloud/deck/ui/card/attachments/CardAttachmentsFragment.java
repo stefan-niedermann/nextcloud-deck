@@ -75,8 +75,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             syncManager = new SyncManager(requireActivity());
             syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
                 adapter = new CardAttachmentAdapter(
+                        getChildFragmentManager(),
                         requireActivity().getMenuInflater(),
-                        this,
                         this,
                         account,
                         cardId);

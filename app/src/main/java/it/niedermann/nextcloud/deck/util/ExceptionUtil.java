@@ -22,6 +22,7 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
@@ -86,7 +87,7 @@ public class ExceptionUtil {
             case 302: {
                 Snackbar.make(targetView, R.string.server_misconfigured, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> {
-                            AlertDialog dialog = new AlertDialog.Builder(activity)
+                            AlertDialog dialog = new BrandedAlertDialogBuilder(activity)
                                     .setTitle(R.string.server_misconfigured)
                                     .setMessage(activity.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
                                     .setPositiveButton(android.R.string.copy, (a, b) -> {
@@ -104,7 +105,7 @@ public class ExceptionUtil {
             case 503: {
                 Snackbar.make(targetView, R.string.server_error, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> {
-                            AlertDialog dialog = new AlertDialog.Builder(activity)
+                            AlertDialog dialog = new BrandedAlertDialogBuilder(activity)
                                     .setTitle(R.string.server_error)
                                     .setMessage(activity.getString(R.string.server_error_explanation) + "\n\n\n" + debugInfos)
                                     .setPositiveButton(android.R.string.copy, (a, b) -> {
@@ -122,7 +123,7 @@ public class ExceptionUtil {
             default: {
                 Snackbar.make(targetView, R.string.error, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> {
-                            AlertDialog dialog = new AlertDialog.Builder(activity)
+                            AlertDialog dialog = new BrandedAlertDialogBuilder(activity)
                                     .setTitle(R.string.server_error)
                                     .setMessage(debugInfos)
                                     .setPositiveButton(android.R.string.copy, (a, b) -> {

@@ -11,12 +11,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.EditText" parent="ThemeOverlay.MaterialComponents.Dark">
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="colorControlActivated">@android:color/white</item>
-        <item name="colorControlHighlight">@android:color/white</item>
-    </style>
-
     <style name="DarkAppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
@@ -35,39 +29,9 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
-    <style name="PrimaryCTAButton" parent="android:Widget.DeviceDefault.Button">
-        <item name="android:background">@color/primary</item>
-        <item name="android:textColor">@color/fg_accent</item>
-        <item name="android:elevation" tools:targetApi="lollipop">5dp</item>
-    </style>
-
     <style name="NavigationView">
         <item name="android:ellipsize">middle</item>
         <item name="android:listDivider">@null</item>
-    </style>
-
-    <style name="DialogDarkTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
-        <item name="android:background">@android:color/background_dark</item>
-    </style>
-
-    <style name="DeleteDialogDarkTheme" parent="DialogDarkTheme">
-        <item name="android:buttonBarPositiveButtonStyle" tools:targetApi="lollipop">
-            @style/PositiveButtonStyle
-        </item>
-    </style>
-
-    <style name="DeleteDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
-        <item name="android:buttonBarPositiveButtonStyle" tools:targetApi="lollipop">
-            @style/PositiveButtonStyle
-        </item>
-    </style>
-
-    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/danger</item>
-    </style>
-
-    <style name="Spinner" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="TransparentTheme" parent="Theme.AppCompat.NoActionBar">

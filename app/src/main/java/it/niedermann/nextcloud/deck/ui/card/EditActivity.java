@@ -1,15 +1,22 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.tabs.TabLayout;
@@ -30,6 +37,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.attachments.NewCardAttachmentHandler;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
 import it.niedermann.nextcloud.deck.ui.card.comments.CommentDeletedListener;
@@ -172,7 +180,7 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
                 fullCard.getCard().setTitle(CardUtil.generateTitleFromDescription(fullCard.getCard().getDescription()));
             }
             if (fullCard.getCard().getTitle().isEmpty()) {
-                new AlertDialog.Builder(this)
+                new BrandedAlertDialogBuilder(this)
                         .setTitle(R.string.title_is_mandatory)
                         .setMessage(R.string.provide_at_least_a_title_or_description)
                         .setPositiveButton(android.R.string.ok, null)
@@ -243,7 +251,7 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
                     binding.title.setSelection(fullCard.getCard().getTitle().length());
                 }
             }
-            binding.titleTextInputLayout.setHint(getString(createMode ? R.string.simple_add : R.string.edit));
+            binding.title.setHint(getString(createMode ? R.string.simple_add : R.string.edit));
             binding.title.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -259,7 +267,7 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
                 }
             });
         } else {
-            binding.titleTextInputLayout.setHintEnabled(false);
+//            binding.titleTextInputLayout.setHintEnabled(false);
             binding.title.setEnabled(false);
         }
     }
@@ -308,7 +316,7 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
     @Override
     public void finish() {
         if (!fullCard.equals(originalCard) && canEdit) {
-            new AlertDialog.Builder(this)
+            new BrandedAlertDialogBuilder(this)
                     .setTitle(R.string.simple_save)
                     .setMessage(R.string.do_you_want_to_save_your_changes)
                     .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndFinish())
@@ -343,8 +351,37 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
         super.applyBrand(mainColor, textColor);
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
-        binding.title.setTextColor(textColor);
-        DrawableCompat.setTint(binding.title.getBackground(), textColor);
-        binding.titleTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(textColor));
+        applyBrandToTitle(textColor, binding.title);
+    }
+
+    private static void applyBrandToTitle(@ColorInt int textColor, @NonNull EditText editText) {
+        final int highlightColor = Color.argb(77, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
+        editText.setHighlightColor(highlightColor);
+        editText.setTextColor(textColor);
+        DrawableCompat.setTintList(editText.getBackground(), ColorStateList.valueOf(textColor));
+
+        final Drawable background = editText.getBackground();
+        final ColorFilter oldColorFilter = DrawableCompat.getColorFilter(background);
+        final View.OnFocusChangeListener oldOnFocusChangeListener = editText.getOnFocusChangeListener();
+
+        final boolean isFocused = editText.isFocused();
+        if (isFocused) {
+            editText.clearFocus();
+        }
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                editText.setHintTextColor(textColor);
+                editText.setTextColor(textColor);
+                background.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
+            } else {
+                background.setColorFilter(oldColorFilter);
+            }
+            if (oldOnFocusChangeListener != null) {
+                oldOnFocusChangeListener.onFocusChange(v, hasFocus);
+            }
+        });
+        if (isFocused) {
+            editText.requestFocus();
+        }
     }
 }

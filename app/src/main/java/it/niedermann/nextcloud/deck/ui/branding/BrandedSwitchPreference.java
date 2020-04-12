@@ -13,6 +13,8 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SwitchPreference;
 
+import it.niedermann.nextcloud.deck.R;
+
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getColorDependingOnTheme;
@@ -68,8 +70,14 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
         if (switchView != null && SDK_INT >= JELLY_BEAN) {
             final int finalMainColor = getColorDependingOnTheme(getContext(), mainColor);
             // int trackColor = Color.argb(77, Color.red(finalMainColor), Color.green(finalMainColor), Color.blue(finalMainColor));
-            DrawableCompat.setTintList(switchView.getThumbDrawable(), ColorStateList.valueOf(finalMainColor));
-            DrawableCompat.setTintList(switchView.getTrackDrawable(), ColorStateList.valueOf(finalMainColor));
+            DrawableCompat.setTintList(switchView.getThumbDrawable(), new ColorStateList(
+                    new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}},
+                    new int[]{finalMainColor, getContext().getResources().getColor(R.color.fg_secondary)}
+            ));
+            DrawableCompat.setTintList(switchView.getTrackDrawable(), new ColorStateList(
+                    new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}},
+                    new int[]{finalMainColor, getContext().getResources().getColor(R.color.fg_secondary)}
+            ));
         }
     }
 
