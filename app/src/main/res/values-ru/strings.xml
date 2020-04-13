@@ -149,4 +149,8 @@
     <string name="add_comment">Добавить комментарий</string>
     <string name="card_edit_comments">Комментарии</string>
     <string name="no_comments_yet">Пока никто не прокомментировал</string>
+    <string name="no_boards">Пока нет досок</string>
+    <string name="add_a_new_board_using_the_button">Добавьте новую доску с помощью кнопки (+)</string>
+    <string name="choose_board">Выбрать доску</string>
+    <string name="choose_list">Выбрать список</string>
     </resources>

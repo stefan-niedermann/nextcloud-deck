@@ -150,4 +150,6 @@
     <string name="add_comment">Ajouter un commentaire</string>
     <string name="card_edit_comments">Commentaires</string>
     <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>
-    </resources>
+    <string name="choose_list">Sélectionner la liste</string>
+    <string name="task_count">%1$s/%2$s</string>
+</resources>

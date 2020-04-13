@@ -319,7 +319,7 @@ public class ServerAdapter {
 
     public void getCommentsForRemoteCardId(Long remoteCardId, IResponseCallback<OcsComment> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCommentsForCard(remoteCardId), responseCallback);
+        RequestHelper.request(null, provider, () -> provider.getNextcloudAPI().getCommentsForCard(remoteCardId), responseCallback);
     }
 
     public void createCommentForCard(DeckComment comment, IResponseCallback<OcsComment> responseCallback) {
