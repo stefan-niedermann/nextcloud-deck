@@ -81,8 +81,12 @@ public class SyncManager {
         new Thread(r).start();
     }
 
-    public void synchronizeCardByRemoteId(long cardRemoteId, IResponseCallback<Boolean> responseCallback) {
-        responseCallback.onError(new UnsupportedOperationException("Not implemented yet"));
+    public void synchronizeCardByRemoteId(long cardRemoteId, IResponseCallback<FullCard> responseCallback) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    public Long getLocalBoardIdByCardRemoteId(long cardRemoteId) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     public boolean synchronizeEverything() {
