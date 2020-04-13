@@ -56,7 +56,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(FullCard response) {
                             DeckLog.info("[PUSH] " + "FullCard: " + response);
-                            syncManager.getLocalBoardIdByCardRemoteIdAndAccountName(cardRemoteId, account).observe(PushNotificationActivity.this, boardLocalId -> {
+                            syncManager.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account).observe(PushNotificationActivity.this, boardLocalId -> {
                                 DeckLog.info("[PUSH] " + "BoardLocalId " + boardLocalId);
                                 launchEditActivity(account.getId(), response.getLocalId(), boardLocalId);
                             });

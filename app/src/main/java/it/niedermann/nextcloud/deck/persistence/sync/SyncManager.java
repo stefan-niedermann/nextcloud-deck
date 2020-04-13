@@ -105,8 +105,8 @@ public class SyncManager {
         });
     }
 
-    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountName(long cardRemoteId, Account account) {
-        return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account.getName());
+    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, Account account) {
+        return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, account.getId());
     }
 
     public boolean synchronizeEverything() {
