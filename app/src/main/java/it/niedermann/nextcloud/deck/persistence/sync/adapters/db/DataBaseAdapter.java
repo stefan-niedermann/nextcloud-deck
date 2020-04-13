@@ -296,7 +296,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Account> readAccount(String name) {
-        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAccountByName(name));
+        return LiveDataHelper.of(db.getAccountDao().getAccountByNameDirectly(name));
+//        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAccountByName(name));
     }
 
     public Account readAccountDirectly(long id) {
