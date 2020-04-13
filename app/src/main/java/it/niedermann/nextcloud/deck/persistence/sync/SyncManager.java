@@ -96,6 +96,11 @@ public class SyncManager {
                     FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, card.getLocalId());
                     liveData.postValue(fullCard);
                 }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    liveData.postValue(null);
+                }
             }).doSyncFor(new CardDataProvider(null, board, stack));
         });
         return liveData;
