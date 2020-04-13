@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +12,8 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
@@ -19,7 +22,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUN
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
-public class PushNotificationActivity extends AppCompatActivity {
+public class PushNotificationActivity extends AppCompatActivity implements Branded {
 
     private ActivityPushNotificationBinding binding;
 
@@ -67,6 +70,11 @@ public class PushNotificationActivity extends AppCompatActivity {
                 final int cardRemoteId = Integer.parseInt(cardRemoteIdString);
                 observeOnce(syncManager.readAccount(accountString), this, (account -> {
                     if (account != null) {
+                        try {
+                            BrandedActivity.applyBrandToStatusbar(getWindow(), Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
+                        } catch (Throwable t) {
+                            DeckLog.logError(t);
+                        }
                         DeckLog.verbose("account: " + account);
                         observeOnce(syncManager.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account), PushNotificationActivity.this, (boardLocalId -> {
                             DeckLog.verbose("BoardLocalId " + boardLocalId);
@@ -143,5 +151,10 @@ public class PushNotificationActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish(); // close this activity as oppose to navigating up
         return true;
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+
     }
 }

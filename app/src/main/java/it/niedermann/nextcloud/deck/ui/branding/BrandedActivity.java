@@ -62,20 +62,7 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
     @Override
     public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
         this.textColor = textColor;
-        if (SDK_INT >= LOLLIPOP) { // Set status bar color
-            final Window window = getWindow();
-            window.setStatusBarColor(mainColor);
-            if (SDK_INT >= M) { // Set icon and text color of status bar
-                final View decorView = window.getDecorView();
-                if (isColorDark(mainColor)) {
-                    int flags = decorView.getSystemUiVisibility();
-                    flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    decorView.setSystemUiVisibility(flags);
-                } else {
-                    decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                }
-            }
-        }
+        applyBrandToStatusbar(getWindow(), mainColor, textColor);
     }
 
     @Override
@@ -91,6 +78,22 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
             }
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public static void applyBrandToStatusbar(@NonNull Window window, @ColorInt int mainColor, @ColorInt int textColor) {
+        if (SDK_INT >= LOLLIPOP) { // Set status bar color
+            window.setStatusBarColor(mainColor);
+            if (SDK_INT >= M) { // Set icon and text color of status bar
+                final View decorView = window.getDecorView();
+                if (isColorDark(mainColor)) {
+                    int flags = decorView.getSystemUiVisibility();
+                    flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                    decorView.setSystemUiVisibility(flags);
+                } else {
+                    decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                }
+            }
+        }
     }
 
     protected static void applyBrandToPrimaryToolbar(@ColorInt int mainColor, @ColorInt int textColor, @NonNull Toolbar toolbar) {
