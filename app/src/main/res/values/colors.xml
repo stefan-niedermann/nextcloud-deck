@@ -6,6 +6,7 @@
     <color name="fg_accent">#fff</color>
     <color name="fg_primary">#333</color>
     <color name="fg_secondary">#999</color>
+    <color name="bg_highlighted">#eee</color>
     <color name="grey600">#757575</color>
 
     <color name="dark_fg_primary">#e5e5e5</color>
