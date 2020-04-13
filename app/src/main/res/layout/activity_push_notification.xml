@@ -6,18 +6,32 @@
     android:layout_height="match_parent"
     tools:showIn="@layout/activity_push_notification">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?android:actionBarSize"
-            app:title="@string/app_name"
-            app:titleTextColor="@android:color/white" />
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize"
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:title="@string/app_name"
+                app:titleTextColor="@android:color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -78,6 +92,7 @@
             android:layout_marginStart="@dimen/spacer_1x"
             android:layout_marginLeft="@dimen/spacer_1x"
             android:layout_weight=".5"
-            android:text="@string/open_in_browser" />
+            android:enabled="false"
+            android:text="@string/simple_open" />
     </LinearLayout>
 </RelativeLayout>
