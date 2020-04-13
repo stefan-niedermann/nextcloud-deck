@@ -14,6 +14,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -64,13 +65,13 @@ public class PushNotificationActivity extends AppCompatActivity {
         if (cardRemoteIdString != null) {
             try {
                 final int cardRemoteId = Integer.parseInt(cardRemoteIdString);
-                syncManager.readAccount(accountString).observe(this, account -> {
+                observeOnce(syncManager.readAccount(accountString), this, (account -> {
                     if (account != null) {
                         DeckLog.verbose("account: " + account);
-                        syncManager.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account).observe(PushNotificationActivity.this, boardLocalId -> {
+                        observeOnce(syncManager.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account), PushNotificationActivity.this, (boardLocalId -> {
                             DeckLog.verbose("BoardLocalId " + boardLocalId);
                             if (boardLocalId != null) {
-                                syncManager.synchronizeCardByRemoteId(cardRemoteId, account).observe(PushNotificationActivity.this, fullCard -> {
+                                observeOnce(syncManager.synchronizeCardByRemoteId(cardRemoteId, account), PushNotificationActivity.this, (fullCard -> {
                                     DeckLog.verbose("FullCard: " + fullCard);
                                     if (fullCard != null) {
                                         runOnUiThread(() -> {
@@ -83,17 +84,17 @@ public class PushNotificationActivity extends AppCompatActivity {
                                         DeckLog.warn("Something went wrong while synchronizing the card " + cardRemoteId + " (cardRemoteId). Given fullCard is null.");
                                         fallbackToBrowser(link);
                                     }
-                                });
+                                }));
                             } else {
                                 DeckLog.warn("Given localBoardId for cardRemoteId " + cardRemoteId + " is null.");
                                 fallbackToBrowser(link);
                             }
-                        });
+                        }));
                     } else {
                         DeckLog.warn("Given account for " + accountString + " is null.");
                         fallbackToBrowser(link);
                     }
-                });
+                }));
             } catch (NumberFormatException e) {
                 DeckLog.logError(e);
                 fallbackToBrowser(link);
