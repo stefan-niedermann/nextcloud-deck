@@ -44,6 +44,7 @@ public class PushNotificationActivity extends AppCompatActivity {
 
         binding = ActivityPushNotificationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
 
         binding.subject.setText(getIntent().getStringExtra(KEY_SUBJECT));
 
