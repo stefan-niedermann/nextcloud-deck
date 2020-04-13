@@ -80,6 +80,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                                         binding.submit.setEnabled(true);
                                         binding.progress.setVisibility(View.INVISIBLE);
                                     } else {
+                                        DeckLog.warn("Given localBoardId for cardRemoteId " + cardRemoteId + " is null.");
                                         fallbackToBrowser(link);
                                     }
                                 }));
@@ -92,6 +93,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                             }
                         });
                     } else {
+                        DeckLog.warn("Given account for " + accountString + " is null.");
                         fallbackToBrowser(link);
                     }
                 });
@@ -101,6 +103,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                 fallbackToBrowser(link);
             }
         } else {
+            DeckLog.warn(KEY_CARD_REMOTE_ID + " is null.");
             fallbackToBrowser(link);
         }
     }
@@ -109,6 +112,7 @@ public class PushNotificationActivity extends AppCompatActivity {
      * If anything goes wrong and we cannot open the card directly, we fall back to open the given link in the webbrowser
      */
     private void fallbackToBrowser(String link) {
+        DeckLog.warn("Falling back to browser as notification handler.");
         runOnUiThread(() -> {
             try {
                 final Uri uri = Uri.parse(link);
