@@ -82,29 +82,31 @@ public class SyncManager {
     }
 
     public void synchronizeCardByRemoteId(long cardRemoteId, IResponseCallback<FullCard> responseCallback) {
-        Long accountId = responseCallback.getAccount().getId();
-        Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, cardRemoteId);
-        FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
-        // only sync this one card.
-        stack.setCards(Collections.singletonList(card));
-        Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-        Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-        new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
-            @Override
-            public void onResponse(Boolean response) {
-                FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, card.getLocalId());
-                responseCallback.onResponse(fullCard);
-            }
+        doAsync(() -> {
+            Long accountId = responseCallback.getAccount().getId();
+            Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, cardRemoteId);
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
+            // only sync this one card.
+            stack.setCards(Collections.singletonList(card));
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
+                @Override
+                public void onResponse(Boolean response) {
+                    FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, card.getLocalId());
+                    responseCallback.onResponse(fullCard);
+                }
 
-            @Override
-            public void onError(Throwable throwable) {
-                responseCallback.onError(throwable);
-            }
-        }).doSyncFor(new CardDataProvider(null, board, stack));
+                @Override
+                public void onError(Throwable throwable) {
+                    responseCallback.onError(throwable);
+                }
+            }).doSyncFor(new CardDataProvider(null, board, stack));
+        });
     }
 
-    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountName(long cardRemoteId, String accountName) {
-        return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountName(cardRemoteId, accountName);
+    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountName(long cardRemoteId, Account account) {
+        return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountName(cardRemoteId, account.getName());
     }
 
     public boolean synchronizeEverything() {
