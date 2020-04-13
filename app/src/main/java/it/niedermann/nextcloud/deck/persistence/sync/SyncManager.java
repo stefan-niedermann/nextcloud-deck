@@ -81,6 +81,35 @@ public class SyncManager {
         new Thread(r).start();
     }
 
+    public MutableLiveData<FullCard> synchronizeCardByRemoteId(long cardRemoteId, Account account) {
+        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
+        doAsync(() -> {
+            Long accountId = account.getId();
+            Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, cardRemoteId);
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
+            // only sync this one card.
+            stack.setCards(Collections.singletonList(card));
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
+                @Override
+                public void onResponse(Boolean response) {
+                    FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, card.getLocalId());
+                    liveData.postValue(fullCard);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    liveData.postValue(null);
+                }
+            }).doSyncFor(new CardDataProvider(null, board, stack));
+        });
+        return liveData;
+    }
+
+    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, Account account) {
+        return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, account.getId());
+    }
+
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {

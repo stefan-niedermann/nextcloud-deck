@@ -296,7 +296,8 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Account> readAccount(String name) {
-        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAccountByName(name));
+        return LiveDataHelper.wrapInLiveData(()->db.getAccountDao().getAccountByNameDirectly(name));
+//        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAccountByName(name));
     }
 
     public Account readAccountDirectly(long id) {
@@ -695,5 +696,9 @@ public class DataBaseAdapter {
 
     public Long getLocalStackIdByRemoteStackIdDirectly(long accountId, Long stackId) {
         return db.getStackDao().getLocalStackIdByRemoteStackIdDirectly(accountId, stackId);
+    }
+
+    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountId(long cardRemoteId, long accountId) {
+        return db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, accountId);
     }
 }

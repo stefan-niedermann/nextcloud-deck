@@ -176,4 +176,7 @@
     <string name="choose_board">Choose board</string>
     <string name="choose_list">Choose list</string>
     <string name="task_count">%1$s/%2$s</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="simple_open">Open</string>
+    <string name="updating_card">Updating card…</string>
 </resources>

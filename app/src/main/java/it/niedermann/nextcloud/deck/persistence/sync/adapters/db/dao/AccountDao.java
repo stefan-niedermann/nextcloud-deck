@@ -28,6 +28,9 @@ public interface AccountDao extends GenericDao<Account> {
     @Query("SELECT * from account where name = :name")
     LiveData<Account> getAccountByName(String name);
 
+    @Query("SELECT * from account where name = :name")
+    Account getAccountByNameDirectly(String name);
+
     @Query("SELECT * from account")
     LiveData<List<Account>> getAllAccounts();
 
