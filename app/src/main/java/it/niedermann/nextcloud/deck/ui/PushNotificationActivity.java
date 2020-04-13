@@ -9,9 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
-import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -69,27 +67,25 @@ public class PushNotificationActivity extends AppCompatActivity {
                 syncManager.readAccount(accountString).observe(this, account -> {
                     if (account != null) {
                         DeckLog.verbose("account: " + account);
-                        syncManager.synchronizeCardByRemoteId(cardRemoteId, new IResponseCallback<FullCard>(account) {
-                            @Override
-                            public void onResponse(FullCard response) {
-                                DeckLog.verbose("FullCard: " + response);
-                                runOnUiThread(() -> syncManager.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account).observe(PushNotificationActivity.this, boardLocalId -> {
-                                    if (boardLocalId != null) {
-                                        DeckLog.verbose("BoardLocalId " + boardLocalId);
-                                        binding.submit.setOnClickListener((v) -> launchEditActivity(account.getId(), response.getLocalId(), boardLocalId));
-                                        binding.submit.setText(R.string.simple_open);
-                                        binding.submit.setEnabled(true);
-                                        binding.progress.setVisibility(View.INVISIBLE);
+                        syncManager.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account).observe(PushNotificationActivity.this, boardLocalId -> {
+                            DeckLog.verbose("BoardLocalId " + boardLocalId);
+                            if (boardLocalId != null) {
+                                syncManager.synchronizeCardByRemoteId(cardRemoteId, account).observe(PushNotificationActivity.this, fullCard -> {
+                                    DeckLog.verbose("FullCard: " + fullCard);
+                                    if (fullCard != null) {
+                                        runOnUiThread(() -> {
+                                            binding.submit.setOnClickListener((v) -> launchEditActivity(account.getId(), fullCard.getLocalId(), boardLocalId));
+                                            binding.submit.setText(R.string.simple_open);
+                                            binding.submit.setEnabled(true);
+                                            binding.progress.setVisibility(View.INVISIBLE);
+                                        });
                                     } else {
-                                        DeckLog.warn("Given localBoardId for cardRemoteId " + cardRemoteId + " is null.");
+                                        DeckLog.warn("Something went wrong while synchronizing the card " + cardRemoteId + " (cardRemoteId). Given fullCard is null.");
                                         fallbackToBrowser(link);
                                     }
-                                }));
-                            }
-
-                            @Override
-                            public void onError(Throwable throwable) {
-                                super.onError(throwable);
+                                });
+                            } else {
+                                DeckLog.warn("Given localBoardId for cardRemoteId " + cardRemoteId + " is null.");
                                 fallbackToBrowser(link);
                             }
                         });
