@@ -106,7 +106,7 @@ public class SyncManager {
     }
 
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountName(long cardRemoteId, Account account) {
-        return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountName(cardRemoteId, account.getName());
+        return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account.getName());
     }
 
     public boolean synchronizeEverything() {

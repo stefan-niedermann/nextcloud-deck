@@ -697,7 +697,7 @@ public class DataBaseAdapter {
         return db.getStackDao().getLocalStackIdByRemoteStackIdDirectly(accountId, stackId);
     }
 
-    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountName(long cardRemoteId, String accountName) {
+    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, String accountName) {
         return db.getCardDao().getLocalBoardIdByCardRemoteIdAndAccountName(cardRemoteId, accountName);
     }
 }
