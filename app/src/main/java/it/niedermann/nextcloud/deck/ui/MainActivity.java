@@ -84,6 +84,7 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerAccountListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
@@ -338,6 +339,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
         super.applyBrand(mainColor, textColor);
+
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.stackTitles);
         applyBrandToFAB(mainColor, textColor, binding.fab);
@@ -347,9 +349,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
         headerBinding.drawerAppTitle.setTextColor(textColor);
-        headerBinding.drawerAppTitle.setShadowLayer(2, 0.5f, 0, mainColor);
         headerBinding.drawerUsernameFull.setTextColor(textColor);
-        headerBinding.drawerUsernameFull.setShadowLayer(2, 0.5f, 0, mainColor);
+
+        final boolean isDarkTextColor = ColorUtil.isColorDark(textColor);
+        if (isDarkTextColor) {
+            headerBinding.drawerAppTitle.setShadowLayer(2, 0.5f, 0, Color.WHITE);
+            headerBinding.drawerUsernameFull.setShadowLayer(2, 0.5f, 0, Color.WHITE);
+        } else {
+            headerBinding.drawerAppTitle.setShadowLayer(2, 0.5f, 0, Color.BLACK);
+            headerBinding.drawerUsernameFull.setShadowLayer(2, 0.5f, 0, Color.BLACK);
+        }
 
         final Drawable overflowDrawable = headerBinding.drawerAccountChooserToggle.getDrawable();
         if (overflowDrawable != null) {
