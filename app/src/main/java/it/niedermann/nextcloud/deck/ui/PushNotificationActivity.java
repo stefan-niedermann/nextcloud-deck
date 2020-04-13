@@ -77,6 +77,7 @@ public class PushNotificationActivity extends AppCompatActivity {
                                     if (boardLocalId != null) {
                                         DeckLog.verbose("BoardLocalId " + boardLocalId);
                                         binding.submit.setOnClickListener((v) -> launchEditActivity(account.getId(), response.getLocalId(), boardLocalId));
+                                        binding.submit.setText(R.string.simple_open);
                                         binding.submit.setEnabled(true);
                                         binding.progress.setVisibility(View.INVISIBLE);
                                     } else {
@@ -98,7 +99,6 @@ public class PushNotificationActivity extends AppCompatActivity {
                     }
                 });
             } catch (NumberFormatException e) {
-                // card id cannot be read, fallback to default
                 DeckLog.logError(e);
                 fallbackToBrowser(link);
             }

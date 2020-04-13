@@ -93,6 +93,6 @@
             android:layout_marginLeft="@dimen/spacer_1x"
             android:layout_weight=".5"
             android:enabled="false"
-            android:text="@string/simple_open" />
+            android:text="@string/updating_card" />
     </LinearLayout>
 </RelativeLayout>
