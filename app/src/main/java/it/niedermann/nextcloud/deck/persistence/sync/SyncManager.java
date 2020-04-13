@@ -81,28 +81,24 @@ public class SyncManager {
         new Thread(r).start();
     }
 
-    public void synchronizeCardByRemoteId(long cardRemoteId, IResponseCallback<FullCard> responseCallback) {
+    public MutableLiveData<FullCard> synchronizeCardByRemoteId(long cardRemoteId, Account account) {
+        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
         doAsync(() -> {
-            Long accountId = responseCallback.getAccount().getId();
+            Long accountId = account.getId();
             Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, cardRemoteId);
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             // only sync this one card.
             stack.setCards(Collections.singletonList(card));
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
                 @Override
                 public void onResponse(Boolean response) {
                     FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, card.getLocalId());
-                    responseCallback.onResponse(fullCard);
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    responseCallback.onError(throwable);
+                    liveData.postValue(fullCard);
                 }
             }).doSyncFor(new CardDataProvider(null, board, stack));
         });
+        return liveData;
     }
 
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, Account account) {
