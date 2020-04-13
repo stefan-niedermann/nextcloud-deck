@@ -1,23 +1,27 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
+import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToPrimaryToolbar;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToStatusbar;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -71,7 +75,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
                 observeOnce(syncManager.readAccount(accountString), this, (account -> {
                     if (account != null) {
                         try {
-                            BrandedActivity.applyBrandToStatusbar(getWindow(), Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
+                            applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
                         } catch (Throwable t) {
                             DeckLog.logError(t);
                         }
@@ -85,16 +89,19 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
                                         runOnUiThread(() -> {
                                             binding.submit.setOnClickListener((v) -> launchEditActivity(account.getId(), fullCard.getLocalId(), boardLocalId));
                                             binding.submit.setText(R.string.simple_open);
+                                            applyBrandToSubmitButton(account);
                                             binding.submit.setEnabled(true);
                                             binding.progress.setVisibility(View.INVISIBLE);
                                         });
                                     } else {
                                         DeckLog.warn("Something went wrong while synchronizing the card " + cardRemoteId + " (cardRemoteId). Given fullCard is null.");
+                                        applyBrandToSubmitButton(account);
                                         fallbackToBrowser(link);
                                     }
                                 }));
                             } else {
                                 DeckLog.warn("Given localBoardId for cardRemoteId " + cardRemoteId + " is null.");
+                                applyBrandToSubmitButton(account);
                                 fallbackToBrowser(link);
                             }
                         }));
@@ -154,7 +161,17 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
+        applyBrandToStatusbar(getWindow(), mainColor, textColor);
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+    }
 
+    public void applyBrandToSubmitButton(@NonNull Account account) {
+        try {
+            binding.submit.setBackgroundColor(parseColor(account.getColor()));
+            binding.submit.setTextColor(parseColor(account.getTextColor()));
+        } catch (Throwable t) {
+            DeckLog.logError(t);
+        }
     }
 }

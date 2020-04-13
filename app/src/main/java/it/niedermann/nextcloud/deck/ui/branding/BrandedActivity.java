@@ -96,7 +96,7 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
         }
     }
 
-    protected static void applyBrandToPrimaryToolbar(@ColorInt int mainColor, @ColorInt int textColor, @NonNull Toolbar toolbar) {
+    public static void applyBrandToPrimaryToolbar(@ColorInt int mainColor, @ColorInt int textColor, @NonNull Toolbar toolbar) {
         toolbar.setBackgroundColor(mainColor);
         toolbar.setTitleTextColor(textColor);
         final Drawable overflowDrawable = toolbar.getOverflowIcon();
