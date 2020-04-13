@@ -151,4 +151,7 @@
     <string name="no_comments_yet">Nenhum comentário ainda</string>
     <string name="no_boards">Sem painéis ainda</string>
     <string name="add_a_new_board_using_the_button">Adicionar um novo painel usando o botão +</string>
-    </resources>
+    <string name="choose_board">Escolher painel</string>
+    <string name="choose_list">Escolher lista</string>
+    <string name="task_count">%1$s/%2$s</string>
+</resources>
