@@ -10,6 +10,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Date;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
@@ -25,7 +26,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
         )
     }
 )
-public class Attachment extends AbstractRemoteEntity implements Comparable<Attachment> {
+public class Attachment extends AbstractRemoteEntity implements Comparable<Attachment>, Serializable {
 
     private long cardId;
     private String type = "deck_file";

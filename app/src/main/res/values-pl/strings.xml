@@ -97,7 +97,7 @@
     <string name="simple_discard">odrzuć</string>
     <string name="do_you_want_to_delete_the_current_list">Czy chcesz usunąć bieżącą listę?</string>
     <string name="add_a_new_list_using_the_button">Dodaj nową listę za pomocą przycisku +</string>
-    <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +.</string>
+    <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +</string>
     <string name="update_deck">Zaktualizuj deck</string>
     <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
     <string name="deck_outdated_please_update">Twoja wersja deck jest nieaktualna. Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
@@ -149,4 +149,9 @@
     <string name="add_comment">Dodaj komentarz</string>
     <string name="card_edit_comments">Komentarze</string>
     <string name="no_comments_yet">Brak komentarzy</string>
+    <string name="no_boards">Brak tablic</string>
+    <string name="add_a_new_board_using_the_button">Dodaj nową tablicę za pomocą przycisku +</string>
+    <string name="choose_board">Wybierz tablicę</string>
+    <string name="choose_list">Wybierz listę</string>
+    <string name="task_count">%1$s/%2$s</string>
 </resources>

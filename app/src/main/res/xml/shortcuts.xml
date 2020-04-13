@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="it.niedermann.nextcloud.deck"
         android:enabled="true"
         android:icon="@drawable/ic_add_grey_24dp"
-        android:shortcutShortLabel="@string/simple_add"
-        android:shortcutLongLabel="@string/add_card">
+        android:shortcutId="it.niedermann.nextcloud.deck"
+        android:shortcutLongLabel="@string/add_card"
+        android:shortcutShortLabel="@string/simple_add">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="it.niedermann.nextcloud.deck"
-            android:targetClass="it.niedermann.nextcloud.deck.ui.EditActivity">
-            <extra android:name="localId" android:value="-1" />
-            <extra android:name="boardId" android:value="-1" />
-            <extra android:name="stackId" android:value="-1" />
-        </intent>
+            android:targetClass="it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateActivity"
+            android:targetPackage="it.niedermann.nextcloud.deck" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 </shortcuts>

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -27,12 +28,11 @@ import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
-import it.niedermann.nextcloud.deck.ui.AttachmentsActivity;
+import it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.DeleteDialogBuilder;
 
-import static it.niedermann.nextcloud.deck.ui.AttachmentsActivity.BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity.BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
@@ -50,22 +50,22 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     private Long cardRemoteId = null;
     private final long cardLocalId;
     @NonNull
-    private List<Attachment> attachments = new ArrayList<>();
+    FragmentManager fragmentManager;
     @NonNull
-    private final AttachmentDeletedListener attachmentDeletedListener;
+    private List<Attachment> attachments = new ArrayList<>();
     @Nullable
     private final AttachmentClickedListener attachmentClickedListener;
 
     CardAttachmentAdapter(
+            @NonNull FragmentManager fragmentManager,
             @NonNull MenuInflater menuInflater,
-            @NonNull AttachmentDeletedListener attachmentDeletedListener,
             @Nullable AttachmentClickedListener attachmentClickedListener,
             @NonNull Account account,
             long cardLocalId
     ) {
         super();
+        this.fragmentManager = fragmentManager;
         this.menuInflater = menuInflater;
-        this.attachmentDeletedListener = attachmentDeletedListener;
         this.attachmentClickedListener = attachmentClickedListener;
         this.account = account;
         this.cardLocalId = cardLocalId;
@@ -104,12 +104,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.attachment_menu, menu);
             menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
-                new DeleteDialogBuilder(context)
-                        .setTitle(context.getString(R.string.delete_something, attachment.getFilename()))
-                        .setMessage(R.string.attachment_delete_message)
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> attachmentDeletedListener.onAttachmentDeleted(attachment))
-                        .show();
+                DeleteAttachmentDialogFragment.newInstance(attachment).show(fragmentManager, DeleteAttachmentDialogFragment.class.getCanonicalName());
                 return false;
             });
             if (uri == null) {
@@ -191,7 +186,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         return attachments.size();
     }
 
-    public void setAttachments(@NonNull List<Attachment> attachments, long cardRemoteId) {
+    public void setAttachments(@NonNull List<Attachment> attachments, @Nullable Long cardRemoteId) {
         this.cardRemoteId = cardRemoteId;
         this.attachments = attachments;
         notifyDataSetChanged();

@@ -147,23 +147,8 @@ public class ServerAdapter {
                 responseCallback);
     }
     public void getCapabilities(IResponseCallback<Capabilities> responseCallback) {
-        if (Capabilities.CACHE.containsKey(responseCallback.getAccount().getId())) {
-            responseCallback.onResponse(Capabilities.CACHE.get(responseCallback.getAccount().getId()));
-            return;
-        }
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCapabilities(), new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
-            @Override
-            public void onResponse(Capabilities response) {
-                Capabilities.CACHE.put(responseCallback.getAccount().getId(), response);
-                responseCallback.onResponse(response);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                responseCallback.onError(throwable);
-            }
-        });
+        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
     }
 
     public void getActivitiesForCard(long cardId, IResponseCallback<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> responseCallback) {

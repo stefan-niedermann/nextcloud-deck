@@ -24,14 +24,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.util.FileUtils;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
@@ -40,7 +43,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 
-public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener {
+public class CardAttachmentsFragment extends Fragment implements AttachmentDeletedListener, AttachmentClickedListener, Branded {
     private FragmentCardEditTabAttachmentsBinding binding;
 
     private static final int REQUEST_CODE_ADD_ATTACHMENT = 1;
@@ -72,8 +75,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             syncManager = new SyncManager(requireActivity());
             syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
                 adapter = new CardAttachmentAdapter(
+                        getChildFragmentManager(),
                         requireActivity().getMenuInflater(),
-                        this,
                         this,
                         account,
                         cardId);
@@ -147,6 +150,18 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
         startActivityForResult(intent, REQUEST_CODE_ADD_ATTACHMENT);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Application.registerBrandedComponent(requireContext(), this);
+    }
+
+    @Override
+    public void onPause() {
+        Application.deregisterBrandedComponent(this);
+        super.onPause();
     }
 
     @Override
@@ -246,5 +261,10 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             this.binding.emptyContentView.setVisibility(View.GONE);
             this.binding.attachmentsList.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        applyBrandToFAB(mainColor, textColor, binding.fab);
     }
 }

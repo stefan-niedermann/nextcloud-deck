@@ -149,4 +149,9 @@
     <string name="add_comment">Gehitu iruzkina</string>
     <string name="card_edit_comments">Iruzkinak</string>
     <string name="no_comments_yet">Iruzkinik ez oraindik</string>
+    <string name="no_boards">Ez dago mahairik oraindik</string>
+    <string name="add_a_new_board_using_the_button">Gehitu mahai berri bat + botoia erabiliz</string>
+    <string name="choose_board">Aukeratu mahaia</string>
+    <string name="choose_list">Aukeratu zerrenda</string>
+    <string name="task_count">%2$s(e)tik %1$s</string>
 </resources>

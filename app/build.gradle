@@ -6,8 +6,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 5002
-        versionName "0.5.2"
+        versionCode 6000
+        versionName "0.6.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -80,11 +80,15 @@ dependencies {
     // Flexbox
     implementation 'com.google.android:flexbox:2.0.1'
 
-    // Tab-Layout-Helper
-    implementation 'com.h6ah4i.android.tablayouthelper:tablayouthelper:1.0.0'
-
     // Custom Color Picker
     implementation 'com.github.skydoves:colorpickerpreference:2.0.0'
+
+    // Cross tab drag'n'drop
+    implementation project(path: ':cross-tab-drag-and-drop')
+
+    // TabLayoutHelper
+    implementation project(path: ':tab-layout-helper')
+
 
     // -------------------------
     // --- Backend-Libraries ---

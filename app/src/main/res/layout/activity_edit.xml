@@ -14,58 +14,22 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:navigationIcon="@drawable/ic_close_white_24dp"
-            app:titleTextColor="@android:color/white">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/titleTextInputLayout"
-                style="@style/AppTheme.EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:theme="@style/AppTheme.EditText"
-                tools:hint="Edit">
+            app:navigationIcon="@drawable/ic_close_white_24dp">
 
                 <EditText
                     android:id="@+id/title"
-                    style="@style/AppTheme.EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:theme="@style/AppTheme.EditText"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine"
                     android:maxLength="100"
                     android:maxLines="5"
-                    app:theme="@style/AppTheme.EditText"
-                    tools:text="Fancy card title" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                    tools:text="@tools:sample/lorem" />
 
         </androidx.appcompat.widget.Toolbar>
-
-        <LinearLayout
-            android:id="@+id/selectBoardWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/boardSelector"
-                android:padding="@dimen/standard_padding"
-                android:text="@string/simple_select"
-                android:textColor="@android:color/white" />
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/boardSelector"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:theme="@style/Spinner"
-                tools:listitem="@layout/item_board" />
-        </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"

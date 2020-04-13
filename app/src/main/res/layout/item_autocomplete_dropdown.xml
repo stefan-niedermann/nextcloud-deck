@@ -9,7 +9,7 @@
         android:id="@+id/icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_margin="@dimen/standard_margin"
+        android:layout_margin="@dimen/spacer_2x"
         android:contentDescription="@null"
         tools:src="@drawable/ic_label_grey600_24dp" />
 
@@ -22,8 +22,8 @@
         android:gravity="center_vertical"
         android:paddingStart="0dp"
         android:paddingLeft="0dp"
-        android:paddingEnd="@dimen/standard_padding"
-        android:paddingRight="@dimen/standard_padding"
+        android:paddingEnd="@dimen/spacer_2x"
+        android:paddingRight="@dimen/spacer_2x"
         android:textSize="18sp"
         tools:text="Label" />
 

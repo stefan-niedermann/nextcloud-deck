@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_add_grey_24dp"
+        android:shortcutId="it.niedermann.nextcloud.deck"
+        android:shortcutLongLabel="@string/add_card"
+        android:shortcutShortLabel="@string/simple_add">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateActivity"
+            android:targetPackage="it.niedermann.nextcloud.deck.dev" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

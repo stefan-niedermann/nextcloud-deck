@@ -48,4 +48,7 @@ public interface BoardDao extends GenericDao<Board> {
     @Transaction
     @Query("SELECT * FROM board WHERE accountId = :accountId")
     List<FullBoard> getAllFullBoards(long accountId);
+
+    @Query("SELECT * FROM board WHERE accountId = :accountId and permissionEdit = 1 and (deletedAt = 0 or deletedAt is null) and status <> 3 order by title asc")
+    LiveData<List<Board>> getBoardsWithEditPermissionsForAccount(long accountId);
 }

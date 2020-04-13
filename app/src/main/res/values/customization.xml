@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Apply the brand of the instance for each account to UI elements -->
+    <bool name="enable_brand">false</bool>
     <!-- How many avatars should be displayed in the card list view -->
     <integer name="max_avatar_count">3</integer>
-    <!-- How many labels are shown in the card list view before "..." -->
-    <integer name="max_labels_shown">3</integer>
-    <!-- How many characters of the labels are displayed at the card list view -->
-    <integer name="max_labels_chars">2</integer>
     <!-- How many users should be suggested when clicking on the assigned users input field -->
     <integer name="max_users_suggested">3</integer>
     <!-- How many labels should be suggested when clicking on the assigned labels input field -->
     <integer name="max_labels_suggested">3</integer>
     <!-- How many dp should one column in the attachments grid have -->
     <integer name="max_dp_attachment_column">110</integer>
-    <!-- How many microseconds should be waited before switching to another tab when dragging cards -->
-    <integer name="drag_n_drop_ms_to_react">500</integer>
-    <!-- How many dp from border should one be away before switching to another tab when dragging cards -->
-    <integer name="drag_n_drop_dp_to_react">30</integer>
-    <!-- How many dp from top / bottom border should one be away before scrolling top / down when dragging cards -->
-    <integer name="drag_n_drop_dp_to_react_top_bottom">100</integer>
     <!-- Maximum characters of a comment. Caution: Server allow maximum 1000 characters! -->
     <integer name="comment_max_length">1000</integer>
 </resources>

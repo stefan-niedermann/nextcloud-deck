@@ -149,4 +149,9 @@
     <string name="add_comment">Προσθήκη σχολίου</string>
     <string name="card_edit_comments">Σχόλια</string>
     <string name="no_comments_yet">Δεν υπάρχουν ακόμα σχόλια</string>
+    <string name="no_boards">Κανένας πίνακας ακόμη</string>
+    <string name="add_a_new_board_using_the_button">Προσθέστε νέο πίνακα με το κουμπί +</string>
+    <string name="choose_board">Επιλογή πίνακα</string>
+    <string name="choose_list">Επιλογή λίστας</string>
+    <string name="task_count">%1$s/%2$s</string>
 </resources>

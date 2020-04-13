@@ -6,17 +6,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardCreateBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
 
-public class EditBoardDialogFragment extends DialogFragment {
+public class EditBoardDialogFragment extends BrandedDialogFragment {
 
     private DialogBoardCreateBinding binding;
 
@@ -28,7 +29,9 @@ public class EditBoardDialogFragment extends DialogFragment {
     private FullBoard fullBoard = null;
 
     /**
-     * Use newInstance()-Method
+     * Use newInstance()-Method(dialog, which) -> {
+     * // Do something else
+     * }
      */
     public EditBoardDialogFragment() {
     }
@@ -51,7 +54,7 @@ public class EditBoardDialogFragment extends DialogFragment {
 
         long boardId = requireArguments().getLong(KEY_BOARD_ID);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
+        AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         if (boardId == NO_BOARD_ID) {
             dialogBuilder.setTitle(R.string.add_board);
@@ -102,6 +105,8 @@ public class EditBoardDialogFragment extends DialogFragment {
         return dialog;
     }
 
-
-
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.input);
+    }
 }

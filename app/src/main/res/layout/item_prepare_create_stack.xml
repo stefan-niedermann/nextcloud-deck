@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stackTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ellipsize="middle"
+    android:paddingStart="72dp"
+    android:paddingLeft="72dp"
+    android:paddingTop="@dimen/spacer_2x"
+    android:paddingEnd="@dimen/spacer_2x"
+    android:paddingRight="@dimen/spacer_2x"
+    android:paddingBottom="@dimen/spacer_2x"
+    android:singleLine="true"
+    android:textSize="16sp"
+    tools:text="@tools:sample/full_names" />
+

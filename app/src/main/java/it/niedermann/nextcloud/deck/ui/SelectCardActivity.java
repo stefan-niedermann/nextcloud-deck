@@ -20,7 +20,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.FileUtils;
@@ -62,7 +62,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
                         }
                     } catch (IllegalArgumentException e) {
                         DeckLog.logError(e);
-                        new AlertDialog.Builder(this)
+                        new BrandedAlertDialogBuilder(this)
                                 .setTitle(R.string.error)
                                 .setMessage(R.string.operation_not_yet_supported)
                                 .setPositiveButton(R.string.simple_close, (a, b) -> finish())
@@ -98,7 +98,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     private void handleException(Throwable throwable) {
         DeckLog.logError(throwable);
         String debugInfos = ExceptionUtil.getDebugInfos(this, throwable);
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        AlertDialog dialog = new BrandedAlertDialogBuilder(this)
                 .setTitle(R.string.error)
                 .setMessage(debugInfos)
                 .setPositiveButton(android.R.string.copy, (a, b) -> {

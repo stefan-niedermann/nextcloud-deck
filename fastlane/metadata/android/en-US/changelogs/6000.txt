@@ -1,5 +1,12 @@
 - ⚡ Copy activity to clipboard (#343)
+- 🌎 Wording of column and stack confusing (#292)
+- 🐞 Crash when opening unsynchronised card (#363)
+- 🔧 Rewrite main view and drag'n'drop
+
+
+The following changes require at least server version 1.0.0-alpha1
+
 - 💬 Copy comments to clipboard (#342)
 - 💬 Delete comments (#341)
+- 💬 Edit comments (#340)
 - 💬 Display sync icon on not yet synced comments (#346)
-- 🌎 Wording of column and stack confusing (#292)

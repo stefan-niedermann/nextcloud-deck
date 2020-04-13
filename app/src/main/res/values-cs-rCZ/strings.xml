@@ -149,4 +149,9 @@
     <string name="add_comment">Přidat komentář</string>
     <string name="card_edit_comments">Komentáře</string>
     <string name="no_comments_yet">Zatím žádné komentáře</string>
+    <string name="no_boards">Zatím žádné tabule</string>
+    <string name="add_a_new_board_using_the_button">Novou tabuli přidáte pomocí tlačítka +</string>
+    <string name="choose_board">Zvolit tabuli</string>
+    <string name="choose_list">Zvolit seznam</string>
+    <string name="task_count">%1$s/%2$s</string>
 </resources>

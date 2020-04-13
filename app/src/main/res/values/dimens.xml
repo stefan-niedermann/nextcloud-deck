@@ -1,18 +1,14 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="standard_margin">16dp</dimen>
-    <dimen name="standard_padding">16dp</dimen>
-    <dimen name="standard_half_margin">8dp</dimen>
-    <dimen name="standard_half_padding">8dp</dimen>
-    <dimen name="standard_quarter_margin">4dp</dimen>
-    <dimen name="standard_quarter_padding">4dp</dimen>
+    <dimen name="spacer_1hx">4dp</dimen>
+    <dimen name="spacer_1x">8dp</dimen>
+    <dimen name="spacer_2x">16dp</dimen>
+
     <dimen name="nav_header_height">148dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin">@dimen/spacer_2x</dimen>
+
     <dimen name="avatar_size">40dp</dimen>
     <dimen name="avatar_size_small">32dp</dimen>
     <dimen name="avatar_overlapping_small">20dp</dimen>
-    <dimen name="zero">0dp</dimen>
     <dimen name="icon_size_details">24dp</dimen>
     <dimen name="nav_drawer_header_avatar">56dp</dimen>
     <dimen name="nav_drawer_header_avatar_other_accounts_size">40dp</dimen>

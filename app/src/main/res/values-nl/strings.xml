@@ -149,4 +149,9 @@
     <string name="add_comment">Reactie toevoegen</string>
     <string name="card_edit_comments">Reacties</string>
     <string name="no_comments_yet">Nog geen reacties</string>
+    <string name="no_boards">Nog geen borden</string>
+    <string name="add_a_new_board_using_the_button">Voeg een nieuw bord toe met de \'+\' knop</string>
+    <string name="choose_board">Kies bord</string>
+    <string name="choose_list">Kies lijst</string>
+    <string name="task_count">%1$s/%2$s</string>
 </resources>

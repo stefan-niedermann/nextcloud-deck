@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- How many microseconds should be waited before switching to another tab when dragging cards -->
+    <integer name="drag_n_drop_ms_to_react">500</integer>
+    <!-- How many dp from border should one be away before switching to another tab when dragging cards -->
+    <integer name="drag_n_drop_dp_to_react">30</integer>
+    <!-- How many dp from top / bottom border should one be away before scrolling top / down when dragging cards -->
+    <integer name="drag_n_drop_dp_to_react_top_bottom">100</integer>
+</resources>

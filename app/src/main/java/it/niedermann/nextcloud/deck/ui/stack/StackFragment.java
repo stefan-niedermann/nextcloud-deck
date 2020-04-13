@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import it.niedermann.android.crosstabdnd.DragAndDropTab;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
-import it.niedermann.nextcloud.deck.ui.dnd.DragAndDropTab;
 
 public class StackFragment extends Fragment implements DragAndDropTab<CardAdapter> {
 

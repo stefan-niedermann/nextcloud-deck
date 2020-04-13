@@ -4,25 +4,27 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardShareBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 
-public class AccessControlDialogFragment extends DialogFragment implements AccessControlChangedListener, AdapterView.OnItemClickListener {
+public class AccessControlDialogFragment extends BrandedDialogFragment implements AccessControlChangedListener, OnItemClickListener {
 
     private DialogBoardShareBinding binding;
 
@@ -48,7 +50,7 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         boardId = requireArguments().getLong(KEY_BOARD_ID);
         accountId = requireArguments().getLong(KEY_ACCOUNT_ID);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext(), Application.getAppTheme(getContext()) ? R.style.DialogDarkTheme : R.style.ThemeOverlay_AppCompat_Dialog_Alert);
+        AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         if (boardId == 0L || accountId == 0L) {
             throw new IllegalArgumentException("accountId and boardId must be provided");
@@ -108,5 +110,10 @@ public class AccessControlDialogFragment extends DialogFragment implements Acces
         syncManager.createAccessControl(accountId, ac);
         binding.people.setText("");
         userAutoCompleteAdapter.exclude(user);
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.people);
     }
 }

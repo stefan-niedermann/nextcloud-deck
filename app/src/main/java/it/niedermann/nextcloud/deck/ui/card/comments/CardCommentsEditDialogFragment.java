@@ -10,15 +10,17 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAddCommentBinding;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
-public class CardCommentsEditDialogFragment extends DialogFragment {
+public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
     private static final String BUNDLE_KEY_COMMENT_ID = "commentId";
     private static final String BUNDLE_KEY_COMMENT_MESSAGE = "commentMessage";
     private CommentEditedListener addCommentListener;
@@ -53,7 +55,7 @@ public class CardCommentsEditDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogAddCommentBinding.inflate(requireActivity().getLayoutInflater());
 
-        return new AlertDialog.Builder(requireActivity())
+        return new BrandedAlertDialogBuilder(requireActivity())
                 .setView(binding.getRoot())
                 .setTitle(R.string.simple_comment)
                 .setNegativeButton(android.R.string.cancel, null)
@@ -79,6 +81,11 @@ public class CardCommentsEditDialogFragment extends DialogFragment {
         DialogFragment fragment = new CardCommentsEditDialogFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.input);
     }
 }
 
