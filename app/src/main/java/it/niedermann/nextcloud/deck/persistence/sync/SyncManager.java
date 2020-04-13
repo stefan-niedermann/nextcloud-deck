@@ -81,6 +81,10 @@ public class SyncManager {
         new Thread(r).start();
     }
 
+    public void synchronizeCardByRemoteId(long cardRemoteId, IResponseCallback<Boolean> responseCallback) {
+        responseCallback.onError(new UnsupportedOperationException("Not implemented yet"));
+    }
+
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {
