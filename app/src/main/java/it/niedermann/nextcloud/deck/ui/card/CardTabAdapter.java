@@ -19,6 +19,7 @@ public class CardTabAdapter extends FragmentStateAdapter {
     private final boolean canEdit;
     private boolean hasCommentsAbility = false;
 
+    @SuppressWarnings("WeakerAccess")
     public CardTabAdapter(
             @NonNull FragmentManager fm,
             @NonNull Lifecycle lifecycle,
@@ -55,6 +56,8 @@ public class CardTabAdapter extends FragmentStateAdapter {
         }
     }
 
+    @SuppressWarnings("DeprecatedIsStillUsed")
+    @Deprecated
     public void enableComments() {
         this.hasCommentsAbility = true;
         notifyItemInserted(2);

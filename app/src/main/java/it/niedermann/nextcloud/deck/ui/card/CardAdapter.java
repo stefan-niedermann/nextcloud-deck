@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,12 +43,14 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard> {
+public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard>, Branded {
 
     public static final String BUNDLE_KEY_ACCOUNT = "account";
     public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
@@ -56,11 +59,14 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     public static final String BUNDLE_KEY_STACK_ID = "stackId";
     public static final String BUNDLE_KEY_CAN_EDIT = "canEdit";
     public static final Long NO_LOCAL_ID = -1L;
+
     private final SyncManager syncManager;
     private final Account account;
     private final long boardId;
     private final long stackId;
     private final boolean canEdit;
+    @NonNull
+    private final Context context;
     @Nullable
     private final SelectCardListener selectCardListener;
     private List<FullCard> cardList = new LinkedList<>();
@@ -69,7 +75,10 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     private int maxAvatarCount;
     private String counterMaxValue;
 
-    public CardAdapter(@NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
+    private int mainColor;
+
+    public CardAdapter(@NonNull Context context, @NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
+        this.context = context;
         this.lifecycleOwner = fragment;
         this.account = account;
         this.boardId = boardId;
@@ -77,6 +86,11 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         this.canEdit = canEdit;
         this.syncManager = syncManager;
         this.selectCardListener = selectCardListener;
+        this.mainColor = context.getResources().getColor(R.color.primary);
+        syncManager.getStacksForBoard(account.getId(), boardId).observe(lifecycleOwner, (stacks) -> {
+            availableStacks.clear();
+            availableStacks.addAll(stacks);
+        });
         setHasStableIds(true);
     }
 
@@ -130,7 +144,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                 DeckLog.log("Starting drag and drop");
                 return true;
             });
-            setupMoveMenu(card.getAccountId(), boardId);
         } else {
             viewHolder.binding.cardMenu.setVisibility(View.GONE);
         }
@@ -143,6 +156,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             viewHolder.binding.peopleList.setVisibility(View.GONE);
         }
 
+        DrawableCompat.setTint(viewHolder.binding.notSyncedYet.getDrawable(), mainColor);
         viewHolder.binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(card.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
         if (card.getCard().getDueDate() != null) {
@@ -189,10 +203,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         }
 
         viewHolder.binding.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
-    }
-
-    private void setupMoveMenu(long accountId, long boardId) {
-        syncManager.getStacksForBoard(accountId, boardId).observe(lifecycleOwner, (stacks) -> availableStacks = stacks);
     }
 
     private void setupCounter(@NonNull TextView textView, int count) {
@@ -250,11 +260,13 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         return this.cardList;
     }
 
+    @Override
     public void moveItem(int fromPosition, int toPosition) {
         cardList.add(toPosition, cardList.remove(fromPosition));
         notifyItemMoved(fromPosition, toPosition);
     }
 
+    @Override
     public void removeItem(int position) {
         cardList.remove(position);
         notifyItemRemoved(position);
@@ -262,7 +274,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
     private void onOverflowIconClicked(@NotNull View view, FullCard card) {
         final Context context = view.getContext();
-        PopupMenu popup = new PopupMenu(context, view);
+        final PopupMenu popup = new PopupMenu(context, view);
         popup.inflate(R.menu.card_menu);
         prepareOptionsMenu(popup.getMenu(), card);
 
@@ -341,5 +353,11 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             }
         }
         return true;
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        this.mainColor = BrandedActivity.getColorDependingOnTheme(context, mainColor);
+        notifyDataSetChanged();
     }
 }

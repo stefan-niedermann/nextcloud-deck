@@ -64,10 +64,8 @@ public final class ViewUtil {
     }
 
     public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @NonNull String color) {
-        Drawable drawable;
-        Drawable wrapped;
-        drawable = context.getResources().getDrawable(imageId);
-        wrapped = DrawableCompat.wrap(drawable).mutate();
+        final Drawable drawable = context.getResources().getDrawable(imageId);
+        final Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
         DrawableCompat.setTint(wrapped, Color.parseColor(color));
         return drawable;
     }

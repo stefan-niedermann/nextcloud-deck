@@ -14,14 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import it.niedermann.android.crosstabdnd.DragAndDropTab;
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 
-public class StackFragment extends Fragment implements DragAndDropTab<CardAdapter> {
+public class StackFragment extends Fragment implements DragAndDropTab<CardAdapter>, Branded {
 
     private static final String KEY_BOARD_ID = "boardId";
     private static final String KEY_STACK_ID = "stackId";
@@ -84,8 +86,7 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
 
         syncManager = new SyncManager(activity);
 
-        adapter = new CardAdapter(account, boardId, stackId, canEdit, syncManager, this, (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
-
+        adapter = new CardAdapter(requireContext(), account, boardId, stackId, canEdit, syncManager, this, (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
         binding.recyclerView.setAdapter(adapter);
 
         if (onScrollListener != null) {
@@ -118,6 +119,18 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
     }
 
     @Override
+    public void onResume() {
+        Application.registerBrandedComponent(requireContext(), this);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Application.deregisterBrandedComponent(this);
+        super.onPause();
+    }
+
+    @Override
     public CardAdapter getAdapter() {
         return adapter;
     }
@@ -125,5 +138,10 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
     @Override
     public RecyclerView getRecyclerView() {
         return binding.recyclerView;
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        this.adapter.applyBrand(mainColor, textColor);
     }
 }
