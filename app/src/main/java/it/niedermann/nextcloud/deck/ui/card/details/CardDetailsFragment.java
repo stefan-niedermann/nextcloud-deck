@@ -1,8 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.details;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -13,10 +10,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +24,10 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener;
 import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
 
@@ -48,6 +47,8 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedTimePickerDialog;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
@@ -55,7 +56,6 @@ import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static android.app.DatePickerDialog.OnDateSetListener;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
@@ -189,7 +189,6 @@ public class CardDetailsFragment extends Fragment implements Branded, OnDateSetL
     }
 
     private TimePickerDialog createTimePickerDialogFromDate(
-            @NonNull Context context,
             @Nullable OnTimeSetListener listener,
             @Nullable Date date
     ) {
@@ -200,11 +199,10 @@ public class CardDetailsFragment extends Fragment implements Branded, OnDateSetL
             hourOfDay = date.getHours();
             minutes = date.getMinutes();
         }
-        return new TimePickerDialog(context, listener, hourOfDay, minutes, true);
+        return BrandedTimePickerDialog.newInstance(listener, hourOfDay, minutes, true);
     }
 
     private DatePickerDialog createDatePickerDialogFromDate(
-            @NonNull Context context,
             @Nullable OnDateSetListener listener,
             @Nullable Date date
     ) {
@@ -223,7 +221,7 @@ public class CardDetailsFragment extends Fragment implements Branded, OnDateSetL
             month = cal.get(Calendar.MONTH);
             day = cal.get(Calendar.DAY_OF_MONTH);
         }
-        return new DatePickerDialog(context, listener, year, month, day);
+        return BrandedDatePickerDialog.newInstance(listener, year, month, day);
     }
 
     private void setupDueDate() {
@@ -241,17 +239,17 @@ public class CardDetailsFragment extends Fragment implements Branded, OnDateSetL
 
             binding.dueDateDate.setOnClickListener(v -> {
                 if (fullCard != null && fullCard.getCard() != null) {
-                    createDatePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
+                    createDatePickerDialogFromDate(this, fullCard.getCard().getDueDate()).show(getChildFragmentManager(), BrandedDatePickerDialog.class.getCanonicalName());
                 } else {
-                    createDatePickerDialogFromDate(activity, this, null).show();
+                    createDatePickerDialogFromDate(this, null).show(getChildFragmentManager(), BrandedDatePickerDialog.class.getCanonicalName());
                 }
             });
 
             binding.dueDateTime.setOnClickListener(v -> {
                 if (fullCard != null && fullCard.getCard() != null) {
-                    createTimePickerDialogFromDate(activity, this, fullCard.getCard().getDueDate()).show();
+                    createTimePickerDialogFromDate(this, fullCard.getCard().getDueDate()).show(getChildFragmentManager(), BrandedTimePickerDialog.class.getCanonicalName());
                 } else {
-                    createTimePickerDialogFromDate(activity, this, null).show();
+                    createTimePickerDialogFromDate(this, null).show(getChildFragmentManager(), BrandedTimePickerDialog.class.getCanonicalName());
                 }
             });
 
@@ -393,51 +391,15 @@ public class CardDetailsFragment extends Fragment implements Branded, OnDateSetL
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar c = Calendar.getInstance();
-        int hourOfDay;
-        int minute;
-
-        if (binding.dueDateTime.getText() != null && binding.dueDateTime.length() > 0) {
-            hourOfDay = this.fullCard.getCard().getDueDate().getHours();
-            minute = this.fullCard.getCard().getDueDate().getMinutes();
-        } else {
-            hourOfDay = 0;
-            minute = 0;
-        }
-
-        c.set(year, month, dayOfMonth, hourOfDay, minute);
-        this.fullCard.getCard().setDueDate(c.getTime());
-        binding.dueDateDate.setText(dateFormat.format(c.getTime()));
-        cardDetailsListener.onDueDateChanged(fullCard.card.getDueDate());
-
-        if (this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
-            binding.clearDueDate.setVisibility(View.GONE);
-        } else {
-            binding.clearDueDate.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if (this.fullCard.getCard().getDueDate() == null) {
-            this.fullCard.getCard().setDueDate(new Date());
-        }
-        this.fullCard.getCard().getDueDate().setHours(hourOfDay);
-        this.fullCard.getCard().getDueDate().setMinutes(minute);
-        binding.dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate().getTime()));
-        cardDetailsListener.onDueDateChanged(fullCard.card.getDueDate());
-        if (this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
-            binding.clearDueDate.setVisibility(View.GONE);
-        } else {
-            binding.clearDueDate.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         Application.registerBrandedComponent(requireContext(), this);
+
+        // https://github.com/wdullaer/MaterialDateTimePicker#why-are-my-callbacks-lost-when-the-device-changes-orientation
+        final DatePickerDialog dpd = (DatePickerDialog) getChildFragmentManager().findFragmentByTag(BrandedDatePickerDialog.class.getCanonicalName());
+        final TimePickerDialog tpd = (TimePickerDialog) getChildFragmentManager().findFragmentByTag(BrandedTimePickerDialog.class.getCanonicalName());
+        if (tpd != null) tpd.setOnTimeSetListener(this);
+        if (dpd != null) dpd.setOnDateSetListener(this);
     }
 
     @Override
@@ -453,5 +415,47 @@ public class CardDetailsFragment extends Fragment implements Branded, OnDateSetL
         applyBrandToEditText(mainColor, textColor, binding.dueDateTime);
         applyBrandToEditText(mainColor, textColor, binding.people);
         applyBrandToEditText(mainColor, textColor, binding.description);
+    }
+
+    @Override
+    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        int hourOfDay;
+        int minute;
+
+        if (binding.dueDateTime.getText() != null && binding.dueDateTime.length() > 0) {
+            hourOfDay = this.fullCard.getCard().getDueDate().getHours();
+            minute = this.fullCard.getCard().getDueDate().getMinutes();
+        } else {
+            hourOfDay = 0;
+            minute = 0;
+        }
+
+        c.set(year, monthOfYear, dayOfMonth, hourOfDay, minute);
+        this.fullCard.getCard().setDueDate(c.getTime());
+        binding.dueDateDate.setText(dateFormat.format(c.getTime()));
+        cardDetailsListener.onDueDateChanged(fullCard.card.getDueDate());
+
+        if (this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
+            binding.clearDueDate.setVisibility(View.GONE);
+        } else {
+            binding.clearDueDate.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onTimeSet(com.wdullaer.materialdatetimepicker.time.TimePickerDialog view, int hourOfDay, int minute, int second) {
+        if (this.fullCard.getCard().getDueDate() == null) {
+            this.fullCard.getCard().setDueDate(new Date());
+        }
+        this.fullCard.getCard().getDueDate().setHours(hourOfDay);
+        this.fullCard.getCard().getDueDate().setMinutes(minute);
+        binding.dueDateTime.setText(dueTime.format(this.fullCard.getCard().getDueDate().getTime()));
+        cardDetailsListener.onDueDateChanged(fullCard.card.getDueDate());
+        if (this.fullCard.getCard().getDueDate() == null || this.fullCard.getCard().getDueDate().getTime() == 0) {
+            binding.clearDueDate.setVisibility(View.GONE);
+        } else {
+            binding.clearDueDate.setVisibility(View.VISIBLE);
+        }
     }
 }

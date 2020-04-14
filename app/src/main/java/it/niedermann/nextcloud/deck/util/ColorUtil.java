@@ -30,16 +30,31 @@ public final class ColorUtil {
                 * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
     }
 
-    public static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
-        final int brightnessOne = getBrightness(colorOne);
-        final int brightnessTwo = getBrightness(colorTwo);
-
-        return (brightnessOne > brightnessTwo)
-                ? (double) brightnessOne / (double) brightnessTwo
-                : (double) brightnessTwo / (double) brightnessOne;
-    }
+    // ---------------------------------------------------
+    // Based on https://github.com/LeaVerou/contrast-ratio
+    // ---------------------------------------------------
 
     public static boolean contrastRatioIsSufficient(@ColorInt int colorOne, @ColorInt int colorTwo) {
-        return getContrastRatio(colorOne, colorTwo) > 1.5f;
+        return getContrastRatio(colorOne, colorTwo) > 3d;
+    }
+
+    public static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
+        final double lum1 = getLuminanace(colorOne);
+        final double lum2 = getLuminanace(colorTwo);
+        final double brightest = Math.max(lum1, lum2);
+        final double darkest = Math.min(lum1, lum2);
+        return (brightest + 0.05) / (darkest + 0.05);
+    }
+
+    public static double getLuminanace(@ColorInt int color) {
+        final int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
+        return getSubcolorLuminance(rgb[0]) * 0.2126 + getSubcolorLuminance(rgb[1]) * 0.7152 + getSubcolorLuminance(rgb[2]) * 0.0722;
+    }
+
+    private static double getSubcolorLuminance(@ColorInt int color) {
+        final double value = color / 255d;
+        return value <= 0.03928
+                ? value / 12.92
+                : Math.pow((value + 0.055) / 1.055, 2.4);
     }
 }
