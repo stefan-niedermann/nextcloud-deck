@@ -31,6 +31,7 @@ public class CardCommentsFragment extends Fragment implements Branded, CommentEd
 
     private FragmentCardEditTabCommentsBinding binding;
     private SyncManager syncManager;
+    private CardCommentsAdapter adapter;
 
     private Long accountId;
     private long localId;
@@ -71,12 +72,14 @@ public class CardCommentsFragment extends Fragment implements Branded, CommentEd
 
         syncManager = new SyncManager(requireActivity());
         syncManager.readAccount(accountId).observe(requireActivity(), (account -> {
+            adapter = new CardCommentsAdapter(requireContext(), account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity(), getChildFragmentManager());
+            binding.comments.setAdapter(adapter);
             syncManager.getCommentsForLocalCardId(localId).observe(requireActivity(),
                     (comments) -> {
                         if (comments != null && comments.size() > 0) {
                             binding.emptyContentView.setVisibility(GONE);
                             binding.comments.setVisibility(VISIBLE);
-                            binding.comments.setAdapter(new CardCommentsAdapter(comments, account, requireActivity().getMenuInflater(), (CommentDeletedListener) requireActivity(), getChildFragmentManager()));
+                            adapter.updateComments(comments);
                         } else {
                             binding.emptyContentView.setVisibility(VISIBLE);
                             binding.comments.setVisibility(GONE);
@@ -131,5 +134,8 @@ public class CardCommentsFragment extends Fragment implements Branded, CommentEd
     public void applyBrand(int mainColor, int textColor) {
         applyBrandToEditText(mainColor, textColor, binding.message);
         applyBrandToFAB(mainColor, textColor, binding.fab);
+        if (adapter != null) {
+            adapter.applyBrand(mainColor, textColor);
+        }
     }
 }
