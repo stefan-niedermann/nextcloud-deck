@@ -23,7 +23,7 @@ public class Application extends android.app.Application {
     public static final long NO_BOARD_ID = -1L;
     public static final long NO_STACK_ID = -1L;
 
-    private static boolean enableBrand;
+    private static boolean brandingEnabled;
 
     @NonNull
     private static List<Branded> brandedComponents = new ArrayList<>();
@@ -32,8 +32,8 @@ public class Application extends android.app.Application {
     public void onCreate() {
         setAppTheme(getAppTheme(getApplicationContext()));
 
-        enableBrand = getApplicationContext().getResources().getBoolean(R.bool.enable_brand);
-        if (enableBrand) {
+        brandingEnabled = getApplicationContext().getResources().getBoolean(R.bool.enable_brand);
+        if (brandingEnabled) {
             @ColorInt final int mainColor = readBrandMainColor(getApplicationContext());
             @ColorInt final int textColor = readBrandTextColor(getApplicationContext());
             applyBrand(mainColor, textColor);
@@ -69,7 +69,7 @@ public class Application extends android.app.Application {
     // --------
 
     public static void registerBrandedComponent(@NonNull Context context, @NonNull Branded brandedComponent) {
-        if (enableBrand && !brandedComponents.contains(brandedComponent)) {
+        if (brandingEnabled && !brandedComponents.contains(brandedComponent)) {
             brandedComponents.add(brandedComponent);
 
             @ColorInt final int mainColor = readBrandMainColor(context);
@@ -86,7 +86,7 @@ public class Application extends android.app.Application {
         @ColorInt final int currentMainColor = readBrandMainColor(context);
         @ColorInt final int currentTextColor = readBrandTextColor(context);
         if (mainColor != currentMainColor || textColor != currentTextColor) {
-            if (enableBrand) {
+            if (brandingEnabled) {
                 applyBrand(mainColor, textColor);
             }
             saveBrandColors(context, mainColor, textColor);

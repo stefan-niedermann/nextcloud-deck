@@ -30,6 +30,8 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
 
     private ActivityPushNotificationBinding binding;
 
+    private boolean brandingEnabled;
+
     // Provided by Files app NotificationJob
     private static final String KEY_SUBJECT = "subject";
     private static final String KEY_MESSAGE = "message";
@@ -51,6 +53,8 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
         binding = ActivityPushNotificationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+
+        brandingEnabled = getResources().getBoolean(R.bool.enable_brand);
 
         binding.subject.setText(getIntent().getStringExtra(KEY_SUBJECT));
 
@@ -75,7 +79,9 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
                 observeOnce(syncManager.readAccount(accountString), this, (account -> {
                     if (account != null) {
                         try {
-                            applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
+                            if (brandingEnabled) {
+                                applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
+                            }
                         } catch (Throwable t) {
                             DeckLog.logError(t);
                         }
@@ -162,8 +168,10 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
 
     @Override
     public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
-        applyBrandToStatusbar(getWindow(), mainColor, textColor);
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+        if (brandingEnabled) {
+            applyBrandToStatusbar(getWindow(), mainColor, textColor);
+            applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+        }
     }
 
     public void applyBrandToSubmitButton(@NonNull Account account) {

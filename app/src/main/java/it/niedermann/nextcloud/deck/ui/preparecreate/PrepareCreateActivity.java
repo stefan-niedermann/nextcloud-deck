@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.Application;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPrepareCreateBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -36,6 +37,8 @@ public class PrepareCreateActivity extends BrandedActivity {
     private ActivityPrepareCreateBinding binding;
 
     private SyncManager syncManager;
+
+    private boolean brandingEnabled;
 
     private long lastAccountId;
     private long lastBoardId;
@@ -98,6 +101,8 @@ public class PrepareCreateActivity extends BrandedActivity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
 
+        brandingEnabled = getResources().getBoolean(R.bool.enable_brand);
+
         binding = ActivityPrepareCreateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -143,10 +148,7 @@ public class PrepareCreateActivity extends BrandedActivity {
         });
 
         binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            Account selectedAccount = accountAdapter.getItem(position);
-            if (selectedAccount != null) {
-                applyBrand(parseColor(selectedAccount.getColor()), parseColor(selectedAccount.getTextColor()));
-            }
+            applyTemporaryBrand(accountAdapter.getItem(position));
             updateLiveDataSource(boardsLiveData, boardsObserver, syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
         });
 
@@ -196,6 +198,16 @@ public class PrepareCreateActivity extends BrandedActivity {
         }
 
         finish();
+    }
+
+    private void applyTemporaryBrand(@Nullable Account account) {
+        try {
+            if (account != null && brandingEnabled) {
+                applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
+            }
+        } catch (Throwable t) {
+            DeckLog.logError(t);
+        }
     }
 
     @Override
