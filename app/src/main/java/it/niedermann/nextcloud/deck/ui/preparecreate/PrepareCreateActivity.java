@@ -23,6 +23,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
+import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
@@ -141,8 +142,13 @@ public class PrepareCreateActivity extends BrandedActivity {
             }
         });
 
-        binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
-                updateLiveDataSource(boardsLiveData, boardsObserver, syncManager.getBoardsWithEditPermission(parent.getSelectedItemId())));
+        binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
+            Account selectedAccount = accountAdapter.getItem(position);
+            if (selectedAccount != null) {
+                applyBrand(parseColor(selectedAccount.getColor()), parseColor(selectedAccount.getTextColor()));
+            }
+            updateLiveDataSource(boardsLiveData, boardsObserver, syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
+        });
 
         binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
                 updateLiveDataSource(stacksLiveData, stacksObserver, syncManager.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId())));
@@ -183,6 +189,11 @@ public class PrepareCreateActivity extends BrandedActivity {
         Application.saveCurrentAccountId(this, accountId);
         Application.saveCurrentBoardId(this, accountId, boardId);
         Application.saveCurrentStackId(this, accountId, boardId, stackId);
+
+        Account selectedAccount = accountAdapter.getItem(binding.accountSelect.getSelectedItemPosition());
+        if (selectedAccount != null) {
+            Application.setBrand(this, parseColor(selectedAccount.getColor()), parseColor(selectedAccount.getTextColor()));
+        }
 
         finish();
     }
