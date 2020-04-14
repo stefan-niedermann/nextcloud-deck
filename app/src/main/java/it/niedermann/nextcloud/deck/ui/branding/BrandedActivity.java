@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.branding;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.Menu;
@@ -24,6 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -125,38 +125,31 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
     }
 
     public static void applyBrandToEditText(@ColorInt int mainColor, @ColorInt int textColor, @NonNull EditText editText) {
-        final Drawable background = editText.getBackground();
-        final ColorFilter oldColorFilter = DrawableCompat.getColorFilter(background);
-        final View.OnFocusChangeListener oldOnFocusChangeListener = editText.getOnFocusChangeListener();
-
         @ColorInt final int finalMainColor = getColorDependingOnTheme(editText.getContext(), mainColor);
-
-        final boolean isFocused = editText.isFocused();
-        if (isFocused) {
-            editText.clearFocus();
-        }
-        final int highlightColor = Color.argb(77, Color.red(finalMainColor), Color.green(finalMainColor), Color.blue(finalMainColor));
-        editText.setHighlightColor(highlightColor);
-        editText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                background.setColorFilter(finalMainColor, PorterDuff.Mode.SRC_ATOP);
-            } else {
-                background.setColorFilter(oldColorFilter);
-            }
-            if (oldOnFocusChangeListener != null) {
-                oldOnFocusChangeListener.onFocusChange(v, hasFocus);
-            }
-        });
-        if (isFocused) {
-            editText.requestFocus();
-        }
+        DrawableCompat.setTintList(editText.getBackground(), new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_active},
+                        new int[]{android.R.attr.state_activated},
+                        new int[]{android.R.attr.state_focused},
+                        new int[]{android.R.attr.state_pressed},
+                        new int[]{}
+                },
+                new int[]{
+                        finalMainColor,
+                        finalMainColor,
+                        finalMainColor,
+                        finalMainColor,
+                        editText.getContext().getResources().getColor(R.color.fg_secondary)
+                }
+        ));
     }
 
     /**
      * Since we may collide with dark theme in this area, we have to make sure that the color is visible depending on the background
      */
     @ColorInt
-    public static int getColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
+    public static int
+    getColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
         final boolean isDarkTheme = Application.getAppTheme(context);
         if (isDarkTheme && !contrastRatioIsSufficient(mainColor, Color.BLACK)) {
             DeckLog.verbose("Contrast ratio between brand color " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and dark theme is too low. Falling back to WHITE as brand color.");
