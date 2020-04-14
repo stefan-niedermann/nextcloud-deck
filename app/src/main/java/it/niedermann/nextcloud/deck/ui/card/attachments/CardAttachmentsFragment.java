@@ -75,6 +75,7 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
             syncManager = new SyncManager(requireActivity());
             syncManager.readAccount(accountId).observe(getViewLifecycleOwner(), (Account account) -> {
                 adapter = new CardAttachmentAdapter(
+                        requireContext(),
                         getChildFragmentManager(),
                         requireActivity().getMenuInflater(),
                         this,
@@ -266,5 +267,8 @@ public class CardAttachmentsFragment extends Fragment implements AttachmentDelet
     @Override
     public void applyBrand(int mainColor, int textColor) {
         applyBrandToFAB(mainColor, textColor, binding.fab);
+        if(adapter != null) {
+            adapter.applyBrand(mainColor, textColor);
+        }
     }
 }

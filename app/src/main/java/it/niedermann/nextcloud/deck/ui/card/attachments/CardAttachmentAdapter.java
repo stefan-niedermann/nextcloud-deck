@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
@@ -29,6 +30,8 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
@@ -39,13 +42,16 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 @SuppressWarnings("WeakerAccess")
-public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
+public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> implements Branded {
 
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
 
     private final MenuInflater menuInflater;
+    @ColorInt private int mainColor;
     private final Account account;
+    @NonNull
+    private final Context context;
     @Nullable
     private Long cardRemoteId = null;
     private final long cardLocalId;
@@ -57,6 +63,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     private final AttachmentClickedListener attachmentClickedListener;
 
     CardAttachmentAdapter(
+            @NonNull Context context,
             @NonNull FragmentManager fragmentManager,
             @NonNull MenuInflater menuInflater,
             @Nullable AttachmentClickedListener attachmentClickedListener,
@@ -64,11 +71,13 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             long cardLocalId
     ) {
         super();
+        this.context = context;
         this.fragmentManager = fragmentManager;
         this.menuInflater = menuInflater;
         this.attachmentClickedListener = attachmentClickedListener;
         this.account = account;
         this.cardLocalId = cardLocalId;
+        this.mainColor = context.getResources().getColor(R.color.primary);
         setHasStableIds(true);
     }
 
@@ -100,7 +109,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         @Nullable final String uri = (attachment.getId() == null || cardRemoteId == null)
                 ? null :
                 AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
-        holder.setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()));
+        holder.setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), mainColor);
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.attachment_menu, menu);
             menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
@@ -205,5 +214,11 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                 return;
             }
         }
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        this.mainColor = BrandedActivity.getColorDependingOnTheme(context, mainColor);
+        notifyDataSetChanged();
     }
 }

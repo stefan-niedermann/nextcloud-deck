@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.ColorInt;
+import androidx.core.graphics.drawable.DrawableCompat;
+
 import it.niedermann.nextcloud.deck.databinding.ItemAttachmentImageBinding;
 
 public class ImageAttachmentViewHolder extends AttachmentViewHolder {
@@ -20,7 +23,8 @@ public class ImageAttachmentViewHolder extends AttachmentViewHolder {
     }
 
     @Override
-    protected void setNotSyncedYetStatus(boolean synced) {
+    protected void setNotSyncedYetStatus(boolean synced, @ColorInt int mainColor) {
+        DrawableCompat.setTint(binding.notSyncedYet.getDrawable(), mainColor);
         binding.notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
     }
 }
