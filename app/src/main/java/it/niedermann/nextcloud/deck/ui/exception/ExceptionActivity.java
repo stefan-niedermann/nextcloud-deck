@@ -18,7 +18,7 @@ public class ExceptionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ActivityExceptionBinding binding = ActivityExceptionBinding.inflate(getLayoutInflater());
+        final ActivityExceptionBinding binding = ActivityExceptionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         super.onCreate(savedInstanceState);
 
