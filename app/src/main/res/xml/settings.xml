@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory app:title="@string/simple_synchronization">
+        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
+            android:defaultValue="@string/pref_value_wifi_and_mobile"
+            android:icon="@drawable/ic_network_wifi_grey600_24dp"
+            android:key="@string/pref_key_wifi_only"
+            android:title="@string/pref_value_wifi_only" />
 
-    <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
-        android:defaultValue="@string/pref_value_wifi_and_mobile"
-        android:icon="@drawable/ic_network_wifi_grey600_24dp"
-        android:key="@string/pref_key_wifi_only"
-        android:title="@string/pref_value_wifi_only" />
+        <ListPreference
+            android:defaultValue="@string/minutes_15"
+            android:entries="@array/background_sync_entries"
+            android:entryValues="@array/background_sync_values"
+            android:icon="@drawable/ic_sync_grey600_24dp"
+            android:key="@string/pref_key_background_sync"
+            android:summary="%s"
+            android:title="@string/settings_background_sync" />
+    </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 
-    <ListPreference
-        android:defaultValue="@string/minutes_15"
-        android:entries="@array/background_sync_entries"
-        android:entryValues="@array/background_sync_values"
-        android:icon="@drawable/ic_sync_grey600_24dp"
-        android:key="@string/pref_key_background_sync"
-        android:summary="%s"
-        android:title="@string/settings_background_sync" />
+    <it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory android:title="@string/simple_appearance">
+        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
+            android:defaultValue="@string/pref_value_theme_light"
+            android:icon="@drawable/ic_brightness_2_grey600_24dp"
+            android:key="@string/pref_key_dark_theme"
+            android:title="@string/settings_theme_title" />
 
-    <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
-        android:defaultValue="@string/pref_value_theme_light"
-        android:icon="@drawable/ic_brightness_2_grey600_24dp"
-        android:key="@string/pref_key_dark_theme"
-        android:title="@string/settings_theme_title" />
+        <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
+            android:icon="@drawable/ic_format_paint_grey600_24dp"
+            android:key="@string/pref_key_branding"
+            android:title="@string/settings_branding_title" />
+    </it.niedermann.nextcloud.deck.ui.branding.BrandedPreferenceCategory>
 </PreferenceScreen>

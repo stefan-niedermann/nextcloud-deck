@@ -21,15 +21,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
 
     private BrandedSwitchPreference wifiOnlyPref;
     private BrandedSwitchPreference themePref;
+    private BrandedSwitchPreference brandingPref;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings, rootKey);
 
         wifiOnlyPref = findPreference(getString(R.string.pref_key_wifi_only));
+
         if (wifiOnlyPref != null) {
             wifiOnlyPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                Boolean syncOnWifiOnly = (Boolean) newValue;
+                final Boolean syncOnWifiOnly = (Boolean) newValue;
                 DeckLog.log("syncOnWifiOnly: " + syncOnWifiOnly);
                 return true;
             });
@@ -40,9 +42,22 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
         themePref = findPreference(getString(R.string.pref_key_dark_theme));
         if (themePref != null) {
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-                Boolean darkTheme = (Boolean) newValue;
+                final Boolean darkTheme = (Boolean) newValue;
                 DeckLog.log("darkTheme: " + darkTheme);
                 Application.setAppTheme(darkTheme);
+                requireActivity().setResult(Activity.RESULT_OK);
+                requireActivity().recreate();
+                return true;
+            });
+        } else {
+            DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_dark_theme) + "\"");
+        }
+
+        brandingPref = findPreference(getString(R.string.pref_key_branding));
+        if (brandingPref != null) {
+            brandingPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+                final Boolean branding = (Boolean) newValue;
+                DeckLog.log("branding: " + branding);
                 requireActivity().setResult(Activity.RESULT_OK);
                 requireActivity().recreate();
                 return true;
@@ -74,19 +89,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
     }
 
     @Override
-    public void onStop() {
-        @Nullable Context context = getContext();
-        if (context != null) {
-            @ColorInt final int mainColor = Application.readBrandMainColor(context);
-            @ColorInt final int textColor = Application.readBrandTextColor(context);
-            applyBrand(mainColor, textColor);
-        }
-        super.onStop();
-    }
-
-    @Override
     public void applyBrand(int mainColor, int textColor) {
         wifiOnlyPref.applyBrand(mainColor, textColor);
         themePref.applyBrand(mainColor, textColor);
+        brandingPref.applyBrand(mainColor, textColor);
     }
 }

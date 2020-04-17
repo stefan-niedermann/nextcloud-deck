@@ -62,15 +62,13 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
     // TODO maybe this can be handled in R.style.AppThemLightBrand
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (Application.isBrandingEnabled(this)) {
-            @ColorInt final int textColor = Application.readBrandTextColor(this);
-            for (int i = 0; i < menu.size(); i++) {
-                Drawable drawable = menu.getItem(i).getIcon();
-                if (drawable != null) {
-                    drawable = DrawableCompat.wrap(drawable);
-                    DrawableCompat.setTint(drawable, textColor);
-                    menu.getItem(i).setIcon(drawable);
-                }
+        @ColorInt final int textColor = Application.readBrandTextColor(this);
+        for (int i = 0; i < menu.size(); i++) {
+            Drawable drawable = menu.getItem(i).getIcon();
+            if (drawable != null) {
+                drawable = DrawableCompat.wrap(drawable);
+                DrawableCompat.setTint(drawable, textColor);
+                menu.getItem(i).setIcon(drawable);
             }
         }
         return super.onCreateOptionsMenu(menu);

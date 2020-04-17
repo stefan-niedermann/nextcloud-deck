@@ -9,6 +9,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
@@ -54,7 +55,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        brandingEnabled = getResources().getBoolean(R.bool.enable_brand);
+        brandingEnabled = Application.isBrandingEnabled(this);
 
         binding.subject.setText(getIntent().getStringExtra(KEY_SUBJECT));
 

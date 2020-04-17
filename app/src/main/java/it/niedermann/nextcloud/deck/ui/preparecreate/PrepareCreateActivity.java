@@ -13,7 +13,6 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPrepareCreateBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -100,7 +99,7 @@ public class PrepareCreateActivity extends BrandedActivity {
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        brandingEnabled = getResources().getBoolean(R.bool.enable_brand);
+        brandingEnabled = Application.isBrandingEnabled(this);
 
         binding = ActivityPrepareCreateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

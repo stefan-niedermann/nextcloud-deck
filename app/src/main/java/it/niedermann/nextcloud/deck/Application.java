@@ -21,12 +21,9 @@ public class Application extends android.app.Application {
     public static final long NO_BOARD_ID = -1L;
     public static final long NO_STACK_ID = -1L;
 
-    private static boolean brandingEnabled = false;
-
     @Override
     public void onCreate() {
         setAppTheme(getAppTheme(getApplicationContext()));
-        brandingEnabled = getApplicationContext().getResources().getBoolean(R.bool.enable_brand);
         super.onCreate();
     }
 
@@ -58,7 +55,8 @@ public class Application extends android.app.Application {
     // --------
 
     public static boolean isBrandingEnabled(@NonNull Context context) {
-        return context.getApplicationContext().getResources().getBoolean(R.bool.enable_brand);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.pref_key_branding), false);
     }
 
     @ColorInt
