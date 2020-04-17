@@ -23,6 +23,7 @@ import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToPrimaryToolbar;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToStatusbar;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
@@ -172,6 +173,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
         if (brandingEnabled) {
             applyBrandToStatusbar(getWindow(), mainColor, textColor);
             applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+            binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
         }
     }
 
