@@ -567,12 +567,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     private void inflateAccountMenu() {
+        headerBinding.drawerAccountChooserToggle.setRotation(180);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
         DrawerMenuUtil.inflateAccounts(this, menu, this.accountsList);
     }
 
     protected void inflateBoardMenu() {
+        headerBinding.drawerAccountChooserToggle.setRotation(0);
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
