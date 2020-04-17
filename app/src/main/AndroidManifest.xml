@@ -19,7 +19,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/LightThemeDarkBrand"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="q">
 
@@ -60,7 +60,7 @@
             android:name=".ui.card.EditActivity"
             android:label="@string/edit"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/LightThemeDarkBrand" />
 
         <activity
             android:name=".ui.attachments.AttachmentsActivity"
@@ -71,28 +71,28 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/simple_settings"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/LightThemeDarkBrand" />
 
         <activity
             android:name=".ui.ImportAccountActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/LightThemeDarkBrand" />
 
         <activity
             android:name=".ui.preparecreate.PrepareCreateActivity"
             android:label="@string/simple_select"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/LightThemeDarkBrand" />
 
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/LightThemeDarkBrand" />
 
         <activity
             android:name=".ui.PushNotificationActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:theme="@style/LightThemeDarkBrand">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>

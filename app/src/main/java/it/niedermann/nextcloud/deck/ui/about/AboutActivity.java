@@ -31,7 +31,7 @@ public class AboutActivity extends BrandedActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
+        setTheme(Application.getAppTheme(this) ? R.style.DarkThemeDarkBrand : R.style.LightThemeDarkBrand);
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 

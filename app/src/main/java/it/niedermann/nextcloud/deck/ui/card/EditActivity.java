@@ -101,7 +101,7 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
         super.onCreate(savedInstanceState);
 
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
-        setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
+        setTheme(Application.getAppTheme(this) ? R.style.DarkThemeDarkBrand : R.style.LightThemeDarkBrand);
 
         binding = ActivityEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

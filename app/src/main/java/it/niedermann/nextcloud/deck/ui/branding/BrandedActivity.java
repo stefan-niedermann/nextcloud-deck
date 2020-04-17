@@ -63,6 +63,7 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
     public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
         this.textColor = textColor;
         applyBrandToStatusbar(getWindow(), mainColor, textColor);
+        setTheme(isColorDark(mainColor) ? R.style.LightThemeDarkBrand : R.style.LightThemeLightBrand);
     }
 
     @Override

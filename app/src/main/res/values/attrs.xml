@@ -8,4 +8,5 @@
         <attr name="description" format="string" />
         <attr name="image" format="reference" />
     </declare-styleable>
+    <attr name="editTextForegroundOnPrimaryBackground" format="reference"/>
 </resources>

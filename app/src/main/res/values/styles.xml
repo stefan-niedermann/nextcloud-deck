@@ -1,37 +1,47 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
+    <!-- Default is a light theme with the dark blue brand -->
+    <style name="LightThemeDarkBrand" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
+        <item name="editTextForegroundOnPrimaryBackground">@android:color/white</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:elevation" tools:targetApi="lollipop">@null</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.EditText" parent="ThemeOverlay.MaterialComponents.Dark">
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="colorControlActivated">@android:color/white</item>
-        <item name="colorControlHighlight">@android:color/white</item>
+    <!-- This is a light theme with a bright brand color like yellow -->
+    <style name="LightThemeLightBrand" parent="LightThemeDarkBrand">
+        <item name="editTextForegroundOnPrimaryBackground">@android:color/black</item>
     </style>
 
-    <style name="DarkAppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <!-- Enabled dark mode with a dark brand like the default Nextcloud blue -->
+    <style name="DarkThemeDarkBrand" parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
+        <item name="editTextForegroundOnPrimaryBackground">@android:color/white</item>
         <item name="android:textColor">@color/fg_secondary</item>
         <item name="android:textViewStyle">@style/DarkTextView</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Enabled dark mode with a bright brand color like yellow -->
+    <style name="DarkThemeLightBrand" parent="DarkThemeDarkBrand">
+        <item name="editTextForegroundOnPrimaryBackground">@android:color/black</item>
+    </style>
+
+    <!-- This styles an EditText which is on a primary background like in the toolbar -->
+    <style name="EditTextOnPrimaryBackground" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="colorControlNormal">?editTextForegroundOnPrimaryBackground</item>
+        <item name="colorControlActivated">?editTextForegroundOnPrimaryBackground</item>
+        <item name="colorControlHighlight">?editTextForegroundOnPrimaryBackground</item>
     </style>
 
     <style name="DarkTextView" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/dark_fg_primary</item>
     </style>
 
-    <style name="SplashTheme" parent="AppTheme">
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 

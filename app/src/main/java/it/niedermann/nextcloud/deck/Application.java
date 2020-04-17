@@ -55,11 +55,11 @@ public class Application extends android.app.Application {
     // Day / Night theme
     // -----------------
 
-    public static void setAppTheme(Boolean darkTheme) {
+    public static void setAppTheme(boolean darkTheme) {
         setDefaultNightMode(darkTheme ? MODE_NIGHT_YES : MODE_NIGHT_NO);
     }
 
-    public static boolean getAppTheme(Context context) {
+    public static boolean getAppTheme(@NonNull Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getBoolean(context.getString(R.string.pref_key_dark_theme), false);
     }

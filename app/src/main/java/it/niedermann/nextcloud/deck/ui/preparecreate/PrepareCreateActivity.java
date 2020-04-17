@@ -99,7 +99,7 @@ public class PrepareCreateActivity extends BrandedActivity {
         super.onCreate(savedInstanceState);
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-        setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
+        setTheme(Application.getAppTheme(this) ? R.style.DarkThemeDarkBrand : R.style.LightThemeDarkBrand);
 
         brandingEnabled = getResources().getBoolean(R.bool.enable_brand);
 

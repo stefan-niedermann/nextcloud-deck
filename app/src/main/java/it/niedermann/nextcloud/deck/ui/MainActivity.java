@@ -151,7 +151,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         super.onCreate(savedInstanceState);
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-        setTheme(Application.getAppTheme(this) ? R.style.DarkAppTheme : R.style.AppTheme);
+        setTheme(Application.getAppTheme(this) ? R.style.DarkThemeDarkBrand : R.style.LightThemeDarkBrand);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));

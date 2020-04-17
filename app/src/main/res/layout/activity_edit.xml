@@ -20,7 +20,7 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:theme="@style/AppTheme.EditText"
+                    app:theme="@style/EditTextOnPrimaryBackground"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:importantForAutofill="no"
