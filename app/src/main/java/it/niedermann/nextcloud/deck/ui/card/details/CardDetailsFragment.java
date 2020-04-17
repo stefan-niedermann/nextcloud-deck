@@ -309,7 +309,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
 
     private Chip createChipFromLabel(Label label) {
-        Chip chip = new Chip(activity);
+        final Chip chip = new Chip(activity);
         chip.setText(label.getTitle());
         if (canEdit) {
             chip.setCloseIcon(getResources().getDrawable(R.drawable.ic_close_circle_grey600));
@@ -321,10 +321,9 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             });
         }
         try {
-            int labelColor = Color.parseColor("#" + label.getColor());
-            ColorStateList c = ColorStateList.valueOf(labelColor);
-            chip.setChipBackgroundColor(c);
-            int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
+            final int labelColor = Color.parseColor("#" + label.getColor());
+            chip.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
+            final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
             chip.setTextColor(color);
 
             if (chip.getCloseIcon() != null) {
