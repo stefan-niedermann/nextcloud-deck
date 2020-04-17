@@ -1,3 +1,5 @@
 - ➕ Fix adding cards via tile and shortcuts (#358)
 - ☑️ Display task counter
 - 🆕 New card layout for web and app
+- 🎨 Apply the branding of your Nextcloud instance (#317)
+- 📣 Push notifications (#208) - this depends on changes in the files app and might not yet be available at the time when this version has been released.
