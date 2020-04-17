@@ -5,23 +5,24 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
-        <item name="editTextForegroundOnPrimaryBackground">@android:color/white</item>
+        <item name="toolbarEditTextColor">@android:color/white</item>
+        <item name="toolbarEditTextHighlightColor">@color/toolbarEditTextHighlightColor</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:elevation" tools:targetApi="lollipop">@null</item>
     </style>
 
     <!-- This is a light theme with a bright brand color like yellow -->
     <style name="AppThemeLightBrand" parent="AppTheme">
-        <item name="editTextForegroundOnPrimaryBackground">@android:color/black</item>
+        <item name="toolbarEditTextColor">@android:color/black</item>
     </style>
 
     <!-- This styles an EditText which is on a primary background like in the toolbar -->
     <style name="EditTextOnPrimaryBackground" parent="ThemeOverlay.MaterialComponents.Dark">
-        <item name="android:textColor">?editTextForegroundOnPrimaryBackground</item>
-        <item name="android:textColorHighlight">?editTextForegroundOnPrimaryBackground</item>
-        <item name="colorControlNormal">?editTextForegroundOnPrimaryBackground</item>
-        <item name="colorControlActivated">?editTextForegroundOnPrimaryBackground</item>
-        <item name="colorControlHighlight">?editTextForegroundOnPrimaryBackground</item>
+        <item name="android:textColor">?toolbarEditTextColor</item>
+        <item name="android:textColorHighlight">?toolbarEditTextHighlightColor</item>
+        <item name="colorControlNormal">?toolbarEditTextColor</item>
+        <item name="colorControlActivated">?toolbarEditTextColor</item>
+        <item name="colorControlHighlight">?toolbarEditTextColor</item>
     </style>
 
     <style name="DarkTextView" parent="Widget.AppCompat.TextView">
