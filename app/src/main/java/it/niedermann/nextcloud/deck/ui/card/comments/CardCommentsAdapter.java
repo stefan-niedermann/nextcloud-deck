@@ -34,19 +34,17 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension;
 
-public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> implements Branded {
+public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> {
 
     private int mainColor;
-    @NonNull
-    private final Context context;
     @NonNull
     private final List<DeckComment> comments = new ArrayList<>();
     @NonNull
@@ -59,12 +57,11 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
     private final FragmentManager fragmentManager;
 
     CardCommentsAdapter(@NonNull Context context, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener, @NonNull FragmentManager fragmentManager) {
-        this.context = context;
         this.account = account;
         this.menuInflater = menuInflater;
         this.commentDeletedListener = commentDeletedListener;
         this.fragmentManager = fragmentManager;
-        this.mainColor = context.getResources().getColor(R.color.primary);
+        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, readBrandMainColor(context));
         setHasStableIds(true);
     }
 
@@ -169,11 +166,5 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
     @Override
     public int getItemCount() {
         return comments.size();
-    }
-
-    @Override
-    public void applyBrand(int mainColor, int textColor) {
-        this.mainColor = BrandedActivity.getColorDependingOnTheme(context, mainColor);
-        notifyDataSetChanged();
     }
 }

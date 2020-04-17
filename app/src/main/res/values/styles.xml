@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Default is a light theme with the dark blue brand -->
-    <style name="LightThemeDarkBrand" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
@@ -11,27 +11,14 @@
     </style>
 
     <!-- This is a light theme with a bright brand color like yellow -->
-    <style name="LightThemeLightBrand" parent="LightThemeDarkBrand">
-        <item name="editTextForegroundOnPrimaryBackground">@android:color/black</item>
-    </style>
-
-    <!-- Enabled dark mode with a dark brand like the default Nextcloud blue -->
-    <style name="DarkThemeDarkBrand" parent="Theme.MaterialComponents.NoActionBar.Bridge">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary</item>
-        <item name="colorAccent">@color/primary</item>
-        <item name="editTextForegroundOnPrimaryBackground">@android:color/white</item>
-        <item name="android:textColor">@color/fg_secondary</item>
-        <item name="android:textViewStyle">@style/DarkTextView</item>
-    </style>
-
-    <!-- Enabled dark mode with a bright brand color like yellow -->
-    <style name="DarkThemeLightBrand" parent="DarkThemeDarkBrand">
+    <style name="AppThemeLightBrand" parent="AppTheme">
         <item name="editTextForegroundOnPrimaryBackground">@android:color/black</item>
     </style>
 
     <!-- This styles an EditText which is on a primary background like in the toolbar -->
     <style name="EditTextOnPrimaryBackground" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:textColor">?editTextForegroundOnPrimaryBackground</item>
+        <item name="android:textColorHighlight">?editTextForegroundOnPrimaryBackground</item>
         <item name="colorControlNormal">?editTextForegroundOnPrimaryBackground</item>
         <item name="colorControlActivated">?editTextForegroundOnPrimaryBackground</item>
         <item name="colorControlHighlight">?editTextForegroundOnPrimaryBackground</item>

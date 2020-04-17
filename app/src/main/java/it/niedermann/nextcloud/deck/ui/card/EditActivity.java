@@ -1,23 +1,13 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -25,7 +15,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.Date;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -101,7 +90,6 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
         super.onCreate(savedInstanceState);
 
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
-        setTheme(Application.getAppTheme(this) ? R.style.DarkThemeDarkBrand : R.style.LightThemeDarkBrand);
 
         binding = ActivityEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -348,40 +336,11 @@ public class EditActivity extends BrandedActivity implements CardDetailsListener
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
-        super.applyBrand(mainColor, textColor);
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
-        applyBrandToTitle(textColor, binding.title);
-    }
-
-    private static void applyBrandToTitle(@ColorInt int textColor, @NonNull EditText editText) {
         final int highlightColor = Color.argb(77, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
-        editText.setHighlightColor(highlightColor);
-        editText.setTextColor(textColor);
-        DrawableCompat.setTintList(editText.getBackground(), ColorStateList.valueOf(textColor));
-
-        final Drawable background = editText.getBackground();
-        final ColorFilter oldColorFilter = DrawableCompat.getColorFilter(background);
-        final View.OnFocusChangeListener oldOnFocusChangeListener = editText.getOnFocusChangeListener();
-
-        final boolean isFocused = editText.isFocused();
-        if (isFocused) {
-            editText.clearFocus();
-        }
-        editText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                editText.setHintTextColor(textColor);
-                editText.setTextColor(textColor);
-                background.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
-            } else {
-                background.setColorFilter(oldColorFilter);
-            }
-            if (oldOnFocusChangeListener != null) {
-                oldOnFocusChangeListener.onFocusChange(v, hasFocus);
-            }
-        });
-        if (isFocused) {
-            editText.requestFocus();
-        }
+        binding.title.setHighlightColor(highlightColor);
+        binding.title.setTextColor(textColor);
+//        DrawableCompat.setTintList(binding.title.getBackground(), ColorStateList.valueOf(textColor));
     }
 }

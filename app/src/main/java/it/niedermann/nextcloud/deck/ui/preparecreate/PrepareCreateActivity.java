@@ -99,7 +99,6 @@ public class PrepareCreateActivity extends BrandedActivity {
         super.onCreate(savedInstanceState);
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-        setTheme(Application.getAppTheme(this) ? R.style.DarkThemeDarkBrand : R.style.LightThemeDarkBrand);
 
         brandingEnabled = getResources().getBoolean(R.bool.enable_brand);
 
@@ -194,7 +193,7 @@ public class PrepareCreateActivity extends BrandedActivity {
 
         Account selectedAccount = accountAdapter.getItem(binding.accountSelect.getSelectedItemPosition());
         if (selectedAccount != null) {
-            Application.setBrand(this, parseColor(selectedAccount.getColor()), parseColor(selectedAccount.getTextColor()));
+            applyBrand(parseColor(selectedAccount.getColor()), parseColor(selectedAccount.getTextColor()));
         }
 
         finish();
@@ -212,7 +211,6 @@ public class PrepareCreateActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
-        super.applyBrand(mainColor, textColor);
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         binding.submit.setBackgroundColor(mainColor);
         binding.submit.setTextColor(textColor);

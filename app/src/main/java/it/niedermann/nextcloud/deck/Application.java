@@ -2,15 +2,13 @@ package it.niedermann.nextcloud.deck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
@@ -23,21 +21,12 @@ public class Application extends android.app.Application {
     public static final long NO_BOARD_ID = -1L;
     public static final long NO_STACK_ID = -1L;
 
-    private static boolean brandingEnabled;
-
-    @NonNull
-    private static List<Branded> brandedComponents = new ArrayList<>();
+    private static boolean brandingEnabled = false;
 
     @Override
     public void onCreate() {
         setAppTheme(getAppTheme(getApplicationContext()));
-
         brandingEnabled = getApplicationContext().getResources().getBoolean(R.bool.enable_brand);
-        if (brandingEnabled) {
-            @ColorInt final int mainColor = readBrandMainColor(getApplicationContext());
-            @ColorInt final int textColor = readBrandTextColor(getApplicationContext());
-            applyBrand(mainColor, textColor);
-        }
         super.onCreate();
     }
 
@@ -68,57 +57,42 @@ public class Application extends android.app.Application {
     // Branding
     // --------
 
-    public static void registerBrandedComponent(@NonNull Context context, @NonNull Branded brandedComponent) {
-        if (brandingEnabled && !brandedComponents.contains(brandedComponent)) {
-            brandedComponents.add(brandedComponent);
-
-            @ColorInt final int mainColor = readBrandMainColor(context);
-            @ColorInt final int textColor = readBrandTextColor(context);
-            brandedComponent.applyBrand(mainColor, textColor);
-        }
-    }
-
-    public static void deregisterBrandedComponent(@NonNull Branded brandedComponent) {
-        brandedComponents.remove(brandedComponent);
-    }
-
-    public static void setBrand(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
-        @ColorInt final int currentMainColor = readBrandMainColor(context);
-        @ColorInt final int currentTextColor = readBrandTextColor(context);
-        if (mainColor != currentMainColor || textColor != currentTextColor) {
-            if (brandingEnabled) {
-                applyBrand(mainColor, textColor);
-            }
-            saveBrandColors(context, mainColor, textColor);
-        }
-    }
-
-    public static void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
-        for (Branded themableComponent : brandedComponents) {
-            themableComponent.applyBrand(mainColor, textColor);
-        }
+    public static boolean isBrandingEnabled(@NonNull Context context) {
+        return context.getApplicationContext().getResources().getBoolean(R.bool.enable_brand);
     }
 
     @ColorInt
     public static int readBrandMainColor(@NonNull Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        DeckLog.log("--- Read: shared_preference_theme_main");
-        return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.primary));
+        if (Application.isBrandingEnabled(context)) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+            DeckLog.log("--- Read: shared_preference_theme_main");
+            return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.primary));
+        } else {
+            return context.getResources().getColor(R.color.primary);
+        }
     }
 
     @ColorInt
     public static int readBrandTextColor(@NonNull Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        DeckLog.log("--- Read: shared_preference_theme_text");
-        return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_text), context.getApplicationContext().getResources().getColor(android.R.color.white));
+        if (isBrandingEnabled(context)) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+            DeckLog.log("--- Read: shared_preference_theme_text");
+            return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_text), context.getApplicationContext().getResources().getColor(android.R.color.white));
+        } else {
+            return Color.WHITE;
+        }
     }
 
-    public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+    public static void saveBrandColors(@NonNull BrandedActivity activity, @ColorInt int mainColor, @ColorInt int textColor) {
+        if (isBrandingEnabled(activity)) {
+            activity.applyBrand(mainColor, textColor);
+            BrandedActivity.applyBrandToStatusbar(activity.getWindow(), mainColor, textColor);
+        }
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
         DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
         DeckLog.log("--- Write: shared_preference_theme_text" + " | " + textColor);
-        editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
-        editor.putInt(context.getString(R.string.shared_preference_theme_text), textColor);
+        editor.putInt(activity.getString(R.string.shared_preference_theme_main), mainColor);
+        editor.putInt(activity.getString(R.string.shared_preference_theme_text), textColor);
         editor.apply();
     }
 

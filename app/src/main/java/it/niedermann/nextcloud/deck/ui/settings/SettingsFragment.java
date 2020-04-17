@@ -1,10 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.settings;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -63,15 +63,25 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Application.registerBrandedComponent(requireContext(), this);
+    public void onStart() {
+        super.onStart();
+        @Nullable Context context = getContext();
+        if (context != null) {
+            @ColorInt final int mainColor = Application.readBrandMainColor(context);
+            @ColorInt final int textColor = Application.readBrandTextColor(context);
+            applyBrand(mainColor, textColor);
+        }
     }
 
     @Override
-    public void onDestroy() {
-        Application.deregisterBrandedComponent(this);
-        super.onDestroy();
+    public void onStop() {
+        @Nullable Context context = getContext();
+        if (context != null) {
+            @ColorInt final int mainColor = Application.readBrandMainColor(context);
+            @ColorInt final int textColor = Application.readBrandTextColor(context);
+            applyBrand(mainColor, textColor);
+        }
+        super.onStop();
     }
 
     @Override

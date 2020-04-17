@@ -8,22 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import it.niedermann.android.crosstabdnd.DragAndDropTab;
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 
-public class StackFragment extends Fragment implements DragAndDropTab<CardAdapter>, Branded {
+public class StackFragment extends BrandedFragment implements DragAndDropTab<CardAdapter> {
 
     private static final String KEY_BOARD_ID = "boardId";
     private static final String KEY_STACK_ID = "stackId";
@@ -116,18 +114,6 @@ public class StackFragment extends Fragment implements DragAndDropTab<CardAdapte
             });
         });
         return binding.getRoot();
-    }
-
-    @Override
-    public void onResume() {
-        Application.registerBrandedComponent(requireContext(), this);
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        Application.deregisterBrandedComponent(this);
-        super.onPause();
     }
 
     @Override

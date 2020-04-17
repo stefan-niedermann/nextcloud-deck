@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,7 +36,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
@@ -46,8 +44,8 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedTimePickerDialog;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
@@ -64,7 +62,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_ED
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class CardDetailsFragment extends Fragment implements Branded, OnDateSetListener, OnTimeSetListener {
+public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener {
 
     private FragmentCardEditTabDetailsBinding binding;
 
@@ -393,7 +391,6 @@ public class CardDetailsFragment extends Fragment implements Branded, OnDateSetL
     @Override
     public void onResume() {
         super.onResume();
-        Application.registerBrandedComponent(requireContext(), this);
 
         // https://github.com/wdullaer/MaterialDateTimePicker#why-are-my-callbacks-lost-when-the-device-changes-orientation
         final DatePickerDialog dpd = (DatePickerDialog) getChildFragmentManager().findFragmentByTag(BrandedDatePickerDialog.class.getCanonicalName());
@@ -404,7 +401,6 @@ public class CardDetailsFragment extends Fragment implements Branded, OnDateSetL
 
     @Override
     public void onPause() {
-        Application.deregisterBrandedComponent(this);
         super.onPause();
     }
 

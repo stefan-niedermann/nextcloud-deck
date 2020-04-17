@@ -9,15 +9,13 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import java.util.Date;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -27,7 +25,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUN
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
-public class CardCommentsFragment extends Fragment implements Branded, CommentEditedListener {
+public class CardCommentsFragment extends BrandedFragment implements CommentEditedListener {
 
     private FragmentCardEditTabCommentsBinding binding;
     private SyncManager syncManager;
@@ -119,23 +117,8 @@ public class CardCommentsFragment extends Fragment implements Branded, CommentEd
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        Application.registerBrandedComponent(requireContext(), this);
-    }
-
-    @Override
-    public void onPause() {
-        Application.deregisterBrandedComponent(this);
-        super.onPause();
-    }
-
-    @Override
     public void applyBrand(int mainColor, int textColor) {
         applyBrandToEditText(mainColor, textColor, binding.message);
         applyBrandToFAB(mainColor, textColor, binding.fab);
-        if (adapter != null) {
-            adapter.applyBrand(mainColor, textColor);
-        }
     }
 }

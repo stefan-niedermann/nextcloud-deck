@@ -4,11 +4,11 @@ import android.content.Context;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import it.niedermann.nextcloud.deck.Application;
 
-public abstract class BrandedDialogFragment extends DialogFragment implements Branded {
+public abstract class BrandedFragment extends Fragment implements Branded {
 
     @Override
     public void onStart() {

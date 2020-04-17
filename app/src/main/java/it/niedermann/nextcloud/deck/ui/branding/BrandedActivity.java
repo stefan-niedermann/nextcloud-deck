@@ -5,12 +5,12 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +24,7 @@ import com.google.android.material.tabs.TabLayout;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -33,47 +34,41 @@ import static it.niedermann.nextcloud.deck.util.ColorUtil.isColorDark;
 
 public abstract class BrandedActivity extends AppCompatActivity implements Branded {
 
-    /**
-     * Member variable needed for onCreateOptionsMenu()-callback
-     */
-    @Nullable
-    @ColorInt
-    private Integer textColor = null;
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        Application.registerBrandedComponent(this, this);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (Application.isBrandingEnabled(this)) {
+            @ColorInt final int mainColor = Application.readBrandMainColor(this);
+            @ColorInt final int textColor = Application.readBrandTextColor(this);
+            setTheme(ColorUtil.isColorDark(textColor) ? R.style.AppThemeLightBrand : R.style.AppTheme);
+            applyBrandToStatusbar(getWindow(), mainColor, textColor);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Application.deregisterBrandedComponent(this);
+    protected void onStart() {
+        super.onStart();
+
+        if (Application.isBrandingEnabled(this)) {
+            @ColorInt final int mainColor = Application.readBrandMainColor(this);
+            @ColorInt final int textColor = Application.readBrandTextColor(this);
+            applyBrand(mainColor, textColor);
+        }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Application.deregisterBrandedComponent(this);
-    }
-
-    @CallSuper
-    @Override
-    public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
-        this.textColor = textColor;
-        applyBrandToStatusbar(getWindow(), mainColor, textColor);
-        setTheme(isColorDark(mainColor) ? R.style.LightThemeDarkBrand : R.style.LightThemeLightBrand);
-    }
-
+    // TODO maybe this can be handled in R.style.AppThemLightBrand
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (this.textColor != null) {
+        if (Application.isBrandingEnabled(this)) {
+            @ColorInt final int textColor = Application.readBrandTextColor(this);
             for (int i = 0; i < menu.size(); i++) {
                 Drawable drawable = menu.getItem(i).getIcon();
                 if (drawable != null) {
                     drawable = DrawableCompat.wrap(drawable);
-                    DrawableCompat.setTint(drawable, this.textColor);
+                    DrawableCompat.setTint(drawable, textColor);
                     menu.getItem(i).setIcon(drawable);
                 }
             }
@@ -113,7 +108,7 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
         }
     }
 
-    protected static void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @ColorInt int textColor, @NonNull TabLayout tabLayout) {
+    protected void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @ColorInt int textColor, @NonNull TabLayout tabLayout) {
         tabLayout.setBackgroundColor(mainColor);
         tabLayout.setTabTextColors(textColor, textColor);
         tabLayout.setTabIconTint(ColorStateList.valueOf(textColor));
@@ -126,7 +121,7 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
     }
 
     public static void applyBrandToEditText(@ColorInt int mainColor, @ColorInt int textColor, @NonNull EditText editText) {
-        @ColorInt final int finalMainColor = getColorDependingOnTheme(editText.getContext(), mainColor);
+        @ColorInt final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(editText.getContext(), mainColor);
         DrawableCompat.setTintList(editText.getBackground(), new ColorStateList(
                 new int[][]{
                         new int[]{android.R.attr.state_active},
@@ -150,7 +145,7 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
      */
     @ColorInt
     public static int
-    getColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
+    getSecondaryForegroundColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
         final boolean isDarkTheme = Application.getAppTheme(context);
         if (isDarkTheme && !contrastRatioIsSufficient(mainColor, Color.BLACK)) {
             DeckLog.verbose("Contrast ratio between brand color " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and dark theme is too low. Falling back to WHITE as brand color.");

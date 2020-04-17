@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.widget.Button;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +25,12 @@ public class BrandedAlertDialogBuilder extends AlertDialog.Builder implements Br
     @Override
     public AlertDialog create() {
         this.dialog = super.create();
-        dialog.setOnShowListener(dialog -> Application.registerBrandedComponent(getContext(), this));
+
+        @NonNull Context context = getContext();
+        @ColorInt final int mainColor = Application.readBrandMainColor(context);
+        @ColorInt final int textColor = Application.readBrandTextColor(context);
+        applyBrand(mainColor, textColor);
+        dialog.setOnShowListener(dialog -> applyBrand(mainColor, textColor));
         return dialog;
     }
 
@@ -36,9 +43,8 @@ public class BrandedAlertDialogBuilder extends AlertDialog.Builder implements Br
         buttons[2] = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
         for (Button button : buttons) {
             if (button != null) {
-                button.setTextColor(BrandedActivity.getColorDependingOnTheme(button.getContext(), mainColor));
+                button.setTextColor(BrandedActivity.getSecondaryForegroundColorDependingOnTheme(button.getContext(), mainColor));
             }
         }
-        Application.deregisterBrandedComponent(this);
     }
 }

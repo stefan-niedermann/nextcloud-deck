@@ -13,11 +13,12 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SwitchPreference;
 
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
 
 public class BrandedSwitchPreference extends SwitchPreference implements Branded {
 
@@ -50,10 +51,12 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
-        if (holder.itemView instanceof ViewGroup) {
-            switchView = findSwitchWidget(holder.itemView);
-            if (mainColor != null && textColor != null) {
-                applyBrand();
+        if (Application.isBrandingEnabled(getContext())) {
+            if (holder.itemView instanceof ViewGroup) {
+                switchView = findSwitchWidget(holder.itemView);
+                if (mainColor != null && textColor != null) {
+                    applyBrand();
+                }
             }
         }
     }
@@ -63,12 +66,14 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
         this.mainColor = mainColor;
         this.textColor = textColor;
         // onBindViewHolder is called after applyBrand, therefore we have to store the given values and apply them later.
-        applyBrand();
+        if (Application.isBrandingEnabled(getContext())) {
+            applyBrand();
+        }
     }
 
     private void applyBrand() {
         if (switchView != null && SDK_INT >= JELLY_BEAN) {
-            final int finalMainColor = getColorDependingOnTheme(getContext(), mainColor);
+            final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(getContext(), mainColor);
             // int trackColor = Color.argb(77, Color.red(finalMainColor), Color.green(finalMainColor), Color.blue(finalMainColor));
             DrawableCompat.setTintList(switchView.getThumbDrawable(), new ColorStateList(
                     new int[][]{new int[]{android.R.attr.state_checked}, new int[]{}},
