@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 
 import java.io.File;
@@ -269,14 +270,41 @@ public class SyncManager {
     }
 
     public void refreshCapabilities(IResponseCallback<Capabilities> callback) {
-        serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(callback.getAccount()) {
-            @Override
-            public void onResponse(Capabilities response) {
-                Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                acc.applyCapabilities(response);
-                dataBaseAdapter.updateAccount(acc);
-                callback.onResponse(response);
-            }
+        doAsync(() -> {
+            serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(callback.getAccount()) {
+                @Override
+                public void onResponse(Capabilities response) {
+                    Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
+                    acc.applyCapabilities(response);
+                    dataBaseAdapter.updateAccount(acc);
+                    callback.onResponse(response);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+
+                    if (throwable instanceof NextcloudHttpRequestFailedException) {
+                        NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
+                        if (requestFailedException.getStatusCode() == 503 && requestFailedException.getCause() != null){
+                            String errorString = requestFailedException.getCause().getMessage();
+                            if (errorString.contains("ocs") && errorString.contains("meta") && errorString.contains("statuscode\":503")){
+                                doAsync(() -> {
+                                    Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
+                                    if (!acc.isMaintenanceEnabled()){
+                                        acc.setMaintenanceEnabled(true);
+                                        dataBaseAdapter.updateAccount(acc);
+                                    }
+                                    Capabilities caps = new Capabilities();
+                                    caps.setMaintenanceEnabled(true);
+                                    callback.onResponse(caps);
+                                });
+                            }
+                        }
+                    } else {
+                        callback.onError(throwable);
+                    }
+                }
+            });
         });
     }
 

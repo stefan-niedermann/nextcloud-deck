@@ -326,6 +326,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                     Application.saveBrandColors(MainActivity.this, mainColor, textColor);
                                 });
                             }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                            }
                         });
                     } catch (OfflineException e) {
                         DeckLog.info("Cannot refresh capabilities because device is offline.");
