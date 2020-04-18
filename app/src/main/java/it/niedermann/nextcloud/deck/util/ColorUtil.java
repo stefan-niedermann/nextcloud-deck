@@ -4,14 +4,13 @@ import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
 
-@SuppressWarnings("WeakerAccess")
 public final class ColorUtil {
     private ColorUtil() {
     }
 
     @ColorInt
     public static int getForegroundColorForBackgroundColor(@ColorInt int color) {
-        if (android.R.color.transparent == color)
+        if (Color.TRANSPARENT == color)
             return Color.BLACK;
         else if (isColorDark(color))
             return Color.WHITE;
@@ -23,7 +22,7 @@ public final class ColorUtil {
         return getBrightness(color) < 200;
     }
 
-    public static int getBrightness(@ColorInt int color) {
+    private static int getBrightness(@ColorInt int color) {
         final int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
 
         return (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
@@ -38,7 +37,7 @@ public final class ColorUtil {
         return getContrastRatio(colorOne, colorTwo) > 3d;
     }
 
-    public static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
+    private static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
         final double lum1 = getLuminanace(colorOne);
         final double lum2 = getLuminanace(colorTwo);
         final double brightest = Math.max(lum1, lum2);
@@ -46,7 +45,7 @@ public final class ColorUtil {
         return (brightest + 0.05) / (darkest + 0.05);
     }
 
-    public static double getLuminanace(@ColorInt int color) {
+    private static double getLuminanace(@ColorInt int color) {
         final int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
         return getSubcolorLuminance(rgb[0]) * 0.2126 + getSubcolorLuminance(rgb[1]) * 0.7152 + getSubcolorLuminance(rgb[2]) * 0.0722;
     }
