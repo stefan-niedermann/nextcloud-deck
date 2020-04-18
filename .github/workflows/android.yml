@@ -10,7 +10,7 @@ jobs:
       - uses: gradle/wrapper-validation-action@v1
 
   test:
-    name: Run unit tests
+    name: Unit tests
     runs-on: ubuntu-18.04
 
     steps:
@@ -23,8 +23,8 @@ jobs:
         run: bash ./gradlew test --stacktrace
 
   instrumented:
-    name: Run Android instrumented tests
-    runs-on: ubuntu-18.04
+    name: Android instrumented tests
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
       - name: Android instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 27
+          api-level: 29
           script: ./gradlew connectFdroidDebugAndroidTest --stacktrace
 
   apk:
