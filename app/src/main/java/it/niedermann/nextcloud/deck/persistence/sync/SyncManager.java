@@ -282,7 +282,6 @@ public class SyncManager {
 
                 @Override
                 public void onError(Throwable throwable) {
-
                     if (throwable instanceof NextcloudHttpRequestFailedException) {
                         NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
                         if (requestFailedException.getStatusCode() == 503 && requestFailedException.getCause() != null){
