@@ -464,7 +464,7 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<Void> deleteAccessControl(AccessControl entity) {
+    public WrappedLiveData<Void> deleteAccessControl(AccessControl entity) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
@@ -478,8 +478,7 @@ public class SyncManager {
 
                         @Override
                         public void onError(Throwable throwable) {
-                            liveData.setError(throwable);
-                            liveData.postValue(null);
+                            liveData.postError(throwable);
                         }
                     });
         });
@@ -491,8 +490,8 @@ public class SyncManager {
     }
 
 
-    public LiveData<Void> createStack(long accountId, Stack stack) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public WrappedLiveData<FullStack> createStack(long accountId, Stack stack) {
+        WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
@@ -504,28 +503,6 @@ public class SyncManager {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, new IResponseCallback<FullStack>(account) {
                 @Override
                 public void onResponse(FullStack response) {
-                    liveData.postValue(null);
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    liveData.setError(throwable);
-                    liveData.postValue(null);
-                }
-            });
-        });
-        return liveData;
-    }
-
-    public LiveData<FullStack> deleteStack(Stack stack) {
-        MutableLiveData<FullStack> liveData = new MutableLiveData<>();
-        doAsync(() -> {
-            Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
-            FullStack fullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(stack.getLocalId());
-            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getBoardId());
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new StackDataProvider(null, board), fullStack, new IResponseCallback<FullStack>(account) {
-                @Override
-                public void onResponse(FullStack response) {
                     liveData.postValue(response);
                 }
             });
@@ -533,8 +510,29 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<FullStack> updateStack(FullStack stack) {
-        MutableLiveData<FullStack> liveData = new MutableLiveData<>();
+    public WrappedLiveData<Void> deleteStack(Stack stack) {
+        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
+            FullStack fullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(stack.getLocalId());
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getBoardId());
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new StackDataProvider(null, board), fullStack, new IResponseCallback<FullStack>(account) {
+                @Override
+                public void onResponse(FullStack response) {
+                    liveData.postValue(null);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    liveData.postError(throwable);
+                }
+            });
+        });
+        return liveData;
+    }
+
+    public WrappedLiveData<FullStack> updateStack(FullStack stack) {
+        WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
@@ -544,7 +542,7 @@ public class SyncManager {
 
     }
 
-    private void updateStack(Account account, FullBoard board, FullStack stack, MutableLiveData<FullStack> liveData) {
+    private void updateStack(Account account, FullBoard board, FullStack stack, WrappedLiveData<FullStack> liveData) {
         doAsync(() -> {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
                 @Override
@@ -552,6 +550,11 @@ public class SyncManager {
                     if (liveData != null) {
                         liveData.postValue(response);
                     }
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    liveData.postError(throwable);
                 }
             });
         });
@@ -651,8 +654,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public MutableLiveData<FullCard> deleteCard(Card card) {
-        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
+    public WrappedLiveData<FullCard> deleteCard(Card card) {
+        WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCard == null) {
@@ -666,12 +669,18 @@ public class SyncManager {
                 public void onResponse(FullCard response) {
                     liveData.postValue(response);
                 }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    liveData.postError(throwable);
+                }
+
             });
         });
         return liveData;
     }
 
-    public MutableLiveData<FullCard> archiveCard(FullCard card) {
+    public WrappedLiveData<FullCard> archiveCard(FullCard card) {
         card.getCard().setArchived(true);
         return updateCard(card);
     }
@@ -681,8 +690,8 @@ public class SyncManager {
         return null;
     }
 
-    public MutableLiveData<FullCard> updateCard(FullCard card) {
-        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
+    public WrappedLiveData<FullCard> updateCard(FullCard card) {
+        WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             FullCard fullCardFromDB = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCardFromDB == null) {
@@ -720,6 +729,11 @@ public class SyncManager {
                             @Override
                             public void onResponse(Boolean response) {
                                 liveData.postValue(dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId()));
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                liveData.postError(throwable);
                             }
                         }).doUpSyncFor(new CardPropagationDataProvider(null, board, stack));
             } else {

@@ -22,4 +22,14 @@ public class WrappedLiveData <T> extends MutableLiveData <T> {
     public void setError(Throwable e) {
         this.error = new RuntimeException("LiveData failed: see cause!", e);
     }
+
+    public void postError(RuntimeException e){
+        setError(e);
+        postValue(null);
+    }
+
+    public void postError(Throwable e){
+        setError(e);
+        postValue(null);
+    }
 }
