@@ -4,22 +4,41 @@ import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class ColorUtil {
+
+    private static final Map<RatioKey, Boolean> CONTRAST_RATIO_SUFFICIENT_CACHE = new HashMap();
+    private static final Map<Integer, Integer> FOREGROUND_CACHE = new HashMap();
+    private static final Map<Integer, Boolean> DARK_CACHE = new HashMap();
+
     private ColorUtil() {
     }
 
     @ColorInt
     public static int getForegroundColorForBackgroundColor(@ColorInt int color) {
-        if (Color.TRANSPARENT == color)
-            return Color.BLACK;
-        else if (isColorDark(color))
-            return Color.WHITE;
-        else
-            return Color.BLACK;
+        Integer ret = FOREGROUND_CACHE.get(color);
+        if (ret == null) {
+            if (Color.TRANSPARENT == color)
+                ret = Color.BLACK;
+            else if (isColorDark(color))
+                ret = Color.WHITE;
+            else
+                ret = Color.BLACK;
+
+            FOREGROUND_CACHE.put(color, ret);
+        }
+        return ret;
     }
 
     public static boolean isColorDark(@ColorInt int color) {
-        return getBrightness(color) < 200;
+        Boolean ret = DARK_CACHE.get(color);
+        if (ret == null){
+            ret = getBrightness(color) < 200;
+            DARK_CACHE.put(color, ret);
+        }
+        return ret;
     }
 
     private static int getBrightness(@ColorInt int color) {
@@ -34,7 +53,14 @@ public final class ColorUtil {
     // ---------------------------------------------------
 
     public static boolean contrastRatioIsSufficient(@ColorInt int colorOne, @ColorInt int colorTwo) {
-        return getContrastRatio(colorOne, colorTwo) > 3d;
+        RatioKey key = new RatioKey(colorOne, colorTwo);
+        Boolean ret = CONTRAST_RATIO_SUFFICIENT_CACHE.get(key);
+        if (ret == null){
+            ret = getContrastRatio(colorOne, colorTwo) > 3d;
+            CONTRAST_RATIO_SUFFICIENT_CACHE.put(key, ret);
+            return ret;
+        }
+        return ret;
     }
 
     private static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
@@ -55,5 +81,29 @@ public final class ColorUtil {
         return value <= 0.03928
                 ? value / 12.92
                 : Math.pow((value + 0.055) / 1.055, 2.4);
+    }
+
+    private static class RatioKey {
+        int one, two;
+
+        public RatioKey(int one, int two) {
+            this.one = one;
+            this.two = two;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            RatioKey ratioKey = (RatioKey) o;
+
+            if (one != ratioKey.one) return false;
+            return two == ratioKey.two;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = one;
+            result = 31 * result + two;
+            return result;
+        }
     }
 }
