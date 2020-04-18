@@ -21,13 +21,13 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlAdapter.HEADER_ITEM_LOCAL_ID;
 
 public class AccessControlDialogFragment extends BrandedDialogFragment implements AccessControlChangedListener, OnItemClickListener {
@@ -115,7 +115,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
     @Override
     public void deleteAccessControl(AccessControl ac) {
         final WrappedLiveData<Void> wrappedDeleteLiveData = syncManager.deleteAccessControl(ac);
-        LiveDataHelper.observeOnce(wrappedDeleteLiveData, this, (ignored) -> {
+        observeOnce(wrappedDeleteLiveData, this, (ignored) -> {
             if (wrappedDeleteLiveData.hasError()) {
                 Toast.makeText(requireContext(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Toast.LENGTH_LONG).show();
                 DeckLog.logError(wrappedDeleteLiveData.getError());
