@@ -132,6 +132,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void update(@NonNull List<AccessControl> accessControls) {
+        this.accessControls.clear();
         this.accessControls.addAll(accessControls);
         notifyDataSetChanged();
     }
