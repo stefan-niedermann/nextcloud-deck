@@ -444,7 +444,7 @@ public class SyncManager {
         return dataBaseAdapter.getAccessControlByRemoteIdDirectly(accountId, id);
     }
 
-    public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
+    public LiveData<List<AccessControl>>  getAccessControlByLocalBoardId(long accountId, Long id) {
         return dataBaseAdapter.getAccessControlByLocalBoardId(accountId, id);
     }
 
@@ -464,8 +464,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public MutableLiveData<AccessControl> deleteAccessControl(AccessControl entity) {
-        MutableLiveData<AccessControl> liveData = new MutableLiveData<>();
+    public LiveData<Void> deleteAccessControl(AccessControl entity) {
+        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
@@ -473,7 +473,13 @@ public class SyncManager {
                     new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
                         @Override
                         public void onResponse(AccessControl response) {
-                            liveData.postValue(response);
+                            liveData.postValue(null);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            liveData.setError(throwable);
+                            liveData.postValue(null);
                         }
                     });
         });
@@ -485,8 +491,8 @@ public class SyncManager {
     }
 
 
-    public LiveData<FullStack> createStack(long accountId, Stack stack) {
-        MutableLiveData<FullStack> liveData = new MutableLiveData<>();
+    public LiveData<Void> createStack(long accountId, Stack stack) {
+        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
@@ -498,7 +504,13 @@ public class SyncManager {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, new IResponseCallback<FullStack>(account) {
                 @Override
                 public void onResponse(FullStack response) {
-                    liveData.postValue(response);
+                    liveData.postValue(null);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    liveData.setError(throwable);
+                    liveData.postValue(null);
                 }
             });
         });
