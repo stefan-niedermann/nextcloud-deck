@@ -433,8 +433,12 @@ public class DataBaseAdapter {
     }
 
     public void deleteAccessControl(AccessControl entity, boolean setStatus) {
-        markAsEditedIfNeeded(entity, setStatus);
-        db.getAccessControlDao().update(entity);
+        markAsDeletedIfNeeded(entity, setStatus);
+        if (setStatus){
+            db.getAccessControlDao().update(entity);
+        } else {
+            db.getAccessControlDao().delete(entity);
+        }
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
