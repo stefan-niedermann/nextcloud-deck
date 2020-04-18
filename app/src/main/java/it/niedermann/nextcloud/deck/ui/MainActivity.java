@@ -390,6 +390,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void onUpdateStack(long localStackId, String stackName) {
         observeOnce(syncManager.getStack(currentAccount.getId(), localStackId), MainActivity.this, fullStack -> {
             fullStack.getStack().setTitle(stackName);
+            // TODO error handling
             syncManager.updateStack(fullStack);
         });
     }
@@ -833,6 +834,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack -> {
             DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
+            // TODO error handling
             syncManager.deleteStack(fullStack.getStack());
         });
     }

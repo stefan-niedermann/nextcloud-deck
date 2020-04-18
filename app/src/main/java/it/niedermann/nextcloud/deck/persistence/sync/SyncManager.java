@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -55,19 +56,22 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
+@SuppressWarnings("WeakerAccess")
 public class SyncManager {
 
+    @NonNull
     private DataBaseAdapter dataBaseAdapter;
+    @NonNull
     private ServerAdapter serverAdapter;
 
-    public SyncManager(Context context) {
+    public SyncManager(@NonNull Context context) {
         this(context, null);
     }
 
-    public SyncManager(@NonNull Context context, String ssoAccountName) {
+    public SyncManager(@NonNull Context context, @Nullable String ssoAccountName) {
         final Context applicationContext = context.getApplicationContext();
         LastSyncUtil.init(applicationContext);
-        dataBaseAdapter = new DataBaseAdapter(applicationContext);
+        this.dataBaseAdapter = new DataBaseAdapter(applicationContext);
         this.serverAdapter = new ServerAdapter(applicationContext, ssoAccountName);
     }
 
@@ -107,14 +111,15 @@ public class SyncManager {
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {
+            // TODO Why not use Boolean here?
             final BooleanResultHolder success = new BooleanResultHolder();
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
                 for (Account account : accounts) {
-                    new SyncManager(null, account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
+                    new SyncManager(dataBaseAdapter.getContext(), account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
                         @Override
                         public void onResponse(Boolean response) {
-                            success.result = success.result && response.booleanValue();
+                            success.result = success.result && Boolean.TRUE.equals(response);
                             latch.countDown();
                         }
 
@@ -416,6 +421,7 @@ public class SyncManager {
         });
     }
 
+    // TODO use WrappedLiveData
     public LiveData<FullBoard> updateBoard(FullBoard board) {
         MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
         long accountId = board.getAccountId();
@@ -439,6 +445,7 @@ public class SyncManager {
         return dataBaseAdapter.getStack(accountId, localStackId);
     }
 
+    // TODO use WrappedLiveData
     public LiveData<AccessControl> createAccessControl(long accountId, AccessControl entity) {
         MutableLiveData<AccessControl> liveData = new MutableLiveData<>();
         doAsync(() -> {
@@ -468,6 +475,7 @@ public class SyncManager {
         return dataBaseAdapter.getAccessControlByLocalBoardId(accountId, id);
     }
 
+    // TODO use WrappedLiveData
     public MutableLiveData<AccessControl> updateAccessControl(AccessControl entity) {
         MutableLiveData<AccessControl> liveData = new MutableLiveData<>();
         doAsync(() -> {
@@ -706,7 +714,7 @@ public class SyncManager {
     }
 
     public MutableLiveData<FullBoard> archiveBoard(FullBoard board) {
-        // TODO implement
+        // TODO implement with WrappedLiveData
         return null;
     }
 
@@ -977,30 +985,22 @@ public class SyncManager {
     }
 
     /**
-     * deprecated! should be removed, as soon as the board-ID can be set by the frontend.
+     * @deprecated should be removed, as soon as the boardId can be set by the frontend.
      * see searchLabelByTitle with board id.
-     *
-     * @param accountId
-     * @param boardId
-     * @param searchTerm
-     * @return
+     * TODO Frontend is capable of providing boardId. Method searchLabelByTitle does not exist
      */
     public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm) {
         return dataBaseAdapter.searchLabelByTitle(accountId, boardId, notYetAssignedToLocalCardId, searchTerm);
     }
 
+    // TODO can those Exceptions really be thrown?
     public String getServerUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
         return serverAdapter.getServerUrl();
     }
 
-    public String getApiPath() {
-        return serverAdapter.getApiPath();
-    }
-
-    public String getApiUrl() throws NextcloudFilesAppAccountNotFoundException, NoCurrentAccountSelectedException {
-        return serverAdapter.getApiUrl();
-    }
-
+    /**
+     * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/360">reenable reorder</a>
+     */
     public void reorder(long accountId, FullCard movedCard, long newStackId, int newIndex) {
         doAsync(() -> {
             // read cards of new stack
@@ -1127,6 +1127,7 @@ public class SyncManager {
         }
     }
 
+    // TODO use WrappedLiveData
     public LiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file) {
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
@@ -1183,7 +1184,7 @@ public class SyncManager {
         return attachment;
     }
 
-
+    // TODO use WrappedLiveData
     public LiveData<Attachment> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
         MutableLiveData<Attachment> liveData = new MutableLiveData<>();
         doAsync(() -> {
@@ -1207,7 +1208,7 @@ public class SyncManager {
     }
 
 
-    private class BooleanResultHolder {
+    private static class BooleanResultHolder {
         public boolean result = true;
     }
 }
