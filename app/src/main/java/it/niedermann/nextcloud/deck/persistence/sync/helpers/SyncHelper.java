@@ -108,7 +108,7 @@ public class SyncHelper {
         return new IResponseCallback<Void>(account) {
             @Override
             public void onResponse(Void response) {
-                provider.deleteInDB(dataBaseAdapter, accountId, entity);
+                provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);
             }
 

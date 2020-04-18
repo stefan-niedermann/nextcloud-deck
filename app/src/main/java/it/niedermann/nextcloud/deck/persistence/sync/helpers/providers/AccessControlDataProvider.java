@@ -78,6 +78,11 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
+    public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl accessControl) {
+        dataBaseAdapter.deleteAccessControl(accessControl, false);
+    }
+
+    @Override
     public void deleteOnServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<Void> callback, AccessControl entity, DataBaseAdapter dataBaseAdapter) {
         serverAdapter.deleteAccessControl(board.getBoard().getId(), entity, callback);
     }
