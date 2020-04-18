@@ -315,6 +315,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(currentAccount) {
                             @Override
                             public void onResponse(Capabilities response) {
+                                DeckLog.info("REFRESH Maintenance mode for " + currentAccount.getName() + ": " + response.isMaintenanceEnabled());
                                 runOnUiThread(() -> {
                                     @ColorInt final int mainColor = parseColor(response.getColor());
                                     @ColorInt final int textColor = parseColor(response.getTextColor());
@@ -475,6 +476,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         accountChooserActive = false;
         inflateAccountMenu();
         binding.drawerLayout.closeDrawer(GravityCompat.START);
+        DeckLog.info("Maintenance mode for " + this.currentAccount.getName() + ": " + this.currentAccount.isMaintenanceEnabled());
         binding.infoBox.setVisibility(this.currentAccount.isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
     }
 
