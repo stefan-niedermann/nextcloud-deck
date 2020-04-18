@@ -27,7 +27,7 @@ public final class ViewUtil {
 
     public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, @DrawableRes int errorResource) {
         // TODO get context from ImageView?
-        addAvatar(context, avatar, baseUrl, userId, DimensionUtil.getAvatarDimension(context), errorResource);
+        addAvatar(context, avatar, baseUrl, userId, DimensionUtil.dpToPx(context, R.dimen.avatar_size), errorResource);
     }
 
     public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int avatarSize, @DrawableRes int errorResource) {

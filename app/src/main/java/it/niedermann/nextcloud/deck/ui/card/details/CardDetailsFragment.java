@@ -139,7 +139,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             }
         }
 
-        avatarSize = DimensionUtil.getAvatarDimension(requireContext());
+        avatarSize = DimensionUtil.dpToPx(requireContext(), R.dimen.avatar_size);
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, requireContext().getResources().getDimensionPixelSize(R.dimen.spacer_1x), 0);
 

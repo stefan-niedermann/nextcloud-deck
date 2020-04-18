@@ -9,9 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,7 +45,6 @@ import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard>, Branded {
@@ -72,7 +69,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     private List<FullCard> cardList = new LinkedList<>();
     private LifecycleOwner lifecycleOwner;
     private List<FullStack> availableStacks = new ArrayList<>();
-    private int maxAvatarCount;
     private String counterMaxValue;
 
     private int mainColor;
@@ -103,8 +99,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     @Override
     public ItemCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         final Context context = viewGroup.getContext();
-
-        maxAvatarCount = context.getResources().getInteger(R.integer.max_avatar_count);
         counterMaxValue = context.getString(R.string.counter_max_value);
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -150,10 +144,10 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         viewHolder.binding.cardTitle.setText(card.getCard().getTitle().trim());
 
         if (card.getAssignedUsers() != null && card.getAssignedUsers().size() > 0) {
-            setupAvatars(viewHolder.binding.peopleList, card);
-            viewHolder.binding.peopleList.setVisibility(View.VISIBLE);
+            viewHolder.binding.overlappingAvatars.setAvatars(account, card.getAssignedUsers());
+            viewHolder.binding.overlappingAvatars.setVisibility(View.VISIBLE);
         } else {
-            viewHolder.binding.peopleList.setVisibility(View.GONE);
+            viewHolder.binding.overlappingAvatars.setVisibility(View.GONE);
         }
 
         DrawableCompat.setTint(viewHolder.binding.notSyncedYet.getDrawable(), mainColor);
@@ -219,30 +213,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         final Context context = cardDueDate.getContext();
         cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().getTime()));
         ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate());
-    }
-
-    private void setupAvatars(@NonNull RelativeLayout peopleList, @NotNull FullCard card) {
-        final Context context = peopleList.getContext();
-        int avatarSize = DimensionUtil.getAvatarDimension(context, R.dimen.avatar_size_small);
-        peopleList.removeAllViews();
-        RelativeLayout.LayoutParams avatarLayoutParams;
-        int avatarCount;
-        for (avatarCount = 0; avatarCount < card.getAssignedUsers().size() && avatarCount < maxAvatarCount; avatarCount++) {
-            avatarLayoutParams = new RelativeLayout.LayoutParams(avatarSize, avatarSize);
-            avatarLayoutParams.setMargins(0, 0, avatarCount * context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small), 0);
-            avatarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            ImageView avatar = new ImageView(context);
-            avatar.setLayoutParams(avatarLayoutParams);
-            peopleList.addView(avatar);
-            avatar.requestLayout();
-            ViewUtil.addAvatar(context, avatar, account.getUrl(), card.getAssignedUsers().get(avatarCount).getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
-        }
-
-        // Recalculate container size based on avatar count
-        int size = context.getResources().getDimensionPixelSize(R.dimen.avatar_overlapping_small) * (avatarCount - 1) + avatarSize;
-        ViewGroup.LayoutParams rememberParam = peopleList.getLayoutParams();
-        rememberParam.width = size;
-        peopleList.setLayoutParams(rememberParam);
     }
 
     @Override

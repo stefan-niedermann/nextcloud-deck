@@ -35,12 +35,12 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.util.DateUtil;
+import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.getAvatarDimension;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> {
 
@@ -81,7 +81,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
         final Context context = holder.itemView.getContext();
         final DeckComment comment = comments.get(position);
 
-        ViewUtil.addAvatar(context, holder.binding.avatar, account.getUrl(), comment.getActorId(), getAvatarDimension(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+        ViewUtil.addAvatar(context, holder.binding.avatar, account.getUrl(), comment.getActorId(), DimensionUtil.dpToPx(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         holder.binding.message.setText(comment.getMessage());
         holder.binding.actorDisplayName.setText(comment.getActorDisplayName());
         holder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
@@ -138,7 +138,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
             Glide.with(context)
                     .asBitmap()
                     .placeholder(R.drawable.ic_person_grey600_24dp)
-                    .load(account.getUrl() + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/" + getAvatarDimension(context, R.dimen.icon_size_details))
+                    .load(account.getUrl() + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/" + DimensionUtil.dpToPx(context, R.dimen.icon_size_details))
                     .apply(RequestOptions.circleCropTransform())
                     .into(new CustomTarget<Bitmap>() {
                         @Override
