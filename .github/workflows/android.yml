@@ -33,7 +33,10 @@ jobs:
         with:
           java-version: 1.8
       - name: Android instrumented tests
-        run: bash ./gradlew connectFdroidDebugAndroidTest --stacktrace
+        uses: reactivecircus/android-emulator-runner@v2v2
+        with:
+          api-level: 29
+          script: ./gradlew connectFdroidDebugAndroidTest --stacktrace
 
   apk:
     name: Generate APK
