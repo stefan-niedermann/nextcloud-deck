@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -81,17 +80,17 @@ public class ExceptionUtil {
         return sw.toString();
     }
 
-    public static void handleHttpRequestFailedException(NextcloudHttpRequestFailedException exception, View targetView, Activity activity) {
-        final String debugInfos = ExceptionUtil.getDebugInfos(activity, exception);
+    public static void handleHttpRequestFailedException(NextcloudHttpRequestFailedException exception, View targetView, Context context) {
+        final String debugInfos = ExceptionUtil.getDebugInfos(context, exception);
         switch (exception.getStatusCode()) {
             case 302: {
                 Snackbar.make(targetView, R.string.server_misconfigured, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> {
-                            AlertDialog dialog = new BrandedAlertDialogBuilder(activity)
+                            AlertDialog dialog = new BrandedAlertDialogBuilder(context)
                                     .setTitle(R.string.server_misconfigured)
-                                    .setMessage(activity.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
+                                    .setMessage(context.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
                                     .setPositiveButton(android.R.string.copy, (a, b) -> {
-                                        copyToClipboard(activity, activity.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
+                                        copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
                                         a.dismiss();
                                     })
                                     .setNegativeButton(R.string.simple_close, null)
@@ -109,11 +108,11 @@ public class ExceptionUtil {
             default: {
                 Snackbar.make(targetView, R.string.error, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> {
-                            AlertDialog dialog = new BrandedAlertDialogBuilder(activity)
+                            AlertDialog dialog = new BrandedAlertDialogBuilder(context)
                                     .setTitle(R.string.server_error)
                                     .setMessage(debugInfos)
                                     .setPositiveButton(android.R.string.copy, (a, b) -> {
-                                        copyToClipboard(activity, activity.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
+                                        copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
                                         a.dismiss();
                                     })
                                     .setNegativeButton(R.string.simple_close, null)
