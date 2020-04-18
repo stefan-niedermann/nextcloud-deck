@@ -162,10 +162,14 @@ public class Account implements Serializable {
 
         Account account = (Account) o;
 
+        if (maintenanceEnabled != account.maintenanceEnabled) return false;
         if (id != null ? !id.equals(account.id) : account.id != null) return false;
         if (!name.equals(account.name)) return false;
         if (!userName.equals(account.userName)) return false;
-        return url.equals(account.url);
+        if (!url.equals(account.url)) return false;
+        if (!color.equals(account.color)) return false;
+        if (!textColor.equals(account.textColor)) return false;
+        return serverDeckVersion.equals(account.serverDeckVersion);
     }
 
     @Override
@@ -174,6 +178,10 @@ public class Account implements Serializable {
         result = 31 * result + name.hashCode();
         result = 31 * result + userName.hashCode();
         result = 31 * result + url.hashCode();
+        result = 31 * result + color.hashCode();
+        result = 31 * result + textColor.hashCode();
+        result = 31 * result + serverDeckVersion.hashCode();
+        result = 31 * result + (maintenanceEnabled ? 1 : 0);
         return result;
     }
 
@@ -184,6 +192,10 @@ public class Account implements Serializable {
                 ", name='" + name + '\'' +
                 ", userName='" + userName + '\'' +
                 ", url='" + url + '\'' +
+                ", color='" + color + '\'' +
+                ", textColor='" + textColor + '\'' +
+                ", serverDeckVersion='" + serverDeckVersion + '\'' +
+                ", maintenanceEnabled=" + maintenanceEnabled +
                 '}';
     }
 }
