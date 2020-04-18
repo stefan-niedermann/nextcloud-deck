@@ -103,21 +103,7 @@ public class ExceptionUtil {
                 break;
             }
             case 503: {
-                Snackbar.make(targetView, R.string.server_error, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_more, v -> {
-                            AlertDialog dialog = new BrandedAlertDialogBuilder(activity)
-                                    .setTitle(R.string.server_error)
-                                    .setMessage(activity.getString(R.string.server_error_explanation) + "\n\n\n" + debugInfos)
-                                    .setPositiveButton(android.R.string.copy, (a, b) -> {
-                                        copyToClipboard(activity, activity.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
-                                        a.dismiss();
-                                    })
-                                    .setNegativeButton(R.string.simple_close, null)
-                                    .create();
-                            dialog.show();
-                            ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);
-                        })
-                        .show();
+                // Handled by maintenance info box
                 break;
             }
             default: {
