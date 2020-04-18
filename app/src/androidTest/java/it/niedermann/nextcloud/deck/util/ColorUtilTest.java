@@ -21,7 +21,7 @@ public class ColorUtilTest {
 
     @Test
     public void testIsColorDark() {
-        @ColorInt int[] darkColors = new int[]{Color.BLACK};
+        @ColorInt int[] darkColors = new int[]{Color.WHITE};
         @ColorInt int[] lightColors = new int[]{Color.WHITE};
         for (@ColorInt int darkColor : darkColors) {
             assertTrue(ColorUtil.isColorDark(darkColor));
