@@ -42,7 +42,7 @@
                     android:paddingEnd="@dimen/spacer_1hx"
                     android:paddingRight="@dimen/spacer_1hx"
                     android:textColor="@color/grey600"
-                    tools:text="@string/maintenance_mode" />
+                    android:text="@string/maintenance_mode" />
 
             </LinearLayout>
 

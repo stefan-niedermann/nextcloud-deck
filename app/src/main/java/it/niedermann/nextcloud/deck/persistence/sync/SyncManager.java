@@ -55,6 +55,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelData
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
+import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
+
 public class SyncManager {
 
     private DataBaseAdapter dataBaseAdapter;
@@ -284,7 +286,7 @@ public class SyncManager {
                 public void onError(Throwable throwable) {
                     if (throwable instanceof NextcloudHttpRequestFailedException) {
                         NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
-                        if (requestFailedException.getStatusCode() == 503 && requestFailedException.getCause() != null){
+                        if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null){
                             String errorString = requestFailedException.getCause().getMessage();
                             if (errorString.contains("ocs") && errorString.contains("meta") && errorString.contains("statuscode\":503")){
                                 doAsync(() -> {
