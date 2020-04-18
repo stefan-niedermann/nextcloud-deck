@@ -182,5 +182,6 @@
     <string name="open_in_browser">Open in browser</string>
     <string name="simple_open">Open</string>
     <string name="updating_card">Updating card…</string>
+    <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
     <string name="maintenance_mode">Server in maintenance mode</string>
 </resources>
