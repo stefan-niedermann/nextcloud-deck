@@ -187,9 +187,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
         }).observe(this, (List<Account> accounts) -> {
             if (accounts == null || accounts.size() == 0) {
-                recreate();
-                // TODO This actually happens when the last account gets deleted. Find a nice solution.
-                // throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null or has no entry");
+                // Last account has been deleted.  hasAccounts LiveData will handle this, but we make sure, that branding is reset.
+                Application.saveBrandColors(this, getResources().getColor(R.color.primary), Color.WHITE);
+                return;
             }
 
             accountsList = accounts;
