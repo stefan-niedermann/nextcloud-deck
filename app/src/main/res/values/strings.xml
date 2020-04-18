@@ -182,4 +182,5 @@
     <string name="open_in_browser">Open in browser</string>
     <string name="simple_open">Open</string>
     <string name="updating_card">Updating card…</string>
+    <string name="maintenance_mode">Server in maintenance mode</string>
 </resources>

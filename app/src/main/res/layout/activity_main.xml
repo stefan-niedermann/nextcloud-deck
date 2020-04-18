@@ -13,10 +13,38 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:id="@+id/info_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:background="@color/bg_info_box"
+                android:gravity="center"
+                android:padding="@dimen/spacer_1hx"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_info_outline_grey600_24dp"
+                    android:drawableLeft="@drawable/ic_info_outline_grey600_24dp"
+                    android:drawablePadding="@dimen/spacer_1hx"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/spacer_1hx"
+                    android:paddingLeft="@dimen/spacer_1hx"
+                    android:paddingEnd="@dimen/spacer_1hx"
+                    android:paddingRight="@dimen/spacer_1hx"
+                    android:textColor="@color/grey600"
+                    tools:text="@string/maintenance_mode" />
+
+            </LinearLayout>
 
             <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
                 android:id="@+id/empty_content_view_boards"
@@ -38,18 +66,14 @@
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="wrap_content">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

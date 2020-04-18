@@ -475,6 +475,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         accountChooserActive = false;
         inflateAccountMenu();
         binding.drawerLayout.closeDrawer(GravityCompat.START);
+        binding.infoBox.setVisibility(this.currentAccount.isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
     }
 
     protected void clearCurrentBoard() {
