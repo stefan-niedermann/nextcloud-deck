@@ -145,37 +145,42 @@ public class ImportAccountActivity extends AppCompatActivity {
                                     syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
                                         @Override
                                         public void onResponse(Capabilities response) {
-                                            if (response.getDeckVersion().compareTo(new Version("", minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
-                                                setStatusText(R.string.deck_outdated_please_update);
-                                                runOnUiThread(() -> {
-                                                    binding.updateDeckButton.setOnClickListener((v) -> {
-                                                        Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                        openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
-                                                        startActivity(openURL);
+                                            if (!response.isMaintenanceEnabled()) {
+                                                if (response.getDeckVersion().compareTo(new Version("", minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
+                                                    setStatusText(R.string.deck_outdated_please_update);
+                                                    runOnUiThread(() -> {
+                                                        binding.updateDeckButton.setOnClickListener((v) -> {
+                                                            Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                            startActivity(openURL);
+                                                        });
+                                                        binding.updateDeckButton.setVisibility(View.VISIBLE);
                                                     });
-                                                    binding.updateDeckButton.setVisibility(View.VISIBLE);
-                                                });
-                                                rollbackAccountCreation(syncManager, createdAccount.getId());
-                                            } else {
-                                                syncManager.synchronize(new IResponseCallback<Boolean>(account) {
-                                                    @Override
-                                                    public void onResponse(Boolean response) {
-                                                        restoreWifiPref();
-                                                        SyncWorker.update(getApplicationContext());
-                                                        setResult(RESULT_OK);
-                                                        finish();
-                                                    }
-
-                                                    @Override
-                                                    public void onError(Throwable throwable) {
-                                                        super.onError(throwable);
-                                                        setStatusText(throwable.getMessage());
-                                                        if (throwable instanceof NextcloudHttpRequestFailedException) {
-                                                            ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.scrollView, ImportAccountActivity.this);
+                                                    rollbackAccountCreation(syncManager, createdAccount.getId());
+                                                } else {
+                                                    syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                                                        @Override
+                                                        public void onResponse(Boolean response) {
+                                                            restoreWifiPref();
+                                                            SyncWorker.update(getApplicationContext());
+                                                            setResult(RESULT_OK);
+                                                            finish();
                                                         }
-                                                        rollbackAccountCreation(syncManager, createdAccount.getId());
-                                                    }
-                                                });
+
+                                                        @Override
+                                                        public void onError(Throwable throwable) {
+                                                            super.onError(throwable);
+                                                            setStatusText(throwable.getMessage());
+                                                            if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                                                ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.scrollView, ImportAccountActivity.this);
+                                                            }
+                                                            rollbackAccountCreation(syncManager, createdAccount.getId());
+                                                        }
+                                                    });
+                                                }
+                                            } else {
+                                                setStatusText(R.string.maintenance_mode);
+                                                rollbackAccountCreation(syncManager, createdAccount.getId());
                                             }
                                         }
 
