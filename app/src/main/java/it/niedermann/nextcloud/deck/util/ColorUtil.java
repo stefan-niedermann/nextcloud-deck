@@ -3,15 +3,17 @@ package it.niedermann.nextcloud.deck.util;
 import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public final class ColorUtil {
 
-    private static final Map<RatioKey, Boolean> CONTRAST_RATIO_SUFFICIENT_CACHE = new HashMap();
-    private static final Map<Integer, Integer> FOREGROUND_CACHE = new HashMap();
-    private static final Map<Integer, Boolean> DARK_CACHE = new HashMap();
+    private static final Map<ColorPair, Boolean> CONTRAST_RATIO_SUFFICIENT_CACHE = new HashMap<>();
+    private static final Map<Integer, Integer> FOREGROUND_CACHE = new HashMap<>();
+    private static final Map<Integer, Boolean> IS_DARK_COLOR_CACHE = new HashMap<>();
 
     private ColorUtil() {
     }
@@ -33,10 +35,10 @@ public final class ColorUtil {
     }
 
     public static boolean isColorDark(@ColorInt int color) {
-        Boolean ret = DARK_CACHE.get(color);
-        if (ret == null){
+        Boolean ret = IS_DARK_COLOR_CACHE.get(color);
+        if (ret == null) {
             ret = getBrightness(color) < 200;
-            DARK_CACHE.put(color, ret);
+            IS_DARK_COLOR_CACHE.put(color, ret);
         }
         return ret;
     }
@@ -53,9 +55,9 @@ public final class ColorUtil {
     // ---------------------------------------------------
 
     public static boolean contrastRatioIsSufficient(@ColorInt int colorOne, @ColorInt int colorTwo) {
-        RatioKey key = new RatioKey(colorOne, colorTwo);
+        ColorPair key = new ColorPair(colorOne, colorTwo);
         Boolean ret = CONTRAST_RATIO_SUFFICIENT_CACHE.get(key);
-        if (ret == null){
+        if (ret == null) {
             ret = getContrastRatio(colorOne, colorTwo) > 3d;
             CONTRAST_RATIO_SUFFICIENT_CACHE.put(key, ret);
             return ret;
@@ -83,26 +85,25 @@ public final class ColorUtil {
                 : Math.pow((value + 0.055) / 1.055, 2.4);
     }
 
-    private static class RatioKey {
-        int one, two;
+    private static class ColorPair extends Pair<Integer, Integer> {
 
-        public RatioKey(int one, int two) {
-            this.one = one;
-            this.two = two;
+        private ColorPair(@Nullable Integer first, @Nullable Integer second) {
+            super(first, second);
         }
 
+        @SuppressWarnings({"EqualsWhichDoesntCheckParameterClass", "NumberEquality"})
         @Override
         public boolean equals(Object o) {
-            RatioKey ratioKey = (RatioKey) o;
-
-            if (one != ratioKey.one) return false;
-            return two == ratioKey.two;
+            final ColorPair colorPair = (ColorPair) o;
+            if (first != colorPair.first) return false;
+            return second == colorPair.second;
         }
 
+        @SuppressWarnings("ConstantConditions")
         @Override
         public int hashCode() {
-            int result = one;
-            result = 31 * result + two;
+            int result = first;
+            result = 31 * result + second;
             return result;
         }
     }
