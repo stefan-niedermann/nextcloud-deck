@@ -2,7 +2,10 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,13 +36,14 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 public class DataBaseAdapter {
 
     private DeckDatabase db;
-    private Context context;
+    @NonNull private Context context;
 
-    public DataBaseAdapter(Context applicationContext) {
+    public DataBaseAdapter(@NonNull Context applicationContext) {
         this.context = applicationContext;
         this.db = DeckDatabase.getInstance(applicationContext);
     }
 
+    @NotNull
     public Context getContext() {
         return context;
     }

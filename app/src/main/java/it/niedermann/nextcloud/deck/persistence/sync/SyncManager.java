@@ -1,10 +1,8 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
-import android.app.Activity;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -62,22 +60,15 @@ public class SyncManager {
     private DataBaseAdapter dataBaseAdapter;
     private ServerAdapter serverAdapter;
 
-    public SyncManager(Activity sourceActivity) {
-        this(sourceActivity, sourceActivity);
+    public SyncManager(Context context) {
+        this(context, null);
     }
 
-    public SyncManager(Context context, @Nullable Activity sourceActivity) {
-        this(context, sourceActivity, null);
-    }
-
-    public SyncManager(Context context, @Nullable Activity sourceActivity, String ssoAccountName) {
-        if (context == null) {
-            throw new IllegalArgumentException("Provide a valid context.");
-        }
-        Context applicationContext = context.getApplicationContext();
+    public SyncManager(@NonNull Context context, String ssoAccountName) {
+        final Context applicationContext = context.getApplicationContext();
         LastSyncUtil.init(applicationContext);
         dataBaseAdapter = new DataBaseAdapter(applicationContext);
-        this.serverAdapter = new ServerAdapter(applicationContext, sourceActivity, ssoAccountName);
+        this.serverAdapter = new ServerAdapter(applicationContext, ssoAccountName);
     }
 
     private void doAsync(Runnable r) {
@@ -120,7 +111,7 @@ public class SyncManager {
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
                 for (Account account : accounts) {
-                    new SyncManager(dataBaseAdapter.getContext(), null, account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
+                    new SyncManager(null, account.getName()).synchronize(new IResponseCallback<Boolean>(account) {
                         @Override
                         public void onResponse(Boolean response) {
                             success.result = success.result && response.booleanValue();
@@ -286,12 +277,12 @@ public class SyncManager {
                 public void onError(Throwable throwable) {
                     if (throwable instanceof NextcloudHttpRequestFailedException) {
                         NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
-                        if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null){
+                        if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
                             String errorString = requestFailedException.getCause().getMessage();
-                            if (errorString.contains("ocs") && errorString.contains("meta") && errorString.contains("statuscode\":503")){
+                            if (errorString.contains("ocs") && errorString.contains("meta") && errorString.contains("statuscode\":503")) {
                                 doAsync(() -> {
                                     Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                                    if (!acc.isMaintenanceEnabled()){
+                                    if (!acc.isMaintenanceEnabled()) {
                                         acc.setMaintenanceEnabled(true);
                                         dataBaseAdapter.updateAccount(acc);
                                     }
@@ -473,7 +464,7 @@ public class SyncManager {
         return dataBaseAdapter.getAccessControlByRemoteIdDirectly(accountId, id);
     }
 
-    public LiveData<List<AccessControl>>  getAccessControlByLocalBoardId(long accountId, Long id) {
+    public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
         return dataBaseAdapter.getAccessControlByLocalBoardId(accountId, id);
     }
 
@@ -1044,7 +1035,7 @@ public class SyncManager {
 //            } else {
             reorderLocally(cardsOfNewStack, movedCard, newStackId, newOrder);
             //FIXME: remove the sync-block, when commentblock up there is activated. (waiting for deck server bugfix)
-            if (hasInternetConnection()){
+            if (hasInternetConnection()) {
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
                 FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
                 Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
