@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("it.niedermann.nextcloud.deck", appContext.getPackageName());
+        assertEquals("it.niedermann.nextcloud.deck.dev", appContext.getPackageName());
     }
 }
