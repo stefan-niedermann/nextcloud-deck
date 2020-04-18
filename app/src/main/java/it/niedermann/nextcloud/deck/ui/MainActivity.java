@@ -87,7 +87,6 @@ import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerAccountListener;
-import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.graphics.Color.parseColor;
@@ -106,6 +105,7 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOUNT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
+import static it.niedermann.nextcloud.deck.util.ExceptionUtil.handleHttpRequestFailedException;
 
 public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener {
 
@@ -214,7 +214,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 public void onError(Throwable throwable) {
                                     super.onError(throwable);
                                     if (throwable instanceof NextcloudHttpRequestFailedException) {
-                                        ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, MainActivity.this.binding.coordinatorLayout, MainActivity.this);
+                                        runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, MainActivity.this.binding.coordinatorLayout, MainActivity.this));
                                     }
                                 }
                             });
@@ -319,11 +319,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                     @Override
                     public void onError(Throwable throwable) {
+                        super.onError(throwable);
                         runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
                         if (throwable instanceof NextcloudHttpRequestFailedException) {
-                            ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this);
+                            runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this));
                         }
-                        DeckLog.logError(throwable);
                     }
                 });
             });
@@ -798,7 +798,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                             public void onError(Throwable throwable) {
                                 super.onError(throwable);
                                 if (throwable instanceof NextcloudHttpRequestFailedException) {
-                                    ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this);
+                                    runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this));
                                 }
                             }
                         });

@@ -63,8 +63,8 @@ public class SingleSignOnUrlLoader implements ModelLoader<GlideUrl, InputStream>
                     }
 
                     @Override
-                    public void onError(Exception ex) {
-                        DeckLog.logError(ex);
+                    public void onError(Exception e) {
+                        DeckLog.logError(e);
                     }
                 }));
             } catch (NextcloudFilesAppAccountNotFoundException e) {

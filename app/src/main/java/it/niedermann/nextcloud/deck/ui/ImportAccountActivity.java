@@ -34,9 +34,9 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
 import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
+import static it.niedermann.nextcloud.deck.util.ExceptionUtil.handleHttpRequestFailedException;
 
 public class ImportAccountActivity extends AppCompatActivity {
 
@@ -172,7 +172,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                             super.onError(throwable);
                                                             setStatusText(throwable.getMessage());
                                                             if (throwable instanceof NextcloudHttpRequestFailedException) {
-                                                                ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.scrollView, ImportAccountActivity.this);
+                                                                runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.scrollView, ImportAccountActivity.this));
                                                             }
                                                             rollbackAccountCreation(syncManager, createdAccount.getId());
                                                         }
@@ -189,7 +189,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                             super.onError(throwable);
                                             setStatusText(throwable.getMessage());
                                             if (throwable instanceof NextcloudHttpRequestFailedException) {
-                                                ExceptionUtil.handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.scrollView, ImportAccountActivity.this);
+                                                runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.scrollView, ImportAccountActivity.this));
                                             }
                                             rollbackAccountCreation(syncManager, createdAccount.getId());
                                         }

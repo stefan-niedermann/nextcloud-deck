@@ -7,6 +7,7 @@ import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -80,6 +81,7 @@ public class ExceptionUtil {
         return sw.toString();
     }
 
+    @UiThread
     public static void handleHttpRequestFailedException(NextcloudHttpRequestFailedException exception, View targetView, Context context) {
         final String debugInfos = ExceptionUtil.getDebugInfos(context, exception);
         switch (exception.getStatusCode()) {
