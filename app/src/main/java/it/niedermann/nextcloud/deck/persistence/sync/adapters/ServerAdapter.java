@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import java.io.File;
@@ -48,7 +49,7 @@ import okhttp3.ResponseBody;
 
 public class ServerAdapter {
 
-    String prefKeyWifiOnly;
+    private String prefKeyWifiOnly;
 
     private static final DateFormat API_FORMAT =
             new SimpleDateFormat("E, dd MMM yyyy hh:mm:ss z", Locale.US);
@@ -57,20 +58,18 @@ public class ServerAdapter {
         API_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
 
+    @NonNull
     private Context applicationContext;
     private ApiProvider provider;
-    private SharedPreferences lastSyncPref;
 
     public ServerAdapter(@NonNull Context applicationContext) {
         this(applicationContext, null);
     }
 
-    public ServerAdapter(@NonNull Context applicationContext, String ssoAccountName) {
+    public ServerAdapter(@NonNull Context applicationContext, @Nullable String ssoAccountName) {
         this.applicationContext = applicationContext;
         prefKeyWifiOnly = applicationContext.getResources().getString(R.string.pref_key_wifi_only);
         provider = new ApiProvider(applicationContext, ssoAccountName);
-        lastSyncPref = applicationContext.getSharedPreferences(
-                applicationContext.getString(R.string.shared_preference_last_sync), Context.MODE_PRIVATE);
     }
 
     public String getServerUrl() {
@@ -120,6 +119,7 @@ public class ServerAdapter {
         return false;
     }
 
+    // TODO what is this?
     private String getLastSyncDateFormatted(long accountId) {
         return null;
 //        String lastSyncHeader = API_FORMAT.format(getLastSync(accountId));
@@ -131,6 +131,7 @@ public class ServerAdapter {
 //        return lastSyncHeader;
     }
 
+    // TODO not used
     private Date getLastSync(long accountId) {
         Date lastSync = DateUtil.nowInGMT();
         lastSync.setTime(LastSyncUtil.getLastSync(accountId));

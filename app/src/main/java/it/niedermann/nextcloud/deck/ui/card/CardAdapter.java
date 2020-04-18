@@ -314,10 +314,12 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                 return true;
             }
             case R.id.action_card_archive: {
+                // TODO error handling
                 syncManager.archiveCard(card);
                 return true;
             }
             case R.id.action_card_delete: {
+                // TODO error handling
                 syncManager.deleteCard(card.getCard());
                 return true;
             }

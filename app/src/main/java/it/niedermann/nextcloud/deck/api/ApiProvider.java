@@ -2,6 +2,9 @@ package it.niedermann.nextcloud.deck.api;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
@@ -23,22 +26,24 @@ public class ApiProvider {
 
     private DeckAPI deckAPI;
     private NextcloudServerAPI nextcloudAPI;
+    @NonNull
     private Context context;
     private SingleSignOnAccount ssoAccount;
+    @Nullable
     private String ssoAccountName;
 
     public ApiProvider(Context context) {
         this(context, null);
     }
 
-    public ApiProvider(Context context, String ssoAccountName) {
+    public ApiProvider(@NonNull Context context, @Nullable String ssoAccountName) {
         this.context = context;
         this.ssoAccountName = ssoAccountName;
         setAccount();
     }
 
     public void initSsoApi(final NextcloudAPI.ApiConnectedListener callback) {
-        NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), callback);
+        final NextcloudAPI nextcloudAPI = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), callback);
         deckAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, DECK_API_ENDPOINT).create(DeckAPI.class);
         this.nextcloudAPI = new NextcloudRetrofitApiBuilder(nextcloudAPI, NC_API_ENDPOINT).create(NextcloudServerAPI.class);
     }

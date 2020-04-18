@@ -20,7 +20,7 @@ import it.niedermann.nextcloud.deck.R;
 
 public class SyncWorker extends Worker {
 
-    private static final String TAG = "it.niedermann.nextcloud.deck.background_synchronization";
+    private static final String WORKER_TAG = "it.niedermann.nextcloud.deck.background_synchronization";
     private static final Constraints constraints = new Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build();
@@ -47,7 +47,7 @@ public class SyncWorker extends Worker {
     }
 
     public static void update(@NonNull Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         update(context, sharedPreferences.getString(context.getString(R.string.pref_key_background_sync), context.getString(R.string.pref_value_background_15_minutes)));
     }
 
@@ -63,15 +63,15 @@ public class SyncWorker extends Worker {
                 repeatInterval = 6;
                 unit = TimeUnit.HOURS;
             }
-            PeriodicWorkRequest work = new PeriodicWorkRequest.Builder(SyncWorker.class, repeatInterval, unit)
+            final PeriodicWorkRequest work = new PeriodicWorkRequest.Builder(SyncWorker.class, repeatInterval, unit)
                     .setConstraints(constraints).build();
             DeckLog.log("Registering worker running each " + repeatInterval + " " + unit);
-            WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork(SyncWorker.TAG, ExistingPeriodicWorkPolicy.REPLACE, work);
+            WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork(SyncWorker.WORKER_TAG, ExistingPeriodicWorkPolicy.REPLACE, work);
         }
     }
 
     private static void deregister(@NonNull Context context) {
-        DeckLog.log("Deregistering all workers with tag \"" + TAG + "\"");
-        WorkManager.getInstance(context.getApplicationContext()).cancelAllWorkByTag(TAG);
+        DeckLog.log("Deregistering all workers with tag \"" + WORKER_TAG + "\"");
+        WorkManager.getInstance(context.getApplicationContext()).cancelAllWorkByTag(WORKER_TAG);
     }
 }
