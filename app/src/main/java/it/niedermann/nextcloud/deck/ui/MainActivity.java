@@ -310,32 +310,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
                     }
                 } else DeckLog.warn("ConnectivityManager is null");
-                new Thread(() -> {
-                    try {
-                        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(currentAccount) {
-                            @Override
-                            public void onResponse(Capabilities response) {
-                                DeckLog.info("REFRESH Maintenance mode for " + currentAccount.getName() + ": " + response.isMaintenanceEnabled());
-                                runOnUiThread(() -> {
-                                    @ColorInt final int mainColor = parseColor(response.getColor());
-                                    @ColorInt final int textColor = parseColor(response.getTextColor());
-                                    if (currentAccount != null) {
-                                        currentAccount.setColor(response.getColor());
-                                        currentAccount.setTextColor(response.getTextColor());
-                                    }
-                                    Application.saveBrandColors(MainActivity.this, mainColor, textColor);
-                                });
-                            }
-
-                            @Override
-                            public void onError(Throwable throwable) {
-                                super.onError(throwable);
-                            }
-                        });
-                    } catch (OfflineException e) {
-                        DeckLog.info("Cannot refresh capabilities because device is offline.");
-                    }
-                }).start();
+                refreshCapabilities(currentAccount);
                 syncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
                     @Override
                     public void onResponse(Boolean response) {
@@ -443,10 +418,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     protected void setCurrentAccount(@NonNull Account account) {
         this.currentAccount = account;
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.currentAccount.getName());
-        Application.saveBrandColors(this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor()));
         syncManager = new SyncManager(this);
 
+        Application.saveBrandColors(this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor()));
         Application.saveCurrentAccountId(this, this.currentAccount.getId());
+        if (this.currentAccount.isMaintenanceEnabled()) {
+            refreshCapabilities(this.currentAccount);
+        }
 
         currentBoardId = Application.readCurrentBoardId(this, this.currentAccount.getId());
 
@@ -481,8 +459,27 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         accountChooserActive = false;
         inflateAccountMenu();
         binding.drawerLayout.closeDrawer(GravityCompat.START);
-        DeckLog.info("Maintenance mode for " + this.currentAccount.getName() + ": " + this.currentAccount.isMaintenanceEnabled());
+        DeckLog.verbose("Displaying maintenance mode info for " + this.currentAccount.getName() + ": " + this.currentAccount.isMaintenanceEnabled());
         binding.infoBox.setVisibility(this.currentAccount.isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
+    }
+
+    private void refreshCapabilities(final Account account) {
+        new Thread(() -> {
+            try {
+                syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+                    @Override
+                    public void onResponse(Capabilities response) {
+                        if (!response.isMaintenanceEnabled()) {
+                            @ColorInt final int mainColor = parseColor(response.getColor());
+                            @ColorInt final int textColor = parseColor(response.getTextColor());
+                            runOnUiThread(() -> Application.saveBrandColors(MainActivity.this, mainColor, textColor));
+                        }
+                    }
+                });
+            } catch (OfflineException e) {
+                DeckLog.info("Cannot refresh capabilities because device is offline.");
+            }
+        }).start();
     }
 
     protected void clearCurrentBoard() {
