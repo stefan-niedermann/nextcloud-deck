@@ -12,7 +12,9 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccessControlBinding;
@@ -23,31 +25,40 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public static final long HEADER_ITEM_LOCAL_ID = -1L;
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
     @NonNull
-    private List<AccessControl> accessControls;
+    private List<AccessControl> accessControls = new LinkedList<>();
     @NonNull
     private AccessControlChangedListener accessControlChangedListener;
     @Nullable
     private Context context;
 
-    AccessControlAdapter(@NonNull List<AccessControl> accessControls, @NonNull AccessControlChangedListener accessControlChangedListener, @Nullable Context context) {
+    AccessControlAdapter(@NonNull AccessControlChangedListener accessControlChangedListener, @Nullable Context context) {
         super();
-        this.accessControls = accessControls;
         this.accessControlChangedListener = accessControlChangedListener;
         this.context = context;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        if (accessControls.size() > position) {
+            return accessControls.get(position).getLocalId();
+        }
+        throw new NoSuchElementException("Current list contains only " + accessControls.size() + " elements.");
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
-            ItemAccessControlOwnerBinding binding = ItemAccessControlOwnerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            final ItemAccessControlOwnerBinding binding = ItemAccessControlOwnerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new OwnerViewHolder(binding);
         } else if (viewType == TYPE_ITEM) {
-            ItemAccessControlBinding binding = ItemAccessControlBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            final ItemAccessControlBinding binding = ItemAccessControlBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new AccessControlViewHolder(binding);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -55,7 +66,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        AccessControl ac = accessControls.get(position);
+        final AccessControl ac = accessControls.get(position);
         if (holder instanceof OwnerViewHolder) {
             OwnerViewHolder ownerHolder = (OwnerViewHolder) holder;
             ownerHolder.binding.owner.setText(ac.getUser().getDisplayname());
@@ -80,7 +91,6 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             acHolder.binding.username.setText(ac.getUser().getDisplayname());
             acHolder.binding.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? context.getResources().getDrawable(R.drawable.ic_sync_blue_24dp) : null, null);
-            // TODO remove from list when deleted
             acHolder.binding.delete.setOnClickListener((v) -> accessControlChangedListener.deleteAccessControl(ac));
 
             acHolder.binding.permissionEdit.setChecked(ac.isPermissionEdit());
@@ -114,4 +124,15 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         return (position == 0) ? TYPE_HEADER : TYPE_ITEM;
     }
 
+    public void remove(AccessControl ac) {
+        final int index = this.accessControls.indexOf(ac);
+        if (this.accessControls.remove(ac)) {
+            notifyItemRemoved(index);
+        }
+    }
+
+    public void update(@NonNull List<AccessControl> accessControls) {
+        this.accessControls.addAll(accessControls);
+        notifyDataSetChanged();
+    }
 }
