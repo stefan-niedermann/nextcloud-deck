@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import java.io.File;
@@ -61,15 +59,14 @@ public class ServerAdapter {
 
     private Context applicationContext;
     private ApiProvider provider;
-    @Nullable private Activity sourceActivity;
     private SharedPreferences lastSyncPref;
 
-    public ServerAdapter(Context applicationContext, @Nullable Activity sourceActivity) {
-        this(applicationContext, sourceActivity, null);
+    public ServerAdapter(@NonNull Context applicationContext) {
+        this(applicationContext, null);
     }
-    public ServerAdapter(Context applicationContext, @Nullable Activity sourceActivity, String ssoAccountName) {
+
+    public ServerAdapter(@NonNull Context applicationContext, String ssoAccountName) {
         this.applicationContext = applicationContext;
-        this.sourceActivity = sourceActivity;
         prefKeyWifiOnly = applicationContext.getResources().getString(R.string.pref_key_wifi_only);
         provider = new ApiProvider(applicationContext, ssoAccountName);
         lastSyncPref = applicationContext.getSharedPreferences(
@@ -90,16 +87,16 @@ public class ServerAdapter {
 
     public void ensureInternetConnection() {
         boolean isConnected = hasInternetConnection();
-        if (!isConnected){
+        if (!isConnected) {
             throw new OfflineException();
         }
     }
 
-    public boolean hasInternetConnection(){
+    public boolean hasInternetConnection() {
         ConnectivityManager cm = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-            if (sharedPreferences.getBoolean(prefKeyWifiOnly, false)){
+            if (sharedPreferences.getBoolean(prefKeyWifiOnly, false)) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     Network network = cm.getActiveNetwork();
                     NetworkCapabilities capabilities = cm.getNetworkCapabilities(network);
@@ -142,135 +139,138 @@ public class ServerAdapter {
     }
 
     public void getBoards(IResponseCallback<List<FullBoard>> responseCallback) {
-        RequestHelper.request(sourceActivity, provider, () ->
-                provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())),
+        RequestHelper.request(provider, () ->
+                        provider.getDeckAPI().getBoards(true, getLastSyncDateFormatted(responseCallback.getAccount().getId())),
                 responseCallback);
     }
+
     public void getCapabilities(IResponseCallback<Capabilities> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
     }
 
     public void getActivitiesForCard(long cardId, IResponseCallback<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().getActivitiesForCard(cardId), responseCallback);
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getActivitiesForCard(cardId), responseCallback);
     }
 
     public void createBoard(Board board, IResponseCallback<FullBoard> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().createBoard(board), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().createBoard(board), responseCallback);
     }
 
 
     public void deleteBoard(Board board, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteBoard(board.getId()), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().deleteBoard(board.getId()), responseCallback);
     }
 
     public void updateBoard(Board board, IResponseCallback<FullBoard> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateBoard(board.getId(), board), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().updateBoard(board.getId(), board), responseCallback);
     }
 
     public void createAccessControl(long remoteBoardId, AccessControl acl, IResponseCallback<AccessControl> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().createAccessControl(remoteBoardId, acl), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().createAccessControl(remoteBoardId, acl), responseCallback);
     }
 
     public void updateAccessControl(long remoteBoardId, AccessControl acl, IResponseCallback<AccessControl> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateAccessControl(remoteBoardId, acl.getId(), acl), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().updateAccessControl(remoteBoardId, acl.getId(), acl), responseCallback);
     }
 
     public void deleteAccessControl(long remoteBoardId, AccessControl acl, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteAccessControl(remoteBoardId, acl.getId(), acl), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().deleteAccessControl(remoteBoardId, acl.getId(), acl), responseCallback);
     }
 
     public void getStacks(long boardId, IResponseCallback<List<FullStack>> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().getStacks(boardId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().getStacks(boardId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void getStack(long boardId, long stackId, IResponseCallback<FullStack> responseCallback) {
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().getStack(boardId, stackId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().getStack(boardId, stackId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void createStack(Board board, Stack stack, IResponseCallback<FullStack> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().createStack(board.getId(), stack), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().createStack(board.getId(), stack), responseCallback);
     }
 
     public void deleteStack(Board board, Stack stack, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteStack(board.getId(), stack.getId()), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().deleteStack(board.getId(), stack.getId()), responseCallback);
 
     }
 
     public void updateStack(Board board, Stack stack, IResponseCallback<FullStack> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateStack(board.getId(), stack.getId(), stack), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().updateStack(board.getId(), stack.getId(), stack), responseCallback);
 
     }
 
     public void getCard(long boardId, long stackId, long cardId, IResponseCallback<FullCard> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().getCard(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().getCard(boardId, stackId, cardId, getLastSyncDateFormatted(responseCallback.getAccount().getId())), responseCallback);
     }
 
     public void createCard(long boardId, long stackId, Card card, IResponseCallback<FullCard> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().createCard(boardId, stackId, card), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().createCard(boardId, stackId, card), responseCallback);
     }
 
     public void deleteCard(long boardId, long stackId, Card card, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteCard(boardId, stackId, card.getId()), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().deleteCard(boardId, stackId, card.getId()), responseCallback);
     }
 
     public void updateCard(long boardId, long stackId, CardUpdate card, IResponseCallback<FullCard> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateCard(boardId, stackId, card.getId(), card), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().updateCard(boardId, stackId, card.getId(), card), responseCallback);
     }
 
-    public void assignUserToCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<Void> responseCallback){
+    public void assignUserToCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().assignUserToCard(boardId, stackId, cardId, userUID), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().assignUserToCard(boardId, stackId, cardId, userUID), responseCallback);
     }
 
-    public void unassignUserFromCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<Void> responseCallback){
+    public void unassignUserFromCard(long boardId, long stackId, long cardId, String userUID, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().unassignUserFromCard(boardId, stackId, cardId, userUID), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().unassignUserFromCard(boardId, stackId, cardId, userUID), responseCallback);
     }
 
-    public void assignLabelToCard(long boardId, long stackId, long cardId, long labelId, IResponseCallback<Void> responseCallback){
+    public void assignLabelToCard(long boardId, long stackId, long cardId, long labelId, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().assignLabelToCard(boardId, stackId, cardId, labelId), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().assignLabelToCard(boardId, stackId, cardId, labelId), responseCallback);
     }
 
-    public void unassignLabelFromCard(long boardId, long stackId, long cardId, long labelId, IResponseCallback<Void> responseCallback){
+    public void unassignLabelFromCard(long boardId, long stackId, long cardId, long labelId, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().unassignLabelFromCard(boardId, stackId, cardId, labelId), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().unassignLabelFromCard(boardId, stackId, cardId, labelId), responseCallback);
     }
 
 
     // ## LABELS
-    public void createLabel(long boardId, Label label, IResponseCallback<Label> responseCallback){
+    public void createLabel(long boardId, Label label, IResponseCallback<Label> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().createLabel(boardId, label), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().createLabel(boardId, label), responseCallback);
     }
-    public void deleteLabel(long boardId, Label label, IResponseCallback<Void> responseCallback){
+
+    public void deleteLabel(long boardId, Label label, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteLabel(boardId, label.getId()), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().deleteLabel(boardId, label.getId()), responseCallback);
     }
-    public void updateLabel(long boardId, Label label, IResponseCallback<Label> responseCallback){
+
+    public void updateLabel(long boardId, Label label, IResponseCallback<Label> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateLabel(boardId, label.getId(), label), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().updateLabel(boardId, label.getId(), label), responseCallback);
     }
 
     public void reorder(long boardId, long currentStackId, long cardId, long newStackId, int newPosition, IResponseCallback<List<FullCard>> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().moveCard(boardId, currentStackId, cardId, new Reorder(newPosition, (int)newStackId)), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().moveCard(boardId, currentStackId, cardId, new Reorder(newPosition, (int) newStackId)), responseCallback);
     }
 
     // ## ATTACHMENTS
@@ -278,7 +278,7 @@ public class ServerAdapter {
         ensureInternetConnection();
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(getMimeType(attachment)), attachment));
         MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", null, RequestBody.create(MediaType.parse("text/plain"), "deck_file"));
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart), responseCallback);
     }
 
     @NonNull
@@ -300,40 +300,41 @@ public class ServerAdapter {
         File attachment = new File(attachmentUri.getPath());
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(contentType), attachment));
         MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", attachment.getName(), RequestBody.create(MediaType.parse("text/plain"), "deck_file"));
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().updateAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId, typePart, filePart), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().updateAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId, typePart, filePart), responseCallback);
     }
 
     public void downloadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, IResponseCallback<ResponseBody> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().downloadAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().downloadAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
     }
 
     public void deleteAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().deleteAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().deleteAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
     }
+
     public void restoreAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, long remoteAttachmentId, IResponseCallback<Attachment> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getDeckAPI().restoreAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
+        RequestHelper.request(provider, () -> provider.getDeckAPI().restoreAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId), responseCallback);
     }
 
     public void getCommentsForRemoteCardId(Long remoteCardId, IResponseCallback<OcsComment> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(null, provider, () -> provider.getNextcloudAPI().getCommentsForCard(remoteCardId), responseCallback);
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getCommentsForCard(remoteCardId), responseCallback);
     }
 
     public void createCommentForCard(DeckComment comment, IResponseCallback<OcsComment> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().createCommentForCard(comment.getObjectId(), comment), responseCallback);
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().createCommentForCard(comment.getObjectId(), comment), responseCallback);
     }
 
     public void updateCommentForCard(DeckComment comment, IResponseCallback<OcsComment> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().updateCommentForCard(comment.getObjectId(), comment.getId(), comment), responseCallback);
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().updateCommentForCard(comment.getObjectId(), comment.getId(), comment), responseCallback);
     }
 
     public void deleteCommentForCard(DeckComment comment, IResponseCallback<Void> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(sourceActivity, provider, () -> provider.getNextcloudAPI().deleteCommentForCard(comment.getObjectId(), comment.getId()), responseCallback);
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().deleteCommentForCard(comment.getObjectId(), comment.getId()), responseCallback);
     }
 }
