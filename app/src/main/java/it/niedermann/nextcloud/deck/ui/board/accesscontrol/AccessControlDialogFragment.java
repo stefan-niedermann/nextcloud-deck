@@ -6,18 +6,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardShareBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
@@ -91,10 +96,10 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
                 .create();
     }
 
-    public static AccessControlDialogFragment newInstance(@NonNull Long accountId, @NonNull Long boardId) {
-        AccessControlDialogFragment dialog = new AccessControlDialogFragment();
+    public static DialogFragment newInstance(@NonNull Long accountId, @NonNull Long boardId) {
+        final DialogFragment dialog = new AccessControlDialogFragment();
 
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putLong(KEY_ACCOUNT_ID, accountId);
         args.putLong(KEY_BOARD_ID, boardId);
         dialog.setArguments(args);
@@ -109,7 +114,14 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
 
     @Override
     public void deleteAccessControl(AccessControl ac) {
-        syncManager.deleteAccessControl(ac);
+        final WrappedLiveData<Void> wrappedDeleteLiveData = syncManager.deleteAccessControl(ac);
+        LiveDataHelper.observeOnce(wrappedDeleteLiveData, this, (ignored) -> {
+            if (wrappedDeleteLiveData.hasError()) {
+                Toast.makeText(requireContext(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Toast.LENGTH_LONG).show();
+                DeckLog.logError(wrappedDeleteLiveData.getError());
+            }
+        });
+
         adapter.remove(ac);
     }
 
