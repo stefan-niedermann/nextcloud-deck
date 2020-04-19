@@ -42,7 +42,7 @@
     <string name="about_icons_disclaimer_app_icon">Para a icona orixinal, vexa %1$s.</string>
     <string name="about_icons_disclaimer_mdi_icons">Todas as iconas usadas nesta aplicación son %1$s feitas por Google Inc. e licenciadas baixo unha Licenza Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Iconas Material Desig</string>
-    <string name="about_credits_tab_title">Créditos</string>
+    <string name="about_credits_tab_title">Recoñecementos</string>
     <string name="about_contribution_tab_title">Colaboración</string>
     <string name="about_license_tab_title">Licenza</string>
 
@@ -77,6 +77,9 @@
     <string name="error">Apareceu un erro</string>
     <string name="operation_not_yet_supported">Aínda non está admitido</string>
     <string name="simple_copy">copiar</string>
+    <string name="simple_synchronization">Sincronización</string>
+    <string name="simple_appearance">Aparencia</string>
+    <string name="simple_error">Erro</string>
     <string name="simple_exception">Excepción</string>
     <string name="copied_to_clipboard">Copiado no portapapeis.</string>
     <string name="simple_close">pechar</string>
@@ -107,6 +110,7 @@
     <string name="simple_rename">Renomear</string>
     <string name="simple_settings">Axustes</string>
     <string name="settings_theme_title">Tema escuro</string>
+    <string name="settings_branding_title">Imaxe de marca</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con WiFi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con WiFi</string>
@@ -154,4 +158,7 @@
     <string name="choose_board">Escolla o taboleiro</string>
     <string name="choose_list">Escolla a lista</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Abrir no navegador</string>
+    <string name="simple_open">Abrir</string>
+    <string name="updating_card">Actualizado tarxeta…</string>
+    </resources>

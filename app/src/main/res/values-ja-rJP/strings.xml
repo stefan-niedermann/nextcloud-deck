@@ -71,6 +71,7 @@
 
     <string name="error">エラーが見つかりました</string>
     <string name="simple_copy">コピー</string>
+    <string name="simple_error">エラー</string>
     <string name="simple_exception">例外</string>
     <string name="copied_to_clipboard">クリップボードにコピーされました</string>
     <string name="simple_close">閉じる</string>
@@ -128,4 +129,6 @@
     <string name="provide_at_least_a_title_or_description">少なくともタイトルまたは説明を入力してください</string>
     <string name="server_error">サーバーエラー</string>
     <string name="card_edit_comments">コメント</string>
+    <string name="open_in_browser">ブラウザーで開く</string>
+    <string name="simple_open">開店時間</string>
     </resources>

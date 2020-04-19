@@ -70,6 +70,7 @@
 
     <string name="error">S\'ha produït un error</string>
     <string name="simple_copy">copia</string>
+    <string name="simple_error">Error</string>
     <string name="simple_exception">Excepció</string>
     <string name="copied_to_clipboard">S\'ha copiat al porta-retalls</string>
     <string name="simple_close">tanca</string>
@@ -123,4 +124,6 @@
     <string name="simple_copied">Copiat</string>
     <string name="server_error">Error del servidor</string>
     <string name="card_edit_comments">Comentaris</string>
+    <string name="open_in_browser">Obre al navegador</string>
+    <string name="simple_open">Obert</string>
     </resources>

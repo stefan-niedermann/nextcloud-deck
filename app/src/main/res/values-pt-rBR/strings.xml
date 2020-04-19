@@ -77,6 +77,9 @@
     <string name="error">Ocorreu um erro</string>
     <string name="operation_not_yet_supported">Ainda não suportado</string>
     <string name="simple_copy">copiar</string>
+    <string name="simple_synchronization">Sincronização</string>
+    <string name="simple_appearance">Aparência</string>
+    <string name="simple_error">Erro</string>
     <string name="simple_exception">Exceção</string>
     <string name="copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="simple_close">fechar</string>
@@ -107,6 +110,7 @@
     <string name="simple_rename">Renomear</string>
     <string name="simple_settings">Configurações</string>
     <string name="settings_theme_title">Tema escuro</string>
+    <string name="settings_branding_title">Marcação</string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
@@ -154,4 +158,7 @@
     <string name="choose_board">Escolher painel</string>
     <string name="choose_list">Escolher lista</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Abrir no navegador</string>
+    <string name="simple_open">Abrir</string>
+    <string name="updating_card">Atualizando cartão...</string>
+    </resources>

@@ -39,10 +39,11 @@
     <string name="about_app_license">این برنامه تحت مجوز GNU GENERAL PUBLIC LICENSE v3 + مجاز است.</string>
     <string name="about_app_license_button">مشاهده مجوز</string>
     <string name="about_icons_disclaimer_title">آیکون ها</string>
+    <string name="about_icons_disclaimer_app_icon">برای مشاره آیکون اصلی %1$s را ببینید.</string>
     <string name="about_icons_disclaimer_mdi">شمایل طراحی مواد</string>
     <string name="about_credits_tab_title">اعتبارات</string>
     <string name="about_contribution_tab_title">مشارکت</string>
-    <string name="about_license_tab_title">License</string>
+    <string name="about_license_tab_title">مجوز کاربری</string>
 
     <string name="seconds_ago">ثانیه‌هایی پیش</string>
     <string name="edit">ویرایش</string>
@@ -70,6 +71,7 @@
 
     <string name="error">خطایی ظاهر شد</string>
     <string name="simple_copy">کپی</string>
+    <string name="simple_error">خطا</string>
     <string name="simple_exception">استثنا</string>
     <string name="copied_to_clipboard">در حافظه رونویسی شد</string>
     <string name="simple_close">بستن</string>
@@ -120,6 +122,12 @@
     <string name="hours_6">۶ ساعت</string>
     <string name="action_card_move">انتقال کارت</string>
     <string name="action_card_move_title">حرکت%1$s</string>
+    <string name="server_misconfigured">خطای تنظیمات سرور</string>
     <string name="server_error">خطای سرور</string>
+    <string name="could_not_copy_to_clipboard">به کلیپ بورد کپی نشد</string>
+    <string name="add_comment">افزودن نظر</string>
     <string name="card_edit_comments">نظرات</string>
+    <string name="no_comments_yet">هنوز نظری ثبت نشده است</string>
+    <string name="open_in_browser">باز کردن در مرورگر</string>
+    <string name="simple_open">باز کن...</string>
     </resources>

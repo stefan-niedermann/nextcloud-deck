@@ -77,6 +77,9 @@
     <string name="error">Es ist ein Fehler aufgetreten</string>
     <string name="operation_not_yet_supported">Wird bislang noch nicht unterstützt</string>
     <string name="simple_copy">kopieren</string>
+    <string name="simple_synchronization">Synchronisierung</string>
+    <string name="simple_appearance">Aussehen</string>
+    <string name="simple_error">Fehler</string>
     <string name="simple_exception">Ausnahme</string>
     <string name="copied_to_clipboard">In die Zwischenablage kopiert</string>
     <string name="simple_close">Schließen</string>
@@ -107,6 +110,7 @@
     <string name="simple_rename">Umbenennen</string>
     <string name="simple_settings">Einstellungen</string>
     <string name="settings_theme_title">Dunkles Design</string>
+    <string name="settings_branding_title">Branding</string>
     <string name="settings_background_sync">Hintergrundsynchronisierung</string>
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
@@ -154,4 +158,7 @@
     <string name="choose_board">Board auswählen</string>
     <string name="choose_list">Liste auswählen</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Im Browser öffnen</string>
+    <string name="simple_open">Öffnen</string>
+    <string name="updating_card">Karte wird aktualisiert…</string>
+    </resources>

@@ -77,6 +77,7 @@
     <string name="error">Дошло је до грешке</string>
     <string name="operation_not_yet_supported">Није још подржано</string>
     <string name="simple_copy">копирај</string>
+    <string name="simple_error">Грешка</string>
     <string name="simple_exception">Изузетак</string>
     <string name="copied_to_clipboard">Копирано у клипборд</string>
     <string name="simple_close">затвори</string>
@@ -154,4 +155,6 @@
     <string name="choose_board">Одаберите таблу</string>
     <string name="choose_list">Одаберите списак</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Отвори у прегледачу</string>
+    <string name="simple_open">Отвори</string>
+    </resources>

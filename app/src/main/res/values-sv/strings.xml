@@ -77,6 +77,7 @@
     <string name="error">Ett fel inträffade</string>
     <string name="operation_not_yet_supported">Stöds inte än</string>
     <string name="simple_copy">kopiera</string>
+    <string name="simple_error">Fel</string>
     <string name="simple_exception">Undantag</string>
     <string name="copied_to_clipboard">Kopierat till urklipp</string>
     <string name="simple_close">stäng</string>
@@ -149,4 +150,11 @@
     <string name="add_comment">Lägg till kommentar</string>
     <string name="card_edit_comments">Kommentarer</string>
     <string name="no_comments_yet">Inga kommentarer än</string>
+    <string name="no_boards">Inga tavlor än</string>
+    <string name="add_a_new_board_using_the_button">Lägg till en ny tavla med + knappen</string>
+    <string name="choose_board">Välj tavla</string>
+    <string name="choose_list">Välj lista</string>
+    <string name="task_count">%1$s/%2$s</string>
+    <string name="open_in_browser">Öppna i webbläsare</string>
+    <string name="simple_open">Öppen</string>
     </resources>

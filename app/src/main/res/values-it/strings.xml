@@ -77,6 +77,9 @@
     <string name="error">Si è verificato un errore</string>
     <string name="operation_not_yet_supported">Non ancora supportato</string>
     <string name="simple_copy">copia</string>
+    <string name="simple_synchronization">Sincronizzazione</string>
+    <string name="simple_appearance">Aspetto</string>
+    <string name="simple_error">Errore</string>
     <string name="simple_exception">Eccezione</string>
     <string name="copied_to_clipboard">Copiato negli appunti</string>
     <string name="simple_close">chiudi</string>
@@ -107,6 +110,7 @@
     <string name="simple_rename">Rinomina</string>
     <string name="simple_settings">Impostazioni</string>
     <string name="settings_theme_title">Tema scuro</string>
+    <string name="settings_branding_title">Marchio</string>
     <string name="settings_background_sync">Sincronizzazione in background</string>
     <string name="pref_value_wifi_and_mobile">Sincronizza su Wi-FI e dati mobili</string>
     <string name="pref_value_wifi_only">Sincronizza solo con Wi-Fi</string>
@@ -154,4 +158,7 @@
     <string name="choose_board">Scegli lavagna</string>
     <string name="choose_list">Scegli elenco</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Apri nel browser</string>
+    <string name="simple_open">Apri</string>
+    <string name="updating_card">Aggiornamento scheda...</string>
+    </resources>

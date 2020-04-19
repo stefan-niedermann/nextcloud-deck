@@ -77,6 +77,7 @@
     <string name="error">Bir sorun çıktı</string>
     <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
     <string name="simple_copy">kopyala</string>
+    <string name="simple_error">Hata</string>
     <string name="simple_exception">İstisna</string>
     <string name="copied_to_clipboard">Panoya kopyalandı</string>
     <string name="simple_close">kapat</string>
@@ -151,4 +152,10 @@
     <string name="no_comments_yet">Henüz bir yorum yok</string>
     <string name="no_boards">Henüz bir pano yok</string>
     <string name="add_a_new_board_using_the_button">+ düğmesini kullanarak yeni bir pano ekleyebilirsiniz</string>
+    <string name="choose_board">Pano seçin</string>
+    <string name="choose_list">Liste seçin</string>
+    <string name="task_count">%1$s/%2$s</string>
+    <string name="open_in_browser">Tarayıcıda aç</string>
+    <string name="simple_open">Aç</string>
+    <string name="updating_card">Kart güncelleniyor…</string>
     </resources>

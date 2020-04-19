@@ -77,6 +77,9 @@
     <string name="error">Objevila se chyba</string>
     <string name="operation_not_yet_supported">Zatím nepodorováno</string>
     <string name="simple_copy">zkopírovat</string>
+    <string name="simple_synchronization">Synchronizace</string>
+    <string name="simple_appearance">Vzhled</string>
+    <string name="simple_error">Chyba</string>
     <string name="simple_exception">Výjimka</string>
     <string name="copied_to_clipboard">Zkopírováno do schránky</string>
     <string name="simple_close">zavřít</string>
@@ -107,6 +110,7 @@
     <string name="simple_rename">Přejmenovat</string>
     <string name="simple_settings">Nastavení</string>
     <string name="settings_theme_title">Tmavý motiv vzhledu</string>
+    <string name="settings_branding_title">Opatření vlastním logem</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
@@ -154,4 +158,7 @@
     <string name="choose_board">Zvolit tabuli</string>
     <string name="choose_list">Zvolit seznam</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Otevřít v prohlížeči</string>
+    <string name="simple_open">Otevřeno</string>
+    <string name="updating_card">Aktualizace karty…</string>
+    </resources>

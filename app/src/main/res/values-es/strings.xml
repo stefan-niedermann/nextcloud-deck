@@ -77,6 +77,7 @@
     <string name="error">Ha aparecido un error</string>
     <string name="operation_not_yet_supported">No está soportado todavía</string>
     <string name="simple_copy">copiar</string>
+    <string name="simple_error">Error</string>
     <string name="simple_exception">Excepción</string>
     <string name="copied_to_clipboard">Copiado al portapapeles</string>
     <string name="simple_close">cerrar</string>
@@ -149,4 +150,12 @@
     <string name="add_comment">Agregar comentario</string>
     <string name="card_edit_comments">Comentarios</string>
     <string name="no_comments_yet">Todavía no hay comentarios.</string>
+    <string name="no_boards">Todavía no hay tableros</string>
+    <string name="add_a_new_board_using_the_button">Añadir un nuevo tablero utilizando el botón +</string>
+    <string name="choose_board">Escoger tablero</string>
+    <string name="choose_list">Elegir lista</string>
+    <string name="task_count">%1$s/%2$s</string>
+    <string name="open_in_browser">Abrir en navegador</string>
+    <string name="simple_open">Abrir</string>
+    <string name="updating_card">Actualizando tarjeta</string>
     </resources>
