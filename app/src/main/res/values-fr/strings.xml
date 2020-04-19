@@ -77,6 +77,9 @@
     <string name="error">Une erreur est survenue</string>
     <string name="operation_not_yet_supported">Non supporté actuellement</string>
     <string name="simple_copy">copier</string>
+    <string name="simple_synchronization">Synchronisation</string>
+    <string name="simple_appearance">Apparence</string>
+    <string name="simple_error">Erreur</string>
     <string name="simple_exception">Exception</string>
     <string name="copied_to_clipboard">Copié dans le presse-papier</string>
     <string name="simple_close">fermer</string>
@@ -152,4 +155,6 @@
     <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>
     <string name="choose_list">Sélectionner la liste</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Ouvrir dans le navigateur web</string>
+    <string name="simple_open">Ouvert</string>
+    </resources>

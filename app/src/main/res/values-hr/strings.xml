@@ -74,6 +74,7 @@
 
     <string name="error">Pojavila se pogreška</string>
     <string name="simple_copy">kopiraj</string>
+    <string name="simple_error">Pogreška</string>
     <string name="simple_exception">Izuzetak</string>
     <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
     <string name="simple_close">zatvori</string>
@@ -139,4 +140,6 @@
     <string name="share_add_to_card">Dodaj kartici</string>
     <string name="share_success">%1$s uspješno dodano %2$s</string>
     <string name="card_edit_comments">Komentari</string>
+    <string name="open_in_browser">Otvori u pregledniku</string>
+    <string name="simple_open">Otvori</string>
     </resources>

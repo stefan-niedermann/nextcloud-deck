@@ -77,6 +77,9 @@
     <string name="error">Vyskytla sa chyba</string>
     <string name="operation_not_yet_supported">Zatiaľ nepodporované</string>
     <string name="simple_copy">kopírovať</string>
+    <string name="simple_synchronization">Synchronizácia</string>
+    <string name="simple_appearance">Vzhľad</string>
+    <string name="simple_error">Chyba</string>
     <string name="simple_exception">Výnimka</string>
     <string name="copied_to_clipboard">Skopírované do schránky</string>
     <string name="simple_close">Zatvoriť</string>
@@ -107,6 +110,7 @@
     <string name="simple_rename">Premenovať</string>
     <string name="simple_settings">Nastavenia</string>
     <string name="settings_theme_title">Tmavý motív</string>
+    <string name="settings_branding_title">Použitie vlastného loga</string>
     <string name="settings_background_sync">Synchronizácia na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchronizovať na Wi-Fi a mobilných dátach</string>
     <string name="pref_value_wifi_only">Synchronizovať len na Wi-Fi</string>
@@ -151,4 +155,10 @@
     <string name="no_comments_yet">Zatiaľ žiadne komentáre</string>
     <string name="no_boards">Zatiaľ žiadne nástenky</string>
     <string name="add_a_new_board_using_the_button">Pridajte novú nástenku pomocou tlačidla +</string>
+    <string name="choose_board">Vybrať nástenku</string>
+    <string name="choose_list">Vybrať zoznam</string>
+    <string name="task_count">%1$s/%2$s</string>
+    <string name="open_in_browser">Otvoriť v prehliadači</string>
+    <string name="simple_open">Otvoriť</string>
+    <string name="updating_card">Aktualizácia karty…</string>
     </resources>

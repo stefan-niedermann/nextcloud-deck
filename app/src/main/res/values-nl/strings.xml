@@ -77,6 +77,7 @@
     <string name="error">Er is een fout verschenen</string>
     <string name="operation_not_yet_supported">Nog niet ondersteund</string>
     <string name="simple_copy">kopiëren</string>
+    <string name="simple_error">Fout</string>
     <string name="simple_exception">Uitzondering</string>
     <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
     <string name="simple_close">sluiten</string>
@@ -154,4 +155,6 @@
     <string name="choose_board">Kies bord</string>
     <string name="choose_list">Kies lijst</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="simple_open">Openen</string>
+    </resources>

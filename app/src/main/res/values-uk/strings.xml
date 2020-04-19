@@ -70,6 +70,7 @@
 
     <string name="error">Сталася помилка </string>
     <string name="simple_copy">копіювати</string>
+    <string name="simple_error">Помилка</string>
     <string name="simple_exception">Виняток</string>
     <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
     <string name="simple_close">закрити</string>
@@ -122,4 +123,6 @@
     <string name="action_card_move_title">Пересунути %1$s</string>
     <string name="server_error">Помилка серверу</string>
     <string name="card_edit_comments">Коментарі</string>
+    <string name="open_in_browser">Відкрити у переглядачі</string>
+    <string name="simple_open">Відкрити</string>
     </resources>

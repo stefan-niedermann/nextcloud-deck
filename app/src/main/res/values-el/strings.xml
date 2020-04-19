@@ -77,6 +77,7 @@
     <string name="error">Παρουσιάστηκε σφάλμα</string>
     <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
     <string name="simple_copy">αντιγραφή</string>
+    <string name="simple_error">Σφάλμα</string>
     <string name="simple_exception">Εξαίρεση</string>
     <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
     <string name="simple_close">κλείσιμο</string>
@@ -154,4 +155,7 @@
     <string name="choose_board">Επιλογή πίνακα</string>
     <string name="choose_list">Επιλογή λίστας</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Άνοιγμα στον περιηγητή ιστού</string>
+    <string name="simple_open">Άνοιγμα</string>
+    <string name="updating_card">Ενημέρωση καρτέλας...</string>
+    </resources>

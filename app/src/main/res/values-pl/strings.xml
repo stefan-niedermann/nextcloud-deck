@@ -77,6 +77,7 @@
     <string name="error">Wystąpił błąd</string>
     <string name="operation_not_yet_supported">Jeszcze nie obsługiwane</string>
     <string name="simple_copy">kopiuj</string>
+    <string name="simple_error">Błąd</string>
     <string name="simple_exception">Wyjątek</string>
     <string name="copied_to_clipboard">Skopiowano do schowka</string>
     <string name="simple_close">zamknij</string>
@@ -154,4 +155,7 @@
     <string name="choose_board">Wybierz tablicę</string>
     <string name="choose_list">Wybierz listę</string>
     <string name="task_count">%1$s/%2$s</string>
-</resources>
+    <string name="open_in_browser">Otwórz w przeglądarce</string>
+    <string name="simple_open">Otwórz</string>
+    <string name="updating_card">Aktualizowanie karty…</string>
+    </resources>

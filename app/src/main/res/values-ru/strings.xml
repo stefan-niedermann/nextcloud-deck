@@ -77,6 +77,7 @@
     <string name="error">Произошла ошибка</string>
     <string name="operation_not_yet_supported">Ещё не поддерживается</string>
     <string name="simple_copy">Копировать</string>
+    <string name="simple_error">Ошибка</string>
     <string name="simple_exception">Исключение</string>
     <string name="copied_to_clipboard">Скопировано в буфер</string>
     <string name="simple_close">закрыть</string>
@@ -153,4 +154,6 @@
     <string name="add_a_new_board_using_the_button">Добавьте новую доску с помощью кнопки (+)</string>
     <string name="choose_board">Выбрать доску</string>
     <string name="choose_list">Выбрать список</string>
+    <string name="open_in_browser">Открыть в браузере</string>
+    <string name="simple_open">Открыто</string>
     </resources>

@@ -72,6 +72,7 @@
 
     <string name="error">Villa kom upp</string>
     <string name="simple_copy">afrita</string>
+    <string name="simple_error">Villa</string>
     <string name="simple_exception">Frávik</string>
     <string name="copied_to_clipboard">Afritað á klippispjaldið</string>
     <string name="simple_close">loka</string>
@@ -125,4 +126,6 @@
     <string name="provide_at_least_a_title_or_description">Gefðu upp í það minnsta titil eða lýsingu</string>
     <string name="server_error">Villa frá þjóni</string>
     <string name="card_edit_comments">Athugasemdir</string>
+    <string name="open_in_browser">Opna í vafra</string>
+    <string name="simple_open">Opna</string>
     </resources>
