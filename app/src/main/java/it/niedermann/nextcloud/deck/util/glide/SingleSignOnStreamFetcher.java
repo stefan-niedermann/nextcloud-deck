@@ -17,14 +17,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.niedermann.nextcloud.deck.DeckLog;
-
 
 /**
  * Fetches an {@link InputStream} using the Nextcloud SSO library.
  */
 public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
-    private static final String TAG = SingleSignOnStreamFetcher.class.getCanonicalName();
+    private static final String METHOD_GET = "GET";
 
     private final NextcloudAPI client;
     private final GlideUrl url;
@@ -38,19 +36,18 @@ public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
 
     @Override
     public void loadData(@NonNull Priority priority, @NonNull final DataCallback<? super InputStream> callback) {
-        NextcloudRequest.Builder requestBuilder = null;
+        final NextcloudRequest.Builder requestBuilder;
         try {
             requestBuilder = new NextcloudRequest.Builder()
-                    .setMethod("GET")
+                    .setMethod(METHOD_GET)
                     .setUrl(url.toURL().getPath());
-            Map<String, List<String>> header = new HashMap<>();
+            final Map<String, List<String>> header = new HashMap<>();
             for (Map.Entry<String, String> headerEntry : url.getHeaders().entrySet()) {
                 header.put(headerEntry.getKey(), Collections.singletonList(headerEntry.getValue()));
             }
             requestBuilder.setHeader(header);
-            NextcloudRequest nextcloudRequest = requestBuilder.build();
-            DeckLog.log(nextcloudRequest.toString());
-            Response response = client.performNetworkRequestV2(nextcloudRequest);
+            final NextcloudRequest nextcloudRequest = requestBuilder.build();
+            final Response response = client.performNetworkRequestV2(nextcloudRequest);
             callback.onDataReady(response.getBody());
         } catch (MalformedURLException e) {
             callback.onLoadFailed(e);

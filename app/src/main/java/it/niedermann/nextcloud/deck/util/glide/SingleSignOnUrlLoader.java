@@ -14,6 +14,8 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.InputStream;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -76,7 +78,7 @@ public class SingleSignOnUrlLoader implements ModelLoader<GlideUrl, InputStream>
 
         @NonNull
         @Override
-        public ModelLoader<GlideUrl, InputStream> build(MultiModelLoaderFactory multiFactory) {
+        public ModelLoader<GlideUrl, InputStream> build(@NotNull MultiModelLoaderFactory multiFactory) {
             return loader;
         }
 

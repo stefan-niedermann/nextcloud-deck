@@ -24,6 +24,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
@@ -64,7 +65,6 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
@@ -131,17 +131,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private boolean currentBoardHasEditPermission = false;
     private boolean currentBoardHasStacks = false;
     private boolean firstAccountAdded = false;
-    private Snackbar deckVersionTooLowSnackbar = null;
-    private Snackbar accountIsGettingImportedSnackbar;
     private ConnectivityManager.NetworkCallback networkCallback;
 
     private String accountAlreadyAdded;
     private String urlFragmentUpdateDeck;
     private String addList;
     private String addBoard;
-    private int minimumServerAppMajor;
-    private int minimumServerAppMinor;
-    private int minimumServerAppPatch;
     @Nullable
     private TabLayoutMediator mediator;
     @Nullable
@@ -162,12 +157,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         addBoard = getString(R.string.add_board);
         accountAlreadyAdded = getString(R.string.account_already_added);
         urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
-        minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
-        minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
-        minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
 
         setSupportActionBar(binding.toolbar);
-        accountIsGettingImportedSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
 
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -207,7 +198,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                             syncManager.synchronize(new IResponseCallback<Boolean>(MainActivity.this.currentAccount) {
                                 @Override
                                 public void onResponse(Boolean response) {
-                                    MainActivity.this.accountIsGettingImportedSnackbar.dismiss();
                                 }
 
                                 @Override
@@ -416,6 +406,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         syncManager.updateBoard(fullBoard);
     }
 
+    @UiThread
     protected void setCurrentAccount(@NonNull Account account) {
         this.currentAccount = account;
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.currentAccount.getName());
@@ -593,9 +584,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             //noinspection SwitchStatementWithTooFewBranches
             switch (item.getItemId()) {
                 case MENU_ID_ADD_ACCOUNT:
-                    if (deckVersionTooLowSnackbar != null) {
-                        deckVersionTooLowSnackbar.dismiss();
-                    }
                     try {
                         AccountImporter.pickNewAccount(this);
                     } catch (NextcloudFilesAppNotInstalledException e) {
@@ -702,62 +690,97 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             default:
                 try {
                     AccountImporter.onActivityResult(requestCode, resultCode, data, this, (account) -> {
+                        final Account previousAccount = currentAccount;
                         final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
-                        accountLiveData.observe(this, (Account createdAccount) -> {
-                            if (accountLiveData.hasError()) {
+                        accountLiveData.observe(this, (createdAccount) -> {
+                            if (!accountLiveData.hasError()) {
+                                if (createdAccount == null) {
+                                    throw new IllegalStateException("Created account must not be null");
+                                }
+
+                                final SyncManager importSyncManager = new SyncManager(this, account.name);
+
+                                try {
+                                    importSyncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
+                                        @Override
+                                        public void onResponse(Capabilities response) {
+                                            if (!response.isMaintenanceEnabled()) {
+                                                final int minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
+                                                final int minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
+                                                final int minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
+                                                if (response.getDeckVersion().isGreaterOrEqualTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch))) {
+                                                    runOnUiThread(() -> {
+                                                        setCurrentAccount(account);
+                                                        final Snackbar importSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
+                                                        importSnackbar.show();
+
+                                                        importSyncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
+                                                            @Override
+                                                            public void onResponse(Boolean response) {
+                                                                importSnackbar.dismiss();
+                                                            }
+
+                                                            @Override
+                                                            public void onError(Throwable throwable) {
+                                                                super.onError(throwable);
+                                                                if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                                                    runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this));
+                                                                }
+                                                            }
+                                                        });
+                                                    });
+                                                } else {
+                                                    runOnUiThread(() -> {
+                                                        new BrandedAlertDialogBuilder(MainActivity.this)
+                                                                .setTitle(R.string.update_deck)
+                                                                .setMessage(R.string.deck_outdated_please_update)
+                                                                .setNegativeButton(R.string.simple_discard, null)
+                                                                .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
+                                                                    final Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                                    openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                                    startActivity(openURL);
+                                                                    finish();
+                                                                }).show();
+                                                        setCurrentAccount(previousAccount);
+                                                    });
+                                                    syncManager.deleteAccount(createdAccount.getId());
+                                                }
+                                            } else {
+                                                runOnUiThread(() -> {
+                                                    new BrandedAlertDialogBuilder(MainActivity.this)
+                                                            .setTitle(R.string.maintenance_mode)
+                                                            .setMessage(getString(R.string.maintenance_mode_explanation, createdAccount.getUrl()))
+                                                            .setPositiveButton(R.string.simple_close, null)
+                                                            .show();
+                                                    setCurrentAccount(previousAccount);
+                                                });
+                                                syncManager.deleteAccount(createdAccount.getId());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable throwable) {
+                                            super.onError(throwable);
+                                        }
+                                    });
+                                } catch (OfflineException e) {
+                                    runOnUiThread(() -> {
+                                        new BrandedAlertDialogBuilder(MainActivity.this)
+                                                .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
+                                                .setPositiveButton(R.string.simple_close, null)
+                                                .show();
+                                        setCurrentAccount(previousAccount);
+                                    });
+                                    syncManager.deleteAccount(createdAccount.getId());
+                                }
+                            } else {
                                 try {
                                     accountLiveData.throwError();
                                 } catch (SQLiteConstraintException ex) {
                                     Snackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
                                 }
-                            } else {
-                                if (createdAccount == null) {
-                                    throw new IllegalStateException("Created account must not be null");
-                                }
-                                Account oldAccount = this.currentAccount;
-                                this.currentAccount = createdAccount;
-
-                                try {
-                                    syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
-                                        @Override
-                                        public void onResponse(Capabilities response) {
-                                            if (response.getDeckVersion().compareTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
-                                                deckVersionTooLowSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.your_deck_version_is_too_old, Snackbar.LENGTH_INDEFINITE).setAction(R.string.simple_more, v -> {
-                                                    new BrandedAlertDialogBuilder(MainActivity.this)
-                                                            .setTitle(R.string.update_deck)
-                                                            .setMessage(R.string.deck_outdated_please_update)
-                                                            .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
-                                                                Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                                openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
-                                                                startActivity(openURL);
-                                                            })
-                                                            .setNegativeButton(R.string.simple_discard, null).show();
-                                                });
-                                                deckVersionTooLowSnackbar.show();
-                                                syncManager.deleteAccount(createdAccount.getId());
-                                                this.account = oldAccount;
-                                            } else {
-                                                SyncWorker.update(getApplicationContext());
-                                                accountIsGettingImportedSnackbar.show();
-                                                setCurrentAccount(account);
-                                            }
-                                        }
-                                    });
-                                } catch (OfflineException e) {
-                                    new BrandedAlertDialogBuilder(MainActivity.this)
-                                            .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
-                                            .setPositiveButton(R.string.simple_close, null)
-                                            .show();
-                                    syncManager.deleteAccount(createdAccount.getId());
-                                    if (oldAccount == null) {
-                                        throw new IllegalStateException("Could not revert to old account because it was null.");
-                                    }
-                                    this.currentAccount = oldAccount;
-                                }
                             }
                         });
-
-                        SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.name);
                     });
                 } catch (AccountImportCancelledException e) {
                     DeckLog.info("Account import has been canceled.");
@@ -788,7 +811,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         syncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
                             @Override
                             public void onResponse(Boolean response) {
-                                accountIsGettingImportedSnackbar.dismiss();
                                 DeckLog.log("Auto-Sync after connection available successful");
                             }
 

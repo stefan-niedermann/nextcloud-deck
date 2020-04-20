@@ -166,7 +166,7 @@
     <string name="server_misconfigured">Server misconfigured</string>
     <string name="server_misconfigured_explanation">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client. You can find our contact information for support in the about-section.</string>
     <string name="server_error">Server error</string>
-    <string name="server_error_explanation">Your server responded with a HTTP 503 status code. This can be the case if the server is currently in maintenance mode. Please contact your administrator or us for support. You can find our contact information in the about-section.</string>
+    <string name="maintenance_mode_explanation">The server %1$s is currently in maintenance mode. Please contact your administrator or try later again.</string>
     <string name="share_add_to_card">Add to card</string>
     <string name="share_success">Successfully added %1$s to %2$s</string>
     <string name="could_not_copy_to_clipboard">Could not copy to clipboard</string>
@@ -184,4 +184,5 @@
     <string name="updating_card">Updating card…</string>
     <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
     <string name="maintenance_mode">Server in maintenance mode</string>
+    <string name="simple_switch">Switch</string>
 </resources>
