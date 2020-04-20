@@ -278,14 +278,14 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         return false;
     }
 
-    protected boolean optionsItemSelected(@NonNull Context context, @NotNull MenuItem item, FullCard card) {
+    protected boolean optionsItemSelected(@NonNull Context context, @NotNull MenuItem item, FullCard fullCard) {
         switch (item.getItemId()) {
             case R.id.action_card_assign: {
-                new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), account.getUserName()), card.getCard())).start();
+                new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
                 return true;
             }
             case R.id.action_card_unassign: {
-                new Thread(() -> syncManager.unassignUserFromCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), account.getUserName()), card.getCard())).start();
+                new Thread(() -> syncManager.unassignUserFromCard(syncManager.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
                 return true;
             }
             case R.id.action_card_move: {
@@ -298,7 +298,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                         currentStackItem = i;
                     }
                 }
-                final FullCard newCard = card;
+                final FullCard newCard = fullCard;
                 new BrandedAlertDialogBuilder(context)
                         .setSingleChoiceItems(items, currentStackItem, (dialog, which) -> {
                             dialog.cancel();
@@ -306,21 +306,21 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                             LiveDataHelper.observeOnce(syncManager.updateCard(newCard), lifecycleOwner, (c) -> {
                                 // Nothing to do here...
                             });
-                            DeckLog.log("Moved card \"" + card.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
+                            DeckLog.log("Moved card \"" + fullCard.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
                         })
                         .setNegativeButton(android.R.string.cancel, null)
-                        .setTitle(context.getString(R.string.action_card_move_title, card.getCard().getTitle()))
+                        .setTitle(context.getString(R.string.action_card_move_title, fullCard.getCard().getTitle()))
                         .show();
                 return true;
             }
             case R.id.action_card_archive: {
                 // TODO error handling
-                syncManager.archiveCard(card);
+                syncManager.archiveCard(fullCard);
                 return true;
             }
             case R.id.action_card_delete: {
                 // TODO error handling
-                syncManager.deleteCard(card.getCard());
+                syncManager.deleteCard(fullCard.getCard());
                 return true;
             }
         }

@@ -46,11 +46,11 @@ public class ArchivedCardsAdapter extends CardAdapter {
         // Nothing to do
     }
 
-    protected boolean optionsItemSelected(@NonNull Context context, @NotNull MenuItem item, FullCard card) {
+    protected boolean optionsItemSelected(@NonNull Context context, @NotNull MenuItem item, FullCard fullCard) {
         //noinspection SwitchStatementWithTooFewBranches
         switch (item.getItemId()) {
             case R.id.action_card_dearchive: {
-                new Thread(() -> syncManager.dearchiveCard(card)).start();
+                new Thread(() -> syncManager.dearchiveCard(fullCard)).start();
                 return true;
             }
             default: {
