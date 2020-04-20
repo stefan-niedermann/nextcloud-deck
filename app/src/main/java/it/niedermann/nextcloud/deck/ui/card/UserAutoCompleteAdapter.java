@@ -49,7 +49,6 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
         try {
             SingleSignOnAccount account = SingleAccountHelper.getCurrentSingleSignOnAccount(activity);
             ViewUtil.addAvatar(
-                    activity,
                     holder.binding.icon,
                     account.url,
                     getItem(position).getUid(),

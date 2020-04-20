@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Px;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.TextViewCompat;
 
@@ -25,15 +26,13 @@ public final class ViewUtil {
     private ViewUtil() {
     }
 
-    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, @DrawableRes int errorResource) {
-        // TODO get context from ImageView?
-        addAvatar(context, avatar, baseUrl, userId, DimensionUtil.dpToPx(context, R.dimen.avatar_size), errorResource);
+    public static void addAvatar(@NonNull ImageView avatar, @NonNull String baseUrl, @NonNull String userId, @DrawableRes int errorResource) {
+        addAvatar(avatar, baseUrl, userId, DimensionUtil.dpToPx(avatar.getContext(), R.dimen.avatar_size), errorResource);
     }
 
-    public static void addAvatar(Context context, ImageView avatar, String baseUrl, String userId, int avatarSize, @DrawableRes int errorResource) {
-        // TODO get context from ImageView?
-        String uri = baseUrl + "/index.php/avatar/" + Uri.encode(userId) + "/" + avatarSize;
-        Glide.with(context)
+    public static void addAvatar(@NonNull ImageView avatar, @NonNull String baseUrl, @NonNull String userId, @Px int avatarSizeInPx, @DrawableRes int errorResource) {
+        final String uri = baseUrl + "/index.php/avatar/" + Uri.encode(userId) + "/" + avatarSizeInPx;
+        Glide.with(avatar.getContext())
                 .load(uri)
                 .error(errorResource)
                 .apply(RequestOptions.circleCropTransform())

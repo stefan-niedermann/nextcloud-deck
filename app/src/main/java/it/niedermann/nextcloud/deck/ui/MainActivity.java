@@ -455,7 +455,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         };
         boardsLiveData.observe(this, boardsLiveDataObserver);
 
-        ViewUtil.addAvatar(this, headerBinding.drawerCurrentAccount, this.currentAccount.getUrl(), this.currentAccount.getUserName(), R.mipmap.ic_launcher_round);
+        ViewUtil.addAvatar(headerBinding.drawerCurrentAccount, this.currentAccount.getUrl(), this.currentAccount.getUserName(), R.mipmap.ic_launcher_round);
         headerBinding.drawerUsernameFull.setText(currentAccount.getName());
         accountChooserActive = false;
         inflateAccountMenu();

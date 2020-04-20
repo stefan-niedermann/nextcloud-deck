@@ -384,7 +384,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         }
         binding.peopleList.addView(avatar);
         avatar.requestLayout();
-        ViewUtil.addAvatar(getContext(), avatar, baseUrl, user.getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
+        ViewUtil.addAvatar(avatar, baseUrl, user.getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
     }
 
     @Override

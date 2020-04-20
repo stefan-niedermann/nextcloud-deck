@@ -81,7 +81,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
         final Context context = holder.itemView.getContext();
         final DeckComment comment = comments.get(position);
 
-        ViewUtil.addAvatar(context, holder.binding.avatar, account.getUrl(), comment.getActorId(), DimensionUtil.dpToPx(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+        ViewUtil.addAvatar(holder.binding.avatar, account.getUrl(), comment.getActorId(), DimensionUtil.dpToPx(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         holder.binding.message.setText(comment.getMessage());
         holder.binding.actorDisplayName.setText(comment.getActorDisplayName());
         holder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));

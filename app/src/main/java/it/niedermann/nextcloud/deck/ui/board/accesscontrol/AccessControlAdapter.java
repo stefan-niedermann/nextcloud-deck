@@ -73,7 +73,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (context != null) {
                 try {
-                    ViewUtil.addAvatar(context, ownerHolder.binding.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+                    ViewUtil.addAvatar(ownerHolder.binding.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
                 } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
                     e.printStackTrace();
                 }
@@ -83,7 +83,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (context != null) {
                 try {
-                    ViewUtil.addAvatar(context, acHolder.binding.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
+                    ViewUtil.addAvatar(acHolder.binding.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
                 } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
                     e.printStackTrace();
                 }

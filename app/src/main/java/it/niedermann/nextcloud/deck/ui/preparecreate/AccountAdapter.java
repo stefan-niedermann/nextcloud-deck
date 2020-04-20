@@ -41,7 +41,7 @@ public class AccountAdapter extends AbstractAdapter<Account> {
         if (item != null) {
             binding.username.setText(item.getUserName());
             binding.instance.setText(item.getUrl());
-            ViewUtil.addAvatar(binding.avatar.getContext(), binding.avatar, item.getUrl(), item.getUserName(), DimensionUtil.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+            ViewUtil.addAvatar(binding.avatar, item.getUrl(), item.getUserName(), DimensionUtil.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         } else {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }
