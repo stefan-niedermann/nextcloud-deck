@@ -613,6 +613,11 @@ public class SyncManager {
         return dataBaseAdapter.getFullCardsForStack(accountId, localStackId);
     }
 
+    // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395
+    public LiveData<List<FullCard>> getArchivedFullCardsForBoard(long accountId, long localBoardId) {
+        return null;
+    }
+
     public LiveData<FullCard> createCard(long accountId, long localBoardId, long localStackId, Card card) {
 
         MutableLiveData<FullCard> liveData = new MutableLiveData<>();
@@ -715,6 +720,11 @@ public class SyncManager {
 
     public WrappedLiveData<FullCard> archiveCard(FullCard card) {
         card.getCard().setArchived(true);
+        return updateCard(card);
+    }
+
+    public WrappedLiveData<FullCard> dearchiveCard(FullCard card) {
+        card.getCard().setArchived(false);
         return updateCard(card);
     }
 
