@@ -110,7 +110,7 @@ public class Version implements Comparable<Version> {
      *          1 if the compared version is <strong>lower</strong> than the current version
      */
     @Override
-    public int compareTo(Version compare) {
+    public int compareTo(@NonNull Version compare) {
         if (compare.getMajor() > getMajor()) {
             return -1;
         } else if (compare.getMajor() < getMajor()) {
