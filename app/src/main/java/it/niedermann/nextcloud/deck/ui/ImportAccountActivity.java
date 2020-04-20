@@ -28,7 +28,6 @@ import it.niedermann.nextcloud.deck.databinding.ActivityImportAccountBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
-import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -48,10 +47,6 @@ public class ImportAccountActivity extends AppCompatActivity {
     private boolean originalWifiOnlyValue = false;
     private String sharedPreferenceLastAccount;
     private String urlFragmentUpdateDeck;
-    private int minimumServerAppMajor;
-    private int minimumServerAppMinor;
-    private int minimumServerAppPatch;
-
 
     private ActivityImportAccountBinding binding;
 
@@ -69,9 +64,6 @@ public class ImportAccountActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         sharedPreferenceLastAccount = getString(R.string.shared_preference_last_account);
         urlFragmentUpdateDeck = getString(R.string.url_fragment_update_deck);
-        minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
-        minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
-        minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
 
         originalWifiOnlyValue = sharedPreferences.getBoolean(prefKeyWifiOnly, false);
 
@@ -142,18 +134,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                         @Override
                                         public void onResponse(Capabilities response) {
                                             if (!response.isMaintenanceEnabled()) {
-                                                if (response.getDeckVersion().compareTo(new Version("", minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch)) < 0) {
-                                                    setStatusText(R.string.deck_outdated_please_update);
-                                                    runOnUiThread(() -> {
-                                                        binding.updateDeckButton.setOnClickListener((v) -> {
-                                                            Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
-                                                            startActivity(openURL);
-                                                        });
-                                                        binding.updateDeckButton.setVisibility(View.VISIBLE);
-                                                    });
-                                                    rollbackAccountCreation(syncManager, createdAccount.getId());
-                                                } else {
+                                                if (response.getDeckVersion().isSupported(getApplicationContext())) {
                                                     syncManager.synchronize(new IResponseCallback<Boolean>(account) {
                                                         @Override
                                                         public void onResponse(Boolean response) {
@@ -173,6 +154,17 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                             rollbackAccountCreation(syncManager, createdAccount.getId());
                                                         }
                                                     });
+                                                } else {
+                                                    setStatusText(R.string.deck_outdated_please_update);
+                                                    runOnUiThread(() -> {
+                                                        binding.updateDeckButton.setOnClickListener((v) -> {
+                                                            Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                            startActivity(openURL);
+                                                        });
+                                                        binding.updateDeckButton.setVisibility(View.VISIBLE);
+                                                    });
+                                                    rollbackAccountCreation(syncManager, createdAccount.getId());
                                                 }
                                             } else {
                                                 setStatusText(R.string.maintenance_mode);

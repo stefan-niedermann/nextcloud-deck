@@ -21,6 +21,7 @@ import java.util.concurrent.CountDownLatch;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -269,39 +270,43 @@ public class SyncManager {
 
     public void refreshCapabilities(IResponseCallback<Capabilities> callback) {
         doAsync(() -> {
-            serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(callback.getAccount()) {
-                @Override
-                public void onResponse(Capabilities response) {
-                    Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                    acc.applyCapabilities(response);
-                    dataBaseAdapter.updateAccount(acc);
-                    callback.onResponse(response);
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    if (throwable instanceof NextcloudHttpRequestFailedException) {
-                        NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
-                        if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
-                            String errorString = requestFailedException.getCause().getMessage();
-                            if (errorString.contains("ocs") && errorString.contains("meta") && errorString.contains("statuscode\":503")) {
-                                doAsync(() -> {
-                                    Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                                    if (!acc.isMaintenanceEnabled()) {
-                                        acc.setMaintenanceEnabled(true);
-                                        dataBaseAdapter.updateAccount(acc);
-                                    }
-                                    Capabilities caps = new Capabilities();
-                                    caps.setMaintenanceEnabled(true);
-                                    callback.onResponse(caps);
-                                });
-                            }
-                        }
-                    } else {
-                        callback.onError(throwable);
+            try {
+                serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(callback.getAccount()) {
+                    @Override
+                    public void onResponse(Capabilities response) {
+                        Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
+                        acc.applyCapabilities(response);
+                        dataBaseAdapter.updateAccount(acc);
+                        callback.onResponse(response);
                     }
-                }
-            });
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        if (throwable instanceof NextcloudHttpRequestFailedException) {
+                            NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
+                            if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
+                                String errorString = requestFailedException.getCause().getMessage();
+                                if (errorString.contains("ocs") && errorString.contains("meta") && errorString.contains("statuscode\":503")) {
+                                    doAsync(() -> {
+                                        Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
+                                        if (!acc.isMaintenanceEnabled()) {
+                                            acc.setMaintenanceEnabled(true);
+                                            dataBaseAdapter.updateAccount(acc);
+                                        }
+                                        Capabilities caps = new Capabilities();
+                                        caps.setMaintenanceEnabled(true);
+                                        callback.onResponse(caps);
+                                    });
+                                }
+                            }
+                        } else {
+                            callback.onError(throwable);
+                        }
+                    }
+                });
+            } catch (OfflineException e) {
+                callback.onError(e);
+            }
         });
     }
 

@@ -1,9 +1,15 @@
 package it.niedermann.nextcloud.deck.model.ocs;
 
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import it.niedermann.nextcloud.deck.R;
 
 public class Version implements Comparable<Version> {
     private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("[0-9]+");
@@ -83,6 +89,17 @@ public class Version implements Comparable<Version> {
             return Integer.parseInt(matcher.group());
         }
         return 0;
+    }
+
+    private static Version minimumSupported(@NonNull Context context) {
+        final int minimumServerAppMajor = context.getResources().getInteger(R.integer.minimum_server_app_major);
+        final int minimumServerAppMinor = context.getResources().getInteger(R.integer.minimum_server_app_minor);
+        final int minimumServerAppPatch = context.getResources().getInteger(R.integer.minimum_server_app_patch);
+        return new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch);
+    }
+
+    public boolean isSupported(@NonNull Context context) {
+        return isGreaterOrEqualTo(Version.minimumSupported(context));
     }
 
     /**

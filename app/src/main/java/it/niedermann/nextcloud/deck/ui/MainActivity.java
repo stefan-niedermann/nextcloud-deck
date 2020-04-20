@@ -55,7 +55,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
 import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
-import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -63,7 +62,6 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
-import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
@@ -456,22 +454,21 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     private void refreshCapabilities(final Account account) {
-        new Thread(() -> {
-            try {
-                syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
-                    @Override
-                    public void onResponse(Capabilities response) {
-                        if (!response.isMaintenanceEnabled()) {
-                            @ColorInt final int mainColor = parseColor(response.getColor());
-                            @ColorInt final int textColor = parseColor(response.getTextColor());
-                            runOnUiThread(() -> Application.saveBrandColors(MainActivity.this, mainColor, textColor));
-                        }
-                    }
-                });
-            } catch (OfflineException e) {
+        syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(account) {
+            @Override
+            public void onResponse(Capabilities response) {
+                if (!response.isMaintenanceEnabled()) {
+                    @ColorInt final int mainColor = parseColor(response.getColor());
+                    @ColorInt final int textColor = parseColor(response.getTextColor());
+                    runOnUiThread(() -> Application.saveBrandColors(MainActivity.this, mainColor, textColor));
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
                 DeckLog.info("Cannot refresh capabilities because device is offline.");
             }
-        }).start();
+        });
     }
 
     protected void clearCurrentBoard() {
@@ -690,7 +687,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             default:
                 try {
                     AccountImporter.onActivityResult(requestCode, resultCode, data, this, (account) -> {
-                        final Account previousAccount = currentAccount;
                         final WrappedLiveData<Account> accountLiveData = this.syncManager.createAccount(new Account(account.name, account.userId, account.url));
                         accountLiveData.observe(this, (createdAccount) -> {
                             if (!accountLiveData.hasError()) {
@@ -700,79 +696,67 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                                 final SyncManager importSyncManager = new SyncManager(this, account.name);
 
-                                try {
-                                    importSyncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
-                                        @Override
-                                        public void onResponse(Capabilities response) {
-                                            if (!response.isMaintenanceEnabled()) {
-                                                final int minimumServerAppMajor = getResources().getInteger(R.integer.minimum_server_app_major);
-                                                final int minimumServerAppMinor = getResources().getInteger(R.integer.minimum_server_app_minor);
-                                                final int minimumServerAppPatch = getResources().getInteger(R.integer.minimum_server_app_patch);
-                                                if (response.getDeckVersion().isGreaterOrEqualTo(new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch))) {
-                                                    runOnUiThread(() -> {
-                                                        setCurrentAccount(account);
-                                                        final Snackbar importSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
-                                                        importSnackbar.show();
-
-                                                        importSyncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
-                                                            @Override
-                                                            public void onResponse(Boolean response) {
-                                                                importSnackbar.dismiss();
-                                                            }
-
-                                                            @Override
-                                                            public void onError(Throwable throwable) {
-                                                                super.onError(throwable);
-                                                                if (throwable instanceof NextcloudHttpRequestFailedException) {
-                                                                    runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this));
-                                                                }
-                                                            }
-                                                        });
-                                                    });
-                                                } else {
-                                                    runOnUiThread(() -> {
-                                                        new BrandedAlertDialogBuilder(MainActivity.this)
-                                                                .setTitle(R.string.update_deck)
-                                                                .setMessage(R.string.deck_outdated_please_update)
-                                                                .setNegativeButton(R.string.simple_discard, null)
-                                                                .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
-                                                                    final Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                                    openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
-                                                                    startActivity(openURL);
-                                                                    finish();
-                                                                }).show();
-                                                        setCurrentAccount(previousAccount);
-                                                    });
-                                                    syncManager.deleteAccount(createdAccount.getId());
-                                                }
-                                            } else {
+                                importSyncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
+                                    @Override
+                                    public void onResponse(Capabilities response) {
+                                        if (!response.isMaintenanceEnabled()) {
+                                            if (response.getDeckVersion().isSupported(getApplicationContext())) {
                                                 runOnUiThread(() -> {
-                                                    new BrandedAlertDialogBuilder(MainActivity.this)
-                                                            .setTitle(R.string.maintenance_mode)
-                                                            .setMessage(getString(R.string.maintenance_mode_explanation, createdAccount.getUrl()))
-                                                            .setPositiveButton(R.string.simple_close, null)
-                                                            .show();
-                                                    setCurrentAccount(previousAccount);
+                                                    syncManager = importSyncManager;
+                                                    setCurrentAccount(account);
+
+                                                    final Snackbar importSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
+                                                    importSnackbar.show();
+                                                    importSyncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
+                                                        @Override
+                                                        public void onResponse(Boolean response) {
+                                                            importSnackbar.dismiss();
+                                                        }
+
+                                                        @Override
+                                                        public void onError(Throwable throwable) {
+                                                            super.onError(throwable);
+                                                            runOnUiThread(importSnackbar::dismiss);
+                                                            if (throwable instanceof NextcloudHttpRequestFailedException) {
+                                                                runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.coordinatorLayout, MainActivity.this));
+                                                            }
+                                                        }
+                                                    });
                                                 });
+                                            } else {
+                                                runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
+                                                        .setTitle(R.string.update_deck)
+                                                        .setMessage(R.string.deck_outdated_please_update)
+                                                        .setNegativeButton(R.string.simple_discard, null)
+                                                        .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
+                                                            final Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                            startActivity(openURL);
+                                                            finish();
+                                                        }).show());
                                                 syncManager.deleteAccount(createdAccount.getId());
                                             }
+                                        } else {
+                                            runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
+                                                    .setTitle(R.string.maintenance_mode)
+                                                    .setMessage(getString(R.string.maintenance_mode_explanation, createdAccount.getUrl()))
+                                                    .setPositiveButton(R.string.simple_close, null)
+                                                    .show());
+                                            syncManager.deleteAccount(createdAccount.getId());
                                         }
+                                    }
 
-                                        @Override
-                                        public void onError(Throwable throwable) {
-                                            super.onError(throwable);
-                                        }
-                                    });
-                                } catch (OfflineException e) {
-                                    runOnUiThread(() -> {
-                                        new BrandedAlertDialogBuilder(MainActivity.this)
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        super.onError(throwable);
+                                        runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
+                                                .setTitle(R.string.you_are_currently_offline)
                                                 .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
                                                 .setPositiveButton(R.string.simple_close, null)
-                                                .show();
-                                        setCurrentAccount(previousAccount);
-                                    });
-                                    syncManager.deleteAccount(createdAccount.getId());
-                                }
+                                                .show());
+                                        syncManager.deleteAccount(createdAccount.getId());
+                                    }
+                                });
                             } else {
                                 try {
                                     accountLiveData.throwError();
