@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -26,6 +28,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
@@ -45,6 +48,7 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
 import it.niedermann.android.tablayouthelper.TabLayoutHelper;
@@ -55,6 +59,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityMainBinding;
 import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
+import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -62,6 +67,7 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
+import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
@@ -99,6 +105,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOUNT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
@@ -596,11 +603,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         } else {
             switch (item.getItemId()) {
                 case MENU_ID_ABOUT:
-                    startActivityForResult(new Intent(getApplicationContext(), AboutActivity.class)
+                    startActivityForResult(new Intent(this, AboutActivity.class)
                             .putExtra(BUNDLE_KEY_ACCOUNT, currentAccount), MainActivity.ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_SETTINGS:
-                    startActivityForResult(new Intent(getApplicationContext(), SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);
+                    startActivityForResult(new Intent(this, SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);
                     break;
                 case MENU_ID_ADD_BOARD:
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
@@ -695,7 +702,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 }
 
                                 final SyncManager importSyncManager = new SyncManager(this, account.name);
-
                                 importSyncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
                                     @Override
                                     public void onResponse(Capabilities response) {
@@ -724,6 +730,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                     });
                                                 });
                                             } else {
+                                                DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently " + Version.minimumSupported(getApplicationContext()));
                                                 runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
                                                         .setTitle(R.string.update_deck)
                                                         .setMessage(R.string.deck_outdated_please_update)
@@ -737,6 +744,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                 syncManager.deleteAccount(createdAccount.getId());
                                             }
                                         } else {
+                                            DeckLog.warn("Cannot import account because server version is currently in maintenance mode.");
                                             runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
                                                     .setTitle(R.string.maintenance_mode)
                                                     .setMessage(getString(R.string.maintenance_mode_explanation, createdAccount.getUrl()))
@@ -748,13 +756,30 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                                     @Override
                                     public void onError(Throwable throwable) {
-                                        super.onError(throwable);
-                                        runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
-                                                .setTitle(R.string.you_are_currently_offline)
-                                                .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
-                                                .setPositiveButton(R.string.simple_close, null)
-                                                .show());
                                         syncManager.deleteAccount(createdAccount.getId());
+                                        Context context = MainActivity.this;
+                                        if (throwable instanceof OfflineException) {
+                                            DeckLog.warn("Cannot import account because device is currently offline.");
+                                            runOnUiThread(() -> new BrandedAlertDialogBuilder(context)
+                                                    .setTitle(R.string.you_are_currently_offline)
+                                                    .setMessage(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account)
+                                                    .setPositiveButton(R.string.simple_close, null)
+                                                    .show());
+                                        } else {
+                                            throwable.printStackTrace();
+                                            final String debugInfos = ExceptionUtil.getDebugInfos(context, throwable);
+                                            AlertDialog dialog = new BrandedAlertDialogBuilder(context)
+                                                .setTitle(R.string.server_misconfigured)
+                                                .setMessage(context.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
+                                                .setPositiveButton(android.R.string.copy, (a, b) -> {
+                                                    copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
+                                                    a.dismiss();
+                                                })
+                                                .setNegativeButton(R.string.simple_close, null)
+                                                .create();
+                                            dialog.show();
+                                            ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);
+                                        }
                                     }
                                 });
                             } else {

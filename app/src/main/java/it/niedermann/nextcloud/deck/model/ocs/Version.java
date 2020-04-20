@@ -91,7 +91,7 @@ public class Version implements Comparable<Version> {
         return 0;
     }
 
-    private static Version minimumSupported(@NonNull Context context) {
+    public static Version minimumSupported(@NonNull Context context) {
         final int minimumServerAppMajor = context.getResources().getInteger(R.integer.minimum_server_app_major);
         final int minimumServerAppMinor = context.getResources().getInteger(R.integer.minimum_server_app_minor);
         final int minimumServerAppPatch = context.getResources().getInteger(R.integer.minimum_server_app_patch);
