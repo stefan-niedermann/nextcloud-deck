@@ -57,6 +57,11 @@
         </activity>
 
         <activity
+            android:name=".ui.archivedcards.ArchivedCardsActvitiy"
+            android:label="@string/archived_cards"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".ui.card.EditActivity"
             android:label="@string/edit"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
@@ -94,7 +99,7 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 

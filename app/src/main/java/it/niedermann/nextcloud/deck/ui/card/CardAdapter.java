@@ -57,7 +57,8 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     public static final String BUNDLE_KEY_CAN_EDIT = "canEdit";
     public static final Long NO_LOCAL_ID = -1L;
 
-    private final SyncManager syncManager;
+    protected final SyncManager syncManager;
+
     private final Account account;
     private final long boardId;
     private final long stackId;
@@ -242,7 +243,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         notifyItemRemoved(position);
     }
 
-    private void onOverflowIconClicked(@NotNull View view, FullCard card) {
+    protected void onOverflowIconClicked(@NotNull View view, FullCard card) {
         final Context context = view.getContext();
         final PopupMenu popup = new PopupMenu(context, view);
         popup.inflate(R.menu.card_menu);
@@ -252,7 +253,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         popup.show();
     }
 
-    private void prepareOptionsMenu(Menu menu, @NotNull FullCard card) {
+    protected void prepareOptionsMenu(Menu menu, @NotNull FullCard card) {
         if (containsUser(card.getAssignedUsers(), account.getUserName())) {
             menu.removeItem(menu.findItem(R.id.action_card_assign).getItemId());
         } else {
@@ -278,7 +279,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         return false;
     }
 
-    private boolean optionsItemSelected(Context context, @NotNull MenuItem item, FullCard card) {
+    protected boolean optionsItemSelected(@NonNull Context context, @NotNull MenuItem item, FullCard card) {
         switch (item.getItemId()) {
             case R.id.action_card_assign: {
                 new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(card.getCard().getAccountId(), account.getUserName()), card.getCard())).start();
