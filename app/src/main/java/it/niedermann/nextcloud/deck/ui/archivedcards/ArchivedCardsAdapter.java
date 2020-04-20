@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -17,11 +16,20 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
-import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
+import it.niedermann.nextcloud.deck.ui.card.ItemCardViewHolder;
 
 public class ArchivedCardsAdapter extends CardAdapter {
-    public ArchivedCardsAdapter(@NonNull Context context, @NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
-        super(context, account, boardId, stackId, canEdit, syncManager, fragment, selectCardListener);
+
+    @SuppressWarnings("WeakerAccess")
+    public ArchivedCardsAdapter(@NonNull Context context, @NonNull Account account, long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner) {
+        super(context, account, boardId, 0L, canEdit, syncManager, lifecycleOwner, null);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ItemCardViewHolder viewHolder, int position) {
+        super.onBindViewHolder(viewHolder, position);
+        viewHolder.binding.card.setOnClickListener(null);
+        viewHolder.binding.card.setOnLongClickListener(null);
     }
 
     protected void onOverflowIconClicked(@NotNull View view, FullCard card) {

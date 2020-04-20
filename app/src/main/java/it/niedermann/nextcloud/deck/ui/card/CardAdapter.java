@@ -15,7 +15,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -74,9 +73,9 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
     private int mainColor;
 
-    public CardAdapter(@NonNull Context context, @NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull Fragment fragment, @Nullable SelectCardListener selectCardListener) {
+    public CardAdapter(@NonNull Context context, @NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
         this.context = context;
-        this.lifecycleOwner = fragment;
+        this.lifecycleOwner = lifecycleOwner;
         this.account = account;
         this.boardId = boardId;
         this.stackId = stackId;
@@ -84,7 +83,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         this.syncManager = syncManager;
         this.selectCardListener = selectCardListener;
         this.mainColor = context.getResources().getColor(R.color.primary);
-        syncManager.getStacksForBoard(account.getId(), boardId).observe(lifecycleOwner, (stacks) -> {
+        syncManager.getStacksForBoard(account.getId(), boardId).observe(this.lifecycleOwner, (stacks) -> {
             availableStacks.clear();
             availableStacks.addAll(stacks);
         });

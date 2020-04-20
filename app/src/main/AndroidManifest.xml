@@ -59,6 +59,7 @@
         <activity
             android:name=".ui.archivedcards.ArchivedCardsActvitiy"
             android:label="@string/archived_cards"
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
             android:theme="@style/AppTheme" />
 
         <activity
@@ -69,6 +70,7 @@
 
         <activity
             android:name=".ui.attachments.AttachmentsActivity"
+            android:label="@string/attachments"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.card.EditActivity"
             android:theme="@style/TransparentTheme" />
 

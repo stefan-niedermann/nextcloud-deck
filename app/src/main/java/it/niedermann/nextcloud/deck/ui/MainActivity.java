@@ -71,6 +71,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
+import it.niedermann.nextcloud.deck.ui.archivedcards.ArchivedCardsActvitiy;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
@@ -102,6 +103,7 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
@@ -631,6 +633,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         } else {
             menu.clear();
         }
+        inflater.inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -638,6 +641,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public boolean onOptionsItemSelected(MenuItem item) {
         final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
+            case R.id.archived_cards:
+                startActivity(new Intent(this, ArchivedCardsActvitiy.class)
+                        .putExtra(BUNDLE_KEY_ACCOUNT, currentAccount)
+                        .putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId)
+                        .putExtra(BUNDLE_KEY_CAN_EDIT, currentBoardHasEditPermission));
+                return true;
             case R.id.delete_list:
                 DeleteStackDialogFragment.newInstance(stackId).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
                 return true;
@@ -769,14 +778,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                             throwable.printStackTrace();
                                             final String debugInfos = ExceptionUtil.getDebugInfos(context, throwable);
                                             AlertDialog dialog = new BrandedAlertDialogBuilder(context)
-                                                .setTitle(R.string.server_misconfigured)
-                                                .setMessage(context.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
-                                                .setPositiveButton(android.R.string.copy, (a, b) -> {
-                                                    copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
-                                                    a.dismiss();
-                                                })
-                                                .setNegativeButton(R.string.simple_close, null)
-                                                .create();
+                                                    .setTitle(R.string.server_misconfigured)
+                                                    .setMessage(context.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
+                                                    .setPositiveButton(android.R.string.copy, (a, b) -> {
+                                                        copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
+                                                        a.dismiss();
+                                                    })
+                                                    .setNegativeButton(R.string.simple_close, null)
+                                                    .create();
                                             dialog.show();
                                             ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);
                                         }

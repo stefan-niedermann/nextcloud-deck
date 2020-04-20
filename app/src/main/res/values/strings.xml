@@ -187,4 +187,5 @@
     <string name="simple_switch">Switch</string>
     <string name="archived_cards">Archived cards</string>
     <string name="action_card_dearchive">Dearchive card</string>
+    <string name="action_archived_cards">Browse archived cards</string>
 </resources>

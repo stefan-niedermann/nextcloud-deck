@@ -615,7 +615,9 @@ public class SyncManager {
 
     // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395
     public LiveData<List<FullCard>> getArchivedFullCardsForBoard(long accountId, long localBoardId) {
-        return null;
+        MutableLiveData<List<FullCard>> dummyData = new MutableLiveData<>();
+        dummyData.postValue(new ArrayList<>());
+        return dummyData;
     }
 
     public LiveData<FullCard> createCard(long accountId, long localBoardId, long localStackId, Card card) {
