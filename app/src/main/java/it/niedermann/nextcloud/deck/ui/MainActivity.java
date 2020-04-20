@@ -30,6 +30,7 @@ import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -135,6 +136,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     private boolean currentBoardHasEditPermission = false;
     private boolean currentBoardHasStacks = false;
+    private int currentBoardStacksCount = 0;
+
     private boolean firstAccountAdded = false;
     private ConnectivityManager.NetworkCallback networkCallback;
 
@@ -272,6 +275,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                 @Override
                 public void onPageSelected(int position) {
+                    invalidateOptionsMenu();
                     binding.viewPager.post(() -> {
                         // stackAdapter size might differ from position when an account has been deleted
                         if (stackAdapter.getItemCount() > position) {
@@ -509,11 +513,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         syncManager.getStacksForBoard(this.currentAccount.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
-                throw new IllegalStateException("Stack must not be null");
+                throw new IllegalStateException("Given List<FullStack> must not be null");
             }
-            currentBoardHasStacks = true;
+            currentBoardStacksCount = fullStacks.size();
 
-            if (fullStacks.size() == 0) {
+            if (currentBoardStacksCount == 0) {
                 binding.emptyContentViewStacks.setVisibility(View.VISIBLE);
                 currentBoardHasStacks = false;
             } else {
@@ -526,22 +530,22 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             long currentStackId =
                     Application.readCurrentStackId(this, this.currentAccount.getId(), this.currentBoardId);
-            for (int i = 0; i < fullStacks.size(); i++) {
+            for (int i = 0; i < currentBoardStacksCount; i++) {
                 if (fullStacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
                     stackPositionInAdapter = i;
                     break;
                 }
             }
             final int stackPositionInAdapterClone = stackPositionInAdapter;
-            TabTitleGenerator tabTitleGenerator = position -> {
-                if (fullStacks.size() > position) {
+            final TabTitleGenerator tabTitleGenerator = position -> {
+                if (currentBoardStacksCount > position) {
                     return fullStacks.get(position).getStack().getTitle();
                 } else {
-                    DeckLog.logError(new IllegalStateException("Could not generate tab title for position " + position + " because list size is only " + fullStacks.size()));
+                    DeckLog.logError(new IllegalStateException("Could not generate tab title for position " + position + " because list size is only " + currentBoardStacksCount));
                     return "ERROR";
                 }
             };
-            TabLayoutMediator newMediator = new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position)));
+            final TabLayoutMediator newMediator = new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position)));
             runOnUiThread(() -> {
                 if (mediator != null) {
                     mediator.detach();
@@ -555,6 +559,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         });
     }
 
+    @UiThread
     private void updateTabLayoutHelper(@NonNull TabTitleGenerator tabTitleGenerator) {
         if (this.tabLayoutHelper == null) {
             this.tabLayoutHelper = new TabLayoutHelper(binding.stackTitles, binding.viewPager, tabTitleGenerator);
@@ -567,6 +572,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         this.mediator = newMediator;
     }
 
+    @UiThread
     private void inflateAccountMenu() {
         headerBinding.drawerAccountChooserToggle.setRotation(180);
         Menu menu = binding.navigationView.getMenu();
@@ -574,6 +580,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         DrawerMenuUtil.inflateAccounts(this, menu, this.accountsList);
     }
 
+    @UiThread
     protected void inflateBoardMenu() {
         headerBinding.drawerAccountChooserToggle.setRotation(0);
         binding.navigationView.setItemIconTintList(null);
@@ -625,8 +632,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         if (currentBoardHasEditPermission) {
-            inflater.inflate(R.menu.card_list_menu, menu);
+            final int currentViewPagerItem = binding.viewPager.getCurrentItem();
+            inflater.inflate(R.menu.list_menu, menu);
             menu.findItem(R.id.rename_list).setVisible(currentBoardHasStacks);
+            menu.findItem(R.id.move_list_left).setVisible(currentBoardHasStacks && currentViewPagerItem > 0);
+            menu.findItem(R.id.move_list_right).setVisible(currentBoardHasStacks && currentViewPagerItem < currentBoardStacksCount - 1);
             menu.findItem(R.id.delete_list).setVisible(currentBoardHasStacks);
         } else {
             menu.clear();
@@ -638,14 +648,34 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public boolean onOptionsItemSelected(MenuItem item) {
         final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
-            case R.id.delete_list:
-                DeleteStackDialogFragment.newInstance(stackId).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
-                return true;
-            case R.id.rename_list:
+            case R.id.rename_list: {
                 observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack ->
                         EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
                                 .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
                 return true;
+            }
+            case R.id.move_list_left: {
+                // TODO error handling
+                final int itemToSwap = binding.viewPager.getCurrentItem() - 1;
+                final long stackLeftId = stackAdapter.getItem(itemToSwap).getLocalId();
+                syncManager.swapStackOrder(currentAccount.getId(), currentBoardId, new Pair<>(stackId, stackLeftId));
+                Application.saveCurrentStackId(getApplicationContext(), currentAccount.getId(), currentBoardId, stackId);
+                binding.viewPager.setCurrentItem(itemToSwap, false);
+                return true;
+            }
+            case R.id.move_list_right: {
+                // TODO error handling
+                final int itemToSwap = binding.viewPager.getCurrentItem() + 1;
+                final long stackRightId = stackAdapter.getItem(binding.viewPager.getCurrentItem() + 1).getLocalId();
+                syncManager.swapStackOrder(currentAccount.getId(), currentBoardId, new Pair<>(stackId, stackRightId));
+                Application.saveCurrentStackId(getApplicationContext(), currentAccount.getId(), currentBoardId, stackId);
+                binding.viewPager.setCurrentItem(itemToSwap, false);
+                return true;
+            }
+            case R.id.delete_list: {
+                DeleteStackDialogFragment.newInstance(stackId).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
+                return true;
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -769,14 +799,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                             throwable.printStackTrace();
                                             final String debugInfos = ExceptionUtil.getDebugInfos(context, throwable);
                                             AlertDialog dialog = new BrandedAlertDialogBuilder(context)
-                                                .setTitle(R.string.server_misconfigured)
-                                                .setMessage(context.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
-                                                .setPositiveButton(android.R.string.copy, (a, b) -> {
-                                                    copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
-                                                    a.dismiss();
-                                                })
-                                                .setNegativeButton(R.string.simple_close, null)
-                                                .create();
+                                                    .setTitle(R.string.server_misconfigured)
+                                                    .setMessage(context.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
+                                                    .setPositiveButton(android.R.string.copy, (a, b) -> {
+                                                        copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
+                                                        a.dismiss();
+                                                    })
+                                                    .setNegativeButton(R.string.simple_close, null)
+                                                    .create();
                                             dialog.show();
                                             ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);
                                         }
