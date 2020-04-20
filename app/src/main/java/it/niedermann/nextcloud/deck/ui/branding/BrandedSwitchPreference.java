@@ -51,12 +51,10 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
-        if (Application.isBrandingEnabled(getContext())) {
-            if (holder.itemView instanceof ViewGroup) {
-                switchView = findSwitchWidget(holder.itemView);
-                if (mainColor != null && textColor != null) {
-                    applyBrand();
-                }
+        if (Application.isBrandingEnabled(getContext()) && holder.itemView instanceof ViewGroup) {
+            switchView = findSwitchWidget(holder.itemView);
+            if (mainColor != null && textColor != null) {
+                applyBrand();
             }
         }
     }

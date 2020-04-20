@@ -15,12 +15,10 @@ public abstract class BrandedFragment extends Fragment implements Branded {
         super.onStart();
 
         @Nullable Context context = getContext();
-        if (context != null) {
-            if (Application.isBrandingEnabled(context)) {
-                @ColorInt final int mainColor = Application.readBrandMainColor(context);
-                @ColorInt final int textColor = Application.readBrandTextColor(context);
-                applyBrand(mainColor, textColor);
-            }
+        if (context != null && Application.isBrandingEnabled(context)) {
+            @ColorInt final int mainColor = Application.readBrandMainColor(context);
+            @ColorInt final int textColor = Application.readBrandTextColor(context);
+            applyBrand(mainColor, textColor);
         }
     }
 }
