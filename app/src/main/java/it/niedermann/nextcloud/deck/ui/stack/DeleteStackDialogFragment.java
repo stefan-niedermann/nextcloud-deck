@@ -18,13 +18,6 @@ public class DeleteStackDialogFragment extends DialogFragment {
     private DeleteStackListener deleteStackListener;
     private Long stackId;
 
-
-    /**
-     * Use newInstance()-Method
-     */
-    public DeleteStackDialogFragment() {
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

@@ -43,12 +43,6 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
     private UserAutoCompleteAdapter userAutoCompleteAdapter;
     private AccessControlAdapter adapter;
 
-    /**
-     * Use newInstance()-Method
-     */
-    public AccessControlDialogFragment() {
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

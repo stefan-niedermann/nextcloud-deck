@@ -24,7 +24,10 @@ Steps to reproduce the behavior:
 <!-- If applicable, add screenshots to help explain your problem. -->
 
 **Smartphone (please complete the following information):**
- - Device: [e.g. Samsung Galaxy S10]
- - Android-Version: [e.g. 8]
+- Device: (e.g. Samsung Galaxy S10)
+- Android-Version: (e.g. 8)
+- App-Store:
+  - [ ] Google Play Store
+  - [ ] F-Droid
 
 **Stacktrace**

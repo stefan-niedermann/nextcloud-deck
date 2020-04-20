@@ -28,12 +28,6 @@ public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
     private DialogAddCommentBinding binding;
     private Bundle args;
 
-    /**
-     * Use newInstance()-Method
-     */
-    public CardCommentsEditDialogFragment() {
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

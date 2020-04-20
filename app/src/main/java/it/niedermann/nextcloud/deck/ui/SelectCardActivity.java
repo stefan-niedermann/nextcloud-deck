@@ -29,26 +29,24 @@ import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 public class SelectCardActivity extends MainActivity implements SelectCardListener {
 
-    Intent receivedIntent;
-    String receivedAction;
-    String receivedType;
+    private static final String MIMETYPE_TEXT_PREFIX = "text/";
 
-    boolean isFile;
+    private boolean isFile;
 
-    String receivedText;
-    Uri receivedUri;
-    File uploadFile;
+    private String receivedText;
+    private Uri receivedUri;
+    private File uploadFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            receivedIntent = getIntent();
-            receivedAction = receivedIntent.getAction();
-            receivedType = receivedIntent.getType();
+            final Intent receivedIntent = getIntent();
+            final String receivedAction = receivedIntent.getAction();
+            final String receivedType = receivedIntent.getType();
             DeckLog.info(receivedAction);
             DeckLog.info(receivedType);
-            isFile = !receivedType.startsWith("text/");
+            isFile = receivedType != null && !receivedType.startsWith(MIMETYPE_TEXT_PREFIX);
             if (isFile) {
                 receivedUri = receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (receivedUri != null) {

@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class DeckLog {
-    public static final String TAG = DeckLog.class.getSimpleName();
+    private static final String TAG = DeckLog.class.getSimpleName();
 
     public enum Severity {
         VERBOSE, DEBUG, LOG, INFO, WARN, ERROR
@@ -37,8 +37,8 @@ public class DeckLog {
     }
 
     private static void log(String message, Severity severity, int stackTracePosition) {
-        StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
-        String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
+        final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
+        final String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
         switch (severity) {
             case VERBOSE:
                 Log.v(TAG, source);
@@ -55,16 +55,18 @@ public class DeckLog {
             case ERROR:
                 Log.e(TAG, source);
                 break;
+            default:
+                Log.v(TAG, source);
+                break;
         }
     }
 
     public static void logError(Throwable e) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
+        final StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
         String stacktrace = sw.toString(); // stack trace as a string
-        StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
-        String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") -> ";
+        final StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
+        final String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") -> ";
         Log.d(TAG, source + stacktrace);
     }
 
@@ -77,10 +79,10 @@ public class DeckLog {
     }
 
     private static String getCurrentStacktrace(@SuppressWarnings("SameParameterValue") int offset) {
-        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        StringBuffer buff = new StringBuffer();
+        final StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        @SuppressWarnings("StringBufferMayBeStringBuilder") final StringBuffer buff = new StringBuffer();
         for (int i = offset; i < elements.length; i++) {
-            StackTraceElement s = elements[i];
+            final StackTraceElement s = elements[i];
             buff.append("\tat ");
             buff.append(s.getClassName());
             buff.append(".");

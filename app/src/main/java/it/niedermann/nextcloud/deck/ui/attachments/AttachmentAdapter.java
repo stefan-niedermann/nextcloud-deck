@@ -27,7 +27,7 @@ import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
 
-    private static final String MIMETYPE_IMAGE_PREFIX = "image";
+    private static final String MIMETYPE_IMAGE_PREFIX = "image/";
     private final Account account;
     private final long cardRemoteId;
     @NonNull

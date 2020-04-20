@@ -175,10 +175,12 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    // Nothing to do
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
+                    // Nothing to do
                 }
             });
         } else {

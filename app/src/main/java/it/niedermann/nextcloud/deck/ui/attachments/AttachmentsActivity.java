@@ -25,6 +25,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 
 public class AttachmentsActivity extends AppCompatActivity {
 
+    private static final String MIMETYPE_IMAGE_PREFIX = "image/";
     private ActivityAttachmentsBinding binding;
 
     public static final String BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID = "currentAttachmenLocaltId";
@@ -50,13 +51,13 @@ public class AttachmentsActivity extends AppCompatActivity {
         long cardLocalId = extras.getLong(BUNDLE_KEY_LOCAL_ID);
         long currentAttachment = extras.getLong(BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID);
 
-        SyncManager syncManager = new SyncManager(this);
+        final SyncManager syncManager = new SyncManager(this);
 
         syncManager.readAccount(accountId).observe(this, account ->
                 syncManager.getCardByLocalId(accountId, cardLocalId).observe(this, fullCard -> {
                     final List<Attachment> attachments = new ArrayList<>();
                     for (Attachment a : fullCard.getAttachments()) {
-                        if (a.getMimetype().startsWith("image")) {
+                        if (a.getMimetype().startsWith(MIMETYPE_IMAGE_PREFIX)) {
                             attachments.add(a);
                         }
                     }

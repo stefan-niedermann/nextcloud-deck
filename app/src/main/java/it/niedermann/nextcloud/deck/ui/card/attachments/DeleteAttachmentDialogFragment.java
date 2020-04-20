@@ -19,13 +19,6 @@ public class DeleteAttachmentDialogFragment extends DialogFragment {
     private AttachmentDeletedListener deleteAttachmentListener;
     private Attachment attachment;
 
-
-    /**
-     * Use newInstance()-Method
-     */
-    public DeleteAttachmentDialogFragment() {
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -56,9 +49,9 @@ public class DeleteAttachmentDialogFragment extends DialogFragment {
     }
 
     public static DialogFragment newInstance(Attachment attachment) {
-        DeleteAttachmentDialogFragment dialog = new DeleteAttachmentDialogFragment();
+        final DeleteAttachmentDialogFragment dialog = new DeleteAttachmentDialogFragment();
 
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putSerializable(KEY_ATTACHMENT, attachment);
         dialog.setArguments(args);
 

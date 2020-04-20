@@ -19,12 +19,6 @@ public class DeleteBoardDialogFragment extends DialogFragment {
     private DeleteBoardListener deleteBoardListener;
     private Board board;
 
-    /**
-     * Use newInstance()-Method
-     */
-    public DeleteBoardDialogFragment() {
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

@@ -28,14 +28,6 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
 
     private FullBoard fullBoard = null;
 
-    /**
-     * Use newInstance()-Method(dialog, which) -> {
-     * // Do something else
-     * }
-     */
-    public EditBoardDialogFragment() {
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

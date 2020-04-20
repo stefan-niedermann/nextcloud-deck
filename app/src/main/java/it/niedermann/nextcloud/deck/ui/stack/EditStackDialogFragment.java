@@ -30,12 +30,6 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
 
     private DialogStackCreateBinding binding;
 
-    /**
-     * Use newInstance()-Method
-     */
-    public EditStackDialogFragment() {
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
