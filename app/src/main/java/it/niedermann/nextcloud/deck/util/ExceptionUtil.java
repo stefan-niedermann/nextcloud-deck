@@ -7,12 +7,15 @@ import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.helper.VersionCheckHelper;
+import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 
@@ -82,7 +86,15 @@ public class ExceptionUtil {
     }
 
     @UiThread
-    public static void handleHttpRequestFailedException(NextcloudHttpRequestFailedException exception, View targetView, Context context) {
+    public static void handleNextcloudFilesAppNotInstalledException(@NonNull Context context, @NonNull NextcloudFilesAppNotInstalledException exception) {
+        UiExceptionManager.showDialogForException(context, exception);
+        DeckLog.warn("=============================================================");
+        DeckLog.warn("Nextcloud app is not installed. Cannot choose account");
+        exception.printStackTrace();
+    }
+
+    @UiThread
+    public static void handleHttpRequestFailedException(@NonNull NextcloudHttpRequestFailedException exception, @NonNull View targetView, @NonNull Context context) {
         final String debugInfos = ExceptionUtil.getDebugInfos(context, exception);
         switch (exception.getStatusCode()) {
             case 302: {

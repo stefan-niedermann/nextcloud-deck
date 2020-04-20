@@ -41,7 +41,6 @@ import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGrant
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
-import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +86,7 @@ import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil.DrawerAccountListener;
+import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.graphics.Color.parseColor;
@@ -599,10 +599,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     try {
                         AccountImporter.pickNewAccount(this);
                     } catch (NextcloudFilesAppNotInstalledException e) {
-                        UiExceptionManager.showDialogForException(this, e);
-                        DeckLog.warn("=============================================================");
-                        DeckLog.warn("Nextcloud app is not installed. Cannot choose account");
-                        e.printStackTrace();
+                        ExceptionUtil.handleNextcloudFilesAppNotInstalledException(this, e);
                     } catch (AndroidGetAccountsPermissionNotGranted e) {
                         AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
                     }
