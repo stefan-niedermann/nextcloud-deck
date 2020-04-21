@@ -73,7 +73,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
             updateEmptyContentView();
 
-            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
             int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
             GridLayoutManager glm = new GridLayoutManager(getContext(), spanCount);
             glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -89,23 +89,26 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 }
             });
             binding.attachmentsList.setLayoutManager(glm);
-            syncManager.getCardByLocalId(viewModel.getAccountId(), viewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(), (fullCard) -> {
-                // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
-                // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
-                setExitSharedElementCallback(new SharedElementCallback() {
-                    @Override
-                    public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                        AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
-                                .findViewHolderForAdapterPosition(clickedItemPosition);
-                        if (selectedViewHolder != null) {
-                            sharedElements.put(names.get(0), selectedViewHolder.getPreview());
+            if (!viewModel.isCreateMode()) {
+                syncManager.getCardByLocalId(viewModel.getAccountId(), viewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(), (fullCard) -> {
+                    // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
+                    // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
+                    setExitSharedElementCallback(new SharedElementCallback() {
+                        @Override
+                        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                            AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
+                                    .findViewHolderForAdapterPosition(clickedItemPosition);
+                            if (selectedViewHolder != null) {
+                                sharedElements.put(names.get(0), selectedViewHolder.getPreview());
+                            }
                         }
-                    }
+                    });
+                    adapter.setAttachments(fullCard.getAttachments(), fullCard.getId());
+                    updateEmptyContentView();
                 });
-                adapter.setAttachments(fullCard.getAttachments(), fullCard.getId());
-                updateEmptyContentView();
-            });
+            }
         });
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && viewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
