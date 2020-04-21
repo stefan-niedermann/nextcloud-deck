@@ -7,6 +7,14 @@
         android:title="@string/rename_list"
         app:showAsAction="never" />
     <item
+        android:id="@+id/move_list_left"
+        android:title="@string/move_list_left"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/move_list_right"
+        android:title="@string/move_list_right"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/delete_list"
         android:title="@string/delete_list"
         android:visible="false"
