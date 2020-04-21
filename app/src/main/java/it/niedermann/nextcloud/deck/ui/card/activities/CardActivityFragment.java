@@ -31,7 +31,7 @@ public class CardActivityFragment extends Fragment {
         final EditCardViewModel viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         if (!viewModel.isCreateMode()) {
-            final SyncManager syncManager = new SyncManager(requireActivity());
+            final SyncManager syncManager = new SyncManager(requireContext());
 
             syncManager.getCardByLocalId(viewModel.getAccountId(), viewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(), (fullCard) -> {
                 syncManager.syncActivitiesForCard(fullCard.getCard()).observe(getViewLifecycleOwner(), (activities -> {

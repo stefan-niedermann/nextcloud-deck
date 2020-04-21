@@ -16,12 +16,10 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
-import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
-import it.niedermann.nextcloud.deck.ui.card.attachments.NewCardAttachmentHandler;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -32,7 +30,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends BrandedActivity implements NewCardAttachmentHandler {
+public class EditActivity extends BrandedActivity {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
@@ -168,13 +166,7 @@ public class EditActivity extends BrandedActivity implements NewCardAttachmentHa
         binding.tabLayout.removeAllTabs();
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final CardTabAdapter adapter = new CardTabAdapter(
-                getSupportFragmentManager(),
-                getLifecycle(),
-                accountId,
-                localId,
-                boardId,
-                viewModel.canEdit());
+        final CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle());
         final TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
             tab.setIcon(viewModel.isHasCommentsAbility()
                     ? tabIconsWithComments[position]
@@ -260,16 +252,6 @@ public class EditActivity extends BrandedActivity implements NewCardAttachmentHa
         } else {
             super.finish();
         }
-    }
-
-    @Override
-    public void attachmentAdded(Attachment attachment) {
-        viewModel.getFullCard().getAttachments().add(attachment);
-    }
-
-    @Override
-    public void attachmentRemoved(Attachment attachment) {
-        viewModel.getFullCard().getAttachments().remove(attachment);
     }
 
     @Override

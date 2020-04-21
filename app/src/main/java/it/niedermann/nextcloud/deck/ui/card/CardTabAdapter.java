@@ -13,26 +13,11 @@ import it.niedermann.nextcloud.deck.ui.card.details.CardDetailsFragment;
 
 public class CardTabAdapter extends FragmentStateAdapter {
 
-    private final long accountId;
-    private final long localId;
-    private final long boardId;
-    private final boolean canEdit;
     private boolean hasCommentsAbility = false;
 
     @SuppressWarnings("WeakerAccess")
-    public CardTabAdapter(
-            @NonNull FragmentManager fm,
-            @NonNull Lifecycle lifecycle,
-            long accountId,
-            long localId,
-            long boardId,
-            boolean canEdit
-    ) {
+    public CardTabAdapter(@NonNull FragmentManager fm, @NonNull Lifecycle lifecycle) {
         super(fm, lifecycle);
-        this.accountId = accountId;
-        this.localId = localId;
-        this.boardId = boardId;
-        this.canEdit = canEdit;
     }
 
     @NonNull
@@ -42,7 +27,7 @@ public class CardTabAdapter extends FragmentStateAdapter {
             case 0:
                 return CardDetailsFragment.newInstance();
             case 1:
-                return CardAttachmentsFragment.newInstance(accountId, localId, boardId, canEdit);
+                return CardAttachmentsFragment.newInstance();
             case 2:
                 return hasCommentsAbility
                         ? CardCommentsFragment.newInstance()

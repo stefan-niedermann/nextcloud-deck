@@ -95,7 +95,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         dateFormat = getDateFormat(activity);
 
         viewModel = new ViewModelProvider(activity).get(EditCardViewModel.class);
-        syncManager = new SyncManager(activity);
+        syncManager = new SyncManager(requireContext());
 
         avatarSize = dpToPx(requireContext(), R.dimen.avatar_size);
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
