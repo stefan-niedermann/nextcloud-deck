@@ -33,9 +33,8 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 public class EditActivity extends BrandedActivity {
 
     private ActivityEditBinding binding;
-    private SyncManager syncManager;
-
     private EditCardViewModel viewModel;
+    private SyncManager syncManager;
 
     private static final int[] tabTitles = new int[]{
             R.string.card_edit_details,
@@ -63,10 +62,6 @@ public class EditActivity extends BrandedActivity {
             R.drawable.ic_activity_light_grey
     };
 
-    private long accountId;
-    private long boardId;
-    private long stackId;
-    private long localId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,31 +77,29 @@ public class EditActivity extends BrandedActivity {
         final Bundle args = getIntent().getExtras();
 
         if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT_ID) || !args.containsKey(BUNDLE_KEY_BOARD_ID)) {
-            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT_ID + " and " + BUNDLE_KEY_BOARD_ID + " so we know where to create this new card.");
+            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT_ID + " and " + BUNDLE_KEY_BOARD_ID + " of the card that should be edited or created.");
         }
 
-        accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
-        boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
-        localId = args.getLong(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
+        long localId = args.getLong(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
 
         viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
         syncManager = new SyncManager(this);
 
         if (localId == NO_LOCAL_ID) {
             viewModel.setCreateMode(true);
-            if (args.containsKey(BUNDLE_KEY_STACK_ID)) {
-                stackId = args.getLong(BUNDLE_KEY_STACK_ID);
-            } else {
+            if (!args.containsKey(BUNDLE_KEY_STACK_ID)) {
                 throw new IllegalArgumentException("When creating a card, passing the " + BUNDLE_KEY_STACK_ID + " is mandatory");
             }
         }
+
+        long accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
+        long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
         observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
-                viewModel.initializeNewCard(accountId, boardId, stackId);
-
+                viewModel.initializeNewCard(accountId, boardId, args.getLong(BUNDLE_KEY_STACK_ID));
                 setupViewPager();
                 setupTitle(viewModel.isCreateMode());
             } else {
@@ -154,7 +147,7 @@ public class EditActivity extends BrandedActivity {
                         .show();
             } else {
                 if (viewModel.isCreateMode()) {
-                    observeOnce(syncManager.createFullCard(accountId, boardId, stackId, viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
+                    observeOnce(syncManager.createFullCard(viewModel.getAccountId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
                 } else {
                     observeOnce(syncManager.updateCard(viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
                 }
@@ -168,11 +161,11 @@ public class EditActivity extends BrandedActivity {
 
         final CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle());
         final TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
-            tab.setIcon(viewModel.isHasCommentsAbility()
+            tab.setIcon(viewModel.hasCommentsAbility()
                     ? tabIconsWithComments[position]
                     : tabIcons[position]
             );
-            tab.setContentDescription(viewModel.isHasCommentsAbility()
+            tab.setContentDescription(viewModel.hasCommentsAbility()
                     ? tabTitlesWithComments[position]
                     : tabTitles[position]
             );
@@ -185,9 +178,9 @@ public class EditActivity extends BrandedActivity {
 
         // Comments API only available starting with version 1.0.0-alpha1
         if (!viewModel.isCreateMode()) {
-            syncManager.readAccount(accountId).observe(this, (account) -> {
+            syncManager.readAccount(viewModel.getAccountId()).observe(this, (account) -> {
                 viewModel.setHasCommentsAbility(account.getServerDeckVersionAsObject().isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0)));
-                if (viewModel.isHasCommentsAbility()) {
+                if (viewModel.hasCommentsAbility()) {
                     runOnUiThread(() -> {
                         mediator.detach();
                         adapter.enableComments();

@@ -56,7 +56,7 @@ public class EditCardViewModel extends ViewModel {
         return fullCard.equals(originalCard);
     }
 
-    public boolean isHasCommentsAbility() {
+    public boolean hasCommentsAbility() {
         return hasCommentsAbility;
     }
 
