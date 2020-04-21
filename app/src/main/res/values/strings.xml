@@ -185,4 +185,6 @@
     <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
     <string name="maintenance_mode">Server in maintenance mode</string>
     <string name="simple_switch">Switch</string>
+    <string name="move_list_right">Move list right</string>
+    <string name="move_list_left">Move list left</string>
 </resources>
