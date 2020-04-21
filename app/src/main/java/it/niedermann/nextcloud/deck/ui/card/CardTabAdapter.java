@@ -40,7 +40,7 @@ public class CardTabAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return CardDetailsFragment.newInstance(accountId, localId, boardId, canEdit);
+                return CardDetailsFragment.newInstance();
             case 1:
                 return CardAttachmentsFragment.newInstance(accountId, localId, boardId, canEdit);
             case 2:
