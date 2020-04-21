@@ -149,6 +149,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private TabLayoutMediator mediator;
     @Nullable
     private TabLayoutHelper tabLayoutHelper;
+    private boolean stackMoved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -528,8 +529,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             int stackPositionInAdapter = 0;
             stackAdapter.setStacks(fullStacks, currentAccount, currentBoardId, currentBoardHasEditPermission);
 
-            long currentStackId =
-                    Application.readCurrentStackId(this, this.currentAccount.getId(), this.currentBoardId);
+            long currentStackId = Application.readCurrentStackId(this, this.currentAccount.getId(), this.currentBoardId);
             for (int i = 0; i < currentBoardStacksCount; i++) {
                 if (fullStacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
                     stackPositionInAdapter = i;
@@ -547,12 +547,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             };
             final TabLayoutMediator newMediator = new TabLayoutMediator(binding.stackTitles, binding.viewPager, (tab, position) -> tab.setText(tabTitleGenerator.getTitle(position)));
             runOnUiThread(() -> {
-                if (mediator != null) {
-                    mediator.detach();
-                }
-                newMediator.attach();
                 setStackMediator(newMediator);
-                binding.viewPager.setCurrentItem(stackPositionInAdapterClone);
+                binding.viewPager.setCurrentItem(stackPositionInAdapterClone, false);
+                if (stackMoved) { // Required to make sure that the correct tab will be selected after moving stacks
+                    binding.viewPager.post(() -> binding.viewPager.setCurrentItem(stackPositionInAdapterClone, false));
+                    stackMoved = false;
+                }
                 updateTabLayoutHelper(tabTitleGenerator);
             });
             invalidateOptionsMenu();
@@ -568,7 +568,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
     }
 
-    private void setStackMediator(TabLayoutMediator newMediator) {
+    @UiThread
+    private void setStackMediator(@NonNull final TabLayoutMediator newMediator) {
+        if (mediator != null) {
+            mediator.detach();
+        }
+        newMediator.attach();
         this.mediator = newMediator;
     }
 
@@ -659,6 +664,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 final int stackLeftPosition = binding.viewPager.getCurrentItem() - 1;
                 final long stackLeftId = stackAdapter.getItem(stackLeftPosition).getLocalId();
                 syncManager.swapStackOrder(currentAccount.getId(), currentBoardId, new Pair<>(stackId, stackLeftId));
+                stackMoved = true;
                 return true;
             }
             case R.id.move_list_right: {
@@ -666,6 +672,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 final int stackRightPosition = binding.viewPager.getCurrentItem() + 1;
                 final long stackRightId = stackAdapter.getItem(stackRightPosition).getLocalId();
                 syncManager.swapStackOrder(currentAccount.getId(), currentBoardId, new Pair<>(stackId, stackRightId));
+                stackMoved = true;
                 return true;
             }
             case R.id.delete_list: {

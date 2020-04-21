@@ -576,7 +576,7 @@ public class SyncManager {
 
     }
 
-    private void updateStack(Account account, FullBoard board, FullStack stack, WrappedLiveData<FullStack> liveData) {
+    private void updateStack(@NonNull Account account, @NonNull FullBoard board, @NonNull FullStack stack, @Nullable WrappedLiveData<FullStack> liveData) {
         doAsync(() -> {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
                 @Override
@@ -588,12 +588,19 @@ public class SyncManager {
 
                 @Override
                 public void onError(Throwable throwable) {
-                    liveData.postError(throwable);
+                    if (liveData != null) {
+                        liveData.postError(throwable);
+                    }
                 }
             });
         });
     }
 
+    /**
+     * Swaps around the order of the given stackLocalIds
+     *
+     * @param stackLocalIds The first item of the pair will be updated first
+     */
     public void swapStackOrder(long accountId, long boardLocalId, @NonNull Pair<Long, Long> stackLocalIds) {
         if (stackLocalIds.first == null || stackLocalIds.second == null) {
             throw new IllegalArgumentException("Given stackLocalIds must not be null");
