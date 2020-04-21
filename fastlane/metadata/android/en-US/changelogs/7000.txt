@@ -5,3 +5,4 @@
 - 📣 Push notifications (#208) - this depends on changes in the files app and might not yet be available at the time when this version has been released.
 - 🗑️ Revoke board access
 - 🔧 Show an info if server is in maintenance mode (#283)
+- ↔️ Move lists
