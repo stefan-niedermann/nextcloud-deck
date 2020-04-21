@@ -45,11 +45,11 @@ public class CardTabAdapter extends FragmentStateAdapter {
                 return CardAttachmentsFragment.newInstance(accountId, localId, boardId, canEdit);
             case 2:
                 return hasCommentsAbility
-                        ? CardCommentsFragment.newInstance(accountId, localId, canEdit)
-                        : CardActivityFragment.newInstance(accountId, localId, boardId);
+                        ? CardCommentsFragment.newInstance()
+                        : CardActivityFragment.newInstance();
             case 3:
                 if (hasCommentsAbility) {
-                    return CardActivityFragment.newInstance(accountId, localId, boardId);
+                    return CardActivityFragment.newInstance();
                 }
             default:
                 throw new IllegalArgumentException("position " + position + " is not available");
