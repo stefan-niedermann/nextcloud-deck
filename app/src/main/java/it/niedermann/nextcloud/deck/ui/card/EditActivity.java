@@ -18,13 +18,10 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
-import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.attachments.NewCardAttachmentHandler;
-import it.niedermann.nextcloud.deck.ui.card.comments.CommentAddedListener;
-import it.niedermann.nextcloud.deck.ui.card.comments.CommentDeletedListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -35,7 +32,7 @@ import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
-public class EditActivity extends BrandedActivity implements CommentAddedListener, CommentDeletedListener, NewCardAttachmentHandler {
+public class EditActivity extends BrandedActivity implements NewCardAttachmentHandler {
 
     private ActivityEditBinding binding;
     private SyncManager syncManager;
@@ -266,11 +263,6 @@ public class EditActivity extends BrandedActivity implements CommentAddedListene
     }
 
     @Override
-    public void onCommentAdded(DeckComment comment) {
-        syncManager.addCommentToCard(accountId, boardId, localId, comment);
-    }
-
-    @Override
     public void attachmentAdded(Attachment attachment) {
         viewModel.getFullCard().getAttachments().add(attachment);
     }
@@ -278,11 +270,6 @@ public class EditActivity extends BrandedActivity implements CommentAddedListene
     @Override
     public void attachmentRemoved(Attachment attachment) {
         viewModel.getFullCard().getAttachments().remove(attachment);
-    }
-
-    @Override
-    public void onCommentDeleted(Long localCommentId) {
-        syncManager.deleteComment(this.accountId, this.localId, localCommentId);
     }
 
     @Override
