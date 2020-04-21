@@ -538,7 +538,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
             final int stackPositionInAdapterClone = stackPositionInAdapter;
             final TabTitleGenerator tabTitleGenerator = position -> {
-                if (currentBoardStacksCount > position) {
+                if (fullStacks.size() > position) {
                     return fullStacks.get(position).getStack().getTitle();
                 } else {
                     DeckLog.logError(new IllegalStateException("Could not generate tab title for position " + position + " because list size is only " + currentBoardStacksCount));
@@ -656,20 +656,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
             case R.id.move_list_left: {
                 // TODO error handling
-                final int itemToSwap = binding.viewPager.getCurrentItem() - 1;
-                final long stackLeftId = stackAdapter.getItem(itemToSwap).getLocalId();
+                final int stackLeftPosition = binding.viewPager.getCurrentItem() - 1;
+                final long stackLeftId = stackAdapter.getItem(stackLeftPosition).getLocalId();
                 syncManager.swapStackOrder(currentAccount.getId(), currentBoardId, new Pair<>(stackId, stackLeftId));
-                Application.saveCurrentStackId(getApplicationContext(), currentAccount.getId(), currentBoardId, stackId);
-                binding.viewPager.setCurrentItem(itemToSwap, false);
                 return true;
             }
             case R.id.move_list_right: {
                 // TODO error handling
-                final int itemToSwap = binding.viewPager.getCurrentItem() + 1;
-                final long stackRightId = stackAdapter.getItem(binding.viewPager.getCurrentItem() + 1).getLocalId();
+                final int stackRightPosition = binding.viewPager.getCurrentItem() + 1;
+                final long stackRightId = stackAdapter.getItem(stackRightPosition).getLocalId();
                 syncManager.swapStackOrder(currentAccount.getId(), currentBoardId, new Pair<>(stackId, stackRightId));
-                Application.saveCurrentStackId(getApplicationContext(), currentAccount.getId(), currentBoardId, stackId);
-                binding.viewPager.setCurrentItem(itemToSwap, false);
                 return true;
             }
             case R.id.delete_list: {
