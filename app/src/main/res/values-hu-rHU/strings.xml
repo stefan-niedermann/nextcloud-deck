@@ -72,6 +72,8 @@
     <string name="error">Hiba történt</string>
     <string name="operation_not_yet_supported">Még nincs támogatva</string>
     <string name="simple_copy">másolat</string>
+    <string name="simple_synchronization">Szinkronizálás</string>
+    <string name="simple_appearance">Megjelenés</string>
     <string name="simple_error">Hiba</string>
     <string name="simple_exception">Kivétel</string>
     <string name="copied_to_clipboard">Vágólapra másolva</string>
@@ -131,4 +133,5 @@
     <string name="card_edit_comments">Hozzászólások</string>
     <string name="open_in_browser">Megnyitás böngészőben</string>
     <string name="simple_open">Megnyitás</string>
+    <string name="maintenance_mode">A kiszolgáló karbantartási módban van</string>
     </resources>

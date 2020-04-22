@@ -77,6 +77,8 @@
     <string name="error">发生了一个错误</string>
     <string name="operation_not_yet_supported">尚未支持</string>
     <string name="simple_copy">复制</string>
+    <string name="simple_synchronization">同步</string>
+    <string name="simple_appearance">外观</string>
     <string name="simple_error">错误</string>
     <string name="simple_exception">异常</string>
     <string name="copied_to_clipboard">复制到剪贴板</string>
@@ -142,7 +144,6 @@
     <string name="server_misconfigured">配置错误的服务器</string>
     <string name="server_misconfigured_explanation">您的服务器确实以HTTP 302状态代码响应，这意味着您的服务器上没有安装Deck应用程序，或者是配置错误。这可能是由.htaccess-文件中的自定义重载或Nextcloud应用程序（如OID Client）造成的。您可以在 \"关于 \"部分中找到我们的联系信息。</string>
     <string name="server_error">服务器错误</string>
-    <string name="server_error_explanation">你的服务器以HTTP 503状态码响应。如果服务器目前处于维护模式，可能是这种情况。请联系您的管理员或我们寻求支持。您可以在 \"关于 \"部分找到我们的联系信息。</string>
     <string name="share_add_to_card">添加到卡片</string>
     <string name="share_success">成功将 %1$s 添加到 %2$s</string>
     <string name="could_not_copy_to_clipboard">无法复制到剪贴板</string>
@@ -155,4 +156,5 @@
     <string name="choose_list">选择目录</string>
     <string name="open_in_browser">在浏览器中打开</string>
     <string name="simple_open">打开</string>
+    <string name="maintenance_mode">服务器处于维护模式</string>
     </resources>

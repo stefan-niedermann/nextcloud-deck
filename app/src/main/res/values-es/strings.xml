@@ -77,6 +77,8 @@
     <string name="error">Ha aparecido un error</string>
     <string name="operation_not_yet_supported">No está soportado todavía</string>
     <string name="simple_copy">copiar</string>
+    <string name="simple_synchronization">Sincronización</string>
+    <string name="simple_appearance">Apariencia</string>
     <string name="simple_error">Error</string>
     <string name="simple_exception">Excepción</string>
     <string name="copied_to_clipboard">Copiado al portapapeles</string>
@@ -108,6 +110,7 @@
     <string name="simple_rename">Renombrar</string>
     <string name="simple_settings">Configuración</string>
     <string name="settings_theme_title">Tema oscuro</string>
+    <string name="settings_branding_title">Branding</string>
     <string name="settings_background_sync">Sincronización en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar sobre Wi-Fi y datos móviles</string>
     <string name="pref_value_wifi_only">Sincronizar solo sobre Wi-Fi</string>
@@ -142,7 +145,7 @@
     <string name="server_misconfigured">Servidor mal configurado</string>
     <string name="server_misconfigured_explanation">Su servidor tiene respuesta con el código de estado HTTP 302, lo que implica que no ha instalado la aplicación Deck en su servidor o que algo está mal configurado. Esto puede ser causado por anulaciones personalizadas en un en un archivo .htaccess o por aplicaciones de Nexcloud como OID Client. Encontrarás información de contacto de soporte en la sección acerca de. </string>
     <string name="server_error">Error en el servidor</string>
-    <string name="server_error_explanation">Su servidor respondió con un código de estado HTTP 503. Este puede ser el caso si el servidor está actualmente en modo de mantenimiento. Póngase en contacto con su administrador o con nosotros para obtener asistencia. Puede encontrar nuestra información de contacto en la sección acerca de.</string>
+    <string name="maintenance_mode_explanation">El servidor %1$s está actualmente en modo de mantenimiento. Por favor, contacta con tu administrador o vuelve a intentarlo más tarde.</string>
     <string name="share_add_to_card">Añadir a la tarjeta</string>
     <string name="share_success">Añadido satisfactoriamente %1$s a %2$s</string>
     <string name="could_not_copy_to_clipboard">No se puede copiar al portapapeles</string>
@@ -158,4 +161,6 @@
     <string name="open_in_browser">Abrir en navegador</string>
     <string name="simple_open">Abrir</string>
     <string name="updating_card">Actualizando tarjeta</string>
+    <string name="error_revoking_ac">Error al revocar el acceso a %1$s</string>
+    <string name="maintenance_mode">Servidor en modo de mantenimiento</string>
     </resources>

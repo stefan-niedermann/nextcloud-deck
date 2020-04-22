@@ -77,6 +77,8 @@
     <string name="error">Дошло је до грешке</string>
     <string name="operation_not_yet_supported">Није још подржано</string>
     <string name="simple_copy">копирај</string>
+    <string name="simple_synchronization">Синхронизација</string>
+    <string name="simple_appearance">Изглед</string>
     <string name="simple_error">Грешка</string>
     <string name="simple_exception">Изузетак</string>
     <string name="copied_to_clipboard">Копирано у клипборд</string>
@@ -142,7 +144,6 @@
     <string name="server_misconfigured">Сервер није добро конфигурисан</string>
     <string name="server_misconfigured_explanation">Сервер је одговорио са HTTP 302 кодом, што значи да немате инсталирану Deck апликацију или да Вам сервер није правилно конфигурисан. Ово може да буде проузорковано произвољним додавањима у .htaccess фајлу или другим Некстклауд апликацијама као што је OID Client. Можете наћи наше контакт информације за подршку у секцији О програму.</string>
     <string name="server_error">Грешка на серверу</string>
-    <string name="server_error_explanation">Сервер је одговорио са HTTP 503 кодом. Ово може да значи да је сервер у режиму одржавања. Контактирајте администратора или нас за подршку. Можете наћи наше контакт информације за подршку у секцији О програму. </string>
     <string name="share_add_to_card">Додај на картицу</string>
     <string name="share_success">Успешно додат %1$s на %2$s</string>
     <string name="could_not_copy_to_clipboard">Не могу да копирам у оставу</string>
@@ -157,4 +158,5 @@
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Отвори у прегледачу</string>
     <string name="simple_open">Отвори</string>
+    <string name="maintenance_mode">Сервер у режиму одржавања</string>
     </resources>

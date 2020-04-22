@@ -71,6 +71,8 @@
 
     <string name="error">خطایی ظاهر شد</string>
     <string name="simple_copy">کپی</string>
+    <string name="simple_synchronization">هماهنگ سازی</string>
+    <string name="simple_appearance">ظاهر</string>
     <string name="simple_error">خطا</string>
     <string name="simple_exception">استثنا</string>
     <string name="copied_to_clipboard">در حافظه رونویسی شد</string>
@@ -130,4 +132,5 @@
     <string name="no_comments_yet">هنوز نظری ثبت نشده است</string>
     <string name="open_in_browser">باز کردن در مرورگر</string>
     <string name="simple_open">باز کن...</string>
+    <string name="maintenance_mode">سرور در حالت تعمیر و نگهداری</string>
     </resources>

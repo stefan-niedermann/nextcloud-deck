@@ -77,6 +77,8 @@
     <string name="error">Παρουσιάστηκε σφάλμα</string>
     <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
     <string name="simple_copy">αντιγραφή</string>
+    <string name="simple_synchronization">Συγχρονισμός</string>
+    <string name="simple_appearance">Εμφάνιση</string>
     <string name="simple_error">Σφάλμα</string>
     <string name="simple_exception">Εξαίρεση</string>
     <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
@@ -108,6 +110,7 @@
     <string name="simple_rename">Μετονομασία</string>
     <string name="simple_settings">Ρυθμίσεις</string>
     <string name="settings_theme_title">Σκούρο θέμα</string>
+    <string name="settings_branding_title">Επωνυμία</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
@@ -142,7 +145,7 @@
     <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
     <string name="server_misconfigured_explanation">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client. Μπορείτε να βρείτε πληροφορίες επικοινωνίας της υποστήριξης στο τμήμα περί.</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
-    <string name="server_error_explanation">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Παρακαλώ επικοινωνήστε με τον διαχειριστή ή μαζί μας για υποστήριξη. Μπορείτε να βρείτε πληροφορίες επικοινωνίας της υποστήριξης στο τμήμα περί.</string>
+    <string name="maintenance_mode_explanation">Ο διακομιστής %1$s είναι σε κατάσταση συντήρησης. Επικοινωνήστε με τον διαχειριστή ή δοκιμάστε αργότερα.</string>
     <string name="share_add_to_card">Προσθήκη στην κάρτα</string>
     <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
     <string name="could_not_copy_to_clipboard">Δεν μπορεί να αντιγραφή στο πρόχειρο</string>
@@ -158,4 +161,7 @@
     <string name="open_in_browser">Άνοιγμα στον περιηγητή ιστού</string>
     <string name="simple_open">Άνοιγμα</string>
     <string name="updating_card">Ενημέρωση καρτέλας...</string>
+    <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
+    <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
+    <string name="simple_switch">Αλλαγή</string>
     </resources>
