@@ -114,12 +114,12 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
         viewHolder.binding.card.setOnClickListener((v) -> {
             if (selectCardListener == null) {
-                Intent intent = new Intent(v.getContext(), EditActivity.class);
-                intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
-                intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
-                intent.putExtra(BUNDLE_KEY_STACK_ID, card.getCard().getStackId());
-                intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                final Intent intent = new Intent(v.getContext(), EditActivity.class)
+                        .putExtra(BUNDLE_KEY_ACCOUNT, account)
+                        .putExtra(BUNDLE_KEY_BOARD_ID, boardId)
+                        .putExtra(BUNDLE_KEY_STACK_ID, card.getCard().getStackId())
+                        .putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId())
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             } else {
                 selectCardListener.onCardSelected(card);
@@ -127,15 +127,12 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         });
         if (canEdit && selectCardListener == null) {
             viewHolder.binding.card.setOnLongClickListener((v) -> {
-                ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId() + "");
-
-                // Starts the drag
-                v.startDrag(dragData,  // the data to be dragged
-                        new View.DragShadowBuilder(v),  // the drag shadow builder
-                        new DraggedItemLocalState<>(card, viewHolder.binding.card, this, position),      // no need to use local data
-                        0          // flags (not currently used, set to 0)
-                );
                 DeckLog.log("Starting drag and drop");
+                v.startDrag(ClipData.newPlainText("cardid", String.valueOf(card.getLocalId())),
+                        new View.DragShadowBuilder(v),
+                        new DraggedItemLocalState<>(card, viewHolder.binding.card, this, position),
+                        0
+                );
                 return true;
             });
         } else {

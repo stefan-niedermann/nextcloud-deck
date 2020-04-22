@@ -43,36 +43,34 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
         syncManager = new SyncManager(requireActivity());
-        syncManager.readAccount(viewModel.getAccountId()).observe(requireActivity(), (account -> {
-            adapter = new CardCommentsAdapter(requireContext(), account, requireActivity().getMenuInflater(), this, getChildFragmentManager());
-            binding.comments.setAdapter(adapter);
-            syncManager.getCommentsForLocalCardId(viewModel.getFullCard().getLocalId()).observe(requireActivity(),
-                    (comments) -> {
-                        if (comments != null && comments.size() > 0) {
-                            binding.emptyContentView.setVisibility(GONE);
-                            binding.comments.setVisibility(VISIBLE);
-                            adapter.updateComments(comments);
-                        } else {
-                            binding.emptyContentView.setVisibility(VISIBLE);
-                            binding.comments.setVisibility(GONE);
-                        }
-                    });
-            if (viewModel.canEdit()) {
-                binding.addCommentLayout.setVisibility(VISIBLE);
-                binding.fab.setOnClickListener(v -> {
-                    binding.emptyContentView.setVisibility(GONE);
-                    binding.comments.setVisibility(VISIBLE);
-                    final DeckComment comment = new DeckComment(binding.message.getText().toString());
-                    comment.setActorDisplayName(account.getUserName());
-                    comment.setCreationDateTime(new Date());
-                    syncManager.addCommentToCard(viewModel.getAccountId(), viewModel.getBoardId(), viewModel.getFullCard().getLocalId(), comment);
-                    binding.message.setText(null);
+        adapter = new CardCommentsAdapter(requireContext(), viewModel.getAccount(), requireActivity().getMenuInflater(), this, getChildFragmentManager());
+        binding.comments.setAdapter(adapter);
+        syncManager.getCommentsForLocalCardId(viewModel.getFullCard().getLocalId()).observe(requireActivity(),
+                (comments) -> {
+                    if (comments != null && comments.size() > 0) {
+                        binding.emptyContentView.setVisibility(GONE);
+                        binding.comments.setVisibility(VISIBLE);
+                        adapter.updateComments(comments);
+                    } else {
+                        binding.emptyContentView.setVisibility(VISIBLE);
+                        binding.comments.setVisibility(GONE);
+                    }
                 });
-                binding.message.setOnEditorActionListener((v, actionId, event) -> binding.fab.performClick());
-            } else {
-                binding.addCommentLayout.setVisibility(GONE);
-            }
-        }));
+        if (viewModel.canEdit()) {
+            binding.addCommentLayout.setVisibility(VISIBLE);
+            binding.fab.setOnClickListener(v -> {
+                binding.emptyContentView.setVisibility(GONE);
+                binding.comments.setVisibility(VISIBLE);
+                final DeckComment comment = new DeckComment(binding.message.getText().toString());
+                comment.setActorDisplayName(viewModel.getAccount().getUserName());
+                comment.setCreationDateTime(new Date());
+                syncManager.addCommentToCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getLocalId(), comment);
+                binding.message.setText(null);
+            });
+            binding.message.setOnEditorActionListener((v, actionId, event) -> binding.fab.performClick());
+        } else {
+            binding.addCommentLayout.setVisibility(GONE);
+        }
         return binding.getRoot();
     }
 
@@ -87,12 +85,12 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 
     @Override
     public void onCommentEdited(Long id, String comment) {
-        syncManager.updateComment(viewModel.getAccountId(), viewModel.getFullCard().getLocalId(), id, comment);
+        syncManager.updateComment(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), id, comment);
     }
 
     @Override
     public void onCommentDeleted(Long localId) {
-        syncManager.deleteComment(viewModel.getAccountId(), viewModel.getFullCard().getLocalId(), localId);
+        syncManager.deleteComment(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), localId);
     }
 
     @Override

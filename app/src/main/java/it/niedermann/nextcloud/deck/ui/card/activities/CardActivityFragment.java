@@ -33,19 +33,17 @@ public class CardActivityFragment extends Fragment {
         if (!viewModel.isCreateMode()) {
             final SyncManager syncManager = new SyncManager(requireContext());
 
-            syncManager.getCardByLocalId(viewModel.getAccountId(), viewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(), (fullCard) -> {
-                syncManager.syncActivitiesForCard(fullCard.getCard()).observe(getViewLifecycleOwner(), (activities -> {
-                    if (activities == null || activities.size() == 0) {
-                        binding.emptyContentView.setVisibility(View.VISIBLE);
-                        binding.activitiesList.setVisibility(View.GONE);
-                    } else {
-                        binding.emptyContentView.setVisibility(View.GONE);
-                        binding.activitiesList.setVisibility(View.VISIBLE);
-                        RecyclerView.Adapter adapter = new CardActivityAdapter(activities, requireActivity().getMenuInflater());
-                        binding.activitiesList.setAdapter(adapter);
-                    }
-                }));
-            });
+            syncManager.syncActivitiesForCard(viewModel.getFullCard().getCard()).observe(getViewLifecycleOwner(), (activities -> {
+                if (activities == null || activities.size() == 0) {
+                    binding.emptyContentView.setVisibility(View.VISIBLE);
+                    binding.activitiesList.setVisibility(View.GONE);
+                } else {
+                    binding.emptyContentView.setVisibility(View.GONE);
+                    binding.activitiesList.setVisibility(View.VISIBLE);
+                    RecyclerView.Adapter adapter = new CardActivityAdapter(activities, requireActivity().getMenuInflater());
+                    binding.activitiesList.setAdapter(adapter);
+                }
+            }));
         } else {
             binding.emptyContentView.setVisibility(View.VISIBLE);
             binding.activitiesList.setVisibility(View.GONE);
