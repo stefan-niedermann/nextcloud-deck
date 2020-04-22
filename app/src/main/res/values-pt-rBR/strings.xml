@@ -145,7 +145,7 @@
     <string name="server_misconfigured">Servidor mal configurado</string>
     <string name="server_misconfigured_explanation">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck ou ele está configurado incorretamente. Isso pode ser causado por alterações personalizadas no arquivo .htaccess ou aplicativos Nextcloud como o Client OID. Você pode encontrar informações de contato para suporte na seção \"Sobre\".</string>
     <string name="server_error">Erro no servidor</string>
-    <string name="server_error_explanation">Seu servidor respondeu com um código de status HTTP 503. Pode ser que o servidor esteja atualmente em manutenção. Entre em contato com seu administrador ou conosco para obter suporte. Você pode encontrar nossas informações de contato na seção \"Sobre\".</string>
+    <string name="maintenance_mode_explanation">O servidor %1$s está no modo de manutenção. Entre em contato com o administrador ou tente novamente mais tarde.</string>
     <string name="share_add_to_card">Adicionar ao cartão</string>
     <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
     <string name="could_not_copy_to_clipboard">Não foi possível copiar para a área de transferência</string>
@@ -161,4 +161,7 @@
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="simple_open">Abrir</string>
     <string name="updating_card">Atualizando cartão...</string>
+    <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
+    <string name="maintenance_mode">Servidor em modo de manutenção</string>
+    <string name="simple_switch">Alterar</string>
     </resources>

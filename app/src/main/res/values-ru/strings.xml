@@ -77,6 +77,8 @@
     <string name="error">Произошла ошибка</string>
     <string name="operation_not_yet_supported">Ещё не поддерживается</string>
     <string name="simple_copy">Копировать</string>
+    <string name="simple_synchronization">Синхронизация</string>
+    <string name="simple_appearance">Внешний вид</string>
     <string name="simple_error">Ошибка</string>
     <string name="simple_exception">Исключение</string>
     <string name="copied_to_clipboard">Скопировано в буфер</string>
@@ -108,6 +110,7 @@
     <string name="simple_rename">Переименовать</string>
     <string name="simple_settings">Параметры</string>
     <string name="settings_theme_title">Тёмное оформление</string>
+    <string name="settings_branding_title">Брендирование</string>
     <string name="settings_background_sync">Синхр. в фоновом режиме</string>
     <string name="pref_value_wifi_and_mobile">Синхр. по Wi-Fi и мобильной связи</string>
     <string name="pref_value_wifi_only">Синхр. только по Wi-Fi</string>
@@ -142,7 +145,6 @@
     <string name="server_misconfigured">Сервер не настроен</string>
     <string name="server_misconfigured_explanation">На запрос сервер вернул код состояния HTTP 302, что означает, что  приложение Deck либо не установлено, либо сервер настроен неверно. Такое поведение может являться следствием замены стандартного файла .htaccess администратором сервера или приложением Nextcloud, таким как OID Client. Вы можете связаться с разработчиками для консультирования по этой проблеме, их контактные данные приведены в разделе «О приложении».</string>
     <string name="server_error">Ошибка сервера</string>
-    <string name="server_error_explanation">На запрос сервер вернул код состояния HTTP 302, что может означать, что сервер находится в режиме обслуживания. Свяжитесь а администратором своего сервера или разработчиками этого приложения для консультирования по этой проблеме. Контактные данные разработчиков приложения приведены в разделе «О приложении».</string>
     <string name="share_add_to_card">Добавить в карточку</string>
     <string name="share_success">%1$s добавлено в %2$s</string>
     <string name="could_not_copy_to_clipboard">Не удалось скопировать в буфер обмена.</string>
@@ -154,6 +156,10 @@
     <string name="add_a_new_board_using_the_button">Добавьте новую доску с помощью кнопки (+)</string>
     <string name="choose_board">Выбрать доску</string>
     <string name="choose_list">Выбрать список</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Открыть в браузере</string>
     <string name="simple_open">Открыто</string>
+    <string name="updating_card">Обновление карточки…</string>
+    <string name="error_revoking_ac">Не удалось отозвать доступ %1$s</string>
+    <string name="maintenance_mode">Сервер находится в режиме обслуживания</string>
     </resources>

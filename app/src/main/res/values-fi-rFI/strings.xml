@@ -74,6 +74,8 @@
 
     <string name="error">Tapahtui virhe</string>
     <string name="simple_copy">kopioi</string>
+    <string name="simple_synchronization">Synkronointi</string>
+    <string name="simple_appearance">Ulkoasu</string>
     <string name="simple_error">Virhe</string>
     <string name="simple_exception">Poikkeus</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
@@ -135,11 +137,11 @@
     <string name="server_misconfigured">Virheelliset palvelimen asetukset</string>
     <string name="server_misconfigured_explanation">Palvelimesi vastasi HTTP 302 tilakoodilla, joka tarkoittaa, että Deck/pakka sovellusta ei ole asennettu palvelimellesi tai jossain on virheelliset asetukset. Tämän voi aiheuttaa muunneltu .htaccess tiedosto tai Nextcloud sovellus kuten OID asiakas. Tukipalvelun yhteystiedot löytyvät muuta valikosta. </string>
     <string name="server_error">Palvelinvirhe</string>
-    <string name="server_error_explanation">Palvelimesi vastasi HTTP 503 tilakoodilla. Tämä voi tarkoittaa, että palvelin on ylläpitotilassa. Ota yhteyttä ylläpitoon tai meidän tukipalveluun. Tukipalvelun yhteystiedot loytyvät muuta valikosta.</string>
     <string name="share_add_to_card">Lisää kortille</string>
     <string name="share_success">Onnistuneesti lisätty %1$s kohteeseen %2$s</string>
     <string name="could_not_copy_to_clipboard">Ei voitu kopioida leikepöydälle</string>
     <string name="card_edit_comments">Kommentit</string>
     <string name="open_in_browser">Avaa selaimessa</string>
     <string name="simple_open">Avoinna</string>
+    <string name="maintenance_mode">Palvelin on huoltotilassa</string>
     </resources>
