@@ -662,10 +662,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         .putExtra(BUNDLE_KEY_CAN_EDIT, currentBoardHasEditPermission));
                 return true;
             }
-            case R.id.delete_list: {
-                DeleteStackDialogFragment.newInstance(stackId).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
-                return true;
-            }
             case R.id.rename_list:{
                 observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack ->
                         EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
