@@ -5,13 +5,14 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 
 @SuppressWarnings("WeakerAccess")
 public class EditCardViewModel extends ViewModel {
 
-    private long accountId;
+    private Account account;
     private long boardId;
     private FullCard originalCard;
     private FullCard fullCard;
@@ -23,12 +24,12 @@ public class EditCardViewModel extends ViewModel {
     /**
      * Stores a deep copy of the given fullCard to be able to compare the state at every time in #{@link EditCardViewModel#hasChanges()}
      *
-     * @param accountId Expecting a positive long value
-     * @param boardId   Local ID, expecting a positive long value
-     * @param fullCard  The card that is currently edited
+     * @param account  Must not be null
+     * @param boardId  Local ID, expecting a positive long value
+     * @param fullCard The card that is currently edited
      */
-    public void initializeExistingCard(long accountId, long boardId, @NonNull FullCard fullCard) {
-        this.accountId = accountId;
+    public void initializeExistingCard(@NonNull Account account, long boardId, @NonNull FullCard fullCard) {
+        this.account = account;
         this.boardId = boardId;
         this.fullCard = fullCard;
         this.originalCard = new FullCard(this.fullCard);
@@ -37,11 +38,11 @@ public class EditCardViewModel extends ViewModel {
     /**
      * Stores a deep copy of the given fullCard to be able to compare the state at every time in #{@link EditCardViewModel#hasChanges()}
      *
-     * @param accountId Expecting a positive long value
-     * @param boardId   Local ID, expecting a positive long value
-     * @param stackId   Local ID, expecting a positive long value where the card should be created
+     * @param account Must not be null
+     * @param boardId Local ID, expecting a positive long value
+     * @param stackId Local ID, expecting a positive long value where the card should be created
      */
-    public void initializeNewCard(long accountId, long boardId, long stackId) {
+    public void initializeNewCard(@NonNull Account account, long boardId, long stackId) {
         final FullCard fullCard = new FullCard();
         fullCard.setLabels(new ArrayList<>());
         fullCard.setAssignedUsers(new ArrayList<>());
@@ -49,7 +50,7 @@ public class EditCardViewModel extends ViewModel {
         final Card card = new Card();
         card.setStackId(stackId);
         fullCard.setCard(card);
-        initializeExistingCard(accountId, boardId, fullCard);
+        initializeExistingCard(account, boardId, fullCard);
     }
 
     public boolean hasChanges() {
@@ -64,8 +65,8 @@ public class EditCardViewModel extends ViewModel {
         this.hasCommentsAbility = hasCommentsAbility;
     }
 
-    public long getAccountId() {
-        return accountId;
+    public Account getAccount() {
+        return account;
     }
 
     public FullCard getFullCard() {

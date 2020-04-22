@@ -28,7 +28,6 @@ import java.util.Map;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
@@ -61,53 +60,49 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         syncManager = new SyncManager(requireContext());
-        syncManager.readAccount(viewModel.getAccountId()).observe(getViewLifecycleOwner(), (Account account) -> {
-            adapter = new CardAttachmentAdapter(
-                    requireContext(),
-                    getChildFragmentManager(),
-                    requireActivity().getMenuInflater(),
-                    this,
-                    account,
-                    viewModel.getFullCard().getLocalId());
-            binding.attachmentsList.setAdapter(adapter);
+        adapter = new CardAttachmentAdapter(
+                requireContext(),
+                getChildFragmentManager(),
+                requireActivity().getMenuInflater(),
+                this,
+                viewModel.getAccount(),
+                viewModel.getFullCard().getLocalId());
+        binding.attachmentsList.setAdapter(adapter);
 
-            updateEmptyContentView();
+        updateEmptyContentView();
 
-            final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-            int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
-            GridLayoutManager glm = new GridLayoutManager(getContext(), spanCount);
-            glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int spanCount = (int) ((displayMetrics.widthPixels / displayMetrics.density) / getResources().getInteger(R.integer.max_dp_attachment_column));
+        GridLayoutManager glm = new GridLayoutManager(getContext(), spanCount);
+        glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (adapter.getItemViewType(position)) {
+                    case VIEW_TYPE_IMAGE:
+                        return 1;
+                    case VIEW_TYPE_DEFAULT:
+                    default:
+                        return spanCount;
+                }
+            }
+        });
+        binding.attachmentsList.setLayoutManager(glm);
+        if (!viewModel.isCreateMode()) {
+            // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
+            // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
+            setExitSharedElementCallback(new SharedElementCallback() {
                 @Override
-                public int getSpanSize(int position) {
-                    switch (adapter.getItemViewType(position)) {
-                        case VIEW_TYPE_IMAGE:
-                            return 1;
-                        case VIEW_TYPE_DEFAULT:
-                        default:
-                            return spanCount;
+                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                    AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
+                            .findViewHolderForAdapterPosition(clickedItemPosition);
+                    if (selectedViewHolder != null) {
+                        sharedElements.put(names.get(0), selectedViewHolder.getPreview());
                     }
                 }
             });
-            binding.attachmentsList.setLayoutManager(glm);
-            if (!viewModel.isCreateMode()) {
-                syncManager.getCardByLocalId(viewModel.getAccountId(), viewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(), (fullCard) -> {
-                    // https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html?m=1
-                    // https://github.com/android/animation-samples/blob/master/GridToPager/app/src/main/java/com/google/samples/gridtopager/fragment/ImagePagerFragment.java
-                    setExitSharedElementCallback(new SharedElementCallback() {
-                        @Override
-                        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                            AttachmentViewHolder selectedViewHolder = (AttachmentViewHolder) binding.attachmentsList
-                                    .findViewHolderForAdapterPosition(clickedItemPosition);
-                            if (selectedViewHolder != null) {
-                                sharedElements.put(names.get(0), selectedViewHolder.getPreview());
-                            }
-                        }
-                    });
-                    adapter.setAttachments(fullCard.getAttachments(), fullCard.getId());
-                    updateEmptyContentView();
-                });
-            }
-        });
+            adapter.setAttachments(viewModel.getFullCard().getAttachments(), viewModel.getFullCard().getId());
+            updateEmptyContentView();
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && viewModel.canEdit()) {
             binding.fab.setOnClickListener(v -> {
@@ -179,7 +174,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 adapter.addAttachment(a);
                 updateEmptyContentView();
             } else {
-                syncManager.addAttachmentToCard(viewModel.getAccountId(), viewModel.getFullCard().getLocalId(), Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
+                syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
             }
         }
     }
@@ -205,7 +200,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             adapter.removeAttachment(attachment);
             viewModel.getFullCard().getAttachments().remove(attachment);
         } else {
-            syncManager.deleteAttachmentOfCard(viewModel.getAccountId(), viewModel.getFullCard().getLocalId(), attachment.getLocalId());
+            syncManager.deleteAttachmentOfCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), attachment.getLocalId());
         }
         updateEmptyContentView();
     }

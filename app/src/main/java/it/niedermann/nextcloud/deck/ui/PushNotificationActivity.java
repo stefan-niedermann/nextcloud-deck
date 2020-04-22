@@ -24,7 +24,7 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToPrimaryToolbar;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToStatusbar;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
@@ -95,7 +95,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
                                     DeckLog.verbose("FullCard: " + fullCard);
                                     if (fullCard != null) {
                                         runOnUiThread(() -> {
-                                            binding.submit.setOnClickListener((v) -> launchEditActivity(account.getId(), fullCard.getLocalId(), boardLocalId));
+                                            binding.submit.setOnClickListener((v) -> launchEditActivity(account, fullCard.getLocalId(), boardLocalId));
                                             binding.submit.setText(R.string.simple_open);
                                             applyBrandToSubmitButton(account);
                                             binding.submit.setEnabled(true);
@@ -149,11 +149,11 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
         });
     }
 
-    private void launchEditActivity(Long accountId, Long cardId, Long boardId) {
-        DeckLog.info("starting activity with [" + accountId + ", " + cardId + ", " + boardId + "]");
+    private void launchEditActivity(@NonNull Account account, Long cardId, Long boardId) {
+        DeckLog.info("starting activity with [" + account + ", " + cardId + ", " + boardId + "]");
         runOnUiThread(() -> {
             Intent intent = new Intent(this, EditActivity.class)
-                    .putExtra(BUNDLE_KEY_ACCOUNT_ID, accountId)
+                    .putExtra(BUNDLE_KEY_ACCOUNT, account)
                     .putExtra(BUNDLE_KEY_LOCAL_ID, cardId)
                     .putExtra(BUNDLE_KEY_BOARD_ID, boardId)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

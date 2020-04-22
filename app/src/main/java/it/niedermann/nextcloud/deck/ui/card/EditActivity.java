@@ -16,6 +16,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
@@ -24,7 +25,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
@@ -76,8 +77,8 @@ public class EditActivity extends BrandedActivity {
 
         final Bundle args = getIntent().getExtras();
 
-        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT_ID) || !args.containsKey(BUNDLE_KEY_BOARD_ID)) {
-            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT_ID + " and " + BUNDLE_KEY_BOARD_ID + " of the card that should be edited or created.");
+        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_ID)) {
+            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_BOARD_ID + " of the card that should be edited or created.");
         }
 
         long localId = args.getLong(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
@@ -92,19 +93,22 @@ public class EditActivity extends BrandedActivity {
             }
         }
 
-        long accountId = args.getLong(BUNDLE_KEY_ACCOUNT_ID);
-        long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
+        final Account account = (Account) args.getSerializable(BUNDLE_KEY_ACCOUNT);
+        if (account == null) {
+            throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
+        }
+        final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
-        observeOnce(syncManager.getFullBoardById(accountId, boardId), EditActivity.this, (fullBoard -> {
+        observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
-                viewModel.initializeNewCard(accountId, boardId, args.getLong(BUNDLE_KEY_STACK_ID));
+                viewModel.initializeNewCard(account, boardId, args.getLong(BUNDLE_KEY_STACK_ID));
                 setupViewPager();
                 setupTitle(viewModel.isCreateMode());
             } else {
-                observeOnce(syncManager.getCardByLocalId(accountId, localId), EditActivity.this, (next) -> {
-                    viewModel.initializeExistingCard(accountId, boardId, next);
+                observeOnce(syncManager.getCardByLocalId(account.getId(), localId), EditActivity.this, (next) -> {
+                    viewModel.initializeExistingCard(account, boardId, next);
                     setupViewPager();
                     setupTitle(viewModel.isCreateMode());
                 });
@@ -147,7 +151,7 @@ public class EditActivity extends BrandedActivity {
                         .show();
             } else {
                 if (viewModel.isCreateMode()) {
-                    observeOnce(syncManager.createFullCard(viewModel.getAccountId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
+                    observeOnce(syncManager.createFullCard(viewModel.getAccount().getId(), viewModel.getBoardId(), viewModel.getFullCard().getCard().getStackId(), viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
                 } else {
                     observeOnce(syncManager.updateCard(viewModel.getFullCard()), EditActivity.this, (card) -> super.finish());
                 }
@@ -178,7 +182,7 @@ public class EditActivity extends BrandedActivity {
 
         // Comments API only available starting with version 1.0.0-alpha1
         if (!viewModel.isCreateMode()) {
-            syncManager.readAccount(viewModel.getAccountId()).observe(this, (account) -> {
+            syncManager.readAccount(viewModel.getAccount().getId()).observe(this, (account) -> {
                 viewModel.setHasCommentsAbility(account.getServerDeckVersionAsObject().isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0)));
                 if (viewModel.hasCommentsAbility()) {
                     runOnUiThread(() -> {

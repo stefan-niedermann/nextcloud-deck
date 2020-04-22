@@ -24,8 +24,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -67,7 +65,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private SyncManager syncManager;
     private DateFormat dateFormat;
     private DateFormat dueTime = new SimpleDateFormat("HH:mm", Locale.ROOT);
-    private String baseUrl;
     @Px
     private int avatarSize;
     private LinearLayout.LayoutParams avatarLayoutParams;
@@ -100,12 +97,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         avatarSize = dpToPx(requireContext(), R.dimen.avatar_size);
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, dpToPx(requireContext(), R.dimen.spacer_1x), 0);
-
-        try {
-            baseUrl = syncManager.getServerUrl();
-        } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-            DeckLog.logError(e);
-        }
 
         setupPeople();
         setupLabels();
@@ -250,7 +241,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     private void setupLabels() {
-        long accountId = viewModel.getAccountId();
+        long accountId = viewModel.getAccount().getId();
         long boardId = viewModel.getBoardId();
         binding.labelsGroup.removeAllViews();
         if (viewModel.canEdit()) {
@@ -326,23 +317,19 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.people.setAdapter(new UserAutoCompleteAdapter(activity, viewModel.getAccountId(), viewModel.getBoardId(), localCardId));
+            binding.people.setAdapter(new UserAutoCompleteAdapter(activity, viewModel.getAccount().getId(), viewModel.getBoardId(), localCardId));
             binding.people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
                 viewModel.getFullCard().getAssignedUsers().add(user);
                 ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-                if (baseUrl != null) {
-                    addAvatar(baseUrl, user);
-                }
+                addAvatar(viewModel.getAccount().getUrl(), user);
                 binding.people.setText("");
             });
 
             if (this.viewModel.getFullCard().getAssignedUsers() != null) {
                 binding.peopleList.removeAllViews();
-                if (baseUrl != null) {
-                    for (User user : this.viewModel.getFullCard().getAssignedUsers()) {
-                        addAvatar(baseUrl, user);
-                    }
+                for (User user : this.viewModel.getFullCard().getAssignedUsers()) {
+                    addAvatar(viewModel.getAccount().getUrl(), user);
                 }
             }
         } else {
