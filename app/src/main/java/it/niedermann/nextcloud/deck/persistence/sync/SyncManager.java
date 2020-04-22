@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -575,7 +576,7 @@ public class SyncManager {
 
     }
 
-    private void updateStack(Account account, FullBoard board, FullStack stack, WrappedLiveData<FullStack> liveData) {
+    private void updateStack(@NonNull Account account, @NonNull FullBoard board, @NonNull FullStack stack, @Nullable WrappedLiveData<FullStack> liveData) {
         doAsync(() -> {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
                 @Override
@@ -587,21 +588,37 @@ public class SyncManager {
 
                 @Override
                 public void onError(Throwable throwable) {
-                    liveData.postError(throwable);
+                    if (liveData != null) {
+                        liveData.postError(throwable);
+                    }
                 }
             });
         });
     }
 
-    public void reorderStacks(Board board, List<Stack> stacksInNewOrder) {
+    /**
+     * Swaps around the order of the given stackLocalIds
+     *
+     * @param stackLocalIds The first item of the pair will be updated first
+     */
+    public void swapStackOrder(long accountId, long boardLocalId, @NonNull Pair<Long, Long> stackLocalIds) {
+        if (stackLocalIds.first == null || stackLocalIds.second == null) {
+            throw new IllegalArgumentException("Given stackLocalIds must not be null");
+        }
         doAsync(() -> {
-            Account account = dataBaseAdapter.getAccountByIdDirectly(board.getAccountId());
-            FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
-            for (int i = 0; i < stacksInNewOrder.size(); i++) {
-                FullStack s = dataBaseAdapter.getFullStackByLocalIdDirectly(stacksInNewOrder.get(i).getLocalId());
-                s.getStack().setOrder(i);
-                updateStack(account, fullBoard, s, null);
-            }
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardLocalId);
+            Pair<FullStack, FullStack> stacks = new Pair<>(
+                    dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalIds.first),
+                    dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalIds.second)
+            );
+            assert stacks.first != null;
+            assert stacks.second != null;
+            int orderFirst = stacks.first.getStack().getOrder();
+            stacks.first.getStack().setOrder(stacks.second.getStack().getOrder());
+            stacks.second.getStack().setOrder(orderFirst);
+            updateStack(account, fullBoard, stacks.first, null);
+            updateStack(account, fullBoard, stacks.second, null);
         });
     }
 

@@ -67,14 +67,14 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             @NonNull MenuInflater menuInflater,
             @Nullable AttachmentClickedListener attachmentClickedListener,
             @NonNull Account account,
-            long cardLocalId
+            @Nullable Long cardLocalId
     ) {
         super();
         this.fragmentManager = fragmentManager;
         this.menuInflater = menuInflater;
         this.attachmentClickedListener = attachmentClickedListener;
         this.account = account;
-        this.cardLocalId = cardLocalId;
+        this.cardLocalId = cardLocalId == null ? NO_LOCAL_ID : cardLocalId;
         this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, readBrandMainColor(context));
         setHasStableIds(true);
     }
