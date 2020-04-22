@@ -37,8 +37,9 @@ public class AboutFragmentCreditsTab extends Fragment {
         // VERSIONS
 
         binding.aboutVersion.setText(getString(R.string.about_version, strong(BuildConfig.VERSION_NAME)));
-        if (getArguments() != null && getArguments().containsKey(BUNDLE_KEY_ACCOUNT)) {
-            Account account = (Account) requireArguments().getSerializable(BUNDLE_KEY_ACCOUNT);
+        final Bundle args = getArguments();
+        if (args != null && args.containsKey(BUNDLE_KEY_ACCOUNT)) {
+            final Account account = (Account) requireArguments().getSerializable(BUNDLE_KEY_ACCOUNT);
             requireActivity().runOnUiThread(() -> binding.aboutServerAppVersion.setText(strong(account == null ? getString(R.string.simple_error) : account.getServerDeckVersion())));
         } else {
             binding.aboutServerAppVersionContainer.setVisibility(View.GONE);
@@ -62,16 +63,16 @@ public class AboutFragmentCreditsTab extends Fragment {
         return binding.getRoot();
     }
 
-    public static AboutFragmentCreditsTab newInstance() {
+    public static Fragment newInstance() {
         return new AboutFragmentCreditsTab();
     }
 
-    public static AboutFragmentCreditsTab newInstance(@Nullable Account account) {
+    public static Fragment newInstance(@Nullable Account account) {
         if (account == null) {
             return newInstance();
         }
-        AboutFragmentCreditsTab fragment = new AboutFragmentCreditsTab();
-        Bundle args = new Bundle();
+        final Fragment fragment = new AboutFragmentCreditsTab();
+        final Bundle args = new Bundle();
         args.putSerializable(BUNDLE_KEY_ACCOUNT, account);
         fragment.setArguments(args);
         return fragment;

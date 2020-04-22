@@ -67,7 +67,7 @@ public class DeckLog {
         String stacktrace = sw.toString(); // stack trace as a string
         final StackTraceElement caller = Thread.currentThread().getStackTrace()[3];
         final String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") -> ";
-        Log.d(TAG, source + stacktrace);
+        Log.e(TAG, source + stacktrace);
     }
 
     public static void printCurrentStacktrace() {

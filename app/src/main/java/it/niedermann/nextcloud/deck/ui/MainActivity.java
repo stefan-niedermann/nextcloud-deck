@@ -100,10 +100,6 @@ import static it.niedermann.nextcloud.deck.Application.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
@@ -253,14 +249,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             binding.fab.setOnClickListener((View view) -> {
                 if (this.boardsList.size() > 0) {
-                    final Intent intent = new Intent(this, EditActivity.class)
-                            .putExtra(BUNDLE_KEY_ACCOUNT, currentAccount)
-                            .putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID)
-                            .putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     try {
-                        intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId());
-                        startActivity(intent);
+                        Long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+                        startActivity(EditActivity.createIntent(this, currentAccount, currentBoardId, stackId, NO_LOCAL_ID));
                     } catch (IndexOutOfBoundsException e) {
                         EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
                     }
@@ -614,8 +605,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         } else {
             switch (item.getItemId()) {
                 case MENU_ID_ABOUT:
-                    startActivityForResult(new Intent(this, AboutActivity.class)
-                            .putExtra(BUNDLE_KEY_ACCOUNT, currentAccount), MainActivity.ACTIVITY_ABOUT);
+                    startActivityForResult(AboutActivity.createIntent(this, currentAccount), MainActivity.ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_SETTINGS:
                     startActivityForResult(new Intent(this, SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);

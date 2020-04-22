@@ -34,10 +34,7 @@ import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
-import static it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity.BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
@@ -132,11 +129,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                     if (attachmentClickedListener != null) {
                         attachmentClickedListener.onAttachmentClicked(position);
                     }
-                    Intent intent = new Intent(context, AttachmentsActivity.class);
-                    intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, account.getId());
-                    intent.putExtra(BUNDLE_KEY_LOCAL_ID, cardLocalId);
-                    intent.putExtra(BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID, attachment.getLocalId());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    final Intent intent = AttachmentsActivity.createIntent(context, account, cardLocalId, attachment.getLocalId());
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && context instanceof Activity) {
                         String transitionName = context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId()));
                         holder.getPreview().setTransitionName(transitionName);

@@ -106,6 +106,7 @@ public class SyncManager {
         return liveData;
     }
 
+    // TODO if the card does not exist yet, try to synchronize it first, instead of directly returning null. If sync failed, return null.
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, Account account) {
         return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, account.getId());
     }

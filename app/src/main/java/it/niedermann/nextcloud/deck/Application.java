@@ -81,16 +81,17 @@ public class Application extends android.app.Application {
         }
     }
 
-    public static void saveBrandColors(@NonNull BrandedActivity activity, @ColorInt int mainColor, @ColorInt int textColor) {
-        if (isBrandingEnabled(activity)) {
+    public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
+        if (isBrandingEnabled(context) && context instanceof BrandedActivity) {
+            final BrandedActivity activity = (BrandedActivity) context;
             activity.applyBrand(mainColor, textColor);
             BrandedActivity.applyBrandToStatusbar(activity.getWindow(), mainColor, textColor);
         }
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
         DeckLog.log("--- Write: shared_preference_theme_text" + " | " + textColor);
-        editor.putInt(activity.getString(R.string.shared_preference_theme_main), mainColor);
-        editor.putInt(activity.getString(R.string.shared_preference_theme_text), textColor);
+        editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
+        editor.putInt(context.getString(R.string.shared_preference_theme_text), textColor);
         editor.apply();
     }
 

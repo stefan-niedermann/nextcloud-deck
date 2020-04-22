@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -84,5 +86,11 @@ public class AboutActivity extends BrandedActivity {
     public void applyBrand(int mainColor, int textColor) {
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
+    }
+
+    @NonNull
+    public static Intent createIntent(@NonNull Context context, @NonNull Account account) {
+        return new Intent(context, AboutActivity.class)
+                .putExtra(BUNDLE_KEY_ACCOUNT, account);
     }
 }
