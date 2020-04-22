@@ -145,7 +145,7 @@
     <string name="server_misconfigured">Problème de configuration serveur</string>
     <string name="server_misconfigured_explanation">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés dans un fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
     <string name="server_error">Erreur du serveur</string>
-    <string name="server_error_explanation">Votre serveur a répondu avec le code d\'état HTTP 503. Cela peut être le cas si le serveur est actuellement en mode maintenance. Veuillez contacter votre administrateur ou nous pour obtenir de l\'aide. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
+    <string name="maintenance_mode_explanation">Le serveur %1$s est actuellement en maintenance. Veuillez contacter votre administrateur ou réessayer plus tard.</string>
     <string name="share_add_to_card">Ajouter à la carte</string>
     <string name="share_success">Ajout de %1$s à %2$s réussit</string>
     <string name="could_not_copy_to_clipboard">Impossible de copier dans le presse-papiers</string>
@@ -153,8 +153,13 @@
     <string name="add_comment">Ajouter un commentaire</string>
     <string name="card_edit_comments">Commentaires</string>
     <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>
+    <string name="no_boards">Pas encore de cartes</string>
     <string name="choose_list">Sélectionner la liste</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Ouvrir dans le navigateur web</string>
     <string name="simple_open">Ouvert</string>
+    <string name="updating_card">Mise à jour de la carte en cours...</string>
+    <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
+    <string name="maintenance_mode">Serveur en maintenance</string>
+    <string name="simple_switch">Permuter</string>
     </resources>

@@ -74,6 +74,8 @@
 
     <string name="error">Pojavila se pogreška</string>
     <string name="simple_copy">kopiraj</string>
+    <string name="simple_synchronization">Sinkronizacija</string>
+    <string name="simple_appearance">Izgled</string>
     <string name="simple_error">Pogreška</string>
     <string name="simple_exception">Izuzetak</string>
     <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
@@ -136,10 +138,10 @@
     <string name="server_misconfigured">Pogrešna konfiguracija poslužitelja</string>
     <string name="server_misconfigured_explanation">Vaš je poslužitelj vratio šifru statusa HTTP 302, što znači da aplikacija Deck nije instalirana na poslužitelju ili postoji pogreška u konfiguraciji. To mogu uzrokovati prilagođena prepisivanja u datoteci .htaccess ili određene aplikacije u Nextcloudu, kao što je OID Client. Informacije za kontaktiranje u vezi s podrškom možete pronaći u odjeljku s informacijama o sustavu.</string>
     <string name="server_error">Greška poslužitelja</string>
-    <string name="server_error_explanation">Vaš je poslužitelj vratio šifru statusa HTTP 503. To može značiti da je poslužitelj trenutno u načinu održavanja. Obratite se svom administratoru ili nama za dodatnu podršku. Informacije za kontaktiranje s nama možete pronaći u odjeljku s informacijama o sustavu.</string>
     <string name="share_add_to_card">Dodaj kartici</string>
     <string name="share_success">%1$s uspješno dodano %2$s</string>
     <string name="card_edit_comments">Komentari</string>
     <string name="open_in_browser">Otvori u pregledniku</string>
     <string name="simple_open">Otvori</string>
+    <string name="maintenance_mode">Poslužitelj u načinu održavanja</string>
     </resources>

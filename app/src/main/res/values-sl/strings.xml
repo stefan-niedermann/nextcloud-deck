@@ -77,6 +77,8 @@
     <string name="error">Prišlo je do napake</string>
     <string name="operation_not_yet_supported">Možnost še ni podprta</string>
     <string name="simple_copy">kopiraj</string>
+    <string name="simple_synchronization">Usklajevanje</string>
+    <string name="simple_appearance">Videz</string>
     <string name="simple_error">Napaka</string>
     <string name="simple_exception">Izjema</string>
     <string name="copied_to_clipboard">Kopirano v odložišče</string>
@@ -142,7 +144,6 @@
     <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
     <string name="server_misconfigured_explanation">Prejet je odziv strežnika s kodo stanja HTTP 302, kar kaže na to, da ni nameščen program Deck, ali pa so napačne nastavitve. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID. Stopite v stik s skrbnikom, ali pa se obrnite za podporo na nas.</string>
     <string name="server_error">Napaka strežnika</string>
-    <string name="server_error_explanation">Prejet je odziv strežnika s kodo stanja HTTP 503. To se lahko zgodi, če je strežnik trenutno v vzdrževalnem načinu. Stopite v stik s skrbnikom, ali pa se obrnite za podporo na nas.</string>
     <string name="share_add_to_card">Dodaj k nalogi</string>
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
     <string name="could_not_copy_to_clipboard">Predmeta ni mogoče kopirati v odložišče</string>
@@ -154,4 +155,5 @@
     <string name="add_a_new_board_using_the_button">Novo zbirko je mogoče dodati z gumbom +</string>
     <string name="open_in_browser">Odpri v brskalniku</string>
     <string name="simple_open">Odpri</string>
+    <string name="maintenance_mode">Strežnik je v načinu vzdrževanja</string>
     </resources>

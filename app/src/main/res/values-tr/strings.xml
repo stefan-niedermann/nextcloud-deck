@@ -77,6 +77,8 @@
     <string name="error">Bir sorun çıktı</string>
     <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
     <string name="simple_copy">kopyala</string>
+    <string name="simple_synchronization">Eşitleme</string>
+    <string name="simple_appearance">Görünüm</string>
     <string name="simple_error">Hata</string>
     <string name="simple_exception">İstisna</string>
     <string name="copied_to_clipboard">Panoya kopyalandı</string>
@@ -108,6 +110,7 @@
     <string name="simple_rename">Yeniden adlandır</string>
     <string name="simple_settings">Ayarlar</string>
     <string name="settings_theme_title">Koyu tema</string>
+    <string name="settings_branding_title">Markalama</string>
     <string name="settings_background_sync">Arka planda eşitleme</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
@@ -142,7 +145,7 @@
     <string name="server_misconfigured">Sunucu yapılandırması hatalı</string>
     <string name="server_misconfigured_explanation">Sunucunuz, üzerine Deck uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir. Destek almak için iletişim bilgilerimizi hakkında bölümünde bulabilirsiniz.</string>
     <string name="server_error">Sunucu sorunu</string>
-    <string name="server_error_explanation">Sunucunuz HTTP 503 durum kodu ile yanıt verdi. Bu durum sunucunun bakım kipinde olmasından kaynaklanabilir. Lütfen sorunu çözmek için sistem yöneticinizle ya da bizimle görüşün. Destek almak için iletişim bilgilerimizi hakkında bölümünde bulabilirsiniz.</string>
+    <string name="maintenance_mode_explanation">Sunucu %1$s şu anda bakım modunda. Lütfen yöneticinizle irtibat kurun veya sonradan tekrar deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
     <string name="could_not_copy_to_clipboard">Panoya kopyalanamadı</string>
@@ -158,4 +161,7 @@
     <string name="open_in_browser">Tarayıcıda aç</string>
     <string name="simple_open">Aç</string>
     <string name="updating_card">Kart güncelleniyor…</string>
+    <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
+    <string name="maintenance_mode">Sunucu bakım kipinde</string>
+    <string name="simple_switch">Şalter</string>
     </resources>
