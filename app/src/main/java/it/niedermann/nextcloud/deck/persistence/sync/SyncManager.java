@@ -115,7 +115,6 @@ public class SyncManager {
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {
-            // TODO Why not use Boolean here?
             final BooleanResultHolder success = new BooleanResultHolder();
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
