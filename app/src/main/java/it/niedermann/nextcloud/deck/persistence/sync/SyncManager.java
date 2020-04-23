@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.GsonConfig;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
@@ -288,17 +289,13 @@ public class SyncManager {
                             NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
                             if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
                                 String errorString = requestFailedException.getCause().getMessage();
-                                if (errorString.contains("ocs") && errorString.contains("meta") && errorString.contains("statuscode\":503")) {
+                                Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
+                                if (capabilities.isMaintenanceEnabled()) {
                                     doAsync(() -> {
-                                        Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                                        if (!acc.isMaintenanceEnabled()) {
-                                            acc.setMaintenanceEnabled(true);
-                                            dataBaseAdapter.updateAccount(acc);
-                                        }
-                                        Capabilities caps = new Capabilities();
-                                        caps.setMaintenanceEnabled(true);
-                                        callback.onResponse(caps);
+                                        onResponse(capabilities);
                                     });
+                                } else {
+                                    onError(throwable);
                                 }
                             }
                         } else {
@@ -1199,6 +1196,11 @@ public class SyncManager {
                             public void onResponse(Attachment response) {
                                 liveData.postValue(response);
                             }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                liveData.postError(throwable);
+                            }
                         });
             }
         });
@@ -1217,9 +1219,8 @@ public class SyncManager {
         return attachment;
     }
 
-    // TODO use WrappedLiveData
-    public LiveData<Attachment> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
-        MutableLiveData<Attachment> liveData = new MutableLiveData<>();
+    public WrappedLiveData<Attachment> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
+        WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             if (serverAdapter.hasInternetConnection()) {
                 FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);
