@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import it.niedermann.android.crosstabdnd.DragAndDropTab;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
@@ -27,7 +29,10 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     private static final String KEY_STACK_ID = "stackId";
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_HAS_EDIT_PERMISSION = "hasEditPermission";
+    private static final String KEY_FILTER_INFORMATION = "filterInformation";
     private CardAdapter adapter = null;
+    @Nullable
+    FilterInformation filterInformation;
     private SyncManager syncManager;
     private Activity activity;
     private OnScrollListener onScrollListener;
@@ -39,17 +44,15 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
 
     private FragmentStackBinding binding;
 
-    /**
-     * @param boardId of the current stack
-     * @return new fragment instance
-     * @see <a href="https://gunhansancar.com/best-practice-to-instantiate-fragments-with-arguments-in-android/">Best Practice to Instantiate Fragments with Arguments in Android</a>
-     */
-    public static StackFragment newInstance(long boardId, long stackId, Account account, boolean hasEditPermission) {
+    public static StackFragment newInstance(long boardId, long stackId, Account account, boolean hasEditPermission, @Nullable FilterInformation filterInformation) {
         Bundle bundle = new Bundle();
         bundle.putLong(KEY_BOARD_ID, boardId);
         bundle.putLong(KEY_STACK_ID, stackId);
         bundle.putBoolean(KEY_HAS_EDIT_PERMISSION, hasEditPermission);
         bundle.putSerializable(KEY_ACCOUNT, account);
+        if (filterInformation != null) {
+            bundle.putSerializable(KEY_FILTER_INFORMATION, filterInformation);
+        }
 
         StackFragment fragment = new StackFragment();
         fragment.setArguments(bundle);
@@ -61,16 +64,21 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        Bundle bundle = getArguments();
-        if (bundle == null || !bundle.containsKey(KEY_ACCOUNT) || !bundle.containsKey(KEY_BOARD_ID) || !bundle.containsKey(KEY_STACK_ID)) {
+        final Bundle args = getArguments();
+        if (args == null || !args.containsKey(KEY_ACCOUNT) || !args.containsKey(KEY_BOARD_ID) || !args.containsKey(KEY_STACK_ID)) {
             throw new IllegalArgumentException("account, boardId and localStackId are required arguments.");
         }
 
-        boardId = bundle.getLong(KEY_BOARD_ID);
-        stackId = bundle.getLong(KEY_STACK_ID);
-        account = (Account) bundle.getSerializable(KEY_ACCOUNT);
-
-        canEdit = bundle.getBoolean(KEY_HAS_EDIT_PERMISSION);
+        boardId = args.getLong(KEY_BOARD_ID);
+        stackId = args.getLong(KEY_STACK_ID);
+        account = (Account) args.getSerializable(KEY_ACCOUNT);
+        canEdit = args.getBoolean(KEY_HAS_EDIT_PERMISSION);
+        if (args.containsKey(KEY_FILTER_INFORMATION)) {
+            final Object info = args.getSerializable(KEY_FILTER_INFORMATION);
+            if (info != null) {
+                filterInformation = (FilterInformation) args.getSerializable(KEY_FILTER_INFORMATION);
+            }
+        }
 
         if (context instanceof OnScrollListener) {
             this.onScrollListener = (OnScrollListener) context;
@@ -103,6 +111,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             binding.emptyContentView.hideDescription();
         }
 
+        // TODO use FilterInformation
         syncManager.getFullCardsForStack(account.getId(), stackId).observe(getViewLifecycleOwner(), (List<FullCard> cards) -> {
             activity.runOnUiThread(() -> {
                 if (cards != null && cards.size() > 0) {
