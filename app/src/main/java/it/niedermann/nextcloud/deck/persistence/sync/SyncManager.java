@@ -37,6 +37,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
@@ -624,7 +625,11 @@ public class SyncManager {
     }
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
-        return dataBaseAdapter.getFullCardsForStack(accountId, localStackId);
+        return getFullCardsForStack(accountId, localStackId, null);
+    }
+
+    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, FilterInformation filter) {
+        return dataBaseAdapter.getFullCardsForStack(accountId, localStackId, filter);
     }
 
     // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395

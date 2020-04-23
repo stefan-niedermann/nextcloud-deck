@@ -7,9 +7,9 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 
 public class FilterInformation implements Serializable {
-    private EDueType dueType = null;
-    private List<Integer> userIDs = new ArrayList<>();
-    private List<Integer> labelIDs = new ArrayList<>();
+    private EDueType dueType = EDueType.NO_FILTER;
+    private List<Long> userIDs = new ArrayList<>();
+    private List<Long> labelIDs = new ArrayList<>();
 
     public EDueType getDueType() {
         return dueType;
@@ -19,27 +19,36 @@ public class FilterInformation implements Serializable {
         this.dueType = dueType;
     }
 
-    public List<Integer> getUserIDs() {
+    public List<Long> getUserIDs() {
         return userIDs;
     }
 
-    public List<Integer> getLabelIDs() {
+    public List<Long> getLabelIDs() {
         return labelIDs;
     }
 
-    public void addUserId(int id) {
+    public void addUserId(long id) {
         userIDs.add(id);
     }
 
-    public void removeUserId(Integer id) {
+    public void removeUserId(Long id) {
         userIDs.remove(id);
     }
 
-    public void addLabelId(int id) {
+    public void addLabelId(long id) {
         labelIDs.add(id);
     }
 
-    public void removeLabelId(Integer id) {
-        labelIDs.remove(Integer.valueOf(id));
+    public void removeLabelId(Long id) {
+        labelIDs.remove(id);
+    }
+
+    @Override
+    public String toString() {
+        return "FilterInformation{" +
+                "dueType=" + dueType +
+                ", userIDs=" + userIDs +
+                ", labelIDs=" + labelIDs +
+                '}';
     }
 }
