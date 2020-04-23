@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,17 +15,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:labelFor="@id/overdue"
-            android:text="@string/filter_by_tag"
-            android:visibility="gone" />
+            android:text="@string/filter_by_tag" />
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/labels"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:choiceMode="multipleChoice"
-            android:visibility="gone"
-            tools:layout_height="150dp"
-            tools:listitem="@android:layout/simple_list_item_multiple_choice" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_user" />
 
         <TextView
             android:layout_width="match_parent"
