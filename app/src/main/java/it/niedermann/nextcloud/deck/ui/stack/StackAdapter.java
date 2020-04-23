@@ -10,17 +10,13 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
-import it.niedermann.nextcloud.deck.ui.filter.FilterChangeListener;
 
-public class StackAdapter extends FragmentStateAdapter implements FilterChangeListener {
+public class StackAdapter extends FragmentStateAdapter {
     @NonNull
     private List<FullStack> stackList = new ArrayList<>();
     private Account account;
     private long boardId;
     private boolean canEdit;
-    @NonNull
-    private FilterInformation filterInformation;
 
     public StackAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -53,7 +49,7 @@ public class StackAdapter extends FragmentStateAdapter implements FilterChangeLi
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return StackFragment.newInstance(boardId, stackList.get(position).getLocalId(), account, canEdit, filterInformation);
+        return StackFragment.newInstance(boardId, stackList.get(position).getLocalId(), account, canEdit);
     }
 
     public void setStacks(@NonNull List<FullStack> fullStacks, @NonNull Account currentAccount, long currentBoardId, boolean currentBoardHasEditPermission) {
@@ -61,12 +57,6 @@ public class StackAdapter extends FragmentStateAdapter implements FilterChangeLi
         this.account = currentAccount;
         this.boardId = currentBoardId;
         this.canEdit = currentBoardHasEditPermission;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void onFilterChanged(FilterInformation filterInformation) {
-        this.filterInformation = filterInformation;
         notifyDataSetChanged();
     }
 }
