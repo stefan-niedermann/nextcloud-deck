@@ -52,7 +52,7 @@ public class CardCommentsEditDialogFragment extends BrandedDialogFragment {
         return new BrandedAlertDialogBuilder(requireActivity())
                 .setView(binding.getRoot())
                 .setTitle(R.string.simple_comment)
-                .setNegativeButton(android.R.string.cancel, null)
+                .setNeutralButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.simple_update, (dialog, which) -> addCommentListener.onCommentEdited(requireArguments().getLong(BUNDLE_KEY_COMMENT_ID), binding.input.getText().toString()))
                 .create();
     }

@@ -815,7 +815,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                         copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
                                                         a.dismiss();
                                                     })
-                                                    .setNegativeButton(R.string.simple_close, null)
+                                                    .setNeutralButton(R.string.simple_close, null)
                                                     .create();
                                             dialog.show();
                                             ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);

@@ -196,4 +196,5 @@
     <string name="filter_week">Next 7 days</string>
     <string name="filter_month">Next 30 days</string>
     <string name="filter_no_due">No duedate</string>
+    <string name="simple_clear">Clear</string>
 </resources>

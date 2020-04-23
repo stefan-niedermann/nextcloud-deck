@@ -27,14 +27,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     private static final String KEY_BOARD_ID = "board_id";
 
     private MainViewModel viewModel;
-
-    private DialogFilterBinding binding;
-    private SyncManager syncManager;
-
     private OverdueFilterAdapter overdueAdapter;
-
-    private Account account;
-    private long boardId;
     private FilterInformation filterInformation;
 
     @Override
@@ -51,10 +44,10 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_BOARD_ID + " must be provided as arguments");
         }
 
-        this.boardId = args.getLong(KEY_BOARD_ID);
-        this.account = (Account) args.getSerializable(KEY_ACCOUNT);
+        long boardId = args.getLong(KEY_BOARD_ID);
+        Account account = (Account) args.getSerializable(KEY_ACCOUNT);
 
-        if (this.boardId == 0L || this.account == null) {
+        if (boardId == 0L || account == null) {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_BOARD_ID + " must be valid localIds and not be 0 or null");
         }
     }
@@ -72,7 +65,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
-        binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
+        it.niedermann.nextcloud.deck.databinding.DialogFilterBinding binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
         overdueAdapter = new OverdueFilterAdapter(requireContext());
         binding.overdue.setAdapter(overdueAdapter);
         binding.overdue.setSelection(overdueAdapter.getPosition(this.filterInformation.getDueType()));
@@ -88,11 +81,12 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             }
         });
 
-        syncManager = new SyncManager(requireActivity());
+        SyncManager syncManager = new SyncManager(requireActivity());
         return dialogBuilder
                 .setTitle(R.string.simple_filter)
                 .setView(binding.getRoot())
-                .setNegativeButton(android.R.string.cancel, null)
+                .setNeutralButton(android.R.string.cancel, null)
+                .setNegativeButton(R.string.simple_clear, (a, b) -> viewModel.postFilterInformation(null))
                 .setPositiveButton(R.string.simple_filter, (a, b) -> viewModel.postFilterInformation(filterInformation))
                 .create();
     }

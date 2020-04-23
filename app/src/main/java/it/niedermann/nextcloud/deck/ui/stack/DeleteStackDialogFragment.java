@@ -41,7 +41,7 @@ public class DeleteStackDialogFragment extends DialogFragment {
                 .setTitle(R.string.delete_list)
                 .setMessage(R.string.do_you_want_to_delete_the_current_list)
                 .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> deleteStackListener.onStackDeleted(stackId))
-                .setNegativeButton(android.R.string.cancel, null);
+                .setNeutralButton(android.R.string.cancel, null);
         return builder.create();
     }
 

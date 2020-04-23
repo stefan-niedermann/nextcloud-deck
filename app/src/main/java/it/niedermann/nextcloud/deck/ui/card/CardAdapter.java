@@ -298,7 +298,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                             });
                             DeckLog.log("Moved card \"" + card.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
                         })
-                        .setNegativeButton(android.R.string.cancel, null)
+                        .setNeutralButton(android.R.string.cancel, null)
                         .setTitle(context.getString(R.string.action_card_move_title, card.getCard().getTitle()))
                         .show();
                 return true;
