@@ -965,12 +965,20 @@ public class SyncManager {
         return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
+    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId) {
+        return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, -1L, -1);
+    }
+
     public LiveData<List<User>> findProposalsForUsersToAssignForACL(final long accountId, long boardId, final int topX) {
         return dataBaseAdapter.findProposalsForUsersToAssignForACL(accountId, boardId, topX);
     }
 
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX) {
         return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
+    }
+
+    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
+        return findProposalsForLabelsToAssign(accountId, boardId, -1L, -1);
     }
 
 
@@ -1073,19 +1081,19 @@ public class SyncManager {
 //                    }
 //                });
 //            } else {
-                reorderLocally(cardsOfNewStack, movedCard, newStackId, newOrder);
-                //FIXME: remove the sync-block, when commentblock up there is activated. (waiting for deck server bugfix)
-                if (hasInternetConnection()) {
-                    Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
-                    FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
-                    Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-                    new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
-                        @Override
-                        public void onResponse(Boolean response) {
-                            // doNothing();
-                        }
-                    }).doUpSyncFor(new StackDataProvider(null, board));
-                }
+            reorderLocally(cardsOfNewStack, movedCard, newStackId, newOrder);
+            //FIXME: remove the sync-block, when commentblock up there is activated. (waiting for deck server bugfix)
+            if (hasInternetConnection()) {
+                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
+                FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
+                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
+                new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
+                    @Override
+                    public void onResponse(Boolean response) {
+                        // doNothing();
+                    }
+                }).doUpSyncFor(new StackDataProvider(null, board));
+            }
 //        }
         });
     }

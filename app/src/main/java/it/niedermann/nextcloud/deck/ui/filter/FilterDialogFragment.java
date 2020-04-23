@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -21,14 +22,21 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+
 public class FilterDialogFragment extends BrandedDialogFragment {
 
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_BOARD_ID = "board_id";
 
     private MainViewModel viewModel;
+    private LabelFilterAdapter labelAdapter;
+    private UserFilterAdapter userAdapter;
     private OverdueFilterAdapter overdueAdapter;
     private FilterInformation filterInformation;
+
+    private Account account;
+    private long boardId;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -44,10 +52,10 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_BOARD_ID + " must be provided as arguments");
         }
 
-        long boardId = args.getLong(KEY_BOARD_ID);
-        Account account = (Account) args.getSerializable(KEY_ACCOUNT);
+        boardId = args.getLong(KEY_BOARD_ID);
+        account = (Account) args.getSerializable(KEY_ACCOUNT);
 
-        if (boardId == 0L || account == null) {
+        if (boardId <= 0L || account == null) {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_BOARD_ID + " must be valid localIds and not be 0 or null");
         }
     }
@@ -65,9 +73,16 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
-        it.niedermann.nextcloud.deck.databinding.DialogFilterBinding binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
+        final DialogFilterBinding binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
+
         overdueAdapter = new OverdueFilterAdapter(requireContext());
+        labelAdapter = new LabelFilterAdapter(requireContext());
+        userAdapter = new UserFilterAdapter(requireContext());
+
         binding.overdue.setAdapter(overdueAdapter);
+        binding.labels.setAdapter(labelAdapter);
+        binding.people.setAdapter(userAdapter);
+
         binding.overdue.setSelection(overdueAdapter.getPosition(this.filterInformation.getDueType()));
         binding.overdue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -82,6 +97,47 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         });
 
         SyncManager syncManager = new SyncManager(requireActivity());
+
+        observeOnce(syncManager.findProposalsForLabelsToAssign(account.getId(), boardId), requireActivity(), (labels) -> {
+            labelAdapter.addAll(labels);
+            labelAdapter.notifyDataSetChanged();
+            for (long labelId : this.filterInformation.getLabelIDs()) {
+                binding.labels.setSelection(labelAdapter.getPosition(labelId));
+            }
+            binding.labels.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    DeckLog.info("clicked position: " + position);
+                    filterInformation.addLabelId(labelAdapter.getItemId(position));
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // Nothing to do
+                }
+            });
+        });
+
+        observeOnce(syncManager.findProposalsForUsersToAssign(account.getId(), boardId), requireActivity(), (users) -> {
+            userAdapter.addAll(users);
+            userAdapter.notifyDataSetChanged();
+            for (long userId : this.filterInformation.getUserIDs()) {
+                binding.people.setSelection(userAdapter.getPosition(userId));
+            }
+            binding.people.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    DeckLog.info("clicked position: " + position);
+                    filterInformation.addLabelId(userAdapter.getItemId(position));
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // Nothing to do
+                }
+            });
+        });
+
         return dialogBuilder
                 .setTitle(R.string.simple_filter)
                 .setView(binding.getRoot())
