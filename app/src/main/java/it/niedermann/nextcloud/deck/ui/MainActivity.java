@@ -34,6 +34,7 @@ import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -81,7 +82,6 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.filter.FilterChangeListener;
 import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
 import it.niedermann.nextcloud.deck.ui.settings.SettingsActivity;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackDialogFragment;
@@ -111,10 +111,12 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
 import static it.niedermann.nextcloud.deck.util.ExceptionUtil.handleHttpRequestFailedException;
 
-public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, FilterChangeListener {
+public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
+
+    private MainViewModel viewModel;
 
     protected static final int ACTIVITY_ABOUT = 1;
     protected static final int ACTIVITY_SETTINGS = 2;
@@ -162,6 +164,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
         setContentView(binding.getRoot());
 
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         addList = getString(R.string.add_list);
         addBoard = getString(R.string.add_board);
@@ -917,12 +920,5 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
         syncManager.deleteBoard(board);
         binding.drawerLayout.closeDrawer(GravityCompat.START);
-    }
-
-    @Override
-    public void onFilterChanged(FilterInformation filterInformation) {
-        DeckLog.info("Filter changed: " + filterInformation);
-        this.filterInformation = filterInformation;
-        stackAdapter.onFilterChanged(filterInformation);
     }
 }

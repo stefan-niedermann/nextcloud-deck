@@ -10,12 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.MainActivity;
+import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
@@ -25,7 +28,8 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     private static final String KEY_BOARD_ID = "board_id";
     private static final String KEY_FILTER_INFORMATION = "filterInformation";
 
-    private FilterChangeListener filterChangeListener;
+    private MainViewModel viewModel;
+
     private DialogFilterBinding binding;
     private SyncManager syncManager;
 
@@ -39,8 +43,8 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if (!(requireActivity() instanceof FilterChangeListener)) {
-            throw new IllegalArgumentException("Caller must implement" + FilterChangeListener.class.getSimpleName());
+        if (!(requireActivity() instanceof MainActivity)) {
+            throw new IllegalArgumentException("Dialog must be called from " + MainActivity.class.getSimpleName());
         }
 
         final Bundle args = getArguments();
@@ -49,7 +53,6 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_BOARD_ID + " must be provided as arguments");
         }
 
-        this.filterChangeListener = (FilterChangeListener) requireActivity();
         this.boardId = args.getLong(KEY_BOARD_ID);
         this.account = (Account) args.getSerializable(KEY_ACCOUNT);
 
@@ -69,6 +72,8 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
@@ -91,7 +96,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         return dialogBuilder
                 .setView(binding.getRoot())
                 .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(R.string.simple_filter, (a, b) -> filterChangeListener.onFilterChanged(filterInformation))
+                .setPositiveButton(R.string.simple_filter, (a, b) -> viewModel.postFilterInformation(filterInformation))
                 .create();
     }
 

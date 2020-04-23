@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.stack;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -17,8 +19,8 @@ import it.niedermann.android.crosstabdnd.DragAndDropTab;
 import it.niedermann.nextcloud.deck.databinding.FragmentStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
@@ -29,33 +31,41 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     private static final String KEY_STACK_ID = "stackId";
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_HAS_EDIT_PERMISSION = "hasEditPermission";
-    private static final String KEY_FILTER_INFORMATION = "filterInformation";
     private CardAdapter adapter = null;
-    @Nullable
-    FilterInformation filterInformation;
+    private FragmentStackBinding binding;
+
+    MainViewModel viewModel;
     private SyncManager syncManager;
-    private Activity activity;
+    private FragmentActivity activity;
     private OnScrollListener onScrollListener;
+
+    private LiveData<List<FullCard>> defaultCardsLiveData;
+    private LiveData<List<FullCard>> filteredCardsLiveData;
+    private Observer<List<FullCard>> cardObserver = (List<FullCard> cards) -> {
+        activity.runOnUiThread(() -> {
+            if (cards != null && cards.size() > 0) {
+                binding.emptyContentView.setVisibility(View.GONE);
+                adapter.setCardList(cards);
+            } else {
+                binding.emptyContentView.setVisibility(View.VISIBLE);
+            }
+        });
+    };
 
     private long stackId;
     private long boardId;
     private Account account;
     private boolean canEdit;
 
-    private FragmentStackBinding binding;
-
-    public static StackFragment newInstance(long boardId, long stackId, Account account, boolean hasEditPermission, @Nullable FilterInformation filterInformation) {
-        Bundle bundle = new Bundle();
-        bundle.putLong(KEY_BOARD_ID, boardId);
-        bundle.putLong(KEY_STACK_ID, stackId);
-        bundle.putBoolean(KEY_HAS_EDIT_PERMISSION, hasEditPermission);
-        bundle.putSerializable(KEY_ACCOUNT, account);
-        if (filterInformation != null) {
-            bundle.putSerializable(KEY_FILTER_INFORMATION, filterInformation);
-        }
+    public static StackFragment newInstance(long boardId, long stackId, Account account, boolean hasEditPermission) {
+        final Bundle args = new Bundle();
+        args.putLong(KEY_BOARD_ID, boardId);
+        args.putLong(KEY_STACK_ID, stackId);
+        args.putBoolean(KEY_HAS_EDIT_PERMISSION, hasEditPermission);
+        args.putSerializable(KEY_ACCOUNT, account);
 
         StackFragment fragment = new StackFragment();
-        fragment.setArguments(bundle);
+        fragment.setArguments(args);
 
         return fragment;
     }
@@ -73,12 +83,6 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
         stackId = args.getLong(KEY_STACK_ID);
         account = (Account) args.getSerializable(KEY_ACCOUNT);
         canEdit = args.getBoolean(KEY_HAS_EDIT_PERMISSION);
-        if (args.containsKey(KEY_FILTER_INFORMATION)) {
-            final Object info = args.getSerializable(KEY_FILTER_INFORMATION);
-            if (info != null) {
-                filterInformation = (FilterInformation) args.getSerializable(KEY_FILTER_INFORMATION);
-            }
-        }
 
         if (context instanceof OnScrollListener) {
             this.onScrollListener = (OnScrollListener) context;
@@ -89,6 +93,8 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentStackBinding.inflate(inflater, container, false);
         activity = requireActivity();
+
+        viewModel = new ViewModelProvider(activity).get(MainViewModel.class);
 
         syncManager = new SyncManager(activity);
 
@@ -111,17 +117,19 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             binding.emptyContentView.hideDescription();
         }
 
-        // TODO use FilterInformation
-        syncManager.getFullCardsForStack(account.getId(), stackId).observe(getViewLifecycleOwner(), (List<FullCard> cards) -> {
-            activity.runOnUiThread(() -> {
-                if (cards != null && cards.size() > 0) {
-                    binding.emptyContentView.setVisibility(View.GONE);
-                    adapter.setCardList(cards);
-                } else {
-                    binding.emptyContentView.setVisibility(View.VISIBLE);
-                }
-            });
-        });
+        defaultCardsLiveData = syncManager.getFullCardsForStack(account.getId(), stackId);
+        defaultCardsLiveData.observe(getViewLifecycleOwner(), cardObserver);
+
+        viewModel.getFilterInformation().observe(activity, (filterInformation -> {
+            if (filterInformation == null) {
+                filteredCardsLiveData.removeObserver(cardObserver);
+                defaultCardsLiveData.observe(getViewLifecycleOwner(), cardObserver);
+            } else {
+                defaultCardsLiveData.removeObserver(cardObserver);
+                filteredCardsLiveData = syncManager.getFullCardsForStack(account.getId(), stackId, filterInformation);
+                filteredCardsLiveData.observe(getViewLifecycleOwner(), cardObserver);
+            }
+        }));
         return binding.getRoot();
     }
 
