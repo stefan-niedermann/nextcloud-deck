@@ -67,6 +67,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -80,6 +81,8 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.filter.FilterChangeListener;
+import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
 import it.niedermann.nextcloud.deck.ui.settings.SettingsActivity;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackListener;
@@ -108,7 +111,7 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
 import static it.niedermann.nextcloud.deck.util.ExceptionUtil.handleHttpRequestFailedException;
 
-public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener {
+public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener, FilterChangeListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
@@ -132,6 +135,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private boolean currentBoardHasEditPermission = false;
     private boolean currentBoardHasStacks = false;
     private int currentBoardStacksCount = 0;
+
+    @Nullable
+    FilterInformation filterInformation;
 
     private boolean firstAccountAdded = false;
     private ConnectivityManager.NetworkCallback networkCallback;
@@ -485,6 +491,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         this.currentBoardId = board.getLocalId();
 
         Application.saveCurrentBoardId(this, currentAccount.getId(), this.currentBoardId);
+        filterInformation = null;
 
         binding.toolbar.setTitle(board.getTitle());
         currentBoardHasEditPermission = board.isPermissionEdit();
@@ -635,6 +642,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         } else {
             menu.clear();
         }
+        inflater.inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -642,6 +650,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public boolean onOptionsItemSelected(MenuItem item) {
         final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
+            case R.id.filter: {
+                FilterDialogFragment.newInstance(currentAccount, currentBoardId, filterInformation)
+                        .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName());
+                return true;
+            }
             case R.id.rename_list: {
                 observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack ->
                         EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
@@ -904,5 +917,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
         syncManager.deleteBoard(board);
         binding.drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void onFilterChanged(FilterInformation filterInformation) {
+        DeckLog.info("Filter changed: " + filterInformation);
+        this.filterInformation = filterInformation;
+        stackAdapter.onFilterChanged(filterInformation);
     }
 }
