@@ -68,7 +68,6 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -137,9 +136,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private boolean currentBoardHasEditPermission = false;
     private boolean currentBoardHasStacks = false;
     private int currentBoardStacksCount = 0;
-
-    @Nullable
-    FilterInformation filterInformation;
 
     private boolean firstAccountAdded = false;
     private ConnectivityManager.NetworkCallback networkCallback;
@@ -494,7 +490,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         this.currentBoardId = board.getLocalId();
 
         Application.saveCurrentBoardId(this, currentAccount.getId(), this.currentBoardId);
-        filterInformation = null;
+        viewModel.postFilterInformation(null);
 
         binding.toolbar.setTitle(board.getTitle());
         currentBoardHasEditPermission = board.isPermissionEdit();
@@ -654,7 +650,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
             case R.id.filter: {
-                FilterDialogFragment.newInstance(currentAccount, currentBoardId, filterInformation)
+                FilterDialogFragment.newInstance(currentAccount, currentBoardId)
                         .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName());
                 return true;
             }

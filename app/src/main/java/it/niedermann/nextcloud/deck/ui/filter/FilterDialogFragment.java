@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,7 +25,6 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_BOARD_ID = "board_id";
-    private static final String KEY_FILTER_INFORMATION = "filterInformation";
 
     private MainViewModel viewModel;
 
@@ -59,13 +57,6 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         if (this.boardId == 0L || this.account == null) {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_BOARD_ID + " must be valid localIds and not be 0 or null");
         }
-
-        Object filterInformation = args.getSerializable(KEY_FILTER_INFORMATION);
-        if (filterInformation instanceof FilterInformation) {
-            this.filterInformation = (FilterInformation) filterInformation;
-        } else {
-            this.filterInformation = new FilterInformation();
-        }
     }
 
     @NonNull
@@ -74,6 +65,10 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         super.onCreate(savedInstanceState);
 
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        this.filterInformation = viewModel.getFilterInformation().getValue();
+        if (this.filterInformation == null) {
+            this.filterInformation = new FilterInformation();
+        }
 
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
@@ -100,15 +95,12 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 .create();
     }
 
-    public static DialogFragment newInstance(@NonNull Account account, long boardId, @Nullable FilterInformation filterInformation) {
+    public static DialogFragment newInstance(@NonNull Account account, long boardId) {
         final DialogFragment dialog = new FilterDialogFragment();
 
         final Bundle args = new Bundle();
         args.putSerializable(KEY_ACCOUNT, account);
         args.putLong(KEY_BOARD_ID, boardId);
-        if (filterInformation != null) {
-            args.putSerializable(KEY_FILTER_INFORMATION, filterInformation);
-        }
         dialog.setArguments(args);
 
         return dialog;

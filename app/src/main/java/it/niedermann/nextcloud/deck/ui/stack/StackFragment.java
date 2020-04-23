@@ -121,7 +121,8 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
         defaultCardsLiveData.observe(getViewLifecycleOwner(), cardObserver);
 
         viewModel.getFilterInformation().observe(activity, (filterInformation -> {
-            if (filterInformation == null) {
+            // Remove filter only if it has never been set before
+            if (filterInformation == null && filteredCardsLiveData != null) {
                 filteredCardsLiveData.removeObserver(cardObserver);
                 defaultCardsLiveData.observe(getViewLifecycleOwner(), cardObserver);
             } else {
