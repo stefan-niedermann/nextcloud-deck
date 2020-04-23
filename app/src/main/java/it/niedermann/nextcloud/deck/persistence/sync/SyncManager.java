@@ -1047,7 +1047,11 @@ public class SyncManager {
 //                Stack newStack = newStackId == stack.getLocalId() ? stack :  dataBaseAdapter.getStackByLocalIdDirectly(newStackId);
 //                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
 //                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-//                serverAdapter.reorder(board.getId(), stack.getId(), movedCard.getId(), newStack.getId(), newOrder, new IResponseCallback<List<FullCard>>(account){
+//                movedCard.getCard().setStackId(newStackId);
+//                movedCard.getCard().setOrder(newOrder);
+//                movedCard.setStatusEnum(DBStatus.LOCAL_MOVED);
+//                dataBaseAdapter.updateCard(movedCard.getCard(), false);
+//                serverAdapter.reorder(board.getId(), stack.getId(), movedCard.getId(), newStack.getId(), newOrder+1, new IResponseCallback<List<FullCard>>(account){
 //
 //                    @Override
 //                    public void onResponse(List<FullCard> response) {
@@ -1059,22 +1063,24 @@ public class SyncManager {
 //                            dataBaseAdapter.updateCard(card, false);
 //                            DeckLog.log("move: stackid "+card.getStackId());
 //                        }
+//                        movedCard.setStatusEnum(DBStatus.UP_TO_DATE);
+//                        dataBaseAdapter.updateCard(movedCard.getCard(), false);
 //                    }
 //                });
 //            } else {
-            reorderLocally(cardsOfNewStack, movedCard, newStackId, newOrder);
-            //FIXME: remove the sync-block, when commentblock up there is activated. (waiting for deck server bugfix)
-            if (hasInternetConnection()) {
-                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
-                FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
-                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-                new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
-                    @Override
-                    public void onResponse(Boolean response) {
-                        // doNothing();
-                    }
-                }).doUpSyncFor(new StackDataProvider(null, board));
-            }
+                reorderLocally(cardsOfNewStack, movedCard, newStackId, newOrder);
+                //FIXME: remove the sync-block, when commentblock up there is activated. (waiting for deck server bugfix)
+                if (hasInternetConnection()) {
+                    Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
+                    FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
+                    Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
+                    new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            // doNothing();
+                        }
+                    }).doUpSyncFor(new StackDataProvider(null, board));
+                }
 //        }
         });
     }

@@ -100,8 +100,7 @@ public class CrossTabDragAndDrop<
                     }
                     break;
                 }
-                case DragEvent.ACTION_DRAG_ENDED:
-                case DragEvent.ACTION_DROP: {
+                case DragEvent.ACTION_DRAG_ENDED: {
                     draggedItemLocalState.getRecyclerView().removeOnChildAttachStateChangeListener(draggedItemLocalState.getInsertedListener());
                     SCROLL_HELPER.stopScroll();
                     draggedView.setVisibility(View.VISIBLE);
