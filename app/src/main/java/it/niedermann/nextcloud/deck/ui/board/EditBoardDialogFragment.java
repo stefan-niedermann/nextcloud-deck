@@ -72,7 +72,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
 
         return dialogBuilder
                 .setView(binding.getRoot())
-                .setNegativeButton(android.R.string.cancel, null)
+                .setNeutralButton(android.R.string.cancel, null)
                 .create();
     }
 
