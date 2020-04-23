@@ -75,6 +75,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
         overdueAdapter = new EDueTypeAdapter(requireContext());
         binding.overdue.setAdapter(overdueAdapter);
+        binding.overdue.setSelection(overdueAdapter.getPosition(this.filterInformation.getDueType()));
         binding.overdue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
