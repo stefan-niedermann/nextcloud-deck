@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,10 +24,12 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
+import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
@@ -157,8 +160,50 @@ public class DataBaseAdapter {
         return db.getCardDao().getCardByRemoteIdDirectly(accountId, remoteId);
     }
 
-    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
-        return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::filterRelationsForCard);
+    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, FilterInformation filter) {
+        if (filter == null){
+            return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::filterRelationsForCard);
+        }
+
+        List<Object> args = new ArrayList();
+        StringBuilder query = new StringBuilder("SELECT * FROM card c " +
+                "WHERE accountId = ? AND stackId = ? ");
+        args.add(accountId);
+        args.add(localStackId);
+
+        if (!filter.getLabelIDs().isEmpty()){
+            query.append("and exists(select 1 from joincardwithlabel where c.localId = cardId and labelId in (?)) ");
+            args.add(filter.getLabelIDs());
+        }
+
+        if (!filter.getUserIDs().isEmpty()){
+            query.append("and exists(select 1 from JoinCardWithUser where c.localId = cardId and userId in (:userIDs)) ");
+            args.add(filter.getUserIDs());
+        }
+        if (filter.getDueType() != EDueType.NO_FILTER){
+            switch (filter.getDueType()) {
+                case NO_DUE:
+                    query.append("and c.dueDate is null");
+                    break;
+                case OVERDUE:
+                    query.append("and c.dueDate <= datetime('now')");
+                    break;
+                case TODAY:
+                    query.append("and c.dueDate >= datetime('now', '+24 hour')");
+                    break;
+                case WEEK:
+                    query.append("and c.dueDate >= datetime('now', '+7 day')");
+                    break;
+                case MONTH:
+                    query.append("and c.dueDate >= datetime('now', '+30 day')");
+                    break;
+                default:
+                    throw new IllegalArgumentException("you need to add your new EDueType value here!");
+            }
+        }
+        query.append(" and status<>3 order by `order`, createdAt asc;");
+        return LiveDataHelper.interceptLiveData(db.getCardDao().getFilteredFullCardsForStack(new SimpleSQLiteQuery(query.toString(), args.toArray())), this::filterRelationsForCard);
+
     }
 
     public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId) {
