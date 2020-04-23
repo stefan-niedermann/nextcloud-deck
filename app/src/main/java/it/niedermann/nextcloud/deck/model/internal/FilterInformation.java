@@ -1,5 +1,9 @@
 package it.niedermann.nextcloud.deck.model.internal;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +12,9 @@ import it.niedermann.nextcloud.deck.model.enums.EDueType;
 
 public class FilterInformation implements Serializable {
     private EDueType dueType = EDueType.NO_FILTER;
+    @NonNull
     private List<Long> userIDs = new ArrayList<>();
+    @NonNull
     private List<Long> labelIDs = new ArrayList<>();
 
     public EDueType getDueType() {
@@ -19,10 +25,12 @@ public class FilterInformation implements Serializable {
         this.dueType = dueType;
     }
 
+    @NotNull
     public List<Long> getUserIDs() {
         return userIDs;
     }
 
+    @NotNull
     public List<Long> getLabelIDs() {
         return labelIDs;
     }
@@ -41,6 +49,13 @@ public class FilterInformation implements Serializable {
 
     public void removeLabelId(Long id) {
         labelIDs.remove(id);
+    }
+
+    /**
+     * @return whether or not any filter is set
+     */
+    public boolean hasActiveFilter() {
+        return (dueType != null && dueType != EDueType.NO_FILTER) || userIDs.size() > 0 || labelIDs.size() > 0;
     }
 
     @Override
