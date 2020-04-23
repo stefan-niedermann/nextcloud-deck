@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -34,12 +35,13 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     private CardAdapter adapter = null;
     private FragmentStackBinding binding;
 
-    MainViewModel viewModel;
     private SyncManager syncManager;
     private FragmentActivity activity;
     private OnScrollListener onScrollListener;
 
+    @Nullable
     private LiveData<List<FullCard>> defaultCardsLiveData;
+    @Nullable
     private LiveData<List<FullCard>> filteredCardsLiveData;
     private Observer<List<FullCard>> cardObserver = (List<FullCard> cards) -> {
         activity.runOnUiThread(() -> {
@@ -94,7 +96,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
         binding = FragmentStackBinding.inflate(inflater, container, false);
         activity = requireActivity();
 
-        viewModel = new ViewModelProvider(activity).get(MainViewModel.class);
+        final MainViewModel viewModel = new ViewModelProvider(activity).get(MainViewModel.class);
 
         syncManager = new SyncManager(activity);
 
@@ -118,17 +120,17 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
         }
 
         defaultCardsLiveData = syncManager.getFullCardsForStack(account.getId(), stackId);
-        defaultCardsLiveData.observe(getViewLifecycleOwner(), cardObserver);
+        defaultCardsLiveData.observe(activity, cardObserver);
 
         viewModel.getFilterInformation().observe(activity, (filterInformation -> {
             // Remove filter only if it has never been set before
             if (filterInformation == null && filteredCardsLiveData != null) {
                 filteredCardsLiveData.removeObserver(cardObserver);
-                defaultCardsLiveData.observe(getViewLifecycleOwner(), cardObserver);
+                defaultCardsLiveData.observe(activity, cardObserver);
             } else {
                 defaultCardsLiveData.removeObserver(cardObserver);
                 filteredCardsLiveData = syncManager.getFullCardsForStack(account.getId(), stackId, filterInformation);
-                filteredCardsLiveData.observe(getViewLifecycleOwner(), cardObserver);
+                filteredCardsLiveData.observe(activity, cardObserver);
             }
         }));
         return binding.getRoot();
