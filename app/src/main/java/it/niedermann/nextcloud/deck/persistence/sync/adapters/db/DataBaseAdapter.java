@@ -189,13 +189,13 @@ public class DataBaseAdapter {
                     query.append("and c.dueDate <= datetime('now')");
                     break;
                 case TODAY:
-                    query.append("and c.dueDate >= datetime('now', '+24 hour')");
+                    query.append("and c.dueDate <= datetime('now', '+24 hour')");
                     break;
                 case WEEK:
-                    query.append("and c.dueDate >= datetime('now', '+7 day')");
+                    query.append("and c.dueDate <= datetime('now', '+7 day')");
                     break;
                 case MONTH:
-                    query.append("and c.dueDate >= datetime('now', '+30 day')");
+                    query.append("and c.dueDate <= datetime('now', '+30 day')");
                     break;
                 default:
                     throw new IllegalArgumentException("you need to add your new EDueType value here!");
