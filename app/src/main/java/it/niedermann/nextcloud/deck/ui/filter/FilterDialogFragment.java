@@ -31,7 +31,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     private DialogFilterBinding binding;
     private SyncManager syncManager;
 
-    private EDueTypeAdapter overdueAdapter;
+    private OverdueFilterAdapter overdueAdapter;
 
     private Account account;
     private long boardId;
@@ -73,7 +73,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
-        overdueAdapter = new EDueTypeAdapter(requireContext());
+        overdueAdapter = new OverdueFilterAdapter(requireContext());
         binding.overdue.setAdapter(overdueAdapter);
         binding.overdue.setSelection(overdueAdapter.getPosition(this.filterInformation.getDueType()));
         binding.overdue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -90,6 +90,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
         syncManager = new SyncManager(requireActivity());
         return dialogBuilder
+                .setTitle(R.string.simple_filter)
                 .setView(binding.getRoot())
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.simple_filter, (a, b) -> viewModel.postFilterInformation(filterInformation))

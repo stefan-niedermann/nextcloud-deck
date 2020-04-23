@@ -188,8 +188,8 @@
     <string name="move_list_right">Move list right</string>
     <string name="move_list_left">Move list left</string>
     <string name="action_filter_cards">Filter cards</string>
+    <string name="simple_filter">Filter</string>
     <string name="simple_overdue">Overdue</string>
-    <string name="simple_filter">Overdue</string>
     <string name="filter_no_filter">All</string>
     <string name="filter_overdue">Overdue</string>
     <string name="filter_today">Today</string>

@@ -16,14 +16,13 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 
-public class EDueTypeAdapter extends ArrayAdapter<EDueType> {
-
+public class OverdueFilterAdapter extends ArrayAdapter<EDueType> {
 
     @NonNull
     private final LayoutInflater inflater;
 
     @SuppressWarnings("WeakerAccess")
-    public EDueTypeAdapter(@NonNull Context context) {
+    public OverdueFilterAdapter(@NonNull Context context) {
         super(context, android.R.layout.simple_list_item_1, android.R.id.text1, EDueType.values());
         inflater = LayoutInflater.from(context);
     }
@@ -49,11 +48,5 @@ public class EDueTypeAdapter extends ArrayAdapter<EDueType> {
         }
         ((TextView) view.findViewById(android.R.id.text1)).setText(Objects.requireNonNull(getItem(position)).toString(view.getContext()));
         return view;
-    }
-
-    @Nullable
-    @Override
-    public EDueType getItem(int position) {
-        return super.getItem(position);
     }
 }
