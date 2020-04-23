@@ -1180,8 +1180,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType, @NonNull File file) {
-        MutableLiveData<Attachment> liveData = new MutableLiveData<>();
+    public WrappedLiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType, @NonNull File file) {
+        WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(existing, existing.getCardId(), mimeType, file);
             attachment.setLastModifiedLocal(new Date());
