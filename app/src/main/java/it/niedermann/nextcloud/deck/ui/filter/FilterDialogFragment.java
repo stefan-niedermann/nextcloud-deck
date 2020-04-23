@@ -76,11 +76,9 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         final DialogFilterBinding binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
 
         overdueAdapter = new OverdueFilterAdapter(requireContext());
-        labelAdapter = new LabelFilterAdapter(requireContext());
         userAdapter = new UserFilterAdapter(requireContext());
 
         binding.overdue.setAdapter(overdueAdapter);
-        binding.labels.setAdapter(labelAdapter);
         binding.people.setAdapter(userAdapter);
 
         binding.overdue.setSelection(overdueAdapter.getPosition(this.filterInformation.getDueType()));
@@ -99,23 +97,9 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         SyncManager syncManager = new SyncManager(requireActivity());
 
         observeOnce(syncManager.findProposalsForLabelsToAssign(account.getId(), boardId), requireActivity(), (labels) -> {
-            labelAdapter.addAll(labels);
-            labelAdapter.notifyDataSetChanged();
-            for (long labelId : this.filterInformation.getLabelIDs()) {
-                binding.labels.setSelection(labelAdapter.getPosition(labelId));
-            }
-            binding.labels.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    DeckLog.info("clicked position: " + position);
-                    filterInformation.addLabelId(labelAdapter.getItemId(position));
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Nothing to do
-                }
-            });
+            labelAdapter = new LabelFilterAdapter(requireContext(), labels, this.filterInformation.getLabelIDs());
+            binding.labels.setNestedScrollingEnabled(false);
+            binding.labels.setAdapter(labelAdapter);
         });
 
         observeOnce(syncManager.findProposalsForUsersToAssign(account.getId(), boardId), requireActivity(), (users) -> {
@@ -128,7 +112,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     DeckLog.info("clicked position: " + position);
-                    filterInformation.addLabelId(userAdapter.getItemId(position));
+                    filterInformation.addUserId(userAdapter.getItemId(position));
                 }
 
                 @Override
@@ -143,7 +127,11 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null)
                 .setNegativeButton(R.string.simple_clear, (a, b) -> viewModel.postFilterInformation(null))
-                .setPositiveButton(R.string.simple_filter, (a, b) -> viewModel.postFilterInformation(filterInformation))
+                .setPositiveButton(R.string.simple_filter, (a, b) -> {
+                    filterInformation.clearLabelIds();
+                    filterInformation.addAllLabelIds(labelAdapter.getSelected());
+                    viewModel.postFilterInformation(filterInformation);
+                })
                 .create();
     }
 

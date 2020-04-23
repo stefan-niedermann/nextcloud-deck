@@ -43,8 +43,12 @@ public class FilterInformation implements Serializable {
         userIDs.remove(id);
     }
 
-    public void addLabelId(long id) {
-        labelIDs.add(id);
+    public void addAllLabelIds(List<Long> ids) {
+        labelIDs.addAll(ids);
+    }
+
+    public void clearLabelIds() {
+        labelIDs.clear();
     }
 
     public void removeLabelId(Long id) {
