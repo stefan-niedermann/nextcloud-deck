@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -171,15 +172,15 @@ public class DataBaseAdapter {
         args.add(accountId);
         args.add(localStackId);
 
-        if (!filter.getLabelIDs().isEmpty()){
+        if (!filter.getLabels().isEmpty()){
             query.append("and exists(select 1 from joincardwithlabel where c.localId = cardId and labelId in (");
-            fillSqlWithListValues(query, args, filter.getLabelIDs());
+            fillSqlWithListValues(query, args, filter.getLabels());
             query.append(")) ");
         }
 
-        if (!filter.getUserIDs().isEmpty()){
+        if (!filter.getUsers().isEmpty()){
             query.append("and exists(select 1 from JoinCardWithUser where c.localId = cardId and userId in (");
-            fillSqlWithListValues(query, args, filter.getLabelIDs());
+            fillSqlWithListValues(query, args, filter.getLabels());
             query.append(")) ");
         }
         if (filter.getDueType() != EDueType.NO_FILTER){
@@ -208,13 +209,13 @@ public class DataBaseAdapter {
 
     }
 
-    private void fillSqlWithListValues(StringBuilder query, List<Object> args, List<Long> labelIDs) {
-        for (int i = 0; i < labelIDs.size(); i++) {
+    private void fillSqlWithListValues(StringBuilder query, List<Object> args, List<? extends IRemoteEntity> entities) {
+        for (int i = 0; i < entities.size(); i++) {
              if (i > 0) {
                  query.append(", ");
              }
             query.append("?");
-            args.add(labelIDs.get(i));
+            args.add(entities.get(i).getLocalId());
         }
     }
 
