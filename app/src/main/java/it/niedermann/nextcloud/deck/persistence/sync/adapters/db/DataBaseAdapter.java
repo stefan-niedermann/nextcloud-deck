@@ -173,15 +173,15 @@ public class DataBaseAdapter {
         args.add(localStackId);
 
         if (!filter.getLabels().isEmpty()){
-            query.append("and exists(select 1 from joincardwithlabel where c.localId = cardId and labelId in (");
+            query.append("and exists(select 1 from joincardwithlabel j where c.localId = cardId and labelId in (");
             fillSqlWithListValues(query, args, filter.getLabels());
-            query.append(")) ");
+            query.append(") and j.status<>3) ");
         }
 
         if (!filter.getUsers().isEmpty()){
-            query.append("and exists(select 1 from JoinCardWithUser where c.localId = cardId and userId in (");
-            fillSqlWithListValues(query, args, filter.getLabels());
-            query.append(")) ");
+            query.append("and exists(select 1 from joincardwithuser j where c.localId = cardId and userId in (");
+            fillSqlWithListValues(query, args, filter.getUsers());
+            query.append(") and j.status<>3) ");
         }
         if (filter.getDueType() != EDueType.NO_FILTER){
             switch (filter.getDueType()) {
