@@ -25,7 +25,9 @@ public class GsonConfig {
 
     public static final String DATE_PATTERN = "yyyy-MM-dd'T'hh:mm:ssZ";
 
-    public static Gson getGson() {
+    private static final Gson INSTANCE;
+
+    static {
         Type boardList = new TypeToken<List<FullBoard>>() {}.getType();
         Type board = new TypeToken<FullBoard>() {}.getType();
         Type cardList = new TypeToken<FullCard>() {}.getType();
@@ -42,7 +44,7 @@ public class GsonConfig {
         Type attachmentList = new TypeToken<List<Attachment>>() {}.getType();
         Type comment = new TypeToken<OcsComment>() {}.getType();
 
-        return new GsonBuilder()
+        INSTANCE = new GsonBuilder()
                 .setDateFormat(DATE_PATTERN)
                 .setLenient()
                 .registerTypeAdapter(Date.class,        new GsonUTCDateAdapter())
@@ -62,6 +64,10 @@ public class GsonConfig {
                 .registerTypeAdapter(attachment,        new NextcloudDeserializer<>("attachment", Attachment.class))
                 .registerTypeAdapter(comment,           new NextcloudDeserializer<>("comment", OcsComment.class))
                 .create();
+    }
+
+    public static Gson getGson() {
+        return INSTANCE;
     }
 
 }

@@ -44,7 +44,7 @@ public class DeleteAttachmentDialogFragment extends DialogFragment {
                 .setTitle(getString(R.string.delete_something, attachment.getFilename()))
                 .setMessage(R.string.attachment_delete_message)
                 .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> deleteAttachmentListener.onAttachmentDeleted(attachment))
-                .setNegativeButton(android.R.string.cancel, null);
+                .setNeutralButton(android.R.string.cancel, null);
         return builder.create();
     }
 

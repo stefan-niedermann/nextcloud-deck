@@ -145,7 +145,7 @@
     <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
     <string name="server_misconfigured_explanation">Zure zerbitzariak HTTP 302 kode batekin erantzun du, horrek esan nahi du aplikazioa instalatu duzula baina ez dagoela ondo konfiguratuta. Hau .htaccess fitxategiko erregela bereziengatik izan daiteke edo baita OID Bezeroa izeneko aplikazioagatik. Honi buruzko atalean lor dezakezu gurekin harremanetan jartzeko modua.</string>
     <string name="server_error">Zerbitzari akatsa</string>
-    <string name="server_error_explanation">Zure zerbitzariak HTTP 503 egoera kodea erantzun du. Hori izan daiteke zerbitzaria une honetan mantentze-lan moduan dagoelako. Jarri harremanetan zure administratzailearekin edo gurekin, laguntzeko. Begira ezazu nola egin, gurekin kontaktatzeko atalean.</string>
+    <string name="maintenance_mode_explanation">%1$s zerbitzaria mantentze moduan dago. Mesedez jarri harremanetan zure administratzailearekin edo saiatu berriro.</string>
     <string name="share_add_to_card">Gehitu txartelera</string>
     <string name="share_success">%1$s ondo gehitu da %2$s -ra</string>
     <string name="could_not_copy_to_clipboard">Ezin izan da arbelera kopiatu</string>
@@ -161,4 +161,9 @@
     <string name="open_in_browser">Ireki nabigatzailean</string>
     <string name="simple_open">Ireki</string>
     <string name="updating_card">Txartela eguneratzen...</string>
-    </resources>
+    <string name="error_revoking_ac">Errorea sarrera %1$s(r)entzako baliogabetzen</string>
+    <string name="maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
+    <string name="simple_switch">Aldatu</string>
+    <string name="move_list_right">Mugitu zerrenda eskuinera</string>
+    <string name="move_list_left">Mugitu zerrenda ezkerrera</string>
+</resources>

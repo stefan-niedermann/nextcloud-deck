@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -114,13 +113,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
         viewHolder.binding.card.setOnClickListener((v) -> {
             if (selectCardListener == null) {
-                final Intent intent = new Intent(v.getContext(), EditActivity.class)
-                        .putExtra(BUNDLE_KEY_ACCOUNT, account)
-                        .putExtra(BUNDLE_KEY_BOARD_ID, boardId)
-                        .putExtra(BUNDLE_KEY_STACK_ID, card.getCard().getStackId())
-                        .putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId())
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                context.startActivity(EditActivity.createIntent(context, account, boardId, card.getCard().getStackId(), card.getLocalId()));
             } else {
                 selectCardListener.onCardSelected(card);
             }
@@ -305,7 +298,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                             });
                             DeckLog.log("Moved card \"" + fullCard.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
                         })
-                        .setNegativeButton(android.R.string.cancel, null)
+                        .setNeutralButton(android.R.string.cancel, null)
                         .setTitle(context.getString(R.string.action_card_move_title, fullCard.getCard().getTitle()))
                         .show();
                 return true;

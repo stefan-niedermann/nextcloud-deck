@@ -72,6 +72,8 @@
 
     <string name="error">Villa kom upp</string>
     <string name="simple_copy">afrita</string>
+    <string name="simple_synchronization">Samstilling</string>
+    <string name="simple_appearance">Útlit</string>
     <string name="simple_error">Villa</string>
     <string name="simple_exception">Frávik</string>
     <string name="copied_to_clipboard">Afritað á klippispjaldið</string>
@@ -128,4 +130,5 @@
     <string name="card_edit_comments">Athugasemdir</string>
     <string name="open_in_browser">Opna í vafra</string>
     <string name="simple_open">Opna</string>
+    <string name="maintenance_mode">Þjónn í viðhaldsham</string>
     </resources>

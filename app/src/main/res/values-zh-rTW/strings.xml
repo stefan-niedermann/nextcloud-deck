@@ -76,6 +76,7 @@
     <string name="error">發生錯誤</string>
     <string name="operation_not_yet_supported">尚未支援</string>
     <string name="simple_copy">複製</string>
+    <string name="simple_synchronization">同步</string>
     <string name="simple_error">錯誤</string>
     <string name="simple_exception">例外</string>
     <string name="copied_to_clipboard">已複製至剪貼簿</string>
@@ -136,4 +137,5 @@
     <string name="card_edit_comments">留言</string>
     <string name="open_in_browser">用瀏覽器開啟</string>
     <string name="simple_open">打開</string>
+    <string name="maintenance_mode">伺服器正處於維護模式</string>
     </resources>

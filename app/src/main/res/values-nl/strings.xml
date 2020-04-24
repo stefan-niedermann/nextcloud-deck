@@ -77,6 +77,8 @@
     <string name="error">Er is een fout verschenen</string>
     <string name="operation_not_yet_supported">Nog niet ondersteund</string>
     <string name="simple_copy">kopiëren</string>
+    <string name="simple_synchronization">Synchronisatie</string>
+    <string name="simple_appearance">Uiterlijk</string>
     <string name="simple_error">Fout</string>
     <string name="simple_exception">Uitzondering</string>
     <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
@@ -142,7 +144,7 @@
     <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
     <string name="server_misconfigured_explanation">Je server reageerde met een HTTP 302 statuscode, wat inhoudt dat je de Deck app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dat kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud apps zoals OID Client. Je kunt onze contact informatie voor support vinden in de Over-sectie.</string>
     <string name="server_error">Serverfout</string>
-    <string name="server_error_explanation">Je server reageerde met een HTTP 503 statuscode. Dat kan gebeuren ald je server in de onderhoudsmodus staat. Neem contact op met je beheerder of met ons voor ondersteuning. Onze contactinformatie staat in de de Over-sectie.</string>
+    <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem a.u.b. contact op met de beheerder of probeer het later opnieuw</string>
     <string name="share_add_to_card">Toevoegen aan kaart</string>
     <string name="share_success">Succesvol %1$s toegevoegd aan %2$s</string>
     <string name="could_not_copy_to_clipboard">Kon niet kopiëren naar het klembord</string>
@@ -157,4 +159,8 @@
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="simple_open">Openen</string>
+    <string name="updating_card">Kaart updaten...</string>
+    <string name="error_revoking_ac">Fout bij het intrekken van de toegang voor %1$s</string>
+    <string name="maintenance_mode">Server in onderhoudsmodus</string>
+    <string name="simple_switch">Wissel</string>
     </resources>

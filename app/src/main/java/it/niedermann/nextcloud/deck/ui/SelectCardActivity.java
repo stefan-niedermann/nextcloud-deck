@@ -103,7 +103,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
                     copyToClipboard(this, throwable.getMessage(), "```\n" + debugInfos + "\n```");
                     finish();
                 })
-                .setNegativeButton(R.string.simple_close, (d, w) -> finish())
+                .setNeutralButton(R.string.simple_close, null)
                 .create();
         dialog.show();
         ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);

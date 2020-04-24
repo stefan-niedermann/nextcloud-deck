@@ -145,7 +145,7 @@
     <string name="server_misconfigured">Server falsch konfiguriert</string>
     <string name="server_misconfigured_explanation">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID Client verursacht werden. Unsere Kontaktinformationen zur Unterstützung finden Sie im Info-Bereich.</string>
     <string name="server_error">Serverfehler</string>
-    <string name="server_error_explanation">Ihr Server hat mit einem HTTP 503-Statuscode geantwortet. Dies kann der Fall sein, wenn sich der Server derzeit im Wartungsmodus befindet. Bitte wenden Sie sich an Ihren Administrator oder an uns, um Unterstützung zu erhalten. Unsere Kontaktinformationen finden Sie im Info-Bereich.</string>
+    <string name="maintenance_mode_explanation">Der Server %1$s ist momentan im Wartungsmodus. Bitte nehmen Sie Kontakt mit Ihrem Administrator auf oder versuchen Sie es später nochmal!</string>
     <string name="share_add_to_card">Zur Karte hinzufügen</string>
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
     <string name="could_not_copy_to_clipboard">Konnte nicht in die Zwischenablage kopieren</string>
@@ -161,4 +161,9 @@
     <string name="open_in_browser">Im Browser öffnen</string>
     <string name="simple_open">Öffnen</string>
     <string name="updating_card">Karte wird aktualisiert…</string>
-    </resources>
+    <string name="error_revoking_ac">Fehler beim Widerruf des Zugriffs für %1$s</string>
+    <string name="maintenance_mode">Server befindet sich im Wartungsmodus</string>
+    <string name="simple_switch">Wechseln</string>
+    <string name="move_list_right">Liste nach rechts schieben</string>
+    <string name="move_list_left">Liste nach links schieben</string>
+</resources>

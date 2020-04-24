@@ -34,6 +34,7 @@ import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -67,6 +68,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -81,6 +83,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.ui.filter.FilterDialogFragment;
 import it.niedermann.nextcloud.deck.ui.settings.SettingsActivity;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackDialogFragment;
 import it.niedermann.nextcloud.deck.ui.stack.DeleteStackListener;
@@ -118,6 +121,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
+
+    private MainViewModel viewModel;
 
     protected static final int ACTIVITY_ABOUT = 1;
     protected static final int ACTIVITY_SETTINGS = 2;
@@ -162,6 +167,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         headerBinding = NavHeaderMainBinding.bind(binding.navigationView.getHeaderView(0));
         setContentView(binding.getRoot());
 
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.getFilterInformation().observe(this, (info) -> invalidateOptionsMenu());
 
         addList = getString(R.string.add_list);
         addBoard = getString(R.string.add_board);
@@ -255,14 +262,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             binding.fab.setOnClickListener((View view) -> {
                 if (this.boardsList.size() > 0) {
-                    final Intent intent = new Intent(this, EditActivity.class)
-                            .putExtra(BUNDLE_KEY_ACCOUNT, currentAccount)
-                            .putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID)
-                            .putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     try {
-                        intent.putExtra(BUNDLE_KEY_STACK_ID, stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId());
-                        startActivity(intent);
+                        Long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
+                        startActivity(EditActivity.createIntent(this, currentAccount, currentBoardId, stackId, NO_LOCAL_ID));
                     } catch (IndexOutOfBoundsException e) {
                         EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
                     }
@@ -496,6 +498,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         this.currentBoardId = board.getLocalId();
 
         Application.saveCurrentBoardId(this, currentAccount.getId(), this.currentBoardId);
+        viewModel.postFilterInformation(null);
 
         binding.toolbar.setTitle(board.getTitle());
         currentBoardHasEditPermission = board.isPermissionEdit();
@@ -616,8 +619,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         } else {
             switch (item.getItemId()) {
                 case MENU_ID_ABOUT:
-                    startActivityForResult(new Intent(this, AboutActivity.class)
-                            .putExtra(BUNDLE_KEY_ACCOUNT, currentAccount), MainActivity.ACTIVITY_ABOUT);
+                    startActivityForResult(AboutActivity.createIntent(this, currentAccount), MainActivity.ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_SETTINGS:
                     startActivityForResult(new Intent(this, SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);
@@ -648,6 +650,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             menu.clear();
         }
         inflater.inflate(R.menu.main_menu, menu);
+        final FilterInformation filterInformation = viewModel.getFilterInformation().getValue();
+        menu.findItem(R.id.filter).setIcon(filterInformation == null
+                ? R.drawable.ic_filter_list_white_24dp
+                : R.drawable.ic_filter_list_active_white_24dp);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -655,6 +661,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public boolean onOptionsItemSelected(MenuItem item) {
         final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
+            case R.id.filter: {
+                FilterDialogFragment.newInstance(currentAccount, currentBoardId)
+                        .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName());
+                return true;
+            }
             case R.id.archived_cards: {
                 startActivity(new Intent(this, ArchivedCardsActvitiy.class)
                         .putExtra(BUNDLE_KEY_ACCOUNT, currentAccount)
@@ -662,7 +673,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         .putExtra(BUNDLE_KEY_CAN_EDIT, currentBoardHasEditPermission));
                 return true;
             }
-            case R.id.rename_list:{
+            case R.id.rename_list: {
                 observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack ->
                         EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
                                 .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
@@ -817,7 +828,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                         copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
                                                         a.dismiss();
                                                     })
-                                                    .setNegativeButton(R.string.simple_close, null)
+                                                    .setNeutralButton(R.string.simple_close, null)
                                                     .create();
                                             dialog.show();
                                             ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);

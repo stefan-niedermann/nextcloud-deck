@@ -52,8 +52,8 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
             throw new IllegalArgumentException(KEY_ACCOUNT_ID + " and " + KEY_BOARD_ID + " must be provided as arguments");
         }
 
-        this.boardId = requireArguments().getLong(KEY_BOARD_ID);
-        this.accountId = requireArguments().getLong(KEY_ACCOUNT_ID);
+        this.boardId = args.getLong(KEY_BOARD_ID);
+        this.accountId = args.getLong(KEY_ACCOUNT_ID);
 
         if (this.boardId == 0L || this.accountId == 0L) {
             throw new IllegalArgumentException(KEY_ACCOUNT_ID + " and " + KEY_BOARD_ID + " must be valid localIds and not be 0");

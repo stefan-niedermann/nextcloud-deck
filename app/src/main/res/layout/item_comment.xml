@@ -69,6 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:autofillHints="@null"
+            tools:maxLength="200"
             tools:text="@tools:sample/lorem/random" />
     </LinearLayout>
 </LinearLayout>

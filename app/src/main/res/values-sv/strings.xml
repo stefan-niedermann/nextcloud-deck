@@ -77,6 +77,8 @@
     <string name="error">Ett fel inträffade</string>
     <string name="operation_not_yet_supported">Stöds inte än</string>
     <string name="simple_copy">kopiera</string>
+    <string name="simple_synchronization">Synkronisering</string>
+    <string name="simple_appearance">Utseende</string>
     <string name="simple_error">Fel</string>
     <string name="simple_exception">Undantag</string>
     <string name="copied_to_clipboard">Kopierat till urklipp</string>
@@ -142,7 +144,6 @@
     <string name="server_misconfigured">Server felkonfigurerad</string>
     <string name="server_misconfigured_explanation">Din server svarade med en statuskod HTTP 302, vilket indikerar att du inte har installerat Deck-appen på din server eller att något är felkonfigurerat. Detta kan orsakas av anpassningar i en .htaccess-fil eller av Nextcloud-appar som OID Client. Du hittar vår kontaktinformation för support i Om-avsnittet.</string>
     <string name="server_error">Serverfel</string>
-    <string name="server_error_explanation">Din server svarade med statuskod HTTP 503. Detta kan hända om servern för närvarande är i underhållsläge. Kontakta din administratör eller oss för support. Du hittar vår kontaktinformation i Om-avsnittet.</string>
     <string name="share_add_to_card">Lägg till i kort</string>
     <string name="share_success">La till %1$s till %2$s</string>
     <string name="could_not_copy_to_clipboard">Kunde inte kopiera till urklipp</string>
@@ -157,4 +158,7 @@
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Öppna i webbläsare</string>
     <string name="simple_open">Öppen</string>
+    <string name="updating_card">Uppdaterar kortet...</string>
+    <string name="error_revoking_ac">Fel vid återkallande av åtkomst för %1$s</string>
+    <string name="maintenance_mode">Server i underhållsläge</string>
     </resources>

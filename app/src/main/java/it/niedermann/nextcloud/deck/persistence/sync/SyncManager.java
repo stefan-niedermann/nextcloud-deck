@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.GsonConfig;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
@@ -36,6 +37,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
@@ -106,6 +108,7 @@ public class SyncManager {
         return liveData;
     }
 
+    // TODO if the card does not exist yet, try to synchronize it first, instead of directly returning null. If sync failed, return null.
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, Account account) {
         return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, account.getId());
     }
@@ -113,7 +116,6 @@ public class SyncManager {
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {
-            // TODO Why not use Boolean here?
             final BooleanResultHolder success = new BooleanResultHolder();
             CountDownLatch latch = new CountDownLatch(accounts.size());
             try {
@@ -287,17 +289,13 @@ public class SyncManager {
                             NextcloudHttpRequestFailedException requestFailedException = (NextcloudHttpRequestFailedException) throwable;
                             if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
                                 String errorString = requestFailedException.getCause().getMessage();
-                                if (errorString.contains("ocs") && errorString.contains("meta") && errorString.contains("statuscode\":503")) {
+                                Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
+                                if (capabilities.isMaintenanceEnabled()) {
                                     doAsync(() -> {
-                                        Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                                        if (!acc.isMaintenanceEnabled()) {
-                                            acc.setMaintenanceEnabled(true);
-                                            dataBaseAdapter.updateAccount(acc);
-                                        }
-                                        Capabilities caps = new Capabilities();
-                                        caps.setMaintenanceEnabled(true);
-                                        callback.onResponse(caps);
+                                        onResponse(capabilities);
                                     });
+                                } else {
+                                    onError(throwable);
                                 }
                             }
                         } else {
@@ -626,8 +624,8 @@ public class SyncManager {
         return dataBaseAdapter.getCardByLocalId(accountId, cardLocalId);
     }
 
-    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
-        return dataBaseAdapter.getFullCardsForStack(accountId, localStackId);
+    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, @Nullable FilterInformation filter) {
+        return dataBaseAdapter.getFullCardsForStack(accountId, localStackId, filter);
     }
 
     // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395
@@ -965,12 +963,20 @@ public class SyncManager {
         return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
+    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId) {
+        return dataBaseAdapter.findProposalsForUsersToAssign(accountId, boardId, -1L, -1);
+    }
+
     public LiveData<List<User>> findProposalsForUsersToAssignForACL(final long accountId, long boardId, final int topX) {
         return dataBaseAdapter.findProposalsForUsersToAssignForACL(accountId, boardId, topX);
     }
 
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX) {
         return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
+    }
+
+    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
+        return findProposalsForLabelsToAssign(accountId, boardId, -1L, -1);
     }
 
 
@@ -1052,7 +1058,11 @@ public class SyncManager {
 //                Stack newStack = newStackId == stack.getLocalId() ? stack :  dataBaseAdapter.getStackByLocalIdDirectly(newStackId);
 //                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
 //                Account account = dataBaseAdapter.getAccountByIdDirectly(movedCard.getCard().getAccountId());
-//                serverAdapter.reorder(board.getId(), stack.getId(), movedCard.getId(), newStack.getId(), newOrder, new IResponseCallback<List<FullCard>>(account){
+//                movedCard.getCard().setStackId(newStackId);
+//                movedCard.getCard().setOrder(newOrder);
+//                movedCard.setStatusEnum(DBStatus.LOCAL_MOVED);
+//                dataBaseAdapter.updateCard(movedCard.getCard(), false);
+//                serverAdapter.reorder(board.getId(), stack.getId(), movedCard.getId(), newStack.getId(), newOrder+1, new IResponseCallback<List<FullCard>>(account){
 //
 //                    @Override
 //                    public void onResponse(List<FullCard> response) {
@@ -1064,6 +1074,8 @@ public class SyncManager {
 //                            dataBaseAdapter.updateCard(card, false);
 //                            DeckLog.log("move: stackid "+card.getStackId());
 //                        }
+//                        movedCard.setStatusEnum(DBStatus.UP_TO_DATE);
+//                        dataBaseAdapter.updateCard(movedCard.getCard(), false);
 //                    }
 //                });
 //            } else {
@@ -1184,8 +1196,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType, @NonNull File file) {
-        MutableLiveData<Attachment> liveData = new MutableLiveData<>();
+    public WrappedLiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType, @NonNull File file) {
+        WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(existing, existing.getCardId(), mimeType, file);
             attachment.setLastModifiedLocal(new Date());
@@ -1199,6 +1211,11 @@ public class SyncManager {
                             @Override
                             public void onResponse(Attachment response) {
                                 liveData.postValue(response);
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                liveData.postError(throwable);
                             }
                         });
             }
@@ -1218,9 +1235,8 @@ public class SyncManager {
         return attachment;
     }
 
-    // TODO use WrappedLiveData
-    public LiveData<Attachment> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
-        MutableLiveData<Attachment> liveData = new MutableLiveData<>();
+    public WrappedLiveData<Attachment> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
+        WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             if (serverAdapter.hasInternetConnection()) {
                 FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, localCardId);

@@ -145,7 +145,6 @@
     <string name="server_misconfigured">Server je nesprávne nakonfigurovaný</string>
     <string name="server_misconfigured_explanation">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými prepismi v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client. Naše kontaktné informácie pre podporu nájdete v časti uvedenej vyššie.</string>
     <string name="server_error">Chyba servera</string>
-    <string name="server_error_explanation">Váš server odpovedal stavovým kódom HTTP 503. Môže sa to stať, ak je server v režime údržby. Ak potrebujete podporu, kontaktujte svojho správcu alebo nás. Naše kontaktné informácie nájdete v časti uvedenej vyššie.</string>
     <string name="share_add_to_card">Pridať do košíka</string>
     <string name="share_success">%1$s úspešne pridané do %2$s</string>
     <string name="could_not_copy_to_clipboard">Nepodarilo sa skopírovať do schránky</string>
@@ -161,4 +160,6 @@
     <string name="open_in_browser">Otvoriť v prehliadači</string>
     <string name="simple_open">Otvoriť</string>
     <string name="updating_card">Aktualizácia karty…</string>
+    <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
+    <string name="maintenance_mode">Server je v móde údržby</string>
     </resources>

@@ -15,6 +15,30 @@
     <string name="simple_add">Add</string>
     <string name="simple_save">Save</string>
     <string name="simple_more">More</string>
+    <string name="simple_title">Title</string>
+    <string name="simple_copy">copy</string>
+    <string name="simple_synchronization">Synchronization</string>
+    <string name="simple_appearance">Appearance</string>
+    <string name="simple_error">Error</string>
+    <string name="simple_exception">Exception</string>
+    <string name="simple_close">close</string>
+    <string name="simple_open">Open</string>
+    <string name="simple_switch">Switch</string>
+    <string name="simple_filter">Filter</string>
+    <string name="simple_overdue">Overdue</string>
+    <string name="simple_clear">Clear</string>
+    <string name="simple_discard">discard</string>
+    <string name="simple_update">Update</string>
+    <string name="simple_delete">Delete</string>
+    <string name="simple_rename">Rename</string>
+    <string name="simple_settings">Settings</string>
+    <string name="simple_undo">Undo</string>
+    <string name="simple_manage">manage</string>
+    <string name="simple_share">share</string>
+    <string name="simple_select">Select</string>
+    <string name="simple_comment">Comment</string>
+    <string name="simple_disabled">disabled</string>
+    <string name="simple_copied">Copied</string>
 
     <string name="edit_board">Edit board</string>
     <string name="archive_board">Archive board</string>
@@ -63,15 +87,11 @@
 
     <string name="add_account">Add account</string>
     <string name="choose_account">Choose account</string>
-
     <string name="add_card">Add card</string>
-
     <string name="activity">Activity</string>
-
     <string name="add_list">Add list</string>
     <string name="rename_list">Rename list</string>
     <string name="delete_list">Delete list</string>
-
     <string name="counter_max_value" translatable="false">+99</string>
 
     <string name="label_menu">menu</string>
@@ -80,20 +100,20 @@
     <string name="action_card_archive">Archive card</string>
     <string name="action_card_delete">Delete card</string>
     <string name="add_board">Add board</string>
-    <string name="simple_title">Title</string>
 
     <string name="label_clear_due_date">Clear due date</string>
     <string name="label_add">Add %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">An error appeared</string>
     <string name="operation_not_yet_supported">Not yet supported</string>
-    <string name="simple_copy">copy</string>
-    <string name="simple_synchronization">Synchronization</string>
-    <string name="simple_appearance">Appearance</string>
-    <string name="simple_error">Error</string>
-    <string name="simple_exception">Exception</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
-    <string name="simple_close">close</string>
+    <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
+    <string name="maintenance_mode">Server in maintenance mode</string>
+    <string name="server_misconfigured">Server misconfigured</string>
+    <string name="server_misconfigured_explanation">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client. You can find our contact information for support in the about-section.</string>
+    <string name="server_error">Server error</string>
+    <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
 
     <!-- URLs -->
     <string name="url_maintainer" translatable="false">https://www.niedermann.it/</string>
@@ -118,18 +138,13 @@
     <string name="not_synced_yet">Not synced yet</string>
     <string name="no_lists_yet">No lists yet</string>
     <string name="do_you_want_to_save_your_changes">Do you want to save your changes?</string>
-    <string name="simple_discard">discard</string>
     <string name="do_you_want_to_delete_the_current_list">Do you want to delete the current list?</string>
     <string name="add_a_new_list_using_the_button">Add a new list using the + button</string>
     <string name="add_a_new_card_using_the_button">Add a new card using the + button</string>
     <string name="update_deck">Update deck</string>
     <string name="your_deck_version_is_too_old">Your deck version is too old</string>
     <string name="deck_outdated_please_update">Your deck version is too old. Please update to use this android app as client.</string>
-    <string name="simple_update">Update</string>
-    <string name="simple_delete">Delete</string>
     <string name="delete_board_message">This will permanently delete this board including all lists and cards.</string>
-    <string name="simple_rename">Rename</string>
-    <string name="simple_settings">Settings</string>
     <string name="settings_theme_title">Dark theme</string>
     <string name="settings_branding_title">Branding</string>
     <string name="settings_background_sync">Background synchronization</string>
@@ -137,16 +152,11 @@
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
     <string name="pref_value_theme_light">Light</string>
     <string name="unassigned_user">Unassigned %1$s</string>
-    <string name="simple_undo">Undo</string>
     <string name="no_activities">There are no activities on this card. You need to be connected to the internet to load and display activities.</string>
     <string name="share_board">Share board</string>
     <string name="you_are_currently_offline">You are currently offline</string>
-    <string name="simple_manage">manage</string>
-    <string name="simple_share">share</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">You have to be connected to the internet in order to add an account.</string>
-    <string name="simple_select">Select</string>
     <string name="owner">Owner</string>
-    <string name="simple_comment">Comment</string>
     <string name="attachment_delete_message">This will permanently delete this attachment.</string>
     <string name="no_content">No content yet</string>
     <string name="last_background_sync">Last background sync:</string>
@@ -156,21 +166,15 @@
     <string name="hours_6">6 Hours</string>
     <string name="action_card_move">Move card</string>
     <string name="action_card_move_title">Move %1$s</string>
-    <string name="simple_disabled">disabled</string>
-    <string name="simple_copied">Copied</string>
     <string name="please_add_an_account_first">Please add an account first</string>
     <string name="title_is_mandatory">Title is mandatory</string>
     <string name="provide_at_least_a_title_or_description">Provide at least a title or description</string>
     <string name="welcome_text">Welcome to %1$s</string>
     <string name="save_card_before_attachment">The card needs to be saved before attachments can be added.</string>
-    <string name="server_misconfigured">Server misconfigured</string>
-    <string name="server_misconfigured_explanation">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client. You can find our contact information for support in the about-section.</string>
-    <string name="server_error">Server error</string>
     <string name="maintenance_mode_explanation">The server %1$s is currently in maintenance mode. Please contact your administrator or try later again.</string>
     <string name="share_add_to_card">Add to card</string>
     <string name="share_success">Successfully added %1$s to %2$s</string>
     <string name="could_not_copy_to_clipboard">Could not copy to clipboard</string>
-    <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
     <string name="add_comment">Add comment</string>
     <string name="card_edit_comments">Comments</string>
     <string name="no_comments_yet">No comments yet</string>
@@ -180,13 +184,24 @@
     <string name="choose_list">Choose list</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Open in browser</string>
-    <string name="simple_open">Open</string>
     <string name="updating_card">Updating card…</string>
-    <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
-    <string name="maintenance_mode">Server in maintenance mode</string>
-    <string name="simple_switch">Switch</string>
+
+    <!-- Move lists -->
     <string name="move_list_right">Move list right</string>
     <string name="move_list_left">Move list left</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">All</string>
+    <string name="filter_overdue">Overdue</string>
+    <string name="filter_today">Today</string>
+    <string name="filter_week">Next 7 days</string>
+    <string name="filter_month">Next 30 days</string>
+    <string name="filter_no_due">No duedate</string>
+    <string name="filter_by_tag">Filter by tag</string>
+    <string name="filter_by_assigned_user">Filter by assigned user</string>
+    <string name="filter_by_duedate">Filter by duedate</string>
+
+    <!-- Archived cards -->
     <string name="archived_cards">Archived cards</string>
     <string name="action_card_dearchive">Dearchive card</string>
     <string name="action_archived_cards">Browse archived cards</string>

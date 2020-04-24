@@ -27,10 +27,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class PrepareCreateActivity extends BrandedActivity {
@@ -178,14 +174,7 @@ public class PrepareCreateActivity extends BrandedActivity {
         if (account != null) {
             final long boardId = binding.boardSelect.getSelectedItemId();
             final long stackId = binding.stackSelect.getSelectedItemId();
-
-            final Intent intent = new Intent(getApplicationContext(), EditActivity.class)
-                    .putExtra(BUNDLE_KEY_ACCOUNT, account)
-                    .putExtra(BUNDLE_KEY_BOARD_ID, boardId)
-                    .putExtra(BUNDLE_KEY_STACK_ID, stackId)
-                    .putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            startActivity(EditActivity.createIntent(this, account, boardId, stackId, NO_LOCAL_ID));
 
             Application.saveCurrentAccountId(this, account.getId());
             Application.saveCurrentBoardId(this, account.getId(), boardId);

@@ -319,7 +319,10 @@ public class JsonToEntityParser {
             if (ocs.has("meta")) {
                 int statuscode = ocs.getAsJsonObject("meta").get("statuscode").getAsInt();
                 capabilities.setMaintenanceEnabled(statuscode==503);
-
+                if (capabilities.isMaintenanceEnabled()){
+                    // Abort, since there is nothing more to read.
+                    return capabilities;
+                }
             }
             if (ocs.has("data")) {
                 JsonObject data = ocs.getAsJsonObject("data");

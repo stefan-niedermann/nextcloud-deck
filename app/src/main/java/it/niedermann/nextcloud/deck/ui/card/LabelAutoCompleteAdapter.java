@@ -55,8 +55,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
         }
 
         holder.binding.icon.setImageDrawable(
-                ViewUtil.getTintedImageView(activity, iconResource, "#" + getItem(position).getColor()
-                ));
+                ViewUtil.getTintedImageView(activity, iconResource, "#" + getItem(position).getColor()));
         holder.binding.label.setText(getItem(position).getTitle());
         return convertView;
     }

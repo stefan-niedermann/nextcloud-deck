@@ -47,7 +47,7 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
 
         AlertDialog.Builder builder = new BrandedAlertDialogBuilder(requireActivity())
                 .setView(binding.getRoot())
-                .setNegativeButton(android.R.string.cancel, null);
+                .setNeutralButton(android.R.string.cancel, null);
         if (getArguments() == null) {
             throw new IllegalArgumentException("Please add at least stack id to the arguments");
         }

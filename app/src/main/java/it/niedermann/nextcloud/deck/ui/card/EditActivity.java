@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
@@ -259,5 +262,20 @@ public class EditActivity extends BrandedActivity {
         binding.title.setHighlightColor(highlightColor);
         binding.title.setTextColor(textColor);
 //        DrawableCompat.setTintList(binding.title.getBackground(), ColorStateList.valueOf(textColor));
+    }
+
+    @NonNull
+    public static Intent createIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId, Long cardId) {
+        return createIntent(context, account, boardId, cardId)
+                .putExtra(BUNDLE_KEY_STACK_ID, stackId);
+    }
+
+    @NonNull
+    public static Intent createIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long cardId) {
+        return new Intent(context, EditActivity.class)
+                .putExtra(BUNDLE_KEY_ACCOUNT, account)
+                .putExtra(BUNDLE_KEY_BOARD_ID, boardId)
+                .putExtra(BUNDLE_KEY_LOCAL_ID, cardId)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 }

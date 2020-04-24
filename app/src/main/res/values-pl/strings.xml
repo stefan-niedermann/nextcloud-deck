@@ -77,6 +77,8 @@
     <string name="error">Wystąpił błąd</string>
     <string name="operation_not_yet_supported">Jeszcze nie obsługiwane</string>
     <string name="simple_copy">kopiuj</string>
+    <string name="simple_synchronization">Synchronizacja</string>
+    <string name="simple_appearance">Wygląd</string>
     <string name="simple_error">Błąd</string>
     <string name="simple_exception">Wyjątek</string>
     <string name="copied_to_clipboard">Skopiowano do schowka</string>
@@ -108,6 +110,7 @@
     <string name="simple_rename">Zmień nazwę</string>
     <string name="simple_settings">Ustawienia</string>
     <string name="settings_theme_title">Ciemny motyw</string>
+    <string name="settings_branding_title">Motyw serwera</string>
     <string name="settings_background_sync">Synchronizacja w tle</string>
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
@@ -142,7 +145,7 @@
     <string name="server_misconfigured">Serwer źle skonfigurowany</string>
     <string name="server_misconfigured_explanation">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client. Nasze informacje kontaktowe dotyczące wsparcia można znaleźć w dziale \"O nas\".</string>
     <string name="server_error">Błąd serwera</string>
-    <string name="server_error_explanation">Twój serwer odpowiedział kodem stanu HTTP 503. Może się tak zdarzyć, jeśli serwer jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub z nami w celu uzyskania pomocy. Nasze dane kontaktowe znajdziesz w dziale \"O nas\".</string>
+    <string name="maintenance_mode_explanation">Serwer %1$s jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub spróbuj ponownie później.</string>
     <string name="share_add_to_card">Dodaj do karty</string>
     <string name="share_success">Pomyślnie dodano %1$s do %2$s</string>
     <string name="could_not_copy_to_clipboard">Nie można skopiować do schowka</string>
@@ -158,4 +161,9 @@
     <string name="open_in_browser">Otwórz w przeglądarce</string>
     <string name="simple_open">Otwórz</string>
     <string name="updating_card">Aktualizowanie karty…</string>
-    </resources>
+    <string name="error_revoking_ac">Błąd podczas anulowania dostępu dla %1$s</string>
+    <string name="maintenance_mode">Serwer w trybie konserwacji</string>
+    <string name="simple_switch">Przełącz</string>
+    <string name="move_list_right">Przesuń listę w prawo</string>
+    <string name="move_list_left">Przesuń listę w lewo</string>
+</resources>
