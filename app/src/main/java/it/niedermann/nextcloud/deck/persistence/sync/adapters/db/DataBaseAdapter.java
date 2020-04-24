@@ -186,19 +186,19 @@ public class DataBaseAdapter {
                     query.append("and c.dueDate is null");
                     break;
                 case OVERDUE:
-                    query.append("and c.dueDate <= datetime('now')");
+                    query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') <= datetime('now', 'localtime')");
                     break;
                 case TODAY:
-                    query.append("and c.dueDate between datetime('now') and datetime('now', '+24 hour')");
+                    query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+24 hour', 'localtime')");
                     break;
                 case WEEK:
-                    query.append("and c.dueDate between datetime('now') and datetime('now', '+7 day')");
+                    query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+7 day', 'localtime')");
                     break;
                 case MONTH:
-                    query.append("and c.dueDate between datetime('now') and datetime('now', '+30 day')");
+                    query.append("and datetime(c.duedate/1000, 'unixepoch', 'localtime') between datetime('now', 'localtime') and datetime('now', '+30 day', 'localtime')");
                     break;
                 default:
-                    throw new IllegalArgumentException("you need to add your new EDueType value here!");
+                    throw new IllegalArgumentException("Xou need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
             }
         }
         query.append(" and status<>3 order by `order`, createdAt asc;");

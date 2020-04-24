@@ -37,7 +37,7 @@ public interface CardDao extends GenericDao<Card> {
     LiveData<List<FullCard>> getFullCardsForStack(final long accountId, final long localStackId);
 
     @Transaction                                                                                // v not deleted!
-    @RawQuery
+    @RawQuery(observedEntities = Card.class)
     LiveData<List<FullCard>> getFilteredFullCardsForStack(SupportSQLiteQuery query);
 
     @Transaction
