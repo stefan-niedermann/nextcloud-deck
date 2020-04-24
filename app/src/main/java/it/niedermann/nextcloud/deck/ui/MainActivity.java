@@ -123,7 +123,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
-    protected Account currentAccount;
     protected boolean accountChooserActive = false;
     protected SyncManager syncManager;
     protected SharedPreferences sharedPreferences;
@@ -206,7 +205,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             registerAutoSyncOnNetworkAvailable();
                         } else {
-                            syncManager.synchronize(new IResponseCallback<Boolean>(MainActivity.this.currentAccount) {
+                            syncManager.synchronize(new IResponseCallback<Boolean>(viewModel.getCurrentAccount()) {
                                 @Override
                                 public void onResponse(Boolean response) {
                                 }
@@ -242,7 +241,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard> dragAndDrop = new CrossTabDragAndDrop<>(getResources());
             dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
             dragAndDrop.addItemMovedByDragListener((movedCard, stackId, position) -> {
-                syncManager.reorder(currentAccount.getId(), movedCard, stackId, position);
+                syncManager.reorder(viewModel.getCurrentAccount().getId(), movedCard, stackId, position);
                 DeckLog.info("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
             });
 
@@ -258,7 +257,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (this.boardsList.size() > 0) {
                     try {
                         Long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                        startActivity(EditActivity.createIntent(this, currentAccount, currentBoardId, stackId, NO_LOCAL_ID));
+                        startActivity(EditActivity.createIntent(this, viewModel.getCurrentAccount(), currentBoardId, stackId, NO_LOCAL_ID));
                     } catch (IndexOutOfBoundsException e) {
                         EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
                     }
@@ -277,7 +276,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     binding.viewPager.post(() -> {
                         // stackAdapter size might differ from position when an account has been deleted
                         if (stackAdapter.getItemCount() > position) {
-                            Application.saveCurrentStackId(getApplicationContext(), currentAccount.getId(), currentBoardId, stackAdapter.getItem(position).getLocalId());
+                            Application.saveCurrentStackId(getApplicationContext(), viewModel.getCurrentAccount().getId(), currentBoardId, stackAdapter.getItem(position).getLocalId());
                         } else {
                             DeckLog.logError(new IllegalStateException("Tried to save current Stack which cannot be available (stackAdapter doesn't have this position)"));
                         }
@@ -307,8 +306,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         DeckLog.info("Do not clear Glide caches, because the user currently does not have a working internet connection");
                     }
                 } else DeckLog.warn("ConnectivityManager is null");
-                refreshCapabilities(currentAccount);
-                syncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
+                refreshCapabilities(viewModel.getCurrentAccount());
+                syncManager.synchronize(new IResponseCallback<Boolean>(viewModel.getCurrentAccount()) {
                     @Override
                     public void onResponse(Boolean response) {
                         runOnUiThread(() -> binding.swipeRefreshLayout.setRefreshing(false));
@@ -368,7 +367,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onCreateStack(String stackName) {
-        observeOnce(syncManager.getStacksForBoard(currentAccount.getId(), currentBoardId), MainActivity.this, fullStacks -> {
+        observeOnce(syncManager.getStacksForBoard(viewModel.getCurrentAccount().getId(), currentBoardId), MainActivity.this, fullStacks -> {
             final Stack s = new Stack(stackName, currentBoardId);
             int heighestOrder = 0;
             for (FullStack fullStack : fullStacks) {
@@ -378,14 +377,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 }
             }
             s.setOrder(heighestOrder);
-            DeckLog.info("Create Stack with account id = " + currentAccount.getId());
-            syncManager.createStack(currentAccount.getId(), s).observe(MainActivity.this, (stack) -> binding.viewPager.setCurrentItem(stackAdapter.getItemCount()));
+            DeckLog.info("Create Stack with account id = " + viewModel.getCurrentAccount().getId());
+            syncManager.createStack(viewModel.getCurrentAccount().getId(), s).observe(MainActivity.this, (stack) -> binding.viewPager.setCurrentItem(stackAdapter.getItemCount()));
         });
     }
 
     @Override
     public void onUpdateStack(long localStackId, String stackName) {
-        observeOnce(syncManager.getStack(currentAccount.getId(), localStackId), MainActivity.this, fullStack -> {
+        observeOnce(syncManager.getStack(viewModel.getCurrentAccount().getId(), localStackId), MainActivity.this, fullStack -> {
             fullStack.getStack().setTitle(stackName);
             // TODO error handling
             syncManager.updateStack(fullStack);
@@ -395,7 +394,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void onCreateBoard(String title, String color) {
         Board b = new Board(title, color.startsWith("#") ? color.substring(1) : color);
-        observeOnce(syncManager.createBoard(currentAccount.getId(), b), this, board -> {
+        observeOnce(syncManager.createBoard(viewModel.getCurrentAccount().getId(), b), this, board -> {
             if (board == null) {
                 Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG).show();
             } else {
@@ -415,17 +414,17 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @UiThread
     protected void setCurrentAccount(@NonNull Account account) {
-        this.currentAccount = account;
-        SingleAccountHelper.setCurrentAccount(getApplicationContext(), this.currentAccount.getName());
+        viewModel.setCurrentAccount(account);
+        SingleAccountHelper.setCurrentAccount(getApplicationContext(), viewModel.getCurrentAccount().getName());
         syncManager = new SyncManager(this);
 
-        Application.saveBrandColors(this, Color.parseColor(currentAccount.getColor()), Color.parseColor(currentAccount.getTextColor()));
-        Application.saveCurrentAccountId(this, this.currentAccount.getId());
-        if (this.currentAccount.isMaintenanceEnabled()) {
-            refreshCapabilities(this.currentAccount);
+        Application.saveBrandColors(this, Color.parseColor(viewModel.getCurrentAccount().getColor()), Color.parseColor(viewModel.getCurrentAccount().getTextColor()));
+        Application.saveCurrentAccountId(this, viewModel.getCurrentAccount().getId());
+        if (viewModel.getCurrentAccount().isMaintenanceEnabled()) {
+            refreshCapabilities(viewModel.getCurrentAccount());
         }
 
-        currentBoardId = Application.readCurrentBoardId(this, this.currentAccount.getId());
+        currentBoardId = Application.readCurrentBoardId(this, viewModel.getCurrentAccount().getId());
 
         if (boardsLiveData != null && boardsLiveDataObserver != null) {
             boardsLiveData.removeObserver(boardsLiveDataObserver);
@@ -453,13 +452,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         };
         boardsLiveData.observe(this, boardsLiveDataObserver);
 
-        ViewUtil.addAvatar(headerBinding.drawerCurrentAccount, this.currentAccount.getUrl(), this.currentAccount.getUserName(), R.mipmap.ic_launcher_round);
-        headerBinding.drawerUsernameFull.setText(currentAccount.getName());
+        ViewUtil.addAvatar(headerBinding.drawerCurrentAccount, viewModel.getCurrentAccount().getUrl(), viewModel.getCurrentAccount().getUserName(), R.mipmap.ic_launcher_round);
+        headerBinding.drawerUsernameFull.setText(viewModel.getCurrentAccount().getName());
         accountChooserActive = false;
         inflateAccountMenu();
         binding.drawerLayout.closeDrawer(GravityCompat.START);
-        DeckLog.verbose("Displaying maintenance mode info for " + this.currentAccount.getName() + ": " + this.currentAccount.isMaintenanceEnabled());
-        binding.infoBox.setVisibility(this.currentAccount.isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
+        DeckLog.verbose("Displaying maintenance mode info for " + viewModel.getCurrentAccount().getName() + ": " + viewModel.getCurrentAccount().isMaintenanceEnabled());
+        binding.infoBox.setVisibility(viewModel.getCurrentAccount().isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
     }
 
     private void refreshCapabilities(final Account account) {
@@ -491,7 +490,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     protected void setCurrentBoard(@NonNull Board board) {
         this.currentBoardId = board.getLocalId();
 
-        Application.saveCurrentBoardId(this, currentAccount.getId(), this.currentBoardId);
+        Application.saveCurrentBoardId(this, viewModel.getCurrentAccount().getId(), this.currentBoardId);
         viewModel.postFilterInformation(null);
 
         binding.toolbar.setTitle(board.getTitle());
@@ -510,7 +509,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
 
 
-        syncManager.getStacksForBoard(this.currentAccount.getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
+        syncManager.getStacksForBoard(viewModel.getCurrentAccount().getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
                 throw new IllegalStateException("Given List<FullStack> must not be null");
             }
@@ -525,9 +524,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
 
             int stackPositionInAdapter = 0;
-            stackAdapter.setStacks(fullStacks, currentAccount, currentBoardId, currentBoardHasEditPermission);
+            stackAdapter.setStacks(fullStacks, viewModel.getCurrentAccount(), currentBoardId, currentBoardHasEditPermission);
 
-            long currentStackId = Application.readCurrentStackId(this, this.currentAccount.getId(), this.currentBoardId);
+            long currentStackId = Application.readCurrentStackId(this, viewModel.getCurrentAccount().getId(), this.currentBoardId);
             for (int i = 0; i < currentBoardStacksCount; i++) {
                 if (fullStacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
                     stackPositionInAdapter = i;
@@ -589,7 +588,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, currentAccount.getId(), this.boardsList);
+        DrawerMenuUtil.inflateBoards(this, menu, viewModel.getCurrentAccount().getId(), this.boardsList);
     }
 
     @Override
@@ -613,7 +612,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         } else {
             switch (item.getItemId()) {
                 case MENU_ID_ABOUT:
-                    startActivityForResult(AboutActivity.createIntent(this, currentAccount), MainActivity.ACTIVITY_ABOUT);
+                    startActivityForResult(AboutActivity.createIntent(this, viewModel.getCurrentAccount()), MainActivity.ACTIVITY_ABOUT);
                     break;
                 case MENU_ID_SETTINGS:
                     startActivityForResult(new Intent(this, SettingsActivity.class), MainActivity.ACTIVITY_SETTINGS);
@@ -656,12 +655,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
             case R.id.filter: {
-                FilterDialogFragment.newInstance(currentAccount, currentBoardId)
+                FilterDialogFragment.newInstance(viewModel.getCurrentAccount(), currentBoardId)
                         .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName());
                 return true;
             }
             case R.id.rename_list: {
-                observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack ->
+                observeOnce(syncManager.getStack(viewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack ->
                         EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
                                 .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
                 return true;
@@ -670,7 +669,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 // TODO error handling
                 final int stackLeftPosition = binding.viewPager.getCurrentItem() - 1;
                 final long stackLeftId = stackAdapter.getItem(stackLeftPosition).getLocalId();
-                syncManager.swapStackOrder(currentAccount.getId(), currentBoardId, new Pair<>(stackId, stackLeftId));
+                syncManager.swapStackOrder(viewModel.getCurrentAccount().getId(), currentBoardId, new Pair<>(stackId, stackLeftId));
                 stackMoved = true;
                 return true;
             }
@@ -678,7 +677,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 // TODO error handling
                 final int stackRightPosition = binding.viewPager.getCurrentItem() + 1;
                 final long stackRightId = stackAdapter.getItem(stackRightPosition).getLocalId();
-                syncManager.swapStackOrder(currentAccount.getId(), currentBoardId, new Pair<>(stackId, stackRightId));
+                syncManager.swapStackOrder(viewModel.getCurrentAccount().getId(), currentBoardId, new Pair<>(stackId, stackRightId));
                 stackMoved = true;
                 return true;
             }
@@ -753,7 +752,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                                                     final Snackbar importSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
                                                     importSnackbar.show();
-                                                    importSyncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
+                                                    importSyncManager.synchronize(new IResponseCallback<Boolean>(viewModel.getCurrentAccount()) {
                                                         @Override
                                                         public void onResponse(Boolean response) {
                                                             importSnackbar.dismiss();
@@ -857,7 +856,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     @Override
                     public void onAvailable(@NonNull Network network) {
                         DeckLog.log("Got Network connection");
-                        syncManager.synchronize(new IResponseCallback<Boolean>(currentAccount) {
+                        syncManager.synchronize(new IResponseCallback<Boolean>(viewModel.getCurrentAccount()) {
                             @Override
                             public void onResponse(Boolean response) {
                                 DeckLog.log("Auto-Sync after connection available successful");
@@ -900,7 +899,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void onStackDeleted(Long stackLocalId) {
         long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-        observeOnce(syncManager.getStack(currentAccount.getId(), stackId), MainActivity.this, fullStack -> {
+        observeOnce(syncManager.getStack(viewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack -> {
             DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
             // TODO error handling
             syncManager.deleteStack(fullStack.getStack());
