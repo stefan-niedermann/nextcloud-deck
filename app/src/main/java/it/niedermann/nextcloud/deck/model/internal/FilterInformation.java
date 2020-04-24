@@ -8,14 +8,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 
 public class FilterInformation implements Serializable {
     private EDueType dueType = EDueType.NO_FILTER;
     @NonNull
-    private List<Long> userIDs = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
     @NonNull
-    private List<Long> labelIDs = new ArrayList<>();
+    private List<Label> labels = new ArrayList<>();
 
     public EDueType getDueType() {
         return dueType;
@@ -25,49 +27,46 @@ public class FilterInformation implements Serializable {
         this.dueType = dueType;
     }
 
-    @NotNull
-    public List<Long> getUserIDs() {
-        return userIDs;
+    @NonNull
+    public List<User> getUsers() {
+        return users;
     }
 
     @NotNull
-    public List<Long> getLabelIDs() {
-        return labelIDs;
+    public List<Label> getLabels() {
+        return labels;
     }
 
-    public void addUserId(long id) {
-        userIDs.add(id);
+    public void addAllLabels(List<Label> labels) {
+        this.labels.addAll(labels);
     }
 
-    public void removeUserId(Long id) {
-        userIDs.remove(id);
+    public void addAllUsers(List<User> users) {
+        this.users.addAll(users);
     }
 
-    public void addAllLabelIds(List<Long> ids) {
-        labelIDs.addAll(ids);
+    public void clearLabels() {
+        labels.clear();
     }
 
-    public void clearLabelIds() {
-        labelIDs.clear();
-    }
-
-    public void removeLabelId(Long id) {
-        labelIDs.remove(id);
+    public void clearUsers() {
+        users.clear();
     }
 
     /**
      * @return whether or not any filter is set
      */
     public boolean hasActiveFilter() {
-        return (dueType != null && dueType != EDueType.NO_FILTER) || userIDs.size() > 0 || labelIDs.size() > 0;
+        return (dueType != null && dueType != EDueType.NO_FILTER) || users.size() > 0 || labels.size() > 0;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "FilterInformation{" +
                 "dueType=" + dueType +
-                ", userIDs=" + userIDs +
-                ", labelIDs=" + labelIDs +
+                ", users=" + users +
+                ", labels=" + labels +
                 '}';
     }
 }

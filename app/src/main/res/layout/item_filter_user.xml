@@ -12,28 +12,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_marginEnd="11dp"
+            android:layout_marginRight="11dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_person_grey600_24dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_gravity="end|bottom"
             android:background="@drawable/selected" />
-
-        <ImageView
-            android:id="@+id/label"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size"
-            android:layout_marginEnd="@dimen/spacer_2x"
-            android:layout_marginRight="@dimen/spacer_2x"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_label_grey600_24dp" />
     </FrameLayout>
 
     <TextView
-        android:id="@+id/displayname"
+        android:id="@+id/displayName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="16sp"
-        tools:text="@tools:sample/lorem" />
+        tools:text="@tools:sample/full_names" />
 
 </LinearLayout>

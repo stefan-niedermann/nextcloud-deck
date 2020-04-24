@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,27 +24,28 @@
             android:choiceMode="multipleChoice"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="4"
-            tools:listitem="@layout/item_user" />
+            tools:listitem="@layout/item_filter_label" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_2x"
             android:labelFor="@id/overdue"
-            android:text="@string/filter_by_assigned_user"
-            android:visibility="gone" />
+            android:text="@string/filter_by_assigned_user" />
 
-        <ListView
-            android:id="@+id/people"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/users"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:choiceMode="multipleChoice"
-            android:visibility="gone"
-            tools:layout_height="150dp"
-            tools:listitem="@android:layout/simple_list_item_multiple_choice" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_filter_user" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_2x"
             android:labelFor="@id/overdue"
             android:text="@string/filter_by_duedate" />
 

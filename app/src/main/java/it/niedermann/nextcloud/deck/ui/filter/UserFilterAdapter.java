@@ -4,68 +4,97 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.NoSuchElementException;
-
+import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class UserFilterAdapter extends ArrayAdapter<User> {
+import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
+@SuppressWarnings("WeakerAccess")
+public class UserFilterAdapter extends RecyclerView.Adapter<UserFilterAdapter.UserViewHolder> {
+    final int avatarSize;
     @NonNull
-    private final LayoutInflater inflater;
+    private final Context context;
+    @NonNull
+    private final Account account;
+    @NonNull
+    private final List<User> users = new ArrayList<>();
+    @NonNull
+    private final List<User> selectedUsers = new ArrayList<>();
 
-    @SuppressWarnings("WeakerAccess")
-    public UserFilterAdapter(@NonNull Context context) {
-        super(context, android.R.layout.simple_list_item_multiple_choice, android.R.id.text1);
-        inflater = LayoutInflater.from(context);
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return true;
+    public UserFilterAdapter(@NonNull Context context, @NonNull Account account, @NonNull List<User> users, @NonNull List<User> selectedUsers) {
+        super();
+        this.account = account;
+        this.context = context;
+        this.users.addAll(users);
+        this.selectedUsers.addAll(selectedUsers);
+        setHasStableIds(true);
+        notifyDataSetChanged();
+        avatarSize = dpToPx(context, R.dimen.avatar_size);
     }
 
     @Override
     public long getItemId(int position) {
-        final User user = getItem(position);
-        if(user == null) {
-            throw new NoSuchElementException();
-        }
-        return user.getLocalId();
+        return users.get(position).getLocalId();
+    }
+
+    @NonNull
+    @Override
+    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_filter_user, viewGroup, false);
+        return new UserViewHolder(view);
     }
 
     @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getView(position, convertView, parent);
+    public void onBindViewHolder(@NonNull UserViewHolder viewHolder, int position) {
+        viewHolder.bind(users.get(position));
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public int getPosition(long labelId) {
-        for (int i = 0; i < getCount(); i++) {
-            if (getItemId(i) == labelId) {
-                return i;
-            }
-        }
-        throw new NoSuchElementException();
-    }
-
-    @NotNull
     @Override
-    public View getView(int position, View convertView, @NotNull ViewGroup parent) {
-        final View view;
-        if (convertView == null) {
-            view = inflater.inflate(android.R.layout.simple_list_item_multiple_choice, parent, false);
-        } else {
-            view = convertView;
+    public int getItemCount() {
+        return users.size();
+    }
+
+    public List<User> getSelected() {
+        return selectedUsers;
+    }
+
+    class UserViewHolder extends RecyclerView.ViewHolder {
+
+        // TODO Use ViewBinding
+        private TextView displayName;
+        private ImageView avatar;
+
+        UserViewHolder(@NonNull View itemView) {
+            super(itemView);
+            displayName = itemView.findViewById(R.id.displayName);
+            avatar = itemView.findViewById(R.id.avatar);
         }
-        ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position).getDisplayname());
-        return view;
+
+        void bind(final User user) {
+            displayName.setText(user.getDisplayname());
+            ViewUtil.addAvatar(avatar, account.getUrl(), user.getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
+            itemView.setSelected(selectedUsers.contains(user));
+
+            itemView.setOnClickListener(view -> {
+                if (selectedUsers.contains(user)) {
+                    selectedUsers.remove(user);
+                    itemView.setSelected(false);
+                } else {
+                    selectedUsers.add(user);
+                    itemView.setSelected(true);
+                }
+            });
+        }
     }
 }
