@@ -57,6 +57,10 @@
 
     <string name="activity">Активність</string>
 
+    <string name="add_list">Додати список</string>
+    <string name="rename_list">Перейменувати список</string>
+    <string name="delete_list">Вилучити список</string>
+
     <string name="label_menu">меню</string>
     <string name="action_card_assign">Призначити картку мені</string>
     <string name="action_card_unassign">Відв\'язати картку від мене</string>
@@ -69,7 +73,10 @@
     <string name="label_add">Додати %1$s</string>
 
     <string name="error">Сталася помилка </string>
+    <string name="operation_not_yet_supported">Ще не підтримується</string>
     <string name="simple_copy">копіювати</string>
+    <string name="simple_synchronization">Synchronization</string>
+    <string name="simple_appearance">Вигляд</string>
     <string name="simple_error">Помилка</string>
     <string name="simple_exception">Виняток</string>
     <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
@@ -86,14 +93,18 @@
     <string name="account_already_added">Обліковий запис вже додано</string>
     <string name="account_is_getting_imported">Відбувається імпорт облікового запису</string>
     <string name="not_synced_yet">Поки не синхронізовано</string>
+    <string name="no_lists_yet">Поки що відсутні списки</string>
     <string name="do_you_want_to_save_your_changes">Чи бажаєте Ви зберегти Ваші зміни?</string>
     <string name="simple_discard">відхилити</string>
+    <string name="do_you_want_to_delete_the_current_list">Вилучити поточний список?</string>
+    <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додайте нову картку за допомогою кнопки +</string>
     <string name="update_deck">Оновлення дошки</string>
     <string name="your_deck_version_is_too_old">Версія Вашої дошки надто давня</string>
     <string name="deck_outdated_please_update">Версія Вашої дошки надто давня. Будь-ласка виконайте оновлення щоб використовувати цей додаток як клієнт android.</string>
     <string name="simple_update">Оновлення</string>
     <string name="simple_delete">Видалити</string>
+    <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="simple_rename">Перейменувати</string>
     <string name="simple_settings">Налаштування</string>
     <string name="settings_theme_title">Темна тема</string>
@@ -121,8 +132,31 @@
     <string name="hours_6">6 годин</string>
     <string name="action_card_move">Пересунути картку</string>
     <string name="action_card_move_title">Пересунути %1$s</string>
+    <string name="simple_disabled">вимкнено</string>
+    <string name="simple_copied">Скопійовано</string>
+    <string name="please_add_an_account_first">Спочатку додайте обліковий запис</string>
+    <string name="title_is_mandatory">Назва є обов\'язковою</string>
+    <string name="provide_at_least_a_title_or_description">Щонайменше додайте назву чи опис</string>
+    <string name="welcome_text">Вітаємо у %1$s</string>
+    <string name="save_card_before_attachment">Перед додаванням вмісту потрібно зберегти картку</string>
+    <string name="server_misconfigured">Сервер налаштовано некоректно</string>
     <string name="server_error">Помилка серверу</string>
+    <string name="share_add_to_card">Додати до картки</string>
+    <string name="share_success">Успішно додано %1$s до %2$s</string>
+    <string name="could_not_copy_to_clipboard">Неможливо скопіювати до буферу обміну</string>
+    <string name="add_comment">Додати коментар</string>
     <string name="card_edit_comments">Коментарі</string>
+    <string name="no_comments_yet">Коментарі відсутні</string>
+    <string name="no_boards">Дошки відсутні</string>
+    <string name="add_a_new_board_using_the_button">Створюйте нові дошки за допомогою кнопки (+)</string>
+    <string name="choose_board">Виберіть дошку</string>
+    <string name="choose_list">Виберіть список</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Відкрити у переглядачі</string>
     <string name="simple_open">Відкрити</string>
-    </resources>
+    <string name="updating_card">Оновлюю картку...</string>
+    <string name="maintenance_mode">Сервер у режимі обслуговування</string>
+    <string name="simple_switch">Перемкнути</string>
+    <string name="move_list_right">Пересунути список праворуч</string>
+    <string name="move_list_left">Пересунути список ліворуч</string>
+</resources>

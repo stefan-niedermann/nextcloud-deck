@@ -164,4 +164,6 @@
     <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
     <string name="maintenance_mode">Servidor em modo de manutenção</string>
     <string name="simple_switch">Alterar</string>
-    </resources>
+    <string name="move_list_right">Mover lista para a direita</string>
+    <string name="move_list_left">Mover lista para a esquerda</string>
+</resources>
