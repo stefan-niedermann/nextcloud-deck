@@ -128,6 +128,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 .setNeutralButton(android.R.string.cancel, null)
                 .setNegativeButton(R.string.simple_clear, (a, b) -> viewModel.postFilterInformation(null))
                 .setPositiveButton(R.string.simple_filter, (a, b) -> {
+                    // Nach dieser Zeile ist labelAdapter.getSelected() leer
                     filterInformation.clearLabelIds();
                     filterInformation.addAllLabelIds(labelAdapter.getSelected());
                     viewModel.postFilterInformation(filterInformation);
