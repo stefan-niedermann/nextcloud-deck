@@ -37,6 +37,17 @@ public class OverdueFilterAdapter extends ArrayAdapter<EDueType> {
         return getView(position, convertView, parent);
     }
 
+    @NonNull
+    @Override
+    public EDueType getItem(int position) {
+        EDueType item = super.getItem(position);
+        if (item != null) {
+            return item;
+        } else {
+            return EDueType.NO_FILTER;
+        }
+    }
+
     @NotNull
     @Override
     public View getView(int position, View convertView, @NotNull ViewGroup parent) {

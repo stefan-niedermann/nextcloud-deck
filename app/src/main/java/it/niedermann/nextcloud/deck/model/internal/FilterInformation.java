@@ -13,17 +13,19 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 
 public class FilterInformation implements Serializable {
+    @NonNull
     private EDueType dueType = EDueType.NO_FILTER;
     @NonNull
     private List<User> users = new ArrayList<>();
     @NonNull
     private List<Label> labels = new ArrayList<>();
 
+    @NonNull
     public EDueType getDueType() {
         return dueType;
     }
 
-    public void setDueType(EDueType dueType) {
+    public void setDueType(@NonNull EDueType dueType) {
         this.dueType = dueType;
     }
 
@@ -37,11 +39,11 @@ public class FilterInformation implements Serializable {
         return labels;
     }
 
-    public void addAllLabels(List<Label> labels) {
+    public void addAllLabels(@NonNull List<Label> labels) {
         this.labels.addAll(labels);
     }
 
-    public void addAllUsers(List<User> users) {
+    public void addAllUsers(@NonNull List<User> users) {
         this.users.addAll(users);
     }
 
@@ -51,13 +53,6 @@ public class FilterInformation implements Serializable {
 
     public void clearUsers() {
         users.clear();
-    }
-
-    /**
-     * @return whether or not any filter is set
-     */
-    public boolean hasActiveFilter() {
-        return (dueType != null && dueType != EDueType.NO_FILTER) || users.size() > 0 || labels.size() > 0;
     }
 
     @NotNull
