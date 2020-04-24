@@ -2,6 +2,7 @@
     <dimen name="spacer_1hx">4dp</dimen>
     <dimen name="spacer_1x">8dp</dimen>
     <dimen name="spacer_2x">16dp</dimen>
+    <dimen name="spacer_3x">24dp</dimen>
 
     <dimen name="nav_header_height">148dp</dimen>
     <dimen name="fab_margin">@dimen/spacer_2x</dimen>
