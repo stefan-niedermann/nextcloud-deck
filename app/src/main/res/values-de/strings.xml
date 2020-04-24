@@ -164,4 +164,6 @@
     <string name="error_revoking_ac">Fehler beim Widerruf des Zugriffs für %1$s</string>
     <string name="maintenance_mode">Server befindet sich im Wartungsmodus</string>
     <string name="simple_switch">Wechseln</string>
-    </resources>
+    <string name="move_list_right">Liste nach rechts schieben</string>
+    <string name="move_list_left">Liste nach links schieben</string>
+</resources>

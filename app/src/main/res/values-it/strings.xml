@@ -145,6 +145,7 @@
     <string name="server_misconfigured">Configurazione server non corretta</string>
     <string name="server_misconfigured_explanation">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causata da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client. Puoi trovare le nostre informazioni di contatto per supporto nella sezione Informazioni.</string>
     <string name="server_error">Errore del server</string>
+    <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
     <string name="share_add_to_card">Aggiungi a scheda</string>
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
     <string name="could_not_copy_to_clipboard">Impossibile copiare negli appunti</string>
@@ -162,4 +163,7 @@
     <string name="updating_card">Aggiornamento scheda...</string>
     <string name="error_revoking_ac">Errore durante la revoca dell\'accesso a %1$s</string>
     <string name="maintenance_mode">Server in manutenzione</string>
-    </resources>
+    <string name="simple_switch">Cambia</string>
+    <string name="move_list_right">Sposta a destra l\'elenco</string>
+    <string name="move_list_left">Sposta a sinistra l\'elenco</string>
+</resources>

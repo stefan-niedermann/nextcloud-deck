@@ -40,7 +40,8 @@
     <string name="about_app_license_button">Licenc megtekintése</string>
     <string name="about_icons_disclaimer_title">Ikonok</string>
     <string name="about_icons_disclaimer_app_icon">Az eredeti ikon itt található: %1$s.</string>
-    <string name="about_icons_disclaimer_mdi">Material Design ikont</string>
+    <string name="about_icons_disclaimer_mdi_icons">Az alkalmazás által használt összes többi ikon a Google által készített %1$s része, és azok Apache 2.0 License alatt érhetők el.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design ikonok</string>
     <string name="about_credits_tab_title">Köszönetnyilvánítás</string>
     <string name="about_contribution_tab_title">Közreműködés</string>
     <string name="about_license_tab_title">Licenc</string>
@@ -57,6 +58,10 @@
     <string name="add_card">Kártya hozzáadása</string>
 
     <string name="activity">Tevékenység</string>
+
+    <string name="add_list">Lista hozzáadása</string>
+    <string name="rename_list">Lista átnevezése</string>
+    <string name="delete_list">Lista törlése</string>
 
     <string name="label_menu">menü</string>
     <string name="action_card_assign">Kártya hozzám rendelése</string>
@@ -90,14 +95,18 @@
     <string name="account_already_added">A fiók már hozzá lett adva</string>
     <string name="account_is_getting_imported">A fiók importálásra kerül</string>
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
+    <string name="no_lists_yet">Még nincsenek listák</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
     <string name="simple_discard">elvetés</string>
+    <string name="do_you_want_to_delete_the_current_list">Biztos, hogy törli a jelenlegi listát?</string>
+    <string name="add_a_new_list_using_the_button">Új lista hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
     <string name="update_deck">Kártyák frissítése</string>
     <string name="your_deck_version_is_too_old">A Kártyák verziója túl régi</string>
-    <string name="deck_outdated_please_update">A Kártyák verzió túl régi. Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
+    <string name="deck_outdated_please_update">A Kártyák verziója túl régi. Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
     <string name="simple_update">Frissítés</string>
     <string name="simple_delete">Törlés</string>
+    <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
     <string name="simple_rename">Átnevezés</string>
     <string name="simple_settings">Beállítások</string>
     <string name="settings_theme_title">Sötét téma</string>
@@ -127,9 +136,13 @@
     <string name="action_card_move_title">%1$s áthelyezése</string>
     <string name="simple_disabled">letiltva</string>
     <string name="simple_copied">Másolva</string>
+    <string name="please_add_an_account_first">Előbb adjon hozzá egy fiókot</string>
     <string name="title_is_mandatory">A cím megadása kötelező</string>
-    <string name="provide_at_least_a_title_or_description">Kérem, adjon meg címet vagy leírást</string>
-    <string name="server_error">Szerver hiba</string>
+    <string name="provide_at_least_a_title_or_description">Legalább címet vagy leírást adjon meg</string>
+    <string name="welcome_text">Üdvözli a %1$s</string>
+    <string name="save_card_before_attachment">A kártyát menteni kell, mielőtt mellékletek adhatók hozzá.</string>
+    <string name="server_misconfigured">A kiszolgáló hibásan van beállítva</string>
+    <string name="server_error">Kiszolgálóhiba</string>
     <string name="card_edit_comments">Hozzászólások</string>
     <string name="open_in_browser">Megnyitás böngészőben</string>
     <string name="simple_open">Megnyitás</string>

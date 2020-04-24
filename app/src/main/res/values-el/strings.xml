@@ -164,4 +164,6 @@
     <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
     <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
     <string name="simple_switch">Αλλαγή</string>
-    </resources>
+    <string name="move_list_right">Μετακίνηση λίστας δεξιά</string>
+    <string name="move_list_left">Μετακίνηση λίστας αριστερά</string>
+</resources>
