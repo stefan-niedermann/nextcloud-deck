@@ -172,13 +172,15 @@ public class DataBaseAdapter {
         args.add(localStackId);
 
         if (!filter.getLabelIDs().isEmpty()){
-            query.append("and exists(select 1 from joincardwithlabel where c.localId = cardId and labelId in (?)) ");
-            args.add(filter.getLabelIDs());
+            query.append("and exists(select 1 from joincardwithlabel where c.localId = cardId and labelId in (");
+            fillSqlWithListValues(query, args, filter.getLabelIDs());
+            query.append(")) ");
         }
 
         if (!filter.getUserIDs().isEmpty()){
-            query.append("and exists(select 1 from JoinCardWithUser where c.localId = cardId and userId in (:userIDs)) ");
-            args.add(filter.getUserIDs());
+            query.append("and exists(select 1 from JoinCardWithUser where c.localId = cardId and userId in (");
+            fillSqlWithListValues(query, args, filter.getLabelIDs());
+            query.append(")) ");
         }
         if (filter.getDueType() != EDueType.NO_FILTER){
             switch (filter.getDueType()) {
@@ -204,6 +206,16 @@ public class DataBaseAdapter {
         query.append(" and status<>3 order by `order`, createdAt asc;");
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFilteredFullCardsForStack(new SimpleSQLiteQuery(query.toString(), args.toArray())), this::filterRelationsForCard);
 
+    }
+
+    private void fillSqlWithListValues(StringBuilder query, List<Object> args, List<Long> labelIDs) {
+        for (int i = 0; i < labelIDs.size(); i++) {
+             if (i > 0) {
+                 query.append(", ");
+             }
+            query.append("?");
+            args.add(labelIDs.get(i));
+        }
     }
 
     public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId) {
