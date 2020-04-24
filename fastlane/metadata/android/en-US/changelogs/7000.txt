@@ -7,3 +7,4 @@
 - 🔧 Show an info if server is in maintenance mode (#283)
 - ↔️ Move lists
 - 👤 wrong user image when using multiple accounts (#324)
+- 🎚 Filter cards (#396)
