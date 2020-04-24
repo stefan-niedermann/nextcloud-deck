@@ -162,4 +162,6 @@
     <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
     <string name="maintenance_mode">Serveur en maintenance</string>
     <string name="simple_switch">Permuter</string>
-    </resources>
+    <string name="move_list_right">Déplacer la liste à droite</string>
+    <string name="move_list_left">Déplacer la liste à gauche</string>
+</resources>
