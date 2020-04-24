@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class FilterDialogFragment extends BrandedDialogFragment {
 
@@ -99,13 +100,13 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         });
 
         observeOnce(syncManager.findProposalsForLabelsToAssign(account.getId(), boardId), requireActivity(), (labels) -> {
-            labelAdapter = new LabelFilterAdapter(requireContext(), labels, this.filterInformation.getLabels());
+            labelAdapter = new LabelFilterAdapter(labels, this.filterInformation.getLabels());
             binding.labels.setNestedScrollingEnabled(false);
             binding.labels.setAdapter(labelAdapter);
         });
 
         observeOnce(syncManager.findProposalsForUsersToAssign(account.getId(), boardId), requireActivity(), (users) -> {
-            userAdapter = new UserFilterAdapter(requireContext(), account, users, this.filterInformation.getUsers());
+            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), account, users, this.filterInformation.getUsers());
             binding.users.setNestedScrollingEnabled(false);
             binding.users.setAdapter(userAdapter);
         });
