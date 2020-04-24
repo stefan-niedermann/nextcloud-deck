@@ -68,7 +68,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         binding = DialogBoardShareBinding.inflate(requireActivity().getLayoutInflater());
-        adapter = new AccessControlAdapter(this, getContext());
+        adapter = new AccessControlAdapter(this, requireContext());
         binding.peopleList.setAdapter(adapter);
 
         syncManager = new SyncManager(requireActivity());
@@ -136,5 +136,6 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
     @Override
     public void applyBrand(int mainColor, int textColor) {
         BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.people);
+        this.adapter.applyBrand(mainColor, textColor);
     }
 }
