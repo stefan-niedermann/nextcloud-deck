@@ -10,21 +10,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+@SuppressWarnings("WeakerAccess")
 public class LabelFilterAdapter extends RecyclerView.Adapter<LabelFilterAdapter.LabelViewHolder> {
-    private Context context;
-    private List<Label> labels;
-    private List<Long> selectedLabelIds;
+    @NonNull
+    private final Context context;
+    @NonNull
+    private final List<Label> labels = new ArrayList<>();
+    @NonNull
+    private final List<Long> selectedLabelIds = new ArrayList<>();
 
     public LabelFilterAdapter(@NonNull Context context, @NonNull List<Label> labels, @NonNull List<Long> selectedLabelIds) {
         super();
         this.context = context;
-        this.labels = labels;
-        this.selectedLabelIds = selectedLabelIds;
+        this.labels.addAll(labels);
+        this.selectedLabelIds.addAll(selectedLabelIds);
         setHasStableIds(true);
         notifyDataSetChanged();
     }
@@ -37,13 +43,13 @@ public class LabelFilterAdapter extends RecyclerView.Adapter<LabelFilterAdapter.
     @NonNull
     @Override
     public LabelViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_user, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_label, viewGroup, false);
         return new LabelViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LabelViewHolder multiViewHolder, int position) {
-        multiViewHolder.bind(labels.get(position));
+    public void onBindViewHolder(@NonNull LabelViewHolder viewHolder, int position) {
+        viewHolder.bind(labels.get(position));
     }
 
     @Override
@@ -57,17 +63,18 @@ public class LabelFilterAdapter extends RecyclerView.Adapter<LabelFilterAdapter.
 
     class LabelViewHolder extends RecyclerView.ViewHolder {
 
+        // TODO Use ViewBinding
         private TextView textView;
         private ImageView imageView;
 
         LabelViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.displayname);
-            imageView = itemView.findViewById(R.id.avatar);
+            imageView = itemView.findViewById(R.id.label);
         }
 
         void bind(final Label label) {
-            imageView.setVisibility(selectedLabelIds.contains(label.getLocalId()) ? View.VISIBLE : View.GONE);
+            imageView.setImageDrawable(ViewUtil.getTintedImageView(imageView.getContext(), R.drawable.ic_label_grey600_24dp, "#" + label.getColor()));
             textView.setText(label.getTitle());
 
             itemView.setOnClickListener(view -> {
