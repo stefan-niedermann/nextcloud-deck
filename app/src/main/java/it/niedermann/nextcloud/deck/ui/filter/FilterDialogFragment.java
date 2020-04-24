@@ -5,10 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Px;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
@@ -37,10 +37,6 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     private UserFilterAdapter userAdapter;
     private OverdueFilterAdapter overdueAdapter;
     private FilterInformation filterInformation;
-
-    @Px
-    private int avatarSize;
-    private LinearLayout.LayoutParams avatarLayoutParams;
 
     private Account account;
     private long boardId;
@@ -79,8 +75,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         }
 
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
-
-        SyncManager syncManager = new SyncManager(requireActivity());
+        final SyncManager syncManager = new SyncManager(requireActivity());
 
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
 
@@ -95,7 +90,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                filterInformation.setDueType(null);
+                filterInformation.setDueType(EDueType.NO_FILTER);
             }
         });
 
@@ -119,9 +114,11 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 .setPositiveButton(R.string.simple_filter, (a, b) -> {
                     filterInformation.clearLabels();
                     filterInformation.addAllLabels(labelAdapter.getSelected());
+
                     filterInformation.clearUsers();
                     filterInformation.addAllUsers(userAdapter.getSelected());
-                    viewModel.postFilterInformation(filterInformation);
+
+                    viewModel.postFilterInformation(hasActiveFilter(filterInformation) ? filterInformation : null);
                 })
                 .create();
     }
@@ -140,5 +137,17 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     @Override
     public void applyBrand(int mainColor, int textColor) {
 
+    }
+
+    /**
+     * @return whether or not the given filterInformation has any actual filters set
+     */
+    private static boolean hasActiveFilter(@Nullable FilterInformation filterInformation) {
+        if (filterInformation == null) {
+            return false;
+        }
+        return (filterInformation.getDueType() != null && filterInformation.getDueType() != EDueType.NO_FILTER)
+                || filterInformation.getUsers().size() > 0
+                || filterInformation.getLabels().size() > 0;
     }
 }

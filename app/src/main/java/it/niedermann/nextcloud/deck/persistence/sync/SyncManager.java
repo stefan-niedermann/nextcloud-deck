@@ -624,11 +624,7 @@ public class SyncManager {
         return dataBaseAdapter.getCardByLocalId(accountId, cardLocalId);
     }
 
-    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId) {
-        return getFullCardsForStack(accountId, localStackId, null);
-    }
-
-    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, FilterInformation filter) {
+    public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, @Nullable FilterInformation filter) {
         return dataBaseAdapter.getFullCardsForStack(accountId, localStackId, filter);
     }
 

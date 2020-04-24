@@ -645,7 +645,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
         inflater.inflate(R.menu.main_menu, menu);
         final FilterInformation filterInformation = viewModel.getFilterInformation().getValue();
-        menu.findItem(R.id.filter).setIcon(filterInformation == null || !filterInformation.hasActiveFilter()
+        menu.findItem(R.id.filter).setIcon(filterInformation == null
                 ? R.drawable.ic_filter_list_white_24dp
                 : R.drawable.ic_filter_list_active_white_24dp);
         return super.onCreateOptionsMenu(menu);

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -32,45 +32,19 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     private static final String KEY_STACK_ID = "stackId";
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_HAS_EDIT_PERMISSION = "hasEditPermission";
-    private CardAdapter adapter = null;
-    private FragmentStackBinding binding;
 
+    private FragmentStackBinding binding;
     private SyncManager syncManager;
     private FragmentActivity activity;
     private OnScrollListener onScrollListener;
 
-    @Nullable
-    private LiveData<List<FullCard>> defaultCardsLiveData;
-    @Nullable
-    private LiveData<List<FullCard>> filteredCardsLiveData;
-    private Observer<List<FullCard>> cardObserver = (List<FullCard> cards) -> {
-        activity.runOnUiThread(() -> {
-            if (cards != null && cards.size() > 0) {
-                binding.emptyContentView.setVisibility(View.GONE);
-                adapter.setCardList(cards);
-            } else {
-                binding.emptyContentView.setVisibility(View.VISIBLE);
-            }
-        });
-    };
+    private CardAdapter adapter = null;
+    private LiveData<List<FullCard>> cardsLiveData;
 
     private long stackId;
     private long boardId;
     private Account account;
     private boolean canEdit;
-
-    public static StackFragment newInstance(long boardId, long stackId, Account account, boolean hasEditPermission) {
-        final Bundle args = new Bundle();
-        args.putLong(KEY_BOARD_ID, boardId);
-        args.putLong(KEY_STACK_ID, stackId);
-        args.putBoolean(KEY_HAS_EDIT_PERMISSION, hasEditPermission);
-        args.putSerializable(KEY_ACCOUNT, account);
-
-        StackFragment fragment = new StackFragment();
-        fragment.setArguments(args);
-
-        return fragment;
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -119,20 +93,24 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             binding.emptyContentView.hideDescription();
         }
 
-        defaultCardsLiveData = syncManager.getFullCardsForStack(account.getId(), stackId);
-        defaultCardsLiveData.observe(activity, cardObserver);
-
-        viewModel.getFilterInformation().observe(activity, (filterInformation -> {
-            // Remove filter only if it has never been set before
-            if (filterInformation == null && filteredCardsLiveData != null) {
-                filteredCardsLiveData.removeObserver(cardObserver);
-                defaultCardsLiveData.observe(activity, cardObserver);
+        final Observer<List<FullCard>> cardsObserver = (fullCards) -> activity.runOnUiThread(() -> {
+            if (fullCards != null && fullCards.size() > 0) {
+                binding.emptyContentView.setVisibility(View.GONE);
+                adapter.setCardList(fullCards);
             } else {
-                defaultCardsLiveData.removeObserver(cardObserver);
-                filteredCardsLiveData = syncManager.getFullCardsForStack(account.getId(), stackId, filterInformation);
-                filteredCardsLiveData.observe(activity, cardObserver);
+                binding.emptyContentView.setVisibility(View.VISIBLE);
             }
+        });
+
+        cardsLiveData = syncManager.getFullCardsForStack(account.getId(), stackId, viewModel.getFilterInformation().getValue());
+        cardsLiveData.observe(getViewLifecycleOwner(), cardsObserver);
+
+        viewModel.getFilterInformation().observe(getViewLifecycleOwner(), (filterInformation -> {
+            cardsLiveData.removeObserver(cardsObserver);
+            cardsLiveData = syncManager.getFullCardsForStack(account.getId(), stackId, filterInformation);
+            cardsLiveData.observe(getViewLifecycleOwner(), cardsObserver);
         }));
+
         return binding.getRoot();
     }
 
@@ -149,5 +127,18 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     @Override
     public void applyBrand(int mainColor, int textColor) {
         this.adapter.applyBrand(mainColor, textColor);
+    }
+
+    public static Fragment newInstance(long boardId, long stackId, Account account, boolean hasEditPermission) {
+        final Bundle args = new Bundle();
+        args.putLong(KEY_BOARD_ID, boardId);
+        args.putLong(KEY_STACK_ID, stackId);
+        args.putBoolean(KEY_HAS_EDIT_PERMISSION, hasEditPermission);
+        args.putSerializable(KEY_ACCOUNT, account);
+
+        final StackFragment fragment = new StackFragment();
+        fragment.setArguments(args);
+
+        return fragment;
     }
 }
