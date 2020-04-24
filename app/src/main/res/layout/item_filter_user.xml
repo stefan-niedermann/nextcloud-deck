@@ -10,21 +10,23 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacer_1hx"
+        android:layout_marginRight="@dimen/spacer_1hx">
 
         <ImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/avatar_size"
             android:layout_height="@dimen/avatar_size"
-            android:layout_marginEnd="11dp"
-            android:layout_marginRight="11dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:contentDescription="@null"
             app:srcCompat="@drawable/ic_person_grey600_24dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="end|bottom"
             android:background="@drawable/selected" />
     </FrameLayout>

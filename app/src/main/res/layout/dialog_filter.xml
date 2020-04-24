@@ -14,8 +14,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacer_1x"
             android:labelFor="@id/overdue"
-            android:text="@string/filter_by_tag" />
+            android:text="@string/filter_by_tag"
+            android:textAppearance="?attr/textAppearancePopupMenuHeader" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/labels"
@@ -29,9 +31,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_2x"
+            android:layout_marginTop="@dimen/spacer_3x"
+            android:layout_marginBottom="@dimen/spacer_1x"
             android:labelFor="@id/overdue"
-            android:text="@string/filter_by_assigned_user" />
+            android:text="@string/filter_by_assigned_user"
+            android:textAppearance="?attr/textAppearancePopupMenuHeader" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/users"
@@ -45,9 +49,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_2x"
+            android:layout_marginTop="@dimen/spacer_3x"
+            android:layout_marginBottom="@dimen/spacer_1x"
             android:labelFor="@id/overdue"
-            android:text="@string/filter_by_duedate" />
+            android:text="@string/filter_by_duedate"
+            android:textAppearance="?attr/textAppearancePopupMenuHeader" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/overdue"
