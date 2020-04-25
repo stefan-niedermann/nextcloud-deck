@@ -131,9 +131,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private List<Board> boardsList = new ArrayList<>();
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
-    private long currentBoardId = 0;
 
-    private boolean currentBoardHasEditPermission = false;
     private boolean currentBoardHasStacks = false;
     private int currentBoardStacksCount = 0;
 
@@ -257,7 +255,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (this.boardsList.size() > 0) {
                     try {
                         Long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                        startActivity(EditActivity.createIntent(this, viewModel.getCurrentAccount(), currentBoardId, stackId, NO_LOCAL_ID));
+                        startActivity(EditActivity.createIntent(this, viewModel.getCurrentAccount(), viewModel.getCurrentBoardLocalId(), stackId, NO_LOCAL_ID));
                     } catch (IndexOutOfBoundsException e) {
                         EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
                     }
@@ -276,7 +274,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     binding.viewPager.post(() -> {
                         // stackAdapter size might differ from position when an account has been deleted
                         if (stackAdapter.getItemCount() > position) {
-                            Application.saveCurrentStackId(getApplicationContext(), viewModel.getCurrentAccount().getId(), currentBoardId, stackAdapter.getItem(position).getLocalId());
+                            Application.saveCurrentStackId(getApplicationContext(), viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId(), stackAdapter.getItem(position).getLocalId());
                         } else {
                             DeckLog.logError(new IllegalStateException("Tried to save current Stack which cannot be available (stackAdapter doesn't have this position)"));
                         }
@@ -367,8 +365,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onCreateStack(String stackName) {
-        observeOnce(syncManager.getStacksForBoard(viewModel.getCurrentAccount().getId(), currentBoardId), MainActivity.this, fullStacks -> {
-            final Stack s = new Stack(stackName, currentBoardId);
+        observeOnce(syncManager.getStacksForBoard(viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId()), MainActivity.this, fullStacks -> {
+            final Stack s = new Stack(stackName, viewModel.getCurrentBoardLocalId());
             int heighestOrder = 0;
             for (FullStack fullStack : fullStacks) {
                 int currentStackOrder = fullStack.stack.getOrder();
@@ -399,7 +397,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG).show();
             } else {
                 boardsList.add(board.getBoard());
-                currentBoardId = board.getLocalId();
+                viewModel.setCurrentBoard(board.getBoard());
                 inflateBoardMenu();
 
                 EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
@@ -424,7 +422,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             refreshCapabilities(viewModel.getCurrentAccount());
         }
 
-        currentBoardId = Application.readCurrentBoardId(this, viewModel.getCurrentAccount().getId());
+        final long currentBoardId = Application.readCurrentBoardId(this, viewModel.getCurrentAccount().getId());
 
         if (boardsLiveData != null && boardsLiveDataObserver != null) {
             boardsLiveData.removeObserver(boardsLiveDataObserver);
@@ -488,15 +486,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     protected void setCurrentBoard(@NonNull Board board) {
-        this.currentBoardId = board.getLocalId();
-
-        Application.saveCurrentBoardId(this, viewModel.getCurrentAccount().getId(), this.currentBoardId);
+        viewModel.setCurrentBoard(board);
         viewModel.postFilterInformation(null);
 
-        binding.toolbar.setTitle(board.getTitle());
-        currentBoardHasEditPermission = board.isPermissionEdit();
+        Application.saveCurrentBoardId(this, viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId());
 
-        if (currentBoardHasEditPermission) {
+        binding.toolbar.setTitle(board.getTitle());
+
+        if (viewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
             binding.addStackButton.setVisibility(View.VISIBLE);
         } else {
@@ -524,9 +521,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
 
             int stackPositionInAdapter = 0;
-            stackAdapter.setStacks(fullStacks, viewModel.getCurrentAccount(), currentBoardId, currentBoardHasEditPermission);
+            stackAdapter.setStacks(fullStacks);
 
-            long currentStackId = Application.readCurrentStackId(this, viewModel.getCurrentAccount().getId(), this.currentBoardId);
+            long currentStackId = Application.readCurrentStackId(this, viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId());
             for (int i = 0; i < currentBoardStacksCount; i++) {
                 if (fullStacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
                     stackPositionInAdapter = i;
@@ -632,7 +629,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if (currentBoardHasEditPermission) {
+        if (viewModel.currentBoardHasEditPermission()) {
             final int currentViewPagerItem = binding.viewPager.getCurrentItem();
             inflater.inflate(R.menu.list_menu, menu);
             menu.findItem(R.id.rename_list).setVisible(currentBoardHasStacks);
@@ -655,7 +652,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
             case R.id.filter: {
-                FilterDialogFragment.newInstance(viewModel.getCurrentAccount(), currentBoardId)
+                FilterDialogFragment.newInstance(viewModel.getCurrentAccount(), viewModel.getCurrentBoardLocalId())
                         .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName());
                 return true;
             }
@@ -669,7 +666,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 // TODO error handling
                 final int stackLeftPosition = binding.viewPager.getCurrentItem() - 1;
                 final long stackLeftId = stackAdapter.getItem(stackLeftPosition).getLocalId();
-                syncManager.swapStackOrder(viewModel.getCurrentAccount().getId(), currentBoardId, new Pair<>(stackId, stackLeftId));
+                syncManager.swapStackOrder(viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId(), new Pair<>(stackId, stackLeftId));
                 stackMoved = true;
                 return true;
             }
@@ -677,7 +674,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 // TODO error handling
                 final int stackRightPosition = binding.viewPager.getCurrentItem() + 1;
                 final long stackRightId = stackAdapter.getItem(stackRightPosition).getLocalId();
-                syncManager.swapStackOrder(viewModel.getCurrentAccount().getId(), currentBoardId, new Pair<>(stackId, stackRightId));
+                syncManager.swapStackOrder(viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId(), new Pair<>(stackId, stackRightId));
                 stackMoved = true;
                 return true;
             }
@@ -691,7 +688,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     protected void showFabIfEditPermissionGranted() {
-        if (currentBoardHasEditPermission) {
+        if (viewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
         }
     }
@@ -909,7 +906,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void onBoardDeleted(Board board) {
         final int index = this.boardsList.indexOf(board);
-        if (board.getLocalId() == currentBoardId) {
+        if (board.getLocalId().equals(viewModel.getCurrentBoardLocalId())) {
             if (index > 0) { // Select first board after deletion
                 setCurrentBoard(this.boardsList.get(0));
             } else if (this.boardsList.size() > 1) { // Select second board after deletion
