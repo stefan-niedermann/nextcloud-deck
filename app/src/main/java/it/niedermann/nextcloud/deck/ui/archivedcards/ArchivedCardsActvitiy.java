@@ -58,7 +58,7 @@ public class ArchivedCardsActvitiy extends BrandedActivity {
         binding.recyclerView.setAdapter(adapter);
 
         syncManager.getArchivedFullCardsForBoard(account.getId(), boardId).observe(this, (fullCards) -> {
-
+            adapter.setCardList(fullCards);
         });
 
     }
