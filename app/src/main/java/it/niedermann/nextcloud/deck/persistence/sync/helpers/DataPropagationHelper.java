@@ -82,7 +82,7 @@ public class DataPropagationHelper {
             callback.onResponse(entity);
         }
     }
-    public <T extends IRemoteEntity> void deleteEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback){
+    public <T extends IRemoteEntity> void deleteEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<Void> callback){
         final long accountId = callback.getAccount().getId();
         provider.deleteInDB(dataBaseAdapter, accountId, entity);
         boolean connected = serverAdapter.hasInternetConnection();
