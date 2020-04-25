@@ -104,9 +104,6 @@ import static it.niedermann.nextcloud.deck.Application.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
 import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
@@ -664,10 +661,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 return true;
             }
             case R.id.archived_cards: {
-                startActivity(new Intent(this, ArchivedCardsActvitiy.class)
-                        .putExtra(BUNDLE_KEY_ACCOUNT, currentAccount)
-                        .putExtra(BUNDLE_KEY_BOARD_ID, currentBoardId)
-                        .putExtra(BUNDLE_KEY_CAN_EDIT, currentBoardHasEditPermission));
+                startActivity(ArchivedCardsActvitiy.createIntent(this, viewModel.getCurrentAccount(), viewModel.getCurrentBoardLocalId(), viewModel.currentBoardHasEditPermission()));
                 return true;
             }
             case R.id.rename_list: {

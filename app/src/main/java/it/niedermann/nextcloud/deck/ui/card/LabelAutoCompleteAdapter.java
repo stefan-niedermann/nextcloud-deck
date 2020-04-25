@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -12,10 +14,10 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteDropdownBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemFilterLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
     @Nullable
@@ -39,11 +41,11 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder<ItemAutocompleteDropdownBinding> holder;
+        ViewHolder<ItemFilterLabelBinding> holder;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            ItemAutocompleteDropdownBinding binding = ItemAutocompleteDropdownBinding.inflate(inflater, parent, false);
+            ItemFilterLabelBinding binding = ItemFilterLabelBinding.inflate(inflater, parent, false);
             holder = new ViewHolder<>(binding);
             convertView = binding.getRoot();
             convertView.setTag(holder);
@@ -54,9 +56,12 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
             iconResource = R.drawable.ic_plus;
         }
 
-        holder.binding.icon.setImageDrawable(
-                ViewUtil.getTintedImageView(activity, iconResource, "#" + getItem(position).getColor()));
-        holder.binding.label.setText(getItem(position).getTitle());
+        final Label label = getItem(position);
+        holder.binding.label.setText(label.getTitle());
+        final int labelColor = Color.parseColor("#" + label.getColor());
+        holder.binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
+        final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
+        holder.binding.label.setTextColor(color);
         return convertView;
     }
 
@@ -70,7 +75,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
                     activity.runOnUiThread(() -> {
                         LiveData<List<Label>> liveData = constraint.toString().trim().length() > 0
                                 ? syncManager.searchNotYetAssignedLabelsByTitle(accountId, boardId, cardId, constraint.toString())
-                                : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId, activity.getResources().getInteger(R.integer.max_labels_suggested));
+                                : syncManager.findProposalsForLabelsToAssign(accountId, boardId, cardId, -1);
                         liveData.observe(activity, (labels -> {
                             labels.removeAll(itemsToExclude);
                             final boolean constraintLengthGreaterZero = constraint.toString().trim().length() > 0;
