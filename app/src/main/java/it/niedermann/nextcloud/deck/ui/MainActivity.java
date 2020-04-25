@@ -437,12 +437,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             boardsList = boards;
 
             if (boardsList.size() > 0) {
+                boolean currentBoardIdWasInList = false;
                 for (int i = 0; i < boardsList.size(); i++) {
-                    // TODO https://github.com/stefan-niedermann/nextcloud-deck/issues/417 there IS a currentBoardId, so check if boardsList contains it!
                     if (currentBoardId == boardsList.get(i).getLocalId() || currentBoardId == NO_BOARD_ID) {
                         setCurrentBoard(boardsList.get(i));
+                        currentBoardIdWasInList = true;
                         break;
                     }
+                }
+                if (!currentBoardIdWasInList) {
+                    setCurrentBoard(boardsList.get(0));
                 }
             } else {
                 clearCurrentBoard();
