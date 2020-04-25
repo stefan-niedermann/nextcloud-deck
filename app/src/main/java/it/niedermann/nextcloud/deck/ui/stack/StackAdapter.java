@@ -49,7 +49,8 @@ public class StackAdapter extends FragmentStateAdapter {
     }
 
     public void setStacks(@NonNull List<FullStack> fullStacks) {
-        this.stackList = fullStacks;
+        this.stackList.clear();
+        this.stackList.addAll(fullStacks);
         notifyDataSetChanged();
     }
 }

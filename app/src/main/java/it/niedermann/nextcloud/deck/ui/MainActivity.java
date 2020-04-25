@@ -649,19 +649,20 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
             case R.id.filter: {
                 FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName());
                 return true;
             }
             case R.id.rename_list: {
+                final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                 observeOnce(syncManager.getStack(viewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack ->
                         EditStackDialogFragment.newInstance(fullStack.getLocalId(), fullStack.getStack().getTitle())
                                 .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
                 return true;
             }
             case R.id.move_list_left: {
+                final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                 // TODO error handling
                 final int stackLeftPosition = binding.viewPager.getCurrentItem() - 1;
                 final long stackLeftId = stackAdapter.getItem(stackLeftPosition).getLocalId();
@@ -670,6 +671,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 return true;
             }
             case R.id.move_list_right: {
+                final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                 // TODO error handling
                 final int stackRightPosition = binding.viewPager.getCurrentItem() + 1;
                 final long stackRightId = stackAdapter.getItem(stackRightPosition).getLocalId();
@@ -678,6 +680,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 return true;
             }
             case R.id.delete_list: {
+                final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                 DeleteStackDialogFragment.newInstance(stackId).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
                 return true;
             }
