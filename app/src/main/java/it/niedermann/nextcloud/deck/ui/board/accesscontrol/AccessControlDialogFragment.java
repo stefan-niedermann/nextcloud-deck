@@ -73,16 +73,22 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
 
         syncManager = new SyncManager(requireActivity());
         syncManager.getFullBoardById(accountId, boardId).observe(this, (FullBoard fullBoard) -> {
-            syncManager.getAccessControlByLocalBoardId(accountId, boardId).observe(this, (List<AccessControl> accessControlList) -> {
-                final AccessControl ownerControl = new AccessControl();
-                ownerControl.setLocalId(HEADER_ITEM_LOCAL_ID);
-                ownerControl.setUser(fullBoard.getOwner());
-                accessControlList.add(0, ownerControl);
-                adapter.update(accessControlList);
-                userAutoCompleteAdapter = new UserAutoCompleteAdapter(requireActivity(), accountId, boardId);
-                binding.people.setAdapter(userAutoCompleteAdapter);
-                binding.people.setOnItemClickListener(this);
-            });
+            if (fullBoard != null) {
+                syncManager.getAccessControlByLocalBoardId(accountId, boardId).observe(this, (List<AccessControl> accessControlList) -> {
+                    final AccessControl ownerControl = new AccessControl();
+                    ownerControl.setLocalId(HEADER_ITEM_LOCAL_ID);
+                    ownerControl.setUser(fullBoard.getOwner());
+                    accessControlList.add(0, ownerControl);
+                    adapter.update(accessControlList);
+                    userAutoCompleteAdapter = new UserAutoCompleteAdapter(requireActivity(), accountId, boardId);
+                    binding.people.setAdapter(userAutoCompleteAdapter);
+                    binding.people.setOnItemClickListener(this);
+                });
+            } else {
+                // Happens when someone revokes his own access → board gets deleted locally → LiveData fires, but no board
+                // see https://github.com/stefan-niedermann/nextcloud-deck/issues/410
+                dismiss();
+            }
         });
         return dialogBuilder
                 .setView(binding.getRoot())
@@ -109,14 +115,13 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
     @Override
     public void deleteAccessControl(AccessControl ac) {
         final WrappedLiveData<Void> wrappedDeleteLiveData = syncManager.deleteAccessControl(ac);
+        adapter.remove(ac);
         observeOnce(wrappedDeleteLiveData, this, (ignored) -> {
             if (wrappedDeleteLiveData.hasError()) {
                 Toast.makeText(requireContext(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Toast.LENGTH_LONG).show();
                 DeckLog.logError(wrappedDeleteLiveData.getError());
             }
         });
-
-        adapter.remove(ac);
     }
 
     @Override
