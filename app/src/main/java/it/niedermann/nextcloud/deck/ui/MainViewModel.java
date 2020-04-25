@@ -44,6 +44,6 @@ public class MainViewModel extends ViewModel {
     }
 
     public boolean currentBoardHasEditPermission() {
-        return this.currentBoard.isPermissionEdit();
+        return this.currentBoard != null && this.currentBoard.isPermissionEdit();
     }
 }

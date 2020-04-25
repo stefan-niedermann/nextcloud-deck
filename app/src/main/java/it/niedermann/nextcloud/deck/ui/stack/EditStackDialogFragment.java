@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 import java.util.Objects;
 
@@ -71,16 +72,18 @@ public class EditStackDialogFragment extends BrandedDialogFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public static EditStackDialogFragment newInstance(long stackId) {
+    public static DialogFragment newInstance(long stackId) {
         return newInstance(stackId, null);
     }
 
-    public static EditStackDialogFragment newInstance(long stackId, String oldTitle) {
-        EditStackDialogFragment dialog = new EditStackDialogFragment();
+    public static DialogFragment newInstance(long stackId, @Nullable String oldTitle) {
+        final DialogFragment dialog = new EditStackDialogFragment();
 
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putLong(KEY_STACK_ID, stackId);
-        args.putString(KEY_OLD_TITLE, oldTitle);
+        if (oldTitle != null) {
+            args.putString(KEY_OLD_TITLE, oldTitle);
+        }
         dialog.setArguments(args);
 
         return dialog;

@@ -136,7 +136,7 @@ public class DrawerMenuUtil {
                                 AccessControlDialogFragment.newInstance(currentAccountId, board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard);
                                 return true;
                             case R.id.edit_board:
-                                EditBoardDialogFragment.newInstance(currentAccountId, board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
+                                EditBoardDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
                                 return true;
                             case R.id.archive_board:
                                 // TODO implement

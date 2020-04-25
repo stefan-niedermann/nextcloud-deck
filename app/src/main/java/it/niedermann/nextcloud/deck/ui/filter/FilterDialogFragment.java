@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,11 +13,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
@@ -28,40 +25,12 @@ import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class FilterDialogFragment extends BrandedDialogFragment {
 
-    private static final String KEY_ACCOUNT = "account";
-    private static final String KEY_BOARD_ID = "board_id";
-
     private DialogFilterBinding binding;
     private MainViewModel viewModel;
     private LabelFilterAdapter labelAdapter;
     private UserFilterAdapter userAdapter;
     private OverdueFilterAdapter overdueAdapter;
     private FilterInformation filterInformation;
-
-    private Account account;
-    private long boardId;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        if (!(requireActivity() instanceof MainActivity)) {
-            throw new IllegalArgumentException("Dialog must be called from " + MainActivity.class.getSimpleName());
-        }
-
-        final Bundle args = getArguments();
-
-        if (args == null || !args.containsKey(KEY_BOARD_ID) || !args.containsKey(KEY_ACCOUNT)) {
-            throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_BOARD_ID + " must be provided as arguments");
-        }
-
-        boardId = args.getLong(KEY_BOARD_ID);
-        account = (Account) args.getSerializable(KEY_ACCOUNT);
-
-        if (boardId <= 0L || account == null) {
-            throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_BOARD_ID + " must be valid localIds and not be 0 or null");
-        }
-    }
 
     @NonNull
     @Override
@@ -94,14 +63,14 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             }
         });
 
-        observeOnce(syncManager.findProposalsForLabelsToAssign(account.getId(), boardId), requireActivity(), (labels) -> {
+        observeOnce(syncManager.findProposalsForLabelsToAssign(viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
             labelAdapter = new LabelFilterAdapter(labels, this.filterInformation.getLabels());
             binding.labels.setNestedScrollingEnabled(false);
             binding.labels.setAdapter(labelAdapter);
         });
 
-        observeOnce(syncManager.findProposalsForUsersToAssign(account.getId(), boardId), requireActivity(), (users) -> {
-            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), account, users, this.filterInformation.getUsers());
+        observeOnce(syncManager.findProposalsForUsersToAssign(viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId()), requireActivity(), (users) -> {
+            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), viewModel.getCurrentAccount(), users, this.filterInformation.getUsers());
             binding.users.setNestedScrollingEnabled(false);
             binding.users.setAdapter(userAdapter);
         });
@@ -123,15 +92,8 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 .create();
     }
 
-    public static DialogFragment newInstance(@NonNull Account account, long boardId) {
-        final DialogFragment dialog = new FilterDialogFragment();
-
-        final Bundle args = new Bundle();
-        args.putSerializable(KEY_ACCOUNT, account);
-        args.putLong(KEY_BOARD_ID, boardId);
-        dialog.setArguments(args);
-
-        return dialog;
+    public static DialogFragment newInstance() {
+        return new FilterDialogFragment();
     }
 
     @Override
@@ -146,8 +108,6 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         if (filterInformation == null) {
             return false;
         }
-        return (filterInformation.getDueType() != null && filterInformation.getDueType() != EDueType.NO_FILTER)
-                || filterInformation.getUsers().size() > 0
-                || filterInformation.getLabels().size() > 0;
+        return filterInformation.getDueType() != EDueType.NO_FILTER || filterInformation.getUsers().size() > 0 || filterInformation.getLabels().size() > 0;
     }
 }

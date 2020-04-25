@@ -251,7 +251,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 }
             });
 
-            binding.fab.setOnClickListener((View view) -> {
+            binding.fab.setOnClickListener((v) -> {
                 if (this.boardsList.size() > 0) {
                     try {
                         Long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
@@ -652,8 +652,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         switch (item.getItemId()) {
             case R.id.filter: {
-                FilterDialogFragment.newInstance(viewModel.getCurrentAccount(), viewModel.getCurrentBoardLocalId())
-                        .show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName());
+                FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName());
                 return true;
             }
             case R.id.rename_list: {

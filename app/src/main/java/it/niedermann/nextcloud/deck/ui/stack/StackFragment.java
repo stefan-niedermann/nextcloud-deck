@@ -45,7 +45,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
 
         final Bundle args = getArguments();
         if (args == null || !args.containsKey(KEY_STACK_ID)) {
-            throw new IllegalArgumentException("localStackId are required arguments.");
+            throw new IllegalArgumentException(KEY_STACK_ID + " is required.");
         }
 
         stackId = args.getLong(KEY_STACK_ID);
