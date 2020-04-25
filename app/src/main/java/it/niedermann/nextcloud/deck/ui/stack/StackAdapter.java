@@ -53,7 +53,8 @@ public class StackAdapter extends FragmentStateAdapter {
     }
 
     public void setStacks(@NonNull List<FullStack> fullStacks, @NonNull Account currentAccount, long currentBoardId, boolean currentBoardHasEditPermission) {
-        this.stackList = fullStacks;
+        this.stackList.clear();
+        this.stackList.addAll(fullStacks);
         this.account = currentAccount;
         this.boardId = currentBoardId;
         this.canEdit = currentBoardHasEditPermission;
