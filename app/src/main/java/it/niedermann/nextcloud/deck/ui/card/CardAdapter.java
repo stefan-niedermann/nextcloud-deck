@@ -48,11 +48,9 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard>, Branded {
 
     public static final String BUNDLE_KEY_ACCOUNT = "account";
-    public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
     public static final String BUNDLE_KEY_LOCAL_ID = "localId";
     public static final String BUNDLE_KEY_BOARD_ID = "boardId";
     public static final String BUNDLE_KEY_STACK_ID = "stackId";
-    public static final String BUNDLE_KEY_CAN_EDIT = "canEdit";
     public static final Long NO_LOCAL_ID = -1L;
 
     protected final SyncManager syncManager;

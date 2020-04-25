@@ -46,10 +46,10 @@ public class DeleteBoardDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    public static DialogFragment newInstance(Board board) {
-        DeleteBoardDialogFragment dialog = new DeleteBoardDialogFragment();
+    public static DialogFragment newInstance(@NonNull Board board) {
+        final DeleteBoardDialogFragment dialog = new DeleteBoardDialogFragment();
 
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putSerializable(KEY_BOARD, board);
         dialog.setArguments(args);
 

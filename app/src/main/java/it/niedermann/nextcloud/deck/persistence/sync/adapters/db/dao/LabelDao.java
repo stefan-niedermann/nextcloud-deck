@@ -35,7 +35,7 @@ public interface LabelDao extends GenericDao<Label> {
                 "and jl.cardId = :notYetAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             ") " +
             " AND boardId = :boardId and title LIKE :searchTerm")
-    LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm);
+    LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm);
 
     @Query("SELECT * FROM label WHERE accountId = :accountId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
     List<Label> getLocallyChangedLabelsDirectly(long accountId);

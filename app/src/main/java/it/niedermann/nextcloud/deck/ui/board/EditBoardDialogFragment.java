@@ -5,12 +5,16 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardCreateBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
@@ -21,7 +25,6 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
 
     private DialogBoardCreateBinding binding;
 
-    private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_BOARD_ID = "board_id";
 
     private EditBoardListener editBoardListener;
@@ -59,7 +62,8 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
                 this.fullBoard.board.setTitle(binding.input.getText().toString());
                 editBoardListener.onUpdateBoard(fullBoard);
             });
-            new SyncManager(requireActivity()).getFullBoardById(requireArguments().getLong(KEY_ACCOUNT_ID), boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
+            final MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+            new SyncManager(requireActivity()).getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 if (fb.board != null) {
                     this.fullBoard = fb;
                     String title = this.fullBoard.getBoard().getTitle();
@@ -76,25 +80,20 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
                 .create();
     }
 
-    public static EditBoardDialogFragment newInstance(@NonNull Long accountId, @NonNull Long boardId) {
-        EditBoardDialogFragment dialog = new EditBoardDialogFragment();
+    public static DialogFragment newInstance(@Nullable Long boardId) {
+        final DialogFragment dialog = new EditBoardDialogFragment();
 
-        Bundle args = new Bundle();
-        args.putLong(KEY_ACCOUNT_ID, accountId);
-        args.putLong(KEY_BOARD_ID, boardId);
-        dialog.setArguments(args);
+        if (boardId != null) {
+            Bundle args = new Bundle();
+            args.putLong(KEY_BOARD_ID, boardId);
+            dialog.setArguments(args);
+        }
 
         return dialog;
     }
 
-    public static EditBoardDialogFragment newInstance() {
-        EditBoardDialogFragment dialog = new EditBoardDialogFragment();
-
-        Bundle args = new Bundle();
-        args.putLong(KEY_BOARD_ID, NO_BOARD_ID);
-        dialog.setArguments(args);
-
-        return dialog;
+    public static DialogFragment newInstance() {
+        return newInstance(null);
     }
 
     @Override

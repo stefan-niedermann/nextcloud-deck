@@ -117,7 +117,6 @@ public class DrawerMenuUtil {
         SubMenu boardsMenu = menu.addSubMenu(simpleBoards);
         int index = 0;
         for (Board board : boards) {
-            final int currentIndex = index;
             MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
             if (board.isPermissionManage()) {
                 AppCompatImageButton contextMenu = new AppCompatImageButton(context);
@@ -133,10 +132,10 @@ public class DrawerMenuUtil {
                     popup.setOnMenuItemClickListener((MenuItem item) -> {
                         switch (item.getItemId()) {
                             case SHARE_BOARD_ID:
-                                AccessControlDialogFragment.newInstance(currentAccountId, board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard);
+                                AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard);
                                 return true;
                             case R.id.edit_board:
-                                EditBoardDialogFragment.newInstance(currentAccountId, board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
+                                EditBoardDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
                                 return true;
                             case R.id.archive_board:
                                 // TODO implement
@@ -156,7 +155,7 @@ public class DrawerMenuUtil {
                 AppCompatImageButton contextMenu = new AppCompatImageButton(context);
                 contextMenu.setBackgroundDrawable(null);
                 contextMenu.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.ic_share_grey600_18dp, R.color.grey600));
-                contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(currentAccountId, board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard));
+                contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard));
                 m.setActionView(contextMenu);
             }
         }
