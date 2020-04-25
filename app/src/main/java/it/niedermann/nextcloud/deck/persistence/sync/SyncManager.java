@@ -452,17 +452,7 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, entity.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(
-                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<AccessControl>(account) {
-                        @Override
-                        public void onResponse(AccessControl response) {
-                            liveData.postValue(response);
-                        }
-
-                        @Override
-                        public void onError(Throwable throwable) {
-                            liveData.postError(throwable);
-                        }
-                    }, ((entity1, response) -> {
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, getCallbackToLiveDataConverter(account, liveData), ((entity1, response) -> {
                         response.setBoardId(entity.getBoardId());
                         response.setUserId(entity.getUser().getLocalId());
                     }
@@ -511,7 +501,21 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(entity.getAccountId(), entity.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(
-                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, getCallbackToLiveDataConverter(account, liveData));
+                    new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, new IResponseCallback<Void>(account) {
+                        @Override
+                        public void onResponse(Void response) {
+                            // revoked own board-access?
+                            if (entity.getAccountId() == entity.getAccountId() && entity.getUser().getUid().equals(account.getUserName())) {
+                                dataBaseAdapter.deleteBoardPhysically(board.getBoard());
+                            }
+                            liveData.postValue(response);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            liveData.postError(throwable);
+                        }
+                    });
         });
         return liveData;
     }
