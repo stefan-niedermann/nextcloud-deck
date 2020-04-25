@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
@@ -32,12 +34,11 @@ import static it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlA
 
 public class AccessControlDialogFragment extends BrandedDialogFragment implements AccessControlChangedListener, OnItemClickListener {
 
+    private MainViewModel viewModel;
     private DialogBoardShareBinding binding;
 
-    private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_BOARD_ID = "board_id";
 
-    private long accountId;
     private long boardId;
     private SyncManager syncManager;
     private UserAutoCompleteAdapter userAutoCompleteAdapter;
@@ -48,15 +49,14 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         super.onAttach(context);
         final Bundle args = getArguments();
 
-        if (args == null || !args.containsKey(KEY_BOARD_ID) || !args.containsKey(KEY_ACCOUNT_ID)) {
-            throw new IllegalArgumentException(KEY_ACCOUNT_ID + " and " + KEY_BOARD_ID + " must be provided as arguments");
+        if (args == null || !args.containsKey(KEY_BOARD_ID)) {
+            throw new IllegalArgumentException(KEY_BOARD_ID + " must be provided as arguments");
         }
 
         this.boardId = args.getLong(KEY_BOARD_ID);
-        this.accountId = args.getLong(KEY_ACCOUNT_ID);
 
-        if (this.boardId == 0L || this.accountId == 0L) {
-            throw new IllegalArgumentException(KEY_ACCOUNT_ID + " and " + KEY_BOARD_ID + " must be valid localIds and not be 0");
+        if (this.boardId <= 0L) {
+            throw new IllegalArgumentException(KEY_BOARD_ID + " must be a valid local id and not be less or equal 0");
         }
     }
 
@@ -65,6 +65,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         binding = DialogBoardShareBinding.inflate(requireActivity().getLayoutInflater());
@@ -72,15 +73,15 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         binding.peopleList.setAdapter(adapter);
 
         syncManager = new SyncManager(requireActivity());
-        syncManager.getFullBoardById(accountId, boardId).observe(this, (FullBoard fullBoard) -> {
+        syncManager.getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(this, (FullBoard fullBoard) -> {
             if (fullBoard != null) {
-                syncManager.getAccessControlByLocalBoardId(accountId, boardId).observe(this, (List<AccessControl> accessControlList) -> {
+                syncManager.getAccessControlByLocalBoardId(viewModel.getCurrentAccount().getId(), boardId).observe(this, (List<AccessControl> accessControlList) -> {
                     final AccessControl ownerControl = new AccessControl();
                     ownerControl.setLocalId(HEADER_ITEM_LOCAL_ID);
                     ownerControl.setUser(fullBoard.getOwner());
                     accessControlList.add(0, ownerControl);
                     adapter.update(accessControlList);
-                    userAutoCompleteAdapter = new UserAutoCompleteAdapter(requireActivity(), accountId, boardId);
+                    userAutoCompleteAdapter = new UserAutoCompleteAdapter(requireActivity(), viewModel.getCurrentAccount().getId(), boardId);
                     binding.people.setAdapter(userAutoCompleteAdapter);
                     binding.people.setOnItemClickListener(this);
                 });
@@ -94,17 +95,6 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.simple_close, null)
                 .create();
-    }
-
-    public static DialogFragment newInstance(@NonNull Long accountId, @NonNull Long boardId) {
-        final DialogFragment dialog = new AccessControlDialogFragment();
-
-        final Bundle args = new Bundle();
-        args.putLong(KEY_ACCOUNT_ID, accountId);
-        args.putLong(KEY_BOARD_ID, boardId);
-        dialog.setArguments(args);
-
-        return dialog;
     }
 
     @Override
@@ -133,7 +123,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         ac.setType(0L); // https://github.com/nextcloud/deck/blob/master/docs/API.md#post-boardsboardidacl---add-new-acl-rule
         ac.setUserId(user.getLocalId());
         ac.setUser(user);
-        syncManager.createAccessControl(accountId, ac);
+        syncManager.createAccessControl(viewModel.getCurrentAccount().getId(), ac);
         binding.people.setText("");
         userAutoCompleteAdapter.exclude(user);
     }
@@ -142,5 +132,15 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
     public void applyBrand(int mainColor, int textColor) {
         BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.people);
         this.adapter.applyBrand(mainColor, textColor);
+    }
+
+    public static DialogFragment newInstance(long boardLocalId) {
+        final DialogFragment dialog = new AccessControlDialogFragment();
+
+        final Bundle args = new Bundle();
+        args.putLong(KEY_BOARD_ID, boardLocalId);
+        dialog.setArguments(args);
+
+        return dialog;
     }
 }
