@@ -13,6 +13,30 @@
     <string name="simple_add">Gehitu</string>
     <string name="simple_save">Gorde</string>
     <string name="simple_more">Gehiago</string>
+    <string name="simple_title">Izenburua</string>
+    <string name="simple_copy">kopiatu</string>
+    <string name="simple_synchronization">Sinkronizazioa</string>
+    <string name="simple_appearance">Itxura</string>
+    <string name="simple_error">Errorea</string>
+    <string name="simple_exception">Salbuespena</string>
+    <string name="simple_close">itxi</string>
+    <string name="simple_open">Ireki</string>
+    <string name="simple_switch">Aldatu</string>
+    <string name="simple_filter">Iragazkiak</string>
+    <string name="simple_overdue">Atzeratuta</string>
+    <string name="simple_clear">Garbitu</string>
+    <string name="simple_discard">baztertu</string>
+    <string name="simple_update">Eguneratu</string>
+    <string name="simple_delete">Ezabatu</string>
+    <string name="simple_rename">Berrizendatu</string>
+    <string name="simple_settings">Ezarpenak</string>
+    <string name="simple_undo">Desegin</string>
+    <string name="simple_manage">kudeatu</string>
+    <string name="simple_share">partekatu</string>
+    <string name="simple_select">Hautatu</string>
+    <string name="simple_comment">Iruzkina</string>
+    <string name="simple_disabled">desgaituta</string>
+    <string name="simple_copied">Kopiatuta</string>
 
     <string name="edit_board">Editatu mahaia</string>
     <string name="archive_board">Artxibatu mahaia</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Epe-muga</string>
     <string name="add_account">Gehitu kontua</string>
     <string name="choose_account">Aukeratu kontua</string>
-
     <string name="add_card">Gehitu txartela</string>
-
     <string name="activity">Jarduera</string>
-
     <string name="add_list">Zerrenda gehitu</string>
     <string name="rename_list">Zerrenda berrizendatu</string>
     <string name="delete_list">Zerrenda ezabatu</string>
-
     <string name="label_menu">menua</string>
     <string name="action_card_assign">Esleitu txartel hau niri</string>
     <string name="action_card_unassign">Txartel hau niri esleitzeari utzi</string>
     <string name="action_card_archive">Artxibatu txartela</string>
     <string name="action_card_delete">Ezabatu txartela</string>
     <string name="add_board">Gehitu mahaia</string>
-    <string name="simple_title">Izenburua</string>
 
     <string name="label_clear_due_date">Ezabatu epe-muga</string>
     <string name="label_add">Gehitu %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Errore bat agertu da</string>
     <string name="operation_not_yet_supported">Oraingoz ez da onartzen</string>
-    <string name="simple_copy">kopiatu</string>
-    <string name="simple_synchronization">Sinkronizazioa</string>
-    <string name="simple_appearance">Itxura</string>
-    <string name="simple_error">Errorea</string>
-    <string name="simple_exception">Salbuespena</string>
     <string name="copied_to_clipboard">Kopiatu arbelera</string>
-    <string name="simple_close">itxi</string>
+    <string name="error_revoking_ac">Errorea sarrera %1$s(r)entzako baliogabetzen</string>
+    <string name="maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
+    <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
+    <string name="server_misconfigured_explanation">Zure zerbitzariak HTTP 302 kode batekin erantzun du, horrek esan nahi du aplikazioa instalatu duzula baina ez dagoela ondo konfiguratuta. Hau .htaccess fitxategiko erregela bereziengatik izan daiteke edo baita OID Bezeroa izeneko aplikazioagatik. Honi buruzko atalean lor dezakezu gurekin harremanetan jartzeko modua.</string>
+    <string name="server_error">Zerbitzari akatsa</string>
+    <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
 
     <string name="card_edit_details">Xehetasunak</string>
     <string name="card_edit_attachments">Eranskinak</string>
@@ -97,18 +117,13 @@
     <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
     <string name="no_lists_yet">Ez dago zerrendarik</string>
     <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
-    <string name="simple_discard">baztertu</string>
     <string name="do_you_want_to_delete_the_current_list">Uneko zerrenda ezabatu egin nahi duzu?</string>
     <string name="add_a_new_list_using_the_button">Gehitu zerrenda berria + botoia erabiliz</string>
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
     <string name="update_deck">Eguneratu sorta</string>
     <string name="your_deck_version_is_too_old">Zure sorta bertsioa zaharregia da</string>
     <string name="deck_outdated_please_update">Zure sorta bertsioa zaharregia da. Mesedez eguneratu ezazu android app hau bezero bezala erabiltzeko.</string>
-    <string name="simple_update">Eguneratu</string>
-    <string name="simple_delete">Ezabatu</string>
     <string name="delete_board_message">Honek mahai hau eta bertako zerrenda eta txartel guztiak ezabatuko ditu.</string>
-    <string name="simple_rename">Berrizendatu</string>
-    <string name="simple_settings">Ezarpenak</string>
     <string name="settings_theme_title">Gai iluna</string>
     <string name="settings_branding_title">Marka</string>
     <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
@@ -116,16 +131,11 @@
     <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
     <string name="pref_value_theme_light">Argia</string>
     <string name="unassigned_user">%1$s esleitu gabe</string>
-    <string name="simple_undo">Desegin</string>
     <string name="no_activities">Ez dago jarduerarik karta honetak. Internetera konektatuta egon behar zara jarduerak kargatzeko eta erakusteko.</string>
     <string name="share_board">Partekatu mahaia</string>
     <string name="you_are_currently_offline">Offline zaude momentu honetak</string>
-    <string name="simple_manage">kudeatu</string>
-    <string name="simple_share">partekatu</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Kontu bat gehitzeko internetera konektatuta egon behar zara.</string>
-    <string name="simple_select">Hautatu</string>
     <string name="owner">Jabea</string>
-    <string name="simple_comment">Iruzkina</string>
     <string name="attachment_delete_message">Honek atxikitutako fitxategiak betirako ezabatuko ditu.</string>
     <string name="no_content">Oraindik ez dago edukirik</string>
     <string name="last_background_sync">Azken atzeko planoko sinkronizazioa:</string>
@@ -135,21 +145,15 @@
     <string name="hours_6">6 ordu</string>
     <string name="action_card_move">Mugitu txartela</string>
     <string name="action_card_move_title">Mugitu %1$s</string>
-    <string name="simple_disabled">desgaituta</string>
-    <string name="simple_copied">Kopiatuta</string>
     <string name="please_add_an_account_first">Mesedez, gehitu kontu bat lehenengo</string>
     <string name="title_is_mandatory">Izenburua jartzea nahitaezkoa da</string>
     <string name="provide_at_least_a_title_or_description">Jarri gutxienez izenburu edo deskribapen bat</string>
     <string name="welcome_text">Ongi etorri %1$s(e)ra</string>
     <string name="save_card_before_attachment">Txartela gorde egin behar da eranskinak gehitu aurretik.</string>
-    <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
-    <string name="server_misconfigured_explanation">Zure zerbitzariak HTTP 302 kode batekin erantzun du, horrek esan nahi du aplikazioa instalatu duzula baina ez dagoela ondo konfiguratuta. Hau .htaccess fitxategiko erregela bereziengatik izan daiteke edo baita OID Bezeroa izeneko aplikazioagatik. Honi buruzko atalean lor dezakezu gurekin harremanetan jartzeko modua.</string>
-    <string name="server_error">Zerbitzari akatsa</string>
     <string name="maintenance_mode_explanation">%1$s zerbitzaria mantentze moduan dago. Mesedez jarri harremanetan zure administratzailearekin edo saiatu berriro.</string>
     <string name="share_add_to_card">Gehitu txartelera</string>
     <string name="share_success">%1$s ondo gehitu da %2$s -ra</string>
     <string name="could_not_copy_to_clipboard">Ezin izan da arbelera kopiatu</string>
-    <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
     <string name="add_comment">Gehitu iruzkina</string>
     <string name="card_edit_comments">Iruzkinak</string>
     <string name="no_comments_yet">Iruzkinik ez oraindik</string>
@@ -159,11 +163,20 @@
     <string name="choose_list">Aukeratu zerrenda</string>
     <string name="task_count">%2$s(e)tik %1$s</string>
     <string name="open_in_browser">Ireki nabigatzailean</string>
-    <string name="simple_open">Ireki</string>
     <string name="updating_card">Txartela eguneratzen...</string>
-    <string name="error_revoking_ac">Errorea sarrera %1$s(r)entzako baliogabetzen</string>
-    <string name="maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
-    <string name="simple_switch">Aldatu</string>
+
+    <!-- Move lists -->
     <string name="move_list_right">Mugitu zerrenda eskuinera</string>
     <string name="move_list_left">Mugitu zerrenda ezkerrera</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Denak</string>
+    <string name="filter_overdue">Atzeratuta</string>
+    <string name="filter_today">Gaur</string>
+    <string name="filter_week">Hurrengo 7 egunetan</string>
+    <string name="filter_month">Hurrengo 30 egunetan</string>
+    <string name="filter_no_due">Epe-mugarik gabe</string>
+    <string name="filter_by_tag">Iragazi etiketaz</string>
+    <string name="filter_by_assigned_user">Iragazi esleitutako erabiltzailez</string>
+    <string name="filter_by_duedate">Iragazi epe-mugaz</string>
 </resources>

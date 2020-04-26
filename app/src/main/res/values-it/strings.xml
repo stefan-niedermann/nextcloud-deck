@@ -13,6 +13,30 @@
     <string name="simple_add">Aggiungi</string>
     <string name="simple_save">Salva</string>
     <string name="simple_more">Altro</string>
+    <string name="simple_title">Titolo</string>
+    <string name="simple_copy">copia</string>
+    <string name="simple_synchronization">Sincronizzazione</string>
+    <string name="simple_appearance">Aspetto</string>
+    <string name="simple_error">Errore</string>
+    <string name="simple_exception">Eccezione</string>
+    <string name="simple_close">chiudi</string>
+    <string name="simple_open">Apri</string>
+    <string name="simple_switch">Cambia</string>
+    <string name="simple_filter">Filtro</string>
+    <string name="simple_overdue">Scadenza</string>
+    <string name="simple_clear">Pulisci</string>
+    <string name="simple_discard">scarta</string>
+    <string name="simple_update">Aggiorna</string>
+    <string name="simple_delete">Elimina</string>
+    <string name="simple_rename">Rinomina</string>
+    <string name="simple_settings">Impostazioni</string>
+    <string name="simple_undo">Annulla</string>
+    <string name="simple_manage">gestisci</string>
+    <string name="simple_share">condividi</string>
+    <string name="simple_select">Seleziona</string>
+    <string name="simple_comment">Commento</string>
+    <string name="simple_disabled">disabilitato</string>
+    <string name="simple_copied">Copiato</string>
 
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Data di scadenza</string>
     <string name="add_account">Aggiungi account</string>
     <string name="choose_account">Scegli account</string>
-
     <string name="add_card">Aggiungi scheda</string>
-
     <string name="activity">Attività</string>
-
     <string name="add_list">Aggiungi elenco</string>
     <string name="rename_list">Rinomina elenco</string>
     <string name="delete_list">Elimina elenco</string>
-
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Assegna scheda a me</string>
     <string name="action_card_unassign">Rimuovi assegnazione scheda da me</string>
     <string name="action_card_archive">Archivia scheda</string>
     <string name="action_card_delete">Elimina scheda</string>
     <string name="add_board">Aggiungi lavagna</string>
-    <string name="simple_title">Titolo</string>
 
     <string name="label_clear_due_date">Cancella la scadenza</string>
     <string name="label_add">Aggiungi %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Si è verificato un errore</string>
     <string name="operation_not_yet_supported">Non ancora supportato</string>
-    <string name="simple_copy">copia</string>
-    <string name="simple_synchronization">Sincronizzazione</string>
-    <string name="simple_appearance">Aspetto</string>
-    <string name="simple_error">Errore</string>
-    <string name="simple_exception">Eccezione</string>
     <string name="copied_to_clipboard">Copiato negli appunti</string>
-    <string name="simple_close">chiudi</string>
+    <string name="error_revoking_ac">Errore durante la revoca dell\'accesso a %1$s</string>
+    <string name="maintenance_mode">Server in manutenzione</string>
+    <string name="server_misconfigured">Configurazione server non corretta</string>
+    <string name="server_misconfigured_explanation">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causata da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client. Puoi trovare le nostre informazioni di contatto per supporto nella sezione Informazioni.</string>
+    <string name="server_error">Errore del server</string>
+    <string name="shared_error">La condivisione della condivisione di contenuti di applicazioni di terze parti non è ancora supportata. Prova a scaricarli prima e poi condividili dal gestore dei file nativo o dalla galleria.</string>
 
     <string name="card_edit_details">Dettagli</string>
     <string name="card_edit_attachments">Allegati</string>
@@ -97,18 +117,13 @@
     <string name="not_synced_yet">Non ancora sincronizzata</string>
     <string name="no_lists_yet">Ancora nessun elenco</string>
     <string name="do_you_want_to_save_your_changes">Vuoi salvare le tue modifiche?</string>
-    <string name="simple_discard">scarta</string>
     <string name="do_you_want_to_delete_the_current_list">Vuoi eliminare l\'elenco attuale?</string>
     <string name="add_a_new_list_using_the_button">Aggiungi un nuovo elenco usando il pulsante +</string>
     <string name="add_a_new_card_using_the_button">Aggiungi una nuova scheda utilizzando il pulsante +</string>
     <string name="update_deck">Aggiorna Deck</string>
     <string name="your_deck_version_is_too_old">La tua versione di Deck è troppo datata</string>
     <string name="deck_outdated_please_update">La tua versione di Deck è troppo datata. Aggiorna per utilizzare questa applicazione Android come client.</string>
-    <string name="simple_update">Aggiorna</string>
-    <string name="simple_delete">Elimina</string>
     <string name="delete_board_message">Questo eliminerà definitivamente questa lavagna inclusi tutti gli elenchi e le schede.</string>
-    <string name="simple_rename">Rinomina</string>
-    <string name="simple_settings">Impostazioni</string>
     <string name="settings_theme_title">Tema scuro</string>
     <string name="settings_branding_title">Marchio</string>
     <string name="settings_background_sync">Sincronizzazione in background</string>
@@ -116,16 +131,11 @@
     <string name="pref_value_wifi_only">Sincronizza solo con Wi-Fi</string>
     <string name="pref_value_theme_light">Chiaro</string>
     <string name="unassigned_user">Assegnazione di %1$s rimossa</string>
-    <string name="simple_undo">Annulla</string>
     <string name="no_activities">Non ci sono attività su questa scheda. Devi essere connesso a Internet per caricare e visualizzare le attività.</string>
     <string name="share_board">Condividi lavagna</string>
     <string name="you_are_currently_offline">Non sei attualmente in linea</string>
-    <string name="simple_manage">gestisci</string>
-    <string name="simple_share">condividi</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Devi essere connesso a Internet per aggiungere un account.</string>
-    <string name="simple_select">Seleziona</string>
     <string name="owner">Proprietario</string>
-    <string name="simple_comment">Commento</string>
     <string name="attachment_delete_message">Questo eliminerà definitivamente questo allegato.</string>
     <string name="no_content">Ancora nessun contenuto</string>
     <string name="last_background_sync">Ultima sincronizzazione in background:</string>
@@ -135,21 +145,15 @@
     <string name="hours_6">6 ore</string>
     <string name="action_card_move">Sposta scheda</string>
     <string name="action_card_move_title">Sposta %1$s</string>
-    <string name="simple_disabled">disabilitato</string>
-    <string name="simple_copied">Copiato</string>
     <string name="please_add_an_account_first">Aggiungi prima un account</string>
     <string name="title_is_mandatory">Il titolo è obbligatorio</string>
     <string name="provide_at_least_a_title_or_description">Fornisci almeno un titolo e una descrizione</string>
     <string name="welcome_text">Benvenuto in %1$s</string>
     <string name="save_card_before_attachment">La scheda deve essere salvata prima di poter aggiungere allegati.</string>
-    <string name="server_misconfigured">Configurazione server non corretta</string>
-    <string name="server_misconfigured_explanation">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causata da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client. Puoi trovare le nostre informazioni di contatto per supporto nella sezione Informazioni.</string>
-    <string name="server_error">Errore del server</string>
     <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
     <string name="share_add_to_card">Aggiungi a scheda</string>
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
     <string name="could_not_copy_to_clipboard">Impossibile copiare negli appunti</string>
-    <string name="shared_error">La condivisione della condivisione di contenuti di applicazioni di terze parti non è ancora supportata. Prova a scaricarli prima e poi condividili dal gestore dei file nativo o dalla galleria.</string>
     <string name="add_comment">Aggiungi commento</string>
     <string name="card_edit_comments">Commenti</string>
     <string name="no_comments_yet">Ancora nessun commento</string>
@@ -159,11 +163,20 @@
     <string name="choose_list">Scegli elenco</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Apri nel browser</string>
-    <string name="simple_open">Apri</string>
     <string name="updating_card">Aggiornamento scheda...</string>
-    <string name="error_revoking_ac">Errore durante la revoca dell\'accesso a %1$s</string>
-    <string name="maintenance_mode">Server in manutenzione</string>
-    <string name="simple_switch">Cambia</string>
+
+    <!-- Move lists -->
     <string name="move_list_right">Sposta a destra l\'elenco</string>
     <string name="move_list_left">Sposta a sinistra l\'elenco</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Tutti</string>
+    <string name="filter_overdue">Scadenza</string>
+    <string name="filter_today">Oggi</string>
+    <string name="filter_week">7 giorni successivi</string>
+    <string name="filter_month">30 giorni successivi</string>
+    <string name="filter_no_due">Nessuna data di scadenza</string>
+    <string name="filter_by_tag">Filtra per etichette</string>
+    <string name="filter_by_assigned_user">Filtra per utente assegnato</string>
+    <string name="filter_by_duedate">Filtra per data di scadenza</string>
 </resources>

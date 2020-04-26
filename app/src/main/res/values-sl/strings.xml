@@ -13,6 +13,29 @@
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Shrani</string>
     <string name="simple_more">Več</string>
+    <string name="simple_title">Naslov</string>
+    <string name="simple_copy">kopiraj</string>
+    <string name="simple_synchronization">Usklajevanje</string>
+    <string name="simple_appearance">Videz</string>
+    <string name="simple_error">Napaka</string>
+    <string name="simple_exception">Izjema</string>
+    <string name="simple_close">zapri</string>
+    <string name="simple_open">Odpri</string>
+    <string name="simple_filter">Filter</string>
+    <string name="simple_overdue">Preteklo</string>
+    <string name="simple_clear">Počisti</string>
+    <string name="simple_discard">opusti</string>
+    <string name="simple_update">Posodobi</string>
+    <string name="simple_delete">Izbriši</string>
+    <string name="simple_rename">Preimenuj</string>
+    <string name="simple_settings">Nastavitve</string>
+    <string name="simple_undo">Razveljavi</string>
+    <string name="simple_manage">upravljanje</string>
+    <string name="simple_share">souporaba</string>
+    <string name="simple_select">Izbor</string>
+    <string name="simple_comment">Opomba</string>
+    <string name="simple_disabled">onemogočeno</string>
+    <string name="simple_copied">Kopirano!</string>
 
     <string name="edit_board">Uredi zbirko</string>
     <string name="archive_board">Arhiviraj zbirko</string>
@@ -54,35 +77,30 @@
     <string name="hint_due_date_date">Datum preteka</string>
     <string name="add_account">Dodaj račun</string>
     <string name="choose_account">Izbor računa</string>
-
     <string name="add_card">Dodaj nalogo</string>
-
     <string name="activity">Dejavnost</string>
-
     <string name="add_list">Dodaj seznam</string>
     <string name="rename_list">Preimenuj seznam</string>
     <string name="delete_list">Izbriši seznam</string>
-
     <string name="label_menu">Meni</string>
     <string name="action_card_assign">Nalogo dodeli meni</string>
     <string name="action_card_unassign">Odstrani me z naloge</string>
     <string name="action_card_archive">Arhiviraj nalogo</string>
     <string name="action_card_delete">Izbriši nalogo</string>
     <string name="add_board">Dodaj zbirko</string>
-    <string name="simple_title">Naslov</string>
 
     <string name="label_clear_due_date">Počisti datum poteka</string>
     <string name="label_add">Dodaj %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Prišlo je do napake</string>
     <string name="operation_not_yet_supported">Možnost še ni podprta</string>
-    <string name="simple_copy">kopiraj</string>
-    <string name="simple_synchronization">Usklajevanje</string>
-    <string name="simple_appearance">Videz</string>
-    <string name="simple_error">Napaka</string>
-    <string name="simple_exception">Izjema</string>
     <string name="copied_to_clipboard">Kopirano v odložišče</string>
-    <string name="simple_close">zapri</string>
+    <string name="maintenance_mode">Strežnik je v načinu vzdrževanja</string>
+    <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
+    <string name="server_misconfigured_explanation">Prejet je odziv strežnika s kodo stanja HTTP 302, kar kaže na to, da ni nameščen program Deck, ali pa so napačne nastavitve. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID. Stopite v stik s skrbnikom, ali pa se obrnite za podporo na nas.</string>
+    <string name="server_error">Napaka strežnika</string>
+    <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
 
     <string name="card_edit_details">Podrobnosti</string>
     <string name="card_edit_attachments">Priloge</string>
@@ -97,34 +115,24 @@
     <string name="not_synced_yet">Še ni usklajeno</string>
     <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
-    <string name="simple_discard">opusti</string>
     <string name="do_you_want_to_delete_the_current_list">Ali želite izbrisati trenutni seznam?</string>
     <string name="add_a_new_list_using_the_button">Nov seznam dodate s klikom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
     <string name="update_deck">Posodobi zbirko</string>
     <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
     <string name="deck_outdated_please_update">Različica zbirke je prestara. Za uporabo tega odjemalca je treba zbirko najprej posodobiti.</string>
-    <string name="simple_update">Posodobi</string>
-    <string name="simple_delete">Izbriši</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
-    <string name="simple_rename">Preimenuj</string>
-    <string name="simple_settings">Nastavitve</string>
     <string name="settings_theme_title">Temna tema</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
     <string name="pref_value_theme_light">Svetla</string>
     <string name="unassigned_user">Uporabnik %1$s je odstranjen</string>
-    <string name="simple_undo">Razveljavi</string>
     <string name="no_activities">Na tej nalogi še ni zaznane nobene dejavnosti. Za prikaz dejavnosti mora biti vzpostavljena povezava z omrežjem.</string>
     <string name="share_board">Souporaba zbirke</string>
     <string name="you_are_currently_offline">Trenutno povezava z omrežjem ni na voljo.</string>
-    <string name="simple_manage">upravljanje</string>
-    <string name="simple_share">souporaba</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Za dodajanje računa mora biti vzpostavljena povezava z omrežjem.</string>
-    <string name="simple_select">Izbor</string>
     <string name="owner">Lastnik</string>
-    <string name="simple_comment">Opomba</string>
     <string name="attachment_delete_message">S tem boste trajno izbrisali prilogo.</string>
     <string name="no_content">Ni še dodane vsebine</string>
     <string name="last_background_sync">Zadnje usklajevanje:</string>
@@ -134,26 +142,26 @@
     <string name="hours_6">6 ur</string>
     <string name="action_card_move">Premakni nalogo</string>
     <string name="action_card_move_title">Premakni %1$s</string>
-    <string name="simple_disabled">onemogočeno</string>
-    <string name="simple_copied">Kopirano!</string>
     <string name="please_add_an_account_first">Najprej je treba dodati račun</string>
     <string name="title_is_mandatory">Naslov je obvezen</string>
     <string name="provide_at_least_a_title_or_description">Vpisati je treba vsaj naslov oziroma opis</string>
     <string name="welcome_text">Dobrodošli v %1$s</string>
     <string name="save_card_before_attachment">Nalogo je treba shraniti, preden je mogoče dodati prilogo.</string>
-    <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
-    <string name="server_misconfigured_explanation">Prejet je odziv strežnika s kodo stanja HTTP 302, kar kaže na to, da ni nameščen program Deck, ali pa so napačne nastavitve. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID. Stopite v stik s skrbnikom, ali pa se obrnite za podporo na nas.</string>
-    <string name="server_error">Napaka strežnika</string>
     <string name="share_add_to_card">Dodaj k nalogi</string>
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
     <string name="could_not_copy_to_clipboard">Predmeta ni mogoče kopirati v odložišče</string>
-    <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
     <string name="add_comment">Dodaj opombo</string>
     <string name="card_edit_comments">Opombe</string>
     <string name="no_comments_yet">Ni še dodane nobene opombe</string>
     <string name="no_boards">Ni še vpisanih zbirk</string>
     <string name="add_a_new_board_using_the_button">Novo zbirko je mogoče dodati z gumbom +</string>
     <string name="open_in_browser">Odpri v brskalniku</string>
-    <string name="simple_open">Odpri</string>
-    <string name="maintenance_mode">Strežnik je v načinu vzdrževanja</string>
+    <!-- Filter -->
+    <string name="filter_no_filter">Vse</string>
+    <string name="filter_overdue">Preteklo</string>
+    <string name="filter_today">Danes</string>
+    <string name="filter_week">Naslednjih 7 dni</string>
+    <string name="filter_month">Naslednjih 30 dni</string>
+    <string name="filter_by_tag">Filtriraj po oznaki</string>
+    <string name="filter_by_assigned_user">Filtriraj po dodeljenem uporabniku</string>
     </resources>

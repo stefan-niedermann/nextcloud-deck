@@ -13,6 +13,30 @@
     <string name="simple_add">Προσθήκη</string>
     <string name="simple_save">Αποθήκευση</string>
     <string name="simple_more">Περισσότερα</string>
+    <string name="simple_title">Τίτλος</string>
+    <string name="simple_copy">αντιγραφή</string>
+    <string name="simple_synchronization">Συγχρονισμός</string>
+    <string name="simple_appearance">Εμφάνιση</string>
+    <string name="simple_error">Σφάλμα</string>
+    <string name="simple_exception">Εξαίρεση</string>
+    <string name="simple_close">κλείσιμο</string>
+    <string name="simple_open">Άνοιγμα</string>
+    <string name="simple_switch">Αλλαγή</string>
+    <string name="simple_filter">Φίλτρο</string>
+    <string name="simple_overdue">Εκπρόθεσμος</string>
+    <string name="simple_clear">Εκκαθάριση</string>
+    <string name="simple_discard">απόρριψη</string>
+    <string name="simple_update">Ενημέρωση</string>
+    <string name="simple_delete">Διαγραφή</string>
+    <string name="simple_rename">Μετονομασία</string>
+    <string name="simple_settings">Ρυθμίσεις</string>
+    <string name="simple_undo">Αναίρεση</string>
+    <string name="simple_manage">διαχείριση</string>
+    <string name="simple_share">Διαμοιράστε</string>
+    <string name="simple_select">Επιλογή</string>
+    <string name="simple_comment">Σχόλιο</string>
+    <string name="simple_disabled">απενεργοποιημένο</string>
+    <string name="simple_copied">Αντιγράφτηκε</string>
 
     <string name="edit_board">Επεξεργασία πίνακα</string>
     <string name="archive_board">Αρχειοθέτηση πίνακα</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Προθεσμία</string>
     <string name="add_account"> Προσθήκη λογαριασμού </string>
     <string name="choose_account">Επιλογή λογαριασμού</string>
-
     <string name="add_card">Προσθήκη κάρτας</string>
-
     <string name="activity">Δραστηριότητα</string>
-
     <string name="add_list">Προσθήκη λίστας</string>
     <string name="rename_list">Μετονομασία λίστας</string>
     <string name="delete_list">Διαγραφή λίστας</string>
-
     <string name="label_menu">μενού</string>
     <string name="action_card_assign">Ορισμός κάρτας στον εαυτό μου</string>
     <string name="action_card_unassign">Αποσύνδεση κάρτας από το εαυτό μου</string>
     <string name="action_card_archive">Αρχειοθέτηση κάρτας</string>
     <string name="action_card_delete"> Διαγραφή κάρτας </string>
     <string name="add_board">Προσθήκη πίνακα</string>
-    <string name="simple_title">Τίτλος</string>
 
     <string name="label_clear_due_date">Καθαρισμός ημερομηνίας λήξης</string>
     <string name="label_add">Προσθήκη %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Παρουσιάστηκε σφάλμα</string>
     <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
-    <string name="simple_copy">αντιγραφή</string>
-    <string name="simple_synchronization">Συγχρονισμός</string>
-    <string name="simple_appearance">Εμφάνιση</string>
-    <string name="simple_error">Σφάλμα</string>
-    <string name="simple_exception">Εξαίρεση</string>
     <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
-    <string name="simple_close">κλείσιμο</string>
+    <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
+    <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
+    <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
+    <string name="server_misconfigured_explanation">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client. Μπορείτε να βρείτε πληροφορίες επικοινωνίας της υποστήριξης στο τμήμα περί.</string>
+    <string name="server_error">Σφάλμα διακομιστή</string>
+    <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
 
     <string name="card_edit_details">Λεπτομέρειες</string>
     <string name="card_edit_attachments">Συνημμένα</string>
@@ -97,18 +117,13 @@
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
-    <string name="simple_discard">απόρριψη</string>
     <string name="do_you_want_to_delete_the_current_list">Διαγραφή τρέχουσας λίστας;</string>
     <string name="add_a_new_list_using_the_button">Προσθήκη νέας λίστας με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
     <string name="update_deck">Ενημέρωση Deck</string>
     <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
     <string name="deck_outdated_please_update">Η έκδοσή σας είναι είναι παλαιά. Παρακαλώ αναβαθμίστε για επιπλέον χρήση.</string>
-    <string name="simple_update">Ενημέρωση</string>
-    <string name="simple_delete">Διαγραφή</string>
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
-    <string name="simple_rename">Μετονομασία</string>
-    <string name="simple_settings">Ρυθμίσεις</string>
     <string name="settings_theme_title">Σκούρο θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
@@ -116,16 +131,11 @@
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
     <string name="pref_value_theme_light">Φωτεινό</string>
     <string name="unassigned_user">Αδιάθετα %1$s</string>
-    <string name="simple_undo">Αναίρεση</string>
     <string name="no_activities">Δεν υπάρχουν δραστηριότητες σε αυτή την κάρτα. Θα πρέπει να είστε συνδεδεμένοι στο Ίντερνετ για να φορτώσετε και να εμφανίσετε δραστηριότητες.</string>
     <string name="share_board">Διαμοιρασμός πίνακα</string>
     <string name="you_are_currently_offline">Προς το παρόν αποσυνδεμένος</string>
-    <string name="simple_manage">διαχείριση</string>
-    <string name="simple_share">Διαμοιράστε</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Πρέπει να είστε συνδεμένοι στο ιντερνετ για να προσθέσετε λογαριασμό.</string>
-    <string name="simple_select">Επιλογή</string>
     <string name="owner">Κάτοχος</string>
-    <string name="simple_comment">Σχόλιο</string>
     <string name="attachment_delete_message">Θα διαγραφεί μόνιμα το συνημμένο.</string>
     <string name="no_content">Χωρίς περιεχόμενο ακόμα</string>
     <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
@@ -135,21 +145,15 @@
     <string name="hours_6">6 ώρες</string>
     <string name="action_card_move">Μετακίνηση κάρτας</string>
     <string name="action_card_move_title">Μετακίνηση %1$s</string>
-    <string name="simple_disabled">απενεργοποιημένο</string>
-    <string name="simple_copied">Αντιγράφτηκε</string>
     <string name="please_add_an_account_first">Παρακαλώ προσθέστε λογαριασμό πρώτα</string>
     <string name="title_is_mandatory">Υποχρεωτικός τίτλος</string>
     <string name="provide_at_least_a_title_or_description">Προσθέστε τουλάχιστον τίτλο ή περιγραφή</string>
     <string name="welcome_text">Καλώς ήρθατε στο %1$s</string>
     <string name="save_card_before_attachment">Η κάρτα πρέπει να αποθηκευτεί πριν προστεθούν συνημμένα.</string>
-    <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
-    <string name="server_misconfigured_explanation">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client. Μπορείτε να βρείτε πληροφορίες επικοινωνίας της υποστήριξης στο τμήμα περί.</string>
-    <string name="server_error">Σφάλμα διακομιστή</string>
     <string name="maintenance_mode_explanation">Ο διακομιστής %1$s είναι σε κατάσταση συντήρησης. Επικοινωνήστε με τον διαχειριστή ή δοκιμάστε αργότερα.</string>
     <string name="share_add_to_card">Προσθήκη στην κάρτα</string>
     <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
     <string name="could_not_copy_to_clipboard">Δεν μπορεί να αντιγραφή στο πρόχειρο</string>
-    <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
     <string name="add_comment">Προσθήκη σχολίου</string>
     <string name="card_edit_comments">Σχόλια</string>
     <string name="no_comments_yet">Δεν υπάρχουν ακόμα σχόλια</string>
@@ -159,11 +163,20 @@
     <string name="choose_list">Επιλογή λίστας</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Άνοιγμα στον περιηγητή ιστού</string>
-    <string name="simple_open">Άνοιγμα</string>
     <string name="updating_card">Ενημέρωση καρτέλας...</string>
-    <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
-    <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
-    <string name="simple_switch">Αλλαγή</string>
+
+    <!-- Move lists -->
     <string name="move_list_right">Μετακίνηση λίστας δεξιά</string>
     <string name="move_list_left">Μετακίνηση λίστας αριστερά</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">\'Ολα</string>
+    <string name="filter_overdue">Εκπρόθεσμος</string>
+    <string name="filter_today">Σήμερα</string>
+    <string name="filter_week">Επόμενες 7 ημέρες</string>
+    <string name="filter_month">Επόμενες 30 ημέρες</string>
+    <string name="filter_no_due">Χωρίς ημερομηνία λήξης</string>
+    <string name="filter_by_tag">Φίλτρο ανά ετικέτα</string>
+    <string name="filter_by_assigned_user">Φίλτρο ανά χρήστη</string>
+    <string name="filter_by_duedate">Φίλτρο ανά ημερομηνία λήξης</string>
 </resources>
