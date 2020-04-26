@@ -45,7 +45,7 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
         ViewUtil.addAvatar(binding.icon, account.getUrl(), getItem(position).getUid(), R.drawable.ic_person_grey600_24dp);
         binding.label.setText(getItem(position).getDisplayname());
 
-        return convertView;
+        return binding.getRoot();
     }
 
     @Override
