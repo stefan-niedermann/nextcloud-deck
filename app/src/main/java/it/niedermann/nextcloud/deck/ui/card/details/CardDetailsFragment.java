@@ -249,9 +249,9 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             localCardId = localCardId == null ? -1 : localCardId;
             binding.labels.setAdapter(new LabelAutoCompleteAdapter(activity, accountId, boardId, localCardId));
             binding.labels.setOnItemClickListener((adapterView, view, position, id) -> {
-                Label label = (Label) adapterView.getItemAtPosition(position);
+                final Label label = (Label) adapterView.getItemAtPosition(position);
                 if (LabelAutoCompleteAdapter.ITEM_CREATE == label.getLocalId()) {
-                    Label newLabel = new Label(label);
+                    final Label newLabel = new Label(label);
                     newLabel.setBoardId(boardId);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
