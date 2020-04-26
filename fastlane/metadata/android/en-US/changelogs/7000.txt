@@ -9,3 +9,4 @@
 - 👤 wrong user image when using multiple accounts (#324)
 - 🎚 Filter cards (#396)
 - 🏷️ Auto complete: Display all available tags on first click (#263)
+- ➕ Share text into new card (#424)
