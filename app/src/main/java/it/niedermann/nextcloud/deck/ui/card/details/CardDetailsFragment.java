@@ -317,7 +317,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
-            binding.people.setAdapter(new UserAutoCompleteAdapter(activity, viewModel.getAccount().getId(), viewModel.getBoardId(), localCardId));
+            binding.people.setAdapter(new UserAutoCompleteAdapter(activity, viewModel.getAccount(), viewModel.getBoardId(), localCardId));
             binding.people.setOnItemClickListener((adapterView, view, position, id) -> {
                 User user = (User) adapterView.getItemAtPosition(position);
                 viewModel.getFullCard().getAssignedUsers().add(user);

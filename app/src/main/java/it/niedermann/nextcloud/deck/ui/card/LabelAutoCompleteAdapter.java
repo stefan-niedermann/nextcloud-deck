@@ -47,30 +47,28 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder<ItemFilterLabelBinding> holder;
+        final ItemFilterLabelBinding binding;
+
         if (convertView != null) {
-            holder = (ViewHolder) convertView.getTag();
+            binding = ItemFilterLabelBinding.bind(convertView);
         } else {
-            ItemFilterLabelBinding binding = ItemFilterLabelBinding.inflate(inflater, parent, false);
-            holder = new ViewHolder<>(binding);
-            convertView = binding.getRoot();
-            convertView.setTag(holder);
+            binding = ItemFilterLabelBinding.inflate(inflater, parent, false);
         }
 
         final Label label = getItem(position);
-        holder.binding.label.setText(label.getTitle());
         final int labelColor = Color.parseColor("#" + label.getColor());
-        holder.binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
         final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
-        holder.binding.label.setTextColor(color);
+        binding.label.setText(label.getTitle());
+        binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
+        binding.label.setTextColor(color);
         if (ITEM_CREATE == label.getLocalId()) {
-            final Drawable plusIcon = DrawableCompat.wrap(holder.binding.label.getContext().getResources().getDrawable(R.drawable.ic_plus));
+            final Drawable plusIcon = DrawableCompat.wrap(binding.label.getContext().getResources().getDrawable(R.drawable.ic_plus));
             DrawableCompat.setTint(plusIcon, color);
-            holder.binding.label.setChipIcon(plusIcon);
+            binding.label.setChipIcon(plusIcon);
         } else {
-            holder.binding.label.setChipIcon(null);
+            binding.label.setChipIcon(null);
         }
-        return convertView;
+        return binding.getRoot();
     }
 
     @Override
