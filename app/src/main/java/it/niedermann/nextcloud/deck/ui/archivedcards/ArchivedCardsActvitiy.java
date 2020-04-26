@@ -18,6 +18,7 @@ public class ArchivedCardsActvitiy extends BrandedActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "accountId";
     private static final String BUNDLE_KEY_BOARD_ID = "boardId";
     private static final String BUNDLE_KEY_CAN_EDIT = "canEdit";
+
     private ActivityArchivedCardsBinding binding;
     private ArchivedCardsAdapter adapter;
     private SyncManager syncManager;
