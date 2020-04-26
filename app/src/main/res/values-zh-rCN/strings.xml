@@ -13,6 +13,29 @@
     <string name="simple_add">添加</string>
     <string name="simple_save">保存</string>
     <string name="simple_more">更多</string>
+    <string name="simple_title">标题</string>
+    <string name="simple_copy">复制</string>
+    <string name="simple_synchronization">同步</string>
+    <string name="simple_appearance">外观</string>
+    <string name="simple_error">错误</string>
+    <string name="simple_exception">异常</string>
+    <string name="simple_close">关闭</string>
+    <string name="simple_open">打开</string>
+    <string name="simple_filter">筛选</string>
+    <string name="simple_overdue">逾期</string>
+    <string name="simple_clear">清空</string>
+    <string name="simple_discard">丢弃</string>
+    <string name="simple_update">更新</string>
+    <string name="simple_delete">删除</string>
+    <string name="simple_rename">重命名</string>
+    <string name="simple_settings">设置</string>
+    <string name="simple_undo">撤消</string>
+    <string name="simple_manage">管理</string>
+    <string name="simple_share">共享</string>
+    <string name="simple_select">选择</string>
+    <string name="simple_comment">注释</string>
+    <string name="simple_disabled">已禁用</string>
+    <string name="simple_copied">已复制</string>
 
     <string name="edit_board">编辑面板</string>
     <string name="archive_board">归档面板</string>
@@ -54,35 +77,30 @@
     <string name="hint_due_date_date">截止日期</string>
     <string name="add_account">添加账号</string>
     <string name="choose_account">选择账号</string>
-
     <string name="add_card">新建卡片</string>
-
     <string name="activity">动态</string>
-
     <string name="add_list">添加列表</string>
     <string name="rename_list">重命名列表</string>
     <string name="delete_list">删除列表</string>
-
     <string name="label_menu">菜单</string>
     <string name="action_card_assign">将卡片指派给我</string>
     <string name="action_card_unassign">取消指派给我的卡片</string>
     <string name="action_card_archive">归档卡片</string>
     <string name="action_card_delete">删除卡片</string>
     <string name="add_board">添加面板</string>
-    <string name="simple_title">标题</string>
 
     <string name="label_clear_due_date">清除截止日期</string>
     <string name="label_add">添加 %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">发生了一个错误</string>
     <string name="operation_not_yet_supported">尚未支持</string>
-    <string name="simple_copy">复制</string>
-    <string name="simple_synchronization">同步</string>
-    <string name="simple_appearance">外观</string>
-    <string name="simple_error">错误</string>
-    <string name="simple_exception">异常</string>
     <string name="copied_to_clipboard">复制到剪贴板</string>
-    <string name="simple_close">关闭</string>
+    <string name="maintenance_mode">服务器处于维护模式</string>
+    <string name="server_misconfigured">配置错误的服务器</string>
+    <string name="server_misconfigured_explanation">您的服务器确实以HTTP 302状态代码响应，这意味着您的服务器上没有安装Deck应用程序，或者是配置错误。这可能是由.htaccess-文件中的自定义重载或Nextcloud应用程序（如OID Client）造成的。您可以在 \"关于 \"部分中找到我们的联系信息。</string>
+    <string name="server_error">服务器错误</string>
+    <string name="shared_error">目前还不完全支持从第三方应用程序中分享内容。请尝试先下载，然后从您的本地文件管理器或图库中分享。</string>
 
     <string name="card_edit_details">详情</string>
     <string name="card_edit_attachments">附件</string>
@@ -97,34 +115,24 @@
     <string name="not_synced_yet">尚未同步</string>
     <string name="no_lists_yet">尚无名单</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
-    <string name="simple_discard">丢弃</string>
     <string name="do_you_want_to_delete_the_current_list">要不要删除当前列表？</string>
     <string name="add_a_new_list_using_the_button">使用 \"+\"按钮添加新列表</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
     <string name="update_deck">更新看板</string>
     <string name="your_deck_version_is_too_old">您的看板版本过旧</string>
     <string name="deck_outdated_please_update">您的看板版本过旧。请更新此安卓客户端。</string>
-    <string name="simple_update">更新</string>
-    <string name="simple_delete">删除</string>
     <string name="delete_board_message">此操作将永久删除此面板，包括所有列表和卡片。</string>
-    <string name="simple_rename">重命名</string>
-    <string name="simple_settings">设置</string>
     <string name="settings_theme_title">深色主题</string>
     <string name="settings_background_sync">后台同步</string>
     <string name="pref_value_wifi_and_mobile">在有 Wi-Fi 和移动数据网络时同步</string>
     <string name="pref_value_wifi_only">仅在 Wi-Fi 下同步</string>
     <string name="pref_value_theme_light">浅色</string>
     <string name="unassigned_user">已经取消分配%1$s</string>
-    <string name="simple_undo">撤消</string>
     <string name="no_activities">找不到此卡片上的动态。 您需要连接到互联网才能加载和显示动态。</string>
     <string name="share_board">共享面板</string>
     <string name="you_are_currently_offline">您当前已离线</string>
-    <string name="simple_manage">管理</string>
-    <string name="simple_share">共享</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必须连接到互联网以添加账号。</string>
-    <string name="simple_select">选择</string>
     <string name="owner">拥有者</string>
-    <string name="simple_comment">注释</string>
     <string name="attachment_delete_message">这将永久删除此附件。</string>
     <string name="no_content">暂无内容</string>
     <string name="last_background_sync">上次后台同步时间：</string>
@@ -134,20 +142,14 @@
     <string name="hours_6">6 小时</string>
     <string name="action_card_move">移动卡片</string>
     <string name="action_card_move_title">移动 %1$s</string>
-    <string name="simple_disabled">已禁用</string>
-    <string name="simple_copied">已复制</string>
     <string name="please_add_an_account_first">请先添加一个账号</string>
     <string name="title_is_mandatory">标题是必需的</string>
     <string name="provide_at_least_a_title_or_description">提供至少一个标题或描述</string>
     <string name="welcome_text">欢迎来到 %1$s</string>
     <string name="save_card_before_attachment">卡片在可以添加附件之前需要先保存。</string>
-    <string name="server_misconfigured">配置错误的服务器</string>
-    <string name="server_misconfigured_explanation">您的服务器确实以HTTP 302状态代码响应，这意味着您的服务器上没有安装Deck应用程序，或者是配置错误。这可能是由.htaccess-文件中的自定义重载或Nextcloud应用程序（如OID Client）造成的。您可以在 \"关于 \"部分中找到我们的联系信息。</string>
-    <string name="server_error">服务器错误</string>
     <string name="share_add_to_card">添加到卡片</string>
     <string name="share_success">成功将 %1$s 添加到 %2$s</string>
     <string name="could_not_copy_to_clipboard">无法复制到剪贴板</string>
-    <string name="shared_error">目前还不完全支持从第三方应用程序中分享内容。请尝试先下载，然后从您的本地文件管理器或图库中分享。</string>
     <string name="add_comment">添加评论</string>
     <string name="card_edit_comments">评论</string>
     <string name="no_comments_yet">还没有评论</string>
@@ -155,6 +157,12 @@
     <string name="add_a_new_board_using_the_button">使用 \"+\"按钮添加新列表</string>
     <string name="choose_list">选择目录</string>
     <string name="open_in_browser">在浏览器中打开</string>
-    <string name="simple_open">打开</string>
-    <string name="maintenance_mode">服务器处于维护模式</string>
+    <!-- Filter -->
+    <string name="filter_no_filter">全部</string>
+    <string name="filter_overdue">逾期</string>
+    <string name="filter_today">今天</string>
+    <string name="filter_week">下个7天</string>
+    <string name="filter_month">下个30天</string>
+    <string name="filter_by_tag">标签筛选</string>
+    <string name="filter_by_assigned_user">根据指定用户过滤</string>
     </resources>

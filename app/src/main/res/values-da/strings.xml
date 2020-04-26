@@ -10,11 +10,37 @@
 
     <!-- Simple values -->
     <string name="simple_boards">Tavler</string>
+    <string name="simple_add">Tilføj</string>
     <string name="simple_save">Gem</string>
+    <string name="simple_more">Mere</string>
+    <string name="simple_title">Titel</string>
+    <string name="simple_copy">kopier</string>
+    <string name="simple_synchronization">Synchronization</string>
+    <string name="simple_appearance">Udseende</string>
+    <string name="simple_error">Fejl</string>
+    <string name="simple_exception">Undtagelse</string>
+    <string name="simple_close">luk</string>
+    <string name="simple_open">Åbn</string>
+    <string name="simple_switch">Byt rundt</string>
+    <string name="simple_filter">Filter</string>
+    <string name="simple_clear">Ryd</string>
+    <string name="simple_discard">kassér</string>
+    <string name="simple_update">Opdatér</string>
+    <string name="simple_delete">Slet</string>
+    <string name="simple_rename">Omdøb</string>
+    <string name="simple_settings">Indstillinger</string>
+    <string name="simple_undo">Fortryd</string>
+    <string name="simple_manage">administrér</string>
+    <string name="simple_share">Del</string>
+    <string name="simple_select">Vælg</string>
+    <string name="simple_comment">Kommentér</string>
+    <string name="simple_disabled">slået fra</string>
+    <string name="simple_copied">opieret</string>
 
     <string name="edit_board">Rediger liste</string>
     <string name="archive_board">Arkivér liste</string>
     <string name="delete_board">Slet liste</string>
+    <string name="delete_something">Slet %1$s</string>
 
     <!-- About -->
     <string name="about">Om</string>
@@ -36,7 +62,8 @@
     <string name="about_app_license">Denne app er udgivet under licensen GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Se licens</string>
     <string name="about_icons_disclaimer_title">Ikoner</string>
-    <string name="about_icons_disclaimer">Originale ikon lavet af %1$s Alle yderlige ikoner brugt af denne app er %2$s lavet af Google Inc. og licenseret under Apache 2.0 Licens.</string>
+    <string name="about_icons_disclaimer_app_icon">For det oprindelige ikon, se %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Alle andre ikoner som anvendes af app\'en er %1$s lavet med Google Inc. og licensieret under et Apache 2.0-licens.</string>
     <string name="about_icons_disclaimer_mdi">Material Design ikoner</string>
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Bidrag</string>
@@ -48,28 +75,100 @@
     <string name="label_description">Beskrivelse</string>
     <string name="hint_assign_people">Tildel brugere</string>
     <string name="hint_due_date_date">Forfaldsdato</string>
-    <string name="activity">Aktivitet</string>
     <string name="add_account">Tilføj konto</string>
-
+    <string name="choose_account">Vælg konto</string>
+    <string name="add_card">Tilføj kort</string>
+    <string name="activity">Aktivitet</string>
+    <string name="add_list">Tilføj liste</string>
+    <string name="rename_list">Omdøb liste</string>
+    <string name="delete_list">Slet liste</string>
     <string name="label_menu">menu</string>
-    <string name="action_card_assign">Tildel kort til dig</string>
-    <string name="action_card_unassign">Fravælg kort fra dig</string>
+    <string name="action_card_assign">Tildel kort til mig</string>
+    <string name="action_card_unassign">Fjern tildeling af kort fra mig</string>
     <string name="action_card_archive">Arkivér kort</string>
     <string name="action_card_delete">Slet kort</string>
     <string name="add_board">Tilføj liste</string>
-    <string name="delete_list">Slet kolonne</string>
-    <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Ryd forfaldsdato</string>
+    <string name="label_add">Tilføj %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Der skete en fejl</string>
-    <string name="simple_copy">kopier</string>
-    <string name="simple_exception">Undtagelse</string>
+    <string name="operation_not_yet_supported">Understøttes endnu ikke</string>
     <string name="copied_to_clipboard">Kopieret til udklipsholderen</string>
-    <string name="simple_close">luk</string>
+    <string name="error_revoking_ac">Fejl under tilbagekaldelse af adgang for %1$s</string>
+    <string name="maintenance_mode">Server i vedligeholdelsestilstand</string>
+    <string name="server_misconfigured">Server er forkert konfigureret </string>
+    <string name="server_misconfigured_explanation">Din server svarede med en HTTP 302-statuskode, hvilket betyder, at du endnu ikke har installeret app\'en Deck på din server, eller at der er en forkert konfiguration. Dette kan skyldes brugerdefinerede tilsidesættelser i en .htaccess-fil eller af apps fra Nextcloud som OID Client. Du kan finde være kontaktinformation for supporti sektionen Om.</string>
+    <string name="server_error">Serverfejl</string>
+    <string name="shared_error">Deling af indhold fra 3. parts apps understøttes endnu ikke fuldt ud. Forsøg at hente det først, og dernæst dele det fra din indbyggede filhåndtering eller dit galleri.</string>
 
     <string name="card_edit_details">Detaljer</string>
     <string name="card_edit_attachments">Vedhæftede filer</string>
     <string name="card_edit_activity">Aktivitet</string>
     <string name="about_server_app_version_text">Server version</string>
+    <string name="no_files_attached_to_this_card">Der er ingen filer hæftet til dette kort.</string>
+    <string name="attachments">Vedhæftede filer</string>
+    <string name="no_cards">Endnu ingen kort</string>
+    <string name="no_account">Der er ikke konfigureret en konto</string>
+    <string name="account_already_added">Konto er allerede tilføjet</string>
+    <string name="account_is_getting_imported">Kontoen importeres</string>
+    <string name="not_synced_yet">Ikke synkronsieret endnu</string>
+    <string name="no_lists_yet">Endnu ingen lister</string>
+    <string name="do_you_want_to_save_your_changes">Vil du gemme dine ændringer?</string>
+    <string name="do_you_want_to_delete_the_current_list">Vil du slette den aktuelle liste?</string>
+    <string name="add_a_new_list_using_the_button">Tilføj en ny liste med knappen +</string>
+    <string name="add_a_new_card_using_the_button">Tilføj et nyt kort med knappen +</string>
+    <string name="update_deck">Opdatér deck</string>
+    <string name="your_deck_version_is_too_old">Din version af deck er for gammel</string>
+    <string name="deck_outdated_please_update">Din version af deck er for gammel. For at anvende denne android app som klient, så foretag venligst en opdatering.</string>
+    <string name="delete_board_message">Dette vil permanent slette denne tavle, inklusive alle lister og kort.</string>
+    <string name="settings_theme_title">Mørk tema</string>
+    <string name="settings_branding_title">Branding</string>
+    <string name="settings_background_sync">Synkronisering i baggrunden</string>
+    <string name="pref_value_wifi_and_mobile">Synk på Wi-Fi og mobil data</string>
+    <string name="pref_value_wifi_only">Synk kun på Wi-Fi</string>
+    <string name="pref_value_theme_light">Lys</string>
+    <string name="unassigned_user">Ikke-tildelt %1$s</string>
+    <string name="no_activities">Der er ingen aktiviteter på dette kort. Du skal være koblet på en internetforbindelser for at indlæse og vise aktiviteter.</string>
+    <string name="share_board">Del tavlen</string>
+    <string name="you_are_currently_offline">Du er i øjeblikket offline</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Du skal være koblet på en internetforbindelse for at tilføje en konto.</string>
+    <string name="owner">Ejer</string>
+    <string name="attachment_delete_message">Dette vil permanent slette denne vedhæftning.</string>
+    <string name="no_content">Endnu intet indhold</string>
+    <string name="last_background_sync">Seneste baggrundssynkronisering:</string>
+    <string name="simple_off">Fra</string>
+    <string name="minutes_15">15 minutter</string>
+    <string name="hour_1">1 time</string>
+    <string name="hours_6">6 timer</string>
+    <string name="action_card_move">Flyt kort</string>
+    <string name="action_card_move_title">Flyt %1$s</string>
+    <string name="please_add_an_account_first">Tilføj venligst en konto først</string>
+    <string name="title_is_mandatory">Titel er påkrævet</string>
+    <string name="provide_at_least_a_title_or_description">Angiv mindst titel eller beskrivelse</string>
+    <string name="welcome_text">Velkommen til %1$s</string>
+    <string name="save_card_before_attachment">Kortet skal være gemt før vedhæftningen kan tilføjes.</string>
+    <string name="maintenance_mode_explanation">Serveren %1$s er aktuelt i vedligeholdelsestilstand. Kontakt venligst din administrator eller forsøg igen senere.</string>
+    <string name="share_add_to_card">Tilføj til kort</string>
+    <string name="share_success">Tilføjede %1$s til %2$s med succes</string>
+    <string name="could_not_copy_to_clipboard">Kunne ikke kopiere til udklipsholderen</string>
+    <string name="add_comment">Tillføj kommentar</string>
+    <string name="card_edit_comments">Kommentarer</string>
+    <string name="no_comments_yet">Endnu ingen kommentarer</string>
+    <string name="no_boards">Endnu ingen tavler</string>
+    <string name="add_a_new_board_using_the_button">Tilføj en ny tavle med knappen +</string>
+    <string name="choose_board">Vælg tavle</string>
+    <string name="choose_list">Vælg liste</string>
+    <string name="task_count">%1$s/%2$s</string>
+    <string name="open_in_browser">Åbn i browser</string>
+    <string name="updating_card">Opdaterer kort ...</string>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Flyt liste til højre</string>
+    <string name="move_list_left">Flyt liste til venstre</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Alle</string>
+    <string name="filter_today">I dag</string>
     </resources>

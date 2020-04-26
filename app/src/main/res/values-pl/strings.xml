@@ -13,6 +13,30 @@
     <string name="simple_add">Dodaj</string>
     <string name="simple_save">Zapisz</string>
     <string name="simple_more">Więcej</string>
+    <string name="simple_title">Tytuł</string>
+    <string name="simple_copy">kopiuj</string>
+    <string name="simple_synchronization">Synchronizacja</string>
+    <string name="simple_appearance">Wygląd</string>
+    <string name="simple_error">Błąd</string>
+    <string name="simple_exception">Wyjątek</string>
+    <string name="simple_close">zamknij</string>
+    <string name="simple_open">Otwórz</string>
+    <string name="simple_switch">Przełącz</string>
+    <string name="simple_filter">Filtr</string>
+    <string name="simple_overdue">Zaległe</string>
+    <string name="simple_clear">Wyczyść </string>
+    <string name="simple_discard">odrzuć</string>
+    <string name="simple_update">Aktualizuj</string>
+    <string name="simple_delete">Usuń</string>
+    <string name="simple_rename">Zmień nazwę</string>
+    <string name="simple_settings">Ustawienia</string>
+    <string name="simple_undo">Cofnij</string>
+    <string name="simple_manage">zarządzać</string>
+    <string name="simple_share">udostępniać</string>
+    <string name="simple_select">Wybierz</string>
+    <string name="simple_comment">Komentarz</string>
+    <string name="simple_disabled">wyłączony</string>
+    <string name="simple_copied">Skopiowano</string>
 
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Data realizacji</string>
     <string name="add_account">Dodaj konto</string>
     <string name="choose_account">Wybierz konto</string>
-
     <string name="add_card">Dodaj kartę</string>
-
     <string name="activity">Aktywność</string>
-
     <string name="add_list">Dodaj listę</string>
     <string name="rename_list">Zmień nazwę listy</string>
     <string name="delete_list">Usuń listę</string>
-
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Przydziel kartę</string>
     <string name="action_card_unassign">Cofnij przydzieloną kartę</string>
     <string name="action_card_archive">Zarchiwizowane karty</string>
     <string name="action_card_delete">Usunięte karty</string>
     <string name="add_board">Dodaj tablicę</string>
-    <string name="simple_title">Tytuł</string>
 
     <string name="label_clear_due_date">Wyczyść termin</string>
     <string name="label_add">Dodaj %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Wystąpił błąd</string>
     <string name="operation_not_yet_supported">Jeszcze nie obsługiwane</string>
-    <string name="simple_copy">kopiuj</string>
-    <string name="simple_synchronization">Synchronizacja</string>
-    <string name="simple_appearance">Wygląd</string>
-    <string name="simple_error">Błąd</string>
-    <string name="simple_exception">Wyjątek</string>
     <string name="copied_to_clipboard">Skopiowano do schowka</string>
-    <string name="simple_close">zamknij</string>
+    <string name="error_revoking_ac">Błąd podczas anulowania dostępu dla %1$s</string>
+    <string name="maintenance_mode">Serwer w trybie konserwacji</string>
+    <string name="server_misconfigured">Serwer źle skonfigurowany</string>
+    <string name="server_misconfigured_explanation">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client. Nasze informacje kontaktowe dotyczące wsparcia można znaleźć w dziale \"O nas\".</string>
+    <string name="server_error">Błąd serwera</string>
+    <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
 
     <string name="card_edit_details">Szczegóły</string>
     <string name="card_edit_attachments">Załączniki</string>
@@ -97,18 +117,13 @@
     <string name="not_synced_yet">Jeszcze nie zsynchronizowane</string>
     <string name="no_lists_yet">Brak list</string>
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
-    <string name="simple_discard">odrzuć</string>
     <string name="do_you_want_to_delete_the_current_list">Czy chcesz usunąć bieżącą listę?</string>
     <string name="add_a_new_list_using_the_button">Dodaj nową listę za pomocą przycisku +</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +</string>
     <string name="update_deck">Zaktualizuj deck</string>
     <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
     <string name="deck_outdated_please_update">Twoja wersja deck jest nieaktualna. Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
-    <string name="simple_update">Aktualizuj</string>
-    <string name="simple_delete">Usuń</string>
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tej tablicy, w tym wszystkich list i kart.</string>
-    <string name="simple_rename">Zmień nazwę</string>
-    <string name="simple_settings">Ustawienia</string>
     <string name="settings_theme_title">Ciemny motyw</string>
     <string name="settings_branding_title">Motyw serwera</string>
     <string name="settings_background_sync">Synchronizacja w tle</string>
@@ -116,16 +131,11 @@
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
     <string name="pref_value_theme_light">Jasny</string>
     <string name="unassigned_user">Nieprzypisane %1$s</string>
-    <string name="simple_undo">Cofnij</string>
     <string name="no_activities">Na tej karcie nie ma żadnych działań. Musisz być podłączony do Internetu, aby ładować i wyświetlać działania.</string>
     <string name="share_board">Udostępnij tablicę</string>
     <string name="you_are_currently_offline">Obecnie jesteś w offline</string>
-    <string name="simple_manage">zarządzać</string>
-    <string name="simple_share">udostępniać</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Musisz mieć połączenie z Internetem, aby dodać konto.</string>
-    <string name="simple_select">Wybierz</string>
     <string name="owner">Właściciel</string>
-    <string name="simple_comment">Komentarz</string>
     <string name="attachment_delete_message">Spowoduje to trwałe usunięcie tego załącznika.</string>
     <string name="no_content">Brak treści</string>
     <string name="last_background_sync">Ostatnia synchronizacja w tle:</string>
@@ -135,21 +145,15 @@
     <string name="hours_6">6 godzin</string>
     <string name="action_card_move">Przenieś kartę</string>
     <string name="action_card_move_title">Przenieś %1$s</string>
-    <string name="simple_disabled">wyłączony</string>
-    <string name="simple_copied">Skopiowano</string>
     <string name="please_add_an_account_first">Najpierw dodaj konto</string>
     <string name="title_is_mandatory">Tytuł jest obowiązkowy</string>
     <string name="provide_at_least_a_title_or_description">Podaj co najmniej tytuł lub opis</string>
     <string name="welcome_text">Witamy w %1$s</string>
     <string name="save_card_before_attachment">Kartę należy zapisać przed dodaniem załączników.</string>
-    <string name="server_misconfigured">Serwer źle skonfigurowany</string>
-    <string name="server_misconfigured_explanation">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client. Nasze informacje kontaktowe dotyczące wsparcia można znaleźć w dziale \"O nas\".</string>
-    <string name="server_error">Błąd serwera</string>
     <string name="maintenance_mode_explanation">Serwer %1$s jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub spróbuj ponownie później.</string>
     <string name="share_add_to_card">Dodaj do karty</string>
     <string name="share_success">Pomyślnie dodano %1$s do %2$s</string>
     <string name="could_not_copy_to_clipboard">Nie można skopiować do schowka</string>
-    <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
     <string name="add_comment">Dodaj komentarz</string>
     <string name="card_edit_comments">Komentarze</string>
     <string name="no_comments_yet">Brak komentarzy</string>
@@ -159,11 +163,20 @@
     <string name="choose_list">Wybierz listę</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Otwórz w przeglądarce</string>
-    <string name="simple_open">Otwórz</string>
     <string name="updating_card">Aktualizowanie karty…</string>
-    <string name="error_revoking_ac">Błąd podczas anulowania dostępu dla %1$s</string>
-    <string name="maintenance_mode">Serwer w trybie konserwacji</string>
-    <string name="simple_switch">Przełącz</string>
+
+    <!-- Move lists -->
     <string name="move_list_right">Przesuń listę w prawo</string>
     <string name="move_list_left">Przesuń listę w lewo</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Wszystko</string>
+    <string name="filter_overdue">Zaległe</string>
+    <string name="filter_today">Dzisiaj</string>
+    <string name="filter_week">Następne 7 dni</string>
+    <string name="filter_month">Następne 30 dni</string>
+    <string name="filter_no_due">Brak daty ważności</string>
+    <string name="filter_by_tag">Filtruj po tagu</string>
+    <string name="filter_by_assigned_user">Filtruj według przypisanego użytkownika</string>
+    <string name="filter_by_duedate">Filtruj według terminu</string>
 </resources>

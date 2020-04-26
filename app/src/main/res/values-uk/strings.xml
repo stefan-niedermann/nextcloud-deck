@@ -13,6 +13,29 @@
     <string name="simple_add">Додати</string>
     <string name="simple_save">Зберегти</string>
     <string name="simple_more">Додатково</string>
+    <string name="simple_title">Назва</string>
+    <string name="simple_copy">копіювати</string>
+    <string name="simple_synchronization">Synchronization</string>
+    <string name="simple_appearance">Вигляд</string>
+    <string name="simple_error">Помилка</string>
+    <string name="simple_exception">Виняток</string>
+    <string name="simple_close">закрити</string>
+    <string name="simple_open">Відкрити</string>
+    <string name="simple_switch">Перемкнути</string>
+    <string name="simple_filter">Фільтр</string>
+    <string name="simple_clear">Очистити</string>
+    <string name="simple_discard">відхилити</string>
+    <string name="simple_update">Оновлення</string>
+    <string name="simple_delete">Видалити</string>
+    <string name="simple_rename">Перейменувати</string>
+    <string name="simple_settings">Налаштування</string>
+    <string name="simple_undo">відмінити</string>
+    <string name="simple_manage">керувати</string>
+    <string name="simple_share">поширити</string>
+    <string name="simple_select">Обрати</string>
+    <string name="simple_comment">Коментар</string>
+    <string name="simple_disabled">вимкнено</string>
+    <string name="simple_copied">Скопійовано</string>
 
     <string name="edit_board">Редагувати дошку</string>
     <string name="archive_board">Архівувати дошку</string>
@@ -52,36 +75,28 @@
     <string name="hint_due_date_date">Дата завершення</string>
     <string name="add_account">Додати обліковий запис</string>
     <string name="choose_account">Оберіть обліковий запис</string>
-
     <string name="add_card">Додати картку</string>
-
     <string name="activity">Активність</string>
-
     <string name="add_list">Додати список</string>
     <string name="rename_list">Перейменувати список</string>
     <string name="delete_list">Вилучити список</string>
-
     <string name="label_menu">меню</string>
     <string name="action_card_assign">Призначити картку мені</string>
     <string name="action_card_unassign">Відв\'язати картку від мене</string>
     <string name="action_card_archive">Архівувати картку</string>
     <string name="action_card_delete">Видалити картку</string>
     <string name="add_board">Додати дошку</string>
-    <string name="simple_title">Назва</string>
 
     <string name="label_clear_due_date">Очистити до</string>
     <string name="label_add">Додати %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Сталася помилка </string>
     <string name="operation_not_yet_supported">Ще не підтримується</string>
-    <string name="simple_copy">копіювати</string>
-    <string name="simple_synchronization">Synchronization</string>
-    <string name="simple_appearance">Вигляд</string>
-    <string name="simple_error">Помилка</string>
-    <string name="simple_exception">Виняток</string>
     <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
-    <string name="simple_close">закрити</string>
-
+    <string name="maintenance_mode">Сервер у режимі обслуговування</string>
+    <string name="server_misconfigured">Сервер налаштовано некоректно</string>
+    <string name="server_error">Помилка серверу</string>
     <string name="card_edit_details">Деталі</string>
     <string name="card_edit_attachments">Вкладення</string>
     <string name="card_edit_activity">Активність</string>
@@ -95,34 +110,24 @@
     <string name="not_synced_yet">Поки не синхронізовано</string>
     <string name="no_lists_yet">Поки що відсутні списки</string>
     <string name="do_you_want_to_save_your_changes">Чи бажаєте Ви зберегти Ваші зміни?</string>
-    <string name="simple_discard">відхилити</string>
     <string name="do_you_want_to_delete_the_current_list">Вилучити поточний список?</string>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додайте нову картку за допомогою кнопки +</string>
     <string name="update_deck">Оновлення дошки</string>
     <string name="your_deck_version_is_too_old">Версія Вашої дошки надто давня</string>
     <string name="deck_outdated_please_update">Версія Вашої дошки надто давня. Будь-ласка виконайте оновлення щоб використовувати цей додаток як клієнт android.</string>
-    <string name="simple_update">Оновлення</string>
-    <string name="simple_delete">Видалити</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
-    <string name="simple_rename">Перейменувати</string>
-    <string name="simple_settings">Налаштування</string>
     <string name="settings_theme_title">Темна тема</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
     <string name="pref_value_wifi_and_mobile">Синхронізація за допомогою Wi-Fi та мобільних даних</string>
     <string name="pref_value_wifi_only">Синхронізація тільки за допомогою WI-Fi</string>
     <string name="pref_value_theme_light">Світла</string>
     <string name="unassigned_user">Непризначено %1$s</string>
-    <string name="simple_undo">відмінити</string>
     <string name="no_activities">На цій картці немає активностей. Ви повинні під\'єднатися до інтернет щоб загрузити і показати активності.</string>
     <string name="share_board">Поширити дошку</string>
     <string name="you_are_currently_offline">Ви зараз оффлайн</string>
-    <string name="simple_manage">керувати</string>
-    <string name="simple_share">поширити</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Ви повинні під\'єднатися до інтернету щоб додати обліковий запис.</string>
-    <string name="simple_select">Обрати</string>
     <string name="owner">Власник</string>
-    <string name="simple_comment">Коментар</string>
     <string name="attachment_delete_message">Це вкладення буде остаточно видалене.</string>
     <string name="no_content">Жодного коментаря</string>
     <string name="last_background_sync">Остання фонова синхронізація:</string>
@@ -132,15 +137,11 @@
     <string name="hours_6">6 годин</string>
     <string name="action_card_move">Пересунути картку</string>
     <string name="action_card_move_title">Пересунути %1$s</string>
-    <string name="simple_disabled">вимкнено</string>
-    <string name="simple_copied">Скопійовано</string>
     <string name="please_add_an_account_first">Спочатку додайте обліковий запис</string>
     <string name="title_is_mandatory">Назва є обов\'язковою</string>
     <string name="provide_at_least_a_title_or_description">Щонайменше додайте назву чи опис</string>
     <string name="welcome_text">Вітаємо у %1$s</string>
     <string name="save_card_before_attachment">Перед додаванням вмісту потрібно зберегти картку</string>
-    <string name="server_misconfigured">Сервер налаштовано некоректно</string>
-    <string name="server_error">Помилка серверу</string>
     <string name="share_add_to_card">Додати до картки</string>
     <string name="share_success">Успішно додано %1$s до %2$s</string>
     <string name="could_not_copy_to_clipboard">Неможливо скопіювати до буферу обміну</string>
@@ -153,10 +154,13 @@
     <string name="choose_list">Виберіть список</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Відкрити у переглядачі</string>
-    <string name="simple_open">Відкрити</string>
     <string name="updating_card">Оновлюю картку...</string>
-    <string name="maintenance_mode">Сервер у режимі обслуговування</string>
-    <string name="simple_switch">Перемкнути</string>
+
+    <!-- Move lists -->
     <string name="move_list_right">Пересунути список праворуч</string>
     <string name="move_list_left">Пересунути список ліворуч</string>
-</resources>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Всі</string>
+    <string name="filter_today">Сьогодні</string>
+    </resources>

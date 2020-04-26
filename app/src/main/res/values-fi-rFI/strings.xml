@@ -13,6 +13,29 @@
     <string name="simple_add">Lisää</string>
     <string name="simple_save">Tallenna</string>
     <string name="simple_more">Lisää</string>
+    <string name="simple_title">Otsikko</string>
+    <string name="simple_copy">kopioi</string>
+    <string name="simple_synchronization">Synkronointi</string>
+    <string name="simple_appearance">Ulkoasu</string>
+    <string name="simple_error">Virhe</string>
+    <string name="simple_exception">Poikkeus</string>
+    <string name="simple_close">sulje</string>
+    <string name="simple_open">Avoinna</string>
+    <string name="simple_filter">Suodata</string>
+    <string name="simple_overdue">Myöhässä</string>
+    <string name="simple_clear">Tyhjennä</string>
+    <string name="simple_discard">hylkää</string>
+    <string name="simple_update">Päivitä</string>
+    <string name="simple_delete">Poista</string>
+    <string name="simple_rename">Nimeä uudelleen</string>
+    <string name="simple_settings">Asetukset</string>
+    <string name="simple_undo">Kumoa</string>
+    <string name="simple_manage">hallitse</string>
+    <string name="simple_share">jaa</string>
+    <string name="simple_select">Valitse</string>
+    <string name="simple_comment">Kommentti</string>
+    <string name="simple_disabled">poistettu käytöstä</string>
+    <string name="simple_copied">Kopioitu</string>
 
     <string name="edit_board">Muokkaa taulua</string>
     <string name="archive_board">Arkistoi taulu</string>
@@ -54,33 +77,26 @@
     <string name="hint_due_date_date">Eräpäivä</string>
     <string name="add_account">Lisää tili</string>
     <string name="choose_account">Valitse tili</string>
-
     <string name="add_card">Lisää kortti</string>
-
     <string name="activity">Aktiviteetti</string>
-
     <string name="delete_list">Poista lista</string>
-
     <string name="label_menu">Valikko</string>
     <string name="action_card_assign">Määritä kortti minulle</string>
     <string name="action_card_unassign">Poista kortin määritys minulta</string>
     <string name="action_card_archive">Arkistoi kortti</string>
     <string name="action_card_delete">Poista kortti</string>
     <string name="add_board">Lisää taulu</string>
-    <string name="simple_title">Otsikko</string>
 
     <string name="label_clear_due_date">Poista eräpäivä</string>
     <string name="label_add">Lisää %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Tapahtui virhe</string>
-    <string name="simple_copy">kopioi</string>
-    <string name="simple_synchronization">Synkronointi</string>
-    <string name="simple_appearance">Ulkoasu</string>
-    <string name="simple_error">Virhe</string>
-    <string name="simple_exception">Poikkeus</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
-    <string name="simple_close">sulje</string>
-
+    <string name="maintenance_mode">Palvelin on huoltotilassa</string>
+    <string name="server_misconfigured">Virheelliset palvelimen asetukset</string>
+    <string name="server_misconfigured_explanation">Palvelimesi vastasi HTTP 302 tilakoodilla, joka tarkoittaa, että Deck/pakka sovellusta ei ole asennettu palvelimellesi tai jossain on virheelliset asetukset. Tämän voi aiheuttaa muunneltu .htaccess tiedosto tai Nextcloud sovellus kuten OID asiakas. Tukipalvelun yhteystiedot löytyvät muuta valikosta. </string>
+    <string name="server_error">Palvelinvirhe</string>
     <string name="card_edit_details">Tiedot</string>
     <string name="card_edit_attachments">Liitteet</string>
     <string name="card_edit_activity">Tapahtumat</string>
@@ -93,31 +109,21 @@
     <string name="account_is_getting_imported">Tiliä tuodaan sisään</string>
     <string name="not_synced_yet">Ei vielä synkronoitu</string>
     <string name="do_you_want_to_save_your_changes">Haluatko tallentaa muutokset?</string>
-    <string name="simple_discard">hylkää</string>
     <string name="add_a_new_card_using_the_button">Lisää uusi kortti painamalla +</string>
     <string name="update_deck">Päivitä pakka</string>
     <string name="your_deck_version_is_too_old">Pakan versio on liian vanha</string>
     <string name="deck_outdated_please_update">Pakan versio on liian vanha. Päivitä kayttämällä tätä android sovellusta asiakkaana.</string>
-    <string name="simple_update">Päivitä</string>
-    <string name="simple_delete">Poista</string>
-    <string name="simple_rename">Nimeä uudelleen</string>
-    <string name="simple_settings">Asetukset</string>
     <string name="settings_theme_title">Tumma teema</string>
     <string name="settings_background_sync">Taustasynkronointi</string>
     <string name="pref_value_wifi_and_mobile">Synkronoi wifi- ja mobiilidatayhteydellä</string>
     <string name="pref_value_wifi_only">Synkronoi vain wifi-yhteydellä</string>
     <string name="pref_value_theme_light">Vaalea</string>
     <string name="unassigned_user">Ei määritelty%1$s</string>
-    <string name="simple_undo">Kumoa</string>
     <string name="no_activities">Tällä kortilla ei ole toimintoja. Tarvitset internetyhteyden toimintojen lataamiseen ja näyttämiseen.</string>
     <string name="share_board">Jaa taulu</string>
     <string name="you_are_currently_offline">Et ole yhteydessä verkkoon</string>
-    <string name="simple_manage">hallitse</string>
-    <string name="simple_share">jaa</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Sinun tulee olla yhteydessä internetiin, jotta voit lisätä tilin.</string>
-    <string name="simple_select">Valitse</string>
     <string name="owner">Omistaja</string>
-    <string name="simple_comment">Kommentti</string>
     <string name="attachment_delete_message">Tämä poistaa liitteen pysyvästi.</string>
     <string name="no_content">Ei vielä sisältöä</string>
     <string name="last_background_sync">Viimeisin taustasynkronointi:</string>
@@ -127,21 +133,22 @@
     <string name="hours_6">6 tuntia</string>
     <string name="action_card_move">Siirrä kortti</string>
     <string name="action_card_move_title">Siirrä %1$s</string>
-    <string name="simple_disabled">poistettu käytöstä</string>
-    <string name="simple_copied">Kopioitu</string>
     <string name="please_add_an_account_first">Lisää ensin tili</string>
     <string name="title_is_mandatory">Otsikko on pakollinen</string>
     <string name="provide_at_least_a_title_or_description">Anna vähintään otsikko tai kuvaus</string>
     <string name="welcome_text">Tervetuloa kohteeseen %1$s</string>
     <string name="save_card_before_attachment">Kortti pitää tallentaa ennen kuin liitetiedostoja voidaan lisätä.</string>
-    <string name="server_misconfigured">Virheelliset palvelimen asetukset</string>
-    <string name="server_misconfigured_explanation">Palvelimesi vastasi HTTP 302 tilakoodilla, joka tarkoittaa, että Deck/pakka sovellusta ei ole asennettu palvelimellesi tai jossain on virheelliset asetukset. Tämän voi aiheuttaa muunneltu .htaccess tiedosto tai Nextcloud sovellus kuten OID asiakas. Tukipalvelun yhteystiedot löytyvät muuta valikosta. </string>
-    <string name="server_error">Palvelinvirhe</string>
     <string name="share_add_to_card">Lisää kortille</string>
     <string name="share_success">Onnistuneesti lisätty %1$s kohteeseen %2$s</string>
     <string name="could_not_copy_to_clipboard">Ei voitu kopioida leikepöydälle</string>
     <string name="card_edit_comments">Kommentit</string>
     <string name="open_in_browser">Avaa selaimessa</string>
-    <string name="simple_open">Avoinna</string>
-    <string name="maintenance_mode">Palvelin on huoltotilassa</string>
+    <!-- Filter -->
+    <string name="filter_no_filter">Kaikki</string>
+    <string name="filter_overdue">Myöhässä</string>
+    <string name="filter_today">Tänään</string>
+    <string name="filter_week">Seuraavat 7 päivää</string>
+    <string name="filter_month">Seuraavat 30 päivää</string>
+    <string name="filter_no_due">Ei eräpäivää</string>
+    <string name="filter_by_tag">Suodata tunnisteen perusteella</string>
     </resources>
