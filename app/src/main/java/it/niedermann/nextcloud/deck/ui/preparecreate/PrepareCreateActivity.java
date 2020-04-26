@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.preparecreate;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -174,7 +176,12 @@ public class PrepareCreateActivity extends BrandedActivity {
         if (account != null) {
             final long boardId = binding.boardSelect.getSelectedItemId();
             final long stackId = binding.stackSelect.getSelectedItemId();
-            startActivity(EditActivity.createIntent(this, account, boardId, stackId, NO_LOCAL_ID));
+            final String receivedClipData = getReceivedClipData(getIntent());
+            if (receivedClipData == null) {
+                startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId, NO_LOCAL_ID));
+            } else {
+                startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId, NO_LOCAL_ID, receivedClipData));
+            }
 
             Application.saveCurrentAccountId(this, account.getId());
             Application.saveCurrentBoardId(this, account.getId(), boardId);
@@ -187,6 +194,27 @@ public class PrepareCreateActivity extends BrandedActivity {
             DeckLog.error("Selected account at position " + binding.accountSelect.getSelectedItemPosition() + " is null.");
             Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Nullable
+    private static String getReceivedClipData(@Nullable Intent intent) {
+        if (intent == null) {
+            return null;
+        }
+        final ClipData clipData = intent.getClipData();
+        if (clipData == null) {
+            return null;
+        }
+        final int itemCount = clipData.getItemCount();
+        if (itemCount <= 0) {
+            return null;
+        }
+        final ClipData.Item item = clipData.getItemAt(0);
+        if (item == null) {
+            return null;
+        }
+        final CharSequence text = item.getText();
+        return TextUtils.isEmpty(text) ? null : text.toString();
     }
 
     private void applyTemporaryBrand(@Nullable Account account) {

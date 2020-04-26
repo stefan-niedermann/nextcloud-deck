@@ -256,7 +256,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (this.boardsList.size() > 0) {
                     try {
                         Long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                        startActivity(EditActivity.createIntent(this, viewModel.getCurrentAccount(), viewModel.getCurrentBoardLocalId(), stackId, NO_LOCAL_ID));
+                        startActivity(EditActivity.createNewCardIntent(this, viewModel.getCurrentAccount(), viewModel.getCurrentBoardLocalId(), stackId, NO_LOCAL_ID));
                     } catch (IndexOutOfBoundsException e) {
                         EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
                     }

@@ -84,6 +84,6 @@
             android:layout_marginStart="@dimen/spacer_1x"
             android:layout_marginLeft="@dimen/spacer_1x"
             android:layout_weight=".5"
-            android:text="@string/add_card" />
+            android:text="@string/simple_add" />
     </LinearLayout>
 </RelativeLayout>

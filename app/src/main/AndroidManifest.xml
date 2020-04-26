@@ -87,8 +87,16 @@
 
         <activity
             android:name=".ui.preparecreate.PrepareCreateActivity"
-            android:label="@string/simple_select"
-            android:theme="@style/AppTheme" />
+            android:description="@string/add_a_new_card_using_the_button"
+            android:label="@string/add_card"
+            android:theme="@style/AppTheme">
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/*" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.about.AboutActivity"

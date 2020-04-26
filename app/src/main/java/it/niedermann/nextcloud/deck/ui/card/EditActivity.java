@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,13 +29,14 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class EditActivity extends BrandedActivity {
+    private static final String BUNDLE_KEY_ACCOUNT = "account";
+    private static final String BUNDLE_KEY_LOCAL_ID = "localId";
+    private static final String BUNDLE_KEY_BOARD_ID = "boardId";
+    private static final String BUNDLE_KEY_STACK_ID = "stackId";
+    private static final String BUNDLE_KEY_TITLE = "title";
+    private static final Long NO_LOCAL_ID = -1L;
 
     private ActivityEditBinding binding;
     private EditCardViewModel viewModel;
@@ -107,6 +109,14 @@ public class EditActivity extends BrandedActivity {
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
                 viewModel.initializeNewCard(account, boardId, args.getLong(BUNDLE_KEY_STACK_ID));
+                String title = args.getString(BUNDLE_KEY_TITLE);
+                if (!TextUtils.isEmpty(title)) {
+                    if (title.length() >= 100) {
+                        viewModel.getFullCard().getCard().setDescription(title);
+                    } else {
+                        viewModel.getFullCard().getCard().setTitle(title);
+                    }
+                }
                 setupViewPager();
                 setupTitle(viewModel.isCreateMode());
             } else {
@@ -225,7 +235,6 @@ public class EditActivity extends BrandedActivity {
                 }
             });
         } else {
-//            binding.titleTextInputLayout.setHintEnabled(false);
             binding.title.setEnabled(false);
         }
     }
@@ -261,17 +270,22 @@ public class EditActivity extends BrandedActivity {
         final int highlightColor = Color.argb(77, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
         binding.title.setHighlightColor(highlightColor);
         binding.title.setTextColor(textColor);
-//        DrawableCompat.setTintList(binding.title.getBackground(), ColorStateList.valueOf(textColor));
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId, Long cardId) {
-        return createIntent(context, account, boardId, cardId)
+    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId, Long cardId, @NonNull String title) {
+        return createNewCardIntent(context, account, boardId, stackId, cardId)
+                .putExtra(BUNDLE_KEY_TITLE, title);
+    }
+
+    @NonNull
+    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId, Long cardId) {
+        return createEditCardIntent(context, account, boardId, cardId)
                 .putExtra(BUNDLE_KEY_STACK_ID, stackId);
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long cardId) {
+    public static Intent createEditCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long cardId) {
         return new Intent(context, EditActivity.class)
                 .putExtra(BUNDLE_KEY_ACCOUNT, account)
                 .putExtra(BUNDLE_KEY_BOARD_ID, boardId)

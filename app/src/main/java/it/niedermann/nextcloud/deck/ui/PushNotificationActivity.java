@@ -159,7 +159,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
             DeckLog.logError(t);
         }
         DeckLog.info("starting " + EditActivity.class.getSimpleName() + " with [" + account + ", " + boardId + ", " + cardId + "]");
-        startActivity(EditActivity.createIntent(this, account, boardId, cardId));
+        startActivity(EditActivity.createEditCardIntent(this, account, boardId, cardId));
         finish();
     }
 
