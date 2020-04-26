@@ -13,6 +13,30 @@
     <string name="simple_add">Adicionar</string>
     <string name="simple_save">Salvar</string>
     <string name="simple_more">Mais</string>
+    <string name="simple_title">Título</string>
+    <string name="simple_copy">copiar</string>
+    <string name="simple_synchronization">Sincronização</string>
+    <string name="simple_appearance">Aparência</string>
+    <string name="simple_error">Erro</string>
+    <string name="simple_exception">Exceção</string>
+    <string name="simple_close">fechar</string>
+    <string name="simple_open">Abrir</string>
+    <string name="simple_switch">Alterar</string>
+    <string name="simple_filter">Filtro</string>
+    <string name="simple_overdue">Vencidos</string>
+    <string name="simple_clear">Limpar</string>
+    <string name="simple_discard">descartar</string>
+    <string name="simple_update">Atualizar</string>
+    <string name="simple_delete">Excluir</string>
+    <string name="simple_rename">Renomear</string>
+    <string name="simple_settings">Configurações</string>
+    <string name="simple_undo">Desfazer</string>
+    <string name="simple_manage">gerenciar</string>
+    <string name="simple_share">compartilhar</string>
+    <string name="simple_select">Selecionar</string>
+    <string name="simple_comment">Comentário</string>
+    <string name="simple_disabled">desativado</string>
+    <string name="simple_copied">Copiado</string>
 
     <string name="edit_board">Editar painel</string>
     <string name="archive_board">Arquivar painel</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Data de vencimento</string>
     <string name="add_account">Adicionar conta</string>
     <string name="choose_account">Escolher conta</string>
-
     <string name="add_card">Adicionar cartão</string>
-
     <string name="activity">Atividade</string>
-
     <string name="add_list">Adicionar lista</string>
     <string name="rename_list">Renomear lista</string>
     <string name="delete_list">Excluir lista</string>
-
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Atribuir o cartão a mim</string>
     <string name="action_card_unassign">Desvincular o cartão de mim</string>
     <string name="action_card_archive">Arquivar cartão</string>
     <string name="action_card_delete">Excluir cartão</string>
     <string name="add_board">Adicionar painel</string>
-    <string name="simple_title">Título</string>
 
     <string name="label_clear_due_date">Remover data de vencimento</string>
     <string name="label_add">Adicionar %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Ocorreu um erro</string>
     <string name="operation_not_yet_supported">Ainda não suportado</string>
-    <string name="simple_copy">copiar</string>
-    <string name="simple_synchronization">Sincronização</string>
-    <string name="simple_appearance">Aparência</string>
-    <string name="simple_error">Erro</string>
-    <string name="simple_exception">Exceção</string>
     <string name="copied_to_clipboard">Copiado para a área de transferência</string>
-    <string name="simple_close">fechar</string>
+    <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
+    <string name="maintenance_mode">Servidor em modo de manutenção</string>
+    <string name="server_misconfigured">Servidor mal configurado</string>
+    <string name="server_misconfigured_explanation">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck ou ele está configurado incorretamente. Isso pode ser causado por alterações personalizadas no arquivo .htaccess ou aplicativos Nextcloud como o Client OID. Você pode encontrar informações de contato para suporte na seção \"Sobre\".</string>
+    <string name="server_error">Erro no servidor</string>
+    <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
 
     <string name="card_edit_details">Detalhes</string>
     <string name="card_edit_attachments">Anexos</string>
@@ -97,18 +117,13 @@
     <string name="not_synced_yet">Ainda não sincronizado</string>
     <string name="no_lists_yet">Ainda sem listas</string>
     <string name="do_you_want_to_save_your_changes">Deseja salvar suas alterações?</string>
-    <string name="simple_discard">descartar</string>
     <string name="do_you_want_to_delete_the_current_list">Deseja excluir a lista atual?</string>
     <string name="add_a_new_list_using_the_button">Adicione uma nova lista usando o botão +</string>
     <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
     <string name="update_deck">Atualizar o dock</string>
     <string name="your_deck_version_is_too_old">Sua versão do dock é muito antiga.</string>
     <string name="deck_outdated_please_update">Sua versão do dock é muito antiga. Atualize-a para usar este aplicativo Android como cliente.</string>
-    <string name="simple_update">Atualizar</string>
-    <string name="simple_delete">Excluir</string>
     <string name="delete_board_message">Isso excluirá permanentemente este painel incluindo listas e cartões.</string>
-    <string name="simple_rename">Renomear</string>
-    <string name="simple_settings">Configurações</string>
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Marcação</string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
@@ -116,16 +131,11 @@
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>
     <string name="pref_value_theme_light">Claro</string>
     <string name="unassigned_user"> %1$s desatribuído</string>
-    <string name="simple_undo">Desfazer</string>
     <string name="no_activities">Não há atividades neste cartão. Você precisa estar conectado com a internet para carregar e exibir atividades.</string>
     <string name="share_board">Compartilhar painel</string>
     <string name="you_are_currently_offline">Você está offline no momento</string>
-    <string name="simple_manage">gerenciar</string>
-    <string name="simple_share">compartilhar</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Você precisa estar conectado à Internet para adicionar uma conta.</string>
-    <string name="simple_select">Selecionar</string>
     <string name="owner">Proprietário</string>
-    <string name="simple_comment">Comentário</string>
     <string name="attachment_delete_message">Isso excluirá permanentemente este anexo.</string>
     <string name="no_content">Sem contexto ainda</string>
     <string name="last_background_sync">Última sincronização em segundo plano:</string>
@@ -135,21 +145,15 @@
     <string name="hours_6">6 horas</string>
     <string name="action_card_move">Mover cartão</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="simple_disabled">desativado</string>
-    <string name="simple_copied">Copiado</string>
     <string name="please_add_an_account_first">Adicione uma conta primeiro</string>
     <string name="title_is_mandatory">O título é obrigatório</string>
     <string name="provide_at_least_a_title_or_description">Forneça ao menos um título ou descrição</string>
     <string name="welcome_text">Bem-vindo ao %1$s</string>
     <string name="save_card_before_attachment">O cartão precisa ser salvo antes que anexos sejam adicionados.</string>
-    <string name="server_misconfigured">Servidor mal configurado</string>
-    <string name="server_misconfigured_explanation">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck ou ele está configurado incorretamente. Isso pode ser causado por alterações personalizadas no arquivo .htaccess ou aplicativos Nextcloud como o Client OID. Você pode encontrar informações de contato para suporte na seção \"Sobre\".</string>
-    <string name="server_error">Erro no servidor</string>
     <string name="maintenance_mode_explanation">O servidor %1$s está no modo de manutenção. Entre em contato com o administrador ou tente novamente mais tarde.</string>
     <string name="share_add_to_card">Adicionar ao cartão</string>
     <string name="share_success">%1$s adicionado com sucesso à %2$s</string>
     <string name="could_not_copy_to_clipboard">Não foi possível copiar para a área de transferência</string>
-    <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
     <string name="add_comment">Adicionar comentário</string>
     <string name="card_edit_comments">Comentários</string>
     <string name="no_comments_yet">Nenhum comentário ainda</string>
@@ -159,11 +163,18 @@
     <string name="choose_list">Escolher lista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Abrir no navegador</string>
-    <string name="simple_open">Abrir</string>
     <string name="updating_card">Atualizando cartão...</string>
-    <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
-    <string name="maintenance_mode">Servidor em modo de manutenção</string>
-    <string name="simple_switch">Alterar</string>
+
+    <!-- Move lists -->
     <string name="move_list_right">Mover lista para a direita</string>
     <string name="move_list_left">Mover lista para a esquerda</string>
-</resources>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Tudo</string>
+    <string name="filter_overdue">Vencidos</string>
+    <string name="filter_today">Hoje</string>
+    <string name="filter_week">Próximos 7 dias</string>
+    <string name="filter_month">Próximos 30 dias</string>
+    <string name="filter_by_tag">Filtrar por etiqueta</string>
+    <string name="filter_by_assigned_user">Filtrar por usuário atribuído</string>
+    </resources>

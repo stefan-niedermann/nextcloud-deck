@@ -13,6 +13,30 @@
     <string name="simple_add">Ekle</string>
     <string name="simple_save">Kaydet</string>
     <string name="simple_more">Daha Fazla</string>
+    <string name="simple_title">Başlık</string>
+    <string name="simple_copy">kopyala</string>
+    <string name="simple_synchronization">Eşitleme</string>
+    <string name="simple_appearance">Görünüm</string>
+    <string name="simple_error">Hata</string>
+    <string name="simple_exception">İstisna</string>
+    <string name="simple_close">kapat</string>
+    <string name="simple_open">Aç</string>
+    <string name="simple_switch">Şalter</string>
+    <string name="simple_filter">Süzgeç</string>
+    <string name="simple_overdue">Zamanı geçmiş</string>
+    <string name="simple_clear">Temizle</string>
+    <string name="simple_discard">yok say</string>
+    <string name="simple_update">Güncelle</string>
+    <string name="simple_delete">Sil</string>
+    <string name="simple_rename">Yeniden adlandır</string>
+    <string name="simple_settings">Ayarlar</string>
+    <string name="simple_undo">Geri al</string>
+    <string name="simple_manage">yönet</string>
+    <string name="simple_share">paylaş</string>
+    <string name="simple_select">Seçin</string>
+    <string name="simple_comment">Açıklama</string>
+    <string name="simple_disabled">devre dışı</string>
+    <string name="simple_copied">Kopyalandı</string>
 
     <string name="edit_board">Panoyu düzenle</string>
     <string name="archive_board">Panoyu arşivle</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Bitiş tarihi</string>
     <string name="add_account">Hesap ekle</string>
     <string name="choose_account">Hesap seçin</string>
-
     <string name="add_card">Kart ekle</string>
-
     <string name="activity">Etkinlik</string>
-
     <string name="add_list">Liste ekle</string>
     <string name="rename_list">Listeyi yeniden adlandır</string>
     <string name="delete_list">Listeyi sil</string>
-
     <string name="label_menu">menü</string>
     <string name="action_card_assign">Kartı bana ata</string>
     <string name="action_card_unassign">Kartın bana atamasını kaldır</string>
     <string name="action_card_archive">Kartı arşivle</string>
     <string name="action_card_delete">Kartı sil</string>
     <string name="add_board">Pano ekle</string>
-    <string name="simple_title">Başlık</string>
 
     <string name="label_clear_due_date">Bitiş tarihini temizle</string>
     <string name="label_add">%1$s ekle</string>
 
+    <!-- Error messages -->
     <string name="error">Bir sorun çıktı</string>
     <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
-    <string name="simple_copy">kopyala</string>
-    <string name="simple_synchronization">Eşitleme</string>
-    <string name="simple_appearance">Görünüm</string>
-    <string name="simple_error">Hata</string>
-    <string name="simple_exception">İstisna</string>
     <string name="copied_to_clipboard">Panoya kopyalandı</string>
-    <string name="simple_close">kapat</string>
+    <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
+    <string name="maintenance_mode">Sunucu bakım kipinde</string>
+    <string name="server_misconfigured">Sunucu yapılandırması hatalı</string>
+    <string name="server_misconfigured_explanation">Sunucunuz, üzerine Deck uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir. Destek almak için iletişim bilgilerimizi hakkında bölümünde bulabilirsiniz.</string>
+    <string name="server_error">Sunucu sorunu</string>
+    <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
 
     <string name="card_edit_details">Ayrıntılar</string>
     <string name="card_edit_attachments">Ek dosyalar</string>
@@ -97,18 +117,13 @@
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
     <string name="no_lists_yet">Henüz bir liste yok</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
-    <string name="simple_discard">yok say</string>
     <string name="do_you_want_to_delete_the_current_list">Geçerli listeyi silmek istiyor musunuz?</string>
     <string name="add_a_new_list_using_the_button">+ düğmesini kullanarak yeni bir liste ekleyebilirsiniz</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
     <string name="update_deck">Tahtayı güncelle</string>
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
     <string name="deck_outdated_please_update">Tahta sürümünüz çok eski. Lütfen bu android uygulamasını istemci olarak kullanabilmek için deck sürümünü güncelleyin.</string>
-    <string name="simple_update">Güncelle</string>
-    <string name="simple_delete">Sil</string>
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
-    <string name="simple_rename">Yeniden adlandır</string>
-    <string name="simple_settings">Ayarlar</string>
     <string name="settings_theme_title">Koyu tema</string>
     <string name="settings_branding_title">Markalama</string>
     <string name="settings_background_sync">Arka planda eşitleme</string>
@@ -116,16 +131,11 @@
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
     <string name="pref_value_theme_light">Açık</string>
     <string name="unassigned_user">%1$s atanmamış</string>
-    <string name="simple_undo">Geri al</string>
     <string name="no_activities">Bu kart üzerinde yapılmış bir işlem yok. İşlemleri yükleyip görebilmek için İnternet bağlantınızın olması gerekir.</string>
     <string name="share_board">Panoyu paylaş</string>
     <string name="you_are_currently_offline">Şu anda çevrimdışısınız</string>
-    <string name="simple_manage">yönet</string>
-    <string name="simple_share">paylaş</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Bir hesap ekleyebilmeniz için çalışan bir İnternet bağlantınız olmalı.</string>
-    <string name="simple_select">Seçin</string>
     <string name="owner">Sahibi</string>
-    <string name="simple_comment">Açıklama</string>
     <string name="attachment_delete_message">Bu işlem bu ek dosyasını silecek.</string>
     <string name="no_content">Henüz bir içerik yok</string>
     <string name="last_background_sync">Son arka planda eşitleme:</string>
@@ -135,21 +145,15 @@
     <string name="hours_6">6 Saat</string>
     <string name="action_card_move">Kartı taşı</string>
     <string name="action_card_move_title">%1$s Taşı</string>
-    <string name="simple_disabled">devre dışı</string>
-    <string name="simple_copied">Kopyalandı</string>
     <string name="please_add_an_account_first">Lütfen önce bir hesap ekleyin</string>
     <string name="title_is_mandatory">Başlığın yazılması zorunludur</string>
     <string name="provide_at_least_a_title_or_description">Lütfen en azından başlığı ya da açıklamayı yazın</string>
     <string name="welcome_text">%1$s panonuza hoşgeldiniz</string>
     <string name="save_card_before_attachment">Ek dosyaları ekleyebilmek için kartın kaydedilmesi gerekiyor.</string>
-    <string name="server_misconfigured">Sunucu yapılandırması hatalı</string>
-    <string name="server_misconfigured_explanation">Sunucunuz, üzerine Deck uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir. Destek almak için iletişim bilgilerimizi hakkında bölümünde bulabilirsiniz.</string>
-    <string name="server_error">Sunucu sorunu</string>
     <string name="maintenance_mode_explanation">Sunucu %1$s şu anda bakım modunda. Lütfen yöneticinizle irtibat kurun veya sonradan tekrar deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
     <string name="could_not_copy_to_clipboard">Panoya kopyalanamadı</string>
-    <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
     <string name="add_comment">Yorum ekle</string>
     <string name="card_edit_comments">Yorumlar</string>
     <string name="no_comments_yet">Henüz bir yorum yok</string>
@@ -159,9 +163,16 @@
     <string name="choose_list">Liste seçin</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Tarayıcıda aç</string>
-    <string name="simple_open">Aç</string>
     <string name="updating_card">Kart güncelleniyor…</string>
-    <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
-    <string name="maintenance_mode">Sunucu bakım kipinde</string>
-    <string name="simple_switch">Şalter</string>
-    </resources>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Tümü</string>
+    <string name="filter_overdue">Zamanı geçmiş</string>
+    <string name="filter_today">Bugün</string>
+    <string name="filter_week">Gelecek 7 gün</string>
+    <string name="filter_month">Gelecek 30 gün</string>
+    <string name="filter_no_due">Bitiş tarihi yok</string>
+    <string name="filter_by_tag">Etikete göre süz</string>
+    <string name="filter_by_assigned_user">Atanmış kullanıcıya göre süz</string>
+    <string name="filter_by_duedate">Bitiş tarihine göre süz</string>
+</resources>

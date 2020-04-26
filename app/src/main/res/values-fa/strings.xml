@@ -13,7 +13,26 @@
     <string name="simple_add">افزودن</string>
     <string name="simple_save">ذخیره</string>
     <string name="simple_more">بیش‌تر</string>
-
+    <string name="simple_title">عنوان</string>
+    <string name="simple_copy">کپی</string>
+    <string name="simple_synchronization">هماهنگ سازی</string>
+    <string name="simple_appearance">ظاهر</string>
+    <string name="simple_error">خطا</string>
+    <string name="simple_exception">استثنا</string>
+    <string name="simple_close">بستن</string>
+    <string name="simple_open">باز کن...</string>
+    <string name="simple_filter">فیلتر</string>
+    <string name="simple_clear">معلوم</string>
+    <string name="simple_discard">دور انداختن</string>
+    <string name="simple_update">به روز رسانی</string>
+    <string name="simple_delete">حذف</string>
+    <string name="simple_rename">تغییرنام</string>
+    <string name="simple_settings">تنظیمات</string>
+    <string name="simple_undo">برگرداندن</string>
+    <string name="simple_manage">مدیریت</string>
+    <string name="simple_share">اشتراک گذاری</string>
+    <string name="simple_select">انتخاب</string>
+    <string name="simple_comment">نظر</string>
     <string name="edit_board">ویرایش تابلو</string>
     <string name="archive_board"> بایگانی تابلو</string>
     <string name="delete_board">حذف تابلو</string>
@@ -53,31 +72,24 @@
     <string name="hint_due_date_date">موعد مقرر</string>
     <string name="add_account">ایحاد حساب کاربری</string>
     <string name="choose_account">حساب کاربری را انتخاب کنید</string>
-
     <string name="add_card">افزودن کارت</string>
-
     <string name="activity">فعّالیت</string>
-
     <string name="label_menu">منو</string>
     <string name="action_card_assign">کارت را به من اختصاص دهید</string>
     <string name="action_card_unassign">جدا کردن کارت از من</string>
     <string name="action_card_archive">کارت بایگانی</string>
     <string name="action_card_delete">حذف کارت</string>
     <string name="add_board">تخته را اضافه کنید</string>
-    <string name="simple_title">عنوان</string>
 
     <string name="label_clear_due_date">تاریخ مقرر را پاک کنید</string>
     <string name="label_add">افزودن%1$s</string>
 
+    <!-- Error messages -->
     <string name="error">خطایی ظاهر شد</string>
-    <string name="simple_copy">کپی</string>
-    <string name="simple_synchronization">هماهنگ سازی</string>
-    <string name="simple_appearance">ظاهر</string>
-    <string name="simple_error">خطا</string>
-    <string name="simple_exception">استثنا</string>
     <string name="copied_to_clipboard">در حافظه رونویسی شد</string>
-    <string name="simple_close">بستن</string>
-
+    <string name="maintenance_mode">سرور در حالت تعمیر و نگهداری</string>
+    <string name="server_misconfigured">خطای تنظیمات سرور</string>
+    <string name="server_error">خطای سرور</string>
     <string name="card_edit_details">جزئیات</string>
     <string name="card_edit_attachments">پیوست ها</string>
     <string name="card_edit_activity">فعّالیت</string>
@@ -90,31 +102,21 @@
     <string name="account_is_getting_imported">حساب وارد می شود</string>
     <string name="not_synced_yet">هنوز همگام سازی نشده است</string>
     <string name="do_you_want_to_save_your_changes">آیا می خواهید تغییرات خود را ذخیره کنید؟</string>
-    <string name="simple_discard">دور انداختن</string>
     <string name="add_a_new_card_using_the_button">با استفاده از دکمه + یک کارت جدید اضافه کنید</string>
     <string name="update_deck">عرشه را به روز کنید</string>
     <string name="your_deck_version_is_too_old">نسخه عرشه شما خیلی قدیمی است</string>
     <string name="deck_outdated_please_update">نسخه عرشه شما خیلی قدیمی است لطفاً برای استفاده از این برنامه اندرویدی به عنوان مشتری ، بروزرسانی کنید.</string>
-    <string name="simple_update">به روز رسانی</string>
-    <string name="simple_delete">حذف</string>
-    <string name="simple_rename">تغییرنام</string>
-    <string name="simple_settings">تنظیمات</string>
     <string name="settings_theme_title">تم تاریک</string>
     <string name="settings_background_sync">همگام سازی پس زمینه</string>
     <string name="pref_value_wifi_and_mobile">همگام سازی داده های Wi-Fi و تلفن همراه</string>
     <string name="pref_value_wifi_only">همگام سازی فقط در Wi-Fi</string>
     <string name="pref_value_theme_light">روشن</string>
     <string name="unassigned_user">دست نخورده %1$s</string>
-    <string name="simple_undo">برگرداندن</string>
     <string name="no_activities">هیچ فعالیتی در این کارت انجام نشده است. برای بارگیری و نمایش فعالیتها باید به اینترنت متصل شوید.</string>
     <string name="share_board">صفحه مشترک</string>
     <string name="you_are_currently_offline">شما در حال حاضر آفلاین هستید</string>
-    <string name="simple_manage">مدیریت</string>
-    <string name="simple_share">اشتراک گذاری</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">برای اضافه کردن حساب باید به اینترنت متصل شوید.</string>
-    <string name="simple_select">انتخاب</string>
     <string name="owner">Owner</string>
-    <string name="simple_comment">نظر</string>
     <string name="attachment_delete_message">با این کار برای همیشه این پیوست حذف می شود.</string>
     <string name="no_content">هنوز محتوا موجود نیست</string>
     <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
@@ -124,13 +126,12 @@
     <string name="hours_6">۶ ساعت</string>
     <string name="action_card_move">انتقال کارت</string>
     <string name="action_card_move_title">حرکت%1$s</string>
-    <string name="server_misconfigured">خطای تنظیمات سرور</string>
-    <string name="server_error">خطای سرور</string>
     <string name="could_not_copy_to_clipboard">به کلیپ بورد کپی نشد</string>
     <string name="add_comment">افزودن نظر</string>
     <string name="card_edit_comments">نظرات</string>
     <string name="no_comments_yet">هنوز نظری ثبت نشده است</string>
     <string name="open_in_browser">باز کردن در مرورگر</string>
-    <string name="simple_open">باز کن...</string>
-    <string name="maintenance_mode">سرور در حالت تعمیر و نگهداری</string>
+    <!-- Filter -->
+    <string name="filter_no_filter">همه</string>
+    <string name="filter_today">Today</string>
     </resources>
