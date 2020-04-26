@@ -9,9 +9,9 @@
         android:id="@+id/icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_margin="@dimen/spacer_2x"
+        android:layout_margin="@dimen/spacer_1x"
         android:contentDescription="@null"
-        tools:src="@drawable/ic_label_grey600_24dp" />
+        tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/label"
@@ -20,11 +20,11 @@
         android:layout_weight="1"
         android:ellipsize="middle"
         android:gravity="center_vertical"
-        android:paddingStart="0dp"
-        android:paddingLeft="0dp"
+        android:paddingStart="@dimen/spacer_1x"
+        android:paddingLeft="@dimen/spacer_1x"
         android:paddingEnd="@dimen/spacer_2x"
         android:paddingRight="@dimen/spacer_2x"
         android:textSize="18sp"
-        tools:text="Label" />
+        tools:text="@tools:sample/full_names" />
 
 </LinearLayout>

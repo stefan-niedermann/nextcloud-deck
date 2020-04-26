@@ -47,7 +47,6 @@ public interface LabelDao extends GenericDao<Label> {
                 "select 1 from joincardwithlabel jl where jl.labelId = l.localId " +
                 "and jl.cardId = :notAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             ") " +
-            "GROUP BY l.localId ORDER BY count(*) DESC " +
-            "LIMIT :topX")
-    LiveData<List<Label>> findProposalsForLabelsToAssign(long accountId, long boardId, long notAssignedToLocalCardId, int topX);
+            "GROUP BY l.localId ORDER BY count(*) DESC")
+    LiveData<List<Label>> findProposalsForLabelsToAssign(long accountId, long boardId, long notAssignedToLocalCardId);
 }

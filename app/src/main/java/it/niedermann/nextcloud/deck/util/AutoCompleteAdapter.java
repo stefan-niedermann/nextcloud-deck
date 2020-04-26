@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.util;
 
-import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -29,8 +28,6 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
     protected final long accountId;
     protected final long boardId;
     protected final long cardId;
-    @NonNull
-    protected final LayoutInflater inflater;
 
     protected AutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
         this.activity = activity;
@@ -38,7 +35,6 @@ public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extend
         this.boardId = boardId;
         this.cardId = cardId;
         this.syncManager = new SyncManager(activity);
-        this.inflater = activity.getLayoutInflater();
     }
 
     @Override
