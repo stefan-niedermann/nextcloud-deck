@@ -4,8 +4,6 @@
     <integer name="max_avatar_count">3</integer>
     <!-- How many users should be suggested when clicking on the assigned users input field -->
     <integer name="max_users_suggested">3</integer>
-    <!-- How many labels should be suggested when clicking on the assigned labels input field -->
-    <integer name="max_labels_suggested">3</integer>
     <!-- How many dp should one column in the attachments grid have -->
     <integer name="max_dp_attachment_column">110</integer>
     <!-- Maximum characters of a comment. Caution: Server allow maximum 1000 characters! -->

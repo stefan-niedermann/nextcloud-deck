@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -11,7 +12,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteDropdownBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteUserBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
@@ -34,12 +35,12 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ItemAutocompleteDropdownBinding binding;
+        final ItemAutocompleteUserBinding binding;
 
         if (convertView != null) {
-            binding = ItemAutocompleteDropdownBinding.bind(convertView);
+            binding = ItemAutocompleteUserBinding.bind(convertView);
         } else {
-            binding = ItemAutocompleteDropdownBinding.inflate(inflater, parent, false);
+            binding = ItemAutocompleteUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
 
         ViewUtil.addAvatar(binding.icon, account.getUrl(), getItem(position).getUid(), R.drawable.ic_person_grey600_24dp);

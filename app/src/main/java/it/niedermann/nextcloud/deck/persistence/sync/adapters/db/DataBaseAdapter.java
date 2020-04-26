@@ -545,8 +545,8 @@ public class DataBaseAdapter {
         return db.getUserDao().findProposalsForUsersToAssignForACL(accountId, boardId, topX);
     }
 
-    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId, final int topX){
-        return db.getLabelDao().findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
+    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId){
+        return db.getLabelDao().findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId);
     }
 
 

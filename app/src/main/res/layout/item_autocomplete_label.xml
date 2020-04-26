@@ -17,6 +17,8 @@
         android:clickable="false"
         android:ellipsize="middle"
         android:focusable="false"
-        tools:text="@tools:sample/lorem" />
+        tools:backgroundTint="@color/board_default_color"
+        tools:text="@tools:sample/lorem"
+        tools:textColor="@android:color/white" />
 
 </LinearLayout>
