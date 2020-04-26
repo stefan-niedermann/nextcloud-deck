@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemFilterLabelBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
@@ -47,12 +47,12 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ItemFilterLabelBinding binding;
+        final ItemAutocompleteLabelBinding binding;
 
         if (convertView != null) {
-            binding = ItemFilterLabelBinding.bind(convertView);
+            binding = ItemAutocompleteLabelBinding.bind(convertView);
         } else {
-            binding = ItemFilterLabelBinding.inflate(inflater, parent, false);
+            binding = ItemAutocompleteLabelBinding.inflate(inflater, parent, false);
         }
 
         final Label label = getItem(position);
