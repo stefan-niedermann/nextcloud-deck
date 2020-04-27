@@ -163,7 +163,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 return;
             }
             for (Attachment existingAttachment : viewModel.getFullCard().getAttachments()) {
-                if (existingAttachment.getLocalPath().equals(path)) {
+                final String existingPath = existingAttachment.getLocalPath();
+                if (existingPath != null && existingPath.equals(path)) {
                     Snackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                     return;
                 }
