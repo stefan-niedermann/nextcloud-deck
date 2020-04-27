@@ -35,7 +35,7 @@ public interface LabelDao extends GenericDao<Label> {
                 "and jl.cardId = :notYetAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             ") " +
             " AND boardId = :boardId and title LIKE :searchTerm")
-    LiveData<List<Label>> searchLabelByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm);
+    LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm);
 
     @Query("SELECT * FROM label WHERE accountId = :accountId and (status<>1 or id is null or lastModified <> lastModifiedLocal)")
     List<Label> getLocallyChangedLabelsDirectly(long accountId);
@@ -47,7 +47,6 @@ public interface LabelDao extends GenericDao<Label> {
                 "select 1 from joincardwithlabel jl where jl.labelId = l.localId " +
                 "and jl.cardId = :notAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             ") " +
-            "GROUP BY l.localId ORDER BY count(*) DESC " +
-            "LIMIT :topX")
-    LiveData<List<Label>> findProposalsForLabelsToAssign(long accountId, long boardId, long notAssignedToLocalCardId, int topX);
+            "GROUP BY l.localId ORDER BY count(*) DESC")
+    LiveData<List<Label>> findProposalsForLabelsToAssign(long accountId, long boardId, long notAssignedToLocalCardId);
 }

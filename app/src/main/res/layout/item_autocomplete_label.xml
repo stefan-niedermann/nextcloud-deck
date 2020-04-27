@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingStart="@dimen/spacer_1x"
+    android:paddingLeft="@dimen/spacer_1x"
+    android:paddingEnd="@dimen/spacer_1x"
+    android:paddingRight="@dimen/spacer_1x">
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:ellipsize="middle"
+        android:focusable="false"
+        tools:backgroundTint="@color/board_default_color"
+        tools:text="@tools:sample/lorem"
+        tools:textColor="@android:color/white" />
+
+</LinearLayout>

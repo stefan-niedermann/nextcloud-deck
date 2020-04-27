@@ -1,8 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.preparecreate;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +16,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPrepareCreateBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -25,11 +29,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_STACK_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class PrepareCreateActivity extends BrandedActivity {
 
@@ -172,30 +171,49 @@ public class PrepareCreateActivity extends BrandedActivity {
      * Starts EditActivity and passes parameters.
      */
     private void onSubmit() {
-        final long accountId = binding.accountSelect.getSelectedItemId();
-        final long boardId = binding.boardSelect.getSelectedItemId();
-        final long stackId = binding.stackSelect.getSelectedItemId();
+        final Account account = accountAdapter.getItem(binding.accountSelect.getSelectedItemPosition());
+        if (account != null) {
+            final long boardId = binding.boardSelect.getSelectedItemId();
+            final long stackId = binding.stackSelect.getSelectedItemId();
+            final String receivedClipData = getReceivedClipData(getIntent());
+            if (receivedClipData == null) {
+                startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId));
+            } else {
+                startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId, receivedClipData));
+            }
 
-        Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+            Application.saveCurrentAccountId(this, account.getId());
+            Application.saveCurrentBoardId(this, account.getId(), boardId);
+            Application.saveCurrentStackId(this, account.getId(), boardId, stackId);
+            applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
 
-        intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, accountId);
-        intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
-        intent.putExtra(BUNDLE_KEY_STACK_ID, stackId);
-        intent.putExtra(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-
-        Application.saveCurrentAccountId(this, accountId);
-        Application.saveCurrentBoardId(this, accountId, boardId);
-        Application.saveCurrentStackId(this, accountId, boardId, stackId);
-
-        Account selectedAccount = accountAdapter.getItem(binding.accountSelect.getSelectedItemPosition());
-        if (selectedAccount != null) {
-            applyBrand(parseColor(selectedAccount.getColor()), parseColor(selectedAccount.getTextColor()));
+            finish();
+        } else {
+            // TODO Use snackbar for better error handling
+            DeckLog.error("Selected account at position " + binding.accountSelect.getSelectedItemPosition() + " is null.");
+            Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
         }
+    }
 
-        finish();
+    @Nullable
+    private static String getReceivedClipData(@Nullable Intent intent) {
+        if (intent == null) {
+            return null;
+        }
+        final ClipData clipData = intent.getClipData();
+        if (clipData == null) {
+            return null;
+        }
+        final int itemCount = clipData.getItemCount();
+        if (itemCount <= 0) {
+            return null;
+        }
+        final ClipData.Item item = clipData.getItemAt(0);
+        if (item == null) {
+            return null;
+        }
+        final CharSequence text = item.getText();
+        return TextUtils.isEmpty(text) ? null : text.toString();
     }
 
     private void applyTemporaryBrand(@Nullable Account account) {

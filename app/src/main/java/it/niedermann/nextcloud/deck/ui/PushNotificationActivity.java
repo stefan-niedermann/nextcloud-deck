@@ -1,13 +1,17 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -24,9 +28,6 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToPrimaryToolbar;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToStatusbar;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
 
 public class PushNotificationActivity extends AppCompatActivity implements Branded {
 
@@ -43,7 +44,6 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
 
     @Override
     protected void onResume() {
-        // when app is running in background or is starting after force reset
         super.onResume();
 
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
@@ -70,7 +70,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
 
         binding.cancel.setOnClickListener((v) -> finish());
 
-        final SyncManager syncManager = new SyncManager(this);
+        final SyncManager accountReadingSyncManager = new SyncManager(this);
         final String cardRemoteIdString = getIntent().getStringExtra(KEY_CARD_REMOTE_ID);
         final String accountString = getIntent().getStringExtra(KEY_ACCOUNT);
 
@@ -78,8 +78,10 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
         if (cardRemoteIdString != null) {
             try {
                 final int cardRemoteId = Integer.parseInt(cardRemoteIdString);
-                observeOnce(syncManager.readAccount(accountString), this, (account -> {
+                observeOnce(accountReadingSyncManager.readAccount(accountString), this, (account -> {
                     if (account != null) {
+                        SingleAccountHelper.setCurrentAccount(this, account.getName());
+                        final SyncManager syncManager = new SyncManager(this);
                         try {
                             if (brandingEnabled) {
                                 applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
@@ -95,7 +97,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
                                     DeckLog.verbose("FullCard: " + fullCard);
                                     if (fullCard != null) {
                                         runOnUiThread(() -> {
-                                            binding.submit.setOnClickListener((v) -> launchEditActivity(account.getId(), fullCard.getLocalId(), boardLocalId));
+                                            binding.submit.setOnClickListener((v) -> launchEditActivity(account, boardLocalId, fullCard.getLocalId()));
                                             binding.submit.setText(R.string.simple_open);
                                             applyBrandToSubmitButton(account);
                                             binding.submit.setEnabled(true);
@@ -149,17 +151,16 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
         });
     }
 
-    private void launchEditActivity(Long accountId, Long cardId, Long boardId) {
-        DeckLog.info("starting activity with [" + accountId + ", " + cardId + ", " + boardId + "]");
-        runOnUiThread(() -> {
-            Intent intent = new Intent(this, EditActivity.class)
-                    .putExtra(BUNDLE_KEY_ACCOUNT_ID, accountId)
-                    .putExtra(BUNDLE_KEY_LOCAL_ID, cardId)
-                    .putExtra(BUNDLE_KEY_BOARD_ID, boardId)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        });
+    @UiThread
+    private void launchEditActivity(@NonNull Account account, Long boardId, Long cardId) {
+        try {
+            Application.saveBrandColors(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
+        } catch (Throwable t) {
+            DeckLog.logError(t);
+        }
+        DeckLog.info("starting " + EditActivity.class.getSimpleName() + " with [" + account + ", " + boardId + ", " + cardId + "]");
+        startActivity(EditActivity.createEditCardIntent(this, account, boardId, cardId));
+        finish();
     }
 
     @Override

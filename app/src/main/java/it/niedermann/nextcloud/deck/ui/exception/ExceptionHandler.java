@@ -1,12 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.exception;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 
-import java.io.Serializable;
-
-import static it.niedermann.nextcloud.deck.ui.exception.ExceptionActivity.KEY_THROWABLE;
+import org.jetbrains.annotations.NotNull;
 
 public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
 
@@ -18,15 +14,8 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
     }
 
     @Override
-    public void uncaughtException(Thread t, Throwable e) {
-        e.printStackTrace();
-        Intent intent = new Intent(context.getApplicationContext(), ExceptionActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        Bundle extras = new Bundle();
-        intent.putExtra(KEY_THROWABLE, (Serializable) e);
-        extras.putSerializable(KEY_THROWABLE, e);
-        intent.putExtras(extras);
-        context.getApplicationContext().startActivity(intent);
+    public void uncaughtException(@NotNull Thread t, Throwable e) {
+        context.getApplicationContext().startActivity(ExceptionActivity.createIntent(context, e));
         context.finish();
         Runtime.getRuntime().exit(0);
     }

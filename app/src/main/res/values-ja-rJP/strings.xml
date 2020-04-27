@@ -13,6 +13,28 @@
     <string name="simple_add">追加</string>
     <string name="simple_save">保存</string>
     <string name="simple_more">さらに表示</string>
+    <string name="simple_title">タイトル</string>
+    <string name="simple_copy">コピー</string>
+    <string name="simple_synchronization">同期</string>
+    <string name="simple_appearance">表示</string>
+    <string name="simple_error">エラー</string>
+    <string name="simple_exception">例外</string>
+    <string name="simple_close">閉じる</string>
+    <string name="simple_open">開店時間</string>
+    <string name="simple_filter">フィルター</string>
+    <string name="simple_clear">クリア</string>
+    <string name="simple_discard">破棄</string>
+    <string name="simple_update">更新</string>
+    <string name="simple_delete">削除</string>
+    <string name="simple_rename">名前変更</string>
+    <string name="simple_settings">設定</string>
+    <string name="simple_undo">元に戻す</string>
+    <string name="simple_manage">管理</string>
+    <string name="simple_share">共有</string>
+    <string name="simple_select">選択</string>
+    <string name="simple_comment">コメント</string>
+    <string name="simple_disabled">無効</string>
+    <string name="simple_copied">コピーしました</string>
 
     <string name="edit_board">ボードを編集</string>
     <string name="archive_board">ボードをアーカイブ</string>
@@ -53,29 +75,23 @@
     <string name="hint_due_date_date">期限</string>
     <string name="add_account">アカウントを追加</string>
     <string name="choose_account">アカウント選択</string>
-
     <string name="add_card">カードを追加</string>
-
     <string name="activity">アクティビティ</string>
-
     <string name="label_menu">メニュー</string>
     <string name="action_card_assign">カードを自分に割り当てる</string>
     <string name="action_card_unassign">カードの割り当てを解除する</string>
     <string name="action_card_archive">カードをアーカイブ</string>
     <string name="action_card_delete">削除済みのカード</string>
     <string name="add_board">ボードを追加</string>
-    <string name="simple_title">タイトル</string>
 
     <string name="label_clear_due_date">期限を削除</string>
     <string name="label_add">%1$s を追加</string>
 
+    <!-- Error messages -->
     <string name="error">エラーが見つかりました</string>
-    <string name="simple_copy">コピー</string>
-    <string name="simple_error">エラー</string>
-    <string name="simple_exception">例外</string>
     <string name="copied_to_clipboard">クリップボードにコピーされました</string>
-    <string name="simple_close">閉じる</string>
-
+    <string name="maintenance_mode">サーバーはメンテナンスモードです。</string>
+    <string name="server_error">サーバーエラー</string>
     <string name="card_edit_details">詳細</string>
     <string name="card_edit_attachments">添付ファイル</string>
     <string name="card_edit_activity">アクティビティ</string>
@@ -88,31 +104,21 @@
     <string name="account_is_getting_imported">アカウントをインポート中です</string>
     <string name="not_synced_yet">未同期です</string>
     <string name="do_you_want_to_save_your_changes">変更を保存しますか？</string>
-    <string name="simple_discard">破棄</string>
     <string name="add_a_new_card_using_the_button">+ボタンで新しいカードを追加</string>
     <string name="update_deck">端末の更新</string>
     <string name="your_deck_version_is_too_old">端末のバージョンが旧すぎます</string>
     <string name="deck_outdated_please_update">端末のバージョンが旧すぎます．このアンドロイドアプリをクライアントとして使うには更新してください．</string>
-    <string name="simple_update">更新</string>
-    <string name="simple_delete">削除</string>
-    <string name="simple_rename">名前変更</string>
-    <string name="simple_settings">設定</string>
     <string name="settings_theme_title">ダークテーマ</string>
     <string name="settings_background_sync">バックグラウンド同期</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fiおよびモバイル接続時に同期する</string>
     <string name="pref_value_wifi_only">Wi-Fi接続時のみ同期する</string>
     <string name="pref_value_theme_light">明るい</string>
     <string name="unassigned_user">未割当の%1$s</string>
-    <string name="simple_undo">元に戻す</string>
     <string name="no_activities">このカードにはアクティブティがありません。アクティブティをロードして表示するにはインターネットへの接続が必要です。</string>
     <string name="share_board">ボードを共有</string>
     <string name="you_are_currently_offline">現在オフライン</string>
-    <string name="simple_manage">管理</string>
-    <string name="simple_share">共有</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">アカウントの追加にはインターネットへの接続が必要です</string>
-    <string name="simple_select">選択</string>
     <string name="owner">所有者</string>
-    <string name="simple_comment">コメント</string>
     <string name="attachment_delete_message">これにより、この添付ファイルは完全に削除されます。</string>
     <string name="no_content">コンテンツはまだありません</string>
     <string name="last_background_sync">最後のバックグラウンド同期：</string>
@@ -122,13 +128,13 @@
     <string name="hours_6">6 時間</string>
     <string name="action_card_move">カードの移動</string>
     <string name="action_card_move_title">%1$sを移動</string>
-    <string name="simple_disabled">無効</string>
-    <string name="simple_copied">コピーしました</string>
     <string name="please_add_an_account_first">初めにアカウントを追加してください</string>
     <string name="title_is_mandatory">タイトルは必須です</string>
     <string name="provide_at_least_a_title_or_description">少なくともタイトルまたは説明を入力してください</string>
-    <string name="server_error">サーバーエラー</string>
     <string name="card_edit_comments">コメント</string>
     <string name="open_in_browser">ブラウザーで開く</string>
-    <string name="simple_open">開店時間</string>
+    <!-- Filter -->
+    <string name="filter_no_filter">すべて</string>
+    <string name="filter_today">今日</string>
+    <string name="filter_by_tag">タグによるフィルター</string>
     </resources>

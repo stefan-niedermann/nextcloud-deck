@@ -8,15 +8,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 
 public class StackAdapter extends FragmentStateAdapter {
     @NonNull
     private List<FullStack> stackList = new ArrayList<>();
-    private Account account;
-    private long boardId;
-    private boolean canEdit;
 
     public StackAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -49,14 +45,12 @@ public class StackAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return StackFragment.newInstance(boardId, stackList.get(position).getLocalId(), account, canEdit);
+        return StackFragment.newInstance(stackList.get(position).getLocalId());
     }
 
-    public void setStacks(@NonNull List<FullStack> fullStacks, @NonNull Account currentAccount, long currentBoardId, boolean currentBoardHasEditPermission) {
-        this.stackList = fullStacks;
-        this.account = currentAccount;
-        this.boardId = currentBoardId;
-        this.canEdit = currentBoardHasEditPermission;
+    public void setStacks(@NonNull List<FullStack> fullStacks) {
+        this.stackList.clear();
+        this.stackList.addAll(fullStacks);
         notifyDataSetChanged();
     }
 }

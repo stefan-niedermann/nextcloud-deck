@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,14 +46,6 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard>, Branded {
-
-    public static final String BUNDLE_KEY_ACCOUNT = "account";
-    public static final String BUNDLE_KEY_ACCOUNT_ID = "accountId";
-    public static final String BUNDLE_KEY_LOCAL_ID = "localId";
-    public static final String BUNDLE_KEY_BOARD_ID = "boardId";
-    public static final String BUNDLE_KEY_STACK_ID = "stackId";
-    public static final String BUNDLE_KEY_CAN_EDIT = "canEdit";
-    public static final Long NO_LOCAL_ID = -1L;
 
     protected final SyncManager syncManager;
 
@@ -114,28 +105,19 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
         viewHolder.binding.card.setOnClickListener((v) -> {
             if (selectCardListener == null) {
-                Intent intent = new Intent(v.getContext(), EditActivity.class);
-                intent.putExtra(BUNDLE_KEY_ACCOUNT_ID, card.getAccountId());
-                intent.putExtra(BUNDLE_KEY_BOARD_ID, boardId);
-                intent.putExtra(BUNDLE_KEY_STACK_ID, card.getCard().getStackId());
-                intent.putExtra(BUNDLE_KEY_LOCAL_ID, card.getLocalId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                context.startActivity(EditActivity.createEditCardIntent(context, account, boardId, card.getLocalId()));
             } else {
                 selectCardListener.onCardSelected(card);
             }
         });
         if (canEdit && selectCardListener == null) {
             viewHolder.binding.card.setOnLongClickListener((v) -> {
-                ClipData dragData = ClipData.newPlainText("cardid", card.getLocalId() + "");
-
-                // Starts the drag
-                v.startDrag(dragData,  // the data to be dragged
-                        new View.DragShadowBuilder(v),  // the drag shadow builder
-                        new DraggedItemLocalState<>(card, viewHolder.binding.card, this, position),      // no need to use local data
-                        0          // flags (not currently used, set to 0)
-                );
                 DeckLog.log("Starting drag and drop");
+                v.startDrag(ClipData.newPlainText("cardid", String.valueOf(card.getLocalId())),
+                        new View.DragShadowBuilder(v),
+                        new DraggedItemLocalState<>(card, viewHolder.binding.card, this, position),
+                        0
+                );
                 return true;
             });
         } else {
@@ -308,7 +290,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                             });
                             DeckLog.log("Moved card \"" + fullCard.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
                         })
-                        .setNegativeButton(android.R.string.cancel, null)
+                        .setNeutralButton(android.R.string.cancel, null)
                         .setTitle(context.getString(R.string.action_card_move_title, fullCard.getCard().getTitle()))
                         .show();
                 return true;

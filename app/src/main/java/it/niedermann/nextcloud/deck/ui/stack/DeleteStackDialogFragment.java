@@ -14,9 +14,11 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 public class DeleteStackDialogFragment extends DialogFragment {
 
     private static final String KEY_STACK_ID = "stack_id";
+    private static final String KEY_NUMBER_CARDS = "number_cards";
 
     private DeleteStackListener deleteStackListener;
-    private Long stackId;
+    private long stackId;
+    private int numberCards;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -27,10 +29,13 @@ public class DeleteStackDialogFragment extends DialogFragment {
             throw new ClassCastException("Caller must implement " + DeleteStackListener.class.getCanonicalName());
         }
 
-        if (getArguments() == null || !getArguments().containsKey(KEY_STACK_ID)) {
-            throw new IllegalArgumentException("Please provide at least stack id as an argument");
+        final Bundle args = getArguments();
+
+        if (args == null || !args.containsKey(KEY_STACK_ID) || !args.containsKey(KEY_NUMBER_CARDS)) {
+            throw new IllegalArgumentException("Please provide at least " + KEY_STACK_ID + " and " + KEY_NUMBER_CARDS + " as arguments");
         } else {
-            this.stackId = getArguments().getLong(KEY_STACK_ID);
+            this.stackId = args.getLong(KEY_STACK_ID);
+            this.numberCards = args.getInt(KEY_NUMBER_CARDS);
         }
     }
 
@@ -39,17 +44,18 @@ public class DeleteStackDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new BrandedDeleteAlertDialogBuilder(requireContext())
                 .setTitle(R.string.delete_list)
-                .setMessage(R.string.do_you_want_to_delete_the_current_list)
+                .setMessage(getResources().getQuantityString(R.plurals.do_you_want_to_delete_the_current_list, numberCards, numberCards))
                 .setPositiveButton(R.string.simple_delete, (dialog, whichButton) -> deleteStackListener.onStackDeleted(stackId))
-                .setNegativeButton(android.R.string.cancel, null);
+                .setNeutralButton(android.R.string.cancel, null);
         return builder.create();
     }
 
-    public static DialogFragment newInstance(long stackId) {
+    public static DialogFragment newInstance(long stackId, int numberCards) {
         DeleteStackDialogFragment dialog = new DeleteStackDialogFragment();
 
         Bundle args = new Bundle();
         args.putLong(KEY_STACK_ID, stackId);
+        args.putInt(KEY_NUMBER_CARDS, numberCards);
         dialog.setArguments(args);
 
         return dialog;

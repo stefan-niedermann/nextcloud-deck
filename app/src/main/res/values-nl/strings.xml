@@ -13,6 +13,30 @@
     <string name="simple_add">Toevoegen</string>
     <string name="simple_save">Bewaren</string>
     <string name="simple_more">Meer</string>
+    <string name="simple_title">Titel</string>
+    <string name="simple_copy">kopiëren</string>
+    <string name="simple_synchronization">Synchronisatie</string>
+    <string name="simple_appearance">Uiterlijk</string>
+    <string name="simple_error">Fout</string>
+    <string name="simple_exception">Uitzondering</string>
+    <string name="simple_close">sluiten</string>
+    <string name="simple_open">Openen</string>
+    <string name="simple_switch">Wissel</string>
+    <string name="simple_filter">Filter</string>
+    <string name="simple_overdue">Vervallen</string>
+    <string name="simple_clear">Terug</string>
+    <string name="simple_discard">weggooien</string>
+    <string name="simple_update">Bijwerken</string>
+    <string name="simple_delete">Verwijderen</string>
+    <string name="simple_rename">Hernoemen</string>
+    <string name="simple_settings">Instellingen</string>
+    <string name="simple_undo">Ongedaan maken</string>
+    <string name="simple_manage">beheer</string>
+    <string name="simple_share">deel</string>
+    <string name="simple_select">Selecteer</string>
+    <string name="simple_comment">Reactie</string>
+    <string name="simple_disabled">uitgeschakeld</string>
+    <string name="simple_copied">Gekopieerd</string>
 
     <string name="edit_board">Pas canvas aan</string>
     <string name="archive_board">Archiveer canvas</string>
@@ -54,33 +78,31 @@
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="add_account">Account toevoegen</string>
     <string name="choose_account">Kies account</string>
-
     <string name="add_card">Toevoegen kaart</string>
-
     <string name="activity">Activiteit</string>
-
     <string name="add_list">Toevoegen lijst</string>
     <string name="rename_list">Hernoem lijst</string>
     <string name="delete_list">Lijst verwijderen</string>
-
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Wijs kaart toe aan mij</string>
     <string name="action_card_unassign">Kaart van mij terughalen</string>
     <string name="action_card_archive">Archiveer kaart</string>
     <string name="action_card_delete">Verwijderen kaart</string>
     <string name="add_board">Toevoegen bord</string>
-    <string name="simple_title">Titel</string>
 
     <string name="label_clear_due_date">Wis vervaldatum</string>
     <string name="label_add">Toevoegen %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Er is een fout verschenen</string>
     <string name="operation_not_yet_supported">Nog niet ondersteund</string>
-    <string name="simple_copy">kopiëren</string>
-    <string name="simple_error">Fout</string>
-    <string name="simple_exception">Uitzondering</string>
     <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
-    <string name="simple_close">sluiten</string>
+    <string name="error_revoking_ac">Fout bij het intrekken van de toegang voor %1$s</string>
+    <string name="maintenance_mode">Server in onderhoudsmodus</string>
+    <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
+    <string name="server_misconfigured_explanation">Je server reageerde met een HTTP 302 statuscode, wat inhoudt dat je de Deck app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dat kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud apps zoals OID Client. Je kunt onze contact informatie voor support vinden in de Over-sectie.</string>
+    <string name="server_error">Serverfout</string>
+    <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer jhet eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
 
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Bijlagen</string>
@@ -95,34 +117,25 @@
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_lists_yet">Nog geen lijsten</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
-    <string name="simple_discard">weggooien</string>
     <string name="do_you_want_to_delete_the_current_list">Wil je de huidige lijst verwijderen?</string>
     <string name="add_a_new_list_using_the_button">Voeg een nieuwe lijst toe met de + knop</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
     <string name="update_deck">Werk deck bij</string>
     <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
     <string name="deck_outdated_please_update">Uw deck versie is te oud. Update deze android app om het te kunnen gebruiken.</string>
-    <string name="simple_update">Bijwerken</string>
-    <string name="simple_delete">Verwijderen</string>
     <string name="delete_board_message">Dit zal dit bord permanent verwijderen inclusief alle stapels en kaarten.</string>
-    <string name="simple_rename">Hernoemen</string>
-    <string name="simple_settings">Instellingen</string>
     <string name="settings_theme_title">Donker thema</string>
+    <string name="settings_branding_title">Brandmerken</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
     <string name="pref_value_theme_light">Licht</string>
     <string name="unassigned_user">Niet toegewezen %1$s</string>
-    <string name="simple_undo">Ongedaan maken</string>
     <string name="no_activities">Deze kaart heeft geen activiteiten. Verbind met het internet om activiteiten te laden en te tonen.</string>
     <string name="share_board">Bord delen</string>
     <string name="you_are_currently_offline">U bent op dit moment offline</string>
-    <string name="simple_manage">beheer</string>
-    <string name="simple_share">deel</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">U moet verbonden zijn met het Internet om een account toe te voegen.</string>
-    <string name="simple_select">Selecteer</string>
     <string name="owner">Eigenaar</string>
-    <string name="simple_comment">Reactie</string>
     <string name="attachment_delete_message">Dit zal deze bijlage permanent verwijderen.</string>
     <string name="no_content">Nog geen content</string>
     <string name="last_background_sync">Laatste achtergrond sync:</string>
@@ -132,21 +145,15 @@
     <string name="hours_6">6 uur</string>
     <string name="action_card_move">Verplaats kaart</string>
     <string name="action_card_move_title">Verplaats %1$s</string>
-    <string name="simple_disabled">uitgeschakeld</string>
-    <string name="simple_copied">Gekopieerd</string>
     <string name="please_add_an_account_first">Voeg eerst een account toe</string>
     <string name="title_is_mandatory">Titel is verplicht</string>
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="welcome_text">Welkom bij %1$s</string>
     <string name="save_card_before_attachment">De kaart moet worden opgeslagen voordat er bijlagen aan kunnen worden toegevoegd.</string>
-    <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
-    <string name="server_misconfigured_explanation">Je server reageerde met een HTTP 302 statuscode, wat inhoudt dat je de Deck app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dat kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud apps zoals OID Client. Je kunt onze contact informatie voor support vinden in de Over-sectie.</string>
-    <string name="server_error">Serverfout</string>
-    <string name="server_error_explanation">Je server reageerde met een HTTP 503 statuscode. Dat kan gebeuren ald je server in de onderhoudsmodus staat. Neem contact op met je beheerder of met ons voor ondersteuning. Onze contactinformatie staat in de de Over-sectie.</string>
+    <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem a.u.b. contact op met de beheerder of probeer het later opnieuw</string>
     <string name="share_add_to_card">Toevoegen aan kaart</string>
     <string name="share_success">Succesvol %1$s toegevoegd aan %2$s</string>
     <string name="could_not_copy_to_clipboard">Kon niet kopiëren naar het klembord</string>
-    <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer jhet eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
     <string name="add_comment">Reactie toevoegen</string>
     <string name="card_edit_comments">Reacties</string>
     <string name="no_comments_yet">Nog geen reacties</string>
@@ -156,5 +163,20 @@
     <string name="choose_list">Kies lijst</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Open in browser</string>
-    <string name="simple_open">Openen</string>
-    </resources>
+    <string name="updating_card">Kaart updaten...</string>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Verplaats de lijst naar rechts</string>
+    <string name="move_list_left">Verplaats de lijst naar links</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Alle</string>
+    <string name="filter_overdue">Vervallen</string>
+    <string name="filter_today">Vandaag</string>
+    <string name="filter_week">Komende 7 dagen</string>
+    <string name="filter_month">Komende 30 dagen</string>
+    <string name="filter_no_due">Geen vervaldatum</string>
+    <string name="filter_by_tag">Filter op label</string>
+    <string name="filter_by_assigned_user">Filter op toegewezen gebruiker</string>
+    <string name="filter_by_duedate">Filter op vervaldatum</string>
+</resources>

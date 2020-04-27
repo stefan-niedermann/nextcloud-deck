@@ -70,6 +70,8 @@
 
     <string name="error">오류가 나타남</string>
     <string name="simple_copy">복사</string>
+    <string name="simple_synchronization">동기화</string>
+    <string name="simple_appearance">외형</string>
     <string name="simple_error">오류</string>
     <string name="simple_exception">예외</string>
     <string name="copied_to_clipboard">클립보드로 복사</string>
@@ -125,4 +127,5 @@
     <string name="server_error">서버 오류</string>
     <string name="card_edit_comments">댓글</string>
     <string name="open_in_browser">브라우저에서 열기</string>
+    <string name="maintenance_mode">서버가 유지 관리 모드임</string>
     </resources>

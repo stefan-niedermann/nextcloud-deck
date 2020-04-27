@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -8,16 +9,11 @@ import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
-import com.nextcloud.android.sso.model.SingleSignOnAccount;
-
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteDropdownBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteUserBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -25,41 +21,32 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
+    @NonNull
+    private Account account;
 
-    public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId) {
-        this(activity, accountId, boardId, NO_CARD);
+    public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId) {
+        this(activity, account, boardId, NO_CARD);
     }
 
-    public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
-        super(activity, accountId, boardId, cardId);
+    public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId, long cardId) {
+        super(activity, account.getId(), boardId, cardId);
+        this.account = account;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder<ItemAutocompleteDropdownBinding> holder;
+        final ItemAutocompleteUserBinding binding;
+
         if (convertView != null) {
-            holder = (ViewHolder) convertView.getTag();
+            binding = ItemAutocompleteUserBinding.bind(convertView);
         } else {
-            ItemAutocompleteDropdownBinding binding = ItemAutocompleteDropdownBinding.inflate(inflater, parent, false);
-            holder = new ViewHolder<>(binding);
-            convertView = binding.getRoot();
-            convertView.setTag(holder);
+            binding = ItemAutocompleteUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
 
-        try {
-            SingleSignOnAccount account = SingleAccountHelper.getCurrentSingleSignOnAccount(activity);
-            ViewUtil.addAvatar(
-                    holder.binding.icon,
-                    account.url,
-                    getItem(position).getUid(),
-                    R.drawable.ic_person_grey600_24dp
-            );
-        } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-            DeckLog.logError(e);
-        }
+        ViewUtil.addAvatar(binding.icon, account.getUrl(), getItem(position).getUid(), R.drawable.ic_person_grey600_24dp);
+        binding.label.setText(getItem(position).getDisplayname());
 
-        holder.binding.label.setText(getItem(position).getDisplayname());
-        return convertView;
+        return binding.getRoot();
     }
 
     @Override

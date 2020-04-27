@@ -13,67 +13,67 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
-        <LinearLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
-                android:id="@+id/info_box"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|bottom"
-                android:background="@color/bg_info_box"
-                android:gravity="center"
-                android:padding="@dimen/spacer_1hx"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/info_box"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_info_outline_grey600_24dp"
-                    android:drawableLeft="@drawable/ic_info_outline_grey600_24dp"
-                    android:drawablePadding="@dimen/spacer_1hx"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:background="@color/bg_info_box"
                     android:gravity="center"
-                    android:paddingStart="@dimen/spacer_1hx"
-                    android:paddingLeft="@dimen/spacer_1hx"
-                    android:paddingEnd="@dimen/spacer_1hx"
-                    android:paddingRight="@dimen/spacer_1hx"
-                    android:textColor="@color/grey600"
-                    android:text="@string/maintenance_mode" />
+                    android:padding="@dimen/spacer_1hx"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_info_outline_grey600_24dp"
+                        android:drawableLeft="@drawable/ic_info_outline_grey600_24dp"
+                        android:drawablePadding="@dimen/spacer_1hx"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/spacer_1hx"
+                        android:paddingLeft="@dimen/spacer_1hx"
+                        android:paddingEnd="@dimen/spacer_1hx"
+                        android:paddingRight="@dimen/spacer_1hx"
+                        android:text="@string/maintenance_mode"
+                        android:textColor="@color/grey600" />
 
-            <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
-                android:id="@+id/empty_content_view_boards"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                app:description="@string/add_a_new_board_using_the_button"
-                app:title="@string/no_boards" />
+                </LinearLayout>
 
-            <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
-                android:id="@+id/empty_content_view_stacks"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                app:description="@string/add_a_new_list_using_the_button"
-                app:title="@string/no_lists_yet"
-                tools:visibility="visible" />
+                <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
+                    android:id="@+id/empty_content_view_boards"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:description="@string/add_a_new_board_using_the_button"
+                    app:title="@string/no_boards" />
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <it.niedermann.nextcloud.deck.ui.view.EmptyContentView
+                    android:id="@+id/empty_content_view_stacks"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:description="@string/add_a_new_list_using_the_button"
+                    app:title="@string/no_lists_yet"
+                    tools:visibility="visible" />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        </LinearLayout>
+            </LinearLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

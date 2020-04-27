@@ -13,6 +13,27 @@
     <string name="simple_add">新增</string>
     <string name="simple_save">儲存</string>
     <string name="simple_more">更多</string>
+    <string name="simple_title">標題</string>
+    <string name="simple_copy">複製</string>
+    <string name="simple_synchronization">同步</string>
+    <string name="simple_error">錯誤</string>
+    <string name="simple_exception">例外</string>
+    <string name="simple_close"> 關閉</string>
+    <string name="simple_open">打開</string>
+    <string name="simple_filter">過濾</string>
+    <string name="simple_clear">清除</string>
+    <string name="simple_discard">放棄</string>
+    <string name="simple_update">更新</string>
+    <string name="simple_delete">刪除</string>
+    <string name="simple_rename">重新命名</string>
+    <string name="simple_settings">設定</string>
+    <string name="simple_undo">復原</string>
+    <string name="simple_manage">管理</string>
+    <string name="simple_share">分享</string>
+    <string name="simple_select">選擇</string>
+    <string name="simple_comment">備註</string>
+    <string name="simple_disabled">已停用</string>
+    <string name="simple_copied">已複製</string>
 
     <string name="edit_board">編輯佈告欄</string>
     <string name="archive_board">封存佈告欄</string>
@@ -53,34 +74,27 @@
     <string name="hint_due_date_date">截止日</string>
     <string name="add_account">新增帳戶</string>
     <string name="choose_account">選擇帳戶</string>
-
     <string name="add_card">新增卡片</string>
-
     <string name="activity">活動</string>
-
     <string name="add_list">新增清單</string>
     <string name="rename_list">重新命名清單</string>
     <string name="delete_list">刪除清單</string>
-
     <string name="label_menu">選單</string>
     <string name="action_card_assign">分派卡片給我</string>
     <string name="action_card_unassign">取消分派給我的卡片</string>
     <string name="action_card_archive">封存卡片</string>
     <string name="action_card_delete">刪除卡片</string>
     <string name="add_board">新增佈告欄</string>
-    <string name="simple_title">標題</string>
 
     <string name="label_clear_due_date">清除截止日</string>
     <string name="label_add">新增%1$s</string>
 
+    <!-- Error messages -->
     <string name="error">發生錯誤</string>
     <string name="operation_not_yet_supported">尚未支援</string>
-    <string name="simple_copy">複製</string>
-    <string name="simple_error">錯誤</string>
-    <string name="simple_exception">例外</string>
     <string name="copied_to_clipboard">已複製至剪貼簿</string>
-    <string name="simple_close"> 關閉</string>
-
+    <string name="maintenance_mode">伺服器正處於維護模式</string>
+    <string name="server_error">伺服器錯誤</string>
     <string name="card_edit_details">詳細資料</string>
     <string name="card_edit_attachments">附件</string>
     <string name="card_edit_activity">活動</string>
@@ -94,32 +108,22 @@
     <string name="not_synced_yet">尚未同步完成</string>
     <string name="no_lists_yet">尚無清單</string>
     <string name="do_you_want_to_save_your_changes">您想要儲存您做出的變更嗎？</string>
-    <string name="simple_discard">放棄</string>
     <string name="do_you_want_to_delete_the_current_list">您想刪除目前的清單嗎？</string>
     <string name="add_a_new_card_using_the_button">用 + 按鈕新增卡片</string>
     <string name="update_deck">更新 Deck</string>
     <string name="your_deck_version_is_too_old">您的 Deck 版本過舊</string>
     <string name="deck_outdated_please_update">您的 Deck 版本過舊。請更新以將此 Android App 當作用戶端使用。</string>
-    <string name="simple_update">更新</string>
-    <string name="simple_delete">刪除</string>
-    <string name="simple_rename">重新命名</string>
-    <string name="simple_settings">設定</string>
     <string name="settings_theme_title">暗色主題</string>
     <string name="settings_background_sync">背景同步</string>
     <string name="pref_value_wifi_and_mobile">使用 Wi-Fi 及行動網路時同步</string>
     <string name="pref_value_wifi_only">只在使用 Wi-Fi 時同步</string>
     <string name="pref_value_theme_light">亮色</string>
     <string name="unassigned_user">已取消分派 %1$s</string>
-    <string name="simple_undo">復原</string>
     <string name="no_activities">此卡片沒有活動。您需要連線至網際網路，才能載入並顯示活動。</string>
     <string name="share_board">分享佈告欄</string>
     <string name="you_are_currently_offline">目前離線中</string>
-    <string name="simple_manage">管理</string>
-    <string name="simple_share">分享</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">您必須連線到網際網路才能新增帳戶。</string>
-    <string name="simple_select">選擇</string>
     <string name="owner">擁有者</string>
-    <string name="simple_comment">備註</string>
     <string name="attachment_delete_message">這會永久刪除此附件。</string>
     <string name="no_content">目前還沒有內容</string>
     <string name="last_background_sync">上次背景同步時間：</string>
@@ -129,11 +133,10 @@
     <string name="hours_6">6 小時</string>
     <string name="action_card_move">移動卡片</string>
     <string name="action_card_move_title">移動 %1$s</string>
-    <string name="simple_disabled">已停用</string>
-    <string name="simple_copied">已複製</string>
     <string name="title_is_mandatory">必須有標題</string>
-    <string name="server_error">伺服器錯誤</string>
     <string name="card_edit_comments">留言</string>
     <string name="open_in_browser">用瀏覽器開啟</string>
-    <string name="simple_open">打開</string>
+    <!-- Filter -->
+    <string name="filter_no_filter">全部</string>
+    <string name="filter_today">今天</string>
     </resources>

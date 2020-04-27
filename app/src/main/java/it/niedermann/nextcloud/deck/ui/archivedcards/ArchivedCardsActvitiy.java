@@ -1,7 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.archivedcards;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import it.niedermann.nextcloud.deck.databinding.ActivityArchivedCardsBinding;
@@ -10,11 +13,11 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_BOARD_ID;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_CAN_EDIT;
-
 public class ArchivedCardsActvitiy extends BrandedActivity {
+
+    private static final String BUNDLE_KEY_ACCOUNT = "accountId";
+    private static final String BUNDLE_KEY_BOARD_ID = "boardId";
+    private static final String BUNDLE_KEY_CAN_EDIT = "canEdit";
 
     private ActivityArchivedCardsBinding binding;
     private ArchivedCardsAdapter adapter;
@@ -56,7 +59,7 @@ public class ArchivedCardsActvitiy extends BrandedActivity {
         binding.recyclerView.setAdapter(adapter);
 
         syncManager.getArchivedFullCardsForBoard(account.getId(), boardId).observe(this, (fullCards) -> {
-
+            adapter.setCardList(fullCards);
         });
 
     }
@@ -64,5 +67,14 @@ public class ArchivedCardsActvitiy extends BrandedActivity {
     @Override
     public void applyBrand(int mainColor, int textColor) {
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+    }
+
+    @NonNull
+    public static Intent createIntent(@NonNull Context context, @NonNull Account account, long boardId, boolean currentBoardHasEditPermission) {
+        return new Intent(context, ArchivedCardsActvitiy.class)
+                .putExtra(BUNDLE_KEY_ACCOUNT, account)
+                .putExtra(BUNDLE_KEY_BOARD_ID, boardId)
+                .putExtra(BUNDLE_KEY_CAN_EDIT, currentBoardHasEditPermission)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 }

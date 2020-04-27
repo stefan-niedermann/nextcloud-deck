@@ -13,6 +13,30 @@
     <string name="simple_add">Přidat</string>
     <string name="simple_save">Uložit</string>
     <string name="simple_more">Další</string>
+    <string name="simple_title">Nadpis</string>
+    <string name="simple_copy">zkopírovat</string>
+    <string name="simple_synchronization">Synchronizace</string>
+    <string name="simple_appearance">Vzhled</string>
+    <string name="simple_error">Chyba</string>
+    <string name="simple_exception">Výjimka</string>
+    <string name="simple_close">zavřít</string>
+    <string name="simple_open">Otevřeno</string>
+    <string name="simple_switch">Přepnout</string>
+    <string name="simple_filter">Filtr</string>
+    <string name="simple_overdue">Po termínu</string>
+    <string name="simple_clear">Vyčistit</string>
+    <string name="simple_discard">zahodit</string>
+    <string name="simple_update">Aktualizovat</string>
+    <string name="simple_delete">Smazat</string>
+    <string name="simple_rename">Přejmenovat</string>
+    <string name="simple_settings">Nastavení</string>
+    <string name="simple_undo">Vrátit zpět</string>
+    <string name="simple_manage">spravovat</string>
+    <string name="simple_share">sdílet</string>
+    <string name="simple_select">Vybrat</string>
+    <string name="simple_comment">Komentář</string>
+    <string name="simple_disabled">vypnuto</string>
+    <string name="simple_copied">Zkopírováno</string>
 
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Datum termínu</string>
     <string name="add_account">Přidat účet</string>
     <string name="choose_account">Zvolte účet</string>
-
     <string name="add_card">Přidat kartu</string>
-
     <string name="activity">Aktivita</string>
-
     <string name="add_list">Přidat seznam</string>
     <string name="rename_list">Přejmenovat seznam</string>
     <string name="delete_list">Smazat seznam</string>
-
     <string name="label_menu">nabídka</string>
     <string name="action_card_assign">Přiřadit kartu sobě</string>
     <string name="action_card_unassign">Zrušit přiřazení karty mě</string>
     <string name="action_card_archive">Archivovat kartu</string>
     <string name="action_card_delete">Smazat kartu</string>
     <string name="add_board">Přidat tabuli</string>
-    <string name="simple_title">Nadpis</string>
 
     <string name="label_clear_due_date">Vymazat termín</string>
     <string name="label_add">Přidat %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Objevila se chyba</string>
     <string name="operation_not_yet_supported">Zatím nepodorováno</string>
-    <string name="simple_copy">zkopírovat</string>
-    <string name="simple_synchronization">Synchronizace</string>
-    <string name="simple_appearance">Vzhled</string>
-    <string name="simple_error">Chyba</string>
-    <string name="simple_exception">Výjimka</string>
     <string name="copied_to_clipboard">Zkopírováno do schránky</string>
-    <string name="simple_close">zavřít</string>
+    <string name="error_revoking_ac">Chyba při rušení přístupu pro %1$s</string>
+    <string name="maintenance_mode">Na serveru probíhá údržba</string>
+    <string name="server_misconfigured">Server není nastavený správně</string>
+    <string name="server_misconfigured_explanation">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient. Kontaktní údaje na podporu naleznete v sekci „O aplikaci“.</string>
+    <string name="server_error">Chyba serveru</string>
+    <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
 
     <string name="card_edit_details">Podrobnosti</string>
     <string name="card_edit_attachments">Přílohy</string>
@@ -97,18 +117,13 @@
     <string name="not_synced_yet">Doposud nesynchronizováno</string>
     <string name="no_lists_yet">Zatím žádné seznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
-    <string name="simple_discard">zahodit</string>
     <string name="do_you_want_to_delete_the_current_list">Opravdu chcete tento seznam smazat?</string>
     <string name="add_a_new_list_using_the_button">Nový seznam přidáte tlačítkem +</string>
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
     <string name="update_deck">Aktualizujte Deck</string>
     <string name="your_deck_version_is_too_old">Vámi používaná verze Deck je příliš stará</string>
     <string name="deck_outdated_please_update">Vámi používaná verze Deck na straně serveru je příliš stará. Prosíme aktualizujte, abyste mohli používat tuto Android aplikaci jako klienta.</string>
-    <string name="simple_update">Aktualizovat</string>
-    <string name="simple_delete">Smazat</string>
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
-    <string name="simple_rename">Přejmenovat</string>
-    <string name="simple_settings">Nastavení</string>
     <string name="settings_theme_title">Tmavý motiv vzhledu</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
@@ -116,16 +131,11 @@
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
     <string name="pref_value_theme_light">Světlý</string>
     <string name="unassigned_user">Nepřidělené %1$s</string>
-    <string name="simple_undo">Vrátit zpět</string>
     <string name="no_activities">Na této kartě nejsou žádné aktivity. Abyste mohli načíst a zobrazit aktivity, je třeba být připojení k Intenetu.</string>
     <string name="share_board">Sdílet tabuli</string>
     <string name="you_are_currently_offline">V tuto chvíli nejste připojení k Internetu</string>
-    <string name="simple_manage">spravovat</string>
-    <string name="simple_share">sdílet</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Abyste mohli přidat účet je třeba, abyste byli připojení k Internetu.</string>
-    <string name="simple_select">Vybrat</string>
     <string name="owner">Vlastník</string>
-    <string name="simple_comment">Komentář</string>
     <string name="attachment_delete_message">Toto tuto přílohu nadobro smaže.</string>
     <string name="no_content">Zatím žádný osah</string>
     <string name="last_background_sync">Nejnovější synchronizace na pozadí:</string>
@@ -135,21 +145,15 @@
     <string name="hours_6">každých 6 hodin</string>
     <string name="action_card_move">Přesunout kartu</string>
     <string name="action_card_move_title">Přesunout %1$s</string>
-    <string name="simple_disabled">vypnuto</string>
-    <string name="simple_copied">Zkopírováno</string>
     <string name="please_add_an_account_first">Nejprve přidejte účet</string>
     <string name="title_is_mandatory">Nadpis je třeba zadat</string>
     <string name="provide_at_least_a_title_or_description">Zadejte alespoň nadpis nebo popis</string>
     <string name="welcome_text">Vítejte v %1$s</string>
     <string name="save_card_before_attachment">Aby bylo možné přidávat přílohy je třeba, aby karta byla nejprve uložena.</string>
-    <string name="server_misconfigured">Server není nastavený správně</string>
-    <string name="server_misconfigured_explanation">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient. Kontaktní údaje na podporu naleznete v sekci „O aplikaci“.</string>
-    <string name="server_error">Chyba serveru</string>
-    <string name="server_error_explanation">Vámi využívaný server odpověděl HTTP stavovým kódem 503. Může to být tím, že na serveru právě probíhá údržba. Obraťte se na jeho správce nebo na autory této aplikace (kontaktní údaje naleznete v sekci „O aplikaci“).</string>
+    <string name="maintenance_mode_explanation">Na serveru %1$s v tuto chvíli probíhá údržba. Obraťte se na jeho správce nebo to zkuste později znovu.</string>
     <string name="share_add_to_card">Přidat do karty</string>
     <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
     <string name="could_not_copy_to_clipboard">Nedaří se zkopírovat do schránky</string>
-    <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
     <string name="add_comment">Přidat komentář</string>
     <string name="card_edit_comments">Komentáře</string>
     <string name="no_comments_yet">Zatím žádné komentáře</string>
@@ -159,6 +163,20 @@
     <string name="choose_list">Zvolit seznam</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Otevřít v prohlížeči</string>
-    <string name="simple_open">Otevřeno</string>
     <string name="updating_card">Aktualizace karty…</string>
-    </resources>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Přesunout seznam vpravo</string>
+    <string name="move_list_left">Přesunout seznam vlevo</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Vše</string>
+    <string name="filter_overdue">Po termínu</string>
+    <string name="filter_today">Dnes</string>
+    <string name="filter_week">Příštích 7 dnů</string>
+    <string name="filter_month">Příštích 30 dnů</string>
+    <string name="filter_no_due">Žádný termín</string>
+    <string name="filter_by_tag">Filtrovat podle příznaků</string>
+    <string name="filter_by_assigned_user">Filtrovat podle uživatele, který je úkolem pověřen</string>
+    <string name="filter_by_duedate">Filtrovat podle termínu</string>
+</resources>

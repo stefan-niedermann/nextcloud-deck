@@ -13,6 +13,30 @@
     <string name="simple_add">Engadir</string>
     <string name="simple_save">Gardar</string>
     <string name="simple_more">Máis</string>
+    <string name="simple_title">Titulo</string>
+    <string name="simple_copy">copiar</string>
+    <string name="simple_synchronization">Sincronización</string>
+    <string name="simple_appearance">Aparencia</string>
+    <string name="simple_error">Erro</string>
+    <string name="simple_exception">Excepción</string>
+    <string name="simple_close">pechar</string>
+    <string name="simple_open">Abrir</string>
+    <string name="simple_switch">Cambiar</string>
+    <string name="simple_filter">Filtro</string>
+    <string name="simple_overdue">Caducado</string>
+    <string name="simple_clear">Limpar</string>
+    <string name="simple_discard">desbotar</string>
+    <string name="simple_update">Actualizar</string>
+    <string name="simple_delete">Eliminar</string>
+    <string name="simple_rename">Renomear</string>
+    <string name="simple_settings">Axustes</string>
+    <string name="simple_undo">Desfacer</string>
+    <string name="simple_manage">xestionar</string>
+    <string name="simple_share">compartir</string>
+    <string name="simple_select">Seleccionar</string>
+    <string name="simple_comment">Comentario</string>
+    <string name="simple_disabled">desactivado</string>
+    <string name="simple_copied">Copiada</string>
 
     <string name="edit_board">Editar taboleiro</string>
     <string name="archive_board">Arquivar taboleiro</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Data de caducidade</string>
     <string name="add_account">Engadir unha conta</string>
     <string name="choose_account">Escolla unha conta</string>
-
     <string name="add_card">Engadir tarxeta</string>
-
     <string name="activity">Actividade</string>
-
     <string name="add_list">Engadir unha lista...</string>
     <string name="rename_list">Renomear a lista</string>
     <string name="delete_list">Eliminar lista</string>
-
     <string name="label_menu">menú</string>
     <string name="action_card_assign">Asignarme a tarxeta</string>
     <string name="action_card_unassign">Desasignarme tarxeta</string>
     <string name="action_card_archive">Arquivar a tarxeta</string>
     <string name="action_card_delete">Eliminar a tarxeta</string>
     <string name="add_board">Engadir taboleiro</string>
-    <string name="simple_title">Titulo</string>
 
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
     <string name="label_add">Engadir %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Apareceu un erro</string>
     <string name="operation_not_yet_supported">Aínda non está admitido</string>
-    <string name="simple_copy">copiar</string>
-    <string name="simple_synchronization">Sincronización</string>
-    <string name="simple_appearance">Aparencia</string>
-    <string name="simple_error">Erro</string>
-    <string name="simple_exception">Excepción</string>
     <string name="copied_to_clipboard">Copiado no portapapeis.</string>
-    <string name="simple_close">pechar</string>
+    <string name="error_revoking_ac">Produciuse un erro ao revogar o acceso a %1$s</string>
+    <string name="maintenance_mode">Servidor en modo de mantemento</string>
+    <string name="server_misconfigured">Configuración incorrecta do servidor</string>
+    <string name="server_misconfigured_explanation">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como OID Client. Pode atopar a nosa información de contacto para asistencia na sección «Sobre».</string>
+    <string name="server_error">Produciuse un erro de servidor</string>
+    <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
 
     <string name="card_edit_details">Detalles</string>
     <string name="card_edit_attachments">Anexos</string>
@@ -97,18 +117,13 @@
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
     <string name="no_lists_yet">Non hai listas</string>
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
-    <string name="simple_discard">desbotar</string>
     <string name="do_you_want_to_delete_the_current_list">Confirma que quere eliminar a lista actual?</string>
     <string name="add_a_new_list_using_the_button">Engadir unha nova lista co botón +</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
     <string name="update_deck">Actualizar o Deck</string>
     <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
     <string name="deck_outdated_please_update">A versión do Deck é antiga de máis. Actualice para usar esta apli de Android como cliente.</string>
-    <string name="simple_update">Actualizar</string>
-    <string name="simple_delete">Eliminar</string>
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
-    <string name="simple_rename">Renomear</string>
-    <string name="simple_settings">Axustes</string>
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Imaxe de marca</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
@@ -116,16 +131,11 @@
     <string name="pref_value_wifi_only">Sincronizar só con WiFi</string>
     <string name="pref_value_theme_light">Claro</string>
     <string name="unassigned_user">Desasignado %1$s</string>
-    <string name="simple_undo">Desfacer</string>
     <string name="no_activities">Non hai actividades nesta tarxeta. Para cargar e amosar actividades necesita estar conectado á Internet.</string>
     <string name="share_board">Taboleiro compartido</string>
     <string name="you_are_currently_offline">Agora está sen conexión</string>
-    <string name="simple_manage">xestionar</string>
-    <string name="simple_share">compartir</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Para engadir unha conta tes que estar conectado a internet.</string>
-    <string name="simple_select">Seleccionar</string>
     <string name="owner">Propietario</string>
-    <string name="simple_comment">Comentario</string>
     <string name="attachment_delete_message">Isto eliminará este anexo  de xeito permanente.</string>
     <string name="no_content">Aínda non hai contido</string>
     <string name="last_background_sync">Última sincronización do traballo en segundo plano:</string>
@@ -135,21 +145,15 @@
     <string name="hours_6">6 horas</string>
     <string name="action_card_move">Mover a tarxeta</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="simple_disabled">desactivado</string>
-    <string name="simple_copied">Copiada</string>
     <string name="please_add_an_account_first">Engada antes unha conta</string>
     <string name="title_is_mandatory">O título é obrigatorio</string>
     <string name="provide_at_least_a_title_or_description">Forneza polo menos un título ou descrición</string>
     <string name="welcome_text">Dámoslle a benvida a %1$s</string>
     <string name="save_card_before_attachment">Ten que gardar a tarxeta antes de engadir anexos.</string>
-    <string name="server_misconfigured">Configuración incorrecta do servidor</string>
-    <string name="server_misconfigured_explanation">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como OID Client. Pode atopar a nosa información de contacto para asistencia na sección «Sobre».</string>
-    <string name="server_error">Produciuse un erro de servidor</string>
-    <string name="server_error_explanation">O seu servidor respondeu cun código de estado HTTP 503. Pode ser o caso se o servidor está actualmente en modo de mantemento. Póñase en contacto co seu administrador ou con nós para obter asistencia. Pode atopar a nosa información de contacto na sección «Sobre».</string>
+    <string name="maintenance_mode_explanation">O servidor %1$s está atopase en modo de mantemento. Póñase en contacto co seu administrador ou ténteo de novo máis tarde.</string>
     <string name="share_add_to_card">Engadir á tarxeta</string>
     <string name="share_success">%1$s foi engadido satisfactoriamente  a %2$s</string>
     <string name="could_not_copy_to_clipboard">Non foi posíbel copiar ao portapapeis</string>
-    <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
     <string name="add_comment">Engadir comentario</string>
     <string name="card_edit_comments">Comentarios</string>
     <string name="no_comments_yet">Aínda non hai comentarios</string>
@@ -159,6 +163,20 @@
     <string name="choose_list">Escolla a lista</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Abrir no navegador</string>
-    <string name="simple_open">Abrir</string>
     <string name="updating_card">Actualizado tarxeta…</string>
-    </resources>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Mover a lista á dereita</string>
+    <string name="move_list_left">Mover a lista á esquerda</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Todo</string>
+    <string name="filter_overdue">Caducado</string>
+    <string name="filter_today">Hoxe</string>
+    <string name="filter_week">Próximos 7 días</string>
+    <string name="filter_month">Próximos 30 días</string>
+    <string name="filter_no_due">Sen data de caducidade</string>
+    <string name="filter_by_tag">Filtrar pola etiqueta</string>
+    <string name="filter_by_assigned_user">Filtrar polo usuario asignado</string>
+    <string name="filter_by_duedate">Filtrar pola data de caducidade</string>
+</resources>

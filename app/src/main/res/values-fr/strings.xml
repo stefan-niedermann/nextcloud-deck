@@ -13,6 +13,30 @@
     <string name="simple_add">Ajouter</string>
     <string name="simple_save">Enregistrer</string>
     <string name="simple_more">Plus</string>
+    <string name="simple_title">Titre</string>
+    <string name="simple_copy">copier</string>
+    <string name="simple_synchronization">Synchronisation</string>
+    <string name="simple_appearance">Apparence</string>
+    <string name="simple_error">Erreur</string>
+    <string name="simple_exception">Exception</string>
+    <string name="simple_close">fermer</string>
+    <string name="simple_open">Ouvert</string>
+    <string name="simple_switch">Permuter</string>
+    <string name="simple_filter">Filtre</string>
+    <string name="simple_overdue">En retard</string>
+    <string name="simple_clear">Effacer</string>
+    <string name="simple_discard">ignorer</string>
+    <string name="simple_update">Mettre à jour</string>
+    <string name="simple_delete">Supprimer</string>
+    <string name="simple_rename">Renommer</string>
+    <string name="simple_settings">Paramètres</string>
+    <string name="simple_undo">Annuler</string>
+    <string name="simple_manage">gérer</string>
+    <string name="simple_share">partager</string>
+    <string name="simple_select">Sélectionner</string>
+    <string name="simple_comment">Commenter</string>
+    <string name="simple_disabled">désactivé</string>
+    <string name="simple_copied">Copié</string>
 
     <string name="edit_board">Modifier le tableau</string>
     <string name="archive_board">Archiver le tableau</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Date d\'échéance</string>
     <string name="add_account">Ajouter un compte</string>
     <string name="choose_account">Sélectionnez un compte</string>
-
     <string name="add_card">Ajouter une carte</string>
-
     <string name="activity">Activité</string>
-
     <string name="add_list">Ajouter une liste</string>
     <string name="rename_list">Renommer la liste</string>
     <string name="delete_list">Supprimer la liste</string>
-
     <string name="label_menu">menu</string>
     <string name="action_card_assign">M\'assigner la carte</string>
     <string name="action_card_unassign">Ne plus m\'assigner la carte</string>
     <string name="action_card_archive">Archiver la carte</string>
     <string name="action_card_delete">Supprimer la carte</string>
     <string name="add_board">Ajouter un tableau</string>
-    <string name="simple_title">Titre</string>
 
     <string name="label_clear_due_date">Effacer la date d\'échéance</string>
     <string name="label_add">Ajouter %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Une erreur est survenue</string>
     <string name="operation_not_yet_supported">Non supporté actuellement</string>
-    <string name="simple_copy">copier</string>
-    <string name="simple_synchronization">Synchronisation</string>
-    <string name="simple_appearance">Apparence</string>
-    <string name="simple_error">Erreur</string>
-    <string name="simple_exception">Exception</string>
     <string name="copied_to_clipboard">Copié dans le presse-papier</string>
-    <string name="simple_close">fermer</string>
+    <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
+    <string name="maintenance_mode">Serveur en maintenance</string>
+    <string name="server_misconfigured">Problème de configuration serveur</string>
+    <string name="server_misconfigured_explanation">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés dans un fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
+    <string name="server_error">Erreur du serveur</string>
+    <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
 
     <string name="card_edit_details">Propriétés</string>
     <string name="card_edit_attachments">Pièces jointes</string>
@@ -97,7 +117,6 @@
     <string name="not_synced_yet">Aucune synchronisation pour l\'instant</string>
     <string name="no_lists_yet">Aucune liste pour l\'instant</string>
     <string name="do_you_want_to_save_your_changes">Souhaitez-vous enregistrer vos modifications ?</string>
-    <string name="simple_discard">ignorer</string>
     <string name="do_you_want_to_delete_the_current_list">Souhaitez-vous supprimer la liste actuelle ?</string>
     <string name="add_a_new_list_using_the_button">Ajoutez une nouvelle liste avec le bouton +</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
@@ -105,27 +124,18 @@
     <string name="your_deck_version_is_too_old">Votre version de Deck est trop ancienne</string>
     <string name="deck_outdated_please_update">Votre version de Deck est trop ancienne. Veuillez la mettre à jour pour utiliser cette application Android comme client.
 </string>
-    <string name="simple_update">Mettre à jour</string>
-    <string name="simple_delete">Supprimer</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau incluant ses listes et ses cartes.</string>
-    <string name="simple_rename">Renommer</string>
-    <string name="simple_settings">Paramètres</string>
     <string name="settings_theme_title">Thème sombre</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
     <string name="pref_value_wifi_only">Synchroniser uniquement en Wifi</string>
     <string name="pref_value_theme_light">Clair</string>
     <string name="unassigned_user">%1$s non assigné</string>
-    <string name="simple_undo">Annuler</string>
     <string name="no_activities">Il n\'y a aucune activité sur cette carte. Vous devez être connectés à Internet pour charger et afficher les activités.</string>
     <string name="share_board">Partager le tableau</string>
     <string name="you_are_currently_offline">Vous êtes actuellement hors-ligne</string>
-    <string name="simple_manage">gérer</string>
-    <string name="simple_share">partager</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Vous devez être connectés à Internet pour ajouter un compte.</string>
-    <string name="simple_select">Sélectionner</string>
     <string name="owner">Propriétaire</string>
-    <string name="simple_comment">Commenter</string>
     <string name="attachment_delete_message">Cette action supprimera définitivement le fichier joint.</string>
     <string name="no_content">Aucun contenu pour l\'instant</string>
     <string name="last_background_sync">Dernière synchro en tâche de fond :</string>
@@ -135,26 +145,36 @@
     <string name="hours_6">6 Heures</string>
     <string name="action_card_move">Déplacer la carte</string>
     <string name="action_card_move_title">Déplacer %1$s</string>
-    <string name="simple_disabled">désactivé</string>
-    <string name="simple_copied">Copié</string>
     <string name="please_add_an_account_first">Veuillez d’abord ajouter un compte</string>
     <string name="title_is_mandatory">Le titre est obligatoire</string>
     <string name="provide_at_least_a_title_or_description">Renseignez le titre ou la description</string>
     <string name="welcome_text">Bienvenue sur %1$s</string>
     <string name="save_card_before_attachment">Vous devez enregistrer la carte avant d\'ajouter une pièce jointe.</string>
-    <string name="server_misconfigured">Problème de configuration serveur</string>
-    <string name="server_misconfigured_explanation">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés dans un fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
-    <string name="server_error">Erreur du serveur</string>
-    <string name="server_error_explanation">Votre serveur a répondu avec le code d\'état HTTP 503. Cela peut être le cas si le serveur est actuellement en mode maintenance. Veuillez contacter votre administrateur ou nous pour obtenir de l\'aide. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
+    <string name="maintenance_mode_explanation">Le serveur %1$s est actuellement en maintenance. Veuillez contacter votre administrateur ou réessayer plus tard.</string>
     <string name="share_add_to_card">Ajouter à la carte</string>
     <string name="share_success">Ajout de %1$s à %2$s réussit</string>
     <string name="could_not_copy_to_clipboard">Impossible de copier dans le presse-papiers</string>
-    <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
     <string name="add_comment">Ajouter un commentaire</string>
     <string name="card_edit_comments">Commentaires</string>
     <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>
+    <string name="no_boards">Pas encore de cartes</string>
     <string name="choose_list">Sélectionner la liste</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Ouvrir dans le navigateur web</string>
-    <string name="simple_open">Ouvert</string>
-    </resources>
+    <string name="updating_card">Mise à jour de la carte en cours...</string>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Déplacer la liste à droite</string>
+    <string name="move_list_left">Déplacer la liste à gauche</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Tout</string>
+    <string name="filter_overdue">En retard</string>
+    <string name="filter_today">Aujourd\'hui</string>
+    <string name="filter_week">7 prochains jours</string>
+    <string name="filter_month">30 prochains jours</string>
+    <string name="filter_no_due">Sans échéance</string>
+    <string name="filter_by_tag">Filtrer par étiquette</string>
+    <string name="filter_by_assigned_user">Filtrer par utilisateur</string>
+    <string name="filter_by_duedate">Filtrer par échéance</string>
+</resources>

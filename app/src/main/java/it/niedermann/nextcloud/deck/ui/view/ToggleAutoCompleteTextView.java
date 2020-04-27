@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.AdapterView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 
@@ -30,7 +31,7 @@ public class ToggleAutoCompleteTextView extends AppCompatAutoCompleteTextView {
     }
 
     @Override
-    public void setOnItemClickListener(AdapterView.OnItemClickListener l) {
+    public void setOnItemClickListener(@NonNull AdapterView.OnItemClickListener l) {
         super.setOnItemClickListener((parent, view, position, id) -> {
             l.onItemClick(parent, view, position, id);
             hideOnNextClick = false;

@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,9 +19,8 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
-
 public class AboutActivity extends BrandedActivity {
+    private static final String BUNDLE_KEY_ACCOUNT = "account";
 
     private ActivityAboutBinding binding;
     private final static int[] tabTitles = new int[]{
@@ -84,5 +85,11 @@ public class AboutActivity extends BrandedActivity {
     public void applyBrand(int mainColor, int textColor) {
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
+    }
+
+    @NonNull
+    public static Intent createIntent(@NonNull Context context, @NonNull Account account) {
+        return new Intent(context, AboutActivity.class)
+                .putExtra(BUNDLE_KEY_ACCOUNT, account);
     }
 }

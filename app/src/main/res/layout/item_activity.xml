@@ -34,6 +34,7 @@
             android:id="@+id/subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:maxLength="150"
             tools:text="@tools:sample/lorem/random" />
     </LinearLayout>
 </LinearLayout>

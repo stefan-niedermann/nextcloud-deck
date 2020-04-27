@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.util;
 
-import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -12,15 +11,16 @@ import androidx.viewbinding.ViewBinding;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
-public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implements Filterable {
+public abstract class AutoCompleteAdapter<ItemType extends IRemoteEntity> extends BaseAdapter implements Filterable {
     public static final long NO_CARD = Long.MIN_VALUE;
     public static final long ITEM_CREATE = Long.MIN_VALUE;
     @NonNull
     protected final ComponentActivity activity;
     @NonNull
-    protected List<ItemType> itemList = new ArrayList<>();
+    private List<ItemType> itemList = new ArrayList<>();
     @NonNull
     protected List<ItemType> itemsToExclude = new ArrayList<>();
     @NonNull
@@ -28,8 +28,6 @@ public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implemen
     protected final long accountId;
     protected final long boardId;
     protected final long cardId;
-    @NonNull
-    protected final LayoutInflater inflater;
 
     protected AutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
         this.activity = activity;
@@ -37,7 +35,6 @@ public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implemen
         this.boardId = boardId;
         this.cardId = cardId;
         this.syncManager = new SyncManager(activity);
-        this.inflater = activity.getLayoutInflater();
     }
 
     @Override
@@ -52,7 +49,7 @@ public abstract class AutoCompleteAdapter<ItemType> extends BaseAdapter implemen
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return itemList.get(position).getLocalId();
     }
 
     protected static class ViewHolder<ViewBindingType extends ViewBinding> {

@@ -42,14 +42,14 @@ public class DeleteBoardDialogFragment extends DialogFragment {
                 .setTitle(getString(R.string.delete_something, board.getTitle()))
                 .setMessage(R.string.delete_board_message)
                 .setPositiveButton(R.string.simple_delete, (dialog, which) -> deleteBoardListener.onBoardDeleted(board))
-                .setNegativeButton(android.R.string.cancel, null);
+                .setNeutralButton(android.R.string.cancel, null);
         return builder.create();
     }
 
-    public static DialogFragment newInstance(Board board) {
-        DeleteBoardDialogFragment dialog = new DeleteBoardDialogFragment();
+    public static DialogFragment newInstance(@NonNull Board board) {
+        final DeleteBoardDialogFragment dialog = new DeleteBoardDialogFragment();
 
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putSerializable(KEY_BOARD, board);
         dialog.setArguments(args);
 

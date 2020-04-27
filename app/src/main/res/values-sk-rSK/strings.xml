@@ -13,6 +13,30 @@
     <string name="simple_add">Pridať</string>
     <string name="simple_save">Uložiť</string>
     <string name="simple_more">Viac</string>
+    <string name="simple_title">Názov</string>
+    <string name="simple_copy">kopírovať</string>
+    <string name="simple_synchronization">Synchronizácia</string>
+    <string name="simple_appearance">Vzhľad</string>
+    <string name="simple_error">Chyba</string>
+    <string name="simple_exception">Výnimka</string>
+    <string name="simple_close">Zatvoriť</string>
+    <string name="simple_open">Otvoriť</string>
+    <string name="simple_switch">Prepnúť</string>
+    <string name="simple_filter">Filter</string>
+    <string name="simple_overdue">Po termíne</string>
+    <string name="simple_clear">Vyčistiť</string>
+    <string name="simple_discard">odhodiť</string>
+    <string name="simple_update">Aktualizovať</string>
+    <string name="simple_delete">Zmazať</string>
+    <string name="simple_rename">Premenovať</string>
+    <string name="simple_settings">Nastavenia</string>
+    <string name="simple_undo">Odvolať</string>
+    <string name="simple_manage">spravovať</string>
+    <string name="simple_share">sprístupniť</string>
+    <string name="simple_select">Vybrať</string>
+    <string name="simple_comment">Komentár</string>
+    <string name="simple_disabled">zakázané</string>
+    <string name="simple_copied">Skopírované</string>
 
     <string name="edit_board">Upraviť nástenku</string>
     <string name="archive_board">Archivovať nástenku</string>
@@ -54,35 +78,31 @@
     <string name="hint_due_date_date">Termín dokončenia</string>
     <string name="add_account">Pridať účet</string>
     <string name="choose_account">Zvoliť účet</string>
-
     <string name="add_card">Pridať kartu</string>
-
     <string name="activity">Aktivita</string>
-
     <string name="add_list">Pridať zoznam</string>
     <string name="rename_list">Premenovať zoznam</string>
     <string name="delete_list">Vymazať zoznam</string>
-
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Priradiť kartu mne</string>
     <string name="action_card_unassign">Zrušiť priradenie karty mne</string>
     <string name="action_card_archive">Archivovať kartu</string>
     <string name="action_card_delete">Zmazať kartu</string>
     <string name="add_board">Pridať nástenk</string>
-    <string name="simple_title">Názov</string>
 
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
     <string name="label_add">Pridať %1$s</string>
 
+    <!-- Error messages -->
     <string name="error">Vyskytla sa chyba</string>
     <string name="operation_not_yet_supported">Zatiaľ nepodporované</string>
-    <string name="simple_copy">kopírovať</string>
-    <string name="simple_synchronization">Synchronizácia</string>
-    <string name="simple_appearance">Vzhľad</string>
-    <string name="simple_error">Chyba</string>
-    <string name="simple_exception">Výnimka</string>
     <string name="copied_to_clipboard">Skopírované do schránky</string>
-    <string name="simple_close">Zatvoriť</string>
+    <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
+    <string name="maintenance_mode">Server je v móde údržby</string>
+    <string name="server_misconfigured">Server je nesprávne nakonfigurovaný</string>
+    <string name="server_misconfigured_explanation">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými prepismi v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client. Naše kontaktné informácie pre podporu nájdete v časti uvedenej vyššie.</string>
+    <string name="server_error">Chyba servera</string>
+    <string name="shared_error">Zdieľanie obsahu z aplikácií tretích strán zatiaľ nie je úplne podporované. Skúste si ho najprv stiahnuť a potom ho zdieľajte zo svojho správcu súborov alebo z galérie.</string>
 
     <string name="card_edit_details">Podrobnosti</string>
     <string name="card_edit_attachments">Prílohy</string>
@@ -97,18 +117,13 @@
     <string name="not_synced_yet">Zatiaľ nie je synchronizovaný</string>
     <string name="no_lists_yet">Zatiaľ žiadne zoznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete uložiť zmeny?</string>
-    <string name="simple_discard">odhodiť</string>
     <string name="do_you_want_to_delete_the_current_list">Chcete odstrániť aktuálny zoznam?</string>
     <string name="add_a_new_list_using_the_button">Pridajte nový zoznam pomocou tlačidla +</string>
     <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
     <string name="update_deck">Aktualizovať balíček</string>
     <string name="your_deck_version_is_too_old">Verzia vášho balíčka je príliš stará</string>
     <string name="deck_outdated_please_update">Verzia vášho balíčka je príliš stará. Ak chcete túto aplikáciu pre Android používať ako klienta, aktualizujte ju.</string>
-    <string name="simple_update">Aktualizovať</string>
-    <string name="simple_delete">Zmazať</string>
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
-    <string name="simple_rename">Premenovať</string>
-    <string name="simple_settings">Nastavenia</string>
     <string name="settings_theme_title">Tmavý motív</string>
     <string name="settings_branding_title">Použitie vlastného loga</string>
     <string name="settings_background_sync">Synchronizácia na pozadí</string>
@@ -116,16 +131,11 @@
     <string name="pref_value_wifi_only">Synchronizovať len na Wi-Fi</string>
     <string name="pref_value_theme_light">Svetlý</string>
     <string name="unassigned_user">Nepriradené %1$s</string>
-    <string name="simple_undo">Odvolať</string>
     <string name="no_activities">Na tejto karte nie sú žiadne aktivity. Na načítanie a zobrazenie aktivít musíte byť pripojení k internetu.</string>
     <string name="share_board">Zdieľať nástenku</string>
     <string name="you_are_currently_offline">Momentálne ste offline</string>
-    <string name="simple_manage">spravovať</string>
-    <string name="simple_share">sprístupniť</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Ak chcete pridať účet, musíte byť pripojení k internetu.</string>
-    <string name="simple_select">Vybrať</string>
     <string name="owner">Majiteľ</string>
-    <string name="simple_comment">Komentár</string>
     <string name="attachment_delete_message">Táto príloha sa natrvalo odstráni.</string>
     <string name="no_content">Zatiaľ žiadny obsah</string>
     <string name="last_background_sync">Posledná synchronizácia na pozadí:</string>
@@ -135,21 +145,15 @@
     <string name="hours_6">6 hodín</string>
     <string name="action_card_move">Presunúť kartu</string>
     <string name="action_card_move_title">Preusnúť %1$s</string>
-    <string name="simple_disabled">zakázané</string>
-    <string name="simple_copied">Skopírované</string>
     <string name="please_add_an_account_first">Najskôr pridajte účet</string>
     <string name="title_is_mandatory">Názov je povinný</string>
     <string name="provide_at_least_a_title_or_description">Uveďte aspoň názov alebo popis</string>
     <string name="welcome_text">Vitajte v %1$s</string>
     <string name="save_card_before_attachment">Pred pridaním príloh je potrebné kartu uložiť.</string>
-    <string name="server_misconfigured">Server je nesprávne nakonfigurovaný</string>
-    <string name="server_misconfigured_explanation">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými prepismi v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client. Naše kontaktné informácie pre podporu nájdete v časti uvedenej vyššie.</string>
-    <string name="server_error">Chyba servera</string>
-    <string name="server_error_explanation">Váš server odpovedal stavovým kódom HTTP 503. Môže sa to stať, ak je server v režime údržby. Ak potrebujete podporu, kontaktujte svojho správcu alebo nás. Naše kontaktné informácie nájdete v časti uvedenej vyššie.</string>
+    <string name="maintenance_mode_explanation">Server %1$s je v móde údržby. Kontaktujte svojho správcu alebo to skúste znova neskôr.</string>
     <string name="share_add_to_card">Pridať do košíka</string>
     <string name="share_success">%1$s úspešne pridané do %2$s</string>
     <string name="could_not_copy_to_clipboard">Nepodarilo sa skopírovať do schránky</string>
-    <string name="shared_error">Zdieľanie obsahu z aplikácií tretích strán zatiaľ nie je úplne podporované. Skúste si ho najprv stiahnuť a potom ho zdieľajte zo svojho správcu súborov alebo z galérie.</string>
     <string name="add_comment">Pridať komentár</string>
     <string name="card_edit_comments">Komentáre</string>
     <string name="no_comments_yet">Zatiaľ žiadne komentáre</string>
@@ -159,6 +163,20 @@
     <string name="choose_list">Vybrať zoznam</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Otvoriť v prehliadači</string>
-    <string name="simple_open">Otvoriť</string>
     <string name="updating_card">Aktualizácia karty…</string>
-    </resources>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Presunúť zoznam doprava</string>
+    <string name="move_list_left">Presunúť zoznam doľava</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Všetko</string>
+    <string name="filter_overdue">Po termíne</string>
+    <string name="filter_today">Dnes</string>
+    <string name="filter_week">Následujúcich 7 dní</string>
+    <string name="filter_month">Následujúcich 30 dní</string>
+    <string name="filter_no_due">Bez termínu</string>
+    <string name="filter_by_tag">Filtrovať podľa štítkov</string>
+    <string name="filter_by_assigned_user">Filtrovať podľa priradeného používateľa</string>
+    <string name="filter_by_duedate">Filtrovať podľa termínu</string>
+</resources>
