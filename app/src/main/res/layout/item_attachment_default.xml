@@ -38,9 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:hint="Filename"
-        android:textSize="@dimen/text_size_attachments"
-        tools:ignore="HardcodedText" />
+        android:textSize="@dimen/text_size_attachments" />
 
     <LinearLayout
         android:layout_width="wrap_content"

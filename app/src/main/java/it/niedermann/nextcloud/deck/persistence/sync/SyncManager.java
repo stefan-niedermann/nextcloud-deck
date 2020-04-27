@@ -1150,6 +1150,12 @@ public class SyncManager {
         }
     }
 
+    /**
+     * FIXME clean up on error
+     * When uploading the exact same attachment 2 times to the same card, the server starts burning and gets mad and returns status 500
+     * The problem is, that the attachment is still in our local database and everytime one tries to sync, the log is spammed with 500 errors
+     * Also this leads to the attachment being present in the card forever with a DBStatus.LOCAL_EDITED
+     */
     public WrappedLiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file) {
         WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
