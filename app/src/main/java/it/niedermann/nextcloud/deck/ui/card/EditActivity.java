@@ -32,11 +32,10 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 
 public class EditActivity extends BrandedActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";
-    private static final String BUNDLE_KEY_LOCAL_ID = "localId";
     private static final String BUNDLE_KEY_BOARD_ID = "boardId";
     private static final String BUNDLE_KEY_STACK_ID = "stackId";
+    private static final String BUNDLE_KEY_CARD_ID = "cardId";
     private static final String BUNDLE_KEY_TITLE = "title";
-    private static final Long NO_LOCAL_ID = -1L;
 
     private ActivityEditBinding binding;
     private EditCardViewModel viewModel;
@@ -86,12 +85,12 @@ public class EditActivity extends BrandedActivity {
             throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_BOARD_ID + " of the card that should be edited or created.");
         }
 
-        long localId = args.getLong(BUNDLE_KEY_LOCAL_ID, NO_LOCAL_ID);
+        long cardId = args.getLong(BUNDLE_KEY_CARD_ID);
 
         viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
         syncManager = new SyncManager(this);
 
-        if (localId == NO_LOCAL_ID) {
+        if (cardId == 0L) {
             viewModel.setCreateMode(true);
             if (!args.containsKey(BUNDLE_KEY_STACK_ID)) {
                 throw new IllegalArgumentException("When creating a card, passing the " + BUNDLE_KEY_STACK_ID + " is mandatory");
@@ -120,8 +119,8 @@ public class EditActivity extends BrandedActivity {
                 setupViewPager();
                 setupTitle(viewModel.isCreateMode());
             } else {
-                observeOnce(syncManager.getCardByLocalId(account.getId(), localId), EditActivity.this, (next) -> {
-                    viewModel.initializeExistingCard(account, boardId, next);
+                observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
+                    viewModel.initializeExistingCard(account, boardId, fullCard);
                     setupViewPager();
                     setupTitle(viewModel.isCreateMode());
                 });
@@ -195,17 +194,15 @@ public class EditActivity extends BrandedActivity {
 
         // Comments API only available starting with version 1.0.0-alpha1
         if (!viewModel.isCreateMode()) {
-            syncManager.readAccount(viewModel.getAccount().getId()).observe(this, (account) -> {
-                viewModel.setHasCommentsAbility(account.getServerDeckVersionAsObject().isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0)));
-                if (viewModel.hasCommentsAbility()) {
-                    runOnUiThread(() -> {
-                        mediator.detach();
-                        adapter.enableComments();
-                        binding.pager.setOffscreenPageLimit(3);
-                        mediator.attach();
-                    });
-                }
-            });
+            viewModel.setHasCommentsAbility(viewModel.getAccount().getServerDeckVersionAsObject().isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0)));
+            if (viewModel.hasCommentsAbility()) {
+                runOnUiThread(() -> {
+                    mediator.detach();
+                    adapter.enableComments();
+                    binding.pager.setOffscreenPageLimit(3);
+                    mediator.attach();
+                });
+            }
         }
     }
 
@@ -273,23 +270,27 @@ public class EditActivity extends BrandedActivity {
     }
 
     @NonNull
-    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId, Long cardId, @NonNull String title) {
-        return createNewCardIntent(context, account, boardId, stackId, cardId)
+    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId, @NonNull String title) {
+        return createNewCardIntent(context, account, boardId, stackId)
                 .putExtra(BUNDLE_KEY_TITLE, title);
     }
 
     @NonNull
-    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId, Long cardId) {
-        return createEditCardIntent(context, account, boardId, cardId)
+    public static Intent createNewCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long stackId) {
+        return createBasicIntent(context, account, boardId)
                 .putExtra(BUNDLE_KEY_STACK_ID, stackId);
     }
 
     @NonNull
     public static Intent createEditCardIntent(@NonNull Context context, @NonNull Account account, Long boardId, Long cardId) {
+        return createBasicIntent(context, account, boardId)
+                .putExtra(BUNDLE_KEY_CARD_ID, cardId);
+    }
+
+    private static Intent createBasicIntent(@NonNull Context context, @NonNull Account account, Long boardId) {
         return new Intent(context, EditActivity.class)
                 .putExtra(BUNDLE_KEY_ACCOUNT, account)
                 .putExtra(BUNDLE_KEY_BOARD_ID, boardId)
-                .putExtra(BUNDLE_KEY_LOCAL_ID, cardId)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 }

@@ -33,9 +33,9 @@ import it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
+import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 @SuppressWarnings("WeakerAccess")
@@ -71,7 +71,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         this.menuInflater = menuInflater;
         this.attachmentClickedListener = attachmentClickedListener;
         this.account = account;
-        this.cardLocalId = cardLocalId == null ? NO_LOCAL_ID : cardLocalId;
+        this.cardLocalId = cardLocalId == null ? NO_ID : cardLocalId;
         this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, readBrandMainColor(context));
         setHasStableIds(true);
     }
@@ -79,7 +79,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     @Override
     public long getItemId(int position) {
         Long id = attachments.get(position).getLocalId();
-        return id == null ? NO_LOCAL_ID : id;
+        return id == null ? NO_ID : id;
     }
 
     @NonNull
@@ -102,7 +102,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         final int viewType = getItemViewType(position);
 
         @Nullable final String uri = (attachment.getId() == null || cardRemoteId == null)
-                ? null :
+                ? attachment.getLocalPath() :
                 AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
         holder.setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), mainColor);
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
@@ -188,7 +188,8 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
 
     public void setAttachments(@NonNull List<Attachment> attachments, @Nullable Long cardRemoteId) {
         this.cardRemoteId = cardRemoteId;
-        this.attachments = attachments;
+        this.attachments.clear();
+        this.attachments.addAll(attachments);
         notifyDataSetChanged();
     }
 

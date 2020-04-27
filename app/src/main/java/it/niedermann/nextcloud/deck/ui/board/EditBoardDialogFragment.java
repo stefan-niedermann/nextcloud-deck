@@ -19,8 +19,6 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
-import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
-
 public class EditBoardDialogFragment extends BrandedDialogFragment {
 
     private DialogBoardCreateBinding binding;
@@ -47,15 +45,11 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
         super.onCreate(savedInstanceState);
         binding = DialogBoardCreateBinding.inflate(requireActivity().getLayoutInflater());
 
-        long boardId = requireArguments().getLong(KEY_BOARD_ID);
+        final Bundle args = getArguments();
 
         AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
-        if (boardId == NO_BOARD_ID) {
-            dialogBuilder.setTitle(R.string.add_board);
-            dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(binding.input.getText().toString(), binding.colorChooser.getSelectedColor()));
-            binding.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & getResources().getColor(R.color.board_default_color)));
-        } else {
+        if (args != null && args.containsKey(KEY_BOARD_ID)) {
             dialogBuilder.setTitle(R.string.edit_board);
             dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
                 this.fullBoard.board.setColor(binding.colorChooser.getSelectedColor().substring(1));
@@ -63,7 +57,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
                 editBoardListener.onUpdateBoard(fullBoard);
             });
             final MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-            new SyncManager(requireActivity()).getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
+            new SyncManager(requireActivity()).getFullBoardById(viewModel.getCurrentAccount().getId(), args.getLong(KEY_BOARD_ID)).observe(EditBoardDialogFragment.this, (FullBoard fb) -> {
                 if (fb.board != null) {
                     this.fullBoard = fb;
                     String title = this.fullBoard.getBoard().getTitle();
@@ -72,6 +66,10 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
                     binding.colorChooser.selectColor("#" + fullBoard.getBoard().getColor());
                 }
             });
+        } else {
+            dialogBuilder.setTitle(R.string.add_board);
+            dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(binding.input.getText().toString(), binding.colorChooser.getSelectedColor()));
+            binding.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & getResources().getColor(R.color.board_default_color)));
         }
 
         return dialogBuilder

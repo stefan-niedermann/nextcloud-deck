@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
 import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
@@ -158,24 +159,23 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 return;
             }
             final File uploadFile = new File(path);
-            if (viewModel.isCreateMode()) {
-                final Date now = new Date();
-                final Attachment a = new Attachment();
-                a.setMimetype(Attachment.getMimetypeForUri(getContext(), uri));
-                a.setData(uploadFile.getName());
-                a.setFilename(uploadFile.getName());
-                a.setBasename(uploadFile.getName());
-                a.setLocalPath(uploadFile.getAbsolutePath());
-                a.setFilesize(uploadFile.length());
-                a.setLocalPath(path);
-                a.setLastModifiedLocal(now);
-                a.setCreatedAt(now);
-                viewModel.getFullCard().getAttachments().add(a);
-                adapter.addAttachment(a);
-                updateEmptyContentView();
-            } else {
+            final Date now = new Date();
+            final Attachment a = new Attachment();
+            a.setMimetype(Attachment.getMimetypeForUri(getContext(), uri));
+            a.setData(uploadFile.getName());
+            a.setFilename(uploadFile.getName());
+            a.setBasename(uploadFile.getName());
+            a.setFilesize(uploadFile.length());
+            a.setLocalPath(path);
+            a.setLastModifiedLocal(now);
+            a.setStatusEnum(DBStatus.LOCAL_EDITED);
+            a.setCreatedAt(now);
+            viewModel.getFullCard().getAttachments().add(a);
+            adapter.addAttachment(a);
+            if (!viewModel.isCreateMode()) {
                 syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
             }
+            updateEmptyContentView();
         }
     }
 
@@ -196,10 +196,9 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void onAttachmentDeleted(Attachment attachment) {
-        if (viewModel.isCreateMode()) {
-            adapter.removeAttachment(attachment);
-            viewModel.getFullCard().getAttachments().remove(attachment);
-        } else {
+        adapter.removeAttachment(attachment);
+        viewModel.getFullCard().getAttachments().remove(attachment);
+        if (!viewModel.isCreateMode() && attachment.getLocalId() != null) {
             syncManager.deleteAttachmentOfCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), attachment.getLocalId());
         }
         updateEmptyContentView();

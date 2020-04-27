@@ -24,16 +24,15 @@ import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_LOCAL_ID;
-
 public class AttachmentsActivity extends AppCompatActivity {
 
+    private static final String BUNDLE_KEY_ACCOUNT = "account";
+    private static final String BUNDLE_KEY_CARD_ID = "cardId";
+    private static final String BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID = "currentAttachmenLocaltId";
+
     private static final String MIMETYPE_IMAGE_PREFIX = "image/";
+
     private ActivityAttachmentsBinding binding;
-
-    public static final String BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID = "currentAttachmenLocaltId";
-
     private ViewPager2.OnPageChangeCallback onPageChangeCallback;
 
     @Override
@@ -48,8 +47,8 @@ public class AttachmentsActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         final Bundle args = getIntent().getExtras();
-        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_LOCAL_ID)) {
-            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_LOCAL_ID);
+        if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_CARD_ID)) {
+            throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_CARD_ID);
         }
 
         final Account account = (Account) args.getSerializable(BUNDLE_KEY_ACCOUNT);
@@ -58,10 +57,10 @@ public class AttachmentsActivity extends AppCompatActivity {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
 
-        long cardLocalId = args.getLong(BUNDLE_KEY_LOCAL_ID);
+        long cardId = args.getLong(BUNDLE_KEY_CARD_ID);
 
         final SyncManager syncManager = new SyncManager(this);
-        syncManager.getCardByLocalId(account.getId(), cardLocalId).observe(this, fullCard -> {
+        syncManager.getCardByLocalId(account.getId(), cardId).observe(this, fullCard -> {
             final List<Attachment> attachments = new ArrayList<>();
             for (Attachment a : fullCard.getAttachments()) {
                 if (a.getMimetype().startsWith(MIMETYPE_IMAGE_PREFIX)) {
@@ -139,7 +138,7 @@ public class AttachmentsActivity extends AppCompatActivity {
     public static Intent createIntent(@NonNull Context context, @NonNull Account account, Long cardLocalId, Long attachmentLocalId) {
         return new Intent(context, AttachmentsActivity.class)
                 .putExtra(BUNDLE_KEY_ACCOUNT, account)
-                .putExtra(BUNDLE_KEY_LOCAL_ID, cardLocalId)
+                .putExtra(BUNDLE_KEY_CARD_ID, cardLocalId)
                 .putExtra(BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID, attachmentLocalId)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }

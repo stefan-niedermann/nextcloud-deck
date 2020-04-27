@@ -47,10 +47,6 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard>, Branded {
 
-    public static final String BUNDLE_KEY_ACCOUNT = "account";
-    public static final String BUNDLE_KEY_LOCAL_ID = "localId";
-    public static final Long NO_LOCAL_ID = -1L;
-
     protected final SyncManager syncManager;
 
     private final Account account;
@@ -109,7 +105,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
         viewHolder.binding.card.setOnClickListener((v) -> {
             if (selectCardListener == null) {
-                context.startActivity(EditActivity.createNewCardIntent(context, account, boardId, card.getCard().getStackId(), card.getLocalId()));
+                context.startActivity(EditActivity.createEditCardIntent(context, account, boardId, card.getLocalId()));
             } else {
                 selectCardListener.onCardSelected(card);
             }

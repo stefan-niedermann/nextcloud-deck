@@ -29,7 +29,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 
 public class PrepareCreateActivity extends BrandedActivity {
 
@@ -178,9 +177,9 @@ public class PrepareCreateActivity extends BrandedActivity {
             final long stackId = binding.stackSelect.getSelectedItemId();
             final String receivedClipData = getReceivedClipData(getIntent());
             if (receivedClipData == null) {
-                startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId, NO_LOCAL_ID));
+                startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId));
             } else {
-                startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId, NO_LOCAL_ID, receivedClipData));
+                startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId, receivedClipData));
             }
 
             Application.saveCurrentAccountId(this, account.getId());

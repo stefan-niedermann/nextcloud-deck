@@ -18,7 +18,6 @@ import it.niedermann.nextcloud.deck.databinding.FragmentAboutCreditsTabBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.disabled;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.strong;
@@ -26,6 +25,7 @@ import static it.niedermann.nextcloud.deck.util.SpannableUtil.url;
 
 public class AboutFragmentCreditsTab extends Fragment {
 
+    private static final String BUNDLE_KEY_ACCOUNT = "account";
     private static final int BACKGROUND_SYNC_NEVER_EXECUTED = -1;
 
     private FragmentAboutCreditsTabBinding binding;

@@ -104,7 +104,6 @@ import static it.niedermann.nextcloud.deck.Application.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.NO_LOCAL_ID;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOUNT;
@@ -256,7 +255,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (this.boardsList.size() > 0) {
                     try {
                         Long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                        startActivity(EditActivity.createNewCardIntent(this, viewModel.getCurrentAccount(), viewModel.getCurrentBoardLocalId(), stackId, NO_LOCAL_ID));
+                        startActivity(EditActivity.createNewCardIntent(this, viewModel.getCurrentAccount(), viewModel.getCurrentBoardLocalId(), stackId));
                     } catch (IndexOutOfBoundsException e) {
                         EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
                     }

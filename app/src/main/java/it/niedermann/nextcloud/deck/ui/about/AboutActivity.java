@@ -19,9 +19,8 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-import static it.niedermann.nextcloud.deck.ui.card.CardAdapter.BUNDLE_KEY_ACCOUNT;
-
 public class AboutActivity extends BrandedActivity {
+    private static final String BUNDLE_KEY_ACCOUNT = "account";
 
     private ActivityAboutBinding binding;
     private final static int[] tabTitles = new int[]{
