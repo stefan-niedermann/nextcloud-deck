@@ -10,4 +10,4 @@
 - 🎚 Filter cards (#396)
 - 🏷️ Auto complete: Display all available tags on first click (#263)
 - ➕ Share text into new card (#424)
-- "Delete list": Tell user how many card will be deleted (#421)
+- 🗑️ "Delete list": Tell user how many card will be deleted (#421)
