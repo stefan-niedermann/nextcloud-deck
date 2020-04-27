@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
-import com.skydoves.colorpickerview.ColorEnvelope;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 import it.niedermann.nextcloud.deck.R;
@@ -41,23 +40,6 @@ public class ColorChooser extends LinearLayout {
         a.recycle();
 
         binding = WidgetColorChooserBinding.inflate(LayoutInflater.from(context), this, true);
-        initDefaultColors();
-
-        binding.customColorPicker.attachBrightnessSlider(binding.brightnessSlide);
-
-        binding.customColorPicker.setColorListener(new ColorEnvelopeListener() {
-            @Override
-            public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
-                String customColor = "#" + envelope.getHexCode().substring(2);
-                selectedColor = customColor;
-                previouslySelectedColor = customColor;
-                //previouslySelectedColor = customColor;
-                customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));
-            }
-        });
-    }
-
-    private void initDefaultColors() {
         for (final String color : colors) {
             ImageView image = new ImageView(getContext());
             image.setOnClickListener((imageView) -> {
@@ -72,6 +54,16 @@ public class ColorChooser extends LinearLayout {
             image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
             binding.colorPicker.addView(image);
         }
+
+        binding.customColorPicker.attachBrightnessSlider(binding.brightnessSlide);
+
+        binding.customColorPicker.setColorListener((ColorEnvelopeListener) (envelope, fromUser) -> {
+            String customColor = "#" + envelope.getHexCode().substring(2);
+            selectedColor = customColor;
+            previouslySelectedColor = customColor;
+            //previouslySelectedColor = customColor;
+            customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));
+        });
     }
 
     private void initCustomColorChooser() {
@@ -91,6 +83,7 @@ public class ColorChooser extends LinearLayout {
         });
     }
 
+    // FIXME https://github.com/stefan-niedermann/nextcloud-deck/issues/431
     public void selectColor(String newColor) {
         selectedColor = newColor;
         for (int i = 0; i < colors.length; i++) {
