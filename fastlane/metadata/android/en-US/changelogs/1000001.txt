@@ -1,1 +1,2 @@
+- 🔧 Glide throws many errors (#405)
 - 🎨 ColorChooser occurs multiple times when editing board (#431)
