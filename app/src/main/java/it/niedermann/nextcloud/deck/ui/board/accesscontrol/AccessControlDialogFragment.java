@@ -69,7 +69,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         binding = DialogBoardShareBinding.inflate(requireActivity().getLayoutInflater());
-        adapter = new AccessControlAdapter(this, requireContext());
+        adapter = new AccessControlAdapter(viewModel.getCurrentAccount(), this, requireContext());
         binding.peopleList.setAdapter(adapter);
 
         syncManager = new SyncManager(requireActivity());
@@ -92,6 +92,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
             }
         });
         return dialogBuilder
+                .setTitle(R.string.share_board)
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.simple_close, null)
                 .create();

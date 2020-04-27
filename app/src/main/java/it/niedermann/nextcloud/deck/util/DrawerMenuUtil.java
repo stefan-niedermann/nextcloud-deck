@@ -31,6 +31,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.managelabels.ManageLabelsDialogFragment;
 
 public class DrawerMenuUtil {
     public static final int MENU_ID_ADD_ACCOUNT = -2;
@@ -136,6 +137,9 @@ public class DrawerMenuUtil {
                                 return true;
                             case R.id.edit_board:
                                 EditBoardDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
+                                return true;
+                            case R.id.manage_labels:
+                                ManageLabelsDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
                                 return true;
                             case R.id.archive_board:
                                 // TODO implement

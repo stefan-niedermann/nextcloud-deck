@@ -12,10 +12,6 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
-import com.nextcloud.android.sso.helper.SingleAccountHelper;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,6 +21,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccessControlBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemAccessControlOwnerBinding;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
@@ -41,14 +38,16 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
     private int mainColor;
 
     @NonNull
+    private Account account;
+    @NonNull
     private List<AccessControl> accessControls = new LinkedList<>();
     @NonNull
     private AccessControlChangedListener accessControlChangedListener;
     @NonNull
     private Context context;
 
-    AccessControlAdapter(@NonNull AccessControlChangedListener accessControlChangedListener, @NonNull Context context) {
-        super();
+    AccessControlAdapter(@NonNull Account account, @NonNull AccessControlChangedListener accessControlChangedListener, @NonNull Context context) {
+        this.account = account;
         this.accessControlChangedListener = accessControlChangedListener;
         this.context = context;
         this.mainColor = context.getResources().getColor(R.color.primary);
@@ -83,23 +82,13 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
             case TYPE_HEADER: {
                 final OwnerViewHolder ownerHolder = (OwnerViewHolder) holder;
                 ownerHolder.binding.owner.setText(ac.getUser().getDisplayname());
-
-                try {
-                    ViewUtil.addAvatar(ownerHolder.binding.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
-                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                    e.printStackTrace();
-                }
+                ViewUtil.addAvatar(ownerHolder.binding.avatar, account.getUrl(), ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
                 break;
             }
             case TYPE_ITEM:
             default: {
                 final AccessControlViewHolder acHolder = (AccessControlViewHolder) holder;
-
-                try {
-                    ViewUtil.addAvatar(acHolder.binding.avatar, SingleAccountHelper.getCurrentSingleSignOnAccount(context).url, ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
-                } catch (NextcloudFilesAppAccountNotFoundException | NoCurrentAccountSelectedException e) {
-                    e.printStackTrace();
-                }
+                ViewUtil.addAvatar(acHolder.binding.avatar, account.getUrl(), ac.getUser().getUid(), R.drawable.ic_person_grey600_24dp);
 
                 acHolder.binding.username.setText(ac.getUser().getDisplayname());
                 acHolder.binding.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? context.getResources().getDrawable(R.drawable.ic_sync_blue_24dp) : null, null);

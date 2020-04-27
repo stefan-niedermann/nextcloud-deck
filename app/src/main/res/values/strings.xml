@@ -210,4 +210,5 @@
     <string name="action_archived_cards">Browse archived cards</string>
     <string name="attachment_already_exists">Attachment already exists</string>
     <string name="pick_custom_color">Pick custom color</string>
+    <string name="manage_tags">Manage tags</string>
 </resources>
