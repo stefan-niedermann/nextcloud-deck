@@ -691,7 +691,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
             case R.id.delete_list: {
                 final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-                DeleteStackDialogFragment.newInstance(stackId).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
+                observeOnce(syncManager.countCardsInStack(viewModel.getCurrentAccount().getId(), stackId), MainActivity.this, (numberOfCards) -> {
+                    if (numberOfCards != null && numberOfCards > 0) {
+                        DeleteStackDialogFragment.newInstance(stackId, numberOfCards).show(getSupportFragmentManager(), DeleteStackDialogFragment.class.getCanonicalName());
+                    } else {
+                        onStackDeleted(stackId);
+                    }
+                });
                 return true;
             }
             default:

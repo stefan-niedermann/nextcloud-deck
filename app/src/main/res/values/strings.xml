@@ -138,7 +138,10 @@
     <string name="not_synced_yet">Not synced yet</string>
     <string name="no_lists_yet">No lists yet</string>
     <string name="do_you_want_to_save_your_changes">Do you want to save your changes?</string>
-    <string name="do_you_want_to_delete_the_current_list">Do you want to delete the current list?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">This will permanently delete %1$d card of this list.</item>
+        <item quantity="other">This will permanently delete all %1$d cards of this list.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Add a new list using the + button</string>
     <string name="add_a_new_card_using_the_button">Add a new card using the + button</string>
     <string name="update_deck">Update deck</string>

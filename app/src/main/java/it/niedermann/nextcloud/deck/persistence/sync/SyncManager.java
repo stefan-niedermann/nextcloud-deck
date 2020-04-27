@@ -153,7 +153,7 @@ public class SyncManager {
             refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Capabilities response) {
-                    if (!response.isMaintenanceEnabled()){
+                    if (!response.isMaintenanceEnabled()) {
                         long accountId = responseCallback.getAccount().getId();
                         Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());
                         Date now = DateUtil.nowInGMT();
@@ -488,7 +488,7 @@ public class SyncManager {
         return liveData;
     }
 
-    private <T> IResponseCallback<T> getCallbackToLiveDataConverter(Account account, WrappedLiveData<T> liveData){
+    private <T> IResponseCallback<T> getCallbackToLiveDataConverter(Account account, WrappedLiveData<T> liveData) {
         return new IResponseCallback<T>(account) {
             @Override
             public void onResponse(T response) {
@@ -621,6 +621,15 @@ public class SyncManager {
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, @Nullable FilterInformation filter) {
         return dataBaseAdapter.getFullCardsForStack(accountId, localStackId, filter);
+    }
+
+    // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/421
+    public LiveData<Integer> countCardsInStack(long accountId, long localStackId) {
+        final MutableLiveData<Integer> dummyCount = new MutableLiveData<>();
+        doAsync(() -> {
+            dummyCount.postValue(5);
+        });
+        return dummyCount;
     }
 
     // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395
