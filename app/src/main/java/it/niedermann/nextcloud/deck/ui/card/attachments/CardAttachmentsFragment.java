@@ -20,6 +20,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.File;
 import java.util.Date;
 import java.util.List;
@@ -31,10 +33,12 @@ import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBi
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.util.FileUtils;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
@@ -158,6 +162,13 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 DeckLog.warn("path to file is null");
                 return;
             }
+            for (Attachment existingAttachment : viewModel.getFullCard().getAttachments()) {
+                final String existingPath = existingAttachment.getLocalPath();
+                if (existingPath != null && existingPath.equals(path)) {
+                    Snackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+            }
             final File uploadFile = new File(path);
             final Date now = new Date();
             final Attachment a = new Attachment();
@@ -173,7 +184,19 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             viewModel.getFullCard().getAttachments().add(a);
             adapter.addAttachment(a);
             if (!viewModel.isCreateMode()) {
-                syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
+                WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
+                observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
+                    if (liveData.hasError()) {
+                        viewModel.getFullCard().getAttachments().remove(a);
+                        adapter.removeAttachment(a);
+                        Snackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                    } else {
+                        viewModel.getFullCard().getAttachments().remove(a);
+                        adapter.removeAttachment(a);
+                        viewModel.getFullCard().getAttachments().add(next);
+                        adapter.addAttachment(next);
+                    }
+                });
             }
             updateEmptyContentView();
         }

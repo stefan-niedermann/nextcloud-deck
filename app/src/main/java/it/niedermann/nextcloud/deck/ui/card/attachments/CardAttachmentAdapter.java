@@ -199,12 +199,8 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     }
 
     public void removeAttachment(Attachment a) {
-        for (int i = 0; i < this.attachments.size(); i++) {
-            if (this.attachments.get(i).equals(a)) {
-                this.attachments.remove(i);
-                notifyItemRemoved(i);
-                return;
-            }
-        }
+        final int index = this.attachments.indexOf(a);
+        this.attachments.remove(a);
+        notifyItemRemoved(index);
     }
 }
