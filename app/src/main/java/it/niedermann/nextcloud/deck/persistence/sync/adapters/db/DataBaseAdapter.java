@@ -709,4 +709,8 @@ public class DataBaseAdapter {
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountId(long cardRemoteId, long accountId) {
         return db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, accountId);
     }
+
+    public LiveData<List<FullCard>> getArchivedFullCardsForBoard(long accountId, long localBoardId) {
+        return db.getCardDao().getArchivedFullCardsForBoard(accountId, localBoardId);
+    }
 }

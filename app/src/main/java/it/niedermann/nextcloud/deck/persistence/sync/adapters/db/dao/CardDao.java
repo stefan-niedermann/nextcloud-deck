@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 @Dao
 public interface CardDao extends GenericDao<Card> {
 
-    @Query("SELECT * FROM card WHERE stackId = :localStackId order by `order`, createdAt asc")
+    @Query("SELECT * FROM card WHERE stackId = :localStackId and archived = 0 order by `order`, createdAt asc")
     LiveData<List<Card>> getCardsForStack(final long localStackId);
 
     @Query("SELECT * FROM card WHERE accountId = :accountId and id = :remoteId")
@@ -31,7 +31,7 @@ public interface CardDao extends GenericDao<Card> {
     FullCard getFullCardByLocalIdDirectly(final long accountId, final long localId);
 
     @Transaction                                                                                // v not deleted!
-    @Query("SELECT * FROM card WHERE accountId = :accountId AND stackId = :localStackId and status<>3 order by `order`, createdAt asc")
+    @Query("SELECT * FROM card WHERE accountId = :accountId AND stackId = :localStackId and archived = 0 and status<>3 order by `order`, createdAt asc")
     LiveData<List<FullCard>> getFullCardsForStack(final long accountId, final long localStackId);
 
     @Transaction
@@ -59,4 +59,11 @@ public interface CardDao extends GenericDao<Card> {
 
     @Query("SELECT * FROM card c WHERE accountId = :accountId and exists ( select 1 from DeckComment dc where dc.objectId = c.localId and dc.status<>1)")
     List<Card> getCardsWithLocallyChangedCommentsDirectly(Long accountId);
+
+    @Transaction
+    @Query("SELECT c.* FROM card c join stack s on s.localId = c.stackId " +
+            "WHERE s.accountId = :accountId and s.boardId = :localBoardId and c.archived = 1 " +
+            "and c.status <> 3 " +
+            "order by c.lastModifiedLocal desc")
+    LiveData<List<FullCard>> getArchivedFullCardsForBoard(long accountId, long localBoardId);
 }
