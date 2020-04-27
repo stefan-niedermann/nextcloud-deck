@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.deck.R;
 
 public class Version implements Comparable<Version> {
     private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("[0-9]+");
+    private static final Version VERSION_1_0_0 = new Version("1.0.0", 1, 0, 0);
 
     private String originalVersion = "?";
     private int major = 0;
@@ -143,7 +144,7 @@ public class Version implements Comparable<Version> {
      * @return whether or not the server supports the Comments API
      */
     public boolean supportsComments() {
-        return isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0));
+        return isGreaterOrEqualTo(VERSION_1_0_0);
     }
 
     /**
@@ -153,7 +154,7 @@ public class Version implements Comparable<Version> {
      * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/422">issue</a>
      */
     public int getCardTitleMaxLength() {
-        return isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0))
+        return isGreaterOrEqualTo(VERSION_1_0_0)
                 ? 255
                 : 100;
     }
