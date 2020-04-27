@@ -11,9 +11,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 
 import com.skydoves.colorpickerview.ColorEnvelope;
-import com.skydoves.colorpickerview.ColorPickerView;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
-import com.skydoves.colorpickerview.sliders.BrightnessSlideBar;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.WidgetColorChooserBinding;
@@ -31,8 +29,6 @@ public class ColorChooser extends LinearLayout {
     private ImageView previouslySelectedImageView;
 
     private Boolean hasCustomColor = false;
-    private ColorPickerView customColorPicker;
-    private BrightnessSlideBar brightnessSlideBar;
     private ImageView customColorChooser;
 
     public ColorChooser(Context context, @Nullable AttributeSet attrs) {
@@ -44,17 +40,12 @@ public class ColorChooser extends LinearLayout {
         colors = getResources().getStringArray(a.getResourceId(R.styleable.ColorChooser_colors, 0));
         a.recycle();
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        binding = WidgetColorChooserBinding.inflate(inflater, this, true);
+        binding = WidgetColorChooserBinding.inflate(LayoutInflater.from(context), this, true);
         initDefaultColors();
 
-        customColorPicker = (ColorPickerView) findViewById(R.id.customColorPicker);
-        brightnessSlideBar = findViewById(R.id.brightnessSlide);
+        binding.customColorPicker.attachBrightnessSlider(binding.brightnessSlide);
 
-        customColorPicker.attachBrightnessSlider(brightnessSlideBar);
-
-        customColorPicker.setColorListener(new ColorEnvelopeListener() {
+        binding.customColorPicker.setColorListener(new ColorEnvelopeListener() {
             @Override
             public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
                 String customColor = "#" + envelope.getHexCode().substring(2);
@@ -95,8 +86,8 @@ public class ColorChooser extends LinearLayout {
         binding.colorPicker.addView(customColorChooser);
         customColorChooser.setOnClickListener((View imageView) -> {
             // when clicked sets the custom color wheel to be visible
-            customColorPicker.setVisibility(View.VISIBLE);
-            brightnessSlideBar.setVisibility(View.VISIBLE);
+            binding.customColorPicker.setVisibility(View.VISIBLE);
+            binding.brightnessSlide.setVisibility(View.VISIBLE);
         });
     }
 

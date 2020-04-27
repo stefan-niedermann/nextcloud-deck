@@ -22,8 +22,7 @@ public class EmptyContentView extends RelativeLayout {
     public EmptyContentView(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        binding = WidgetEmptyContentViewBinding.inflate(inflater, this, true);
+        binding = WidgetEmptyContentViewBinding.inflate(LayoutInflater.from(context), this, true);
 
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.EmptyContentView, 0, 0);
