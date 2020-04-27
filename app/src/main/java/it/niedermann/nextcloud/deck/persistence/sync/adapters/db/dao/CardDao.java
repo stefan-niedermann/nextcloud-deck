@@ -66,6 +66,6 @@ public interface CardDao extends GenericDao<Card> {
     @Query("SELECT * FROM card c WHERE accountId = :accountId and exists ( select 1 from DeckComment dc where dc.objectId = c.localId and dc.status<>1)")
     List<Card> getCardsWithLocallyChangedCommentsDirectly(Long accountId);
 
-    @Query("SELECT count(*) FROM card c WHERE accountId = :accountId and stackId = :localStackId")
+    @Query("SELECT count(*) FROM card c WHERE accountId = :accountId and stackId = :localStackId and status <> 3")
     LiveData<Integer> countCardsInStack(long accountId, long localStackId);
 }
