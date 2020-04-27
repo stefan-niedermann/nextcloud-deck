@@ -767,4 +767,8 @@ public class DataBaseAdapter {
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountId(long cardRemoteId, long accountId) {
         return db.getBoardDao().getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, accountId);
     }
+
+    public LiveData<Integer> countCardsInStack(long accountId, long localStackId) {
+        return db.getCardDao().countCardsInStack(accountId, localStackId);
+    }
 }

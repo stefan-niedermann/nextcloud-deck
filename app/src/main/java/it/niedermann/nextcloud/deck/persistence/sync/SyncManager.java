@@ -623,13 +623,8 @@ public class SyncManager {
         return dataBaseAdapter.getFullCardsForStack(accountId, localStackId, filter);
     }
 
-    // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/421
     public LiveData<Integer> countCardsInStack(long accountId, long localStackId) {
-        final MutableLiveData<Integer> dummyCount = new MutableLiveData<>();
-        doAsync(() -> {
-            dummyCount.postValue(5);
-        });
-        return dummyCount;
+        return dataBaseAdapter.countCardsInStack(accountId, localStackId);
     }
 
     // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395
