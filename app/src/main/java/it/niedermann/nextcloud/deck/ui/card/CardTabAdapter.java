@@ -41,8 +41,7 @@ public class CardTabAdapter extends FragmentStateAdapter {
         }
     }
 
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    @Deprecated
+    @SuppressWarnings("WeakerAccess")
     public void enableComments() {
         this.hasCommentsAbility = true;
         notifyItemInserted(2);

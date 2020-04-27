@@ -33,6 +33,7 @@ public class EditCardViewModel extends ViewModel {
         this.boardId = boardId;
         this.fullCard = fullCard;
         this.originalCard = new FullCard(this.fullCard);
+        hasCommentsAbility = account.getServerDeckVersionAsObject().supportsComments();
     }
 
     /**
@@ -59,10 +60,6 @@ public class EditCardViewModel extends ViewModel {
 
     public boolean hasCommentsAbility() {
         return hasCommentsAbility;
-    }
-
-    public void setHasCommentsAbility(boolean hasCommentsAbility) {
-        this.hasCommentsAbility = hasCommentsAbility;
     }
 
     public Account getAccount() {

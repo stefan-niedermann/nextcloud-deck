@@ -25,7 +25,6 @@
                     android:layout_marginRight="16dp"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine"
-                    android:maxLength="100"
                     android:maxLines="5"
                     tools:text="@tools:sample/lorem" />
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -21,7 +22,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
@@ -110,19 +110,19 @@ public class EditActivity extends BrandedActivity {
                 viewModel.initializeNewCard(account, boardId, args.getLong(BUNDLE_KEY_STACK_ID));
                 String title = args.getString(BUNDLE_KEY_TITLE);
                 if (!TextUtils.isEmpty(title)) {
-                    if (title.length() >= 100) {
+                    if (title.length() > viewModel.getAccount().getServerDeckVersionAsObject().getCardTitleMaxLength()) {
                         viewModel.getFullCard().getCard().setDescription(title);
                     } else {
                         viewModel.getFullCard().getCard().setTitle(title);
                     }
                 }
                 setupViewPager();
-                setupTitle(viewModel.isCreateMode());
+                setupTitle();
             } else {
                 observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
                     viewModel.initializeExistingCard(account, boardId, fullCard);
                     setupViewPager();
-                    setupTitle(viewModel.isCreateMode());
+                    setupTitle();
                 });
             }
         }));
@@ -192,31 +192,28 @@ public class EditActivity extends BrandedActivity {
             mediator.attach();
         });
 
-        // Comments API only available starting with version 1.0.0-alpha1
-        if (!viewModel.isCreateMode()) {
-            viewModel.setHasCommentsAbility(viewModel.getAccount().getServerDeckVersionAsObject().isGreaterOrEqualTo(new Version("1.0.0", 1, 0, 0)));
-            if (viewModel.hasCommentsAbility()) {
-                runOnUiThread(() -> {
-                    mediator.detach();
-                    adapter.enableComments();
-                    binding.pager.setOffscreenPageLimit(3);
-                    mediator.attach();
-                });
-            }
+        if (!viewModel.isCreateMode() && viewModel.hasCommentsAbility()) {
+            runOnUiThread(() -> {
+                mediator.detach();
+                adapter.enableComments();
+                binding.pager.setOffscreenPageLimit(3);
+                mediator.attach();
+            });
         }
     }
 
-    private void setupTitle(boolean createMode) {
+    private void setupTitle() {
         binding.title.setText(viewModel.getFullCard().getCard().getTitle());
+        binding.title.setFilters(new InputFilter[]{new InputFilter.LengthFilter(viewModel.getAccount().getServerDeckVersionAsObject().getCardTitleMaxLength())});
         if (viewModel.canEdit()) {
-            if (createMode) {
+            if (viewModel.isCreateMode()) {
                 binding.title.requestFocus();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 if (viewModel.getFullCard().getCard().getTitle() != null) {
                     binding.title.setSelection(viewModel.getFullCard().getCard().getTitle().length());
                 }
             }
-            binding.title.setHint(getString(createMode ? R.string.simple_add : R.string.edit));
+            binding.title.setHint(getString(viewModel.isCreateMode() ? R.string.simple_add : R.string.edit));
             binding.title.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
