@@ -150,55 +150,62 @@ public class SyncManager {
             throw new IllegalArgumentException("please provide an account ID.");
         }
         doAsync(() -> {
-            long accountId = responseCallback.getAccount().getId();
-            Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());
-            Date now = DateUtil.nowInGMT();
-
-            final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
-
-            IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(responseCallback.getAccount()) {
+            refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
                 @Override
-                public void onResponse(Boolean response) {
-                    syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
-                        @Override
-                        public void onResponse(Boolean response) {
-                            // TODO deactivate for dev
-                            LastSyncUtil.setLastSyncDate(accountId, now);
-                            responseCallback.onResponse(response);
-                        }
+                public void onResponse(Capabilities response) {
+                    if (!response.isMaintenanceEnabled()){
+                        long accountId = responseCallback.getAccount().getId();
+                        Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());
+                        Date now = DateUtil.nowInGMT();
 
-                        @Override
-                        public void onError(Throwable throwable) {
-                            super.onError(throwable);
-                            responseCallback.onError(throwable);
-                        }
-                    });
-                    doAsync(() -> {
+                        final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
+
+                        IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(responseCallback.getAccount()) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
+                                    @Override
+                                    public void onResponse(Boolean response) {
+                                        // TODO deactivate for dev
+                                        LastSyncUtil.setLastSyncDate(accountId, now);
+                                        responseCallback.onResponse(response);
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        super.onError(throwable);
+                                        responseCallback.onError(throwable);
+                                    }
+                                });
+                                doAsync(() -> {
+                                    try {
+                                        syncHelper.doUpSyncFor(new BoardDataProvider());
+                                    } catch (Throwable e) {
+                                        DeckLog.logError(e);
+                                        responseCallback.onError(e);
+                                    }
+                                });
+
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                responseCallback.onError(throwable);
+                            }
+                        };
+
+                        syncHelper.setResponseCallback(callback);
+
                         try {
-                            syncHelper.doUpSyncFor(new BoardDataProvider());
+                            syncHelper.doSyncFor(new BoardDataProvider());
                         } catch (Throwable e) {
                             DeckLog.logError(e);
                             responseCallback.onError(e);
                         }
-                    });
-
+                    }
                 }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    super.onError(throwable);
-                    responseCallback.onError(throwable);
-                }
-            };
-
-            syncHelper.setResponseCallback(callback);
-
-            try {
-                syncHelper.doSyncFor(new BoardDataProvider());
-            } catch (Throwable e) {
-                DeckLog.logError(e);
-                responseCallback.onError(e);
-            }
+            });
         });
     }
 
