@@ -12,7 +12,15 @@
         android:layout_marginTop="@dimen/spacer_2x"
         app:alignItems="stretch"
         app:flexWrap="wrap"
-        app:justifyContent="space_between" />
+        app:justifyContent="space_between">
+
+        <ImageView
+            android:id="@+id/customColorChooser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/circle_alpha_colorize_36dp"
+            android:contentDescription="@string/pick_custom_color" />
+    </com.google.android.flexbox.FlexboxLayout>
 
     <com.skydoves.colorpickerview.ColorPickerView
         android:id="@+id/customColorPicker"

@@ -25,10 +25,8 @@ public class ColorChooser extends LinearLayout {
 
     private String selectedColor;
     private String previouslySelectedColor;
+    @Nullable
     private ImageView previouslySelectedImageView;
-
-    private Boolean hasCustomColor = false;
-    private ImageView customColorChooser;
 
     public ColorChooser(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -50,53 +48,50 @@ public class ColorChooser extends LinearLayout {
                 selectedColor = color;
                 this.previouslySelectedColor = color;
                 this.previouslySelectedImageView = image;
+                binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, R.color.board_default_custom_color));
+                binding.customColorPicker.setVisibility(View.GONE);
+                binding.brightnessSlide.setVisibility(View.GONE);
             });
             image.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, color));
-            binding.colorPicker.addView(image);
+            binding.colorPicker.addView(image, binding.colorPicker.getChildCount() - 1);
         }
 
         binding.customColorPicker.attachBrightnessSlider(binding.brightnessSlide);
+        binding.customColorChooser.setOnClickListener((v) -> {
+            binding.customColorPicker.setVisibility(View.VISIBLE);
+            binding.brightnessSlide.setVisibility(View.VISIBLE);
+            if (previouslySelectedImageView != null) {
+                previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, selectedColor));
+                previouslySelectedImageView = null;
+            }
+        });
 
         binding.customColorPicker.setColorListener((ColorEnvelopeListener) (envelope, fromUser) -> {
+            if (previouslySelectedImageView != null) {
+                previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));
+                previouslySelectedImageView = null;
+            }
             String customColor = "#" + envelope.getHexCode().substring(2);
             selectedColor = customColor;
             previouslySelectedColor = customColor;
-            //previouslySelectedColor = customColor;
-            customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));
+            binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.circle_alpha_colorize_36dp, selectedColor));
         });
     }
 
-    private void initCustomColorChooser() {
-        // initializes a final image icon for the custom color chooser and, if already set,
-        // will set the icon color to the custom color
-        customColorChooser = new ImageView(getContext());
-        if (!hasCustomColor) {
-            customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, R.color.board_default_custom_color));
-        } else {
-            customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, this.selectedColor));
-        }
-        binding.colorPicker.addView(customColorChooser);
-        customColorChooser.setOnClickListener((View imageView) -> {
-            // when clicked sets the custom color wheel to be visible
-            binding.customColorPicker.setVisibility(View.VISIBLE);
-            binding.brightnessSlide.setVisibility(View.VISIBLE);
-        });
-    }
-
-    // FIXME https://github.com/stefan-niedermann/nextcloud-deck/issues/431
     public void selectColor(String newColor) {
+        boolean newColorIsCustomColor = true;
         selectedColor = newColor;
         for (int i = 0; i < colors.length; i++) {
             if (colors[i].equals(newColor)) {
-                initCustomColorChooser(); // adds custom color picker, with default color
+                binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, R.color.board_default_custom_color));
                 binding.colorPicker.getChildAt(i).performClick();
-                return;
+                newColorIsCustomColor = false;
+                break;
             }
         }
-        // if the board color is not found to be a default color, then a custom color is assumed and
-        // the custom color chooser is setup for this
-        hasCustomColor = true;
-        initCustomColorChooser(); // adds custom color picker, with custom color
+        if (newColorIsCustomColor) {
+            binding.customColorChooser.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_alpha_colorize_36dp, this.selectedColor));
+        }
     }
 
     public String getSelectedColor() {
