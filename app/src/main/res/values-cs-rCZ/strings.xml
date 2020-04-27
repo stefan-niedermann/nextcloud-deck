@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Datum termínu</string>
     <string name="add_account">Přidat účet</string>
     <string name="choose_account">Zvolte účet</string>
-    <string name="add_card">Přidat kartu</string>
     <string name="activity">Aktivita</string>
     <string name="add_list">Přidat seznam</string>
     <string name="rename_list">Přejmenovat seznam</string>
@@ -179,4 +178,5 @@
     <string name="filter_by_tag">Filtrovat podle příznaků</string>
     <string name="filter_by_assigned_user">Filtrovat podle uživatele, který je úkolem pověřen</string>
     <string name="filter_by_duedate">Filtrovat podle termínu</string>
-</resources>
+
+    </resources>

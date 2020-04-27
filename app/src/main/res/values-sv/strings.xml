@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Slutdatum</string>
     <string name="add_account">Lägg till konto</string>
     <string name="choose_account">Välj konto</string>
-    <string name="add_card">Lägg till kort</string>
     <string name="activity">Aktivitet</string>
     <string name="add_list">Lägg till lista...</string>
     <string name="rename_list">Byt namn på lista</string>
@@ -175,6 +174,9 @@
     <string name="filter_today">Idag</string>
     <string name="filter_week">Nästa 7 dagar</string>
     <string name="filter_month">Nästa 30 dagar</string>
+    <string name="filter_no_due">Inget slutdatum</string>
     <string name="filter_by_tag">Filtrera efter tagg</string>
     <string name="filter_by_assigned_user">Filtrera efter tilldelad användare</string>
+    <string name="filter_by_duedate">Filtrera efter förfallodatum</string>
+
     </resources>

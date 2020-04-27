@@ -75,7 +75,6 @@
     <string name="hint_due_date_date">Skiladagur</string>
     <string name="add_account">Bæta við notandaaðgangi</string>
     <string name="choose_account">Veldu aðgang</string>
-    <string name="add_card">Bæta við spjaldi</string>
     <string name="activity">Virkni</string>
     <string name="delete_list">Eyða lista</string>
     <string name="label_menu">valmynd</string>
@@ -136,6 +135,9 @@
     <string name="filter_today">Í dag</string>
     <string name="filter_week">Næstu 7 daga</string>
     <string name="filter_month">Næstu 30 daga</string>
+    <string name="filter_no_due">Enginn lokadagur</string>
     <string name="filter_by_tag">Sía eftir merki</string>
     <string name="filter_by_assigned_user">Sía eftir úthlutuðum notanda</string>
+    <string name="filter_by_duedate">Sía eftir lokadagsetningu</string>
+
     </resources>

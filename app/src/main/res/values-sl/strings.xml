@@ -77,7 +77,6 @@
     <string name="hint_due_date_date">Datum preteka</string>
     <string name="add_account">Dodaj račun</string>
     <string name="choose_account">Izbor računa</string>
-    <string name="add_card">Dodaj nalogo</string>
     <string name="activity">Dejavnost</string>
     <string name="add_list">Dodaj seznam</string>
     <string name="rename_list">Preimenuj seznam</string>
@@ -162,6 +161,9 @@
     <string name="filter_today">Danes</string>
     <string name="filter_week">Naslednjih 7 dni</string>
     <string name="filter_month">Naslednjih 30 dni</string>
+    <string name="filter_no_due">Ni datuma preteka</string>
     <string name="filter_by_tag">Filtriraj po oznaki</string>
     <string name="filter_by_assigned_user">Filtriraj po dodeljenem uporabniku</string>
+    <string name="filter_by_duedate">Filtriraj po datumu preteka</string>
+
     </resources>

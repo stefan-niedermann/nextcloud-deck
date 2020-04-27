@@ -77,7 +77,6 @@
     <string name="hint_due_date_date">Datum dospijeća</string>
     <string name="add_account">Dodaj račun</string>
     <string name="choose_account">Odaberi račun</string>
-    <string name="add_card">Dodaj karticu</string>
     <string name="activity">Aktivnost</string>
     <string name="delete_list">Izbriši popis</string>
     <string name="label_menu">izbornik</string>
@@ -149,6 +148,11 @@
     <string name="filter_today">Danas</string>
     <string name="filter_week">Sljedećih 7 dana</string>
     <string name="filter_month">Sljedećih 30 dana</string>
+    <string name="filter_no_due">Nema datuma dospijeća</string>
     <string name="filter_by_tag">Filtriraj prema oznaci</string>
     <string name="filter_by_assigned_user">Filtriraj prema dodijeljenom korisniku</string>
+    <string name="filter_by_duedate">Filtriraj prema datumu dospijeća</string>
+
+    <!-- Archived cards -->
+    <string name="archived_cards">Arhivirane kartice</string>
     </resources>

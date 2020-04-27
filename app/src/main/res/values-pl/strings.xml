@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Data realizacji</string>
     <string name="add_account">Dodaj konto</string>
     <string name="choose_account">Wybierz konto</string>
-    <string name="add_card">Dodaj kartę</string>
     <string name="activity">Aktywność</string>
     <string name="add_list">Dodaj listę</string>
     <string name="rename_list">Zmień nazwę listy</string>
@@ -179,4 +178,5 @@
     <string name="filter_by_tag">Filtruj po tagu</string>
     <string name="filter_by_assigned_user">Filtruj według przypisanego użytkownika</string>
     <string name="filter_by_duedate">Filtruj według terminu</string>
-</resources>
+
+    </resources>

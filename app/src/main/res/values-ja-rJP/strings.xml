@@ -75,7 +75,6 @@
     <string name="hint_due_date_date">期限</string>
     <string name="add_account">アカウントを追加</string>
     <string name="choose_account">アカウント選択</string>
-    <string name="add_card">カードを追加</string>
     <string name="activity">アクティビティ</string>
     <string name="label_menu">メニュー</string>
     <string name="action_card_assign">カードを自分に割り当てる</string>

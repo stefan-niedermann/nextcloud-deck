@@ -77,7 +77,6 @@
     <string name="hint_due_date_date">Eräpäivä</string>
     <string name="add_account">Lisää tili</string>
     <string name="choose_account">Valitse tili</string>
-    <string name="add_card">Lisää kortti</string>
     <string name="activity">Aktiviteetti</string>
     <string name="delete_list">Poista lista</string>
     <string name="label_menu">Valikko</string>
@@ -151,4 +150,6 @@
     <string name="filter_month">Seuraavat 30 päivää</string>
     <string name="filter_no_due">Ei eräpäivää</string>
     <string name="filter_by_tag">Suodata tunnisteen perusteella</string>
+    <!-- Archived cards -->
+    <string name="archived_cards">Arkistoidut kortit</string>
     </resources>

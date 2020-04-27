@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Bitiş tarihi</string>
     <string name="add_account">Hesap ekle</string>
     <string name="choose_account">Hesap seçin</string>
-    <string name="add_card">Kart ekle</string>
     <string name="activity">Etkinlik</string>
     <string name="add_list">Liste ekle</string>
     <string name="rename_list">Listeyi yeniden adlandır</string>
@@ -175,4 +174,7 @@
     <string name="filter_by_tag">Etikete göre süz</string>
     <string name="filter_by_assigned_user">Atanmış kullanıcıya göre süz</string>
     <string name="filter_by_duedate">Bitiş tarihine göre süz</string>
-</resources>
+
+    <!-- Archived cards -->
+    <string name="archived_cards">Arşivlenmiş kartlar</string>
+    </resources>
