@@ -77,7 +77,6 @@
     <string name="hint_due_date_date">Határidő</string>
     <string name="add_account">Fiók hozzáadása</string>
     <string name="choose_account">Válasszon fiókot</string>
-    <string name="add_card">Kártya hozzáadása</string>
     <string name="activity">Tevékenység</string>
     <string name="add_list">Lista hozzáadása</string>
     <string name="rename_list">Lista átnevezése</string>
@@ -152,6 +151,9 @@
     <string name="filter_today">Ma</string>
     <string name="filter_week">Következő 7 nap</string>
     <string name="filter_month">Következő 30 nap</string>
+    <string name="filter_no_due">Nincs határidő</string>
     <string name="filter_by_tag">Szűrés címke szerint</string>
     <string name="filter_by_assigned_user">Szűrés hozzárendelt felhasználó szerint</string>
+    <string name="filter_by_duedate">Szűrés határidő szerint</string>
+
     </resources>

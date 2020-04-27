@@ -77,7 +77,6 @@
     <string name="hint_due_date_date">Рок</string>
     <string name="add_account">Додај налог</string>
     <string name="choose_account">Одаберите налог</string>
-    <string name="add_card">Додај картицу</string>
     <string name="activity">Активност</string>
     <string name="add_list">Додај списак</string>
     <string name="rename_list">Преименуј списак</string>
@@ -165,6 +164,9 @@
     <string name="filter_today">Данас</string>
     <string name="filter_week">Следећих 7 дана</string>
     <string name="filter_month">Следећих 30 дана</string>
+    <string name="filter_no_due">Без рока</string>
     <string name="filter_by_tag">Филтрирај по ознаци</string>
     <string name="filter_by_assigned_user">Филтрирај по додељеном кориснику</string>
+    <string name="filter_by_duedate">Филтрирај по року</string>
+
     </resources>

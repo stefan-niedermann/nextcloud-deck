@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
     <string name="add_account">Konto hinzufügen</string>
     <string name="choose_account">Konto auswählen</string>
-    <string name="add_card">Karte hinzufügen</string>
     <string name="activity">Aktivität</string>
     <string name="add_list">Liste hinzufügen</string>
     <string name="rename_list">Liste umbenennen</string>
@@ -179,4 +178,7 @@
     <string name="filter_by_tag">Nach Schlagwort filtern</string>
     <string name="filter_by_assigned_user">Nach zugewiesenem Benutzer filtern</string>
     <string name="filter_by_duedate">Nach Fälligkeitsdatum filtern</string>
-</resources>
+
+    <!-- Archived cards -->
+    <string name="archived_cards">Archivierte Karten</string>
+    </resources>

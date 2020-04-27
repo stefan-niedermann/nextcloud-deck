@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Epe-muga</string>
     <string name="add_account">Gehitu kontua</string>
     <string name="choose_account">Aukeratu kontua</string>
-    <string name="add_card">Gehitu txartela</string>
     <string name="activity">Jarduera</string>
     <string name="add_list">Zerrenda gehitu</string>
     <string name="rename_list">Zerrenda berrizendatu</string>
@@ -179,4 +178,5 @@
     <string name="filter_by_tag">Iragazi etiketaz</string>
     <string name="filter_by_assigned_user">Iragazi esleitutako erabiltzailez</string>
     <string name="filter_by_duedate">Iragazi epe-mugaz</string>
-</resources>
+
+    </resources>

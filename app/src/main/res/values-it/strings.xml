@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Data di scadenza</string>
     <string name="add_account">Aggiungi account</string>
     <string name="choose_account">Scegli account</string>
-    <string name="add_card">Aggiungi scheda</string>
     <string name="activity">Attività</string>
     <string name="add_list">Aggiungi elenco</string>
     <string name="rename_list">Rinomina elenco</string>
@@ -179,4 +178,7 @@
     <string name="filter_by_tag">Filtra per etichette</string>
     <string name="filter_by_assigned_user">Filtra per utente assegnato</string>
     <string name="filter_by_duedate">Filtra per data di scadenza</string>
-</resources>
+
+    <!-- Archived cards -->
+    <string name="archived_cards">Schede archiviate</string>
+    </resources>

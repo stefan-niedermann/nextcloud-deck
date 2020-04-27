@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Fecha de fin</string>
     <string name="add_account">Añadir cuenta</string>
     <string name="choose_account">Elige una cuenta</string>
-    <string name="add_card">Añadir tarjeta</string>
     <string name="activity">Actividad</string>
     <string name="add_list">Agregar lista</string>
     <string name="rename_list">Renombrar lista</string>
@@ -175,6 +174,9 @@
     <string name="filter_today">Hoy</string>
     <string name="filter_week">Siguientes 7 días</string>
     <string name="filter_month">Siguientes 30 días</string>
+    <string name="filter_no_due">Sin fecha de vencimiento</string>
     <string name="filter_by_tag">Filtrar por etiqueta</string>
     <string name="filter_by_assigned_user">Filtrar por usuario asignado</string>
+    <string name="filter_by_duedate">Filtrar por fecha de finalización</string>
+
     </resources>
