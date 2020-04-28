@@ -77,7 +77,6 @@
     <string name="hint_due_date_date">截止日期</string>
     <string name="add_account">添加账号</string>
     <string name="choose_account">选择账号</string>
-    <string name="add_card">新建卡片</string>
     <string name="activity">动态</string>
     <string name="add_list">添加列表</string>
     <string name="rename_list">重命名列表</string>
@@ -163,6 +162,9 @@
     <string name="filter_today">今天</string>
     <string name="filter_week">下个7天</string>
     <string name="filter_month">下个30天</string>
+    <string name="filter_no_due">无截止日期</string>
     <string name="filter_by_tag">标签筛选</string>
     <string name="filter_by_assigned_user">根据指定用户过滤</string>
+    <string name="filter_by_duedate">根据截止日期过滤</string>
+
     </resources>

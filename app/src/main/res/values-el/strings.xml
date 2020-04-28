@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Προθεσμία</string>
     <string name="add_account"> Προσθήκη λογαριασμού </string>
     <string name="choose_account">Επιλογή λογαριασμού</string>
-    <string name="add_card">Προσθήκη κάρτας</string>
     <string name="activity">Δραστηριότητα</string>
     <string name="add_list">Προσθήκη λίστας</string>
     <string name="rename_list">Μετονομασία λίστας</string>
@@ -179,4 +178,5 @@
     <string name="filter_by_tag">Φίλτρο ανά ετικέτα</string>
     <string name="filter_by_assigned_user">Φίλτρο ανά χρήστη</string>
     <string name="filter_by_duedate">Φίλτρο ανά ημερομηνία λήξης</string>
-</resources>
+
+    </resources>

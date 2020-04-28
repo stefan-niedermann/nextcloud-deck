@@ -78,7 +78,6 @@
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="add_account">Account toevoegen</string>
     <string name="choose_account">Kies account</string>
-    <string name="add_card">Toevoegen kaart</string>
     <string name="activity">Activiteit</string>
     <string name="add_list">Toevoegen lijst</string>
     <string name="rename_list">Hernoem lijst</string>
@@ -179,4 +178,5 @@
     <string name="filter_by_tag">Filter op label</string>
     <string name="filter_by_assigned_user">Filter op toegewezen gebruiker</string>
     <string name="filter_by_duedate">Filter op vervaldatum</string>
-</resources>
+
+    </resources>

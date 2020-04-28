@@ -45,7 +45,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
         syncManager = new SyncManager(requireActivity());
         adapter = new CardCommentsAdapter(requireContext(), viewModel.getAccount(), requireActivity().getMenuInflater(), this, getChildFragmentManager());
         binding.comments.setAdapter(adapter);
-        syncManager.getCommentsForLocalCardId(viewModel.getFullCard().getLocalId()).observe(requireActivity(),
+        syncManager.getCommentsForLocalCardId(viewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),
                 (comments) -> {
                     if (comments != null && comments.size() > 0) {
                         binding.emptyContentView.setVisibility(GONE);

@@ -77,7 +77,6 @@
     <string name="hint_due_date_date">Срок исполнения</string>
     <string name="add_account">Добавить аккаунт</string>
     <string name="choose_account">Выбрать аккаунт</string>
-    <string name="add_card">Создать карточку</string>
     <string name="activity">Событие</string>
     <string name="add_list">Добавить список</string>
     <string name="rename_list">Переименовать список</string>
@@ -169,6 +168,11 @@
     <string name="filter_today">Сегодня</string>
     <string name="filter_week">Следующие 7 дней</string>
     <string name="filter_month">Следующие 30 дней</string>
+    <string name="filter_no_due">Без назначенной даты</string>
     <string name="filter_by_tag">Отфильтровать по метке</string>
     <string name="filter_by_assigned_user">Отфильтровать по назначению</string>
+    <string name="filter_by_duedate">Отфильтровать по сроку исполнения</string>
+
+    <!-- Archived cards -->
+    <string name="archived_cards">Карточки в архиве</string>
     </resources>
