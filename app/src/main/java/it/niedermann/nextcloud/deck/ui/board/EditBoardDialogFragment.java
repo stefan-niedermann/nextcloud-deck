@@ -11,7 +11,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.DialogBoardCreateBinding;
+import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
@@ -21,7 +21,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 public class EditBoardDialogFragment extends BrandedDialogFragment {
 
-    private DialogBoardCreateBinding binding;
+    private DialogTextColorInputBinding binding;
 
     private static final String KEY_BOARD_ID = "board_id";
 
@@ -43,7 +43,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DialogBoardCreateBinding.inflate(requireActivity().getLayoutInflater());
+        binding = DialogTextColorInputBinding.inflate(requireActivity().getLayoutInflater());
 
         final Bundle args = getArguments();
 

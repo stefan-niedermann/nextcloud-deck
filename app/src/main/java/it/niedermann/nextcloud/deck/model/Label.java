@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
+import java.io.Serializable;
+
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
@@ -17,7 +19,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
         )
     }
 )
-public class Label extends AbstractRemoteEntity {
+public class Label extends AbstractRemoteEntity implements Serializable {
     private String title;
     private String color;
     private long boardId;

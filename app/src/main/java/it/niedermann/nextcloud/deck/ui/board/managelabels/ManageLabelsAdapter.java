@@ -23,13 +23,13 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
     private int mainColor;
 
     @NonNull
-    private ManageLabelsListener listener;
+    private ManageLabelListener listener;
     @NonNull
     private List<Label> labels = new LinkedList<>();
     @NonNull
     private Context context;
 
-    ManageLabelsAdapter(@NonNull ManageLabelsListener listener, @NonNull Context context) {
+    ManageLabelsAdapter(@NonNull ManageLabelListener listener, @NonNull Context context) {
         this.listener = listener;
         this.context = context;
         this.mainColor = context.getResources().getColor(R.color.primary);
@@ -54,7 +54,6 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
     public void onBindViewHolder(@NonNull ManageLabelsViewHolder holder, int position) {
         holder.bind(labels.get(position), listener);
     }
-
 
     @Override
     public int getItemCount() {
