@@ -963,7 +963,7 @@ public class SyncManager {
         return findProposalsForLabelsToAssign(accountId, boardId, -1L);
     }
 
-
+    // TODO Difference to getFullBoardByid() ??? I think those methods are equal, we should drop one of them.
     public LiveData<FullBoard> getFullBoard(Long accountId, Long localId) {
         return dataBaseAdapter.getFullBoardById(accountId, localId);
     }
