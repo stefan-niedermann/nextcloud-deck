@@ -105,6 +105,18 @@ public abstract class DeckDatabase extends RoomDatabase {
     private static final Migration MIGRATION_10_11 = new Migration(10, 11) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
+            // replace duplicates with the server-known ones
+            database.execSQL(
+                    "update JoinCardWithLabel " +
+                    "set labelId = (" +
+                        "select localId FROM Label WHERE id IS NOT NULL AND (title, boardid) = (" +
+                            "select title, boardid from Label il where il.localId = labelId" +
+                        ")" +
+                    ") " +
+                    "where labelid in (" +
+                        "select localId FROM Label " +
+                            "WHERE id IS NULL AND EXISTS(SELECT 1 FROM Label il WHERE il.boardId = boardId AND il.title = title)" +
+                    ")");
             database.execSQL("DELETE FROM Label WHERE id IS NULL AND EXISTS(SELECT 1 FROM Label il WHERE il.boardId = boardId AND il.title = title)");
             database.execSQL("CREATE UNIQUE INDEX idx_label_title_unique ON Label(boardId, title)");
         }
