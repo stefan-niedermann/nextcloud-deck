@@ -104,4 +104,10 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
             }
         }
     }
+
+    @Override
+    public Label applyUpdatesFromRemote(Label localEntity, Label remoteEntity, Long accountId) {
+        remoteEntity.setBoardId(board.getLocalId());
+        return remoteEntity;
+    }
 }
