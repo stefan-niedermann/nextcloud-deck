@@ -6,7 +6,6 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.HandledServerErrors;
 import it.niedermann.nextcloud.deck.model.Attachment;
