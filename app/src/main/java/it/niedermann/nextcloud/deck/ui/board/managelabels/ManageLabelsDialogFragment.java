@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
-import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
@@ -21,6 +20,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment {
 
     private MainViewModel viewModel;
     private DialogBoardManageLabelsBinding binding;
+    private ManageLabelsAdapter adapter;
 
     private static final String KEY_BOARD_ID = "board_id";
 
@@ -50,14 +50,16 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
-
         binding = DialogBoardManageLabelsBinding.inflate(requireActivity().getLayoutInflater());
+
+        adapter = new ManageLabelsAdapter(viewModel.getCurrentAccount(), requireContext());
+        binding.labels.setAdapter(adapter);
         syncManager = new SyncManager(requireActivity());
-        syncManager.getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(this, (FullBoard fullBoard) -> {
-            if (fullBoard != null) {
-            } else {
+        syncManager.getFullBoardById(viewModel.getCurrentAccount().getId(), boardId).observe(this, (fullBoard) -> {
+            if (fullBoard == null) {
                 throw new IllegalStateException("FullBoard should not be null");
             }
+            this.adapter.update(fullBoard.getLabels());
         });
         return dialogBuilder
                 .setTitle(R.string.manage_tags)
