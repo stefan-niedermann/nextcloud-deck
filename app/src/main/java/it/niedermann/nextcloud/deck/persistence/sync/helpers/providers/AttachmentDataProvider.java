@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.exceptions.HandledServerErrors;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -64,7 +65,20 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
-        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), entity.getType(), new File(entity.getLocalPath()), responder);
+        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), entity.getType(), new File(entity.getLocalPath()), new IResponseCallback<Attachment>(responder.getAccount()) {
+            @Override
+            public void onResponse(Attachment response) {
+                responder.onResponse(response);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (HandledServerErrors.ATTACHMENTS_FILE_ALREADY_EXISTS == HandledServerErrors.fromThrowable(throwable)){
+                    dataBaseAdapter.deleteAttachment(accountId, entity, false);
+                }
+                responder.onError(throwable);
+            }
+        });
     }
 
     @Override
