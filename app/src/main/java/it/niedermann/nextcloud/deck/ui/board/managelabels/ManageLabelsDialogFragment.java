@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -123,6 +124,21 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void requestDelete(@NonNull Label label) {
+        observeOnce(syncManager.countCardsWithLabel(viewModel.getCurrentAccount().getId(), label.getLocalId()), this, (count) -> {
+            if (count > 0) {
+                new BrandedDeleteAlertDialogBuilder(requireContext())
+                        .setTitle(getString(R.string.delete_something, label.getTitle()))
+                        .setMessage(getResources().getQuantityString(R.plurals.do_you_want_to_delete_the_label, count, count))
+                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> deleteLabel(label))
+                        .setNeutralButton(android.R.string.cancel, null)
+                        .show();
+            } else {
+                deleteLabel(label);
+            }
+        });
+    }
+
+    private void deleteLabel(@NonNull Label label) {
         final WrappedLiveData<Void> deleteLiveData = syncManager.deleteLabel(label);
         observeOnce(deleteLiveData, this, (v) -> {
             if (deleteLiveData.hasError()) {

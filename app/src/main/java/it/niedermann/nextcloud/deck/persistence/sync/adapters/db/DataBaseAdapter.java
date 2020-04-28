@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import org.jetbrains.annotations.NotNull;
@@ -790,5 +791,12 @@ public class DataBaseAdapter {
 
     public LiveData<Integer> countCardsInStack(long accountId, long localStackId) {
         return db.getCardDao().countCardsInStack(accountId, localStackId);
+    }
+
+    public LiveData<Integer> countCardsWithLabel(long accountId, long localStackId) {
+        // TODO implement
+        MutableLiveData<Integer> testLiveData = new MutableLiveData<>();
+        testLiveData.postValue(5);
+        return testLiveData;
     }
 }
