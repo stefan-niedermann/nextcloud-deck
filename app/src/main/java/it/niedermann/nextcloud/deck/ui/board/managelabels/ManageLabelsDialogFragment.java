@@ -9,10 +9,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Random;
+
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogBoardManageLabelsBinding;
+import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
@@ -21,6 +25,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment {
     private MainViewModel viewModel;
     private DialogBoardManageLabelsBinding binding;
     private ManageLabelsAdapter adapter;
+    private String[] colors;
 
     private static final String KEY_BOARD_ID = "board_id";
 
@@ -51,7 +56,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment {
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
         binding = DialogBoardManageLabelsBinding.inflate(requireActivity().getLayoutInflater());
-
+        colors = getResources().getStringArray(R.array.board_default_colors);
         adapter = new ManageLabelsAdapter(viewModel.getCurrentAccount(), requireContext());
         binding.labels.setAdapter(adapter);
         syncManager = new SyncManager(requireActivity());
@@ -60,6 +65,15 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment {
                 throw new IllegalStateException("FullBoard should not be null");
             }
             this.adapter.update(fullBoard.getLabels());
+        });
+
+        binding.fab.setOnClickListener((v) -> {
+            final Label label = new Label();
+            label.setBoardId(boardId);
+            label.setTitle(binding.addLabelTitle.getText().toString());
+            label.setColor(colors[new Random().nextInt(colors.length)].substring(1));
+            binding.addLabelTitle.setText(null);
+            syncManager.createLabel(viewModel.getCurrentAccount().getId(), label, boardId);
         });
         return dialogBuilder
                 .setTitle(R.string.manage_tags)
@@ -70,6 +84,8 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
+        BrandedActivity.applyBrandToFAB(mainColor, textColor, binding.fab);
+        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.addLabelTitle);
     }
 
     public static DialogFragment newInstance(long boardLocalId) {
