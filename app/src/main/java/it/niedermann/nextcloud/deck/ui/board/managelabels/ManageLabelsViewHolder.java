@@ -19,12 +19,13 @@ public class ManageLabelsViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull Label label, @NonNull ManageLabelsListener listener) {
+    public void bind(@NonNull Label label, @NonNull ManageLabelListener listener) {
         binding.label.setText(label.getTitle());
         final int labelColor = Color.parseColor("#" + label.getColor());
         binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
         final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
         binding.label.setTextColor(color);
-        binding.delete.setOnClickListener((v) -> listener.deleteLabel(label));
+        binding.delete.setOnClickListener((v) -> listener.requestDelete(label));
+        binding.editText.setOnClickListener((v) -> listener.requestEdit(label));
     }
 }

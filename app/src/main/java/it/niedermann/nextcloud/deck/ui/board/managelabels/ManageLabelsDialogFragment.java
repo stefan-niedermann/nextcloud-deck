@@ -26,7 +26,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
-public class ManageLabelsDialogFragment extends BrandedDialogFragment implements ManageLabelsListener {
+public class ManageLabelsDialogFragment extends BrandedDialogFragment implements ManageLabelListener, EditLabelListener {
 
     private MainViewModel viewModel;
     private DialogBoardManageLabelsBinding binding;
@@ -122,13 +122,30 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     @Override
-    public void deleteLabel(@NonNull Label label) {
+    public void requestDelete(@NonNull Label label) {
         final WrappedLiveData<Void> deleteLiveData = syncManager.deleteLabel(label);
         observeOnce(deleteLiveData, this, (v) -> {
             if (deleteLiveData.hasError()) {
                 final Throwable cause = deleteLiveData.getError().getCause();
                 Toast.makeText(requireContext(), cause == null ? deleteLiveData.getError().getLocalizedMessage() : cause.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 DeckLog.logError(deleteLiveData.getError());
+            }
+        });
+    }
+
+    @Override
+    public void requestEdit(@NonNull Label label) {
+        EditLabelDialogFragment.newInstance(label).show(getChildFragmentManager(), EditLabelDialogFragment.class.getCanonicalName());
+    }
+
+    @Override
+    public void onLabelUpdated(@NonNull Label label) {
+        WrappedLiveData<Label> updateLiveData = syncManager.updateLabel(label);
+        observeOnce(updateLiveData, this, (updatedLabel) -> {
+            if (updateLiveData.hasError()) {
+                final Throwable cause = updateLiveData.getError().getCause();
+                Toast.makeText(requireContext(), cause == null ? updateLiveData.getError().getLocalizedMessage() : cause.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                DeckLog.logError(updateLiveData.getError());
             }
         });
     }

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import it.niedermann.nextcloud.deck.model.Label;
 
-public interface ManageLabelsListener {
-    void deleteLabel(@NonNull Label label);
+public interface ManageLabelListener {
+    void requestDelete(@NonNull Label label);
+
+    void requestEdit(@NonNull Label label);
 }

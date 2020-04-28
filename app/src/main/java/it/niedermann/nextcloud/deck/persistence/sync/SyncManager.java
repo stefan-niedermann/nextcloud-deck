@@ -850,18 +850,13 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<Label> updateLabel(Label label) {
-        MutableLiveData<Label> liveData = new MutableLiveData<>();
+    public WrappedLiveData<Label> updateLabel(Label label) {
+        WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, new IResponseCallback<Label>(account) {
-                        @Override
-                        public void onResponse(Label response) {
-                            liveData.postValue(response);
-                        }
-                    });
+                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, getCallbackToLiveDataConverter(account, liveData));
         });
         return liveData;
     }
