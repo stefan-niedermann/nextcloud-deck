@@ -796,7 +796,7 @@ public class DataBaseAdapter {
     public LiveData<Integer> countCardsWithLabel(long accountId, long localStackId) {
         // TODO implement
         MutableLiveData<Integer> testLiveData = new MutableLiveData<>();
-        testLiveData.postValue(5);
+        testLiveData.postValue(0);
         return testLiveData;
     }
 }
