@@ -10,7 +10,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 public class ManageLabelsViewHolder extends RecyclerView.ViewHolder {
-    public ItemManageLabelBinding binding;
+    private ItemManageLabelBinding binding;
 
     @SuppressWarnings("WeakerAccess")
     public ManageLabelsViewHolder(ItemManageLabelBinding binding) {

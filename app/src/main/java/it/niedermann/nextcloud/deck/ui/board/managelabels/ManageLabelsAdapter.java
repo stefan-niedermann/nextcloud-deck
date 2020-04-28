@@ -48,8 +48,7 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
     @NonNull
     @Override
     public ManageLabelsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final ItemManageLabelBinding binding = ItemManageLabelBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ManageLabelsViewHolder(binding);
+        return new ManageLabelsViewHolder(ItemManageLabelBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -63,7 +62,7 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
         return labels.size();
     }
 
-    public void remove(Label label) {
+    public void remove(@NonNull Label label) {
         final int index = this.labels.indexOf(label);
         if (this.labels.remove(label)) {
             notifyItemRemoved(index);
