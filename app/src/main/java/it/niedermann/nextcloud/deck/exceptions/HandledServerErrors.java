@@ -8,6 +8,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 public enum HandledServerErrors {
     UNKNOWN(1337, "hopefully won't occurr"),
+    LABELS_TITLE_MUST_BE_UNIQUE(400, "title must be unique"),
     ATTACHMENTS_FILE_ALREADY_EXISTS(409, "File already exists."),
     ;
 

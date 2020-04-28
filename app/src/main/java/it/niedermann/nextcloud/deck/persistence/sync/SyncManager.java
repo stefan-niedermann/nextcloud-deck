@@ -792,8 +792,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public MutableLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
-        MutableLiveData<Label> liveData = new MutableLiveData<>();
+    public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
+        WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
@@ -802,6 +802,11 @@ public class SyncManager {
                 @Override
                 public void onResponse(Label response) {
                     liveData.postValue(response);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    liveData.postError(throwable);
                 }
             }, (entity, response) -> {
                 response.setBoardId(board.getLocalId());

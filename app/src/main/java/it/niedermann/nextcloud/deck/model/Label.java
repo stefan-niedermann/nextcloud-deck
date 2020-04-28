@@ -7,7 +7,7 @@ import androidx.room.Index;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true,
-        indices = {@Index("boardId")},
+        indices = {@Index("boardId"), @Index(value = {"boardId", "title"}, unique = true, name = "idx_label_title_unique")},
         foreignKeys = {
         @ForeignKey(
             entity = Board.class,

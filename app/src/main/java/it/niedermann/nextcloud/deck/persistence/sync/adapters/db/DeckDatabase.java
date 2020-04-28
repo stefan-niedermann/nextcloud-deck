@@ -68,7 +68,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 Mention.class,
         },
         exportSchema = false,
-        version = 10
+        version = 11
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -102,6 +102,13 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_10_11 = new Migration(10, 11) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE UNIQUE INDEX idx_label_title_unique ON Label(boardId, title)");
+        }
+    };
+
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
 
@@ -125,9 +132,9 @@ public abstract class DeckDatabase extends RoomDatabase {
                 context,
                 DeckDatabase.class,
                 DECK_DB_NAME)
-                //FIXME: remove destructive Migration as soon as schema is stable!
                 .addMigrations(MIGRATION_8_9)
                 .addMigrations(MIGRATION_9_10)
+                .addMigrations(MIGRATION_10_11)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
