@@ -97,6 +97,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
                 binding.fab.setEnabled(true);
             });
         });
+        binding.addLabelTitle.setOnEditorActionListener((v, actionId, event) -> binding.fab.performClick());
         return dialogBuilder
                 .setTitle(R.string.manage_tags)
                 .setView(binding.getRoot())
