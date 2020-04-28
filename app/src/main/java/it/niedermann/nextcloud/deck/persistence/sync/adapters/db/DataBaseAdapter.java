@@ -675,8 +675,8 @@ public class DataBaseAdapter {
         return db.getJoinCardWithLabelDao().getAllDeletedJoinsWithRemoteIDs();
     }
 
-    public List<JoinCardWithLabel> getAllDeletedJoins() {
-        return db.getJoinCardWithLabelDao().getAllDeletedJoins();
+    public List<JoinCardWithLabel> getAllChangedJoins() {
+        return db.getJoinCardWithLabelDao().getAllChangedJoins();
     }
 
     public JoinCardWithLabel getRemoteIdsForJoin(Long localCardId, Long localLabelId) {
