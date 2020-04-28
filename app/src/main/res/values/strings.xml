@@ -212,4 +212,6 @@
     <string name="pick_custom_color">Pick custom color</string>
     <string name="manage_tags">Manage tags</string>
     <string name="add_tag">Add tag</string>
+    <string name="tag_already_exists">%1$s does already exist</string>
+    <string name="tag_successfully_added">%1$s successfully added</string>
 </resources>

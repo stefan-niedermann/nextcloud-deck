@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.board.managelabels;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it.niedermann.nextcloud.deck.databinding.ItemManageLabelBinding;
@@ -18,11 +19,12 @@ public class ManageLabelsViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(Label label) {
+    public void bind(@NonNull Label label, @NonNull ManageLabelsListener listener) {
         binding.label.setText(label.getTitle());
         final int labelColor = Color.parseColor("#" + label.getColor());
         binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
         final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
         binding.label.setTextColor(color);
+        binding.delete.setOnClickListener((v) -> listener.deleteLabel(label));
     }
 }

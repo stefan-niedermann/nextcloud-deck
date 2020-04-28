@@ -14,7 +14,6 @@ import java.util.NoSuchElementException;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemManageLabelBinding;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
@@ -24,14 +23,14 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
     private int mainColor;
 
     @NonNull
-    private Account account;
+    private ManageLabelsListener listener;
     @NonNull
     private List<Label> labels = new LinkedList<>();
     @NonNull
     private Context context;
 
-    ManageLabelsAdapter(@NonNull Account account, @NonNull Context context) {
-        this.account = account;
+    ManageLabelsAdapter(@NonNull ManageLabelsListener listener, @NonNull Context context) {
+        this.listener = listener;
         this.context = context;
         this.mainColor = context.getResources().getColor(R.color.primary);
         setHasStableIds(true);
@@ -53,7 +52,7 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ManageLabelsViewHolder holder, int position) {
-        holder.bind(labels.get(position));
+        holder.bind(labels.get(position), listener);
     }
 
 
