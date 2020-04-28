@@ -142,6 +142,10 @@
         <item quantity="one">This will permanently delete %1$d card of this list.</item>
         <item quantity="other">This will permanently delete all %1$d cards of this list.</item>
     </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">This will remove the label from %1$d card.</item>
+        <item quantity="other">This will remove the label from %1$d cards.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Add a new list using the + button</string>
     <string name="add_a_new_card_using_the_button">Add a new card using the + button</string>
     <string name="update_deck">Update deck</string>

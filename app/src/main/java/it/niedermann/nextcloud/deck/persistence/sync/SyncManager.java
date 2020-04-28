@@ -627,6 +627,10 @@ public class SyncManager {
         return dataBaseAdapter.countCardsInStack(accountId, localStackId);
     }
 
+    public LiveData<Integer> countCardsWithLabel(long accountId, long localLabelId) {
+        return dataBaseAdapter.countCardsWithLabel(accountId, localLabelId);
+    }
+
     // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395
     public LiveData<List<FullCard>> getArchivedFullCardsForBoard(long accountId, long localBoardId) {
         MutableLiveData<List<FullCard>> dummyData = new MutableLiveData<>();
