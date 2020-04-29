@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacer_2x"
         android:orientation="horizontal">
 
         <EditText
@@ -37,7 +38,6 @@
         android:id="@+id/labels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/spacer_2x"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_manage_label" />
 </LinearLayout>
