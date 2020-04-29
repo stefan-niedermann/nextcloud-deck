@@ -45,6 +45,6 @@ public interface JoinCardWithLabelDao extends GenericDao<JoinCardWithLabel> {
             "and labelId = (select l.localId from label l where l.accountId = :accountId and l.id = :remoteLabelId)")
     void deleteJoinedLabelForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, Long remoteLabelId);
 
-    @Query("select * from joincardwithlabel WHERE labelId = :localLabelId and status <> 3") // not locally deleted
+    @Query("select count(*) from joincardwithlabel WHERE labelId = :localLabelId and status <> 3") // not locally deleted
     LiveData<Integer> countCardsWithLabel(long localLabelId);
 }
