@@ -628,8 +628,8 @@ public class SyncManager {
         return dataBaseAdapter.countCardsInStack(accountId, localStackId);
     }
 
-    public LiveData<Integer> countCardsWithLabel(long accountId, long localLabelId) {
-        return dataBaseAdapter.countCardsWithLabel(accountId, localLabelId);
+    public LiveData<Integer> countCardsWithLabel(long localLabelId) {
+        return dataBaseAdapter.countCardsWithLabel(localLabelId);
     }
 
     // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395
