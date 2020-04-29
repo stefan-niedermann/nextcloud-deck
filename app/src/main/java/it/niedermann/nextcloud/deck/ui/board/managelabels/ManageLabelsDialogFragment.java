@@ -125,7 +125,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void requestDelete(@NonNull Label label) {
-        observeOnce(syncManager.countCardsWithLabel(viewModel.getCurrentAccount().getId(), label.getLocalId()), this, (count) -> {
+        observeOnce(syncManager.countCardsWithLabel(label.getLocalId()), this, (count) -> {
             if (count > 0) {
                 new BrandedDeleteAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.delete_something, label.getTitle()))

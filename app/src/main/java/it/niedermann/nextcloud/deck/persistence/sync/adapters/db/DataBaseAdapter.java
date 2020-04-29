@@ -773,10 +773,7 @@ public class DataBaseAdapter {
         return db.getCardDao().countCardsInStack(accountId, localStackId);
     }
 
-    public LiveData<Integer> countCardsWithLabel(long accountId, long localStackId) {
-        // TODO implement
-        MutableLiveData<Integer> testLiveData = new MutableLiveData<>();
-        testLiveData.postValue(0);
-        return testLiveData;
+    public LiveData<Integer> countCardsWithLabel(long localLabelId) {
+        return db.getJoinCardWithLabelDao().countCardsWithLabel(localLabelId);
     }
 }
