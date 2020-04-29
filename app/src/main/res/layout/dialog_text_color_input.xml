@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/spacer_2x">
+    android:padding="?attr/dialogPreferredPadding">
 
     <EditText
         android:id="@+id/input"
