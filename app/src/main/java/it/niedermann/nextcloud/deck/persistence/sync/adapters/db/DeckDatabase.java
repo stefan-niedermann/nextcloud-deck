@@ -122,7 +122,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                                 continue;
                             }
                             long idToReplace = singleDuplicateCursor.getLong(0);
-                            database.execSQL("UPDATE JoinCardWithLabel set labelId = ? where labelId = ? " +
+                            database.execSQL("UPDATE JoinCardWithLabel set status=2, labelId = ? where labelId = ? " +
                                     "and not exists (select 1 from JoinCardWithLabel j where j.labelId = ? and j.cardId = cardId)", new Object[]{idToUse, idToReplace, idToUse});
                         } while (singleDuplicateCursor.moveToNext());
                     }
