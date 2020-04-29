@@ -1,39 +1,37 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
-public class WrappedLiveData <T> extends MutableLiveData <T> {
-    private RuntimeException error = null;
+import it.niedermann.nextcloud.deck.DeckLog;
 
-    public void throwError() throws RuntimeException{
-        if (hasError()) {
-            throw error;
-        }
-    }
+/**
+ * Extends a {@link MutableLiveData} with an error state
+ *
+ * @param <T>
+ */
+public class WrappedLiveData<T> extends MutableLiveData<T> {
+    @Nullable
+    private Throwable error = null;
 
     public boolean hasError() {
-        return error!=null;
+        return error != null;
     }
 
-    public void setError(RuntimeException e) {
-        this.error = e;
+    public void setError(@Nullable Throwable error) {
+        this.error = error;
     }
 
-    public void setError(Throwable e) {
-        this.error = new RuntimeException("LiveData failed: see cause!", e);
-    }
-
-    public RuntimeException getError() {
+    @Nullable
+    public Throwable getError() {
         return error;
     }
 
-    public void postError(RuntimeException e){
-        setError(e);
-        postValue(null);
-    }
-
-    public void postError(Throwable e){
-        setError(e);
+    public void postError(@Nullable Throwable error) {
+        if (error == null) {
+            DeckLog.warn("Given error is null");
+        }
+        setError(error);
         postValue(null);
     }
 }
