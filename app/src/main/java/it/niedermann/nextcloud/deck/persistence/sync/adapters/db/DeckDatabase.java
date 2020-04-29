@@ -128,7 +128,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                     }
                 } while (duplucatesCursor.moveToNext());
             }
-            database.execSQL("DELETE FROM Label WHERE id IS NULL AND EXISTS(SELECT 1 FROM Label il WHERE il.boardId = boardId AND il.title = title)");
+            database.execSQL("DELETE FROM Label WHERE id IS NULL AND EXISTS(SELECT 1 FROM Label il WHERE il.boardId = boardId AND il.title = title AND id IS NOT NULL)");
             database.execSQL("CREATE UNIQUE INDEX idx_label_title_unique ON Label(boardId, title)");
         }
     };
