@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -106,17 +107,27 @@ public abstract class DeckDatabase extends RoomDatabase {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             // replace duplicates with the server-known ones
-            database.execSQL(
-                    "update JoinCardWithLabel " +
-                    "set labelId = (" +
-                        "select localId FROM Label WHERE id IS NOT NULL AND (title, boardid) = (" +
-                            "select title, boardid from Label il where il.localId = labelId" +
-                        ")" +
-                    ") " +
-                    "where labelid in (" +
-                        "select localId FROM Label " +
-                            "WHERE id IS NULL AND EXISTS(SELECT 1 FROM Label il WHERE il.boardId = boardId AND il.title = title)" +
-                    ")");
+            Cursor duplucatesCursor = database.query("SELECT boardId, title, count(*) FROM Label group by boardid, title having count(*) > 1");
+            if (duplucatesCursor != null && duplucatesCursor.moveToFirst()) {
+                do {
+                    long boardId = duplucatesCursor.getLong(0);
+                    String title = duplucatesCursor.getString(1);
+                    Cursor singleDuplicateCursor = database.query("select localId, id from Label where boardId = ? and title = ? order by id desc", new Object[]{boardId, title});
+                    if (singleDuplicateCursor != null && singleDuplicateCursor.moveToFirst()) {
+                        long idToUse = -1;
+                        do {
+                            if (idToUse < 0) {
+                                // desc order -> first one is the one with remote ID or a random one. keep this one.
+                                idToUse = singleDuplicateCursor.getLong(0);
+                                continue;
+                            }
+                            long idToReplace = singleDuplicateCursor.getLong(0);
+                            database.execSQL("UPDATE JoinCardWithLabel set labelId = ? where labelId = ? " +
+                                    "and not exists (select 1 from JoinCardWithLabel j where j.labelId = ? and j.cardId = cardId)", new Object[]{idToUse, idToReplace, idToUse});
+                        } while (singleDuplicateCursor.moveToNext());
+                    }
+                } while (duplucatesCursor.moveToNext());
+            }
             database.execSQL("DELETE FROM Label WHERE id IS NULL AND EXISTS(SELECT 1 FROM Label il WHERE il.boardId = boardId AND il.title = title)");
             database.execSQL("CREATE UNIQUE INDEX idx_label_title_unique ON Label(boardId, title)");
         }
