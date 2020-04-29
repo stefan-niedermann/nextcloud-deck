@@ -2,7 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <corners android:radius="@dimen/avatar_size_small_overlapping" />
-    <stroke
-        android:width="@dimen/avatar_size_small_overlapping_border"
-        android:color="?attr/colorSurface" />
+    <stroke android:width="@dimen/avatar_size_small_overlapping_border" />
 </shape>
