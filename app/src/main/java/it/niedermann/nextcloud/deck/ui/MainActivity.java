@@ -856,10 +856,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                     }
                                 });
                             } else {
-                                try {
-                                    accountLiveData.throwError();
-                                } catch (SQLiteConstraintException ex) {
+                                final Throwable error = accountLiveData.getError();
+                                if (error instanceof SQLiteConstraintException) {
                                     Snackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
+                                } else {
+                                    DeckLog.logError(error);
                                 }
                             }
                         });

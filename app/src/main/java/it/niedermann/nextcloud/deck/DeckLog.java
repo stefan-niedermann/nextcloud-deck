@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.deck;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -61,7 +63,11 @@ public class DeckLog {
         }
     }
 
-    public static void logError(Throwable e) {
+    public static void logError(@Nullable Throwable e) {
+        if (e == null) {
+            error("Could not log error because given error was null");
+            return;
+        }
         final StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
         String stacktrace = sw.toString(); // stack trace as a string

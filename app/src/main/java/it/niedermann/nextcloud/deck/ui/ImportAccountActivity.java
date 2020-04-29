@@ -113,15 +113,14 @@ public class ImportAccountActivity extends AppCompatActivity {
                         final WrappedLiveData<Account> accountLiveData = syncManager.createAccount(new Account(account.name, account.userId, account.url));
                         accountLiveData.observe(ImportAccountActivity.this, (Account createdAccount) -> {
                             if (accountLiveData.hasError()) {
-                                try {
-                                    accountLiveData.throwError();
-                                } catch (SQLiteConstraintException ex) {
-                                    // Account has already been added - should never be the case
+                                final Throwable error = accountLiveData.getError();
+                                if (error instanceof SQLiteConstraintException) {
                                     DeckLog.error("Account has already been added, this should not be the case");
-                                    DeckLog.logError(ex);
-                                    setStatusText(ex.getMessage());
-                                    restoreWifiPref();
                                 }
+                                assert error != null;
+                                setStatusText(error.getMessage());
+                                DeckLog.logError(error);
+                                restoreWifiPref();
                             } else {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
                                 SharedPreferences.Editor editor = sharedPreferences.edit();

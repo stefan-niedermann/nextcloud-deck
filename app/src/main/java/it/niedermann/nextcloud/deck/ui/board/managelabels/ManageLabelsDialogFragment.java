@@ -84,12 +84,13 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             WrappedLiveData<Label> createLiveData = syncManager.createLabel(viewModel.getCurrentAccount().getId(), label, boardId);
             observeOnce(createLiveData, this, (createdLabel) -> {
                 if (createLiveData.hasError()) {
-                    if (createLiveData.getError().getCause() instanceof SQLiteConstraintException) {
+                    final Throwable error = createLiveData.getError();
+                    assert error != null;
+                    if (error instanceof SQLiteConstraintException) {
                         Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
                     } else {
-                        final Throwable cause = createLiveData.getError().getCause();
-                        Toast.makeText(requireContext(), cause == null ? createLiveData.getError().getLocalizedMessage() : cause.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                        DeckLog.logError(createLiveData.getError());
+                        Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        DeckLog.logError(error);
                     }
                 } else {
                     binding.addLabelTitle.setText(null);
@@ -142,8 +143,9 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
         final WrappedLiveData<Void> deleteLiveData = syncManager.deleteLabel(label);
         observeOnce(deleteLiveData, this, (v) -> {
             if (deleteLiveData.hasError()) {
-                final Throwable cause = deleteLiveData.getError().getCause();
-                Toast.makeText(requireContext(), cause == null ? deleteLiveData.getError().getLocalizedMessage() : cause.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                final Throwable error = deleteLiveData.getError();
+                assert error != null;
+                Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 DeckLog.logError(deleteLiveData.getError());
             }
         });
@@ -159,8 +161,9 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
         WrappedLiveData<Label> updateLiveData = syncManager.updateLabel(label);
         observeOnce(updateLiveData, this, (updatedLabel) -> {
             if (updateLiveData.hasError()) {
-                final Throwable cause = updateLiveData.getError().getCause();
-                Toast.makeText(requireContext(), cause == null ? updateLiveData.getError().getLocalizedMessage() : cause.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                final Throwable error = updateLiveData.getError();
+                assert error != null;
+                Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 DeckLog.logError(updateLiveData.getError());
             }
         });
