@@ -100,13 +100,10 @@ public class ExceptionUtil {
             case 302: {
                 Snackbar.make(targetView, R.string.server_misconfigured, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> {
-                            AlertDialog dialog = new BrandedAlertDialogBuilder(context)
+                            final AlertDialog dialog = new BrandedAlertDialogBuilder(context)
                                     .setTitle(R.string.server_misconfigured)
                                     .setMessage(context.getString(R.string.server_misconfigured_explanation) + "\n\n\n" + debugInfos)
-                                    .setPositiveButton(android.R.string.copy, (a, b) -> {
-                                        copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
-                                        a.dismiss();
-                                    })
+                                    .setPositiveButton(android.R.string.copy, (a, b) -> copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```"))
                                     .setNeutralButton(R.string.simple_close, null)
                                     .create();
                             dialog.show();
@@ -122,13 +119,10 @@ public class ExceptionUtil {
             default: {
                 Snackbar.make(targetView, R.string.error, Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> {
-                            AlertDialog dialog = new BrandedAlertDialogBuilder(context)
+                            final AlertDialog dialog = new BrandedAlertDialogBuilder(context)
                                     .setTitle(R.string.server_error)
                                     .setMessage(debugInfos)
-                                    .setPositiveButton(android.R.string.copy, (a, b) -> {
-                                        copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
-                                        a.dismiss();
-                                    })
+                                    .setPositiveButton(android.R.string.copy, (a, b) -> copyToClipboard(context, context.getString(R.string.simple_exception), "```\n" + debugInfos + "\n```"))
                                     .setNeutralButton(R.string.simple_close, null)
                                     .create();
                             dialog.show();
