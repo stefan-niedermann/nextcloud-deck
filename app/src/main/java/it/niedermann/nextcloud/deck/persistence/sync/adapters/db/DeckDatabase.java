@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
@@ -112,7 +113,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 do {
                     long boardId = duplucatesCursor.getLong(0);
                     String title = duplucatesCursor.getString(1);
-                    Cursor singleDuplicateCursor = database.query("select localId, id from Label where boardId = ? and title = ? order by id desc", new Object[]{boardId, title});
+                    Cursor singleDuplicateCursor = database.query("select localId from Label where boardId = ? and title = ? order by id desc", new Object[]{boardId, title});
                     if (singleDuplicateCursor != null && singleDuplicateCursor.moveToFirst()) {
                         long idToUse = -1;
                         do {
@@ -122,8 +123,19 @@ public abstract class DeckDatabase extends RoomDatabase {
                                 continue;
                             }
                             long idToReplace = singleDuplicateCursor.getLong(0);
-                            database.execSQL("UPDATE JoinCardWithLabel set status=2, labelId = ? where labelId = ? " +
-                                    "and not exists (select 1 from JoinCardWithLabel j where j.labelId = ? and j.cardId = cardId)", new Object[]{idToUse, idToReplace, idToUse});
+                            Cursor cardsAssignedToDuplicateCursor = database.query("select cardId, exists(select 1 from JoinCardWithLabel ij where ij.labelId = ? and ij.cardId = cardId) " +
+                                    "from JoinCardWithLabel where labelId = ?", new Object[]{idToUse, idToReplace});
+                            if (cardsAssignedToDuplicateCursor != null && cardsAssignedToDuplicateCursor.moveToFirst()) {
+                                do {
+                                    long cardId = cardsAssignedToDuplicateCursor.getLong(0);
+                                    boolean hasDestinationLabelAssigned = cardsAssignedToDuplicateCursor.getInt(1) > 0;
+                                    database.execSQL("DELETE FROM JoinCardWithLabel where labelId = ? and cardId = ?", new Object[]{idToReplace, cardId});
+
+                                    if (!hasDestinationLabelAssigned) {
+                                        database.execSQL("INSERT INTO JoinCardWithLabel (status,labelId,cardId) VALUES (?, ?, ?)", new Object[]{DBStatus.LOCAL_EDITED.getId(), idToUse, cardId});
+                                    }
+                                } while (cardsAssignedToDuplicateCursor.moveToNext());
+                            }
                         } while (singleDuplicateCursor.moveToNext());
                     }
                 } while (duplucatesCursor.moveToNext());
