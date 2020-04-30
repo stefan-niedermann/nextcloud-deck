@@ -377,7 +377,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
             s.setOrder(heighestOrder);
             DeckLog.info("Create Stack with account id = " + viewModel.getCurrentAccount().getId());
-            syncManager.createStack(viewModel.getCurrentAccount().getId(), s).observe(MainActivity.this, (stack) -> binding.viewPager.setCurrentItem(stackAdapter.getItemCount()));
+            WrappedLiveData<FullStack> createLiveData = syncManager.createStack(viewModel.getCurrentAccount().getId(), s);
+            observeOnce(createLiveData, this, (fullStack) -> {
+                if (createLiveData.hasError()) {
+                    final Throwable error = createLiveData.getError();
+                    assert error != null;
+                    Snackbar.make(binding.coordinatorLayout, error.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                } else {
+                    binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
+                }
+            });
         });
     }
 
