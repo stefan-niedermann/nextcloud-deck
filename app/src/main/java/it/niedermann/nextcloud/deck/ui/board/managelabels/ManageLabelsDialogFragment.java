@@ -163,8 +163,12 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             if (updateLiveData.hasError()) {
                 final Throwable error = updateLiveData.getError();
                 assert error != null;
-                Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                DeckLog.logError(updateLiveData.getError());
+                if (error instanceof SQLiteConstraintException) {
+                    Toast.makeText(requireContext(), getString(R.string.tag_already_exists, label.getTitle()), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    DeckLog.logError(updateLiveData.getError());
+                }
             }
         });
     }
