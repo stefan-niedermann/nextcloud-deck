@@ -318,6 +318,10 @@ public class SyncManager {
         return dataBaseAdapter.getFullBoards(accountId);
     }
 
+    public LiveData<List<Board>> getBoards(long accountId) {
+        return dataBaseAdapter.getBoards(accountId);
+    }
+
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
         return dataBaseAdapter.getBoardsWithEditPermission(accountId);
     }
