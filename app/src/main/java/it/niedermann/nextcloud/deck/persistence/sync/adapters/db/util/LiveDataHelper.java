@@ -1,26 +1,27 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 public class LiveDataHelper {
 
-    public interface DataChangeProcessor<T>{
+    public interface DataChangeProcessor<T> {
         void onDataChanged(T data);
     }
 
-    public interface DataTransformator<I, O>{
+    public interface DataTransformator<I, O> {
         O transform(I data);
     }
 
-    public interface LiveDataWrapper<T>{
+    public interface LiveDataWrapper<T> {
         T getData();
 
-        default void postResult(WrappedLiveData<T> liveData){
+        default void postResult(WrappedLiveData<T> liveData) {
             liveData.setError(null);
             T data = null;
             try {
@@ -36,20 +37,20 @@ public class LiveDataHelper {
         MediatorLiveData<T> ret = new MediatorLiveData<>();
 
         ret.addSource(data, changedData ->
-            doAsync(() -> {
-                onDataChange.onDataChanged(changedData);
-                ret.postValue(changedData);
-            })
+                doAsync(() -> {
+                    onDataChange.onDataChanged(changedData);
+                    ret.postValue(changedData);
+                })
         );
-        return onlyIfChanged(ret);
+        return distinctUntilChanged(ret);
     }
 
 
     public static <I, O> LiveData<O> postCustomValue(LiveData<I> data, DataTransformator<I, O> transformator) {
         MediatorLiveData<O> ret = new MediatorLiveData<>();
 
-        ret.addSource(data, changedData -> doAsync(() ->ret.postValue(transformator.transform(changedData))));
-        return onlyIfChanged(ret);
+        ret.addSource(data, changedData -> doAsync(() -> ret.postValue(transformator.transform(changedData))));
+        return distinctUntilChanged(ret);
     }
 
     public static <I> MediatorLiveData<I> of(I oneShot) {
@@ -66,35 +67,11 @@ public class LiveDataHelper {
     public static <I, O> LiveData<O> postSingleValue(LiveData<I> data, DataTransformator<I, O> transformator) {
         MediatorLiveData<O> ret = new MediatorLiveData<>();
 
-        ret.addSource(data, changedData -> doAsync(() ->ret.postValue(transformator.transform(changedData))));
-        return onlyIfChanged(ret);
+        ret.addSource(data, changedData -> doAsync(() -> ret.postValue(transformator.transform(changedData))));
+        return distinctUntilChanged(ret);
     }
 
-    public static <T> LiveData<T> onlyIfChanged(LiveData<T> data) {
-        MediatorLiveData<T> ret = new MediatorLiveData<>();
-
-        ret.addSource(data, new Observer<T>() {
-            T lastObject = null;
-            @Override
-            public void onChanged(@Nullable T newData) {
-                boolean hasValueChanged =
-                        (lastObject != null && newData == null) ||
-                        (lastObject == null && newData != null) ||
-                        (lastObject != null && !lastObject.equals(newData)) ||
-                        (newData != null && !newData.equals(lastObject))                        ;
-
-
-                lastObject = newData;
-                if (hasValueChanged){
-                    ret.postValue(newData);
-                }
-
-            }
-        });
-        return ret;
-    }
-
-    public static <T> void observeOnce(LiveData<T> liveData, LifecycleOwner owner, Observer<T> observer){
+    public static <T> void observeOnce(LiveData<T> liveData, LifecycleOwner owner, Observer<T> observer) {
         Observer<T> tempObserver = new Observer<T>() {
             @Override
             public void onChanged(T result) {

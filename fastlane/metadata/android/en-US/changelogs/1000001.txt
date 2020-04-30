@@ -5,3 +5,4 @@
 - 🏷️ Fix misaligned text in small labels
 - 🐞 Wrong icon in activities tab (#437)
 - 🐞 Creating a new board does not switch to this board after submit (#436)
+- 🔧 Replace LiveDataHelper.onlyIfChanged with Transformations.distinctUntilChanged (#434)
