@@ -115,7 +115,6 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
                 }
             }
         } else {
-            // TODO doesn't go deeper, if no stack was changed
             // no changed cards? maybe users or Labels! So we have to go deeper!
             new CardDataProvider(this, null, null).goDeeperForUpSync(syncHelper, serverAdapter, dataBaseAdapter, callback);
         }
