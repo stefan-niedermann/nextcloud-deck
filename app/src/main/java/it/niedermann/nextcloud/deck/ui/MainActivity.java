@@ -366,6 +366,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onCreateStack(String stackName) {
+        // TODO this outer call is only necessary to get the highest order. Move logic to SyncManager.
         observeOnce(syncManager.getStacksForBoard(viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId()), MainActivity.this, fullStacks -> {
             final Stack s = new Stack(stackName, viewModel.getCurrentBoardLocalId());
             int heighestOrder = 0;
@@ -376,13 +377,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 }
             }
             s.setOrder(heighestOrder);
-            DeckLog.info("Create Stack with account id = " + viewModel.getCurrentAccount().getId());
+            DeckLog.info("Create Stack in account " + viewModel.getCurrentAccount().getName() + " on board " + viewModel.getCurrentBoardLocalId());
             WrappedLiveData<FullStack> createLiveData = syncManager.createStack(viewModel.getCurrentAccount().getId(), s);
             observeOnce(createLiveData, this, (fullStack) -> {
                 if (createLiveData.hasError()) {
                     final Throwable error = createLiveData.getError();
                     assert error != null;
-                    Snackbar.make(binding.coordinatorLayout, error.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG).show();
                 } else {
                     binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
                 }
