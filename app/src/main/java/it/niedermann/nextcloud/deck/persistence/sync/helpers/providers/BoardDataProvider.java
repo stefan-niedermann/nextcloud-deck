@@ -162,6 +162,10 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
         List<FullBoard> localBoards = dataBaseAdapter.getAllFullBoards(accountId);
         List<FullBoard> delta = findDelta(entitiesFromServer, localBoards);
         for (FullBoard board : delta) {
+            if (board.getId() == null) {
+                // not pushed up yet so:
+                continue;
+            }
             dataBaseAdapter.deleteBoardPhysically(board.getBoard());
         }
     }

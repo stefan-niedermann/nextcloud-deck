@@ -17,6 +17,7 @@ public class CardUtil {
         // You shall not pass
     }
 
+    @NonNull
     public static String generateTitleFromDescription(String description) {
         if(description == null) return "";
         return getLineWithoutMarkDown(description, 0);
@@ -30,7 +31,7 @@ public class CardUtil {
      * @return lineContent String
      */
     @NonNull
-    private static String getLineWithoutMarkDown(@NonNull String content, int lineNumber) {
+    private static String getLineWithoutMarkDown(@NonNull String content, @SuppressWarnings("SameParameterValue") int lineNumber) {
         String line = "";
         if (content.contains("\n")) {
             String[] lines = content.split("\n");

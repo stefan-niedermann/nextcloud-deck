@@ -1,3 +1,9 @@
 - 🔧 Glide throws many errors (#405)
 - 🎨 ColorChooser occurs multiple times when editing board (#431)
 - 📎 Clean up after failed upload of attachment (#429)
+- 👤 Separate overlapping avatars with 2dp (#433)
+- 🏷️ Fix misaligned text in small labels
+- 🐞 Wrong icon in activities tab (#437)
+- 🐞 Creating a new board does not switch to this board after submit (#436)
+- 🔧 Replace LiveDataHelper.onlyIfChanged with Transformations.distinctUntilChanged (#434)
+- 🐞 Adding comments adds one additional empty comment (#440)

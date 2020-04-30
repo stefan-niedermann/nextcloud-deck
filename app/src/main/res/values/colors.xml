@@ -11,6 +11,8 @@
     <color name="grey600">#757575</color>
     <color name="bg_info_box">#dddddd</color>
 
+    <color name="avatars_overlapping_border_color">#ffffff</color>
+
     <color name="dark_fg_primary">#e5e5e5</color>
 
 

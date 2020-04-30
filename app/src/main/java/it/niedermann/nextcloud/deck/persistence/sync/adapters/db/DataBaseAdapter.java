@@ -37,10 +37,13 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
+
 public class DataBaseAdapter {
 
     private DeckDatabase db;
-    @NonNull private Context context;
+    @NonNull
+    private Context context;
 
     public DataBaseAdapter(@NonNull Context applicationContext) {
         this.context = applicationContext;
@@ -64,16 +67,18 @@ public class DataBaseAdapter {
         entity.setLastModifiedLocal(new Date()); // now.
     }
 
-    public LiveData<Boolean> hasAccounts(){
+    public LiveData<Boolean> hasAccounts() {
         return LiveDataHelper.postCustomValue(db.getAccountDao().countAccounts(), data -> data != null && data > 0);
     }
 
     public LiveData<Board> getBoard(long accountId, long remoteId) {
-        return LiveDataHelper.onlyIfChanged(db.getBoardDao().getBoardByRemoteId(accountId, remoteId));
+        return distinctUntilChanged(db.getBoardDao().getBoardByRemoteId(accountId, remoteId));
     }
+
     public Board getBoardByRemoteIdDirectly(long accountId, long remoteId) {
         return db.getBoardDao().getBoardByRemoteIdDirectly(accountId, remoteId);
     }
+
     public FullBoard getFullBoardByRemoteIdDirectly(long accountId, long remoteId) {
         return db.getBoardDao().getFullBoardByRemoteIdDirectly(accountId, remoteId);
     }
@@ -83,7 +88,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
-        return LiveDataHelper.onlyIfChanged(db.getStackDao().getStackByRemoteId(accountId, localBoardId, remoteId));
+        return distinctUntilChanged(db.getStackDao().getStackByRemoteId(accountId, localBoardId, remoteId));
     }
 
     public Stack getStackByLocalIdDirectly(final long localStackId) {
@@ -100,7 +105,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Card> getCardByRemoteID(long accountId, long remoteId) {
-        return LiveDataHelper.onlyIfChanged(db.getCardDao().getCardByRemoteId(accountId, remoteId));
+        return distinctUntilChanged(db.getCardDao().getCardByRemoteId(accountId, remoteId));
     }
 
     public FullCard getFullCardByRemoteIdDirectly(long accountId, long remoteId) {
@@ -108,24 +113,25 @@ public class DataBaseAdapter {
         filterRelationsForCard(card);
         return card;
     }
+
     public FullCard getFullCardByLocalIdDirectly(long accountId, long localId) {
         return db.getCardDao().getFullCardByLocalIdDirectly(accountId, localId);
     }
 
     public void filterRelationsForCard(FullCard card) {
-        if (card != null){
-            if (card.getLabels() != null && !card.getLabels().isEmpty()){
+        if (card != null) {
+            if (card.getLabels() != null && !card.getLabels().isEmpty()) {
                 List<Long> filteredIDs = db.getJoinCardWithLabelDao().filterDeleted(card.getLocalId(), getLocalIDs(card.getLabels()));
                 card.setLabels(db.getLabelDao().getLabelsByIdsDirectly(filteredIDs));
             }
-            if (card.getAssignedUsers() != null && !card.getAssignedUsers().isEmpty()){
+            if (card.getAssignedUsers() != null && !card.getAssignedUsers().isEmpty()) {
                 List<Long> filteredIDs = db.getJoinCardWithUserDao().filterDeleted(card.getLocalId(), getLocalIDs(card.getAssignedUsers()));
                 card.setAssignedUsers(db.getUserDao().getUsersByIdsDirectly(filteredIDs));
             }
         }
     }
 
-    private <T> List<Long> getLocalIDs(List<? extends AbstractRemoteEntity> remoteEntityList){
+    private <T> List<Long> getLocalIDs(List<? extends AbstractRemoteEntity> remoteEntityList) {
         ArrayList<Long> ids = new ArrayList<>(remoteEntityList.size());
         for (AbstractRemoteEntity entity : remoteEntityList) {
             ids.add(entity.getLocalId());
@@ -134,22 +140,23 @@ public class DataBaseAdapter {
     }
 
     public void readRelationsForACL(List<AccessControl> acl) {
-        if (acl != null){
+        if (acl != null) {
             for (AccessControl accessControl : acl) {
                 readRelationsForACL(accessControl);
             }
         }
     }
+
     public void readRelationsForACL(AccessControl acl) {
-        if (acl != null){
-            if (acl.getUserId() != null){
+        if (acl != null) {
+            if (acl.getUserId() != null) {
                 acl.setUser(db.getUserDao().getUserByLocalIdDirectly(acl.getUserId()));
             }
         }
     }
 
     private void filterRelationsForCard(List<FullCard> card) {
-        if (card == null){
+        if (card == null) {
             return;
         }
         for (FullCard c : card) {
@@ -162,7 +169,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, FilterInformation filter) {
-        if (filter == null){
+        if (filter == null) {
             return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::filterRelationsForCard);
         }
 
@@ -172,18 +179,18 @@ public class DataBaseAdapter {
         args.add(accountId);
         args.add(localStackId);
 
-        if (!filter.getLabels().isEmpty()){
+        if (!filter.getLabels().isEmpty()) {
             query.append("and exists(select 1 from joincardwithlabel j where c.localId = cardId and labelId in (");
             fillSqlWithListValues(query, args, filter.getLabels());
             query.append(") and j.status<>3) ");
         }
 
-        if (!filter.getUsers().isEmpty()){
+        if (!filter.getUsers().isEmpty()) {
             query.append("and exists(select 1 from joincardwithuser j where c.localId = cardId and userId in (");
             fillSqlWithListValues(query, args, filter.getUsers());
             query.append(") and j.status<>3) ");
         }
-        if (filter.getDueType() != EDueType.NO_FILTER){
+        if (filter.getDueType() != EDueType.NO_FILTER) {
             switch (filter.getDueType()) {
                 case NO_DUE:
                     query.append("and c.dueDate is null");
@@ -211,9 +218,9 @@ public class DataBaseAdapter {
 
     private void fillSqlWithListValues(StringBuilder query, List<Object> args, List<? extends IRemoteEntity> entities) {
         for (int i = 0; i < entities.size(); i++) {
-             if (i > 0) {
-                 query.append(", ");
-             }
+            if (i > 0) {
+                query.append(", ");
+            }
             query.append("?");
             args.add(entities.get(i).getLocalId());
         }
@@ -239,7 +246,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Label> getLabelByRemoteId(long accountId, long remoteId) {
-        return LiveDataHelper.onlyIfChanged(db.getLabelDao().getLabelByRemoteId(accountId, remoteId));
+        return distinctUntilChanged(db.getLabelDao().getLabelByRemoteId(accountId, remoteId));
     }
 
     public Label getLabelByRemoteIdDirectly(long accountId, long remoteId) {
@@ -257,7 +264,7 @@ public class DataBaseAdapter {
 
     public void createJoinCardWithLabel(long localLabelId, long localCardId, DBStatus status) {
         JoinCardWithLabel existing = db.getJoinCardWithLabelDao().getJoin(localLabelId, localCardId);
-        if (existing != null && existing.getStatusEnum() == DBStatus.LOCAL_DELETED){
+        if (existing != null && existing.getStatusEnum() == DBStatus.LOCAL_DELETED) {
             // readded!
             existing.setStatusEnum(DBStatus.LOCAL_EDITED);
             db.getJoinCardWithLabelDao().update(existing);
@@ -275,6 +282,7 @@ public class DataBaseAdapter {
     public void deleteJoinedLabelsForCard(long localCardId) {
         db.getJoinCardWithLabelDao().deleteByCardId(localCardId);
     }
+
     public void deleteJoinedLabelForCard(long localCardId, long localLabelId) {
         db.getJoinCardWithLabelDao().setDbStatus(localCardId, localLabelId, DBStatus.LOCAL_DELETED.getId());
     }
@@ -286,6 +294,7 @@ public class DataBaseAdapter {
     public void deleteJoinedLabelForCardPhysically(long localCardId, long localLabelId) {
         db.getJoinCardWithLabelDao().deleteByCardIdAndLabelId(localCardId, localLabelId);
     }
+
     public void deleteJoinedUserForCardPhysically(long localCardId, long localUserId) {
         db.getJoinCardWithUserDao().deleteByCardIdAndUserIdPhysically(localCardId, localUserId);
     }
@@ -296,7 +305,7 @@ public class DataBaseAdapter {
 
     public void createJoinCardWithUser(long localUserId, long localCardId, DBStatus status) {
         JoinCardWithUser existing = db.getJoinCardWithUserDao().getJoin(localUserId, localCardId);
-        if (existing != null && existing.getStatusEnum() == DBStatus.LOCAL_DELETED){
+        if (existing != null && existing.getStatusEnum() == DBStatus.LOCAL_DELETED) {
             // readded!
             existing.setStatusEnum(DBStatus.LOCAL_EDITED);
             db.getJoinCardWithUserDao().update(existing);
@@ -323,7 +332,7 @@ public class DataBaseAdapter {
     public void deleteJoinedLabelsForBoard(Long localBoardId) {
         db.getJoinBoardWithLabelDao().deleteByBoardId(localBoardId);
     }
-    
+
     public void updateLabel(Label label, boolean setStatus) {
         markAsEditedIfNeeded(label, setStatus);
         db.getLabelDao().update(label);
@@ -333,6 +342,7 @@ public class DataBaseAdapter {
         markAsDeletedIfNeeded(label, setStatus);
         db.getLabelDao().update(label);
     }
+
     public void deleteLabelPhysically(Label label) {
         db.getLabelDao().delete(label);
     }
@@ -354,12 +364,12 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Account> readAccount(long id) {
-        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAccountById(id));
+        return distinctUntilChanged(db.getAccountDao().getAccountById(id));
     }
 
     public LiveData<Account> readAccount(String name) {
-        return LiveDataHelper.wrapInLiveData(()->db.getAccountDao().getAccountByNameDirectly(name));
-//        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAccountByName(name));
+        return LiveDataHelper.wrapInLiveData(() -> db.getAccountDao().getAccountByNameDirectly(name));
+//        return distinctUntilChanged(db.getAccountDao().getAccountByName(name));
     }
 
     public Account readAccountDirectly(long id) {
@@ -367,15 +377,15 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<Account>> readAccounts() {
-        return LiveDataHelper.onlyIfChanged(db.getAccountDao().getAllAccounts());
+        return distinctUntilChanged(db.getAccountDao().getAllAccounts());
     }
 
     public LiveData<List<Board>> getBoards(long accountId) {
-        return LiveDataHelper.onlyIfChanged(db.getBoardDao().getBoardsForAccount(accountId));
+        return distinctUntilChanged(db.getBoardDao().getBoardsForAccount(accountId));
     }
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
-        return LiveDataHelper.onlyIfChanged(db.getBoardDao().getBoardsWithEditPermissionsForAccount(accountId));
+        return distinctUntilChanged(db.getBoardDao().getBoardsWithEditPermissionsForAccount(accountId));
     }
 
     public WrappedLiveData<Board> createBoard(long accountId, Board board) {
@@ -388,8 +398,8 @@ public class DataBaseAdapter {
     }
 
     public long createBoardDirectly(long accountId, Board board) {
-            board.setAccountId(accountId);
-            return db.getBoardDao().insert(board);
+        board.setAccountId(accountId);
+        return db.getBoardDao().insert(board);
     }
 
     public void deleteBoard(Board board, boolean setStatus) {
@@ -407,7 +417,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<FullStack>> getFullStacksForBoard(long accountId, long localBoardId) {
-        return LiveDataHelper.onlyIfChanged(db.getStackDao().getFullStacksForBoard(accountId, localBoardId));
+        return distinctUntilChanged(db.getStackDao().getFullStacksForBoard(accountId, localBoardId));
     }
 
     public List<FullStack> getFullStacksForBoardDirectly(long accountId, long localBoardId) {
@@ -415,14 +425,14 @@ public class DataBaseAdapter {
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
-        return LiveDataHelper.onlyIfChanged(db.getStackDao().getFullStack(accountId, localStackId));
+        return distinctUntilChanged(db.getStackDao().getFullStack(accountId, localStackId));
     }
-    
+
     public long createStack(long accountId, Stack stack) {
         stack.setAccountId(accountId);
         return db.getStackDao().insert(stack);
     }
-    
+
     public void deleteStack(Stack stack, boolean setStatus) {
         markAsDeletedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
@@ -436,17 +446,19 @@ public class DataBaseAdapter {
         markAsEditedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
     }
-    
-    public Card  getCardByLocalIdDirectly(long accountId, long localCardId) {
+
+    public Card getCardByLocalIdDirectly(long accountId, long localCardId) {
         return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
     }
 
-    public LiveData<FullCard>  getCardByLocalId(long accountId, long localCardId) {
+    public LiveData<FullCard> getCardByLocalId(long accountId, long localCardId) {
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::filterRelationsForCard);
     }
+
     public List<FullCard> getLocallyChangedCardsDirectly(long accountId) {
         return db.getCardDao().getLocallyChangedCardsDirectly(accountId);
     }
+
     public List<FullCard> getLocallyChangedCardsByLocalStackIdDirectly(long accountId, long localStackId) {
         return db.getCardDao().getLocallyChangedCardsByLocalStackIdDirectly(accountId, localStackId);
     }
@@ -458,7 +470,7 @@ public class DataBaseAdapter {
 
     public void deleteCard(Card card, boolean setStatus) {
         markAsDeletedIfNeeded(card, setStatus);
-        if (setStatus){
+        if (setStatus) {
             db.getCardDao().update(card);
         } else {
             deleteCardPhysically(card);
@@ -496,7 +508,7 @@ public class DataBaseAdapter {
 
     public void deleteAccessControl(AccessControl entity, boolean setStatus) {
         markAsDeletedIfNeeded(entity, setStatus);
-        if (setStatus){
+        if (setStatus) {
             db.getAccessControlDao().update(entity);
         } else {
             db.getAccessControlDao().delete(entity);
@@ -506,46 +518,47 @@ public class DataBaseAdapter {
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
         return LiveDataHelper.onlyIfChanged(db.getBoardDao().getFullBoardById(accountId, localId));
     }
+
     public Board getBoardByLocalIdDirectly(long localId) {
         return db.getBoardDao().getBoardByIdDirectly(localId);
     }
 
-    public LiveData<User> getUserByLocalId(long accountId, long localId){
+    public LiveData<User> getUserByLocalId(long accountId, long localId) {
         return db.getUserDao().getUserByLocalId(accountId, localId);
     }
 
-    public LiveData<User> getUserByUid(long accountId, String uid){
+    public LiveData<User> getUserByUid(long accountId, String uid) {
         return db.getUserDao().getUserByUid(accountId, uid);
     }
 
-    public LiveData<List<User>> getUsersForAccount(final long accountId){
+    public LiveData<List<User>> getUsersForAccount(final long accountId) {
         return db.getUserDao().getUsersForAccount(accountId);
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm){
+    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm) {
         validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayName(accountId, notYetAssignedToLocalCardId, "%"+searchTerm.trim()+"%");
+        return db.getUserDao().searchUserByUidOrDisplayName(accountId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%");
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedToACL, final String searchTerm){
+    public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
         validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%"+searchTerm.trim()+"%");
+        return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
     }
 
-    public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm){
+    public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm) {
         validateSearchTerm(searchTerm);
-        return db.getLabelDao().searchNotYetAssignedLabelsByTitle(accountId, boardId, notYetAssignedToLocalCardId,"%"+searchTerm.trim()+"%");
+        return db.getLabelDao().searchNotYetAssignedLabelsByTitle(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%");
     }
 
-    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX){
+    public LiveData<List<User>> findProposalsForUsersToAssign(final long accountId, long boardId, long notAssignedToLocalCardId, final int topX) {
         return db.getUserDao().findProposalsForUsersToAssign(accountId, boardId, notAssignedToLocalCardId, topX);
     }
 
-    public LiveData<List<User>> findProposalsForUsersToAssignForACL(final long accountId, long boardId, final int topX){
+    public LiveData<List<User>> findProposalsForUsersToAssignForACL(final long accountId, long boardId, final int topX) {
         return db.getUserDao().findProposalsForUsersToAssignForACL(accountId, boardId, topX);
     }
 
-    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId){
+    public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId) {
         return db.getLabelDao().findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId);
     }
 
@@ -592,9 +605,9 @@ public class DataBaseAdapter {
         }
     }
 
-    private void validateSearchTerm(String searchTerm){
-        if (searchTerm == null || searchTerm.trim().length()<1) {
-            throw new IllegalArgumentException("please provide a proper search term! \""+searchTerm+"\" doesn't seem right...");
+    private void validateSearchTerm(String searchTerm) {
+        if (searchTerm == null || searchTerm.trim().length() < 1) {
+            throw new IllegalArgumentException("please provide a proper search term! \"" + searchTerm + "\" doesn't seem right...");
         }
     }
 
@@ -621,6 +634,7 @@ public class DataBaseAdapter {
     public Label getLabelByLocalIdDirectly(long localLabelId) {
         return db.getLabelDao().getLabelsByIdDirectly(localLabelId);
     }
+
     public LiveData<Label> getLabelByLocalId(long localLabelId) {
         return db.getLabelDao().getLabelByLocalId(localLabelId);
     }
@@ -628,6 +642,7 @@ public class DataBaseAdapter {
     public List<FullBoard> getLocallyChangedBoards(long accountId) {
         return db.getBoardDao().getLocallyChangedBoardsDirectly(accountId);
     }
+
     public List<FullBoard> getAllFullBoards(long accountId) {
         return db.getBoardDao().getAllFullBoards(accountId);
     }
@@ -635,9 +650,11 @@ public class DataBaseAdapter {
     public List<FullStack> getLocallyChangedStacksForBoard(long accountId, long localBoardId) {
         return db.getStackDao().getLocallyChangedStacksForBoardDirectly(accountId, localBoardId);
     }
+
     public List<FullStack> getLocallyChangedStacks(long accountId) {
         return db.getStackDao().getLocallyChangedStacksDirectly(accountId);
     }
+
     public List<Label> getLocallyChangedLabels(long accountId) {
         return db.getLabelDao().getLocallyChangedLabelsDirectly(accountId);
     }
@@ -661,6 +678,7 @@ public class DataBaseAdapter {
     public List<JoinCardWithLabel> getAllChangedJoins() {
         return db.getJoinCardWithLabelDao().getAllChangedJoins();
     }
+
     public JoinCardWithLabel getRemoteIdsForJoin(Long localCardId, Long localLabelId) {
         return db.getJoinCardWithLabelDao().getRemoteIdsForJoin(localCardId, localLabelId);
     }
@@ -685,6 +703,7 @@ public class DataBaseAdapter {
         activity.setAccountId(accountId);
         return db.getActivityDao().insert(activity);
     }
+
     public Activity getActivityByRemoteIdDirectly(long accountId, long remoteActivityId) {
         return db.getActivityDao().getActivityByRemoteIdDirectly(accountId, remoteActivityId);
     }
@@ -701,6 +720,7 @@ public class DataBaseAdapter {
     public List<AccessControl> getLocallyChangedAccessControl(long accountId, long boardId) {
         return db.getAccessControlDao().getLocallyChangedAccessControl(accountId, boardId);
     }
+
     public List<Long> getBoardIDsOfLocallyChangedAccessControl(long accountId) {
         return db.getAccessControlDao().getBoardIDsOfLocallyChangedAccessControl(accountId);
     }
