@@ -516,7 +516,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<FullBoard> getFullBoardById(Long accountId, Long localId) {
-        return LiveDataHelper.onlyIfChanged(db.getBoardDao().getFullBoardById(accountId, localId));
+        return distinctUntilChanged(db.getBoardDao().getFullBoardById(accountId, localId));
     }
 
     public Board getBoardByLocalIdDirectly(long localId) {
