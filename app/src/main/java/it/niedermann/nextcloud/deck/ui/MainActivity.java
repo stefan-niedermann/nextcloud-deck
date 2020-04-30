@@ -397,6 +397,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
         boardsLiveData.removeObserver(boardsLiveDataObserver);
         final Board boardToCreate = new Board(title, color.startsWith("#") ? color.substring(1) : color);
+        boardToCreate.setPermissionEdit(true);
+        boardToCreate.setPermissionManage(true);
         observeOnce(syncManager.createBoard(viewModel.getCurrentAccount().getId(), boardToCreate), this, createdBoard -> {
             if (createdBoard == null) {
                 Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG).show();
