@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 
 @SuppressWarnings("WeakerAccess")
@@ -16,7 +16,7 @@ public class MainViewModel extends ViewModel {
     @NonNull
     private MutableLiveData<FilterInformation> filterInformation = new MutableLiveData<>();
     private Account currentAccount;
-    private Board currentBoard;
+    private FullBoard currentBoard;
 
     public void postFilterInformation(@Nullable FilterInformation filterInformation) {
         this.filterInformation.postValue(filterInformation);
@@ -35,7 +35,7 @@ public class MainViewModel extends ViewModel {
         this.currentAccount = currentAccount;
     }
 
-    public void setCurrentBoard(Board currentBoard) {
+    public void setCurrentBoard(FullBoard currentBoard) {
         this.currentBoard = currentBoard;
     }
 
@@ -44,6 +44,6 @@ public class MainViewModel extends ViewModel {
     }
 
     public boolean currentBoardHasEditPermission() {
-        return this.currentBoard != null && this.currentBoard.isPermissionEdit();
+        return this.currentBoard != null && this.currentBoard.getBoard() != null && this.currentBoard.getBoard().isPermissionEdit();
     }
 }
