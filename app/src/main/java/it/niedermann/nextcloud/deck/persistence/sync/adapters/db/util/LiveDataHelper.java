@@ -32,7 +32,7 @@ public class LiveDataHelper {
         }
     }
 
-    public static <T> MediatorLiveData<T> interceptLiveData(LiveData<T> data, DataChangeProcessor<T> onDataChange) {
+    public static <T> LiveData<T> interceptLiveData(LiveData<T> data, DataChangeProcessor<T> onDataChange) {
         MediatorLiveData<T> ret = new MediatorLiveData<>();
 
         ret.addSource(data, changedData ->
@@ -45,7 +45,7 @@ public class LiveDataHelper {
     }
 
 
-    public static <I, O> MediatorLiveData<O> postCustomValue(LiveData<I> data, DataTransformator<I, O> transformator) {
+    public static <I, O> LiveData<O> postCustomValue(LiveData<I> data, DataTransformator<I, O> transformator) {
         MediatorLiveData<O> ret = new MediatorLiveData<>();
 
         ret.addSource(data, changedData -> doAsync(() ->ret.postValue(transformator.transform(changedData))));
@@ -63,14 +63,14 @@ public class LiveDataHelper {
         return ret;
     }
 
-    public static <I, O> MediatorLiveData<O> postSingleValue(LiveData<I> data, DataTransformator<I, O> transformator) {
+    public static <I, O> LiveData<O> postSingleValue(LiveData<I> data, DataTransformator<I, O> transformator) {
         MediatorLiveData<O> ret = new MediatorLiveData<>();
 
         ret.addSource(data, changedData -> doAsync(() ->ret.postValue(transformator.transform(changedData))));
         return onlyIfChanged(ret);
     }
 
-    public static <T> MediatorLiveData<T> onlyIfChanged(LiveData<T> data) {
+    public static <T> LiveData<T> onlyIfChanged(LiveData<T> data) {
         MediatorLiveData<T> ret = new MediatorLiveData<>();
 
         ret.addSource(data, new Observer<T>() {
