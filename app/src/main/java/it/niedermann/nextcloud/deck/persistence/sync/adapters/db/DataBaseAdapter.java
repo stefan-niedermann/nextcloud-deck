@@ -799,4 +799,8 @@ public class DataBaseAdapter {
     public Label getLabelByBoardIdAndTitleDirectly(long boardId, String title) {
         return db.getLabelDao().getLabelByBoardIdAndTitleDirectly(boardId, title);
     }
+
+    public LiveData<List<FullBoard>> getFullBoards(long accountId) {
+        return db.getBoardDao().getFullBoards(accountId);
+    }
 }

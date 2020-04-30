@@ -446,7 +446,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             boardsLiveData.removeObserver(boardsLiveDataObserver);
         }
 
-        boardsLiveData = syncManager.getBoards(account.getId());
+        boardsLiveData = syncManager.getFullBoards(account.getId());
         boardsLiveDataObserver = (List<Board> boards) -> {
             if (boards == null) {
                 throw new IllegalStateException("List<Board> boards must not be null.");

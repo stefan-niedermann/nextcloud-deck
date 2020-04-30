@@ -314,8 +314,8 @@ public class SyncManager {
         });
     }
 
-    public LiveData<List<Board>> getBoards(long accountId) {
-        return dataBaseAdapter.getBoards(accountId);
+    public LiveData<List<FullBoard>> getFullBoards(long accountId) {
+        return dataBaseAdapter.getFullBoards(accountId);
     }
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
