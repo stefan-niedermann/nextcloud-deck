@@ -177,11 +177,11 @@ public class EditActivity extends BrandedActivity {
 
         final CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle());
         final TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
-            tab.setIcon(viewModel.hasCommentsAbility()
+            tab.setIcon(!viewModel.isCreateMode() && viewModel.hasCommentsAbility()
                     ? tabIconsWithComments[position]
                     : tabIcons[position]
             );
-            tab.setContentDescription(viewModel.hasCommentsAbility()
+            tab.setContentDescription(!viewModel.isCreateMode() && viewModel.hasCommentsAbility()
                     ? tabTitlesWithComments[position]
                     : tabTitles[position]
             );
