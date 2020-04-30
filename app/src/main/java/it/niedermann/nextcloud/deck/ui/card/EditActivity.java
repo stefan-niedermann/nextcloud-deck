@@ -151,9 +151,11 @@ public class EditActivity extends BrandedActivity {
         if (!viewModel.isPendingCreation()) {
             viewModel.setPendingCreation(true);
             final String title = viewModel.getFullCard().getCard().getTitle();
-            if (title == null || title.isEmpty()) {
+            if (title == null || title.trim().isEmpty()) {
                 viewModel.getFullCard().getCard().setTitle(CardUtil.generateTitleFromDescription(viewModel.getFullCard().getCard().getDescription()));
             }
+            viewModel.getFullCard().getCard().setTitle(viewModel.getFullCard().getCard().getTitle().trim());
+            binding.title.setText(viewModel.getFullCard().getCard().getTitle());
             if (viewModel.getFullCard().getCard().getTitle().isEmpty()) {
                 new BrandedAlertDialogBuilder(this)
                         .setTitle(R.string.title_is_mandatory)
