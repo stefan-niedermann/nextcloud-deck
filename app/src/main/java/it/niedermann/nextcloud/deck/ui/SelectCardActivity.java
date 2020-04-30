@@ -18,7 +18,7 @@ import java.util.Objects;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Attachment;
-import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
@@ -127,7 +127,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     }
 
     @Override
-    protected void setCurrentBoard(@NonNull FullBoard board) {
+    protected void setCurrentBoard(@NonNull Board board) {
         super.setCurrentBoard(board);
         binding.addStackButton.setVisibility(View.GONE);
         binding.fab.setVisibility(View.GONE);

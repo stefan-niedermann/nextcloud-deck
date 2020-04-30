@@ -28,7 +28,6 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlDialogFragment;
@@ -107,8 +106,7 @@ public class DrawerMenuUtil {
     public static <T extends FragmentActivity> void inflateBoards(
             @NonNull T context,
             @NonNull Menu menu,
-            @NonNull Long currentAccountId,
-            @NonNull List<FullBoard> boards) {
+            @NonNull List<Board> boards) {
         final String addBoard = context.getString(R.string.add_board);
         final String simpleBoards = context.getString(R.string.simple_boards);
         final String simpleSettings = context.getString(R.string.simple_settings);
@@ -118,8 +116,7 @@ public class DrawerMenuUtil {
 
         SubMenu boardsMenu = menu.addSubMenu(simpleBoards);
         int index = 0;
-        for (FullBoard fullBoard : boards) {
-            final Board board = fullBoard.getBoard();
+        for (Board board : boards) {
             MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
             if (board.isPermissionManage()) {
                 AppCompatImageButton contextMenu = new AppCompatImageButton(context);

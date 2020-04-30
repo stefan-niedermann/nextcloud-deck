@@ -129,9 +129,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private StackAdapter stackAdapter;
     long lastBoardId;
     @NonNull
-    private List<FullBoard> boardsList = new ArrayList<>();
-    private LiveData<List<FullBoard>> boardsLiveData;
-    private Observer<List<FullBoard>> boardsLiveDataObserver;
+    private List<Board> boardsList = new ArrayList<>();
+    private LiveData<List<Board>> boardsLiveData;
+    private Observer<List<Board>> boardsLiveDataObserver;
 
     private boolean currentBoardHasStacks = false;
     private int currentBoardStacksCount = 0;
@@ -413,8 +413,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             if (createdBoard == null) {
                 Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG).show();
             } else {
-                boardsList.add(createdBoard);
-                setCurrentBoard(createdBoard);
+                boardsList.add(createdBoard.getBoard());
+                setCurrentBoard(createdBoard.getBoard());
 
                 inflateBoardMenu();
                 EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
@@ -446,7 +446,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             boardsLiveData.removeObserver(boardsLiveDataObserver);
         }
 
-        boardsLiveData = syncManager.getFullBoards(account.getId());
+        boardsLiveData = syncManager.getBoards(account.getId());
         boardsLiveDataObserver = (boards) -> {
             if (boards == null) {
                 throw new IllegalStateException("List<Board> boards must not be null.");
@@ -508,14 +508,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.emptyContentViewBoards.setVisibility(View.VISIBLE);
     }
 
-    protected void setCurrentBoard(@NonNull FullBoard board) {
+    protected void setCurrentBoard(@NonNull Board board) {
         viewModel.setCurrentBoard(board);
         viewModel.postFilterInformation(null);
 
         lastBoardId = board.getLocalId();
         Application.saveCurrentBoardId(this, viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId());
 
-        binding.toolbar.setTitle(board.getBoard().getTitle());
+        binding.toolbar.setTitle(board.getTitle());
 
         if (viewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
@@ -609,7 +609,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, viewModel.getCurrentAccount().getId(), this.boardsList);
+        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList);
     }
 
     @Override
