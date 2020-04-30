@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,15 +61,23 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
         if (viewModel.canEdit()) {
             binding.addCommentLayout.setVisibility(VISIBLE);
             binding.fab.setOnClickListener(v -> {
-                binding.emptyContentView.setVisibility(GONE);
-                binding.comments.setVisibility(VISIBLE);
-                final DeckComment comment = new DeckComment(binding.message.getText().toString());
-                comment.setActorDisplayName(viewModel.getAccount().getUserName());
-                comment.setCreationDateTime(new Date());
-                syncManager.addCommentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), comment);
+                if (!TextUtils.isEmpty(binding.message.getText().toString().trim())) {
+                    binding.emptyContentView.setVisibility(GONE);
+                    binding.comments.setVisibility(VISIBLE);
+                    final DeckComment comment = new DeckComment(binding.message.getText().toString().trim());
+                    comment.setActorDisplayName(viewModel.getAccount().getUserName());
+                    comment.setCreationDateTime(new Date());
+                    syncManager.addCommentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), comment);
+                }
                 binding.message.setText(null);
             });
-            binding.message.setOnEditorActionListener((v, actionId, event) -> binding.fab.performClick());
+            binding.message.setOnEditorActionListener((v, actionId, event) -> {
+                // Do not handle KeyEvent.ACTION_DOWN to avoid duplicate empty comments (https://github.com/stefan-niedermann/nextcloud-deck/issues/440)
+                if (event == null || event.getAction() == KeyEvent.ACTION_UP) {
+                    return binding.fab.performClick();
+                }
+                return true;
+            });
         } else {
             binding.addCommentLayout.setVisibility(GONE);
         }

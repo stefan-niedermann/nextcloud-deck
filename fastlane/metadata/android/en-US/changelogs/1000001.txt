@@ -6,3 +6,4 @@
 - 🐞 Wrong icon in activities tab (#437)
 - 🐞 Creating a new board does not switch to this board after submit (#436)
 - 🔧 Replace LiveDataHelper.onlyIfChanged with Transformations.distinctUntilChanged (#434)
+- 🐞 Adding comments adds one additional empty comment (#440)
