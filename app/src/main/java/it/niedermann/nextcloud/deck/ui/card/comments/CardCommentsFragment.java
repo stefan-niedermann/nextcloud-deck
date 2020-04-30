@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,6 +62,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
         if (viewModel.canEdit()) {
             binding.addCommentLayout.setVisibility(VISIBLE);
             binding.fab.setOnClickListener(v -> {
+                // Do not handle empty comments (https://github.com/stefan-niedermann/nextcloud-deck/issues/440)
                 if (!TextUtils.isEmpty(binding.message.getText().toString().trim())) {
                     binding.emptyContentView.setVisibility(GONE);
                     binding.comments.setVisibility(VISIBLE);
@@ -72,8 +74,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                 binding.message.setText(null);
             });
             binding.message.setOnEditorActionListener((v, actionId, event) -> {
-                // Do not handle KeyEvent.ACTION_DOWN to avoid duplicate empty comments (https://github.com/stefan-niedermann/nextcloud-deck/issues/440)
-                if (event == null || event.getAction() == KeyEvent.ACTION_UP) {
+                if ((actionId == EditorInfo.IME_ACTION_SEND) || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)) {
                     return binding.fab.performClick();
                 }
                 return true;
