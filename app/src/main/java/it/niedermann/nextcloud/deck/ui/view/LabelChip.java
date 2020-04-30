@@ -48,7 +48,7 @@ public class LabelChip extends Chip {
         }
     }
 
-    public Long getLabelLocalId() {
-        return this.label.getLocalId();
+    public Label getLabel() {
+        return this.label;
     }
 }
