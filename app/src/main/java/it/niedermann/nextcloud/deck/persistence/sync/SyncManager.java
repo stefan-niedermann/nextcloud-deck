@@ -367,7 +367,7 @@ public class SyncManager {
         return dataBaseAdapter.getActivitiesForCard(card.getLocalId());
     }
 
-    public void addCommentToCard(long accountId, long boardId, long cardId, DeckComment comment) {
+    public void addCommentToCard(long accountId, long cardId, DeckComment comment) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, cardId);
