@@ -38,7 +38,14 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity) {
-        return dataBaseAdapter.createLabel(accountId, entity);
+        Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(entity.getBoardId(), entity.getTitle());
+        if (existing != null) {
+            entity.setLocalId(existing.getLocalId());
+            updateInDB(dataBaseAdapter, accountId, entity, false);
+            return entity.getLocalId();
+        } else {
+            return dataBaseAdapter.createLabel(accountId, entity);
+        }
     }
 
     @Override
