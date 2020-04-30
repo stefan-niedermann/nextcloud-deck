@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -803,6 +804,11 @@ public class SyncManager {
     public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
         WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
+            Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(label.getBoardId(), label.getTitle());
+            if (existing != null){
+                liveData.postError(new SQLiteConstraintException("label \""+label.getTitle()+"\" already exists for this board!"));
+                return;
+            }
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
             label.setAccountId(accountId);
