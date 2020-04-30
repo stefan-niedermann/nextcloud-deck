@@ -127,6 +127,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     protected SyncManager syncManager;
     protected SharedPreferences sharedPreferences;
     private StackAdapter stackAdapter;
+    long lastBoardId;
     @NonNull
     private List<Board> boardsList = new ArrayList<>();
     private LiveData<List<Board>> boardsLiveData;
@@ -391,17 +392,21 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onCreateBoard(String title, String color) {
-        Board b = new Board(title, color.startsWith("#") ? color.substring(1) : color);
-        observeOnce(syncManager.createBoard(viewModel.getCurrentAccount().getId(), b), this, board -> {
-            if (board == null) {
+        if (boardsLiveData != null && boardsLiveDataObserver != null) {
+            boardsLiveData.removeObserver(boardsLiveDataObserver);
+        }
+        final Board boardToCreate = new Board(title, color.startsWith("#") ? color.substring(1) : color);
+        observeOnce(syncManager.createBoard(viewModel.getCurrentAccount().getId(), boardToCreate), this, createdBoard -> {
+            if (createdBoard == null) {
                 Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG).show();
             } else {
-                boardsList.add(board.getBoard());
-                viewModel.setCurrentBoard(board.getBoard());
-                inflateBoardMenu();
+                boardsList.add(createdBoard.getBoard());
+                setCurrentBoard(createdBoard.getBoard());
 
+                inflateBoardMenu();
                 EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
             }
+            boardsLiveData.observe(this, boardsLiveDataObserver);
         });
     }
 
@@ -422,7 +427,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             refreshCapabilities(viewModel.getCurrentAccount());
         }
 
-        final long currentBoardId = Application.readCurrentBoardId(this, viewModel.getCurrentAccount().getId());
+        lastBoardId = Application.readCurrentBoardId(this, viewModel.getCurrentAccount().getId());
 
         if (boardsLiveData != null && boardsLiveDataObserver != null) {
             boardsLiveData.removeObserver(boardsLiveDataObserver);
@@ -439,7 +444,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             if (boardsList.size() > 0) {
                 boolean currentBoardIdWasInList = false;
                 for (int i = 0; i < boardsList.size(); i++) {
-                    if (currentBoardId == boardsList.get(i).getLocalId() || currentBoardId == NO_BOARD_ID) {
+                    if (lastBoardId == boardsList.get(i).getLocalId() || lastBoardId == NO_BOARD_ID) {
                         setCurrentBoard(boardsList.get(i));
                         currentBoardIdWasInList = true;
                         break;
@@ -494,6 +499,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         viewModel.setCurrentBoard(board);
         viewModel.postFilterInformation(null);
 
+        lastBoardId = board.getLocalId();
         Application.saveCurrentBoardId(this, viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId());
 
         binding.toolbar.setTitle(board.getTitle());

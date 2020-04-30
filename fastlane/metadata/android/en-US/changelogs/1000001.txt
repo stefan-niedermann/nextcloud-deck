@@ -4,3 +4,4 @@
 - 👤 Separate overlapping avatars with 2dp (#433)
 - 🏷️ Fix misaligned text in small labels
 - 🐞 Wrong icon in activities tab (#437)
+- 🐞 Creating a new board does not switch to this board after submit (#436)
