@@ -63,7 +63,12 @@ public class DataPropagationHelper {
     public <T extends IRemoteEntity> void updateEntity(final AbstractSyncDataProvider<T> provider, T entity, IResponseCallback<T> callback){
         final long accountId = callback.getAccount().getId();
         entity.setStatus(DBStatus.LOCAL_EDITED.getId());
-        provider.updateInDB(dataBaseAdapter, accountId, entity);
+        try {
+            provider.updateInDB(dataBaseAdapter, accountId, entity);
+        } catch (Throwable t) {
+            callback.onError(t);
+            return;
+        }
         boolean connected = serverAdapter.hasInternetConnection();
         if (entity.getId() != null && connected) {
             provider.updateOnServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<T>(new Account(accountId)) {
