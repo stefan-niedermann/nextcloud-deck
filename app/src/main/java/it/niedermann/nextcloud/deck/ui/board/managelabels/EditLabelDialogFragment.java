@@ -40,11 +40,11 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
             throw new IllegalArgumentException("Provide at least " + KEY_LABEL);
         }
 
-        this.label = (Label) args.getSerializable(KEY_LABEL);
-        if (this.label == null) {
+        final Label label = (Label) args.getSerializable(KEY_LABEL);
+        if (label == null) {
             throw new IllegalArgumentException(KEY_LABEL + " must not be null");
         }
-
+        this.label = new Label(label);
     }
 
     @NonNull
