@@ -19,7 +19,7 @@
         android:layout_height="22dp"
         android:layout_marginStart="@dimen/spacer_1x"
         android:layout_marginLeft="@dimen/spacer_1x"
-        android:background="@drawable/selected"
+        app:srcCompat="@drawable/selected"
         app:layout_alignSelf="center"
         app:layout_flexShrink="0"
         tools:src="@drawable/ic_check_grey600_24dp" />

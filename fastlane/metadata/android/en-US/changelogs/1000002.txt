@@ -1,3 +1,7 @@
+1.0.2
+
+- 🐞 Fix various crashes on older Android versions
+
 1.0.1
 
 - 🔧 Glide throws many errors (#405)
