@@ -111,7 +111,6 @@
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
     <string name="no_lists_yet">Még nincsenek listák</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
-    <string name="do_you_want_to_delete_the_current_list">Biztos, hogy törli a jelenlegi listát?</string>
     <string name="add_a_new_list_using_the_button">Új lista hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
     <string name="update_deck">Kártyák frissítése</string>
@@ -156,4 +155,6 @@
     <string name="filter_by_assigned_user">Szűrés hozzárendelt felhasználó szerint</string>
     <string name="filter_by_duedate">Szűrés határidő szerint</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Archivált kártyák</string>
     </resources>

@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Data di scadenza</string>
     <string name="add_account">Aggiungi account</string>
     <string name="choose_account">Scegli account</string>
+    <string name="add_card">Aggiungi nuova scheda</string>
     <string name="activity">Attività</string>
     <string name="add_list">Aggiungi elenco</string>
     <string name="rename_list">Rinomina elenco</string>
@@ -116,7 +117,10 @@
     <string name="not_synced_yet">Non ancora sincronizzata</string>
     <string name="no_lists_yet">Ancora nessun elenco</string>
     <string name="do_you_want_to_save_your_changes">Vuoi salvare le tue modifiche?</string>
-    <string name="do_you_want_to_delete_the_current_list">Vuoi eliminare l\'elenco attuale?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Questo eliminerà definitivamente %1$d scheda di questo elenco</item>
+        <item quantity="other">Questo eliminerà definitivamente %1$d schede di questo elenco</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Aggiungi un nuovo elenco usando il pulsante +</string>
     <string name="add_a_new_card_using_the_button">Aggiungi una nuova scheda utilizzando il pulsante +</string>
     <string name="update_deck">Aggiorna Deck</string>
@@ -181,4 +185,8 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Schede archiviate</string>
-    </resources>
+    <string name="action_card_dearchive">Annulla archiviazione della scheda</string>
+    <string name="action_archived_cards">Sfoglia le schede archiviate</string>
+    <string name="attachment_already_exists">L\'allegato esiste già</string>
+    <string name="pick_custom_color">Scegli colore personalizzato</string>
+</resources>

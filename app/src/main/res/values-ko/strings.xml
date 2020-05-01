@@ -13,6 +13,29 @@
     <string name="simple_add">추가</string>
     <string name="simple_save">저장</string>
     <string name="simple_more">더 보기</string>
+    <string name="simple_title">제목</string>
+    <string name="simple_copy">복사</string>
+    <string name="simple_synchronization">동기화</string>
+    <string name="simple_appearance">외형</string>
+    <string name="simple_error">오류</string>
+    <string name="simple_exception">예외</string>
+    <string name="simple_close">닫기</string>
+    <string name="simple_switch">전환</string>
+    <string name="simple_filter">필터</string>
+    <string name="simple_overdue">기한 넘김</string>
+    <string name="simple_clear">비우기</string>
+    <string name="simple_discard">무시</string>
+    <string name="simple_update">업데이트</string>
+    <string name="simple_delete">삭제</string>
+    <string name="simple_rename">이름 바꾸기</string>
+    <string name="simple_settings">설정</string>
+    <string name="simple_undo">실행 취소</string>
+    <string name="simple_manage">관리</string>
+    <string name="simple_share">공유</string>
+    <string name="simple_select">선택</string>
+    <string name="simple_comment">설명</string>
+    <string name="simple_disabled">비활성화</string>
+    <string name="simple_copied">복사됨</string>
 
     <string name="edit_board">게시판 편집</string>
     <string name="archive_board">게시판 보관</string>
@@ -52,31 +75,28 @@
     <string name="hint_due_date_date">만료 날짜</string>
     <string name="add_account">계정 추가</string>
     <string name="choose_account">계정 선택</string>
-
-    <string name="add_card">카드 추가</string>
-
+    <string name="add_card">새 카드 추가</string>
     <string name="activity">활동</string>
-
+    <string name="add_list">목록 추가</string>
+    <string name="rename_list">목록 이름 바꾸기</string>
+    <string name="delete_list">목록 지우기</string>
     <string name="label_menu">메뉴</string>
     <string name="action_card_assign">이 카드를 나에게 할당</string>
     <string name="action_card_unassign">이 카드를 나에게 할당 해제</string>
     <string name="action_card_archive">보관 카드</string>
     <string name="action_card_delete">카드 삭제</string>
     <string name="add_board">보드 추가</string>
-    <string name="simple_title">제목</string>
 
     <string name="label_clear_due_date">만료 날짜 지우기</string>
     <string name="label_add">%1$s(으)로 추가</string>
 
+    <!-- Error messages -->
     <string name="error">오류가 나타남</string>
-    <string name="simple_copy">복사</string>
-    <string name="simple_synchronization">동기화</string>
-    <string name="simple_appearance">외형</string>
-    <string name="simple_error">오류</string>
-    <string name="simple_exception">예외</string>
+    <string name="operation_not_yet_supported">아직 지원되지 않습니다!</string>
     <string name="copied_to_clipboard">클립보드로 복사</string>
-    <string name="simple_close">닫기</string>
-
+    <string name="maintenance_mode">서버가 유지 관리 모드임</string>
+    <string name="server_misconfigured">서버 설정이 잘못됐습니다.</string>
+    <string name="server_error">서버 오류</string>
     <string name="card_edit_details">세부사항</string>
     <string name="card_edit_attachments">첨부</string>
     <string name="card_edit_activity">활동</string>
@@ -89,31 +109,21 @@
     <string name="account_is_getting_imported">계정을 불러오고 있음</string>
     <string name="not_synced_yet">아직 동기화되지 않았음</string>
     <string name="do_you_want_to_save_your_changes">변경된 사항을 저장하시겠습니까?</string>
-    <string name="simple_discard">무시</string>
     <string name="add_a_new_card_using_the_button">+ 버튼을 사용하여 새 카드를 추가</string>
     <string name="update_deck">덱 업데이트하기</string>
     <string name="your_deck_version_is_too_old">덱 버전이 너무 오래되었습니다.</string>
     <string name="deck_outdated_please_update">덱 버전이 너무 오래되었습니다. 안드로이드 클라이언트를 사용하기 위해서는 업데이트가 필요합니다.</string>
-    <string name="simple_update">업데이트</string>
-    <string name="simple_delete">삭제</string>
-    <string name="simple_rename">이름 바꾸기</string>
-    <string name="simple_settings">설정</string>
     <string name="settings_theme_title">어두운 테마</string>
     <string name="settings_background_sync">백그라운드 동기화</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi나 모바일 데이터를 사용해 동기화</string>
     <string name="pref_value_wifi_only">Wi-Fi만 사용해 동기화</string>
     <string name="pref_value_theme_light">밝게</string>
     <string name="unassigned_user">할당되지 않은 %1$s</string>
-    <string name="simple_undo">실행 취소</string>
     <string name="no_activities">카드에 활동이 없습니다. 인터넷에 연결되어 있어야만 활동을 불러올 수 있습니다.</string>
     <string name="share_board">게시판 공유</string>
     <string name="you_are_currently_offline">현재 오프라인</string>
-    <string name="simple_manage">관리</string>
-    <string name="simple_share">공유</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">인터넷에 연결되어 있어야만 계정을 추가할 수 있습니다.</string>
-    <string name="simple_select">선택</string>
     <string name="owner">Owner</string>
-    <string name="simple_comment">설명</string>
     <string name="attachment_delete_message">이 행동은 첨부파일을 영구히 삭제합니다.</string>
     <string name="no_content">아직 내용 없음</string>
     <string name="last_background_sync">마지막 백그라운드 동기화:</string>
@@ -123,9 +133,10 @@
     <string name="hours_6">6시간</string>
     <string name="action_card_move">카드 이동</string>
     <string name="action_card_move_title">%1$s 이동</string>
-    <string name="simple_copied">복사됨</string>
-    <string name="server_error">서버 오류</string>
     <string name="card_edit_comments">댓글</string>
     <string name="open_in_browser">브라우저에서 열기</string>
-    <string name="maintenance_mode">서버가 유지 관리 모드임</string>
+    <!-- Filter -->
+    <string name="filter_no_filter">모두</string>
+    <string name="filter_overdue">기한 넘김</string>
+    <string name="filter_today">오늘</string>
     </resources>

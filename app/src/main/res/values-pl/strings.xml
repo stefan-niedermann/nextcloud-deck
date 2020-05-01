@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Data realizacji</string>
     <string name="add_account">Dodaj konto</string>
     <string name="choose_account">Wybierz konto</string>
+    <string name="add_card">Dodaj nową kartę</string>
     <string name="activity">Aktywność</string>
     <string name="add_list">Dodaj listę</string>
     <string name="rename_list">Zmień nazwę listy</string>
@@ -85,7 +86,7 @@
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Przydziel kartę</string>
     <string name="action_card_unassign">Cofnij przydzieloną kartę</string>
-    <string name="action_card_archive">Zarchiwizowane karty</string>
+    <string name="action_card_archive">Zarchiwizuj kartę</string>
     <string name="action_card_delete">Usunięte karty</string>
     <string name="add_board">Dodaj tablicę</string>
 
@@ -116,7 +117,12 @@
     <string name="not_synced_yet">Jeszcze nie zsynchronizowane</string>
     <string name="no_lists_yet">Brak list</string>
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
-    <string name="do_you_want_to_delete_the_current_list">Czy chcesz usunąć bieżącą listę?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Spowoduje to trwałe usunięcie %1$d karty z tej listy.</item>
+        <item quantity="few">Spowoduje to trwałe usunięcie wszystkich %1$d kart z tej listy.</item>
+        <item quantity="many">Spowoduje to trwałe usunięcie wszystkich %1$d kart z tej listy.</item>
+        <item quantity="other">Spowoduje to trwałe usunięcie wszystkich %1$d kart z tej listy.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Dodaj nową listę za pomocą przycisku +</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +</string>
     <string name="update_deck">Zaktualizuj deck</string>
@@ -179,4 +185,10 @@
     <string name="filter_by_assigned_user">Filtruj według przypisanego użytkownika</string>
     <string name="filter_by_duedate">Filtruj według terminu</string>
 
-    </resources>
+    <!-- Archived cards -->
+    <string name="archived_cards">Zarchiwizowane karty</string>
+    <string name="action_card_dearchive">Cofnij archiwizację karty</string>
+    <string name="action_archived_cards">Przeglądaj zarchiwizowane karty</string>
+    <string name="attachment_already_exists">Załącznik już istnieje</string>
+    <string name="pick_custom_color">Wybierz niestandardowy kolor</string>
+</resources>

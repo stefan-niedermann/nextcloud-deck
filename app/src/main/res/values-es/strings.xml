@@ -12,7 +12,7 @@
     <string name="simple_boards">Tableros</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
-    <string name="simple_more">Menú</string>
+    <string name="simple_more">Mas</string>
     <string name="simple_title">Título</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_synchronization">Sincronización</string>
@@ -46,7 +46,7 @@
     <!-- About -->
     <string name="about">Acerca de</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version">Ahora estás usando %1$s</string>
+    <string name="about_version">Actualmente estás usando %1$s</string>
     <string name="about_maintainer_title">Mantenimiento</string>
     <string name="about_developers_title">Desarrolladores</string>
     <string name="about_translators_title">Traducciones</string>
@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Fecha de fin</string>
     <string name="add_account">Añadir cuenta</string>
     <string name="choose_account">Elige una cuenta</string>
+    <string name="add_card">Añadir nueva tarjeta</string>
     <string name="activity">Actividad</string>
     <string name="add_list">Agregar lista</string>
     <string name="rename_list">Renombrar lista</string>
@@ -116,7 +117,6 @@
     <string name="not_synced_yet">No sincronizado todavía</string>
     <string name="no_lists_yet">Aún no hay listas</string>
     <string name="do_you_want_to_save_your_changes">¿Desea guardar los cambios?</string>
-    <string name="do_you_want_to_delete_the_current_list">¿Desea borrar la lista actual?</string>
     <string name="add_a_new_list_using_the_button">Añadir una nueva lista usando el botón +</string>
     <string name="add_a_new_card_using_the_button">Añadir una nueva tarjeta usando el botón +</string>
     <string name="update_deck">Actualizar el Deck</string>
@@ -179,4 +179,7 @@
     <string name="filter_by_assigned_user">Filtrar por usuario asignado</string>
     <string name="filter_by_duedate">Filtrar por fecha de finalización</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Tarjetas archivadas</string>
+    <string name="action_archived_cards">Explorar las tarjetas archivadas</string>
     </resources>

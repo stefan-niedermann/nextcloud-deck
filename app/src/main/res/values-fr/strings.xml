@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Date d\'échéance</string>
     <string name="add_account">Ajouter un compte</string>
     <string name="choose_account">Sélectionnez un compte</string>
+    <string name="add_card">Ajouter une nouvelle carte</string>
     <string name="activity">Activité</string>
     <string name="add_list">Ajouter une liste</string>
     <string name="rename_list">Renommer la liste</string>
@@ -116,7 +117,10 @@
     <string name="not_synced_yet">Aucune synchronisation pour l\'instant</string>
     <string name="no_lists_yet">Aucune liste pour l\'instant</string>
     <string name="do_you_want_to_save_your_changes">Souhaitez-vous enregistrer vos modifications ?</string>
-    <string name="do_you_want_to_delete_the_current_list">Souhaitez-vous supprimer la liste actuelle ?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
+        <item quantity="other">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Ajoutez une nouvelle liste avec le bouton +</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
     <string name="update_deck">Mettre à jour Deck</string>
@@ -125,6 +129,7 @@
 </string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau incluant ses listes et ses cartes.</string>
     <string name="settings_theme_title">Thème sombre</string>
+    <string name="settings_branding_title">marque</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
     <string name="pref_value_wifi_only">Synchroniser uniquement en Wifi</string>
@@ -156,7 +161,9 @@
     <string name="add_comment">Ajouter un commentaire</string>
     <string name="card_edit_comments">Commentaires</string>
     <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>
-    <string name="no_boards">Pas encore de cartes</string>
+    <string name="no_boards">Pas encore de tableaux</string>
+    <string name="add_a_new_board_using_the_button">Ajouter un nouveau table en utilisant le bouton +</string>
+    <string name="choose_board">Choisir un tableau</string>
     <string name="choose_list">Sélectionner la liste</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Ouvrir dans le navigateur web</string>
@@ -179,4 +186,8 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Cartes archivées</string>
-    </resources>
+    <string name="action_card_dearchive">Annuler l\'archivage de la carte</string>
+    <string name="action_archived_cards">Parcourir les cartes archivées</string>
+    <string name="attachment_already_exists">La pièce jointe existe déjà</string>
+    <string name="pick_custom_color">Choisir une couleur personnalisée</string>
+</resources>

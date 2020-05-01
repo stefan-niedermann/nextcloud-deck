@@ -115,7 +115,6 @@
     <string name="not_synced_yet">Ikke synkronsieret endnu</string>
     <string name="no_lists_yet">Endnu ingen lister</string>
     <string name="do_you_want_to_save_your_changes">Vil du gemme dine ændringer?</string>
-    <string name="do_you_want_to_delete_the_current_list">Vil du slette den aktuelle liste?</string>
     <string name="add_a_new_list_using_the_button">Tilføj en ny liste med knappen +</string>
     <string name="add_a_new_card_using_the_button">Tilføj et nyt kort med knappen +</string>
     <string name="update_deck">Opdatér deck</string>

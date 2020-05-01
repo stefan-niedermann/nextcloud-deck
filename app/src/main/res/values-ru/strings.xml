@@ -115,7 +115,6 @@
     <string name="not_synced_yet">Ещё не синхронизировано</string>
     <string name="no_lists_yet">Нет ни одного списка</string>
     <string name="do_you_want_to_save_your_changes">Сохранить изменения?</string>
-    <string name="do_you_want_to_delete_the_current_list">Удалить этот список?</string>
     <string name="add_a_new_list_using_the_button">Нажмите кнопку «+» для добавления нового списка</string>
     <string name="add_a_new_card_using_the_button">Нажмите кнопку «+» для добавления новой карточки</string>
     <string name="update_deck">Обновление deck</string>

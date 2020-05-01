@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Epe-muga</string>
     <string name="add_account">Gehitu kontua</string>
     <string name="choose_account">Aukeratu kontua</string>
+    <string name="add_card">Gehitu txartel berria</string>
     <string name="activity">Jarduera</string>
     <string name="add_list">Zerrenda gehitu</string>
     <string name="rename_list">Zerrenda berrizendatu</string>
@@ -116,7 +117,6 @@
     <string name="not_synced_yet">Oraindik sinkronizatu gabe</string>
     <string name="no_lists_yet">Ez dago zerrendarik</string>
     <string name="do_you_want_to_save_your_changes">Zure aldaketak gorde nahi dituzu?</string>
-    <string name="do_you_want_to_delete_the_current_list">Uneko zerrenda ezabatu egin nahi duzu?</string>
     <string name="add_a_new_list_using_the_button">Gehitu zerrenda berria + botoia erabiliz</string>
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
     <string name="update_deck">Eguneratu sorta</string>
@@ -179,4 +179,10 @@
     <string name="filter_by_assigned_user">Iragazi esleitutako erabiltzailez</string>
     <string name="filter_by_duedate">Iragazi epe-mugaz</string>
 
-    </resources>
+    <!-- Archived cards -->
+    <string name="archived_cards">Artxibatutako txartelak</string>
+    <string name="action_card_dearchive">Desegin txartelak artxibatzea</string>
+    <string name="action_archived_cards">Arakatu artxibatutako txartelak</string>
+    <string name="attachment_already_exists">Eranskina existitzen da dagoeneko</string>
+    <string name="pick_custom_color">Aukeratu kolore pertsonalizatua</string>
+</resources>

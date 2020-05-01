@@ -109,7 +109,6 @@
     <string name="not_synced_yet">Поки не синхронізовано</string>
     <string name="no_lists_yet">Поки що відсутні списки</string>
     <string name="do_you_want_to_save_your_changes">Чи бажаєте Ви зберегти Ваші зміни?</string>
-    <string name="do_you_want_to_delete_the_current_list">Вилучити поточний список?</string>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додайте нову картку за допомогою кнопки +</string>
     <string name="update_deck">Оновлення дошки</string>
