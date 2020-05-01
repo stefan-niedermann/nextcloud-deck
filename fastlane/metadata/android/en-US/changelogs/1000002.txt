@@ -1,0 +1,32 @@
+1.0.2
+
+- 🐞 Fix various crashes on older Android versions
+
+1.0.1
+
+- 🔧 Glide throws many errors (#405)
+- 🎨 ColorChooser occurs multiple times when editing board (#431)
+- 📎 Clean up after failed upload of attachment (#429)
+- 👤 Separate overlapping avatars with 2dp (#433)
+- 🏷️ Fix misaligned text in small labels
+- 🐞 Wrong icon in activities tab (#437)
+- 🐞 Creating a new board does not switch to this board after submit (#436)
+- 🔧 Replace LiveDataHelper.onlyIfChanged with Transformations.distinctUntilChanged (#434)
+- 🐞 Adding comments adds one additional empty comment (#440)
+- 🐞 Fix various bugs when creating boards and stacks offline (#438, #439)
+
+1.0.0
+
+- ➕ Fix adding cards via tile and shortcuts (#358)
+- ☑️ Display task counter
+- 🆕 New card layout for web and app
+- 🎨 Apply the branding of your Nextcloud instance (#317)
+- 📣 Push notifications (#208) - this depends on changes in the files app and might not yet be available at the time when this version has been released.
+- 🗑️ Revoke board access
+- 🔧 Show an info if server is in maintenance mode (#283)
+- ↔️ Move lists
+- 👤 wrong user image when using multiple accounts (#324)
+- 🎚 Filter cards (#396)
+- 🏷️ Auto complete: Display all available tags on first click (#263)
+- ➕ Share text into new card (#424)
+- 🗑️ "Delete list": Tell user how many card will be deleted (#421)
