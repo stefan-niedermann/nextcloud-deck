@@ -30,7 +30,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 | List View | Card View |
 | --- | --- |
-| ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/0.5.0-4.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/0.5.0-5.png) |
+| ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) |
 
 ## 🚀 Features
   * Multiple accounts 👥
