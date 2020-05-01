@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Termín dokončenia</string>
     <string name="add_account">Pridať účet</string>
     <string name="choose_account">Zvoliť účet</string>
+    <string name="add_card">Pridať novú kartu</string>
     <string name="activity">Aktivita</string>
     <string name="add_list">Pridať zoznam</string>
     <string name="rename_list">Premenovať zoznam</string>
@@ -116,7 +117,12 @@
     <string name="not_synced_yet">Zatiaľ nie je synchronizovaný</string>
     <string name="no_lists_yet">Zatiaľ žiadne zoznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete uložiť zmeny?</string>
-    <string name="do_you_want_to_delete_the_current_list">Chcete odstrániť aktuálny zoznam?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Týmto sa natrvalo odstráni %1$d karta z tohto zoznamu.</item>
+        <item quantity="few">Týmto sa natrvalo odstránia všetky %1$d karty z tohto zoznamu.</item>
+        <item quantity="many">Týmto sa natrvalo odstránia všetky %1$d karty z tohto zoznamu.</item>
+        <item quantity="other">Týmto sa natrvalo odstráni všetkých %1$d kariet z tohto zoznamu.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Pridajte nový zoznam pomocou tlačidla +</string>
     <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
     <string name="update_deck">Aktualizovať balíček</string>
@@ -179,4 +185,10 @@
     <string name="filter_by_assigned_user">Filtrovať podľa priradeného používateľa</string>
     <string name="filter_by_duedate">Filtrovať podľa termínu</string>
 
-    </resources>
+    <!-- Archived cards -->
+    <string name="archived_cards">Archivované karty</string>
+    <string name="action_card_dearchive">Odarchivovať kartu</string>
+    <string name="action_archived_cards">Prechádzať archivované karty</string>
+    <string name="attachment_already_exists">Príloha už existuje</string>
+    <string name="pick_custom_color">Vyberte vlastnú farbu</string>
+</resources>

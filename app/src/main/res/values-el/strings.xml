@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Προθεσμία</string>
     <string name="add_account"> Προσθήκη λογαριασμού </string>
     <string name="choose_account">Επιλογή λογαριασμού</string>
+    <string name="add_card">Προσθήκη νέας καρτέλας</string>
     <string name="activity">Δραστηριότητα</string>
     <string name="add_list">Προσθήκη λίστας</string>
     <string name="rename_list">Μετονομασία λίστας</string>
@@ -116,7 +117,6 @@
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
-    <string name="do_you_want_to_delete_the_current_list">Διαγραφή τρέχουσας λίστας;</string>
     <string name="add_a_new_list_using_the_button">Προσθήκη νέας λίστας με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
     <string name="update_deck">Ενημέρωση Deck</string>
@@ -179,4 +179,7 @@
     <string name="filter_by_assigned_user">Φίλτρο ανά χρήστη</string>
     <string name="filter_by_duedate">Φίλτρο ανά ημερομηνία λήξης</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Αρχειοθετημένες κάρτες</string>
+    <string name="action_archived_cards">Περιήγηση στις αρχειοθετημένες καρτέλες</string>
     </resources>

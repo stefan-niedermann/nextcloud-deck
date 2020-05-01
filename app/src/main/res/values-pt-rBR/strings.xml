@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Data de vencimento</string>
     <string name="add_account">Adicionar conta</string>
     <string name="choose_account">Escolher conta</string>
+    <string name="add_card">Adicionar novo cartão</string>
     <string name="activity">Atividade</string>
     <string name="add_list">Adicionar lista</string>
     <string name="rename_list">Renomear lista</string>
@@ -116,7 +117,10 @@
     <string name="not_synced_yet">Ainda não sincronizado</string>
     <string name="no_lists_yet">Ainda sem listas</string>
     <string name="do_you_want_to_save_your_changes">Deseja salvar suas alterações?</string>
-    <string name="do_you_want_to_delete_the_current_list">Deseja excluir a lista atual?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Isto excluirá permanentemente %1$d cartão desta lista.</item>
+        <item quantity="other">Isto excluirá permanentemente todos os %1$d cartões desta lista.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Adicione uma nova lista usando o botão +</string>
     <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
     <string name="update_deck">Atualizar o dock</string>
@@ -179,4 +183,10 @@
     <string name="filter_by_assigned_user">Filtrar por usuário atribuído</string>
     <string name="filter_by_duedate">Filtrar por data de vencimento</string>
 
-    </resources>
+    <!-- Archived cards -->
+    <string name="archived_cards">Cartões arquivados</string>
+    <string name="action_card_dearchive">Desfazer arquivamento do cartão</string>
+    <string name="action_archived_cards">Navegar pelos cartões arquivados</string>
+    <string name="attachment_already_exists">O anexo já existe</string>
+    <string name="pick_custom_color">Escolher cor personalizada</string>
+</resources>

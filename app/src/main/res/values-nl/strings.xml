@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="add_account">Account toevoegen</string>
     <string name="choose_account">Kies account</string>
+    <string name="add_card">Toevoegen nieuwe kaart</string>
     <string name="activity">Activiteit</string>
     <string name="add_list">Toevoegen lijst</string>
     <string name="rename_list">Hernoem lijst</string>
@@ -116,7 +117,10 @@
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_lists_yet">Nog geen lijsten</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
-    <string name="do_you_want_to_delete_the_current_list">Wil je de huidige lijst verwijderen?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Dit zal deze %1$dkaart permanent van de lijst verwijderen.</item>
+        <item quantity="other">Dit zal alle %1$dklaarten permanent van de lijst verwijderen.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Voeg een nieuwe lijst toe met de + knop</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
     <string name="update_deck">Werk deck bij</string>
@@ -179,4 +183,7 @@
     <string name="filter_by_assigned_user">Filter op toegewezen gebruiker</string>
     <string name="filter_by_duedate">Filter op vervaldatum</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Gearchiveerde kaarten</string>
+    <string name="action_archived_cards">Blader door gearchiveerde kaarten</string>
     </resources>

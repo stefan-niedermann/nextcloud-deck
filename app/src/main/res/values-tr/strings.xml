@@ -21,7 +21,7 @@
     <string name="simple_exception">İstisna</string>
     <string name="simple_close">kapat</string>
     <string name="simple_open">Aç</string>
-    <string name="simple_switch">Şalter</string>
+    <string name="simple_switch">Değiştir</string>
     <string name="simple_filter">Süzgeç</string>
     <string name="simple_overdue">Zamanı geçmiş</string>
     <string name="simple_clear">Temizle</string>
@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Bitiş tarihi</string>
     <string name="add_account">Hesap ekle</string>
     <string name="choose_account">Hesap seçin</string>
+    <string name="add_card">Yeni kart ekle</string>
     <string name="activity">Etkinlik</string>
     <string name="add_list">Liste ekle</string>
     <string name="rename_list">Listeyi yeniden adlandır</string>
@@ -116,7 +117,10 @@
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
     <string name="no_lists_yet">Henüz bir liste yok</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
-    <string name="do_you_want_to_delete_the_current_list">Geçerli listeyi silmek istiyor musunuz?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Bu işlem, bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
+        <item quantity="other">Bu işlem bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">+ düğmesini kullanarak yeni bir liste ekleyebilirsiniz</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
     <string name="update_deck">Tahtayı güncelle</string>
@@ -149,7 +153,7 @@
     <string name="provide_at_least_a_title_or_description">Lütfen en azından başlığı ya da açıklamayı yazın</string>
     <string name="welcome_text">%1$s panonuza hoşgeldiniz</string>
     <string name="save_card_before_attachment">Ek dosyaları ekleyebilmek için kartın kaydedilmesi gerekiyor.</string>
-    <string name="maintenance_mode_explanation">Sunucu %1$s şu anda bakım modunda. Lütfen yöneticinizle irtibat kurun veya sonradan tekrar deneyin.</string>
+    <string name="maintenance_mode_explanation">%1$s sunucusu şu anda bakım kipinde. Lütfen yöneticinizle görüşün ya da daha sonra yeniden deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
     <string name="could_not_copy_to_clipboard">Panoya kopyalanamadı</string>
@@ -164,6 +168,10 @@
     <string name="open_in_browser">Tarayıcıda aç</string>
     <string name="updating_card">Kart güncelleniyor…</string>
 
+    <!-- Move lists -->
+    <string name="move_list_right">Listeyi sağa taşı</string>
+    <string name="move_list_left">Listeyi sola taşı</string>
+
     <!-- Filter -->
     <string name="filter_no_filter">Tümü</string>
     <string name="filter_overdue">Zamanı geçmiş</string>
@@ -177,4 +185,8 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arşivlenmiş kartlar</string>
-    </resources>
+    <string name="action_card_dearchive">Kart arşivlemeyi geri al</string>
+    <string name="action_archived_cards">Arşivlenmiş kartlara göz at</string>
+    <string name="attachment_already_exists">Ek dosya zaten var</string>
+    <string name="pick_custom_color">Özel renk seçin</string>
+</resources>

@@ -114,7 +114,6 @@
     <string name="not_synced_yet">Še ni usklajeno</string>
     <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
-    <string name="do_you_want_to_delete_the_current_list">Ali želite izbrisati trenutni seznam?</string>
     <string name="add_a_new_list_using_the_button">Nov seznam dodate s klikom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
     <string name="update_deck">Posodobi zbirko</string>
@@ -166,4 +165,6 @@
     <string name="filter_by_assigned_user">Filtriraj po dodeljenem uporabniku</string>
     <string name="filter_by_duedate">Filtriraj po datumu preteka</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Arhivirane naloge</string>
     </resources>

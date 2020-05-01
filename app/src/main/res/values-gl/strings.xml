@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Data de caducidade</string>
     <string name="add_account">Engadir unha conta</string>
     <string name="choose_account">Escolla unha conta</string>
+    <string name="add_card">Engadir unha nova tarxeta</string>
     <string name="activity">Actividade</string>
     <string name="add_list">Engadir unha lista...</string>
     <string name="rename_list">Renomear a lista</string>
@@ -116,7 +117,10 @@
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
     <string name="no_lists_yet">Non hai listas</string>
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
-    <string name="do_you_want_to_delete_the_current_list">Confirma que quere eliminar a lista actual?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Isto eliminará permanentemente %1$d tarxeta desta lista.</item>
+        <item quantity="other">Isto eliminará permanentemente as %1$d tarxetas desta lista.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Engadir unha nova lista co botón +</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
     <string name="update_deck">Actualizar o Deck</string>
@@ -124,7 +128,7 @@
     <string name="deck_outdated_please_update">A versión do Deck é antiga de máis. Actualice para usar esta apli de Android como cliente.</string>
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema escuro</string>
-    <string name="settings_branding_title">Imaxe de marca</string>
+    <string name="settings_branding_title">Xestión da marca</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con WiFi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con WiFi</string>
@@ -179,4 +183,10 @@
     <string name="filter_by_assigned_user">Filtrar polo usuario asignado</string>
     <string name="filter_by_duedate">Filtrar pola data de caducidade</string>
 
-    </resources>
+    <!-- Archived cards -->
+    <string name="archived_cards">Tarxetas arquivadas</string>
+    <string name="action_card_dearchive">Desfacer o arquivo de tarxetas</string>
+    <string name="action_archived_cards">Examinar as tarxetas arquivadas</string>
+    <string name="attachment_already_exists">O anexo xa existe</string>
+    <string name="pick_custom_color">Escolla a cor personalizada</string>
+</resources>

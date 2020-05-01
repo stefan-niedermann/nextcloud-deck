@@ -116,7 +116,6 @@
     <string name="not_synced_yet">Inte synkroniserad än</string>
     <string name="no_lists_yet">Inga listor än</string>
     <string name="do_you_want_to_save_your_changes">Vill du spara dina ändringar?</string>
-    <string name="do_you_want_to_delete_the_current_list">Vill du ta bort den aktuella listan?</string>
     <string name="add_a_new_list_using_the_button">Lägg till en ny lista med + knappen</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
     <string name="update_deck">Uppdatera Deck</string>
@@ -179,4 +178,6 @@
     <string name="filter_by_assigned_user">Filtrera efter tilldelad användare</string>
     <string name="filter_by_duedate">Filtrera efter förfallodatum</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Arkiverade kort</string>
     </resources>

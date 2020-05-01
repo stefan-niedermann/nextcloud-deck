@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Datum termínu</string>
     <string name="add_account">Přidat účet</string>
     <string name="choose_account">Zvolte účet</string>
+    <string name="add_card">Přidat novou kartu</string>
     <string name="activity">Aktivita</string>
     <string name="add_list">Přidat seznam</string>
     <string name="rename_list">Přejmenovat seznam</string>
@@ -116,7 +117,12 @@
     <string name="not_synced_yet">Doposud nesynchronizováno</string>
     <string name="no_lists_yet">Zatím žádné seznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
-    <string name="do_you_want_to_delete_the_current_list">Opravdu chcete tento seznam smazat?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Toto nadobro vymaže %1$d kartu z tohoto seznamu.</item>
+        <item quantity="few">Toto nadobro vymaže obě %1$d karty z tohoto seznamu.</item>
+        <item quantity="many">Toto nadobro vymaže všech(ny) %1$d karty z tohoto seznamu.</item>
+        <item quantity="other">Toto nadobro vymaže %1$d karty z tohoto seznamu.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Nový seznam přidáte tlačítkem +</string>
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
     <string name="update_deck">Aktualizujte Deck</string>
@@ -179,4 +185,10 @@
     <string name="filter_by_assigned_user">Filtrovat podle uživatele, který je úkolem pověřen</string>
     <string name="filter_by_duedate">Filtrovat podle termínu</string>
 
-    </resources>
+    <!-- Archived cards -->
+    <string name="archived_cards">Archivované karty</string>
+    <string name="action_card_dearchive">Vzít zpět archivaci karty</string>
+    <string name="action_archived_cards">Procházet archivované karty</string>
+    <string name="attachment_already_exists">Příloha už existuje</string>
+    <string name="pick_custom_color">Zvolte uživatelsky určenou barvu</string>
+</resources>

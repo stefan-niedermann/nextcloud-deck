@@ -78,6 +78,7 @@
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
     <string name="add_account">Konto hinzufügen</string>
     <string name="choose_account">Konto auswählen</string>
+    <string name="add_card">Neue Karte hinzufügen</string>
     <string name="activity">Aktivität</string>
     <string name="add_list">Liste hinzufügen</string>
     <string name="rename_list">Liste umbenennen</string>
@@ -116,7 +117,10 @@
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
     <string name="no_lists_yet">Noch keine Listen vorhanden</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
-    <string name="do_you_want_to_delete_the_current_list">Möchten Sie die aktuelle Liste löschen?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Dies wird die Karte %1$d permanent aus dieser Liste löschen.</item>
+        <item quantity="other">Dies wird alle Karten %1$d permanent aus dieser Liste löschen.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Eine neue Liste mit der + Taste hinzufügen</string>
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
     <string name="update_deck">Deck aktualisieren</string>
@@ -181,4 +185,8 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Archivierte Karten</string>
-    </resources>
+    <string name="action_card_dearchive">Karte archivieren rückgängig machen</string>
+    <string name="action_archived_cards">Archivierte Karten durchsuchen</string>
+    <string name="attachment_already_exists">Anhang existiert bereits</string>
+    <string name="pick_custom_color">Wählen Sie eine benutzerdefinierte Farbe aus</string>
+</resources>

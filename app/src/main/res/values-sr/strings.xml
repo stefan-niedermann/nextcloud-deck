@@ -114,7 +114,6 @@
     <string name="not_synced_yet">Још није синхронизовано</string>
     <string name="no_lists_yet">Нема још спискова</string>
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
-    <string name="do_you_want_to_delete_the_current_list">Да ли желите да обришете тренутни списак?</string>
     <string name="add_a_new_list_using_the_button">Додај нови списак користећи + дугме</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
     <string name="update_deck">Ажурирај шпил</string>
@@ -169,4 +168,6 @@
     <string name="filter_by_assigned_user">Филтрирај по додељеном кориснику</string>
     <string name="filter_by_duedate">Филтрирај по року</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Архивиране картице</string>
     </resources>

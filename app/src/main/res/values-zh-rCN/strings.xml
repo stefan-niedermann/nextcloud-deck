@@ -114,7 +114,6 @@
     <string name="not_synced_yet">尚未同步</string>
     <string name="no_lists_yet">尚无名单</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
-    <string name="do_you_want_to_delete_the_current_list">要不要删除当前列表？</string>
     <string name="add_a_new_list_using_the_button">使用 \"+\"按钮添加新列表</string>
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
     <string name="update_deck">更新看板</string>
@@ -167,4 +166,6 @@
     <string name="filter_by_assigned_user">根据指定用户过滤</string>
     <string name="filter_by_duedate">根据截止日期过滤</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">已存档卡片</string>
     </resources>
