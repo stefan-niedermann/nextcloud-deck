@@ -1,4 +1,4 @@
-# Nextcloud Deck
+# Nextcloud Deck for Android
 
 [![Android CI](https://github.com/stefan-niedermann/nextcloud-deck/workflows/Android%20CI/badge.svg)](https://github.com/stefan-niedermann/nextcloud-deck/actions)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e4e03edecb34ea18fa1d6d6346cbc4f)](https://www.codacy.com/app/Nextcloud/nextcloud-deck)
@@ -30,7 +30,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 | List View | Card View |
 | --- | --- |
-| ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/0.5.0-4.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/0.5.0-5.png) |
+| ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) |
 
 ## 🚀 Features
   * Multiple accounts 👥
@@ -58,7 +58,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 ## 🔗 Requirements
 * [Nextcloud](https://nextcloud.com/) instance running
-* [Nextcloud Files](https://github.com/nextcloud/android) app installed (version 3.9.0 or later)
+* [Nextcloud Android](https://github.com/nextcloud/android) app installed (version 3.9.0 or later)
 * [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (version 0.6.4 or later)
 
 ## 📓 License
