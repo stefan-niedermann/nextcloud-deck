@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ public class LabelChip extends Chip {
         setEnsureMinTouchTargetSize(false);
 
         setText(label.getTitle());
+        setEllipsize(TextUtils.TruncateAt.END);
 
         try {
             int labelColor = Color.parseColor("#" + label.getColor());
