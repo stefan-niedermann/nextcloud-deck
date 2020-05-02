@@ -35,6 +35,7 @@
     </style>
 
     <style name="NavigationView">
+        <!-- https://github.com/stefan-niedermann/nextcloud-deck/issues/444 -->
         <item name="android:ellipsize">end</item>
         <item name="android:listDivider">@null</item>
     </style>
