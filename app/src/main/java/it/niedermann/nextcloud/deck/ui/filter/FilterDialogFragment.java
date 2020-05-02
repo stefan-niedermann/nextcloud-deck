@@ -2,93 +2,55 @@ package it.niedermann.nextcloud.deck.ui.filter;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
-import it.niedermann.nextcloud.deck.model.enums.EDueType;
-import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
-import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class FilterDialogFragment extends BrandedDialogFragment {
 
     private DialogFilterBinding binding;
-    private MainViewModel viewModel;
-    private LabelFilterAdapter labelAdapter;
-    private UserFilterAdapter userAdapter;
-    private OverdueFilterAdapter overdueAdapter;
-    private FilterInformation filterInformation;
+    private MainViewModel mainViewModel;
+
+    private final static int[] tabTitles = new int[]{
+            R.string.filter_tags_title,
+            R.string.filter_assignees_title,
+            R.string.filter_duedate_title
+    };
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        this.filterInformation = viewModel.getFilterInformation().getValue();
-        if (this.filterInformation == null) {
-            this.filterInformation = new FilterInformation();
-        }
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
-        final SyncManager syncManager = new SyncManager(requireActivity());
 
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
-
-        overdueAdapter = new OverdueFilterAdapter(requireContext());
-        binding.overdue.setAdapter(overdueAdapter);
-        binding.overdue.setSelection(overdueAdapter.getPosition(this.filterInformation.getDueType()));
-        binding.overdue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                filterInformation.setDueType(overdueAdapter.getItem(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                filterInformation.setDueType(EDueType.NO_FILTER);
-            }
-        });
-
-        observeOnce(syncManager.findProposalsForLabelsToAssign(viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
-            labelAdapter = new LabelFilterAdapter(labels, this.filterInformation.getLabels());
-            binding.labels.setNestedScrollingEnabled(false);
-            binding.labels.setAdapter(labelAdapter);
-        });
-
-        observeOnce(syncManager.findProposalsForUsersToAssign(viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId()), requireActivity(), (users) -> {
-            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), viewModel.getCurrentAccount(), users, this.filterInformation.getUsers());
-            binding.users.setNestedScrollingEnabled(false);
-            binding.users.setAdapter(userAdapter);
-        });
+        binding.viewPager.setAdapter(new TabsPagerAdapter(getChildFragmentManager(), getLifecycle()));
+        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
 
         return dialogBuilder
                 .setTitle(R.string.simple_filter)
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null)
-                .setNegativeButton(R.string.simple_clear, (a, b) -> viewModel.postFilterInformation(null))
-                .setPositiveButton(R.string.simple_filter, (a, b) -> {
-                    filterInformation.clearLabels();
-                    filterInformation.addAllLabels(labelAdapter.getSelected());
-
-                    filterInformation.clearUsers();
-                    filterInformation.addAllUsers(userAdapter.getSelected());
-
-                    viewModel.postFilterInformation(hasActiveFilter(filterInformation) ? filterInformation : null);
-                })
+                .setNegativeButton(R.string.simple_clear, (a, b) -> mainViewModel.postFilterInformation(null))
+                .setPositiveButton(R.string.simple_filter, null)
                 .create();
     }
 
@@ -98,16 +60,33 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
-
+        binding.tabLayout.setSelectedTabIndicatorColor(BrandedActivity.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
     }
 
-    /**
-     * @return whether or not the given filterInformation has any actual filters set
-     */
-    private static boolean hasActiveFilter(@Nullable FilterInformation filterInformation) {
-        if (filterInformation == null) {
-            return false;
+    private static class TabsPagerAdapter extends FragmentStateAdapter {
+
+        TabsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+            super(fragmentManager, lifecycle);
         }
-        return filterInformation.getDueType() != EDueType.NO_FILTER || filterInformation.getUsers().size() > 0 || filterInformation.getLabels().size() > 0;
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            switch (position) {
+                case 0:
+                    return new FilterLabelsFragment();
+                case 1:
+                    return new FilterAssigneesFragment();
+                case 2:
+                    return new FilterDuedateFragment();
+                default:
+                    throw new IllegalArgumentException("position must be between 0 and 2");
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return tabTitles.length;
+        }
     }
 }
