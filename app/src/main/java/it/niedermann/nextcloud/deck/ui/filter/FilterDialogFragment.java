@@ -43,6 +43,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
         binding.viewPager.setAdapter(new TabsPagerAdapter(getChildFragmentManager(), getLifecycle()));
+        binding.viewPager.setOffscreenPageLimit(tabTitles.length);
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
 
         return dialogBuilder
