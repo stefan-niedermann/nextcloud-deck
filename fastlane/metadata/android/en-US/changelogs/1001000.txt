@@ -1,7 +1,7 @@
 1.1.0
 
 - 🏷️ Manage tags per board (#309)
-- 🐞 Crash on some devices caused by maxLines-ellipsize combination (#444)
+- 🐞 Fixed crash on some devices caused by maxLines-ellipsize combination (#444)
 
 1.0.0
 
