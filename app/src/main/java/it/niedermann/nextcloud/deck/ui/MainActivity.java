@@ -42,6 +42,7 @@ import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import java.net.HttpURLConnection;
@@ -494,7 +495,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (throwable instanceof OfflineException) {
                     DeckLog.info("Cannot refresh capabilities because device is offline.");
                 } else {
-                    DeckLog.logError(throwable);
+                    super.onError(throwable);
                 }
             }
         });
