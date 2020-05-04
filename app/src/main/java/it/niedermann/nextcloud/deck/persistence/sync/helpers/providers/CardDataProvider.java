@@ -74,6 +74,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     protected CardUpdate toCardUpdate(FullCard card) {
         CardUpdate c = new CardUpdate(card);
+        // FIXME This causes an IndexOutOfBoundsException for the three "Example Tasks" on a fresh Deck server installation
         c.setOwner(card.getOwner().get(0));
         return c;
     }
