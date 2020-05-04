@@ -807,7 +807,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                 DeckLog.warn("Cannot import account because server version is too low (" + response.getDeckVersion() + "). Minimum server version is currently " + Version.minimumSupported(getApplicationContext()));
                                                 runOnUiThread(() -> new BrandedAlertDialogBuilder(MainActivity.this)
                                                         .setTitle(R.string.update_deck)
-                                                        .setMessage(R.string.deck_outdated_please_update)
+                                                        .setMessage(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()))
                                                         .setNegativeButton(R.string.simple_discard, null)
                                                         .setPositiveButton(R.string.simple_update, (dialog, whichButton) -> {
                                                             final Intent openURL = new Intent(Intent.ACTION_VIEW);

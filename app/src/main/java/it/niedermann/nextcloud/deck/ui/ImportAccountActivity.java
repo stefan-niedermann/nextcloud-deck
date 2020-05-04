@@ -151,7 +151,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                     }
                                                 });
                                             } else {
-                                                setStatusText(R.string.deck_outdated_please_update);
+                                                setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));
                                                 runOnUiThread(() -> {
                                                     binding.updateDeckButton.setOnClickListener((v) -> {
                                                         Intent openURL = new Intent(Intent.ACTION_VIEW);
