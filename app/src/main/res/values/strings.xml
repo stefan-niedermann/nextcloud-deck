@@ -76,6 +76,8 @@
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">License</string>
 
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+
     <string name="seconds_ago">seconds ago</string>
     <string name="edit">Edit</string>
     <string name="label_labels">Select Tags</string>
@@ -213,11 +215,9 @@
     <string name="error">An error appeared</string>
     <string name="synchronization_failed">Synchronization failed</string>
     <string name="operation_not_yet_supported">Not yet supported</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
+    <string name="error_create_label">Error while creating label %1$s</string>
     <string name="maintenance_mode">Server in maintenance mode</string>
-    <string name="server_misconfigured">Server misconfigured</string>
-    <string name="server_error">Server error</string>
     <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
 
     <string name="error_dialog_title">Oh no - What now? 🙁</string>

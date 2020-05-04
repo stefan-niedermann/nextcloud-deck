@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogExceptionBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemTipBinding;
@@ -71,6 +72,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         binding.stacktrace.setText(debugInfos);
 
         for (Throwable t : throwables) {
+            DeckLog.logError(t);
             if (t instanceof TokenMismatchException) {
                 adapter.add(R.string.error_dialog_tip_token_mismatch_retry);
                 adapter.add(R.string.error_dialog_tip_token_mismatch_clear_storage);

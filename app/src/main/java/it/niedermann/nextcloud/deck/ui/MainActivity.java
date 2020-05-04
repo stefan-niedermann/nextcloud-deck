@@ -42,8 +42,10 @@ import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -105,7 +107,6 @@ import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOUNT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
-import static it.niedermann.nextcloud.deck.util.ExceptionUtil.handleException;
 
 public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener {
 
@@ -208,7 +209,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 @Override
                                 public void onError(Throwable throwable) {
                                     super.onError(throwable);
-                                    runOnUiThread(() -> handleException(throwable, MainActivity.this.binding.coordinatorLayout, getSupportFragmentManager()));
+                                    showSyncFailedSnackbar(throwable);
                                 }
                             });
                         }
@@ -311,7 +312,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         super.onError(throwable);
                         runOnUiThread(() -> {
                             binding.swipeRefreshLayout.setRefreshing(false);
-                            handleException(throwable, binding.coordinatorLayout, getSupportFragmentManager());
+                            showSyncFailedSnackbar(throwable);
                         });
                     }
                 });
@@ -829,6 +830,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                                     @Override
                                     public void onError(Throwable throwable) {
+                                        super.onError(throwable);
                                         syncManager.deleteAccount(createdAccount.getId());
                                         if (throwable instanceof OfflineException) {
                                             DeckLog.warn("Cannot import account because device is currently offline.");
@@ -845,8 +847,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                             } else {
                                 final Throwable error = accountLiveData.getError();
                                 if (error instanceof SQLiteConstraintException) {
+                                    DeckLog.warn("Account already added");
                                     Snackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
                                 } else {
+                                    DeckLog.logError(error);
                                     ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                 }
                             }
@@ -887,7 +891,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                             @Override
                             public void onError(Throwable throwable) {
                                 super.onError(throwable);
-                                runOnUiThread(() -> handleException(throwable, binding.coordinatorLayout, getSupportFragmentManager()));
+                                showSyncFailedSnackbar(throwable);
                             }
                         });
                     }
@@ -941,5 +945,21 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
         syncManager.deleteBoard(board);
         binding.drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+
+    /**
+     * Displays a snackbar for an exception of a failed sync, but only if the cause wasn't maintenance mode (this should be handled by a TextView instead of a snackbar).
+     *
+     * @param throwable the cause of the failed sync
+     */
+    private void showSyncFailedSnackbar(@NonNull Throwable throwable) {
+        if (!(throwable instanceof NextcloudHttpRequestFailedException) || ((NextcloudHttpRequestFailedException) throwable).getStatusCode() != HttpURLConnection.HTTP_UNAVAILABLE) {
+            runOnUiThread(() -> {
+                Snackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .show();
+            });
+        }
     }
 }

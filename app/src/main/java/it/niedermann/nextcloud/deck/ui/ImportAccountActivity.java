@@ -118,6 +118,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                 }
                                 assert error != null;
                                 setStatusText(error.getMessage());
+                                DeckLog.logError(error);
                                 runOnUiThread(() -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                 restoreWifiPref();
                             } else {
