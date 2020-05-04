@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
@@ -16,6 +17,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
+import it.niedermann.nextcloud.deck.model.enums.EDueType;
+import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
@@ -44,7 +47,42 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         binding = DialogFilterBinding.inflate(requireActivity().getLayoutInflater());
         binding.viewPager.setAdapter(new TabsPagerAdapter(getChildFragmentManager(), getLifecycle()));
         binding.viewPager.setOffscreenPageLimit(tabTitles.length);
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
+
+        LiveData<FilterInformation> filterInformationDraft = mainViewModel.getFilterInformationDraft();
+        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    filterInformationDraft.observe(this, (draft) -> {
+                        if (draft.getLabels().size() > 0) {
+                            tab.setIcon(R.drawable.circle_alpha_colorize_36dp);
+                        } else {
+                            tab.setIcon(null);
+                        }
+                    });
+                    break;
+                case 1:
+                    filterInformationDraft.observe(this, (draft) -> {
+                        if (draft.getUsers().size() > 0) {
+                            tab.setIcon(R.drawable.circle_alpha_colorize_36dp);
+                        } else {
+                            tab.setIcon(null);
+                        }
+                    });
+                    break;
+                case 2:
+                    filterInformationDraft.observe(this, (draft) -> {
+                        if (draft.getDueType() != EDueType.NO_FILTER) {
+                            tab.setIcon(R.drawable.circle_alpha_colorize_36dp);
+                        } else {
+                            tab.setIcon(null);
+                        }
+                    });
+                    break;
+                default:
+                    throw new IllegalStateException("position must be between 0 and 2");
+            }
+            tab.setText(tabTitles[position]);
+        }).attach();
 
         mainViewModel.createFilterInformationDraft();
 

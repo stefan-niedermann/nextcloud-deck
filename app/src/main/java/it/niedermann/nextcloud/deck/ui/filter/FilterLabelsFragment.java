@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.databinding.DialogFilterLabelsBinding;
@@ -20,7 +21,7 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 
 public class FilterLabelsFragment extends Fragment implements SelectionListener<Label> {
 
-    private FilterInformation filterInformationDraft;
+    private LiveData<FilterInformation> filterInformationDraft;
     private DialogFilterLabelsBinding binding;
     private MainViewModel mainViewModel;
     private LabelFilterAdapter labelAdapter;
@@ -34,7 +35,7 @@ public class FilterLabelsFragment extends Fragment implements SelectionListener<
 
         this.filterInformationDraft = mainViewModel.getFilterInformationDraft();
         observeOnce(syncManager.findProposalsForLabelsToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
-            labelAdapter = new LabelFilterAdapter(labels, this.filterInformationDraft.getLabels(), this);
+            labelAdapter = new LabelFilterAdapter(labels, this.filterInformationDraft.getValue().getLabels(), this);
             binding.labels.setNestedScrollingEnabled(false);
             binding.labels.setAdapter(labelAdapter);
         });
@@ -43,11 +44,11 @@ public class FilterLabelsFragment extends Fragment implements SelectionListener<
 
     @Override
     public void onItemSelected(Label item) {
-        filterInformationDraft.addLabel(item);
+        mainViewModel.addFilterInformationDraftLabel(item);
     }
 
     @Override
     public void onItemDeselected(Label item) {
-        filterInformationDraft.removeLabel(item);
+        mainViewModel.removeFilterInformationLabel(item);
     }
 }

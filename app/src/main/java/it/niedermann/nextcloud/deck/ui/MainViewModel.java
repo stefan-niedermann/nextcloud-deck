@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 
 import static it.niedermann.nextcloud.deck.model.internal.FilterInformation.hasActiveFilter;
@@ -15,33 +18,63 @@ import static it.niedermann.nextcloud.deck.model.internal.FilterInformation.hasA
 public class MainViewModel extends ViewModel {
 
     @NonNull
-    private FilterInformation filterInformationDraft = new FilterInformation();
+    private MutableLiveData<FilterInformation> filterInformationDraft = new MutableLiveData<>(new FilterInformation());
     @NonNull
     private MutableLiveData<FilterInformation> filterInformation = new MutableLiveData<>();
     private Account currentAccount;
     private Board currentBoard;
 
     public void publishFilterInformationDraft() {
-        this.filterInformation.postValue(hasActiveFilter(filterInformationDraft) ? filterInformationDraft : null);
+        this.filterInformation.postValue(hasActiveFilter(filterInformationDraft.getValue()) ? filterInformationDraft.getValue() : null);
     }
 
     public void clearFilterInformation() {
-        this.filterInformationDraft = new FilterInformation();
+        this.filterInformationDraft.postValue(new FilterInformation());
         this.publishFilterInformationDraft();
     }
 
     @NonNull
-    public FilterInformation getFilterInformationDraft() {
+    public LiveData<FilterInformation> getFilterInformationDraft() {
         return this.filterInformationDraft;
     }
 
     public void createFilterInformationDraft() {
-        this.filterInformationDraft = new FilterInformation(this.filterInformation.getValue());
+        this.filterInformationDraft.postValue(new FilterInformation(this.filterInformation.getValue()));
     }
 
     @NonNull
     public LiveData<FilterInformation> getFilterInformation() {
         return this.filterInformation;
+    }
+
+    public void setFilterInformationDraftDueType(@NonNull EDueType dueType) {
+        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        newDraft.setDueType(dueType);
+        this.filterInformationDraft.postValue(newDraft);
+    }
+
+    public void addFilterInformationDraftLabel(@NonNull Label label) {
+        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        newDraft.addLabel(label);
+        this.filterInformationDraft.postValue(newDraft);
+    }
+
+    public void addFilterInformationUser(@NonNull User user) {
+        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        newDraft.addUser(user);
+        this.filterInformationDraft.postValue(newDraft);
+    }
+
+    public void removeFilterInformationLabel(@NonNull Label label) {
+        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        newDraft.removeLabel(label);
+        this.filterInformationDraft.postValue(newDraft);
+    }
+
+    public void removeFilterInformationUser(@NonNull User user) {
+        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        newDraft.removeUser(user);
+        this.filterInformationDraft.postValue(newDraft);
     }
 
     public Account getCurrentAccount() {

@@ -9,6 +9,7 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabInlineLabel="true"
         app:tabUnboundedRipple="true" />
 
     <androidx.viewpager2.widget.ViewPager2

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.R;
@@ -22,7 +23,7 @@ import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class FilterAssigneesFragment extends Fragment implements SelectionListener<User> {
 
-    private FilterInformation filterInformationDraft;
+    private LiveData<FilterInformation> filterInformationDraft;
     private DialogFilterAssigneesBinding binding;
     private MainViewModel mainViewModel;
     private UserFilterAdapter userAdapter;
@@ -37,7 +38,7 @@ public class FilterAssigneesFragment extends Fragment implements SelectionListen
 
         this.filterInformationDraft = mainViewModel.getFilterInformationDraft();
         observeOnce(syncManager.findProposalsForUsersToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (users) -> {
-            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), mainViewModel.getCurrentAccount(), users, this.filterInformationDraft.getUsers(), this);
+            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), mainViewModel.getCurrentAccount(), users, this.filterInformationDraft.getValue().getUsers(), this);
             binding.users.setNestedScrollingEnabled(false);
             binding.users.setAdapter(userAdapter);
         });
@@ -47,11 +48,11 @@ public class FilterAssigneesFragment extends Fragment implements SelectionListen
 
     @Override
     public void onItemSelected(User item) {
-        filterInformationDraft.addUser(item);
+        mainViewModel.addFilterInformationUser(item);
     }
 
     @Override
     public void onItemDeselected(User item) {
-        filterInformationDraft.removeUser(item);
+        mainViewModel.removeFilterInformationUser(item);
     }
 }
