@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card.details;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,12 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -39,7 +36,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -48,22 +44,20 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedTimePickerDialog;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
-import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.text.format.DateFormat.getDateFormat;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToEditText;
-import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener {
@@ -266,22 +260,9 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                     WrappedLiveData<Label> createLabelLiveData = syncManager.createLabel(accountId, newLabel, boardId);
                     observeOnce(createLabelLiveData, CardDetailsFragment.this, createdLabel -> {
                         if (createLabelLiveData.hasError()) {
-                            final Throwable error = createLabelLiveData.getError();
-                            assert error != null;
-                            final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), error);
-                            DeckLog.logError(error);
-                            Snackbar.make(requireView(), R.string.error, Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.simple_more, v -> {
-                                        final AlertDialog dialog = new BrandedAlertDialogBuilder(requireContext())
-                                                .setTitle(R.string.server_error)
-                                                .setMessage(debugInfos)
-                                                .setPositiveButton(android.R.string.copy, (a, b) ->
-                                                        copyToClipboard(requireContext(), requireContext().getString(R.string.simple_exception), "```\n" + debugInfos + "\n```"))
-                                                .setNeutralButton(R.string.simple_close, null)
-                                                .create();
-                                        dialog.show();
-                                        ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);
-                                    }).show();
+                            DeckLog.logError(createLabelLiveData.getError());
+                            Snackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLabelLiveData.getError()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
                         } else {
                             newLabel.setLocalId(createdLabel.getLocalId());
                             ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(createdLabel);

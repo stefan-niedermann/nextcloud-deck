@@ -119,6 +119,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                 assert error != null;
                                 setStatusText(error.getMessage());
                                 runOnUiThread(() -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                 restoreWifiPref();
                             } else {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
@@ -150,7 +151,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                     }
                                                 });
                                             } else {
-                                                setStatusText(R.string.deck_outdated_please_update);
+                                                setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));
                                                 runOnUiThread(() -> {
                                                     binding.updateDeckButton.setOnClickListener((v) -> {
                                                         Intent openURL = new Intent(Intent.ACTION_VIEW);

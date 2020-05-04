@@ -108,7 +108,7 @@
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:contentDescription="@null"
+                    android:contentDescription="@string/add_list"
                     android:foreground="?android:selectableItemBackground"
                     app:srcCompat="@drawable/ic_add_white_24dp"
                     tools:ignore="UnusedAttribute" />
@@ -122,6 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
+            android:contentDescription="@string/add_card"
             app:backgroundTint="@color/primary"
             app:srcCompat="@drawable/ic_add_white_24dp" />
 
