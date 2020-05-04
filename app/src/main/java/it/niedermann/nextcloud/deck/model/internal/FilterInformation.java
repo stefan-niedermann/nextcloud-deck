@@ -20,6 +20,16 @@ public class FilterInformation implements Serializable {
     @NonNull
     private List<Label> labels = new ArrayList<>();
 
+    public FilterInformation(FilterInformation filterInformation) {
+        this.dueType = filterInformation.getDueType();
+        for (User user : users) {
+            this.users.add(new User(user));
+        }
+        for (Label label : labels) {
+            this.labels.add(new Label(label));
+        }
+    }
+
     @NonNull
     public EDueType getDueType() {
         return dueType;
