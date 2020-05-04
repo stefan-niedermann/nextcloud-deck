@@ -1,32 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/users"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="?attr/dialogPreferredPadding">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_3x"
-            android:layout_marginBottom="@dimen/spacer_1x"
-            android:labelFor="@id/overdue"
-            android:text="@string/filter_by_assigned_user"
-            android:textAppearance="?attr/textAppearancePopupMenuHeader" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/users"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:choiceMode="multipleChoice"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_filter_user" />
-    </LinearLayout>
-</ScrollView>
+    android:layout_height="wrap_content"
+    android:choiceMode="multipleChoice"
+    android:padding="?attr/dialogPreferredPadding"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    tools:listitem="@layout/item_filter_user" />

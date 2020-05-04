@@ -40,6 +40,6 @@ public class FilterLabelsFragment extends Fragment {
             binding.labels.setNestedScrollingEnabled(false);
             binding.labels.setAdapter(labelAdapter);
         });
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return binding.getRoot();
     }
 }

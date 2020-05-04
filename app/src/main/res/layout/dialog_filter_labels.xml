@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/labels"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:background="@color/mdtp_red"
+    android:layout_height="wrap_content"
     android:choiceMode="multipleChoice"
+    android:padding="?attr/dialogPreferredPadding"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    tools:itemCount="4"
     tools:listitem="@layout/item_filter_label" />

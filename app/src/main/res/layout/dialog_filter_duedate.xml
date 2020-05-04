@@ -10,15 +10,6 @@
         android:orientation="vertical"
         android:padding="?attr/dialogPreferredPadding">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_3x"
-            android:layout_marginBottom="@dimen/spacer_1x"
-            android:labelFor="@id/overdue"
-            android:text="@string/filter_by_duedate"
-            android:textAppearance="?attr/textAppearancePopupMenuHeader" />
-
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/overdue"
             android:layout_width="match_parent"

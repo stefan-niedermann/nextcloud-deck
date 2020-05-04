@@ -43,6 +43,7 @@ public class FilterAssigneesFragment extends Fragment {
             binding.users.setNestedScrollingEnabled(false);
             binding.users.setAdapter(userAdapter);
         });
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        return binding.getRoot();
     }
 }

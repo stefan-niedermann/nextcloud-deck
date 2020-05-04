@@ -46,6 +46,6 @@ public class FilterDuedateFragment extends Fragment {
                 filterInformation.setDueType(EDueType.NO_FILTER);
             }
         });
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return binding.getRoot();
     }
 }
