@@ -104,17 +104,6 @@
     <string name="label_clear_due_date">Clear due date</string>
     <string name="label_add">Add %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">An error appeared</string>
-    <string name="operation_not_yet_supported">Not yet supported</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
-    <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
-    <string name="maintenance_mode">Server in maintenance mode</string>
-    <string name="server_misconfigured">Server misconfigured</string>
-    <string name="server_misconfigured_explanation">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client. You can find our contact information for support in the about-section.</string>
-    <string name="server_error">Server error</string>
-    <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
-
     <!-- URLs -->
     <string name="url_maintainer" translatable="false">https://www.niedermann.it/</string>
     <string name="url_about_icon_author" translatable="false">https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1</string>
@@ -219,4 +208,32 @@
     <string name="tag_already_exists">%1$s does already exist</string>
     <string name="tag_successfully_added">%1$s successfully added</string>
     <string name="edit_tag">Edit %1$s</string>
+
+    <!-- Errors -->
+    <string name="error">An error appeared</string>
+    <string name="synchronization_failed">Synchronization failed</string>
+    <string name="operation_not_yet_supported">Not yet supported</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="error_revoking_ac">Error while revoking the access for %1$s</string>
+    <string name="maintenance_mode">Server in maintenance mode</string>
+    <string name="server_misconfigured">Server misconfigured</string>
+    <string name="server_error">Server error</string>
+    <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
+
+    <string name="error_dialog_title">Oh no - What now? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Please try to force close the app and restart it again. There might have been an incorrect connection to the Nextcloud app.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
+    <string name="error_dialog_tip_clear_storage">You can clear the storage by opening android settings → Apps → Nextcloud / Nextcloud Deck → Storage → Clear storage.</string>
+    <string name="error_dialog_tip_files_outdated">Your Nextcloud app seems to be outdated. Please visit the Play Store or F-Droid to get the latest version.</string>
+    <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your Nextcloud app. Please try to force stop both, the Nextcloud app and the Nextcloud Deck app.</string>
+    <string name="error_dialog_tip_files_delete_storage">If force stopping them does not help, you can try to clear the storage of both apps.</string>
+    <string name="error_dialog_timeout_instance">There wasn\'t a response from your server in the given time. Please make sure your instance is running well.</string>
+    <string name="error_dialog_timeout_toggle">Check your network connection. Sometime toggling the mobile data or Wi-Fi off and on again can help.</string>
+    <string name="error_dialog_check_server">The response of your server was not correct. Please check whether you can access the Deck app via web interface.</string>
+    <string name="error_dialog_check_server_logs">There is an issue with your Nextcloud setup. Please have a look into the server log files.</string>
+    <string name="error_dialog_check_maintenance">Please check whether your Nextcloud instance is not currently in maintenance mode.</string>
+    <string name="error_dialog_insufficient_storage">Your Nextcloud instance has no free storage left. Please delete some files to sync your local changes into your cloud.</string>
+    <string name="error_dialog_contact_us">Please do not hesitate to contact us if the issues persist. You can find our contact information in the about section in the sidebar.</string>
+    <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
+    <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client. You can find our contact information for support in the about-section.</string>
 </resources>
