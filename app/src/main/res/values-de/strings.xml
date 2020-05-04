@@ -125,7 +125,7 @@
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
     <string name="update_deck">Deck aktualisieren</string>
     <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
-    <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt. Bitte aktualisieren Sie Deck um diese Android-App als Client verwenden zu können.</string>
+    <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt (%1$s). Bitte aktualisieren Sie Deck um diese Android-App als Client verwenden zu können.</string>
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Listen und Karten löschen.</string>
     <string name="settings_theme_title">Dunkles Design</string>
     <string name="settings_branding_title">Branding</string>
