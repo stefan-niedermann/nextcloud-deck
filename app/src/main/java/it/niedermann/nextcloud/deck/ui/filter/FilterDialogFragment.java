@@ -46,12 +46,14 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         binding.viewPager.setOffscreenPageLimit(tabTitles.length);
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
 
+        mainViewModel.createFilterInformationDraft();
+
         return dialogBuilder
                 .setTitle(R.string.simple_filter)
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null)
-                .setNegativeButton(R.string.simple_clear, (a, b) -> mainViewModel.postFilterInformation(null))
-                .setPositiveButton(R.string.simple_filter, null)
+                .setNegativeButton(R.string.simple_clear, (a, b) -> mainViewModel.clearFilterInformation())
+                .setPositiveButton(R.string.simple_filter, (a, b) -> mainViewModel.publishFilterInformationDraft())
                 .create();
     }
 

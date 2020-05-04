@@ -16,9 +16,9 @@ import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
-public class FilterDuedateFragment extends Fragment {
+public class FilterDuedateFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
-    private FilterInformation filterInformation;
+    private FilterInformation filterInformationDraft;
     private DialogFilterDuedateBinding binding;
     private MainViewModel mainViewModel;
     private OverdueFilterAdapter overdueAdapter;
@@ -30,22 +30,19 @@ public class FilterDuedateFragment extends Fragment {
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         overdueAdapter = new OverdueFilterAdapter(requireContext());
         binding.overdue.setAdapter(overdueAdapter);
-        this.filterInformation = mainViewModel.getFilterInformation().getValue();
-        if (this.filterInformation == null) {
-            this.filterInformation = new FilterInformation();
-        }
-        binding.overdue.setSelection(overdueAdapter.getPosition(this.filterInformation.getDueType()));
-        binding.overdue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                filterInformation.setDueType(overdueAdapter.getItem(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                filterInformation.setDueType(EDueType.NO_FILTER);
-            }
-        });
+        this.filterInformationDraft = mainViewModel.getFilterInformationDraft();
+        binding.overdue.setSelection(overdueAdapter.getPosition(this.filterInformationDraft.getDueType()));
+        binding.overdue.setOnItemSelectedListener(this);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        filterInformationDraft.setDueType(overdueAdapter.getItem(position));
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        filterInformationDraft.setDueType(EDueType.NO_FILTER);
     }
 }

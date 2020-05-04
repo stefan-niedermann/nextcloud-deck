@@ -11,15 +11,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.databinding.DialogFilterLabelsBinding;
+import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
-public class FilterLabelsFragment extends Fragment {
+public class FilterLabelsFragment extends Fragment implements SelectionListener<Label> {
 
-    private FilterInformation filterInformation;
+    private FilterInformation filterInformationDraft;
     private DialogFilterLabelsBinding binding;
     private MainViewModel mainViewModel;
     private LabelFilterAdapter labelAdapter;
@@ -31,15 +32,22 @@ public class FilterLabelsFragment extends Fragment {
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         final SyncManager syncManager = new SyncManager(requireActivity());
 
-        this.filterInformation = mainViewModel.getFilterInformation().getValue();
-        if (this.filterInformation == null) {
-            this.filterInformation = new FilterInformation();
-        }
+        this.filterInformationDraft = mainViewModel.getFilterInformationDraft();
         observeOnce(syncManager.findProposalsForLabelsToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
-            labelAdapter = new LabelFilterAdapter(labels, this.filterInformation.getLabels());
+            labelAdapter = new LabelFilterAdapter(labels, this.filterInformationDraft.getLabels(), this);
             binding.labels.setNestedScrollingEnabled(false);
             binding.labels.setAdapter(labelAdapter);
         });
         return binding.getRoot();
+    }
+
+    @Override
+    public void onItemSelected(Label item) {
+        filterInformationDraft.addLabel(item);
+    }
+
+    @Override
+    public void onItemDeselected(Label item) {
+        filterInformationDraft.removeLabel(item);
     }
 }

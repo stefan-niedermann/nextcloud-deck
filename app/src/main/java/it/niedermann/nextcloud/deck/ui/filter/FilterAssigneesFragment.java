@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterAssigneesBinding;
+import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
@@ -19,9 +20,9 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
-public class FilterAssigneesFragment extends Fragment {
+public class FilterAssigneesFragment extends Fragment implements SelectionListener<User> {
 
-    private FilterInformation filterInformation;
+    private FilterInformation filterInformationDraft;
     private DialogFilterAssigneesBinding binding;
     private MainViewModel mainViewModel;
     private UserFilterAdapter userAdapter;
@@ -34,16 +35,23 @@ public class FilterAssigneesFragment extends Fragment {
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         final SyncManager syncManager = new SyncManager(requireActivity());
 
-        this.filterInformation = mainViewModel.getFilterInformation().getValue();
-        if (this.filterInformation == null) {
-            this.filterInformation = new FilterInformation();
-        }
+        this.filterInformationDraft = mainViewModel.getFilterInformationDraft();
         observeOnce(syncManager.findProposalsForUsersToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (users) -> {
-            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), mainViewModel.getCurrentAccount(), users, this.filterInformation.getUsers());
+            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), mainViewModel.getCurrentAccount(), users, this.filterInformationDraft.getUsers(), this);
             binding.users.setNestedScrollingEnabled(false);
             binding.users.setAdapter(userAdapter);
         });
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onItemSelected(User item) {
+        filterInformationDraft.addUser(item);
+    }
+
+    @Override
+    public void onItemDeselected(User item) {
+        filterInformationDraft.removeUser(item);
     }
 }

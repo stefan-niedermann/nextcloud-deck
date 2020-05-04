@@ -66,7 +66,6 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
-import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -511,7 +510,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     protected void setCurrentBoard(@NonNull Board board) {
         viewModel.setCurrentBoard(board);
-        viewModel.postFilterInformation(null);
+        viewModel.clearFilterInformation();
 
         lastBoardId = board.getLocalId();
         Application.saveCurrentBoardId(this, viewModel.getCurrentAccount().getId(), viewModel.getCurrentBoardLocalId());
@@ -666,8 +665,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }
         inflater.inflate(R.menu.main_menu, menu);
         menu.findItem(R.id.archived_cards).setVisible(false);
-        final FilterInformation filterInformation = viewModel.getFilterInformation().getValue();
-        menu.findItem(R.id.filter).setIcon(filterInformation == null
+        menu.findItem(R.id.filter).setIcon(viewModel.getFilterInformation().getValue() == null
                 ? R.drawable.ic_filter_list_white_24dp
                 : R.drawable.ic_filter_list_active_white_24dp);
         return super.onCreateOptionsMenu(menu);

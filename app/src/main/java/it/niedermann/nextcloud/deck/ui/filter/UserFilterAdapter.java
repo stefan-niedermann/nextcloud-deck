@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,13 +27,16 @@ public class UserFilterAdapter extends RecyclerView.Adapter<UserFilterAdapter.Us
     private final List<User> users = new ArrayList<>();
     @NonNull
     private final List<User> selectedUsers = new ArrayList<>();
+    @Nullable
+    private final SelectionListener<User> selectionListener;
 
-    public UserFilterAdapter(@Px int avatarSize, @NonNull Account account, @NonNull List<User> users, @NonNull List<User> selectedUsers) {
+    public UserFilterAdapter(@Px int avatarSize, @NonNull Account account, @NonNull List<User> users, @NonNull List<User> selectedUsers, @Nullable SelectionListener selectionListener) {
         super();
         this.avatarSize = avatarSize;
         this.account = account;
         this.users.addAll(users);
         this.selectedUsers.addAll(selectedUsers);
+        this.selectionListener = selectionListener;
         setHasStableIds(true);
         notifyDataSetChanged();
     }
@@ -79,9 +83,15 @@ public class UserFilterAdapter extends RecyclerView.Adapter<UserFilterAdapter.Us
                 if (selectedUsers.contains(user)) {
                     selectedUsers.remove(user);
                     itemView.setSelected(false);
+                    if(selectionListener != null) {
+                        selectionListener.onItemDeselected(user);
+                    }
                 } else {
                     selectedUsers.add(user);
                     itemView.setSelected(true);
+                    if(selectionListener != null) {
+                        selectionListener.onItemSelected(user);
+                    }
                 }
             });
         }
