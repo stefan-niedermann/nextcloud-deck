@@ -20,7 +20,7 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 import static java.util.Objects.requireNonNull;
 
-public class FilterAssigneesFragment extends Fragment implements SelectionListener<User> {
+public class FilterUserFragment extends Fragment implements SelectionListener<User> {
 
     private FilterViewModel filterViewModel;
 

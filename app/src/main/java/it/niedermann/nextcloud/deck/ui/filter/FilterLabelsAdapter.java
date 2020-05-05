@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 @SuppressWarnings("WeakerAccess")
-public class FilterLabelAdapter extends RecyclerView.Adapter<FilterLabelAdapter.LabelViewHolder> {
+public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapter.LabelViewHolder> {
     @NonNull
     private final List<Label> labels = new ArrayList<>();
     @NonNull
@@ -25,7 +25,7 @@ public class FilterLabelAdapter extends RecyclerView.Adapter<FilterLabelAdapter.
     @Nullable
     private final SelectionListener<Label> selectionListener;
 
-    public FilterLabelAdapter(@NonNull List<Label> labels, @NonNull List<Label> selectedLabels, @Nullable SelectionListener<Label> selectionListener) {
+    public FilterLabelsAdapter(@NonNull List<Label> labels, @NonNull List<Label> selectedLabels, @Nullable SelectionListener<Label> selectionListener) {
         super();
         this.labels.addAll(labels);
         this.selectedLabels.addAll(selectedLabels);

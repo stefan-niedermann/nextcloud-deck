@@ -120,7 +120,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 case 0:
                     return new FilterLabelsFragment();
                 case 1:
-                    return new FilterAssigneesFragment();
+                    return new FilterUserFragment();
                 case 2:
                     return new FilterDueTypeFragment();
                 default:

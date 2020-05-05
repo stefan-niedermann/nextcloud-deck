@@ -33,7 +33,7 @@ public class FilterLabelsFragment extends Fragment implements SelectionListener<
 
         observeOnce(new SyncManager(requireContext()).findProposalsForLabelsToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
             binding.labels.setNestedScrollingEnabled(false);
-            binding.labels.setAdapter(new FilterLabelAdapter(labels, requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getLabels(), this));
+            binding.labels.setAdapter(new FilterLabelsAdapter(labels, requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getLabels(), this));
         });
 
         return binding.getRoot();
