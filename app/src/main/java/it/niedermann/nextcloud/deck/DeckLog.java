@@ -86,7 +86,7 @@ public class DeckLog {
 
     private static String getCurrentStacktrace(@SuppressWarnings("SameParameterValue") int offset) {
         final StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-        @SuppressWarnings("StringBufferMayBeStringBuilder") final StringBuffer buff = new StringBuffer();
+        final StringBuilder buff = new StringBuilder();
         for (int i = offset; i < elements.length; i++) {
             final StackTraceElement s = elements[i];
             buff.append("\tat ");
