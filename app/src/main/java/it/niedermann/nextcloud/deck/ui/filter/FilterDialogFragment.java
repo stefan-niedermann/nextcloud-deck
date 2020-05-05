@@ -122,7 +122,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                 case 1:
                     return new FilterAssigneesFragment();
                 case 2:
-                    return new FilterDuedateFragment();
+                    return new FilterDueTypeFragment();
                 default:
                     throw new IllegalArgumentException("position must be between 0 and 2");
             }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/dueType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="middle"
+        android:padding="@dimen/spacer_2x"
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:text="@tools:sample/lorem" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="@dimen/spacer_1x"
+        android:layout_marginLeft="@dimen/spacer_1x"
+        app:layout_alignSelf="center"
+        app:layout_flexShrink="0"
+        app:srcCompat="@drawable/selected"
+        tools:src="@drawable/ic_check_grey600_24dp" />
+
+</com.google.android.flexbox.FlexboxLayout>

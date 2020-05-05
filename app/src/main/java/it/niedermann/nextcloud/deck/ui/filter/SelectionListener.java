@@ -1,9 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
-import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
-
-public interface SelectionListener<T extends IRemoteEntity> {
+public interface SelectionListener<T> {
     void onItemSelected(T item);
 
-    void onItemDeselected(T item);
+    default void onItemDeselected(T item) {
+        // Deselecting is optional
+    }
 }

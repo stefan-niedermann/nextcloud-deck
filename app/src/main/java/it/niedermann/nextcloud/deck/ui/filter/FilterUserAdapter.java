@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 @SuppressWarnings("WeakerAccess")
-public class UserFilterAdapter extends RecyclerView.Adapter<UserFilterAdapter.UserViewHolder> {
+public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.UserViewHolder> {
     @Px
     final int avatarSize;
     @NonNull
@@ -30,7 +30,7 @@ public class UserFilterAdapter extends RecyclerView.Adapter<UserFilterAdapter.Us
     @Nullable
     private final SelectionListener<User> selectionListener;
 
-    public UserFilterAdapter(@Px int avatarSize, @NonNull Account account, @NonNull List<User> users, @NonNull List<User> selectedUsers, @Nullable SelectionListener selectionListener) {
+    public FilterUserAdapter(@Px int avatarSize, @NonNull Account account, @NonNull List<User> users, @NonNull List<User> selectedUsers, @Nullable SelectionListener selectionListener) {
         super();
         this.avatarSize = avatarSize;
         this.account = account;

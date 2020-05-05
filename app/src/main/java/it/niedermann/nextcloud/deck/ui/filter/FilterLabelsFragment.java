@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.databinding.DialogFilterLabelsBinding;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
@@ -22,26 +20,22 @@ import static java.util.Objects.requireNonNull;
 
 public class FilterLabelsFragment extends Fragment implements SelectionListener<Label> {
 
-    private LiveData<FilterInformation> filterInformationDraft;
-    private DialogFilterLabelsBinding binding;
-    private MainViewModel mainViewModel;
     private FilterViewModel filterViewModel;
-    private LabelFilterAdapter labelAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DialogFilterLabelsBinding.inflate(requireActivity().getLayoutInflater());
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
-        final SyncManager syncManager = new SyncManager(requireActivity());
 
-        this.filterInformationDraft = filterViewModel.getFilterInformationDraft();
-        observeOnce(syncManager.findProposalsForLabelsToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
-            labelAdapter = new LabelFilterAdapter(labels, requireNonNull(this.filterInformationDraft.getValue()).getLabels(), this);
+        final DialogFilterLabelsBinding binding = DialogFilterLabelsBinding.inflate(requireActivity().getLayoutInflater());
+        final MainViewModel mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+
+        observeOnce(new SyncManager(requireContext()).findProposalsForLabelsToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
             binding.labels.setNestedScrollingEnabled(false);
-            binding.labels.setAdapter(labelAdapter);
+            binding.labels.setAdapter(new FilterLabelAdapter(labels, requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getLabels(), this));
         });
+
         return binding.getRoot();
     }
 
