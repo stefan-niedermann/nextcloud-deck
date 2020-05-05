@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -83,6 +84,16 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             tab.setText(tabTitles[position]);
         }).attach();
 
+        binding.viewPager.post(() -> {
+            binding.viewPager.setCurrentItem(filterViewModel.getCurrentFilterTab(), false);
+            binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    filterViewModel.setCurrentFilterTab(position);
+                }
+            });
+        });
         filterViewModel.createFilterInformationDraft();
 
         return dialogBuilder

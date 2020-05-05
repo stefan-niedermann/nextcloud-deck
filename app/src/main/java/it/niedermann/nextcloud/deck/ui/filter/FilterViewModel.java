@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,6 +16,9 @@ import static it.niedermann.nextcloud.deck.model.internal.FilterInformation.hasA
 @SuppressWarnings("WeakerAccess")
 public class FilterViewModel extends ViewModel {
 
+    @IntRange(from = 0, to = 2)
+    private int currentFilterTab = 0;
+
     @NonNull
     private MutableLiveData<FilterInformation> filterInformationDraft = new MutableLiveData<>(new FilterInformation());
     @NonNull
@@ -25,8 +29,9 @@ public class FilterViewModel extends ViewModel {
     }
 
     public void clearFilterInformation() {
-        this.filterInformationDraft.postValue(new FilterInformation());
+        this.filterInformationDraft.setValue(new FilterInformation());
         this.publishFilterInformationDraft();
+        this.currentFilterTab = 0;
     }
 
     @NonNull
@@ -71,5 +76,14 @@ public class FilterViewModel extends ViewModel {
         FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.removeUser(user);
         this.filterInformationDraft.postValue(newDraft);
+    }
+
+    public void setCurrentFilterTab(@IntRange(from = 0, to = 2) int newFilterTab) {
+        this.currentFilterTab = newFilterTab;
+    }
+
+    @IntRange(from = 0, to = 2)
+    public int getCurrentFilterTab() {
+        return this.currentFilterTab;
     }
 }
