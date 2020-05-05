@@ -1,8 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
 import android.app.Dialog;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -28,6 +31,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
     private DialogFilterBinding binding;
     private FilterViewModel filterViewModel;
+    private Drawable indicator;
 
     private final static int[] tabTitles = new int[]{
             R.string.filter_tags_title,
@@ -39,6 +43,9 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        indicator = getResources().getDrawable(R.drawable.circle_grey600_8dp);
+        indicator.setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.SRC_ATOP);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
@@ -52,31 +59,13 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    filterInformationDraft.observe(this, (draft) -> {
-                        if (draft.getLabels().size() > 0) {
-                            tab.setIcon(R.drawable.circle_alpha_colorize_36dp);
-                        } else {
-                            tab.setIcon(null);
-                        }
-                    });
+                    filterInformationDraft.observe(this, (draft) -> tab.setIcon(draft.getLabels().size() > 0 ? indicator : null));
                     break;
                 case 1:
-                    filterInformationDraft.observe(this, (draft) -> {
-                        if (draft.getUsers().size() > 0) {
-                            tab.setIcon(R.drawable.circle_alpha_colorize_36dp);
-                        } else {
-                            tab.setIcon(null);
-                        }
-                    });
+                    filterInformationDraft.observe(this, (draft) -> tab.setIcon(draft.getUsers().size() > 0 ? indicator : null));
                     break;
                 case 2:
-                    filterInformationDraft.observe(this, (draft) -> {
-                        if (draft.getDueType() != EDueType.NO_FILTER) {
-                            tab.setIcon(R.drawable.circle_alpha_colorize_36dp);
-                        } else {
-                            tab.setIcon(null);
-                        }
-                    });
+                    filterInformationDraft.observe(this, (draft) -> tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null));
                     break;
                 default:
                     throw new IllegalStateException("position must be between 0 and 2");
@@ -111,7 +100,9 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
-        binding.tabLayout.setSelectedTabIndicatorColor(BrandedActivity.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
+        @ColorInt int finalMainColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
+        binding.tabLayout.setSelectedTabIndicatorColor(finalMainColor);
+        indicator.setColorFilter(finalMainColor, PorterDuff.Mode.SRC_ATOP);
     }
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {
