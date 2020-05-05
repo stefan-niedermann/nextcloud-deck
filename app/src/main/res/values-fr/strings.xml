@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">Licence</string>
 
+    <string name="copied_to_clipboard">Copié dans le presse-papier</string>
+
     <string name="seconds_ago">à l\'instant</string>
     <string name="edit">Modifier</string>
     <string name="label_labels">Sélectionner les étiquettes</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Effacer la date d\'échéance</string>
     <string name="label_add">Ajouter %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Une erreur est survenue</string>
-    <string name="operation_not_yet_supported">Non supporté actuellement</string>
-    <string name="copied_to_clipboard">Copié dans le presse-papier</string>
-    <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
-    <string name="maintenance_mode">Serveur en maintenance</string>
-    <string name="server_misconfigured">Problème de configuration serveur</string>
-    <string name="server_misconfigured_explanation">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés dans un fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
-    <string name="server_error">Erreur du serveur</string>
-    <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
-
     <string name="card_edit_details">Propriétés</string>
     <string name="card_edit_attachments">Pièces jointes</string>
     <string name="card_edit_activity">Activité</string>
@@ -121,12 +112,14 @@
         <item quantity="one">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
         <item quantity="other">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
     </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Cela supprimera l\'étiquette de %1$d carte.</item>
+        <item quantity="other">Cela supprimera l\'étiquette des %1$d cartes.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Ajoutez une nouvelle liste avec le bouton +</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
     <string name="update_deck">Mettre à jour Deck</string>
     <string name="your_deck_version_is_too_old">Votre version de Deck est trop ancienne</string>
-    <string name="deck_outdated_please_update">Votre version de Deck est trop ancienne. Veuillez la mettre à jour pour utiliser cette application Android comme client.
-</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau incluant ses listes et ses cartes.</string>
     <string name="settings_theme_title">Thème sombre</string>
     <string name="settings_branding_title">marque</string>
@@ -190,4 +183,17 @@
     <string name="action_archived_cards">Parcourir les cartes archivées</string>
     <string name="attachment_already_exists">La pièce jointe existe déjà</string>
     <string name="pick_custom_color">Choisir une couleur personnalisée</string>
-</resources>
+    <string name="manage_tags">Gérer les étiquettes</string>
+    <string name="add_tag">Ajouter une étiquette</string>
+    <string name="tag_already_exists">%1$s existe déjà</string>
+    <string name="tag_successfully_added">%1$s ajouté avec succès</string>
+    <string name="edit_tag">Modifier %1$s</string>
+
+    <!-- Errors -->
+    <string name="error">Une erreur est survenue</string>
+    <string name="operation_not_yet_supported">Non supporté actuellement</string>
+    <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
+    <string name="maintenance_mode">Serveur en maintenance</string>
+    <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
+
+    </resources>

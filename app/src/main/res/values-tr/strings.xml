@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Katkıda Bulunanlar</string>
     <string name="about_license_tab_title">Lisans</string>
 
+    <string name="copied_to_clipboard">Panoya kopyalandı</string>
+
     <string name="seconds_ago">saniye önce</string>
     <string name="edit">Düzenle</string>
     <string name="label_labels">Etiketleri Seçin</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Bitiş tarihini temizle</string>
     <string name="label_add">%1$s ekle</string>
 
-    <!-- Error messages -->
-    <string name="error">Bir sorun çıktı</string>
-    <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
-    <string name="copied_to_clipboard">Panoya kopyalandı</string>
-    <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
-    <string name="maintenance_mode">Sunucu bakım kipinde</string>
-    <string name="server_misconfigured">Sunucu yapılandırması hatalı</string>
-    <string name="server_misconfigured_explanation">Sunucunuz, üzerine Deck uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir. Destek almak için iletişim bilgilerimizi hakkında bölümünde bulabilirsiniz.</string>
-    <string name="server_error">Sunucu sorunu</string>
-    <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
-
     <string name="card_edit_details">Ayrıntılar</string>
     <string name="card_edit_attachments">Ek dosyalar</string>
     <string name="card_edit_activity">İşlem</string>
@@ -121,11 +112,14 @@
         <item quantity="one">Bu işlem, bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
         <item quantity="other">Bu işlem bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
     </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Bu işlem etiketi %1$d karttan kaldıracak.</item>
+        <item quantity="other">Bu işlem etiketi %1$d karttan kaldıracak.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">+ düğmesini kullanarak yeni bir liste ekleyebilirsiniz</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
     <string name="update_deck">Tahtayı güncelle</string>
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
-    <string name="deck_outdated_please_update">Tahta sürümünüz çok eski. Lütfen bu android uygulamasını istemci olarak kullanabilmek için deck sürümünü güncelleyin.</string>
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="settings_theme_title">Koyu tema</string>
     <string name="settings_branding_title">Markalama</string>
@@ -189,4 +183,17 @@
     <string name="action_archived_cards">Arşivlenmiş kartlara göz at</string>
     <string name="attachment_already_exists">Ek dosya zaten var</string>
     <string name="pick_custom_color">Özel renk seçin</string>
-</resources>
+    <string name="manage_tags">Etiket yönetimi</string>
+    <string name="add_tag">Etiket ekle</string>
+    <string name="tag_already_exists">%1$s zaten var</string>
+    <string name="tag_successfully_added">%1$s eklendi</string>
+    <string name="edit_tag">%1$s düzenle</string>
+
+    <!-- Errors -->
+    <string name="error">Bir sorun çıktı</string>
+    <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
+    <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
+    <string name="maintenance_mode">Sunucu bakım kipinde</string>
+    <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
+
+    </resources>

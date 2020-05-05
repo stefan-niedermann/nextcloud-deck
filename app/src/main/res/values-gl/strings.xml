@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Colaboración</string>
     <string name="about_license_tab_title">Licenza</string>
 
+    <string name="copied_to_clipboard">Copiado no portapapeis.</string>
+
     <string name="seconds_ago">hai uns segundos</string>
     <string name="edit">Editar</string>
     <string name="label_labels">Seleccionar etiquetas</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
     <string name="label_add">Engadir %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Apareceu un erro</string>
-    <string name="operation_not_yet_supported">Aínda non está admitido</string>
-    <string name="copied_to_clipboard">Copiado no portapapeis.</string>
-    <string name="error_revoking_ac">Produciuse un erro ao revogar o acceso a %1$s</string>
-    <string name="maintenance_mode">Servidor en modo de mantemento</string>
-    <string name="server_misconfigured">Configuración incorrecta do servidor</string>
-    <string name="server_misconfigured_explanation">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como OID Client. Pode atopar a nosa información de contacto para asistencia na sección «Sobre».</string>
-    <string name="server_error">Produciuse un erro de servidor</string>
-    <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
-
     <string name="card_edit_details">Detalles</string>
     <string name="card_edit_attachments">Anexos</string>
     <string name="card_edit_activity">Actividade</string>
@@ -121,11 +112,14 @@
         <item quantity="one">Isto eliminará permanentemente %1$d tarxeta desta lista.</item>
         <item quantity="other">Isto eliminará permanentemente as %1$d tarxetas desta lista.</item>
     </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Isto retirará a etiqueta de %1$d tarxeta.</item>
+        <item quantity="other">Isto retirará a etiqueta de %1$d tarxetas.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Engadir unha nova lista co botón +</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
     <string name="update_deck">Actualizar o Deck</string>
     <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
-    <string name="deck_outdated_please_update">A versión do Deck é antiga de máis. Actualice para usar esta apli de Android como cliente.</string>
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Xestión da marca</string>
@@ -189,4 +183,17 @@
     <string name="action_archived_cards">Examinar as tarxetas arquivadas</string>
     <string name="attachment_already_exists">O anexo xa existe</string>
     <string name="pick_custom_color">Escolla a cor personalizada</string>
-</resources>
+    <string name="manage_tags">Xestionar as etiquetas</string>
+    <string name="add_tag">Engadir unha etiqueta</string>
+    <string name="tag_already_exists">%1$s xa existe</string>
+    <string name="tag_successfully_added">%1$s foi engadido satisfactoriamente</string>
+    <string name="edit_tag">Editar %1$s</string>
+
+    <!-- Errors -->
+    <string name="error">Apareceu un erro</string>
+    <string name="operation_not_yet_supported">Aínda non está admitido</string>
+    <string name="error_revoking_ac">Produciuse un erro ao revogar o acceso a %1$s</string>
+    <string name="maintenance_mode">Servidor en modo de mantemento</string>
+    <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
+
+    </resources>

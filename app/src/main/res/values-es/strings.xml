@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Contribuir</string>
     <string name="about_license_tab_title">Licencia</string>
 
+    <string name="copied_to_clipboard">Copiado al portapapeles</string>
+
     <string name="seconds_ago">hace unos segundos</string>
     <string name="edit">Editar</string>
     <string name="label_labels">Seleccionar etiquetas</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Borrar fecha de finalización</string>
     <string name="label_add">Añadir %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Ha aparecido un error</string>
-    <string name="operation_not_yet_supported">No está soportado todavía</string>
-    <string name="copied_to_clipboard">Copiado al portapapeles</string>
-    <string name="error_revoking_ac">Error al revocar el acceso a %1$s</string>
-    <string name="maintenance_mode">Servidor en modo de mantenimiento</string>
-    <string name="server_misconfigured">Servidor mal configurado</string>
-    <string name="server_misconfigured_explanation">Su servidor tiene respuesta con el código de estado HTTP 302, lo que implica que no ha instalado la aplicación Deck en su servidor o que algo está mal configurado. Esto puede ser causado por anulaciones personalizadas en un en un archivo .htaccess o por aplicaciones de Nexcloud como OID Client. Encontrarás información de contacto de soporte en la sección acerca de. </string>
-    <string name="server_error">Error en el servidor</string>
-    <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
-
     <string name="card_edit_details">Detalles</string>
     <string name="card_edit_attachments">Adjuntos</string>
     <string name="card_edit_activity">Actividad</string>
@@ -117,11 +108,18 @@
     <string name="not_synced_yet">No sincronizado todavía</string>
     <string name="no_lists_yet">Aún no hay listas</string>
     <string name="do_you_want_to_save_your_changes">¿Desea guardar los cambios?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Esto eliminará permanentemente %1$d tarjeta de esta lista.</item>
+        <item quantity="other">Esto eliminará permanentemente todas las %1$d tarjetas de esta lista.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Esto eliminará la etiqueta de %1$d tarjeta.</item>
+        <item quantity="other">Esto eliminará la etiqueta de %1$d tarjetas.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Añadir una nueva lista usando el botón +</string>
     <string name="add_a_new_card_using_the_button">Añadir una nueva tarjeta usando el botón +</string>
     <string name="update_deck">Actualizar el Deck</string>
     <string name="your_deck_version_is_too_old">Su versión del Deck es muy antigua </string>
-    <string name="deck_outdated_please_update">Su versión del Deck es muy antigua. Por favor actualice para usar esta app de Android como cliente.</string>
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las listas y tarjetas.</string>
     <string name="settings_theme_title">Tema oscuro</string>
     <string name="settings_branding_title">Branding</string>
@@ -181,5 +179,21 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Tarjetas archivadas</string>
+    <string name="action_card_dearchive">Deshacer archivado de tarjeta</string>
     <string name="action_archived_cards">Explorar las tarjetas archivadas</string>
+    <string name="attachment_already_exists">El adjunto ya existe</string>
+    <string name="pick_custom_color">Escoger color personalizado</string>
+    <string name="manage_tags">Gestionar etiquetas</string>
+    <string name="add_tag">Añadir etiqueta</string>
+    <string name="tag_already_exists">%1$s ya existe</string>
+    <string name="tag_successfully_added">%1$s añadida con éxito</string>
+    <string name="edit_tag">Editar %1$s</string>
+
+    <!-- Errors -->
+    <string name="error">Ha aparecido un error</string>
+    <string name="operation_not_yet_supported">No está soportado todavía</string>
+    <string name="error_revoking_ac">Error al revocar el acceso a %1$s</string>
+    <string name="maintenance_mode">Servidor en modo de mantenimiento</string>
+    <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
+
     </resources>

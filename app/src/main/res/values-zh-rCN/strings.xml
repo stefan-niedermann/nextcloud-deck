@@ -69,6 +69,8 @@
     <string name="about_contribution_tab_title">贡献</string>
     <string name="about_license_tab_title">授权</string>
 
+    <string name="copied_to_clipboard">复制到剪贴板</string>
+
     <string name="seconds_ago">几秒前</string>
     <string name="edit">编辑</string>
     <string name="label_labels">选择标签</string>
@@ -91,16 +93,6 @@
     <string name="label_clear_due_date">清除截止日期</string>
     <string name="label_add">添加 %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">发生了一个错误</string>
-    <string name="operation_not_yet_supported">尚未支持</string>
-    <string name="copied_to_clipboard">复制到剪贴板</string>
-    <string name="maintenance_mode">服务器处于维护模式</string>
-    <string name="server_misconfigured">配置错误的服务器</string>
-    <string name="server_misconfigured_explanation">您的服务器确实以HTTP 302状态代码响应，这意味着您的服务器上没有安装Deck应用程序，或者是配置错误。这可能是由.htaccess-文件中的自定义重载或Nextcloud应用程序（如OID Client）造成的。您可以在 \"关于 \"部分中找到我们的联系信息。</string>
-    <string name="server_error">服务器错误</string>
-    <string name="shared_error">目前还不完全支持从第三方应用程序中分享内容。请尝试先下载，然后从您的本地文件管理器或图库中分享。</string>
-
     <string name="card_edit_details">详情</string>
     <string name="card_edit_attachments">附件</string>
     <string name="card_edit_activity">动态</string>
@@ -118,7 +110,6 @@
     <string name="add_a_new_card_using_the_button">使用 + 按钮来创建一张卡片</string>
     <string name="update_deck">更新看板</string>
     <string name="your_deck_version_is_too_old">您的看板版本过旧</string>
-    <string name="deck_outdated_please_update">您的看板版本过旧。请更新此安卓客户端。</string>
     <string name="delete_board_message">此操作将永久删除此面板，包括所有列表和卡片。</string>
     <string name="settings_theme_title">深色主题</string>
     <string name="settings_background_sync">后台同步</string>
@@ -168,4 +159,11 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">已存档卡片</string>
+    <string name="add_tag">添加标签</string>
+    <!-- Errors -->
+    <string name="error">发生了一个错误</string>
+    <string name="operation_not_yet_supported">尚未支持</string>
+    <string name="maintenance_mode">服务器处于维护模式</string>
+    <string name="shared_error">目前还不完全支持从第三方应用程序中分享内容。请尝试先下载，然后从您的本地文件管理器或图库中分享。</string>
+
     </resources>

@@ -69,6 +69,8 @@
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Licens</string>
 
+    <string name="copied_to_clipboard">Kopieret til udklipsholderen</string>
+
     <string name="seconds_ago">sekunder siden</string>
     <string name="edit">Rediger</string>
     <string name="label_labels">Vælg Tags</string>
@@ -91,17 +93,6 @@
     <string name="label_clear_due_date">Ryd forfaldsdato</string>
     <string name="label_add">Tilføj %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Der skete en fejl</string>
-    <string name="operation_not_yet_supported">Understøttes endnu ikke</string>
-    <string name="copied_to_clipboard">Kopieret til udklipsholderen</string>
-    <string name="error_revoking_ac">Fejl under tilbagekaldelse af adgang for %1$s</string>
-    <string name="maintenance_mode">Server i vedligeholdelsestilstand</string>
-    <string name="server_misconfigured">Server er forkert konfigureret </string>
-    <string name="server_misconfigured_explanation">Din server svarede med en HTTP 302-statuskode, hvilket betyder, at du endnu ikke har installeret app\'en Deck på din server, eller at der er en forkert konfiguration. Dette kan skyldes brugerdefinerede tilsidesættelser i en .htaccess-fil eller af apps fra Nextcloud som OID Client. Du kan finde være kontaktinformation for supporti sektionen Om.</string>
-    <string name="server_error">Serverfejl</string>
-    <string name="shared_error">Deling af indhold fra 3. parts apps understøttes endnu ikke fuldt ud. Forsøg at hente det først, og dernæst dele det fra din indbyggede filhåndtering eller dit galleri.</string>
-
     <string name="card_edit_details">Detaljer</string>
     <string name="card_edit_attachments">Vedhæftede filer</string>
     <string name="card_edit_activity">Aktivitet</string>
@@ -119,7 +110,6 @@
     <string name="add_a_new_card_using_the_button">Tilføj et nyt kort med knappen +</string>
     <string name="update_deck">Opdatér deck</string>
     <string name="your_deck_version_is_too_old">Din version af deck er for gammel</string>
-    <string name="deck_outdated_please_update">Din version af deck er for gammel. For at anvende denne android app som klient, så foretag venligst en opdatering.</string>
     <string name="delete_board_message">Dette vil permanent slette denne tavle, inklusive alle lister og kort.</string>
     <string name="settings_theme_title">Mørk tema</string>
     <string name="settings_branding_title">Branding</string>
@@ -169,4 +159,12 @@
     <!-- Filter -->
     <string name="filter_no_filter">Alle</string>
     <string name="filter_today">I dag</string>
+    <string name="add_tag">Tilføj Tag</string>
+    <!-- Errors -->
+    <string name="error">Der skete en fejl</string>
+    <string name="operation_not_yet_supported">Understøttes endnu ikke</string>
+    <string name="error_revoking_ac">Fejl under tilbagekaldelse af adgang for %1$s</string>
+    <string name="maintenance_mode">Server i vedligeholdelsestilstand</string>
+    <string name="shared_error">Deling af indhold fra 3. parts apps understøttes endnu ikke fuldt ud. Forsøg at hente det først, og dernæst dele det fra din indbyggede filhåndtering eller dit galleri.</string>
+
     </resources>

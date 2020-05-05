@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Licens</string>
 
+    <string name="copied_to_clipboard">Kopierat till urklipp</string>
+
     <string name="seconds_ago">sekunder sedan</string>
     <string name="edit">Redigera</string>
     <string name="label_labels">Välj taggar</string>
@@ -92,17 +94,6 @@
     <string name="label_clear_due_date">Rensa slutdatum</string>
     <string name="label_add">Lägg till %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Ett fel inträffade</string>
-    <string name="operation_not_yet_supported">Stöds inte än</string>
-    <string name="copied_to_clipboard">Kopierat till urklipp</string>
-    <string name="error_revoking_ac">Fel vid återkallande av åtkomst för %1$s</string>
-    <string name="maintenance_mode">Server i underhållsläge</string>
-    <string name="server_misconfigured">Server felkonfigurerad</string>
-    <string name="server_misconfigured_explanation">Din server svarade med en statuskod HTTP 302, vilket indikerar att du inte har installerat Deck-appen på din server eller att något är felkonfigurerat. Detta kan orsakas av anpassningar i en .htaccess-fil eller av Nextcloud-appar som OID Client. Du hittar vår kontaktinformation för support i Om-avsnittet.</string>
-    <string name="server_error">Serverfel</string>
-    <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
-
     <string name="card_edit_details">Detaljer</string>
     <string name="card_edit_attachments">Bilagor</string>
     <string name="card_edit_activity">Aktivitet</string>
@@ -120,7 +111,6 @@
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
     <string name="update_deck">Uppdatera Deck</string>
     <string name="your_deck_version_is_too_old">Din version är för gammal</string>
-    <string name="deck_outdated_please_update">Din version av Deck är för gammal. Uppdatera för att använda den här Android-appen som klient.</string>
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
     <string name="settings_theme_title">Mörkt tema</string>
     <string name="settings_branding_title">Varumärke</string>
@@ -180,4 +170,12 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arkiverade kort</string>
+    <string name="add_tag">Lägg till tagg</string>
+    <!-- Errors -->
+    <string name="error">Ett fel inträffade</string>
+    <string name="operation_not_yet_supported">Stöds inte än</string>
+    <string name="error_revoking_ac">Fel vid återkallande av åtkomst för %1$s</string>
+    <string name="maintenance_mode">Server i underhållsläge</string>
+    <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
+
     </resources>
