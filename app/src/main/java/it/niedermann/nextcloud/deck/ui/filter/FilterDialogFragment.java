@@ -57,19 +57,21 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
         LiveData<FilterInformation> filterInformationDraft = filterViewModel.getFilterInformationDraft();
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
-            switch (position) {
-                case 0:
-                    filterInformationDraft.observe(this, (draft) -> tab.setIcon(draft.getLabels().size() > 0 ? indicator : null));
-                    break;
-                case 1:
-                    filterInformationDraft.observe(this, (draft) -> tab.setIcon(draft.getUsers().size() > 0 ? indicator : null));
-                    break;
-                case 2:
-                    filterInformationDraft.observe(this, (draft) -> tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null));
-                    break;
-                default:
-                    throw new IllegalStateException("position must be between 0 and 2");
-            }
+            filterInformationDraft.observe(this, (draft) -> {
+                switch (position) {
+                    case 0:
+                        tab.setIcon(draft.getLabels().size() > 0 ? indicator : null);
+                        break;
+                    case 1:
+                        tab.setIcon(draft.getUsers().size() > 0 ? indicator : null);
+                        break;
+                    case 2:
+                        tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null);
+                        break;
+                    default:
+                        throw new IllegalStateException("position must be between 0 and 2");
+                }
+            });
             tab.setText(tabTitles[position]);
         }).attach();
 
