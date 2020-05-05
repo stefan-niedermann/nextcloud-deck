@@ -18,12 +18,14 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static java.util.Objects.requireNonNull;
 
 public class FilterLabelsFragment extends Fragment implements SelectionListener<Label> {
 
     private LiveData<FilterInformation> filterInformationDraft;
     private DialogFilterLabelsBinding binding;
     private MainViewModel mainViewModel;
+    private FilterViewModel filterViewModel;
     private LabelFilterAdapter labelAdapter;
 
     @Nullable
@@ -31,11 +33,12 @@ public class FilterLabelsFragment extends Fragment implements SelectionListener<
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogFilterLabelsBinding.inflate(requireActivity().getLayoutInflater());
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         final SyncManager syncManager = new SyncManager(requireActivity());
 
-        this.filterInformationDraft = mainViewModel.getFilterInformationDraft();
+        this.filterInformationDraft = filterViewModel.getFilterInformationDraft();
         observeOnce(syncManager.findProposalsForLabelsToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (labels) -> {
-            labelAdapter = new LabelFilterAdapter(labels, this.filterInformationDraft.getValue().getLabels(), this);
+            labelAdapter = new LabelFilterAdapter(labels, requireNonNull(this.filterInformationDraft.getValue()).getLabels(), this);
             binding.labels.setNestedScrollingEnabled(false);
             binding.labels.setAdapter(labelAdapter);
         });
@@ -44,11 +47,11 @@ public class FilterLabelsFragment extends Fragment implements SelectionListener<
 
     @Override
     public void onItemSelected(Label item) {
-        mainViewModel.addFilterInformationDraftLabel(item);
+        filterViewModel.addFilterInformationDraftLabel(item);
     }
 
     @Override
     public void onItemDeselected(Label item) {
-        mainViewModel.removeFilterInformationLabel(item);
+        filterViewModel.removeFilterInformationLabel(item);
     }
 }

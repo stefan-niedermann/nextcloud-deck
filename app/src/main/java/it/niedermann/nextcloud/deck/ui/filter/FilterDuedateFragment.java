@@ -15,23 +15,22 @@ import androidx.lifecycle.ViewModelProvider;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterDuedateBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
-import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
 public class FilterDuedateFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private LiveData<FilterInformation> filterInformationDraft;
     private DialogFilterDuedateBinding binding;
-    private MainViewModel mainViewModel;
+    private FilterViewModel filterViewModel;
     private OverdueFilterAdapter overdueAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogFilterDuedateBinding.inflate(requireActivity().getLayoutInflater());
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         overdueAdapter = new OverdueFilterAdapter(requireContext());
         binding.overdue.setAdapter(overdueAdapter);
-        this.filterInformationDraft = mainViewModel.getFilterInformationDraft();
+        this.filterInformationDraft = filterViewModel.getFilterInformationDraft();
         binding.overdue.setSelection(overdueAdapter.getPosition(this.filterInformationDraft.getValue().getDueType()));
         binding.overdue.setOnItemSelectedListener(this);
         return binding.getRoot();
@@ -39,11 +38,11 @@ public class FilterDuedateFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mainViewModel.setFilterInformationDraftDueType(overdueAdapter.getItem(position));
+        filterViewModel.setFilterInformationDraftDueType(overdueAdapter.getItem(position));
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        mainViewModel.setFilterInformationDraftDueType(EDueType.NO_FILTER);
+        filterViewModel.setFilterInformationDraftDueType(EDueType.NO_FILTER);
     }
 }

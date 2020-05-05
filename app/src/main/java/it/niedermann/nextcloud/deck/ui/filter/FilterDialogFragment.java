@@ -19,7 +19,6 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
-import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
@@ -27,7 +26,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 public class FilterDialogFragment extends BrandedDialogFragment {
 
     private DialogFilterBinding binding;
-    private MainViewModel mainViewModel;
+    private FilterViewModel filterViewModel;
 
     private final static int[] tabTitles = new int[]{
             R.string.filter_tags_title,
@@ -40,7 +39,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
@@ -48,7 +47,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         binding.viewPager.setAdapter(new TabsPagerAdapter(getChildFragmentManager(), getLifecycle()));
         binding.viewPager.setOffscreenPageLimit(tabTitles.length);
 
-        LiveData<FilterInformation> filterInformationDraft = mainViewModel.getFilterInformationDraft();
+        LiveData<FilterInformation> filterInformationDraft = filterViewModel.getFilterInformationDraft();
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
@@ -84,14 +83,14 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             tab.setText(tabTitles[position]);
         }).attach();
 
-        mainViewModel.createFilterInformationDraft();
+        filterViewModel.createFilterInformationDraft();
 
         return dialogBuilder
                 .setTitle(R.string.simple_filter)
                 .setView(binding.getRoot())
                 .setNeutralButton(android.R.string.cancel, null)
-                .setNegativeButton(R.string.simple_clear, (a, b) -> mainViewModel.clearFilterInformation())
-                .setPositiveButton(R.string.simple_filter, (a, b) -> mainViewModel.publishFilterInformationDraft())
+                .setNegativeButton(R.string.simple_clear, (a, b) -> filterViewModel.clearFilterInformation())
+                .setPositiveButton(R.string.simple_filter, (a, b) -> filterViewModel.publishFilterInformationDraft())
                 .create();
     }
 

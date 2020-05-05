@@ -20,12 +20,14 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+import static java.util.Objects.requireNonNull;
 
 public class FilterAssigneesFragment extends Fragment implements SelectionListener<User> {
 
     private LiveData<FilterInformation> filterInformationDraft;
     private DialogFilterAssigneesBinding binding;
     private MainViewModel mainViewModel;
+    private FilterViewModel filterViewModel;
     private UserFilterAdapter userAdapter;
 
     @Nullable
@@ -34,11 +36,12 @@ public class FilterAssigneesFragment extends Fragment implements SelectionListen
 
         binding = DialogFilterAssigneesBinding.inflate(requireActivity().getLayoutInflater());
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         final SyncManager syncManager = new SyncManager(requireActivity());
 
-        this.filterInformationDraft = mainViewModel.getFilterInformationDraft();
+        this.filterInformationDraft = filterViewModel.getFilterInformationDraft();
         observeOnce(syncManager.findProposalsForUsersToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (users) -> {
-            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), mainViewModel.getCurrentAccount(), users, this.filterInformationDraft.getValue().getUsers(), this);
+            userAdapter = new UserFilterAdapter(dpToPx(requireContext(), R.dimen.avatar_size), mainViewModel.getCurrentAccount(), users, requireNonNull(this.filterInformationDraft.getValue()).getUsers(), this);
             binding.users.setNestedScrollingEnabled(false);
             binding.users.setAdapter(userAdapter);
         });
@@ -48,11 +51,11 @@ public class FilterAssigneesFragment extends Fragment implements SelectionListen
 
     @Override
     public void onItemSelected(User item) {
-        mainViewModel.addFilterInformationUser(item);
+        filterViewModel.addFilterInformationUser(item);
     }
 
     @Override
     public void onItemDeselected(User item) {
-        mainViewModel.removeFilterInformationUser(item);
+        filterViewModel.removeFilterInformationUser(item);
     }
 }
