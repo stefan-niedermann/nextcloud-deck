@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Wkład</string>
     <string name="about_license_tab_title">Licencja</string>
 
+    <string name="copied_to_clipboard">Skopiowano do schowka</string>
+
     <string name="seconds_ago">przed chwilą</string>
     <string name="edit">Edytuj</string>
     <string name="label_labels">Wybierz etykietę</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Wyczyść termin</string>
     <string name="label_add">Dodaj %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Wystąpił błąd</string>
-    <string name="operation_not_yet_supported">Jeszcze nie obsługiwane</string>
-    <string name="copied_to_clipboard">Skopiowano do schowka</string>
-    <string name="error_revoking_ac">Błąd podczas anulowania dostępu dla %1$s</string>
-    <string name="maintenance_mode">Serwer w trybie konserwacji</string>
-    <string name="server_misconfigured">Serwer źle skonfigurowany</string>
-    <string name="server_misconfigured_explanation">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client. Nasze informacje kontaktowe dotyczące wsparcia można znaleźć w dziale \"O nas\".</string>
-    <string name="server_error">Błąd serwera</string>
-    <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
-
     <string name="card_edit_details">Szczegóły</string>
     <string name="card_edit_attachments">Załączniki</string>
     <string name="card_edit_activity">Aktywność</string>
@@ -123,11 +114,16 @@
         <item quantity="many">Spowoduje to trwałe usunięcie wszystkich %1$d kart z tej listy.</item>
         <item quantity="other">Spowoduje to trwałe usunięcie wszystkich %1$d kart z tej listy.</item>
     </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Spowoduje to usunięcie etykiety z %1$d karty.</item>
+        <item quantity="few">Spowoduje to usunięcie etykiety z %1$d kart.</item>
+        <item quantity="many">Spowoduje to usunięcie etykiety z %1$d kart.</item>
+        <item quantity="other">Spowoduje to usunięcie etykiety z %1$d kart.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Dodaj nową listę za pomocą przycisku +</string>
     <string name="add_a_new_card_using_the_button">Dodaj nową kartę za pomocą przycisku +</string>
     <string name="update_deck">Zaktualizuj deck</string>
     <string name="your_deck_version_is_too_old">Twoja wersja deck jest nieaktualna</string>
-    <string name="deck_outdated_please_update">Twoja wersja deck jest nieaktualna. Zaktualizuj, aby używać tej aplikacji na Androida jako klienta.</string>
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tej tablicy, w tym wszystkich list i kart.</string>
     <string name="settings_theme_title">Ciemny motyw</string>
     <string name="settings_branding_title">Motyw serwera</string>
@@ -191,4 +187,17 @@
     <string name="action_archived_cards">Przeglądaj zarchiwizowane karty</string>
     <string name="attachment_already_exists">Załącznik już istnieje</string>
     <string name="pick_custom_color">Wybierz niestandardowy kolor</string>
-</resources>
+    <string name="manage_tags">Zarządzaj etykietami</string>
+    <string name="add_tag">Dodaj etykietę</string>
+    <string name="tag_already_exists">%1$s już istnieje</string>
+    <string name="tag_successfully_added">%1$s pomyślnie dodano</string>
+    <string name="edit_tag">Edytuj %1$s</string>
+
+    <!-- Errors -->
+    <string name="error">Wystąpił błąd</string>
+    <string name="operation_not_yet_supported">Jeszcze nie obsługiwane</string>
+    <string name="error_revoking_ac">Błąd podczas anulowania dostępu dla %1$s</string>
+    <string name="maintenance_mode">Serwer w trybie konserwacji</string>
+    <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
+
+    </resources>

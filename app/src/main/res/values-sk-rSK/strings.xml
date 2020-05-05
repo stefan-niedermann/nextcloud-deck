@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Príspevok</string>
     <string name="about_license_tab_title">Licencia</string>
 
+    <string name="copied_to_clipboard">Skopírované do schránky</string>
+
     <string name="seconds_ago">pred niekoľkými sekundami</string>
     <string name="edit">Upraviť</string>
     <string name="label_labels">Vybrať štítky</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Odstrániť termín dokončenia</string>
     <string name="label_add">Pridať %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Vyskytla sa chyba</string>
-    <string name="operation_not_yet_supported">Zatiaľ nepodporované</string>
-    <string name="copied_to_clipboard">Skopírované do schránky</string>
-    <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
-    <string name="maintenance_mode">Server je v móde údržby</string>
-    <string name="server_misconfigured">Server je nesprávne nakonfigurovaný</string>
-    <string name="server_misconfigured_explanation">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými prepismi v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client. Naše kontaktné informácie pre podporu nájdete v časti uvedenej vyššie.</string>
-    <string name="server_error">Chyba servera</string>
-    <string name="shared_error">Zdieľanie obsahu z aplikácií tretích strán zatiaľ nie je úplne podporované. Skúste si ho najprv stiahnuť a potom ho zdieľajte zo svojho správcu súborov alebo z galérie.</string>
-
     <string name="card_edit_details">Podrobnosti</string>
     <string name="card_edit_attachments">Prílohy</string>
     <string name="card_edit_activity">Aktivita</string>
@@ -123,11 +114,16 @@
         <item quantity="many">Týmto sa natrvalo odstránia všetky %1$d karty z tohto zoznamu.</item>
         <item quantity="other">Týmto sa natrvalo odstráni všetkých %1$d kariet z tohto zoznamu.</item>
     </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Týmto odstránite štítok z %1$d karty.</item>
+        <item quantity="few">Týmto odstránite štítok z %1$d kariet.</item>
+        <item quantity="many">Týmto odstránite štítok z %1$d kariet.</item>
+        <item quantity="other">Týmto odstránite štítok z %1$d kariet.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Pridajte nový zoznam pomocou tlačidla +</string>
     <string name="add_a_new_card_using_the_button">Pridajte novú kartu pomocou tlačidla +</string>
     <string name="update_deck">Aktualizovať balíček</string>
     <string name="your_deck_version_is_too_old">Verzia vášho balíčka je príliš stará</string>
-    <string name="deck_outdated_please_update">Verzia vášho balíčka je príliš stará. Ak chcete túto aplikáciu pre Android používať ako klienta, aktualizujte ju.</string>
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
     <string name="settings_theme_title">Tmavý motív</string>
     <string name="settings_branding_title">Použitie vlastného loga</string>
@@ -191,4 +187,17 @@
     <string name="action_archived_cards">Prechádzať archivované karty</string>
     <string name="attachment_already_exists">Príloha už existuje</string>
     <string name="pick_custom_color">Vyberte vlastnú farbu</string>
-</resources>
+    <string name="manage_tags">Spravovať štítky</string>
+    <string name="add_tag">Pridať štítok</string>
+    <string name="tag_already_exists">%1$s už existuje</string>
+    <string name="tag_successfully_added">%1$s úspešne pridané</string>
+    <string name="edit_tag">Upraviť %1$s</string>
+
+    <!-- Errors -->
+    <string name="error">Vyskytla sa chyba</string>
+    <string name="operation_not_yet_supported">Zatiaľ nepodporované</string>
+    <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
+    <string name="maintenance_mode">Server je v móde údržby</string>
+    <string name="shared_error">Zdieľanie obsahu z aplikácií tretích strán zatiaľ nie je úplne podporované. Skúste si ho najprv stiahnuť a potom ho zdieľajte zo svojho správcu súborov alebo z galérie.</string>
+
+    </resources>

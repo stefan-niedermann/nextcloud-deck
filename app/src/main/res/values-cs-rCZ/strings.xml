@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Zapojení se</string>
     <string name="about_license_tab_title">Licence</string>
 
+    <string name="copied_to_clipboard">Zkopírováno do schránky</string>
+
     <string name="seconds_ago">před několika sekundami</string>
     <string name="edit">Upravit</string>
     <string name="label_labels">Vybrat štítky</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Vymazat termín</string>
     <string name="label_add">Přidat %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Objevila se chyba</string>
-    <string name="operation_not_yet_supported">Zatím nepodorováno</string>
-    <string name="copied_to_clipboard">Zkopírováno do schránky</string>
-    <string name="error_revoking_ac">Chyba při rušení přístupu pro %1$s</string>
-    <string name="maintenance_mode">Na serveru probíhá údržba</string>
-    <string name="server_misconfigured">Server není nastavený správně</string>
-    <string name="server_misconfigured_explanation">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient. Kontaktní údaje na podporu naleznete v sekci „O aplikaci“.</string>
-    <string name="server_error">Chyba serveru</string>
-    <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
-
     <string name="card_edit_details">Podrobnosti</string>
     <string name="card_edit_attachments">Přílohy</string>
     <string name="card_edit_activity">Aktivita</string>
@@ -123,11 +114,16 @@
         <item quantity="many">Toto nadobro vymaže všech(ny) %1$d karty z tohoto seznamu.</item>
         <item quantity="other">Toto nadobro vymaže %1$d karty z tohoto seznamu.</item>
     </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Toto štítek odebere z %1$d karty.</item>
+        <item quantity="few">Toto štítek odebere ze %1$d karet.</item>
+        <item quantity="many">Toto štítek odebere z %1$d karet.</item>
+        <item quantity="other">Toto štítek odebere ze %1$d karet.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Nový seznam přidáte tlačítkem +</string>
     <string name="add_a_new_card_using_the_button">Pro přidání nové karty použijte tlačítko +</string>
     <string name="update_deck">Aktualizujte Deck</string>
     <string name="your_deck_version_is_too_old">Vámi používaná verze Deck je příliš stará</string>
-    <string name="deck_outdated_please_update">Vámi používaná verze Deck na straně serveru je příliš stará. Prosíme aktualizujte, abyste mohli používat tuto Android aplikaci jako klienta.</string>
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
     <string name="settings_theme_title">Tmavý motiv vzhledu</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
@@ -191,4 +187,17 @@
     <string name="action_archived_cards">Procházet archivované karty</string>
     <string name="attachment_already_exists">Příloha už existuje</string>
     <string name="pick_custom_color">Zvolte uživatelsky určenou barvu</string>
-</resources>
+    <string name="manage_tags">Spravovat štítky</string>
+    <string name="add_tag">Přidat štítek</string>
+    <string name="tag_already_exists">%1$s už existuje</string>
+    <string name="tag_successfully_added">%1$s úspěšně přidáno</string>
+    <string name="edit_tag">Upravit %1$s</string>
+
+    <!-- Errors -->
+    <string name="error">Objevila se chyba</string>
+    <string name="operation_not_yet_supported">Zatím nepodorováno</string>
+    <string name="error_revoking_ac">Chyba při rušení přístupu pro %1$s</string>
+    <string name="maintenance_mode">Na serveru probíhá údržba</string>
+    <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
+
+    </resources>

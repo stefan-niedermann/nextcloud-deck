@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Contribuição</string>
     <string name="about_license_tab_title">Licença</string>
 
+    <string name="copied_to_clipboard">Copiado para a área de transferência</string>
+
     <string name="seconds_ago">segundos atrás</string>
     <string name="edit">Editar</string>
     <string name="label_labels">Selecionar etiquetas</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Remover data de vencimento</string>
     <string name="label_add">Adicionar %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Ocorreu um erro</string>
-    <string name="operation_not_yet_supported">Ainda não suportado</string>
-    <string name="copied_to_clipboard">Copiado para a área de transferência</string>
-    <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
-    <string name="maintenance_mode">Servidor em modo de manutenção</string>
-    <string name="server_misconfigured">Servidor mal configurado</string>
-    <string name="server_misconfigured_explanation">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck ou ele está configurado incorretamente. Isso pode ser causado por alterações personalizadas no arquivo .htaccess ou aplicativos Nextcloud como o Client OID. Você pode encontrar informações de contato para suporte na seção \"Sobre\".</string>
-    <string name="server_error">Erro no servidor</string>
-    <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
-
     <string name="card_edit_details">Detalhes</string>
     <string name="card_edit_attachments">Anexos</string>
     <string name="card_edit_activity">Atividade</string>
@@ -121,11 +112,14 @@
         <item quantity="one">Isto excluirá permanentemente %1$d cartão desta lista.</item>
         <item quantity="other">Isto excluirá permanentemente todos os %1$d cartões desta lista.</item>
     </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Isto removerá a legenda de %1$d cartão.</item>
+        <item quantity="other">Isto removerá a legenda de %1$d cartões.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Adicione uma nova lista usando o botão +</string>
     <string name="add_a_new_card_using_the_button">Adicionar um novo cartão usando o botão +</string>
     <string name="update_deck">Atualizar o dock</string>
     <string name="your_deck_version_is_too_old">Sua versão do dock é muito antiga.</string>
-    <string name="deck_outdated_please_update">Sua versão do dock é muito antiga. Atualize-a para usar este aplicativo Android como cliente.</string>
     <string name="delete_board_message">Isso excluirá permanentemente este painel incluindo listas e cartões.</string>
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Marcação</string>
@@ -189,4 +183,17 @@
     <string name="action_archived_cards">Navegar pelos cartões arquivados</string>
     <string name="attachment_already_exists">O anexo já existe</string>
     <string name="pick_custom_color">Escolher cor personalizada</string>
-</resources>
+    <string name="manage_tags">Gerenciar etiquetas</string>
+    <string name="add_tag">Adicionar etiqueta</string>
+    <string name="tag_already_exists">%1$s já existe</string>
+    <string name="tag_successfully_added">%1$s adicionado com sucesso</string>
+    <string name="edit_tag">Editar %1$s</string>
+
+    <!-- Errors -->
+    <string name="error">Ocorreu um erro</string>
+    <string name="operation_not_yet_supported">Ainda não suportado</string>
+    <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
+    <string name="maintenance_mode">Servidor em modo de manutenção</string>
+    <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
+
+    </resources>

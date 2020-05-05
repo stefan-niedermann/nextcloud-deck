@@ -69,6 +69,8 @@
     <string name="about_contribution_tab_title">Skupnost</string>
     <string name="about_license_tab_title">Dovoljenje</string>
 
+    <string name="copied_to_clipboard">Kopirano v odložišče</string>
+
     <string name="seconds_ago">pred nekaj sekundami</string>
     <string name="edit">Uredi</string>
     <string name="label_labels">Izbor oznak</string>
@@ -91,16 +93,6 @@
     <string name="label_clear_due_date">Počisti datum poteka</string>
     <string name="label_add">Dodaj %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Prišlo je do napake</string>
-    <string name="operation_not_yet_supported">Možnost še ni podprta</string>
-    <string name="copied_to_clipboard">Kopirano v odložišče</string>
-    <string name="maintenance_mode">Strežnik je v načinu vzdrževanja</string>
-    <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
-    <string name="server_misconfigured_explanation">Prejet je odziv strežnika s kodo stanja HTTP 302, kar kaže na to, da ni nameščen program Deck, ali pa so napačne nastavitve. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID. Stopite v stik s skrbnikom, ali pa se obrnite za podporo na nas.</string>
-    <string name="server_error">Napaka strežnika</string>
-    <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
-
     <string name="card_edit_details">Podrobnosti</string>
     <string name="card_edit_attachments">Priloge</string>
     <string name="card_edit_activity">Dejavnost</string>
@@ -118,7 +110,6 @@
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
     <string name="update_deck">Posodobi zbirko</string>
     <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
-    <string name="deck_outdated_please_update">Različica zbirke je prestara. Za uporabo tega odjemalca je treba zbirko najprej posodobiti.</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
     <string name="settings_theme_title">Temna tema</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
@@ -167,4 +158,11 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arhivirane naloge</string>
+    <string name="add_tag">Dodaj oznako</string>
+    <!-- Errors -->
+    <string name="error">Prišlo je do napake</string>
+    <string name="operation_not_yet_supported">Možnost še ni podprta</string>
+    <string name="maintenance_mode">Strežnik je v načinu vzdrževanja</string>
+    <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
+
     </resources>

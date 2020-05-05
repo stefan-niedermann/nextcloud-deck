@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Lagundu!</string>
     <string name="about_license_tab_title">Lizentzia</string>
 
+    <string name="copied_to_clipboard">Kopiatu arbelera</string>
+
     <string name="seconds_ago">segundo lehenago</string>
     <string name="edit">Editatu</string>
     <string name="label_labels">Hautatu etiketak</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Ezabatu epe-muga</string>
     <string name="label_add">Gehitu %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Errore bat agertu da</string>
-    <string name="operation_not_yet_supported">Oraingoz ez da onartzen</string>
-    <string name="copied_to_clipboard">Kopiatu arbelera</string>
-    <string name="error_revoking_ac">Errorea sarrera %1$s(r)entzako baliogabetzen</string>
-    <string name="maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
-    <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
-    <string name="server_misconfigured_explanation">Zure zerbitzariak HTTP 302 kode batekin erantzun du, horrek esan nahi du aplikazioa instalatu duzula baina ez dagoela ondo konfiguratuta. Hau .htaccess fitxategiko erregela bereziengatik izan daiteke edo baita OID Bezeroa izeneko aplikazioagatik. Honi buruzko atalean lor dezakezu gurekin harremanetan jartzeko modua.</string>
-    <string name="server_error">Zerbitzari akatsa</string>
-    <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
-
     <string name="card_edit_details">Xehetasunak</string>
     <string name="card_edit_attachments">Eranskinak</string>
     <string name="card_edit_activity">Jarduera</string>
@@ -121,7 +112,6 @@
     <string name="add_a_new_card_using_the_button">Gehitu txartel berria + botoia erabiliz</string>
     <string name="update_deck">Eguneratu sorta</string>
     <string name="your_deck_version_is_too_old">Zure sorta bertsioa zaharregia da</string>
-    <string name="deck_outdated_please_update">Zure sorta bertsioa zaharregia da. Mesedez eguneratu ezazu android app hau bezero bezala erabiltzeko.</string>
     <string name="delete_board_message">Honek mahai hau eta bertako zerrenda eta txartel guztiak ezabatuko ditu.</string>
     <string name="settings_theme_title">Gai iluna</string>
     <string name="settings_branding_title">Marka</string>
@@ -185,4 +175,12 @@
     <string name="action_archived_cards">Arakatu artxibatutako txartelak</string>
     <string name="attachment_already_exists">Eranskina existitzen da dagoeneko</string>
     <string name="pick_custom_color">Aukeratu kolore pertsonalizatua</string>
-</resources>
+    <string name="add_tag">Gehitu etiketa</string>
+    <!-- Errors -->
+    <string name="error">Errore bat agertu da</string>
+    <string name="operation_not_yet_supported">Oraingoz ez da onartzen</string>
+    <string name="error_revoking_ac">Errorea sarrera %1$s(r)entzako baliogabetzen</string>
+    <string name="maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
+    <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
+
+    </resources>

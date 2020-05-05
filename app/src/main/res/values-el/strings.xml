@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Συνεισφορά</string>
     <string name="about_license_tab_title"> Άδεια χρήσης </string>
 
+    <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
+
     <string name="seconds_ago"> δευτερόλεπτα πριν </string>
     <string name="edit">Επεξεργασία</string>
     <string name="label_labels">Επιλογή Ετικετών</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Καθαρισμός ημερομηνίας λήξης</string>
     <string name="label_add">Προσθήκη %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Παρουσιάστηκε σφάλμα</string>
-    <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
-    <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
-    <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
-    <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
-    <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
-    <string name="server_misconfigured_explanation">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client. Μπορείτε να βρείτε πληροφορίες επικοινωνίας της υποστήριξης στο τμήμα περί.</string>
-    <string name="server_error">Σφάλμα διακομιστή</string>
-    <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
-
     <string name="card_edit_details">Λεπτομέρειες</string>
     <string name="card_edit_attachments">Συνημμένα</string>
     <string name="card_edit_activity">Δραστηριότητα</string>
@@ -117,11 +108,18 @@
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Μόνιμη διαγραφή %1$dτης κάρτας της λίστας.</item>
+        <item quantity="other">Μόνιμη διαγραφή όλων %1$d των καρτών της λίστας.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Θα διαγραφεί η ετικέτα από την κάρτα %1$d.</item>
+        <item quantity="other">Θα διαγραφούν οι ετικέτες από τις κάρτες %1$d.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Προσθήκη νέας λίστας με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
     <string name="update_deck">Ενημέρωση Deck</string>
     <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
-    <string name="deck_outdated_please_update">Η έκδοσή σας είναι είναι παλαιά. Παρακαλώ αναβαθμίστε για επιπλέον χρήση.</string>
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
     <string name="settings_theme_title">Σκούρο θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
@@ -181,5 +179,21 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Αρχειοθετημένες κάρτες</string>
+    <string name="action_card_dearchive">Αναίρεση αρχειοθέτησης κάρτας</string>
     <string name="action_archived_cards">Περιήγηση στις αρχειοθετημένες καρτέλες</string>
+    <string name="attachment_already_exists">Το συνημμένο υπάρχει ήδη</string>
+    <string name="pick_custom_color">Επιλέξτε προσαρμοσμένο χρώμα</string>
+    <string name="manage_tags">Διαχείριση ετικετών</string>
+    <string name="add_tag">Πρόσθεσε ετικέτα</string>
+    <string name="tag_already_exists">Το %1$sυπάρχει ήδη</string>
+    <string name="tag_successfully_added">%1$s προστέθηκε επιτυχώς</string>
+    <string name="edit_tag">Επεξεργασία του %1$s</string>
+
+    <!-- Errors -->
+    <string name="error">Παρουσιάστηκε σφάλμα</string>
+    <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
+    <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
+    <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
+    <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
+
     </resources>

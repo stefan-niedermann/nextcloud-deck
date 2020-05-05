@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Doprinos</string>
     <string name="about_license_tab_title">Licenca</string>
 
+    <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
+
     <string name="seconds_ago">prije nekoliko sekundi</string>
     <string name="edit">Uredi</string>
     <string name="label_labels">Odaberite oznake</string>
@@ -93,17 +95,6 @@
     <string name="label_clear_due_date">Izbriši datum dospijeća</string>
     <string name="label_add">Dodaj %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Pojavila se pogreška</string>
-    <string name="operation_not_yet_supported">Još nije podržano</string>
-    <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
-    <string name="error_revoking_ac">Pogreška pri opozivanju prava pristupa za %1$s</string>
-    <string name="maintenance_mode">Poslužitelj u načinu održavanja</string>
-    <string name="server_misconfigured">Pogrešna konfiguracija poslužitelja</string>
-    <string name="server_misconfigured_explanation">Vaš je poslužitelj vratio šifru statusa HTTP 302, što znači da aplikacija Deck nije instalirana na poslužitelju ili postoji pogreška u konfiguraciji. To mogu uzrokovati prilagođena prepisivanja u datoteci .htaccess ili određene aplikacije u Nextcloudu, kao što je OID Client. Informacije za kontaktiranje u vezi s podrškom možete pronaći u odjeljku s informacijama o sustavu.</string>
-    <string name="server_error">Greška poslužitelja</string>
-    <string name="shared_error">Dijeljenje sadržaja iz aplikacija trećih strana još uvijek nije potpuno podržano. Pokušajte ga preuzeti i zatim dijeliti putem upravitelja podacima ili galerije.</string>
-
     <string name="card_edit_details">Pojedinosti</string>
     <string name="card_edit_attachments">Privici</string>
     <string name="card_edit_activity">Aktivnost</string>
@@ -121,7 +112,6 @@
     <string name="add_a_new_card_using_the_button">Dodaj novu karticu s pomoću gumba +</string>
     <string name="update_deck">Ažuriraj Deck</string>
     <string name="your_deck_version_is_too_old">Vaša inačica Decka je prestara</string>
-    <string name="deck_outdated_please_update">Vaša inačica Decka je prestara. Ažurirajte je kako biste se koristili ovom aplikacijom za Android kao klijentom.</string>
     <string name="delete_board_message">Trajno ćete izbrisati ovu ploču, uključujući sve stogove i kartice.</string>
     <string name="settings_theme_title">Tamna tema</string>
     <string name="settings_branding_title">Brendiranje</string>
@@ -177,4 +167,12 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arhivirane kartice</string>
+    <string name="add_tag">Dodaj oznaku</string>
+    <!-- Errors -->
+    <string name="error">Pojavila se pogreška</string>
+    <string name="operation_not_yet_supported">Još nije podržano</string>
+    <string name="error_revoking_ac">Pogreška pri opozivanju prava pristupa za %1$s</string>
+    <string name="maintenance_mode">Poslužitelj u načinu održavanja</string>
+    <string name="shared_error">Dijeljenje sadržaja iz aplikacija trećih strana još uvijek nije potpuno podržano. Pokušajte ga preuzeti i zatim dijeliti putem upravitelja podacima ili galerije.</string>
+
     </resources>
