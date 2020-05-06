@@ -188,12 +188,23 @@
     <string name="tag_already_exists">%1$s zaten var</string>
     <string name="tag_successfully_added">%1$s eklendi</string>
     <string name="edit_tag">%1$s düzenle</string>
-
     <!-- Errors -->
     <string name="error">Bir sorun çıktı</string>
+    <string name="synchronization_failed">Eşitlenemedi</string>
     <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
     <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
     <string name="maintenance_mode">Sunucu bakım kipinde</string>
     <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
 
+    <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Lütfen uygulamayı kapanmaya zorlayıp yeniden başlatın. Yanlış bir Nextcloud uygulaması bağlantısı olmalı.</string>
+    <string name="error_dialog_tip_files_outdated">Nextcloud uygulamanız eski görünüyor. Lütfen son sürümü almak için Play Store ya da F-Droid mağazalarına gidin.</string>
+    <string name="error_dialog_tip_files_delete_storage">Zorla durdurmak sorunu çözmediyse iki uygulamanın da depolamalarını temizlemeyi deneyebilirsiniz.</string>
+    <string name="error_dialog_timeout_instance">Belirtilen sürede sunucunuzdan bir yanıt alınamadı. Lütfen kopyanızın düzgün çalıştığından emin olun.</string>
+    <string name="error_dialog_timeout_toggle">Ağ bağlantınızı denetleyin. Mobil veriye geçmek ya da Wi-Fi bağlantısını kapatıp açmak yardımcı olabilir.</string>
+    <string name="error_dialog_check_server_logs">Nextcloud kurulumunuz ile ilgili bir sorun var. Lütfen sunucu günlük dosyalarını inceleyin.</string>
+    <string name="error_dialog_check_maintenance">Nextcloud kopyanızın bakım kipinde olmadığından emin olun.</string>
+    <string name="error_dialog_insufficient_storage">Nextcloud kopyanızda boş depolama alanı kalmamış. Lütfen yerel değişikliklerinizi bulut ile eşitlemek için bazı dosyaları silerek yer açın.</string>
+    <string name="error_dialog_contact_us">Sorun sürerse lütfen bize sormaktan çekinmeyin. İletişim bilgilerimizi yan çubuktaki hakkında bölümünde bulabilirsiniz.</string>
+    <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
     </resources>

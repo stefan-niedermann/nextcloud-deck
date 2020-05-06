@@ -170,9 +170,21 @@
     <string name="add_tag">Dodaj oznaku</string>
     <!-- Errors -->
     <string name="error">Pojavila se pogreška</string>
+    <string name="synchronization_failed">Sinkronizacija nije uspjela</string>
     <string name="operation_not_yet_supported">Još nije podržano</string>
     <string name="error_revoking_ac">Pogreška pri opozivanju prava pristupa za %1$s</string>
     <string name="maintenance_mode">Poslužitelj u načinu održavanja</string>
     <string name="shared_error">Dijeljenje sadržaja iz aplikacija trećih strana još uvijek nije potpuno podržano. Pokušajte ga preuzeti i zatim dijeliti putem upravitelja podacima ili galerije.</string>
 
+    <string name="error_dialog_title">Ups, što sada? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Pokušajte prisilno zatvoriti aplikaciju i ponovo je pokrenuti. Možda se radi o nepravilnoj vezi s aplikacijom Nextcloud.</string>
+    <string name="error_dialog_tip_files_outdated">Čini se da je vaša aplikacija Nextcloud zastarjela. Posjetite trgovinu Play Store ili F-Droid kako biste dohvatili najnoviju inačicu.</string>
+    <string name="error_dialog_tip_files_delete_storage">Ako prisilno zatvaranje nije otklonilo problem, pokušajte izbrisati pohranjene podatke iz obje aplikacije.</string>
+    <string name="error_dialog_timeout_instance">Nije stigao odgovor poslužitelja u zadanom vremenskom razdoblju. Provjerite radi li vaša instanca.</string>
+    <string name="error_dialog_timeout_toggle">Provjerite mrežnu vezu. Ponekad može pomoći isključivanje i ponovno uključivanje mobilnih podataka ili bežične (Wi-Fi) mreže.</string>
+    <string name="error_dialog_check_server_logs">Postoji određeni problem s vašim Nextcloudom. Provjerite datoteke zapisa poslužitelja.</string>
+    <string name="error_dialog_check_maintenance">Provjerite je li vaša instanca Nextclouda trenutno u načinu održavanja.</string>
+    <string name="error_dialog_insufficient_storage">Nema slobodnog prostora za pohranu u vašoj instanci Nextclouda. Izbrišite dio datoteka kako biste sinkronizirali lokalne promjene u oblak.</string>
+    <string name="error_dialog_contact_us">Obratite nam se bez odlaganja ako problemi i dalje postoje. Naše podatke za kontakt možete pronaći u odjeljku s informacijama na bočnoj traci.</string>
+    <string name="error_dialog_we_need_info">Potrebne su nam sljedeće tehničke informacije kako bismo vam pomogli:</string>
     </resources>

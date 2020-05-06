@@ -178,9 +178,21 @@
     <string name="add_tag">Gehitu etiketa</string>
     <!-- Errors -->
     <string name="error">Errore bat agertu da</string>
+    <string name="synchronization_failed">Sinkronizazioak huts egin du</string>
     <string name="operation_not_yet_supported">Oraingoz ez da onartzen</string>
     <string name="error_revoking_ac">Errorea sarrera %1$s(r)entzako baliogabetzen</string>
     <string name="maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
     <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
 
+    <string name="error_dialog_title">Oh ez - Orain zer? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Saia zaitez aplikazioa itxi eta berrabiarazten. Agian Nextcloud aplikazioarekin gaizki konektatzea gertatu da.</string>
+    <string name="error_dialog_tip_files_outdated">Daukazun Nextcloud aplikazioa zaharkituta dagoela dirudi. Zoaz Play Store edo F-Droidera azken bertsioa lortzeko.</string>
+    <string name="error_dialog_tip_files_delete_storage">Geldiarazteak ez badu arazoa konpontzen, bi biltegiak garbitzen saia zaitezke.</string>
+    <string name="error_dialog_timeout_instance">Ez da zerbitzariaren erantzunik jaso emandako denboran. Ziurta ezazu zure instantzia ondo dabilela.</string>
+    <string name="error_dialog_timeout_toggle">Egiaztatu sarera konexiorik duzun. Batzuetan, mugikorreko datuak edo Wi-Fia kendu eta berriro jartzeak laguntzen du.</string>
+    <string name="error_dialog_check_server_logs">Arazo bat dago zure Nextcloud ezarpenekin. Eman begiratu bat zerbitzariko egunkari-fitxategiei.</string>
+    <string name="error_dialog_check_maintenance">Egiazta ezazu zure Nextcloud instantzia ez dagoela mantentze moduan une honetan.</string>
+    <string name="error_dialog_insufficient_storage">Zure Nextcloud instantziak ez du biltegiratze leku libre gehiagorik. Ezabatu fitxategi batzuk, aldaketa lokalak hodeiarekin sinkroniza daitezen.</string>
+    <string name="error_dialog_contact_us">Mesedez, arazoak jarraitzen baldin badu ez izan zalantzarik gurekin harremanetan jartzeko. Alboko barran aurki dezakezu gurekin kontaktatzeko informazioa.</string>
+    <string name="error_dialog_we_need_info">Zuri laguntzeko hurrengo informazio teknikoa behar dugu:</string>
     </resources>

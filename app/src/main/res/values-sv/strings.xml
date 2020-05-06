@@ -173,9 +173,12 @@
     <string name="add_tag">Lägg till tagg</string>
     <!-- Errors -->
     <string name="error">Ett fel inträffade</string>
+    <string name="synchronization_failed">Synkroniseringen misslyckades</string>
     <string name="operation_not_yet_supported">Stöds inte än</string>
     <string name="error_revoking_ac">Fel vid återkallande av åtkomst för %1$s</string>
     <string name="maintenance_mode">Server i underhållsläge</string>
     <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
 
+    <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
     </resources>

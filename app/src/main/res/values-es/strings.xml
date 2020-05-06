@@ -188,12 +188,23 @@
     <string name="tag_already_exists">%1$s ya existe</string>
     <string name="tag_successfully_added">%1$s añadida con éxito</string>
     <string name="edit_tag">Editar %1$s</string>
-
     <!-- Errors -->
     <string name="error">Ha aparecido un error</string>
+    <string name="synchronization_failed">Fallo en la sincronización</string>
     <string name="operation_not_yet_supported">No está soportado todavía</string>
     <string name="error_revoking_ac">Error al revocar el acceso a %1$s</string>
     <string name="maintenance_mode">Servidor en modo de mantenimiento</string>
     <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
 
+    <string name="error_dialog_title">Oh no - ¿Ahora qué? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta forzar el cierre de la aplicación y vuelve a abrirla. Es posible que haya habido un problema de conexión con la aplicación Nextcloud.</string>
+    <string name="error_dialog_tip_files_outdated">Su aplicación Nextcloud parece que está desactualizada. Por favor visite la Play Store o F-Droid para conseguir la versión más reciente.</string>
+    <string name="error_dialog_tip_files_delete_storage">Si pararlas no ayuda, puede intentar borrar el almacenamiento de ambas aplicaciones.</string>
+    <string name="error_dialog_timeout_instance">No hubo una respuesta de su servidor en un tiempo determinado. Por favor asegúrese de que su instancia está funcionando sin problemas.</string>
+    <string name="error_dialog_timeout_toggle">Compruebe su conexión de red. A veces alternando la activación de la conexión Wi-Fi o la conexión de datos a off y de nuevo a on puede ayudar.</string>
+    <string name="error_dialog_check_server_logs">Hay un problema con sus ajustes de Nextcloud. Por favor eche un vistazo a los archivos de registros del servidor.</string>
+    <string name="error_dialog_check_maintenance">Por favor compruebe que su intancia Nextcloud no este actualmente en modo de mantenimiento.</string>
+    <string name="error_dialog_insufficient_storage">Su instancia de Nextcloud no tiene espacio libre de almacenamiento. Por favor elimine algunos archivos para sincronizar sus cambios locales con su nube.</string>
+    <string name="error_dialog_contact_us">Por favor, no dude en contactar con nosotros si el problema persiste. Puede encontrar nuestra información de contacto en la sección acerca de en la barra lateral.</string>
+    <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
     </resources>

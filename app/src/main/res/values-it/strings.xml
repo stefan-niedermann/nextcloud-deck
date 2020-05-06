@@ -120,6 +120,7 @@
     <string name="add_a_new_card_using_the_button">Aggiungi una nuova scheda utilizzando il pulsante +</string>
     <string name="update_deck">Aggiorna Deck</string>
     <string name="your_deck_version_is_too_old">La tua versione di Deck è troppo datata</string>
+    <string name="deck_outdated_please_update">La tua versione di Deck è troppo datata (%1$s). Aggiorna per utilizzare questa applicazione Android come client.</string>
     <string name="delete_board_message">Questo eliminerà definitivamente questa lavagna inclusi tutti gli elenchi e le schede.</string>
     <string name="settings_theme_title">Tema scuro</string>
     <string name="settings_branding_title">Marchio</string>
@@ -188,12 +189,28 @@
     <string name="tag_already_exists">%1$s non esiste già</string>
     <string name="tag_successfully_added">%1$s aggiunta correttamente</string>
     <string name="edit_tag">Modifica %1$s</string>
-
     <!-- Errors -->
     <string name="error">Si è verificato un errore</string>
+    <string name="synchronization_failed">Sincronizzazione non riuscita</string>
     <string name="operation_not_yet_supported">Non ancora supportato</string>
     <string name="error_revoking_ac">Errore durante la revoca dell\'accesso a %1$s</string>
+    <string name="error_create_label">Errore durante la creazione dell\'etichetta %1$s</string>
     <string name="maintenance_mode">Server in manutenzione</string>
     <string name="shared_error">La condivisione della condivisione di contenuti di applicazioni di terze parti non è ancora supportata. Prova a scaricarli prima e poi condividili dal gestore dei file nativo o dalla galleria.</string>
 
+    <string name="error_dialog_title">Oh no - E adesso? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Prova a forzare la chiusura dell\'applicazione e riavviarla nuovamente. Potrebbe essersi verificato un problema di connessione all\'applicazione Nextcloud. </string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Se il problema persiste, prova a cancellare l\'archiviazione di entrambe le applicazioni Nextcloud e Nextcloud Deck per risolvere il problema.</string>
+    <string name="error_dialog_tip_clear_storage">Puoi a cancellare l\'archiviazione aprendo le impostazioni di Android → App → Nextcloud / Nextcloud Deck → Archiviazione → Cancella archiviazione</string>
+    <string name="error_dialog_tip_files_outdated">La tua applicazione di Nextcloud sembra essere datata. Visita il Play Store o F-Droid per ottenere l\'ultima versione.</string>
+    <string name="error_dialog_tip_files_force_stop">Sembra che ci sia un problema con la tua applicazione di Nextcloud. Prova a fermare entrambe le applicazioni Nextcloud e Nextcloud Deck.</string>
+    <string name="error_dialog_tip_files_delete_storage">Se fermarle non aiuta, puoi provare a cancellare l\'archiviazione di entrambe le applicazioni.</string>
+    <string name="error_dialog_timeout_instance">Non è stata ricevuta una risposta dal server nel tempo stabilito. Assicurati che la tua istanza sia correttamente in esecuzione.</string>
+    <string name="error_dialog_timeout_toggle">Controlla la tua connessione di rete. A volte disattivare e riattivare i dati mobili o Wi-Fi può aiutare.</string>
+    <string name="error_dialog_check_server">La risposta del tuo server non era corretta. Controlla se puoi accedere all\'applicazione Deck tramite l\'interfaccia web.</string>
+    <string name="error_dialog_check_server_logs">Si è verificato un problema con la tua installazione di Nextcloud. Controlla nei file di registro del server.</string>
+    <string name="error_dialog_check_maintenance">Controlla che la tua istanza di Nextcloud non sia attualmente in manutenzione.</string>
+    <string name="error_dialog_insufficient_storage">La tua istanza di Nextcloud non ha più spazio libero. Elimina alcuni file per sincronizzare le modifiche locali con il tuo cloud.</string>
+    <string name="error_dialog_contact_us">Non esitare a contattarci se il problema persiste. Puoi trovare le nostre informazioni di contatto nella sezione Informazioni della barra laterale.</string>
+    <string name="error_dialog_we_need_info">Ci servono le seguenti informazioni tecniche per aiutarti:</string>
     </resources>

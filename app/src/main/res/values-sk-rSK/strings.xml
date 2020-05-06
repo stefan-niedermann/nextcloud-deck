@@ -192,12 +192,23 @@
     <string name="tag_already_exists">%1$s už existuje</string>
     <string name="tag_successfully_added">%1$s úspešne pridané</string>
     <string name="edit_tag">Upraviť %1$s</string>
-
     <!-- Errors -->
     <string name="error">Vyskytla sa chyba</string>
+    <string name="synchronization_failed">Synchronizácia zlyhala</string>
     <string name="operation_not_yet_supported">Zatiaľ nepodporované</string>
     <string name="error_revoking_ac">Chyba pri zrušení prístupu pre %1$s</string>
     <string name="maintenance_mode">Server je v móde údržby</string>
     <string name="shared_error">Zdieľanie obsahu z aplikácií tretích strán zatiaľ nie je úplne podporované. Skúste si ho najprv stiahnuť a potom ho zdieľajte zo svojho správcu súborov alebo z galérie.</string>
 
+    <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Skúste vyinútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k chybnému pripojeniu k aplikácii Nextcloud.</string>
+    <string name="error_dialog_tip_files_outdated">Váš Nextcloud vyzerá byť zastaralý. Navštívte Play Store alebo F-Droid pre získanie najnovšej verzie.</string>
+    <string name="error_dialog_tip_files_delete_storage">Ak ich ukončenie nepomôže, môžete skúsiť vyčistiť úložiská oboch aplikácií.</string>
+    <string name="error_dialog_timeout_instance">Server dlho neodpovedal. Uistite sa, vami využívaná inštancia funguje dobre.</string>
+    <string name="error_dialog_timeout_toggle">Skontrolujte pripojenie k sieti. Niekedy pomôže vypnutie a znovu zapnutie mobilných dát alebo Wi-Fi.</string>
+    <string name="error_dialog_check_server_logs">V nastavení vášho Nextcloudu je problém. Skontrolujte súbor so záznamom udalostí na serveri.</string>
+    <string name="error_dialog_check_maintenance">Prosím skontrolujte, či vaša inštancia Nextcloudu nie je práve v móde údržby.</string>
+    <string name="error_dialog_insufficient_storage">Vo vašej inštancii Nexcloudu nie je na úložisku voľné miesto. Aby bolo možné synchronizovať vaše miestne zmeny s vaším cloudom, je potrebné najprv zmazať niektoré súbory.</string>
+    <string name="error_dialog_contact_us">Ak problémy pretrvávajú, neváhajte nás kontaktovať. Kontaktné informácie nájdete v časti \"O nás\" v bočnom paneli.</string>
+    <string name="error_dialog_we_need_info">Aby sme vám pomohli, potrebujeme následovné technické informácie:</string>
     </resources>
