@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:columnCount="2"
-    android:padding="@dimen/spacer_2x">
+    android:paddingTop="@dimen/spacer_2x"
+    android:paddingBottom="@dimen/spacer_2x">
 
     <ImageView
         android:layout_gravity="center"
