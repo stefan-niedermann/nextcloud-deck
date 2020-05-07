@@ -1,39 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/spacer_2x"
-    android:paddingBottom="@dimen/spacer_2x">
-
-    <ImageView
-        android:id="@+id/bulb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="@dimen/spacer_2x"
-        android:layout_marginRight="@dimen/spacer_2x"
-        android:contentDescription="@null"
-        app:srcCompat="@drawable/ic_lightbulb_outline_grey600_24dp" />
+    android:orientation="vertical"
+    android:paddingTop="@dimen/spacer_1x"
+    android:paddingBottom="@dimen/spacer_1x">
 
     <TextView
         android:id="@+id/tip"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/bulb"
-        android:layout_toRightOf="@id/bulb"
-        android:textAppearance="?attr/textAppearanceBody1"
+        android:drawablePadding="@dimen/spacer_2x"
+        android:gravity="start|center"
+        android:textColor="?android:textColorPrimary"
+        app:drawableLeftCompat="@drawable/ic_lightbulb_outline_grey600_24dp"
+        app:drawableStartCompat="@drawable/ic_lightbulb_outline_grey600_24dp"
         tools:maxLength="200"
         tools:text="@tools:sample/lorem/random" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tip"
-        android:layout_toEndOf="@id/bulb"
-        android:layout_toRightOf="@id/bulb"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="40dp"
+        android:paddingLeft="40dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/action_primary"
@@ -55,4 +49,4 @@
             tools:text="@string/error_action_open_network"
             tools:visibility="visible" />
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
