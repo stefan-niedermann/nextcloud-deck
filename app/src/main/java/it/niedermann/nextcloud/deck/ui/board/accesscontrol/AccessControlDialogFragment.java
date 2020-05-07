@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.board.accesscontrol;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +31,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlAdapter.HEADER_ITEM_LOCAL_ID;
@@ -113,7 +115,9 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
             if (wrappedDeleteLiveData.hasError()) {
                 DeckLog.logError(wrappedDeleteLiveData.getError());
                 Snackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(wrappedDeleteLiveData.getError()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
+                        .setActionTextColor(ColorUtil.isColorDark(Color.parseColor(viewModel.getCurrentAccount().getColor())) ? Color.WHITE : Color.parseColor(viewModel.getCurrentAccount().getColor()))
+                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(wrappedDeleteLiveData.getError()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .show();
             }
         });
     }

@@ -262,6 +262,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                         if (createLabelLiveData.hasError()) {
                             DeckLog.logError(createLabelLiveData.getError());
                             Snackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
+                                    .setActionTextColor(ColorUtil.isColorDark(Color.parseColor(viewModel.getAccount().getColor())) ? Color.WHITE : Color.parseColor(viewModel.getAccount().getColor()))
                                     .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLabelLiveData.getError()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
                         } else {
                             newLabel.setLocalId(createdLabel.getLocalId());
@@ -357,6 +358,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 Snackbar.make(
                         requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
                         Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ColorUtil.isColorDark(Color.parseColor(viewModel.getAccount().getColor())) ? Color.WHITE : Color.parseColor(viewModel.getAccount().getColor()))
                         .setAction(R.string.simple_undo, v1 -> {
                             viewModel.getFullCard().getAssignedUsers().add(user);
                             ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);

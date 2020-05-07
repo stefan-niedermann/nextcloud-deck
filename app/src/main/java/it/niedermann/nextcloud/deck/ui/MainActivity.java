@@ -386,7 +386,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (createLiveData.hasError()) {
                     final Throwable error = createLiveData.getError();
                     assert error != null;
-                    Snackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
+                            .setActionTextColor(ColorUtil.isColorDark(Color.parseColor(mainViewModel.getCurrentAccount().getColor())) ? Color.WHITE : Color.parseColor(mainViewModel.getCurrentAccount().getColor()))
+                            .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                            .show();
                 } else {
                     binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
                 }
@@ -414,7 +417,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         boardToCreate.setPermissionManage(true);
         observeOnce(syncManager.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate), this, createdBoard -> {
             if (createdBoard == null) {
-                Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ColorUtil.isColorDark(Color.parseColor(mainViewModel.getCurrentAccount().getColor())) ? Color.WHITE : Color.parseColor(mainViewModel.getCurrentAccount().getColor()))
+                        // TODO implement action!
+                        // .setAction(R.string.simple_open, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .show();
             } else {
                 boardsList.add(createdBoard.getBoard());
                 setCurrentBoard(createdBoard.getBoard());
@@ -974,11 +981,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
      */
     private void showSyncFailedSnackbar(@NonNull Throwable throwable) {
         if (!(throwable instanceof NextcloudHttpRequestFailedException) || ((NextcloudHttpRequestFailedException) throwable).getStatusCode() != HttpURLConnection.HTTP_UNAVAILABLE) {
-            runOnUiThread(() -> {
-                Snackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                        .show();
-            });
+            runOnUiThread(() -> Snackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                    .setActionTextColor(ColorUtil.isColorDark(Color.parseColor(mainViewModel.getCurrentAccount().getColor())) ? Color.WHITE : Color.parseColor(mainViewModel.getCurrentAccount().getColor()))
+                    .show());
         }
     }
 
