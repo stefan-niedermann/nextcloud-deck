@@ -154,6 +154,7 @@ public class SyncManager {
             refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Capabilities response) {
+                    responseCallback.onError(new NextcloudHttpRequestFailedException(500, new Exception()));
                     if (!response.isMaintenanceEnabled()) {
                         long accountId = responseCallback.getAccount().getId();
                         Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());

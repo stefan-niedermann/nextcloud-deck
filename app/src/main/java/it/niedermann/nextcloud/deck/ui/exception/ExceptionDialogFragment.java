@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.exception;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +30,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogExceptionBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemTipBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
@@ -40,9 +43,14 @@ import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
     private static final String KEY_THROWABLES = "throwables";
+    private static final String KEY_ACCOUNT = "account";
+    private static final String INTENT_EXTRA_BUTTON_TEXT = "button_text";
 
     @NonNull
     private ArrayList<Throwable> throwables = new ArrayList<>();
+
+    @Nullable
+    private Account account;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -52,6 +60,10 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
             final Object throwablesArgument = args.getSerializable(KEY_THROWABLES);
             if (throwablesArgument != null) {
                 throwables.addAll((ArrayList<Throwable>) throwablesArgument);
+            }
+            final Object accountArgument = args.getSerializable(KEY_ACCOUNT);
+            if (accountArgument != null) {
+                this.account = (Account) accountArgument;
             }
         }
         if (throwables.size() == 0) {
@@ -67,7 +79,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
         final TipsAdapter adapter = new TipsAdapter();
 
-        final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), throwables);
+        final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), throwables, account);
 
         binding.tips.setAdapter(adapter);
         binding.statusMessage.setText(throwables.get(0).getLocalizedMessage());
@@ -78,7 +90,10 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
             if (t instanceof TokenMismatchException) {
                 adapter.add(R.string.error_dialog_tip_token_mismatch_retry);
                 adapter.add(R.string.error_dialog_tip_token_mismatch_clear_storage);
-                adapter.add(R.string.error_dialog_tip_clear_storage);
+                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        .setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
+                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_deck_info);
+                adapter.add(R.string.error_dialog_tip_clear_storage, intent);
             } else if (t instanceof NextcloudFilesAppNotSupportedException) {
                 adapter.add(R.string.error_dialog_tip_files_outdated);
             } else if (t instanceof NextcloudApiNotRespondingException) {
@@ -86,7 +101,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
                 adapter.add(R.string.error_dialog_tip_files_delete_storage);
             } else if (t instanceof SocketTimeoutException || t instanceof ConnectException) {
                 adapter.add(R.string.error_dialog_timeout_instance);
-                adapter.add(R.string.error_dialog_timeout_toggle);
+                adapter.add(R.string.error_dialog_timeout_toggle, new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_network));
             } else if (t instanceof JSONException || t instanceof NullPointerException) {
                 adapter.add(R.string.error_dialog_check_server);
             } else if (t instanceof NextcloudHttpRequestFailedException) {
@@ -96,7 +111,13 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
                         adapter.add(R.string.error_dialog_redirect);
                         break;
                     case 500:
-                        adapter.add(R.string.error_dialog_check_server_logs);
+                        if (account != null) {
+                            adapter.add(R.string.error_dialog_check_server_logs, new Intent(Intent.ACTION_VIEW)
+                                    .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_server_logs)
+                                    .setData(Uri.parse(account.getUrl() + getString(R.string.url_fragment_server_logs))));
+                        } else {
+                            adapter.add(R.string.error_dialog_check_server_logs);
+                        }
                         break;
                     case 503:
                         adapter.add(R.string.error_dialog_check_maintenance);
@@ -119,19 +140,12 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
                 .create();
     }
 
-    public static DialogFragment newInstance(ArrayList<Throwable> exceptions) {
-        final Bundle args = new Bundle();
-        args.putSerializable(KEY_THROWABLES, exceptions);
-        final DialogFragment fragment = new ExceptionDialogFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static DialogFragment newInstance(Throwable exception) {
+    public static DialogFragment newInstance(Throwable exception, @Nullable Account account) {
         final Bundle args = new Bundle();
         final ArrayList<Throwable> list = new ArrayList<>(1);
         list.add(exception);
         args.putSerializable(KEY_THROWABLES, list);
+        args.putSerializable(KEY_ACCOUNT, account);
         final DialogFragment fragment = new ExceptionDialogFragment();
         fragment.setArguments(args);
         return fragment;
@@ -183,10 +197,19 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
         public void bind(TipsModel tip) {
             binding.tip.setText(tip.text);
-            if(tip.primaryAction == null) {
-                binding.actionPrimary.setVisibility(View.GONE);
-            } else {
+            if (tip.primaryAction != null && tip.primaryAction.hasExtra(INTENT_EXTRA_BUTTON_TEXT)) {
                 binding.actionPrimary.setVisibility(View.VISIBLE);
+                binding.actionPrimary.setText(tip.primaryAction.getIntExtra(INTENT_EXTRA_BUTTON_TEXT, 0));
+                binding.actionPrimary.setOnClickListener((v) -> binding.getRoot().getRootView().getContext().startActivity(tip.primaryAction));
+            } else {
+                binding.actionPrimary.setVisibility(View.GONE);
+            }
+            if (tip.secondaryAction != null && tip.secondaryAction.hasExtra(INTENT_EXTRA_BUTTON_TEXT)) {
+                binding.actionSecondary.setVisibility(View.VISIBLE);
+                binding.actionSecondary.setText(tip.secondaryAction.getIntExtra(INTENT_EXTRA_BUTTON_TEXT, 0));
+                binding.actionSecondary.setOnClickListener((v) -> binding.getRoot().getRootView().getContext().startActivity(tip.secondaryAction));
+            } else {
+                binding.actionSecondary.setVisibility(View.GONE);
             }
         }
     }

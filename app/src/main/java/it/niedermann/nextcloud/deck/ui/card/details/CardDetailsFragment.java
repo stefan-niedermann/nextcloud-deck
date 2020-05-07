@@ -262,7 +262,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                         if (createLabelLiveData.hasError()) {
                             DeckLog.logError(createLabelLiveData.getError());
                             Snackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLabelLiveData.getError()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
+                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLabelLiveData.getError(), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
                         } else {
                             newLabel.setLocalId(createdLabel.getLocalId());
                             ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(createdLabel);

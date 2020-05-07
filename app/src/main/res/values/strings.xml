@@ -115,6 +115,7 @@
     <string name="url_translations" translatable="false">https://www.transifex.com/nextcloud/nextcloud/</string>
     <string name="url_about_icons_disclaimer_mdi" translatable="false">https://materialdesignicons.com/</string>
     <string name="url_fragment_update_deck" translatable="false">/index.php/settings/apps/installed/deck</string>
+    <string name="url_fragment_server_logs" translatable="false">/index.php/settings/admin/logging</string>
 
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Attachments</string>
@@ -242,4 +243,6 @@
     <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
     <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
     <string name="error_action_open_deck_info">Open App info</string>
+    <string name="error_action_open_network">Network settings</string>
+    <string name="error_action_server_logs">Server logs</string>
 </resources>

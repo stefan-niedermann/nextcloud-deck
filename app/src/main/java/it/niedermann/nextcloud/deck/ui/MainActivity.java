@@ -113,7 +113,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
 
-    private MainViewModel mainViewModel;
+    protected MainViewModel mainViewModel;
     private FilterViewModel filterViewModel;
 
     protected static final int ACTIVITY_ABOUT = 1;
@@ -799,7 +799,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                             super.onError(throwable);
                                                             runOnUiThread(() -> {
                                                                 importSnackbar.dismiss();
-                                                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                                             });
                                                         }
                                                     });
@@ -841,7 +841,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                     .setPositiveButton(R.string.simple_close, null)
                                                     .show());
                                         } else {
-                                            ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                            ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                         }
                                     }
                                 });
@@ -851,8 +851,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                     DeckLog.warn("Account already added");
                                     Snackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
                                 } else {
-                                    ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                                    ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                    ExceptionDialogFragment.newInstance(error, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                 }
                             }
                         });
@@ -958,7 +957,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         if (!(throwable instanceof NextcloudHttpRequestFailedException) || ((NextcloudHttpRequestFailedException) throwable).getStatusCode() != HttpURLConnection.HTTP_UNAVAILABLE) {
             runOnUiThread(() -> {
                 Snackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                         .show();
             });
         }
