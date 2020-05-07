@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:columnCount="2"
     android:paddingTop="@dimen/spacer_2x"
     android:paddingBottom="@dimen/spacer_2x">
 
     <ImageView
+        android:id="@+id/bulb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/spacer_2x"
         android:layout_marginRight="@dimen/spacer_2x"
@@ -18,12 +20,19 @@
     <TextView
         android:id="@+id/tip"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/bulb"
+        android:layout_toRightOf="@id/bulb"
         android:textAppearance="?attr/textAppearanceBody1"
         tools:maxLength="200"
         tools:text="@tools:sample/lorem/random" />
 
     <LinearLayout
-        android:layout_column="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tip"
+        android:layout_toEndOf="@id/bulb"
+        android:layout_toRightOf="@id/bulb"
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
@@ -46,4 +55,4 @@
             tools:text="@string/error_action_open_network"
             tools:visibility="visible" />
     </LinearLayout>
-</GridLayout>
+</RelativeLayout>
