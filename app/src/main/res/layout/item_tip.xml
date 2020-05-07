@@ -20,33 +20,16 @@
         tools:maxLength="200"
         tools:text="@tools:sample/lorem/random" />
 
-    <LinearLayout
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/action_button"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="40dp"
-        android:paddingLeft="40dp"
-        android:paddingEnd="0dp"
-        android:paddingRight="0dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/action_primary"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacer_1x"
-            android:layout_marginRight="@dimen/spacer_1x"
-            android:visibility="visible"
-            tools:text="@string/error_action_open_deck_info"
-            tools:visibility="visible" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/action_secondary"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            tools:text="@string/error_action_open_network"
-            tools:visibility="visible" />
-    </LinearLayout>
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginEnd="@dimen/spacer_1x"
+        android:layout_marginRight="@dimen/spacer_1x"
+        android:visibility="visible"
+        tools:text="@string/error_action_open_deck_info"
+        tools:visibility="visible" />
 </LinearLayout>

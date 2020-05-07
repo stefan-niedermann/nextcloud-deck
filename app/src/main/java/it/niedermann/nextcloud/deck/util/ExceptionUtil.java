@@ -14,8 +14,6 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -28,22 +26,13 @@ public class ExceptionUtil {
     }
 
     public static String getDebugInfos(@NonNull Context context, Throwable throwable, @Nullable Account account) {
-        List<Throwable> throwables = new ArrayList<>();
-        throwables.add(throwable);
-        return getDebugInfos(context, throwables, account);
-    }
-
-    public static String getDebugInfos(@NonNull Context context, @NonNull List<Throwable> throwables, @Nullable Account account) {
-        StringBuilder debugInfos = new StringBuilder(""
-                + getAppVersions(context, account)
-                + "\n\n---\n"
-                + getDeviceInfos()
-                + "\n\n---"
-                + "\n\n");
-        for (Throwable throwable : throwables) {
-            debugInfos.append(getStacktraceOf(throwable));
-        }
-        return debugInfos.toString();
+        return "" +
+                getAppVersions(context, account) +
+                "\n\n---\n" +
+                getDeviceInfos() +
+                "\n\n---" +
+                "\n\n" +
+                getStacktraceOf(throwable);
     }
 
     private static String getAppVersions(Context context, @Nullable Account account) {
@@ -54,13 +43,14 @@ public class ExceptionUtil {
 
         if (account != null) {
             versions += "\n";
-            versions += "Server Version: " + account.getServerDeckVersion() + "\n";
+            versions += "Deck Server Version: " + account.getServerDeckVersion() + "\n";
         }
 
+        versions += "\n";
         try {
-            versions += "\nFiles App Version Code: " + VersionCheckHelper.getNextcloudFilesVersionCode(context);
+            versions += "Files App Version Code: " + VersionCheckHelper.getNextcloudFilesVersionCode(context);
         } catch (PackageManager.NameNotFoundException e) {
-            versions += "\nFiles App Version Code: " + e.getMessage();
+            versions += "Files App Version Code: " + e.getMessage();
             e.printStackTrace();
         }
         return versions;

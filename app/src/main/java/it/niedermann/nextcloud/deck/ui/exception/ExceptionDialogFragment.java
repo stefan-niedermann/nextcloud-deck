@@ -26,7 +26,6 @@ import org.json.JSONException;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,12 +41,11 @@ import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
-    private static final String KEY_THROWABLES = "throwables";
+    private static final String KEY_THROWABLE = "throwable";
     private static final String KEY_ACCOUNT = "account";
     private static final String INTENT_EXTRA_BUTTON_TEXT = "button_text";
 
-    @NonNull
-    private ArrayList<Throwable> throwables = new ArrayList<>();
+    private Throwable throwable;
 
     @Nullable
     private Account account;
@@ -57,17 +55,11 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         super.onAttach(context);
         final Bundle args = getArguments();
         if (args != null) {
-            final Object throwablesArgument = args.getSerializable(KEY_THROWABLES);
-            if (throwablesArgument != null) {
-                throwables.addAll((ArrayList<Throwable>) throwablesArgument);
+            this.throwable = (Throwable) args.getSerializable(KEY_THROWABLE);
+            if (this.throwable == null) {
+                throwable = new IllegalArgumentException("Did not receive any exception in " + ExceptionDialogFragment.class.getSimpleName());
             }
-            final Object accountArgument = args.getSerializable(KEY_ACCOUNT);
-            if (accountArgument != null) {
-                this.account = (Account) accountArgument;
-            }
-        }
-        if (throwables.size() == 0) {
-            throwables.add(new IllegalArgumentException("Did not receive any exception in " + ExceptionDialogFragment.class.getSimpleName()));
+            this.account = (Account) args.getSerializable(KEY_ACCOUNT);
         }
     }
 
@@ -79,52 +71,51 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
         final TipsAdapter adapter = new TipsAdapter();
 
-        final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), throwables, account);
+        final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), throwable, account);
 
         binding.tips.setAdapter(adapter);
         binding.stacktrace.setText(debugInfos);
 
-        for (Throwable t : throwables) {
-            DeckLog.logError(t);
-            if (t instanceof TokenMismatchException) {
-                adapter.add(R.string.error_dialog_tip_token_mismatch_retry);
-                adapter.add(R.string.error_dialog_tip_token_mismatch_clear_storage);
-                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                        .setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
-                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_deck_info);
-                adapter.add(R.string.error_dialog_tip_clear_storage, intent);
-            } else if (t instanceof NextcloudFilesAppNotSupportedException) {
-                adapter.add(R.string.error_dialog_tip_files_outdated);
-            } else if (t instanceof NextcloudApiNotRespondingException) {
-                adapter.add(R.string.error_dialog_tip_files_force_stop);
-                adapter.add(R.string.error_dialog_tip_files_delete_storage);
-            } else if (t instanceof SocketTimeoutException || t instanceof ConnectException) {
-                adapter.add(R.string.error_dialog_timeout_instance);
-                adapter.add(R.string.error_dialog_timeout_toggle, new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_network));
-            } else if (t instanceof JSONException || t instanceof NullPointerException) {
-                adapter.add(R.string.error_dialog_check_server);
-            } else if (t instanceof NextcloudHttpRequestFailedException) {
-                int statusCode = ((NextcloudHttpRequestFailedException) t).getStatusCode();
-                switch (statusCode) {
-                    case 302:
-                        adapter.add(R.string.error_dialog_redirect);
-                        break;
-                    case 500:
-                        if (account != null) {
-                            adapter.add(R.string.error_dialog_check_server_logs, new Intent(Intent.ACTION_VIEW)
-                                    .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_server_logs)
-                                    .setData(Uri.parse(account.getUrl() + getString(R.string.url_fragment_server_logs))));
-                        } else {
-                            adapter.add(R.string.error_dialog_check_server_logs);
-                        }
-                        break;
-                    case 503:
-                        adapter.add(R.string.error_dialog_check_maintenance);
-                        break;
-                    case 507:
-                        adapter.add(R.string.error_dialog_insufficient_storage);
-                        break;
-                }
+        DeckLog.logError(throwable);
+
+        if (throwable instanceof TokenMismatchException) {
+            adapter.add(R.string.error_dialog_tip_token_mismatch_retry);
+            adapter.add(R.string.error_dialog_tip_token_mismatch_clear_storage);
+            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    .setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
+                    .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_deck_info);
+            adapter.add(R.string.error_dialog_tip_clear_storage, intent);
+        } else if (throwable instanceof NextcloudFilesAppNotSupportedException) {
+            adapter.add(R.string.error_dialog_tip_files_outdated);
+        } else if (throwable instanceof NextcloudApiNotRespondingException) {
+            adapter.add(R.string.error_dialog_tip_files_force_stop);
+            adapter.add(R.string.error_dialog_tip_files_delete_storage);
+        } else if (throwable instanceof SocketTimeoutException || throwable instanceof ConnectException) {
+            adapter.add(R.string.error_dialog_timeout_instance);
+            adapter.add(R.string.error_dialog_timeout_toggle, new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_network));
+        } else if (throwable instanceof JSONException || throwable instanceof NullPointerException) {
+            adapter.add(R.string.error_dialog_check_server);
+        } else if (throwable instanceof NextcloudHttpRequestFailedException) {
+            int statusCode = ((NextcloudHttpRequestFailedException) throwable).getStatusCode();
+            switch (statusCode) {
+                case 302:
+                    adapter.add(R.string.error_dialog_redirect);
+                    break;
+                case 500:
+                    if (account != null) {
+                        adapter.add(R.string.error_dialog_check_server_logs, new Intent(Intent.ACTION_VIEW)
+                                .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_server_logs)
+                                .setData(Uri.parse(account.getUrl() + getString(R.string.url_fragment_server_logs))));
+                    } else {
+                        adapter.add(R.string.error_dialog_check_server_logs);
+                    }
+                    break;
+                case 503:
+                    adapter.add(R.string.error_dialog_check_maintenance);
+                    break;
+                case 507:
+                    adapter.add(R.string.error_dialog_insufficient_storage);
+                    break;
             }
         }
 
@@ -139,18 +130,16 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
                 .create();
     }
 
-    public static DialogFragment newInstance(Throwable exception, @Nullable Account account) {
+    public static DialogFragment newInstance(Throwable throwable, @Nullable Account account) {
         final Bundle args = new Bundle();
-        final ArrayList<Throwable> list = new ArrayList<>(1);
-        list.add(exception);
-        args.putSerializable(KEY_THROWABLES, list);
+        args.putSerializable(KEY_THROWABLE, throwable);
         args.putSerializable(KEY_ACCOUNT, account);
         final DialogFragment fragment = new ExceptionDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private static class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
+    private class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
         @NonNull
         private List<TipsModel> tips = new LinkedList<>();
@@ -172,21 +161,17 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
             return tips.size();
         }
 
-        private void add(@StringRes int tip) {
-            add(tip, null, null);
+        private void add(@StringRes int text) {
+            add(text, null);
         }
 
-        private void add(@StringRes int tip, @Nullable Intent primaryAction) {
-            add(tip, primaryAction, null);
-        }
-
-        private void add(@StringRes int text, @Nullable Intent primaryAction, @Nullable Intent secondaryAction) {
-            tips.add(new TipsModel(text, primaryAction, secondaryAction));
+        private void add(@StringRes int text, @Nullable Intent primaryAction) {
+            tips.add(new TipsModel(text, primaryAction));
             notifyItemInserted(tips.size());
         }
     }
 
-    private static class TipsViewHolder extends RecyclerView.ViewHolder {
+    private class TipsViewHolder extends RecyclerView.ViewHolder {
         private final ItemTipBinding binding;
 
         private TipsViewHolder(@NonNull View itemView) {
@@ -196,19 +181,12 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
         public void bind(TipsModel tip) {
             binding.tip.setText(tip.text);
-            if (tip.primaryAction != null && tip.primaryAction.hasExtra(INTENT_EXTRA_BUTTON_TEXT)) {
-                binding.actionPrimary.setVisibility(View.VISIBLE);
-                binding.actionPrimary.setText(tip.primaryAction.getIntExtra(INTENT_EXTRA_BUTTON_TEXT, 0));
-                binding.actionPrimary.setOnClickListener((v) -> binding.getRoot().getRootView().getContext().startActivity(tip.primaryAction));
+            if (tip.actionIntent != null && tip.actionIntent.hasExtra(INTENT_EXTRA_BUTTON_TEXT)) {
+                binding.actionButton.setVisibility(View.VISIBLE);
+                binding.actionButton.setText(tip.actionIntent.getIntExtra(INTENT_EXTRA_BUTTON_TEXT, 0));
+                binding.actionButton.setOnClickListener((v) -> requireActivity().startActivity(tip.actionIntent));
             } else {
-                binding.actionPrimary.setVisibility(View.GONE);
-            }
-            if (tip.secondaryAction != null && tip.secondaryAction.hasExtra(INTENT_EXTRA_BUTTON_TEXT)) {
-                binding.actionSecondary.setVisibility(View.VISIBLE);
-                binding.actionSecondary.setText(tip.secondaryAction.getIntExtra(INTENT_EXTRA_BUTTON_TEXT, 0));
-                binding.actionSecondary.setOnClickListener((v) -> binding.getRoot().getRootView().getContext().startActivity(tip.secondaryAction));
-            } else {
-                binding.actionSecondary.setVisibility(View.GONE);
+                binding.actionButton.setVisibility(View.GONE);
             }
         }
     }
@@ -217,14 +195,11 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         @StringRes
         int text;
         @Nullable
-        Intent primaryAction;
-        @Nullable
-        Intent secondaryAction;
+        Intent actionIntent;
 
-        TipsModel(@StringRes int text, @Nullable Intent primaryAction, @Nullable Intent secondaryAction) {
+        TipsModel(@StringRes int text, @Nullable Intent actionIntent) {
             this.text = text;
-            this.primaryAction = primaryAction;
-            this.secondaryAction = secondaryAction;
+            this.actionIntent = actionIntent;
         }
     }
 }
