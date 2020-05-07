@@ -25,12 +25,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/error_dialog_contact_us" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_2x"
+            android:textAppearance="?attr/textAppearanceBody2"
             android:text="@string/error_dialog_we_need_info" />
 
         <TextView
