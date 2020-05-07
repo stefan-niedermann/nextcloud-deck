@@ -2,12 +2,14 @@ package it.niedermann.nextcloud.deck.ui.exception;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -138,7 +140,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
     private static class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
         @NonNull
-        private List<Integer> tips = new LinkedList<>();
+        private List<TipsModel> tips = new LinkedList<>();
 
         @NonNull
         @Override
@@ -149,7 +151,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
         @Override
         public void onBindViewHolder(@NonNull TipsViewHolder holder, int position) {
-            holder.binding.tip.setText(tips.get(position));
+            holder.bind(tips.get(position));
         }
 
         @Override
@@ -158,7 +160,15 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         }
 
         private void add(@StringRes int tip) {
-            tips.add(tip);
+            add(tip, null, null);
+        }
+
+        private void add(@StringRes int tip, @Nullable Intent primaryAction) {
+            add(tip, primaryAction, null);
+        }
+
+        private void add(@StringRes int text, @Nullable Intent primaryAction, @Nullable Intent secondaryAction) {
+            tips.add(new TipsModel(text, primaryAction, secondaryAction));
             notifyItemInserted(tips.size());
         }
     }
@@ -169,6 +179,30 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         private TipsViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemTipBinding.bind(itemView);
+        }
+
+        public void bind(TipsModel tip) {
+            binding.tip.setText(tip.text);
+            if(tip.primaryAction == null) {
+                binding.actionPrimary.setVisibility(View.GONE);
+            } else {
+                binding.actionPrimary.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private static class TipsModel {
+        @StringRes
+        int text;
+        @Nullable
+        Intent primaryAction;
+        @Nullable
+        Intent secondaryAction;
+
+        TipsModel(@StringRes int text, @Nullable Intent primaryAction, @Nullable Intent secondaryAction) {
+            this.text = text;
+            this.primaryAction = primaryAction;
+            this.secondaryAction = secondaryAction;
         }
     }
 }

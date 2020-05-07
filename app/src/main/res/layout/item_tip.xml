@@ -1,15 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tip"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:drawablePadding="@dimen/spacer_2x"
-    android:gravity="start|center"
-    android:padding="@dimen/spacer_2x"
-    android:textColor="?android:textColorPrimary"
-    app:drawableLeftCompat="@drawable/ic_lightbulb_outline_grey600_24dp"
-    app:drawableStartCompat="@drawable/ic_lightbulb_outline_grey600_24dp"
-    tools:maxLength="200"
-    tools:text="@tools:sample/lorem/random" />
+    android:columnCount="2"
+    android:padding="@dimen/spacer_2x">
+
+    <ImageView
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/spacer_2x"
+        android:layout_marginRight="@dimen/spacer_2x"
+        android:contentDescription="@null"
+        app:srcCompat="@drawable/ic_lightbulb_outline_grey600_24dp" />
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="wrap_content"
+        android:gravity="start|center"
+        android:textAppearance="?attr/textAppearanceBody1"
+        tools:maxLength="200"
+        tools:text="@tools:sample/lorem/random" />
+
+    <LinearLayout
+        android:layout_column="1"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_primary"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacer_1x"
+            android:layout_marginRight="@dimen/spacer_1x"
+            android:visibility="visible"
+            tools:text="@string/error_action_open_deck_info"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_secondary"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            tools:text="@string/error_action_open_deck_info"
+            tools:visibility="visible" />
+    </LinearLayout>
+</GridLayout>
