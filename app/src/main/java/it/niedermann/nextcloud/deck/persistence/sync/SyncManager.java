@@ -763,14 +763,14 @@ public class SyncManager {
         return updateCard(card);
     }
 
-    // TODO implement
-    public LiveData<Boolean> hasArchivedBoards() {
-        return null;
+    public MutableLiveData<FullBoard> archiveBoard(FullBoard board) {
+        board.getBoard().setArchived(true);
+        return updateBoard(board);
     }
 
-    public MutableLiveData<FullBoard> archiveBoard(FullBoard board) {
-        // TODO implement with WrappedLiveData
-        return null;
+    public MutableLiveData<FullBoard> dearchiveBoard(FullBoard board) {
+        board.getBoard().setArchived(false);
+        return updateBoard(board);
     }
 
     public WrappedLiveData<FullCard> updateCard(FullCard card) {

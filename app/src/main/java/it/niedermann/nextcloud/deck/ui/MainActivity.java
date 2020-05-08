@@ -133,6 +133,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
 
+    private LiveData<Boolean> hasArchivedBoardsLiveData;
+    private Observer<Boolean> hasArchivedBoardsLiveDataObserver;
+
     private boolean currentBoardHasStacks = false;
     private int currentBoardStacksCount = 0;
 
@@ -468,7 +471,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             } else {
                 clearCurrentBoard();
             }
-            inflateBoardMenu();
+
+            if (hasArchivedBoardsLiveData != null && hasArchivedBoardsLiveDataObserver != null) {
+                hasArchivedBoardsLiveData.removeObserver(hasArchivedBoardsLiveDataObserver);
+            }
+            hasArchivedBoardsLiveData = syncManager.hasArchivedBoards(account.getId());
+            hasArchivedBoardsLiveDataObserver = (hasArchivedBoards) -> {
+                mainViewModel.setCurrentAccountHasArchivedBoards(Boolean.TRUE.equals(hasArchivedBoards));
+                inflateBoardMenu();
+            };
+            hasArchivedBoardsLiveData.observe(this, hasArchivedBoardsLiveDataObserver);
         };
         boardsLiveData.observe(this, boardsLiveDataObserver);
 
@@ -614,9 +626,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        observeOnce(syncManager.hasArchivedBoards(mainViewModel.getCurrentAccount().getId()), this, (hasArchivedBoards) -> {
-            DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, Boolean.TRUE.equals(hasArchivedBoards));
-        });
+        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards());
     }
 
     @Override

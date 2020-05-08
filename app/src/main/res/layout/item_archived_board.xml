@@ -36,5 +36,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/label_menu"
         android:padding="@dimen/spacer_1hx"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_menu" />
 </LinearLayout>

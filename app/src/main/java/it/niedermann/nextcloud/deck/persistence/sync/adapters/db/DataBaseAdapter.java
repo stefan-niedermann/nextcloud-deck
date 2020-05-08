@@ -810,6 +810,6 @@ public class DataBaseAdapter {
     }
 
     public LiveData<Boolean> hasArchivedBoards(long accountId) {
-        return LiveDataHelper.postCustomValue(db.getBoardDao().countArchivedBoards(accountId), data -> data != null && data > 0);
+        return LiveDataHelper.postCustomValue(distinctUntilChanged(db.getBoardDao().countArchivedBoards(accountId)), data -> data != null && data > 0);
     }
 }

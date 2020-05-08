@@ -160,7 +160,7 @@ public class DrawerMenuUtil {
         }
 
         if (hasArchivedBoards) {
-//            boardsMenu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(ViewUtil.getTintedImageView(context, R.drawable.ic_archive_white_24dp, R.color.grey600));
+            boardsMenu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(ViewUtil.getTintedImageView(context, R.drawable.ic_archive_white_24dp, R.color.grey600));
         }
 
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(R.drawable.ic_add_grey_24dp);
