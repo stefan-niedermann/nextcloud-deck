@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">Licence</string>
 
+    <string name="copied_to_clipboard">Copié dans le presse-papier</string>
+
     <string name="seconds_ago">à l\'instant</string>
     <string name="edit">Modifier</string>
     <string name="label_labels">Sélectionner les étiquettes</string>
@@ -78,6 +80,7 @@
     <string name="hint_due_date_date">Date d\'échéance</string>
     <string name="add_account">Ajouter un compte</string>
     <string name="choose_account">Sélectionnez un compte</string>
+    <string name="add_card">Ajouter une nouvelle carte</string>
     <string name="activity">Activité</string>
     <string name="add_list">Ajouter une liste</string>
     <string name="rename_list">Renommer la liste</string>
@@ -92,17 +95,6 @@
     <string name="label_clear_due_date">Effacer la date d\'échéance</string>
     <string name="label_add">Ajouter %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Une erreur est survenue</string>
-    <string name="operation_not_yet_supported">Non supporté actuellement</string>
-    <string name="copied_to_clipboard">Copié dans le presse-papier</string>
-    <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
-    <string name="maintenance_mode">Serveur en maintenance</string>
-    <string name="server_misconfigured">Problème de configuration serveur</string>
-    <string name="server_misconfigured_explanation">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés dans un fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
-    <string name="server_error">Erreur du serveur</string>
-    <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
-
     <string name="card_edit_details">Propriétés</string>
     <string name="card_edit_attachments">Pièces jointes</string>
     <string name="card_edit_activity">Activité</string>
@@ -116,15 +108,22 @@
     <string name="not_synced_yet">Aucune synchronisation pour l\'instant</string>
     <string name="no_lists_yet">Aucune liste pour l\'instant</string>
     <string name="do_you_want_to_save_your_changes">Souhaitez-vous enregistrer vos modifications ?</string>
-    <string name="do_you_want_to_delete_the_current_list">Souhaitez-vous supprimer la liste actuelle ?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
+        <item quantity="other">Cela supprimera définitivement l\'ensemble des %1$d cartes de cette liste.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Cela supprimera l\'étiquette de %1$d carte.</item>
+        <item quantity="other">Cela supprimera l\'étiquette des %1$d cartes.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Ajoutez une nouvelle liste avec le bouton +</string>
     <string name="add_a_new_card_using_the_button">Ajouter une nouvelle carte en utilisant le bouton +.</string>
     <string name="update_deck">Mettre à jour Deck</string>
     <string name="your_deck_version_is_too_old">Votre version de Deck est trop ancienne</string>
-    <string name="deck_outdated_please_update">Votre version de Deck est trop ancienne. Veuillez la mettre à jour pour utiliser cette application Android comme client.
-</string>
+    <string name="deck_outdated_please_update">Votre version de deck est trop ancienne (%1$s). Veuillez mettre à jour pour utiliser cette application Android en tant que client.</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau incluant ses listes et ses cartes.</string>
     <string name="settings_theme_title">Thème sombre</string>
+    <string name="settings_branding_title">marque</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
     <string name="pref_value_wifi_only">Synchroniser uniquement en Wifi</string>
@@ -156,7 +155,9 @@
     <string name="add_comment">Ajouter un commentaire</string>
     <string name="card_edit_comments">Commentaires</string>
     <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>
-    <string name="no_boards">Pas encore de cartes</string>
+    <string name="no_boards">Pas encore de tableaux</string>
+    <string name="add_a_new_board_using_the_button">Ajouter un nouveau table en utilisant le bouton +</string>
+    <string name="choose_board">Choisir un tableau</string>
     <string name="choose_list">Sélectionner la liste</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Ouvrir dans le navigateur web</string>
@@ -179,4 +180,44 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Cartes archivées</string>
-    </resources>
+    <string name="action_card_dearchive">Annuler l\'archivage de la carte</string>
+    <string name="action_archived_cards">Parcourir les cartes archivées</string>
+    <string name="attachment_already_exists">La pièce jointe existe déjà</string>
+    <string name="pick_custom_color">Choisir une couleur personnalisée</string>
+    <string name="manage_tags">Gérer les étiquettes</string>
+    <string name="add_tag">Ajouter une étiquette</string>
+    <string name="tag_already_exists">%1$s existe déjà</string>
+    <string name="tag_successfully_added">%1$s ajouté avec succès</string>
+    <string name="edit_tag">Modifier %1$s</string>
+    <string name="filter_tags_title">Étiquettes</string>
+    <string name="filter_assignees_title">Cessionnaires</string>
+    <string name="filter_duedate_title">Date d\'échéance</string>
+
+    <!-- Errors -->
+    <string name="error">Une erreur est survenue</string>
+    <string name="synchronization_failed">Échec de synchronisation</string>
+    <string name="operation_not_yet_supported">Non supporté actuellement</string>
+    <string name="error_revoking_ac">Erreur lors de la suppression de l\'accès pour %1$s</string>
+    <string name="error_create_label">Erreur lors de la création de l\'étiquette %1$s</string>
+    <string name="maintenance_mode">Serveur en maintenance</string>
+    <string name="server_misconfigured">Problème de configuration serveur</string>
+    <string name="server_error">Erreur du serveur</string>
+    <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
+
+    <string name="error_dialog_title">Oh non ! - Et maintenant ? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Essayez de forcer la fermeture de l\'application puis redémarrer la. Il y avait peut-être une mauvaise connexion à Nextcloud.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Si le problème persiste, essayez d\'effacer les données d\'application des deux applications: Nextcloud et Nextcloud Deck pour résoudre ce problème.</string>
+    <string name="error_dialog_tip_clear_storage">Vous pouvez effacer les données dans les paramètres d’Android → Applications → Gérer les applications → Nextcloud / Nextcloud Notes → Stockage → Effacer les données → Effacer toutes les données.</string>
+    <string name="error_dialog_tip_files_outdated">Votre application Nextcloud semble ancienne. Veuillez visiter le Play Store ou F-Droid pour installer la dernière version.</string>
+    <string name="error_dialog_tip_files_force_stop">Quelque chose semble ne pas fonctionner avec votre application Nextcloud. Essayer de forcer l\'arrêt des applications Nextcloud et Nextcloud Notes.</string>
+    <string name="error_dialog_tip_files_delete_storage">Si l’arrêt forcé ne fonctionne pas, vous pouvez essayer d\'effacer les données des deux applications.</string>
+    <string name="error_dialog_timeout_instance">Le serveur n’a pas répondu dans le temps imparti. Assurez-vous que votre instance fonctionne correctement.</string>
+    <string name="error_dialog_timeout_toggle">Vérifiez votre connexion réseau. L\'activation et la désactivation des données mobiles ou du Wi-Fi peuvent aider.</string>
+    <string name="error_dialog_check_server">Le serveur a renvoyé une réponse incorrecte. Vérifier si vous pouvez accéder à vos notes via l\'interface Web.</string>
+    <string name="error_dialog_check_server_logs">Il y a un problème avec votre configuration Nextcloud. Consulter les fichiers journaux du serveur.</string>
+    <string name="error_dialog_check_maintenance">Vérifier si votre instance Nextcloud n\'est pas actuellement en mode maintenance.</string>
+    <string name="error_dialog_insufficient_storage">Votre instance Nextcloud n\'a plus d\'espace disponible. Veuillez supprimer certains fichiers pour pouvoir synchroniser vos modifications locales dans votre cloud.</string>
+    <string name="error_dialog_contact_us">N\'hésitez pas à nous contacter si les problèmes persistent. Vous trouverez nos coordonnées dans la section : À propos, de la barre latérale.</string>
+    <string name="error_dialog_we_need_info">Nous avons besoin des informations techniques suivantes pour pouvoir vous aider :</string>
+    <string name="error_dialog_redirect">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés du fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
+</resources>

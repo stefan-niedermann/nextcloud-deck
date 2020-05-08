@@ -151,9 +151,11 @@ public class EditActivity extends BrandedActivity {
         if (!viewModel.isPendingCreation()) {
             viewModel.setPendingCreation(true);
             final String title = viewModel.getFullCard().getCard().getTitle();
-            if (title == null || title.isEmpty()) {
+            if (title == null || title.trim().isEmpty()) {
                 viewModel.getFullCard().getCard().setTitle(CardUtil.generateTitleFromDescription(viewModel.getFullCard().getCard().getDescription()));
             }
+            viewModel.getFullCard().getCard().setTitle(viewModel.getFullCard().getCard().getTitle().trim());
+            binding.title.setText(viewModel.getFullCard().getCard().getTitle());
             if (viewModel.getFullCard().getCard().getTitle().isEmpty()) {
                 new BrandedAlertDialogBuilder(this)
                         .setTitle(R.string.title_is_mandatory)
@@ -177,11 +179,11 @@ public class EditActivity extends BrandedActivity {
 
         final CardTabAdapter adapter = new CardTabAdapter(getSupportFragmentManager(), getLifecycle());
         final TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.pager, (tab, position) -> {
-            tab.setIcon(viewModel.hasCommentsAbility()
+            tab.setIcon(!viewModel.isCreateMode() && viewModel.hasCommentsAbility()
                     ? tabIconsWithComments[position]
                     : tabIcons[position]
             );
-            tab.setContentDescription(viewModel.hasCommentsAbility()
+            tab.setContentDescription(!viewModel.isCreateMode() && viewModel.hasCommentsAbility()
                     ? tabTitlesWithComments[position]
                     : tabTitles[position]
             );

@@ -31,6 +31,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlDialogFragment;
+import it.niedermann.nextcloud.deck.ui.board.managelabels.ManageLabelsDialogFragment;
 
 public class DrawerMenuUtil {
     public static final int MENU_ID_ADD_ACCOUNT = -2;
@@ -38,6 +39,7 @@ public class DrawerMenuUtil {
     public static final int MENU_ID_ABOUT = -1;
     public static final int MENU_ID_ADD_BOARD = -2;
     public static final int MENU_ID_SETTINGS = -3;
+    public static final int MENU_ID_ARCHIVED_BOARDS = -4;
 
 
     private DrawerMenuUtil() {
@@ -105,7 +107,6 @@ public class DrawerMenuUtil {
     public static <T extends FragmentActivity> void inflateBoards(
             @NonNull T context,
             @NonNull Menu menu,
-            @NonNull Long currentAccountId,
             @NonNull List<Board> boards) {
         final String addBoard = context.getString(R.string.add_board);
         final String simpleBoards = context.getString(R.string.simple_boards);
@@ -137,6 +138,9 @@ public class DrawerMenuUtil {
                             case R.id.edit_board:
                                 EditBoardDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
                                 return true;
+                            case R.id.manage_labels:
+                                ManageLabelsDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
+                                return true;
                             case R.id.archive_board:
                                 // TODO implement
                                 Toast.makeText(context, "Archiving boards is not yet supported.", Toast.LENGTH_LONG).show();
@@ -159,6 +163,11 @@ public class DrawerMenuUtil {
                 m.setActionView(contextMenu);
             }
         }
+
+        // TODO SyncManager.hasArchivedBoards();
+//        Drawable archiveIcon = context.getResources().getDrawable(R.drawable.ic_archive_white_24dp);
+//        DrawableCompat.setTint(archiveIcon, context.getResources().getColor(R.color.grey600));
+//        boardsMenu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, "Archived boards").setIcon(archiveIcon);
 
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
 

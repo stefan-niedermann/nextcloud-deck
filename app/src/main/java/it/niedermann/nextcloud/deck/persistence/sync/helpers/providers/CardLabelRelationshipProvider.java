@@ -26,9 +26,11 @@ public class CardLabelRelationshipProvider implements IRelationshipProvider {
         Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, this.card.getId());
         for (Label label : labels) {
             Label existingLabel = dataBaseAdapter.getLabelByRemoteIdDirectly(accountId, label.getId());
-            JoinCardWithLabel existingJoin = dataBaseAdapter.getJoinCardWithLabel(existingLabel.getLocalId(), card.getLocalId());
-            if (existingJoin == null){
-                dataBaseAdapter.createJoinCardWithLabel(existingLabel.getLocalId(), card.getLocalId(), DBStatus.UP_TO_DATE);
+            if (existingLabel != null) { // maybe not synced yet, skipping this time. next sync will be able to push it up
+                JoinCardWithLabel existingJoin = dataBaseAdapter.getJoinCardWithLabel(existingLabel.getLocalId(), card.getLocalId());
+                if (existingJoin == null){
+                    dataBaseAdapter.createJoinCardWithLabel(existingLabel.getLocalId(), card.getLocalId(), DBStatus.UP_TO_DATE);
+                }
             }
         }
     }

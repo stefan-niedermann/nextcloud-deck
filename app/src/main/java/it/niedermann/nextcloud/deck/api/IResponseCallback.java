@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.api;
 
+import androidx.annotation.CallSuper;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public abstract class IResponseCallback<T> {
 
     public abstract void onResponse(T response);
 
+    @CallSuper
     public void onError(Throwable throwable) {
         DeckLog.logError(throwable);
     }

@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Συνεισφορά</string>
     <string name="about_license_tab_title"> Άδεια χρήσης </string>
 
+    <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
+
     <string name="seconds_ago"> δευτερόλεπτα πριν </string>
     <string name="edit">Επεξεργασία</string>
     <string name="label_labels">Επιλογή Ετικετών</string>
@@ -78,6 +80,7 @@
     <string name="hint_due_date_date">Προθεσμία</string>
     <string name="add_account"> Προσθήκη λογαριασμού </string>
     <string name="choose_account">Επιλογή λογαριασμού</string>
+    <string name="add_card">Προσθήκη νέας καρτέλας</string>
     <string name="activity">Δραστηριότητα</string>
     <string name="add_list">Προσθήκη λίστας</string>
     <string name="rename_list">Μετονομασία λίστας</string>
@@ -92,17 +95,6 @@
     <string name="label_clear_due_date">Καθαρισμός ημερομηνίας λήξης</string>
     <string name="label_add">Προσθήκη %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Παρουσιάστηκε σφάλμα</string>
-    <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
-    <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
-    <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
-    <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
-    <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
-    <string name="server_misconfigured_explanation">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client. Μπορείτε να βρείτε πληροφορίες επικοινωνίας της υποστήριξης στο τμήμα περί.</string>
-    <string name="server_error">Σφάλμα διακομιστή</string>
-    <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
-
     <string name="card_edit_details">Λεπτομέρειες</string>
     <string name="card_edit_attachments">Συνημμένα</string>
     <string name="card_edit_activity">Δραστηριότητα</string>
@@ -116,12 +108,19 @@
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
-    <string name="do_you_want_to_delete_the_current_list">Διαγραφή τρέχουσας λίστας;</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Μόνιμη διαγραφή %1$dτης κάρτας της λίστας.</item>
+        <item quantity="other">Μόνιμη διαγραφή όλων %1$d των καρτών της λίστας.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Θα διαγραφεί η ετικέτα από την κάρτα %1$d.</item>
+        <item quantity="other">Θα διαγραφούν οι ετικέτες από τις κάρτες %1$d.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Προσθήκη νέας λίστας με το κουμπί +</string>
     <string name="add_a_new_card_using_the_button">Προσθέστε νέα κάρτα με το κουμπί +</string>
     <string name="update_deck">Ενημέρωση Deck</string>
     <string name="your_deck_version_is_too_old">Η έκδοσή σας είναι παλαιά.</string>
-    <string name="deck_outdated_please_update">Η έκδοσή σας είναι είναι παλαιά. Παρακαλώ αναβαθμίστε για επιπλέον χρήση.</string>
+    <string name="deck_outdated_please_update">Η έκδοσή σας είναι είναι παλαιά (%1$s). Παρακαλούμε αναβαθμίστε για επιπλέον χρήση.</string>
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
     <string name="settings_theme_title">Σκούρο θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
@@ -179,4 +178,46 @@
     <string name="filter_by_assigned_user">Φίλτρο ανά χρήστη</string>
     <string name="filter_by_duedate">Φίλτρο ανά ημερομηνία λήξης</string>
 
-    </resources>
+    <!-- Archived cards -->
+    <string name="archived_cards">Αρχειοθετημένες κάρτες</string>
+    <string name="action_card_dearchive">Αναίρεση αρχειοθέτησης κάρτας</string>
+    <string name="action_archived_cards">Περιήγηση στις αρχειοθετημένες καρτέλες</string>
+    <string name="attachment_already_exists">Το συνημμένο υπάρχει ήδη</string>
+    <string name="pick_custom_color">Επιλέξτε προσαρμοσμένο χρώμα</string>
+    <string name="manage_tags">Διαχείριση ετικετών</string>
+    <string name="add_tag">Πρόσθεσε ετικέτα</string>
+    <string name="tag_already_exists">Το %1$sυπάρχει ήδη</string>
+    <string name="tag_successfully_added">%1$s προστέθηκε επιτυχώς</string>
+    <string name="edit_tag">Επεξεργασία του %1$s</string>
+    <string name="filter_tags_title">Ετικέτες</string>
+    <string name="filter_assignees_title">Εκχωρούμενοι</string>
+    <string name="filter_duedate_title">Προθεσμία</string>
+
+    <!-- Errors -->
+    <string name="error">Παρουσιάστηκε σφάλμα</string>
+    <string name="synchronization_failed">Αποτυχία συγχρονισμού</string>
+    <string name="operation_not_yet_supported">Δεν υποστηρίζεται ακόμη</string>
+    <string name="error_revoking_ac">Σφάλμα κατά την ανάκληση πρόσβασης για %1$s</string>
+    <string name="error_create_label">Σφάλμα κατά τη δημιουργία ετικέτας %1$s</string>
+    <string name="maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
+    <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
+    <string name="server_error">Σφάλμα διακομιστή</string>
+    <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
+
+    <string name="error_dialog_title">Ωχ όχι - Τώρα τί; 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Δοκιμάστε τερματισμό της εφαρμογή και επανεκκίνηση. Ίσως υπάρχει λάθος σύνδεση.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Εάν το πρόβλημα παραμένει, προσπαθήστε να εκκαθαρίσετε τον χώρο αποθήκευσης και των δύο εφαρμογών: του Nextcloud και του Nextcloud Deck για επίλυση.</string>
+    <string name="error_dialog_tip_clear_storage">Μπορείτε να εκκαθαρίσετε τον χώρο αποθήκευσης από τις ρυθμίσεις του Android → Εφαρμογές → Nextcloud / Nextcloud Deck→ Αποθηκευτικός χώρος → Εκκαθάριση χώρου αποθήκευσης.</string>
+    <string name="error_dialog_tip_files_outdated">Η εφαρμογή Nextcloud δεν είναι ενημερωμένη. Παρακαλούμε επισκεφθείτε το Play Store ή το F-Groid για λήψη της τελευταίας έκδοσης.</string>
+    <string name="error_dialog_tip_files_force_stop">Κάτι φαίνεται να πάει στραβά με την εφαρμογή Nextcloud. Προσπαθήστε να τερματίσετε την εφαρμογή Nextcloud και την εφαρμογή Nextcloud Deck.</string>
+    <string name="error_dialog_tip_files_delete_storage">Εάν ο τερματισμός δεν βοηθήσει, μπορείτε να εκκαθαρίσετε τον αποθηκευτικό χώρο και των δύο εφαρμογών.</string>
+    <string name="error_dialog_timeout_instance">Δεν υπήρχε απάντηση από τον διακομιστή σας. Βεβαιωθείτε ότι η σύνδεσή σας λειτουργεί κανονικά.</string>
+    <string name="error_dialog_timeout_toggle">Ελέγξτε τη σύνδεση δικτύου σας. Κάποιες φορές η εναλλαγή δεδομένων κινητής τηλεφωνίας ή Wi-Fi μπορεί να βοηθήσει.</string>
+    <string name="error_dialog_check_server">Η απάντηση του διακομιστή σας δεν ήταν σωστή. Ελέγξτε αν μπορείτε να αποκτήσετε πρόσβαση στην εφαρμογή Deck μέσω του περιηγητή σας.</string>
+    <string name="error_dialog_check_server_logs">Υπάρχει ένα πρόβλημα με τη ρύθμιση Nextcloud. Ελέγξτε τα αρχεία καταγραφής του διακομιστή.</string>
+    <string name="error_dialog_check_maintenance">Παρακαλούμε ελέγξτε το Nextcloud οτι δεν βρίσκεται σε λειτουργία συντήρησης.</string>
+    <string name="error_dialog_insufficient_storage">Δεν υπάρχει επαρκής χώρος αποθήκευσης στο Nextcloud. Διαγράψτε ορισμένα αρχεία για να συγχρονίσετε τις αλλαγές σας.</string>
+    <string name="error_dialog_contact_us">Μην διστάσετε να επικοινωνήσετε μαζί μας εάν τα προβλήματα παραμένουν. Μπορείτε να βρείτε τα στοιχεία επικοινωνίας μας στην ενότητα σχετικά στην πλευρική στήλη.</string>
+    <string name="error_dialog_we_need_info">Χρειαζόμαστε τις ακόλουθες τεχνικές πληροφορίες για να σας βοηθήσουμε:</string>
+    <string name="error_dialog_redirect">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client.</string>
+</resources>

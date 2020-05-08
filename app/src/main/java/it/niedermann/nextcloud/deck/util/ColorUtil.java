@@ -34,6 +34,40 @@ public final class ColorUtil {
         return ret;
     }
 
+    /**
+     * @return well formated #123456 color string
+     */
+    public static String getCleanHexaColorString(String input) {
+        if (input == null) {
+            throw new IllegalArgumentException("input color string is null");
+        }
+        if (isValidHexaColorString(input)){
+            return input;
+        }
+        char [] chars = input.replaceAll("#", "").toCharArray();
+        StringBuilder sb = new StringBuilder("#");
+        if(chars.length == 6) {
+            sb.append(chars);
+        } else if (chars.length == 3) {
+            for (int i = 0; i < chars.length; i++) {
+                char c = chars[i];
+                sb.append(c).append(c);
+            }
+        } else {
+            throw new IllegalArgumentException("unparsable color string: \""+ input + "\"");
+        }
+        String formattedHexColor = sb.toString();
+        if (isValidHexaColorString(formattedHexColor)) {
+            return formattedHexColor;
+        } else {
+            throw new IllegalArgumentException("\"" + input + "\" is not a valid color string. Result of tried normalizing: " + formattedHexColor);
+        }
+    }
+
+    private static boolean isValidHexaColorString(String input) {
+        return input.matches("#[a-fA-F0-9]{6}");
+    }
+
     public static boolean isColorDark(@ColorInt int color) {
         Boolean ret = IS_DARK_COLOR_CACHE.get(color);
         if (ret == null) {

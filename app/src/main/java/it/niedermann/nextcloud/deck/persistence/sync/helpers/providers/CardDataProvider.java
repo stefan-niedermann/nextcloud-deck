@@ -74,6 +74,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     protected CardUpdate toCardUpdate(FullCard card) {
         CardUpdate c = new CardUpdate(card);
+        // FIXME This causes an IndexOutOfBoundsException for the three "Example Tasks" on a fresh Deck server installation
         c.setOwner(card.getOwner().get(0));
         return c;
     }
@@ -183,10 +184,10 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         FullStack stack;
         Board board;
 
-        List<JoinCardWithLabel> deletedLabels = dataBaseAdapter.getAllDeletedJoins();
+        List<JoinCardWithLabel> changedLabels = dataBaseAdapter.getAllChangedJoins();
         Account account = callback.getAccount();
-        for (JoinCardWithLabel deletedLabelLocal : deletedLabels) {
-            Card card = dataBaseAdapter.getCardByLocalIdDirectly(account.getId(), deletedLabelLocal.getCardId());
+        for (JoinCardWithLabel changedLabelLocal : changedLabels) {
+            Card card = dataBaseAdapter.getCardByLocalIdDirectly(account.getId(), changedLabelLocal.getCardId());
             if (this.stack == null) {
                 stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             } else {
@@ -199,27 +200,27 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                 board = this.board;
             }
 
-            JoinCardWithLabel deletedLabel = dataBaseAdapter.getRemoteIdsForJoin(deletedLabelLocal.getCardId(), deletedLabelLocal.getLabelId());
-            if (deletedLabel.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                if (deletedLabel.getLabelId() == null || deletedLabel.getCardId() == null) {
-                    dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId());
+            JoinCardWithLabel changedLabel = dataBaseAdapter.getRemoteIdsForJoin(changedLabelLocal.getCardId(), changedLabelLocal.getLabelId());
+            if (changedLabel.getStatusEnum() == DBStatus.LOCAL_DELETED) {
+                if (changedLabel.getLabelId() == null || changedLabel.getCardId() == null) {
+                    dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), changedLabel.getCardId(), changedLabel.getLabelId());
                 } else {
-                    serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId(), new IResponseCallback<Void>(account) {
+                    serverAdapter.unassignLabelFromCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new IResponseCallback<Void>(account) {
                         @Override
                         public void onResponse(Void response) {
-                            dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId());
+                            dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), changedLabel.getCardId(), changedLabel.getLabelId());
                         }
                     });
                 }
-            } else if (deletedLabel.getStatusEnum() == DBStatus.LOCAL_EDITED) {
-                if (deletedLabel.getLabelId() == null || deletedLabel.getCardId() == null) {
+            } else if (changedLabel.getStatusEnum() == DBStatus.LOCAL_EDITED) {
+                if (changedLabel.getLabelId() == null || changedLabel.getCardId() == null) {
                     // Sync next time, the card should be available on server then.
                     continue;
                 } else {
-                    serverAdapter.assignLabelToCard(board.getId(), stack.getId(), deletedLabel.getCardId(), deletedLabel.getLabelId(), new IResponseCallback<Void>(account) {
+                    serverAdapter.assignLabelToCard(board.getId(), stack.getId(), changedLabel.getCardId(), changedLabel.getLabelId(), new IResponseCallback<Void>(account) {
                         @Override
                         public void onResponse(Void response) {
-                            Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), deletedLabel.getLabelId());
+                            Label label = dataBaseAdapter.getLabelByRemoteIdDirectly(account.getId(), changedLabel.getLabelId());
                             dataBaseAdapter.setStatusForJoinCardWithLabel(card.getLocalId(), label.getLocalId(), DBStatus.UP_TO_DATE.getId());
                         }
                     });

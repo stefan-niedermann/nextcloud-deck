@@ -33,6 +33,7 @@ public class LabelChip extends Chip {
 
         params.setMargins(0, 0, Math.round(context.getResources().getDimension(R.dimen.spacer_1x)), 0);
         setLayoutParams(params);
+        setEnsureMinTouchTargetSize(false);
 
         setText(label.getTitle());
         setEllipsize(TextUtils.TruncateAt.END);
@@ -47,7 +48,7 @@ public class LabelChip extends Chip {
         }
     }
 
-    public Long getLabelLocalId() {
-        return this.label.getLocalId();
+    public Label getLabel() {
+        return this.label;
     }
 }

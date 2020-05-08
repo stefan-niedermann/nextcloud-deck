@@ -17,7 +17,6 @@
 
         <TextView
             android:id="@+id/about_source"
-            style="?android:attr/editTextPreferenceStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="web"
@@ -32,7 +31,6 @@
 
         <TextView
             android:id="@+id/about_issues"
-            style="?android:attr/editTextPreferenceStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="web"
@@ -47,7 +45,6 @@
 
         <TextView
             android:id="@+id/about_translate"
-            style="?android:attr/editTextPreferenceStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="web"

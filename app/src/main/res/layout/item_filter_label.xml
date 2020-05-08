@@ -5,11 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:orientation="horizontal"
-    android:paddingStart="@dimen/spacer_1x"
-    android:paddingLeft="@dimen/spacer_1x"
-    android:paddingEnd="@dimen/spacer_1x"
-    android:paddingRight="@dimen/spacer_1x">
+    android:orientation="horizontal">
 
     <com.google.android.material.chip.Chip
         android:id="@+id/label"
@@ -23,8 +19,9 @@
         android:layout_height="22dp"
         android:layout_marginStart="@dimen/spacer_1x"
         android:layout_marginLeft="@dimen/spacer_1x"
-        android:background="@drawable/selected"
+        app:srcCompat="@drawable/selected"
         app:layout_alignSelf="center"
-        app:layout_flexShrink="0" />
+        app:layout_flexShrink="0"
+        tools:src="@drawable/ic_check_grey600_24dp" />
 
 </com.google.android.flexbox.FlexboxLayout>

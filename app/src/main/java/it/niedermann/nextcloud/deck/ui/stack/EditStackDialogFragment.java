@@ -24,7 +24,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
 
 public class EditStackDialogFragment extends BrandedDialogFragment {
-    private static final String KEY_STACK_ID = "board_id";
+    private static final String KEY_STACK_ID = "stack_id";
     private static final String KEY_OLD_TITLE = "old_title";
     private long stackId = NO_STACK_ID;
     private EditStackListener editStackListener;

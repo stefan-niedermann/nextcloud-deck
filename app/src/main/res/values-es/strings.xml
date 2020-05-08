@@ -12,7 +12,7 @@
     <string name="simple_boards">Tableros</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
-    <string name="simple_more">Menú</string>
+    <string name="simple_more">Mas</string>
     <string name="simple_title">Título</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_synchronization">Sincronización</string>
@@ -46,7 +46,7 @@
     <!-- About -->
     <string name="about">Acerca de</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version">Ahora estás usando %1$s</string>
+    <string name="about_version">Actualmente estás usando %1$s</string>
     <string name="about_maintainer_title">Mantenimiento</string>
     <string name="about_developers_title">Desarrolladores</string>
     <string name="about_translators_title">Traducciones</string>
@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Contribuir</string>
     <string name="about_license_tab_title">Licencia</string>
 
+    <string name="copied_to_clipboard">Copiado al portapapeles</string>
+
     <string name="seconds_ago">hace unos segundos</string>
     <string name="edit">Editar</string>
     <string name="label_labels">Seleccionar etiquetas</string>
@@ -78,6 +80,7 @@
     <string name="hint_due_date_date">Fecha de fin</string>
     <string name="add_account">Añadir cuenta</string>
     <string name="choose_account">Elige una cuenta</string>
+    <string name="add_card">Añadir nueva tarjeta</string>
     <string name="activity">Actividad</string>
     <string name="add_list">Agregar lista</string>
     <string name="rename_list">Renombrar lista</string>
@@ -92,17 +95,6 @@
     <string name="label_clear_due_date">Borrar fecha de finalización</string>
     <string name="label_add">Añadir %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Ha aparecido un error</string>
-    <string name="operation_not_yet_supported">No está soportado todavía</string>
-    <string name="copied_to_clipboard">Copiado al portapapeles</string>
-    <string name="error_revoking_ac">Error al revocar el acceso a %1$s</string>
-    <string name="maintenance_mode">Servidor en modo de mantenimiento</string>
-    <string name="server_misconfigured">Servidor mal configurado</string>
-    <string name="server_misconfigured_explanation">Su servidor tiene respuesta con el código de estado HTTP 302, lo que implica que no ha instalado la aplicación Deck en su servidor o que algo está mal configurado. Esto puede ser causado por anulaciones personalizadas en un en un archivo .htaccess o por aplicaciones de Nexcloud como OID Client. Encontrarás información de contacto de soporte en la sección acerca de. </string>
-    <string name="server_error">Error en el servidor</string>
-    <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
-
     <string name="card_edit_details">Detalles</string>
     <string name="card_edit_attachments">Adjuntos</string>
     <string name="card_edit_activity">Actividad</string>
@@ -116,12 +108,19 @@
     <string name="not_synced_yet">No sincronizado todavía</string>
     <string name="no_lists_yet">Aún no hay listas</string>
     <string name="do_you_want_to_save_your_changes">¿Desea guardar los cambios?</string>
-    <string name="do_you_want_to_delete_the_current_list">¿Desea borrar la lista actual?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Esto eliminará permanentemente %1$d tarjeta de esta lista.</item>
+        <item quantity="other">Esto eliminará permanentemente todas las %1$d tarjetas de esta lista.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Esto eliminará la etiqueta de %1$d tarjeta.</item>
+        <item quantity="other">Esto eliminará la etiqueta de %1$d tarjetas.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Añadir una nueva lista usando el botón +</string>
     <string name="add_a_new_card_using_the_button">Añadir una nueva tarjeta usando el botón +</string>
     <string name="update_deck">Actualizar el Deck</string>
     <string name="your_deck_version_is_too_old">Su versión del Deck es muy antigua </string>
-    <string name="deck_outdated_please_update">Su versión del Deck es muy antigua. Por favor actualice para usar esta app de Android como cliente.</string>
+    <string name="deck_outdated_please_update">Tu versión de Deck es demasiado antigua (%1$s). Por favor, actualiza para usar este cliente android.</string>
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las listas y tarjetas.</string>
     <string name="settings_theme_title">Tema oscuro</string>
     <string name="settings_branding_title">Branding</string>
@@ -179,4 +178,46 @@
     <string name="filter_by_assigned_user">Filtrar por usuario asignado</string>
     <string name="filter_by_duedate">Filtrar por fecha de finalización</string>
 
-    </resources>
+    <!-- Archived cards -->
+    <string name="archived_cards">Tarjetas archivadas</string>
+    <string name="action_card_dearchive">Deshacer archivado de tarjeta</string>
+    <string name="action_archived_cards">Explorar las tarjetas archivadas</string>
+    <string name="attachment_already_exists">El adjunto ya existe</string>
+    <string name="pick_custom_color">Escoger color personalizado</string>
+    <string name="manage_tags">Gestionar etiquetas</string>
+    <string name="add_tag">Añadir etiqueta</string>
+    <string name="tag_already_exists">%1$s ya existe</string>
+    <string name="tag_successfully_added">%1$s añadida con éxito</string>
+    <string name="edit_tag">Editar %1$s</string>
+    <string name="filter_tags_title">Etiquetas</string>
+    <string name="filter_assignees_title">Asignados</string>
+    <string name="filter_duedate_title">Fecha de fin</string>
+
+    <!-- Errors -->
+    <string name="error">Ha aparecido un error</string>
+    <string name="synchronization_failed">Fallo en la sincronización</string>
+    <string name="operation_not_yet_supported">No está soportado todavía</string>
+    <string name="error_revoking_ac">Error al revocar el acceso a %1$s</string>
+    <string name="error_create_label">Error al crear la etiqueta %1$s</string>
+    <string name="maintenance_mode">Servidor en modo de mantenimiento</string>
+    <string name="server_misconfigured">Servidor mal configurado</string>
+    <string name="server_error">Error en el servidor</string>
+    <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
+
+    <string name="error_dialog_title">Oh no - ¿Ahora qué? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta forzar el cierre de la aplicación y vuelve a abrirla. Es posible que haya habido un problema de conexión con la aplicación Nextcloud.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Si el problema persiste, intenta limpiar borrar el almacenamiento de ambas apps, Nextcloud y Nextcloud Deck para solucionar este problema.</string>
+    <string name="error_dialog_tip_clear_storage">Puedes borrar el almacenamiento abriendo la configuración de Android → Nextcloud / Nextcloud Deck → Almacenamiento → Borrar almacenamiento</string>
+    <string name="error_dialog_tip_files_outdated">Su aplicación Nextcloud parece que está desactualizada. Por favor visite la Play Store o F-Droid para conseguir la versión más reciente.</string>
+    <string name="error_dialog_tip_files_force_stop">Algo parece ir mal en tu app de Nextcloud. Por favor, intenta forzar el cierre de ambas, Nextcloud y Nextcloud Deck.</string>
+    <string name="error_dialog_tip_files_delete_storage">Si pararlas no ayuda, puede intentar borrar el almacenamiento de ambas aplicaciones.</string>
+    <string name="error_dialog_timeout_instance">No hubo una respuesta de su servidor en un tiempo determinado. Por favor asegúrese de que su instancia está funcionando sin problemas.</string>
+    <string name="error_dialog_timeout_toggle">Compruebe su conexión de red. A veces alternando la activación de la conexión Wi-Fi o la conexión de datos a off y de nuevo a on puede ayudar.</string>
+    <string name="error_dialog_check_server">La respuesta de tu servidor no es correcta. Por favor, comprueba si puedes accede a la app de Deck mediante la interfaz web.</string>
+    <string name="error_dialog_check_server_logs">Hay un problema con sus ajustes de Nextcloud. Por favor eche un vistazo a los archivos de registros del servidor.</string>
+    <string name="error_dialog_check_maintenance">Por favor compruebe que su intancia Nextcloud no este actualmente en modo de mantenimiento.</string>
+    <string name="error_dialog_insufficient_storage">Su instancia de Nextcloud no tiene espacio libre de almacenamiento. Por favor elimine algunos archivos para sincronizar sus cambios locales con su nube.</string>
+    <string name="error_dialog_contact_us">Por favor, no dude en contactar con nosotros si el problema persiste. Puede encontrar nuestra información de contacto en la sección acerca de en la barra lateral.</string>
+    <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
+    <string name="error_dialog_redirect">Tu servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Deck en su servidor o que algo está mal configurado. Esto puede estar causado por anulaciones personalizadas en un  archivo .htaccess o por aplicaciones de Nexcloud como OID Client. </string>
+</resources>

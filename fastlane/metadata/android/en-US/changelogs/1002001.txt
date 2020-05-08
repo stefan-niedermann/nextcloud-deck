@@ -1,0 +1,31 @@
+1.2.1
+
+- 🐞 Fix branding color in some situations
+
+1.2.0
+
+- 🎚 Enhanced filters
+- 🎨 Deal with special brand colors which previously caused a crash (#466)
+- 🐞 Connection fails because "order" of a stack is null (#465)
+- 🐞 Prevent NullPointerException in some special edge cases
+
+1.1.0
+
+- 🏷️ Manage tags per board (#309)
+- 🐞 Fixed crash on some devices caused by maxLines-ellipsize combination (#444)
+
+1.0.0
+
+- ➕ Fix adding cards via tile and shortcuts (#358)
+- ☑️ Display task counter
+- 🆕 New card layout for web and app
+- 🎨 Apply the branding of your Nextcloud instance (#317)
+- 📣 Push notifications (#208) - this depends on changes in the files app and might not yet be available at the time when this version has been released.
+- 🗑️ Revoke board access
+- 🔧 Show an info if server is in maintenance mode (#283)
+- ↔️ Move lists
+- 👤 wrong user image when using multiple accounts (#324)
+- 🎚 Filter cards (#396)
+- 🏷️ Auto complete: Display all available tags on first click (#263)
+- ➕ Share text into new card (#424)
+- 🗑️ "Delete list": Tell user how many card will be deleted (#421)

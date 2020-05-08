@@ -17,7 +17,6 @@ import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
@@ -31,11 +30,11 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
 import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
-import static it.niedermann.nextcloud.deck.util.ExceptionUtil.handleHttpRequestFailedException;
 
 public class ImportAccountActivity extends AppCompatActivity {
 
@@ -113,15 +112,15 @@ public class ImportAccountActivity extends AppCompatActivity {
                         final WrappedLiveData<Account> accountLiveData = syncManager.createAccount(new Account(account.name, account.userId, account.url));
                         accountLiveData.observe(ImportAccountActivity.this, (Account createdAccount) -> {
                             if (accountLiveData.hasError()) {
-                                try {
-                                    accountLiveData.throwError();
-                                } catch (SQLiteConstraintException ex) {
-                                    // Account has already been added - should never be the case
+                                final Throwable error = accountLiveData.getError();
+                                if (error instanceof SQLiteConstraintException) {
                                     DeckLog.error("Account has already been added, this should not be the case");
-                                    DeckLog.logError(ex);
-                                    setStatusText(ex.getMessage());
-                                    restoreWifiPref();
                                 }
+                                assert error != null;
+                                setStatusText(error.getMessage());
+                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                restoreWifiPref();
                             } else {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -129,63 +128,58 @@ public class ImportAccountActivity extends AppCompatActivity {
                                 editor.putLong(sharedPreferenceLastAccount, createdAccount.getId());
                                 editor.commit();
 
-                                try {
-                                    syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
-                                        @Override
-                                        public void onResponse(Capabilities response) {
-                                            if (!response.isMaintenanceEnabled()) {
-                                                if (response.getDeckVersion().isSupported(getApplicationContext())) {
-                                                    syncManager.synchronize(new IResponseCallback<Boolean>(account) {
-                                                        @Override
-                                                        public void onResponse(Boolean response) {
-                                                            restoreWifiPref();
-                                                            SyncWorker.update(getApplicationContext());
-                                                            setResult(RESULT_OK);
-                                                            finish();
-                                                        }
+                                syncManager.refreshCapabilities(new IResponseCallback<Capabilities>(createdAccount) {
+                                    @Override
+                                    public void onResponse(Capabilities response) {
+                                        if (!response.isMaintenanceEnabled()) {
+                                            if (response.getDeckVersion().isSupported(getApplicationContext())) {
+                                                syncManager.synchronize(new IResponseCallback<Boolean>(account) {
+                                                    @Override
+                                                    public void onResponse(Boolean response) {
+                                                        restoreWifiPref();
+                                                        SyncWorker.update(getApplicationContext());
+                                                        setResult(RESULT_OK);
+                                                        finish();
+                                                    }
 
-                                                        @Override
-                                                        public void onError(Throwable throwable) {
-                                                            super.onError(throwable);
-                                                            setStatusText(throwable.getMessage());
-                                                            if (throwable instanceof NextcloudHttpRequestFailedException) {
-                                                                runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.scrollView, ImportAccountActivity.this));
-                                                            }
-                                                            rollbackAccountCreation(syncManager, createdAccount.getId());
-                                                        }
-                                                    });
-                                                } else {
-                                                    setStatusText(R.string.deck_outdated_please_update);
-                                                    runOnUiThread(() -> {
-                                                        binding.updateDeckButton.setOnClickListener((v) -> {
-                                                            Intent openURL = new Intent(Intent.ACTION_VIEW);
-                                                            openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
-                                                            startActivity(openURL);
-                                                        });
-                                                        binding.updateDeckButton.setVisibility(View.VISIBLE);
-                                                    });
-                                                    rollbackAccountCreation(syncManager, createdAccount.getId());
-                                                }
+                                                    @Override
+                                                    public void onError(Throwable throwable) {
+                                                        super.onError(throwable);
+                                                        setStatusText(throwable.getMessage());
+                                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                                        rollbackAccountCreation(syncManager, createdAccount.getId());
+                                                    }
+                                                });
                                             } else {
-                                                setStatusText(R.string.maintenance_mode);
+                                                setStatusText(getString(R.string.deck_outdated_please_update, response.getDeckVersion().getOriginalVersion()));
+                                                runOnUiThread(() -> {
+                                                    binding.updateDeckButton.setOnClickListener((v) -> {
+                                                        Intent openURL = new Intent(Intent.ACTION_VIEW);
+                                                        openURL.setData(Uri.parse(createdAccount.getUrl() + urlFragmentUpdateDeck));
+                                                        startActivity(openURL);
+                                                    });
+                                                    binding.updateDeckButton.setVisibility(View.VISIBLE);
+                                                });
                                                 rollbackAccountCreation(syncManager, createdAccount.getId());
                                             }
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable throwable) {
-                                            super.onError(throwable);
-                                            setStatusText(throwable.getMessage());
-                                            if (throwable instanceof NextcloudHttpRequestFailedException) {
-                                                runOnUiThread(() -> handleHttpRequestFailedException((NextcloudHttpRequestFailedException) throwable, binding.scrollView, ImportAccountActivity.this));
-                                            }
+                                        } else {
+                                            setStatusText(R.string.maintenance_mode);
                                             rollbackAccountCreation(syncManager, createdAccount.getId());
                                         }
-                                    });
-                                } catch (OfflineException e) {
-                                    setStatusText(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account);
-                                    rollbackAccountCreation(syncManager, createdAccount.getId());
-                                }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        super.onError(throwable);
+                                        if (throwable instanceof OfflineException) {
+                                            setStatusText(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account);
+                                        } else {
+                                            setStatusText(throwable.getMessage());
+                                            runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                        }
+                                        rollbackAccountCreation(syncManager, createdAccount.getId());
+                                    }
+                                });
                             }
                         });
                     }

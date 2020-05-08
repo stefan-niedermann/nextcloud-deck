@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.exceptions.HandledServerErrors;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
@@ -37,12 +38,36 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity) {
-        return dataBaseAdapter.createLabel(accountId, entity);
+        Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(entity.getBoardId(), entity.getTitle());
+        if (existing != null) {
+            entity.setLocalId(existing.getLocalId());
+            updateInDB(dataBaseAdapter, accountId, entity, false);
+            return entity.getLocalId();
+        } else {
+            return dataBaseAdapter.createLabel(accountId, entity);
+        }
     }
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, Label entity, boolean setStatus) {
         dataBaseAdapter.updateLabel(entity, setStatus);
+    }
+
+    private IResponseCallback<Label> getLabelUniqueHandler(DataBaseAdapter dataBaseAdapter, Label entitiy, IResponseCallback<Label> responder){
+        return new IResponseCallback<Label>(responder.getAccount()) {
+            @Override
+            public void onResponse(Label response) {
+                responder.onResponse(response);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                if (HandledServerErrors.LABELS_TITLE_MUST_BE_UNIQUE == HandledServerErrors.fromThrowable(throwable)){
+                    dataBaseAdapter.deleteLabelPhysically(entitiy);
+                }
+                responder.onError(throwable);
+            }
+        };
     }
 
     @Override
@@ -53,7 +78,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Label> responder, Label entity) {
         entity.setBoardId(board.getId());
-        serverAdapter.createLabel(board.getId(), entity, responder);
+        serverAdapter.createLabel(board.getId(), entity, getLabelUniqueHandler(dataBaseAdapter, entity, responder));
     }
 
     @Override
@@ -73,7 +98,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
 
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Label> callback, Label entity) {
-        serverAdapter.updateLabel(board.getId(), entity, callback);
+        serverAdapter.updateLabel(board.getId(), entity, getLabelUniqueHandler(dataBaseAdapter, entity, callback));
     }
 
     @Override
@@ -85,5 +110,11 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
                 dataBaseAdapter.deleteLabelPhysically(deletedLabel);
             }
         }
+    }
+
+    @Override
+    public Label applyUpdatesFromRemote(Label localEntity, Label remoteEntity, Long accountId) {
+        remoteEntity.setBoardId(board.getLocalId());
+        return remoteEntity;
     }
 }

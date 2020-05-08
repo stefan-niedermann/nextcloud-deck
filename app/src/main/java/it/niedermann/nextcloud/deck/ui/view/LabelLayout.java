@@ -49,9 +49,9 @@ public class LabelLayout extends FlexboxLayout {
         chipList:
         for (int i = 0; i < chipList.size(); i++) {
             LabelChip currentChip = chipList.get(i);
-            final Long existingLabelLocalId = currentChip.getLabelLocalId();
+            final Label existingLabel = currentChip.getLabel();
             for (Label label : labels) {
-                if (existingLabelLocalId.equals(label.getLocalId())) {
+                if (existingLabel.equals(label)) {
                     continue chipList;
                 }
             }
@@ -70,8 +70,8 @@ public class LabelLayout extends FlexboxLayout {
         for (Label label : labels) {
             for (int i = 0; i < oldLabelSize; i++) {
                 final LabelChip currentChip = chipList.get(i);
-                final Long existingLabelLocalId = currentChip.getLabelLocalId();
-                if (existingLabelLocalId.equals(label.getLocalId())) {
+                final Label existingLabel = currentChip.getLabel();
+                if (existingLabel.equals(label)) {
                     continue labelList;
                 }
             }

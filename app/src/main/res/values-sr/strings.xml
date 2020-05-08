@@ -21,6 +21,7 @@
     <string name="simple_exception">Изузетак</string>
     <string name="simple_close">затвори</string>
     <string name="simple_open">Отвори</string>
+    <string name="simple_switch">Пребаци</string>
     <string name="simple_filter">Филтер</string>
     <string name="simple_overdue">Прошао рок</string>
     <string name="simple_clear">Очисти</string>
@@ -69,6 +70,8 @@
     <string name="about_contribution_tab_title">Допринос</string>
     <string name="about_license_tab_title">Лиценца</string>
 
+    <string name="copied_to_clipboard">Копирано у клипборд</string>
+
     <string name="seconds_ago">пре неколико секунди</string>
     <string name="edit">Измени</string>
     <string name="label_labels">Одаберите ознаке</string>
@@ -77,6 +80,7 @@
     <string name="hint_due_date_date">Рок</string>
     <string name="add_account">Додај налог</string>
     <string name="choose_account">Одаберите налог</string>
+    <string name="add_card">Додај нову картицу</string>
     <string name="activity">Активност</string>
     <string name="add_list">Додај списак</string>
     <string name="rename_list">Преименуј списак</string>
@@ -91,16 +95,6 @@
     <string name="label_clear_due_date">Избриши рок</string>
     <string name="label_add">Додај %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Дошло је до грешке</string>
-    <string name="operation_not_yet_supported">Није још подржано</string>
-    <string name="copied_to_clipboard">Копирано у клипборд</string>
-    <string name="maintenance_mode">Сервер у режиму одржавања</string>
-    <string name="server_misconfigured">Сервер није добро конфигурисан</string>
-    <string name="server_misconfigured_explanation">Сервер је одговорио са HTTP 302 кодом, што значи да немате инсталирану Deck апликацију или да Вам сервер није правилно конфигурисан. Ово може да буде проузорковано произвољним додавањима у .htaccess фајлу или другим Некстклауд апликацијама као што је OID Client. Можете наћи наше контакт информације за подршку у секцији О програму.</string>
-    <string name="server_error">Грешка на серверу</string>
-    <string name="shared_error">Дељење садржаја од апликација треће стране још није у потпуности подржано. Пробајте прво да преузмете садржај у целости и онда га поделите из менаџера фајлова или из галерије.</string>
-
     <string name="card_edit_details">Детаљи</string>
     <string name="card_edit_attachments">Прилози</string>
     <string name="card_edit_activity">Активност</string>
@@ -114,14 +108,18 @@
     <string name="not_synced_yet">Још није синхронизовано</string>
     <string name="no_lists_yet">Нема још спискова</string>
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
-    <string name="do_you_want_to_delete_the_current_list">Да ли желите да обришете тренутни списак?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Овим ћете заувек обрисати %1$d картицу са овог списка.</item>
+        <item quantity="few">Овим ћете заувек обрисати %1$d картице са овог списка.</item>
+        <item quantity="other">Овим ћете заувек обрисати %1$d картица са овог списка.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Додај нови списак користећи + дугме</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
     <string name="update_deck">Ажурирај шпил</string>
     <string name="your_deck_version_is_too_old">Ваша верзија Шпила је превише стара</string>
-    <string name="deck_outdated_please_update">Верзија апликације Шпил је стара. Ажурирајте да бисте користили ову Андроид апликацију као клијента.</string>
     <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све спискове и картице.</string>
     <string name="settings_theme_title">Тамна тема</string>
+    <string name="settings_branding_title">Брендирање</string>
     <string name="settings_background_sync">Позадинска синхронизација</string>
     <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
     <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
@@ -146,6 +144,7 @@
     <string name="provide_at_least_a_title_or_description">Дајте бар наслов или опис</string>
     <string name="welcome_text">Добродошли у %1$s</string>
     <string name="save_card_before_attachment">Картица мора да се сачува пре него што може да јој се дода прилог.</string>
+    <string name="maintenance_mode_explanation">Сервер %1$s је тренутно у режиму одржавања. Контактирајте администратора или покушајте касније.</string>
     <string name="share_add_to_card">Додај на картицу</string>
     <string name="share_success">Успешно додат %1$s на %2$s</string>
     <string name="could_not_copy_to_clipboard">Не могу да копирам у оставу</string>
@@ -158,6 +157,12 @@
     <string name="choose_list">Одаберите списак</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Отвори у прегледачу</string>
+    <string name="updating_card">Ажурирам картицу…</string>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Помери списак удесно</string>
+    <string name="move_list_left">Помери списак улево</string>
+
     <!-- Filter -->
     <string name="filter_no_filter">Све</string>
     <string name="filter_overdue">Прошао рок</string>
@@ -168,5 +173,24 @@
     <string name="filter_by_tag">Филтрирај по ознаци</string>
     <string name="filter_by_assigned_user">Филтрирај по додељеном кориснику</string>
     <string name="filter_by_duedate">Филтрирај по року</string>
+
+    <!-- Archived cards -->
+    <string name="archived_cards">Архивиране картице</string>
+    <string name="action_card_dearchive">Поништи архивирање картице</string>
+    <string name="action_archived_cards">Прегледај архивиране картице</string>
+    <string name="attachment_already_exists">Прилог већ постоји</string>
+    <string name="pick_custom_color">Одаберите произвољну боју</string>
+    <string name="add_tag">Додајте ознаку</string>
+    <string name="filter_tags_title">Ознаке</string>
+    <string name="filter_duedate_title">Рок</string>
+
+    <!-- Errors -->
+    <string name="error">Дошло је до грешке</string>
+    <string name="operation_not_yet_supported">Није још подржано</string>
+    <string name="error_revoking_ac">Грешка приликом уклањања приступа за %1$s</string>
+    <string name="maintenance_mode">Сервер у режиму одржавања</string>
+    <string name="server_misconfigured">Сервер није добро конфигурисан</string>
+    <string name="server_error">Грешка на серверу</string>
+    <string name="shared_error">Дељење садржаја од апликација треће стране још није у потпуности подржано. Пробајте прво да преузмете садржај у целости и онда га поделите из менаџера фајлова или из галерије.</string>
 
     </resources>

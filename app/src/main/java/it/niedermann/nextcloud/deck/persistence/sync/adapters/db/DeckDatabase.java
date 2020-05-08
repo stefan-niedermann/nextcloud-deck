@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -26,6 +27,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
@@ -68,7 +70,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 Mention.class,
         },
         exportSchema = false,
-        version = 10
+        version = 11
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -102,6 +104,48 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_10_11 = new Migration(10, 11) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // replace duplicates with the server-known ones
+            Cursor duplucatesCursor = database.query("SELECT boardId, title, count(*) FROM Label group by boardid, title having count(*) > 1");
+            if (duplucatesCursor != null && duplucatesCursor.moveToFirst()) {
+                do {
+                    long boardId = duplucatesCursor.getLong(0);
+                    String title = duplucatesCursor.getString(1);
+                    Cursor singleDuplicateCursor = database.query("select localId from Label where boardId = ? and title = ? order by id desc", new Object[]{boardId, title});
+                    if (singleDuplicateCursor != null && singleDuplicateCursor.moveToFirst()) {
+                        long idToUse = -1;
+                        do {
+                            if (idToUse < 0) {
+                                // desc order -> first one is the one with remote ID or a random one. keep this one.
+                                idToUse = singleDuplicateCursor.getLong(0);
+                                continue;
+                            }
+                            long idToReplace = singleDuplicateCursor.getLong(0);
+                            Cursor cardsAssignedToDuplicateCursor = database.query("select cardId, exists(select 1 from JoinCardWithLabel ij where ij.labelId = ? and ij.cardId = cardId) " +
+                                    "from JoinCardWithLabel where labelId = ?", new Object[]{idToUse, idToReplace});
+                            if (cardsAssignedToDuplicateCursor != null && cardsAssignedToDuplicateCursor.moveToFirst()) {
+                                do {
+                                    long cardId = cardsAssignedToDuplicateCursor.getLong(0);
+                                    boolean hasDestinationLabelAssigned = cardsAssignedToDuplicateCursor.getInt(1) > 0;
+                                    database.execSQL("DELETE FROM JoinCardWithLabel where labelId = ? and cardId = ?", new Object[]{idToReplace, cardId});
+
+                                    if (!hasDestinationLabelAssigned) {
+                                        database.execSQL("INSERT INTO JoinCardWithLabel (status,labelId,cardId) VALUES (?, ?, ?)", new Object[]{DBStatus.LOCAL_EDITED.getId(), idToUse, cardId});
+                                    }
+                                } while (cardsAssignedToDuplicateCursor.moveToNext());
+                            }
+                            database.execSQL("DELETE FROM Label where localId = ?", new Object[]{idToReplace});
+                        } while (singleDuplicateCursor.moveToNext());
+                    }
+                } while (duplucatesCursor.moveToNext());
+            }
+//            database.execSQL("DELETE FROM Label WHERE id IS NULL AND EXISTS(SELECT 1 FROM Label il WHERE il.boardId = boardId AND il.title = title AND id IS NOT NULL)");
+            database.execSQL("CREATE UNIQUE INDEX idx_label_title_unique ON Label(boardId, title)");
+        }
+    };
+
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
 
@@ -125,9 +169,9 @@ public abstract class DeckDatabase extends RoomDatabase {
                 context,
                 DeckDatabase.class,
                 DECK_DB_NAME)
-                //FIXME: remove destructive Migration as soon as schema is stable!
                 .addMigrations(MIGRATION_8_9)
                 .addMigrations(MIGRATION_9_10)
+                .addMigrations(MIGRATION_10_11)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

@@ -16,7 +16,6 @@
             android:text="@string/about_app_license_title" />
 
         <TextView
-            style="?android:attr/editTextPreferenceStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -38,7 +37,6 @@
 
         <TextView
             android:id="@+id/about_icons_disclaimer_app_icon"
-            style="?android:attr/editTextPreferenceStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -46,7 +44,6 @@
 
         <TextView
             android:id="@+id/about_icons_disclaimer_mdi_icons"
-            style="?android:attr/editTextPreferenceStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"

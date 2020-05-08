@@ -43,12 +43,14 @@ import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBindin
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedTimePickerDialog;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -255,12 +257,19 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                     newLabel.setBoardId(boardId);
                     newLabel.setTitle(((LabelAutoCompleteAdapter) binding.labels.getAdapter()).getLastFilterText());
                     newLabel.setLocalId(null);
-                    observeOnce(syncManager.createLabel(accountId, newLabel, boardId), CardDetailsFragment.this, createdLabel -> {
-                        newLabel.setLocalId(createdLabel.getLocalId());
-                        ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(createdLabel);
-                        viewModel.getFullCard().getLabels().add(createdLabel);
-                        binding.labelsGroup.addView(createChipFromLabel(newLabel));
-                        binding.labelsGroup.setVisibility(View.VISIBLE);
+                    WrappedLiveData<Label> createLabelLiveData = syncManager.createLabel(accountId, newLabel, boardId);
+                    observeOnce(createLabelLiveData, CardDetailsFragment.this, createdLabel -> {
+                        if (createLabelLiveData.hasError()) {
+                            DeckLog.logError(createLabelLiveData.getError());
+                            Snackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLabelLiveData.getError()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
+                        } else {
+                            newLabel.setLocalId(createdLabel.getLocalId());
+                            ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(createdLabel);
+                            viewModel.getFullCard().getLabels().add(createdLabel);
+                            binding.labelsGroup.addView(createChipFromLabel(newLabel));
+                            binding.labelsGroup.setVisibility(View.VISIBLE);
+                        }
                     });
                 } else {
                     ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(label);

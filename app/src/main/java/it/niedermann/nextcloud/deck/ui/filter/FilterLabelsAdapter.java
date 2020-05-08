@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -16,16 +17,19 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 @SuppressWarnings("WeakerAccess")
-public class LabelFilterAdapter extends RecyclerView.Adapter<LabelFilterAdapter.LabelViewHolder> {
+public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapter.LabelViewHolder> {
     @NonNull
     private final List<Label> labels = new ArrayList<>();
     @NonNull
     private final List<Label> selectedLabels = new ArrayList<>();
+    @Nullable
+    private final SelectionListener<Label> selectionListener;
 
-    public LabelFilterAdapter(@NonNull List<Label> labels, @NonNull List<Label> selectedLabels) {
+    public FilterLabelsAdapter(@NonNull List<Label> labels, @NonNull List<Label> selectedLabels, @Nullable SelectionListener<Label> selectionListener) {
         super();
         this.labels.addAll(labels);
         this.selectedLabels.addAll(selectedLabels);
+        this.selectionListener = selectionListener;
         setHasStableIds(true);
         notifyDataSetChanged();
     }
@@ -75,9 +79,15 @@ public class LabelFilterAdapter extends RecyclerView.Adapter<LabelFilterAdapter.
                 if (selectedLabels.contains(label)) {
                     selectedLabels.remove(label);
                     itemView.setSelected(false);
+                    if (selectionListener != null) {
+                        selectionListener.onItemDeselected(label);
+                    }
                 } else {
                     selectedLabels.add(label);
                     itemView.setSelected(true);
+                    if (selectionListener != null) {
+                        selectionListener.onItemSelected(label);
+                    }
                 }
             });
         }

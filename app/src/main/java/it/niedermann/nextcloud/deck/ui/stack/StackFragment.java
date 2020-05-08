@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
+import it.niedermann.nextcloud.deck.ui.filter.FilterViewModel;
 
 public class StackFragment extends BrandedFragment implements DragAndDropTab<CardAdapter> {
 
@@ -60,11 +61,12 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
         binding = FragmentStackBinding.inflate(inflater, container, false);
         activity = requireActivity();
 
-        final MainViewModel viewModel = new ViewModelProvider(activity).get(MainViewModel.class);
+        final MainViewModel mainViewModel = new ViewModelProvider(activity).get(MainViewModel.class);
+        final FilterViewModel filterViewModel = new ViewModelProvider(activity).get(FilterViewModel.class);
 
         syncManager = new SyncManager(activity);
 
-        adapter = new CardAdapter(requireContext(), viewModel.getCurrentAccount(), viewModel.getCurrentBoardLocalId(), stackId, viewModel.currentBoardHasEditPermission(), syncManager, this, (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
+        adapter = new CardAdapter(requireContext(), mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), stackId, mainViewModel.currentBoardHasEditPermission(), syncManager, this, (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
         binding.recyclerView.setAdapter(adapter);
 
         if (onScrollListener != null) {
@@ -79,7 +81,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             });
         }
 
-        if (!viewModel.currentBoardHasEditPermission()) {
+        if (!mainViewModel.currentBoardHasEditPermission()) {
             binding.emptyContentView.hideDescription();
         }
 
@@ -92,12 +94,12 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
             }
         });
 
-        cardsLiveData = syncManager.getFullCardsForStack(viewModel.getCurrentAccount().getId(), stackId, viewModel.getFilterInformation().getValue());
+        cardsLiveData = syncManager.getFullCardsForStack(mainViewModel.getCurrentAccount().getId(), stackId, filterViewModel.getFilterInformation().getValue());
         cardsLiveData.observe(getViewLifecycleOwner(), cardsObserver);
 
-        viewModel.getFilterInformation().observe(getViewLifecycleOwner(), (filterInformation -> {
+        filterViewModel.getFilterInformation().observe(getViewLifecycleOwner(), (filterInformation -> {
             cardsLiveData.removeObserver(cardsObserver);
-            cardsLiveData = syncManager.getFullCardsForStack(viewModel.getCurrentAccount().getId(), stackId, filterInformation);
+            cardsLiveData = syncManager.getFullCardsForStack(mainViewModel.getCurrentAccount().getId(), stackId, filterInformation);
             cardsLiveData.observe(getViewLifecycleOwner(), cardsObserver);
         }));
 

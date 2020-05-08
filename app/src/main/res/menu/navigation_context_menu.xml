@@ -7,6 +7,11 @@
         android:title="@string/edit_board"
         app:showAsAction="never" />
     <item
+        android:id="@+id/manage_labels"
+        android:orderInCategory="10"
+        android:title="@string/manage_tags"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/archive_board"
         android:orderInCategory="20"
         android:title="@string/archive_board"

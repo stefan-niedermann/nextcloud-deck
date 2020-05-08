@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.model.internal;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +20,18 @@ public class FilterInformation implements Serializable {
     private List<User> users = new ArrayList<>();
     @NonNull
     private List<Label> labels = new ArrayList<>();
+
+    public FilterInformation() {
+        // Default constructor
+    }
+
+    public FilterInformation(@Nullable FilterInformation filterInformation) {
+        if (filterInformation != null) {
+            this.dueType = filterInformation.getDueType();
+            this.users.addAll(filterInformation.getUsers());
+            this.labels.addAll(filterInformation.getLabels());
+        }
+    }
 
     @NonNull
     public EDueType getDueType() {
@@ -39,20 +52,20 @@ public class FilterInformation implements Serializable {
         return labels;
     }
 
-    public void addAllLabels(@NonNull List<Label> labels) {
-        this.labels.addAll(labels);
+    public void addLabel(@NonNull Label label) {
+        this.labels.add(label);
     }
 
-    public void addAllUsers(@NonNull List<User> users) {
-        this.users.addAll(users);
+    public void addUser(@NonNull User user) {
+        this.users.add(user);
     }
 
-    public void clearLabels() {
-        labels.clear();
+    public void removeLabel(@NonNull Label label) {
+        labels.remove(label);
     }
 
-    public void clearUsers() {
-        users.clear();
+    public void removeUser(@NonNull User user) {
+        users.remove(user);
     }
 
     @NotNull
@@ -63,5 +76,15 @@ public class FilterInformation implements Serializable {
                 ", users=" + users +
                 ", labels=" + labels +
                 '}';
+    }
+
+    /**
+     * @return whether or not the given filterInformation has any actual filters set
+     */
+    public static boolean hasActiveFilter(@Nullable FilterInformation filterInformation) {
+        if (filterInformation == null) {
+            return false;
+        }
+        return filterInformation.getDueType() != EDueType.NO_FILTER || filterInformation.getUsers().size() > 0 || filterInformation.getLabels().size() > 0;
     }
 }

@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Colaboración</string>
     <string name="about_license_tab_title">Licenza</string>
 
+    <string name="copied_to_clipboard">Copiado no portapapeis.</string>
+
     <string name="seconds_ago">hai uns segundos</string>
     <string name="edit">Editar</string>
     <string name="label_labels">Seleccionar etiquetas</string>
@@ -78,6 +80,7 @@
     <string name="hint_due_date_date">Data de caducidade</string>
     <string name="add_account">Engadir unha conta</string>
     <string name="choose_account">Escolla unha conta</string>
+    <string name="add_card">Engadir unha nova tarxeta</string>
     <string name="activity">Actividade</string>
     <string name="add_list">Engadir unha lista...</string>
     <string name="rename_list">Renomear a lista</string>
@@ -92,17 +95,6 @@
     <string name="label_clear_due_date">Limpar a data de caducidade</string>
     <string name="label_add">Engadir %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Apareceu un erro</string>
-    <string name="operation_not_yet_supported">Aínda non está admitido</string>
-    <string name="copied_to_clipboard">Copiado no portapapeis.</string>
-    <string name="error_revoking_ac">Produciuse un erro ao revogar o acceso a %1$s</string>
-    <string name="maintenance_mode">Servidor en modo de mantemento</string>
-    <string name="server_misconfigured">Configuración incorrecta do servidor</string>
-    <string name="server_misconfigured_explanation">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como OID Client. Pode atopar a nosa información de contacto para asistencia na sección «Sobre».</string>
-    <string name="server_error">Produciuse un erro de servidor</string>
-    <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
-
     <string name="card_edit_details">Detalles</string>
     <string name="card_edit_attachments">Anexos</string>
     <string name="card_edit_activity">Actividade</string>
@@ -116,15 +108,22 @@
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
     <string name="no_lists_yet">Non hai listas</string>
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
-    <string name="do_you_want_to_delete_the_current_list">Confirma que quere eliminar a lista actual?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Isto eliminará permanentemente %1$d tarxeta desta lista.</item>
+        <item quantity="other">Isto eliminará permanentemente as %1$d tarxetas desta lista.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Isto retirará a etiqueta de %1$d tarxeta.</item>
+        <item quantity="other">Isto retirará a etiqueta de %1$d tarxetas.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Engadir unha nova lista co botón +</string>
     <string name="add_a_new_card_using_the_button">Engadir unha nova tarxeta co botón +</string>
     <string name="update_deck">Actualizar o Deck</string>
     <string name="your_deck_version_is_too_old">A versión do Deck é antiga de máis.</string>
-    <string name="deck_outdated_please_update">A versión do Deck é antiga de máis. Actualice para usar esta apli de Android como cliente.</string>
+    <string name="deck_outdated_please_update">A versión do Deck é antiga de máis (%1$s). Actualice para usar esta apli de Android como cliente.</string>
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema escuro</string>
-    <string name="settings_branding_title">Imaxe de marca</string>
+    <string name="settings_branding_title">Xestión da marca</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con WiFi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con WiFi</string>
@@ -179,4 +178,46 @@
     <string name="filter_by_assigned_user">Filtrar polo usuario asignado</string>
     <string name="filter_by_duedate">Filtrar pola data de caducidade</string>
 
-    </resources>
+    <!-- Archived cards -->
+    <string name="archived_cards">Tarxetas arquivadas</string>
+    <string name="action_card_dearchive">Desfacer o arquivo de tarxetas</string>
+    <string name="action_archived_cards">Examinar as tarxetas arquivadas</string>
+    <string name="attachment_already_exists">O anexo xa existe</string>
+    <string name="pick_custom_color">Escolla a cor personalizada</string>
+    <string name="manage_tags">Xestionar as etiquetas</string>
+    <string name="add_tag">Engadir unha etiqueta</string>
+    <string name="tag_already_exists">%1$s xa existe</string>
+    <string name="tag_successfully_added">%1$s foi engadido satisfactoriamente</string>
+    <string name="edit_tag">Editar %1$s</string>
+    <string name="filter_tags_title">Etiquetas</string>
+    <string name="filter_assignees_title">Asignados</string>
+    <string name="filter_duedate_title">Data de caducidade</string>
+
+    <!-- Errors -->
+    <string name="error">Apareceu un erro</string>
+    <string name="synchronization_failed">Produciuse un fallo na sincronización</string>
+    <string name="operation_not_yet_supported">Aínda non está admitido</string>
+    <string name="error_revoking_ac">Produciuse un erro ao revogar o acceso a %1$s</string>
+    <string name="error_create_label">Produciuse un erro ao crear a etiqueta %1$s</string>
+    <string name="maintenance_mode">Servidor en modo de mantemento</string>
+    <string name="server_misconfigured">Configuración incorrecta do servidor</string>
+    <string name="server_error">Produciuse un erro de servidor</string>
+    <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
+
+    <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da apli e reiniciala de novo. Pode haber unha conexión incorrecta coa apli Nextcloud.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Se o problema continúa, tente limpar o almacenamento de ambas as aplis: Nextcloud e Nextcloud Deck para resolver este problema.</string>
+    <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo axustes de Android → Aplicacións → Nextcloud / Nextcloud Deck → Almacenamento → Limpar o almacenamento.</string>
+    <string name="error_dialog_tip_files_outdated">A súa apli Nextcloud semella estar desactualizada. Visite Play Store ou F-Droid para obter a última versión.</string>
+    <string name="error_dialog_tip_files_force_stop">Semella que algo está mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Nextcloud Deck.</string>
+    <string name="error_dialog_tip_files_delete_storage">Se detelos pola forza non axuda, pode tentar limpar o almacenamento de ambas as aplicacións.</string>
+    <string name="error_dialog_timeout_instance">Non houbo resposta do seu servidor no tempo dado. Asegúrese de que a súa instancia funciona correctamente.</string>
+    <string name="error_dialog_timeout_toggle">Comprobe a súa conexión de rede. Ás veces apagar e volver acender os datos móbiles ou a Wi-Fi pode axudar.</string>
+    <string name="error_dialog_check_server">A resposta do servidor non foi correcta. Comprobe se pode acceder a Deck a través de interface web.</string>
+    <string name="error_dialog_check_server_logs">Hai un problema coa configuración do Nextcloud. Bótelle un ollo aos ficheiros de rexistro do servidor.</string>
+    <string name="error_dialog_check_maintenance">Comprobe que a súa instancia Nextcloud non se atope en modo de mantemento.</string>
+    <string name="error_dialog_insufficient_storage">A súa instancia Nextcloud non dispón de espazo de almacenamento libre. Elimine algúns ficheiros para sincronizar os seus cambios locais na súa nube.</string>
+    <string name="error_dialog_contact_us">Non dubide en poñerse en contacto con nós se os problemas persisten. Pode atopar a nosa información de contacto na sección sobre na barra lateral.</string>
+    <string name="error_dialog_we_need_info">Necesitamos a seguinte información técnica para axudarlle:</string>
+    <string name="error_dialog_redirect">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como Client OID.</string>
+</resources>

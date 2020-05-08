@@ -21,7 +21,7 @@
     <string name="simple_exception">İstisna</string>
     <string name="simple_close">kapat</string>
     <string name="simple_open">Aç</string>
-    <string name="simple_switch">Şalter</string>
+    <string name="simple_switch">Değiştir</string>
     <string name="simple_filter">Süzgeç</string>
     <string name="simple_overdue">Zamanı geçmiş</string>
     <string name="simple_clear">Temizle</string>
@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Katkıda Bulunanlar</string>
     <string name="about_license_tab_title">Lisans</string>
 
+    <string name="copied_to_clipboard">Panoya kopyalandı</string>
+
     <string name="seconds_ago">saniye önce</string>
     <string name="edit">Düzenle</string>
     <string name="label_labels">Etiketleri Seçin</string>
@@ -78,6 +80,7 @@
     <string name="hint_due_date_date">Bitiş tarihi</string>
     <string name="add_account">Hesap ekle</string>
     <string name="choose_account">Hesap seçin</string>
+    <string name="add_card">Yeni kart ekle</string>
     <string name="activity">Etkinlik</string>
     <string name="add_list">Liste ekle</string>
     <string name="rename_list">Listeyi yeniden adlandır</string>
@@ -92,17 +95,6 @@
     <string name="label_clear_due_date">Bitiş tarihini temizle</string>
     <string name="label_add">%1$s ekle</string>
 
-    <!-- Error messages -->
-    <string name="error">Bir sorun çıktı</string>
-    <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
-    <string name="copied_to_clipboard">Panoya kopyalandı</string>
-    <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
-    <string name="maintenance_mode">Sunucu bakım kipinde</string>
-    <string name="server_misconfigured">Sunucu yapılandırması hatalı</string>
-    <string name="server_misconfigured_explanation">Sunucunuz, üzerine Deck uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir. Destek almak için iletişim bilgilerimizi hakkında bölümünde bulabilirsiniz.</string>
-    <string name="server_error">Sunucu sorunu</string>
-    <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
-
     <string name="card_edit_details">Ayrıntılar</string>
     <string name="card_edit_attachments">Ek dosyalar</string>
     <string name="card_edit_activity">İşlem</string>
@@ -116,12 +108,19 @@
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
     <string name="no_lists_yet">Henüz bir liste yok</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
-    <string name="do_you_want_to_delete_the_current_list">Geçerli listeyi silmek istiyor musunuz?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Bu işlem, bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
+        <item quantity="other">Bu işlem bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Bu işlem etiketi %1$d karttan kaldıracak.</item>
+        <item quantity="other">Bu işlem etiketi %1$d karttan kaldıracak.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">+ düğmesini kullanarak yeni bir liste ekleyebilirsiniz</string>
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
     <string name="update_deck">Tahtayı güncelle</string>
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
-    <string name="deck_outdated_please_update">Tahta sürümünüz çok eski. Lütfen bu android uygulamasını istemci olarak kullanabilmek için deck sürümünü güncelleyin.</string>
+    <string name="deck_outdated_please_update">Tahta sürümünüz çok eski (%1$s). Lütfen bu android uygulamasını istemci olarak kullanabilmek için deck sürümünü güncelleyin.</string>
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="settings_theme_title">Koyu tema</string>
     <string name="settings_branding_title">Markalama</string>
@@ -149,7 +148,7 @@
     <string name="provide_at_least_a_title_or_description">Lütfen en azından başlığı ya da açıklamayı yazın</string>
     <string name="welcome_text">%1$s panonuza hoşgeldiniz</string>
     <string name="save_card_before_attachment">Ek dosyaları ekleyebilmek için kartın kaydedilmesi gerekiyor.</string>
-    <string name="maintenance_mode_explanation">Sunucu %1$s şu anda bakım modunda. Lütfen yöneticinizle irtibat kurun veya sonradan tekrar deneyin.</string>
+    <string name="maintenance_mode_explanation">%1$s sunucusu şu anda bakım kipinde. Lütfen yöneticinizle görüşün ya da daha sonra yeniden deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
     <string name="could_not_copy_to_clipboard">Panoya kopyalanamadı</string>
@@ -164,6 +163,10 @@
     <string name="open_in_browser">Tarayıcıda aç</string>
     <string name="updating_card">Kart güncelleniyor…</string>
 
+    <!-- Move lists -->
+    <string name="move_list_right">Listeyi sağa taşı</string>
+    <string name="move_list_left">Listeyi sola taşı</string>
+
     <!-- Filter -->
     <string name="filter_no_filter">Tümü</string>
     <string name="filter_overdue">Zamanı geçmiş</string>
@@ -177,4 +180,44 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arşivlenmiş kartlar</string>
-    </resources>
+    <string name="action_card_dearchive">Kart arşivlemeyi geri al</string>
+    <string name="action_archived_cards">Arşivlenmiş kartlara göz at</string>
+    <string name="attachment_already_exists">Ek dosya zaten var</string>
+    <string name="pick_custom_color">Özel renk seçin</string>
+    <string name="manage_tags">Etiket yönetimi</string>
+    <string name="add_tag">Etiket ekle</string>
+    <string name="tag_already_exists">%1$s zaten var</string>
+    <string name="tag_successfully_added">%1$s eklendi</string>
+    <string name="edit_tag">%1$s düzenle</string>
+    <string name="filter_tags_title">Etiketler</string>
+    <string name="filter_assignees_title">Atananlar</string>
+    <string name="filter_duedate_title">Bitiş tarihi</string>
+
+    <!-- Errors -->
+    <string name="error">Bir sorun çıktı</string>
+    <string name="synchronization_failed">Eşitlenemedi</string>
+    <string name="operation_not_yet_supported">Henüz desteklenmiyor</string>
+    <string name="error_revoking_ac">%1$s için erişim izni geri alınırken sorun çıktı</string>
+    <string name="error_create_label">%1$s etiketi eklenirken sorun çıktı</string>
+    <string name="maintenance_mode">Sunucu bakım kipinde</string>
+    <string name="server_misconfigured">Sunucu yapılandırması hatalı</string>
+    <string name="server_error">Sunucu sorunu</string>
+    <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
+
+    <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Lütfen uygulamayı kapanmaya zorlayıp yeniden başlatın. Yanlış bir Nextcloud uygulaması bağlantısı olmalı.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Sorun sürerse, çözmek için hem Nextcloud uygulamasının hem de Nextcloud Tahta uygulamasının depolamalarını temizlemeyi deneyin.</string>
+    <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için → Uygulamalar → Nextcloud / Nextcloud Tahta → Depolama (Hafıza) → Depolamayı temizle (Veriyi sil).</string>
+    <string name="error_dialog_tip_files_outdated">Nextcloud uygulamanız eski görünüyor. Lütfen son sürümü almak için Play Store ya da F-Droid mağazalarına gidin.</string>
+    <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tahta uygulamasını zorla kapatmayı deneyin.</string>
+    <string name="error_dialog_tip_files_delete_storage">Zorla durdurmak sorunu çözmediyse iki uygulamanın da depolamalarını temizlemeyi deneyebilirsiniz.</string>
+    <string name="error_dialog_timeout_instance">Belirtilen sürede sunucunuzdan bir yanıt alınamadı. Lütfen kopyanızın düzgün çalıştığından emin olun.</string>
+    <string name="error_dialog_timeout_toggle">Ağ bağlantınızı denetleyin. Mobil veriye geçmek ya da Wi-Fi bağlantısını kapatıp açmak yardımcı olabilir.</string>
+    <string name="error_dialog_check_server">Sunucunuz doğru şekilde yanıt vermedi. Lütfen Tahta uygulamasına web arayüzü üzerinden erişebiliyor musunuz diye bakın.</string>
+    <string name="error_dialog_check_server_logs">Nextcloud kurulumunuz ile ilgili bir sorun var. Lütfen sunucu günlük dosyalarını inceleyin.</string>
+    <string name="error_dialog_check_maintenance">Nextcloud kopyanızın bakım kipinde olmadığından emin olun.</string>
+    <string name="error_dialog_insufficient_storage">Nextcloud kopyanızda boş depolama alanı kalmamış. Lütfen yerel değişikliklerinizi bulut ile eşitlemek için bazı dosyaları silerek yer açın.</string>
+    <string name="error_dialog_contact_us">Sorun sürerse lütfen bize sormaktan çekinmeyin. İletişim bilgilerimizi yan çubuktaki hakkında bölümünde bulabilirsiniz.</string>
+    <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
+    <string name="error_dialog_redirect">Sunucunuz, üzerine Tahta uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
+</resources>

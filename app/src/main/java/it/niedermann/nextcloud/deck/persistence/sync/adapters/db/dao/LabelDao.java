@@ -49,4 +49,9 @@ public interface LabelDao extends GenericDao<Label> {
             ") " +
             "GROUP BY l.localId ORDER BY count(*) DESC")
     LiveData<List<Label>> findProposalsForLabelsToAssign(long accountId, long boardId, long notAssignedToLocalCardId);
+
+
+
+    @Query("select * from label WHERE boardId = :boardId and title = :title")
+    Label getLabelByBoardIdAndTitleDirectly(long boardId, String title);
 }

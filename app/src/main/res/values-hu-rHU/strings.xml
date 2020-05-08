@@ -69,6 +69,8 @@
     <string name="about_contribution_tab_title">Közreműködés</string>
     <string name="about_license_tab_title">Licenc</string>
 
+    <string name="copied_to_clipboard">Vágólapra másolva</string>
+
     <string name="seconds_ago">pár másodperce</string>
     <string name="edit">Szerkesztés</string>
     <string name="label_labels">Címkék kiválasztása</string>
@@ -91,13 +93,6 @@
     <string name="label_clear_due_date">Határidő eltávolítása</string>
     <string name="label_add">%1$s hozzáadása</string>
 
-    <!-- Error messages -->
-    <string name="error">Hiba történt</string>
-    <string name="operation_not_yet_supported">Még nincs támogatva</string>
-    <string name="copied_to_clipboard">Vágólapra másolva</string>
-    <string name="maintenance_mode">A kiszolgáló karbantartási módban van</string>
-    <string name="server_misconfigured">A kiszolgáló hibásan van beállítva</string>
-    <string name="server_error">Kiszolgálóhiba</string>
     <string name="card_edit_details">Részletek</string>
     <string name="card_edit_attachments">Mellékletek</string>
     <string name="card_edit_activity">Tevékenység</string>
@@ -111,12 +106,10 @@
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
     <string name="no_lists_yet">Még nincsenek listák</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
-    <string name="do_you_want_to_delete_the_current_list">Biztos, hogy törli a jelenlegi listát?</string>
     <string name="add_a_new_list_using_the_button">Új lista hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
     <string name="update_deck">Kártyák frissítése</string>
     <string name="your_deck_version_is_too_old">A Kártyák verziója túl régi</string>
-    <string name="deck_outdated_please_update">A Kártyák verziója túl régi. Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
     <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
     <string name="settings_theme_title">Sötét téma</string>
     <string name="settings_background_sync">Háttér-szinkronizálás</string>
@@ -156,4 +149,16 @@
     <string name="filter_by_assigned_user">Szűrés hozzárendelt felhasználó szerint</string>
     <string name="filter_by_duedate">Szűrés határidő szerint</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Archivált kártyák</string>
+    <string name="add_tag">Címke hozzáadás</string>
+    <string name="filter_tags_title">Címkék</string>
+    <string name="filter_duedate_title">Határidő</string>
+
+    <!-- Errors -->
+    <string name="error">Hiba történt</string>
+    <string name="operation_not_yet_supported">Még nincs támogatva</string>
+    <string name="maintenance_mode">A kiszolgáló karbantartási módban van</string>
+    <string name="server_misconfigured">A kiszolgáló hibásan van beállítva</string>
+    <string name="server_error">Kiszolgálóhiba</string>
     </resources>

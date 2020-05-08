@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.LiveData;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -90,7 +91,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
                         observeOnce(liveData, activity, (labels -> {
                             labels.removeAll(itemsToExclude);
                             final boolean constraintLengthGreaterZero = constraint.toString().trim().length() > 0;
-                            if (canManage && constraintLengthGreaterZero) {
+                            if (canManage && constraintLengthGreaterZero && !labelTitleIsPresent(labels, constraint)) {
                                 if (createLabel == null) {
                                     throw new IllegalStateException("Owner has right to edit card, but createLabel is null");
                                 }
@@ -106,6 +107,15 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
                 return filterResults;
             }
         };
+    }
+
+    private static boolean labelTitleIsPresent(@NonNull Collection<Label> labels, @NonNull CharSequence title) {
+        for (Label label : labels) {
+            if (label.getTitle().contentEquals(title)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getLastFilterText() {

@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -314,10 +315,32 @@ public class SyncManager {
         });
     }
 
-    public LiveData<List<Board>> getBoards(long accountId) {
+    /**
+     * @param accountId ID of the account
+     * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
+     * @return all archived or non-archived <code>Board</code>s depending on <code>archived</code> parameter
+     */
+    public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
+        // TODO implement archived flag
         return dataBaseAdapter.getBoards(accountId);
     }
 
+    /**
+     * @param accountId ID of the account
+     * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
+     * @return all archived or non-archived <code>FullBoard</code>s depending on <code>archived</code> parameter
+     */
+    public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
+        // TODO implement archived flag
+        return dataBaseAdapter.getFullBoards(accountId);
+    }
+
+    /**
+     * Get all non-archived  <code>FullBoard</code>s with edit permissions for the specified account.
+     *
+     * @param accountId ID of the account
+     * @return all non-archived <code>Board</code>s with edit permission
+     */
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
         return dataBaseAdapter.getBoardsWithEditPermission(accountId);
     }
@@ -367,7 +390,7 @@ public class SyncManager {
         return dataBaseAdapter.getActivitiesForCard(card.getLocalId());
     }
 
-    public void addCommentToCard(long accountId, long boardId, long cardId, DeckComment comment) {
+    public void addCommentToCard(long accountId, long cardId, DeckComment comment) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, cardId);
@@ -538,6 +561,7 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
             FullStack fullStack = new FullStack();
+            // TODO set stack order to (highest stack-order from board) + 1 and remove logic from caller
             stack.setAccountId(accountId);
             stack.setBoardId(board.getLocalId());
             fullStack.setStack(stack);
@@ -627,6 +651,11 @@ public class SyncManager {
         return dataBaseAdapter.countCardsInStack(accountId, localStackId);
     }
 
+    public LiveData<Integer> countCardsWithLabel(long localLabelId) {
+        return dataBaseAdapter.countCardsWithLabel(localLabelId);
+    }
+
+    // TODO implement, see https://github.com/stefan-niedermann/nextcloud-deck/issues/395
     public LiveData<List<FullCard>> getArchivedFullCardsForBoard(long accountId, long localBoardId) {
         return dataBaseAdapter.getArchivedFullCardsForBoard(accountId, localBoardId);
     }
@@ -730,6 +759,11 @@ public class SyncManager {
         return updateCard(card);
     }
 
+    // TODO implement
+    public LiveData<Boolean> hasArchivedBoards() {
+        return null;
+    }
+
     public MutableLiveData<FullBoard> archiveBoard(FullBoard board) {
         // TODO implement with WrappedLiveData
         return null;
@@ -788,9 +822,14 @@ public class SyncManager {
         return liveData;
     }
 
-    public MutableLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
-        MutableLiveData<Label> liveData = new MutableLiveData<>();
+    public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
+        WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
+            Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(label.getBoardId(), label.getTitle());
+            if (existing != null) {
+                liveData.postError(new SQLiteConstraintException("label \"" + label.getTitle() + "\" already exists for this board!"));
+                return;
+            }
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(localBoardId);
             label.setAccountId(accountId);
@@ -798,6 +837,11 @@ public class SyncManager {
                 @Override
                 public void onResponse(Label response) {
                     liveData.postValue(response);
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    liveData.postError(throwable);
                 }
             }, (entity, response) -> {
                 response.setBoardId(board.getLocalId());
@@ -842,18 +886,13 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<Label> updateLabel(Label label) {
-        MutableLiveData<Label> liveData = new MutableLiveData<>();
+    public WrappedLiveData<Label> updateLabel(Label label) {
+        WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
             new DataPropagationHelper(serverAdapter, dataBaseAdapter)
-                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, new IResponseCallback<Label>(account) {
-                        @Override
-                        public void onResponse(Label response) {
-                            liveData.postValue(response);
-                        }
-                    });
+                    .updateEntity(new LabelDataProvider(null, board, Collections.emptyList()), label, getCallbackToLiveDataConverter(account, liveData));
         });
         return liveData;
     }
@@ -959,7 +998,7 @@ public class SyncManager {
         return findProposalsForLabelsToAssign(accountId, boardId, -1L);
     }
 
-
+    // TODO Difference to getFullBoardByid() ??? I think those methods are equal, we should drop one of them.
     public LiveData<FullBoard> getFullBoard(Long accountId, Long localId) {
         return dataBaseAdapter.getFullBoardById(accountId, localId);
     }

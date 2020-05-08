@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:padding="@dimen/spacer_1x">
+    android:paddingTop="@dimen/spacer_1x"
+    android:paddingBottom="@dimen/spacer_1x">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -28,7 +29,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="end|bottom"
-            android:background="@drawable/selected" />
+            app:srcCompat="@drawable/selected" />
     </FrameLayout>
 
     <TextView
@@ -36,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="16sp"
+        android:textAppearance="?attr/textAppearanceListItem"
         tools:text="@tools:sample/full_names" />
 
 </LinearLayout>

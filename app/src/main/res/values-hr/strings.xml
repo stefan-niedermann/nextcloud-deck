@@ -21,6 +21,7 @@
     <string name="simple_exception">Izuzetak</string>
     <string name="simple_close">zatvori</string>
     <string name="simple_open">Otvori</string>
+    <string name="simple_switch">Promijeni</string>
     <string name="simple_filter">Filtar</string>
     <string name="simple_overdue">Kasni</string>
     <string name="simple_clear">Izbriši</string>
@@ -69,6 +70,8 @@
     <string name="about_contribution_tab_title">Doprinos</string>
     <string name="about_license_tab_title">Licenca</string>
 
+    <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
+
     <string name="seconds_ago">prije nekoliko sekundi</string>
     <string name="edit">Uredi</string>
     <string name="label_labels">Odaberite oznake</string>
@@ -77,7 +80,10 @@
     <string name="hint_due_date_date">Datum dospijeća</string>
     <string name="add_account">Dodaj račun</string>
     <string name="choose_account">Odaberi račun</string>
+    <string name="add_card">Dodaj karticu</string>
     <string name="activity">Aktivnost</string>
+    <string name="add_list">Dodaj popis</string>
+    <string name="rename_list">Preimenuj popis</string>
     <string name="delete_list">Izbriši popis</string>
     <string name="label_menu">izbornik</string>
     <string name="action_card_assign">Dodijeli mi karticu</string>
@@ -89,13 +95,6 @@
     <string name="label_clear_due_date">Izbriši datum dospijeća</string>
     <string name="label_add">Dodaj %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Pojavila se pogreška</string>
-    <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
-    <string name="maintenance_mode">Poslužitelj u načinu održavanja</string>
-    <string name="server_misconfigured">Pogrešna konfiguracija poslužitelja</string>
-    <string name="server_misconfigured_explanation">Vaš je poslužitelj vratio šifru statusa HTTP 302, što znači da aplikacija Deck nije instalirana na poslužitelju ili postoji pogreška u konfiguraciji. To mogu uzrokovati prilagođena prepisivanja u datoteci .htaccess ili određene aplikacije u Nextcloudu, kao što je OID Client. Informacije za kontaktiranje u vezi s podrškom možete pronaći u odjeljku s informacijama o sustavu.</string>
-    <string name="server_error">Greška poslužitelja</string>
     <string name="card_edit_details">Pojedinosti</string>
     <string name="card_edit_attachments">Privici</string>
     <string name="card_edit_activity">Aktivnost</string>
@@ -107,13 +106,15 @@
     <string name="account_already_added">Račun je već dodan</string>
     <string name="account_is_getting_imported">Račun se uvozi</string>
     <string name="not_synced_yet">Još nije sinkronizirano</string>
+    <string name="no_lists_yet">Još nema popisa</string>
     <string name="do_you_want_to_save_your_changes">Želite li spremiti promjene?</string>
+    <string name="add_a_new_list_using_the_button">Dodaj novi popis s pomoću gumba +</string>
     <string name="add_a_new_card_using_the_button">Dodaj novu karticu s pomoću gumba +</string>
     <string name="update_deck">Ažuriraj Deck</string>
     <string name="your_deck_version_is_too_old">Vaša inačica Decka je prestara</string>
-    <string name="deck_outdated_please_update">Vaša inačica Decka je prestara. Ažurirajte je kako biste se koristili ovom aplikacijom za Android kao klijentom.</string>
     <string name="delete_board_message">Trajno ćete izbrisati ovu ploču, uključujući sve stogove i kartice.</string>
     <string name="settings_theme_title">Tamna tema</string>
+    <string name="settings_branding_title">Brendiranje</string>
     <string name="settings_background_sync">Pozadinska sinkronizacija</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizacija putem bežičnih (Wi-Fi) i mobilnih podataka</string>
     <string name="pref_value_wifi_only">Sinkroniziraj samo putem bežične (Wi-Fi) mreže</string>
@@ -138,10 +139,21 @@
     <string name="provide_at_least_a_title_or_description">Unesite naziv ili opis</string>
     <string name="welcome_text">Dobro došli u %1$s</string>
     <string name="save_card_before_attachment">Prije dodavanja privitaka potrebno je spremiti karticu.</string>
+    <string name="maintenance_mode_explanation">Poslužitelj %1$s trenutno je u načinu održavanja. Obratite se svom administratoru ili pokušajte kasnije.</string>
     <string name="share_add_to_card">Dodaj kartici</string>
     <string name="share_success">%1$s uspješno dodano %2$s</string>
+    <string name="could_not_copy_to_clipboard">Kopiranje u međuspremnik nije uspjelo</string>
+    <string name="add_comment">Dodaj komentar</string>
     <string name="card_edit_comments">Komentari</string>
+    <string name="no_comments_yet">Još nema komentara</string>
+    <string name="no_boards">Još nema ploča</string>
+    <string name="add_a_new_board_using_the_button">Dodaj novu ploču s pomoću gumba +</string>
+    <string name="choose_board">Odaberi ploču</string>
+    <string name="choose_list">Odaberi popis</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Otvori u pregledniku</string>
+    <string name="updating_card">Ažuriranje kartice…</string>
+
     <!-- Filter -->
     <string name="filter_no_filter">Sve</string>
     <string name="filter_overdue">Kasni</string>
@@ -155,4 +167,29 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arhivirane kartice</string>
+    <string name="add_tag">Dodaj oznaku</string>
+    <string name="filter_tags_title">Oznake</string>
+    <string name="filter_duedate_title">Datum dospijeća</string>
+
+    <!-- Errors -->
+    <string name="error">Pojavila se pogreška</string>
+    <string name="synchronization_failed">Sinkronizacija nije uspjela</string>
+    <string name="operation_not_yet_supported">Još nije podržano</string>
+    <string name="error_revoking_ac">Pogreška pri opozivanju prava pristupa za %1$s</string>
+    <string name="maintenance_mode">Poslužitelj u načinu održavanja</string>
+    <string name="server_misconfigured">Pogrešna konfiguracija poslužitelja</string>
+    <string name="server_error">Greška poslužitelja</string>
+    <string name="shared_error">Dijeljenje sadržaja iz aplikacija trećih strana još uvijek nije potpuno podržano. Pokušajte ga preuzeti i zatim dijeliti putem upravitelja podacima ili galerije.</string>
+
+    <string name="error_dialog_title">Ups, što sada? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Pokušajte prisilno zatvoriti aplikaciju i ponovo je pokrenuti. Možda se radi o nepravilnoj vezi s aplikacijom Nextcloud.</string>
+    <string name="error_dialog_tip_files_outdated">Čini se da je vaša aplikacija Nextcloud zastarjela. Posjetite trgovinu Play Store ili F-Droid kako biste dohvatili najnoviju inačicu.</string>
+    <string name="error_dialog_tip_files_delete_storage">Ako prisilno zatvaranje nije otklonilo problem, pokušajte izbrisati pohranjene podatke iz obje aplikacije.</string>
+    <string name="error_dialog_timeout_instance">Nije stigao odgovor poslužitelja u zadanom vremenskom razdoblju. Provjerite radi li vaša instanca.</string>
+    <string name="error_dialog_timeout_toggle">Provjerite mrežnu vezu. Ponekad može pomoći isključivanje i ponovno uključivanje mobilnih podataka ili bežične (Wi-Fi) mreže.</string>
+    <string name="error_dialog_check_server_logs">Postoji određeni problem s vašim Nextcloudom. Provjerite datoteke zapisa poslužitelja.</string>
+    <string name="error_dialog_check_maintenance">Provjerite je li vaša instanca Nextclouda trenutno u načinu održavanja.</string>
+    <string name="error_dialog_insufficient_storage">Nema slobodnog prostora za pohranu u vašoj instanci Nextclouda. Izbrišite dio datoteka kako biste sinkronizirali lokalne promjene u oblak.</string>
+    <string name="error_dialog_contact_us">Obratite nam se bez odlaganja ako problemi i dalje postoje. Naše podatke za kontakt možete pronaći u odjeljku s informacijama na bočnoj traci.</string>
+    <string name="error_dialog_we_need_info">Potrebne su nam sljedeće tehničke informacije kako bismo vam pomogli:</string>
     </resources>

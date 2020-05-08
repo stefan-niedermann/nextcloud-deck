@@ -38,8 +38,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_info_outline_grey600_24dp"
-                        android:drawableLeft="@drawable/ic_info_outline_grey600_24dp"
                         android:drawablePadding="@dimen/spacer_1hx"
                         android:gravity="center"
                         android:paddingStart="@dimen/spacer_1hx"
@@ -47,7 +45,9 @@
                         android:paddingEnd="@dimen/spacer_1hx"
                         android:paddingRight="@dimen/spacer_1hx"
                         android:text="@string/maintenance_mode"
-                        android:textColor="@color/grey600" />
+                        android:textColor="@color/grey600"
+                        app:drawableLeftCompat="@drawable/ic_info_outline_grey600_24dp"
+                        app:drawableStartCompat="@drawable/ic_info_outline_grey600_24dp" />
 
                 </LinearLayout>
 
@@ -108,7 +108,7 @@
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:contentDescription="@null"
+                    android:contentDescription="@string/add_list"
                     android:foreground="?android:selectableItemBackground"
                     app:srcCompat="@drawable/ic_add_white_24dp"
                     tools:ignore="UnusedAttribute" />
@@ -122,6 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
+            android:contentDescription="@string/add_card"
             app:backgroundTint="@color/primary"
             app:srcCompat="@drawable/ic_add_white_24dp" />
 

@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Beitrag</string>
     <string name="about_license_tab_title">Lizenz</string>
 
+    <string name="copied_to_clipboard">In die Zwischenablage kopiert</string>
+
     <string name="seconds_ago">Gerade eben</string>
     <string name="edit">Bearbeiten</string>
     <string name="label_labels">Schlagworte auswählen</string>
@@ -78,6 +80,7 @@
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
     <string name="add_account">Konto hinzufügen</string>
     <string name="choose_account">Konto auswählen</string>
+    <string name="add_card">Neue Karte hinzufügen</string>
     <string name="activity">Aktivität</string>
     <string name="add_list">Liste hinzufügen</string>
     <string name="rename_list">Liste umbenennen</string>
@@ -92,17 +95,6 @@
     <string name="label_clear_due_date">Fälligkeitsdatum löschen</string>
     <string name="label_add">%1$s hinzufügen</string>
 
-    <!-- Error messages -->
-    <string name="error">Es ist ein Fehler aufgetreten</string>
-    <string name="operation_not_yet_supported">Wird bislang noch nicht unterstützt</string>
-    <string name="copied_to_clipboard">In die Zwischenablage kopiert</string>
-    <string name="error_revoking_ac">Fehler beim Widerruf des Zugriffs für %1$s</string>
-    <string name="maintenance_mode">Server befindet sich im Wartungsmodus</string>
-    <string name="server_misconfigured">Server falsch konfiguriert</string>
-    <string name="server_misconfigured_explanation">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID Client verursacht werden. Unsere Kontaktinformationen zur Unterstützung finden Sie im Info-Bereich.</string>
-    <string name="server_error">Serverfehler</string>
-    <string name="shared_error">Das Teilen von Inhalten aus Apps von Drittanbietern wird noch nicht vollständig unterstützt. Bitte versuchen Sie zuerst, die Datei herunterzuladen und dann aus Ihrem Dateimanager oder aus Ihrer Galerie freizugeben.</string>
-
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Anhänge</string>
     <string name="card_edit_activity">Aktivitäten</string>
@@ -116,12 +108,19 @@
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
     <string name="no_lists_yet">Noch keine Listen vorhanden</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
-    <string name="do_you_want_to_delete_the_current_list">Möchten Sie die aktuelle Liste löschen?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Dies wird die Karte %1$d permanent aus dieser Liste löschen.</item>
+        <item quantity="other">Dies wird alle Karten %1$d permanent aus dieser Liste löschen.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Dies wird die Markierung von %1$d Karte entfernen</item>
+        <item quantity="other">Dies wird die Markierung von %1$d Karten entfernen</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Eine neue Liste mit der + Taste hinzufügen</string>
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
     <string name="update_deck">Deck aktualisieren</string>
     <string name="your_deck_version_is_too_old">Ihre Deck-Version ist zu alt</string>
-    <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt. Bitte aktualisieren Sie Deck um diese Android-App als Client verwenden zu können.</string>
+    <string name="deck_outdated_please_update">Ihre Deck-Version ist zu alt (%1$s). Bitte aktualisieren Sie Deck um diese Android-App als Client verwenden zu können.</string>
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Listen und Karten löschen.</string>
     <string name="settings_theme_title">Dunkles Design</string>
     <string name="settings_branding_title">Branding</string>
@@ -181,4 +180,44 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Archivierte Karten</string>
-    </resources>
+    <string name="action_card_dearchive">Karte archivieren rückgängig machen</string>
+    <string name="action_archived_cards">Archivierte Karten durchsuchen</string>
+    <string name="attachment_already_exists">Anhang existiert bereits</string>
+    <string name="pick_custom_color">Wählen Sie eine benutzerdefinierte Farbe aus</string>
+    <string name="manage_tags">Schlagworte verwalten</string>
+    <string name="add_tag">Schlagwort hinzufügen</string>
+    <string name="tag_already_exists">%1$s existiert bereits</string>
+    <string name="tag_successfully_added">%1$s erfolgreich hinzugefügt</string>
+    <string name="edit_tag">%1$s bearbeiten</string>
+    <string name="filter_tags_title">Tags</string>
+    <string name="filter_assignees_title">Rechtsnachfolger(in)</string>
+    <string name="filter_duedate_title">Fälligkeitsdatum</string>
+
+    <!-- Errors -->
+    <string name="error">Es ist ein Fehler aufgetreten</string>
+    <string name="synchronization_failed">Synchronisierung fehlgeschlagen</string>
+    <string name="operation_not_yet_supported">Wird bislang noch nicht unterstützt</string>
+    <string name="error_revoking_ac">Fehler beim Widerruf des Zugriffs für %1$s</string>
+    <string name="error_create_label">Fehler beim Erstellen des Labels %1$s</string>
+    <string name="maintenance_mode">Server befindet sich im Wartungsmodus</string>
+    <string name="server_misconfigured">Server falsch konfiguriert</string>
+    <string name="server_error">Serverfehler</string>
+    <string name="shared_error">Das Teilen von Inhalten aus Apps von Drittanbietern wird noch nicht vollständig unterstützt. Bitte versuchen Sie zuerst, die Datei herunterzuladen und dann aus Ihrem Dateimanager oder aus Ihrer Galerie freizugeben.</string>
+
+    <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Bitte versuchen Sie, das Schließen der App zu erzwingen und sie erneut zu starten. Möglicherweise bestand eine gestörte Verbindung zur Nextcloud-App.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Falls dieser Fehler weiterhin besteht können Sie versuchen den Speicherinhalt der beiden Apps Nextcloud und Nextcloud Deck zu löschen um das Problem zu beheben.</string>
+    <string name="error_dialog_tip_clear_storage">Sie können den Speicherinhalt löschen indem Sie die Android Einstellungen öffnen → Apps → Nextcloud / Nextcloud Deck → Speicher → Speicherinhalt löschen.</string>
+    <string name="error_dialog_tip_files_outdated">Sie scheinen eine alte Version der Nextcloud-App installiert zu haben. Bitte besuchen Sie den Play Store oder F-Droid, um die neueste Version zu installieren.</string>
+    <string name="error_dialog_tip_files_force_stop">Etwas scheint bei der Nextcloud App nicht zu funktionieren. Bitte versuchen Sie sowohl die Nextcloud App als auch die Nextcloud Deck App zu stoppen.</string>
+    <string name="error_dialog_tip_files_delete_storage">Wenn das erzwungene Stoppen nicht hilft, können Sie versuchen, den Speicher beider Apps zu löschen.</string>
+    <string name="error_dialog_timeout_instance">Der Server reagierte nicht in der üblichen Zeit. Bitte stellen Sie sicher, dass Ihre Instanz einwandfrei läuft.</string>
+    <string name="error_dialog_timeout_toggle">Überprüfen Sie Ihre Netzwerkverbindung. Manchmal kann es hilfreich sein, die mobilen Daten oder das WLAN aus- und wieder einzuschalten.</string>
+    <string name="error_dialog_check_server">Die Antwort des Servers war fehlerhaft. Bitte überprüfen Sie ob die Deck App über die Weboberfläche erreichbar ist.</string>
+    <string name="error_dialog_check_server_logs">Es liegt ein Problem mit Ihrer Nextcloud-Konfiguration vor. Bitte schauen Sie in die Server-Protokolldateien.</string>
+    <string name="error_dialog_check_maintenance">Bitte prüfen Sie ob sich Ihr Nextcloud-Server derzeit  im Wartungsmodus befindet.</string>
+    <string name="error_dialog_insufficient_storage">Ihre Nextcloud-Installation hat keinen freien Speicherplatz mehr. Bitte löschen Sie einige Dateien, um Ihre lokalen Änderungen mit Ihrer Cloud synchronisieren zu können.</string>
+    <string name="error_dialog_contact_us">Bitte zögern Sie nicht, uns zu kontaktieren, wenn das Problem weiterhin besteht. Sie finden unsere Kontaktinformationen im Abschnitt \"Info\" in der Seitenleiste.</string>
+    <string name="error_dialog_we_need_info">Wir benötigen die folgenden technischen Informationen, um Ihnen helfen zu können:</string>
+    <string name="error_dialog_redirect">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID-Client verursacht werden.</string>
+</resources>

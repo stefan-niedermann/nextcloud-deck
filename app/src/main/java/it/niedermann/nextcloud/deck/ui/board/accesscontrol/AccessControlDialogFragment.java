@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlAdapter.HEADER_ITEM_LOCAL_ID;
@@ -69,7 +71,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         final AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
         binding = DialogBoardShareBinding.inflate(requireActivity().getLayoutInflater());
-        adapter = new AccessControlAdapter(this, requireContext());
+        adapter = new AccessControlAdapter(viewModel.getCurrentAccount(), this, requireContext());
         binding.peopleList.setAdapter(adapter);
 
         syncManager = new SyncManager(requireActivity());
@@ -92,6 +94,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
             }
         });
         return dialogBuilder
+                .setTitle(R.string.share_board)
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.simple_close, null)
                 .create();
@@ -108,8 +111,9 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         adapter.remove(ac);
         observeOnce(wrappedDeleteLiveData, this, (ignored) -> {
             if (wrappedDeleteLiveData.hasError()) {
-                Toast.makeText(requireContext(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Toast.LENGTH_LONG).show();
                 DeckLog.logError(wrappedDeleteLiveData.getError());
+                Snackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(wrappedDeleteLiveData.getError()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
             }
         });
     }

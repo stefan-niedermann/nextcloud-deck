@@ -96,7 +96,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     private void handleException(Throwable throwable) {
         DeckLog.logError(throwable);
         String debugInfos = ExceptionUtil.getDebugInfos(this, throwable);
-        AlertDialog dialog = new BrandedAlertDialogBuilder(this)
+        final AlertDialog dialog = new BrandedAlertDialogBuilder(this)
                 .setTitle(R.string.error)
                 .setMessage(debugInfos)
                 .setPositiveButton(android.R.string.copy, (a, b) -> {

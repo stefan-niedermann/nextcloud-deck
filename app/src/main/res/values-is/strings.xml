@@ -140,4 +140,6 @@
     <string name="filter_by_assigned_user">Sía eftir úthlutuðum notanda</string>
     <string name="filter_by_duedate">Sía eftir lokadagsetningu</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Spjöld í geymslu</string>
     </resources>

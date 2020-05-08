@@ -1,66 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="?attr/dialogPreferredPadding">
+        app:tabInlineLabel="true"
+        app:tabUnboundedRipple="true" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacer_1x"
-            android:labelFor="@id/overdue"
-            android:text="@string/filter_by_tag"
-            android:textAppearance="?attr/textAppearancePopupMenuHeader" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/labels"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:choiceMode="multipleChoice"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_filter_label" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_3x"
-            android:layout_marginBottom="@dimen/spacer_1x"
-            android:labelFor="@id/overdue"
-            android:text="@string/filter_by_assigned_user"
-            android:textAppearance="?attr/textAppearancePopupMenuHeader" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/users"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:choiceMode="multipleChoice"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_filter_user" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_3x"
-            android:layout_marginBottom="@dimen/spacer_1x"
-            android:labelFor="@id/overdue"
-            android:text="@string/filter_by_duedate"
-            android:textAppearance="?attr/textAppearancePopupMenuHeader" />
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/overdue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:prompt="@string/simple_overdue"
-            android:spinnerMode="dropdown"
-            tools:listitem="@android:layout/simple_list_item_1" />
-    </LinearLayout>
-</ScrollView>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

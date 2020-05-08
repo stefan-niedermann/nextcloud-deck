@@ -70,6 +70,8 @@
     <string name="about_contribution_tab_title">Bijdrage</string>
     <string name="about_license_tab_title">Licentie</string>
 
+    <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
+
     <string name="seconds_ago">seconden geleden</string>
     <string name="edit">Bewerken</string>
     <string name="label_labels">Kies tags</string>
@@ -78,6 +80,7 @@
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="add_account">Account toevoegen</string>
     <string name="choose_account">Kies account</string>
+    <string name="add_card">Toevoegen nieuwe kaart</string>
     <string name="activity">Activiteit</string>
     <string name="add_list">Toevoegen lijst</string>
     <string name="rename_list">Hernoem lijst</string>
@@ -92,17 +95,6 @@
     <string name="label_clear_due_date">Wis vervaldatum</string>
     <string name="label_add">Toevoegen %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Er is een fout verschenen</string>
-    <string name="operation_not_yet_supported">Nog niet ondersteund</string>
-    <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
-    <string name="error_revoking_ac">Fout bij het intrekken van de toegang voor %1$s</string>
-    <string name="maintenance_mode">Server in onderhoudsmodus</string>
-    <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
-    <string name="server_misconfigured_explanation">Je server reageerde met een HTTP 302 statuscode, wat inhoudt dat je de Deck app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dat kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud apps zoals OID Client. Je kunt onze contact informatie voor support vinden in de Over-sectie.</string>
-    <string name="server_error">Serverfout</string>
-    <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer jhet eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
-
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Bijlagen</string>
     <string name="card_edit_activity">Activiteit</string>
@@ -116,12 +108,18 @@
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_lists_yet">Nog geen lijsten</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
-    <string name="do_you_want_to_delete_the_current_list">Wil je de huidige lijst verwijderen?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Dit zal deze %1$dkaart permanent van de lijst verwijderen.</item>
+        <item quantity="other">Dit zal alle %1$dklaarten permanent van de lijst verwijderen.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Dit zal het label van %1$d verwijderen.</item>
+        <item quantity="other">Dit zal het label van %1$d kaarten verwijderen.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Voeg een nieuwe lijst toe met de + knop</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
     <string name="update_deck">Werk deck bij</string>
     <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
-    <string name="deck_outdated_please_update">Uw deck versie is te oud. Update deze android app om het te kunnen gebruiken.</string>
     <string name="delete_board_message">Dit zal dit bord permanent verwijderen inclusief alle stapels en kaarten.</string>
     <string name="settings_theme_title">Donker thema</string>
     <string name="settings_branding_title">Brandmerken</string>
@@ -179,4 +177,39 @@
     <string name="filter_by_assigned_user">Filter op toegewezen gebruiker</string>
     <string name="filter_by_duedate">Filter op vervaldatum</string>
 
+    <!-- Archived cards -->
+    <string name="archived_cards">Gearchiveerde kaarten</string>
+    <string name="action_card_dearchive">Kaartarchivering ongedaan maken</string>
+    <string name="action_archived_cards">Blader door gearchiveerde kaarten</string>
+    <string name="attachment_already_exists">Bijlage bestaat al</string>
+    <string name="pick_custom_color">Kies een maatwerkkleur</string>
+    <string name="manage_tags">Berichttags</string>
+    <string name="add_tag">Tag toevoegen</string>
+    <string name="tag_already_exists">%1$s bestaat al</string>
+    <string name="tag_successfully_added">%1$s succesvol toegevoegd</string>
+    <string name="edit_tag">Bewerk%1$s</string>
+    <string name="filter_tags_title">Labels</string>
+    <string name="filter_duedate_title">Vervaldatum</string>
+
+    <!-- Errors -->
+    <string name="error">Er is een fout verschenen</string>
+    <string name="synchronization_failed">Synchronisatie mislukt</string>
+    <string name="operation_not_yet_supported">Nog niet ondersteund</string>
+    <string name="error_revoking_ac">Fout bij het intrekken van de toegang voor %1$s</string>
+    <string name="maintenance_mode">Server in onderhoudsmodus</string>
+    <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
+    <string name="server_error">Serverfout</string>
+    <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer jhet eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
+
+    <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Probeer de app te sluiten en opnieuw te starten. Er was misschien een onjuiste verbinding met de Nextcloud-app.</string>
+    <string name="error_dialog_tip_files_outdated">Je Nextcloud app lijkt te zijn verouderd. Download alstublieft de nieuwste versie in de Google Play Store of in F-Droid.</string>
+    <string name="error_dialog_tip_files_delete_storage">Als geforceerd afsluiten niet helpt, probeer dan van beide apps de gegevensopslag te wissen.</string>
+    <string name="error_dialog_timeout_instance">Er was binnen de gestelde tijd geen reactie ontvangen van je server. Controleer alstublieft of je Nextcloud-instantie wel goed loopt.</string>
+    <string name="error_dialog_timeout_toggle">Controleer je netwerk verbinding. Het kan ook helpen de dataverbinding of WIFI uit en weer aan te zetten.</string>
+    <string name="error_dialog_check_server_logs">Er is iets mis met je Nextcloud instellingen. Controleer alstublieft de server log bestanden.</string>
+    <string name="error_dialog_check_maintenance">Controleer alstublieft of je Nextcloud instantie momenteel niet in onderhouds-modus draait.</string>
+    <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alstublieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
+    <string name="error_dialog_contact_us">Schroom alstublieft niet om contact met ons op te nemen als het probleem blijft aanhouden. Onze contactgegevens zijn te vinden in de About sectie in de zijbalk.</string>
+    <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
     </resources>

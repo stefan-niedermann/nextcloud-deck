@@ -69,6 +69,8 @@
     <string name="about_contribution_tab_title">Bidrag</string>
     <string name="about_license_tab_title">Licens</string>
 
+    <string name="copied_to_clipboard">Kopieret til udklipsholderen</string>
+
     <string name="seconds_ago">sekunder siden</string>
     <string name="edit">Rediger</string>
     <string name="label_labels">Vælg Tags</string>
@@ -91,17 +93,6 @@
     <string name="label_clear_due_date">Ryd forfaldsdato</string>
     <string name="label_add">Tilføj %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Der skete en fejl</string>
-    <string name="operation_not_yet_supported">Understøttes endnu ikke</string>
-    <string name="copied_to_clipboard">Kopieret til udklipsholderen</string>
-    <string name="error_revoking_ac">Fejl under tilbagekaldelse af adgang for %1$s</string>
-    <string name="maintenance_mode">Server i vedligeholdelsestilstand</string>
-    <string name="server_misconfigured">Server er forkert konfigureret </string>
-    <string name="server_misconfigured_explanation">Din server svarede med en HTTP 302-statuskode, hvilket betyder, at du endnu ikke har installeret app\'en Deck på din server, eller at der er en forkert konfiguration. Dette kan skyldes brugerdefinerede tilsidesættelser i en .htaccess-fil eller af apps fra Nextcloud som OID Client. Du kan finde være kontaktinformation for supporti sektionen Om.</string>
-    <string name="server_error">Serverfejl</string>
-    <string name="shared_error">Deling af indhold fra 3. parts apps understøttes endnu ikke fuldt ud. Forsøg at hente det først, og dernæst dele det fra din indbyggede filhåndtering eller dit galleri.</string>
-
     <string name="card_edit_details">Detaljer</string>
     <string name="card_edit_attachments">Vedhæftede filer</string>
     <string name="card_edit_activity">Aktivitet</string>
@@ -115,12 +106,10 @@
     <string name="not_synced_yet">Ikke synkronsieret endnu</string>
     <string name="no_lists_yet">Endnu ingen lister</string>
     <string name="do_you_want_to_save_your_changes">Vil du gemme dine ændringer?</string>
-    <string name="do_you_want_to_delete_the_current_list">Vil du slette den aktuelle liste?</string>
     <string name="add_a_new_list_using_the_button">Tilføj en ny liste med knappen +</string>
     <string name="add_a_new_card_using_the_button">Tilføj et nyt kort med knappen +</string>
     <string name="update_deck">Opdatér deck</string>
     <string name="your_deck_version_is_too_old">Din version af deck er for gammel</string>
-    <string name="deck_outdated_please_update">Din version af deck er for gammel. For at anvende denne android app som klient, så foretag venligst en opdatering.</string>
     <string name="delete_board_message">Dette vil permanent slette denne tavle, inklusive alle lister og kort.</string>
     <string name="settings_theme_title">Mørk tema</string>
     <string name="settings_branding_title">Branding</string>
@@ -170,4 +159,29 @@
     <!-- Filter -->
     <string name="filter_no_filter">Alle</string>
     <string name="filter_today">I dag</string>
+    <string name="add_tag">Tilføj Tag</string>
+    <string name="filter_tags_title">Tags</string>
+    <string name="filter_duedate_title">Forfaldsdato</string>
+
+    <!-- Errors -->
+    <string name="error">Der skete en fejl</string>
+    <string name="synchronization_failed">Synkroniseringen mislykkedes</string>
+    <string name="operation_not_yet_supported">Understøttes endnu ikke</string>
+    <string name="error_revoking_ac">Fejl under tilbagekaldelse af adgang for %1$s</string>
+    <string name="maintenance_mode">Server i vedligeholdelsestilstand</string>
+    <string name="server_misconfigured">Server er forkert konfigureret </string>
+    <string name="server_error">Serverfejl</string>
+    <string name="shared_error">Deling af indhold fra 3. parts apps understøttes endnu ikke fuldt ud. Forsøg at hente det først, og dernæst dele det fra din indbyggede filhåndtering eller dit galleri.</string>
+
+    <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
+    <string name="error_dialog_tip_files_outdated">Din Nextcloud-app ser ud til at være forældet. Gå venligst til Play Butik eller F-Droid for at få seneste version.</string>
+    <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjælper at stoppe begge, så kan du forsøge at rydde lagerpladsen for begge apps.</string>
+    <string name="error_dialog_timeout_instance">Der var intet svar fra din server på nuværende tidspunkt. Sørg venligst for at sikre, at din instans kører rigtigt. </string>
+    <string name="error_dialog_timeout_toggle">Tjek din netværksforbindelse. Undertiden kan det hjælpe at slukke og tænde for mobildata eller wifi.</string>
+    <string name="error_dialog_check_server_logs">Der er et problem med din opsætning af Nextcloud. Kig venligst i serverens logfiler. </string>
+    <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
+    <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
+    <string name="error_dialog_contact_us">Du er altid velkommen til at kontakte os, hvis problemet varer ved. Du kan finde vores kontaktoplysninger i sektionen Om i sidebjælken.</string>
+    <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
     </resources>

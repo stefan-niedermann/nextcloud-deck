@@ -67,6 +67,8 @@
     <string name="about_contribution_tab_title">Внесок</string>
     <string name="about_license_tab_title">Ліцензія</string>
 
+    <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
+
     <string name="seconds_ago">секунд тому</string>
     <string name="edit">Редагувати</string>
     <string name="label_labels">Обрати мітки</string>
@@ -89,13 +91,6 @@
     <string name="label_clear_due_date">Очистити до</string>
     <string name="label_add">Додати %1$s</string>
 
-    <!-- Error messages -->
-    <string name="error">Сталася помилка </string>
-    <string name="operation_not_yet_supported">Ще не підтримується</string>
-    <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
-    <string name="maintenance_mode">Сервер у режимі обслуговування</string>
-    <string name="server_misconfigured">Сервер налаштовано некоректно</string>
-    <string name="server_error">Помилка серверу</string>
     <string name="card_edit_details">Деталі</string>
     <string name="card_edit_attachments">Вкладення</string>
     <string name="card_edit_activity">Активність</string>
@@ -109,12 +104,10 @@
     <string name="not_synced_yet">Поки не синхронізовано</string>
     <string name="no_lists_yet">Поки що відсутні списки</string>
     <string name="do_you_want_to_save_your_changes">Чи бажаєте Ви зберегти Ваші зміни?</string>
-    <string name="do_you_want_to_delete_the_current_list">Вилучити поточний список?</string>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додайте нову картку за допомогою кнопки +</string>
     <string name="update_deck">Оновлення дошки</string>
     <string name="your_deck_version_is_too_old">Версія Вашої дошки надто давня</string>
-    <string name="deck_outdated_please_update">Версія Вашої дошки надто давня. Будь-ласка виконайте оновлення щоб використовувати цей додаток як клієнт android.</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_theme_title">Темна тема</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
@@ -162,4 +155,13 @@
     <!-- Filter -->
     <string name="filter_no_filter">Всі</string>
     <string name="filter_today">Сьогодні</string>
+    <string name="filter_tags_title">Позначки</string>
+    <string name="filter_duedate_title">Дата завершення</string>
+
+    <!-- Errors -->
+    <string name="error">Сталася помилка </string>
+    <string name="operation_not_yet_supported">Ще не підтримується</string>
+    <string name="maintenance_mode">Сервер у режимі обслуговування</string>
+    <string name="server_misconfigured">Сервер налаштовано некоректно</string>
+    <string name="server_error">Помилка серверу</string>
     </resources>
