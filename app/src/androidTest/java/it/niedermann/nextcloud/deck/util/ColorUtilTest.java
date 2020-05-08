@@ -6,7 +6,9 @@ import androidx.annotation.ColorInt;
 import androidx.core.util.Pair;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -97,6 +99,9 @@ public class ColorUtilTest {
         }
     }
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Test
     public void testGetCleanHexaColorString() {
         final List<Pair<String, String>> validColors = new ArrayList<>();
@@ -108,13 +113,10 @@ public class ColorUtilTest {
             assertEquals("Expect " + color.first + " to be cleaned up to " + color.second, color.second, ColorUtil.getCleanHexaColorString(color.first));
         }
 
-        // TODO
-//        final String[] invalidColors = new String[]{null, "", "cc", "c", "#a"};
-//        for (@ColorInt int color : LIGHT_COLORS) {
-//            assertThrows(
-//                    "Expect " + String.format("#%06X", (0xFFFFFF & color)) + " to be a light color",
-//                    ColorUtil.isColorDark(color)
-//            );
-//        }
+        final String[] invalidColors = new String[]{null, "", "cc", "c", "#a"};
+        for (String color : invalidColors) {
+            exception.expect(IllegalArgumentException.class);
+            ColorUtil.getCleanHexaColorString(color);
+        }
     }
 }
