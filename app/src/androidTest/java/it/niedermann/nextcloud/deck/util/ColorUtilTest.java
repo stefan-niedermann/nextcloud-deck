@@ -105,9 +105,7 @@ public class ColorUtilTest {
         validColors.add(new Pair<>("#CCC", "#CCCCCC"));
         validColors.add(new Pair<>("ccc", "#cccccc"));
         for (Pair<String, String> color : validColors) {
-            assertEquals(color.second, ColorUtil.getCleanHexaColorString(color.first),
-                    "Expect " + color.first + " to be cleaned up to " + color.second
-            );
+            assertEquals("Expect " + color.first + " to be cleaned up to " + color.second, color.second, ColorUtil.getCleanHexaColorString(color.first));
         }
 
         // TODO
