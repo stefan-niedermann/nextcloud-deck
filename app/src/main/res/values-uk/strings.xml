@@ -155,8 +155,13 @@
     <!-- Filter -->
     <string name="filter_no_filter">Всі</string>
     <string name="filter_today">Сьогодні</string>
+    <string name="filter_tags_title">Позначки</string>
+    <string name="filter_duedate_title">Дата завершення</string>
+
     <!-- Errors -->
     <string name="error">Сталася помилка </string>
     <string name="operation_not_yet_supported">Ще не підтримується</string>
     <string name="maintenance_mode">Сервер у режимі обслуговування</string>
+    <string name="server_misconfigured">Сервер налаштовано некоректно</string>
+    <string name="server_error">Помилка серверу</string>
     </resources>

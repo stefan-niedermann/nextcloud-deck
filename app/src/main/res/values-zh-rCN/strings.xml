@@ -186,6 +186,9 @@
     <string name="tag_already_exists">%1$s 已存在</string>
     <string name="tag_successfully_added">%1$s 已成功添加</string>
     <string name="edit_tag">编辑 %1$s</string>
+    <string name="filter_tags_title">标签</string>
+    <string name="filter_duedate_title">截止日期</string>
+
     <!-- Errors -->
     <string name="error">发生了一个错误</string>
     <string name="synchronization_failed">同步失败</string>
@@ -193,6 +196,8 @@
     <string name="error_revoking_ac">撤回 %1$s 的权限时出错</string>
     <string name="error_create_label">创建标签 %1$s 时出错</string>
     <string name="maintenance_mode">服务器处于维护模式</string>
+    <string name="server_misconfigured">配置错误的服务器</string>
+    <string name="server_error">服务器错误</string>
     <string name="shared_error">目前还不完全支持从第三方应用程序中分享内容。请尝试先下载，然后从您的本地文件管理器或图库中分享。</string>
 
     <string name="error_dialog_title">哦，糟糕。所以会怎么样？🙁</string>

@@ -168,12 +168,17 @@
     <!-- Archived cards -->
     <string name="archived_cards">Arhivirane kartice</string>
     <string name="add_tag">Dodaj oznaku</string>
+    <string name="filter_tags_title">Oznake</string>
+    <string name="filter_duedate_title">Datum dospijeća</string>
+
     <!-- Errors -->
     <string name="error">Pojavila se pogreška</string>
     <string name="synchronization_failed">Sinkronizacija nije uspjela</string>
     <string name="operation_not_yet_supported">Još nije podržano</string>
     <string name="error_revoking_ac">Pogreška pri opozivanju prava pristupa za %1$s</string>
     <string name="maintenance_mode">Poslužitelj u načinu održavanja</string>
+    <string name="server_misconfigured">Pogrešna konfiguracija poslužitelja</string>
+    <string name="server_error">Greška poslužitelja</string>
     <string name="shared_error">Dijeljenje sadržaja iz aplikacija trećih strana još uvijek nije potpuno podržano. Pokušajte ga preuzeti i zatim dijeliti putem upravitelja podacima ili galerije.</string>
 
     <string name="error_dialog_title">Ups, što sada? 🙁</string>

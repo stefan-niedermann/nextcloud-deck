@@ -189,6 +189,10 @@
     <string name="tag_already_exists">%1$s non esiste già</string>
     <string name="tag_successfully_added">%1$s aggiunta correttamente</string>
     <string name="edit_tag">Modifica %1$s</string>
+    <string name="filter_tags_title">Etichette</string>
+    <string name="filter_assignees_title">Assegnatari</string>
+    <string name="filter_duedate_title">Data di scadenza</string>
+
     <!-- Errors -->
     <string name="error">Si è verificato un errore</string>
     <string name="synchronization_failed">Sincronizzazione non riuscita</string>
@@ -196,6 +200,8 @@
     <string name="error_revoking_ac">Errore durante la revoca dell\'accesso a %1$s</string>
     <string name="error_create_label">Errore durante la creazione dell\'etichetta %1$s</string>
     <string name="maintenance_mode">Server in manutenzione</string>
+    <string name="server_misconfigured">Configurazione server non corretta</string>
+    <string name="server_error">Errore del server</string>
     <string name="shared_error">La condivisione della condivisione di contenuti di applicazioni di terze parti non è ancora supportata. Prova a scaricarli prima e poi condividili dal gestore dei file nativo o dalla galleria.</string>
 
     <string name="error_dialog_title">Oh no - E adesso? 🙁</string>
@@ -213,4 +219,5 @@
     <string name="error_dialog_insufficient_storage">La tua istanza di Nextcloud non ha più spazio libero. Elimina alcuni file per sincronizzare le modifiche locali con il tuo cloud.</string>
     <string name="error_dialog_contact_us">Non esitare a contattarci se il problema persiste. Puoi trovare le nostre informazioni di contatto nella sezione Informazioni della barra laterale.</string>
     <string name="error_dialog_we_need_info">Ci servono le seguenti informazioni tecniche per aiutarti:</string>
-    </resources>
+    <string name="error_dialog_redirect">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causato da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client.</string>
+</resources>

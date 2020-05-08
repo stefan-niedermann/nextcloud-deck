@@ -189,6 +189,10 @@
     <string name="tag_already_exists">%1$s já existe</string>
     <string name="tag_successfully_added">%1$s adicionado com sucesso</string>
     <string name="edit_tag">Editar %1$s</string>
+    <string name="filter_tags_title">Marcações</string>
+    <string name="filter_assignees_title">Indicados</string>
+    <string name="filter_duedate_title">Data de vencimento</string>
+
     <!-- Errors -->
     <string name="error">Ocorreu um erro</string>
     <string name="synchronization_failed">A sincronização falhou</string>
@@ -196,6 +200,8 @@
     <string name="error_revoking_ac">Ocorreu um erro ao revogar o acesso para %1$s</string>
     <string name="error_create_label">Erro ao criar o rótulo %1$s</string>
     <string name="maintenance_mode">Servidor em modo de manutenção</string>
+    <string name="server_misconfigured">Servidor mal configurado</string>
+    <string name="server_error">Erro no servidor</string>
     <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
 
     <string name="error_dialog_title">Oh não - E agora? 🙁</string>
@@ -213,4 +219,5 @@
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não possui mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
     <string name="error_dialog_contact_us">Não hesite em nos contactar se os problemas persistirem. Você pode encontrar informações de contato na seção \"sobre\" na barra lateral.</string>
     <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudá-lo:</string>
-    </resources>
+    <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck no servidor ou que algo está configurado incorretamente. Isso pode ser causado por alterações no arquivo .htaccess ou por aplicativos Nextcloud como o Client OID.</string>
+</resources>
