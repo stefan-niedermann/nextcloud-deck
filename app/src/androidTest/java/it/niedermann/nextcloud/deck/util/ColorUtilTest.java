@@ -96,4 +96,27 @@ public class ColorUtilTest {
             );
         }
     }
+
+    @Test
+    public void testGetCleanHexaColorString() {
+        final List<Pair<String, String>> validColors = new ArrayList<>();
+        validColors.add(new Pair<>("#0082C9", "#0082C9"));
+        validColors.add(new Pair<>("0082C9", "#0082C9"));
+        validColors.add(new Pair<>("#CCC", "#CCCCCC"));
+        validColors.add(new Pair<>("ccc", "#cccccc"));
+        for (Pair<String, String> color : validColors) {
+            assertEquals(color.second, ColorUtil.getCleanHexaColorString(color.first),
+                    "Expect " + color.first + " to be cleaned up to " + color.second
+            );
+        }
+
+        // TODO
+//        final String[] invalidColors = new String[]{null, "", "cc", "c", "#a"};
+//        for (@ColorInt int color : LIGHT_COLORS) {
+//            assertThrows(
+//                    "Expect " + String.format("#%06X", (0xFFFFFF & color)) + " to be a light color",
+//                    ColorUtil.isColorDark(color)
+//            );
+//        }
+    }
 }

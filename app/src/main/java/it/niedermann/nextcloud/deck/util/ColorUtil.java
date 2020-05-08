@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.util;
 import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.IntRange;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
@@ -38,8 +37,7 @@ public final class ColorUtil {
     /**
      * @return well formated #123456 color string
      */
-    @IntRange(min)
-    public String getCleanHexaColorString(String input) {
+    public static String getCleanHexaColorString(String input) {
         if (input == null) {
             throw new IllegalArgumentException();
         }
@@ -52,6 +50,11 @@ public final class ColorUtil {
                 return '#' + input;
             default:
                 break;
+        }
+        try {
+            Color.parseColor(input);
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
         }
         return input;
     }
