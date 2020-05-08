@@ -39,6 +39,7 @@ public class DrawerMenuUtil {
     public static final int MENU_ID_ABOUT = -1;
     public static final int MENU_ID_ADD_BOARD = -2;
     public static final int MENU_ID_SETTINGS = -3;
+    public static final int MENU_ID_ARCHIVED_BOARDS = -4;
 
 
     private DrawerMenuUtil() {
@@ -162,6 +163,11 @@ public class DrawerMenuUtil {
                 m.setActionView(contextMenu);
             }
         }
+
+        // TODO SyncManager.hasArchivedBoards();
+//        Drawable archiveIcon = context.getResources().getDrawable(R.drawable.ic_archive_white_24dp);
+//        DrawableCompat.setTint(archiveIcon, context.getResources().getColor(R.color.grey600));
+//        boardsMenu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, "Archived boards").setIcon(archiveIcon);
 
         boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
 

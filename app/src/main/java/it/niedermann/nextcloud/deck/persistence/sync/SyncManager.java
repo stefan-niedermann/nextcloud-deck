@@ -316,25 +316,28 @@ public class SyncManager {
     }
 
     /**
-     * Get all non-archived <code>Board</code>s for the specified account.
      * @param accountId ID of the account
+     * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
      * @return all non-archived <code>Board</code>s
      */
-    public LiveData<List<Board>> getBoards(long accountId) {
+    public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
+        // TODO implement archived flag
         return dataBaseAdapter.getBoards(accountId);
     }
 
     /**
-     * Get all non-archived  <code>FullBoard</code>s for the specified account.
      * @param accountId ID of the account
+     * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
      * @return all non-archived <code>FullBoard</code>s
      */
-    public LiveData<List<FullBoard>> getFullBoards(long accountId) {
+    public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
+        // TODO implement archived flag
         return dataBaseAdapter.getFullBoards(accountId);
     }
 
     /**
      * Get all non-archived  <code>FullBoard</code>s with edit permissions for the specified account.
+     *
      * @param accountId ID of the account
      * @return all non-archived <code>Board</code>s with edit permission
      */
@@ -756,6 +759,11 @@ public class SyncManager {
     public WrappedLiveData<FullCard> dearchiveCard(FullCard card) {
         card.getCard().setArchived(false);
         return updateCard(card);
+    }
+
+    // TODO implement
+    public LiveData<Boolean> hasArchivedBoards() {
+        return null;
     }
 
     public MutableLiveData<FullBoard> archiveBoard(FullBoard board) {

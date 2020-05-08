@@ -1,0 +1,51 @@
+package it.niedermann.nextcloud.deck.ui.archivedboards;
+
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import it.niedermann.nextcloud.deck.databinding.ItemArchivedBoardBinding;
+import it.niedermann.nextcloud.deck.model.Board;
+
+public class ArchivedBoardsAdapter extends RecyclerView.Adapter<ArchivedBoardViewHolder> {
+
+    @NonNull
+    private List<Board> boards = new ArrayList<>();
+
+    @SuppressWarnings("WeakerAccess")
+    public ArchivedBoardsAdapter() {
+        setHasStableIds(true);
+    }
+
+    @NonNull
+    @Override
+    public ArchivedBoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ArchivedBoardViewHolder(ItemArchivedBoardBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return boards.get(position).getLocalId();
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ArchivedBoardViewHolder holder, int position) {
+        holder.bind(boards.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return boards.size();
+    }
+
+    public void setBoards(@NonNull List<Board> boards) {
+        this.boards.clear();
+        this.boards.addAll(boards);
+        notifyDataSetChanged();
+    }
+}

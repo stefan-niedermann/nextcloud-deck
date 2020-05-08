@@ -214,6 +214,9 @@
     <string name="filter_assignees_title">Assignees</string>
     <string name="filter_duedate_title">Due date</string>
 
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Undo board archiving</string>
+
     <!-- Errors -->
     <string name="error">An error appeared</string>
     <string name="synchronization_failed">Synchronization failed</string>
@@ -241,4 +244,5 @@
     <string name="error_dialog_contact_us">Please do not hesitate to contact us if the issues persist. You can find our contact information in the about section in the sidebar.</string>
     <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
     <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
+    <string name="archived_boards">Archived boards</string>
 </resources>
