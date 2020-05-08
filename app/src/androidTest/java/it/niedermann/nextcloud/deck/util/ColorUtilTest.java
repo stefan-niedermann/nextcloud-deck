@@ -115,7 +115,7 @@ public class ColorUtilTest {
             assertEquals("Expect " + color.first + " to be cleaned up to " + color.second, color.second, ColorUtil.getCleanHexaColorString(color.first));
         }
 
-        final String[] invalidColors = new String[]{null, "", "cc", "c", "#a"};
+        final String[] invalidColors = new String[]{null, "", "cc", "c", "#a", "#55L", "55L"};
         for (String color : invalidColors) {
             exception.expect(IllegalArgumentException.class);
             ColorUtil.getCleanHexaColorString(color);
