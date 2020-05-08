@@ -21,6 +21,7 @@
     <string name="simple_exception">Izjema</string>
     <string name="simple_close">zapri</string>
     <string name="simple_open">Odpri</string>
+    <string name="simple_switch">Preklopi</string>
     <string name="simple_filter">Filter</string>
     <string name="simple_overdue">Preteklo</string>
     <string name="simple_clear">Počisti</string>
@@ -79,6 +80,7 @@
     <string name="hint_due_date_date">Datum preteka</string>
     <string name="add_account">Dodaj račun</string>
     <string name="choose_account">Izbor računa</string>
+    <string name="add_card">Dodaj novo nalogo</string>
     <string name="activity">Dejavnost</string>
     <string name="add_list">Dodaj seznam</string>
     <string name="rename_list">Preimenuj seznam</string>
@@ -106,6 +108,12 @@
     <string name="not_synced_yet">Še ni usklajeno</string>
     <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">S tem boste trajno izbrisali %1$d nalogo tega seznama.</item>
+        <item quantity="two">S tem boste trajno izbrisali %1$d nalogi tega seznama.</item>
+        <item quantity="few">S tem boste trajno izbrisali %1$d naloge tega seznama.</item>
+        <item quantity="other">S tem boste trajno izbrisali %1$d nalog tega seznama.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Nov seznam dodate s klikom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
     <string name="update_deck">Posodobi zbirko</string>
@@ -144,7 +152,16 @@
     <string name="no_comments_yet">Ni še dodane nobene opombe</string>
     <string name="no_boards">Ni še vpisanih zbirk</string>
     <string name="add_a_new_board_using_the_button">Novo zbirko je mogoče dodati z gumbom +</string>
+    <string name="choose_board">Izbor zbirke</string>
+    <string name="choose_list">Izbor seznama</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Odpri v brskalniku</string>
+    <string name="updating_card">Poteka posodabljanje naloge ...</string>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Pomakni seznam desno</string>
+    <string name="move_list_left">Pomakni seznam levo</string>
+
     <!-- Filter -->
     <string name="filter_no_filter">Vse</string>
     <string name="filter_overdue">Preteklo</string>
@@ -158,11 +175,18 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arhivirane naloge</string>
+    <string name="manage_tags">Upravljanje oznak</string>
     <string name="add_tag">Dodaj oznako</string>
+    <string name="filter_tags_title">Oznake</string>
+    <string name="filter_duedate_title">Datum preteka</string>
+
     <!-- Errors -->
     <string name="error">Prišlo je do napake</string>
+    <string name="synchronization_failed">Usklajevanje je spodletelo</string>
     <string name="operation_not_yet_supported">Možnost še ni podprta</string>
     <string name="maintenance_mode">Strežnik je v načinu vzdrževanja</string>
+    <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
+    <string name="server_error">Napaka strežnika</string>
     <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
 
     </resources>

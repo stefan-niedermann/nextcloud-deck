@@ -189,6 +189,10 @@
     <string name="tag_already_exists">%1$s xa existe</string>
     <string name="tag_successfully_added">%1$s foi engadido satisfactoriamente</string>
     <string name="edit_tag">Editar %1$s</string>
+    <string name="filter_tags_title">Etiquetas</string>
+    <string name="filter_assignees_title">Asignados</string>
+    <string name="filter_duedate_title">Data de caducidade</string>
+
     <!-- Errors -->
     <string name="error">Apareceu un erro</string>
     <string name="synchronization_failed">Produciuse un fallo na sincronización</string>
@@ -196,6 +200,8 @@
     <string name="error_revoking_ac">Produciuse un erro ao revogar o acceso a %1$s</string>
     <string name="error_create_label">Produciuse un erro ao crear a etiqueta %1$s</string>
     <string name="maintenance_mode">Servidor en modo de mantemento</string>
+    <string name="server_misconfigured">Configuración incorrecta do servidor</string>
+    <string name="server_error">Produciuse un erro de servidor</string>
     <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
 
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
@@ -213,4 +219,5 @@
     <string name="error_dialog_insufficient_storage">A súa instancia Nextcloud non dispón de espazo de almacenamento libre. Elimine algúns ficheiros para sincronizar os seus cambios locais na súa nube.</string>
     <string name="error_dialog_contact_us">Non dubide en poñerse en contacto con nós se os problemas persisten. Pode atopar a nosa información de contacto na sección sobre na barra lateral.</string>
     <string name="error_dialog_we_need_info">Necesitamos a seguinte información técnica para axudarlle:</string>
-    </resources>
+    <string name="error_dialog_redirect">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como Client OID.</string>
+</resources>

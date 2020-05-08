@@ -193,6 +193,10 @@
     <string name="tag_already_exists">%1$s już istnieje</string>
     <string name="tag_successfully_added">%1$s pomyślnie dodano</string>
     <string name="edit_tag">Edytuj %1$s</string>
+    <string name="filter_tags_title">Etykiety</string>
+    <string name="filter_assignees_title">Przydzielony</string>
+    <string name="filter_duedate_title">Data realizacji</string>
+
     <!-- Errors -->
     <string name="error">Wystąpił błąd</string>
     <string name="synchronization_failed">Synchronizacja nie powiodła się</string>
@@ -200,6 +204,8 @@
     <string name="error_revoking_ac">Błąd podczas anulowania dostępu dla %1$s</string>
     <string name="error_create_label">Błąd podczas tworzenia etykiety %1$s</string>
     <string name="maintenance_mode">Serwer w trybie konserwacji</string>
+    <string name="server_misconfigured">Serwer źle skonfigurowany</string>
+    <string name="server_error">Błąd serwera</string>
     <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
 
     <string name="error_dialog_title">O nie - co teraz? 🙁</string>
@@ -217,4 +223,5 @@
     <string name="error_dialog_insufficient_storage">W Twojej instancji Nextcloud nie ma już wolnego miejsca. Usuń niektóre pliki, aby zsynchronizować lokalne zmiany w chmurze.</string>
     <string name="error_dialog_contact_us">Jeśli problem będzie się powtarzał, skontaktuj się z nami. Nasze informacje kontaktowe można znaleźć w sekcji \"Informacje\" na pasku bocznym.</string>
     <string name="error_dialog_we_need_info">Potrzebujemy następujących informacji technicznych, aby Ci pomóc:</string>
-    </resources>
+    <string name="error_dialog_redirect">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client.</string>
+</resources>
