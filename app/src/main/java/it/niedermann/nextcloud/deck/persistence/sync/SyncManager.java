@@ -318,7 +318,7 @@ public class SyncManager {
     /**
      * @param accountId ID of the account
      * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
-     * @return all non-archived <code>Board</code>s
+     * @return all archived or non-archived <code>Board</code>s depending on <code>archived</code> parameter
      */
     public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
         // TODO implement archived flag
@@ -328,7 +328,7 @@ public class SyncManager {
     /**
      * @param accountId ID of the account
      * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
-     * @return all non-archived <code>FullBoard</code>s
+     * @return all archived or non-archived <code>FullBoard</code>s depending on <code>archived</code> parameter
      */
     public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
         // TODO implement archived flag
