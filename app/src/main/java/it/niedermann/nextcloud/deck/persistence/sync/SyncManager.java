@@ -286,15 +286,6 @@ public class SyncManager {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
                         acc.applyCapabilities(response);
                         dataBaseAdapter.updateAccount(acc);
-                        try {
-                            if (response.getColor().length() == 3) {
-                            }
-                            if (response.getTextColor().length() == 3) {
-                                response.setTextColor(response.getTextColor() + response.getTextColor());
-                            }
-                        } catch (Exception e) {
-                            response.setTextColor(null);
-                        }
                         callback.onResponse(response);
                     }
 
