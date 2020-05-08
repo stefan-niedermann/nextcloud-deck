@@ -1,6 +1,9 @@
 1.2.0
 
 - 🎚 Enhanced filters
+- 🎨 Deal with special brand colors which previously caused a crash (#466)
+- 🐞 Connection fails because "order" of a stack is null (#465)
+- 🐞 Prevent NullPointerException in some special edge cases
 
 1.1.0
 
