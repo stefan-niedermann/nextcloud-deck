@@ -808,4 +808,8 @@ public class DataBaseAdapter {
                 ? db.getBoardDao().getArchivedFullBoards(accountId)
                 : db.getBoardDao().getNonArchivedFullBoards(accountId);
     }
+
+    public LiveData<Boolean> hasArchivedBoards(long accountId) {
+        return LiveDataHelper.postCustomValue(db.getBoardDao().countArchivedBoards(accountId), data -> data != null && data > 0);
+    }
 }

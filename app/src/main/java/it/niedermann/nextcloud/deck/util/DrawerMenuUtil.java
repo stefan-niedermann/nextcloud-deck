@@ -107,15 +107,9 @@ public class DrawerMenuUtil {
     public static <T extends FragmentActivity> void inflateBoards(
             @NonNull T context,
             @NonNull Menu menu,
-            @NonNull List<Board> boards) {
-        final String addBoard = context.getString(R.string.add_board);
-        final String simpleBoards = context.getString(R.string.simple_boards);
-        final String simpleSettings = context.getString(R.string.simple_settings);
-        final String about = context.getString(R.string.about);
-        final String shareBoard = context.getString(R.string.share_board);
-        final String editBoard = context.getString(R.string.edit_board);
-
-        SubMenu boardsMenu = menu.addSubMenu(simpleBoards);
+            @NonNull List<Board> boards,
+            boolean hasArchivedBoards) {
+        SubMenu boardsMenu = menu.addSubMenu(R.string.simple_boards);
         int index = 0;
         for (Board board : boards) {
             MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
@@ -131,9 +125,10 @@ public class DrawerMenuUtil {
                         popup.getMenu().add(Menu.NONE, SHARE_BOARD_ID, 5, R.string.share_board);
                     }
                     popup.setOnMenuItemClickListener((MenuItem item) -> {
+                        final String editBoard = context.getString(R.string.edit_board);
                         switch (item.getItemId()) {
                             case SHARE_BOARD_ID:
-                                AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard);
+                                AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), AccessControlDialogFragment.class.getSimpleName());
                                 return true;
                             case R.id.edit_board:
                                 EditBoardDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
@@ -159,20 +154,19 @@ public class DrawerMenuUtil {
                 AppCompatImageButton contextMenu = new AppCompatImageButton(context);
                 contextMenu.setBackgroundDrawable(null);
                 contextMenu.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.ic_share_grey600_18dp, R.color.grey600));
-                contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard));
+                contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), AccessControlDialogFragment.class.getSimpleName()));
                 m.setActionView(contextMenu);
             }
         }
 
-        // TODO SyncManager.hasArchivedBoards();
-//        Drawable archiveIcon = context.getResources().getDrawable(R.drawable.ic_archive_white_24dp);
-//        DrawableCompat.setTint(archiveIcon, context.getResources().getColor(R.color.grey600));
-//        boardsMenu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, "Archived boards").setIcon(archiveIcon);
+        if (hasArchivedBoards) {
+//            boardsMenu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(ViewUtil.getTintedImageView(context, R.drawable.ic_archive_white_24dp, R.color.grey600));
+        }
 
-        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
+        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(R.drawable.ic_add_grey_24dp);
 
-        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, simpleSettings).setIcon(R.drawable.ic_settings_grey600_24dp);
-        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, about).setIcon(R.drawable.ic_info_outline_grey600_24dp);
+        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, R.string.simple_settings).setIcon(R.drawable.ic_settings_grey600_24dp);
+        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, R.string.about).setIcon(R.drawable.ic_info_outline_grey600_24dp);
     }
 
     public interface DrawerAccountListener {

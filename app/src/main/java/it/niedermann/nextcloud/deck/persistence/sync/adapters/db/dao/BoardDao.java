@@ -70,4 +70,7 @@ public interface BoardDao extends GenericDao<Board> {
             "inner join board b on s.boardId = b.localId " +
             "WHERE c.id = :cardRemoteId and c.accountId =  :accountId")
     LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccountId(long cardRemoteId, long accountId);
+
+    @Query("SELECT count(*) FROM board WHERE accountId = :accountId and archived = 1 and (deletedAt = 0 or deletedAt is null) and status <> 3")
+    LiveData<Integer> countArchivedBoards(long accountId);
 }

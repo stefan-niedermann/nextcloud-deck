@@ -343,6 +343,10 @@ public class SyncManager {
         return dataBaseAdapter.getBoardsWithEditPermission(accountId);
     }
 
+    public LiveData<Boolean> hasArchivedBoards(long accountId) {
+        return dataBaseAdapter.hasArchivedBoards(accountId);
+    }
+
     public LiveData<FullBoard> createBoard(long accountId, Board board) {
         MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
         doAsync(() -> {

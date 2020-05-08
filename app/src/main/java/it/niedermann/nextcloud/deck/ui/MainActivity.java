@@ -614,7 +614,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList);
+        observeOnce(syncManager.hasArchivedBoards(mainViewModel.getCurrentAccount().getId()), this, (hasArchivedBoards) -> {
+            DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, Boolean.TRUE.equals(hasArchivedBoards));
+        });
     }
 
     @Override

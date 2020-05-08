@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.niedermann.nextcloud.deck.databinding.ActivityArchivedCardsBinding;
+import it.niedermann.nextcloud.deck.databinding.ActivityArchivedBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
@@ -17,7 +17,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity {
 
     private static final String BUNDLE_KEY_ACCOUNT = "accountId";
 
-    private ActivityArchivedCardsBinding binding;
+    private ActivityArchivedBinding binding;
     private ArchivedBoardsAdapter adapter;
     private SyncManager syncManager;
 
@@ -40,7 +40,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
 
-        binding = ActivityArchivedCardsBinding.inflate(getLayoutInflater());
+        binding = ActivityArchivedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
