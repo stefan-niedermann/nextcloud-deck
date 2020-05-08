@@ -286,6 +286,15 @@ public class SyncManager {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
                         acc.applyCapabilities(response);
                         dataBaseAdapter.updateAccount(acc);
+                        try {
+                            if (response.getColor().length() == 3) {
+                            }
+                            if (response.getTextColor().length() == 3) {
+                                response.setTextColor(response.getTextColor() + response.getTextColor());
+                            }
+                        } catch (Exception e) {
+                            response.setTextColor(null);
+                        }
                         callback.onResponse(response);
                     }
 
@@ -805,8 +814,8 @@ public class SyncManager {
         WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(label.getBoardId(), label.getTitle());
-            if (existing != null){
-                liveData.postError(new SQLiteConstraintException("label \""+label.getTitle()+"\" already exists for this board!"));
+            if (existing != null) {
+                liveData.postError(new SQLiteConstraintException("label \"" + label.getTitle() + "\" already exists for this board!"));
                 return;
             }
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);

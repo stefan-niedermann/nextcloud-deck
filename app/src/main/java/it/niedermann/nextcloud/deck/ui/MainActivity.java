@@ -431,7 +431,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
         syncManager = new SyncManager(this);
 
-        Application.saveBrandColors(this, Color.parseColor(mainViewModel.getCurrentAccount().getColor()), Color.parseColor(mainViewModel.getCurrentAccount().getTextColor()));
+        try {
+            Application.saveBrandColors(this, Color.parseColor(mainViewModel.getCurrentAccount().getColor()), Color.parseColor(mainViewModel.getCurrentAccount().getTextColor()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Application.saveCurrentAccountId(this, mainViewModel.getCurrentAccount().getId());
         if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
             refreshCapabilities(mainViewModel.getCurrentAccount());
