@@ -321,8 +321,7 @@ public class SyncManager {
      * @return all archived or non-archived <code>Board</code>s depending on <code>archived</code> parameter
      */
     public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
-        // TODO implement archived flag
-        return dataBaseAdapter.getBoards(accountId);
+        return dataBaseAdapter.getBoards(accountId, archived);
     }
 
     /**
@@ -331,8 +330,7 @@ public class SyncManager {
      * @return all archived or non-archived <code>FullBoard</code>s depending on <code>archived</code> parameter
      */
     public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
-        // TODO implement archived flag
-        return dataBaseAdapter.getFullBoards(accountId);
+        return dataBaseAdapter.getFullBoards(accountId, archived);
     }
 
     /**

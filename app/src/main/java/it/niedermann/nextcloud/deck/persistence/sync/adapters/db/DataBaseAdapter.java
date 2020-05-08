@@ -380,8 +380,11 @@ public class DataBaseAdapter {
         return distinctUntilChanged(db.getAccountDao().getAllAccounts());
     }
 
-    public LiveData<List<Board>> getBoards(long accountId) {
-        return distinctUntilChanged(db.getBoardDao().getBoardsForAccount(accountId));
+    public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
+        return distinctUntilChanged(
+                archived
+                        ? db.getBoardDao().getArchivedBoardsForAccount(accountId)
+                        : db.getBoardDao().getNonArchivedBoardsForAccount(accountId));
     }
 
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
@@ -800,7 +803,9 @@ public class DataBaseAdapter {
         return db.getLabelDao().getLabelByBoardIdAndTitleDirectly(boardId, title);
     }
 
-    public LiveData<List<FullBoard>> getFullBoards(long accountId) {
-        return db.getBoardDao().getFullBoards(accountId);
+    public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
+        return archived
+                ? db.getBoardDao().getArchivedFullBoards(accountId)
+                : db.getBoardDao().getNonArchivedFullBoards(accountId);
     }
 }
