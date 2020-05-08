@@ -315,14 +315,29 @@ public class SyncManager {
         });
     }
 
+    /**
+     * Get all non-archived <code>Board</code>s for the specified account.
+     * @param accountId ID of the account
+     * @return all non-archived <code>Board</code>s
+     */
     public LiveData<List<Board>> getBoards(long accountId) {
         return dataBaseAdapter.getBoards(accountId);
     }
 
+    /**
+     * Get all non-archived  <code>FullBoard</code>s for the specified account.
+     * @param accountId ID of the account
+     * @return all non-archived <code>FullBoard</code>s
+     */
     public LiveData<List<FullBoard>> getFullBoards(long accountId) {
         return dataBaseAdapter.getFullBoards(accountId);
     }
 
+    /**
+     * Get all non-archived  <code>FullBoard</code>s with edit permissions for the specified account.
+     * @param accountId ID of the account
+     * @return all non-archived <code>Board</code>s with edit permission
+     */
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
         return dataBaseAdapter.getBoardsWithEditPermission(accountId);
     }
