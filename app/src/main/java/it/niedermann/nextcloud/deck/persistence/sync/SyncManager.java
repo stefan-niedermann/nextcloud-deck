@@ -764,40 +764,20 @@ public class SyncManager {
         return updateCard(card);
     }
 
-    public MutableLiveData<FullBoard> archiveBoard(Board board) {
-        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
+    public void archiveBoard(Board board) {
         doAsync(() -> {
             FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
             b.getBoard().setArchived(true);
-            WrappedLiveData<FullBoard> originalLiveData = updateBoard(b);
-            LiveDataHelper.interceptLiveData(originalLiveData, (fb) -> {
-                if (originalLiveData.hasError()){
-                    liveData.postError(originalLiveData.getError());
-                } else {
-                    liveData.postValue(fb);
-                }
-            });
+            updateBoard(b);
         });
-
-        return liveData;
     }
 
-    public MutableLiveData<FullBoard> dearchiveBoard(Board board) {
-        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
+    public void dearchiveBoard(Board board) {
         doAsync(() -> {
             FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
             b.getBoard().setArchived(false);
-            WrappedLiveData<FullBoard> originalLiveData = updateBoard(b);
-            LiveDataHelper.interceptLiveData(originalLiveData, (fb) -> {
-                if (originalLiveData.hasError()){
-                    liveData.postError(originalLiveData.getError());
-                } else {
-                    liveData.postValue(fb);
-                }
-            });
+            updateBoard(b);
         });
-
-        return liveData;
     }
 
     public WrappedLiveData<FullCard> updateCard(FullCard card) {
