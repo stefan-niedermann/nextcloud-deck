@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -764,13 +765,39 @@ public class SyncManager {
     }
 
     public MutableLiveData<FullBoard> archiveBoard(Board board) {
-        board.setArchived(true);
-        return updateBoard(null); // <- this needs FullBoard but i only have Board
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
+        doAsync(() -> {
+            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+            b.getBoard().setArchived(true);
+            WrappedLiveData<FullBoard> originalLiveData = updateBoard(b);
+            LiveDataHelper.interceptLiveData(originalLiveData, (fb) -> {
+                if (originalLiveData.hasError()){
+                    liveData.postError(originalLiveData.getError());
+                } else {
+                    liveData.postValue(fb);
+                }
+            });
+        });
+
+        return liveData;
     }
 
     public MutableLiveData<FullBoard> dearchiveBoard(Board board) {
-        board.setArchived(false);
-        return updateBoard(null); // <- this needs FullBoard but i only have Board
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
+        doAsync(() -> {
+            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+            b.getBoard().setArchived(false);
+            WrappedLiveData<FullBoard> originalLiveData = updateBoard(b);
+            LiveDataHelper.interceptLiveData(originalLiveData, (fb) -> {
+                if (originalLiveData.hasError()){
+                    liveData.postError(originalLiveData.getError());
+                } else {
+                    liveData.postValue(fb);
+                }
+            });
+        });
+
+        return liveData;
     }
 
     public WrappedLiveData<FullCard> updateCard(FullCard card) {
