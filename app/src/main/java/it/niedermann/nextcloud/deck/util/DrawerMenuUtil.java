@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -137,8 +136,7 @@ public class DrawerMenuUtil {
                                 ManageLabelsDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
                                 return true;
                             case R.id.archive_board:
-                                // TODO implement
-                                Toast.makeText(context, "Archiving boards is not yet supported.", Toast.LENGTH_LONG).show();
+                                context.onArchive(board);
                                 return true;
                             case R.id.delete_board:
                                 DeleteBoardDialogFragment.newInstance(board).show(context.getSupportFragmentManager(), DeleteBoardDialogFragment.class.getCanonicalName());

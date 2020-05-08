@@ -1,6 +1,6 @@
 1.3.0
 
--  📦 Hide archived boards
+-  📦 Separate archived boards
 
 1.2.0
 
