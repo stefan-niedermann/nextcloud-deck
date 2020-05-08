@@ -388,7 +388,11 @@ public class JsonToEntityParser {
         stack.setId(e.get("id").getAsLong());
         stack.setLastModified(getTimestampFromLong(e.get("lastModified")));
         stack.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
-        stack.setOrder(e.get("order").getAsInt());
+        if (e.has("order") && !e.get("order").isJsonNull()){
+            stack.setOrder(e.get("order").getAsInt());
+        } else {
+            stack.setOrder(0);
+        }
         if (e.has("cards")) {
             JsonArray cardsJson = e.getAsJsonArray("cards");
             List<Card> cards = new ArrayList<>();
