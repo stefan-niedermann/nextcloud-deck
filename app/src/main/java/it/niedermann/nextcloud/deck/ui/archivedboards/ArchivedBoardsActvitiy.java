@@ -31,8 +31,6 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
     private ArchivedBoardsAdapter adapter;
     private SyncManager syncManager;
 
-    private Account account;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +42,9 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
             throw new IllegalArgumentException("Please provide at least " + BUNDLE_KEY_ACCOUNT);
         }
 
-        this.account = (Account) args.getSerializable(BUNDLE_KEY_ACCOUNT);
+        final Account account = (Account) args.getSerializable(BUNDLE_KEY_ACCOUNT);
 
-        if (this.account == null) {
+        if (account == null) {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
 
