@@ -2,6 +2,7 @@
 
 -  📦 Archive boards (#472)
 - ☯️ Improved contrast ratio and design fine tuning
+- ❌ Display hint and disable synchronization when server version is incompatible (#423)
 
 1.2.0
 
