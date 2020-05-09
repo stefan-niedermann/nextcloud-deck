@@ -1,6 +1,7 @@
 1.3.0
 
 -  📦 Separate archived boards
+- ☯️ Improved contrast ratio and design fine tuning
 
 1.2.0
 
