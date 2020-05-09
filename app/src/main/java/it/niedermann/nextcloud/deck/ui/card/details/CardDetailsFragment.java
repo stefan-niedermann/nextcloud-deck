@@ -46,6 +46,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDatePickerDialog;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedTimePickerDialog;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
@@ -261,7 +262,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                     observeOnce(createLabelLiveData, CardDetailsFragment.this, createdLabel -> {
                         if (createLabelLiveData.hasError()) {
                             DeckLog.logError(createLabelLiveData.getError());
-                            Snackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
+                            BrandedSnackbar.make(requireView(), getString(R.string.error_create_label, newLabel.getTitle()), Snackbar.LENGTH_LONG)
                                     .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLabelLiveData.getError()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName())).show();
                         } else {
                             newLabel.setLocalId(createdLabel.getLocalId());
@@ -354,7 +355,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 viewModel.getFullCard().getAssignedUsers().remove(user);
                 binding.peopleList.removeView(avatar);
                 ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
-                Snackbar.make(
+                BrandedSnackbar.make(
                         requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
                         Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_undo, v1 -> {

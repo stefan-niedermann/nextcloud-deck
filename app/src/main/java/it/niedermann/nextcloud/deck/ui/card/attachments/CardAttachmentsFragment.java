@@ -35,6 +35,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.util.FileUtils;
 
@@ -165,7 +166,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             for (Attachment existingAttachment : viewModel.getFullCard().getAttachments()) {
                 final String existingPath = existingAttachment.getLocalPath();
                 if (existingPath != null && existingPath.equals(path)) {
-                    Snackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                    BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                     return;
                 }
             }
@@ -189,7 +190,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     if (liveData.hasError()) {
                         viewModel.getFullCard().getAttachments().remove(a);
                         adapter.removeAttachment(a);
-                        Snackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                     } else {
                         viewModel.getFullCard().getAttachments().remove(a);
                         adapter.removeAttachment(a);

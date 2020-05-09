@@ -79,6 +79,7 @@ import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
@@ -181,7 +182,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setNavigationItemSelectedListener(this);
         syncManager = new SyncManager(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
 
         switchMap(syncManager.hasAccounts(), hasAccounts -> {
             if (hasAccounts) {
@@ -386,7 +386,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (createLiveData.hasError()) {
                     final Throwable error = createLiveData.getError();
                     assert error != null;
-                    Snackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG).show();
+                    BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
+                            .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                            .show();
                 } else {
                     binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
                 }
@@ -414,7 +416,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         boardToCreate.setPermissionManage(true);
         observeOnce(syncManager.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate), this, createdBoard -> {
             if (createdBoard == null) {
-                Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG).show();
+                BrandedSnackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG)
+                        // TODO implement action!
+                        // .setAction(R.string.simple_open, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .show();
             } else {
                 boardsList.add(createdBoard.getBoard());
                 setCurrentBoard(createdBoard.getBoard());
@@ -804,7 +809,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                     syncManager = importSyncManager;
                                                     setCurrentAccount(account);
 
-                                                    final Snackbar importSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
+                                                    final Snackbar importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
                                                     importSnackbar.show();
                                                     importSyncManager.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
                                                         @Override
@@ -867,7 +872,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 final Throwable error = accountLiveData.getError();
                                 if (error instanceof SQLiteConstraintException) {
                                     DeckLog.warn("Account already added");
-                                    Snackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
+                                    BrandedSnackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
                                 } else {
                                     ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                     ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
@@ -974,11 +979,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
      */
     private void showSyncFailedSnackbar(@NonNull Throwable throwable) {
         if (!(throwable instanceof NextcloudHttpRequestFailedException) || ((NextcloudHttpRequestFailedException) throwable).getStatusCode() != HttpURLConnection.HTTP_UNAVAILABLE) {
-            runOnUiThread(() -> {
-                Snackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                        .show();
-            });
+            runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                    .show());
         }
     }
 
