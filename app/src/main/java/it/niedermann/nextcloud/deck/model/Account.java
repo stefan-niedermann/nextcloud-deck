@@ -74,8 +74,8 @@ public class Account implements Serializable {
             try {
                 // Nextcloud might return color format #000 which cannot be parsed by Color.parseColor()
                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/466
-                color = ColorUtil.getCleanHexaColorString(capabilities.getColor());
-                textColor = ColorUtil.getCleanHexaColorString(capabilities.getTextColor());
+                color = ColorUtil.formatColorToParsableHexString(capabilities.getColor());
+                textColor = ColorUtil.formatColorToParsableHexString(capabilities.getTextColor());
             } catch (Exception e) {
                 DeckLog.logError(e);
                 color = "#0082c9";
