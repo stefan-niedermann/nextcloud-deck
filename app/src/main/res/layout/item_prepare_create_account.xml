@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:textSize="16sp"
+            android:textAppearance="?attr/textAppearanceListItem"
             tools:text="@tools:sample/full_names" />
 
         <TextView
@@ -38,8 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="@string/owner"
-            android:textColor="@color/fg_secondary" />
+            android:textAppearance="?attr/textAppearanceListItemSecondary"
+            tools:text="https://example.com/" />
     </LinearLayout>
 
 </LinearLayout>

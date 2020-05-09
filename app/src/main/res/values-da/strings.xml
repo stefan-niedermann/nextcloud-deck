@@ -160,12 +160,17 @@
     <string name="filter_no_filter">Alle</string>
     <string name="filter_today">I dag</string>
     <string name="add_tag">Tilføj Tag</string>
+    <string name="filter_tags_title">Tags</string>
+    <string name="filter_duedate_title">Forfaldsdato</string>
+
     <!-- Errors -->
     <string name="error">Der skete en fejl</string>
     <string name="synchronization_failed">Synkroniseringen mislykkedes</string>
     <string name="operation_not_yet_supported">Understøttes endnu ikke</string>
     <string name="error_revoking_ac">Fejl under tilbagekaldelse af adgang for %1$s</string>
     <string name="maintenance_mode">Server i vedligeholdelsestilstand</string>
+    <string name="server_misconfigured">Server er forkert konfigureret </string>
+    <string name="server_error">Serverfejl</string>
     <string name="shared_error">Deling af indhold fra 3. parts apps understøttes endnu ikke fuldt ud. Forsøg at hente det først, og dernæst dele det fra din indbyggede filhåndtering eller dit galleri.</string>
 
     <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>

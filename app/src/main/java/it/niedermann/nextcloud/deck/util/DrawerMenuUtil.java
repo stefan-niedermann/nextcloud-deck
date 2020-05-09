@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +27,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlDialogFragment;
@@ -39,6 +39,7 @@ public class DrawerMenuUtil {
     public static final int MENU_ID_ABOUT = -1;
     public static final int MENU_ID_ADD_BOARD = -2;
     public static final int MENU_ID_SETTINGS = -3;
+    public static final int MENU_ID_ARCHIVED_BOARDS = -4;
 
 
     private DrawerMenuUtil() {
@@ -103,18 +104,12 @@ public class DrawerMenuUtil {
         menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, context.getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }
 
-    public static <T extends FragmentActivity> void inflateBoards(
+    public static <T extends FragmentActivity & ArchiveBoardListener> void inflateBoards(
             @NonNull T context,
             @NonNull Menu menu,
-            @NonNull List<Board> boards) {
-        final String addBoard = context.getString(R.string.add_board);
-        final String simpleBoards = context.getString(R.string.simple_boards);
-        final String simpleSettings = context.getString(R.string.simple_settings);
-        final String about = context.getString(R.string.about);
-        final String shareBoard = context.getString(R.string.share_board);
-        final String editBoard = context.getString(R.string.edit_board);
-
-        SubMenu boardsMenu = menu.addSubMenu(simpleBoards);
+            @NonNull List<Board> boards,
+            boolean hasArchivedBoards) {
+        SubMenu boardsMenu = menu.addSubMenu(R.string.simple_boards);
         int index = 0;
         for (Board board : boards) {
             MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
@@ -130,9 +125,10 @@ public class DrawerMenuUtil {
                         popup.getMenu().add(Menu.NONE, SHARE_BOARD_ID, 5, R.string.share_board);
                     }
                     popup.setOnMenuItemClickListener((MenuItem item) -> {
+                        final String editBoard = context.getString(R.string.edit_board);
                         switch (item.getItemId()) {
                             case SHARE_BOARD_ID:
-                                AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard);
+                                AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), AccessControlDialogFragment.class.getSimpleName());
                                 return true;
                             case R.id.edit_board:
                                 EditBoardDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
@@ -141,8 +137,7 @@ public class DrawerMenuUtil {
                                 ManageLabelsDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
                                 return true;
                             case R.id.archive_board:
-                                // TODO implement
-                                Toast.makeText(context, "Archiving boards is not yet supported.", Toast.LENGTH_LONG).show();
+                                context.onArchive(board);
                                 return true;
                             case R.id.delete_board:
                                 DeleteBoardDialogFragment.newInstance(board).show(context.getSupportFragmentManager(), DeleteBoardDialogFragment.class.getCanonicalName());
@@ -158,15 +153,19 @@ public class DrawerMenuUtil {
                 AppCompatImageButton contextMenu = new AppCompatImageButton(context);
                 contextMenu.setBackgroundDrawable(null);
                 contextMenu.setImageDrawable(ViewUtil.getTintedImageView(context, R.drawable.ic_share_grey600_18dp, R.color.grey600));
-                contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), shareBoard));
+                contextMenu.setOnClickListener((v) -> AccessControlDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), AccessControlDialogFragment.class.getSimpleName()));
                 m.setActionView(contextMenu);
             }
         }
 
-        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, addBoard).setIcon(R.drawable.ic_add_grey_24dp);
+        if (hasArchivedBoards) {
+            boardsMenu.add(Menu.NONE, MENU_ID_ARCHIVED_BOARDS, Menu.NONE, R.string.archived_boards).setIcon(ViewUtil.getTintedImageView(context, R.drawable.ic_archive_white_24dp, R.color.grey600));
+        }
 
-        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, simpleSettings).setIcon(R.drawable.ic_settings_grey600_24dp);
-        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, about).setIcon(R.drawable.ic_info_outline_grey600_24dp);
+        boardsMenu.add(Menu.NONE, MENU_ID_ADD_BOARD, Menu.NONE, R.string.add_board).setIcon(R.drawable.ic_add_grey_24dp);
+
+        menu.add(Menu.NONE, MENU_ID_SETTINGS, Menu.NONE, R.string.simple_settings).setIcon(R.drawable.ic_settings_grey600_24dp);
+        menu.add(Menu.NONE, MENU_ID_ABOUT, Menu.NONE, R.string.about).setIcon(R.drawable.ic_info_outline_grey600_24dp);
     }
 
     public interface DrawerAccountListener {

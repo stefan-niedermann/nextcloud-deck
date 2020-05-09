@@ -84,7 +84,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
                     ownerControl.setLocalId(HEADER_ITEM_LOCAL_ID);
                     ownerControl.setUser(fullBoard.getOwner());
                     accessControlList.add(0, ownerControl);
-                    adapter.update(accessControlList);
+                    adapter.update(accessControlList, fullBoard.getBoard().isPermissionManage());
                     userAutoCompleteAdapter = new UserAutoCompleteAdapter(requireActivity(), viewModel.getCurrentAccount(), boardId);
                     binding.people.setAdapter(userAutoCompleteAdapter);
                     binding.people.setOnItemClickListener(this);

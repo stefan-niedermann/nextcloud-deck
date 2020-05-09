@@ -12,9 +12,9 @@
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
-        android:textColor="@color/fg_secondary"
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
+        android:textAppearance="?attr/textAppearanceListItemSecondary"
         tools:text="4 days ago" />
 
     <LinearLayout
@@ -34,6 +34,7 @@
             android:id="@+id/subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"
             tools:maxLength="150"
             tools:text="@tools:sample/lorem/random" />
     </LinearLayout>

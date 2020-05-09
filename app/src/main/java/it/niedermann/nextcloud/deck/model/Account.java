@@ -9,8 +9,10 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 @Entity(indices = {@Index(value = "name", unique = true)})
 public class Account implements Serializable {
@@ -69,9 +71,17 @@ public class Account implements Serializable {
     public void applyCapabilities(Capabilities capabilities) {
         maintenanceEnabled = capabilities.isMaintenanceEnabled();
         if (!isMaintenanceEnabled()) {
-            color = capabilities.getColor();
-            textColor = capabilities.getTextColor();
-            if (capabilities.getDeckVersion()!=null) {
+            try {
+                // Nextcloud might return color format #000 which cannot be parsed by Color.parseColor()
+                // https://github.com/stefan-niedermann/nextcloud-deck/issues/466
+                color = ColorUtil.formatColorToParsableHexString(capabilities.getColor());
+                textColor = ColorUtil.formatColorToParsableHexString(capabilities.getTextColor());
+            } catch (Exception e) {
+                DeckLog.logError(e);
+                color = "#0082c9";
+                color = "#ffffff";
+            }
+            if (capabilities.getDeckVersion() != null) {
                 serverDeckVersion = capabilities.getDeckVersion().getOriginalVersion();
             }
         }

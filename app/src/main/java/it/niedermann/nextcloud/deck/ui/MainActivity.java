@@ -71,7 +71,9 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
+import it.niedermann.nextcloud.deck.ui.archivedboards.ArchivedBoardsActvitiy;
 import it.niedermann.nextcloud.deck.ui.archivedcards.ArchivedCardsActvitiy;
+import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
@@ -106,9 +108,10 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_ACCOUNT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
+import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_SETTINGS;
 
-public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener {
+public class MainActivity extends BrandedActivity implements DeleteStackListener, EditStackListener, DeleteBoardListener, EditBoardListener, ArchiveBoardListener, OnScrollListener, OnNavigationItemSelectedListener, DrawerAccountListener {
 
     protected ActivityMainBinding binding;
     protected NavHeaderMainBinding headerBinding;
@@ -130,6 +133,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private List<Board> boardsList = new ArrayList<>();
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
+
+    private LiveData<Boolean> hasArchivedBoardsLiveData;
+    private Observer<Boolean> hasArchivedBoardsLiveDataObserver;
 
     private boolean currentBoardHasStacks = false;
     private int currentBoardStacksCount = 0;
@@ -450,7 +456,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             boardsLiveData.removeObserver(boardsLiveDataObserver);
         }
 
-        boardsLiveData = syncManager.getBoards(account.getId());
+        boardsLiveData = syncManager.getBoards(account.getId(), false);
         boardsLiveDataObserver = (boards) -> {
             if (boards == null) {
                 throw new IllegalStateException("List<Board> boards must not be null.");
@@ -473,7 +479,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             } else {
                 clearCurrentBoard();
             }
-            inflateBoardMenu();
+
+            if (hasArchivedBoardsLiveData != null && hasArchivedBoardsLiveDataObserver != null) {
+                hasArchivedBoardsLiveData.removeObserver(hasArchivedBoardsLiveDataObserver);
+            }
+            hasArchivedBoardsLiveData = syncManager.hasArchivedBoards(account.getId());
+            hasArchivedBoardsLiveDataObserver = (hasArchivedBoards) -> {
+                mainViewModel.setCurrentAccountHasArchivedBoards(Boolean.TRUE.equals(hasArchivedBoards));
+                inflateBoardMenu();
+            };
+            hasArchivedBoardsLiveData.observe(this, hasArchivedBoardsLiveDataObserver);
         };
         boardsLiveData.observe(this, boardsLiveDataObserver);
 
@@ -619,7 +634,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList);
+        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards());
     }
 
     @Override
@@ -650,6 +665,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     break;
                 case MENU_ID_ADD_BOARD:
                     EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
+                    break;
+                case MENU_ID_ARCHIVED_BOARDS:
+                    startActivity(ArchivedBoardsActvitiy.createIntent(MainActivity.this, mainViewModel.getCurrentAccount()));
                     break;
                 default:
                     setCurrentBoard(boardsList.get(item.getItemId()));
@@ -968,5 +986,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     .setActionTextColor(ColorUtil.isColorDark(Color.parseColor(mainViewModel.getCurrentAccount().getColor())) ? Color.WHITE : Color.parseColor(mainViewModel.getCurrentAccount().getColor()))
                     .show());
         }
+    }
+
+    @Override
+    public void onArchive(@NonNull Board board) {
+        syncManager.archiveBoard(board);
     }
 }

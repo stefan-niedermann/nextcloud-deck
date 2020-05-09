@@ -35,7 +35,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
 
     private final static int[] tabTitles = new int[]{
             R.string.filter_tags_title,
-            R.string.filter_assignees_title,
+            R.string.filter_user_title,
             R.string.filter_duedate_title
     };
 

@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:textSize="16sp"
+                android:textAppearance="?attr/textAppearanceListItem"
                 tools:drawableEnd="@drawable/ic_sync_blue_24dp"
                 tools:text="@tools:sample/full_names" />
 

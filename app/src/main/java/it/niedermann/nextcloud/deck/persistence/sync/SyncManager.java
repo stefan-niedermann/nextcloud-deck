@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -315,16 +316,36 @@ public class SyncManager {
         });
     }
 
-    public LiveData<List<Board>> getBoards(long accountId) {
-        return dataBaseAdapter.getBoards(accountId);
+    /**
+     * @param accountId ID of the account
+     * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
+     * @return all archived or non-archived <code>Board</code>s depending on <code>archived</code> parameter
+     */
+    public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
+        return dataBaseAdapter.getBoards(accountId, archived);
     }
 
-    public LiveData<List<FullBoard>> getFullBoards(long accountId) {
-        return dataBaseAdapter.getFullBoards(accountId);
+    /**
+     * @param accountId ID of the account
+     * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
+     * @return all archived or non-archived <code>FullBoard</code>s depending on <code>archived</code> parameter
+     */
+    public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
+        return dataBaseAdapter.getFullBoards(accountId, archived);
     }
 
+    /**
+     * Get all non-archived  <code>FullBoard</code>s with edit permissions for the specified account.
+     *
+     * @param accountId ID of the account
+     * @return all non-archived <code>Board</code>s with edit permission
+     */
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
         return dataBaseAdapter.getBoardsWithEditPermission(accountId);
+    }
+
+    public LiveData<Boolean> hasArchivedBoards(long accountId) {
+        return dataBaseAdapter.hasArchivedBoards(accountId);
     }
 
     public LiveData<FullBoard> createBoard(long accountId, Board board) {
@@ -743,9 +764,20 @@ public class SyncManager {
         return updateCard(card);
     }
 
-    public MutableLiveData<FullBoard> archiveBoard(FullBoard board) {
-        // TODO implement with WrappedLiveData
-        return null;
+    public void archiveBoard(Board board) {
+        doAsync(() -> {
+            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+            b.getBoard().setArchived(true);
+            updateBoard(b);
+        });
+    }
+
+    public void dearchiveBoard(Board board) {
+        doAsync(() -> {
+            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+            b.getBoard().setArchived(false);
+            updateBoard(b);
+        });
     }
 
     public WrappedLiveData<FullCard> updateCard(FullCard card) {
@@ -805,8 +837,8 @@ public class SyncManager {
         WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(label.getBoardId(), label.getTitle());
-            if (existing != null){
-                liveData.postError(new SQLiteConstraintException("label \""+label.getTitle()+"\" already exists for this board!"));
+            if (existing != null) {
+                liveData.postError(new SQLiteConstraintException("label \"" + label.getTitle() + "\" already exists for this board!"));
                 return;
             }
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,7 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/pick_custom_color"
-            app:srcCompat="@drawable/circle_alpha_colorize_36dp" />
+            app:srcCompat="@drawable/circle_alpha_colorize_36dp"
+            tools:tint="@color/grey600" />
     </com.google.android.flexbox.FlexboxLayout>
 
     <com.skydoves.colorpickerview.ColorPickerView
@@ -30,7 +32,8 @@
         android:layout_marginTop="10dp"
         android:visibility="gone"
         app:palette="@drawable/palette"
-        app:selector="@drawable/wheel" />
+        app:selector="@drawable/wheel"
+        tools:visibility="visible" />
 
     <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
         android:id="@+id/brightnessSlide"
@@ -41,5 +44,6 @@
         android:visibility="gone"
         app:borderColor_BrightnessSlider="@android:color/darker_gray"
         app:borderSize_BrightnessSlider="5"
-        app:selector_BrightnessSlider="@drawable/wheel" />
+        app:selector_BrightnessSlider="@drawable/wheel"
+        tools:visibility="visible" />
 </LinearLayout>

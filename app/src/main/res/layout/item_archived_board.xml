@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/spacer_2x">
+
+    <ImageView
+        android:id="@+id/boardIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="@dimen/spacer_1hx"
+        android:contentDescription="@null"
+        tools:src="@drawable/circle_grey600_36dp" />
+
+    <TextView
+        android:id="@+id/board_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="@dimen/spacer_1hx"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        tools:ignore="RtlSymmetry"
+        tools:maxLength="40"
+        tools:text="@tools:sample/lorem/random" />
+
+    <ImageView
+        android:id="@+id/board_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/label_menu"
+        android:padding="@dimen/spacer_1hx"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_menu" />
+</LinearLayout>
