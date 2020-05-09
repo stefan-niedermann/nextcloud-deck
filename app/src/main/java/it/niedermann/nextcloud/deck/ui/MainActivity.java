@@ -438,7 +438,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @UiThread
     protected void setCurrentAccount(@NonNull Account account) {
-        mainViewModel.setCurrentAccount(account);
+        mainViewModel.setCurrentAccount(account, account.getServerDeckVersionAsObject().isSupported(this));
+
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
         syncManager = new SyncManager(this);
 
@@ -447,8 +448,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
             refreshCapabilities(mainViewModel.getCurrentAccount());
         }
-
-        mainViewModel.setCurrentAccountIsSupportedVersion(account.getServerDeckVersionAsObject().isSupported(this));
 
         lastBoardId = Application.readCurrentBoardId(this, mainViewModel.getCurrentAccount().getId());
 

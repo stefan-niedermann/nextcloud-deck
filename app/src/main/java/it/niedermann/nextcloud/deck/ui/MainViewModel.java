@@ -18,8 +18,9 @@ public class MainViewModel extends ViewModel {
         return currentAccount;
     }
 
-    public void setCurrentAccount(Account currentAccount) {
+    public void setCurrentAccount(Account currentAccount, boolean versionIsSupported) {
         this.currentAccount = currentAccount;
+        this.currentAccountIsSupportedVersion = versionIsSupported;
     }
 
     public void setCurrentBoard(Board currentBoard) {
@@ -40,10 +41,6 @@ public class MainViewModel extends ViewModel {
 
     public void setCurrentAccountHasArchivedBoards(boolean currentAccountHasArchivedBoards) {
         this.currentAccountHasArchivedBoards = currentAccountHasArchivedBoards;
-    }
-
-    public void setCurrentAccountIsSupportedVersion(boolean currentAccountIsSupportedVersion) {
-        this.currentAccountIsSupportedVersion = currentAccountIsSupportedVersion;
     }
 
     public boolean isCurrentAccountIsSupportedVersion() {
