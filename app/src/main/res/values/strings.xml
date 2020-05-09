@@ -246,5 +246,5 @@
     <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
     <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
     <string name="info_box_maintenance_mode">Server in maintenance mode</string>
-    <string name="info_box_version_not_supported">Server version too old (%1$s), please update to %2$s</string>
+    <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
 </resources>
