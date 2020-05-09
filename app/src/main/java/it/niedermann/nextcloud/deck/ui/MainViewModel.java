@@ -11,6 +11,7 @@ public class MainViewModel extends ViewModel {
     private Account currentAccount;
     private Board currentBoard;
     private boolean currentAccountHasArchivedBoards = false;
+
     private boolean currentAccountIsSupportedVersion = false;
 
     public Account getCurrentAccount() {
@@ -43,5 +44,9 @@ public class MainViewModel extends ViewModel {
 
     public void setCurrentAccountIsSupportedVersion(boolean currentAccountIsSupportedVersion) {
         this.currentAccountIsSupportedVersion = currentAccountIsSupportedVersion;
+    }
+
+    public boolean isCurrentAccountIsSupportedVersion() {
+        return currentAccountIsSupportedVersion;
     }
 }

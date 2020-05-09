@@ -499,6 +499,17 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         DeckLog.verbose("Displaying maintenance mode info for " + mainViewModel.getCurrentAccount().getName() + ": " + mainViewModel.getCurrentAccount().isMaintenanceEnabled());
         binding.infoBox.setVisibility(mainViewModel.getCurrentAccount().isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
+        if (mainViewModel.isCurrentAccountIsSupportedVersion()) {
+            binding.infoBoxVersionNotSupported.setVisibility(View.GONE);
+        } else {
+            binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported(this).getOriginalVersion()));
+            binding.infoBoxVersionNotSupportedText.setOnClickListener((v) -> {
+                Intent openURL = new Intent(Intent.ACTION_VIEW);
+                openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + urlFragmentUpdateDeck));
+                startActivity(openURL);
+            });
+            binding.infoBoxVersionNotSupported.setVisibility(View.VISIBLE);
+        }
     }
 
     private void refreshCapabilities(final Account account) {
