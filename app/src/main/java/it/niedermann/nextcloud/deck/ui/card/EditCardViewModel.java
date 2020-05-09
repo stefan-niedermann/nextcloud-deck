@@ -16,6 +16,7 @@ public class EditCardViewModel extends ViewModel {
     private long boardId;
     private FullCard originalCard;
     private FullCard fullCard;
+    private boolean isSupportedVersion = false;
     private boolean hasCommentsAbility = false;
     private boolean pendingCreation = false;
     private boolean canEdit = false;
@@ -79,7 +80,7 @@ public class EditCardViewModel extends ViewModel {
     }
 
     public boolean canEdit() {
-        return canEdit;
+        return canEdit && isSupportedVersion;
     }
 
     public void setCanEdit(boolean canEdit) {
@@ -96,5 +97,9 @@ public class EditCardViewModel extends ViewModel {
 
     public long getBoardId() {
         return boardId;
+    }
+
+    public void setSupportedVersion(boolean supportedVersion) {
+        isSupportedVersion = supportedVersion;
     }
 }

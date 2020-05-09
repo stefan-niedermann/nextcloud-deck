@@ -103,6 +103,8 @@ public class EditActivity extends BrandedActivity {
         }
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
+        viewModel.setSupportedVersion(account.getServerDeckVersionAsObject().isSupported(this));
+
         observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();

@@ -448,6 +448,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             refreshCapabilities(mainViewModel.getCurrentAccount());
         }
 
+        mainViewModel.setCurrentAccountIsSupportedVersion(account.getServerDeckVersionAsObject().isSupported(this));
+
         lastBoardId = Application.readCurrentBoardId(this, mainViewModel.getCurrentAccount().getId());
 
         if (boardsLiveData != null && boardsLiveDataObserver != null) {
@@ -506,6 +508,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (response.isMaintenanceEnabled()) {
                     binding.swipeRefreshLayout.setRefreshing(false);
                 } else {
+                    // If we notice after updating the capabilities, that the new version is not supported, but it was previously, recreate the activity to make sure all elements are disabled properly
+                    if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(MainActivity.this) && !response.getDeckVersion().isSupported(MainActivity.this)) {
+                        recreate();
+                    }
                     @ColorInt final int mainColor = parseColor(response.getColor());
                     @ColorInt final int textColor = parseColor(response.getTextColor());
                     runOnUiThread(() -> Application.saveBrandColors(MainActivity.this, mainColor, textColor));
@@ -632,7 +638,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards());
+        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(this));
     }
 
     @Override
