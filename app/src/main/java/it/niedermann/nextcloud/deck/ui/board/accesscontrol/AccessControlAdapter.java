@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
@@ -45,6 +46,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
     private AccessControlChangedListener accessControlChangedListener;
     @NonNull
     private Context context;
+    private boolean hasManagePermission = false;
 
     AccessControlAdapter(@NonNull Account account, @NonNull AccessControlChangedListener accessControlChangedListener, @NonNull Context context) {
         this.account = account;
@@ -94,18 +96,25 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                 acHolder.binding.username.setCompoundDrawables(null, null, ac.getStatus() == DBStatus.LOCAL_EDITED.getId() ? context.getResources().getDrawable(R.drawable.ic_sync_blue_24dp) : null, null);
                 acHolder.binding.delete.setOnClickListener((v) -> accessControlChangedListener.deleteAccessControl(ac));
 
-                acHolder.binding.permissionEdit.setChecked(ac.isPermissionEdit());
-                acHolder.binding.permissionEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    ac.setPermissionEdit(isChecked);
-                    accessControlChangedListener.updateAccessControl(ac);
-                });
+                if (hasManagePermission) {
+                    acHolder.binding.permissionEdit.setVisibility(View.VISIBLE);
+                    acHolder.binding.permissionEdit.setChecked(ac.isPermissionEdit());
+                    acHolder.binding.permissionEdit.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        ac.setPermissionEdit(isChecked);
+                        accessControlChangedListener.updateAccessControl(ac);
+                    });
 
-                acHolder.binding.permissionManage.setChecked(ac.isPermissionManage());
-                acHolder.binding.permissionManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    ac.setPermissionManage(isChecked);
-                    accessControlChangedListener.updateAccessControl(ac);
-                    acHolder.binding.username.setCompoundDrawables(null, null, null, null);
-                });
+                    acHolder.binding.permissionManage.setVisibility(View.VISIBLE);
+                    acHolder.binding.permissionManage.setChecked(ac.isPermissionManage());
+                    acHolder.binding.permissionManage.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        ac.setPermissionManage(isChecked);
+                        accessControlChangedListener.updateAccessControl(ac);
+                        acHolder.binding.username.setCompoundDrawables(null, null, null, null);
+                    });
+                } else {
+                    acHolder.binding.permissionEdit.setVisibility(View.GONE);
+                    acHolder.binding.permissionManage.setVisibility(View.GONE);
+                }
 
                 acHolder.binding.permissionShare.setChecked(ac.isPermissionShare());
                 acHolder.binding.permissionShare.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -114,8 +123,10 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                 });
 
                 if (Application.isBrandingEnabled(context)) {
-                    brandSwitch(context, acHolder.binding.permissionEdit, mainColor);
-                    brandSwitch(context, acHolder.binding.permissionManage, mainColor);
+                    if (hasManagePermission) {
+                        brandSwitch(context, acHolder.binding.permissionEdit, mainColor);
+                        brandSwitch(context, acHolder.binding.permissionManage, mainColor);
+                    }
                     brandSwitch(context, acHolder.binding.permissionShare, mainColor);
                 }
                 break;
@@ -140,9 +151,10 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public void update(@NonNull List<AccessControl> accessControls) {
+    public void update(@NonNull List<AccessControl> accessControls, boolean hasManagePermission) {
         this.accessControls.clear();
         this.accessControls.addAll(accessControls);
+        this.hasManagePermission = hasManagePermission;
         notifyDataSetChanged();
     }
 
