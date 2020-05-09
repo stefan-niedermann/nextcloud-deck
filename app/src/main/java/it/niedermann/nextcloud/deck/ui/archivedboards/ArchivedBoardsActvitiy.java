@@ -6,17 +6,27 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.util.Collections;
 
 import it.niedermann.nextcloud.deck.databinding.ActivityArchivedBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.MainViewModel;
+import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
+import it.niedermann.nextcloud.deck.ui.board.DeleteBoardListener;
+import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
-public class ArchivedBoardsActvitiy extends BrandedActivity {
+public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoardListener, EditBoardListener, ArchiveBoardListener {
 
     private static final String BUNDLE_KEY_ACCOUNT = "accountId";
 
+    private MainViewModel viewModel;
     private ActivityArchivedBinding binding;
     private ArchivedBoardsAdapter adapter;
     private SyncManager syncManager;
@@ -44,12 +54,17 @@ public class ArchivedBoardsActvitiy extends BrandedActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.setCurrentAccount(account);
         syncManager = new SyncManager(this);
 
-        adapter = new ArchivedBoardsAdapter();
+        adapter = new ArchivedBoardsAdapter(getSupportFragmentManager(), (board) -> syncManager.dearchiveBoard(board));
         binding.recyclerView.setAdapter(adapter);
 
-        syncManager.getBoards(account.getId(), true).observe(this, (boards) -> adapter.setBoards(boards));
+        syncManager.getBoards(account.getId(), true).observe(this, (boards) -> {
+            viewModel.setCurrentAccountHasArchivedBoards(boards != null && boards.size() > 0);
+            adapter.setBoards(boards == null ? Collections.emptyList() : boards);
+        });
 
     }
 
@@ -63,5 +78,20 @@ public class ArchivedBoardsActvitiy extends BrandedActivity {
         return new Intent(context, ArchivedBoardsActvitiy.class)
                 .putExtra(BUNDLE_KEY_ACCOUNT, account)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    }
+
+    @Override
+    public void onBoardDeleted(Board board) {
+        syncManager.deleteBoard(board);
+    }
+
+    @Override
+    public void onUpdateBoard(FullBoard fullBoard) {
+        syncManager.updateBoard(fullBoard);
+    }
+
+    @Override
+    public void onArchive(Board board) {
+        syncManager.dearchiveBoard(board);
     }
 }

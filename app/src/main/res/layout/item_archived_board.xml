@@ -30,7 +30,7 @@
         tools:text="@tools:sample/lorem/random" />
 
     <ImageView
-        android:id="@+id/card_menu"
+        android:id="@+id/board_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"

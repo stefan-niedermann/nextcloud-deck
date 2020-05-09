@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
 import it.niedermann.nextcloud.deck.ui.board.DeleteBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlDialogFragment;
@@ -103,7 +104,7 @@ public class DrawerMenuUtil {
         menu.add(Menu.NONE, MENU_ID_ADD_ACCOUNT, Menu.NONE, context.getString(R.string.add_account)).setIcon(R.drawable.ic_person_add_black_24dp);
     }
 
-    public static <T extends FragmentActivity & DrawerBoardListener> void inflateBoards(
+    public static <T extends FragmentActivity & ArchiveBoardListener> void inflateBoards(
             @NonNull T context,
             @NonNull Menu menu,
             @NonNull List<Board> boards,
@@ -171,9 +172,5 @@ public class DrawerMenuUtil {
         void onAccountChosen(@NonNull Account account);
 
         void onAccountDeleted(@NonNull Long accountId);
-    }
-
-    public interface DrawerBoardListener {
-        void onArchive(@NonNull Board board);
     }
 }
