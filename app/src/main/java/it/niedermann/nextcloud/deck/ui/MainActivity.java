@@ -183,8 +183,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         syncManager = new SyncManager(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        BrandedSnackbar.make(binding.coordinatorLayout, "TEST", Snackbar.LENGTH_INDEFINITE).setAction("BLAH", (v) -> {}).show();
-
         switchMap(syncManager.hasAccounts(), hasAccounts -> {
             if (hasAccounts) {
                 return syncManager.readAccounts();
