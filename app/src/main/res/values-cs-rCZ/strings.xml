@@ -193,6 +193,10 @@
     <string name="tag_already_exists">%1$s už existuje</string>
     <string name="tag_successfully_added">%1$s úspěšně přidáno</string>
     <string name="edit_tag">Upravit %1$s</string>
+    <string name="filter_tags_title">Štítky</string>
+    <string name="filter_assignees_title">Komu přiřazeno</string>
+    <string name="filter_duedate_title">Datum termínu</string>
+
     <!-- Errors -->
     <string name="error">Objevila se chyba</string>
     <string name="synchronization_failed">Synchronizace se nezdařila</string>
@@ -200,6 +204,8 @@
     <string name="error_revoking_ac">Chyba při rušení přístupu pro %1$s</string>
     <string name="error_create_label">Chyba při vytváření štítku %1$s</string>
     <string name="maintenance_mode">Na serveru probíhá údržba</string>
+    <string name="server_misconfigured">Server není nastavený správně</string>
+    <string name="server_error">Chyba serveru</string>
     <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
 
     <string name="error_dialog_title">Ó ne– co teď? 🙁</string>
@@ -217,4 +223,5 @@
     <string name="error_dialog_insufficient_storage">Na vámi využívané instanci Nexcloud nezbývá žádné volné místo na úložišti. Aby bylo možné synchronizovat vaše místní změny do vámi využívaného cloudu, je třeba nejprve smazat nějaké soubory.</string>
     <string name="error_dialog_contact_us">Pokud problémy přetrvávají, neváhejte se na nás obrátit. Kontaktní údaje naleznete v sekci „O aplikaci“ v postranním panelu.</string>
     <string name="error_dialog_we_need_info">Abychom vám mohli pomoci, potřebujeme následující technické údaje:</string>
-    </resources>
+    <string name="error_dialog_redirect">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient.</string>
+</resources>

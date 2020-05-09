@@ -38,7 +38,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:textSize="@dimen/text_size_attachments" />
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:maxLength="30"
+        tools:text="@tools:sample/lorem/random" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -51,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/fg_secondary"
+            android:textAppearance="?attr/textAppearanceListItemSecondary"
             tools:text="1.98 MB" />
 
         <TextView
@@ -59,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/fg_secondary"
+            android:textAppearance="?attr/textAppearanceListItemSecondary"
             tools:text="Mar 4" />
     </LinearLayout>
 </LinearLayout>

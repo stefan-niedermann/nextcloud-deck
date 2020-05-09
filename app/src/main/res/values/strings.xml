@@ -212,8 +212,12 @@
     <string name="tag_successfully_added">%1$s successfully added</string>
     <string name="edit_tag">Edit %1$s</string>
     <string name="filter_tags_title">Tags</string>
-    <string name="filter_assignees_title">Assignees</string>
+    <string name="filter_user_title">Users</string>
     <string name="filter_duedate_title">Due date</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Undo board archiving</string>
+    <string name="archived_boards">Archived boards</string>
 
     <!-- Errors -->
     <string name="error">An error appeared</string>

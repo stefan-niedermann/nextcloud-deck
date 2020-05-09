@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
+    android:baselineAligned="false"
     android:orientation="horizontal"
     android:padding="@dimen/spacer_2x">
 
@@ -51,15 +52,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"
+                android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="@tools:sample/full_names" />
 
             <TextView
                 android:id="@+id/creationDateTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/fg_secondary"
-                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textAppearance="?attr/textAppearanceListItemSecondary"
                 tools:text="@tools:sample/date/day_of_week" />
         </LinearLayout>
 
@@ -69,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:autofillHints="@null"
+            android:textAppearance="?attr/textAppearanceListItem"
             tools:maxLength="200"
             tools:text="@tools:sample/lorem/random" />
     </LinearLayout>

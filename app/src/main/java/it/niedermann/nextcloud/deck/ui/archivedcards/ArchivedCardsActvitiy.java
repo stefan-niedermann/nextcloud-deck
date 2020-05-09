@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.niedermann.nextcloud.deck.databinding.ActivityArchivedCardsBinding;
+import it.niedermann.nextcloud.deck.databinding.ActivityArchivedBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
@@ -19,7 +19,7 @@ public class ArchivedCardsActvitiy extends BrandedActivity {
     private static final String BUNDLE_KEY_BOARD_ID = "boardId";
     private static final String BUNDLE_KEY_CAN_EDIT = "canEdit";
 
-    private ActivityArchivedCardsBinding binding;
+    private ActivityArchivedBinding binding;
     private ArchivedCardsAdapter adapter;
     private SyncManager syncManager;
 
@@ -49,7 +49,7 @@ public class ArchivedCardsActvitiy extends BrandedActivity {
             throw new IllegalArgumentException(BUNDLE_KEY_BOARD_ID + " must a positive long value.");
         }
 
-        binding = ActivityArchivedCardsBinding.inflate(getLayoutInflater());
+        binding = ActivityArchivedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 

@@ -63,6 +63,12 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".ui.archivedboards.ArchivedBoardsActvitiy"
+            android:label="@string/archived_boards"
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".ui.card.EditActivity"
             android:label="@string/edit"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"

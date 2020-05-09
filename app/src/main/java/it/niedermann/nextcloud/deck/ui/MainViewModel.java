@@ -10,6 +10,7 @@ public class MainViewModel extends ViewModel {
 
     private Account currentAccount;
     private Board currentBoard;
+    private boolean currentAccountHasArchivedBoards = false;
 
     public Account getCurrentAccount() {
         return currentAccount;
@@ -29,5 +30,13 @@ public class MainViewModel extends ViewModel {
 
     public boolean currentBoardHasEditPermission() {
         return this.currentBoard != null && this.currentBoard.isPermissionEdit();
+    }
+
+    public boolean currentAccountHasArchivedBoards() {
+        return currentAccountHasArchivedBoards;
+    }
+
+    public void setCurrentAccountHasArchivedBoards(boolean currentAccountHasArchivedBoards) {
+        this.currentAccountHasArchivedBoards = currentAccountHasArchivedBoards;
     }
 }

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:drawablePadding="@dimen/spacer_2x"
         android:gravity="start|center"
-        android:textColor="?android:textColorPrimary"
+        android:textAppearance="?attr/textAppearanceListItem"
         app:drawableLeftCompat="@drawable/ic_lightbulb_outline_grey600_24dp"
         app:drawableStartCompat="@drawable/ic_lightbulb_outline_grey600_24dp"
         tools:maxLength="200"

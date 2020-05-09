@@ -24,7 +24,7 @@
         android:paddingLeft="@dimen/spacer_1x"
         android:paddingEnd="@dimen/spacer_2x"
         android:paddingRight="@dimen/spacer_2x"
-        android:textSize="18sp"
+        android:textAppearance="?attr/textAppearanceListItem"
         tools:text="@tools:sample/full_names" />
 
 </LinearLayout>

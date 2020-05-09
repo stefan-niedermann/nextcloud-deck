@@ -1,3 +1,7 @@
+1.2.1
+
+- 🐞 Fix branding color in some situations
+
 1.2.0
 
 - 🎚 Enhanced filters
