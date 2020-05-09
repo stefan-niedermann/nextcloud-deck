@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.util;
 import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
@@ -35,37 +36,46 @@ public final class ColorUtil {
     }
 
     /**
-     * @return well formated #123456 color string
+     * @return well formatted string starting with a hash followed by 6 hex numbers that is parsable by {@link Color#parseColor(String)}.
      */
-    public static String getCleanHexaColorString(String input) {
+    public static String formatColorToParsableHexString(String input) {
         if (input == null) {
             throw new IllegalArgumentException("input color string is null");
         }
-        if (isValidHexaColorString(input)){
+        if (isParsableValidHexColorString(input)) {
             return input;
         }
-        char [] chars = input.replaceAll("#", "").toCharArray();
-        StringBuilder sb = new StringBuilder("#");
-        if(chars.length == 6) {
+        final char[] chars = input.replaceAll("#", "").toCharArray();
+        final StringBuilder sb = new StringBuilder(7).append("#");
+        if (chars.length == 6) {
             sb.append(chars);
         } else if (chars.length == 3) {
-            for (int i = 0; i < chars.length; i++) {
-                char c = chars[i];
+            for (char c : chars) {
                 sb.append(c).append(c);
             }
         } else {
-            throw new IllegalArgumentException("unparsable color string: \""+ input + "\"");
+            throw new IllegalArgumentException("unparsable color string: \"" + input + "\"");
         }
-        String formattedHexColor = sb.toString();
-        if (isValidHexaColorString(formattedHexColor)) {
+        final String formattedHexColor = sb.toString();
+        if (isParsableValidHexColorString(formattedHexColor)) {
             return formattedHexColor;
         } else {
             throw new IllegalArgumentException("\"" + input + "\" is not a valid color string. Result of tried normalizing: " + formattedHexColor);
         }
     }
 
-    private static boolean isValidHexaColorString(String input) {
-        return input.matches("#[a-fA-F0-9]{6}");
+    /**
+     * Checking for {@link Color#parseColor(String)} being able to parse the input is the important part because we don't know the implementation and rely on it to be able to parse the color.
+     *
+     * @return true, if the input starts with a hash followed by 6 characters of hex numbers and is parsable by {@link Color#parseColor(String)}.
+     */
+    private static boolean isParsableValidHexColorString(@NonNull String input) {
+        try {
+            Color.parseColor(input);
+            return input.matches("#[a-fA-F0-9]{6}");
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static boolean isColorDark(@ColorInt int color) {

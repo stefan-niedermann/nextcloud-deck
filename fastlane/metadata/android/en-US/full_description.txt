@@ -2,10 +2,10 @@ An Android client for Nextcloud Deck App¹.
 
 🚀 Features
 * Multiple accounts 👥
-* Offline-capabilities 🔌
-* Manage cards, columns and boards 📝
-* Supports attachments 📎
-* Supports activities ⚡
+* Works offline 🔌
+* Manage cards, lists and boards 📝
+* Manage tags 🏷
+* Supports attachments 📎, activities ⚡ & comments 💬
 * Dark mode 🌙
 * Translated in many languages 🌎
 

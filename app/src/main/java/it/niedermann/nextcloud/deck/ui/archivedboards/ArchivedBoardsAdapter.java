@@ -4,6 +4,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Consumer;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,10 +17,16 @@ import it.niedermann.nextcloud.deck.model.Board;
 public class ArchivedBoardsAdapter extends RecyclerView.Adapter<ArchivedBoardViewHolder> {
 
     @NonNull
+    private final Consumer<Board> onDearchiveListener;
+    @NonNull
+    private final FragmentManager fragmentManager;
+    @NonNull
     private List<Board> boards = new ArrayList<>();
 
     @SuppressWarnings("WeakerAccess")
-    public ArchivedBoardsAdapter() {
+    public ArchivedBoardsAdapter(@NonNull FragmentManager fragmentManager, @NonNull Consumer<Board> onDearchiveListener) {
+        this.fragmentManager = fragmentManager;
+        this.onDearchiveListener = onDearchiveListener;
         setHasStableIds(true);
     }
 
@@ -35,7 +43,7 @@ public class ArchivedBoardsAdapter extends RecyclerView.Adapter<ArchivedBoardVie
 
     @Override
     public void onBindViewHolder(@NonNull ArchivedBoardViewHolder holder, int position) {
-        holder.bind(boards.get(position));
+        holder.bind(boards.get(position), fragmentManager, onDearchiveListener);
     }
 
     @Override

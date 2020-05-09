@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -321,8 +322,7 @@ public class SyncManager {
      * @return all archived or non-archived <code>Board</code>s depending on <code>archived</code> parameter
      */
     public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
-        // TODO implement archived flag
-        return dataBaseAdapter.getBoards(accountId);
+        return dataBaseAdapter.getBoards(accountId, archived);
     }
 
     /**
@@ -331,8 +331,7 @@ public class SyncManager {
      * @return all archived or non-archived <code>FullBoard</code>s depending on <code>archived</code> parameter
      */
     public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
-        // TODO implement archived flag
-        return dataBaseAdapter.getFullBoards(accountId);
+        return dataBaseAdapter.getFullBoards(accountId, archived);
     }
 
     /**
@@ -343,6 +342,10 @@ public class SyncManager {
      */
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
         return dataBaseAdapter.getBoardsWithEditPermission(accountId);
+    }
+
+    public LiveData<Boolean> hasArchivedBoards(long accountId) {
+        return dataBaseAdapter.hasArchivedBoards(accountId);
     }
 
     public LiveData<FullBoard> createBoard(long accountId, Board board) {
@@ -759,14 +762,20 @@ public class SyncManager {
         return updateCard(card);
     }
 
-    // TODO implement
-    public LiveData<Boolean> hasArchivedBoards() {
-        return null;
+    public void archiveBoard(Board board) {
+        doAsync(() -> {
+            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+            b.getBoard().setArchived(true);
+            updateBoard(b);
+        });
     }
 
-    public MutableLiveData<FullBoard> archiveBoard(FullBoard board) {
-        // TODO implement with WrappedLiveData
-        return null;
+    public void dearchiveBoard(Board board) {
+        doAsync(() -> {
+            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+            b.getBoard().setArchived(false);
+            updateBoard(b);
+        });
     }
 
     public WrappedLiveData<FullCard> updateCard(FullCard card) {

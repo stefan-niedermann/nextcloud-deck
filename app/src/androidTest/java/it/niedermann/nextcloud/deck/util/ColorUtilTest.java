@@ -112,13 +112,13 @@ public class ColorUtilTest {
         validColors.add(new Pair<>("af0", "#aaff00"));
         validColors.add(new Pair<>("#af0", "#aaff00"));
         for (Pair<String, String> color : validColors) {
-            assertEquals("Expect " + color.first + " to be cleaned up to " + color.second, color.second, ColorUtil.getCleanHexaColorString(color.first));
+            assertEquals("Expect " + color.first + " to be cleaned up to " + color.second, color.second, ColorUtil.formatColorToParsableHexString(color.first));
         }
 
         final String[] invalidColors = new String[]{null, "", "cc", "c", "#a", "#55L", "55L"};
         for (String color : invalidColors) {
             exception.expect(IllegalArgumentException.class);
-            ColorUtil.getCleanHexaColorString(color);
+            ColorUtil.formatColorToParsableHexString(color);
         }
     }
 }

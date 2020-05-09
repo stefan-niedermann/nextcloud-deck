@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/spacer_2x"
-    android:layout_marginLeft="@dimen/spacer_2x"
-    android:layout_marginTop="@dimen/spacer_1x"
-    android:layout_marginEnd="@dimen/spacer_2x"
-    android:layout_marginRight="@dimen/spacer_2x"
-    android:layout_marginBottom="@dimen/spacer_1x"
-    android:focusable="true">
+    android:orientation="horizontal"
+    android:padding="@dimen/spacer_2x">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/boardIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="@dimen/spacer_1hx"
+        android:contentDescription="@null"
+        tools:src="@drawable/circle_grey600_36dp" />
+
+    <TextView
+        android:id="@+id/board_title"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="@dimen/spacer_1hx"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        tools:ignore="RtlSymmetry"
+        tools:maxLength="40"
+        tools:text="@tools:sample/lorem/random" />
 
-        <TextView
-            android:id="@+id/board_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4sp"
-            android:textSize="18sp"
-            tools:ignore="RtlSymmetry"
-            tools:text="Lorem ipsum dolor sit amet,
-     consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut l" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/action_board_dearchive" />
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+    <ImageView
+        android:id="@+id/board_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/label_menu"
+        android:padding="@dimen/spacer_1hx"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_menu" />
+</LinearLayout>
