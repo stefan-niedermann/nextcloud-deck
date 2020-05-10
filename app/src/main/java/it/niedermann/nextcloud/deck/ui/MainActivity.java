@@ -29,6 +29,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -357,6 +358,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             overflowDrawable.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
             headerBinding.drawerAccountChooserToggle.setImageDrawable(overflowDrawable);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof StackFragment) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+        }
+        super.onStop();
     }
 
     @Override
