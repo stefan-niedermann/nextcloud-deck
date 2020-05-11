@@ -26,10 +26,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
-import it.niedermann.nextcloud.deck.ui.card.activities.CardActivityFragment;
-import it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentsFragment;
-import it.niedermann.nextcloud.deck.ui.card.comments.CardCommentsFragment;
-import it.niedermann.nextcloud.deck.ui.card.details.CardDetailsFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
@@ -266,13 +262,10 @@ public class EditActivity extends BrandedActivity {
 
     @Override
     protected void onStop() {
+        // Clean up zombie fragments in case of system initiated process death.
+        // See linked issues in https://github.com/stefan-niedermann/nextcloud-deck/issues/478
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            if (fragment instanceof CardDetailsFragment
-                    || fragment instanceof CardAttachmentsFragment
-                    || fragment instanceof CardCommentsFragment
-                    || fragment instanceof CardActivityFragment) {
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-            }
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
         super.onStop();
     }
