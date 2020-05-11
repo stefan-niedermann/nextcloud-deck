@@ -21,6 +21,11 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
                         entity = Card.class,
                         parentColumns = "localId",
                         childColumns = "objectId", onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = DeckComment.class,
+                        parentColumns = "localId",
+                        childColumns = "parentId", onDelete = ForeignKey.CASCADE
                 )
         }
 )
@@ -33,6 +38,7 @@ public class DeckComment extends AbstractRemoteEntity {
     private String actorId;
     private String actorDisplayName;
     private String message;
+    private long parentId;
     @Ignore
     private List<Mention> mentions = new ArrayList<>();
 
@@ -88,6 +94,14 @@ public class DeckComment extends AbstractRemoteEntity {
 
     public void setActorDisplayName(String actorDisplayName) {
         this.actorDisplayName = actorDisplayName;
+    }
+
+    public long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(long parentId) {
+        this.parentId = parentId;
     }
 
     public String getMessage() {

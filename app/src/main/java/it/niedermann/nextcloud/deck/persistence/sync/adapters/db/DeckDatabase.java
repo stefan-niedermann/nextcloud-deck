@@ -146,6 +146,12 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_11_12 = new Migration(11, 12) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `DeckComment` ADD `parentId` INTEGER REFERENCES DeckComment(localId)");
+        }
+    };
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
 

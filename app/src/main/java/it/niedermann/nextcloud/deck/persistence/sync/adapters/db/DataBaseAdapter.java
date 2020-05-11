@@ -34,6 +34,7 @@ import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
+import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 
@@ -734,6 +735,20 @@ public class DataBaseAdapter {
                 deckComment.setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
             }
         });
+    }
+    public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
+        return LiveDataHelper.interceptLiveData(db.getCommentDao().getFullCommentByLocalCardId(localCardId), (list) -> {
+            for (FullDeckComment deckComment : list) {
+                loadMentionsForCommentRecursively(deckComment);
+            }
+        });
+    }
+
+    private void loadMentionsForCommentRecursively(FullDeckComment deckComment) {
+        deckComment.getComment().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
+        for (FullDeckComment comment : deckComment.getChildren()) {
+            loadMentionsForCommentRecursively(comment);
+        }
     }
 
     public DeckComment getCommentByRemoteIdDirectly(long accountId, Long remoteCommentId) {
