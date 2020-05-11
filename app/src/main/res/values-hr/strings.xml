@@ -169,7 +169,10 @@
     <string name="archived_cards">Arhivirane kartice</string>
     <string name="add_tag">Dodaj oznaku</string>
     <string name="filter_tags_title">Oznake</string>
+    <string name="filter_user_title">Korisnici</string>
     <string name="filter_duedate_title">Datum dospijeća</string>
+
+    <string name="archived_boards">Arhivirane ploče</string>
 
     <!-- Errors -->
     <string name="error">Pojavila se pogreška</string>
@@ -192,4 +195,5 @@
     <string name="error_dialog_insufficient_storage">Nema slobodnog prostora za pohranu u vašoj instanci Nextclouda. Izbrišite dio datoteka kako biste sinkronizirali lokalne promjene u oblak.</string>
     <string name="error_dialog_contact_us">Obratite nam se bez odlaganja ako problemi i dalje postoje. Naše podatke za kontakt možete pronaći u odjeljku s informacijama na bočnoj traci.</string>
     <string name="error_dialog_we_need_info">Potrebne su nam sljedeće tehničke informacije kako bismo vam pomogli:</string>
+    <string name="info_box_maintenance_mode">Poslužitelj u načinu održavanja</string>
     </resources>

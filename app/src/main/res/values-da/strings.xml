@@ -161,7 +161,10 @@
     <string name="filter_today">I dag</string>
     <string name="add_tag">Tilføj Tag</string>
     <string name="filter_tags_title">Tags</string>
+    <string name="filter_user_title">Brugere</string>
     <string name="filter_duedate_title">Forfaldsdato</string>
+
+    <string name="archived_boards">Arkiverede lister</string>
 
     <!-- Errors -->
     <string name="error">Der skete en fejl</string>
@@ -184,4 +187,5 @@
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
     <string name="error_dialog_contact_us">Du er altid velkommen til at kontakte os, hvis problemet varer ved. Du kan finde vores kontaktoplysninger i sektionen Om i sidebjælken.</string>
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
+    <string name="info_box_maintenance_mode">Server i vedligeholdelsestilstand</string>
     </resources>

@@ -120,6 +120,7 @@
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
     <string name="update_deck">Werk deck bij</string>
     <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
+    <string name="deck_outdated_please_update">Je deck versie is te oud (%1$s). Update deze android app om de deck te kunnen gebruiken.</string>
     <string name="delete_board_message">Dit zal dit bord permanent verwijderen inclusief alle stapels en kaarten.</string>
     <string name="settings_theme_title">Donker thema</string>
     <string name="settings_branding_title">Brandmerken</string>
@@ -189,13 +190,19 @@
     <string name="tag_successfully_added">%1$s succesvol toegevoegd</string>
     <string name="edit_tag">Bewerk%1$s</string>
     <string name="filter_tags_title">Labels</string>
+    <string name="filter_user_title">Gebruikers</string>
     <string name="filter_duedate_title">Vervaldatum</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Bord-achivering ongedaan maken</string>
+    <string name="archived_boards">Gearchiveerde borden</string>
 
     <!-- Errors -->
     <string name="error">Er is een fout verschenen</string>
     <string name="synchronization_failed">Synchronisatie mislukt</string>
     <string name="operation_not_yet_supported">Nog niet ondersteund</string>
     <string name="error_revoking_ac">Fout bij het intrekken van de toegang voor %1$s</string>
+    <string name="error_create_label">Fout bij creëren label %1$s</string>
     <string name="maintenance_mode">Server in onderhoudsmodus</string>
     <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
     <string name="server_error">Serverfout</string>
@@ -203,13 +210,20 @@
 
     <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probeer de app te sluiten en opnieuw te starten. Er was misschien een onjuiste verbinding met de Nextcloud-app.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Als het probleem blijft aanhouden, probeer dan de gegevensopslag van beide apps te wissen: zowel Nextcloud als Nextcloud Deck.</string>
+    <string name="error_dialog_tip_clear_storage">Je kan de gegevensopslag wissen door in Android te gaan naar Instellingen → Apps → Nextcloud / Nextcloud Deck → Geheugen →  Gegevens verwijderen</string>
     <string name="error_dialog_tip_files_outdated">Je Nextcloud app lijkt te zijn verouderd. Download alstublieft de nieuwste versie in de Google Play Store of in F-Droid.</string>
+    <string name="error_dialog_tip_files_force_stop">Er lijkt iets mis te zijn met je Nextcloud app. Probeer alstublieft beide apps geforceerd te sluiten, zowel de Nextcloud app als de Nextcloud Deck app.</string>
     <string name="error_dialog_tip_files_delete_storage">Als geforceerd afsluiten niet helpt, probeer dan van beide apps de gegevensopslag te wissen.</string>
     <string name="error_dialog_timeout_instance">Er was binnen de gestelde tijd geen reactie ontvangen van je server. Controleer alstublieft of je Nextcloud-instantie wel goed loopt.</string>
     <string name="error_dialog_timeout_toggle">Controleer je netwerk verbinding. Het kan ook helpen de dataverbinding of WIFI uit en weer aan te zetten.</string>
+    <string name="error_dialog_check_server">Je server gaf een onjuiste reactie. Controleer alstublieft of de Deck app in de web-interface wel goed werkt.</string>
     <string name="error_dialog_check_server_logs">Er is iets mis met je Nextcloud instellingen. Controleer alstublieft de server log bestanden.</string>
     <string name="error_dialog_check_maintenance">Controleer alstublieft of je Nextcloud instantie momenteel niet in onderhouds-modus draait.</string>
     <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alstublieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
     <string name="error_dialog_contact_us">Schroom alstublieft niet om contact met ons op te nemen als het probleem blijft aanhouden. Onze contactgegevens zijn te vinden in de About sectie in de zijbalk.</string>
     <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
-    </resources>
+    <string name="error_dialog_redirect">Je server heeft gereageerd met een HTTP 302-statuscode, wat inhoudt dat je de Deck-app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dit kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud-apps zoals de OID Client.</string>
+    <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
+    <string name="info_box_version_not_supported">Server versie %1$s is niet ondersteund, werk bij naar %2$s</string>
+</resources>

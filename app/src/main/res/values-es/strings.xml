@@ -12,7 +12,7 @@
     <string name="simple_boards">Tableros</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
-    <string name="simple_more">Mas</string>
+    <string name="simple_more">Más</string>
     <string name="simple_title">Título</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_synchronization">Sincronización</string>
@@ -190,8 +190,12 @@
     <string name="tag_successfully_added">%1$s añadida con éxito</string>
     <string name="edit_tag">Editar %1$s</string>
     <string name="filter_tags_title">Etiquetas</string>
-    <string name="filter_assignees_title">Asignados</string>
+    <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Fecha de fin</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Deshacer archivado del tablero</string>
+    <string name="archived_boards">Tableros archivados</string>
 
     <!-- Errors -->
     <string name="error">Ha aparecido un error</string>
@@ -220,4 +224,5 @@
     <string name="error_dialog_contact_us">Por favor, no dude en contactar con nosotros si el problema persiste. Puede encontrar nuestra información de contacto en la sección acerca de en la barra lateral.</string>
     <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
     <string name="error_dialog_redirect">Tu servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Deck en su servidor o que algo está mal configurado. Esto puede estar causado por anulaciones personalizadas en un  archivo .htaccess o por aplicaciones de Nexcloud como OID Client. </string>
-</resources>
+    <string name="info_box_maintenance_mode">Servidor en modo de mantenimiento</string>
+    </resources>
