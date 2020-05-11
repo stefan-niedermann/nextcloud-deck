@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
@@ -107,7 +108,7 @@ public class EditActivity extends BrandedActivity {
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
-                viewModel.initializeNewCard(account, boardId, args.getLong(BUNDLE_KEY_STACK_ID));
+                viewModel.initializeNewCard(account, boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported(this));
                 String title = args.getString(BUNDLE_KEY_TITLE);
                 if (!TextUtils.isEmpty(title)) {
                     if (title.length() > viewModel.getAccount().getServerDeckVersionAsObject().getCardTitleMaxLength()) {
@@ -120,7 +121,7 @@ public class EditActivity extends BrandedActivity {
                 setupTitle();
             } else {
                 observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
-                    viewModel.initializeExistingCard(account, boardId, fullCard);
+                    viewModel.initializeExistingCard(account, boardId, fullCard, account.getServerDeckVersionAsObject().isSupported(this));
                     setupViewPager();
                     setupTitle();
                 });
@@ -257,6 +258,16 @@ public class EditActivity extends BrandedActivity {
         } else {
             super.finish();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        // Clean up zombie fragments in case of system initiated process death.
+        // See linked issues in https://github.com/stefan-niedermann/nextcloud-deck/issues/478
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+        super.onStop();
     }
 
     @Override

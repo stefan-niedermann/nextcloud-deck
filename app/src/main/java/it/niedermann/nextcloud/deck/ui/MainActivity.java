@@ -29,6 +29,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -79,6 +80,7 @@ import it.niedermann.nextcloud.deck.ui.board.EditBoardDialogFragment;
 import it.niedermann.nextcloud.deck.ui.board.EditBoardListener;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.CardAdapter;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
@@ -181,7 +183,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setNavigationItemSelectedListener(this);
         syncManager = new SyncManager(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
 
         switchMap(syncManager.hasAccounts(), hasAccounts -> {
             if (hasAccounts) {
@@ -360,6 +361,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     @Override
+    protected void onStop() {
+        // Clean up zombie fragments in case of system initiated process death.
+        // See linked issues in https://github.com/stefan-niedermann/nextcloud-deck/issues/478
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+        super.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (tabLayoutHelper != null) {
@@ -386,7 +397,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (createLiveData.hasError()) {
                     final Throwable error = createLiveData.getError();
                     assert error != null;
-                    Snackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG).show();
+                    BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
+                            .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                            .show();
                 } else {
                     binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
                 }
@@ -414,7 +427,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         boardToCreate.setPermissionManage(true);
         observeOnce(syncManager.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate), this, createdBoard -> {
             if (createdBoard == null) {
-                Snackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG).show();
+                BrandedSnackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG)
+                        // TODO implement action!
+                        // .setAction(R.string.simple_open, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .show();
             } else {
                 boardsList.add(createdBoard.getBoard());
                 setCurrentBoard(createdBoard.getBoard());
@@ -433,7 +449,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @UiThread
     protected void setCurrentAccount(@NonNull Account account) {
-        mainViewModel.setCurrentAccount(account);
+        mainViewModel.setCurrentAccount(account, account.getServerDeckVersionAsObject().isSupported(this));
+
         SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
         syncManager = new SyncManager(this);
 
@@ -492,6 +509,17 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         DeckLog.verbose("Displaying maintenance mode info for " + mainViewModel.getCurrentAccount().getName() + ": " + mainViewModel.getCurrentAccount().isMaintenanceEnabled());
         binding.infoBox.setVisibility(mainViewModel.getCurrentAccount().isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
+        if (mainViewModel.isCurrentAccountIsSupportedVersion()) {
+            binding.infoBoxVersionNotSupported.setVisibility(View.GONE);
+        } else {
+            binding.infoBoxVersionNotSupportedText.setText(getString(R.string.info_box_version_not_supported, mainViewModel.getCurrentAccount().getServerDeckVersion(), Version.minimumSupported(this).getOriginalVersion()));
+            binding.infoBoxVersionNotSupportedText.setOnClickListener((v) -> {
+                Intent openURL = new Intent(Intent.ACTION_VIEW);
+                openURL.setData(Uri.parse(mainViewModel.getCurrentAccount().getUrl() + urlFragmentUpdateDeck));
+                startActivity(openURL);
+            });
+            binding.infoBoxVersionNotSupported.setVisibility(View.VISIBLE);
+        }
     }
 
     private void refreshCapabilities(final Account account) {
@@ -501,6 +529,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 if (response.isMaintenanceEnabled()) {
                     binding.swipeRefreshLayout.setRefreshing(false);
                 } else {
+                    // If we notice after updating the capabilities, that the new version is not supported, but it was previously, recreate the activity to make sure all elements are disabled properly
+                    if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(MainActivity.this) && !response.getDeckVersion().isSupported(MainActivity.this)) {
+                        recreate();
+                    }
                     @ColorInt final int mainColor = parseColor(response.getColor());
                     @ColorInt final int textColor = parseColor(response.getTextColor());
                     runOnUiThread(() -> Application.saveBrandColors(MainActivity.this, mainColor, textColor));
@@ -627,7 +659,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.navigationView.setItemIconTintList(null);
         Menu menu = binding.navigationView.getMenu();
         menu.clear();
-        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards());
+        DrawerMenuUtil.inflateBoards(this, menu, this.boardsList, mainViewModel.currentAccountHasArchivedBoards(), mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(this));
     }
 
     @Override
@@ -804,7 +836,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                                     syncManager = importSyncManager;
                                                     setCurrentAccount(account);
 
-                                                    final Snackbar importSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
+                                                    final Snackbar importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
                                                     importSnackbar.show();
                                                     importSyncManager.synchronize(new IResponseCallback<Boolean>(mainViewModel.getCurrentAccount()) {
                                                         @Override
@@ -867,7 +899,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                 final Throwable error = accountLiveData.getError();
                                 if (error instanceof SQLiteConstraintException) {
                                     DeckLog.warn("Account already added");
-                                    Snackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
+                                    BrandedSnackbar.make(binding.coordinatorLayout, accountAlreadyAdded, Snackbar.LENGTH_LONG).show();
                                 } else {
                                     ExceptionDialogFragment.newInstance(error, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                 }
@@ -973,11 +1005,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
      */
     private void showSyncFailedSnackbar(@NonNull Throwable throwable) {
         if (!(throwable instanceof NextcloudHttpRequestFailedException) || ((NextcloudHttpRequestFailedException) throwable).getStatusCode() != HttpURLConnection.HTTP_UNAVAILABLE) {
-            runOnUiThread(() -> {
-                Snackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                        .show();
-            });
+            runOnUiThread(() -> BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                    .show());
         }
     }
 

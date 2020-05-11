@@ -190,8 +190,10 @@
     <string name="tag_successfully_added">%1$s ondo gehitu da</string>
     <string name="edit_tag">Editatu %1$s</string>
     <string name="filter_tags_title">Etiketak</string>
-    <string name="filter_assignees_title">Esleitutako erabiltzaileak</string>
+    <string name="filter_user_title">Erabiltzaileak</string>
     <string name="filter_duedate_title">Epe-muga</string>
+
+    <string name="archived_boards">Artxibatutako taulak</string>
 
     <!-- Errors -->
     <string name="error">Errore bat agertu da</string>
@@ -220,4 +222,5 @@
     <string name="error_dialog_contact_us">Mesedez, arazoak jarraitzen baldin badu ez izan zalantzarik gurekin harremanetan jartzeko. Alboko barran aurki dezakezu gurekin kontaktatzeko informazioa.</string>
     <string name="error_dialog_we_need_info">Zuri laguntzeko hurrengo informazio teknikoa behar dugu:</string>
     <string name="error_dialog_redirect">Zure zerbitzariak HTTP 302 egoera kodearekin erantzun du, honek esan nahi du ez duzula Sortak aplikazioa ez duzula zure zerbitzarian instalatu edo zerbait txarto konfiguratuta dagoela. Hau .htaccess fitxategi batean arau pertsonalizatuak daudelako edo OID Bezeroa izeneko aplikazioarengatik sortua izan daiteke. </string>
-</resources>
+    <string name="info_box_maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
+    </resources>

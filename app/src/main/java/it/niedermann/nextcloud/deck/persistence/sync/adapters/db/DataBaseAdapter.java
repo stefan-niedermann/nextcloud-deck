@@ -804,9 +804,7 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
-        return archived
-                ? db.getBoardDao().getArchivedFullBoards(accountId)
-                : db.getBoardDao().getNonArchivedFullBoards(accountId);
+        return db.getBoardDao().getArchivedFullBoards(accountId, (archived ? 1 : 0));
     }
 
     public LiveData<Boolean> hasArchivedBoards(long accountId) {

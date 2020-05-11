@@ -16,6 +16,7 @@ public class EditCardViewModel extends ViewModel {
     private long boardId;
     private FullCard originalCard;
     private FullCard fullCard;
+    private boolean isSupportedVersion = false;
     private boolean hasCommentsAbility = false;
     private boolean pendingCreation = false;
     private boolean canEdit = false;
@@ -28,11 +29,12 @@ public class EditCardViewModel extends ViewModel {
      * @param boardId  Local ID, expecting a positive long value
      * @param fullCard The card that is currently edited
      */
-    public void initializeExistingCard(@NonNull Account account, long boardId, @NonNull FullCard fullCard) {
+    public void initializeExistingCard(@NonNull Account account, long boardId, @NonNull FullCard fullCard, boolean isSupportedVersion) {
         this.account = account;
         this.boardId = boardId;
         this.fullCard = fullCard;
         this.originalCard = new FullCard(this.fullCard);
+        this.isSupportedVersion = isSupportedVersion;
         hasCommentsAbility = account.getServerDeckVersionAsObject().supportsComments();
     }
 
@@ -43,7 +45,7 @@ public class EditCardViewModel extends ViewModel {
      * @param boardId Local ID, expecting a positive long value
      * @param stackId Local ID, expecting a positive long value where the card should be created
      */
-    public void initializeNewCard(@NonNull Account account, long boardId, long stackId) {
+    public void initializeNewCard(@NonNull Account account, long boardId, long stackId, boolean isSupportedVersion) {
         final FullCard fullCard = new FullCard();
         fullCard.setLabels(new ArrayList<>());
         fullCard.setAssignedUsers(new ArrayList<>());
@@ -51,7 +53,7 @@ public class EditCardViewModel extends ViewModel {
         final Card card = new Card();
         card.setStackId(stackId);
         fullCard.setCard(card);
-        initializeExistingCard(account, boardId, fullCard);
+        initializeExistingCard(account, boardId, fullCard, isSupportedVersion);
     }
 
     public boolean hasChanges() {
@@ -79,7 +81,7 @@ public class EditCardViewModel extends ViewModel {
     }
 
     public boolean canEdit() {
-        return canEdit;
+        return canEdit && isSupportedVersion;
     }
 
     public void setCanEdit(boolean canEdit) {

@@ -44,10 +44,38 @@
                         android:paddingLeft="@dimen/spacer_1hx"
                         android:paddingEnd="@dimen/spacer_1hx"
                         android:paddingRight="@dimen/spacer_1hx"
-                        android:text="@string/maintenance_mode"
+                        android:text="@string/info_box_maintenance_mode"
                         android:textColor="@color/grey600"
                         app:drawableLeftCompat="@drawable/ic_info_outline_grey600_24dp"
                         app:drawableStartCompat="@drawable/ic_info_outline_grey600_24dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/info_box_version_not_supported"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:background="@color/danger"
+                    android:gravity="center"
+                    android:padding="@dimen/spacer_1hx"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/info_box_version_not_supported_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/spacer_1hx"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/spacer_1hx"
+                        android:paddingLeft="@dimen/spacer_1hx"
+                        android:paddingEnd="@dimen/spacer_1hx"
+                        android:paddingRight="@dimen/spacer_1hx"
+                        android:text="@string/info_box_version_not_supported"
+                        android:textColor="@android:color/white"
+                        app:drawableLeftCompat="@drawable/ic_warning_white_24dp"
+                        app:drawableStartCompat="@drawable/ic_warning_white_24dp" />
 
                 </LinearLayout>
 

@@ -248,4 +248,6 @@
     <string name="error_action_open_deck_info">Open App info</string>
     <string name="error_action_open_network">Network settings</string>
     <string name="error_action_server_logs">Server logs</string>
+    <string name="info_box_maintenance_mode">Server in maintenance mode</string>
+    <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
 </resources>

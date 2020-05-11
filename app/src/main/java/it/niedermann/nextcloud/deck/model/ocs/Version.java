@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.model.ocs;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +15,8 @@ import it.niedermann.nextcloud.deck.R;
 public class Version implements Comparable<Version> {
     private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("[0-9]+");
     private static final Version VERSION_1_0_0 = new Version("1.0.0", 1, 0, 0);
+    @Nullable
+    private static Version VERSION_MINIMUM_SUPPORTED;
 
     private String originalVersion = "?";
     private int major = 0;
@@ -31,28 +34,16 @@ public class Version implements Comparable<Version> {
         this.patch = patch;
     }
 
-    public int getMajor() {
+    private int getMajor() {
         return major;
     }
 
-    public void setMajor(int major) {
-        this.major = major;
-    }
-
-    public int getMinor() {
+    private int getMinor() {
         return minor;
     }
 
-    public void setMinor(int minor) {
-        this.minor = minor;
-    }
-
-    public int getPatch() {
+    private int getPatch() {
         return patch;
-    }
-
-    public void setPatch(int patch) {
-        this.patch = patch;
     }
 
     public boolean isGreaterOrEqualTo(Version v) {
@@ -92,11 +83,15 @@ public class Version implements Comparable<Version> {
         return 0;
     }
 
+    @NonNull
     public static Version minimumSupported(@NonNull Context context) {
-        final int minimumServerAppMajor = context.getResources().getInteger(R.integer.minimum_server_app_major);
-        final int minimumServerAppMinor = context.getResources().getInteger(R.integer.minimum_server_app_minor);
-        final int minimumServerAppPatch = context.getResources().getInteger(R.integer.minimum_server_app_patch);
-        return new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch);
+        if (VERSION_MINIMUM_SUPPORTED == null) {
+            final int minimumServerAppMajor = context.getResources().getInteger(R.integer.minimum_server_app_major);
+            final int minimumServerAppMinor = context.getResources().getInteger(R.integer.minimum_server_app_minor);
+            final int minimumServerAppPatch = context.getResources().getInteger(R.integer.minimum_server_app_patch);
+            VERSION_MINIMUM_SUPPORTED = new Version(minimumServerAppMajor + "." + minimumServerAppMinor + "." + minimumServerAppPatch, minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch);
+        }
+        return VERSION_MINIMUM_SUPPORTED;
     }
 
     public boolean isSupported(@NonNull Context context) {

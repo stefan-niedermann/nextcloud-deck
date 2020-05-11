@@ -187,7 +187,10 @@
     <string name="tag_successfully_added">%1$s 已成功添加</string>
     <string name="edit_tag">编辑 %1$s</string>
     <string name="filter_tags_title">标签</string>
+    <string name="filter_user_title">用户</string>
     <string name="filter_duedate_title">截止日期</string>
+
+    <string name="archived_boards">已归档面板</string>
 
     <!-- Errors -->
     <string name="error">发生了一个错误</string>
@@ -215,4 +218,5 @@
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
     <string name="error_dialog_contact_us">如果问题持续存在，请不要犹豫来联系我们。您可以在侧边栏的 “关于” 部分找到我们的联系信息。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
+    <string name="info_box_maintenance_mode">服务器处于维护模式</string>
     </resources>

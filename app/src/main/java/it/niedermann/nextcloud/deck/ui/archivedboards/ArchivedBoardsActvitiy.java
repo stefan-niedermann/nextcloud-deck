@@ -53,10 +53,10 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
         setSupportActionBar(binding.toolbar);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        viewModel.setCurrentAccount(account);
+        viewModel.setCurrentAccount(account, account.getServerDeckVersionAsObject().isSupported(this));
         syncManager = new SyncManager(this);
 
-        adapter = new ArchivedBoardsAdapter(getSupportFragmentManager(), (board) -> syncManager.dearchiveBoard(board));
+        adapter = new ArchivedBoardsAdapter(viewModel.isCurrentAccountIsSupportedVersion(), getSupportFragmentManager(), (board) -> syncManager.dearchiveBoard(board));
         binding.recyclerView.setAdapter(adapter);
 
         syncManager.getBoards(account.getId(), true).observe(this, (boards) -> {

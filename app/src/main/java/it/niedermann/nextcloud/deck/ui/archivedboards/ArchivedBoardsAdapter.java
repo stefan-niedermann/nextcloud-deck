@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 
 public class ArchivedBoardsAdapter extends RecyclerView.Adapter<ArchivedBoardViewHolder> {
 
+    private final boolean isSupportedVersion;
     @NonNull
     private final Consumer<Board> onDearchiveListener;
     @NonNull
@@ -24,7 +25,8 @@ public class ArchivedBoardsAdapter extends RecyclerView.Adapter<ArchivedBoardVie
     private List<Board> boards = new ArrayList<>();
 
     @SuppressWarnings("WeakerAccess")
-    public ArchivedBoardsAdapter(@NonNull FragmentManager fragmentManager, @NonNull Consumer<Board> onDearchiveListener) {
+    public ArchivedBoardsAdapter(boolean isSupportedVersion, @NonNull FragmentManager fragmentManager, @NonNull Consumer<Board> onDearchiveListener) {
+        this.isSupportedVersion = isSupportedVersion;
         this.fragmentManager = fragmentManager;
         this.onDearchiveListener = onDearchiveListener;
         setHasStableIds(true);
@@ -43,7 +45,7 @@ public class ArchivedBoardsAdapter extends RecyclerView.Adapter<ArchivedBoardVie
 
     @Override
     public void onBindViewHolder(@NonNull ArchivedBoardViewHolder holder, int position) {
-        holder.bind(boards.get(position), fragmentManager, onDearchiveListener);
+        holder.bind(isSupportedVersion, boards.get(position), fragmentManager, onDearchiveListener);
     }
 
     @Override
