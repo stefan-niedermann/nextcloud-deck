@@ -52,11 +52,13 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
         adapter = new CardCommentsAdapter(requireContext(), mainViewModel.getAccount(), requireActivity().getMenuInflater(), this, this, getChildFragmentManager());
         binding.comments.setAdapter(adapter);
 
+        binding.replyCommentCancelButton.setOnClickListener((v) -> commentsViewModel.setReplyToComment(null));
         commentsViewModel.getReplyToComment().observe(getViewLifecycleOwner(), (comment) -> {
             if (comment == null) {
-
+                binding.replyComment.setVisibility(GONE);
             } else {
-
+                binding.replyCommentText.setText(comment.getMessage());
+                binding.replyComment.setVisibility(VISIBLE);
             }
         });
         syncManager.getCommentsForLocalCardId(mainViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),
