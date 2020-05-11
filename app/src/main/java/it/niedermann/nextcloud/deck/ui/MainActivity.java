@@ -398,7 +398,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     final Throwable error = createLiveData.getError();
                     assert error != null;
                     BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
-                            .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                            .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                             .show();
                 } else {
                     binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
