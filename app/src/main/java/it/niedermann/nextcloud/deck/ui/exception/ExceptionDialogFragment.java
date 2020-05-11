@@ -5,17 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.nextcloud.android.sso.exceptions.NextcloudApiNotRespondingException;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotSupportedException;
@@ -26,15 +22,13 @@ import org.json.JSONException;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.util.LinkedList;
-import java.util.List;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogExceptionBinding;
-import it.niedermann.nextcloud.deck.databinding.ItemTipBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
@@ -43,7 +37,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
     private static final String KEY_THROWABLE = "throwable";
     private static final String KEY_ACCOUNT = "account";
-    private static final String INTENT_EXTRA_BUTTON_TEXT = "button_text";
+    public static final String INTENT_EXTRA_BUTTON_TEXT = "button_text";
 
     private Throwable throwable;
 
@@ -69,7 +63,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         final View view = View.inflate(getContext(), R.layout.dialog_exception, null);
         final DialogExceptionBinding binding = DialogExceptionBinding.bind(view);
 
-        final TipsAdapter adapter = new TipsAdapter();
+        final TipsAdapter adapter = new TipsAdapter((actionIntent) -> requireActivity().startActivity(actionIntent));
 
         final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), throwable, account);
 
@@ -139,67 +133,4 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         return fragment;
     }
 
-    private class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
-
-        @NonNull
-        private List<TipsModel> tips = new LinkedList<>();
-
-        @NonNull
-        @Override
-        public TipsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tip, parent, false);
-            return new TipsViewHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull TipsViewHolder holder, int position) {
-            holder.bind(tips.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return tips.size();
-        }
-
-        private void add(@StringRes int text) {
-            add(text, null);
-        }
-
-        private void add(@StringRes int text, @Nullable Intent primaryAction) {
-            tips.add(new TipsModel(text, primaryAction));
-            notifyItemInserted(tips.size());
-        }
-    }
-
-    private class TipsViewHolder extends RecyclerView.ViewHolder {
-        private final ItemTipBinding binding;
-
-        private TipsViewHolder(@NonNull View itemView) {
-            super(itemView);
-            binding = ItemTipBinding.bind(itemView);
-        }
-
-        public void bind(TipsModel tip) {
-            binding.tip.setText(tip.text);
-            if (tip.actionIntent != null && tip.actionIntent.hasExtra(INTENT_EXTRA_BUTTON_TEXT)) {
-                binding.actionButton.setVisibility(View.VISIBLE);
-                binding.actionButton.setText(tip.actionIntent.getIntExtra(INTENT_EXTRA_BUTTON_TEXT, 0));
-                binding.actionButton.setOnClickListener((v) -> requireActivity().startActivity(tip.actionIntent));
-            } else {
-                binding.actionButton.setVisibility(View.GONE);
-            }
-        }
-    }
-
-    private static class TipsModel {
-        @StringRes
-        int text;
-        @Nullable
-        Intent actionIntent;
-
-        TipsModel(@StringRes int text, @Nullable Intent actionIntent) {
-            this.text = text;
-            this.actionIntent = actionIntent;
-        }
-    }
 }
