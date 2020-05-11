@@ -35,7 +35,7 @@
             android:id="@+id/replyComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bg_highlighted"
+            android:background="@drawable/gradient_vertical"
             android:padding="@dimen/spacer_2x"
             android:visibility="gone"
             tools:visibility="visible">
