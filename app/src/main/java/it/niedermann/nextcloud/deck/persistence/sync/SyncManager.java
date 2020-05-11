@@ -42,7 +42,6 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -155,7 +154,6 @@ public class SyncManager {
             refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Capabilities response) {
-                    responseCallback.onError(new NextcloudHttpRequestFailedException(500, new Exception()));
                     if (!response.isMaintenanceEnabled()) {
                         long accountId = responseCallback.getAccount().getId();
                         Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());
