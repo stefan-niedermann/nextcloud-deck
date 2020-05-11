@@ -52,14 +52,17 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
     @NonNull
     private final MenuInflater menuInflater;
     @NonNull
-    private final CommentDeletedListener commentDeletedListener;
+    private final CommentDeletedListener deletedListener;
+    @NonNull
+    private final CommentSelectAsReplyListener selectAsReplyListener;
     @NonNull
     private final FragmentManager fragmentManager;
 
-    CardCommentsAdapter(@NonNull Context context, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener commentDeletedListener, @NonNull FragmentManager fragmentManager) {
+    CardCommentsAdapter(@NonNull Context context, @NonNull Account account, @NonNull MenuInflater menuInflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager) {
         this.account = account;
         this.menuInflater = menuInflater;
-        this.commentDeletedListener = commentDeletedListener;
+        this.deletedListener = deletedListener;
+        this.selectAsReplyListener = selectAsReplyListener;
         this.fragmentManager = fragmentManager;
         this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, readBrandMainColor(context));
         setHasStableIds(true);
@@ -89,9 +92,13 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(context, comment.getMessage()));
+            menu.findItem(R.id.reply).setOnMenuItemClickListener(item -> {
+                selectAsReplyListener.onSelectAsReply(comment);
+                return true;
+            });
             if (account.getUserName().equals(comment.getActorId())) {
                 menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
-                    commentDeletedListener.onCommentDeleted(comment.getLocalId());
+                    deletedListener.onCommentDeleted(comment.getLocalId());
                     return true;
                 });
                 menu.findItem(android.R.id.edit).setOnMenuItemClickListener(item -> {

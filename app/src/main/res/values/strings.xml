@@ -250,4 +250,5 @@
     <string name="error_action_server_logs">Server logs</string>
     <string name="info_box_maintenance_mode">Server in maintenance mode</string>
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
+    <string name="simple_reply">Reply</string>
 </resources>
