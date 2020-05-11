@@ -188,8 +188,10 @@
     <string name="tag_successfully_added">%1$sを追加しました</string>
     <string name="edit_tag">%1$sを編集</string>
     <string name="filter_tags_title">タグ</string>
-    <string name="filter_assignees_title">割当先</string>
+    <string name="filter_user_title">ユーザー</string>
     <string name="filter_duedate_title">期限</string>
+
+    <string name="archived_boards">アーカイブ済みのボード</string>
 
     <!-- Errors -->
     <string name="error">エラーが見つかりました</string>
@@ -218,4 +220,5 @@
     <string name="error_dialog_contact_us">問題が継続する場合はお問い合わせください。我々の連絡先はサイドバーのaboutセクションにかかれています。</string>
     <string name="error_dialog_we_need_info">サポートには下記技術情報が必要です：</string>
     <string name="error_dialog_redirect">サーバがHTTPステータスコード 302を返しました。これはDeckアプリがインストールされていないか、構成が誤っていることを意味します。.htaccessファイルのカスタムオーバーライドやOIDクライアントのようなNextcloudアプリが原因の可能性があります。</string>
-</resources>
+    <string name="info_box_maintenance_mode">サーバーはメンテナンスモードです。</string>
+    </resources>

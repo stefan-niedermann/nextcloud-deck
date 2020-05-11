@@ -190,8 +190,10 @@
     <string name="tag_successfully_added">%1$s προστέθηκε επιτυχώς</string>
     <string name="edit_tag">Επεξεργασία του %1$s</string>
     <string name="filter_tags_title">Ετικέτες</string>
-    <string name="filter_assignees_title">Εκχωρούμενοι</string>
+    <string name="filter_user_title">Χρήστες</string>
     <string name="filter_duedate_title">Προθεσμία</string>
+
+    <string name="archived_boards">Αρχειοθέτηση πινάκων </string>
 
     <!-- Errors -->
     <string name="error">Παρουσιάστηκε σφάλμα</string>
@@ -220,4 +222,5 @@
     <string name="error_dialog_contact_us">Μην διστάσετε να επικοινωνήσετε μαζί μας εάν τα προβλήματα παραμένουν. Μπορείτε να βρείτε τα στοιχεία επικοινωνίας μας στην ενότητα σχετικά στην πλευρική στήλη.</string>
     <string name="error_dialog_we_need_info">Χρειαζόμαστε τις ακόλουθες τεχνικές πληροφορίες για να σας βοηθήσουμε:</string>
     <string name="error_dialog_redirect">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client.</string>
-</resources>
+    <string name="info_box_maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
+    </resources>

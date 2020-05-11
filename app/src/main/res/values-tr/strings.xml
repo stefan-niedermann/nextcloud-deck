@@ -190,8 +190,12 @@
     <string name="tag_successfully_added">%1$s eklendi</string>
     <string name="edit_tag">%1$s düzenle</string>
     <string name="filter_tags_title">Etiketler</string>
-    <string name="filter_assignees_title">Atananlar</string>
+    <string name="filter_user_title">Kullanıcılar</string>
     <string name="filter_duedate_title">Bitiş tarihi</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Pano arşivlemeyi geri al</string>
+    <string name="archived_boards">Arşivlenmiş panolar</string>
 
     <!-- Errors -->
     <string name="error">Bir sorun çıktı</string>
@@ -220,4 +224,6 @@
     <string name="error_dialog_contact_us">Sorun sürerse lütfen bize sormaktan çekinmeyin. İletişim bilgilerimizi yan çubuktaki hakkında bölümünde bulabilirsiniz.</string>
     <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
     <string name="error_dialog_redirect">Sunucunuz, üzerine Tahta uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
+    <string name="info_box_maintenance_mode">Sunucu bakım kipinde</string>
+    <string name="info_box_version_not_supported">%1$s sunucu sürümü desteklenmiyor. Lütfen %2$s sürümüne güncelleyin</string>
 </resources>

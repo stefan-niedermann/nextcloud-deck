@@ -182,7 +182,10 @@
     <string name="pick_custom_color">Одаберите произвољну боју</string>
     <string name="add_tag">Додајте ознаку</string>
     <string name="filter_tags_title">Ознаке</string>
+    <string name="filter_user_title">Корисници</string>
     <string name="filter_duedate_title">Рок</string>
+
+    <string name="archived_boards">Архивиране табле</string>
 
     <!-- Errors -->
     <string name="error">Дошло је до грешке</string>
@@ -193,4 +196,5 @@
     <string name="server_error">Грешка на серверу</string>
     <string name="shared_error">Дељење садржаја од апликација треће стране још није у потпуности подржано. Пробајте прво да преузмете садржај у целости и онда га поделите из менаџера фајлова или из галерије.</string>
 
+    <string name="info_box_maintenance_mode">Сервер у режиму одржавања</string>
     </resources>

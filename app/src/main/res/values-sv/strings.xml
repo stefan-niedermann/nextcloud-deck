@@ -172,7 +172,10 @@
     <string name="archived_cards">Arkiverade kort</string>
     <string name="add_tag">Lägg till tagg</string>
     <string name="filter_tags_title">Taggar</string>
+    <string name="filter_user_title">Användare</string>
     <string name="filter_duedate_title">Slutdatum</string>
+
+    <string name="archived_boards">Arkiverade tavlor</string>
 
     <!-- Errors -->
     <string name="error">Ett fel inträffade</string>
@@ -186,4 +189,5 @@
 
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
+    <string name="info_box_maintenance_mode">Server i underhållsläge</string>
     </resources>

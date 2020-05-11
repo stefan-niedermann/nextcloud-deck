@@ -178,7 +178,10 @@
     <string name="manage_tags">Upravljanje oznak</string>
     <string name="add_tag">Dodaj oznako</string>
     <string name="filter_tags_title">Oznake</string>
+    <string name="filter_user_title">Uporabniki</string>
     <string name="filter_duedate_title">Datum preteka</string>
+
+    <string name="archived_boards">Arhivirane zbirke</string>
 
     <!-- Errors -->
     <string name="error">Prišlo je do napake</string>
@@ -189,4 +192,5 @@
     <string name="server_error">Napaka strežnika</string>
     <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
 
+    <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja</string>
     </resources>

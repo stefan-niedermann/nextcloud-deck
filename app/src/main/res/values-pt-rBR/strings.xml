@@ -190,8 +190,12 @@
     <string name="tag_successfully_added">%1$s adicionado com sucesso</string>
     <string name="edit_tag">Editar %1$s</string>
     <string name="filter_tags_title">Marcações</string>
-    <string name="filter_assignees_title">Indicados</string>
+    <string name="filter_user_title">Usuários</string>
     <string name="filter_duedate_title">Data de vencimento</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Desfazer arquivamento do painel</string>
+    <string name="archived_boards">Painéis arquivados</string>
 
     <!-- Errors -->
     <string name="error">Ocorreu um erro</string>
@@ -220,4 +224,5 @@
     <string name="error_dialog_contact_us">Não hesite em nos contactar se os problemas persistirem. Você pode encontrar informações de contato na seção \"sobre\" na barra lateral.</string>
     <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudá-lo:</string>
     <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck no servidor ou que algo está configurado incorretamente. Isso pode ser causado por alterações no arquivo .htaccess ou por aplicativos Nextcloud como o Client OID.</string>
-</resources>
+    <string name="info_box_maintenance_mode">Servidor em modo de manutenção</string>
+    </resources>

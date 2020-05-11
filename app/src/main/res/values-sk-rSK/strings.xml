@@ -194,8 +194,12 @@
     <string name="tag_successfully_added">%1$s úspešne pridané</string>
     <string name="edit_tag">Upraviť %1$s</string>
     <string name="filter_tags_title">Štítky</string>
-    <string name="filter_assignees_title">Nadobúdatelia</string>
+    <string name="filter_user_title">Používatelia</string>
     <string name="filter_duedate_title">Termín dokončenia</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Zrušiť archiváciu nástenky</string>
+    <string name="archived_boards">Archivované nástenky</string>
 
     <!-- Errors -->
     <string name="error">Vyskytla sa chyba</string>
@@ -224,4 +228,6 @@
     <string name="error_dialog_contact_us">Ak problémy pretrvávajú, neváhajte nás kontaktovať. Kontaktné informácie nájdete v časti \"O nás\" v bočnom paneli.</string>
     <string name="error_dialog_we_need_info">Aby sme vám pomohli, potrebujeme následovné technické informácie:</string>
     <string name="error_dialog_redirect">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými zmenami v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client.</string>
+    <string name="info_box_maintenance_mode">Server je v móde údržby</string>
+    <string name="info_box_version_not_supported">Verzia servera %1$s nie je podporovaná, aktualizujte ju na %2$s</string>
 </resources>

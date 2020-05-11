@@ -190,8 +190,12 @@
     <string name="tag_successfully_added">%1$s aggiunta correttamente</string>
     <string name="edit_tag">Modifica %1$s</string>
     <string name="filter_tags_title">Etichette</string>
-    <string name="filter_assignees_title">Assegnatari</string>
+    <string name="filter_user_title">Utenti</string>
     <string name="filter_duedate_title">Data di scadenza</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Annulla archiviazione della lavagna</string>
+    <string name="archived_boards">Lavagne archiviate</string>
 
     <!-- Errors -->
     <string name="error">Si è verificato un errore</string>
@@ -220,4 +224,6 @@
     <string name="error_dialog_contact_us">Non esitare a contattarci se il problema persiste. Puoi trovare le nostre informazioni di contatto nella sezione Informazioni della barra laterale.</string>
     <string name="error_dialog_we_need_info">Ci servono le seguenti informazioni tecniche per aiutarti:</string>
     <string name="error_dialog_redirect">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causato da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client.</string>
+    <string name="info_box_maintenance_mode">Server in manutenzione</string>
+    <string name="info_box_version_not_supported">Versione del server %1$s non supportata, aggiorna a %2$s</string>
 </resources>
