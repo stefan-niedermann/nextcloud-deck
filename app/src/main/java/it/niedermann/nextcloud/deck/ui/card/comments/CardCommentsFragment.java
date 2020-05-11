@@ -59,6 +59,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
             } else {
                 binding.replyCommentText.setText(comment.getMessage());
                 binding.replyComment.setVisibility(VISIBLE);
+                CardCommentsAdapter.setupMentions(mainViewModel.getAccount(), comment.getMentions(), binding.replyCommentText);
             }
         });
         syncManager.getCommentsForLocalCardId(mainViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),

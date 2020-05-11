@@ -115,10 +115,10 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
         holder.binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
 
         TooltipCompat.setTooltipText(holder.binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getCreationDateTime()));
-        setupMentions(comment.getMentions(), holder.binding.message);
+        setupMentions(account, comment.getMentions(), holder.binding.message);
     }
 
-    private void setupMentions(List<Mention> mentions, TextView tv) {
+    public static void setupMentions(@NonNull Account account, @NonNull List<Mention> mentions, TextView tv) {
         Context context = tv.getContext();
         SpannableStringBuilder messageBuilder = new SpannableStringBuilder(tv.getText());
 
