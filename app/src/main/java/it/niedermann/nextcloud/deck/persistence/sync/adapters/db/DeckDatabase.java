@@ -73,7 +73,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 SingleCardWidgetModel.class,
         },
         exportSchema = false,
-        version = 11
+        version = 12
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -149,6 +149,14 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_11_12 = new Migration(11, 12) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `SingleCardWidgetModel` (`widgetId` INTEGER PRIMARY KEY, `accountId` LONG, `boardId` LONG, `cardId` LONG, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE INDEX `index_SingleCardWidgetModel_cardId` ON `SingleCardWidgetModel` (`cardId`)");
+        }
+    };
+
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
 
@@ -175,12 +183,14 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_8_9)
                 .addMigrations(MIGRATION_9_10)
                 .addMigrations(MIGRATION_10_11)
+                .addMigrations(MIGRATION_11_12)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
     }
 
     public abstract AccountDao getAccountDao();
+
     public abstract AccessControlDao getAccessControlDao();
 
     public abstract BoardDao getBoardDao();
