@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
-import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 
 public interface CommentSelectAsReplyListener {
-    void onSelectAsReply(DeckComment comment);
+    void onSelectAsReply(FullDeckComment comment);
 }

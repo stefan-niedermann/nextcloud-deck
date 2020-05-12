@@ -3,33 +3,21 @@ package it.niedermann.nextcloud.deck.ui.card.comments;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.TooltipCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.enums.DBStatus;
-import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
-import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.DimensionUtil;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
-import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHolder> {
 
@@ -70,41 +58,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ItemCommentViewHolder holder, int position) {
-        final Context context = holder.itemView.getContext();
-        final DeckComment comment = comments.get(position).getComment();
-
-        ViewUtil.addAvatar(holder.binding.avatar, account.getUrl(), comment.getActorId(), DimensionUtil.dpToPx(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
-        holder.binding.message.setText(comment.getMessage());
-        holder.binding.actorDisplayName.setText(comment.getActorDisplayName());
-        holder.binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(context, comment.getCreationDateTime().getTime()));
-        holder.itemView.setOnClickListener(View::showContextMenu);
-        holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
-            menuInflater.inflate(R.menu.comment_menu, menu);
-            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(context, comment.getMessage()));
-            menu.findItem(R.id.reply).setOnMenuItemClickListener(item -> {
-                selectAsReplyListener.onSelectAsReply(comment);
-                return true;
-            });
-            if (account.getUserName().equals(comment.getActorId())) {
-                menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
-                    deletedListener.onCommentDeleted(comment.getLocalId());
-                    return true;
-                });
-                menu.findItem(android.R.id.edit).setOnMenuItemClickListener(item -> {
-                    CardCommentsEditDialogFragment.newInstance(comment.getLocalId(), comment.getMessage()).show(fragmentManager, CardCommentsAdapter.class.getCanonicalName());
-                    return true;
-                });
-            } else {
-                menu.findItem(R.id.delete).setVisible(false);
-                menu.findItem(android.R.id.edit).setVisible(false);
-            }
-        });
-
-        DrawableCompat.setTint(holder.binding.notSyncedYet.getDrawable(), mainColor);
-        holder.binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(comment.getStatusEnum()) ? View.VISIBLE : View.GONE);
-
-        TooltipCompat.setTooltipText(holder.binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getCreationDateTime()));
-        setupMentions(account, comment.getMentions(), holder.binding.message);
+        holder.bind(comments.get(position), account, mainColor, menuInflater, deletedListener, selectAsReplyListener, fragmentManager);
     }
 
     @SuppressWarnings("WeakerAccess")

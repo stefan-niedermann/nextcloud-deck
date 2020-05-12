@@ -18,6 +18,7 @@ import java.util.Date;
 
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
@@ -58,9 +59,9 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
             if (comment == null) {
                 binding.replyComment.setVisibility(GONE);
             } else {
-                binding.replyCommentText.setText(comment.getMessage());
+                binding.replyCommentText.setText(comment.getComment().getMessage());
                 binding.replyComment.setVisibility(VISIBLE);
-                setupMentions(mainViewModel.getAccount(), comment.getMentions(), binding.replyCommentText);
+                setupMentions(mainViewModel.getAccount(), comment.getComment().getMentions(), binding.replyCommentText);
             }
         });
         syncManager.getFullCommentsForLocalCardId(mainViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),
@@ -126,7 +127,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
     }
 
     @Override
-    public void onSelectAsReply(DeckComment comment) {
+    public void onSelectAsReply(FullDeckComment comment) {
         commentsViewModel.setReplyToComment(comment);
     }
 }
