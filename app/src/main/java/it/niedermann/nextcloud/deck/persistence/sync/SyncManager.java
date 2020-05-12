@@ -1292,21 +1292,21 @@ public class SyncManager {
      * Creates a new entry in the database, if row with given widgetId does not yet exist.
      */
     public void addOrUpdateSingleCardWidget(int widgetId, long accountId, long boardId, long localCardId) {
-        // TODO implement async
+        doAsync(() -> dataBaseAdapter.createSingleCardWidget(widgetId, accountId, boardId, localCardId));
     }
 
     @WorkerThread
     public FullSingleCardWidgetModel getSingleCardWidgetModelDirectly(int widgetId) throws NoSuchElementException {
-        // TODO if widgetId not found throw NoSuchElementException
-        throw new NoSuchElementException();
-        // TODO else grab data and put it into model, return model
-        // SingleCardWidgetModel model = new SingleCardWidgetModel();
-        // return model;
+        final FullSingleCardWidgetModel model = dataBaseAdapter.getFullSingleCardWidgetModel(widgetId);
+        if (model == null) {
+            throw new NoSuchElementException();
+        }
+        return model;
     }
 
     @WorkerThread
     public void deleteSingleCardWidgetModel(int widgetId) {
-        // TODO implement synchronous
+        dataBaseAdapter.deleteSingleCardWidget(widgetId);
     }
 
     private static class BooleanResultHolder {

@@ -31,6 +31,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
+import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.ActivityDao;
@@ -46,6 +47,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWit
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.LabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
 
@@ -68,6 +70,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 Activity.class,
                 DeckComment.class,
                 Mention.class,
+                SingleCardWidgetModel.class,
         },
         exportSchema = false,
         version = 11
@@ -209,4 +212,6 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract CommentDao getCommentDao();
 
     public abstract MentionDao getMentionDao();
+
+    public abstract SingleCardWidgetModelDao getSingleCardWidgetModelDao();
 }

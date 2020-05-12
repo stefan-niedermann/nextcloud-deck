@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.model.full;
 
 import androidx.room.Embedded;
+import androidx.room.Ignore;
 import androidx.room.Relation;
 
 import it.niedermann.nextcloud.deck.model.Account;
@@ -11,10 +12,10 @@ public class FullSingleCardWidgetModel {
     @Embedded
     private SingleCardWidgetModel model;
 
-    @Relation(parentColumn = "localId", entityColumn = "accountId")
+    @Relation(parentColumn = "accountId", entityColumn = "id")
     private Account account;
 
-    @Relation(parentColumn = "localId", entityColumn = "cardId")
+    @Ignore
     private FullCard fullCard;
 
     public SingleCardWidgetModel getModel() {
