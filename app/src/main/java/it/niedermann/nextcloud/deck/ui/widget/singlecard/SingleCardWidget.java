@@ -47,8 +47,11 @@ public class SingleCardWidget extends AppWidgetProvider {
                         // https://stackoverflow.com/a/3376537
                         // Because otherwise using Reflection is the only way
                         views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
+                        views.setViewVisibility(R.id.card_due_date_image, View.VISIBLE);
+                        setImageDrawable(views, R.id.card_due_date_image, R.drawable.calendar_blank_grey600_24dp);
                     } else {
                         views.setViewVisibility(R.id.card_due_date, View.GONE);
+                        views.setViewVisibility(R.id.card_due_date_image, View.GONE);
                     }
 
 
