@@ -30,6 +30,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
+import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class EditActivity extends BrandedActivity {
@@ -89,6 +90,7 @@ public class EditActivity extends BrandedActivity {
         super.onNewIntent(intent);
         setIntent(intent);
         loadDataFromIntent();
+        applyBrand(parseColor(viewModel.getAccount().getColor()), parseColor(viewModel.getAccount().getTextColor()));
     }
 
     private void loadDataFromIntent() {
@@ -111,13 +113,15 @@ public class EditActivity extends BrandedActivity {
         if (account == null) {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
+        viewModel.setAccount(account);
+
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
         observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
-                viewModel.initializeNewCard(account, boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported(this));
+                viewModel.initializeNewCard(boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported(this));
                 invalidateOptionsMenu();
                 String title = args.getString(BUNDLE_KEY_TITLE);
                 if (!TextUtils.isEmpty(title)) {
@@ -131,7 +135,7 @@ public class EditActivity extends BrandedActivity {
                 setupTitle();
             } else {
                 observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
-                    viewModel.initializeExistingCard(account, boardId, fullCard, account.getServerDeckVersionAsObject().isSupported(this));
+                    viewModel.initializeExistingCard(boardId, fullCard, account.getServerDeckVersionAsObject().isSupported(this));
                     invalidateOptionsMenu();
                     setupViewPager();
                     setupTitle();
