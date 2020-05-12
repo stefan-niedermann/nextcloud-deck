@@ -135,10 +135,18 @@ public class EditActivity extends BrandedActivity {
                 setupTitle();
             } else {
                 observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
-                    viewModel.initializeExistingCard(boardId, fullCard, account.getServerDeckVersionAsObject().isSupported(this));
-                    invalidateOptionsMenu();
-                    setupViewPager();
-                    setupTitle();
+                    if (fullCard == null) {
+                        new BrandedAlertDialogBuilder(this)
+                                .setTitle(R.string.card_not_found)
+                                .setMessage(R.string.card_not_found_message)
+                                .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
+                                .show();
+                    } else {
+                        viewModel.initializeExistingCard(boardId, fullCard, account.getServerDeckVersionAsObject().isSupported(this));
+                        invalidateOptionsMenu();
+                        setupViewPager();
+                        setupTitle();
+                    }
                 });
             }
         }));

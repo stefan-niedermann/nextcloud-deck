@@ -86,6 +86,8 @@
     <string name="hint_due_date_date">Due date</string>
     <string name="hint_due_date_time" translatable="false">00:00</string>
 
+    <string name="card_not_found">Card not found</string>
+    <string name="card_not_found_message">The card could not be found. Maybe it has been deleted recently.</string>
 
     <string name="add_account">Add account</string>
     <string name="choose_account">Choose account</string>
