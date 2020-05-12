@@ -71,7 +71,6 @@
         <activity
             android:name=".ui.card.EditActivity"
             android:label="@string/edit"
-            android:launchMode="singleInstance"
             android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
             android:theme="@style/AppTheme" />
 
