@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -1285,20 +1287,26 @@ public class SyncManager {
     // Widgets
     // -------------------
 
-    public void addSingleCardWidget(long id, long accountId, long boardId, long localCardId) {
-        // TODO implement
+    /**
+     * Can be called from a configuration screen or a picker.
+     * Creates a new entry in the database, if row with given widgetId does not yet exist.
+     */
+    public void addOrUpdateSingleCardWidget(int widgetId, long accountId, long boardId, long localCardId) {
+        // TODO implement async
     }
 
-    public WrappedLiveData<SingleCardWidgetModel> getSingleCardWidgetModel(long id) {
-        // TODO implement
-        WrappedLiveData<SingleCardWidgetModel> modelLiveData = new WrappedLiveData<>();
-        SingleCardWidgetModel model = new SingleCardWidgetModel();
-        modelLiveData.postValue(model);
-        return modelLiveData;
+    @WorkerThread
+    public SingleCardWidgetModel getSingleCardWidgetModelDirectly(int widgetId) throws NoSuchElementException {
+        // TODO if widgetId not found throw NoSuchElementException
+        throw new NoSuchElementException();
+        // TODO else grab data and put it into model, return model
+        // SingleCardWidgetModel model = new SingleCardWidgetModel();
+        // return model;
     }
 
-    public void deleteSingleCardWidgetModel(long id) {
-        // TODO implement
+    @WorkerThread
+    public void deleteSingleCardWidgetModel(int widgetId) {
+        // TODO implement synchronous
     }
 
     private static class BooleanResultHolder {

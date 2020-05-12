@@ -6,12 +6,18 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.widget.RemoteViews;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.NoSuchElementException;
+
+import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
-import it.niedermann.owncloud.notes.R;
 
 public class SingleCardWidget extends AppWidgetProvider {
 
@@ -19,26 +25,23 @@ public class SingleCardWidget extends AppWidgetProvider {
         final SyncManager syncManager = new SyncManager(context);
 
         for (int appWidgetId : appWidgetIds) {
-            syncManager.getSingleCardWidgetModel(appWidgetId).observe(this, (model) -> {
+            try {
+                final SingleCardWidgetModel model = syncManager.getSingleCardWidgetModelDirectly(appWidgetId);
 
-                Intent templateIntent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getBoardLocalId(), model.getCardLocalId());
+                Intent intent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getBoardLocalId(), model.getFullCard().getLocalId());
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                PendingIntent templatePendingIntent = PendingIntent.getActivity(context, appWidgetId, templateIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
+                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_single_card);
+                views.setOnClickPendingIntent(R.id.title, pendingIntent);
 
-                Intent serviceIntent = new Intent(context, SingleCardWidgetService.class);
-                serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-                serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
-
-                RemoteViews views;
-
-                views = new RemoteViews(context.getPackageName(), R.layout.widget_single_note);
-                views.setPendingIntentTemplate(R.id.single_note_widget_lv, templatePendingIntent);
-                views.setRemoteAdapter(R.id.single_note_widget_lv, serviceIntent);
-                views.setEmptyView(R.id.single_note_widget_lv, R.id.widget_single_note_placeholder_tv);
-                awm.notifyAppWidgetViewDataChanged(appWidgetId, R.id.single_note_widget_lv);
+                DateFormat format = SimpleDateFormat.getTimeInstance(
+                        SimpleDateFormat.MEDIUM, Locale.getDefault());
+                CharSequence text = format.format(new Date());
+                views.setTextViewText(R.id.title, "My Widget Homie " + text);
                 awm.updateAppWidget(appWidgetId, views);
-            });
+            } catch (NoSuchElementException e) {
+                // onUpdate has been triggered before the user finished configuring the widget
+            }
         }
     }
 
@@ -66,5 +69,15 @@ public class SingleCardWidget extends AppWidgetProvider {
         }
 
         super.onDeleted(context, appWidgetIds);
+    }
+
+
+    /**
+     * Updates UI data of all {@link SingleCardWidget} instances
+     */
+    public static void notifyDatasetChanged(Context context) {
+        Intent intent = new Intent(context, SingleCardWidget.class);
+        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+        context.sendBroadcast(intent);
     }
 }

@@ -33,11 +33,12 @@ public class SingleCardWidgetModel {
         this.boardLocalId = boardLocalId;
     }
 
-    public FullCard getCardLocalId() {
+    public FullCard getFullCard() {
         return fullCard;
     }
 
     public void setCardLocalId(FullCard cardLocalId) {
         this.fullCard = cardLocalId;
     }
+
 }
