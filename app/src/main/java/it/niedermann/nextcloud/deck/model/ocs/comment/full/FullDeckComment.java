@@ -3,9 +3,6 @@ package it.niedermann.nextcloud.deck.model.ocs.comment.full;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
@@ -14,15 +11,15 @@ public class FullDeckComment implements IRemoteEntity {
     @Embedded
     private DeckComment comment;
 
-    @Relation(entity = DeckComment.class, parentColumn = "localId", entityColumn = "parentId")
-    public List<FullDeckComment> children = new ArrayList<>();
+    @Relation(entity = DeckComment.class, parentColumn = "parentId", entityColumn = "localId")
+    public DeckComment parent;
 
-    public List<FullDeckComment> getChildren() {
-        return children;
+    public DeckComment getParent() {
+        return parent;
     }
 
-    public void setChildren(List<FullDeckComment> children) {
-        this.children = children;
+    public void setParent(DeckComment parent) {
+        this.parent = parent;
     }
 
     public DeckComment getComment() {

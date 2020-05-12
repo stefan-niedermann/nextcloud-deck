@@ -740,16 +740,12 @@ public class DataBaseAdapter {
     public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
         return LiveDataHelper.interceptLiveData(db.getCommentDao().getFullCommentByLocalCardId(localCardId), (list) -> {
             for (FullDeckComment deckComment : list) {
-                loadMentionsForCommentRecursively(deckComment);
+                deckComment.getComment().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
+                if (deckComment.getParent() != null) {
+                    deckComment.getParent().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getComment().getParentId()));
+                }
             }
         });
-    }
-
-    private void loadMentionsForCommentRecursively(FullDeckComment deckComment) {
-        deckComment.getComment().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
-        for (FullDeckComment comment : deckComment.getChildren()) {
-            loadMentionsForCommentRecursively(comment);
-        }
     }
 
     public DeckComment getCommentByRemoteIdDirectly(long accountId, Long remoteCommentId) {

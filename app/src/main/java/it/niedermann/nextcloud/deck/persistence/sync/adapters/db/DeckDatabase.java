@@ -70,7 +70,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 Mention.class,
         },
         exportSchema = false,
-        version = 11
+        version = 12
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -150,6 +150,7 @@ public abstract class DeckDatabase extends RoomDatabase {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `DeckComment` ADD `parentId` INTEGER REFERENCES DeckComment(localId)");
+            database.execSQL("CREATE INDEX `idx_comment_parentID` ON DeckComment(parentId)");
         }
     };
 
@@ -178,6 +179,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_8_9)
                 .addMigrations(MIGRATION_9_10)
                 .addMigrations(MIGRATION_10_11)
+                .addMigrations(MIGRATION_11_12)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

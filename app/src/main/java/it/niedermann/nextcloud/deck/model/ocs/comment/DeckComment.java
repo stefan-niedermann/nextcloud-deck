@@ -14,7 +14,8 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 @Entity(inheritSuperIndices = true,
         indices = {
                 @Index(value = "accountId", name = "comment_accID"),
-                @Index("objectId")
+                @Index("objectId"),
+                @Index(value = "parentId", name = "idx_comment_parentID")
         },
         foreignKeys = {
                 @ForeignKey(
