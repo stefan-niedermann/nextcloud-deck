@@ -364,8 +364,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     protected void onStop() {
         // Clean up zombie fragments in case of system initiated process death.
         // See linked issues in https://github.com/stefan-niedermann/nextcloud-deck/issues/478
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        try {
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+        } catch (IllegalStateException e) {
+            DeckLog.warn("onSAveInstanceState has already been called.");
         }
         super.onStop();
     }
