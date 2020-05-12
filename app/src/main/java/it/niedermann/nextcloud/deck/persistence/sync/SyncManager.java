@@ -1304,9 +1304,8 @@ public class SyncManager {
         return model;
     }
 
-    @WorkerThread
     public void deleteSingleCardWidgetModel(int widgetId) {
-        dataBaseAdapter.deleteSingleCardWidget(widgetId);
+        doAsync(() -> dataBaseAdapter.deleteSingleCardWidget(widgetId));
     }
 
     private static class BooleanResultHolder {
