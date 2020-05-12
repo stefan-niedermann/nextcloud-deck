@@ -736,6 +736,7 @@ public class DataBaseAdapter {
             }
         });
     }
+
     public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
         return LiveDataHelper.interceptLiveData(db.getCommentDao().getFullCommentByLocalCardId(localCardId), (list) -> {
             for (FullDeckComment deckComment : list) {

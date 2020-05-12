@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
@@ -34,7 +35,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
 
     private int mainColor;
     @NonNull
-    private final List<DeckComment> comments = new ArrayList<>();
+    private final List<FullDeckComment> comments = new ArrayList<>();
     @NonNull
     private final Account account;
     @NonNull
@@ -70,7 +71,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
     @Override
     public void onBindViewHolder(@NonNull ItemCommentViewHolder holder, int position) {
         final Context context = holder.itemView.getContext();
-        final DeckComment comment = comments.get(position);
+        final DeckComment comment = comments.get(position).getComment();
 
         ViewUtil.addAvatar(holder.binding.avatar, account.getUrl(), comment.getActorId(), DimensionUtil.dpToPx(context, R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         holder.binding.message.setText(comment.getMessage());
@@ -107,7 +108,7 @@ public class CardCommentsAdapter extends RecyclerView.Adapter<ItemCommentViewHol
     }
 
     @SuppressWarnings("WeakerAccess")
-    public void updateComments(@NonNull List<DeckComment> comments) {
+    public void updateComments(@NonNull List<FullDeckComment> comments) {
         this.comments.clear();
         this.comments.addAll(comments);
         notifyDataSetChanged();

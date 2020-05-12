@@ -439,10 +439,6 @@ public class SyncManager {
         return liveData;
     }
 
-    @Deprecated
-    public LiveData<List<DeckComment>> getCommentsForLocalCardId(long localCardId) {
-        return dataBaseAdapter.getCommentsForLocalCardId(localCardId);
-    }
     public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
         return dataBaseAdapter.getFullCommentsForLocalCardId(localCardId);
     }
