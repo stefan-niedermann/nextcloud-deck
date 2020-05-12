@@ -30,6 +30,7 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.model.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
@@ -1280,6 +1281,25 @@ public class SyncManager {
         return liveData;
     }
 
+    // -------------------
+    // Widgets
+    // -------------------
+
+    public void addSingleCardWidget(long id, long accountId, long boardId, long localCardId) {
+        // TODO implement
+    }
+
+    public WrappedLiveData<SingleCardWidgetModel> getSingleCardWidgetModel(long id) {
+        // TODO implement
+        WrappedLiveData<SingleCardWidgetModel> modelLiveData = new WrappedLiveData<>();
+        SingleCardWidgetModel model = new SingleCardWidgetModel();
+        modelLiveData.postValue(model);
+        return modelLiveData;
+    }
+
+    public void deleteSingleCardWidgetModel(long id) {
+        // TODO implement
+    }
 
     private static class BooleanResultHolder {
         public boolean result = true;
