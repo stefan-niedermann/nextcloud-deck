@@ -37,4 +37,5 @@
     </string-array>
 
     <color name="widget_background">#f5f5f5</color>
+    <color name="widget_foreground">#212121</color>
 </resources>
