@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
-import android.text.TextUtils;
 import android.view.MenuInflater;
 import android.view.View;
 
@@ -77,12 +76,12 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
             binding.parentBorder.setBackgroundColor(mainColor);
             binding.parent.setText(comment.getParent().getMessage());
             binding.parent.setOnClickListener((v) -> {
-                final boolean previouslyExpanded = binding.parent.getMaxLines() == Integer.MAX_VALUE;
-                binding.parent.setEllipsize(previouslyExpanded ? TextUtils.TruncateAt.END : null);
-//                ObjectAnimator.ofInt(binding.parent, "maxLines", previouslyExpanded ? commentParentMaxLines : Integer.MAX_VALUE)
-//                        .setDuration(300)
+                final boolean previouslyCollapsed = binding.parent.getMaxLines() == commentParentMaxLines;
+                // TODO animation crashs
+//                binding.parent.setEllipsize(previouslyExpanded ? TextUtils.TruncateAt.END : null);
+//                ObjectAnimator.ofInt(binding.parent, "maxLines", previouslyCollapsed ? 1000 : commentParentMaxLines)
 //                        .start();
-                binding.parent.setMaxLines(previouslyExpanded ? commentParentMaxLines : Integer.MAX_VALUE);
+                binding.parent.setMaxLines(previouslyCollapsed ? Integer.MAX_VALUE : commentParentMaxLines);
             });
         }
     }
