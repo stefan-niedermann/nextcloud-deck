@@ -47,6 +47,13 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, OcsComment ocsComment) {
         DeckComment comment = ocsComment.getSingle();
+        if (comment.getParentId() != null) {
+            Long localId = dataBaseAdapter.getLocalCommentIdForRemoteIdDirectly(accountId, comment.getParentId());
+            //maybe not synced yet, skip
+            if (localId != null) {
+                comment.setParentId(localId);
+            }
+        }
         comment.setObjectId(card.getLocalId());
         comment.setLocalId(dataBaseAdapter.createComment(accountId, comment));
         persistMentions(dataBaseAdapter, comment);
@@ -67,6 +74,9 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         DeckComment comment = ocsComment.getSingle();
         comment.setAccountId(accountId);
         comment.setObjectId(card.getLocalId());
+        if (comment.getParentId() != null) {
+            comment.setParentId(dataBaseAdapter.getLocalCommentIdForRemoteIdDirectly(accountId, comment.getParentId()));
+        }
         dataBaseAdapter.updateComment(comment, setStatus);
         persistMentions(dataBaseAdapter, comment);
     }
@@ -81,6 +91,9 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<OcsComment> responder, OcsComment entity) {
         DeckComment comment = entity.getSingle();
         comment.setObjectId(card.getId());
+        if (comment.getParentId() != null){
+            comment.setParentId(dataBaseAdapter.getRemoteCommentIdForLocalIdDirectly(comment.getParentId()));
+        }
         serverAdapter.createCommentForCard(comment, responder);
     }
 
@@ -88,6 +101,9 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<OcsComment> callback, OcsComment entity) {
         DeckComment comment = entity.getSingle();
         comment.setObjectId(card.getId());
+        if (comment.getParentId() != null){
+            comment.setParentId(dataBaseAdapter.getRemoteCommentIdForLocalIdDirectly(comment.getParentId()));
+        }
         serverAdapter.updateCommentForCard(comment, callback);
     }
 

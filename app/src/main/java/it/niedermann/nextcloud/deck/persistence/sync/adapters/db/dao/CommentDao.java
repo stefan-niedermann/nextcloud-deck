@@ -37,4 +37,10 @@ public interface CommentDao extends GenericDao<DeckComment> {
     @Transaction
     @Query("SELECT * FROM DeckComment where objectId = :localCardId order by creationDateTime desc")
     LiveData<List<FullDeckComment>> getFullCommentByLocalCardId(Long localCardId);
+
+    @Query("SELECT id FROM DeckComment where localId = :localId")
+    Long getRemoteCommentIdForLocalIdDirectly(Long localId);
+
+    @Query("SELECT localId FROM DeckComment where id = :remoteId and accountId = :accountId")
+    Long getLocalCommentIdForRemoteIdDirectly(long accountId, Long remoteId);
 }

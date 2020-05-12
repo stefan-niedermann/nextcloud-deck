@@ -85,6 +85,11 @@ public class JsonToEntityParser {
         deckComment.setActorType(commentJson.get("actorType").getAsString());
         deckComment.setCreationDateTime(getTimestampFromString(commentJson.get("creationDateTime")));
 
+        if (commentJson.has("replyTo")){
+            JsonObject replyTo = commentJson.get("replyTo").getAsJsonObject();
+            deckComment.setParentId(replyTo.get("id").getAsLong());
+        }
+
         JsonElement mentions = commentJson.get("mentions");
         if (mentions != null && mentions.isJsonArray()) {
             for (JsonElement mention : mentions.getAsJsonArray()) {

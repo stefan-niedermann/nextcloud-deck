@@ -822,4 +822,11 @@ public class DataBaseAdapter {
     public LiveData<Boolean> hasArchivedBoards(long accountId) {
         return LiveDataHelper.postCustomValue(distinctUntilChanged(db.getBoardDao().countArchivedBoards(accountId)), data -> data != null && data > 0);
     }
+
+    public Long getRemoteCommentIdForLocalIdDirectly(Long localCommentId) {
+        return db.getCommentDao().getRemoteCommentIdForLocalIdDirectly(localCommentId);
+    }
+    public Long getLocalCommentIdForRemoteIdDirectly(long accountId, Long remoteCommentId) {
+        return db.getCommentDao().getLocalCommentIdForRemoteIdDirectly(accountId, remoteCommentId);
+    }
 }
