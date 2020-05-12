@@ -85,6 +85,11 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                     final DeckComment comment = new DeckComment(binding.message.getText().toString().trim());
                     comment.setActorDisplayName(mainViewModel.getAccount().getUserName());
                     comment.setCreationDateTime(new Date());
+                    final FullDeckComment parent = commentsViewModel.getReplyToComment().getValue();
+                    if (parent != null) {
+                        comment.setParentId(parent.getLocalId());
+                        commentsViewModel.setReplyToComment(null);
+                    }
                     syncManager.addCommentToCard(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), comment);
                 }
                 binding.message.setText(null);
