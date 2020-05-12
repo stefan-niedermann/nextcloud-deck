@@ -833,15 +833,6 @@ public class DataBaseAdapter {
         return db.getSingleCardWidgetModelDao().insert(model);
     }
 
-    public void updateSingleCardWidget(int widgetId, long accountId, long boardLocalId, long cardLocalId) {
-        SingleCardWidgetModel model = new SingleCardWidgetModel();
-        model.setWidgetId(widgetId);
-        model.setAccountId(accountId);
-        model.setBoardId(boardLocalId);
-        model.setCardId(cardLocalId);
-        db.getSingleCardWidgetModelDao().update(model);
-    }
-
     public FullSingleCardWidgetModel getFullSingleCardWidgetModel(int widgetId) {
         FullSingleCardWidgetModel model = db.getSingleCardWidgetModelDao().getFullCardByRemoteIdDirectly(widgetId);
         if (model != null) {
