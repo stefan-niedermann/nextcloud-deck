@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -287,7 +286,7 @@ public class SyncManager {
         doAsync(() -> {
             try {
                 Account accountForEtag = dataBaseAdapter.getAccountByIdDirectly(callback.getAccount().getId());
-                serverAdapter.getCapabilities(accountForEtag.geteTag(), new IResponseCallback<ParsedResponse<Capabilities>>(callback.getAccount()) {
+                serverAdapter.getCapabilities(accountForEtag.getEtag(), new IResponseCallback<ParsedResponse<Capabilities>>(callback.getAccount()) {
                     @Override
                     public void onResponse(ParsedResponse<Capabilities> response) {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
