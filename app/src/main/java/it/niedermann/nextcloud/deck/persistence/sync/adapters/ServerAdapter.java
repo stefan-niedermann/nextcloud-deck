@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
+import com.nextcloud.android.sso.api.ParsedResponse;
+
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -145,9 +147,9 @@ public class ServerAdapter {
                 responseCallback);
     }
 
-    public void getCapabilities(IResponseCallback<Capabilities> responseCallback) {
+    public void getCapabilities(String eTag, IResponseCallback<ParsedResponse<Capabilities>> responseCallback) {
         ensureInternetConnection();
-        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getCapabilities(eTag), responseCallback);
     }
 
     public void getActivitiesForCard(long cardId, IResponseCallback<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> responseCallback) {

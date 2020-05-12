@@ -146,6 +146,12 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_11_12 = new Migration(11, 12) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `Account` ADD `eTag` TEXT");
+        }
+    };
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
 
@@ -172,6 +178,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_8_9)
                 .addMigrations(MIGRATION_9_10)
                 .addMigrations(MIGRATION_10_11)
+                .addMigrations(MIGRATION_11_12)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

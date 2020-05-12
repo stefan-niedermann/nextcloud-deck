@@ -47,6 +47,8 @@ public class Account implements Serializable {
     @ColumnInfo(defaultValue = "0")
     private boolean maintenanceEnabled = false;
 
+    private String eTag;
+
     @Ignore
     public Account(Long id, @NonNull String name, @NonNull String userName, @NonNull String url) {
         this(name, userName, url);
@@ -68,7 +70,7 @@ public class Account implements Serializable {
     public Account() {
     }
 
-    public void applyCapabilities(Capabilities capabilities) {
+    public void applyCapabilities(Capabilities capabilities, String eTag) {
         maintenanceEnabled = capabilities.isMaintenanceEnabled();
         if (!isMaintenanceEnabled()) {
             try {
@@ -83,6 +85,9 @@ public class Account implements Serializable {
             }
             if (capabilities.getDeckVersion() != null) {
                 serverDeckVersion = capabilities.getDeckVersion().getOriginalVersion();
+            }
+            if (eTag != null) {
+                this.eTag = eTag;
             }
         }
     }
@@ -165,6 +170,14 @@ public class Account implements Serializable {
         this.maintenanceEnabled = maintenanceEnabled;
     }
 
+    public String geteTag() {
+        return eTag;
+    }
+
+    public void seteTag(String eTag) {
+        this.eTag = eTag;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -179,7 +192,8 @@ public class Account implements Serializable {
         if (!url.equals(account.url)) return false;
         if (!color.equals(account.color)) return false;
         if (!textColor.equals(account.textColor)) return false;
-        return serverDeckVersion.equals(account.serverDeckVersion);
+        if (!serverDeckVersion.equals(account.serverDeckVersion)) return false;
+        return eTag != null ? eTag.equals(account.eTag) : account.eTag == null;
     }
 
     @Override
@@ -192,6 +206,7 @@ public class Account implements Serializable {
         result = 31 * result + textColor.hashCode();
         result = 31 * result + serverDeckVersion.hashCode();
         result = 31 * result + (maintenanceEnabled ? 1 : 0);
+        result = 31 * result + (eTag != null ? eTag.hashCode() : 0);
         return result;
     }
 
@@ -206,6 +221,7 @@ public class Account implements Serializable {
                 ", textColor='" + textColor + '\'' +
                 ", serverDeckVersion='" + serverDeckVersion + '\'' +
                 ", maintenanceEnabled=" + maintenanceEnabled +
+                ", eTag='" + eTag + '\'' +
                 '}';
     }
 }
