@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -64,6 +65,9 @@ public class SingleCardWidget extends AppWidgetProvider {
                 } else {
                     views.setViewVisibility(R.id.card_count_tasks, View.GONE);
                 }
+                TypedValue a = new TypedValue();
+                context.getTheme().resolveAttribute(android.R.attr.background, a, true);
+                views.setInt(R.id.widget_card, "setBackgroundColor", a.data);
 
                 awm.updateAppWidget(appWidgetId, views);
             } catch (NoSuchElementException e) {
