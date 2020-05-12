@@ -26,11 +26,9 @@
             android:id="@+id/card_due_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/due_tomorrow_background"
             android:drawablePadding="@dimen/spacer_1hx"
             android:gravity="center"
             android:padding="@dimen/spacer_1hx"
-            android:textColor="@color/fg_secondary"
             app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
             tools:text="tomorrow" />
     </LinearLayout>

@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -17,9 +16,10 @@ import java.util.NoSuchElementException;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.SingleCardWidgetModel;
+import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.util.DateUtil;
 
 public class SingleCardWidget extends AppWidgetProvider {
 
@@ -28,20 +28,30 @@ public class SingleCardWidget extends AppWidgetProvider {
 
         for (int appWidgetId : appWidgetIds) {
             try {
-                final SingleCardWidgetModel model = syncManager.getSingleCardWidgetModelDirectly(appWidgetId);
+                final FullSingleCardWidgetModel fullModel = syncManager.getSingleCardWidgetModelDirectly(appWidgetId);
 
-                Intent intent = EditActivity.createEditCardIntent(context, model.getAccount(), model.getBoardLocalId(), model.getFullCard().getLocalId());
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                final Intent intent = EditActivity.createEditCardIntent(context, fullModel.getAccount(), fullModel.getModel().getBoardId(), fullModel.getFullCard().getLocalId());
+                final PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_single_card);
 
-                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_single_card);
                 views.setOnClickPendingIntent(R.id.title, pendingIntent);
 
-                views.setTextViewText(R.id.title, model.getFullCard().getCard().getTitle());
-                views.setTextViewText(R.id.card_count_tasks, model.getFullCard().getCard().getTitle());
+                views.setTextViewText(R.id.title, fullModel.getFullCard().getCard().getTitle());
+
+                if (fullModel.getFullCard().getCard().getDueDate() != null) {
+                    views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDueDate().getTime()));
+                    // TODO Use multiple views for background colors and only set the necessary to View.VISIBLE
+                    // https://stackoverflow.com/a/3376537
+                    // Because otherwise using Reflection is the only way
+                    views.setViewVisibility(R.id.card_due_date, View.VISIBLE);
+                } else {
+                    views.setViewVisibility(R.id.card_due_date, View.GONE);
+                }
+
 
                 final String counterMaxValue = context.getString(R.string.counter_max_value);
 
-                final int attachmentsCount = model.getFullCard().getAttachments().size();
+                final int attachmentsCount = fullModel.getFullCard().getAttachments().size();
                 if (attachmentsCount == 0) {
                     views.setViewVisibility(R.id.card_count_attachments, View.GONE);
                 } else {
@@ -49,8 +59,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     setupCounter(views, R.id.card_count_attachments, attachmentsCount, counterMaxValue);
                 }
 
-                final int commentsCount = model.getFullCard().getCommentCount();
-
+                final int commentsCount = fullModel.getFullCard().getCommentCount();
                 if (commentsCount == 0) {
                     views.setViewVisibility(R.id.card_count_comments, View.GONE);
                 } else {
@@ -58,16 +67,13 @@ public class SingleCardWidget extends AppWidgetProvider {
                     views.setViewVisibility(R.id.card_count_comments, View.VISIBLE);
                 }
 
-                Card.TaskStatus taskStatus = model.getFullCard().getCard().getTaskStatus();
+                final Card.TaskStatus taskStatus = fullModel.getFullCard().getCard().getTaskStatus();
                 if (taskStatus.taskCount > 0) {
                     views.setTextViewText(R.id.card_count_tasks, context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
                     views.setViewVisibility(R.id.card_count_tasks, View.VISIBLE);
                 } else {
                     views.setViewVisibility(R.id.card_count_tasks, View.GONE);
                 }
-                TypedValue a = new TypedValue();
-                context.getTheme().resolveAttribute(android.R.attr.background, a, true);
-                views.setInt(R.id.widget_card, "setBackgroundColor", a.data);
 
                 awm.updateAppWidget(appWidgetId, views);
             } catch (NoSuchElementException e) {
