@@ -73,14 +73,25 @@ public class EditActivity extends BrandedActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
-
         binding = ActivityEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.toolbar);
 
+        viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
+        syncManager = new SyncManager(this);
+
+        loadDataFromIntent();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        loadDataFromIntent();
+    }
+
+    private void loadDataFromIntent() {
         final Bundle args = getIntent().getExtras();
 
         if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_ID)) {
@@ -88,9 +99,6 @@ public class EditActivity extends BrandedActivity {
         }
 
         long cardId = args.getLong(BUNDLE_KEY_CARD_ID);
-
-        viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
-        syncManager = new SyncManager(this);
 
         if (cardId == 0L) {
             viewModel.setCreateMode(true);
