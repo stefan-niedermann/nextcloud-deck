@@ -35,4 +35,6 @@
         <item>#3A3B3D</item>
         <!-- <item>#CACBCD</item> -->
     </string-array>
+
+    <color name="widget_background">#f5f5f5</color>
 </resources>
