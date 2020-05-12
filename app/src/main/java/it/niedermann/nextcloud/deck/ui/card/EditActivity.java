@@ -109,6 +109,7 @@ public class EditActivity extends BrandedActivity {
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
                 viewModel.initializeNewCard(account, boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported(this));
+                invalidateOptionsMenu();
                 String title = args.getString(BUNDLE_KEY_TITLE);
                 if (!TextUtils.isEmpty(title)) {
                     if (title.length() > viewModel.getAccount().getServerDeckVersionAsObject().getCardTitleMaxLength()) {
@@ -122,6 +123,7 @@ public class EditActivity extends BrandedActivity {
             } else {
                 observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
                     viewModel.initializeExistingCard(account, boardId, fullCard, account.getServerDeckVersionAsObject().isSupported(this));
+                    invalidateOptionsMenu();
                     setupViewPager();
                     setupTitle();
                 });
