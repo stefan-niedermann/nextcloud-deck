@@ -6,15 +6,16 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.RemoteViews;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+
 import java.util.NoSuchElementException;
 
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
@@ -34,14 +35,50 @@ public class SingleCardWidget extends AppWidgetProvider {
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_single_card);
                 views.setOnClickPendingIntent(R.id.title, pendingIntent);
 
-                DateFormat format = SimpleDateFormat.getTimeInstance(
-                        SimpleDateFormat.MEDIUM, Locale.getDefault());
-                CharSequence text = format.format(new Date());
-                views.setTextViewText(R.id.title, "My Widget Homie " + text);
+                views.setTextViewText(R.id.title, model.getFullCard().getCard().getTitle());
+                views.setTextViewText(R.id.card_count_tasks, model.getFullCard().getCard().getTitle());
+
+                final String counterMaxValue = context.getString(R.string.counter_max_value);
+
+                final int attachmentsCount = model.getFullCard().getAttachments().size();
+                if (attachmentsCount == 0) {
+                    views.setViewVisibility(R.id.card_count_attachments, View.GONE);
+                } else {
+                    views.setViewVisibility(R.id.card_count_attachments, View.VISIBLE);
+                    setupCounter(views, R.id.card_count_attachments, attachmentsCount, counterMaxValue);
+                }
+
+                final int commentsCount = model.getFullCard().getCommentCount();
+
+                if (commentsCount == 0) {
+                    views.setViewVisibility(R.id.card_count_comments, View.GONE);
+                } else {
+                    setupCounter(views, R.id.card_count_comments, commentsCount, counterMaxValue);
+                    views.setViewVisibility(R.id.card_count_comments, View.VISIBLE);
+                }
+
+                Card.TaskStatus taskStatus = model.getFullCard().getCard().getTaskStatus();
+                if (taskStatus.taskCount > 0) {
+                    views.setTextViewText(R.id.card_count_tasks, context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
+                    views.setViewVisibility(R.id.card_count_tasks, View.VISIBLE);
+                } else {
+                    views.setViewVisibility(R.id.card_count_tasks, View.GONE);
+                }
+
                 awm.updateAppWidget(appWidgetId, views);
             } catch (NoSuchElementException e) {
                 // onUpdate has been triggered before the user finished configuring the widget
             }
+        }
+    }
+
+    private static void setupCounter(@NonNull RemoteViews views, @IdRes int textViewId, int count, String counterMaxValue) {
+        if (count > 99) {
+            views.setTextViewText(textViewId, counterMaxValue);
+        } else if (count > 1) {
+            views.setTextViewText(textViewId, String.valueOf(count));
+        } else if (count == 1) {
+            views.setTextViewText(textViewId, "");
         }
     }
 
