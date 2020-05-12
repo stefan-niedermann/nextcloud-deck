@@ -36,6 +36,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
@@ -487,6 +488,7 @@ public class DataBaseAdapter {
     public void updateCard(Card card, boolean setStatus) {
         markAsEditedIfNeeded(card, setStatus);
         db.getCardDao().update(card);
+        SingleCardWidget.notifyDatasetChanged(context);
     }
 
     public long createAccessControl(long accountId, AccessControl entity) {
