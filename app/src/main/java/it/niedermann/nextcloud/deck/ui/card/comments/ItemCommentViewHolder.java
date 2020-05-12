@@ -67,5 +67,12 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
 
         TooltipCompat.setTooltipText(binding.creationDateTime, DateFormat.getDateTimeInstance().format(comment.getComment().getCreationDateTime()));
         setupMentions(account, comment.getComment().getMentions(), binding.message);
+
+        if (comment.getParent() == null) {
+            binding.parentContainer.setVisibility(View.GONE);
+        } else {
+            binding.parentContainer.setVisibility(View.VISIBLE);
+            binding.parent.setText(comment.getParent().getMessage());
+        }
     }
 }
