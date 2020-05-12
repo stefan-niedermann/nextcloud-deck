@@ -1,10 +1,11 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="40dp"
-    android:minHeight="40dp"
-    android:updatePeriodMillis="86400000"
-    android:previewImage="@drawable/ic_app_logo"
-    android:initialLayout="@layout/widget_single_card"
-    android:resizeMode="horizontal|vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:configure="it.niedermann.nextcloud.deck.ui.widget.singlecard.SelectCardForWidgetActivity"
-    android:widgetCategory="home_screen">
-</appwidget-provider>
+    android:initialLayout="@layout/widget_single_card"
+    android:minWidth="60dp"
+    android:minHeight="80dp"
+    android:previewImage="@drawable/ic_app_logo"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="86400000"
+    android:widgetCategory="home_screen"
+    tools:targetApi="jelly_bean_mr1" />
