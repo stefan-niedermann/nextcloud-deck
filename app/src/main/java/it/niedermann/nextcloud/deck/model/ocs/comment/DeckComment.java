@@ -39,7 +39,7 @@ public class DeckComment extends AbstractRemoteEntity {
     private String actorId;
     private String actorDisplayName;
     private String message;
-    private long parentId;
+    private Long parentId;
     @Ignore
     private List<Mention> mentions = new ArrayList<>();
 
@@ -97,11 +97,11 @@ public class DeckComment extends AbstractRemoteEntity {
         this.actorDisplayName = actorDisplayName;
     }
 
-    public long getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(long parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
