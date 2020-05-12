@@ -138,7 +138,12 @@
         <activity
             android:name=".ui.widget.singlecard.SelectCardForWidgetActivity"
             android:label="@string/share_add_to_card"
-            android:theme="@style/SplashTheme" />
+            android:theme="@style/SplashTheme">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
 
         <receiver android:name=".ui.widget.singlecard.SingleCardWidget">
             <intent-filter>
