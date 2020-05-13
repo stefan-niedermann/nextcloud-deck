@@ -304,12 +304,25 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             }
             case R.id.action_card_archive: {
                 final WrappedLiveData<FullCard> archiveLiveData = syncManager.archiveCard(fullCard);
-                observeOnce(archiveLiveData, lifecycleOwner, (v) -> ExceptionDialogFragment.newInstance(archiveLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
+                observeOnce(archiveLiveData, lifecycleOwner, (v) -> {
+                    if (archiveLiveData.hasError()) {
+                        ExceptionDialogFragment.newInstance(archiveLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                    } else {
+                        // FIXME doesn't work yet properly
+                        final int removedCardIndex = getItemList().indexOf(fullCard);
+                        cardList.remove(fullCard);
+                        notifyItemRemoved(removedCardIndex);
+                    }
+                });
                 return true;
             }
             case R.id.action_card_delete: {
                 final WrappedLiveData<Void> deleteLiveData = syncManager.deleteCard(fullCard.getCard());
-                observeOnce(deleteLiveData, lifecycleOwner, (v) -> ExceptionDialogFragment.newInstance(deleteLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
+                observeOnce(deleteLiveData, lifecycleOwner, (v) -> {
+                    if (deleteLiveData.hasError()) {
+                        ExceptionDialogFragment.newInstance(deleteLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                    }
+                });
                 return true;
             }
         }

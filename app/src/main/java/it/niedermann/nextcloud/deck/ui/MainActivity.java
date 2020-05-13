@@ -416,7 +416,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), localStackId), MainActivity.this, fullStack -> {
             fullStack.getStack().setTitle(stackName);
             final WrappedLiveData<FullStack> archiveLiveData = syncManager.updateStack(fullStack);
-            observeOnce(archiveLiveData, this, (v) -> ExceptionDialogFragment.newInstance(archiveLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+            observeOnce(archiveLiveData, this, (v) -> {
+                if (archiveLiveData.hasError()) {
+                    ExceptionDialogFragment.newInstance(archiveLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
         });
     }
 
@@ -980,7 +984,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack -> {
             DeckLog.info("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
             final WrappedLiveData<Void> deleteStackLiveData = syncManager.deleteStack(fullStack.getStack());
-            observeOnce(deleteStackLiveData, this, (v) -> ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+            observeOnce(deleteStackLiveData, this, (v) -> {
+                if (deleteStackLiveData.hasError()) {
+                    ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
         });
     }
 
