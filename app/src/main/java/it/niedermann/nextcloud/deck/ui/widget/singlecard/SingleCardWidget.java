@@ -40,6 +40,7 @@ public class SingleCardWidget extends AppWidgetProvider {
                     views.setOnClickPendingIntent(R.id.widget_card, pendingIntent);
 
                     views.setTextViewText(R.id.title, fullModel.getFullCard().getCard().getTitle());
+                    views.setTextViewText(R.id.description, fullModel.getFullCard().getCard().getDescription());
 
                     if (fullModel.getFullCard().getCard().getDueDate() != null) {
                         views.setTextViewText(R.id.card_due_date, DateUtil.getRelativeDateTimeString(context, fullModel.getFullCard().getCard().getDueDate().getTime()));
