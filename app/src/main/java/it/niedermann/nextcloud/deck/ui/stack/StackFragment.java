@@ -66,7 +66,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
 
         syncManager = new SyncManager(activity);
 
-        adapter = new CardAdapter(requireContext(), mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), stackId, mainViewModel.currentBoardHasEditPermission(), syncManager, this, (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
+        adapter = new CardAdapter(requireContext(), getChildFragmentManager(), mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), stackId, mainViewModel.currentBoardHasEditPermission(), syncManager, this, (requireActivity() instanceof SelectCardListener) ? (SelectCardListener) requireActivity() : null);
         binding.recyclerView.setAdapter(adapter);
 
         if (onScrollListener != null) {

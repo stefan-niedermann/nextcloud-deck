@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +15,6 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPrepareCreateBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -25,6 +23,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static android.graphics.Color.parseColor;
@@ -189,9 +188,7 @@ public class PrepareCreateActivity extends BrandedActivity {
 
             finish();
         } else {
-            // TODO Use snackbar for better error handling
-            DeckLog.error("Selected account at position " + binding.accountSelect.getSelectedItemPosition() + " is null.");
-            Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
+            ExceptionDialogFragment.newInstance(new IllegalStateException("Selected account at position " + binding.accountSelect.getSelectedItemPosition() + " is null."), null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
         }
     }
 

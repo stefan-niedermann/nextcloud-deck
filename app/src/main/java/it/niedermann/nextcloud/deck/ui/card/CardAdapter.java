@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,16 +40,21 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
+
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard>, Branded {
 
     protected final SyncManager syncManager;
 
+    private final FragmentManager fragmentManager;
     private final Account account;
     private final long boardId;
     private final long stackId;
@@ -64,8 +70,9 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
     private int mainColor;
 
-    public CardAdapter(@NonNull Context context, @NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
+    public CardAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
         this.lifecycleOwner = lifecycleOwner;
         this.account = account;
         this.boardId = boardId;
@@ -296,13 +303,13 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                 return true;
             }
             case R.id.action_card_archive: {
-                // TODO error handling
-                syncManager.archiveCard(fullCard);
+                final WrappedLiveData<FullCard> archiveLiveData = syncManager.archiveCard(fullCard);
+                observeOnce(archiveLiveData, lifecycleOwner, (v) -> ExceptionDialogFragment.newInstance(archiveLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                 return true;
             }
             case R.id.action_card_delete: {
-                // TODO error handling
-                syncManager.deleteCard(fullCard.getCard());
+                final WrappedLiveData<Void> deleteLiveData = syncManager.deleteCard(fullCard.getCard());
+                observeOnce(deleteLiveData, lifecycleOwner, (v) -> ExceptionDialogFragment.newInstance(deleteLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
                 return true;
             }
         }
