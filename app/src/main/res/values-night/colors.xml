@@ -4,4 +4,7 @@
     <color name="bg_highlighted">#2a2a2a</color>
     <color name="bg_info_box">#222222</color>
     <color name="avatars_overlapping_border_color">#424242</color>
+
+    <color name="widget_background">#cc212121</color>
+    <color name="widget_foreground">#ccf5f5f5</color>
 </resources>

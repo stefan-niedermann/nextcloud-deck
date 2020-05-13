@@ -31,6 +31,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
+import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.ActivityDao;
@@ -46,6 +47,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWit
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.LabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
 
@@ -68,9 +70,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 Activity.class,
                 DeckComment.class,
                 Mention.class,
+                SingleCardWidgetModel.class,
         },
         exportSchema = false,
-        version = 11
+        version = 12
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -149,9 +152,14 @@ public abstract class DeckDatabase extends RoomDatabase {
     private static final Migration MIGRATION_11_12 = new Migration(11, 12) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `SingleCardWidgetModel` (`widgetId` INTEGER PRIMARY KEY, `accountId` INTEGER, `boardId` INTEGER, `cardId` INTEGER, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE INDEX `index_SingleCardWidgetModel_cardId` ON `SingleCardWidgetModel` (`cardId`)");
+
+            // Account: eTag for Capabilities:
             database.execSQL("ALTER TABLE `Account` ADD `eTag` TEXT");
         }
     };
+
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
 
@@ -185,6 +193,7 @@ public abstract class DeckDatabase extends RoomDatabase {
     }
 
     public abstract AccountDao getAccountDao();
+
     public abstract AccessControlDao getAccessControlDao();
 
     public abstract BoardDao getBoardDao();
@@ -216,4 +225,6 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract CommentDao getCommentDao();
 
     public abstract MentionDao getMentionDao();
+
+    public abstract SingleCardWidgetModelDao getSingleCardWidgetModelDao();
 }
