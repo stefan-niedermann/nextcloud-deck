@@ -217,7 +217,6 @@
     <string name="error_dialog_check_server_logs">Nextcloudのセットアップに問題があります。サーバーのログファイルを確認してください。</string>
     <string name="error_dialog_check_maintenance">あなたのNextcloudサーバがメンテナンスモード中かどうか確認してください。</string>
     <string name="error_dialog_insufficient_storage">あなたのNextcloudサーバのストレージに空き容量がありません。ローカルの変更をクラウドに同期するにはいくつかファイルを削除してください。</string>
-    <string name="error_dialog_contact_us">問題が継続する場合はお問い合わせください。我々の連絡先はサイドバーのaboutセクションにかかれています。</string>
     <string name="error_dialog_we_need_info">サポートには下記技術情報が必要です：</string>
     <string name="error_dialog_redirect">サーバがHTTPステータスコード 302を返しました。これはDeckアプリがインストールされていないか、構成が誤っていることを意味します。.htaccessファイルのカスタムオーバーライドやOIDクライアントのようなNextcloudアプリが原因の可能性があります。</string>
     <string name="info_box_maintenance_mode">サーバーはメンテナンスモードです。</string>

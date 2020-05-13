@@ -415,8 +415,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void onUpdateStack(long localStackId, String stackName) {
         observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), localStackId), MainActivity.this, fullStack -> {
             fullStack.getStack().setTitle(stackName);
-            // TODO error handling
-            syncManager.updateStack(fullStack);
+            final WrappedLiveData<FullStack> archiveLiveData = syncManager.updateStack(fullStack);
+            observeOnce(archiveLiveData, this, (v) -> {
+                if (archiveLiveData.hasError()) {
+                    ExceptionDialogFragment.newInstance(archiveLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
         });
     }
 
@@ -978,9 +982,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void onStackDeleted(Long stackLocalId) {
         long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack -> {
-            DeckLog.log("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
-            // TODO error handling
-            syncManager.deleteStack(fullStack.getStack());
+            DeckLog.info("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
+            final WrappedLiveData<Void> deleteStackLiveData = syncManager.deleteStack(fullStack.getStack());
+            observeOnce(deleteStackLiveData, this, (v) -> {
+                if (deleteStackLiveData.hasError()) {
+                    ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
         });
     }
 

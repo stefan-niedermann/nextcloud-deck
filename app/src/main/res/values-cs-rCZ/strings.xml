@@ -225,9 +225,11 @@
     <string name="error_dialog_check_server_logs">Je problém s nastavením vámi využívané instance Nextcloud. Podívejte se do souborů se záznamem událostí na serveru.</string>
     <string name="error_dialog_check_maintenance">Zkontrolujte, zda vámi využívaná instance Nextcloud právě není v tuto chvíli v režimu údržby.</string>
     <string name="error_dialog_insufficient_storage">Na vámi využívané instanci Nexcloud nezbývá žádné volné místo na úložišti. Aby bylo možné synchronizovat vaše místní změny do vámi využívaného cloudu, je třeba nejprve smazat nějaké soubory.</string>
-    <string name="error_dialog_contact_us">Pokud problémy přetrvávají, neváhejte se na nás obrátit. Kontaktní údaje naleznete v sekci „O aplikaci“ v postranním panelu.</string>
     <string name="error_dialog_we_need_info">Abychom vám mohli pomoci, potřebujeme následující technické údaje:</string>
     <string name="error_dialog_redirect">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient.</string>
+    <string name="error_action_open_deck_info">Otevřít informace o aplikaci</string>
+    <string name="error_action_open_network">Nastavení sítě</string>
+    <string name="error_action_server_logs">Záznamy událostí na serveru</string>
     <string name="info_box_maintenance_mode">Na serveru probíhá údržba</string>
     <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
 </resources>

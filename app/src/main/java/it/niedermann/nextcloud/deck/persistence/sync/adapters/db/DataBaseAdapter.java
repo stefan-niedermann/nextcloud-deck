@@ -177,7 +177,7 @@ public class DataBaseAdapter {
             return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::filterRelationsForCard);
         }
 
-        List<Object> args = new ArrayList();
+        List<Object> args = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM card c " +
                 "WHERE accountId = ? AND stackId = ? ");
         args.add(accountId);
