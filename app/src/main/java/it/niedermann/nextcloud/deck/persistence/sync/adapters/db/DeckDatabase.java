@@ -156,7 +156,7 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("CREATE INDEX `index_SingleCardWidgetModel_cardId` ON `SingleCardWidgetModel` (`cardId`)");
 
             // Account: eTag for Capabilities:
-            database.execSQL("ALTER TABLE `Account` ADD `eTag` TEXT");
+            database.execSQL("ALTER TABLE `Account` ADD `etag` TEXT");
         }
     };
 
