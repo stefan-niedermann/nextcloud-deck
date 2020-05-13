@@ -320,6 +320,12 @@ public class SyncManager {
                                         acc.setMaintenanceEnabled(false);
                                         dataBaseAdapter.updateAccount(acc);
                                     }
+                                    Capabilities capabilities = new Capabilities();
+                                    capabilities.setMaintenanceEnabled(false);
+                                    capabilities.setDeckVersion(acc.getServerDeckVersionAsObject());
+                                    capabilities.setTextColor(acc.getTextColor());
+                                    capabilities.setColor(acc.getColor());
+                                    callback.onResponse(capabilities);
                                 });
                             }
                         } else {
