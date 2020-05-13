@@ -221,9 +221,11 @@
     <string name="error_dialog_check_server_logs">Es liegt ein Problem mit Ihrer Nextcloud-Konfiguration vor. Bitte schauen Sie in die Server-Protokolldateien.</string>
     <string name="error_dialog_check_maintenance">Bitte prüfen Sie ob sich Ihr Nextcloud-Server derzeit  im Wartungsmodus befindet.</string>
     <string name="error_dialog_insufficient_storage">Ihre Nextcloud-Installation hat keinen freien Speicherplatz mehr. Bitte löschen Sie einige Dateien, um Ihre lokalen Änderungen mit Ihrer Cloud synchronisieren zu können.</string>
-    <string name="error_dialog_contact_us">Bitte zögern Sie nicht, uns zu kontaktieren, wenn das Problem weiterhin besteht. Sie finden unsere Kontaktinformationen im Abschnitt \"Info\" in der Seitenleiste.</string>
     <string name="error_dialog_we_need_info">Wir benötigen die folgenden technischen Informationen, um Ihnen helfen zu können:</string>
     <string name="error_dialog_redirect">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID-Client verursacht werden.</string>
+    <string name="error_action_open_deck_info">App Informationen öffnen</string>
+    <string name="error_action_open_network">Netzwerkeinstellungen</string>
+    <string name="error_action_server_logs">Serverlogs</string>
     <string name="info_box_maintenance_mode">Server befindet sich im Wartungsmodus</string>
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
 </resources>
