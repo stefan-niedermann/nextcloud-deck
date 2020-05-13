@@ -307,11 +307,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                 observeOnce(archiveLiveData, lifecycleOwner, (v) -> {
                     if (archiveLiveData.hasError()) {
                         ExceptionDialogFragment.newInstance(archiveLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
-                    } else {
-                        // FIXME doesn't work yet properly
-                        final int removedCardIndex = getItemList().indexOf(fullCard);
-                        cardList.remove(fullCard);
-                        notifyItemRemoved(removedCardIndex);
                     }
                 });
                 return true;
