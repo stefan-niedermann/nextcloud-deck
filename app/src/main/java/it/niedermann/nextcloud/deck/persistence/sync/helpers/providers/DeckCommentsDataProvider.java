@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -29,7 +30,9 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         serverAdapter.getCommentsForRemoteCardId(card.getId(), new IResponseCallback<OcsComment>(responder.getAccount()) {
             @Override
             public void onResponse(OcsComment response) {
-                responder.onResponse(response.split());
+                List<OcsComment> comments = response.split();
+                Collections.sort(comments, (o1, o2) -> o1.getSingle().getCreationDateTime().compareTo(o2.getSingle().getCreationDateTime()));
+                responder.onResponse(comments);
             }
 
             @Override
