@@ -52,6 +52,9 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
             //maybe not synced yet, skip
             if (localId != null) {
                 comment.setParentId(localId);
+            } else {
+                //next sync should do it.
+                comment.setParentId(null);
             }
         }
         comment.setObjectId(card.getLocalId());
