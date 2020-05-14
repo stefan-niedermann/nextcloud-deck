@@ -157,7 +157,7 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
-    private static final Migration MIGRATION_12_13 = new Migration(11, 12) {
+    private static final Migration MIGRATION_12_13 = new Migration(12, 13) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `DeckComment` ADD `parentId` INTEGER REFERENCES DeckComment(localId) ON DELETE CASCADE");

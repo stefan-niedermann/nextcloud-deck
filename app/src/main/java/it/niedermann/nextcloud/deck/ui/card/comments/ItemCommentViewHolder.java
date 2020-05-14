@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.ColorInt;
@@ -43,10 +44,16 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             inflater.inflate(R.menu.comment_menu, menu);
             menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(itemView.getContext(), comment.getComment().getMessage()));
-            menu.findItem(R.id.reply).setOnMenuItemClickListener(item -> {
-                selectAsReplyListener.onSelectAsReply(comment);
-                return true;
-            });
+            final MenuItem replyMenuItem = menu.findItem(R.id.reply);
+            if (account.getServerDeckVersionAsObject().supportsCommentsReplys()) {
+                replyMenuItem.setOnMenuItemClickListener(item -> {
+                    selectAsReplyListener.onSelectAsReply(comment);
+                    return true;
+                });
+                replyMenuItem.setVisible(true);
+            } else {
+                replyMenuItem.setVisible(false);
+            }
             if (account.getUserName().equals(comment.getComment().getActorId())) {
                 menu.findItem(R.id.delete).setOnMenuItemClickListener(item -> {
                     deletedListener.onCommentDeleted(comment.getLocalId());

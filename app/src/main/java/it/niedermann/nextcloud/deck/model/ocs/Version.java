@@ -80,7 +80,7 @@ public class Version implements Comparable<Version> {
         if (matcher.find()) {
             return Integer.parseInt(matcher.group());
         }
-        throw new IllegalArgumentException("could not extract a number from following string: \""+containsNumbers+"\"");
+        throw new IllegalArgumentException("could not extract a number from following string: \"" + containsNumbers + "\"");
     }
 
     @NonNull
@@ -140,6 +140,17 @@ public class Version implements Comparable<Version> {
      */
     public boolean supportsComments() {
         return isGreaterOrEqualTo(VERSION_1_0_0);
+    }
+
+    /**
+     * Replying to comments does cause synchronization errors because the API expected the
+     * <code>parentId</code> to be a {@link String} up until version x.x.x
+     * https://github.com/nextcloud/deck/issues/1831#issuecomment-627207849
+     *
+     * @return whether or not the server supports replying to comments
+     */
+    public boolean supportsCommentsReplys() {
+        return false;
     }
 
     /**
