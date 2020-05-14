@@ -219,9 +219,10 @@
     <string name="error_dialog_check_server_logs">Il y a un problème avec votre configuration Nextcloud. Consulter les fichiers journaux du serveur.</string>
     <string name="error_dialog_check_maintenance">Vérifier si votre instance Nextcloud n\'est pas actuellement en mode maintenance.</string>
     <string name="error_dialog_insufficient_storage">Votre instance Nextcloud n\'a plus d\'espace disponible. Veuillez supprimer certains fichiers pour pouvoir synchroniser vos modifications locales dans votre cloud.</string>
-    <string name="error_dialog_contact_us">N\'hésitez pas à nous contacter si les problèmes persistent. Vous trouverez nos coordonnées dans la section : À propos, de la barre latérale.</string>
     <string name="error_dialog_we_need_info">Nous avons besoin des informations techniques suivantes pour pouvoir vous aider :</string>
     <string name="error_dialog_redirect">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés du fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
+    <string name="error_action_open_network">Paramètres réseau</string>
+    <string name="error_action_server_logs">Journaux serveur</string>
     <string name="info_box_maintenance_mode">Serveur en maintenance</string>
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour en  %2$s</string>
 </resources>

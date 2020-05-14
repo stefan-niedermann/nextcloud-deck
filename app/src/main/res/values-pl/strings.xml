@@ -197,6 +197,8 @@
     <string name="filter_user_title">Użytkownicy</string>
     <string name="filter_duedate_title">Data realizacji</string>
 
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Cofnij archiwizację tablicy</string>
     <string name="archived_boards">Zarchiwizowane tablice</string>
 
     <!-- Errors -->
@@ -223,8 +225,11 @@
     <string name="error_dialog_check_server_logs">Wystąpił problem z konfiguracją Nextcloud. Zajrzyj do plików dziennika serwera.</string>
     <string name="error_dialog_check_maintenance">Sprawdź, czy Twoja instancja Nextcloud nie jest obecnie w trybie konserwacji.</string>
     <string name="error_dialog_insufficient_storage">W Twojej instancji Nextcloud nie ma już wolnego miejsca. Usuń niektóre pliki, aby zsynchronizować lokalne zmiany w chmurze.</string>
-    <string name="error_dialog_contact_us">Jeśli problem będzie się powtarzał, skontaktuj się z nami. Nasze informacje kontaktowe można znaleźć w sekcji \"Informacje\" na pasku bocznym.</string>
     <string name="error_dialog_we_need_info">Potrzebujemy następujących informacji technicznych, aby Ci pomóc:</string>
     <string name="error_dialog_redirect">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client.</string>
+    <string name="error_action_open_deck_info">Otwórz informacje o aplikacji</string>
+    <string name="error_action_open_network">Ustawienia sieci</string>
+    <string name="error_action_server_logs">Logi serwera</string>
     <string name="info_box_maintenance_mode">Serwer w trybie konserwacji</string>
-    </resources>
+    <string name="info_box_version_not_supported">Wersja serwera %1$s nie jest wspierana, zaktualizuj do wersji %2$s</string>
+</resources>

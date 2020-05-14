@@ -344,7 +344,9 @@ public class JsonToEntityParser {
                         JsonObject deck = caps.getAsJsonObject("deck");
                         if (deck.has("version")) {
                             version = deck.get("version").getAsString();
-
+                            if (version == null || version.trim().length() < 1) {
+                                throw new IllegalArgumentException("capabilities endpoint returned an invalid version string: \""+version+"\"");
+                            }
                         }
                     }
                     if (caps.has("theming")) {
@@ -352,6 +354,9 @@ public class JsonToEntityParser {
                         capabilities.setColor(theming.get("color").getAsString());
                         capabilities.setTextColor(theming.get("color-text").getAsString());
                     }
+                }
+                if (version == null || version.trim().length() < 1) {
+                    throw new IllegalArgumentException("capabilities endpoint returned no version string at all!");
                 }
                 capabilities.setDeckVersion(Version.of(version));
             }

@@ -175,12 +175,19 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arhivirane naloge</string>
+    <string name="attachment_already_exists">Priloga že obstaja</string>
+    <string name="pick_custom_color">Izbor barve po meri</string>
     <string name="manage_tags">Upravljanje oznak</string>
     <string name="add_tag">Dodaj oznako</string>
+    <string name="tag_already_exists">%1$s ne obstaja</string>
+    <string name="tag_successfully_added">%1$s je uspešno dodana</string>
+    <string name="edit_tag">Uredi %1$s</string>
     <string name="filter_tags_title">Oznake</string>
     <string name="filter_user_title">Uporabniki</string>
     <string name="filter_duedate_title">Datum preteka</string>
 
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Razveljavi arhiviranje zbirke</string>
     <string name="archived_boards">Arhivirane zbirke</string>
 
     <!-- Errors -->
@@ -192,5 +199,12 @@
     <string name="server_error">Napaka strežnika</string>
     <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
 
+    <string name="error_dialog_tip_token_mismatch_retry">Poskusite vsiliti končanje programa in ga ponovno zagnati. Morda je težava v neustrezni povezavi z okoljem Nextcloud</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Nextcloud Deck.</string>
+    <string name="error_dialog_tip_clear_storage">Podatke in shrambo je mogoče počistiti med nastavitvami → Programi → Nextcloud / Nextcloud Deck → Shramba → Počisti shrambo.</string>
+    <string name="error_dialog_tip_files_outdated">Program Nextcloud je očitno starejše različice. Posodobite jo prek Trgovine Play ali s posodabljalnikom F-Droid.</string>
+    <string name="error_action_open_network">Nastavitve omrežja</string>
+    <string name="error_action_server_logs">Dnevniki strežnika</string>
     <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja</string>
-    </resources>
+    <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
+</resources>

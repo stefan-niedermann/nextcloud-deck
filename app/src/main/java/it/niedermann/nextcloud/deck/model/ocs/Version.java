@@ -80,7 +80,7 @@ public class Version implements Comparable<Version> {
         if (matcher.find()) {
             return Integer.parseInt(matcher.group());
         }
-        return 0;
+        throw new IllegalArgumentException("could not extract a number from following string: \""+containsNumbers+"\"");
     }
 
     @NonNull

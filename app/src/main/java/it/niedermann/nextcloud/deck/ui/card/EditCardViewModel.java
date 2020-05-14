@@ -25,27 +25,23 @@ public class EditCardViewModel extends ViewModel {
     /**
      * Stores a deep copy of the given fullCard to be able to compare the state at every time in #{@link EditCardViewModel#hasChanges()}
      *
-     * @param account  Must not be null
      * @param boardId  Local ID, expecting a positive long value
      * @param fullCard The card that is currently edited
      */
-    public void initializeExistingCard(@NonNull Account account, long boardId, @NonNull FullCard fullCard, boolean isSupportedVersion) {
-        this.account = account;
+    public void initializeExistingCard(long boardId, @NonNull FullCard fullCard, boolean isSupportedVersion) {
         this.boardId = boardId;
         this.fullCard = fullCard;
         this.originalCard = new FullCard(this.fullCard);
         this.isSupportedVersion = isSupportedVersion;
-        hasCommentsAbility = account.getServerDeckVersionAsObject().supportsComments();
     }
 
     /**
      * Stores a deep copy of the given fullCard to be able to compare the state at every time in #{@link EditCardViewModel#hasChanges()}
      *
-     * @param account Must not be null
      * @param boardId Local ID, expecting a positive long value
      * @param stackId Local ID, expecting a positive long value where the card should be created
      */
-    public void initializeNewCard(@NonNull Account account, long boardId, long stackId, boolean isSupportedVersion) {
+    public void initializeNewCard(long boardId, long stackId, boolean isSupportedVersion) {
         final FullCard fullCard = new FullCard();
         fullCard.setLabels(new ArrayList<>());
         fullCard.setAssignedUsers(new ArrayList<>());
@@ -53,7 +49,12 @@ public class EditCardViewModel extends ViewModel {
         final Card card = new Card();
         card.setStackId(stackId);
         fullCard.setCard(card);
-        initializeExistingCard(account, boardId, fullCard, isSupportedVersion);
+        initializeExistingCard(boardId, fullCard, isSupportedVersion);
+    }
+
+    public void setAccount(@NonNull Account account) {
+        this.account = account;
+        hasCommentsAbility = account.getServerDeckVersionAsObject().supportsComments();
     }
 
     public boolean hasChanges() {

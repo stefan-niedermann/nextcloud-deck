@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -29,6 +30,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
+import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class EditActivity extends BrandedActivity {
@@ -72,14 +74,26 @@ public class EditActivity extends BrandedActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
-
         binding = ActivityEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.toolbar);
 
+        viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
+        syncManager = new SyncManager(this);
+
+        loadDataFromIntent();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        loadDataFromIntent();
+        applyBrand(parseColor(viewModel.getAccount().getColor()), parseColor(viewModel.getAccount().getTextColor()));
+    }
+
+    private void loadDataFromIntent() {
         final Bundle args = getIntent().getExtras();
 
         if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_ID)) {
@@ -87,9 +101,6 @@ public class EditActivity extends BrandedActivity {
         }
 
         long cardId = args.getLong(BUNDLE_KEY_CARD_ID);
-
-        viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
-        syncManager = new SyncManager(this);
 
         if (cardId == 0L) {
             viewModel.setCreateMode(true);
@@ -102,13 +113,16 @@ public class EditActivity extends BrandedActivity {
         if (account == null) {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
+        viewModel.setAccount(account);
+
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
         observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
-                viewModel.initializeNewCard(account, boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported(this));
+                viewModel.initializeNewCard(boardId, args.getLong(BUNDLE_KEY_STACK_ID), account.getServerDeckVersionAsObject().isSupported(this));
+                invalidateOptionsMenu();
                 String title = args.getString(BUNDLE_KEY_TITLE);
                 if (!TextUtils.isEmpty(title)) {
                     if (title.length() > viewModel.getAccount().getServerDeckVersionAsObject().getCardTitleMaxLength()) {
@@ -121,9 +135,18 @@ public class EditActivity extends BrandedActivity {
                 setupTitle();
             } else {
                 observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
-                    viewModel.initializeExistingCard(account, boardId, fullCard, account.getServerDeckVersionAsObject().isSupported(this));
-                    setupViewPager();
-                    setupTitle();
+                    if (fullCard == null) {
+                        new BrandedAlertDialogBuilder(this)
+                                .setTitle(R.string.card_not_found)
+                                .setMessage(R.string.card_not_found_message)
+                                .setPositiveButton(R.string.simple_close, (a, b) -> super.finish())
+                                .show();
+                    } else {
+                        viewModel.initializeExistingCard(boardId, fullCard, account.getServerDeckVersionAsObject().isSupported(this));
+                        invalidateOptionsMenu();
+                        setupViewPager();
+                        setupTitle();
+                    }
                 });
             }
         }));
@@ -264,8 +287,12 @@ public class EditActivity extends BrandedActivity {
     protected void onStop() {
         // Clean up zombie fragments in case of system initiated process death.
         // See linked issues in https://github.com/stefan-niedermann/nextcloud-deck/issues/478
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        try {
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+        } catch (IllegalStateException e) {
+            DeckLog.warn("onSAveInstanceState has already been called.");
         }
         super.onStop();
     }

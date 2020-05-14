@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -35,6 +37,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
@@ -1281,6 +1284,30 @@ public class SyncManager {
         return liveData;
     }
 
+    // -------------------
+    // Widgets
+    // -------------------
+
+    /**
+     * Can be called from a configuration screen or a picker.
+     * Creates a new entry in the database, if row with given widgetId does not yet exist.
+     */
+    public void addOrUpdateSingleCardWidget(int widgetId, long accountId, long boardId, long localCardId) {
+        doAsync(() -> dataBaseAdapter.createSingleCardWidget(widgetId, accountId, boardId, localCardId));
+    }
+
+    @WorkerThread
+    public FullSingleCardWidgetModel getSingleCardWidgetModelDirectly(int widgetId) throws NoSuchElementException {
+        final FullSingleCardWidgetModel model = dataBaseAdapter.getFullSingleCardWidgetModel(widgetId);
+        if (model == null) {
+            throw new NoSuchElementException();
+        }
+        return model;
+    }
+
+    public void deleteSingleCardWidgetModel(int widgetId) {
+        doAsync(() -> dataBaseAdapter.deleteSingleCardWidget(widgetId));
+    }
 
     private static class BooleanResultHolder {
         public boolean result = true;
