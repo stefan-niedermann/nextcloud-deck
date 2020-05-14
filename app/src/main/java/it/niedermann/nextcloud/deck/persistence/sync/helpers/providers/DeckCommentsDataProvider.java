@@ -2,8 +2,12 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
@@ -45,17 +49,50 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     }
 
     @Override
+    public long createInDB(DataBaseAdapter dataBaseAdapter, ServerAdapter serverAdapter, long accountId, OcsComment ocsComment) {
+        DeckComment comment = ocsComment.getSingle();
+        if (comment.getParentId() != null) {
+            Long localId = dataBaseAdapter.getLocalCommentIdForRemoteIdDirectly(accountId, comment.getParentId());
+            // handle "not yet synced"
+            if (localId == null) {
+                CountDownLatch countDownLatch = new CountDownLatch(1);
+                //TODO: this is a workaround. we should ask @juliushaertl for something like getSingleCommentById(id)
+                getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<OcsComment>>(new Account(accountId)) {
+                    @Override
+                    public void onResponse(List<OcsComment> response) {
+                        for (OcsComment commentFromServer : response) {
+                            DeckComment c = commentFromServer.getSingle();
+                            if (c.getId() == comment.getParentId()) {
+                                createInDB(dataBaseAdapter, serverAdapter, accountId, commentFromServer);
+                                countDownLatch.countDown();
+                            }
+                        }
+                        throw new IllegalStateException("could not find parent comment with id "+comment.getParentId()+" on server.");
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        DeckLog.logError(throwable);
+                        throw new IllegalStateException("could not find parent comment with id "+comment.getParentId()+" on server.", throwable);
+                    }
+                }, null);
+                try {
+                    countDownLatch.await(10, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    DeckLog.logError(e);
+                    throw new IllegalStateException("interrupted: could not find parent comment with id "+comment.getParentId()+" on server.", e);
+                }
+            }
+        }
+        return createInDB(dataBaseAdapter, accountId, ocsComment);
+    }
+
+    @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, OcsComment ocsComment) {
         DeckComment comment = ocsComment.getSingle();
         if (comment.getParentId() != null) {
             Long localId = dataBaseAdapter.getLocalCommentIdForRemoteIdDirectly(accountId, comment.getParentId());
-            //maybe not synced yet, skip
-            if (localId != null) {
-                comment.setParentId(localId);
-            } else {
-                //next sync should do it.
-                comment.setParentId(null);
-            }
+            comment.setParentId(localId);
         }
         comment.setObjectId(card.getLocalId());
         comment.setLocalId(dataBaseAdapter.createComment(accountId, comment));
