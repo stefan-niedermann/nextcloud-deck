@@ -41,7 +41,7 @@ public class SyncHelper {
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
 
                         if (existingEntity == null) {
-                            provider.createInDB(dataBaseAdapter, serverAdapter, accountId, entityFromServer);
+                            provider.createInDB(dataBaseAdapter, accountId, entityFromServer);
                         } else {
                             //TODO: how to handle deletes? what about archived?
                             if (existingEntity.getStatus() != DBStatus.UP_TO_DATE.getId()){

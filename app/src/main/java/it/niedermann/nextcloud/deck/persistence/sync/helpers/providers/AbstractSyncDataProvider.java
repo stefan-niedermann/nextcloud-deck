@@ -62,9 +62,6 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
 
     public abstract T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
 
-    public long createInDB(DataBaseAdapter dataBaseAdapter, ServerAdapter serverAdapter, long accountId, T b) {
-        return createInDB(dataBaseAdapter, accountId, b);
-    }
     public abstract long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, T b);
 
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, T t) {

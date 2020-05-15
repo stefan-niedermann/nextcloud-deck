@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
             public void onResponse(OcsComment response) {
                 List<OcsComment> comments = response.split();
                 Collections.sort(comments, (o1, o2) -> o1.getSingle().getCreationDateTime().compareTo(o2.getSingle().getCreationDateTime()));
+                verifyCommentListIntegrity(comments);
                 responder.onResponse(comments);
             }
 
@@ -42,6 +44,18 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         });
     }
 
+    private void verifyCommentListIntegrity(List<OcsComment> comments) {
+        List<Long> knownIDs = new ArrayList<>();
+        for (OcsComment comment : comments) {
+            DeckComment c = comment.getSingle();
+            knownIDs.add(c.getId());
+            if (c.getParentId() != null && !knownIDs.contains(c.getParentId())){
+                throw new IllegalStateException("No parent comment with ID " + c.getParentId() +
+                        " found for comment " + c.toString());
+            }
+        }
+    }
+
     @Override
     public OcsComment getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, OcsComment entity) {
         DeckComment comment = dataBaseAdapter.getCommentByRemoteIdDirectly(accountId, entity.getId());
@@ -49,45 +63,6 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
             return null;
         }
         return OcsComment.of(comment);
-    }
-
-    @Override
-    public long createInDB(DataBaseAdapter dataBaseAdapter, ServerAdapter serverAdapter, long accountId, OcsComment ocsComment) {
-        DeckComment comment = ocsComment.getSingle();
-        if (comment.getParentId() != null) {
-            Long localId = dataBaseAdapter.getLocalCommentIdForRemoteIdDirectly(accountId, comment.getParentId());
-            // handle "not yet synced"
-            if (localId == null) {
-                CountDownLatch countDownLatch = new CountDownLatch(1);
-                //TODO: this is a workaround. we should ask @juliushaertl for something like getSingleCommentById(id)
-                getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<OcsComment>>(new Account(accountId)) {
-                    @Override
-                    public void onResponse(List<OcsComment> response) {
-                        for (OcsComment commentFromServer : response) {
-                            DeckComment c = commentFromServer.getSingle();
-                            if (c.getId() == comment.getParentId()) {
-                                createInDB(dataBaseAdapter, serverAdapter, accountId, commentFromServer);
-                                countDownLatch.countDown();
-                            }
-                        }
-                        throw new IllegalStateException("could not find parent comment with id "+comment.getParentId()+" on server.");
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        DeckLog.logError(throwable);
-                        throw new IllegalStateException("could not find parent comment with id "+comment.getParentId()+" on server.", throwable);
-                    }
-                }, null);
-                try {
-                    countDownLatch.await(10, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
-                    DeckLog.logError(e);
-                    throw new IllegalStateException("interrupted: could not find parent comment with id "+comment.getParentId()+" on server.", e);
-                }
-            }
-        }
-        return createInDB(dataBaseAdapter, accountId, ocsComment);
     }
 
     @Override
