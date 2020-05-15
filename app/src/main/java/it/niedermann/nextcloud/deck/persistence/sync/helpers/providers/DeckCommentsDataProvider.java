@@ -50,8 +50,9 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
             DeckComment c = comment.getSingle();
             knownIDs.add(c.getId());
             if (c.getParentId() != null && !knownIDs.contains(c.getParentId())){
-                throw new IllegalStateException("No parent comment with ID " + c.getParentId() +
-                        " found for comment " + c.toString());
+                DeckLog.logError(new IllegalStateException("No parent comment with ID " + c.getParentId() +
+                        " found for comment " + c.toString()));
+                c.setParentId(null);
             }
         }
     }
