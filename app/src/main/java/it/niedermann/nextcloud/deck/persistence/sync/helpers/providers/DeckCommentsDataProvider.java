@@ -75,7 +75,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
 
                     @Override
                     public void onError(Throwable throwable) {
-                        DeckLog.logError(throwable);
+                        super.onError(throwable);
                         throw new IllegalStateException("could not find parent comment with id "+comment.getParentId()+" on server.", throwable);
                     }
                 }, null);
