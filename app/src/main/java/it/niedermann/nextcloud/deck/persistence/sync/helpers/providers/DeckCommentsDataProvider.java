@@ -1,14 +1,12 @@
 package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
@@ -32,6 +30,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
             public void onResponse(OcsComment response) {
                 List<OcsComment> comments = response.split();
                 Collections.sort(comments, (o1, o2) -> o1.getSingle().getCreationDateTime().compareTo(o2.getSingle().getCreationDateTime()));
+                verifyCommentListIntegrity(comments);
                 responder.onResponse(comments);
             }
 
@@ -42,6 +41,19 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         });
     }
 
+    private void verifyCommentListIntegrity(List<OcsComment> comments) {
+        List<Long> knownIDs = new ArrayList<>();
+        for (OcsComment comment : comments) {
+            DeckComment c = comment.getSingle();
+            knownIDs.add(c.getId());
+            if (c.getParentId() != null && !knownIDs.contains(c.getParentId())) {
+                DeckLog.logError(new IllegalStateException("No parent comment with ID " + c.getParentId() +
+                        " found for comment " + c.toString()));
+                c.setParentId(null);
+            }
+        }
+    }
+
     @Override
     public OcsComment getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, OcsComment entity) {
         DeckComment comment = dataBaseAdapter.getCommentByRemoteIdDirectly(accountId, entity.getId());
@@ -49,45 +61,6 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
             return null;
         }
         return OcsComment.of(comment);
-    }
-
-    @Override
-    public long createInDB(DataBaseAdapter dataBaseAdapter, ServerAdapter serverAdapter, long accountId, OcsComment ocsComment) {
-        DeckComment comment = ocsComment.getSingle();
-        if (comment.getParentId() != null) {
-            Long localId = dataBaseAdapter.getLocalCommentIdForRemoteIdDirectly(accountId, comment.getParentId());
-            // handle "not yet synced"
-            if (localId == null) {
-                CountDownLatch countDownLatch = new CountDownLatch(1);
-                //TODO: this is a workaround. we should ask @juliushaertl for something like getSingleCommentById(id)
-                getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<OcsComment>>(new Account(accountId)) {
-                    @Override
-                    public void onResponse(List<OcsComment> response) {
-                        for (OcsComment commentFromServer : response) {
-                            DeckComment c = commentFromServer.getSingle();
-                            if (c.getId() == comment.getParentId()) {
-                                createInDB(dataBaseAdapter, serverAdapter, accountId, commentFromServer);
-                                countDownLatch.countDown();
-                            }
-                        }
-                        throw new IllegalStateException("could not find parent comment with id "+comment.getParentId()+" on server.");
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        super.onError(throwable);
-                        throw new IllegalStateException("could not find parent comment with id "+comment.getParentId()+" on server.", throwable);
-                    }
-                }, null);
-                try {
-                    countDownLatch.await(10, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
-                    DeckLog.logError(e);
-                    throw new IllegalStateException("interrupted: could not find parent comment with id "+comment.getParentId()+" on server.", e);
-                }
-            }
-        }
-        return createInDB(dataBaseAdapter, accountId, ocsComment);
     }
 
     @Override
@@ -134,7 +107,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<OcsComment> responder, OcsComment entity) {
         DeckComment comment = entity.getSingle();
         comment.setObjectId(card.getId());
-        if (comment.getParentId() != null){
+        if (comment.getParentId() != null) {
             comment.setParentId(dataBaseAdapter.getRemoteCommentIdForLocalIdDirectly(comment.getParentId()));
         }
         serverAdapter.createCommentForCard(comment, responder);
@@ -144,7 +117,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<OcsComment> callback, OcsComment entity) {
         DeckComment comment = entity.getSingle();
         comment.setObjectId(card.getId());
-        if (comment.getParentId() != null){
+        if (comment.getParentId() != null) {
             comment.setParentId(dataBaseAdapter.getRemoteCommentIdForLocalIdDirectly(comment.getParentId()));
         }
         serverAdapter.updateCommentForCard(comment, callback);
@@ -166,7 +139,7 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
     public void handleDeletes(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, List<OcsComment> entitiesFromServer) {
         List<OcsComment> deletedComments = findDelta(entitiesFromServer, new OcsComment(dataBaseAdapter.getCommentByLocalCardIdDirectly(card.getLocalId())).split());
         for (OcsComment deletedComment : deletedComments) {
-            if (deletedComment.getId()!=null){
+            if (deletedComment.getId() != null) {
                 // preserve new, unsynced comment.
                 dataBaseAdapter.deleteComment(deletedComment.getSingle(), false);
             }
