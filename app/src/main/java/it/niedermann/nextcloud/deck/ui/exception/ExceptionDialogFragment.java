@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogExceptionBinding;
+import it.niedermann.nextcloud.deck.exceptions.ServerAppVersionNotParsableException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
@@ -111,6 +112,8 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
                     adapter.add(R.string.error_dialog_insufficient_storage);
                     break;
             }
+        } else if (throwable instanceof ServerAppVersionNotParsableException) {
+            adapter.add(R.string.error_dialog_version_not_parsable);
         }
 
         return new AlertDialog.Builder(requireActivity())
