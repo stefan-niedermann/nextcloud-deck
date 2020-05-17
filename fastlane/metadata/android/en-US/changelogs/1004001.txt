@@ -1,4 +1,4 @@
-1.4.0
+1.4.1
 
 - 🔗 Share link to cards (#497) - Requires deck server ≥ 1.0.0
 - 🐞 Fix switch to another app and back
