@@ -341,22 +341,25 @@ public class JsonToEntityParser {
                         if (deck.has("version")) {
                             version = deck.get("version").getAsString();
                             if (version == null || version.trim().length() < 1) {
-                                throw new ServerAppVersionNotParsableException("capabilities endpoint returned an invalid version string: \"" + version + "\"");
+                                throw new ServerAppVersionNotParsableException(ServerAppVersionNotParsableException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE,
+                                        "capabilities endpoint returned an invalid version string: \"" + version + "\"");
                             }
                         } else {
-                            throw new ServerAppVersionNotParsableException("deck version node is missing in capabilities endpoint! deck-node: "+deck.getAsString());
+                            throw new ServerAppVersionNotParsableException(ServerAppVersionNotParsableException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE,
+                                    "deck version node is missing in capabilities endpoint! deck-node: "+deck.getAsString());
                         }
                     } else {
-                        throw new ServerAppVersionNotParsableException("deck node is missing in capabilities endpoint!");
+                        throw new ServerAppVersionNotParsableException(ServerAppVersionNotParsableException.Hint.CAPABILITIES_NOT_PARSABLE,
+                                "deck node is missing in capabilities endpoint!");
                     }
                     if (caps.has("theming")) {
                         JsonObject theming = caps.getAsJsonObject("theming");
                         capabilities.setColor(theming.get("color").getAsString());
                         capabilities.setTextColor(theming.get("color-text").getAsString());
                     }
-                }
-                if (version == null || version.trim().length() < 1) {
-                    throw new ServerAppVersionNotParsableException("capabilities endpoint returned no version string at all!");
+                } else {
+                    throw new ServerAppVersionNotParsableException(ServerAppVersionNotParsableException.Hint.CAPABILITIES_NOT_PARSABLE,
+                            "capabilities node is missing in capabilities endpoint!");
                 }
                 capabilities.setDeckVersion(Version.of(version));
             }
