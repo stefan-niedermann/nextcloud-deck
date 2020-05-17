@@ -8,6 +8,8 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
@@ -25,6 +27,7 @@ public class Application extends android.app.Application {
     public void onCreate() {
         setAppTheme(getAppTheme(getApplicationContext()));
         super.onCreate();
+        AndroidThreeTen.init(this);
     }
 
     // --------

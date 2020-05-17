@@ -4,12 +4,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.threeten.bp.DateTimeUtils;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
@@ -35,11 +36,6 @@ import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABIL
 import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
 
 public class JsonToEntityParser {
-    private static SimpleDateFormat formatter = new SimpleDateFormat(GsonConfig.DATE_PATTERN);
-
-    static {
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-    }
 
     protected static <T> T parseJsonObject(JsonObject obj, Class<T> mType) {
         if (mType == FullBoard.class) {
@@ -441,11 +437,8 @@ public class JsonToEntityParser {
         if (jsonElement.isJsonNull()) {
             return null;
         } else {
-            try {
-                return formatter.parse(jsonElement.getAsString());
-            } catch (ParseException e) {
-                return null;
-            }
+            String dateAsString = jsonElement.getAsString();
+            return DateTimeUtils.toDate(ZonedDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(dateAsString)).toInstant());
         }
     }
 

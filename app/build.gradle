@@ -80,6 +80,9 @@ dependencies {
     // Custom Date / Time Picker for branding support
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 
+    // Android backport for java.time
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
+
     // Flexbox
     implementation 'com.google.android:flexbox:2.0.1'
 
