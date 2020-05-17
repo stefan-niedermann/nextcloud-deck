@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -80,7 +81,7 @@ public class Version implements Comparable<Version> {
         if (matcher.find()) {
             return Integer.parseInt(matcher.group());
         }
-        throw new IllegalArgumentException("could not extract a number from following string: \""+containsNumbers+"\"");
+        throw new IllegalArgumentException("could not extract a number from following string: \"" + containsNumbers + "\"");
     }
 
     @NonNull
@@ -152,5 +153,14 @@ public class Version implements Comparable<Version> {
         return isGreaterOrEqualTo(VERSION_1_0_0)
                 ? 255
                 : 100;
+    }
+
+    @Nullable
+    @StringRes
+    public Integer getShareLinkResource() {
+        if (isGreaterOrEqualTo(VERSION_1_0_0)) {
+            return R.string.url_fragment_share_card;
+        }
+        return null;
     }
 }

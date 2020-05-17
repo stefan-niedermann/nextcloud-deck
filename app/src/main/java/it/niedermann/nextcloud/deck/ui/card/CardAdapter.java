@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.card;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LifecycleOwner;
@@ -56,6 +58,8 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
     private final FragmentManager fragmentManager;
     private final Account account;
+    @Nullable
+    private final Long currentBoardRemoteId;
     private final long boardId;
     private final long stackId;
     private final boolean canEdit;
@@ -69,13 +73,18 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     private String counterMaxValue;
 
     private int mainColor;
+    @Nullable
+    @StringRes
+    private Integer shareLinkRes;
 
-    public CardAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull Account account, long boardId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
+    public CardAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull Account account, long boardId, @Nullable Long currentBoardRemoteId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.lifecycleOwner = lifecycleOwner;
         this.account = account;
+        this.shareLinkRes = account.getServerDeckVersionAsObject().getShareLinkResource();
         this.boardId = boardId;
+        this.currentBoardRemoteId = currentBoardRemoteId;
         this.stackId = stackId;
         this.canEdit = canEdit;
         this.syncManager = syncManager;
@@ -247,6 +256,9 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         } else {
             menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
         }
+        if (currentBoardRemoteId == null || card.getCard().getId() == null || shareLinkRes == null) {
+            menu.removeItem(R.id.share_link);
+        }
     }
 
     public void setCardList(@NonNull List<FullCard> cardList) {
@@ -269,6 +281,17 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
     protected boolean optionsItemSelected(@NonNull Context context, @NotNull MenuItem item, FullCard fullCard) {
         switch (item.getItemId()) {
+            case R.id.share_link: {
+                if (shareLinkRes == null) {
+                    return false;
+                }
+                Intent shareIntent = new Intent()
+                        .setAction(Intent.ACTION_SEND)
+                        .setType("text/plain")
+                        .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
+                        .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, currentBoardRemoteId, fullCard.getCard().getId()));
+                context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
+            }
             case R.id.action_card_assign: {
                 new Thread(() -> syncManager.assignUserToCard(syncManager.getUserByUidDirectly(fullCard.getCard().getAccountId(), account.getUserName()), fullCard.getCard())).start();
                 return true;

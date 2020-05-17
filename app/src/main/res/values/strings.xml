@@ -118,6 +118,7 @@
     <string name="url_about_icons_disclaimer_mdi" translatable="false">https://materialdesignicons.com/</string>
     <string name="url_fragment_update_deck" translatable="false">/index.php/settings/apps/installed/deck</string>
     <string name="url_fragment_server_logs" translatable="false">/index.php/settings/admin/logging</string>
+    <string name="url_fragment_share_card" translatable="false">/index.php/apps/deck/#/board/%1$d/card/%2$d</string>
 
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Attachments</string>
@@ -254,4 +255,5 @@
     <string name="error_action_server_logs">Server logs</string>
     <string name="info_box_maintenance_mode">Server in maintenance mode</string>
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
+    <string name="share_link">Share link</string>
 </resources>
