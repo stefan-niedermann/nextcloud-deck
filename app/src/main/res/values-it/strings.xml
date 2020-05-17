@@ -78,6 +78,9 @@
     <string name="label_description">Descrizione</string>
     <string name="hint_assign_people">Assegna utenti</string>
     <string name="hint_due_date_date">Data di scadenza</string>
+    <string name="card_not_found">Scheda non trovata</string>
+    <string name="card_not_found_message">Impossibile trovare la scheda. Forse è stata eliminata di recente.</string>
+
     <string name="add_account">Aggiungi account</string>
     <string name="choose_account">Scegli account</string>
     <string name="add_card">Aggiungi nuova scheda</string>

@@ -38,9 +38,9 @@
     <string name="simple_disabled">uitgeschakeld</string>
     <string name="simple_copied">Gekopieerd</string>
 
-    <string name="edit_board">Pas canvas aan</string>
-    <string name="archive_board">Archiveer canvas</string>
-    <string name="delete_board">Verwijder canvas</string>
+    <string name="edit_board">Pas bord aan</string>
+    <string name="archive_board">Archiveer bord</string>
+    <string name="delete_board">Bord verwijderen</string>
     <string name="delete_something">Verwijder %1$s</string>
 
     <!-- About -->
@@ -78,16 +78,19 @@
     <string name="label_description">Beschrijving</string>
     <string name="hint_assign_people">Toewijzen gebruikers</string>
     <string name="hint_due_date_date">Vervaldatum</string>
+    <string name="card_not_found">Kaart niet gevonden</string>
+    <string name="card_not_found_message">De kaart kon niet gevonden worden. Misschien is deze recent verwijderd.</string>
+
     <string name="add_account">Account toevoegen</string>
     <string name="choose_account">Kies account</string>
     <string name="add_card">Toevoegen nieuwe kaart</string>
     <string name="activity">Activiteit</string>
-    <string name="add_list">Toevoegen lijst</string>
-    <string name="rename_list">Hernoem lijst</string>
-    <string name="delete_list">Lijst verwijderen</string>
+    <string name="add_list">Stapel toevoegen</string>
+    <string name="rename_list">Stapel hernoemen</string>
+    <string name="delete_list">Stapel verwijderen</string>
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Wijs kaart toe aan mij</string>
-    <string name="action_card_unassign">Kaart van mij terughalen</string>
+    <string name="action_card_unassign">Kaart van mij afstoten</string>
     <string name="action_card_archive">Archiveer kaart</string>
     <string name="action_card_delete">Verwijderen kaart</string>
     <string name="add_board">Toevoegen bord</string>
@@ -106,22 +109,22 @@
     <string name="account_already_added">Account al toegevoegd.</string>
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
-    <string name="no_lists_yet">Nog geen lijsten</string>
+    <string name="no_lists_yet">Nog geen stapels</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Dit zal deze %1$dkaart permanent van de lijst verwijderen.</item>
-        <item quantity="other">Dit zal alle %1$dklaarten permanent van de lijst verwijderen.</item>
+        <item quantity="other">Dit zal alle %1$dkaarten definitief uit de stapel verwijderen.</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">Dit zal het label van %1$d verwijderen.</item>
         <item quantity="other">Dit zal het label van %1$d kaarten verwijderen.</item>
     </plurals>
-    <string name="add_a_new_list_using_the_button">Voeg een nieuwe lijst toe met de + knop</string>
+    <string name="add_a_new_list_using_the_button">Voeg een nieuwe stapel toe met de + knop</string>
     <string name="add_a_new_card_using_the_button">Voeg een nieuwe kaart toe met de \'+\' knop</string>
     <string name="update_deck">Werk deck bij</string>
     <string name="your_deck_version_is_too_old">Uw deck versie is te oud</string>
     <string name="deck_outdated_please_update">Je deck versie is te oud (%1$s). Update deze android app om de deck te kunnen gebruiken.</string>
-    <string name="delete_board_message">Dit zal dit bord permanent verwijderen inclusief alle stapels en kaarten.</string>
+    <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
     <string name="settings_theme_title">Donker thema</string>
     <string name="settings_branding_title">Brandmerken</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
@@ -147,7 +150,7 @@
     <string name="title_is_mandatory">Titel is verplicht</string>
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="welcome_text">Welkom bij %1$s</string>
-    <string name="save_card_before_attachment">De kaart moet worden opgeslagen voordat er bijlagen aan kunnen worden toegevoegd.</string>
+    <string name="save_card_before_attachment">De kaart moet worden bewaard voordat er bijlagen aan kunnen worden toegevoegd.</string>
     <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem a.u.b. contact op met de beheerder of probeer het later opnieuw</string>
     <string name="share_add_to_card">Toevoegen aan kaart</string>
     <string name="share_success">Succesvol %1$s toegevoegd aan %2$s</string>
@@ -158,14 +161,14 @@
     <string name="no_boards">Nog geen borden</string>
     <string name="add_a_new_board_using_the_button">Voeg een nieuw bord toe met de \'+\' knop</string>
     <string name="choose_board">Kies bord</string>
-    <string name="choose_list">Kies lijst</string>
+    <string name="choose_list">Kies stapel</string>
     <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Open in browser</string>
-    <string name="updating_card">Kaart updaten...</string>
+    <string name="updating_card">Kaart wordt geüpdatet...</string>
 
     <!-- Move lists -->
-    <string name="move_list_right">Verplaats de lijst naar rechts</string>
-    <string name="move_list_left">Verplaats de lijst naar links</string>
+    <string name="move_list_right">Verplaats de stapel naar rechts</string>
+    <string name="move_list_left">Verplaats de stapel naar links</string>
 
     <!-- Filter -->
     <string name="filter_no_filter">Alle</string>
@@ -194,7 +197,7 @@
     <string name="filter_duedate_title">Vervaldatum</string>
 
     <!-- Archived boards -->
-    <string name="action_board_dearchive">Bord-achivering ongedaan maken</string>
+    <string name="action_board_dearchive">Archiveren van bord ongedaan maken</string>
     <string name="archived_boards">Gearchiveerde borden</string>
 
     <!-- Errors -->
@@ -223,6 +226,9 @@
     <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alstublieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
     <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
     <string name="error_dialog_redirect">Je server heeft gereageerd met een HTTP 302-statuscode, wat inhoudt dat je de Deck-app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dit kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud-apps zoals de OID Client.</string>
+    <string name="error_action_open_deck_info">Open App informatie</string>
+    <string name="error_action_open_network">Netwerk instellingen</string>
+    <string name="error_action_server_logs">Server logbestanden</string>
     <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
     <string name="info_box_version_not_supported">Server versie %1$s is niet ondersteund, werk bij naar %2$s</string>
 </resources>

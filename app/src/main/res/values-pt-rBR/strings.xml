@@ -78,6 +78,9 @@
     <string name="label_description">Descrição</string>
     <string name="hint_assign_people">Atribuir usuários</string>
     <string name="hint_due_date_date">Data de vencimento</string>
+    <string name="card_not_found">Cartão não encontrado</string>
+    <string name="card_not_found_message">O cartão não foi encontrado. Talvez tenha sido recentemente excluído.</string>
+
     <string name="add_account">Adicionar conta</string>
     <string name="choose_account">Escolher conta</string>
     <string name="add_card">Adicionar novo cartão</string>
@@ -223,5 +226,9 @@
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não possui mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
     <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudá-lo:</string>
     <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck no servidor ou que algo está configurado incorretamente. Isso pode ser causado por alterações no arquivo .htaccess ou por aplicativos Nextcloud como o Client OID.</string>
+    <string name="error_action_open_deck_info">Abra as informações do Aplicativo</string>
+    <string name="error_action_open_network">Configurações da rede</string>
+    <string name="error_action_server_logs">Logs do servidor</string>
     <string name="info_box_maintenance_mode">Servidor em modo de manutenção</string>
-    </resources>
+    <string name="info_box_version_not_supported">A versão %1$s do servidor não é suportada, atualize para %2$s</string>
+</resources>

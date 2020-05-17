@@ -78,6 +78,9 @@
     <string name="label_description">Описание</string>
     <string name="hint_assign_people">Назначить карточку пользователю</string>
     <string name="hint_due_date_date">Срок исполнения</string>
+    <string name="card_not_found">Карточка не найдена</string>
+    <string name="card_not_found_message">Не удалось найти карточку. Возможно, она была недавно удалена.</string>
+
     <string name="add_account">Добавить аккаунт</string>
     <string name="choose_account">Выбрать аккаунт</string>
     <string name="add_card">Создать карточку</string>
@@ -95,7 +98,7 @@
     <string name="label_clear_due_date">Удалить срок исполнения</string>
     <string name="label_add">Добавить %1$s </string>
 
-    <string name="card_edit_details">Подробности</string>
+    <string name="card_edit_details">Свойства</string>
     <string name="card_edit_attachments">Вложения</string>
     <string name="card_edit_activity">События</string>
     <string name="about_server_app_version_text">Версия приложения на сервере:</string>
@@ -227,5 +230,9 @@
     <string name="error_dialog_insufficient_storage">На вашем экземпляре Nextcloud нет свободного места. Удалите ненужные файлы для синхронизации изменений в облако.</string>
     <string name="error_dialog_we_need_info">Требуется следующая техническая информация от вас:</string>
     <string name="error_dialog_redirect">На запрос сервер вернул код состояния HTTP 302, что означает, что  приложение Deck либо не установлено, либо сервер настроен неверно. Такое поведение может являться следствием замены стандартного файла .htaccess администратором сервера или приложением Nextcloud, таким как OID Client.</string>
+    <string name="error_action_open_deck_info">Открыть информацию о приложении</string>
+    <string name="error_action_open_network">Параметры сети</string>
+    <string name="error_action_server_logs">Журналы сервера</string>
     <string name="info_box_maintenance_mode">Сервер находится в режиме обслуживания</string>
-    </resources>
+    <string name="info_box_version_not_supported">Версия сервера %1$s не поддерживается, необходимо выполнить обновление до версии %2$s</string>
+</resources>

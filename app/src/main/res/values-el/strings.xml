@@ -78,6 +78,9 @@
     <string name="label_description">Περιγραφή</string>
     <string name="hint_assign_people">Ορισμός χρηστών</string>
     <string name="hint_due_date_date">Προθεσμία</string>
+    <string name="card_not_found">Δεν βρέθηκε η καρτέλα</string>
+    <string name="card_not_found_message">Η καρτέλα δεν βρέθηκε. Ίσως διαγράφηκε πρόσφατα.</string>
+
     <string name="add_account"> Προσθήκη λογαριασμού </string>
     <string name="choose_account">Επιλογή λογαριασμού</string>
     <string name="add_card">Προσθήκη νέας καρτέλας</string>
@@ -193,6 +196,8 @@
     <string name="filter_user_title">Χρήστες</string>
     <string name="filter_duedate_title">Προθεσμία</string>
 
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Αναίρεση αρχειοθέτησης πίνακα</string>
     <string name="archived_boards">Αρχειοθέτηση πινάκων </string>
 
     <!-- Errors -->
@@ -221,5 +226,9 @@
     <string name="error_dialog_insufficient_storage">Δεν υπάρχει επαρκής χώρος αποθήκευσης στο Nextcloud. Διαγράψτε ορισμένα αρχεία για να συγχρονίσετε τις αλλαγές σας.</string>
     <string name="error_dialog_we_need_info">Χρειαζόμαστε τις ακόλουθες τεχνικές πληροφορίες για να σας βοηθήσουμε:</string>
     <string name="error_dialog_redirect">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client.</string>
+    <string name="error_action_open_deck_info">Πληροφορίες εφαρμογής</string>
+    <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
+    <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
     <string name="info_box_maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
-    </resources>
+    <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
+</resources>

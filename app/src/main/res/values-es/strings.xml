@@ -29,13 +29,13 @@
     <string name="simple_update">Actualizar</string>
     <string name="simple_delete">Eliminar</string>
     <string name="simple_rename">Renombrar</string>
-    <string name="simple_settings">Configuración</string>
+    <string name="simple_settings">Ajustes</string>
     <string name="simple_undo">Deshacer</string>
-    <string name="simple_manage">Organizar</string>
+    <string name="simple_manage">organizar</string>
     <string name="simple_share">Compartir</string>
     <string name="simple_select">Seleccionar</string>
     <string name="simple_comment">Comentario</string>
-    <string name="simple_disabled">Deshabilitado</string>
+    <string name="simple_disabled">deshabilitado</string>
     <string name="simple_copied">Copiado</string>
 
     <string name="edit_board">Editar tablero</string>
@@ -78,6 +78,9 @@
     <string name="label_description">Descripción</string>
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Fecha de fin</string>
+    <string name="card_not_found">Tarjeta no encontrada</string>
+    <string name="card_not_found_message">No se ha podido encontrar la tarjeta. Quizás se ha eliminado recientemente.</string>
+
     <string name="add_account">Añadir cuenta</string>
     <string name="choose_account">Elige una cuenta</string>
     <string name="add_card">Añadir nueva tarjeta</string>
@@ -138,12 +141,12 @@
     <string name="no_content">Aún no hay contenido</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_off">Off</string>
-    <string name="minutes_15">15 minutos</string>
-    <string name="hour_1">1 hora</string>
-    <string name="hours_6">6 horas</string>
+    <string name="minutes_15">15 Minutos</string>
+    <string name="hour_1">1 Hora</string>
+    <string name="hours_6">6 Horas</string>
     <string name="action_card_move">Mover tarjeta</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="please_add_an_account_first">Por favor, añade primero una cuenta..</string>
+    <string name="please_add_an_account_first">Por favor, añade primero una cuenta</string>
     <string name="title_is_mandatory">El título es obligatorio</string>
     <string name="provide_at_least_a_title_or_description">Indique al menos un título o una descripción</string>
     <string name="welcome_text">Bienvenido a %1$s</string>

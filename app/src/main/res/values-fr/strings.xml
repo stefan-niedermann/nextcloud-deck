@@ -78,6 +78,9 @@
     <string name="label_description">Description</string>
     <string name="hint_assign_people">Assigner des utilisateurs</string>
     <string name="hint_due_date_date">Date d\'échéance</string>
+    <string name="card_not_found">Carte non trouvé</string>
+    <string name="card_not_found_message">La carte est introuvable. Elle a peut-être été supprimée récemment.</string>
+
     <string name="add_account">Ajouter un compte</string>
     <string name="choose_account">Sélectionnez un compte</string>
     <string name="add_card">Ajouter une nouvelle carte</string>
@@ -193,6 +196,8 @@
     <string name="filter_user_title">Utilisateurs</string>
     <string name="filter_duedate_title">Date d\'échéance</string>
 
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Annuler l\'archivage du tableau</string>
     <string name="archived_boards">Tableaux archivés</string>
 
     <!-- Errors -->
@@ -221,6 +226,7 @@
     <string name="error_dialog_insufficient_storage">Votre instance Nextcloud n\'a plus d\'espace disponible. Veuillez supprimer certains fichiers pour pouvoir synchroniser vos modifications locales dans votre cloud.</string>
     <string name="error_dialog_we_need_info">Nous avons besoin des informations techniques suivantes pour pouvoir vous aider :</string>
     <string name="error_dialog_redirect">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés du fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
+    <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_network">Paramètres réseau</string>
     <string name="error_action_server_logs">Journaux serveur</string>
     <string name="info_box_maintenance_mode">Serveur en maintenance</string>

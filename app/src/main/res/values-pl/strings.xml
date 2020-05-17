@@ -78,6 +78,9 @@
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Przydziel użytkowników</string>
     <string name="hint_due_date_date">Data realizacji</string>
+    <string name="card_not_found">Nie znaleziono karty</string>
+    <string name="card_not_found_message">Nie można znaleźć karty. Być może została niedawno usunięta.</string>
+
     <string name="add_account">Dodaj konto</string>
     <string name="choose_account">Wybierz konto</string>
     <string name="add_card">Dodaj nową kartę</string>

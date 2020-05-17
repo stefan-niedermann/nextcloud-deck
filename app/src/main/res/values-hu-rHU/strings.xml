@@ -78,6 +78,9 @@
     <string name="label_description">Leírás</string>
     <string name="hint_assign_people">Felhasználók hozzárendelése</string>
     <string name="hint_due_date_date">Határidő</string>
+    <string name="card_not_found">A kártya nem található</string>
+    <string name="card_not_found_message">A kártya nem található. Lehet, hogy nemrég törölték.</string>
+
     <string name="add_account">Fiók hozzáadása</string>
     <string name="choose_account">Válasszon fiókot</string>
     <string name="add_card">Új kártya hozzáadása</string>
@@ -223,6 +226,9 @@
     <string name="error_dialog_insufficient_storage">A Nextcloud példányán elfogyott a szabad hely. Töröljön pár fájlt, hogy szinkronizálhassa a helyi változtatásait a felhővel.</string>
     <string name="error_dialog_we_need_info">A következő műszaki információkra van szükségünk, hogy segíthessünk:</string>
     <string name="error_dialog_redirect">A kiszolgálója 302-es HTTP állapotkóddal válaszolt, amely arra utal, hogy nincs telepítve a Kártyák alkalmazás a kiszolgálón, vagy valami hibásan van beállítva. Ezt egyéni felülírások is okozhatják, mint egy .htaccess-fájl vagy az OID klienshez hasonló Nextcloud alkalmazások.</string>
+    <string name="error_action_open_deck_info">Alkalmazásinformációk megnyitása</string>
+    <string name="error_action_open_network">Hálózati beállítások</string>
+    <string name="error_action_server_logs">Kiszolgálónaplók</string>
     <string name="info_box_maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
 </resources>
