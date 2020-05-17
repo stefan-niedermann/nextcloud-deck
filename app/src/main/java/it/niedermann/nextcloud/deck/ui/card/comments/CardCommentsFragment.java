@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,10 +17,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Date;
 
+import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
+import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 
 import static android.view.View.GONE;
@@ -45,6 +49,20 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
         binding = FragmentCardEditTabCommentsBinding.inflate(inflater, container, false);
 
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+
+        // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
+        // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
+        if (viewModel.getFullCard() == null) {
+            DeckLog.logError(new IllegalStateException("Cannot populate " + CardCommentsFragment.class.getSimpleName() + " because viewModel.getFullCard() is null"));
+            if (requireActivity() instanceof EditActivity) {
+                Toast.makeText(getContext(), R.string.error_edit_activity_killed_by_android, Toast.LENGTH_LONG).show();
+                ((EditActivity) requireActivity()).directFinish();
+            } else {
+                requireActivity().finish();
+            }
+            return binding.getRoot();
+        }
+
         syncManager = new SyncManager(requireActivity());
         adapter = new CardCommentsAdapter(requireContext(), viewModel.getAccount(), requireActivity().getMenuInflater(), this, getChildFragmentManager());
         binding.comments.setAdapter(adapter);

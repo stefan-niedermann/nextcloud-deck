@@ -29,7 +29,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -358,20 +357,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             overflowDrawable.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
             headerBinding.drawerAccountChooserToggle.setImageDrawable(overflowDrawable);
         }
-    }
-
-    @Override
-    protected void onStop() {
-        // Clean up zombie fragments in case of system initiated process death.
-        // See linked issues in https://github.com/stefan-niedermann/nextcloud-deck/issues/478
-        try {
-            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-            }
-        } catch (IllegalStateException e) {
-            DeckLog.warn("onSAveInstanceState has already been called.");
-        }
-        super.onStop();
     }
 
     @Override

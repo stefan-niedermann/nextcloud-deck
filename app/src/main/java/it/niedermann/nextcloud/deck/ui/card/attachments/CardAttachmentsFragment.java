@@ -65,6 +65,13 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         binding = FragmentCardEditTabAttachmentsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
+        // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
+        // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
+        if (viewModel.getFullCard() == null) {
+            DeckLog.logError(new IllegalStateException("Cannot populate " + CardAttachmentsFragment.class.getSimpleName() + " because viewModel.getFullCard() is null"));
+            return binding.getRoot();
+        }
+
         syncManager = new SyncManager(requireContext());
         adapter = new CardAttachmentAdapter(
                 requireContext(),

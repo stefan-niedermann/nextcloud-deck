@@ -14,13 +14,12 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -279,22 +278,15 @@ public class EditActivity extends BrandedActivity {
                     .setPositiveButton(R.string.simple_save, (dialog, whichButton) -> saveAndFinish())
                     .setNegativeButton(R.string.simple_discard, (dialog, whichButton) -> super.finish()).show();
         } else {
-            super.finish();
+            directFinish();
         }
     }
 
-    @Override
-    protected void onStop() {
-        // Clean up zombie fragments in case of system initiated process death.
-        // See linked issues in https://github.com/stefan-niedermann/nextcloud-deck/issues/478
-        try {
-            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-            }
-        } catch (IllegalStateException e) {
-            DeckLog.warn("onSAveInstanceState has already been called.");
-        }
-        super.onStop();
+    /**
+     * Performs a call of {@link AppCompatActivity#finish()} without checking for changes
+     */
+    public void directFinish() {
+        super.finish();
     }
 
     @Override
