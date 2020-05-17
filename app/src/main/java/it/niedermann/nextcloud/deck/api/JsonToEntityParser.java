@@ -32,7 +32,6 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 
-import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_NOT_PARSABLE;
 import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
 
 public class JsonToEntityParser {
@@ -356,9 +355,6 @@ public class JsonToEntityParser {
                         capabilities.setColor(theming.get("color").getAsString());
                         capabilities.setTextColor(theming.get("color-text").getAsString());
                     }
-                } else {
-                    throw new DeckException(CAPABILITIES_NOT_PARSABLE,
-                            "capabilities node is missing in capabilities endpoint!");
                 }
                 capabilities.setDeckVersion(Version.of(version));
             }
