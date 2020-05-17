@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.exceptions.ServerAppVersionNotParsableException;
+import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -30,6 +30,9 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+
+import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_NOT_PARSABLE;
+import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
 
 public class JsonToEntityParser {
     private static SimpleDateFormat formatter = new SimpleDateFormat(GsonConfig.DATE_PATTERN);
@@ -341,15 +344,15 @@ public class JsonToEntityParser {
                         if (deck.has("version")) {
                             version = deck.get("version").getAsString();
                             if (version == null || version.trim().length() < 1) {
-                                throw new ServerAppVersionNotParsableException(ServerAppVersionNotParsableException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE,
+                                throw new DeckException(CAPABILITIES_VERSION_NOT_PARSABLE,
                                         "capabilities endpoint returned an invalid version string: \"" + version + "\"");
                             }
                         } else {
-                            throw new ServerAppVersionNotParsableException(ServerAppVersionNotParsableException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE,
-                                    "deck version node is missing in capabilities endpoint! deck-node: "+deck.getAsString());
+                            throw new DeckException(CAPABILITIES_VERSION_NOT_PARSABLE,
+                                    "deck version node is missing in capabilities endpoint! deck-node: " + deck.getAsString());
                         }
                     } else {
-                        throw new ServerAppVersionNotParsableException(ServerAppVersionNotParsableException.Hint.CAPABILITIES_NOT_PARSABLE,
+                        throw new DeckException(CAPABILITIES_VERSION_NOT_PARSABLE,
                                 "deck node is missing in capabilities endpoint!");
                     }
                     if (caps.has("theming")) {
@@ -358,7 +361,7 @@ public class JsonToEntityParser {
                         capabilities.setTextColor(theming.get("color-text").getAsString());
                     }
                 } else {
-                    throw new ServerAppVersionNotParsableException(ServerAppVersionNotParsableException.Hint.CAPABILITIES_NOT_PARSABLE,
+                    throw new DeckException(CAPABILITIES_NOT_PARSABLE,
                             "capabilities node is missing in capabilities endpoint!");
                 }
                 capabilities.setDeckVersion(Version.of(version));

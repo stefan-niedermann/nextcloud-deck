@@ -27,7 +27,7 @@ import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogExceptionBinding;
-import it.niedermann.nextcloud.deck.exceptions.ServerAppVersionNotParsableException;
+import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
@@ -112,8 +112,27 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
                     adapter.add(R.string.error_dialog_insufficient_storage);
                     break;
             }
-        } else if (throwable instanceof ServerAppVersionNotParsableException) {
-            adapter.add(R.string.error_dialog_version_not_parsable);
+        } else if (throwable instanceof DeckException) {
+            switch (((DeckException) throwable).getHint()) {
+                case CAPABILITIES_VERSION_NOT_PARSABLE:
+                    if (account != null) {
+                        adapter.add(R.string.error_dialog_version_not_parsable, new Intent(Intent.ACTION_VIEW)
+                                .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_install)
+                                .setData(Uri.parse(account.getUrl() + getString(R.string.url_fragment_install_deck))));
+                    } else {
+                        adapter.add(R.string.error_dialog_version_not_parsable);
+                    }
+                    break;
+                case CAPABILITIES_NOT_PARSABLE:
+                default:
+                    if (account != null) {
+                        adapter.add(R.string.error_dialog_capabilities_not_parsable, new Intent(Intent.ACTION_VIEW)
+                                .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_server_logs)
+                                .setData(Uri.parse(account.getUrl() + getString(R.string.url_fragment_server_logs))));
+                    } else {
+                        adapter.add(R.string.error_dialog_capabilities_not_parsable);
+                    }
+            }
         }
 
         return new AlertDialog.Builder(requireActivity())

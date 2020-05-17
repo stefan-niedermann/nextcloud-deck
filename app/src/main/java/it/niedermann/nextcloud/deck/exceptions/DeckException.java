@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.deck.exceptions;
 
-public class ServerAppVersionNotParsableException extends IllegalArgumentException {
+public class DeckException extends IllegalArgumentException {
 
     public enum Hint {
         CAPABILITIES_NOT_PARSABLE,
@@ -9,7 +9,7 @@ public class ServerAppVersionNotParsableException extends IllegalArgumentExcepti
 
     private Hint hint;
 
-    public ServerAppVersionNotParsableException(Hint hint, String message) {
+    public DeckException(Hint hint, String message) {
         super(message);
         this.hint = hint;
     }
