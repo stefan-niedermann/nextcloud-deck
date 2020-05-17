@@ -158,59 +158,64 @@ public class SyncManager {
         doAsync(() -> refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
             @Override
             public void onResponse(Capabilities response) {
-                if (!response.isMaintenanceEnabled() && response.getDeckVersion().isSupported(appContext)) {
-                    long accountId = responseCallback.getAccount().getId();
-                    Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());
-                    Date now = DateUtil.nowInGMT();
+                if (!response.isMaintenanceEnabled()) {
+                    if (response.getDeckVersion().isSupported(appContext)) {
+                        long accountId = responseCallback.getAccount().getId();
+                        Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());
+                        Date now = DateUtil.nowInGMT();
 
-                    final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
+                        final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
 
-                    IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(responseCallback.getAccount()) {
-                        @Override
-                        public void onResponse(Boolean response) {
-                            syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
-                                @Override
-                                public void onResponse(Boolean response) {
-                                    // TODO deactivate for dev
-                                    LastSyncUtil.setLastSyncDate(accountId, now);
-                                    responseCallback.onResponse(response);
-                                }
+                        IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(responseCallback.getAccount()) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
+                                    @Override
+                                    public void onResponse(Boolean response) {
+                                        // TODO deactivate for dev
+                                        LastSyncUtil.setLastSyncDate(accountId, now);
+                                        responseCallback.onResponse(response);
+                                    }
 
-                                @Override
-                                public void onError(Throwable throwable) {
-                                    super.onError(throwable);
-                                    responseCallback.onError(throwable);
-                                }
-                            });
-                            doAsync(() -> {
-                                try {
-                                    syncHelper.doUpSyncFor(new BoardDataProvider());
-                                } catch (Throwable e) {
-                                    DeckLog.logError(e);
-                                    responseCallback.onError(e);
-                                }
-                            });
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        super.onError(throwable);
+                                        responseCallback.onError(throwable);
+                                    }
+                                });
+                                doAsync(() -> {
+                                    try {
+                                        syncHelper.doUpSyncFor(new BoardDataProvider());
+                                    } catch (Throwable e) {
+                                        DeckLog.logError(e);
+                                        responseCallback.onError(e);
+                                    }
+                                });
 
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                responseCallback.onError(throwable);
+                            }
+                        };
+
+                        syncHelper.setResponseCallback(callback);
+
+                        try {
+                            syncHelper.doSyncFor(new BoardDataProvider());
+                        } catch (Throwable e) {
+                            DeckLog.logError(e);
+                            responseCallback.onError(e);
                         }
-
-                        @Override
-                        public void onError(Throwable throwable) {
-                            super.onError(throwable);
-                            responseCallback.onError(throwable);
-                        }
-                    };
-
-                    syncHelper.setResponseCallback(callback);
-
-                    try {
-                        syncHelper.doSyncFor(new BoardDataProvider());
-                    } catch (Throwable e) {
-                        DeckLog.logError(e);
-                        responseCallback.onError(e);
+                    } else {
+                        responseCallback.onResponse(false);
+                        DeckLog.warn("No sync. Server version not supported: " + response.getDeckVersion().getOriginalVersion());
                     }
                 } else {
                     responseCallback.onResponse(false);
-                    DeckLog.warn("No sync. Status maintenance mode: " + response.isMaintenanceEnabled() + ". Server version : " + response.getDeckVersion().getOriginalVersion());
+                    DeckLog.warn("No sync. Status maintenance mode: " + response.isMaintenanceEnabled());
                 }
             }
         }));

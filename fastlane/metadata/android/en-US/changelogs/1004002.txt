@@ -1,6 +1,7 @@
 1.4.2
 
 - 🕒 Fix due time AM / PM issues with server version 1.0.0 (#505)
+- 🐞 Fix maintenance mode crash
 
 1.4.1
 
