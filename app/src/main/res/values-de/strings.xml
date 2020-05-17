@@ -78,6 +78,9 @@
     <string name="label_description">Beschreibung</string>
     <string name="hint_assign_people">Benutzer zuweisen</string>
     <string name="hint_due_date_date">Fälligkeitsdatum</string>
+    <string name="card_not_found">Karte nicht gefunden</string>
+    <string name="card_not_found_message">Die Karte konnte nicht gefunden werden. Möglicherweise wurde sie zwischenzeitlich gelöscht.</string>
+
     <string name="add_account">Konto hinzufügen</string>
     <string name="choose_account">Konto auswählen</string>
     <string name="add_card">Neue Karte hinzufügen</string>
@@ -113,8 +116,8 @@
         <item quantity="other">Dies wird %1$d Karten permanent aus dieser Liste löschen.</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
-        <item quantity="one">Dies wird die Markierung von %1$d Karte entfernen</item>
-        <item quantity="other">Dies wird die Markierung von %1$d Karten entfernen</item>
+        <item quantity="one">Dies wird die Markierung von %1$d Karte entfernen.</item>
+        <item quantity="other">Dies wird die Markierung von %1$d Karten entfernen.</item>
     </plurals>
     <string name="add_a_new_list_using_the_button">Eine neue Liste mit der + Taste hinzufügen</string>
     <string name="add_a_new_card_using_the_button">Eine neue Karte mit der + Taste hinzufügen</string>
@@ -223,9 +226,9 @@
     <string name="error_dialog_insufficient_storage">Ihre Nextcloud-Installation hat keinen freien Speicherplatz mehr. Bitte löschen Sie einige Dateien, um Ihre lokalen Änderungen mit Ihrer Cloud synchronisieren zu können.</string>
     <string name="error_dialog_we_need_info">Wir benötigen die folgenden technischen Informationen, um Ihnen helfen zu können:</string>
     <string name="error_dialog_redirect">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID-Client verursacht werden.</string>
-    <string name="error_action_open_deck_info">App Informationen öffnen</string>
+    <string name="error_action_open_deck_info">App-Informationen öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
-    <string name="error_action_server_logs">Serverlogs</string>
+    <string name="error_action_server_logs">Server-Protokolle</string>
     <string name="info_box_maintenance_mode">Server befindet sich im Wartungsmodus</string>
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
 </resources>

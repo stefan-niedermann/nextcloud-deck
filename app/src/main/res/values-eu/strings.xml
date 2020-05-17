@@ -78,6 +78,9 @@
     <string name="label_description">Deskribapena</string>
     <string name="hint_assign_people">Esleitu erabiltzaileak</string>
     <string name="hint_due_date_date">Epe-muga</string>
+    <string name="card_not_found">Txartela ez da aurkitu</string>
+    <string name="card_not_found_message">Ezin izan da txartela aurkitu. Agian duela gutxi ezabatu da.</string>
+
     <string name="add_account">Gehitu kontua</string>
     <string name="choose_account">Aukeratu kontua</string>
     <string name="add_card">Gehitu txartel berria</string>
@@ -193,6 +196,8 @@
     <string name="filter_user_title">Erabiltzaileak</string>
     <string name="filter_duedate_title">Epe-muga</string>
 
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Desegin mahaiaren artxiboa</string>
     <string name="archived_boards">Artxibatutako taulak</string>
 
     <!-- Errors -->
@@ -221,5 +226,9 @@
     <string name="error_dialog_insufficient_storage">Zure Nextcloud instantziak ez du biltegiratze leku libre gehiagorik. Ezabatu fitxategi batzuk, aldaketa lokalak hodeiarekin sinkroniza daitezen.</string>
     <string name="error_dialog_we_need_info">Zuri laguntzeko hurrengo informazio teknikoa behar dugu:</string>
     <string name="error_dialog_redirect">Zure zerbitzariak HTTP 302 egoera kodearekin erantzun du, honek esan nahi du ez duzula Sortak aplikazioa ez duzula zure zerbitzarian instalatu edo zerbait txarto konfiguratuta dagoela. Hau .htaccess fitxategi batean arau pertsonalizatuak daudelako edo OID Bezeroa izeneko aplikazioarengatik sortua izan daiteke. </string>
+    <string name="error_action_open_deck_info">Ireki aplikazioaren informazioa</string>
+    <string name="error_action_open_network">Sareko ezarpenak</string>
+    <string name="error_action_server_logs">Zerbitzariaren egunkariak</string>
     <string name="info_box_maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
-    </resources>
+    <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
+</resources>

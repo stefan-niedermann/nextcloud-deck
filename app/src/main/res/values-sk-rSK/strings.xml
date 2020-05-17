@@ -78,6 +78,9 @@
     <string name="label_description">Popis</string>
     <string name="hint_assign_people">Priradiť používateľov</string>
     <string name="hint_due_date_date">Termín dokončenia</string>
+    <string name="card_not_found">Karta sa nenašla</string>
+    <string name="card_not_found_message">Kartu sa nepodarilo nájsť. Možno bola nedávno odstránená.</string>
+
     <string name="add_account">Pridať účet</string>
     <string name="choose_account">Zvoliť účet</string>
     <string name="add_card">Pridať novú kartu</string>

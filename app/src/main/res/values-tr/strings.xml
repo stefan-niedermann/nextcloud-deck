@@ -78,6 +78,9 @@
     <string name="label_description">Açıklama</string>
     <string name="hint_assign_people">Kullanıcı ata</string>
     <string name="hint_due_date_date">Bitiş tarihi</string>
+    <string name="card_not_found">Kart bulunamadı</string>
+    <string name="card_not_found_message">Kart bulunamadı. Yakın zamanda silinmiş olabilir.</string>
+
     <string name="add_account">Hesap ekle</string>
     <string name="choose_account">Hesap seçin</string>
     <string name="add_card">Yeni kart ekle</string>
@@ -223,6 +226,9 @@
     <string name="error_dialog_insufficient_storage">Nextcloud kopyanızda boş depolama alanı kalmamış. Lütfen yerel değişikliklerinizi bulut ile eşitlemek için bazı dosyaları silerek yer açın.</string>
     <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
     <string name="error_dialog_redirect">Sunucunuz, üzerine Tahta uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
+    <string name="error_action_open_deck_info">Uygulama bilgilerini aç</string>
+    <string name="error_action_open_network">Ağ ayarları</string>
+    <string name="error_action_server_logs">Sunucu günlükleri</string>
     <string name="info_box_maintenance_mode">Sunucu bakım kipinde</string>
     <string name="info_box_version_not_supported">%1$s sunucu sürümü desteklenmiyor. Lütfen %2$s sürümüne güncelleyin</string>
 </resources>
