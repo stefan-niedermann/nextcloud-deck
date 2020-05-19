@@ -210,7 +210,6 @@
     <string name="server_misconfigured">Problème de configuration serveur</string>
     <string name="server_error">Erreur du serveur</string>
     <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
-
     <string name="error_dialog_title">Oh non ! - Et maintenant ? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Essayez de forcer la fermeture de l\'application puis redémarrer la. Il y avait peut-être une mauvaise connexion à Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Si le problème persiste, essayez d\'effacer les données d\'application des deux applications: Nextcloud et Nextcloud Deck pour résoudre ce problème.</string>
@@ -229,6 +228,8 @@
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_network">Paramètres réseau</string>
     <string name="error_action_server_logs">Journaux serveur</string>
+    <string name="error_action_install">Installer</string>
     <string name="info_box_maintenance_mode">Serveur en maintenance</string>
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour en  %2$s</string>
+    <string name="share_link">Lien de partage</string>
 </resources>

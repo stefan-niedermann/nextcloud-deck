@@ -175,7 +175,6 @@
     <string name="server_misconfigured">Server er forkert konfigureret </string>
     <string name="server_error">Serverfejl</string>
     <string name="shared_error">Deling af indhold fra 3. parts apps understøttes endnu ikke fuldt ud. Forsøg at hente det først, og dernæst dele det fra din indbyggede filhåndtering eller dit galleri.</string>
-
     <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
     <string name="error_dialog_tip_files_outdated">Din Nextcloud-app ser ud til at være forældet. Gå venligst til Play Butik eller F-Droid for at få seneste version.</string>
@@ -187,4 +186,5 @@
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
     <string name="info_box_maintenance_mode">Server i vedligeholdelsestilstand</string>
-    </resources>
+    <string name="share_link">Del link</string>
+</resources>

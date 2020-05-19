@@ -210,6 +210,7 @@
     <string name="server_misconfigured">Configurazione server non corretta</string>
     <string name="server_error">Errore del server</string>
     <string name="shared_error">La condivisione della condivisione di contenuti di applicazioni di terze parti non è ancora supportata. Prova a scaricarli prima e poi condividili dal gestore dei file nativo o dalla galleria.</string>
+    <string name="error_edit_activity_killed_by_android">Android ha terminato la modalità di modifica poiché richiedeva più risorse di sistema per le altre applicazioni.</string>
 
     <string name="error_dialog_title">Oh no - E adesso? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prova a forzare la chiusura dell\'applicazione e riavviarla nuovamente. Potrebbe essersi verificato un problema di connessione all\'applicazione Nextcloud. </string>
@@ -226,9 +227,13 @@
     <string name="error_dialog_insufficient_storage">La tua istanza di Nextcloud non ha più spazio libero. Elimina alcuni file per sincronizzare le modifiche locali con il tuo cloud.</string>
     <string name="error_dialog_we_need_info">Ci servono le seguenti informazioni tecniche per aiutarti:</string>
     <string name="error_dialog_redirect">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causato da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client.</string>
+    <string name="error_dialog_version_not_parsable">Impossibile determinare la versione dell\'applicazione Deck lato server. Assicurati che sia installata e abilitata.</string>
+    <string name="error_dialog_capabilities_not_parsable">Non siamo riusciti a recuperare le funzionalità del tuo server. Assicurati che il server sia in esecuzione e che le altre applicazioni siano in grado di accedere a Nextcloud.</string>
     <string name="error_action_open_deck_info">Apri Informazioni applicazione</string>
     <string name="error_action_open_network">Impostazioni di rete</string>
     <string name="error_action_server_logs">Log del server</string>
+    <string name="error_action_install">Installa</string>
     <string name="info_box_maintenance_mode">Server in manutenzione</string>
     <string name="info_box_version_not_supported">Versione del server %1$s non supportata, aggiorna a %2$s</string>
+    <string name="share_link">Condividi collegamento</string>
 </resources>
