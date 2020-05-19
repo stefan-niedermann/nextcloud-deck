@@ -214,7 +214,6 @@
     <string name="server_misconfigured">Сервер налаштовано некоректно</string>
     <string name="server_error">Помилка серверу</string>
     <string name="shared_error">Спільний доступ до вмісту з інших застосунків ще не підтримується повністю. Будь ласка, спробуйте спочатку звантажити цей вміст, а потім поділитися ним через вбудований менеджер файлів або галерею.</string>
-
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
     <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
@@ -222,4 +221,5 @@
     <string name="error_action_server_logs">Журнал сервера</string>
     <string name="info_box_maintenance_mode">Сервер у режимі обслуговування</string>
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
+    <string name="share_link">Поширити посилання</string>
 </resources>

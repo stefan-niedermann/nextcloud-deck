@@ -210,6 +210,7 @@
     <string name="server_misconfigured">Servidor mal configurado</string>
     <string name="server_error">Error en el servidor</string>
     <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
+    <string name="error_edit_activity_killed_by_android">Android finalizó el modo de edición debido a que se necesitaban más recursos del sistema para otras aplicaciones.</string>
 
     <string name="error_dialog_title">Oh no - ¿Ahora qué? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta forzar el cierre de la aplicación y vuelve a abrirla. Es posible que haya habido un problema de conexión con la aplicación Nextcloud.</string>
@@ -226,9 +227,13 @@
     <string name="error_dialog_insufficient_storage">Su instancia de Nextcloud no tiene espacio libre de almacenamiento. Por favor elimine algunos archivos para sincronizar sus cambios locales con su nube.</string>
     <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
     <string name="error_dialog_redirect">Tu servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Deck en su servidor o que algo está mal configurado. Esto puede estar causado por anulaciones personalizadas en un  archivo .htaccess o por aplicaciones de Nexcloud como OID Client. </string>
+    <string name="error_dialog_version_not_parsable">No se pudo determinar la versión de la aplicación Deck en el lado del servidor. Por favor, compruebe que está instalada y activada. </string>
+    <string name="error_dialog_capabilities_not_parsable">No se ha podido comprobar las capacidades de su servidor. Por favor compruebe que su servidor está funcionando bien y que otras aplicaciones de cliente son capaces de acceder a Nextcloud.</string>
     <string name="error_action_open_deck_info">Abrir info de la app</string>
     <string name="error_action_open_network">Configuración de red</string>
     <string name="error_action_server_logs">Registros del servidor</string>
+    <string name="error_action_install">Instalar</string>
     <string name="info_box_maintenance_mode">Servidor en modo de mantenimiento</string>
     <string name="info_box_version_not_supported">La versión %1$s del servidor no está soportada. Por favor, actualiza a %2$s</string>
+    <string name="share_link">Compartir enlace</string>
 </resources>

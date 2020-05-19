@@ -198,7 +198,6 @@
     <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
     <string name="server_error">Napaka strežnika</string>
     <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
-
     <string name="error_dialog_tip_token_mismatch_retry">Poskusite vsiliti končanje programa in ga ponovno zagnati. Morda je težava v neustrezni povezavi z okoljem Nextcloud</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Nextcloud Deck.</string>
     <string name="error_dialog_tip_clear_storage">Podatke in shrambo je mogoče počistiti med nastavitvami → Programi → Nextcloud / Nextcloud Deck → Shramba → Počisti shrambo.</string>
@@ -207,4 +206,5 @@
     <string name="error_action_server_logs">Dnevniki strežnika</string>
     <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja</string>
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
+    <string name="share_link">Povezava za souporabo</string>
 </resources>

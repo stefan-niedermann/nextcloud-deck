@@ -214,6 +214,7 @@
     <string name="server_misconfigured">Server je nesprávne nakonfigurovaný</string>
     <string name="server_error">Chyba servera</string>
     <string name="shared_error">Zdieľanie obsahu z aplikácií tretích strán zatiaľ nie je úplne podporované. Skúste si ho najprv stiahnuť a potom ho zdieľajte zo svojho správcu súborov alebo z galérie.</string>
+    <string name="error_edit_activity_killed_by_android">Android ukončil úpravy, pretože viac systémových prostriedkov potreboval pre ďalšie aplikácie.</string>
 
     <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Skúste vyinútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k chybnému pripojeniu k aplikácii Nextcloud.</string>
@@ -230,9 +231,13 @@
     <string name="error_dialog_insufficient_storage">Vo vašej inštancii Nexcloudu nie je na úložisku voľné miesto. Aby bolo možné synchronizovať vaše miestne zmeny s vaším cloudom, je potrebné najprv zmazať niektoré súbory.</string>
     <string name="error_dialog_we_need_info">Aby sme vám pomohli, potrebujeme následovné technické informácie:</string>
     <string name="error_dialog_redirect">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými zmenami v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client.</string>
+    <string name="error_dialog_version_not_parsable">Nepodarilo sa určiť verziu aplikácie Deck na strane servera. Skontrolujte, či je nainštalovaný a povolený.</string>
+    <string name="error_dialog_capabilities_not_parsable">Nepodarilo sa načítať možnosti vášho servera. Uistite sa, že váš server funguje správne a že ďalšie klientske aplikácie majú prístup k serveru Nextcloud.</string>
     <string name="error_action_open_deck_info">Otvoriť informácie o aplikácii</string>
     <string name="error_action_open_network">Nastavenia siete</string>
     <string name="error_action_server_logs">Záznamy udalostí na serveri</string>
+    <string name="error_action_install">Inštalovať</string>
     <string name="info_box_maintenance_mode">Server je v móde údržby</string>
     <string name="info_box_version_not_supported">Verzia servera %1$s nie je podporovaná, aktualizujte ju na %2$s</string>
+    <string name="share_link">Sprístupniť odkaz</string>
 </resources>

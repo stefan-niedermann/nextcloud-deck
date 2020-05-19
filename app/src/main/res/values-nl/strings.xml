@@ -210,6 +210,7 @@
     <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
     <string name="server_error">Serverfout</string>
     <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer jhet eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
+    <string name="error_edit_activity_killed_by_android">Android beëindigde de bewerkingsmodus omdat het meer systeembronnen nodig had voor andere apps.</string>
 
     <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probeer de app te sluiten en opnieuw te starten. Er was misschien een onjuiste verbinding met de Nextcloud-app.</string>
@@ -226,9 +227,13 @@
     <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alstublieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
     <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
     <string name="error_dialog_redirect">Je server heeft gereageerd met een HTTP 302-statuscode, wat inhoudt dat je de Deck-app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dit kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud-apps zoals de OID Client.</string>
+    <string name="error_dialog_version_not_parsable">We konden de versie van de Deck-app aan de serverzijde niet bepalen. Zorg ervoor dat de app is geïnstalleerd en ingeschakeld.</string>
+    <string name="error_dialog_capabilities_not_parsable">We kunnen de mogelijkheden van je server niet vaststellen. Zorg ervoor dat je server goed werkt en dat andere client-apps toegang hebben tot Nextcloud.</string>
     <string name="error_action_open_deck_info">Open App informatie</string>
     <string name="error_action_open_network">Netwerk instellingen</string>
     <string name="error_action_server_logs">Server logbestanden</string>
+    <string name="error_action_install">Installeren</string>
     <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
     <string name="info_box_version_not_supported">Server versie %1$s is niet ondersteund, werk bij naar %2$s</string>
+    <string name="share_link">Delen link</string>
 </resources>

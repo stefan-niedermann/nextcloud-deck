@@ -210,7 +210,6 @@
     <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
     <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
-
     <string name="error_dialog_title">Ωχ όχι - Τώρα τί; 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Δοκιμάστε τερματισμό της εφαρμογή και επανεκκίνηση. Ίσως υπάρχει λάθος σύνδεση.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Εάν το πρόβλημα παραμένει, προσπαθήστε να εκκαθαρίσετε τον χώρο αποθήκευσης και των δύο εφαρμογών: του Nextcloud και του Nextcloud Deck για επίλυση.</string>
@@ -231,4 +230,5 @@
     <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
     <string name="info_box_maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
+    <string name="share_link">Διαμοιρασμός συνδέσμου</string>
 </resources>

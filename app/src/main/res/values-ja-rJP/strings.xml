@@ -203,7 +203,6 @@
     <string name="server_misconfigured">サーバーの構成エラー</string>
     <string name="server_error">サーバーエラー</string>
     <string name="shared_error">サードパーティーアプリからの共有はまだ完全にサポートされていません。まずダウンロードしてからネイティブなファイルマネージャーかギャラリーから共有することを試してください。</string>
-
     <string name="error_dialog_title">おやまあ、どうしたことでしょう？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">アプリの強制終了と再起動を試みてください。Nextcloudアプリへの接続が正しくない接続があったかも知れません。</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">この問題が続くようでしたら、下記両方のアプリでストレージをクリアして問題が解決できるか試してください：Nextcloud と Nextcloud Deck</string>
@@ -220,4 +219,5 @@
     <string name="error_dialog_we_need_info">サポートには下記技術情報が必要です：</string>
     <string name="error_dialog_redirect">サーバがHTTPステータスコード 302を返しました。これはDeckアプリがインストールされていないか、構成が誤っていることを意味します。.htaccessファイルのカスタムオーバーライドやOIDクライアントのようなNextcloudアプリが原因の可能性があります。</string>
     <string name="info_box_maintenance_mode">サーバーはメンテナンスモードです。</string>
-    </resources>
+    <string name="share_link">URLで共有</string>
+</resources>

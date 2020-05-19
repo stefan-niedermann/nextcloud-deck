@@ -210,7 +210,6 @@
     <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
     <string name="server_error">Zerbitzari akatsa</string>
     <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
-
     <string name="error_dialog_title">Oh ez - Orain zer? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Saia zaitez aplikazioa itxi eta berrabiarazten. Agian Nextcloud aplikazioarekin gaizki konektatzea gertatu da.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Arazoak jarraitzen badu, saiatu bi aplikazioen biltegiak garbitzen: Nextcloud eta Nextcloud Sortak aplikazioenak arazoa konpontzeko.</string>
@@ -231,4 +230,5 @@
     <string name="error_action_server_logs">Zerbitzariaren egunkariak</string>
     <string name="info_box_maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
     <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
+    <string name="share_link">Partekatu esteka</string>
 </resources>
