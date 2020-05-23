@@ -195,6 +195,6 @@
     <string name="server_misconfigured">Сервер није добро конфигурисан</string>
     <string name="server_error">Грешка на серверу</string>
     <string name="shared_error">Дељење садржаја од апликација треће стране још није у потпуности подржано. Пробајте прво да преузмете садржај у целости и онда га поделите из менаџера фајлова или из галерије.</string>
-
     <string name="info_box_maintenance_mode">Сервер у режиму одржавања</string>
-    </resources>
+    <string name="share_link">Веза дељења</string>
+</resources>

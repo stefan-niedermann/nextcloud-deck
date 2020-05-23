@@ -202,7 +202,6 @@
     <string name="server_misconfigured">配置错误的服务器</string>
     <string name="server_error">服务器错误</string>
     <string name="shared_error">目前还不完全支持从第三方应用程序中分享内容。请尝试先下载，然后从您的本地文件管理器或图库中分享。</string>
-
     <string name="error_dialog_title">哦，糟糕。所以会怎么样？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">请尝试强行关闭应用并重新打开。可能与 Nextcloud 应用的连接不正确。</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">如果问题持续存在，尝试通过清除 Nextcloud 和 Nextcloud 看板两个应用的存储空间来解决问题。</string>
@@ -218,4 +217,5 @@
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
     <string name="info_box_maintenance_mode">服务器处于维护模式</string>
-    </resources>
+    <string name="share_link">共享链接</string>
+</resources>

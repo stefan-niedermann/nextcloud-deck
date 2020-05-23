@@ -210,6 +210,7 @@
     <string name="server_misconfigured">Configuración incorrecta do servidor</string>
     <string name="server_error">Produciuse un erro de servidor</string>
     <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
+    <string name="error_edit_activity_killed_by_android">Android rematou o modo de edición porque necesitaba máis recursos do sistema para outras aplicacións.</string>
 
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da apli e reiniciala de novo. Pode haber unha conexión incorrecta coa apli Nextcloud.</string>
@@ -226,9 +227,13 @@
     <string name="error_dialog_insufficient_storage">A súa instancia Nextcloud non dispón de espazo de almacenamento libre. Elimine algúns ficheiros para sincronizar os seus cambios locais na súa nube.</string>
     <string name="error_dialog_we_need_info">Necesitamos a seguinte información técnica para axudarlle:</string>
     <string name="error_dialog_redirect">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como Client OID.</string>
+    <string name="error_dialog_version_not_parsable">Non foi posíbel determinar a versión da apli Deck do lado do servidor. Asegúrese de que estea instalado e activado.</string>
+    <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplis de cliente poidan acceder ao Nextcloud.</string>
     <string name="error_action_open_deck_info">Abrir a info da apli</string>
     <string name="error_action_open_network">Axustes da rede</string>
     <string name="error_action_server_logs">Rexistros do servidor</string>
+    <string name="error_action_install">Instalar</string>
     <string name="info_box_maintenance_mode">Servidor en modo de mantemento</string>
     <string name="info_box_version_not_supported">A versión %1$s do servidor non é compatíbel, actualice a %2$s</string>
+    <string name="share_link">Compartir ligazón</string>
 </resources>
