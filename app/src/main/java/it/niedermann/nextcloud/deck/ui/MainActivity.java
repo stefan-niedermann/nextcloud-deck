@@ -289,7 +289,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-                    binding.swipeRefreshLayout.setEnabled(state == ViewPager2.SCROLL_STATE_IDLE);
+                    if (!binding.swipeRefreshLayout.isRefreshing()) {
+                        binding.swipeRefreshLayout.setEnabled(state == ViewPager2.SCROLL_STATE_IDLE);
+                    }
                 }
             });
 
