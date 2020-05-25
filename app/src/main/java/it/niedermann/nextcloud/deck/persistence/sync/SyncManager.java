@@ -765,13 +765,66 @@ public class SyncManager {
     }
 
     public WrappedLiveData<FullCard> archiveCard(FullCard card) {
-        card.getCard().setArchived(true);
-        return updateCard(card);
+        WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            card.getCard().setArchived(true);
+            updateCardForArchive(account, stack, board, card, getCallbackToLiveDataConverter(account, liveData));
+        });
+        return liveData;
+    }
+
+    private void updateCardForArchive(Account account, FullStack stack, Board board, FullCard card, IResponseCallback<FullCard> callback) {
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardDataProvider(null, board, stack), card, callback);
     }
 
     public WrappedLiveData<FullCard> dearchiveCard(FullCard card) {
-        card.getCard().setArchived(false);
-        return updateCard(card);
+        WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            card.getCard().setArchived(false);
+            updateCardForArchive(account, stack, board, card, getCallbackToLiveDataConverter(account, liveData));
+        });
+        return liveData;
+    }
+    public WrappedLiveData<Void> archiveCardsInStack(long accountId, long stackLocalId) {
+        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+        doAsync(() -> {
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            List<FullCard> cards = dataBaseAdapter.getFullCardsForStackDirectly(accountId, stackLocalId);
+            if (cards.size() > 0) {
+                CountDownLatch latch = new CountDownLatch(cards.size());
+                for (FullCard card : cards) {
+                    updateCardForArchive(account, stack, board, card, new IResponseCallback<FullCard>(account) {
+                        @Override
+                        public void onResponse(FullCard response) {
+                            latch.countDown();
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            latch.countDown();
+                            liveData.postError(throwable);
+                        }
+                    });
+                }
+                try {
+                    latch.await();
+                    liveData.postValue(null);
+                } catch (InterruptedException e) {
+                    liveData.postError(e);
+                }
+            } else {
+                liveData.postValue(null);
+            }
+        });
+        return liveData;
     }
 
     public void archiveBoard(Board board) {
