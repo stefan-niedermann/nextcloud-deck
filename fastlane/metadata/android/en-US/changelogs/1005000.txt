@@ -1,6 +1,7 @@
 1.5.0
 
 - 🐞 Do not cancel swipe 2 refresh UI when changing tabs
+- 🐞 Fix bug when create a card via + button and then press back button (#461)
 
 1.4.0
 
