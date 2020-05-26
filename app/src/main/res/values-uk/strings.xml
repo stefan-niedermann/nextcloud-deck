@@ -92,7 +92,7 @@
     <string name="action_card_assign">Призначити картку мені</string>
     <string name="action_card_unassign">Відв\'язати картку від мене</string>
     <string name="action_card_archive">Архівувати картку</string>
-    <string name="action_card_delete">Видалити картку</string>
+    <string name="action_card_delete">Вилучити картку</string>
     <string name="add_board">Додати дошку</string>
 
     <string name="label_clear_due_date">Очистити до</string>
