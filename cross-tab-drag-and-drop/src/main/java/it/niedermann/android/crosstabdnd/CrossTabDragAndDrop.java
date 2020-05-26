@@ -68,6 +68,7 @@ public class CrossTabDragAndDrop<
 
                         int newTabPosition = -1;
                         // change tab? if yes, which direction?
+                        // FIXME respect RTL layout https://github.com/stefan-niedermann/nextcloud-deck/issues/512
                         if (dragEvent.getX() <= pxToReact) {
                             newTabPosition = oldTabPosition - 1;
                         } else if (dragEvent.getX() >= displayX - pxToReact) {
