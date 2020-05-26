@@ -210,6 +210,8 @@
     <string name="server_misconfigured">Problème de configuration serveur</string>
     <string name="server_error">Erreur du serveur</string>
     <string name="shared_error">Le partage de contenu provenant d\'applications tierces n\'est pas encore totalement pris en charge. Veuillez essayer de le télécharger d\'abord, puis de le partager à partir de votre gestionnaire de fichiers ou de votre galerie.</string>
+    <string name="error_edit_activity_killed_by_android">Android a mis fin au mode édition car il avait besoin de plus de ressources système pour les autres applications.</string>
+
     <string name="error_dialog_title">Oh non ! - Et maintenant ? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Essayez de forcer la fermeture de l\'application puis redémarrer la. Il y avait peut-être une mauvaise connexion à Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Si le problème persiste, essayez d\'effacer les données d\'application des deux applications: Nextcloud et Nextcloud Deck pour résoudre ce problème.</string>
@@ -225,6 +227,8 @@
     <string name="error_dialog_insufficient_storage">Votre instance Nextcloud n\'a plus d\'espace disponible. Veuillez supprimer certains fichiers pour pouvoir synchroniser vos modifications locales dans votre cloud.</string>
     <string name="error_dialog_we_need_info">Nous avons besoin des informations techniques suivantes pour pouvoir vous aider :</string>
     <string name="error_dialog_redirect">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés du fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
+    <string name="error_dialog_version_not_parsable">Nous n\'avons pas pu déterminer la version de l\'app Deck côté serveur. Veuillez vérifier qu\'elle est bien installé et activé.</string>
+    <string name="error_dialog_capabilities_not_parsable">Nous n\'avons pas pu récupérer les capacités de votre serveur. Veuillez vous assurer que votre serveur fonctionne bien et que les autres apps client peuvent accéder à Nextcloud.</string>
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_network">Paramètres réseau</string>
     <string name="error_action_server_logs">Journaux serveur</string>

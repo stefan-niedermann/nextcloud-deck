@@ -228,6 +228,7 @@
     <string name="error_action_open_deck_info">Ireki aplikazioaren informazioa</string>
     <string name="error_action_open_network">Sareko ezarpenak</string>
     <string name="error_action_server_logs">Zerbitzariaren egunkariak</string>
+    <string name="error_action_install">Instalatu</string>
     <string name="info_box_maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
     <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
     <string name="share_link">Partekatu esteka</string>

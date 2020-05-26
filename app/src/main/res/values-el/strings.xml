@@ -2,7 +2,7 @@
     <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
 
-    <string name="drawer_header_background">Φωτογραφία φόντου επικεφαλίδας</string>
+    <string name="drawer_header_background">Φωτογραφία φόντου επικεφαλίδας συρταριού</string>
     <string name="drawer_current_account">Τρέχον λογαριασμός</string>
     <string name="drawer_middle_account">Μεσαίος λογαριασμός</string>
     <string name="drawer_end_account">Τελευταίος λογαριασμός</string>
@@ -210,6 +210,8 @@
     <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
     <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
+    <string name="error_edit_activity_killed_by_android">Το Android ολοκλήρωσε τη λειτουργία επεξεργασίας επειδή χρειαζόταν περισσότερους πόρους συστήματος για άλλες εφαρμογές.</string>
+
     <string name="error_dialog_title">Ωχ όχι - Τώρα τί; 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Δοκιμάστε τερματισμό της εφαρμογή και επανεκκίνηση. Ίσως υπάρχει λάθος σύνδεση.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Εάν το πρόβλημα παραμένει, προσπαθήστε να εκκαθαρίσετε τον χώρο αποθήκευσης και των δύο εφαρμογών: του Nextcloud και του Nextcloud Deck για επίλυση.</string>
@@ -225,9 +227,12 @@
     <string name="error_dialog_insufficient_storage">Δεν υπάρχει επαρκής χώρος αποθήκευσης στο Nextcloud. Διαγράψτε ορισμένα αρχεία για να συγχρονίσετε τις αλλαγές σας.</string>
     <string name="error_dialog_we_need_info">Χρειαζόμαστε τις ακόλουθες τεχνικές πληροφορίες για να σας βοηθήσουμε:</string>
     <string name="error_dialog_redirect">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client.</string>
+    <string name="error_dialog_version_not_parsable">Δεν μπορέσαμε να προσδιορίσουμε την έκδοση της εφαρμογής Deck του διακομιστή σας. Βεβαιωθείτε ότι είναι εγκατεστημένο και ενεργοποιημένο.</string>
+    <string name="error_dialog_capabilities_not_parsable">Δεν ήταν δυνατός ο έλεγχος των δυνατοτήτων του διακομιστή σας. Βεβαιωθείτε ότι ο διακομιστής σας λειτουργεί σωστά και οι εφαρμογές έχουν πρόσβαση στο Nextcloud.</string>
     <string name="error_action_open_deck_info">Πληροφορίες εφαρμογής</string>
     <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
     <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
+    <string name="error_action_install">Εγκατάσταση</string>
     <string name="info_box_maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
