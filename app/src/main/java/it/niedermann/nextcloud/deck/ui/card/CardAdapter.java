@@ -289,6 +289,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                         .setAction(Intent.ACTION_SEND)
                         .setType("text/plain")
                         .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
+                        .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
                         .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, currentBoardRemoteId, fullCard.getCard().getId()));
                 context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
             }
