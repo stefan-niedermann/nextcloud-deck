@@ -154,13 +154,16 @@ public class Version implements Comparable<Version> {
                 ? 255
                 : 100;
     }
-
+    /**
+     * URL to view a card in the web interface has been changed in version 1.0.0
+     *
+     * @return the id of the string resource which contains the partial URL to open a card in the web UI
+     * @see <a href="https://github.com/nextcloud/deck/pull/1977">documentation in PR</a>
+     */
     @StringRes
     public int getShareLinkResource() {
-        if (isGreaterOrEqualTo(VERSION_1_0_0)) {
-            return R.string.url_fragment_share_card_since_1_0_0;
-        } else {
-            return R.string.url_fragment_share_card_pre_1_0_0;
-        }
+        return isGreaterOrEqualTo(VERSION_1_0_0)
+                ? R.string.url_fragment_share_card_since_1_0_0
+                : R.string.url_fragment_share_card_pre_1_0_0;
     }
 }
