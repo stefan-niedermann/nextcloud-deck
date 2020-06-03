@@ -119,7 +119,9 @@
     <string name="url_fragment_update_deck" translatable="false">/index.php/settings/apps/installed/deck</string>
     <string name="url_fragment_install_deck" translatable="false">/index.php/settings/apps/organization/deck</string>
     <string name="url_fragment_server_logs" translatable="false">/index.php/settings/admin/logging</string>
-    <string name="url_fragment_share_card" translatable="false">/index.php/apps/deck/#/board/%1$d/card/%2$d</string>
+    <string name="url_fragment_share_card_less_than_1_0_0"    translatable="false">/index.php/apps/deck/#!/board/%1$d/card/%2$d</string>
+    <string name="url_fragment_share_card_equals_1_0_0"       translatable="false">/index.php/apps/deck/#/boards/%1$d/cards/%2$d</string>
+    <string name="url_fragment_share_card_greater_than_1_0_0" translatable="false">/index.php/apps/deck/#/board/%1$d/card/%2$d</string>
 
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Attachments</string>

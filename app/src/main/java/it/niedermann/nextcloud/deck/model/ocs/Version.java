@@ -155,12 +155,14 @@ public class Version implements Comparable<Version> {
                 : 100;
     }
 
-    @Nullable
     @StringRes
-    public Integer getShareLinkResource() {
-        if (isGreaterOrEqualTo(VERSION_1_0_0)) {
-            return R.string.url_fragment_share_card;
+    public int getShareLinkResource() {
+        if (equals(VERSION_1_0_0)) {
+            return R.string.url_fragment_share_card_equals_1_0_0;
+        } else if (isGreaterOrEqualTo(VERSION_1_0_0)) {
+            return R.string.url_fragment_share_card_greater_than_1_0_0;
+        } else {
+            return R.string.url_fragment_share_card_less_than_1_0_0;
         }
-        return null;
     }
 }

@@ -73,9 +73,8 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     private String counterMaxValue;
 
     private int mainColor;
-    @Nullable
     @StringRes
-    private Integer shareLinkRes;
+    private int shareLinkRes;
 
     public CardAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull Account account, long boardId, @Nullable Long currentBoardRemoteId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
         this.context = context;
@@ -256,7 +255,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         } else {
             menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
         }
-        if (currentBoardRemoteId == null || card.getCard().getId() == null || shareLinkRes == null) {
+        if (currentBoardRemoteId == null || card.getCard().getId() == null) {
             menu.removeItem(R.id.share_link);
         }
     }
@@ -282,9 +281,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     protected boolean optionsItemSelected(@NonNull Context context, @NotNull MenuItem item, FullCard fullCard) {
         switch (item.getItemId()) {
             case R.id.share_link: {
-                if (shareLinkRes == null) {
-                    return false;
-                }
                 Intent shareIntent = new Intent()
                         .setAction(Intent.ACTION_SEND)
                         .setType("text/plain")
