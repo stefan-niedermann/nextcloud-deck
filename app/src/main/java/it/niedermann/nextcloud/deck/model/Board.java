@@ -84,7 +84,6 @@ public class Board extends AbstractRemoteEntity implements Serializable {
     }
 
     public void setColor(String color) {
-        this.color = color;
         try {
             // Nextcloud might return color format #000 which cannot be parsed by Color.parseColor()
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/466
