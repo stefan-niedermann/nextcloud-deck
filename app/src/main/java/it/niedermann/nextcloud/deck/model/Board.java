@@ -38,6 +38,9 @@ public class Board extends AbstractRemoteEntity implements Serializable {
 
     private String title;
     private long ownerId;
+    /**
+     * Deck App sends color strings without leading # character
+     */
     private String color;
     private boolean archived;
     private int shared;
@@ -85,10 +88,10 @@ public class Board extends AbstractRemoteEntity implements Serializable {
         try {
             // Nextcloud might return color format #000 which cannot be parsed by Color.parseColor()
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/466
-            this.color = ColorUtil.formatColorToParsableHexString(color);
+            this.color = ColorUtil.formatColorToParsableHexString(color).substring(1);
         } catch (Exception e) {
             DeckLog.logError(e);
-            this.color = "#757575";
+            this.color = "757575";
         }
     }
 
