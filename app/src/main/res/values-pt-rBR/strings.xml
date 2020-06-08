@@ -215,12 +215,12 @@
     <string name="error_dialog_title">Oh não - E agora? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Tente forçar o fechamento do aplicativo e reinicie-o novamente. Pode ter havido uma conexão incorreta com o aplicativo Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Se o problema persistir, tente limpar o armazenamento dos dois aplicativos: Nextcloud e Nextcloud Deck para resolver esse problema.</string>
-    <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as configurações do android → Aplicativos → Nextcloud / Nextcloud Deck → Armazenamento → Limpar armazenamento.</string>
+    <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar Armazenamento</string>
     <string name="error_dialog_tip_files_outdated">Seu aplicativo Nextcloud parece estar desatualizado. Visite a Play Store ou o F-Droid para obter a versão mais recente.</string>
     <string name="error_dialog_tip_files_force_stop">Parece que algo está errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se forçar a parada deles não resolver, tente limpar o armazenamento dos dois aplicativos.</string>
     <string name="error_dialog_timeout_instance">Não houve resposta do seu servidor no tempo especificado. Verifique se sua instância está funcionando bem.</string>
-    <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, desativar e ativar os dados móveis ou o Wi-Fi pode ajudar.</string>
+    <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, ativar e desativar os dados móveis ou o Wi-Fi novamente pode ajudar.</string>
     <string name="error_dialog_check_server">A resposta do seu servidor não estava correta. Verifique se você pode acessar o aplicativo Deck pela interface web.</string>
     <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
     <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
