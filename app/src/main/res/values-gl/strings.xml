@@ -128,8 +128,8 @@
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Xestión da marca</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
-    <string name="pref_value_wifi_and_mobile">Sincronización con WiFi e con datos móbiles</string>
-    <string name="pref_value_wifi_only">Sincronizar só con WiFi</string>
+    <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
+    <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
     <string name="pref_value_theme_light">Claro</string>
     <string name="unassigned_user">Desasignado %1$s</string>
     <string name="no_activities">Non hai actividades nesta tarxeta. Para cargar e amosar actividades necesita estar conectado á Internet.</string>
@@ -215,12 +215,12 @@
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da apli e reiniciala de novo. Pode haber unha conexión incorrecta coa apli Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Se o problema continúa, tente limpar o almacenamento de ambas as aplis: Nextcloud e Nextcloud Deck para resolver este problema.</string>
-    <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo axustes de Android → Aplicacións → Nextcloud / Nextcloud Deck → Almacenamento → Limpar o almacenamento.</string>
+    <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da apli e seleccionando Almacenamento → Limpar o almacenamento.</string>
     <string name="error_dialog_tip_files_outdated">A súa apli Nextcloud semella estar desactualizada. Visite Play Store ou F-Droid para obter a última versión.</string>
     <string name="error_dialog_tip_files_force_stop">Semella que algo está mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se detelos pola forza non axuda, pode tentar limpar o almacenamento de ambas as aplicacións.</string>
     <string name="error_dialog_timeout_instance">Non houbo resposta do seu servidor no tempo dado. Asegúrese de que a súa instancia funciona correctamente.</string>
-    <string name="error_dialog_timeout_toggle">Comprobe a súa conexión de rede. Ás veces apagar e volver acender os datos móbiles ou a Wi-Fi pode axudar.</string>
+    <string name="error_dialog_timeout_toggle">Comprobe a súa conexión de rede. Ás veces apagar e volver acender os datos móbiles ou a wifi pode axudar.</string>
     <string name="error_dialog_check_server">A resposta do servidor non foi correcta. Comprobe se pode acceder a Deck a través de interface web.</string>
     <string name="error_dialog_check_server_logs">Hai un problema coa configuración do Nextcloud. Bótelle un ollo aos ficheiros de rexistro do servidor.</string>
     <string name="error_dialog_check_maintenance">Comprobe que a súa instancia Nextcloud non se atope en modo de mantemento.</string>

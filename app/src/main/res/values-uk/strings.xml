@@ -219,6 +219,7 @@
     <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
     <string name="error_action_open_network">Налаштування мережі</string>
     <string name="error_action_server_logs">Журнал сервера</string>
+    <string name="error_action_install">Встановити</string>
     <string name="info_box_maintenance_mode">Сервер у режимі обслуговування</string>
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
     <string name="share_link">Поширити посилання</string>

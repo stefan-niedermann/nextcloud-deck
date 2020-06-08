@@ -78,6 +78,9 @@
     <string name="label_description">説明</string>
     <string name="hint_assign_people">ユーザーを割り当てる</string>
     <string name="hint_due_date_date">期限</string>
+    <string name="card_not_found">カードが見つかりません</string>
+    <string name="card_not_found_message">カードが見つかりませんでした。最近削除されたのかもしれません。</string>
+
     <string name="add_account">アカウントを追加</string>
     <string name="choose_account">アカウント選択</string>
     <string name="add_card">新規カードを追加</string>
@@ -191,6 +194,8 @@
     <string name="filter_user_title">ユーザー</string>
     <string name="filter_duedate_title">期限</string>
 
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">ボードのアーカイブを元に戻す</string>
     <string name="archived_boards">アーカイブ済みのボード</string>
 
     <!-- Errors -->
@@ -203,10 +208,12 @@
     <string name="server_misconfigured">サーバーの構成エラー</string>
     <string name="server_error">サーバーエラー</string>
     <string name="shared_error">サードパーティーアプリからの共有はまだ完全にサポートされていません。まずダウンロードしてからネイティブなファイルマネージャーかギャラリーから共有することを試してください。</string>
+    <string name="error_edit_activity_killed_by_android">Androidが編集モードを終了したのは、他のアプリが多くのシステムリソースを必要としていたからです。</string>
+
     <string name="error_dialog_title">おやまあ、どうしたことでしょう？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">アプリの強制終了と再起動を試みてください。Nextcloudアプリへの接続が正しくない接続があったかも知れません。</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">この問題が続くようでしたら、下記両方のアプリでストレージをクリアして問題が解決できるか試してください：Nextcloud と Nextcloud Deck</string>
-    <string name="error_dialog_tip_clear_storage">以下の方法でストレージをクリアできます：アンドロイドの設定を開く → アプリ → Nextcloud / Nextcloud Deck → ストレージ → ストレージをクリア.</string>
+    <string name="error_dialog_tip_clear_storage">以下の方法でストレージをクリアできます：アプリ情報→ストレージ→ストレージをクリア.</string>
     <string name="error_dialog_tip_files_outdated">Nextcloudアプリが古いようです。プレイストアかF-Droidから最新版を入手してください。</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloudアプリで何か不具合が発生しました。NextcloudアプリとNextcloud Deckアプリの両方を強制終了してください。</string>
     <string name="error_dialog_tip_files_delete_storage">強制終了で改善されない場合は、両方のアプリのストレージをクリアしてみてください。</string>
@@ -218,6 +225,13 @@
     <string name="error_dialog_insufficient_storage">あなたのNextcloudサーバのストレージに空き容量がありません。ローカルの変更をクラウドに同期するにはいくつかファイルを削除してください。</string>
     <string name="error_dialog_we_need_info">サポートには下記技術情報が必要です：</string>
     <string name="error_dialog_redirect">サーバがHTTPステータスコード 302を返しました。これはDeckアプリがインストールされていないか、構成が誤っていることを意味します。.htaccessファイルのカスタムオーバーライドやOIDクライアントのようなNextcloudアプリが原因の可能性があります。</string>
+    <string name="error_dialog_version_not_parsable">サーバー側のDeckアプリのバージョンを判別できませんでした。Deckアプリがインストール，有効化されていることを確認してください。</string>
+    <string name="error_dialog_capabilities_not_parsable">サーバーの機能を取得できませんでした。サーバーが正常に動作しており、他のクライアントアプリがNextcloudにアクセスできることを確認してください。</string>
+    <string name="error_action_open_deck_info">アプリ情報を開く</string>
+    <string name="error_action_open_network">ネットワーク設定</string>
+    <string name="error_action_server_logs">サーバーログ</string>
+    <string name="error_action_install">インストール</string>
     <string name="info_box_maintenance_mode">サーバーはメンテナンスモードです。</string>
+    <string name="info_box_version_not_supported">サーバーのバージョン%1$sはサポートしていませんので、%2$sにアップデートしてください。</string>
     <string name="share_link">URLで共有</string>
 </resources>
