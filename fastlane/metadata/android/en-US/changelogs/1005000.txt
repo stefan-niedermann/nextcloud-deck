@@ -1,0 +1,1 @@
+- 📦 Archive all cards of a stack (#495)
