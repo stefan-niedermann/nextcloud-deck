@@ -990,14 +990,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void onStackDeleted(Long stackLocalId) {
         long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-        observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack -> {
-            DeckLog.info("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
-            final WrappedLiveData<Void> deleteStackLiveData = syncManager.deleteStack(fullStack.getStack());
-            observeOnce(deleteStackLiveData, this, (v) -> {
-                if (deleteStackLiveData.hasError()) {
-                    ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                }
-            });
+        final WrappedLiveData<Void> deleteStackLiveData = syncManager.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId());
+        observeOnce(deleteStackLiveData, this, (v) -> {
+            if (deleteStackLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
         });
     }
 

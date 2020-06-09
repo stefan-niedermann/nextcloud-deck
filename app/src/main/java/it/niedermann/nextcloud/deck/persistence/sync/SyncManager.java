@@ -584,12 +584,12 @@ public class SyncManager {
         return liveData;
     }
 
-    public WrappedLiveData<Void> deleteStack(Stack stack) {
+    public WrappedLiveData<Void> deleteStack(long accountId, long stackLocalId, long boardLocalId) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
-            Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
-            FullStack fullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(stack.getLocalId());
-            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getBoardId());
+            Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
+            FullStack fullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardLocalId);
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).deleteEntity(new StackDataProvider(null, board), fullStack, getCallbackToLiveDataConverter(account, liveData));
         });
         return liveData;
