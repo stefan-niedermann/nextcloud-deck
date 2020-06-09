@@ -54,7 +54,7 @@
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Тестувальники</string>
     <string name="about_source_title">Вихідний код</string>
-    <string name="about_source">Цей проект розвернутий на GitHub:%1$s</string>
+    <string name="about_source">Цей проєкт розміщено на GitHub:%1$s</string>
     <string name="about_issues_title">Проблеми</string>
     <string name="about_issues">Ви можете повідомляти про помилки, пропонувати удосконалення та надсилати запити на додаткові функції через систему відстеження вад GitHub:%1$s</string>
     <string name="about_translate_title">Перекласти</string>
@@ -101,7 +101,7 @@
     <string name="card_edit_details">Деталі</string>
     <string name="card_edit_attachments">Вкладення</string>
     <string name="card_edit_activity">Активність</string>
-    <string name="about_server_app_version_text">Версія додатку серверу:</string>
+    <string name="about_server_app_version_text">Версія застосунку серверу:</string>
     <string name="no_files_attached_to_this_card">До цієї картки не прикріплено жодного файла.</string>
     <string name="attachments">Вкладення</string>
     <string name="no_cards">Ще немає жодної картки</string>
