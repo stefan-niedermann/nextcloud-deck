@@ -801,6 +801,7 @@ public class SyncManager {
             if (cards.size() > 0) {
                 CountDownLatch latch = new CountDownLatch(cards.size());
                 for (FullCard card : cards) {
+                    card.getCard().setArchived(true);
                     updateCardForArchive(account, stack, board, card, new IResponseCallback<FullCard>(account) {
                         @Override
                         public void onResponse(FullCard response) {
