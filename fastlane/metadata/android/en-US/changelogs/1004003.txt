@@ -1,0 +1,5 @@
+- 🐞 Do not cancel swipe 2 refresh UI when changing tabs
+- 🐞 Fix bug when create a card via + button and then press back button (#461)
+- 🐞 Wrong checkmark direction in RTL layout (#511)
+- 🐞 Issue with dragging card to another list in RTL layout (#512)
+- 🐞 Fix crash when color of board has unexpected format (#514)

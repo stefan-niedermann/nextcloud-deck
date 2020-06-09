@@ -6,8 +6,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 1004000
-        versionName "1.4.0"
+        versionCode 1004004
+        versionName "1.4.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -54,7 +54,7 @@ android {
 dependencies {
     // Single-Sign-On
     implementation 'com.github.desperateCoder:Android-SingleSignOn:22932715ae'
-    //    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.0'
+    //    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.1'
 
     // --------------------
     // --- UI-Libraries ---
@@ -80,6 +80,9 @@ dependencies {
 
     // Custom Date / Time Picker for branding support
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
+    // Android backport for java.time
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 
     // Flexbox
     implementation 'com.google.android:flexbox:2.0.1'
