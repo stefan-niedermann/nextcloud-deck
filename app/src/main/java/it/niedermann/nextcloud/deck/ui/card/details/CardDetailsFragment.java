@@ -95,6 +95,14 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         dateFormat = getDateFormat(activity);
 
         viewModel = new ViewModelProvider(activity).get(EditCardViewModel.class);
+
+        // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
+        // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
+        if (viewModel.getFullCard() == null) {
+            DeckLog.logError(new IllegalStateException("Cannot populate " + CardDetailsFragment.class.getSimpleName() + " because viewModel.getFullCard() is null"));
+            return binding.getRoot();
+        }
+
         syncManager = new SyncManager(requireContext());
 
         avatarSize = dpToPx(requireContext(), R.dimen.avatar_size);

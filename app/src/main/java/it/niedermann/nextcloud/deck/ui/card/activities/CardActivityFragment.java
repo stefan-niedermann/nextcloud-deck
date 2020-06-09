@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabActivitiesBinding;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
@@ -29,6 +30,13 @@ public class CardActivityFragment extends Fragment {
 
         binding = FragmentCardEditTabActivitiesBinding.inflate(inflater, container, false);
         final EditCardViewModel viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+
+        // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
+        // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
+        if (viewModel.getFullCard() == null) {
+            DeckLog.logError(new IllegalStateException("Cannot populate " + CardActivityFragment.class.getSimpleName() + " because viewModel.getFullCard() is null"));
+            return binding.getRoot();
+        }
 
         if (!viewModel.isCreateMode()) {
             final SyncManager syncManager = new SyncManager(requireContext());

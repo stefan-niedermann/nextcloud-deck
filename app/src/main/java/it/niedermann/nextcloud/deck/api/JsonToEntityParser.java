@@ -4,14 +4,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.threeten.bp.DateTimeUtils;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -30,12 +32,9 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 
-public class JsonToEntityParser {
-    private static SimpleDateFormat formatter = new SimpleDateFormat(GsonConfig.DATE_PATTERN);
+import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
 
-    static {
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-    }
+public class JsonToEntityParser {
 
     protected static <T> T parseJsonObject(JsonObject obj, Class<T> mType) {
         if (mType == FullBoard.class) {
@@ -46,9 +45,9 @@ public class JsonToEntityParser {
             return (T) parseStack(obj);
         } else if (mType == Label.class) {
             return (T) parseLabel(obj);
-        }  else if (mType == Activity.class) {
+        } else if (mType == Activity.class) {
             return (T) parseActivity(obj);
-        }  else if (mType == Capabilities.class) {
+        } else if (mType == Capabilities.class) {
             return (T) parseCapabilities(obj);
         } else if (mType == Attachment.class) {
             return (T) parseAttachment(obj);
@@ -147,7 +146,7 @@ public class JsonToEntityParser {
 
         if (e.has("acl") && !e.get("acl").isJsonNull()) {
             JsonElement assignedUsers = e.get("acl");
-            if (assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() > 0){
+            if (assignedUsers.isJsonArray() && assignedUsers.getAsJsonArray().size() > 0) {
                 JsonArray assignedUsersArray = assignedUsers.getAsJsonArray();
 
                 List<AccessControl> acl = new ArrayList<>();
@@ -162,19 +161,19 @@ public class JsonToEntityParser {
         if (e.has("permissions")) {
             JsonElement permissions = e.get("permissions");
             JsonObject permissionsObject = permissions.getAsJsonObject();
-            if (permissionsObject.has("PERMISSION_READ")){
+            if (permissionsObject.has("PERMISSION_READ")) {
                 JsonElement read = permissionsObject.get("PERMISSION_READ");
                 fullBoard.getBoard().setPermissionRead(read.getAsBoolean());
             }
-            if (permissionsObject.has("PERMISSION_EDIT")){
+            if (permissionsObject.has("PERMISSION_EDIT")) {
                 JsonElement read = permissionsObject.get("PERMISSION_EDIT");
                 fullBoard.getBoard().setPermissionEdit(read.getAsBoolean());
             }
-            if (permissionsObject.has("PERMISSION_MANAGE")){
+            if (permissionsObject.has("PERMISSION_MANAGE")) {
                 JsonElement read = permissionsObject.get("PERMISSION_MANAGE");
                 fullBoard.getBoard().setPermissionManage(read.getAsBoolean());
             }
-            if (permissionsObject.has("PERMISSION_SHARE")){
+            if (permissionsObject.has("PERMISSION_SHARE")) {
                 JsonElement read = permissionsObject.get("PERMISSION_SHARE");
                 fullBoard.getBoard().setPermissionShare(read.getAsBoolean());
             }
@@ -190,7 +189,7 @@ public class JsonToEntityParser {
         return fullBoard;
     }
 
-    protected static AccessControl parseAcl(JsonObject aclJson){
+    protected static AccessControl parseAcl(JsonObject aclJson) {
         DeckLog.verbose(aclJson.toString());
         AccessControl acl = new AccessControl();
 
@@ -319,12 +318,12 @@ public class JsonToEntityParser {
         DeckLog.verbose(e.toString());
         Capabilities capabilities = new Capabilities();
 
-        if (e.has("ocs")){
+        if (e.has("ocs")) {
             JsonObject ocs = e.getAsJsonObject("ocs");
             if (ocs.has("meta")) {
                 int statuscode = ocs.getAsJsonObject("meta").get("statuscode").getAsInt();
-                capabilities.setMaintenanceEnabled(statuscode==503);
-                if (capabilities.isMaintenanceEnabled()){
+                capabilities.setMaintenanceEnabled(statuscode == 503);
+                if (capabilities.isMaintenanceEnabled()) {
                     // Abort, since there is nothing more to read.
                     return capabilities;
                 }
@@ -337,7 +336,7 @@ public class JsonToEntityParser {
                     capabilities.setNextcloudVersion(v);
                 }
 
-                String version = "";
+                String version = null;
                 if (data.has("capabilities")) {
                     JsonObject caps = data.getAsJsonObject("capabilities");
                     if (caps.has("deck")) {
@@ -345,18 +344,22 @@ public class JsonToEntityParser {
                         if (deck.has("version")) {
                             version = deck.get("version").getAsString();
                             if (version == null || version.trim().length() < 1) {
-                                throw new IllegalArgumentException("capabilities endpoint returned an invalid version string: \""+version+"\"");
+                                throw new DeckException(CAPABILITIES_VERSION_NOT_PARSABLE,
+                                        "capabilities endpoint returned an invalid version string: \"" + version + "\"");
                             }
+                        } else {
+                            throw new DeckException(CAPABILITIES_VERSION_NOT_PARSABLE,
+                                    "deck version node is missing in capabilities endpoint! deck-node: " + deck.getAsString());
                         }
+                    } else {
+                        throw new DeckException(CAPABILITIES_VERSION_NOT_PARSABLE,
+                                "deck node is missing in capabilities endpoint!");
                     }
                     if (caps.has("theming")) {
                         JsonObject theming = caps.getAsJsonObject("theming");
                         capabilities.setColor(theming.get("color").getAsString());
                         capabilities.setTextColor(theming.get("color-text").getAsString());
                     }
-                }
-                if (version == null || version.trim().length() < 1) {
-                    throw new IllegalArgumentException("capabilities endpoint returned no version string at all!");
                 }
                 capabilities.setDeckVersion(Version.of(version));
             }
@@ -368,7 +371,7 @@ public class JsonToEntityParser {
         DeckLog.verbose(e.toString());
         List<Activity> activityList = new ArrayList<>();
 
-        if (e.has("ocs")){
+        if (e.has("ocs")) {
             JsonObject ocs = e.getAsJsonObject("ocs");
             if (ocs.has("data")) {
                 JsonArray data = ocs.getAsJsonArray("data");
@@ -377,7 +380,7 @@ public class JsonToEntityParser {
                     JsonObject activityObject = activityJson.getAsJsonObject();
 
                     activity.setId(activityObject.get("activity_id").getAsLong());
-                    activity.setType(ActivityType.findByPath(getNullAsEmptyString(activityObject.get( "icon"))).getId());
+                    activity.setType(ActivityType.findByPath(getNullAsEmptyString(activityObject.get("icon"))).getId());
                     activity.setSubject(getNullAsEmptyString(activityObject.get("subject")));
                     activity.setCardId(activityObject.get("object_id").getAsLong());
                     activity.setLastModified(getTimestampFromString(activityObject.get("datetime")));
@@ -398,7 +401,7 @@ public class JsonToEntityParser {
         stack.setId(e.get("id").getAsLong());
         stack.setLastModified(getTimestampFromLong(e.get("lastModified")));
         stack.setDeletedAt(getTimestampFromLong(e.get("deletedAt")));
-        if (e.has("order") && !e.get("order").isJsonNull()){
+        if (e.has("order") && !e.get("order").isJsonNull()) {
             stack.setOrder(e.get("order").getAsInt());
         } else {
             stack.setOrder(0);
@@ -435,11 +438,8 @@ public class JsonToEntityParser {
         if (jsonElement.isJsonNull()) {
             return null;
         } else {
-            try {
-                return formatter.parse(jsonElement.getAsString());
-            } catch (ParseException e) {
-                return null;
-            }
+            String dateAsString = jsonElement.getAsString();
+            return DateTimeUtils.toDate(ZonedDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(dateAsString)).toInstant());
         }
     }
 
@@ -447,7 +447,7 @@ public class JsonToEntityParser {
         if (jsonElement.isJsonNull()) {
             return null;
         } else {
-            return new Date (jsonElement.getAsLong() * 1000);
+            return new Date(jsonElement.getAsLong() * 1000);
         }
     }
 }

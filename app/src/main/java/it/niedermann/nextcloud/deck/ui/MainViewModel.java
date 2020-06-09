@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModel;
 
 import it.niedermann.nextcloud.deck.model.Account;
@@ -29,6 +30,11 @@ public class MainViewModel extends ViewModel {
 
     public Long getCurrentBoardLocalId() {
         return this.currentBoard.getLocalId();
+    }
+
+    @Nullable
+    public Long getCurrentBoardRemoteId() {
+        return this.currentBoard.getId();
     }
 
     public boolean currentBoardHasEditPermission() {

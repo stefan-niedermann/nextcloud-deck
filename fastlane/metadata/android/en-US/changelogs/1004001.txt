@@ -1,0 +1,42 @@
+1.4.1
+
+- 🔗 Share link to cards (#497) - Requires deck server ≥ 1.0.0
+- 🐞 Fix switch to another app and back
+
+1.4.0
+
+- 🥳 Single card widget (#217) - Stay tuned, more to come!
+- 🐞 Fix missing save button when editing
+- 🐞 Fix archiving cards (#488)
+
+1.3.0
+
+- 📦 Archive boards (#472)
+- ☯️ Improved contrast ratio and design fine tuning
+- ❌ Display hint and disable synchronization when server version is incompatible (#423)
+- 🐞 Fix NullPointerExceptions on Board.getLocalId() after Android killed the app in background (#458, #477, #478)
+
+1.2.0
+
+- 🎚 Enhanced filters
+
+1.1.0
+
+- 🏷️ Manage tags per board (#309)
+- 🐞 Fixed crash on some devices caused by maxLines-ellipsize combination (#444)
+
+since 1.0.0
+
+- ➕ Fix adding cards via tile and shortcuts (#358)
+- ☑️ Display task counter
+- 🆕 New card layout for web and app
+- 🎨 Apply the branding of your Nextcloud instance (#317)
+- 📣 Push notifications (#208) - this depends on changes in the files app and might not yet be available at the time when this version has been released.
+- 🗑️ Revoke board access
+- 🔧 Show an info if server is in maintenance mode (#283)
+- ↔️ Move lists
+- 👤 wrong user image when using multiple accounts (#324)
+- 🎚 Filter cards (#396)
+- 🏷️ Auto complete: Display all available tags on first click (#263)
+- ➕ Share text into new card (#424)
+- 🗑️ "Delete list": Tell user how many card will be deleted (#421)

@@ -27,6 +27,7 @@ public class CrossTabDragAndDrop<
     private static final String TAG = CrossTabDragAndDrop.class.getCanonicalName();
     private static final ScrollHelper SCROLL_HELPER = new ScrollHelper();
 
+    private final boolean isLayoutLtr;
     private final float pxToReact;
     private final float pxToReactTopBottom;
     private final int dragAndDropMsToReact;
@@ -37,13 +38,14 @@ public class CrossTabDragAndDrop<
 
     private final Set<ItemMovedByDragListener<ItemModel>> moveListenerList = new HashSet<>(1);
 
-    public CrossTabDragAndDrop(@NonNull Resources resources) {
+    public CrossTabDragAndDrop(@NonNull Resources resources, boolean isLayoutLtr) {
         this.displayX = resources.getDisplayMetrics().widthPixels;
         final float density = resources.getDisplayMetrics().density;
         this.pxToReact = resources.getInteger(R.integer.drag_n_drop_dp_to_react) * density;
         this.dragAndDropMsToReactTopBottom = resources.getInteger(R.integer.drag_n_drop_dp_to_react_top_bottom);
         this.pxToReactTopBottom = dragAndDropMsToReactTopBottom * density;
         this.dragAndDropMsToReact = resources.getInteger(R.integer.drag_n_drop_ms_to_react);
+        this.isLayoutLtr = isLayoutLtr;
     }
 
     public void register(final ViewPager2 viewPager, TabLayout stackLayout, FragmentManager fm) {
@@ -69,9 +71,9 @@ public class CrossTabDragAndDrop<
                         int newTabPosition = -1;
                         // change tab? if yes, which direction?
                         if (dragEvent.getX() <= pxToReact) {
-                            newTabPosition = oldTabPosition - 1;
+                            newTabPosition = isLayoutLtr ? oldTabPosition - 1 : oldTabPosition + 1;
                         } else if (dragEvent.getX() >= displayX - pxToReact) {
-                            newTabPosition = oldTabPosition + 1;
+                            newTabPosition = isLayoutLtr ? oldTabPosition + 1 : oldTabPosition - 1;
                         } else {
                             shouldSwitchTab = false;
                         }

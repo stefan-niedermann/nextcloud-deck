@@ -78,6 +78,9 @@
     <string name="label_description">Beskrivning</string>
     <string name="hint_assign_people">Tilldela användare</string>
     <string name="hint_due_date_date">Slutdatum</string>
+    <string name="card_not_found">Kortet hittades inte</string>
+    <string name="card_not_found_message">Kortet kunde inte hittas. Kanske har det tagits bort nyligen.</string>
+
     <string name="add_account">Lägg till konto</string>
     <string name="choose_account">Välj konto</string>
     <string name="add_card">Lägg till nytt kort</string>
@@ -207,9 +210,13 @@
     <string name="server_misconfigured">Server felkonfigurerad</string>
     <string name="server_error">Serverfel</string>
     <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
-
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
+    <string name="error_action_open_deck_info">Öppna appinformation</string>
+    <string name="error_action_open_network">Nätverksinställningar</string>
+    <string name="error_action_server_logs">Serverloggar</string>
+    <string name="error_action_install">Installera</string>
     <string name="info_box_maintenance_mode">Server i underhållsläge</string>
     <string name="info_box_version_not_supported">Serverversion %1$s stöds inte, uppdatera till %2$s</string>
+    <string name="share_link">Dela länk</string>
 </resources>

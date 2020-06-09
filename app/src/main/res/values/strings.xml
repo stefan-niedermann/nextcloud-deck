@@ -39,6 +39,7 @@
     <string name="simple_comment">Comment</string>
     <string name="simple_disabled">disabled</string>
     <string name="simple_copied">Copied</string>
+    <string name="simple_archive">Archive</string>
 
     <string name="edit_board">Edit board</string>
     <string name="archive_board">Archive board</string>
@@ -116,8 +117,11 @@
     <string name="url_license" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
     <string name="url_translations" translatable="false">https://www.transifex.com/nextcloud/nextcloud/</string>
     <string name="url_about_icons_disclaimer_mdi" translatable="false">https://materialdesignicons.com/</string>
-    <string name="url_fragment_update_deck" translatable="false">/index.php/settings/apps/installed/deck</string>
-    <string name="url_fragment_server_logs" translatable="false">/index.php/settings/admin/logging</string>
+    <string name="url_fragment_update_deck"            translatable="false">/index.php/settings/apps/installed/deck</string>
+    <string name="url_fragment_install_deck"           translatable="false">/index.php/settings/apps/organization/deck</string>
+    <string name="url_fragment_server_logs"            translatable="false">/index.php/settings/admin/logging</string>
+    <string name="url_fragment_share_card_pre_1_0_0"   translatable="false">/index.php/apps/deck/#!/board/%1$d/card/%2$d</string>
+    <string name="url_fragment_share_card_since_1_0_0" translatable="false">/index.php/apps/deck/#/board/%1$d/card/%2$d</string>
 
     <string name="card_edit_details">Details</string>
     <string name="card_edit_attachments">Attachments</string>
@@ -132,6 +136,7 @@
     <string name="not_synced_yet">Not synced yet</string>
     <string name="no_lists_yet">No lists yet</string>
     <string name="do_you_want_to_save_your_changes">Do you want to save your changes?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Do you want to archive all cards of %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">This will permanently delete %1$d card of this list.</item>
         <item quantity="other">This will permanently delete all %1$d cards of this list.</item>
@@ -231,26 +236,32 @@
     <string name="server_misconfigured">Server misconfigured</string>
     <string name="server_error">Server error</string>
     <string name="shared_error">Sharing content from 3rd-party apps is not yet fully supported. Please try to download it first and then share it from you native file manager or gallery.</string>
+    <string name="error_edit_activity_killed_by_android">Android finished the edit mode because it needed more system resources for other apps.</string>
 
     <string name="error_dialog_title">Oh no - What now? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Please try to force close the app and restart it again. There might have been an incorrect connection to the Nextcloud app.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
-    <string name="error_dialog_tip_clear_storage">You can clear the storage by opening android settings → Apps → Nextcloud / Nextcloud Deck → Storage → Clear storage.</string>
+    <string name="error_dialog_tip_clear_storage">You can clear the storage by opening the app info and selecting Storage → Clear storage.</string>
     <string name="error_dialog_tip_files_outdated">Your Nextcloud app seems to be outdated. Please visit the Play Store or F-Droid to get the latest version.</string>
     <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your Nextcloud app. Please try to force stop both, the Nextcloud app and the Nextcloud Deck app.</string>
     <string name="error_dialog_tip_files_delete_storage">If force stopping them does not help, you can try to clear the storage of both apps.</string>
     <string name="error_dialog_timeout_instance">There wasn\'t a response from your server in the given time. Please make sure your instance is running well.</string>
-    <string name="error_dialog_timeout_toggle">Check your network connection. Sometime toggling the mobile data or Wi-Fi off and on again can help.</string>
+    <string name="error_dialog_timeout_toggle">Check your network connection. Sometimes toggling the mobile data or Wi-Fi off and on again can help.</string>
     <string name="error_dialog_check_server">The response of your server was not correct. Please check whether you can access the Deck app via web interface.</string>
     <string name="error_dialog_check_server_logs">There is an issue with your Nextcloud setup. Please have a look into the server log files.</string>
     <string name="error_dialog_check_maintenance">Please check whether your Nextcloud instance is not currently in maintenance mode.</string>
     <string name="error_dialog_insufficient_storage">Your Nextcloud instance has no free storage left. Please delete some files to sync your local changes into your cloud.</string>
     <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
     <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
+    <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Deck app. Please make sure it is installed and enabled.</string>
+    <string name="error_dialog_capabilities_not_parsable">We could not fetch the capabilities of your server. Please make sure your server is running well and other client apps are able to access Nextcloud.</string>
     <string name="error_action_open_deck_info">Open App info</string>
     <string name="error_action_open_network">Network settings</string>
     <string name="error_action_server_logs">Server logs</string>
+    <string name="error_action_install">Install</string>
     <string name="info_box_maintenance_mode">Server in maintenance mode</string>
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
+    <string name="share_link">Share link</string>
+    <string name="archive_cards">Archive cards</string>
     <string name="simple_reply">Reply</string>
 </resources>

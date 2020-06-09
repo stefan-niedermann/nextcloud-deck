@@ -23,7 +23,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
 
     @SuppressWarnings("WeakerAccess")
     public ArchivedCardsAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull Account account, long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner) {
-        super(context, fragmentManager, account, boardId, 0L, canEdit, syncManager, lifecycleOwner, null);
+        super(context, fragmentManager, account, boardId, 0L, 0L, canEdit, syncManager, lifecycleOwner, null);
     }
 
     @Override

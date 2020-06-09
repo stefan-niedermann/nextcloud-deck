@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/share_link"
+        android:title="@string/share_link"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_card_assign"
         android:title="@string/action_card_assign"
         app:showAsAction="never" />
@@ -17,7 +21,6 @@
         android:id="@+id/action_card_archive"
         android:title="@string/action_card_archive"
         app:showAsAction="never" />
-
     <item
         android:id="@+id/action_card_delete"
         android:title="@string/action_card_delete"

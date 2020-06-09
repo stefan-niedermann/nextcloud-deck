@@ -29,7 +29,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
+import androidx.core.view.ViewCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -241,7 +241,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             binding.viewPager.setAdapter(stackAdapter);
             binding.viewPager.setOffscreenPageLimit(2);
 
-            CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard> dragAndDrop = new CrossTabDragAndDrop<>(getResources());
+            CrossTabDragAndDrop<StackFragment, CardAdapter, FullCard> dragAndDrop = new CrossTabDragAndDrop<>(getResources(), ViewCompat.getLayoutDirection(binding.getRoot()) == ViewCompat.LAYOUT_DIRECTION_LTR);
             dragAndDrop.register(binding.viewPager, binding.stackTitles, getSupportFragmentManager());
             dragAndDrop.addItemMovedByDragListener((movedCard, stackId, position) -> {
                 syncManager.reorder(mainViewModel.getCurrentAccount().getId(), movedCard, stackId, position);
@@ -290,7 +290,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-                    binding.swipeRefreshLayout.setEnabled(state == ViewPager2.SCROLL_STATE_IDLE);
+                    if (!binding.swipeRefreshLayout.isRefreshing()) {
+                        binding.swipeRefreshLayout.setEnabled(state == ViewPager2.SCROLL_STATE_IDLE);
+                    }
                 }
             });
 
@@ -358,20 +360,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             overflowDrawable.setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
             headerBinding.drawerAccountChooserToggle.setImageDrawable(overflowDrawable);
         }
-    }
-
-    @Override
-    protected void onStop() {
-        // Clean up zombie fragments in case of system initiated process death.
-        // See linked issues in https://github.com/stefan-niedermann/nextcloud-deck/issues/478
-        try {
-            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-            }
-        } catch (IllegalStateException e) {
-            DeckLog.warn("onSAveInstanceState has already been called.");
-        }
-        super.onStop();
     }
 
     @Override
@@ -743,6 +731,27 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission()));
                 return true;
             }
+            case R.id.archive_cards: {
+                final FullStack fullStack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
+                final long stackLocalId = fullStack.getLocalId();
+                observeOnce(syncManager.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId), MainActivity.this, (numberOfCards) -> {
+                    new BrandedAlertDialogBuilder(this)
+                            .setTitle(R.string.archive_cards)
+                            .setMessage(getString(R.string.do_you_want_to_archive_all_cards_of_the_list, fullStack.getStack().getTitle()))
+                            .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
+                                final WrappedLiveData<Void> archiveStackLiveData = syncManager.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId);
+                                observeOnce(archiveStackLiveData, this, (result) -> {
+                                    if (archiveStackLiveData.hasError()) {
+                                        ExceptionDialogFragment.newInstance(archiveStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                    }
+                                });
+                            })
+                            .setNeutralButton(android.R.string.cancel, null)
+                            .create()
+                            .show();
+                });
+                return true;
+            }
             case R.id.rename_list: {
                 final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                 observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack ->
@@ -981,14 +990,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void onStackDeleted(Long stackLocalId) {
         long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
-        observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack -> {
-            DeckLog.info("Delete stack #" + fullStack.getLocalId() + ": " + fullStack.getStack().getTitle());
-            final WrappedLiveData<Void> deleteStackLiveData = syncManager.deleteStack(fullStack.getStack());
-            observeOnce(deleteStackLiveData, this, (v) -> {
-                if (deleteStackLiveData.hasError()) {
-                    ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                }
-            });
+        final WrappedLiveData<Void> deleteStackLiveData = syncManager.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId());
+        observeOnce(deleteStackLiveData, this, (v) -> {
+            if (deleteStackLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
         });
     }
 

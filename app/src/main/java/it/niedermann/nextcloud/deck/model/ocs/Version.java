@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -163,5 +164,17 @@ public class Version implements Comparable<Version> {
         return isGreaterOrEqualTo(VERSION_1_0_0)
                 ? 255
                 : 100;
+    }
+    /**
+     * URL to view a card in the web interface has been changed in version 1.0.0
+     *
+     * @return the id of the string resource which contains the partial URL to open a card in the web UI
+     * @see <a href="https://github.com/nextcloud/deck/pull/1977">documentation in PR</a>
+     */
+    @StringRes
+    public int getShareLinkResource() {
+        return isGreaterOrEqualTo(VERSION_1_0_0)
+                ? R.string.url_fragment_share_card_since_1_0_0
+                : R.string.url_fragment_share_card_pre_1_0_0;
     }
 }
