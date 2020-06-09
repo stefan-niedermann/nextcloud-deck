@@ -731,6 +731,27 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission()));
                 return true;
             }
+            case R.id.archive_cards: {
+                final FullStack fullStack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
+                final long stackLocalId = fullStack.getLocalId();
+                observeOnce(syncManager.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId), MainActivity.this, (numberOfCards) -> {
+                    new BrandedAlertDialogBuilder(this)
+                            .setTitle(R.string.archive_cards)
+                            .setMessage(getString(R.string.do_you_want_to_archive_all_cards_of_the_list, fullStack.getStack().getTitle()))
+                            .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
+                                final WrappedLiveData<Void> archiveStackLiveData = syncManager.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId);
+                                observeOnce(archiveStackLiveData, this, (result) -> {
+                                    if (archiveStackLiveData.hasError()) {
+                                        ExceptionDialogFragment.newInstance(archiveStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                    }
+                                });
+                            })
+                            .setNeutralButton(android.R.string.cancel, null)
+                            .create()
+                            .show();
+                });
+                return true;
+            }
             case R.id.rename_list: {
                 final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                 observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack ->
