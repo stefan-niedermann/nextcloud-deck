@@ -45,6 +45,12 @@
         </activity>
 
         <activity
+            android:name=".ui.manageaccounts.ManageAccountsActivity"
+            android:label="@string/manage_accounts"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".ui.SelectCardActivity"
             android:label="@string/share_add_to_card"
             android:theme="@style/SplashTheme">
