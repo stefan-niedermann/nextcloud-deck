@@ -72,6 +72,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.about.AboutActivity;
+import it.niedermann.nextcloud.deck.ui.accountswitcher.AccountSwitcherDialog;
 import it.niedermann.nextcloud.deck.ui.archivedboards.ArchivedBoardsActvitiy;
 import it.niedermann.nextcloud.deck.ui.archivedcards.ArchivedCardsActvitiy;
 import it.niedermann.nextcloud.deck.ui.board.ArchiveBoardListener;
@@ -123,6 +124,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     protected static final int ACTIVITY_ABOUT = 1;
     protected static final int ACTIVITY_SETTINGS = 2;
+    public final static int ACTIVITY_MANAGE_ACCOUNTS = 4;
 
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
@@ -329,7 +331,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 });
             });
         });
-
+        binding.accountSwitcher.setOnClickListener((v) -> AccountSwitcherDialog.newInstance(mainViewModel.getCurrentAccount().getId()).show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName()));
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
