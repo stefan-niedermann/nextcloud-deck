@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -59,25 +57,36 @@ public class AccountSwitcherDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogAccountSwitcherBinding.inflate(requireActivity().getLayoutInflater());
-
-
         binding.accountItemLabel.setText(viewModel.getCurrentAccount().getName());
+
         Glide.with(requireContext())
                 .load(viewModel.getCurrentAccount().getUrl() + "/index.php/avatar/" + Uri.encode(viewModel.getCurrentAccount().getUserName()) + "/64")
                 .error(R.drawable.ic_person_grey600_24dp)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.currentAccountItemAvatar);
+
         binding.accountLayout.setOnClickListener((v) -> dismiss());
 
         adapter = new AccountSwitcherAdapter((localAccount -> {
             viewModel.setCurrentAccount(localAccount, localAccount.getServerDeckVersionAsObject().isSupported(requireContext()));
             dismiss();
         }));
+
+        syncManager.readAccounts().observe(requireActivity(), (localAccounts) -> {
+            for (Account localAccount : localAccounts) {
+                if (localAccount.getId() == viewModel.getCurrentAccount().getId()) {
+                    localAccounts.remove(localAccount);
+                    break;
+                }
+            }
+            adapter.setLocalAccounts(localAccounts);
+        });
+
         binding.accountsList.setAdapter(adapter);
 
         binding.addAccount.setOnClickListener((v) -> {
             try {
-                AccountImporter.pickNewAccount(this);
+                AccountImporter.pickNewAccount(requireActivity());
             } catch (NextcloudFilesAppNotInstalledException e) {
                 ExceptionUtil.handleNextcloudFilesAppNotInstalledException(requireContext(), e);
             } catch (AndroidGetAccountsPermissionNotGranted e) {
@@ -94,20 +103,6 @@ public class AccountSwitcherDialog extends DialogFragment {
         return new AlertDialog.Builder(requireContext())
                 .setView(binding.getRoot())
                 .create();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        syncManager.readAccounts().observe(getViewLifecycleOwner(), (localAccounts) -> {
-            for (Account localAccount : localAccounts) {
-                if (localAccount.getId() == viewModel.getCurrentAccount().getId()) {
-                    localAccounts.remove(localAccount);
-                    break;
-                }
-            }
-            adapter.setLocalAccounts(localAccounts);
-        });
     }
 
     public static DialogFragment newInstance(long currentAccountId) {
