@@ -106,18 +106,6 @@
                     android:textSize="@dimen/drawer_header_subtext" />
 
             </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/drawer_account_chooser_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/drawer_manage_accounts"
-                app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp" />
-
         </LinearLayout>
-
     </RelativeLayout>
-
 </FrameLayout>
