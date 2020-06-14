@@ -14,9 +14,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -130,6 +130,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private List<Board> boardsList = new ArrayList<>();
     private LiveData<List<Board>> boardsLiveData;
     private Observer<List<Board>> boardsLiveDataObserver;
+    private Menu listMenu;
 
     private LiveData<Boolean> hasArchivedBoardsLiveData;
     private Observer<Boolean> hasArchivedBoardsLiveDataObserver;
@@ -162,7 +163,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
-        filterViewModel.getFilterInformation().observe(this, (info) -> invalidateOptionsMenu());
 
         addList = getString(R.string.add_list);
         addBoard = getString(R.string.add_board);
@@ -301,8 +301,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 }
             });
 
-            headerBinding.drawerHeaderView.setOnClickListener(v -> inflateBoardMenu());
-
             stackAdapter = new StackAdapter(this);
             binding.viewPager.setAdapter(stackAdapter);
             binding.viewPager.setOffscreenPageLimit(2);
@@ -314,13 +312,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 DeckLog.info("Card \"" + movedCard.getCard().getTitle() + "\" was moved to Stack " + stackId + " on position " + position);
             });
 
-            binding.addStackButton.setOnClickListener((v) -> {
-                if (this.boardsList.size() == 0) {
-                    EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
-                } else {
-                    EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
-                }
-            });
+
+            final PopupMenu listMenuPopup = new PopupMenu(this, binding.listMenuButton);
+            listMenu = listMenuPopup.getMenu();
+            getMenuInflater().inflate(R.menu.list_menu, listMenu);
+            listMenuPopup.setOnMenuItemClickListener(this::onOptionsItemSelected);
+            binding.listMenuButton.setOnClickListener((v) -> listMenuPopup.show());
 
             binding.fab.setOnClickListener((v) -> {
                 if (this.boardsList.size() > 0) {
@@ -361,6 +358,16 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     }
                 }
             });
+            filterViewModel.getFilterInformation().observe(this, (info) ->
+                    binding.filter.setImageDrawable(getResources().getDrawable(
+                            filterViewModel.getFilterInformation().getValue() == null
+                                    ? R.drawable.ic_filter_list_white_24dp
+                                    : R.drawable.ic_filter_list_active_white_24dp)
+                    ));
+
+            binding.filter.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
+            binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
+
 
             binding.swipeRefreshLayout.setOnRefreshListener(() -> {
                 ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -405,8 +412,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.stackTitles);
         applyBrandToFAB(mainColor, textColor, binding.fab);
 
-        binding.addStackButton.setBackgroundColor(mainColor);
-        binding.addStackButton.setColorFilter(textColor);
+        binding.listMenuButton.setBackgroundColor(mainColor);
+        binding.listMenuButton.setColorFilter(textColor);
 
         headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
         headerBinding.drawerAppTitle.setTextColor(textColor);
@@ -534,7 +541,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     protected void clearCurrentBoard() {
         binding.toolbar.setTitle(R.string.app_name_short);
         binding.swipeRefreshLayout.setVisibility(View.GONE);
-        binding.addStackButton.setVisibility(View.GONE);
+        binding.listMenuButton.setVisibility(View.GONE);
         binding.emptyContentViewStacks.setVisibility(View.GONE);
         binding.emptyContentViewBoards.setVisibility(View.VISIBLE);
     }
@@ -550,10 +557,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         if (mainViewModel.currentBoardHasEditPermission()) {
             binding.fab.show();
-            binding.addStackButton.setVisibility(View.VISIBLE);
+            binding.listMenuButton.setVisibility(View.VISIBLE);
         } else {
             binding.fab.hide();
-            binding.addStackButton.setVisibility(View.GONE);
+            binding.listMenuButton.setVisibility(View.GONE);
             binding.emptyContentViewStacks.hideDescription();
         }
 
@@ -574,6 +581,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 binding.emptyContentViewStacks.setVisibility(View.GONE);
                 currentBoardHasStacks = true;
             }
+
+            final int currentViewPagerItem = binding.viewPager.getCurrentItem();
+            listMenu.findItem(R.id.rename_list).setVisible(currentBoardHasStacks);
+            listMenu.findItem(R.id.move_list_left).setVisible(currentBoardHasStacks && currentViewPagerItem > 0);
+            listMenu.findItem(R.id.move_list_right).setVisible(currentBoardHasStacks && currentViewPagerItem < currentBoardStacksCount - 1);
+            listMenu.findItem(R.id.delete_list).setVisible(currentBoardHasStacks);
 
             int stackPositionInAdapter = 0;
             stackAdapter.setStacks(fullStacks);
@@ -658,37 +671,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        final MenuInflater inflater = getMenuInflater();
-        if (mainViewModel.currentBoardHasEditPermission()) {
-            final int currentViewPagerItem = binding.viewPager.getCurrentItem();
-            inflater.inflate(R.menu.list_menu, menu);
-            menu.findItem(R.id.rename_list).setVisible(currentBoardHasStacks);
-            menu.findItem(R.id.move_list_left).setVisible(currentBoardHasStacks && currentViewPagerItem > 0);
-            menu.findItem(R.id.move_list_right).setVisible(currentBoardHasStacks && currentViewPagerItem < currentBoardStacksCount - 1);
-            menu.findItem(R.id.delete_list).setVisible(currentBoardHasStacks);
-        } else {
-            menu.clear();
-        }
-        inflater.inflate(R.menu.main_menu, menu);
-        menu.findItem(R.id.archived_cards).setVisible(false);
-        menu.findItem(R.id.filter).setIcon(filterViewModel.getFilterInformation().getValue() == null
-                ? R.drawable.ic_filter_list_white_24dp
-                : R.drawable.ic_filter_list_active_white_24dp);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.filter: {
-                FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName());
-                return true;
-            }
-            case R.id.archived_cards: {
-                startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission()));
-                return true;
-            }
             case R.id.archive_cards: {
                 final FullStack fullStack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
                 final long stackLocalId = fullStack.getLocalId();

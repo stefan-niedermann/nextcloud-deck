@@ -118,9 +118,34 @@
 
                 <ImageView
                     android:id="@+id/accountSwitcher"
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/choose_account"
+                    android:padding="12dp"
+                    app:srcCompat="@drawable/ic_person_grey600_24dp" />
+
+                <ImageView
+                    android:id="@+id/filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_person_grey600_24dp" />
+                    android:layout_gravity="center_vertical|end"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/simple_filter"
+                    android:padding="12dp"
+                    app:srcCompat="@drawable/ic_filter_list_white_24dp" />
+
+                <ImageView
+                    android:id="@+id/archivedCards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/action_archived_cards"
+                    android:padding="12dp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_archive_white_24dp" />
             </androidx.appcompat.widget.Toolbar>
 
             <LinearLayout
@@ -139,13 +164,14 @@
                     app:tabTextColor="@android:color/white" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/add_stack_button"
+                    android:id="@+id/list_menu_button"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/add_list"
-                    android:foreground="?android:selectableItemBackground"
-                    app:srcCompat="@drawable/ic_add_white_24dp"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:tint="@android:color/white"
+                    app:srcCompat="@drawable/ic_menu"
                     tools:ignore="UnusedAttribute" />
             </LinearLayout>
 

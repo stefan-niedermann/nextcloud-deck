@@ -7,6 +7,10 @@
         android:title="@string/archive_cards"
         app:showAsAction="never" />
     <item
+        android:id="@+id/add_list"
+        android:title="@string/add_list"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/rename_list"
         android:title="@string/rename_list"
         app:showAsAction="never" />

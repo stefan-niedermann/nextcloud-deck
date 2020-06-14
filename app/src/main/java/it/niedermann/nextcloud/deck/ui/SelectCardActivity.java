@@ -129,7 +129,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     @Override
     protected void setCurrentBoard(@NonNull Board board) {
         super.setCurrentBoard(board);
-        binding.addStackButton.setVisibility(View.GONE);
+        binding.listMenuButton.setVisibility(View.GONE);
         binding.fab.setVisibility(View.GONE);
         binding.toolbar.setTitle(R.string.simple_select);
     }
