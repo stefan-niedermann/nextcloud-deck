@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -25,6 +26,7 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
@@ -116,7 +118,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     protected static final int ACTIVITY_ABOUT = 1;
     protected static final int ACTIVITY_SETTINGS = 2;
-    public final static int ACTIVITY_MANAGE_ACCOUNTS = 4;
+    public static final int ACTIVITY_MANAGE_ACCOUNTS = 4;
 
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
@@ -227,7 +229,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
                 syncManager = new SyncManager(this);
 
-                Application.saveBrandColors(this, Color.parseColor(mainViewModel.getCurrentAccount().getColor()), Color.parseColor(mainViewModel.getCurrentAccount().getTextColor()));
+                Application.saveBrandColors(this, parseColor(mainViewModel.getCurrentAccount().getColor()), parseColor(mainViewModel.getCurrentAccount().getTextColor()));
                 Application.saveCurrentAccountId(this, mainViewModel.getCurrentAccount().getId());
                 if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
                     refreshCapabilities(mainViewModel.getCurrentAccount());
@@ -275,14 +277,17 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 };
                 boardsLiveData.observe(this, boardsLiveDataObserver);
 
+                final Drawable placeholderAvatar = getResources().getDrawable(R.drawable.ic_baseline_account_circle_24);
+                DrawableCompat.setTint(placeholderAvatar, parseColor(currentAccount.getTextColor()));
+                DeckLog.error("xxx - loading avatar: " + currentAccount.getUrl() + "/index.php/avatar/" + Uri.encode(currentAccount.getUserName()) + "/64");
                 Glide
-                        .with(this)
+                        .with(binding.accountSwitcher.getContext())
                         .load(currentAccount.getUrl() + "/index.php/avatar/" + Uri.encode(currentAccount.getUserName()) + "/64")
-                        .error(R.drawable.ic_person_grey600_24dp)
+                        .placeholder(placeholderAvatar)
+                        .error(placeholderAvatar)
                         .apply(RequestOptions.circleCropTransform())
                         .into(binding.accountSwitcher);
 
-                binding.drawerLayout.closeDrawer(GravityCompat.START);
                 DeckLog.verbose("Displaying maintenance mode info for " + mainViewModel.getCurrentAccount().getName() + ": " + mainViewModel.getCurrentAccount().isMaintenanceEnabled());
                 binding.infoBox.setVisibility(mainViewModel.getCurrentAccount().isMaintenanceEnabled() ? View.VISIBLE : View.GONE);
                 if (mainViewModel.isCurrentAccountIsSupportedVersion()) {
@@ -411,6 +416,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, textColor, binding.stackTitles);
         applyBrandToFAB(mainColor, textColor, binding.fab);
+
+        // Is null as soon as the avatar has been set
+//        @Nullable
+//        Drawable accountSwitcherDrawable = binding.accountSwitcher.getDrawable();
+//        if (accountSwitcherDrawable != null) {
+//            DrawableCompat.setTint(accountSwitcherDrawable, textColor);
+//        }
 
         binding.listMenuButton.setBackgroundColor(mainColor);
         binding.listMenuButton.setColorFilter(textColor);
