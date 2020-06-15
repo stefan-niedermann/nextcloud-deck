@@ -333,7 +333,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                 @Override
                 public void onPageSelected(int position) {
-                    invalidateOptionsMenu();
+                    final int currentViewPagerItem = binding.viewPager.getCurrentItem();
+                    listMenu.findItem(R.id.move_list_left).setVisible(currentBoardHasStacks && currentViewPagerItem > 0);
+                    listMenu.findItem(R.id.move_list_right).setVisible(currentBoardHasStacks && currentViewPagerItem < currentBoardStacksCount - 1);
                     binding.viewPager.post(() -> {
                         // stackAdapter size might differ from position when an account has been deleted
                         if (stackAdapter.getItemCount() > position) {
@@ -567,12 +569,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 currentBoardHasStacks = true;
             }
 
-            final int currentViewPagerItem = binding.viewPager.getCurrentItem();
-            listMenu.findItem(R.id.rename_list).setVisible(currentBoardHasStacks);
-            listMenu.findItem(R.id.move_list_left).setVisible(currentBoardHasStacks && currentViewPagerItem > 0);
-            listMenu.findItem(R.id.move_list_right).setVisible(currentBoardHasStacks && currentViewPagerItem < currentBoardStacksCount - 1);
-            listMenu.findItem(R.id.delete_list).setVisible(currentBoardHasStacks);
-
             int stackPositionInAdapter = 0;
             stackAdapter.setStacks(fullStacks);
 
@@ -602,7 +598,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 }
                 updateTabLayoutHelper(tabTitleGenerator);
             });
-            invalidateOptionsMenu();
+
+            listMenu.findItem(R.id.rename_list).setVisible(currentBoardHasStacks);
+            listMenu.findItem(R.id.delete_list).setVisible(currentBoardHasStacks);
         });
     }
 
