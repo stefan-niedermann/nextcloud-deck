@@ -30,27 +30,15 @@ import static it.niedermann.nextcloud.deck.ui.MainActivity.ACTIVITY_MANAGE_ACCOU
 
 public class AccountSwitcherDialog extends BrandedDialogFragment {
 
-    private static final String KEY_CURRENT_ACCOUNT_ID = "current_account_id";
-
     private AccountSwitcherAdapter adapter;
     private SyncManager syncManager;
     private DialogAccountSwitcherBinding binding;
     private MainViewModel viewModel;
-    private long currentAccountId;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        final Bundle args = getArguments();
-
-        if (args == null || !args.containsKey(KEY_CURRENT_ACCOUNT_ID)) {
-            throw new IllegalArgumentException("Please provide at least " + KEY_CURRENT_ACCOUNT_ID);
-        } else {
-            this.currentAccountId = args.getLong(KEY_CURRENT_ACCOUNT_ID);
-        }
-
         syncManager = new SyncManager(requireActivity());
     }
 
@@ -67,17 +55,17 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.currentAccountItemAvatar);
 
-        observeOnce(syncManager.readAccounts(), requireActivity(), (accounts) -> {
-            accounts.remove(viewModel.getCurrentAccount());
-            adapter.setAccounts(accounts);
-        });
-
         binding.accountLayout.setOnClickListener((v) -> dismiss());
 
         adapter = new AccountSwitcherAdapter((localAccount -> {
             viewModel.setCurrentAccount(localAccount, localAccount.getServerDeckVersionAsObject().isSupported(requireContext()));
             dismiss();
         }));
+
+        observeOnce(syncManager.readAccounts(), requireActivity(), (accounts) -> {
+            accounts.remove(viewModel.getCurrentAccount());
+            adapter.setAccounts(accounts);
+        });
 
         binding.accountsList.setAdapter(adapter);
 
@@ -102,14 +90,8 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
                 .create();
     }
 
-    public static DialogFragment newInstance(long currentAccountId) {
-        DialogFragment dialog = new AccountSwitcherDialog();
-
-        Bundle args = new Bundle();
-        args.putLong(KEY_CURRENT_ACCOUNT_ID, currentAccountId);
-        dialog.setArguments(args);
-
-        return dialog;
+    public static DialogFragment newInstance() {
+        return new AccountSwitcherDialog();
     }
 
     @Override
