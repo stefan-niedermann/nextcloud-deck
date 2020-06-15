@@ -20,13 +20,13 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledExcepti
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
-import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.MainActivity.ACTIVITY_MANAGE_ACCOUNTS;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToLayerDrawable;
 
@@ -68,22 +68,17 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.currentAccountItemAvatar);
 
+        observeOnce(syncManager.readAccounts(), requireActivity(), (accounts) -> {
+            accounts.remove(viewModel.getCurrentAccount());
+            adapter.setAccounts(accounts);
+        });
+
         binding.accountLayout.setOnClickListener((v) -> dismiss());
 
         adapter = new AccountSwitcherAdapter((localAccount -> {
             viewModel.setCurrentAccount(localAccount, localAccount.getServerDeckVersionAsObject().isSupported(requireContext()));
             dismiss();
         }));
-
-        syncManager.readAccounts().observe(requireActivity(), (localAccounts) -> {
-            for (Account localAccount : localAccounts) {
-                if (localAccount.getId() == viewModel.getCurrentAccount().getId()) {
-                    localAccounts.remove(localAccount);
-                    break;
-                }
-            }
-            adapter.setLocalAccounts(localAccounts);
-        });
 
         binding.accountsList.setAdapter(adapter);
 

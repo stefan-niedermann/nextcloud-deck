@@ -46,7 +46,7 @@ public class AccountSwitcherAdapter extends RecyclerView.Adapter<AccountSwitcher
         return localAccounts.size();
     }
 
-    public void setLocalAccounts(@NonNull List<Account> localAccounts) {
+    public void setAccounts(@NonNull List<Account> localAccounts) {
         this.localAccounts.clear();
         this.localAccounts.addAll(localAccounts);
         notifyDataSetChanged();
