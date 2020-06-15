@@ -385,7 +385,8 @@ public class SyncManager {
     }
 
     /**
-     * Creates a new board and adds the same {@link Label}, {@link Stack} and color as in the origin board. Owner of the target board will be the current user.
+     * Creates a new board and adds the same {@link Label}, {@link Stack} and color as in the origin board.
+     * Owner of the target board will be the {@link User} with the {@link Account} of {@param targetAccountId}.
      * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin board.
      */
     public LiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle) {
