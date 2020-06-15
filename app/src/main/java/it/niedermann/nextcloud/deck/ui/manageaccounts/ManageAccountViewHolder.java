@@ -27,20 +27,21 @@ public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
         binding = ItemAccountChooseBinding.bind(itemView);
     }
 
-    public void bind(@NonNull Account localAccount, @NonNull Consumer<Account> onAccountClick, @Nullable Consumer<Account> onAccountDelete, boolean isCurrentAccount) {
-        binding.accountItemLabel.setText(localAccount.getName());
+    public void bind(@NonNull Account account, @NonNull Consumer<Account> onAccountClick, @Nullable Consumer<Account> onAccountDelete, boolean isCurrentAccount) {
+        binding.accountName.setText(account.getUserName());
+        binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
         Glide.with(itemView.getContext())
-                .load(localAccount.getUrl() + "/index.php/avatar/" + Uri.encode(localAccount.getUserName()) + "/64")
+                .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(account.getUserName()) + "/64")
                 .error(R.drawable.ic_person_grey600_24dp)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.accountItemAvatar);
         binding.currentAccountIndicator.setSelected(isCurrentAccount);
-        itemView.setOnClickListener((v) -> onAccountClick.accept(localAccount));
+        itemView.setOnClickListener((v) -> onAccountClick.accept(account));
         if (onAccountDelete == null) {
             binding.delete.setVisibility(GONE);
         } else {
             binding.delete.setVisibility(VISIBLE);
-            binding.delete.setOnClickListener((v) -> onAccountDelete.accept(localAccount));
+            binding.delete.setOnClickListener((v) -> onAccountDelete.accept(account));
         }
         if (isCurrentAccount) {
             binding.currentAccountIndicator.setVisibility(VISIBLE);

@@ -46,7 +46,8 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogAccountSwitcherBinding.inflate(requireActivity().getLayoutInflater());
-        binding.accountItemLabel.setText(viewModel.getCurrentAccount().getName());
+        binding.accountName.setText(viewModel.getCurrentAccount().getUserName());
+        binding.accountHost.setText(Uri.parse(viewModel.getCurrentAccount().getUrl()).getHost());
         binding.check.setSelected(true);
 
         Glide.with(requireContext())
