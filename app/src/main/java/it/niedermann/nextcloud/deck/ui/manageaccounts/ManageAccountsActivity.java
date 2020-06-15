@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.manageaccounts;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,11 +11,13 @@ import com.nextcloud.android.sso.exceptions.NoCurrentAccountSelectedException;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.databinding.ActivityManageAccountsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 
-public class ManageAccountsActivity extends AppCompatActivity {
+public class ManageAccountsActivity extends BrandedActivity {
 
     private ActivityManageAccountsBinding binding;
     private ManageAccountAdapter adapter;
@@ -34,8 +37,11 @@ public class ManageAccountsActivity extends AppCompatActivity {
 
         syncManager.readAccounts().observe(this, (localAccounts -> {
 
-            adapter = new ManageAccountAdapter((localAccount) -> {
-                SingleAccountHelper.setCurrentAccount(getApplicationContext(), localAccount.getName());
+            adapter = new ManageAccountAdapter((account) -> {
+                SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.getName());
+                syncManager = new SyncManager(this);
+                Application.saveBrandColors(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
+                Application.saveCurrentAccountId(this, account.getId());
             }, (localAccount) -> {
                 syncManager.deleteAccount(localAccount.getId());
                 for (Account temp : localAccounts) {
@@ -63,6 +69,15 @@ public class ManageAccountsActivity extends AppCompatActivity {
             }
             binding.accounts.setAdapter(adapter);
         }));
+    }
 
+    @Override
+    public void onBackPressed() {
+        onSupportNavigateUp();
+    }
+
+    @Override
+    public void applyBrand(int mainColor, int textColor) {
+        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
     }
 }

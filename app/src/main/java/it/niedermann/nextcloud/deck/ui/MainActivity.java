@@ -93,9 +93,7 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
@@ -275,9 +273,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 };
                 boardsLiveData.observe(this, boardsLiveDataObserver);
 
-                ViewUtil.addAvatar(headerBinding.drawerCurrentAccount, mainViewModel.getCurrentAccount().getUrl(), mainViewModel.getCurrentAccount().getUserName(), R.mipmap.ic_launcher_round);
-                headerBinding.drawerUsernameFull.setText(mainViewModel.getCurrentAccount().getName());
-
                 Glide
                         .with(this)
                         .load(currentAccount.getUrl() + "/index.php/avatar/" + Uri.encode(currentAccount.getUserName()) + "/64")
@@ -415,18 +410,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.listMenuButton.setBackgroundColor(mainColor);
         binding.listMenuButton.setColorFilter(textColor);
 
-        headerBinding.drawerHeaderView.setBackgroundColor(mainColor);
-        headerBinding.drawerAppTitle.setTextColor(textColor);
-        headerBinding.drawerUsernameFull.setTextColor(textColor);
-
-        final boolean isDarkTextColor = ColorUtil.isColorDark(textColor);
-        if (isDarkTextColor) {
-            headerBinding.drawerAppTitle.setShadowLayer(2, 0.5f, 0, Color.WHITE);
-            headerBinding.drawerUsernameFull.setShadowLayer(2, 0.5f, 0, Color.WHITE);
-        } else {
-            headerBinding.drawerAppTitle.setShadowLayer(2, 0.5f, 0, Color.BLACK);
-            headerBinding.drawerUsernameFull.setShadowLayer(2, 0.5f, 0, Color.BLACK);
-        }
+        headerBinding.headerView.setBackgroundColor(mainColor);
+        headerBinding.appName.setTextColor(textColor);
     }
 
     @Override
