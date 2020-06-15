@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.manageaccounts;
 
-import android.graphics.Color;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.view.View;
 
@@ -19,7 +17,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToLayerDrawable;
 
 public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
 
@@ -37,10 +34,8 @@ public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
                 .error(R.drawable.ic_person_grey600_24dp)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.accountItemAvatar);
-        itemView.setOnClickListener((v) -> {
-            applyBrandToLayerDrawable((LayerDrawable) binding.currentAccountIndicator.getDrawable(), R.id.area, Color.parseColor(localAccount.getColor()));
-            onAccountClick.accept(localAccount);
-        });
+        binding.currentAccountIndicator.setSelected(isCurrentAccount);
+        itemView.setOnClickListener((v) -> onAccountClick.accept(localAccount));
         if (onAccountDelete == null) {
             binding.delete.setVisibility(GONE);
         } else {

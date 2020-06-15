@@ -29,7 +29,8 @@
             android:layout_height="12dp"
             android:layout_gravity="end|bottom"
             android:visibility="gone"
-            app:srcCompat="@drawable/circle_alpha_check_36dp"
+            app:srcCompat="@drawable/selected"
+            tools:src="@drawable/ic_check_grey600_24dp"
             tools:visibility="visible" />
     </FrameLayout>
 

@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.Window;
 import android.widget.EditText;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -155,15 +153,6 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
             return Color.BLACK;
         } else {
             return mainColor;
-        }
-    }
-
-    public static void applyBrandToLayerDrawable(@NonNull LayerDrawable check, @IdRes int areaToColor, @ColorInt int mainColor) {
-        final Drawable drawable = check.findDrawableByLayerId(areaToColor);
-        if (drawable == null) {
-            DeckLog.error("Could not find areaToColor (" + areaToColor + "). Cannot apply brand.");
-        } else {
-            DrawableCompat.setTint(drawable, mainColor);
         }
     }
 }

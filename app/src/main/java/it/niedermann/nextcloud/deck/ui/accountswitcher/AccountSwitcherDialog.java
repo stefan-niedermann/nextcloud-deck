@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.accountswitcher;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -28,7 +27,6 @@ import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.MainActivity.ACTIVITY_MANAGE_ACCOUNTS;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToLayerDrawable;
 
 public class AccountSwitcherDialog extends BrandedDialogFragment {
 
@@ -61,6 +59,7 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DialogAccountSwitcherBinding.inflate(requireActivity().getLayoutInflater());
         binding.accountItemLabel.setText(viewModel.getCurrentAccount().getName());
+        binding.check.setSelected(true);
 
         Glide.with(requireContext())
                 .load(viewModel.getCurrentAccount().getUrl() + "/index.php/avatar/" + Uri.encode(viewModel.getCurrentAccount().getUserName()) + "/64")
@@ -115,6 +114,6 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
-        applyBrandToLayerDrawable((LayerDrawable) binding.check.getDrawable(), R.id.area, mainColor);
+//        applyBrandToLayerDrawable((LayerDrawable) binding.check.getDrawable(), R.id.area, mainColor);
     }
 }
