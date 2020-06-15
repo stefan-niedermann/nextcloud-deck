@@ -279,7 +279,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
                 final Drawable placeholderAvatar = getResources().getDrawable(R.drawable.ic_baseline_account_circle_24);
                 DrawableCompat.setTint(placeholderAvatar, parseColor(currentAccount.getTextColor()));
-                DeckLog.error("xxx - loading avatar: " + currentAccount.getUrl() + "/index.php/avatar/" + Uri.encode(currentAccount.getUserName()) + "/64");
                 Glide
                         .with(binding.accountSwitcher.getContext())
                         .load(currentAccount.getUrl() + "/index.php/avatar/" + Uri.encode(currentAccount.getUserName()) + "/64")
