@@ -19,7 +19,7 @@ public class ManageAccountAdapter extends RecyclerView.Adapter<ManageAccountView
     @Nullable
     private Account currentAccount = null;
     @NonNull
-    private final List<Account> Accounts = new ArrayList<>();
+    private final List<Account> accounts = new ArrayList<>();
     @NonNull
     private final Consumer<Account> onAccountClick;
     @Nullable
@@ -33,7 +33,7 @@ public class ManageAccountAdapter extends RecyclerView.Adapter<ManageAccountView
 
     @Override
     public long getItemId(int position) {
-        return Accounts.get(position).getId();
+        return accounts.get(position).getId();
     }
 
     @NonNull
@@ -44,32 +44,32 @@ public class ManageAccountAdapter extends RecyclerView.Adapter<ManageAccountView
 
     @Override
     public void onBindViewHolder(@NonNull ManageAccountViewHolder holder, int position) {
-        final Account Account = Accounts.get(position);
-        holder.bind(Account, (account) -> {
-            setCurrentAccount(account);
-            onAccountClick.accept(account);
+        final Account account = accounts.get(position);
+        holder.bind(account, (clickedAccount) -> {
+            setCurrentAccount(clickedAccount);
+            onAccountClick.accept(clickedAccount);
         }, (accountToDelete -> {
             if (onAccountDelete != null) {
-                for (int i = 0; i < Accounts.size(); i++) {
-                    if (Accounts.get(i).getId() == accountToDelete.getId()) {
-                        Accounts.remove(i);
+                for (int i = 0; i < accounts.size(); i++) {
+                    if (accounts.get(i).getId().equals(accountToDelete.getId())) {
+                        accounts.remove(i);
                         notifyItemRemoved(i);
                         break;
                     }
                 }
                 onAccountDelete.accept(accountToDelete);
             }
-        }), currentAccount != null && currentAccount.getId() == Account.getId());
+        }), currentAccount != null && currentAccount.getId().equals(account.getId()));
     }
 
     @Override
     public int getItemCount() {
-        return Accounts.size();
+        return accounts.size();
     }
 
     public void setAccounts(@NonNull List<Account> Accounts) {
-        this.Accounts.clear();
-        this.Accounts.addAll(Accounts);
+        this.accounts.clear();
+        this.accounts.addAll(Accounts);
         notifyDataSetChanged();
     }
 
