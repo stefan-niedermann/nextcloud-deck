@@ -385,9 +385,9 @@ public class SyncManager {
     }
 
     /**
-     * Creates a new board and adds the same {@link Label}, {@link Stack} and color as in the origin board.
-     * Owner of the target board will be the {@link User} with the {@link Account} of {@param targetAccountId}.
-     * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin board.
+     * Creates a new {@link Board} and adds the same {@link Label}, {@link Stack} and color as in the origin {@link Board}.
+     * Owner of the target {@link Board} will be the {@link User} with the {@link Account} of {@param targetAccountId}.
+     * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
      */
     public LiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle) {
         throw new UnsupportedOperationException("Not yet implemented");
