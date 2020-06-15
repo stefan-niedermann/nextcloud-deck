@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/spacer_3x">
 
@@ -46,6 +47,8 @@
             android:contentDescription="@null"
             android:focusable="false"
             android:scaleType="center"
+            android:scaleX=".7"
+            android:scaleY=".7"
             app:srcCompat="@drawable/selected" />
     </LinearLayout>
 
