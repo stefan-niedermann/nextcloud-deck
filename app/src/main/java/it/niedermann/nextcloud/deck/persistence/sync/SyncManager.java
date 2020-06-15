@@ -385,11 +385,11 @@ public class SyncManager {
     }
 
     /**
-     * Creates a new {@link Board} and adds the same {@link Label}, {@link Stack} and color as in the origin {@link Board}.
+     * Creates a new {@link Board} and adds the same {@link Label} and {@link Stack} as in the origin {@link Board}.
      * Owner of the target {@link Board} will be the {@link User} with the {@link Account} of {@param targetAccountId}.
      * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
      */
-    public LiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle) {
+    public LiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle, String targetBoardColor) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
