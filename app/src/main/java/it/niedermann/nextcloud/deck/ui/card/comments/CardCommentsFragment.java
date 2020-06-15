@@ -105,7 +105,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                     comment.setCreationDateTime(new Date());
                     final FullDeckComment parent = commentsViewModel.getReplyToComment().getValue();
                     if (parent != null) {
-                        comment.setParentId(parent.getLocalId());
+                        comment.setParentId(parent.getId());
                         commentsViewModel.setReplyToComment(null);
                     }
                     syncManager.addCommentToCard(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), comment);
