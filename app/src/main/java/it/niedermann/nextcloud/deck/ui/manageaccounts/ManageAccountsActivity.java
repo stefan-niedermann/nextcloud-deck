@@ -42,17 +42,16 @@ public class ManageAccountsActivity extends BrandedActivity {
                 syncManager = new SyncManager(this);
                 Application.saveBrandColors(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
                 Application.saveCurrentAccountId(this, account.getId());
-            }, (localAccount) -> {
-                syncManager.deleteAccount(localAccount.getId());
-                for (Account temp : localAccounts) {
-                    if (temp.getId() == localAccount.getId()) {
-                        localAccounts.remove(temp);
-                        break;
-                    }
-                }
+            }, (deletedAccount) -> {
+                syncManager.deleteAccount(deletedAccount.getId());
+                localAccounts.remove(deletedAccount);
                 if (localAccounts.size() > 0) {
-                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), localAccounts.get(0).getName());
-                    adapter.setCurrentAccount(localAccounts.get(0));
+                    Account newAccount = localAccounts.get(0);
+                    syncManager = new SyncManager(this);
+                    adapter.setCurrentAccount(newAccount);
+                    SingleAccountHelper.setCurrentAccount(getApplicationContext(), newAccount.getName());
+                    Application.saveBrandColors(this, Color.parseColor(newAccount.getColor()), Color.parseColor(newAccount.getTextColor()));
+                    Application.saveCurrentAccountId(this, newAccount.getId());
                 } else {
                     setResult(AppCompatActivity.RESULT_FIRST_USER);
                     finish();
