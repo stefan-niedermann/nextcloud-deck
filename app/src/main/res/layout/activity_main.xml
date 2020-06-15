@@ -124,7 +124,9 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/choose_account"
                     android:padding="12dp"
-                    app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+                    android:tooltipText="@string/choose_account"
+                    app:srcCompat="@drawable/ic_baseline_account_circle_24"
+                    tools:targetApi="o" />
 
                 <ImageView
                     android:id="@+id/filter"
@@ -134,8 +136,10 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/simple_filter"
                     android:padding="12dp"
+                    android:tooltipText="@string/simple_filter"
                     android:translationX="6dp"
-                    app:srcCompat="@drawable/ic_filter_list_white_24dp" />
+                    app:srcCompat="@drawable/ic_filter_list_white_24dp"
+                    tools:targetApi="o" />
 
                 <ImageView
                     android:id="@+id/archivedCards"
@@ -145,9 +149,12 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/action_archived_cards"
                     android:padding="12dp"
-                    android:translationX="6dp"
+                    android:tooltipText="@string/action_archived_cards"
+                    android:translationX="12dp"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/ic_archive_white_24dp" />
+                    app:srcCompat="@drawable/ic_archive_white_24dp"
+                    tools:targetApi="o"
+                    tools:visibility="visible" />
             </androidx.appcompat.widget.Toolbar>
 
             <LinearLayout
@@ -173,6 +180,7 @@
                     android:contentDescription="@string/add_list"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:tint="@android:color/white"
+                    android:tooltipText="@string/manage_list"
                     app:srcCompat="@drawable/ic_menu"
                     tools:ignore="UnusedAttribute" />
             </LinearLayout>
