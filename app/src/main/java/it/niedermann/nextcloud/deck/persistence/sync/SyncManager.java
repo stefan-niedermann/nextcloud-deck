@@ -384,6 +384,15 @@ public class SyncManager {
         return liveData;
     }
 
+    /**
+     * Creates a new {@link Board} and adds the same {@link Label} and {@link Stack} as in the origin {@link Board}.
+     * Owner of the target {@link Board} will be the {@link User} with the {@link Account} of {@param targetAccountId}.
+     * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
+     */
+    public LiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle, String targetBoardColor) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     public LiveData<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> syncActivitiesForCard(Card card) {
         doAsync(() -> {
             if (serverAdapter.hasInternetConnection()) {
@@ -777,7 +786,7 @@ public class SyncManager {
     }
 
     private void updateCardForArchive(Account account, FullStack stack, Board board, FullCard card, IResponseCallback<FullCard> callback) {
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardDataProvider(null, board, stack), card, callback);
+        new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardDataProvider(null, board, stack), card, callback);
     }
 
     public WrappedLiveData<FullCard> dearchiveCard(FullCard card) {
@@ -791,6 +800,7 @@ public class SyncManager {
         });
         return liveData;
     }
+
     public WrappedLiveData<Void> archiveCardsInStack(long accountId, long stackLocalId) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
