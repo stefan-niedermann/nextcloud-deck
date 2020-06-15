@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -22,10 +23,10 @@ public class ManageAccountAdapter extends RecyclerView.Adapter<ManageAccountView
     private final List<Account> accounts = new ArrayList<>();
     @NonNull
     private final Consumer<Account> onAccountClick;
-    @Nullable
-    private final Consumer<Account> onAccountDelete;
+    @NonNull
+    private final Consumer<Pair<Account, Account>> onAccountDelete;
 
-    public ManageAccountAdapter(@NonNull Consumer<Account> onAccountClick, @Nullable Consumer<Account> onAccountDelete) {
+    public ManageAccountAdapter(@NonNull Consumer<Account> onAccountClick, @NonNull Consumer<Pair<Account, Account>> onAccountDelete) {
         this.onAccountClick = onAccountClick;
         this.onAccountDelete = onAccountDelete;
         setHasStableIds(true);
@@ -49,16 +50,17 @@ public class ManageAccountAdapter extends RecyclerView.Adapter<ManageAccountView
             setCurrentAccount(clickedAccount);
             onAccountClick.accept(clickedAccount);
         }, (accountToDelete -> {
-            if (onAccountDelete != null) {
-                for (int i = 0; i < accounts.size(); i++) {
-                    if (accounts.get(i).getId().equals(accountToDelete.getId())) {
-                        accounts.remove(i);
-                        notifyItemRemoved(i);
-                        break;
-                    }
+            for (int i = 0; i < accounts.size(); i++) {
+                if (accounts.get(i).getId().equals(accountToDelete.getId())) {
+                    accounts.remove(i);
+                    notifyItemRemoved(i);
+                    break;
                 }
-                onAccountDelete.accept(accountToDelete);
             }
+
+            Account newAccount = accounts.size() > 0 ? accounts.get(0) : null;
+            setCurrentAccount(newAccount);
+            onAccountDelete.accept(new Pair<>(accountToDelete, newAccount));
         }), currentAccount != null && currentAccount.getId().equals(account.getId()));
     }
 
