@@ -130,6 +130,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private Observer<List<Board>> boardsLiveDataObserver;
     private Menu listMenu;
 
+    private LiveData<List<FullStack>> stacksLiveData;
+
     private LiveData<Boolean> hasArchivedBoardsLiveData;
     private Observer<Boolean> hasArchivedBoardsLiveDataObserver;
 
@@ -399,7 +401,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 });
             });
         });
-        binding.accountSwitcher.setOnClickListener((v) -> AccountSwitcherDialog.newInstance(mainViewModel.getCurrentAccount().getId()).show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName()));
+        binding.accountSwitcher.setOnClickListener((v) -> AccountSwitcherDialog.newInstance()
+                .show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName()));
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
@@ -534,6 +537,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     protected void setCurrentBoard(@NonNull Board board) {
+        if (stacksLiveData != null) {
+            stacksLiveData.removeObservers(this);
+        }
         mainViewModel.setCurrentBoard(board);
         filterViewModel.clearFilterInformation();
 
@@ -554,8 +560,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.emptyContentViewBoards.setVisibility(View.GONE);
         binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
 
-
-        syncManager.getStacksForBoard(mainViewModel.getCurrentAccount().getId(), board.getLocalId()).observe(MainActivity.this, (List<FullStack> fullStacks) -> {
+        stacksLiveData = syncManager.getStacksForBoard(mainViewModel.getCurrentAccount().getId(), board.getLocalId());
+        stacksLiveData.observe(this, (List<FullStack> fullStacks) -> {
             if (fullStacks == null) {
                 throw new IllegalStateException("Given List<FullStack> must not be null");
             }
