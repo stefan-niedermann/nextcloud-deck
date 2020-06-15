@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape
-            android:shape="oval">
-            <solid android:color="#55ffffff" />
-            <size
-                android:width="36dp"
-                android:height="36dp"/>
+    <item android:id="@+id/area">
+        <shape android:shape="oval">
+            <solid android:color="@color/primary" />
+            <stroke
+                android:width="1dp"
+                android:color="@android:color/white" />
         </shape>
     </item>
     <item android:drawable="@drawable/ic_check_white_24dp" />

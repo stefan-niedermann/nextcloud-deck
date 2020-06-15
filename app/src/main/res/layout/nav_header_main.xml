@@ -1,111 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_header_view"
+    android:id="@+id/header_view"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
-    android:background="@color/primary"
-    android:fitsSystemWindows="true">
+    android:layout_height="@dimen/drawer_header_height"
+    android:background="@color/primary">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/drawer_header_background"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/background" />
+        android:id="@+id/logo"
+        android:layout_width="@dimen/drawer_header_logo_size"
+        android:layout_height="@dimen/drawer_header_logo_size"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/spacer_2x"
+        android:gravity="center"
+        android:padding="@dimen/spacer_1hx"
+        app:srcCompat="@drawable/ic_app_logo" />
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:paddingLeft="@dimen/spacer_2x"
-        android:paddingTop="@dimen/spacer_2x"
-        android:paddingRight="@dimen/spacer_2x">
-
-        <FrameLayout
-            android:id="@+id/drawer_user_avatars"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginBottom="@dimen/spacer_1x">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/drawer_current_account"
-                android:layout_width="@dimen/nav_drawer_header_avatar"
-                android:layout_height="@dimen/nav_drawer_header_avatar"
-                android:contentDescription="@string/drawer_current_account"
-                app:srcCompat="@mipmap/ic_launcher_round" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/drawer_account_middle"
-                android:layout_width="@dimen/nav_drawer_header_avatar_other_accounts_size"
-                android:layout_height="@dimen/nav_drawer_header_avatar_other_accounts_size"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/nav_drawer_header_avatar_second_account_margin"
-                android:layout_marginRight="@dimen/nav_drawer_header_avatar_second_account_margin"
-                android:contentDescription="@string/drawer_middle_account"
-                android:visibility="gone"
-                app:srcCompat="@mipmap/ic_launcher_round" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/drawer_account_end"
-                android:layout_width="@dimen/nav_drawer_header_avatar_other_accounts_size"
-                android:layout_height="@dimen/nav_drawer_header_avatar_other_accounts_size"
-                android:layout_gravity="end"
-                android:contentDescription="@string/drawer_end_account"
-                android:visibility="gone"
-                app:srcCompat="@mipmap/ic_launcher_round" />
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:id="@+id/drawer_menu_toggle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/drawer_user_avatars">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingEnd="@dimen/spacer_1x"
-                android:paddingRight="@dimen/spacer_1x"
-                tools:ignore="RtlSymmetry">
-
-                <TextView
-                    android:id="@+id/drawer_app_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:shadowColor="@android:color/black"
-                    android:shadowDx="0.5"
-                    android:shadowDy="0"
-                    android:shadowRadius="2"
-                    android:text="@string/app_name"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/drawer_header_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/drawer_username_full"
-                    android:layout_width="match_parent"
-                    android:layout_height="28dp"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:shadowColor="@android:color/black"
-                    android:shadowDx="0.5"
-                    android:shadowDy="0"
-                    android:shadowRadius="2"
-                    android:text="@string/app_name"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/drawer_header_subtext" />
-
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
-</FrameLayout>
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/logo"
+        android:layout_toRightOf="@id/logo"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:text="@string/app_name_short"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+</RelativeLayout>
