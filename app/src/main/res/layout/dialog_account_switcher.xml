@@ -46,7 +46,7 @@
             android:contentDescription="@null"
             android:focusable="false"
             android:scaleType="center"
-            app:srcCompat="@drawable/circle_alpha_check_36dp" />
+            app:srcCompat="@drawable/selected" />
     </LinearLayout>
 
     <View
@@ -84,7 +84,7 @@
             android:contentDescription="@null"
             android:focusable="false"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_person_grey600_24dp" />
+            app:srcCompat="@drawable/ic_person_add_black_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
