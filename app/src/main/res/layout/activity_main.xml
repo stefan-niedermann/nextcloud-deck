@@ -124,7 +124,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/choose_account"
                     android:padding="12dp"
-                    app:srcCompat="@drawable/ic_person_grey600_24dp" />
+                    app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
                 <ImageView
                     android:id="@+id/filter"
