@@ -37,6 +37,7 @@
     <string name="simple_comment">Comentário</string>
     <string name="simple_disabled">desativado</string>
     <string name="simple_copied">Copiado</string>
+    <string name="simple_archive">Arquivados</string>
 
     <string name="edit_board">Editar painel</string>
     <string name="archive_board">Arquivar painel</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">Ainda não sincronizado</string>
     <string name="no_lists_yet">Ainda sem listas</string>
     <string name="do_you_want_to_save_your_changes">Deseja salvar suas alterações?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Deseja arquivar todos os cartões de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Isto excluirá permanentemente %1$d cartão desta lista.</item>
         <item quantity="other">Isto excluirá permanentemente todos os %1$d cartões desta lista.</item>
@@ -236,4 +238,5 @@
     <string name="info_box_maintenance_mode">Servidor em modo de manutenção</string>
     <string name="info_box_version_not_supported">A versão %1$s do servidor não é suportada, atualize para %2$s</string>
     <string name="share_link">Link de compartilhamento</string>
-</resources>
+    <string name="archive_cards">Cartões arquivados</string>
+    </resources>

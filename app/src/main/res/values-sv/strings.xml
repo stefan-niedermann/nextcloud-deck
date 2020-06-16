@@ -37,6 +37,7 @@
     <string name="simple_comment">Kommentar</string>
     <string name="simple_disabled">inaktiverad</string>
     <string name="simple_copied">Kopierad</string>
+    <string name="simple_archive">Arkivera</string>
 
     <string name="edit_board">Ändra tavla</string>
     <string name="archive_board">Arkivera tavla</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">Inte synkroniserad än</string>
     <string name="no_lists_yet">Inga listor än</string>
     <string name="do_you_want_to_save_your_changes">Vill du spara dina ändringar?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Vill du arkivera alla kort av %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Detta kommer att permanent radera %1$d kortet i denna lista.</item>
         <item quantity="other">Detta kommer att permanent radera alla %1$d kort i denna lista.</item>
@@ -219,4 +221,5 @@
     <string name="info_box_maintenance_mode">Server i underhållsläge</string>
     <string name="info_box_version_not_supported">Serverversion %1$s stöds inte, uppdatera till %2$s</string>
     <string name="share_link">Dela länk</string>
-</resources>
+    <string name="archive_cards">Arkivera kort</string>
+    </resources>

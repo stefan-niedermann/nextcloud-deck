@@ -37,6 +37,7 @@
     <string name="simple_comment">הערה</string>
     <string name="simple_disabled">מושבת</string>
     <string name="simple_copied">הועתק</string>
+    <string name="simple_archive">לארכיון</string>
 
     <string name="edit_board">ערוך לוח</string>
     <string name="archive_board">לוח פעיל</string>
@@ -224,4 +225,4 @@
     <string name="info_box_maintenance_mode">שרת במצב תחזוקה</string>
     <string name="info_box_version_not_supported">גרסת השרת %1$s אינה נתמכת, נא לעדכן לגרסה %2$s</string>
     <string name="share_link">קישור שיתוף</string>
-</resources>
+    </resources>

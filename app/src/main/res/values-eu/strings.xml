@@ -37,6 +37,7 @@
     <string name="simple_comment">Iruzkina</string>
     <string name="simple_disabled">desgaituta</string>
     <string name="simple_copied">Kopiatuta</string>
+    <string name="simple_archive">Artxibatu</string>
 
     <string name="edit_board">Editatu mahaia</string>
     <string name="archive_board">Artxibatu mahaia</string>
@@ -230,4 +231,4 @@
     <string name="info_box_maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
     <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
     <string name="share_link">Partekatu esteka</string>
-</resources>
+    </resources>
