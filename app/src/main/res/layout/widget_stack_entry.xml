@@ -14,11 +14,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:ellipsize="end"
-            android:lines="1"
             android:paddingStart="@dimen/widget_stack_card_padding"
             android:paddingEnd="@dimen/widget_stack_card_padding"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textSize="14sp"
+            tools:maxLength="60"
             tools:text="@tools:sample/lorem/random" />
 </LinearLayout>
