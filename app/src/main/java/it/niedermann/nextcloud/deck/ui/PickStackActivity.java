@@ -145,7 +145,9 @@ public abstract class PickStackActivity extends BrandedActivity {
 
         binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
             applyTemporaryBrand(accountAdapter.getItem(position));
-            updateLiveDataSource(boardsLiveData, boardsObserver, syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
+            updateLiveDataSource(boardsLiveData, boardsObserver, showBoardsWithoutEditPermission()
+                    ? syncManager.getBoards(parent.getSelectedItemId(), false)
+                    : syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
         });
 
         binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
@@ -181,8 +183,6 @@ public abstract class PickStackActivity extends BrandedActivity {
         }
     }
 
-    abstract protected void onSubmit(Account account, long boardId, long stackId);
-
     private void applyTemporaryBrand(@Nullable Account account) {
         try {
             if (account != null && brandingEnabled) {
@@ -200,4 +200,8 @@ public abstract class PickStackActivity extends BrandedActivity {
         binding.submit.setTextColor(textColor);
         binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
     }
+
+    abstract protected void onSubmit(Account account, long boardId, long stackId);
+
+    abstract protected boolean showBoardsWithoutEditPermission();
 }

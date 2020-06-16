@@ -23,7 +23,7 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
         }
 
         if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-            DeckLog.log("INVALID_APPWIDGET_ID", DeckLog.Severity.ERROR);
+            DeckLog.error("INVALID_APPWIDGET_ID");
             finish();
         }
     }
@@ -39,5 +39,10 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
         getApplicationContext().sendBroadcast(updateIntent);
 
         finish();
+    }
+
+    @Override
+    protected boolean showBoardsWithoutEditPermission() {
+        return true;
     }
 }
