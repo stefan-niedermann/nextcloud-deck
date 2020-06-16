@@ -41,7 +41,7 @@ public abstract class PickStackActivity extends BrandedActivity {
     private long lastBoardId;
     private long lastStackId;
 
-    protected ArrayAdapter<Account> accountAdapter;
+    private ArrayAdapter<Account> accountAdapter;
     private ArrayAdapter<Board> boardAdapter;
     private ArrayAdapter<FullStack> stackAdapter;
 
