@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
 
@@ -31,7 +32,7 @@ public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
         binding.accountName.setText(account.getUserName());
         binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
         Glide.with(itemView.getContext())
-                .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(account.getUserName()) + "/64")
+                .load(account.getAvatarUrl(dpToPx(binding.accountItemAvatar.getContext(), R.dimen.avatar_size)))
                 .error(R.drawable.ic_person_grey600_24dp)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.accountItemAvatar);

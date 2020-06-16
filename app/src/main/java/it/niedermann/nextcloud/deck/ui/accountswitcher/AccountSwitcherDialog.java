@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.MainActivity.ACTIVITY_MANAGE_ACCOUNTS;
+import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class AccountSwitcherDialog extends BrandedDialogFragment {
 
@@ -51,7 +52,7 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
         binding.check.setSelected(true);
 
         Glide.with(requireContext())
-                .load(viewModel.getCurrentAccount().getUrl() + "/index.php/avatar/" + Uri.encode(viewModel.getCurrentAccount().getUserName()) + "/64")
+                .load(viewModel.getCurrentAccount().getAvatarUrl(dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
                 .error(R.drawable.ic_person_grey600_24dp)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.currentAccountItemAvatar);

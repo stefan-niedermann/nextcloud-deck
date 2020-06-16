@@ -281,7 +281,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 DrawableCompat.setTint(placeholderAvatar, parseColor(currentAccount.getTextColor()));
                 Glide
                         .with(binding.accountSwitcher.getContext())
-                        .load(currentAccount.getUrl() + "/index.php/avatar/" + Uri.encode(currentAccount.getUserName()) + "/64")
+                        .load(currentAccount.getAvatarUrl(64))
                         .placeholder(placeholderAvatar)
                         .error(placeholderAvatar)
                         .apply(RequestOptions.circleCropTransform())
