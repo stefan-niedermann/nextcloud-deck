@@ -40,7 +40,7 @@ public class StackWidget extends AppWidgetProvider {
                     serviceIntent.putExtra(STACK_ID_KEY + appWidgetId, model.getStackId());
                     serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
-                    Intent intent = new Intent("android.intent.action.MAIN");
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.setComponent(new ComponentName(context.getPackageName(), MainActivity.class.getName()));
                     PendingIntent pendingIntent = PendingIntent.getActivity(context,  PENDING_INTENT_OPEN_APP_RQ,
                             intent, PendingIntent.FLAG_UPDATE_CURRENT);
