@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.model.ocs.Activity;
-import it.niedermann.nextcloud.deck.ui.preparecreate.PrepareCreateActivity;
+import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.ui.PickStackActivity;
 
-public class StackWidgetConfigurationActivity extends PrepareCreateActivity {
+public class StackWidgetConfigurationActivity extends PickStackActivity {
     private int appWidgetId;
-
-    private final String TAG = Activity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,24 +29,15 @@ public class StackWidgetConfigurationActivity extends PrepareCreateActivity {
     }
 
     @Override
-    protected void onSubmit() {
-        long accountId = -1;
+    protected void onSubmit(Account account, long boardId, long stackId) {
 
-        try {
-            accountId = accountAdapter.getItem(binding.accountSelect.getSelectedItemPosition()).getId();
-        } catch (NullPointerException e) {
-            DeckLog.log("Account not found.", DeckLog.Severity.ERROR);
-            e.printStackTrace();
-            finish();
-        }
-
-        syncManager.addStackWidget(appWidgetId, accountId, binding.stackSelect.getSelectedItemId(),false);
-
+        syncManager.addStackWidget(appWidgetId, account.getId(), stackId,false);
         Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
                 getApplicationContext(), StackWidget.class);
         updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         setResult(RESULT_OK, updateIntent);
         getApplicationContext().sendBroadcast(updateIntent);
+
         finish();
     }
 }
