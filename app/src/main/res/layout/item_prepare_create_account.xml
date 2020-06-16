@@ -12,7 +12,6 @@
         android:layout_width="@dimen/avatar_size"
         android:layout_height="@dimen/avatar_size"
         android:layout_marginEnd="@dimen/spacer_2x"
-        android:layout_marginRight="@dimen/spacer_2x"
         android:contentDescription="@null"
         app:srcCompat="@drawable/ic_person_grey600_24dp"
         tools:srcCompat="@tools:sample/avatars" />
