@@ -12,7 +12,6 @@
         android:id="@+id/widget_stack_header_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_stack_header_height"
-        android:background="@color/bg_highlighted"
         android:padding="@dimen/widget_stack_card_padding">
 
         <ImageView
@@ -30,8 +29,7 @@
             android:id="@+id/widget_stack_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="@color/widget_fg"
-            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceBody1"
             android:textSize="18sp"
             android:layout_toEndOf="@id/widget_stack_header_icon"
             android:gravity="center_vertical"
@@ -46,10 +44,10 @@
         android:id="@+id/stack_widget_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/spacer_1hx"
         android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/spacer_1hx"
-        tools:listitem="@layout/widget_stack_entry"/>
+        android:dividerHeight="@dimen/spacer_1x"
+        android:padding="@dimen/spacer_1x"
+        tools:listitem="@layout/widget_stack_entry" />
 
     <ImageView
         android:id="@+id/widget_stack_placeholder_iv"
