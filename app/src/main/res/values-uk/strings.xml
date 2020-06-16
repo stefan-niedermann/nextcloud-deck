@@ -37,6 +37,7 @@
     <string name="simple_comment">Коментар</string>
     <string name="simple_disabled">вимкнено</string>
     <string name="simple_copied">Скопійовано</string>
+    <string name="simple_archive">Архів</string>
 
     <string name="edit_board">Редагувати дошку</string>
     <string name="archive_board">Архівувати дошку</string>
@@ -125,9 +126,9 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
     <string name="add_a_new_card_using_the_button">Додавайте нові картки за допомогою кнопки (+)</string>
-    <string name="update_deck">Оновлення дошки</string>
+    <string name="update_deck">Оновити</string>
     <string name="your_deck_version_is_too_old">Версія вашого застосунку застаріла</string>
-    <string name="deck_outdated_please_update">Ваша версія застосунку застаріла (%1$s). Будь ласка, оновіть її для використання її на мобільному пристрої.</string>
+    <string name="deck_outdated_please_update">Версія вашого застосунку застаріла (%1$s). Будь ласка, оновіть її для використання застосунку на мобільному пристрої в якості клієнта .</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_theme_title">Темна тема</string>
     <string name="settings_branding_title">Оформлення</string>
@@ -216,6 +217,7 @@
     <string name="shared_error">Спільний доступ до вмісту з інших застосунків ще не підтримується повністю. Будь ласка, спробуйте спочатку звантажити цей вміст, а потім поділитися ним через вбудований менеджер файлів або галерею.</string>
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
+    <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка видаліть деякі файлі, щоб синхронізувати ваші локальні зміни з вашим хмарним сховищем.</string>
     <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
     <string name="error_action_open_network">Налаштування мережі</string>
     <string name="error_action_server_logs">Журнал сервера</string>
@@ -223,4 +225,4 @@
     <string name="info_box_maintenance_mode">Сервер у режимі обслуговування</string>
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
     <string name="share_link">Поширити посилання</string>
-</resources>
+    </resources>

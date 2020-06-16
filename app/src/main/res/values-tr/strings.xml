@@ -37,6 +37,7 @@
     <string name="simple_comment">Açıklama</string>
     <string name="simple_disabled">devre dışı</string>
     <string name="simple_copied">Kopyalandı</string>
+    <string name="simple_archive">Arşivle</string>
 
     <string name="edit_board">Panoyu düzenle</string>
     <string name="archive_board">Panoyu arşivle</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
     <string name="no_lists_yet">Henüz bir liste yok</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Tüm %1$s kartlarını arşivlemek ister misiniz?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Bu işlem, bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
         <item quantity="other">Bu işlem bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
@@ -236,4 +238,5 @@
     <string name="info_box_maintenance_mode">Sunucu bakım kipinde</string>
     <string name="info_box_version_not_supported">%1$s sunucu sürümü desteklenmiyor. Lütfen %2$s sürümüne güncelleyin</string>
     <string name="share_link">Bağlantıyı paylaş</string>
-</resources>
+    <string name="archive_cards">Kartları arşivle</string>
+    </resources>

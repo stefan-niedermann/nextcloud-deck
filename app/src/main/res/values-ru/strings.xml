@@ -37,6 +37,7 @@
     <string name="simple_comment">Коментарий</string>
     <string name="simple_disabled">отключено</string>
     <string name="simple_copied">Скопировано</string>
+    <string name="simple_archive">Переместить в архив</string>
 
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
@@ -233,4 +234,4 @@
     <string name="info_box_maintenance_mode">Сервер находится в режиме обслуживания</string>
     <string name="info_box_version_not_supported">Версия сервера %1$s не поддерживается, необходимо выполнить обновление до версии %2$s</string>
     <string name="share_link">Предоставление общего доступа по ссылке</string>
-</resources>
+    </resources>

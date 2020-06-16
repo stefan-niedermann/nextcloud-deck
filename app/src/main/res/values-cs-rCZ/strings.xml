@@ -37,6 +37,7 @@
     <string name="simple_comment">Komentář</string>
     <string name="simple_disabled">vypnuto</string>
     <string name="simple_copied">Zkopírováno</string>
+    <string name="simple_archive">Archiv</string>
 
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">Doposud nesynchronizováno</string>
     <string name="no_lists_yet">Zatím žádné seznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Chcete archivovat všechny karty %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Toto nadobro vymaže %1$d kartu z tohoto seznamu.</item>
         <item quantity="few">Toto nadobro vymaže obě %1$d karty z tohoto seznamu.</item>
@@ -240,4 +242,5 @@
     <string name="info_box_maintenance_mode">Na serveru probíhá údržba</string>
     <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
     <string name="share_link">Odkaz na sdílení</string>
-</resources>
+    <string name="archive_cards">Archivovat karty</string>
+    </resources>
