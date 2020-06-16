@@ -73,7 +73,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 SingleCardWidgetModel.class,
         },
         exportSchema = false,
-        version = 13
+        version = 14
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -160,6 +160,14 @@ public abstract class DeckDatabase extends RoomDatabase {
     private static final Migration MIGRATION_12_13 = new Migration(12, 13) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE INDEX `idx_cardWidgetModel_accountId` ON `SingleCardWidgetModel` (`accountId`)");
+            database.execSQL("CREATE INDEX `idx_cardWidgetModel_boardId` ON `SingleCardWidgetModel` (`boardId`)");
+        }
+    };
+
+    private static final Migration MIGRATION_13_14 = new Migration(13, 14) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `DeckComment` ADD `parentId` INTEGER REFERENCES DeckComment(localId) ON DELETE CASCADE");
             database.execSQL("CREATE INDEX `idx_comment_parentID` ON DeckComment(parentId)");
         }
@@ -192,6 +200,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_10_11)
                 .addMigrations(MIGRATION_11_12)
                 .addMigrations(MIGRATION_12_13)
+                .addMigrations(MIGRATION_13_14)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

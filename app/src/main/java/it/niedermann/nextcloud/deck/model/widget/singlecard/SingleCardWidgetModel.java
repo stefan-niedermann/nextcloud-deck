@@ -12,7 +12,9 @@ import it.niedermann.nextcloud.deck.model.Card;
 
 @Entity(
         indices = {
-                @Index("cardId")
+                @Index(value = "cardId", name = "index_SingleCardWidgetModel_cardId"),
+                @Index(value = "accountId", name = "idx_cardWidgetModel_accountId"),
+                @Index(value = "boardId", name = "idx_cardWidgetModel_boardId")
         },
         foreignKeys = {
                 @ForeignKey(

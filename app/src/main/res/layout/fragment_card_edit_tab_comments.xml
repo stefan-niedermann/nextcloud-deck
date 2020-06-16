@@ -83,14 +83,10 @@
             android:padding="@dimen/spacer_2x">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginLeft="@dimen/spacer_1x"
-                android:layout_marginEnd="@dimen/spacer_1x"
-                android:layout_marginRight="@dimen/spacer_1x"
+                android:layout_width="@dimen/icon_size_details"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/spacer_2x"
                 android:contentDescription="@null"
-                android:padding="@dimen/spacer_1x"
                 android:tint="@color/grey600"
                 app:srcCompat="@drawable/ic_comment_white_24dp" />
 
@@ -99,8 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginLeft="@dimen/spacer_1x"
+                android:layout_marginStart="@dimen/spacer_2x"
                 android:layout_weight="1"
                 android:autofillHints="@null"
                 android:hint="@string/add_comment"
@@ -108,7 +103,6 @@
                 android:inputType="text"
                 android:maxLength="@integer/comment_max_length"
                 android:paddingEnd="@dimen/spacer_1x"
-                android:paddingRight="@dimen/spacer_1x"
                 tools:ignore="RtlSymmetry">
 
                 <requestFocus />

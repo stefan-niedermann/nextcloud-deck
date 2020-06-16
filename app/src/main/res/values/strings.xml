@@ -263,5 +263,7 @@
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
     <string name="share_link">Share link</string>
     <string name="archive_cards">Archive cards</string>
+    <string name="manage_accounts">Manage accounts</string>
+    <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
 </resources>
