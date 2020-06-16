@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.appwidget;
+package it.niedermann.nextcloud.deck.ui.widget.stack;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;

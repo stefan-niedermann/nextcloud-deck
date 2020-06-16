@@ -18,7 +18,7 @@
             android:id="@+id/widget_stack_header_icon"
             android:layout_width="@dimen/widget_stack_icon_width"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/circle_grey600_8dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:paddingStart="@dimen/widget_stack_card_padding"

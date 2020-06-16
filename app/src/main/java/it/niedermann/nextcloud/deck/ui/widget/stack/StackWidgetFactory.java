@@ -1,9 +1,10 @@
-package it.niedermann.nextcloud.deck.ui.appwidget;
+package it.niedermann.nextcloud.deck.ui.widget.stack;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -12,17 +13,19 @@ import androidx.lifecycle.LiveData;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 
 public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
     private final int appWidgetId;
-
-    private FullStack stack;
-
     private final long accountId;
     private final long stackId;
+
+    private FullStack stack;
+    private int boardColor = Color.GRAY;
 
     StackWidgetFactory(Context context, Intent intent) {
         this.context = context;
@@ -41,8 +44,15 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
             if (fullStack != null) {
                 stack = fullStack;
 
+//                stack.getStack().getBoardId();
+//                LiveData<Board> fb = syncManager.getBoard(accountId, stack.getStack().getBoardId());
+
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_stack);
+                views.setImageViewResource(R.id.widget_stack_header_icon, R.drawable.circle_grey600_8dp);
+                views.setInt(R.id.widget_stack_header_icon, "setColorFilter", boardColor);
                 views.setTextViewText(R.id.widget_stack_title_tv, stack.getStack().getTitle());
+
+                stack.getStack().getBoardId();
 
                 AppWidgetManager awm = AppWidgetManager.getInstance(context);
                 int[] appWidgetIds = awm.getAppWidgetIds(new ComponentName(context, StackWidget.class));
@@ -51,10 +61,24 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
 
             }
         });
+
+        LiveData<FullBoard> fullBoardLiveData = syncManager.getFullBoard(accountId, stack.getStack().getBoardId());
+        fullBoardLiveData.observeForever((FullBoard fullBoard) -> {
+            if (fullBoard != null) {
+                
+            }
+        });
     }
 
     @Override
     public void onDataSetChanged() {
+        if (stack == null) {
+            return;
+        }
+
+        DataBaseAdapter db = new DataBaseAdapter(context);
+        FullBoard Fullboard = db.getFullBoardByLocalIdDirectly(accountId, stack.getStack().getBoardId());
+        boardColor = Color.parseColor("#" + Fullboard.getBoard().getColor());
 
     }
 

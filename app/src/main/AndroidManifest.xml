@@ -127,14 +127,14 @@
             android:process=":error_activity" />
 
         <activity
-            android:name=".ui.appwidget.StackWidgetConfigurationActivity">
+            android:name=".ui.widget.stack.StackWidgetConfigurationActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
 
         <receiver
-            android:name="it.niedermann.nextcloud.deck.ui.appwidget.StackWidget"
+            android:name="it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget"
             android:label="@string/widget_stack_title">
 
             <intent-filter>
@@ -158,7 +158,7 @@
         </service>
 
         <service
-            android:name=".ui.appwidget.StackWidgetService"
+            android:name=".ui.widget.stack.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity
