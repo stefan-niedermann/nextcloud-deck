@@ -10,10 +10,12 @@ import android.widget.RemoteViewsService;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 
@@ -24,6 +26,7 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
     private final long stackId;
 
     private FullStack stack;
+    private List<FullCard> cardList;
 
     StackWidgetFactory(Context context, Intent intent) {
         this.context = context;
@@ -42,7 +45,6 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
         stackLiveData.observeForever((FullStack fullStack) -> {
             if (fullStack != null) {
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_stack);
-
                 stack = fullStack;
                 views.setTextViewText(R.id.widget_stack_title_tv, stack.getStack().getTitle());
 
@@ -54,6 +56,9 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
                         notifyAppWidgetUpdate(views);
                     }
                 });
+
+                LiveData<List<FullCard>> fullCardData = syncManager.getFullCardsForStack(accountId, stackId, null);
+                fullCardData.observeForever((List<FullCard> fullCards) -> cardList = fullCards);
                 notifyAppWidgetUpdate(views);
             }
         });
@@ -79,15 +84,15 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
     public RemoteViews getViewAt(int i) {
         RemoteViews widget_entry;
 
-        if (stack == null || i > (stack.getCards().size() - 1) || stack.getCards().get(i) == null) {
+        if (cardList == null || i > (cardList.size() - 1) || cardList.get(i) == null) {
             DeckLog.log("Card not found at position " + i, DeckLog.Severity.ERROR);
             return null;
         }
 
-        Card card = stack.getCards().get(i);
+        FullCard card = cardList.get(i);
 
         widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
-        widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.getTitle());
+        widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.card.getTitle());
 //        widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, intent);
 
         return widget_entry;
