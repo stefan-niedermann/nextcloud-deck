@@ -16,7 +16,6 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 
 public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
@@ -25,7 +24,6 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
     private final long stackId;
 
     private FullStack stack;
-    private int boardColor = Color.GRAY;
 
     StackWidgetFactory(Context context, Intent intent) {
         this.context = context;
@@ -39,46 +37,30 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
     @Override
     public void onCreate() {
         SyncManager syncManager = new SyncManager(context);
+
         LiveData<FullStack> stackLiveData = syncManager.getStack(accountId, stackId);
         stackLiveData.observeForever((FullStack fullStack) -> {
             if (fullStack != null) {
-                stack = fullStack;
-
-//                stack.getStack().getBoardId();
-//                LiveData<Board> fb = syncManager.getBoard(accountId, stack.getStack().getBoardId());
-
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_stack);
-                views.setImageViewResource(R.id.widget_stack_header_icon, R.drawable.circle_grey600_8dp);
-                views.setInt(R.id.widget_stack_header_icon, "setColorFilter", boardColor);
+
+                stack = fullStack;
                 views.setTextViewText(R.id.widget_stack_title_tv, stack.getStack().getTitle());
 
-                stack.getStack().getBoardId();
-
-                AppWidgetManager awm = AppWidgetManager.getInstance(context);
-                int[] appWidgetIds = awm.getAppWidgetIds(new ComponentName(context, StackWidget.class));
-                awm.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.stack_widget_lv);
-                awm.updateAppWidget(appWidgetId, views);
-
-            }
-        });
-
-        LiveData<FullBoard> fullBoardLiveData = syncManager.getFullBoard(accountId, stack.getStack().getBoardId());
-        fullBoardLiveData.observeForever((FullBoard fullBoard) -> {
-            if (fullBoard != null) {
-                
+                LiveData<FullBoard> fullBoardLiveData = syncManager.getFullBoard(accountId, stack.getStack().getBoardId());
+                fullBoardLiveData.observeForever((FullBoard fullBoard) -> {
+                    if (fullBoard != null) {
+                        final String boardColor = fullBoard.getBoard().getColor();
+                        views.setInt(R.id.widget_stack_header_icon, "setColorFilter", Color.parseColor("#" + boardColor));
+                        notifyAppWidgetUpdate(views);
+                    }
+                });
+                notifyAppWidgetUpdate(views);
             }
         });
     }
 
     @Override
     public void onDataSetChanged() {
-        if (stack == null) {
-            return;
-        }
-
-        DataBaseAdapter db = new DataBaseAdapter(context);
-        FullBoard Fullboard = db.getFullBoardByLocalIdDirectly(accountId, stack.getStack().getBoardId());
-        boardColor = Color.parseColor("#" + Fullboard.getBoard().getColor());
 
     }
 
@@ -129,5 +111,12 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
     @Override
     public boolean hasStableIds() {
         return true;
+    }
+
+    private void notifyAppWidgetUpdate(RemoteViews views) {
+        AppWidgetManager awm = AppWidgetManager.getInstance(context);
+        int[] appWidgetIds = awm.getAppWidgetIds(new ComponentName(context, StackWidget.class));
+        awm.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.stack_widget_lv);
+        awm.updateAppWidget(appWidgetId, views);
     }
 }
