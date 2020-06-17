@@ -1,2 +1,3 @@
 - 📦 Archive all cards of a stack (#495)
 - 🐞 List not synchronized list is emptied (#501)
+- 👥 Fix wrong avatars in multi account setup (#531)
