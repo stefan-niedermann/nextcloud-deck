@@ -84,7 +84,9 @@ public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
                         .setUrl(url.toURL().getPath());
                 Map<String, List<String>> header = new HashMap<>();
                 for (Map.Entry<String, String> headerEntry : url.getHeaders().entrySet()) {
-                    header.put(headerEntry.getKey(), Collections.singletonList(headerEntry.getValue()));
+                    if(!X_HEADER_SSO_ACCOUNT_NAME.equals(headerEntry.getKey())) {
+                        header.put(headerEntry.getKey(), Collections.singletonList(headerEntry.getValue()));
+                    }
                 }
                 requestBuilder.setHeader(header);
                 NextcloudRequest nextcloudRequest = requestBuilder.build();
