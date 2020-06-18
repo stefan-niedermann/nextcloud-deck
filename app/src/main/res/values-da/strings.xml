@@ -187,4 +187,5 @@
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
     <string name="info_box_maintenance_mode">Server i vedligeholdelsestilstand</string>
     <string name="share_link">Del link</string>
+    <string name="manage_accounts">Administrer konti</string>
     </resources>

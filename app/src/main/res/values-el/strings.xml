@@ -239,4 +239,6 @@
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
     <string name="archive_cards">Αρχειοθετημένες κάρτες</string>
-    </resources>
+    <string name="manage_accounts">Διαχείριση λογαριασμών</string>
+    <string name="manage_list">Διαχείριση λίστας</string>
+</resources>

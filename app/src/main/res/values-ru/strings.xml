@@ -234,4 +234,5 @@
     <string name="info_box_maintenance_mode">Сервер находится в режиме обслуживания</string>
     <string name="info_box_version_not_supported">Версия сервера %1$s не поддерживается, необходимо выполнить обновление до версии %2$s</string>
     <string name="share_link">Предоставление общего доступа по ссылке</string>
+    <string name="manage_accounts">Управление аккаунтами</string>
     </resources>

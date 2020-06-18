@@ -239,4 +239,5 @@
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour en  %2$s</string>
     <string name="share_link">Lien de partage</string>
     <string name="archive_cards">Archiver les cartes</string>
+    <string name="manage_accounts">Gérer les comptes</string>
     </resources>

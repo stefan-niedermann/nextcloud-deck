@@ -221,4 +221,5 @@
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
     <string name="info_box_maintenance_mode">服务器处于维护模式</string>
     <string name="share_link">共享链接</string>
+    <string name="manage_accounts">管理账号</string>
     </resources>

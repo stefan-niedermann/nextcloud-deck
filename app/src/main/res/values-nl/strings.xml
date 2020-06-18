@@ -237,4 +237,5 @@
     <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
     <string name="info_box_version_not_supported">Server versie %1$s is niet ondersteund, werk bij naar %2$s</string>
     <string name="share_link">Delen link</string>
+    <string name="manage_accounts">Accounts beheren </string>
     </resources>

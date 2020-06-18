@@ -239,4 +239,6 @@
     <string name="info_box_version_not_supported">La versión %1$s del servidor no está soportada. Por favor, actualiza a %2$s</string>
     <string name="share_link">Compartir enlace</string>
     <string name="archive_cards">Tarjetas archivadas</string>
-    </resources>
+    <string name="manage_accounts">Gestionar cuentas</string>
+    <string name="manage_list">Administrar su lista</string>
+</resources>

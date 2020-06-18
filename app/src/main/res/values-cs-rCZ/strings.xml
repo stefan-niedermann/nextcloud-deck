@@ -243,4 +243,6 @@
     <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
     <string name="share_link">Odkaz na sdílení</string>
     <string name="archive_cards">Archivovat karty</string>
-    </resources>
+    <string name="manage_accounts">Spravovat účty</string>
+    <string name="manage_list">Spravovat sloupec</string>
+</resources>
