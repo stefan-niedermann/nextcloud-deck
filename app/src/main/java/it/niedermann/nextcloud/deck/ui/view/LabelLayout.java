@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Px;
 
 import com.google.android.flexbox.FlexboxLayout;
 
@@ -11,14 +12,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
+
+import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class LabelLayout extends FlexboxLayout {
 
+    @Px
+    private int gutter;
     private List<LabelChip> chipList = new LinkedList<>();
 
     public LabelLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.gutter = dpToPx(context, R.dimen.spacer_1hx);
     }
 
     /**
@@ -75,7 +82,7 @@ public class LabelLayout extends FlexboxLayout {
                     continue labelList;
                 }
             }
-            LabelChip chip = new LabelChip(getContext(), label);
+            LabelChip chip = new LabelChip(getContext(), label, gutter);
             addView(chip);
             chipList.add(chip);
         }

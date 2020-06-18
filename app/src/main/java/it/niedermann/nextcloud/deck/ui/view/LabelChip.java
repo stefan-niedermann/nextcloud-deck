@@ -8,12 +8,12 @@ import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Px;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.chip.Chip;
 
 import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 
@@ -22,7 +22,7 @@ public class LabelChip extends Chip {
 
     private final Label label;
 
-    public LabelChip(@NonNull Context context, @NonNull Label label) {
+    public LabelChip(@NonNull Context context, @NonNull Label label, @Px int gutter) {
         super(context);
         this.label = label;
 
@@ -31,9 +31,14 @@ public class LabelChip extends Chip {
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
 
-        params.setMargins(0, 0, Math.round(context.getResources().getDimension(R.dimen.spacer_1x)), 0);
+        params.setMargins(0, 0, gutter, 0);
         setLayoutParams(params);
         setEnsureMinTouchTargetSize(false);
+        setMinHeight(0);
+        setChipMinHeight(0);
+        setPadding(0, gutter, 0, gutter);
+        setChipStartPadding(0);
+        setChipEndPadding(0);
 
         setText(label.getTitle());
         setEllipsize(TextUtils.TruncateAt.END);
