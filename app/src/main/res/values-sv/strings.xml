@@ -222,4 +222,5 @@
     <string name="info_box_version_not_supported">Serverversion %1$s stöds inte, uppdatera till %2$s</string>
     <string name="share_link">Dela länk</string>
     <string name="archive_cards">Arkivera kort</string>
+    <string name="manage_accounts">Hantera konton</string>
     </resources>

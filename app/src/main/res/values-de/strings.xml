@@ -239,4 +239,6 @@
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
     <string name="share_link">Link teilen</string>
     <string name="archive_cards">Karten archivieren</string>
-    </resources>
+    <string name="manage_accounts">Konten verwalten</string>
+    <string name="manage_list">Liste verwalten</string>
+</resources>

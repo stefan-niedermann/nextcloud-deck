@@ -239,4 +239,5 @@
     <string name="info_box_maintenance_mode">Сервер у режиму одржавања</string>
     <string name="info_box_version_not_supported">Серверска верзија %1$s није подржана, ажурирајте на %2$s</string>
     <string name="share_link">Веза дељења</string>
+    <string name="manage_accounts">Управљање налозима</string>
     </resources>

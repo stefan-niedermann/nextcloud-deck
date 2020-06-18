@@ -243,4 +243,6 @@
     <string name="info_box_version_not_supported">Wersja serwera %1$s nie jest wspierana, zaktualizuj do wersji %2$s</string>
     <string name="share_link">Udostępnij link</string>
     <string name="archive_cards">Zarchiwizuj karty</string>
-    </resources>
+    <string name="manage_accounts">Zarządzaj kontami</string>
+    <string name="manage_list">Zarządzaj listą</string>
+</resources>

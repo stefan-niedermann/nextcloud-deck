@@ -243,4 +243,6 @@
     <string name="info_box_version_not_supported">Verzia servera %1$s nie je podporovaná, aktualizujte ju na %2$s</string>
     <string name="share_link">Sprístupniť odkaz</string>
     <string name="archive_cards">Archivovať karty</string>
-    </resources>
+    <string name="manage_accounts">Spravovať účty</string>
+    <string name="manage_list">Spravovať zoznam</string>
+</resources>

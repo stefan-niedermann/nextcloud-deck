@@ -238,4 +238,5 @@
     <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
     <string name="share_link">Hivatkozás megosztása</string>
     <string name="archive_cards">Archív kártyák</string>
+    <string name="manage_accounts">Fiókok kezelése</string>
     </resources>
