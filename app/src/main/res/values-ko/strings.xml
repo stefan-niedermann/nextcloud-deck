@@ -37,6 +37,7 @@
     <string name="simple_comment">설명</string>
     <string name="simple_disabled">비활성화</string>
     <string name="simple_copied">복사됨</string>
+    <string name="simple_archive">보관</string>
 
     <string name="edit_board">게시판 편집</string>
     <string name="archive_board">게시판 보관</string>
@@ -206,7 +207,9 @@
     <string name="shared_error">다른 앱에 컨텐츠를 공유하는 것은 아직 지원되지 않습니다. 먼저 그것을 다운로드 하시고, 당신의 기기에 있는 파일 관리자나 갤러리로부터 공유하십시오.</string>
     <string name="error_edit_activity_killed_by_android">다른 앱에 시스템 자원이 더 필요하여 안드로이드가 편집모드를 종료했습니다.</string>
 
+    <string name="error_dialog_title">세상에 - 무슨일이야?</string>
     <string name="error_dialog_tip_token_mismatch_retry">앱을 종료하고 다시 시작해주십시오.  아마 Nextcloud에 잘못된 연결이 있었을 것입니다.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">이슈가 지속되면 Nextcloud와 Nextcloud Deck라는 두 앱을 스토리지에서 지워 이 문제를 해결하십시오.ㅣ</string>
     <string name="error_dialog_tip_clear_storage">저장공간을 비우기 위해  app info를 열고  Storage → Clear storage를 선택해주십시오.</string>
     <string name="error_dialog_tip_files_outdated">당신의 Nextcloud 앱은 예전 버전입니다.  Play Store나 F-Droid에 가서 최신 버전을 다운로드 하십시오.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud 앱에 문제가 생겼습니다. Nextcloud앱과 Nextcloud Deck앱 둘 다 강제종료 해보십시오.</string>
@@ -220,4 +223,5 @@
     <string name="info_box_maintenance_mode">서버가 유지 관리 모드임</string>
     <string name="info_box_version_not_supported">%1$s서버 버전은 지원되지 않습니다. %2$s로 업데이트 해주십시오.</string>
     <string name="share_link">링크 공유</string>
-</resources>
+    <string name="manage_accounts">계정 관리</string>
+    </resources>

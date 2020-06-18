@@ -37,6 +37,7 @@
     <string name="simple_comment">Kommentar</string>
     <string name="simple_disabled">Deaktiviert</string>
     <string name="simple_copied">Kopiert</string>
+    <string name="simple_archive">Archivieren</string>
 
     <string name="edit_board">Board bearbeiten</string>
     <string name="archive_board">Board archivieren</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">Noch nicht synchronisiert</string>
     <string name="no_lists_yet">Noch keine Listen vorhanden</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Möchten Sie alle Karten von %1$s archivieren?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Dies wird %1$d Karte permanent aus dieser Liste löschen.</item>
         <item quantity="other">Dies wird %1$d Karten permanent aus dieser Liste löschen.</item>
@@ -236,4 +238,7 @@
     <string name="info_box_maintenance_mode">Server befindet sich im Wartungsmodus</string>
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
     <string name="share_link">Link teilen</string>
+    <string name="archive_cards">Karten archivieren</string>
+    <string name="manage_accounts">Konten verwalten</string>
+    <string name="manage_list">Liste verwalten</string>
 </resources>

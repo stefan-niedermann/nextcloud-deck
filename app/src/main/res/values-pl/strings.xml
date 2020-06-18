@@ -37,6 +37,7 @@
     <string name="simple_comment">Komentarz</string>
     <string name="simple_disabled">wyłączony</string>
     <string name="simple_copied">Skopiowano</string>
+    <string name="simple_archive">Archiwizuj</string>
 
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">Jeszcze nie zsynchronizowane</string>
     <string name="no_lists_yet">Brak list</string>
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Czy chcesz zarchiwizować wszystkie karty %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Spowoduje to trwałe usunięcie %1$d karty z tej listy.</item>
         <item quantity="few">Spowoduje to trwałe usunięcie wszystkich %1$d kart z tej listy.</item>
@@ -240,4 +242,7 @@
     <string name="info_box_maintenance_mode">Serwer w trybie konserwacji</string>
     <string name="info_box_version_not_supported">Wersja serwera %1$s nie jest wspierana, zaktualizuj do wersji %2$s</string>
     <string name="share_link">Udostępnij link</string>
+    <string name="archive_cards">Zarchiwizuj karty</string>
+    <string name="manage_accounts">Zarządzaj kontami</string>
+    <string name="manage_list">Zarządzaj listą</string>
 </resources>

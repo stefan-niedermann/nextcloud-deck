@@ -21,7 +21,6 @@
                 android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/spacer_2x"
-                android:layout_marginRight="@dimen/spacer_2x"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_label_grey600_24dp" />
 
@@ -39,7 +38,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
             android:animateLayoutChanges="true" />
 
         <LinearLayout
@@ -53,7 +51,6 @@
                 android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/spacer_2x"
-                android:layout_marginRight="@dimen/spacer_2x"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/calendar_blank_grey600_24dp" />
 
@@ -92,9 +89,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/label_clear_due_date"
                 android:paddingStart="@dimen/spacer_1x"
-                android:paddingLeft="@dimen/spacer_1x"
                 android:paddingEnd="@dimen/spacer_1x"
-                android:paddingRight="@dimen/spacer_1x"
                 app:srcCompat="@drawable/ic_close_circle_grey600" />
         </LinearLayout>
 
@@ -108,7 +103,6 @@
                 android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/spacer_2x"
-                android:layout_marginRight="@dimen/spacer_2x"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_person_grey600_24dp" />
 
@@ -126,7 +120,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
             android:orientation="horizontal" />
 
         <LinearLayout
@@ -140,7 +133,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="@dimen/spacer_2x"
-                android:layout_marginRight="@dimen/spacer_2x"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
 

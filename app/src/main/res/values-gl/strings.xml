@@ -37,6 +37,7 @@
     <string name="simple_comment">Comentario</string>
     <string name="simple_disabled">desactivado</string>
     <string name="simple_copied">Copiada</string>
+    <string name="simple_archive">Aquivar</string>
 
     <string name="edit_board">Editar taboleiro</string>
     <string name="archive_board">Arquivar taboleiro</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
     <string name="no_lists_yet">Non hai listas</string>
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Quere arquivar todas as tarxetas de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Isto eliminará permanentemente %1$d tarxeta desta lista.</item>
         <item quantity="other">Isto eliminará permanentemente as %1$d tarxetas desta lista.</item>
@@ -236,4 +238,7 @@
     <string name="info_box_maintenance_mode">Servidor en modo de mantemento</string>
     <string name="info_box_version_not_supported">A versión %1$s do servidor non é compatíbel, actualice a %2$s</string>
     <string name="share_link">Compartir ligazón</string>
+    <string name="archive_cards">Arquivar as tarxetas</string>
+    <string name="manage_accounts">Administrar contas</string>
+    <string name="manage_list">Administrar a lista</string>
 </resources>

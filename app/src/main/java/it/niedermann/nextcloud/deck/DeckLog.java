@@ -39,26 +39,31 @@ public class DeckLog {
     }
 
     private static void log(String message, Severity severity, int stackTracePosition) {
-        final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
-        final String source = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
+        final String print;
+        if (BuildConfig.DEBUG) {
+            final StackTraceElement caller = Thread.currentThread().getStackTrace()[stackTracePosition];
+            print = caller.getMethodName() + "() (" + caller.getFileName() + ":" + caller.getLineNumber() + ") → " + message;
+        } else {
+            print = message;
+        }
         switch (severity) {
             case VERBOSE:
-                Log.v(TAG, source);
+                Log.v(TAG, print);
                 break;
             case DEBUG:
-                Log.d(TAG, source);
+                Log.d(TAG, print);
                 break;
             case INFO:
-                Log.i(TAG, source);
+                Log.i(TAG, print);
                 break;
             case WARN:
-                Log.w(TAG, source);
+                Log.w(TAG, print);
                 break;
             case ERROR:
-                Log.e(TAG, source);
+                Log.e(TAG, print);
                 break;
             default:
-                Log.v(TAG, source);
+                Log.v(TAG, print);
                 break;
         }
     }

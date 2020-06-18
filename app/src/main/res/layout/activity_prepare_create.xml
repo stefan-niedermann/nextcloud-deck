@@ -72,7 +72,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacer_1x"
-            android:layout_marginRight="@dimen/spacer_1x"
             android:layout_weight=".5"
             android:text="@android:string/cancel" />
 
@@ -82,7 +81,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer_1x"
-            android:layout_marginLeft="@dimen/spacer_1x"
             android:layout_weight=".5"
             android:text="@string/simple_add" />
     </LinearLayout>

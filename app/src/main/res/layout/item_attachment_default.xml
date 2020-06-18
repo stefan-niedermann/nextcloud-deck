@@ -11,8 +11,7 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/spacer_1x"
-        android:layout_marginRight="@dimen/spacer_1x">
+        android:layout_marginEnd="@dimen/spacer_1x">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/preview"

@@ -54,11 +54,15 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullStack existingEntity, FullStack entityFromServer, IResponseCallback<Boolean> callback) {
-        existingEntity.setCards(entityFromServer.getCards());
-        List<Card> cards = existingEntity.getCards();
-        if (cards != null && !cards.isEmpty()){
-            for (Card card : cards) {
-                card.setStackId(existingEntity.getLocalId());
+       boolean serverHasCards = entityFromServer.getCards() != null && !entityFromServer.getCards().isEmpty();
+       boolean weHaveCards = existingEntity.getCards() != null && !existingEntity.getCards().isEmpty();
+        if (serverHasCards || weHaveCards){
+            existingEntity.setCards(entityFromServer.getCards());
+            List<Card> cards = existingEntity.getCards();
+            if (cards != null ){
+                for (Card card : cards) {
+                    card.setStackId(existingEntity.getLocalId());
+                }
             }
             syncHelper.doSyncFor(new CardDataProvider(this, board.getBoard(), existingEntity));
         } else {

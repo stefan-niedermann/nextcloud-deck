@@ -8,6 +8,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.model.GlideUrl;
+import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.aidl.NextcloudRequest;
 import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.api.Response;
@@ -26,6 +27,8 @@ import java.util.Map;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.GsonConfig;
+
+import static it.niedermann.nextcloud.deck.util.glide.SingleSignOnOriginHeader.X_HEADER_SSO_ACCOUNT_NAME;
 
 
 /**
@@ -48,12 +51,17 @@ public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
 
     @Override
     public void loadData(@NonNull Priority priority, @NonNull final DataCallback<? super InputStream> callback) {
-        NextcloudAPI client = null;
+        NextcloudAPI client;
         try {
-            SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+            final SingleSignOnAccount ssoAccount;
+            if (url.getHeaders().containsKey(X_HEADER_SSO_ACCOUNT_NAME)) {
+                ssoAccount = AccountImporter.getSingleSignOnAccount(context, url.getHeaders().get(X_HEADER_SSO_ACCOUNT_NAME));
+            } else {
+                ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context);
+            }
             client = INITIALIZED_APIs.get(ssoAccount.name);
             boolean didInitialize = false;
-            if (client == null){
+            if (client == null) {
                 client = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), new NextcloudAPI.ApiConnectedListener() {
                     @Override
                     public void onConnected() {
@@ -69,24 +77,26 @@ public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
                 didInitialize = true;
             }
 
-            NextcloudRequest.Builder requestBuilder = null;
+            // FIXME shouldn't this go into the onConnected() callback if client is null?
+            NextcloudRequest.Builder requestBuilder;
             try {
                 requestBuilder = new NextcloudRequest.Builder()
                         .setMethod(METHOD_GET)
                         .setUrl(url.toURL().getPath());
                 Map<String, List<String>> header = new HashMap<>();
                 for (Map.Entry<String, String> headerEntry : url.getHeaders().entrySet()) {
-                    header.put(headerEntry.getKey(), Collections.singletonList(headerEntry.getValue()));
+                    if (!X_HEADER_SSO_ACCOUNT_NAME.equals(headerEntry.getKey())) {
+                        header.put(headerEntry.getKey(), Collections.singletonList(headerEntry.getValue()));
+                    }
                 }
                 requestBuilder.setHeader(header);
                 NextcloudRequest nextcloudRequest = requestBuilder.build();
-                DeckLog.log(nextcloudRequest.toString());
                 Response response = client.performNetworkRequestV2(nextcloudRequest);
                 callback.onDataReady(response.getBody());
             } catch (MalformedURLException e) {
                 callback.onLoadFailed(e);
             } catch (TokenMismatchException e) {
-                if (!didInitialize){
+                if (!didInitialize) {
                     DeckLog.warn("SSO Glide loader failed with TokenMismatchException, trying to re-initialize...");
                     client.stop();
                     INITIALIZED_APIs.remove(ssoAccount.name);

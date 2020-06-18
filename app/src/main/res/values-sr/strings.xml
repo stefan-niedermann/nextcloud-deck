@@ -37,6 +37,7 @@
     <string name="simple_comment">Коментар</string>
     <string name="simple_disabled">искључено</string>
     <string name="simple_copied">Копирано</string>
+    <string name="simple_archive">Архива</string>
 
     <string name="edit_board">Измени таблу</string>
     <string name="archive_board">Архивирај таблу</string>
@@ -238,4 +239,5 @@
     <string name="info_box_maintenance_mode">Сервер у режиму одржавања</string>
     <string name="info_box_version_not_supported">Серверска верзија %1$s није подржана, ажурирајте на %2$s</string>
     <string name="share_link">Веза дељења</string>
-</resources>
+    <string name="manage_accounts">Управљање налозима</string>
+    </resources>

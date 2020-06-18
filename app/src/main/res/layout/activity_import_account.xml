@@ -45,10 +45,8 @@
             android:layout_below="@id/welcome_text"
             android:layout_centerHorizontal="true"
             android:paddingStart="32dp"
-            android:paddingLeft="32dp"
             android:paddingTop="24dp"
             android:paddingEnd="32dp"
-            android:paddingRight="32dp"
             android:paddingBottom="24dp"
             android:text="@string/choose_account" />
 
