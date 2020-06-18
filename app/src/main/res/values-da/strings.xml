@@ -36,6 +36,7 @@
     <string name="simple_comment">Kommentér</string>
     <string name="simple_disabled">slået fra</string>
     <string name="simple_copied">opieret</string>
+    <string name="simple_archive">Arkivér</string>
 
     <string name="edit_board">Rediger liste</string>
     <string name="archive_board">Arkivér liste</string>
@@ -186,4 +187,5 @@
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
     <string name="info_box_maintenance_mode">Server i vedligeholdelsestilstand</string>
     <string name="share_link">Del link</string>
-</resources>
+    <string name="manage_accounts">Administrer konti</string>
+    </resources>

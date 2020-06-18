@@ -37,6 +37,7 @@
     <string name="simple_comment">Σχόλιο</string>
     <string name="simple_disabled">απενεργοποιημένο</string>
     <string name="simple_copied">Αντιγράφτηκε</string>
+    <string name="simple_archive">Αρχειοθέτηση</string>
 
     <string name="edit_board">Επεξεργασία πίνακα</string>
     <string name="archive_board">Αρχειοθέτηση πίνακα</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Θέλετε να αρχειοθετήσετε όλες τις κάρτες του %1$s;</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Μόνιμη διαγραφή %1$dτης κάρτας της λίστας.</item>
         <item quantity="other">Μόνιμη διαγραφή όλων %1$d των καρτών της λίστας.</item>
@@ -236,4 +238,7 @@
     <string name="info_box_maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
+    <string name="archive_cards">Αρχειοθετημένες κάρτες</string>
+    <string name="manage_accounts">Διαχείριση λογαριασμών</string>
+    <string name="manage_list">Διαχείριση λίστας</string>
 </resources>

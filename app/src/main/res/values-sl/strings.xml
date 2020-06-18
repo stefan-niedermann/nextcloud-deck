@@ -37,6 +37,7 @@
     <string name="simple_comment">Opomba</string>
     <string name="simple_disabled">onemogočeno</string>
     <string name="simple_copied">Kopirano!</string>
+    <string name="simple_archive">Arhiv</string>
 
     <string name="edit_board">Uredi zbirko</string>
     <string name="archive_board">Arhiviraj zbirko</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">Še ni usklajeno</string>
     <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Ali želite arhivirati vse naloge %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">S tem boste trajno izbrisali %1$d nalogo tega seznama.</item>
         <item quantity="two">S tem boste trajno izbrisali %1$d nalogi tega seznama.</item>
@@ -240,4 +242,6 @@
     <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja</string>
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
     <string name="share_link">Povezava za souporabo</string>
-</resources>
+    <string name="archive_cards">Arhiviraj naloge</string>
+    <string name="manage_accounts">Upravljanje z računi</string>
+    </resources>

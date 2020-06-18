@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -58,6 +59,10 @@ public class EditCardViewModel extends ViewModel {
     }
 
     public boolean hasChanges() {
+        if(fullCard == null) {
+            DeckLog.info("Can not check for changes because fullCard is null → assuming no changes have been made yet.");
+            return false;
+        }
         return fullCard.equals(originalCard);
     }
 

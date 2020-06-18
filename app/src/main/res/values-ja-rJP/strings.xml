@@ -37,6 +37,7 @@
     <string name="simple_comment">コメント</string>
     <string name="simple_disabled">無効</string>
     <string name="simple_copied">コピーしました</string>
+    <string name="simple_archive">アーカイブ</string>
 
     <string name="edit_board">ボードを編集</string>
     <string name="archive_board">ボードをアーカイブ</string>
@@ -111,6 +112,7 @@
     <string name="not_synced_yet">未同期です</string>
     <string name="no_lists_yet">まだリストがありません</string>
     <string name="do_you_want_to_save_your_changes">変更を保存しますか？</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">%1$s の全カードをアーカイブしますか？</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="other">このリストの%1$dのカードすべてが完全に削除されます。</item>
     </plurals>
@@ -234,4 +236,6 @@
     <string name="info_box_maintenance_mode">サーバーはメンテナンスモードです。</string>
     <string name="info_box_version_not_supported">サーバーのバージョン%1$sはサポートしていませんので、%2$sにアップデートしてください。</string>
     <string name="share_link">URLで共有</string>
-</resources>
+    <string name="archive_cards">カードをアーカイブ</string>
+    <string name="manage_accounts">アカウント管理</string>
+    </resources>

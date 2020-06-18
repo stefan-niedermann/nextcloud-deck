@@ -37,6 +37,7 @@
     <string name="simple_comment">Komentar</string>
     <string name="simple_disabled">onemogućeno</string>
     <string name="simple_copied">Kopirano</string>
+    <string name="simple_archive">Arhiva</string>
 
     <string name="edit_board">Uredi ploču</string>
     <string name="archive_board">Arhiviraj ploču</string>
@@ -228,4 +229,5 @@
     <string name="info_box_maintenance_mode">Poslužitelj u načinu održavanja</string>
     <string name="info_box_version_not_supported">Inačica poslužitelja %1$s nije podržana, ažurirajte poslužitelj na inačicu %2$s</string>
     <string name="share_link">Dijeli poveznicu</string>
-</resources>
+    <string name="manage_accounts">Upravljaj računima</string>
+    </resources>
