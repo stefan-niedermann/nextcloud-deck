@@ -37,8 +37,14 @@ public class LabelChip extends Chip {
         setMinHeight(0);
         setChipMinHeight(0);
         setPadding(0, gutter, 0, gutter);
-        setChipStartPadding(0);
-        setChipEndPadding(0);
+        setChipStartPadding(gutter);
+        setIconStartPadding(0);
+        setIconEndPadding(0);
+        setTextStartPadding(gutter);
+        setTextEndPadding(gutter);
+        setCloseIconStartPadding(0);
+        setCloseIconEndPadding(0);
+        setChipEndPadding(gutter);
 
         setText(label.getTitle());
         setEllipsize(TextUtils.TruncateAt.END);
