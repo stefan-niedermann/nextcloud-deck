@@ -77,6 +77,7 @@ public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
                 didInitialize = true;
             }
 
+            // FIXME shouldn't this go into the onConnected() callback if client is null?
             NextcloudRequest.Builder requestBuilder;
             try {
                 requestBuilder = new NextcloudRequest.Builder()
@@ -84,13 +85,12 @@ public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
                         .setUrl(url.toURL().getPath());
                 Map<String, List<String>> header = new HashMap<>();
                 for (Map.Entry<String, String> headerEntry : url.getHeaders().entrySet()) {
-                    if(!X_HEADER_SSO_ACCOUNT_NAME.equals(headerEntry.getKey())) {
+                    if (!X_HEADER_SSO_ACCOUNT_NAME.equals(headerEntry.getKey())) {
                         header.put(headerEntry.getKey(), Collections.singletonList(headerEntry.getValue()));
                     }
                 }
                 requestBuilder.setHeader(header);
                 NextcloudRequest nextcloudRequest = requestBuilder.build();
-                DeckLog.log(nextcloudRequest.toString());
                 Response response = client.performNetworkRequestV2(nextcloudRequest);
                 callback.onDataReady(response.getBody());
             } catch (MalformedURLException e) {
