@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,6 +15,8 @@ import com.google.android.material.chip.Chip;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
+
+import static android.text.TextUtils.TruncateAt.MIDDLE;
 
 @SuppressLint("ViewConstructor")
 public class LabelChip extends Chip {
@@ -38,16 +39,12 @@ public class LabelChip extends Chip {
         setChipMinHeight(0);
         setPadding(0, gutter, 0, gutter);
         setChipStartPadding(gutter);
-        setIconStartPadding(0);
-        setIconEndPadding(0);
         setTextStartPadding(gutter);
         setTextEndPadding(gutter);
-        setCloseIconStartPadding(0);
-        setCloseIconEndPadding(0);
         setChipEndPadding(gutter);
 
         setText(label.getTitle());
-        setEllipsize(TextUtils.TruncateAt.END);
+        setEllipsize(MIDDLE);
 
         try {
             int labelColor = Color.parseColor("#" + label.getColor());
