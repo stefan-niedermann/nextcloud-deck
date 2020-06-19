@@ -1,19 +1,30 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -23,7 +34,6 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
-import it.niedermann.nextcloud.deck.util.FileUtils;
 
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
@@ -34,8 +44,8 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     private boolean isFile;
 
     private String receivedText;
-    private Uri receivedUri;
-    private File uploadFile;
+    @NonNull
+    List<Parcelable> mStreamsToUpload = new ArrayList<>(1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,26 +58,19 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
             DeckLog.info(receivedType);
             isFile = receivedType != null && !receivedType.startsWith(MIMETYPE_TEXT_PREFIX);
             if (isFile) {
-                receivedUri = receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM);
-                if (receivedUri != null) {
-                    try {
-                        String path = FileUtils.getPath(this, receivedUri);
-                        if (path != null) {
-                            uploadFile = new File(path);
-                            binding.toolbar.setSubtitle(uploadFile.getName());
-                        } else {
-                            throw new IllegalArgumentException("Could not find path for given Uri " + receivedUri.toString());
-                        }
-                    } catch (IllegalArgumentException e) {
-                        DeckLog.logError(e);
-                        new BrandedAlertDialogBuilder(this)
-                                .setTitle(R.string.error)
-                                .setMessage(R.string.operation_not_yet_supported)
-                                .setPositiveButton(R.string.simple_close, (a, b) -> finish())
-                                .create().show();
+                if (Intent.ACTION_SEND.equals(receivedIntent.getAction())) {
+                    mStreamsToUpload = Collections.singletonList(receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM));
+                } else if (Intent.ACTION_SEND_MULTIPLE.equals(receivedIntent.getAction())) {
+                    @Nullable List<Parcelable> listOfParcelables = receivedIntent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                    if (listOfParcelables != null) {
+                        mStreamsToUpload.addAll(listOfParcelables);
                     }
                 } else {
-                    throw new IllegalArgumentException("Could not find any file for receivedUri = " + receivedUri);
+                    new BrandedAlertDialogBuilder(this)
+                            .setTitle(R.string.error)
+                            .setMessage(R.string.operation_not_yet_supported)
+                            .setPositiveButton(R.string.simple_close, (a, b) -> finish())
+                            .create().show();
                 }
             } else {
                 receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT);
@@ -110,6 +113,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     }
 
     private void appendText(@NonNull FullCard fullCard, @NonNull String receivedText) {
+        // TODO display dialog and ask whether the text should be appended to description or added as a new comment
         String oldDescription = fullCard.getCard().getDescription();
         DeckLog.info("Adding to card #" + fullCard.getCard().getId() + " (" + fullCard.getCard().getTitle() + "): Text \"" + receivedText + "\"");
         if (oldDescription == null || oldDescription.length() == 0) {
@@ -121,9 +125,68 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     }
 
     private void appendAttachment(@NonNull FullCard fullCard) {
-        DeckLog.info("Adding to card #" + fullCard.getCard().getId() + " (" + fullCard.getCard().getTitle() + "): Attachment \"" + receivedUri.toString() + "\"");
-        syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), Attachment.getMimetypeForUri(this, receivedUri), uploadFile);
-        Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + uploadFile.getName() + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
+
+        List<Uri> contentUris = new ArrayList<>();
+
+        for (Parcelable sourceStream : mStreamsToUpload) {
+            Uri sourceUri = (Uri) sourceStream;
+            if (sourceUri != null) {
+                if (ContentResolver.SCHEME_CONTENT.equals(sourceUri.getScheme())) {
+                    contentUris.add(sourceUri);
+                    DeckLog.verbose("--- found content URL, remember for later: " + sourceUri.getPath());
+                } else if (ContentResolver.SCHEME_FILE.equals(sourceUri.getScheme())) {
+                    /// file: uris should point to a local file, should be safe let FileUploader handle them
+                    DeckLog.verbose("--- found file URL, directly upload: " + sourceUri.getPath());
+                    syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), Attachment.getMimetypeForUri(this, sourceUri), new File(sourceUri.getPath()));
+                }
+            }
+        }
+
+        if (!contentUris.isEmpty()) {
+            /// content: uris will be copied to temporary files before calling {@link FileUploader}
+            for (Uri contentUri : contentUris) {
+                try {
+                    DeckLog.verbose("---- so, now copy&upload: " + contentUri.getPath());
+                    File copiedFile = copyContentUriToTempFile(contentUri, fullCard.getAccountId(), fullCard.getCard().getLocalId());
+                    syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), getContentResolver().getType(contentUri), copiedFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+
+    private File copyContentUriToTempFile(Uri currentUri, long accountId, Long localId) throws IOException {
+        String fullTempPath = getApplicationContext().getFilesDir().getAbsolutePath() + '/' + accountId + '/' + localId + '/' + UUID.randomUUID() + '/' + currentUri.getLastPathSegment();
+        DeckLog.verbose("----- fullTempPath: " + fullTempPath);
+        InputStream inputStream = getContentResolver().openInputStream(currentUri);
+        if (inputStream == null) {
+            throw new IOException("Could not open input stream for " + currentUri.getPath());
+        }
+        File cacheFile = new File(fullTempPath);
+        File tempDir = cacheFile.getParentFile();
+        if (tempDir == null) {
+            throw new FileNotFoundException("could not cacheFile.getPranetFile()");
+        }
+        if (!tempDir.exists()) {
+            if (!tempDir.mkdirs()) {
+                throw new IOException("Directory for temporary file does not exist and could not be created.");
+            }
+        }
+        if (!cacheFile.createNewFile()) {
+            throw new IOException("Failed to create cacheFile");
+        }
+        FileOutputStream outputStream = new FileOutputStream(fullTempPath);
+        byte[] buffer = new byte[4096];
+
+        int count;
+        while ((count = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, count);
+        }
+        DeckLog.verbose("----- wrote");
+        return cacheFile;
     }
 
     @Override
