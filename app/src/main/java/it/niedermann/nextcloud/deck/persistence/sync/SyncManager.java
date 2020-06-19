@@ -43,6 +43,7 @@ import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -455,8 +456,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<List<DeckComment>> getCommentsForLocalCardId(long localCardId) {
-        return dataBaseAdapter.getCommentsForLocalCardId(localCardId);
+    public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
+        return dataBaseAdapter.getFullCommentsForLocalCardId(localCardId);
     }
 
     public WrappedLiveData<Void> deleteBoard(Board board) {
