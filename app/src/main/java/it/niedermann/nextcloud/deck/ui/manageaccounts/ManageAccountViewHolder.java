@@ -9,13 +9,12 @@ import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.request.RequestOptions;
 
+import it.niedermann.android.glidesso.SingleSignOnUrl;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccountChooseBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.util.glide.SingleSignOnOriginHeader;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -34,7 +33,7 @@ public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
         binding.accountName.setText(account.getUserName());
         binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
         Glide.with(itemView.getContext())
-                .load(new GlideUrl(account.getAvatarUrl(dpToPx(binding.accountItemAvatar.getContext(), R.dimen.avatar_size)), new SingleSignOnOriginHeader(account)))
+                .load(new SingleSignOnUrl(account.getName(), account.getAvatarUrl(dpToPx(binding.accountItemAvatar.getContext(), R.dimen.avatar_size))))
                 .error(R.drawable.ic_person_grey600_24dp)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.accountItemAvatar);

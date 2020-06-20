@@ -6,8 +6,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 1004004
-        versionName "1.4.4"
+        versionCode 1005000
+        versionName "1.5.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -62,6 +62,7 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation project(path: ':glide-sso-integration')
 
     // Markdown
     implementation 'com.yydcdut:markdown-processor:0.1.3'

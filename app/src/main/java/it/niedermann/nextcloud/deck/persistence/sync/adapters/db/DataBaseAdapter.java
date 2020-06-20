@@ -37,6 +37,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
+import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
@@ -744,6 +745,17 @@ public class DataBaseAdapter {
         });
     }
 
+    public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
+        return LiveDataHelper.interceptLiveData(db.getCommentDao().getFullCommentByLocalCardId(localCardId), (list) -> {
+            for (FullDeckComment deckComment : list) {
+                deckComment.getComment().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
+                if (deckComment.getParent() != null) {
+                    deckComment.getParent().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getComment().getParentId()));
+                }
+            }
+        });
+    }
+
     public DeckComment getCommentByRemoteIdDirectly(long accountId, Long remoteCommentId) {
         return db.getCommentDao().getCommentByRemoteIdDirectly(accountId, remoteCommentId);
     }
@@ -817,6 +829,13 @@ public class DataBaseAdapter {
 
     public LiveData<Boolean> hasArchivedBoards(long accountId) {
         return LiveDataHelper.postCustomValue(distinctUntilChanged(db.getBoardDao().countArchivedBoards(accountId)), data -> data != null && data > 0);
+    }
+
+    public Long getRemoteCommentIdForLocalIdDirectly(Long localCommentId) {
+        return db.getCommentDao().getRemoteCommentIdForLocalIdDirectly(localCommentId);
+    }
+    public Long getLocalCommentIdForRemoteIdDirectly(long accountId, Long remoteCommentId) {
+        return db.getCommentDao().getLocalCommentIdForRemoteIdDirectly(accountId, remoteCommentId);
     }
 
 
