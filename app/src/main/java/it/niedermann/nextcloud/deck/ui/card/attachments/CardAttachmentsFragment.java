@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +39,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
-import it.niedermann.nextcloud.deck.util.FileUtils;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
 
 public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener {
 
@@ -159,41 +161,64 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                 DeckLog.warn("data is null");
                 return;
             }
-            final Uri uri = data.getData();
-            if (uri == null) {
-                DeckLog.warn("data.getDate() returned null");
+            final Uri sourceUri = data.getData();
+            if (sourceUri == null) {
+                DeckLog.warn("data.getParcelableExtra(Intent.EXTRA_STREAM() returned null");
                 return;
             }
-            DeckLog.info("Uri: " + uri.toString());
-            String path = FileUtils.getPath(getContext(), uri);
-            if (path == null) {
-                DeckLog.warn("path to file is null");
+            DeckLog.info("Uri: " + sourceUri.toString());
+
+            File fileToUpload;
+
+            boolean isTempFile = false;
+            if (ContentResolver.SCHEME_CONTENT.equals(sourceUri.getScheme())) {
+                DeckLog.verbose("--- found content URL " + sourceUri.getPath());
+                try {
+                    DeckLog.verbose("---- so, now copy&upload: " + sourceUri.getPath());
+                    isTempFile = true;
+                    fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, viewModel.getAccount().getId(), viewModel.getFullCard().getCard().getLocalId());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+            } else if (ContentResolver.SCHEME_FILE.equals(sourceUri.getScheme())) {
+                DeckLog.verbose("--- found file URL, directly upload: " + sourceUri.getPath());
+                fileToUpload = new File(sourceUri.getPath());
+            } else {
+                DeckLog.warn("can not handle file");
                 return;
             }
+
             for (Attachment existingAttachment : viewModel.getFullCard().getAttachments()) {
                 final String existingPath = existingAttachment.getLocalPath();
-                if (existingPath != null && existingPath.equals(path)) {
+                if (existingPath != null && existingPath.equals(fileToUpload.getName())) { // TODO getName == getLocalPath whaat?
                     BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                     return;
                 }
             }
-            final File uploadFile = new File(path);
+
             final Date now = new Date();
             final Attachment a = new Attachment();
-            a.setMimetype(Attachment.getMimetypeForUri(getContext(), uri));
-            a.setData(uploadFile.getName());
-            a.setFilename(uploadFile.getName());
-            a.setBasename(uploadFile.getName());
-            a.setFilesize(uploadFile.length());
-            a.setLocalPath(path);
+            a.setMimetype(Attachment.getMimetypeForUri(getContext(), sourceUri));
+            a.setData(fileToUpload.getName());
+            a.setFilename(fileToUpload.getName());
+            a.setBasename(fileToUpload.getName());
+            a.setFilesize(fileToUpload.length());
+            a.setLocalPath(fileToUpload.getName());// TODO getName == getLocalPath whaat?
             a.setLastModifiedLocal(now);
             a.setStatusEnum(DBStatus.LOCAL_EDITED);
             a.setCreatedAt(now);
             viewModel.getFullCard().getAttachments().add(a);
             adapter.addAttachment(a);
             if (!viewModel.isCreateMode()) {
-                WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), Attachment.getMimetypeForUri(getContext(), uri), uploadFile);
+                WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), Attachment.getMimetypeForUri(getContext(), sourceUri), fileToUpload);
+                boolean wasTempFile = isTempFile;
                 observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
+                    if (wasTempFile) {
+                        if (!fileToUpload.delete()) {
+                            DeckLog.error("Could not delete temporary created file " + fileToUpload.getAbsolutePath());
+                        }
+                    }
                     if (liveData.hasError()) {
                         viewModel.getFullCard().getAttachments().remove(a);
                         adapter.removeAttachment(a);
