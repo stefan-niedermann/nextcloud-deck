@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
@@ -13,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,13 +24,14 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
-import static it.niedermann.nextcloud.deck.util.AttachmentUtil.appendAttachment;
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 public class SelectCardActivity extends MainActivity implements SelectCardListener {
@@ -77,7 +82,30 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     public void onCardSelected(FullCard fullCard) {
         try {
             if (isFile) {
-                appendAttachment(this, syncManager, mStreamsToUpload, fullCard);
+                for (Parcelable sourceStream : mStreamsToUpload) {
+                    new Thread(() -> {
+                        if (!(sourceStream instanceof Uri)) {
+                            DeckLog.logError(new UploadAttachmentFailedException("stream is not of type " + Uri.class.getSimpleName()));
+                            return;
+                        }
+                        Uri sourceUri = (Uri) sourceStream;
+                        if (!ContentResolver.SCHEME_CONTENT.equals(sourceUri.getScheme())) {
+                            DeckLog.logError(new UploadAttachmentFailedException("Unhandled URI scheme: " + sourceUri.getScheme()));
+                            return;
+                        }
+
+                        try {
+                            File copiedFile = copyContentUriToTempFile(this, sourceUri, fullCard.getAccountId(), fullCard.getCard().getLocalId());
+                            String mimeType = getContentResolver().getType(sourceUri);
+                            if (mimeType == null) {
+                                mimeType = "application/octet-stream";
+                            }
+                            syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, copiedFile);
+                        } catch (IOException e) {
+                            DeckLog.logError(new UploadAttachmentFailedException("Error while uploading attachment", e));
+                        }
+                    }).start();
+                }
             } else {
                 appendText(fullCard, receivedText);
             }

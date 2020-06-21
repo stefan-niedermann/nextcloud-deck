@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +33,7 @@ import java.util.Map;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabAttachmentsBinding;
+import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -39,12 +41,14 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener {
 
@@ -158,31 +162,27 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ADD_ATTACHMENT && resultCode == Activity.RESULT_OK) {
             if (data == null) {
-                DeckLog.warn("data is null");
+                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Intent data is null"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 return;
             }
             final Uri sourceUri = data.getData();
             if (sourceUri == null) {
-                DeckLog.warn("data.getParcelableExtra(Intent.EXTRA_STREAM() returned null");
+                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("sourceUri is null"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 return;
             }
-            DeckLog.info("Uri: " + sourceUri.toString());
+            if (!ContentResolver.SCHEME_CONTENT.equals(sourceUri.getScheme())) {
+                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme: " + sourceUri.getScheme()), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                return;
+            }
 
+            DeckLog.verbose("--- found content URL " + sourceUri.getPath());
             File fileToUpload;
 
-            if (ContentResolver.SCHEME_CONTENT.equals(sourceUri.getScheme())) {
-                DeckLog.verbose("--- found content URL " + sourceUri.getPath());
-                try {
-                    DeckLog.verbose("---- so, now copy&upload: " + sourceUri.getPath());
-                    fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, viewModel.getAccount().getId(), viewModel.getFullCard().getCard().getLocalId());
-                } catch (IOException e) {
-                    // TODO error popup
-                    e.printStackTrace();
-                    return;
-                }
-            } else {
-                // TODO error popup
-                DeckLog.warn("can not handle file");
+            try {
+                DeckLog.verbose("---- so, now copy & upload: " + sourceUri.getPath());
+                fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, viewModel.getAccount().getId(), viewModel.getFullCard().getCard().getLocalId());
+            } catch (IOException e) {
+                ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Could not copy content URI to temporary file", e), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 return;
             }
 
@@ -196,7 +196,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
             final Date now = new Date();
             final Attachment a = new Attachment();
-            a.setMimetype(Attachment.getMimetypeForUri(getContext(), sourceUri));
+            a.setMimetype(requireContext().getContentResolver().getType(sourceUri));
             a.setData(fileToUpload.getName());
             a.setFilename(fileToUpload.getName());
             a.setBasename(fileToUpload.getName());
@@ -208,12 +208,17 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             viewModel.getFullCard().getAttachments().add(a);
             adapter.addAttachment(a);
             if (!viewModel.isCreateMode()) {
-                WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), Attachment.getMimetypeForUri(getContext(), sourceUri), fileToUpload);
+                WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), a.getMimetype(), fileToUpload);
                 observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
                     if (liveData.hasError()) {
-                        viewModel.getFullCard().getAttachments().remove(a);
-                        adapter.removeAttachment(a);
-                        BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                        Throwable t = liveData.getError();
+                        if (t instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) t).getStatusCode() == HTTP_CONFLICT) {
+                            viewModel.getFullCard().getAttachments().remove(a);
+                            adapter.removeAttachment(a);
+                            BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
+                        } else {
+                            ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Unknown URI scheme", t), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        }
                     } else {
                         viewModel.getFullCard().getAttachments().remove(a);
                         adapter.removeAttachment(a);
@@ -224,6 +229,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             }
             updateEmptyContentView();
         }
+
     }
 
     @Override

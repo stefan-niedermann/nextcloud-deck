@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogExceptionBinding;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
+import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
@@ -113,6 +114,8 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
                     adapter.add(R.string.error_dialog_insufficient_storage);
                     break;
             }
+        } else if (throwable instanceof UploadAttachmentFailedException) {
+            adapter.add(R.string.error_dialog_attachment_upload_failed);
         } else if (throwable instanceof DeckException) {
             switch (((DeckException) throwable).getHint()) {
                 case CAPABILITIES_VERSION_NOT_PARSABLE:

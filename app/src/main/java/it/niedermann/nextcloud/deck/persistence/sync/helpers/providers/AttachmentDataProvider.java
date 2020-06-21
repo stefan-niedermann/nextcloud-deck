@@ -94,7 +94,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
         Uri uri = Uri.fromFile(new File(entity.getLocalPath()));
-        String type = Attachment.getMimetypeForUri(dataBaseAdapter.getContext(), uri);
+        String type = dataBaseAdapter.getContext().getContentResolver().getType(uri);
         serverAdapter.updateAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), type, uri, callback);
 
     }

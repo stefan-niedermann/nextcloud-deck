@@ -117,10 +117,10 @@
     <string name="url_license" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
     <string name="url_translations" translatable="false">https://www.transifex.com/nextcloud/nextcloud/</string>
     <string name="url_about_icons_disclaimer_mdi" translatable="false">https://materialdesignicons.com/</string>
-    <string name="url_fragment_update_deck"            translatable="false">/index.php/settings/apps/installed/deck</string>
-    <string name="url_fragment_install_deck"           translatable="false">/index.php/settings/apps/organization/deck</string>
-    <string name="url_fragment_server_logs"            translatable="false">/index.php/settings/admin/logging</string>
-    <string name="url_fragment_share_card_pre_1_0_0"   translatable="false">/index.php/apps/deck/#!/board/%1$d/card/%2$d</string>
+    <string name="url_fragment_update_deck" translatable="false">/index.php/settings/apps/installed/deck</string>
+    <string name="url_fragment_install_deck" translatable="false">/index.php/settings/apps/organization/deck</string>
+    <string name="url_fragment_server_logs" translatable="false">/index.php/settings/admin/logging</string>
+    <string name="url_fragment_share_card_pre_1_0_0" translatable="false">/index.php/apps/deck/#!/board/%1$d/card/%2$d</string>
     <string name="url_fragment_share_card_since_1_0_0" translatable="false">/index.php/apps/deck/#/board/%1$d/card/%2$d</string>
 
     <string name="card_edit_details">Details</string>
@@ -255,6 +255,7 @@
     <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
     <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Deck app. Please make sure it is installed and enabled.</string>
     <string name="error_dialog_capabilities_not_parsable">We could not fetch the capabilities of your server. Please make sure your server is running well and other client apps are able to access Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">An attachment could not be uploaded. Please try to share it on another way and let us know about this bug.</string>
     <string name="error_action_open_deck_info">Open App info</string>
     <string name="error_action_open_network">Network settings</string>
     <string name="error_action_server_logs">Server logs</string>
