@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.util.glide;
+package it.niedermann.android.glidesso;
 
 import android.content.Context;
 
@@ -10,15 +10,14 @@ import com.bumptech.glide.load.model.ModelLoader;
 import com.bumptech.glide.load.model.ModelLoaderFactory;
 import com.bumptech.glide.load.model.MultiModelLoaderFactory;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.InputStream;
 
 /**
- * A simple model loader for fetching media over http/https using Nextcloud SSO.
+ * A simple model loader for fetching media over http/https using OkHttp.
  */
 public class SingleSignOnUrlLoader implements ModelLoader<GlideUrl, InputStream> {
 
+    private static final String TAG = SingleSignOnUrlLoader.class.getSimpleName();
     private final Context context;
 
     // Public API.
@@ -55,7 +54,7 @@ public class SingleSignOnUrlLoader implements ModelLoader<GlideUrl, InputStream>
 
         @NonNull
         @Override
-        public ModelLoader<GlideUrl, InputStream> build(@NotNull MultiModelLoaderFactory multiFactory) {
+        public ModelLoader<GlideUrl, InputStream> build(@NonNull MultiModelLoaderFactory multiFactory) {
             return loader;
         }
 

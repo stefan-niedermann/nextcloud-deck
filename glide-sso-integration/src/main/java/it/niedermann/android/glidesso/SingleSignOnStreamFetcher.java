@@ -1,6 +1,7 @@
-package it.niedermann.nextcloud.deck.util.glide;
+package it.niedermann.android.glidesso;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -8,6 +9,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.model.GlideUrl;
+import com.google.gson.GsonBuilder;
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.aidl.NextcloudRequest;
 import com.nextcloud.android.sso.api.NextcloudAPI;
@@ -25,16 +27,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.niedermann.nextcloud.deck.DeckLog;
-import it.niedermann.nextcloud.deck.api.GsonConfig;
-
-import static it.niedermann.nextcloud.deck.util.glide.SingleSignOnOriginHeader.X_HEADER_SSO_ACCOUNT_NAME;
-
 
 /**
  * Fetches an {@link InputStream} using the Nextcloud SSO library.
  */
 public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
+
+    /**
+     * Use this header and set the {@link SingleSignOnAccount} name property as value
+     * Format of the value needs to be
+     */
+    public static final String X_HEADER_SSO_ACCOUNT_NAME = "X-SSO-Account-Name";
+
+    private static final String TAG = SingleSignOnStreamFetcher.class.getSimpleName();
     private static final String METHOD_GET = "GET";
 
     private static final Map<String, NextcloudAPI> INITIALIZED_APIs = new HashMap<>();
@@ -62,22 +67,21 @@ public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
             client = INITIALIZED_APIs.get(ssoAccount.name);
             boolean didInitialize = false;
             if (client == null) {
-                client = new NextcloudAPI(context, ssoAccount, GsonConfig.getGson(), new NextcloudAPI.ApiConnectedListener() {
+                client = new NextcloudAPI(context, ssoAccount, new GsonBuilder().create(), new NextcloudAPI.ApiConnectedListener() {
                     @Override
                     public void onConnected() {
-                        DeckLog.log("success: init SSO-Api");
+                        Log.v(TAG, "SSO API successfully initialized");
                     }
 
                     @Override
-                    public void onError(Exception e) {
-                        DeckLog.logError(e);
+                    public void onError(Exception ex) {
+                        Log.e(TAG, ex.getMessage(), ex);
                     }
                 });
                 INITIALIZED_APIs.put(ssoAccount.name, client);
                 didInitialize = true;
             }
 
-            // FIXME shouldn't this go into the onConnected() callback if client is null?
             NextcloudRequest.Builder requestBuilder;
             try {
                 requestBuilder = new NextcloudRequest.Builder()
@@ -91,18 +95,19 @@ public class SingleSignOnStreamFetcher implements DataFetcher<InputStream> {
                 }
                 requestBuilder.setHeader(header);
                 NextcloudRequest nextcloudRequest = requestBuilder.build();
+                Log.v(TAG, nextcloudRequest.toString());
                 Response response = client.performNetworkRequestV2(nextcloudRequest);
                 callback.onDataReady(response.getBody());
             } catch (MalformedURLException e) {
                 callback.onLoadFailed(e);
             } catch (TokenMismatchException e) {
                 if (!didInitialize) {
-                    DeckLog.warn("SSO Glide loader failed with TokenMismatchException, trying to re-initialize...");
+                    Log.w(TAG, "SSO Glide loader failed with TokenMismatchException, trying to re-initialize...");
                     client.stop();
                     INITIALIZED_APIs.remove(ssoAccount.name);
                     loadData(priority, callback);
                 } else {
-                    DeckLog.logError(e);
+                    e.printStackTrace();
                     callback.onLoadFailed(e);
                 }
             } catch (Exception e) {

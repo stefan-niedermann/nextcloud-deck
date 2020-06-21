@@ -4,73 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
     android:padding="@dimen/spacer_2x">
 
+    <LinearLayout
+        android:id="@+id/parentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/spacer_1x"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:id="@+id/parentBorder"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/primary" />
+
+        <TextView
+            android:id="@+id/parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="@integer/comment_parent_max_lines"
+            android:paddingStart="@dimen/spacer_1x"
+            android:paddingEnd="@null"
+            tools:text="@tools:sample/lorem/random" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacer_1x">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/avatar"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/spacer_1x"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_person_grey600_24dp"
-            tools:srcCompat="@tools:sample/avatars" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/avatar_size"
+                android:layout_height="@dimen/avatar_size"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacer_1x"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_person_grey600_24dp"
+                tools:srcCompat="@tools:sample/avatars" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/not_synced_yet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_sync_blue_24dp"
-            tools:visibility="visible" />
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/actorDisplayName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAppearance="?attr/textAppearanceListItem"
-                tools:text="@tools:sample/full_names" />
-
-            <TextView
-                android:id="@+id/creationDateTime"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/not_synced_yet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAppearance="?attr/textAppearanceListItemSecondary"
-                tools:text="@tools:sample/date/day_of_week" />
-        </LinearLayout>
+                android:layout_gravity="bottom|end"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_sync_blue_24dp"
+                tools:visibility="visible" />
+        </FrameLayout>
 
-        <com.yydcdut.markdown.MarkdownTextView
-            android:id="@+id/message"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:autofillHints="@null"
-            android:textAppearance="?attr/textAppearanceListItem"
-            tools:maxLength="200"
-            tools:text="@tools:sample/lorem/random" />
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/actorDisplayName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    tools:text="@tools:sample/full_names" />
+
+                <TextView
+                    android:id="@+id/creationDateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAppearance="?attr/textAppearanceListItemSecondary"
+                    tools:text="@tools:sample/date/day_of_week" />
+            </LinearLayout>
+
+            <com.yydcdut.markdown.MarkdownTextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:autofillHints="@null"
+                android:textAppearance="?attr/textAppearanceListItem"
+                tools:maxLength="200"
+                tools:text="@tools:sample/lorem/random" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

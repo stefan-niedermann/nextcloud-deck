@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBinding;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
@@ -30,11 +31,13 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
-public class CardCommentsFragment extends BrandedFragment implements CommentEditedListener, CommentDeletedListener {
+public class CardCommentsFragment extends BrandedFragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
 
     private FragmentCardEditTabCommentsBinding binding;
-    private EditCardViewModel viewModel;
+    private EditCardViewModel mainViewModel;
+    private CommentsViewModel commentsViewModel;
     private SyncManager syncManager;
     private CardCommentsAdapter adapter;
 
@@ -48,11 +51,11 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                              Bundle savedInstanceState) {
         binding = FragmentCardEditTabCommentsBinding.inflate(inflater, container, false);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
-        if (viewModel.getFullCard() == null) {
+        if (mainViewModel.getFullCard() == null) {
             DeckLog.logError(new IllegalStateException("Cannot populate " + CardCommentsFragment.class.getSimpleName() + " because viewModel.getFullCard() is null"));
             if (requireActivity() instanceof EditActivity) {
                 Toast.makeText(getContext(), R.string.error_edit_activity_killed_by_android, Toast.LENGTH_LONG).show();
@@ -63,10 +66,23 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
             return binding.getRoot();
         }
 
+        commentsViewModel = new ViewModelProvider(this).get(CommentsViewModel.class);
+
         syncManager = new SyncManager(requireActivity());
-        adapter = new CardCommentsAdapter(requireContext(), viewModel.getAccount(), requireActivity().getMenuInflater(), this, getChildFragmentManager());
+        adapter = new CardCommentsAdapter(requireContext(), mainViewModel.getAccount(), requireActivity().getMenuInflater(), this, this, getChildFragmentManager());
         binding.comments.setAdapter(adapter);
-        syncManager.getCommentsForLocalCardId(viewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),
+
+        binding.replyCommentCancelButton.setOnClickListener((v) -> commentsViewModel.setReplyToComment(null));
+        commentsViewModel.getReplyToComment().observe(getViewLifecycleOwner(), (comment) -> {
+            if (comment == null) {
+                binding.replyComment.setVisibility(GONE);
+            } else {
+                binding.replyCommentText.setText(comment.getComment().getMessage());
+                binding.replyComment.setVisibility(VISIBLE);
+                setupMentions(mainViewModel.getAccount(), comment.getComment().getMentions(), binding.replyCommentText);
+            }
+        });
+        syncManager.getFullCommentsForLocalCardId(mainViewModel.getFullCard().getLocalId()).observe(getViewLifecycleOwner(),
                 (comments) -> {
                     if (comments != null && comments.size() > 0) {
                         binding.emptyContentView.setVisibility(GONE);
@@ -77,7 +93,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                         binding.comments.setVisibility(GONE);
                     }
                 });
-        if (viewModel.canEdit()) {
+        if (mainViewModel.canEdit()) {
             binding.addCommentLayout.setVisibility(VISIBLE);
             binding.fab.setOnClickListener(v -> {
                 // Do not handle empty comments (https://github.com/stefan-niedermann/nextcloud-deck/issues/440)
@@ -85,9 +101,14 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                     binding.emptyContentView.setVisibility(GONE);
                     binding.comments.setVisibility(VISIBLE);
                     final DeckComment comment = new DeckComment(binding.message.getText().toString().trim());
-                    comment.setActorDisplayName(viewModel.getAccount().getUserName());
+                    comment.setActorDisplayName(mainViewModel.getAccount().getUserName());
                     comment.setCreationDateTime(new Date());
-                    syncManager.addCommentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), comment);
+                    final FullDeckComment parent = commentsViewModel.getReplyToComment().getValue();
+                    if (parent != null) {
+                        comment.setParentId(parent.getId());
+                        commentsViewModel.setReplyToComment(null);
+                    }
+                    syncManager.addCommentToCard(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), comment);
                 }
                 binding.message.setText(null);
             });
@@ -106,7 +127,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (viewModel.canEdit()) {
+        if (mainViewModel.canEdit()) {
             binding.message.requestFocus();
             requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
@@ -114,17 +135,22 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 
     @Override
     public void onCommentEdited(Long id, String comment) {
-        syncManager.updateComment(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), id, comment);
+        syncManager.updateComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), id, comment);
     }
 
     @Override
     public void onCommentDeleted(Long localId) {
-        syncManager.deleteComment(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), localId);
+        syncManager.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId);
     }
 
     @Override
     public void applyBrand(int mainColor, int textColor) {
         applyBrandToEditText(mainColor, textColor, binding.message);
         applyBrandToFAB(mainColor, textColor, binding.fab);
+    }
+
+    @Override
+    public void onSelectAsReply(FullDeckComment comment) {
+        commentsViewModel.setReplyToComment(comment);
     }
 }

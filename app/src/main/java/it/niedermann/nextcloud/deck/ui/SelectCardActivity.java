@@ -1,30 +1,37 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.model.Attachment;
+import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
-import it.niedermann.nextcloud.deck.util.FileUtils;
 
+import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 public class SelectCardActivity extends MainActivity implements SelectCardListener {
@@ -34,8 +41,8 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     private boolean isFile;
 
     private String receivedText;
-    private Uri receivedUri;
-    private File uploadFile;
+    @NonNull
+    List<Parcelable> mStreamsToUpload = new ArrayList<>(1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,26 +55,19 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
             DeckLog.info(receivedType);
             isFile = receivedType != null && !receivedType.startsWith(MIMETYPE_TEXT_PREFIX);
             if (isFile) {
-                receivedUri = receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM);
-                if (receivedUri != null) {
-                    try {
-                        String path = FileUtils.getPath(this, receivedUri);
-                        if (path != null) {
-                            uploadFile = new File(path);
-                            binding.toolbar.setSubtitle(uploadFile.getName());
-                        } else {
-                            throw new IllegalArgumentException("Could not find path for given Uri " + receivedUri.toString());
-                        }
-                    } catch (IllegalArgumentException e) {
-                        DeckLog.logError(e);
-                        new BrandedAlertDialogBuilder(this)
-                                .setTitle(R.string.error)
-                                .setMessage(R.string.operation_not_yet_supported)
-                                .setPositiveButton(R.string.simple_close, (a, b) -> finish())
-                                .create().show();
+                if (Intent.ACTION_SEND.equals(receivedIntent.getAction())) {
+                    mStreamsToUpload = Collections.singletonList(receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM));
+                } else if (Intent.ACTION_SEND_MULTIPLE.equals(receivedIntent.getAction())) {
+                    @Nullable List<Parcelable> listOfParcelables = receivedIntent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                    if (listOfParcelables != null) {
+                        mStreamsToUpload.addAll(listOfParcelables);
                     }
                 } else {
-                    throw new IllegalArgumentException("Could not find any file for receivedUri = " + receivedUri);
+                    new BrandedAlertDialogBuilder(this)
+                            .setTitle(R.string.error)
+                            .setMessage(R.string.operation_not_yet_supported)
+                            .setPositiveButton(R.string.simple_close, (a, b) -> finish())
+                            .create().show();
                 }
             } else {
                 receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT);
@@ -82,7 +82,30 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     public void onCardSelected(FullCard fullCard) {
         try {
             if (isFile) {
-                appendAttachment(fullCard);
+                for (Parcelable sourceStream : mStreamsToUpload) {
+                    new Thread(() -> {
+                        if (!(sourceStream instanceof Uri)) {
+                            DeckLog.logError(new UploadAttachmentFailedException("stream is not of type " + Uri.class.getSimpleName()));
+                            return;
+                        }
+                        Uri sourceUri = (Uri) sourceStream;
+                        if (!ContentResolver.SCHEME_CONTENT.equals(sourceUri.getScheme())) {
+                            DeckLog.logError(new UploadAttachmentFailedException("Unhandled URI scheme: " + sourceUri.getScheme()));
+                            return;
+                        }
+
+                        try {
+                            File copiedFile = copyContentUriToTempFile(this, sourceUri, fullCard.getAccountId(), fullCard.getCard().getLocalId());
+                            String mimeType = getContentResolver().getType(sourceUri);
+                            if (mimeType == null) {
+                                mimeType = "application/octet-stream";
+                            }
+                            syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, copiedFile);
+                        } catch (IOException e) {
+                            DeckLog.logError(new UploadAttachmentFailedException("Error while uploading attachment", e));
+                        }
+                    }).start();
+                }
             } else {
                 appendText(fullCard, receivedText);
             }
@@ -110,6 +133,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     }
 
     private void appendText(@NonNull FullCard fullCard, @NonNull String receivedText) {
+        // TODO display dialog and ask whether the text should be appended to description or added as a new comment
         String oldDescription = fullCard.getCard().getDescription();
         DeckLog.info("Adding to card #" + fullCard.getCard().getId() + " (" + fullCard.getCard().getTitle() + "): Text \"" + receivedText + "\"");
         if (oldDescription == null || oldDescription.length() == 0) {
@@ -118,12 +142,6 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
             fullCard.getCard().setDescription(oldDescription + "\n\n" + receivedText);
         }
         Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
-    }
-
-    private void appendAttachment(@NonNull FullCard fullCard) {
-        DeckLog.info("Adding to card #" + fullCard.getCard().getId() + " (" + fullCard.getCard().getTitle() + "): Attachment \"" + receivedUri.toString() + "\"");
-        syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), Attachment.getMimetypeForUri(this, receivedUri), uploadFile);
-        Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + uploadFile.getName() + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
     }
 
     @Override

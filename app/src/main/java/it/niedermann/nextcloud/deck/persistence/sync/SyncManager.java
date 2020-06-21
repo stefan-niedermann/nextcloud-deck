@@ -44,6 +44,7 @@ import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -473,8 +474,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<List<DeckComment>> getCommentsForLocalCardId(long localCardId) {
-        return dataBaseAdapter.getCommentsForLocalCardId(localCardId);
+    public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
+        return dataBaseAdapter.getFullCommentsForLocalCardId(localCardId);
     }
 
     public WrappedLiveData<Void> deleteBoard(Board board) {
@@ -1165,9 +1166,36 @@ public class SyncManager {
             if (cardsOfNewStack.size() > newIndex) {
                 newOrder = cardsOfNewStack.get(newIndex).getCard().getOrder();
             }
+
+            boolean orderIsCorrect = true;
             if (newOrder == movedCard.getCard().getOrder() && newStackId == movedCard.getCard().getStackId()) {
-                return;
+                int lastOrder = Integer.MIN_VALUE;
+                for (FullCard fullCard : cardsOfNewStack) {
+                    int currentOrder = fullCard.getCard().getOrder();
+                    if (currentOrder > lastOrder) {
+                        lastOrder = currentOrder;
+                    } else {
+                        // the order is messed up. this could happen for a while,
+                        // because the new cards by the app had all the same order: 0
+                        orderIsCorrect = false;
+                        break;
+                    }
+                }
+                if (orderIsCorrect) {
+                    return;
+                } else {
+                    // we need to fix the order.
+                    cardsOfNewStack.remove(movedCard);
+                    cardsOfNewStack.add(newIndex, movedCard);
+                    for (int i = 0; i < cardsOfNewStack.size(); i++) {
+                        Card card = cardsOfNewStack.get(i).getCard();
+                        card.setOrder(i);
+                        dataBaseAdapter.updateCard(card, true);
+                    }
+
+                }
             }
+
 //            if (serverAdapter.hasInternetConnection()){
 //                // call reorder
 //                Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
@@ -1195,7 +1223,9 @@ public class SyncManager {
 //                    }
 //                });
 //            } else {
-            reorderLocally(cardsOfNewStack, movedCard, newStackId, newOrder);
+            if (orderIsCorrect) {
+                reorderLocally(cardsOfNewStack, movedCard, newStackId, newOrder);
+            }
             //FIXME: remove the sync-block, when commentblock up there is activated. (waiting for deck server bugfix)
             if (hasInternetConnection()) {
                 Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(movedCard.getCard().getStackId());
