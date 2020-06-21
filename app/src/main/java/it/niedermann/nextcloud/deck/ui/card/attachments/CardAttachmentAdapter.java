@@ -103,7 +103,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
 
         @Nullable final String uri = (attachment.getId() == null || cardRemoteId == null)
                 ? attachment.getLocalPath() :
-                AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId());
+                AttachmentUtil.getRemoteUrl(account.getUrl(), cardRemoteId, attachment.getId());
         holder.setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), mainColor);
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.attachment_menu, menu);
@@ -155,7 +155,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                 if (cardRemoteId != null) {
                     defaultHolder.itemView.setOnClickListener((event) -> {
                         Intent openURL = new Intent(Intent.ACTION_VIEW);
-                        openURL.setData(Uri.parse(AttachmentUtil.getUrl(account.getUrl(), cardRemoteId, attachment.getId())));
+                        openURL.setData(Uri.parse(AttachmentUtil.getRemoteUrl(account.getUrl(), cardRemoteId, attachment.getId())));
                         context.startActivity(openURL);
                     });
                 }

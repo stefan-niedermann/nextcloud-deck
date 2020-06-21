@@ -170,28 +170,25 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
             File fileToUpload;
 
-            boolean isTempFile = false;
             if (ContentResolver.SCHEME_CONTENT.equals(sourceUri.getScheme())) {
                 DeckLog.verbose("--- found content URL " + sourceUri.getPath());
                 try {
                     DeckLog.verbose("---- so, now copy&upload: " + sourceUri.getPath());
-                    isTempFile = true;
                     fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, viewModel.getAccount().getId(), viewModel.getFullCard().getCard().getLocalId());
                 } catch (IOException e) {
+                    // TODO error popup
                     e.printStackTrace();
                     return;
                 }
-            } else if (ContentResolver.SCHEME_FILE.equals(sourceUri.getScheme())) {
-                DeckLog.verbose("--- found file URL, directly upload: " + sourceUri.getPath());
-                fileToUpload = new File(sourceUri.getPath());
             } else {
+                // TODO error popup
                 DeckLog.warn("can not handle file");
                 return;
             }
 
             for (Attachment existingAttachment : viewModel.getFullCard().getAttachments()) {
                 final String existingPath = existingAttachment.getLocalPath();
-                if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) { // TODO getName == getLocalPath whaat?
+                if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) {
                     BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                     return;
                 }
@@ -212,13 +209,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             adapter.addAttachment(a);
             if (!viewModel.isCreateMode()) {
                 WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), Attachment.getMimetypeForUri(getContext(), sourceUri), fileToUpload);
-                boolean wasTempFile = isTempFile;
                 observeOnce(liveData, getViewLifecycleOwner(), (next) -> {
-                    if (wasTempFile) {
-                        if (!fileToUpload.delete()) {
-                            DeckLog.error("Could not delete temporary created file " + fileToUpload.getAbsolutePath());
-                        }
-                    }
                     if (liveData.hasError()) {
                         viewModel.getFullCard().getAttachments().remove(a);
                         adapter.removeAttachment(a);
