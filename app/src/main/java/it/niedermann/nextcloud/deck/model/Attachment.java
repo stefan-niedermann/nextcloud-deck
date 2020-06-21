@@ -1,15 +1,9 @@
 package it.niedermann.nextcloud.deck.model;
 
-import android.content.ContentResolver;
-import android.content.Context;
-import android.net.Uri;
-import android.webkit.MimeTypeMap;
-
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -144,23 +138,6 @@ public class Attachment extends AbstractRemoteEntity implements Comparable<Attac
 
     public void setLocalPath(String localPath) {
         this.localPath = localPath;
-    }
-
-    public static String getMimetypeForUri(Context context, Uri uri) {
-        String extension;
-
-        //Check uri format to avoid null
-        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
-            //If scheme is a content
-            extension = context.getContentResolver().getType(uri);
-        } else {
-            //If scheme is a File
-            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
-            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
-
-        }
-
-        return extension;
     }
 
     @Override
