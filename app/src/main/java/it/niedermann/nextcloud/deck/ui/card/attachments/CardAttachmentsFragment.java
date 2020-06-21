@@ -191,7 +191,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
             for (Attachment existingAttachment : viewModel.getFullCard().getAttachments()) {
                 final String existingPath = existingAttachment.getLocalPath();
-                if (existingPath != null && existingPath.equals(fileToUpload.getName())) { // TODO getName == getLocalPath whaat?
+                if (existingPath != null && existingPath.equals(fileToUpload.getAbsolutePath())) { // TODO getName == getLocalPath whaat?
                     BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
                     return;
                 }
@@ -204,7 +204,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             a.setFilename(fileToUpload.getName());
             a.setBasename(fileToUpload.getName());
             a.setFilesize(fileToUpload.length());
-            a.setLocalPath(fileToUpload.getName());// TODO getName == getLocalPath whaat?
+            a.setLocalPath(fileToUpload.getAbsolutePath());
             a.setLastModifiedLocal(now);
             a.setStatusEnum(DBStatus.LOCAL_EDITED);
             a.setCreatedAt(now);
