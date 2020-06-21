@@ -1,2 +1,3 @@
 - 🐞 Activities do not load deterministically (#518)
 - 🐞 Card order not synced properly (#524)
+- 📎 Improve attachment handling (#516)
