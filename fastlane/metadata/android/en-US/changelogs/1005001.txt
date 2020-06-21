@@ -1,1 +1,2 @@
 - 🐞 Activities do not load deterministically (#518)
+- 🐞 Card order not synced properly (#524)
