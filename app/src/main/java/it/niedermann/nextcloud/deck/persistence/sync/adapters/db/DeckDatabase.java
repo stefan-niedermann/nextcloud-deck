@@ -73,7 +73,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 SingleCardWidgetModel.class,
         },
         exportSchema = false,
-        version = 14
+        version = 15
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -154,9 +154,6 @@ public abstract class DeckDatabase extends RoomDatabase {
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE `SingleCardWidgetModel` (`widgetId` INTEGER PRIMARY KEY, `accountId` INTEGER, `boardId` INTEGER, `cardId` INTEGER, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )");
             database.execSQL("CREATE INDEX `index_SingleCardWidgetModel_cardId` ON `SingleCardWidgetModel` (`cardId`)");
-
-            // Account: eTag for Capabilities:
-            database.execSQL("ALTER TABLE `Account` ADD `etag` TEXT");
         }
     };
 
@@ -173,6 +170,14 @@ public abstract class DeckDatabase extends RoomDatabase {
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `DeckComment` ADD `parentId` INTEGER REFERENCES DeckComment(localId) ON DELETE CASCADE");
             database.execSQL("CREATE INDEX `idx_comment_parentID` ON DeckComment(parentId)");
+        }
+    };
+
+    private static final Migration MIGRATION_14_15 = new Migration(14, 15) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/435
+            database.execSQL("ALTER TABLE `Account` ADD `etag` TEXT");
         }
     };
 
@@ -204,6 +209,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_11_12)
                 .addMigrations(MIGRATION_12_13)
                 .addMigrations(MIGRATION_13_14)
+                .addMigrations(MIGRATION_14_15)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

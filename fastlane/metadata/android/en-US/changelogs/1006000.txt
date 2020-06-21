@@ -1,0 +1,1 @@
+- ⚡️ Speed up synchronization and reduce data traffic (requires Nextcloud ≥ 19)
