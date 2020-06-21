@@ -53,7 +53,7 @@ android {
 
 dependencies {
     // Single-Sign-On
-    implementation 'com.github.desperateCoder:Android-SingleSignOn:22932715ae'
+    implementation 'com.github.nextcloud:Android-SingleSignOn:master-SNAPSHOT'
     //    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.1'
 
     // --------------------

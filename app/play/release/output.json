@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "properties": [],
-      "versionCode": 1004004,
-      "versionName": "1004004",
+      "versionCode": 1005001,
+      "versionName": "1005001",
       "enabled": true,
       "outputFile": "app-play-release.apk"
     }
