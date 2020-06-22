@@ -909,6 +909,30 @@ public class SyncManager {
         return liveData;
     }
 
+    /**
+     * Moves the given {@param originCardLocalId} to the new target coordinates specified by {@param targetAccountId}, {@param targetBoardLocalId} and {@param targetStackLocalId}.
+     * If the {@param targetBoardLocalId} changes, this will apply some logic to make sure that we migrate as much data as possible without the risk of getting an illegal state.
+     * <p>
+     * 1) {@link FullCard#labels}
+     * <p>
+     * a) If a {@link Label} with the same {@link Label#title} exists (case insensitive) in the target, assign this {@link Label} instead of the origin
+     * b) If no similar {@link Label} exists:
+     * i) If user has {@link AccessControl#permissionManage}, create a new {@link Label} with this {@link Label#color} and {@link Label#title} and assign it
+     * ii) Else remove this {@link Label} from the {@link Card}
+     * <p>
+     * 2) {@link FullCard#assignedUsers}
+     * <p>
+     * a) If the {@link User} has at least view permission at the target {@link Board}, keep it (<strong>can</strong> be the case if the target {@link Account} is the same as the origin {@link Account} <strong>or</strong> the target {@link Account} is on the same Nextcloud instance as the origin {@link Account}
+     * b) Else {@link #unassignUserFromCard(User, Card)} (will always be the case if the target {@link Account} is on another Nextcloud isntance as the origin {@link Account})
+     * <p>
+     *
+     * https://github.com/stefan-niedermann/nextcloud-deck/issues/453
+     */
+    @SuppressWarnings("JavadocReference")
+    public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
         WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
