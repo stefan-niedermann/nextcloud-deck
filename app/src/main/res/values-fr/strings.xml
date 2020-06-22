@@ -240,4 +240,6 @@
     <string name="share_link">Lien de partage</string>
     <string name="archive_cards">Archiver les cartes</string>
     <string name="manage_accounts">Gérer les comptes</string>
-    </resources>
+    <string name="manage_list">Gérer la liste</string>
+    <string name="simple_reply">Répondre</string>
+</resources>

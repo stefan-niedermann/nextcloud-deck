@@ -245,4 +245,5 @@
     <string name="archive_cards">Zarchiwizuj karty</string>
     <string name="manage_accounts">Zarządzaj kontami</string>
     <string name="manage_list">Zarządzaj listą</string>
+    <string name="simple_reply">Odpowiedz</string>
 </resources>

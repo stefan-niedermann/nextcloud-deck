@@ -241,4 +241,5 @@
     <string name="archive_cards">Karten archivieren</string>
     <string name="manage_accounts">Konten verwalten</string>
     <string name="manage_list">Liste verwalten</string>
+    <string name="simple_reply">Antworten</string>
 </resources>

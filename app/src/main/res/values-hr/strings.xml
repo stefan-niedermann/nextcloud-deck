@@ -230,4 +230,5 @@
     <string name="info_box_version_not_supported">Inačica poslužitelja %1$s nije podržana, ažurirajte poslužitelj na inačicu %2$s</string>
     <string name="share_link">Dijeli poveznicu</string>
     <string name="manage_accounts">Upravljaj računima</string>
-    </resources>
+    <string name="simple_reply">Odgovori</string>
+</resources>
