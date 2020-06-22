@@ -245,4 +245,5 @@
     <string name="archive_cards">Archivovat karty</string>
     <string name="manage_accounts">Spravovat účty</string>
     <string name="manage_list">Spravovat sloupec</string>
+    <string name="simple_reply">Odpovědět</string>
 </resources>

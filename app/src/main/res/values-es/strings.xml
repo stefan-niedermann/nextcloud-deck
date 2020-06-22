@@ -241,4 +241,5 @@
     <string name="archive_cards">Tarjetas archivadas</string>
     <string name="manage_accounts">Gestionar cuentas</string>
     <string name="manage_list">Administrar su lista</string>
+    <string name="simple_reply">Responder</string>
 </resources>

@@ -226,4 +226,5 @@
     <string name="info_box_version_not_supported">גרסת השרת %1$s אינה נתמכת, נא לעדכן לגרסה %2$s</string>
     <string name="share_link">קישור שיתוף</string>
     <string name="manage_accounts">ניהול חשבונות</string>
-    </resources>
+    <string name="simple_reply">תגובה</string>
+</resources>
