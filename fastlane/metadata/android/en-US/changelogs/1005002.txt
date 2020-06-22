@@ -1,6 +1,7 @@
 1.5.2
 
 - 🐞 Fix bug which prevented account imports
+- 🌎 Language updates
 
 1.5.1
 
