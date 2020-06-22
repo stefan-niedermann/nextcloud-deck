@@ -9,7 +9,6 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.exceptions.HandledServerErrors;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -83,9 +82,9 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
                 if (!file.delete()) {
                     DeckLog.error("Could not delete local file: " + file.getAbsolutePath());
                 }
-                if (HandledServerErrors.ATTACHMENTS_FILE_ALREADY_EXISTS == HandledServerErrors.fromThrowable(throwable)) {
-                    dataBaseAdapter.deleteAttachment(accountId, entity, false);
-                }
+                // if (HandledServerErrors.ATTACHMENTS_FILE_ALREADY_EXISTS == HandledServerErrors.fromThrowable(throwable)) {
+                dataBaseAdapter.deleteAttachment(accountId, entity, false);
+                // }
                 responder.onError(throwable);
             }
         });
