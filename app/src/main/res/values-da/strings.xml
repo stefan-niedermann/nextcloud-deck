@@ -188,4 +188,5 @@
     <string name="info_box_maintenance_mode">Server i vedligeholdelsestilstand</string>
     <string name="share_link">Del link</string>
     <string name="manage_accounts">Administrer konti</string>
-    </resources>
+    <string name="simple_reply">Besvar</string>
+</resources>

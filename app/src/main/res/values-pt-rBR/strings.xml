@@ -241,4 +241,5 @@
     <string name="archive_cards">Cartões arquivados</string>
     <string name="manage_accounts">Gerenciar contas</string>
     <string name="manage_list">Gerenciar lista</string>
+    <string name="simple_reply">Responder</string>
 </resources>

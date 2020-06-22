@@ -84,7 +84,7 @@
 
     <string name="add_account">アカウントを追加</string>
     <string name="choose_account">アカウント選択</string>
-    <string name="add_card">新規カードを追加</string>
+    <string name="add_card">新しいカードを追加</string>
     <string name="activity">アクティビティ</string>
     <string name="add_list">リストを追加</string>
     <string name="rename_list">リスト名を変更</string>
@@ -238,4 +238,6 @@
     <string name="share_link">URLで共有</string>
     <string name="archive_cards">カードをアーカイブ</string>
     <string name="manage_accounts">アカウント管理</string>
-    </resources>
+    <string name="manage_list">リスト管理</string>
+    <string name="simple_reply">返信</string>
+</resources>
