@@ -723,6 +723,7 @@ public class SyncManager {
             card.getCard().setStackId(stack.getLocalId());
             card.getCard().setAccountId(accountId);
             card.getCard().setStatusEnum(DBStatus.LOCAL_EDITED);
+            card.getCard().setOrder(dataBaseAdapter.getHighestCardOrderInStack(localStackId) + 1);
             long localCardId = dataBaseAdapter.createCard(accountId, card.getCard());
             card.getCard().setLocalId(localCardId);
 

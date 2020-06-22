@@ -473,8 +473,11 @@ public class DataBaseAdapter {
 
     public long createCard(long accountId, Card card) {
         card.setAccountId(accountId);
-        card.setOrder(db.getCardDao().getHighestOrderInStack(card.getStackId()) + 1);
         return db.getCardDao().insert(card);
+    }
+
+    public int getHighestCardOrderInStack(long localStackId){
+        return db.getCardDao().getHighestOrderInStack(localStackId);
     }
 
     public void deleteCard(Card card, boolean setStatus) {
