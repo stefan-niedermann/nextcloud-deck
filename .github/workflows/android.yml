@@ -1,14 +1,17 @@
 name: Android CI
 
 on: [push, pull_request]
+
 jobs:
-  Validate Gradle Wrapper:
+  validation:
+    name: Validate Gradle Wrapper
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: gradle/wrapper-validation-action@v1
 
-  Unit tests:
+  test:
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,7 +22,8 @@ jobs:
       - name: Unit tests
         run: bash ./gradlew test --stacktrace
 
-  Android instrumented tests:
+  instrumented:
+    name: Android instrumented tests
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +37,8 @@ jobs:
           api-level: 29
           script: ./gradlew connectDevDebugAndroidTest --stacktrace
 
-  CodeQL-Build:
+  codeql:
+    name: CodeQL-Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -56,7 +61,8 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
 
-  Generate APK:
+  apk:
+    name: Generate APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
