@@ -19,14 +19,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
@@ -108,11 +111,10 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
                         }
                     }).start();
                 }
+                finish();
             } else {
                 appendText(fullCard, receivedText);
             }
-            syncManager.updateCard(fullCard);
-            finish();
         } catch (Throwable throwable) {
             handleException(throwable);
         }
@@ -140,15 +142,32 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
     }
 
     private void appendText(@NonNull FullCard fullCard, @NonNull String receivedText) {
-        // TODO display dialog and ask whether the text should be appended to description or added as a new comment
-        String oldDescription = fullCard.getCard().getDescription();
-        DeckLog.info("Adding to card #" + fullCard.getCard().getId() + " (" + fullCard.getCard().getTitle() + "): Text \"" + receivedText + "\"");
-        if (oldDescription == null || oldDescription.length() == 0) {
-            fullCard.getCard().setDescription(receivedText);
-        } else {
-            fullCard.getCard().setDescription(oldDescription + "\n\n" + receivedText);
-        }
-        Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
+        final String[] animals = {getString(R.string.append_text_to_description), getString(R.string.add_text_as_comment)};
+        new BrandedAlertDialogBuilder(this)
+                .setItems(animals, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            final String oldDescription = fullCard.getCard().getDescription();
+                            DeckLog.info("Adding to card #" + fullCard.getCard().getId() + " (" + fullCard.getCard().getTitle() + "): Text \"" + receivedText + "\"");
+                            fullCard.getCard().setDescription(
+                                    (oldDescription == null || oldDescription.length() == 0)
+                                            ? receivedText
+                                            : oldDescription + "\n\n" + receivedText
+                            );
+                            // TODO check return value
+                            syncManager.updateCard(fullCard);
+                            Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
+                            finish();
+                            break;
+                        case 1:
+                            final Account currentAccount = mainViewModel.getCurrentAccount();
+                            final DeckComment comment = new DeckComment(receivedText.trim(), currentAccount.getUserName(), new Date());
+                            syncManager.addCommentToCard(currentAccount.getId(), fullCard.getLocalId(), comment);
+                            Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
+                            finish();
+                            break;
+                    }
+                }).create().show();
     }
 
     @Override

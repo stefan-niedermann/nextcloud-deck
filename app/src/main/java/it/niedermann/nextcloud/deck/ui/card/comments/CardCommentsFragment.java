@@ -100,9 +100,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                 if (!TextUtils.isEmpty(binding.message.getText().toString().trim())) {
                     binding.emptyContentView.setVisibility(GONE);
                     binding.comments.setVisibility(VISIBLE);
-                    final DeckComment comment = new DeckComment(binding.message.getText().toString().trim());
-                    comment.setActorDisplayName(mainViewModel.getAccount().getUserName());
-                    comment.setCreationDateTime(new Date());
+                    final DeckComment comment = new DeckComment(binding.message.getText().toString().trim(), mainViewModel.getAccount().getUserName(), new Date());
                     final FullDeckComment parent = commentsViewModel.getReplyToComment().getValue();
                     if (parent != null) {
                         comment.setParentId(parent.getId());

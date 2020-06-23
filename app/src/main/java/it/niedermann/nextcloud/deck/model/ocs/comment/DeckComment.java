@@ -43,11 +43,14 @@ public class DeckComment extends AbstractRemoteEntity {
     @Ignore
     private List<Mention> mentions = new ArrayList<>();
 
-    public  DeckComment() {
+    public DeckComment() {
     }
+
     @Ignore
-    public  DeckComment(String message) {
+    public DeckComment(String message, String actorDisplayName, Date creationDateTime) {
         setMessage(message);
+        setActorDisplayName(actorDisplayName);
+        setCreationDateTime(creationDateTime);
     }
 
     public DeckComment(long cardId, String actorId, String actorDisplayName, String message) {

@@ -268,4 +268,6 @@
     <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
     <string name="error_while_uploading_attachment">Error while uploading attachment: %1$s</string>
+    <string name="append_text_to_description">Append to description</string>
+    <string name="add_text_as_comment">Add as comment</string>
 </resources>
