@@ -14,9 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -27,21 +27,25 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
+import it.niedermann.nextcloud.deck.ui.sharetarget.ShareProgressDialogFragment;
+import it.niedermann.nextcloud.deck.ui.sharetarget.ShareProgressViewModel;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
-import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.APPLICATION_OCTET_STREAM;
 
 public class SelectCardActivity extends MainActivity implements SelectCardListener {
 
     private boolean isFile;
+    private boolean cardSelected = false;
 
     private String receivedText;
     @NonNull
@@ -83,19 +87,31 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
 
     @Override
     public void onCardSelected(FullCard fullCard) {
+        if (cardSelected) {
+            return;
+        }
+        cardSelected = true;
         try {
             if (isFile) {
+                final ShareProgressViewModel shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
+                ShareProgressDialogFragment.newInstance().show(getSupportFragmentManager(), ShareProgressDialogFragment.class.getSimpleName());
+                shareProgressViewModel.postMax(mStreamsToUpload.size());
+
+                shareProgressViewModel.getProgress().observe(this, (currentValue) -> {
+                    if (currentValue == mStreamsToUpload.size()) {
+                        runOnUiThread(SelectCardActivity.this::finish);
+                    }
+                });
+
                 for (Parcelable sourceStream : mStreamsToUpload) {
-                    // TODO How to listen to all those threads finished?
                     new Thread(() -> {
                         if (!(sourceStream instanceof Uri)) {
-                            handleExceptionFromBackgroundThread(new UploadAttachmentFailedException("stream is not of type " + Uri.class.getSimpleName()));
+                            shareProgressViewModel.addException(new UploadAttachmentFailedException("stream is not of type " + Uri.class.getSimpleName()));
                             return;
                         }
                         final Uri uri = (Uri) sourceStream;
                         if (!ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
-                            Toast.makeText(this, "", Toast.LENGTH_LONG).show();
-                            handleExceptionFromBackgroundThread(new UploadAttachmentFailedException("Unhandled URI scheme: " + uri.getScheme()));
+                            shareProgressViewModel.addException(new UploadAttachmentFailedException("Unhandled URI scheme: " + uri.getScheme()));
                             return;
                         }
 
@@ -103,26 +119,29 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
                             File copiedFile = copyContentUriToTempFile(this, uri, fullCard.getAccountId(), fullCard.getCard().getLocalId());
                             String mimeType = getContentResolver().getType(uri);
                             if (mimeType == null) {
-                                mimeType = APPLICATION_OCTET_STREAM;
+                                throw new IllegalArgumentException("MimeType of uri is null. [" + uri + "]");
                             }
-                            syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, copiedFile);
-                        } catch (IOException | IllegalArgumentException e) {
-                            handleExceptionFromBackgroundThread(new UploadAttachmentFailedException("Error while uploading attachment", e));
+                            runOnUiThread(() -> {
+                                WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, copiedFile);
+                                liveData.observe(SelectCardActivity.this, (next) -> {
+                                    if (liveData.hasError()) {
+                                        shareProgressViewModel.addException(liveData.getError());
+                                    } else {
+                                        shareProgressViewModel.increaseProgress();
+                                    }
+                                });
+                            });
+                        } catch (Throwable t) {
+                            shareProgressViewModel.addException(new UploadAttachmentFailedException("Error while uploading attachment", t));
                         }
                     }).start();
                 }
-                finish();
             } else {
-                appendText(fullCard, receivedText);
+                appendTextAndFinish(fullCard, receivedText);
             }
         } catch (Throwable throwable) {
             handleException(throwable);
         }
-    }
-
-    private void handleExceptionFromBackgroundThread(@NonNull Throwable throwable) {
-        DeckLog.logError(throwable);
-        Toast.makeText(this, getString(R.string.error_while_uploading_attachment, throwable.getLocalizedMessage()), Toast.LENGTH_LONG).show();
     }
 
     private void handleException(@NonNull Throwable throwable) {
@@ -141,7 +160,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
         ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);
     }
 
-    private void appendText(@NonNull FullCard fullCard, @NonNull String receivedText) {
+    private void appendTextAndFinish(@NonNull FullCard fullCard, @NonNull String receivedText) {
         final String[] animals = {getString(R.string.append_text_to_description), getString(R.string.add_text_as_comment)};
         new BrandedAlertDialogBuilder(this)
                 .setItems(animals, (dialog, which) -> {
