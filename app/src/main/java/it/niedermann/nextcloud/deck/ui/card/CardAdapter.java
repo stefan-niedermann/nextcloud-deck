@@ -51,6 +51,7 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard>, Branded {
 
@@ -283,7 +284,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             case R.id.share_link: {
                 Intent shareIntent = new Intent()
                         .setAction(Intent.ACTION_SEND)
-                        .setType("text/plain")
+                        .setType(TEXT_PLAIN)
                         .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
                         .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
                         .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, currentBoardRemoteId, fullCard.getCard().getId()));

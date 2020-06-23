@@ -267,4 +267,5 @@
     <string name="manage_accounts">Manage accounts</string>
     <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
+    <string name="error_while_uploading_attachment">Error while uploading attachment: %1$s</string>
 </resources>

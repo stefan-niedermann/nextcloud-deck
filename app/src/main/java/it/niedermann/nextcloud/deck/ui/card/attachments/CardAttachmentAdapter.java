@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
@@ -144,12 +145,10 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             default: {
                 DefaultAttachmentViewHolder defaultHolder = (DefaultAttachmentViewHolder) holder;
 
-                if (attachment.getMimetype() != null) {
-                    if (attachment.getMimetype().startsWith("audio")) {
-                        holder.getPreview().setImageResource(R.drawable.ic_music_note_grey600_24dp);
-                    } else if (attachment.getMimetype().startsWith("video")) {
-                        holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
-                    }
+                if (MimeTypeUtil.isAudio(attachment.getMimetype())) {
+                    holder.getPreview().setImageResource(R.drawable.ic_music_note_grey600_24dp);
+                } else if (MimeTypeUtil.isVideo(attachment.getMimetype())) {
+                    holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
                 }
 
                 if (cardRemoteId != null) {
@@ -177,8 +176,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
 
     @Override
     public int getItemViewType(int position) {
-        String mimeType = attachments.get(position).getMimetype();
-        return (mimeType != null && mimeType.startsWith("image")) ? VIEW_TYPE_IMAGE : VIEW_TYPE_DEFAULT;
+        return MimeTypeUtil.isImage(attachments.get(position).getMimetype()) ? VIEW_TYPE_IMAGE : VIEW_TYPE_DEFAULT;
     }
 
     @Override

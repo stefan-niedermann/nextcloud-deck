@@ -30,13 +30,13 @@ import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.APPLICATION_OCTET_STREAM;
 
 public class SelectCardActivity extends MainActivity implements SelectCardListener {
-
-    private static final String MIMETYPE_TEXT_PREFIX = "text/";
 
     private boolean isFile;
 
@@ -53,7 +53,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
             final String receivedType = receivedIntent.getType();
             DeckLog.info(receivedAction);
             DeckLog.info(receivedType);
-            isFile = receivedType != null && !receivedType.startsWith(MIMETYPE_TEXT_PREFIX);
+            isFile = !MimeTypeUtil.isText(receivedType);
             if (isFile) {
                 if (Intent.ACTION_SEND.equals(receivedIntent.getAction())) {
                     mStreamsToUpload = Collections.singletonList(receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM));
@@ -83,26 +83,28 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
         try {
             if (isFile) {
                 for (Parcelable sourceStream : mStreamsToUpload) {
+                    // TODO How to listen to all those threads finished?
                     new Thread(() -> {
                         if (!(sourceStream instanceof Uri)) {
-                            DeckLog.logError(new UploadAttachmentFailedException("stream is not of type " + Uri.class.getSimpleName()));
+                            handleExceptionFromBackgroundThread(new UploadAttachmentFailedException("stream is not of type " + Uri.class.getSimpleName()));
                             return;
                         }
-                        Uri sourceUri = (Uri) sourceStream;
-                        if (!ContentResolver.SCHEME_CONTENT.equals(sourceUri.getScheme())) {
-                            DeckLog.logError(new UploadAttachmentFailedException("Unhandled URI scheme: " + sourceUri.getScheme()));
+                        final Uri uri = (Uri) sourceStream;
+                        if (!ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
+                            Toast.makeText(this, "", Toast.LENGTH_LONG).show();
+                            handleExceptionFromBackgroundThread(new UploadAttachmentFailedException("Unhandled URI scheme: " + uri.getScheme()));
                             return;
                         }
 
                         try {
-                            File copiedFile = copyContentUriToTempFile(this, sourceUri, fullCard.getAccountId(), fullCard.getCard().getLocalId());
-                            String mimeType = getContentResolver().getType(sourceUri);
+                            File copiedFile = copyContentUriToTempFile(this, uri, fullCard.getAccountId(), fullCard.getCard().getLocalId());
+                            String mimeType = getContentResolver().getType(uri);
                             if (mimeType == null) {
-                                mimeType = "application/octet-stream";
+                                mimeType = APPLICATION_OCTET_STREAM;
                             }
                             syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, copiedFile);
-                        } catch (IOException e) {
-                            DeckLog.logError(new UploadAttachmentFailedException("Error while uploading attachment", e));
+                        } catch (IOException | IllegalArgumentException e) {
+                            handleExceptionFromBackgroundThread(new UploadAttachmentFailedException("Error while uploading attachment", e));
                         }
                     }).start();
                 }
@@ -116,7 +118,12 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
         }
     }
 
-    private void handleException(Throwable throwable) {
+    private void handleExceptionFromBackgroundThread(@NonNull Throwable throwable) {
+        DeckLog.logError(throwable);
+        Toast.makeText(this, getString(R.string.error_while_uploading_attachment, throwable.getLocalizedMessage()), Toast.LENGTH_LONG).show();
+    }
+
+    private void handleException(@NonNull Throwable throwable) {
         DeckLog.logError(throwable);
         String debugInfos = ExceptionUtil.getDebugInfos(this, throwable, mainViewModel.getCurrentAccount());
         final AlertDialog dialog = new BrandedAlertDialogBuilder(this)

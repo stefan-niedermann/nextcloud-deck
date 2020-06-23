@@ -3,6 +3,10 @@ package it.niedermann.nextcloud.deck.util;
 import java.util.Locale;
 
 public class MimeTypeUtil {
+
+    public static final String TEXT_PLAIN = "text/plain";
+    public static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
+
     /**
      * @return 'True' if the mime type defines image
      */
@@ -28,7 +32,7 @@ public class MimeTypeUtil {
     /**
      * @return 'True' if mime type defines text
      */
-    private static boolean isText(String mimeType) {
+    public static boolean isText(String mimeType) {
         return mimeType != null && mimeType.toLowerCase(Locale.ROOT).startsWith("text/");
     }
 }
