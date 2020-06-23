@@ -1,6 +1,7 @@
 1.5.4
 
 - ➕ Allow to share text as comment
+- 🐞 Fixed adding new lists
 
 1.5.3
 

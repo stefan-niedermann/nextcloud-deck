@@ -694,6 +694,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 });
                 return true;
             }
+            case R.id.add_list: {
+                EditStackDialogFragment.newInstance(NO_STACK_ID).show(getSupportFragmentManager(), addList);
+                return true;
+            }
             case R.id.rename_list: {
                 final long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
                 observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), stackId), MainActivity.this, fullStack ->
