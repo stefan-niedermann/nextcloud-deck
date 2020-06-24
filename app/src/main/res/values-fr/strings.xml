@@ -231,6 +231,7 @@
     <string name="error_dialog_redirect">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés du fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
     <string name="error_dialog_version_not_parsable">Nous n\'avons pas pu déterminer la version de l\'app Deck côté serveur. Veuillez vérifier qu\'elle est bien installé et activé.</string>
     <string name="error_dialog_capabilities_not_parsable">Nous n\'avons pas pu récupérer les capacités de votre serveur. Veuillez vous assurer que votre serveur fonctionne bien et que les autres apps client peuvent accéder à Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Une pièce jointe n’a pas pu être téléversée. Veuillez essayer de la partager d’une autre façon et faites-nous part de ce bogue.</string>
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_network">Paramètres réseau</string>
     <string name="error_action_server_logs">Journaux serveur</string>
@@ -242,4 +243,4 @@
     <string name="manage_accounts">Gérer les comptes</string>
     <string name="manage_list">Gérer la liste</string>
     <string name="simple_reply">Répondre</string>
-</resources>
+    </resources>

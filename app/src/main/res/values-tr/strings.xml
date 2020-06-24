@@ -231,6 +231,7 @@
     <string name="error_dialog_redirect">Sunucunuz, üzerine Tahta uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
     <string name="error_dialog_version_not_parsable">Sunucu tarafındaki tahta uygulamasının sürümü belirlenemedi. Lütfen kurulmuş ve etkinleştirilmiş olduğundan emin olun.</string>
     <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
+    <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
     <string name="error_action_open_deck_info">Uygulama bilgilerini aç</string>
     <string name="error_action_open_network">Ağ ayarları</string>
     <string name="error_action_server_logs">Sunucu günlükleri</string>
@@ -242,4 +243,4 @@
     <string name="manage_accounts">Hesap yönetimi</string>
     <string name="manage_list">Liste yönetimi</string>
     <string name="simple_reply">Yanıtla</string>
-</resources>
+    </resources>

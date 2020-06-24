@@ -235,6 +235,7 @@
     <string name="error_dialog_redirect">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nie udało się ustalić wersji aplikacji Deck po stronie serwera. Upewnij się, że jest zainstalowany i włączony.</string>
     <string name="error_dialog_capabilities_not_parsable">Nie udało się sprawdzić możliwości Twojego serwera. Upewnij się, że serwer działa poprawnie oraz czy inne aplikacje klienckie mają dostęp do Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Nie można wysłać załącznika. Spróbuj udostępnić go w inny sposób oraz powiadom nas o tym błędzie.</string>
     <string name="error_action_open_deck_info">Otwórz informacje o aplikacji</string>
     <string name="error_action_open_network">Ustawienia sieci</string>
     <string name="error_action_server_logs">Logi serwera</string>
@@ -246,4 +247,4 @@
     <string name="manage_accounts">Zarządzaj kontami</string>
     <string name="manage_list">Zarządzaj listą</string>
     <string name="simple_reply">Odpowiedz</string>
-</resources>
+    </resources>
