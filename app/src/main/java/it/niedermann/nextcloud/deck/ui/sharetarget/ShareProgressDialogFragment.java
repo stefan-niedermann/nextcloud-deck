@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,11 +16,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogShareProgressBinding;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
-import it.niedermann.nextcloud.deck.util.ExceptionUtil;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static android.graphics.PorterDuff.Mode;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.util.ExceptionUtil.getDebugInfos;
 
 public class ShareProgressDialogFragment extends BrandedDialogFragment {
 
@@ -45,21 +50,51 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         viewModel.getMax().observe(requireActivity(), (nextMax) -> binding.progress.setMax(nextMax));
+
         viewModel.getProgress().observe(requireActivity(), (progress) -> {
             binding.progress.setProgress(progress);
             binding.progressText.setText(getString(R.string.progress_count, progress, viewModel.getMaxValue()));
+            final Integer currentMaxValue = viewModel.getMaxValue();
+            if (currentMaxValue != null && progress >= currentMaxValue) {
+                if (!viewModel.hasExceptions() && !viewModel.hasAlreadyExistingAttachments()) {
+                    Toast.makeText(requireContext(), getString(R.string.share_success, String.valueOf(currentMaxValue), viewModel.targetCardTitle), Toast.LENGTH_LONG).show();
+                    dismiss();
+                }
+            }
         });
 
         viewModel.getExceptions().observe(requireActivity(), (exceptions) -> {
-            if (exceptions.size() > 0) {
-                final StringBuilder debugInfos = new StringBuilder();
-                for (Throwable exception : exceptions) {
-                    debugInfos.append(ExceptionUtil.getDebugInfos(requireContext(), exception, null));
-                }
-                binding.stacktrace.setText(debugInfos);
-                binding.stacktraceContainer.setVisibility(View.VISIBLE);
+            final int exceptionsCount = exceptions.size();
+            if (exceptionsCount > 0) {
+                binding.errorCounter.setText(getResources().getQuantityString(R.plurals.progress_error_count, exceptionsCount));
+                binding.errorReportButton.setOnClickListener((v) -> {
+                    final StringBuilder debugInfos = new StringBuilder(exceptionsCount + " attachments failed to upload:");
+                    for (Throwable t : exceptions) {
+                        debugInfos.append(getDebugInfos(requireContext(), t, null));
+                    }
+                    ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException(debugInfos.toString()), null)
+                            .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                });
+                binding.errors.setVisibility(View.VISIBLE);
             } else {
-                binding.stacktraceContainer.setVisibility(View.GONE);
+                binding.errors.setVisibility(View.GONE);
+            }
+        });
+
+        viewModel.getAlreadyExistingAttachments().observe(requireActivity(), (duplicates) -> {
+            final int duplicatesCount = duplicates.size();
+            if (duplicatesCount > 0) {
+                final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+                binding.duplicates.removeAllViews();
+                for (String duplicate : duplicates) {
+                    TextView duplicateEntry = new TextView(requireContext());
+                    duplicateEntry.setLayoutParams(params);
+                    duplicateEntry.setText(duplicate);
+                    binding.duplicates.addView(duplicateEntry);
+                }
+                binding.duplicatesContainer.setVisibility(View.VISIBLE);
+            } else {
+                binding.duplicatesContainer.setVisibility(View.GONE);
             }
         });
     }
@@ -81,6 +116,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
     @Override
     public void applyBrand(int mainColor, int textColor) {
         binding.progress.getProgressDrawable().setColorFilter(
-                BrandedActivity.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor), Mode.SRC_IN);
+                getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor), Mode.SRC_IN);
+        binding.errorReportButton.setTextColor(getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
     }
 }
