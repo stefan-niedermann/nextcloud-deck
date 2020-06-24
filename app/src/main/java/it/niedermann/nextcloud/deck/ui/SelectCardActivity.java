@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +43,7 @@ import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
 public class SelectCardActivity extends MainActivity implements SelectCardListener {
 
@@ -93,54 +96,57 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
         cardSelected = true;
         try {
             if (isFile) {
-                final ShareProgressViewModel shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
-                ShareProgressDialogFragment.newInstance().show(getSupportFragmentManager(), ShareProgressDialogFragment.class.getSimpleName());
-                shareProgressViewModel.postMax(mStreamsToUpload.size());
-
-                shareProgressViewModel.getProgress().observe(this, (currentValue) -> {
-                    if (currentValue == mStreamsToUpload.size()) {
-                        runOnUiThread(SelectCardActivity.this::finish);
-                    }
-                });
-
-                for (Parcelable sourceStream : mStreamsToUpload) {
-                    new Thread(() -> {
-                        if (!(sourceStream instanceof Uri)) {
-                            shareProgressViewModel.addException(new UploadAttachmentFailedException("stream is not of type " + Uri.class.getSimpleName()));
-                            return;
-                        }
-                        final Uri uri = (Uri) sourceStream;
-                        if (!ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
-                            shareProgressViewModel.addException(new UploadAttachmentFailedException("Unhandled URI scheme: " + uri.getScheme()));
-                            return;
-                        }
-
-                        try {
-                            File copiedFile = copyContentUriToTempFile(this, uri, fullCard.getAccountId(), fullCard.getCard().getLocalId());
-                            String mimeType = getContentResolver().getType(uri);
-                            if (mimeType == null) {
-                                throw new IllegalArgumentException("MimeType of uri is null. [" + uri + "]");
-                            }
-                            runOnUiThread(() -> {
-                                WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, copiedFile);
-                                liveData.observe(SelectCardActivity.this, (next) -> {
-                                    if (liveData.hasError()) {
-                                        shareProgressViewModel.addException(liveData.getError());
-                                    } else {
-                                        shareProgressViewModel.increaseProgress();
-                                    }
-                                });
-                            });
-                        } catch (Throwable t) {
-                            shareProgressViewModel.addException(new UploadAttachmentFailedException("Error while uploading attachment", t));
-                        }
-                    }).start();
-                }
+                appendFilesAndFinish(fullCard);
             } else {
                 appendTextAndFinish(fullCard, receivedText);
             }
         } catch (Throwable throwable) {
             handleException(throwable);
+        }
+    }
+
+    private void appendFilesAndFinish(@NonNull FullCard fullCard) {
+        final ShareProgressViewModel shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
+        ShareProgressDialogFragment.newInstance().show(getSupportFragmentManager(), ShareProgressDialogFragment.class.getSimpleName());
+        shareProgressViewModel.setMax(mStreamsToUpload.size());
+        shareProgressViewModel.targetCardTitle = fullCard.getCard().getTitle();
+
+        for (Parcelable sourceStream : mStreamsToUpload) {
+            if (!(sourceStream instanceof Uri)) {
+                shareProgressViewModel.addException(new UploadAttachmentFailedException("Expected sourceStream to be " + Uri.class.getSimpleName() + " but was: " + (sourceStream == null ? null : sourceStream.getClass().getSimpleName())));
+                return;
+            }
+            final Uri uri = (Uri) sourceStream;
+            if (!ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
+                shareProgressViewModel.addException(new UploadAttachmentFailedException("Unhandled URI scheme: " + uri.getScheme()));
+                return;
+            }
+
+            new Thread(() -> {
+                try {
+                    final File tempFile = copyContentUriToTempFile(this, uri, fullCard.getAccountId(), fullCard.getCard().getLocalId());
+                    final String mimeType = getContentResolver().getType(uri);
+                    if (mimeType == null) {
+                        throw new IllegalArgumentException("MimeType of uri is null. [" + uri + "]");
+                    }
+                    runOnUiThread(() -> {
+                        final WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile);
+                        liveData.observe(SelectCardActivity.this, (next) -> {
+                            if (liveData.hasError()) {
+                                if (liveData.getError() instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) liveData.getError()).getStatusCode() == HTTP_CONFLICT) {
+                                    shareProgressViewModel.addAlreadyExistingAttachment(tempFile.getName());
+                                } else {
+                                    shareProgressViewModel.addException(liveData.getError());
+                                }
+                            } else {
+                                shareProgressViewModel.increaseProgress();
+                            }
+                        });
+                    });
+                } catch (Throwable t) {
+                    runOnUiThread(() -> shareProgressViewModel.addException(new UploadAttachmentFailedException("Error while uploading attachment for uri [" + uri + "]", t)));
+                }
+            }).start();
         }
     }
 

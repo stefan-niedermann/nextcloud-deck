@@ -12,15 +12,18 @@ import it.niedermann.nextcloud.deck.DeckLog;
 
 public class ShareProgressViewModel extends ViewModel {
 
+    public String targetCardTitle = "";
     @NonNull
     private MutableLiveData<List<Throwable>> exceptions = new MutableLiveData<>(new ArrayList<>());
     @NonNull
-    private MutableLiveData<Integer> max = new MutableLiveData<>(0);
+    private MutableLiveData<List<String>> alreadyExistingAttachments = new MutableLiveData<>(new ArrayList<>());
+    @NonNull
+    private MutableLiveData<Integer> max = new MutableLiveData<>();
     @NonNull
     private MutableLiveData<Integer> progress = new MutableLiveData<>(0);
 
-    public void postMax(int max) {
-        this.max.postValue(max);
+    public void setMax(int max) {
+        this.max.setValue(max);
     }
 
     public LiveData<Integer> getMax() {
@@ -32,16 +35,38 @@ public class ShareProgressViewModel extends ViewModel {
     }
 
     public void increaseProgress() {
-        Integer currentValue = this.progress.getValue();
+        final Integer currentValue = this.progress.getValue();
         if (currentValue == null) {
-            this.progress.postValue(0);
+            this.progress.setValue(0);
         } else {
-            this.progress.postValue(currentValue + 1);
+            this.progress.setValue(currentValue + 1);
         }
     }
 
     public LiveData<Integer> getProgress() {
         return this.progress;
+    }
+
+    public void addAlreadyExistingAttachment(String fileName) {
+        List<String> fileNames = this.alreadyExistingAttachments.getValue();
+        if (fileNames == null) {
+            fileNames = new ArrayList<>();
+        }
+        fileNames.add(fileName);
+        this.alreadyExistingAttachments.setValue(fileNames);
+        increaseProgress();
+    }
+
+    public boolean hasAlreadyExistingAttachments() {
+        List<String> alreadyExistingAttachments = this.alreadyExistingAttachments.getValue();
+        if (alreadyExistingAttachments == null) {
+            return false;
+        }
+        return alreadyExistingAttachments.size() > 0;
+    }
+
+    public LiveData<List<String>> getAlreadyExistingAttachments() {
+        return this.alreadyExistingAttachments;
     }
 
     public void addException(Throwable exception) {
@@ -51,8 +76,16 @@ public class ShareProgressViewModel extends ViewModel {
             exceptionList = new ArrayList<>();
         }
         exceptionList.add(exception);
-        this.exceptions.postValue(exceptionList);
+        this.exceptions.setValue(exceptionList);
         increaseProgress();
+    }
+
+    public boolean hasExceptions() {
+        List<Throwable> exceptions = this.exceptions.getValue();
+        if (exceptions == null) {
+            return false;
+        }
+        return exceptions.size() > 0;
     }
 
     public LiveData<List<Throwable>> getExceptions() {

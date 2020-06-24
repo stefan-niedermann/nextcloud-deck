@@ -124,6 +124,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                 holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
                 Glide.with(context)
                         .load(uri)
+                        .placeholder(R.drawable.ic_image_grey600_24dp)
                         .error(R.drawable.ic_image_grey600_24dp)
                         .into(holder.getPreview());
                 holder.itemView.setOnClickListener((v) -> {
