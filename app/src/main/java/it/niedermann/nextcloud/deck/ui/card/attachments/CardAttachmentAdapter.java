@@ -150,6 +150,10 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                     holder.getPreview().setImageResource(R.drawable.ic_music_note_grey600_24dp);
                 } else if (MimeTypeUtil.isVideo(attachment.getMimetype())) {
                     holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
+                } else if (MimeTypeUtil.isPdf(attachment.getMimetype())) {
+                    holder.getPreview().setImageResource(R.drawable.ic_baseline_picture_as_pdf_24);
+                } else {
+                    holder.getPreview().setImageResource(R.drawable.ic_attach_file_grey600_24dp);
                 }
 
                 if (cardRemoteId != null) {

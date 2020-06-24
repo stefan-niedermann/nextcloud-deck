@@ -12,11 +12,12 @@ import it.niedermann.nextcloud.deck.DeckLog;
 
 public class ShareProgressViewModel extends ViewModel {
 
+    @NonNull
     public String targetCardTitle = "";
     @NonNull
     private MutableLiveData<List<Throwable>> exceptions = new MutableLiveData<>(new ArrayList<>());
     @NonNull
-    private MutableLiveData<List<String>> alreadyExistingAttachments = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<List<String>> duplicateAttachments = new MutableLiveData<>(new ArrayList<>());
     @NonNull
     private MutableLiveData<Integer> max = new MutableLiveData<>();
     @NonNull
@@ -47,26 +48,26 @@ public class ShareProgressViewModel extends ViewModel {
         return this.progress;
     }
 
-    public void addAlreadyExistingAttachment(String fileName) {
-        List<String> fileNames = this.alreadyExistingAttachments.getValue();
+    public void addDuplicateAttachment(String fileName) {
+        List<String> fileNames = this.duplicateAttachments.getValue();
         if (fileNames == null) {
             fileNames = new ArrayList<>();
         }
         fileNames.add(fileName);
-        this.alreadyExistingAttachments.setValue(fileNames);
+        this.duplicateAttachments.setValue(fileNames);
         increaseProgress();
     }
 
-    public boolean hasAlreadyExistingAttachments() {
-        List<String> alreadyExistingAttachments = this.alreadyExistingAttachments.getValue();
-        if (alreadyExistingAttachments == null) {
+    public boolean hasAlreadyDuplicateAttachments() {
+        List<String> duplicateAttachments = this.duplicateAttachments.getValue();
+        if (duplicateAttachments == null) {
             return false;
         }
-        return alreadyExistingAttachments.size() > 0;
+        return duplicateAttachments.size() > 0;
     }
 
-    public LiveData<List<String>> getAlreadyExistingAttachments() {
-        return this.alreadyExistingAttachments;
+    public LiveData<List<String>> getDuplicateAttachments() {
+        return this.duplicateAttachments;
     }
 
     public void addException(Throwable exception) {
