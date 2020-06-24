@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiv
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPicker;
+import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPickerListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -50,13 +53,14 @@ import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAda
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
-public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener {
+public class CardAttachmentsFragment extends BrandedFragment implements AttachmentDeletedListener, AttachmentClickedListener, CardAttachmentPickerListener {
 
     private FragmentCardEditTabAttachmentsBinding binding;
     private EditCardViewModel viewModel;
 
-    private static final int REQUEST_CODE_ADD_ATTACHMENT = 1;
-    private static final int REQUEST_PERMISSION = 2;
+    private static final int REQUEST_CODE_ADD_FILE = 1;
+    private static final int REQUEST_CODE_ADD_FILE_PERMISSION = 2;
+    private static final int REQUEST_CODE_CAPTURE_IMAGE = 3;
 
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
@@ -123,15 +127,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             updateEmptyContentView();
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && viewModel.canEdit()) {
-            binding.fab.setOnClickListener(v -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            REQUEST_PERMISSION);
-                } else {
-                    startFilePickerIntent();
-                }
-            });
+        if (viewModel.canEdit()) {
+            binding.fab.setOnClickListener(v -> new CardAttachmentPicker().show(getChildFragmentManager(), CardAttachmentPicker.class.getSimpleName()));
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -149,18 +146,10 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         return binding.getRoot();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void startFilePickerIntent() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
-        startActivityForResult(intent, REQUEST_CODE_ADD_ATTACHMENT);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ADD_ATTACHMENT && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE_ADD_FILE && resultCode == Activity.RESULT_OK) {
             if (data == null) {
                 ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Intent data is null"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 return;
@@ -235,7 +224,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_PERMISSION) {
+        if (requestCode == REQUEST_CODE_ADD_FILE_PERMISSION) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 startFilePickerIntent();
             }
@@ -263,7 +252,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         this.clickedItemPosition = position;
     }
 
-
     private void updateEmptyContentView() {
         if (this.adapter == null || this.adapter.getItemCount() == 0) {
             this.binding.emptyContentView.setVisibility(View.VISIBLE);
@@ -277,5 +265,37 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void applyBrand(int mainColor, int textColor) {
         applyBrandToFAB(mainColor, textColor, binding.fab);
+    }
+
+    @Override
+    public void pickCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_CODE_CAPTURE_IMAGE);
+        }
+    }
+
+    @Override
+    public void pickContact() {
+
+    }
+
+    @Override
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void pickFile() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_CODE_ADD_FILE_PERMISSION);
+        } else {
+            startFilePickerIntent();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void startFilePickerIntent() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        startActivityForResult(intent, REQUEST_CODE_ADD_FILE);
     }
 }

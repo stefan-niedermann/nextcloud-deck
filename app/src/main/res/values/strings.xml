@@ -276,4 +276,7 @@
         <item quantity="other">%1$d errors while uploading</item>
     </plurals>
     <string name="simple_report">Report</string>
+    <string name="simple_contact">Contact</string>
+    <string name="simple_file">File</string>
+    <string name="simple_camera">Camera</string>
 </resources>
