@@ -58,7 +58,7 @@ public class ShareTargetActivity extends MainActivity implements SelectCardListe
             final String receivedType = receivedIntent.getType();
             DeckLog.info(receivedAction);
             DeckLog.info(receivedType);
-            isFile = !MimeTypeUtil.isText(receivedType);
+            isFile = !MimeTypeUtil.isTextPlain(receivedType);
             if (isFile) {
                 if (Intent.ACTION_SEND.equals(receivedIntent.getAction())) {
                     mStreamsToUpload = Collections.singletonList(receivedIntent.getParcelableExtra(Intent.EXTRA_STREAM));

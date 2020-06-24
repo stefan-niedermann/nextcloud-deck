@@ -18,7 +18,7 @@ public class MimeTypeUtilTest {
                 "image/jpeg", "image/png", "image/tiff", "image/svg",
         };
         final String[] invalidMimeTypes = new String[]{
-                "audio/jpg", "img/jpg", "application/octet-stream", "image/djvu"
+                "audio/jpg", "img/jpg", "application/octet-stream", "image/djvu", "", null
         };
 
         for (String validMimeType : validMimeTypes) {
@@ -36,7 +36,7 @@ public class MimeTypeUtilTest {
                 "video/mkv", "video/mp4", "video/mp2", "ViDeO/avi", "VIDEO/mp4", "Video/mp2"
         };
         final String[] invalidMimeTypes = new String[]{
-                "audio/jpg", "img/jpg", "application/octet-stream"
+                "audio/jpg", "img/jpg", "application/octet-stream", "", null
         };
 
         for (String validMimeType : validMimeTypes) {
@@ -54,7 +54,7 @@ public class MimeTypeUtilTest {
                 "audio/mp3", "audio/ogg", "audio/vorbis", "audio/flac", "Audio/mp3", "AUDIO/MP3"
         };
         final String[] invalidMimeTypes = new String[]{
-                "text/plain", "img/jpg", "application/octet-stream"
+                "text/plain", "img/jpg", "application/octet-stream", "", null
         };
 
         for (String validMimeType : validMimeTypes) {
@@ -72,7 +72,7 @@ public class MimeTypeUtilTest {
                 "text/plain", "text/rtf", "text/PLAIN", "Text/Plain", "TEXT/rtf", "TEXT/RTF"
         };
         final String[] invalidMimeTypes = new String[]{
-                "audio/jpg", "img/jpg", "application/octet-stream"
+                "audio/jpg", "img/jpg", "application/octet-stream", "", null
         };
 
         for (String validMimeType : validMimeTypes) {
@@ -85,12 +85,48 @@ public class MimeTypeUtilTest {
     }
 
     @Test
+    public void isTextPlain() {
+        final String[] validMimeTypes = new String[]{
+                "text/plain", "TEXT/PLAIN", "Text/Plain"
+        };
+        final String[] invalidMimeTypes = new String[]{
+                "text/rtf", "text/jpg", "", null
+        };
+
+        for (String validMimeType : validMimeTypes) {
+            assertTrue("Expecting " + validMimeType + " to be a valid text mimetype", MimeTypeUtil.isTextPlain(validMimeType));
+        }
+
+        for (String invalidMimeType : invalidMimeTypes) {
+            assertFalse("Expecting " + invalidMimeType + " to be an invalid text mimetype", MimeTypeUtil.isTextPlain(invalidMimeType));
+        }
+    }
+
+    @Test
+    public void isContact() {
+        final String[] validMimeTypes = new String[]{
+                "text/vcard", "TEXT/VCARD", "Text/vCard", "text/VCard"
+        };
+        final String[] invalidMimeTypes = new String[]{
+                "text/plain", "text/rtf", "text/jpg", "", null
+        };
+
+        for (String validMimeType : validMimeTypes) {
+            assertTrue("Expecting " + validMimeType + " to be a valid text mimetype", MimeTypeUtil.isContact(validMimeType));
+        }
+
+        for (String invalidMimeType : invalidMimeTypes) {
+            assertFalse("Expecting " + invalidMimeType + " to be an invalid text mimetype", MimeTypeUtil.isContact(invalidMimeType));
+        }
+    }
+
+    @Test
     public void isPdf() {
         final String[] validMimeTypes = new String[]{
                 "application/pdf", "APPLICATION/PDF", "Application/Pdf"
         };
         final String[] invalidMimeTypes = new String[]{
-                "audio/jpg", "img/jpg", "application/octet-stream", "app/pdf"
+                "audio/jpg", "img/jpg", "application/octet-stream", "app/pdf", "", null
         };
 
         for (String validMimeType : validMimeTypes) {

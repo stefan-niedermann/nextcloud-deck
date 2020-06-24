@@ -152,6 +152,8 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                     holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
                 } else if (MimeTypeUtil.isPdf(attachment.getMimetype())) {
                     holder.getPreview().setImageResource(R.drawable.ic_baseline_picture_as_pdf_24);
+                } else if (MimeTypeUtil.isContact(attachment.getMimetype())) {
+                    holder.getPreview().setImageResource(R.drawable.ic_baseline_contact_mail_24);
                 } else {
                     holder.getPreview().setImageResource(R.drawable.ic_attach_file_grey600_24dp);
                 }
