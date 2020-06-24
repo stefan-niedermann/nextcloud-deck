@@ -36,7 +36,7 @@ public class AttachmentUtil {
         File cacheFile = new File(fullTempPath);
         File tempDir = cacheFile.getParentFile();
         if (tempDir == null) {
-            throw new FileNotFoundException("could not cacheFile.getPranetFile()");
+            throw new FileNotFoundException("could not cacheFile.getParentFile()");
         }
         if (!tempDir.exists()) {
             if (!tempDir.mkdirs()) {

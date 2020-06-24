@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -49,13 +50,26 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        binding.pickCamera.setOnClickListener((v) -> listener.pickCamera());
-        binding.pickContact.setOnClickListener((v) -> listener.pickContact());
+        binding.pickCamera.setOnClickListener((v) -> {
+            listener.pickCamera();
+            dismiss();
+        });
+        binding.pickContact.setOnClickListener((v) -> {
+            listener.pickContact();
+            dismiss();
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            binding.pickFile.setOnClickListener((v) -> listener.pickFile());
+            binding.pickFile.setOnClickListener((v) -> {
+                listener.pickFile();
+                dismiss();
+            });
         } else {
             binding.pickFile.setVisibility(View.GONE);
         }
+    }
+
+    public static DialogFragment newInstance() {
+        return new CardAttachmentPicker();
     }
 }
