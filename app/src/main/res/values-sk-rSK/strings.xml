@@ -235,6 +235,7 @@
     <string name="error_dialog_redirect">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými zmenami v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nepodarilo sa určiť verziu aplikácie Deck na strane servera. Skontrolujte, či je nainštalovaný a povolený.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepodarilo sa načítať možnosti vášho servera. Uistite sa, že váš server funguje správne a že ďalšie klientske aplikácie majú prístup k serveru Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Prílohu nebolo možné nahrať. Skúste to zdieľať iným spôsobom a dajte nám vedieť o tejto chybe.</string>
     <string name="error_action_open_deck_info">Otvoriť informácie o aplikácii</string>
     <string name="error_action_open_network">Nastavenia siete</string>
     <string name="error_action_server_logs">Záznamy udalostí na serveri</string>
@@ -246,4 +247,4 @@
     <string name="manage_accounts">Spravovať účty</string>
     <string name="manage_list">Spravovať zoznam</string>
     <string name="simple_reply">Odpoveď</string>
-</resources>
+    </resources>
