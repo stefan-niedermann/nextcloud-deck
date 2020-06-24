@@ -56,7 +56,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
             binding.progressText.setText(getString(R.string.progress_count, progress, viewModel.getMaxValue()));
             final Integer currentMaxValue = viewModel.getMaxValue();
             if (currentMaxValue != null && progress >= currentMaxValue) {
-                if (!viewModel.hasExceptions() && !viewModel.hasAlreadyExistingAttachments()) {
+                if (!viewModel.hasExceptions() && !viewModel.hasAlreadyDuplicateAttachments()) {
                     Toast.makeText(requireContext(), getString(R.string.share_success, String.valueOf(currentMaxValue), viewModel.targetCardTitle), Toast.LENGTH_LONG).show();
                     dismiss();
                 }
@@ -81,7 +81,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
             }
         });
 
-        viewModel.getAlreadyExistingAttachments().observe(requireActivity(), (duplicates) -> {
+        viewModel.getDuplicateAttachments().observe(requireActivity(), (duplicates) -> {
             final int duplicatesCount = duplicates.size();
             if (duplicatesCount > 0) {
                 final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);

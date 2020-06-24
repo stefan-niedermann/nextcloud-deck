@@ -84,5 +84,21 @@ public class MimeTypeUtilTest {
         }
     }
 
+    @Test
+    public void isPdf() {
+        final String[] validMimeTypes = new String[]{
+                "application/pdf", "APPLICATION/PDF", "Application/Pdf"
+        };
+        final String[] invalidMimeTypes = new String[]{
+                "audio/jpg", "img/jpg", "application/octet-stream", "app/pdf"
+        };
 
+        for (String validMimeType : validMimeTypes) {
+            assertTrue("Expecting " + validMimeType + " to be a valid text mimetype", MimeTypeUtil.isPdf(validMimeType));
+        }
+
+        for (String invalidMimeType : invalidMimeTypes) {
+            assertFalse("Expecting " + invalidMimeType + " to be an invalid text mimetype", MimeTypeUtil.isPdf(invalidMimeType));
+        }
+    }
 }

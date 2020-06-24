@@ -5,7 +5,7 @@ import java.util.Locale;
 public class MimeTypeUtil {
 
     public static final String TEXT_PLAIN = "text/plain";
-    public static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
+    public static final String APPLICATION_PDF = "application/pdf";
 
     /**
      * @return 'True' if the mime type defines image
@@ -34,5 +34,12 @@ public class MimeTypeUtil {
      */
     public static boolean isText(String mimeType) {
         return mimeType != null && mimeType.toLowerCase(Locale.ROOT).startsWith("text/");
+    }
+
+    /**
+     * @return 'True' if mime type defines pdf
+     */
+    public static boolean isPdf(String mimeType) {
+        return APPLICATION_PDF.equals(mimeType.toLowerCase(Locale.ROOT));
     }
 }

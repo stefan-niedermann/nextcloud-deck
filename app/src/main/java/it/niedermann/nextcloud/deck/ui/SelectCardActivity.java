@@ -134,7 +134,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
                         liveData.observe(SelectCardActivity.this, (next) -> {
                             if (liveData.hasError()) {
                                 if (liveData.getError() instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) liveData.getError()).getStatusCode() == HTTP_CONFLICT) {
-                                    shareProgressViewModel.addAlreadyExistingAttachment(tempFile.getName());
+                                    shareProgressViewModel.addDuplicateAttachment(tempFile.getName());
                                 } else {
                                     shareProgressViewModel.addException(liveData.getError());
                                 }
