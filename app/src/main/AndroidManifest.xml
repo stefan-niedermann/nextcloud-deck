@@ -51,7 +51,7 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.SelectCardActivity"
+            android:name=".ui.sharetarget.ShareTargetActivity"
             android:label="@string/share_add_to_card"
             android:theme="@style/SplashTheme">
 

@@ -66,7 +66,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
         viewModel.getExceptions().observe(requireActivity(), (exceptions) -> {
             final int exceptionsCount = exceptions.size();
             if (exceptionsCount > 0) {
-                binding.errorCounter.setText(getResources().getQuantityString(R.plurals.progress_error_count, exceptionsCount));
+                binding.errorCounter.setText(getResources().getQuantityString(R.plurals.progress_error_count, exceptionsCount, exceptionsCount));
                 binding.errorReportButton.setOnClickListener((v) -> {
                     final StringBuilder debugInfos = new StringBuilder(exceptionsCount + " attachments failed to upload:");
                     for (Throwable t : exceptions) {

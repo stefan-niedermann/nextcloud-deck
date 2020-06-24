@@ -1,19 +1,16 @@
-package it.niedermann.nextcloud.deck.ui;
+package it.niedermann.nextcloud.deck.ui.sharetarget;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
@@ -23,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -34,18 +30,17 @@ import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.card.SelectCardListener;
-import it.niedermann.nextcloud.deck.ui.sharetarget.ShareProgressDialogFragment;
-import it.niedermann.nextcloud.deck.ui.sharetarget.ShareProgressViewModel;
-import it.niedermann.nextcloud.deck.util.ExceptionUtil;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
-import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 
-public class SelectCardActivity extends MainActivity implements SelectCardListener {
+public class ShareTargetActivity extends MainActivity implements SelectCardListener {
 
     private boolean isFile;
     private boolean cardSelected = false;
@@ -84,7 +79,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
                 binding.toolbar.setSubtitle(receivedText);
             }
         } catch (Throwable throwable) {
-            handleException(throwable);
+            ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
         }
     }
 
@@ -101,13 +96,14 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
                 appendTextAndFinish(fullCard, receivedText);
             }
         } catch (Throwable throwable) {
-            handleException(throwable);
+            cardSelected = false;
+            ExceptionDialogFragment.newInstance(throwable, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
         }
     }
 
     private void appendFilesAndFinish(@NonNull FullCard fullCard) {
-        final ShareProgressViewModel shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
         ShareProgressDialogFragment.newInstance().show(getSupportFragmentManager(), ShareProgressDialogFragment.class.getSimpleName());
+        final ShareProgressViewModel shareProgressViewModel = new ViewModelProvider(this).get(ShareProgressViewModel.class);
         shareProgressViewModel.setMax(mStreamsToUpload.size());
         shareProgressViewModel.targetCardTitle = fullCard.getCard().getTitle();
 
@@ -131,7 +127,7 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
                     }
                     runOnUiThread(() -> {
                         final WrappedLiveData<Attachment> liveData = syncManager.addAttachmentToCard(fullCard.getAccountId(), fullCard.getCard().getLocalId(), mimeType, tempFile);
-                        liveData.observe(SelectCardActivity.this, (next) -> {
+                        liveData.observe(ShareTargetActivity.this, (next) -> {
                             if (liveData.hasError()) {
                                 if (liveData.getError() instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) liveData.getError()).getStatusCode() == HTTP_CONFLICT) {
                                     shareProgressViewModel.addDuplicateAttachment(tempFile.getName());
@@ -150,25 +146,10 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
         }
     }
 
-    private void handleException(@NonNull Throwable throwable) {
-        DeckLog.logError(throwable);
-        String debugInfos = ExceptionUtil.getDebugInfos(this, throwable, mainViewModel.getCurrentAccount());
-        final AlertDialog dialog = new BrandedAlertDialogBuilder(this)
-                .setTitle(R.string.error)
-                .setMessage(debugInfos)
-                .setPositiveButton(android.R.string.copy, (a, b) -> {
-                    copyToClipboard(this, throwable.getMessage(), "```\n" + debugInfos + "\n```");
-                    finish();
-                })
-                .setNeutralButton(R.string.simple_close, null)
-                .create();
-        dialog.show();
-        ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setTypeface(Typeface.MONOSPACE);
-    }
-
     private void appendTextAndFinish(@NonNull FullCard fullCard, @NonNull String receivedText) {
         final String[] animals = {getString(R.string.append_text_to_description), getString(R.string.add_text_as_comment)};
         new BrandedAlertDialogBuilder(this)
+                .setOnCancelListener(dialog -> cardSelected = false)
                 .setItems(animals, (dialog, which) -> {
                     switch (which) {
                         case 0:
@@ -179,10 +160,16 @@ public class SelectCardActivity extends MainActivity implements SelectCardListen
                                             ? receivedText
                                             : oldDescription + "\n\n" + receivedText
                             );
-                            // TODO check return value
-                            syncManager.updateCard(fullCard);
-                            Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
-                            finish();
+                            WrappedLiveData<FullCard> liveData = syncManager.updateCard(fullCard);
+                            observeOnce(liveData, this, (next) -> {
+                                if (liveData.hasError()) {
+                                    cardSelected = false;
+                                    ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                } else {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.share_success, "\"" + receivedText + "\"", "\"" + fullCard.getCard().getTitle() + "\""), Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                            });
                             break;
                         case 1:
                             final Account currentAccount = mainViewModel.getCurrentAccount();
