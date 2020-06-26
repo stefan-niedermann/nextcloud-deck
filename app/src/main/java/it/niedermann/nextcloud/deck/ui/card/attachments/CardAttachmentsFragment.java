@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.SharedElementCallback;
 import androidx.core.content.FileProvider;
+import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -35,7 +36,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
@@ -54,6 +54,7 @@ import it.niedermann.nextcloud.deck.ui.card.attachments.picker.CardAttachmentPic
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static android.app.Activity.RESULT_OK;
+import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
@@ -70,6 +71,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     private static final int REQUEST_CODE_ADD_FILE_PERMISSION = 2;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 3;
     private static final int REQUEST_CODE_PICK_CONTACT = 4;
+    private static final int REQUEST_CODE_PICK_CONTACT_PERMISSION = 5;
 
     private SyncManager syncManager;
     private CardAttachmentAdapter adapter;
@@ -156,20 +158,91 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     @Override
+    public void pickCamera() {
+        final Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+            Long localId = viewModel.getFullCard().getLocalId();
+            String imageFileName = "JPEG_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()) + "_";
+            File tempFile = new File(requireContext().getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + viewModel.getFullCard().getAccountId() + "/card-" + (localId == null ? "pending-creation" : localId) + '/' + imageFileName);
+
+            Uri photoURI = FileProvider.getUriForFile(requireContext(),
+                    BuildConfig.APPLICATION_ID + ".fileprovider",
+                    tempFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePictureIntent, REQUEST_CODE_ADD_FILE);
+        }
+    }
+
+    @Override
+    public void pickContact() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), Manifest.permission.READ_CONTACTS) != PermissionChecker.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_PICK_CONTACT_PERMISSION);
+        } else {
+            final Intent intent = new Intent(Intent.ACTION_PICK)
+                    .setType(ContactsContract.Contacts.CONTENT_TYPE);
+            if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
+                startActivityForResult(intent, REQUEST_CODE_PICK_CONTACT);
+            }
+        }
+    }
+
+    @Override
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void pickFile() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), Manifest.permission.READ_CONTACTS) != PermissionChecker.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_CODE_ADD_FILE_PERMISSION);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+                    .addCategory(Intent.CATEGORY_OPENABLE)
+                    .setType("*/*");
+            startActivityForResult(intent, REQUEST_CODE_ADD_FILE);
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_PICK_CONTACT: {
+//                Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, lookupKey);
                 Uri uri = (Uri) data.getData();
-                try {
-                    Cursor a = requireContext().getContentResolver().query(uri, null, null, null, null);
-                    Objects.requireNonNull(a).moveToFirst();
-                    for(int i = 0; i < a.getColumnCount(); i++) {
-                        Log.e("col:", a.getColumnName(i) + " | " + a.getString(i));
-                    }
-                } catch (Exception e) {
 
+                ContentResolver cr = requireContext().getContentResolver();
+                // Get the Cursor of all the contacts
+                Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+
+                // Move the cursor to first. Also check whether the cursor is empty or not.
+                if (cursor.moveToFirst()) {
+                    // Iterate through the cursor
+                    // Get the contacts name
+                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    Log.e("col: ", name);
+
+
+
+//
+//                    AssetFileDescriptor fd;
+//                    try
+//                    {
+//                        fd = requireContext().getContentResolver().openAssetFileDescriptor(uri, "r");
+//                        FileInputStream fis = fd.createInputStream();
+//                        byte[] buf = new byte[(int) fd.getDeclaredLength()];
+//                        fis.read(buf);
+//                        String VCard = new String(buf);
+//                        String path = Environment.getExternalStorageDirectory().toString() + File.separator + "POContactsRestore.vcf";
+//                        FileOutputStream mFileOutputStream = new FileOutputStream(path, true);
+//                        mFileOutputStream.write(VCard.toString().getBytes());
+//                        Log.d("Vcard",  VCard);
+//                    }
+//                    catch (Exception e1)
+//                    {
+//                        // TODO Auto-generated catch block
+//                        e1.printStackTrace();
+//                    }
                 }
+                // Close the curosor
+                cursor.close();
                 break;
             }
             case REQUEST_CODE_CAPTURE_IMAGE:
@@ -251,12 +324,17 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CODE_ADD_FILE_PERMISSION) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                startFilePickerIntent();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CODE_ADD_FILE_PERMISSION:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    pickFile();
+                }
+                break;
+            case REQUEST_CODE_PICK_CONTACT_PERMISSION:
+                pickContact();
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -288,50 +366,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void applyBrand(int mainColor, int textColor) {
         applyBrandToFAB(mainColor, textColor, binding.fab);
-    }
-
-    @Override
-    public void pickCamera() {
-        final Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(requireContext().getPackageManager()) != null) {
-            Long localId = viewModel.getFullCard().getLocalId();
-            String imageFileName = "JPEG_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()) + "_";
-            File tempFile = new File(requireContext().getApplicationContext().getFilesDir().getAbsolutePath() + "/attachments/account-" + viewModel.getFullCard().getAccountId() + "/card-" + (localId == null ? "pending-creation" : localId) + '/' + imageFileName);
-
-            Uri photoURI = FileProvider.getUriForFile(requireContext(),
-                    BuildConfig.APPLICATION_ID + ".fileprovider",
-                    tempFile);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            startActivityForResult(takePictureIntent, REQUEST_CODE_ADD_FILE);
-        }
-    }
-
-    @Override
-    public void pickContact() {
-        final Intent intent = new Intent(Intent.ACTION_PICK)
-                .setType(ContactsContract.Contacts.CONTENT_TYPE);
-        if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CODE_PICK_CONTACT);
-        }
-    }
-
-    @Override
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void pickFile() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_CODE_ADD_FILE_PERMISSION);
-        } else {
-            startFilePickerIntent();
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void startFilePickerIntent() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
-        startActivityForResult(intent, REQUEST_CODE_ADD_FILE);
     }
 
     public static Fragment newInstance() {
