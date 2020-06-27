@@ -698,6 +698,11 @@ public class DataBaseAdapter {
         return db.getBoardDao().getBoardByLocalCardIdDirectly(localCardId);
     }
 
+    @WorkerThread
+    public FullBoard getFullBoardByLocalCardIdDirectly(long localCardId) {
+        return db.getBoardDao().getFullBoardByLocalCardIdDirectly(localCardId);
+    }
+
     public JoinCardWithLabel getJoinCardWithLabel(Long localLabelId, Long localCardId) {
         return db.getJoinCardWithLabelDao().getJoin(localLabelId, localCardId);
     }
