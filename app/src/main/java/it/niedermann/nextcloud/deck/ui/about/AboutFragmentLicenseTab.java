@@ -29,8 +29,8 @@ public class AboutFragmentLicenseTab extends BrandedFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
         binding.aboutAppLicenseButton.setBackgroundColor(mainColor);
-        binding.aboutAppLicenseButton.setTextColor(textColor);
+        binding.aboutAppLicenseButton.setTextColor(mainColor);
     }
 }

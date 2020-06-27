@@ -114,7 +114,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
         binding.progress.getProgressDrawable().setColorFilter(
                 getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor), Mode.SRC_IN);
         binding.errorReportButton.setTextColor(getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));

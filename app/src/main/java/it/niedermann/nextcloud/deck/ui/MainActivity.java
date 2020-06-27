@@ -95,6 +95,7 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
 import static android.graphics.Color.parseColor;
@@ -120,6 +121,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     protected static final int ACTIVITY_SETTINGS = 2;
     public static final int ACTIVITY_MANAGE_ACCOUNTS = 4;
 
+    private ActionBarDrawerToggle toggle;
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
     protected SyncManager syncManager;
@@ -173,7 +175,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         setSupportActionBar(binding.toolbar);
 
-        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -191,7 +193,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }).observe(this, (List<Account> accounts) -> {
             if (accounts == null || accounts.size() == 0) {
                 // Last account has been deleted.  hasAccounts LiveData will handle this, but we make sure, that branding is reset.
-                Application.saveBrandColors(this, getResources().getColor(R.color.primary), Color.WHITE);
+                Application.saveBrandColors(this, getResources().getColor(R.color.primary));
                 return;
             }
 
@@ -229,7 +231,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
                 syncManager = new SyncManager(this);
 
-                Application.saveBrandColors(this, parseColor(mainViewModel.getCurrentAccount().getColor()), parseColor(mainViewModel.getCurrentAccount().getTextColor()));
+                Application.saveBrandColors(this, parseColor(mainViewModel.getCurrentAccount().getColor()));
                 Application.saveCurrentAccountId(this, mainViewModel.getCurrentAccount().getId());
                 if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
                     refreshCapabilities(mainViewModel.getCurrentAccount());
@@ -411,10 +413,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     }
 
     @Override
-    public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
-        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.stackTitles);
-        applyBrandToFAB(mainColor, textColor, binding.fab);
+    public void applyBrand(@ColorInt int mainColor) {
+        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
+        applyBrandToPrimaryTabLayout(mainColor, binding.stackTitles);
+        applyBrandToFAB(mainColor, binding.fab);
+
+
 
         // Is null as soon as the avatar has been set
 //        @Nullable
@@ -422,12 +426,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 //        if (accountSwitcherDrawable != null) {
 //            DrawableCompat.setTint(accountSwitcherDrawable, textColor);
 //        }
-
-        binding.listMenuButton.setBackgroundColor(mainColor);
-        binding.listMenuButton.setColorFilter(textColor);
+        DrawableCompat.setTint(headerBinding.logo.getDrawable(), ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK);
 
         headerBinding.headerView.setBackgroundColor(mainColor);
-        headerBinding.appName.setTextColor(textColor);
+        headerBinding.appName.setTextColor(ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK);
     }
 
     @Override
@@ -523,8 +525,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         recreate();
                     }
                     @ColorInt final int mainColor = parseColor(response.getColor());
-                    @ColorInt final int textColor = parseColor(response.getTextColor());
-                    runOnUiThread(() -> Application.saveBrandColors(MainActivity.this, mainColor, textColor));
+                    runOnUiThread(() -> Application.saveBrandColors(MainActivity.this, mainColor));
                 }
             }
 

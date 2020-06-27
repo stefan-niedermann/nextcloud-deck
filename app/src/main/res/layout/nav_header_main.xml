@@ -26,6 +26,5 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center_vertical"
         android:text="@string/app_name_short"
-        android:textColor="@android:color/white"
         android:textSize="24sp" />
 </RelativeLayout>

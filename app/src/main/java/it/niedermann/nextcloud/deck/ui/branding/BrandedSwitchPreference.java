@@ -16,17 +16,12 @@ import androidx.preference.SwitchPreference;
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
 
 public class BrandedSwitchPreference extends SwitchPreference implements Branded {
 
     @ColorInt
     private Integer mainColor = null;
-
-    @ColorInt
-    private Integer textColor = null;
 
     @Nullable
     private Switch switchView;
@@ -53,16 +48,15 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
 
         if (Application.isBrandingEnabled(getContext()) && holder.itemView instanceof ViewGroup) {
             switchView = findSwitchWidget(holder.itemView);
-            if (mainColor != null && textColor != null) {
+            if (mainColor != null) {
                 applyBrand();
             }
         }
     }
 
     @Override
-    public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
+    public void applyBrand(@ColorInt int mainColor) {
         this.mainColor = mainColor;
-        this.textColor = textColor;
         // onBindViewHolder is called after applyBrand, therefore we have to store the given values and apply them later.
         if (Application.isBrandingEnabled(getContext())) {
             applyBrand();
@@ -70,7 +64,7 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
     }
 
     private void applyBrand() {
-        if (switchView != null && SDK_INT >= JELLY_BEAN) {
+        if (switchView != null) {
             final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(getContext(), mainColor);
             // int trackColor = Color.argb(77, Color.red(finalMainColor), Color.green(finalMainColor), Color.blue(finalMainColor));
             DrawableCompat.setTintList(switchView.getThumbDrawable(), new ColorStateList(

@@ -39,7 +39,7 @@ public class ManageAccountsActivity extends BrandedActivity {
         adapter = new ManageAccountAdapter((account) -> {
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.getName());
             syncManager = new SyncManager(this);
-            Application.saveBrandColors(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
+            Application.saveBrandColors(this, Color.parseColor(account.getColor()));
             Application.saveCurrentAccountId(this, account.getId());
         }, (accountPair) -> {
             if (accountPair.first != null) {
@@ -50,7 +50,7 @@ public class ManageAccountsActivity extends BrandedActivity {
             Account newAccount = accountPair.second;
             if (newAccount != null) {
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), newAccount.getName());
-                Application.saveBrandColors(this, Color.parseColor(newAccount.getColor()), Color.parseColor(newAccount.getTextColor()));
+                Application.saveBrandColors(this, Color.parseColor(newAccount.getColor()));
                 Application.saveCurrentAccountId(this, newAccount.getId());
                 syncManager = new SyncManager(this);
             } else {
@@ -79,7 +79,7 @@ public class ManageAccountsActivity extends BrandedActivity {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+    public void applyBrand(int mainColor) {
+        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
     }
 }

@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.util.Calendar;
 
 import it.niedermann.nextcloud.deck.Application;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 public class BrandedTimePickerDialog extends TimePickerDialog implements Branded {
 
@@ -27,20 +25,19 @@ public class BrandedTimePickerDialog extends TimePickerDialog implements Branded
             setThemeDark(Application.getAppTheme(context));
             if (Application.isBrandingEnabled(context)) {
                 @ColorInt final int mainColor = Application.readBrandMainColor(context);
-                @ColorInt final int textColor = Application.readBrandTextColor(context);
-                applyBrand(mainColor, textColor);
+                applyBrand(mainColor);
             }
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
         @ColorInt final int buttonTextColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
         // Text in picker title is always white
-        setAccentColor(ColorUtil.contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : textColor);
+        setAccentColor(mainColor);
     }
 
     /**

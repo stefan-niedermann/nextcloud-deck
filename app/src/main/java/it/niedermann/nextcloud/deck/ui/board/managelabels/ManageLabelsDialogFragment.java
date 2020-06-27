@@ -108,9 +108,9 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        BrandedActivity.applyBrandToFAB(mainColor, textColor, binding.fab);
-        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.addLabelTitle);
+    public void applyBrand(int mainColor) {
+        BrandedActivity.applyBrandToFAB(mainColor, binding.fab);
+        BrandedActivity.applyBrandToEditText(mainColor, binding.addLabelTitle);
     }
 
     public static DialogFragment newInstance(long boardLocalId) {

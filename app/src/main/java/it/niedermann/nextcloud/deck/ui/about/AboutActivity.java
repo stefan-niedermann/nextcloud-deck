@@ -82,9 +82,9 @@ public class AboutActivity extends BrandedActivity {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
-        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
+    public void applyBrand(int mainColor) {
+        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
+        applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
     @NonNull

@@ -275,7 +275,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToFAB(mainColor, textColor, binding.fab);
+    public void applyBrand(int mainColor) {
+        applyBrandToFAB(mainColor, binding.fab);
     }
 }

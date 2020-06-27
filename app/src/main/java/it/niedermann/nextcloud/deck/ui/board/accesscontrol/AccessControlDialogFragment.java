@@ -135,9 +135,9 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.people);
-        this.adapter.applyBrand(mainColor, textColor);
+    public void applyBrand(int mainColor) {
+        BrandedActivity.applyBrandToEditText(mainColor, binding.people);
+        this.adapter.applyBrand(mainColor);
     }
 
     public static DialogFragment newInstance(long boardLocalId) {

@@ -346,7 +346,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
         this.mainColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(context, mainColor);
         notifyDataSetChanged();
     }

@@ -83,15 +83,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
         @Nullable Context context = getContext();
         if (context != null) {
             @ColorInt final int mainColor = Application.readBrandMainColor(context);
-            @ColorInt final int textColor = Application.readBrandTextColor(context);
-            applyBrand(mainColor, textColor);
+            applyBrand(mainColor);
         }
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        wifiOnlyPref.applyBrand(mainColor, textColor);
-        themePref.applyBrand(mainColor, textColor);
-        brandingPref.applyBrand(mainColor, textColor);
+    public void applyBrand(int mainColor) {
+        wifiOnlyPref.applyBrand(mainColor);
+        themePref.applyBrand(mainColor);
+        brandingPref.applyBrand(mainColor);
     }
 }
