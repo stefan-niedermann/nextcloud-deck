@@ -6,10 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/spacer_2x"
-    android:layout_marginLeft="@dimen/spacer_2x"
     android:layout_marginTop="@dimen/spacer_1x"
     android:layout_marginEnd="@dimen/spacer_2x"
-    android:layout_marginRight="@dimen/spacer_2x"
     android:layout_marginBottom="@dimen/spacer_1x"
     android:focusable="true">
 
@@ -25,9 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingStart="@dimen/spacer_2x"
-            android:paddingLeft="@dimen/spacer_2x"
-            android:paddingEnd="@dimen/spacer_2x"
-            android:paddingRight="@dimen/spacer_2x">
+            android:paddingEnd="@dimen/spacer_2x">
 
             <TextView
                 android:id="@+id/card_title"
@@ -54,7 +50,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/spacer_1hx"
-                android:paddingLeft="@dimen/spacer_1hx"
                 tools:ignore="RtlSymmetry">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -79,9 +74,7 @@
             android:layout_marginTop="@dimen/spacer_1x"
             android:animateLayoutChanges="true"
             android:paddingStart="@dimen/spacer_2x"
-            android:paddingLeft="@dimen/spacer_2x"
             android:paddingEnd="@dimen/spacer_2x"
-            android:paddingRight="@dimen/spacer_2x"
             app:flexWrap="nowrap"
             tools:layout_height="@dimen/avatar_size" />
 
@@ -91,9 +84,7 @@
             android:layout_marginTop="@dimen/spacer_1x"
             android:baselineAligned="false"
             android:paddingStart="@dimen/spacer_1x"
-            android:paddingLeft="@dimen/spacer_1x"
-            android:paddingEnd="@dimen/spacer_1x"
-            android:paddingRight="@dimen/spacer_1x">
+            android:paddingEnd="@dimen/spacer_1x">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -142,9 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacer_1x"
-                    android:layout_marginLeft="@dimen/spacer_1x"
                     android:layout_marginEnd="@dimen/spacer_1x"
-                    android:layout_marginRight="@dimen/spacer_1x"
                     android:gravity="end"
                     android:orientation="horizontal"
                     tools:layout_height="match_parent"

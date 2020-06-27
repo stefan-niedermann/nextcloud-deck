@@ -21,9 +21,10 @@
     <string name="simple_exception">Kivétel</string>
     <string name="simple_close">bezárás</string>
     <string name="simple_open">Megnyitás</string>
-    <string name="simple_filter">Szűrő</string>
+    <string name="simple_switch">Váltás</string>
+    <string name="simple_filter">Szűrés</string>
     <string name="simple_overdue">Lejárt</string>
-    <string name="simple_clear">Töröl</string>
+    <string name="simple_clear">Törlés</string>
     <string name="simple_discard">elvetés</string>
     <string name="simple_update">Frissítés</string>
     <string name="simple_delete">Törlés</string>
@@ -36,6 +37,7 @@
     <string name="simple_comment">Megjegyzés</string>
     <string name="simple_disabled">letiltva</string>
     <string name="simple_copied">Másolva</string>
+    <string name="simple_archive">Archívum</string>
 
     <string name="edit_board">Tábla szerkesztése</string>
     <string name="archive_board">Tábla archiválása</string>
@@ -65,7 +67,7 @@
     <string name="about_icons_disclaimer_app_icon">Az eredeti ikon itt található: %1$s.</string>
     <string name="about_icons_disclaimer_mdi_icons">Az alkalmazás által használt összes többi ikon a Google által készített %1$s része, és azok Apache 2.0 License alatt érhetők el.</string>
     <string name="about_icons_disclaimer_mdi">Material Design ikonok</string>
-    <string name="about_credits_tab_title">Köszönetnyilvánítás</string>
+    <string name="about_credits_tab_title">Köszönet</string>
     <string name="about_contribution_tab_title">Közreműködés</string>
     <string name="about_license_tab_title">Licenc</string>
 
@@ -77,8 +79,12 @@
     <string name="label_description">Leírás</string>
     <string name="hint_assign_people">Felhasználók hozzárendelése</string>
     <string name="hint_due_date_date">Határidő</string>
+    <string name="card_not_found">A kártya nem található</string>
+    <string name="card_not_found_message">A kártya nem található. Lehet, hogy nemrég törölték.</string>
+
     <string name="add_account">Fiók hozzáadása</string>
     <string name="choose_account">Válasszon fiókot</string>
+    <string name="add_card">Új kártya hozzáadása</string>
     <string name="activity">Tevékenység</string>
     <string name="add_list">Lista hozzáadása</string>
     <string name="rename_list">Lista átnevezése</string>
@@ -106,12 +112,22 @@
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
     <string name="no_lists_yet">Még nincsenek listák</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Ez véglegesen töröl %1$d kártyát a listából.</item>
+        <item quantity="other">Ez véglegesen törli mind a(z) %1$d kártyát a listából.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Ez véglegesen törli a címkét %1$d kártyáról.</item>
+        <item quantity="other">Ez véglegesen törli a címkét mind a(z) %1$d kártyáról.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Új lista hozzáadása a + gombbal</string>
     <string name="add_a_new_card_using_the_button">Új kártya hozzáadása a + gombbal</string>
     <string name="update_deck">Kártyák frissítése</string>
     <string name="your_deck_version_is_too_old">A Kártyák verziója túl régi</string>
+    <string name="deck_outdated_please_update">A Kártyák verziója túl régi (%1$s). Frissítse, hogy ezt az androidos alkalmazást használhassa kliensként.</string>
     <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
     <string name="settings_theme_title">Sötét téma</string>
+    <string name="settings_branding_title">Márkázas</string>
     <string name="settings_background_sync">Háttér-szinkronizálás</string>
     <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fin és mobil adatkapcsolaton</string>
     <string name="pref_value_wifi_only">Szinkronizálás csak Wi-Fin</string>
@@ -124,7 +140,7 @@
     <string name="owner">Tulajdonos</string>
     <string name="attachment_delete_message">Ez véglegesen törli ezt a mellékletet.</string>
     <string name="no_content">Még nincs tartalom</string>
-    <string name="last_background_sync">Legutóbbi háttér-szinkronizálás:</string>
+    <string name="last_background_sync">Legutóbbi szinkronizálás:</string>
     <string name="simple_off">Ki</string>
     <string name="minutes_15">15 perc</string>
     <string name="hour_1">1 óra</string>
@@ -136,8 +152,25 @@
     <string name="provide_at_least_a_title_or_description">Legalább címet vagy leírást adjon meg</string>
     <string name="welcome_text">Üdvözli a %1$s</string>
     <string name="save_card_before_attachment">A kártyát menteni kell, mielőtt mellékletek adhatók hozzá.</string>
+    <string name="maintenance_mode_explanation">A(z) %1$s kiszolgáló jelenleg karbantartási módban van. Lépjen kapcsolatba a rendszergazdával vagy próbálja újra.</string>
+    <string name="share_add_to_card">Kártyához adás</string>
+    <string name="share_success">%1$s sikeresen hozzáadva ehhez: %2$s</string>
+    <string name="could_not_copy_to_clipboard">Nem sikerült a vágólapra másolni</string>
+    <string name="add_comment">Hozzászólás hozzáadása</string>
     <string name="card_edit_comments">Hozzászólások</string>
+    <string name="no_comments_yet">Még nincsenek hozzászólások</string>
+    <string name="no_boards">Még nincsenek táblák</string>
+    <string name="add_a_new_board_using_the_button">Új tábla hozzáadása a + gombbal</string>
+    <string name="choose_board">Válasszon táblát</string>
+    <string name="choose_list">Válasszon listát</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Megnyitás böngészőben</string>
+    <string name="updating_card">Kártya frissítése…</string>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Lista áthelyezése jobbra</string>
+    <string name="move_list_left">Lista áthelyezése balra</string>
+
     <!-- Filter -->
     <string name="filter_no_filter">Mind</string>
     <string name="filter_overdue">Lejárt</string>
@@ -151,14 +184,61 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Archivált kártyák</string>
+    <string name="action_card_dearchive">Kártya archiválásának visszavonása</string>
+    <string name="action_archived_cards">Archivált kártyák tallózása</string>
+    <string name="attachment_already_exists">A melléklet már létezik</string>
+    <string name="pick_custom_color">Válasszon egyéni színt</string>
+    <string name="manage_tags">Címkék kezelése</string>
     <string name="add_tag">Címke hozzáadás</string>
+    <string name="tag_already_exists">A(z) %1$s már létezik</string>
+    <string name="tag_successfully_added">%1$s sikeresen hozzáadva</string>
+    <string name="edit_tag">%1$s szerkesztése</string>
     <string name="filter_tags_title">Címkék</string>
+    <string name="filter_user_title">Felhasználók</string>
     <string name="filter_duedate_title">Határidő</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Tábla archiválásának visszavonása</string>
+    <string name="archived_boards">Archivált táblák</string>
 
     <!-- Errors -->
     <string name="error">Hiba történt</string>
-    <string name="operation_not_yet_supported">Még nincs támogatva</string>
+    <string name="synchronization_failed">Szinkronizálás sikertelen</string>
+    <string name="operation_not_yet_supported">Még nem támogatott</string>
+    <string name="error_revoking_ac">Hiba a(z) %1$s elérésének visszavonásakor</string>
+    <string name="error_create_label">Hiba a(z) %1$s címke létrehozásakor</string>
     <string name="maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="server_misconfigured">A kiszolgáló hibásan van beállítva</string>
     <string name="server_error">Kiszolgálóhiba</string>
-    </resources>
+    <string name="shared_error">A harmadik féltől származó alkalmazások tartalmának megosztása még nem teljesen támogatott. Próbálja előbb letölteni, majd megosztani a natív fájlkezelőből vagy galériából.</string>
+    <string name="error_edit_activity_killed_by_android">Az Android befejezte a szerkesztési módot, mert több rendszererőforrás szükséges a többi alkalmazás számára.</string>
+
+    <string name="error_dialog_title">Jaj ne – Most mi legyen? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Próbálja kényszeríteni az alkalmazás bezárását, és indítsa újra. Lehet, hogy hibás volt a kapcsolat a többi Nextcloud alkalmazással.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
+    <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
+    <string name="error_dialog_tip_files_outdated">A Nextcloud alkalmazása elavultnak tűnik. Keresse fel a Play Áruházat vagy az F-Droidot, hogy beszerezze a legfrissebb verziót.</string>
+    <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>
+    <string name="error_dialog_tip_files_delete_storage">Ha a kényszerített leállítás nem segít, akkor megpróbálhatja mindkét alkalmazás tárolóját kiüríteni.</string>
+    <string name="error_dialog_timeout_instance">A megadott időn belül nem érkezett válasz a kiszolgálótól. Győződjön meg róla, hogy a példánya helyesen fut.</string>
+    <string name="error_dialog_timeout_toggle">Ellenőrizze a hálózati kapcsolatát. Néha a mobil adathasználat vagy a Wi-Fi ki- és bekapcsolása is segíthet.</string>
+    <string name="error_dialog_check_server">A kiszolgáló válasza helytelen volt. Ellenőrizze, hogy eléri-e a Kártyák alkalmazást a webes felületen keresztül.</string>
+    <string name="error_dialog_check_server_logs">Hiba van a Nextcloudja beállításaiban. Nézzen bele a kiszolgáló naplófájljaiba.</string>
+    <string name="error_dialog_check_maintenance">Ellenőrizze, hogy a Nextcloud példánya nincs-e karbantartási módban.</string>
+    <string name="error_dialog_insufficient_storage">A Nextcloud példányán elfogyott a szabad hely. Töröljön pár fájlt, hogy szinkronizálhassa a helyi változtatásait a felhővel.</string>
+    <string name="error_dialog_we_need_info">A következő műszaki információkra van szükségünk, hogy segíthessünk:</string>
+    <string name="error_dialog_redirect">A kiszolgálója 302-es HTTP állapotkóddal válaszolt, amely arra utal, hogy nincs telepítve a Kártyák alkalmazás a kiszolgálón, vagy valami hibásan van beállítva. Ezt egyéni felülírások is okozhatják, mint egy .htaccess-fájl vagy az OID klienshez hasonló Nextcloud alkalmazások.</string>
+    <string name="error_dialog_version_not_parsable">Nem sikerült meghatározni a kiszolgálóoldali Kártyák alkalmazás verzióját. Győződjön meg róla, hogy telepítve és engedélyezve van.</string>
+    <string name="error_dialog_capabilities_not_parsable">A képességek lekérése a kiszolgálójáról sikertelen. Győződjön meg róla, hogy a kiszolgálója rendesen fut-e, és hogy más kliensalkalmazások elérik-e a Nextcloudod.</string>
+    <string name="error_action_open_deck_info">Alkalmazásinformációk megnyitása</string>
+    <string name="error_action_open_network">Hálózati beállítások</string>
+    <string name="error_action_server_logs">Kiszolgálónaplók</string>
+    <string name="error_action_install">Telepítés</string>
+    <string name="info_box_maintenance_mode">A kiszolgáló karbantartási módban van</string>
+    <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
+    <string name="share_link">Hivatkozás megosztása</string>
+    <string name="archive_cards">Archív kártyák</string>
+    <string name="manage_accounts">Fiókok kezelése</string>
+    <string name="simple_reply">Válasz</string>
+    <string name="simple_report">Jelentés</string>
+</resources>

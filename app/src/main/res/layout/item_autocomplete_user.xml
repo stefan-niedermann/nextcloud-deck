@@ -21,9 +21,7 @@
         android:ellipsize="middle"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/spacer_1x"
-        android:paddingLeft="@dimen/spacer_1x"
         android:paddingEnd="@dimen/spacer_2x"
-        android:paddingRight="@dimen/spacer_2x"
         android:textAppearance="?attr/textAppearanceListItem"
         tools:text="@tools:sample/full_names" />
 

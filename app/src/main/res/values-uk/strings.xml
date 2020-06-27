@@ -1,12 +1,12 @@
 <resources>
-    <string name="navigation_drawer_open">Відкрити скриньку налаштувань</string>
-    <string name="navigation_drawer_close">Закрити скриньку налаштувань</string>
+    <string name="navigation_drawer_open">Розгорнути скриньку з навігацією</string>
+    <string name="navigation_drawer_close">Згорнути скриньку з навігацією</string>
 
-    <string name="drawer_header_background">Фонове зображення заголовка скрині</string>
+    <string name="drawer_header_background">Фонове зображення заголовку скрині</string>
     <string name="drawer_current_account">Поточний обліковий запис</string>
     <string name="drawer_middle_account">Проміжний обліковий запис</string>
     <string name="drawer_end_account">Останній обліковий запис</string>
-    <string name="drawer_manage_accounts">Управління обліковими записами</string>
+    <string name="drawer_manage_accounts">Облікові записи</string>
 
     <!-- Simple values -->
     <string name="simple_boards">Дошки</string>
@@ -15,7 +15,7 @@
     <string name="simple_more">Додатково</string>
     <string name="simple_title">Назва</string>
     <string name="simple_copy">копіювати</string>
-    <string name="simple_synchronization">Synchronization</string>
+    <string name="simple_synchronization">Синхронізація</string>
     <string name="simple_appearance">Вигляд</string>
     <string name="simple_error">Помилка</string>
     <string name="simple_exception">Виняток</string>
@@ -23,60 +23,68 @@
     <string name="simple_open">Відкрити</string>
     <string name="simple_switch">Перемкнути</string>
     <string name="simple_filter">Фільтр</string>
+    <string name="simple_overdue">Протерміновано</string>
     <string name="simple_clear">Очистити</string>
     <string name="simple_discard">відхилити</string>
     <string name="simple_update">Оновлення</string>
-    <string name="simple_delete">Видалити</string>
+    <string name="simple_delete">Вилучити</string>
     <string name="simple_rename">Перейменувати</string>
     <string name="simple_settings">Налаштування</string>
-    <string name="simple_undo">відмінити</string>
+    <string name="simple_undo">Скасувати</string>
     <string name="simple_manage">керувати</string>
     <string name="simple_share">поширити</string>
-    <string name="simple_select">Обрати</string>
+    <string name="simple_select">Вибрати</string>
     <string name="simple_comment">Коментар</string>
     <string name="simple_disabled">вимкнено</string>
     <string name="simple_copied">Скопійовано</string>
+    <string name="simple_archive">Архів</string>
 
     <string name="edit_board">Редагувати дошку</string>
     <string name="archive_board">Архівувати дошку</string>
-    <string name="delete_board">Видалити дошку</string>
-    <string name="delete_something">Видалити %1$s</string>
+    <string name="delete_board">Вилучити дошку</string>
+    <string name="delete_something">Вилучити %1$s</string>
 
     <!-- About -->
     <string name="about">Про програму</string>
     <string name="about_version_title">Версія</string>
     <string name="about_version">Ви використовуєте%1$s</string>
-    <string name="about_maintainer_title">Утримувач</string>
+    <string name="about_maintainer_title">Підтримка</string>
     <string name="about_developers_title">Розробники</string>
     <string name="about_translators_title">Перекладачі</string>
     <string name="about_translators_transifex">Спільнота Nextcloud на %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Тестувальники</string>
     <string name="about_source_title">Вихідний код</string>
-    <string name="about_source">Цей проект розвернутий на GitHub:%1$s</string>
+    <string name="about_source">Цей проєкт розміщено на GitHub:%1$s</string>
     <string name="about_issues_title">Проблеми</string>
-    <string name="about_issues">Ви можете повідомляти про помилки, пропонувати розширення та побажання на GitHub issue tracker:%1$s</string>
+    <string name="about_issues">Ви можете повідомляти про помилки, пропонувати удосконалення та надсилати запити на додаткові функції через систему відстеження вад GitHub:%1$s</string>
     <string name="about_translate_title">Перекласти</string>
-    <string name="about_translate">Приєднуйтесь до команди Nextcloud на Transifex і допоможіть нам перевести цей додаток:%1$s</string>
-    <string name="about_app_license_title">Ліцензія додатку</string>
+    <string name="about_translate">Приєднуйтесь до команди Nextcloud на Transifex та допоможіть нам перекласти цей застосунок:%1$s</string>
+    <string name="about_app_license_title">Ліцензія застосунку</string>
     <string name="about_app_license">Ця програма ліцензована під GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Переглянути ліцензію</string>
     <string name="about_icons_disclaimer_title">Значки</string>
+    <string name="about_icons_disclaimer_app_icon">Для оригінального розміру піктограми див. %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Усі значки, які було використано у цьому застосунку, є %1$s, розроблені Google Inc. та мають ліцензію Apache 2.0 License. </string>
     <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
     <string name="about_credits_tab_title">Подяки</string>
     <string name="about_contribution_tab_title">Внесок</string>
     <string name="about_license_tab_title">Ліцензія</string>
 
-    <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
+    <string name="copied_to_clipboard">Скопійовано</string>
 
     <string name="seconds_ago">секунд тому</string>
     <string name="edit">Редагувати</string>
-    <string name="label_labels">Обрати мітки</string>
+    <string name="label_labels">Вибрати позначки</string>
     <string name="label_description">Опис</string>
     <string name="hint_assign_people">Додавання користувача</string>
     <string name="hint_due_date_date">Дата завершення</string>
+    <string name="card_not_found">Картку не знайдено</string>
+    <string name="card_not_found_message">Неможливо знайти картку. Можливо її було нещодавно вилучено.</string>
+
     <string name="add_account">Додати обліковий запис</string>
     <string name="choose_account">Оберіть обліковий запис</string>
+    <string name="add_card">Додати нову картку</string>
     <string name="activity">Активність</string>
     <string name="add_list">Додати список</string>
     <string name="rename_list">Перейменувати список</string>
@@ -85,7 +93,7 @@
     <string name="action_card_assign">Призначити картку мені</string>
     <string name="action_card_unassign">Відв\'язати картку від мене</string>
     <string name="action_card_archive">Архівувати картку</string>
-    <string name="action_card_delete">Видалити картку</string>
+    <string name="action_card_delete">Вилучити картку</string>
     <string name="add_board">Додати дошку</string>
 
     <string name="label_clear_due_date">Очистити до</string>
@@ -94,7 +102,7 @@
     <string name="card_edit_details">Деталі</string>
     <string name="card_edit_attachments">Вкладення</string>
     <string name="card_edit_activity">Активність</string>
-    <string name="about_server_app_version_text">Версія додатку серверу:</string>
+    <string name="about_server_app_version_text">Версія застосунку серверу:</string>
     <string name="no_files_attached_to_this_card">До цієї картки не прикріплено жодного файла.</string>
     <string name="attachments">Вкладення</string>
     <string name="no_cards">Ще немає жодної картки</string>
@@ -103,24 +111,38 @@
     <string name="account_is_getting_imported">Відбувається імпорт облікового запису</string>
     <string name="not_synced_yet">Поки не синхронізовано</string>
     <string name="no_lists_yet">Поки що відсутні списки</string>
-    <string name="do_you_want_to_save_your_changes">Чи бажаєте Ви зберегти Ваші зміни?</string>
+    <string name="do_you_want_to_save_your_changes">Зберегти зміни?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Це вилучіть %1$d картку з цього списку.</item>
+        <item quantity="few">Це вилучіть усі %1$d карток з цього списку.</item>
+        <item quantity="many">Це вилучіть усі %1$d карток з цього списку.</item>
+        <item quantity="other">Це вилучіть усі %1$d карток з цього списку.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Це вилучить ярлик з %1$d картки.</item>
+        <item quantity="few">Це вилучить ярлик з %1$d карток.</item>
+        <item quantity="many">Це вилучить ярлик з %1$d карток.</item>
+        <item quantity="other">Це вилучить ярлик з %1$d карток.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Створюйте нові списки за допомогою кнопки (+)</string>
-    <string name="add_a_new_card_using_the_button">Додайте нову картку за допомогою кнопки +</string>
-    <string name="update_deck">Оновлення дошки</string>
-    <string name="your_deck_version_is_too_old">Версія Вашої дошки надто давня</string>
+    <string name="add_a_new_card_using_the_button">Додавайте нові картки за допомогою кнопки (+)</string>
+    <string name="update_deck">Оновити</string>
+    <string name="your_deck_version_is_too_old">Версія вашого застосунку застаріла</string>
+    <string name="deck_outdated_please_update">Версія вашого застосунку застаріла (%1$s). Будь ласка, оновіть її для використання застосунку на мобільному пристрої в якості клієнта .</string>
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_theme_title">Темна тема</string>
+    <string name="settings_branding_title">Оформлення</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
     <string name="pref_value_wifi_and_mobile">Синхронізація за допомогою Wi-Fi та мобільних даних</string>
     <string name="pref_value_wifi_only">Синхронізація тільки за допомогою WI-Fi</string>
     <string name="pref_value_theme_light">Світла</string>
-    <string name="unassigned_user">Непризначено %1$s</string>
-    <string name="no_activities">На цій картці немає активностей. Ви повинні під\'єднатися до інтернет щоб загрузити і показати активності.</string>
-    <string name="share_board">Поширити дошку</string>
-    <string name="you_are_currently_offline">Ви зараз оффлайн</string>
-    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Ви повинні під\'єднатися до інтернету щоб додати обліковий запис.</string>
+    <string name="unassigned_user">Скасовано призначення %1$s</string>
+    <string name="no_activities">На цій картці відсутні активності. Вам потрібно мати з\'єднання з мережею для завантаження та відображення активностей.</string>
+    <string name="share_board">Надати доступ до дошки</string>
+    <string name="you_are_currently_offline">Ви зараз поза мережею</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Для додавання облікового запису потрібне з\'єднання з мережею.</string>
     <string name="owner">Власник</string>
-    <string name="attachment_delete_message">Це вкладення буде остаточно видалене.</string>
+    <string name="attachment_delete_message">Це остаточно вилучіть це вкладення.</string>
     <string name="no_content">Жодного коментаря</string>
     <string name="last_background_sync">Остання фонова синхронізація:</string>
     <string name="simple_off">Вимкнути</string>
@@ -134,9 +156,10 @@
     <string name="provide_at_least_a_title_or_description">Щонайменше додайте назву чи опис</string>
     <string name="welcome_text">Вітаємо у %1$s</string>
     <string name="save_card_before_attachment">Перед додаванням вмісту потрібно зберегти картку</string>
+    <string name="maintenance_mode_explanation">Зараз сервер %1$s у режимі технічного обслуговування. Будь ласка, сконтактуйте з вашим адміністратором або спробуйте пізніше.</string>
     <string name="share_add_to_card">Додати до картки</string>
     <string name="share_success">Успішно додано %1$s до %2$s</string>
-    <string name="could_not_copy_to_clipboard">Неможливо скопіювати до буферу обміну</string>
+    <string name="could_not_copy_to_clipboard">Неможливо скопіювати</string>
     <string name="add_comment">Додати коментар</string>
     <string name="card_edit_comments">Коментарі</string>
     <string name="no_comments_yet">Коментарі відсутні</string>
@@ -154,14 +177,55 @@
 
     <!-- Filter -->
     <string name="filter_no_filter">Всі</string>
+    <string name="filter_overdue">Протерміновано</string>
     <string name="filter_today">Сьогодні</string>
+    <string name="filter_week">Наступні 7 днів</string>
+    <string name="filter_month">Наступні 30 днів</string>
+    <string name="filter_no_due">Без дати завершення</string>
+    <string name="filter_by_tag">Відібрати за позначками</string>
+    <string name="filter_by_assigned_user">Відібрати за призначеним користувачем</string>
+    <string name="filter_by_duedate">Відібрати за датою завершення</string>
+
+    <!-- Archived cards -->
+    <string name="archived_cards">Заархівовані картки</string>
+    <string name="action_card_dearchive">Скасувати архівування картки</string>
+    <string name="action_archived_cards">Перегляд заархівованих карток</string>
+    <string name="attachment_already_exists">Вкладення уже наявне</string>
+    <string name="pick_custom_color">Вибрати власний колір</string>
+    <string name="manage_tags">Керування позначками</string>
+    <string name="add_tag">Додати позначку</string>
+    <string name="tag_already_exists">%1$s уже наявне</string>
+    <string name="tag_successfully_added">%1$s успіно додано</string>
+    <string name="edit_tag">Редагувати %1$s</string>
     <string name="filter_tags_title">Позначки</string>
+    <string name="filter_user_title">Користувачі</string>
     <string name="filter_duedate_title">Дата завершення</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Скасувати архівування дошки</string>
+    <string name="archived_boards">Архівовані дошки</string>
 
     <!-- Errors -->
     <string name="error">Сталася помилка </string>
+    <string name="synchronization_failed">Синхронізація не вдалася</string>
     <string name="operation_not_yet_supported">Ще не підтримується</string>
+    <string name="error_revoking_ac">Помилка під час відкликання доступу для %1$s</string>
+    <string name="error_create_label">Помилка під час створення ярлика %1$s</string>
     <string name="maintenance_mode">Сервер у режимі обслуговування</string>
     <string name="server_misconfigured">Сервер налаштовано некоректно</string>
     <string name="server_error">Помилка серверу</string>
-    </resources>
+    <string name="shared_error">Спільний доступ до вмісту з інших застосунків ще не підтримується повністю. Будь ласка, спробуйте спочатку звантажити цей вміст, а потім поділитися ним через вбудований менеджер файлів або галерею.</string>
+    <string name="error_dialog_title">От халепа!</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
+    <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка видаліть деякі файлі, щоб синхронізувати ваші локальні зміни з вашим хмарним сховищем.</string>
+    <string name="error_action_open_deck_info">Відкрити інформацію про застосунок</string>
+    <string name="error_action_open_network">Налаштування мережі</string>
+    <string name="error_action_server_logs">Журнал сервера</string>
+    <string name="error_action_install">Встановити</string>
+    <string name="info_box_maintenance_mode">Сервер у режимі обслуговування</string>
+    <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
+    <string name="share_link">Поширити посилання</string>
+    <string name="manage_accounts">Облікові записи</string>
+    <string name="simple_reply">Відповісти</string>
+    <string name="simple_report">Звіт</string>
+</resources>

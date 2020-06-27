@@ -30,7 +30,7 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 | List View | Card View |
 | --- | --- |
-| ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) |
+| ![Screenshot of list view](/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) | ![Screenshot of card](/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png) |
 
 ## 🚀 Features
 * Multiple accounts 👥
@@ -46,7 +46,6 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * [Add more sources to upload attachments](https://github.com/stefan-niedermann/nextcloud-deck/issues/289)
 * [Move cards to other boards](https://github.com/stefan-niedermann/nextcloud-deck/issues/453)
 * [Clone boards](https://github.com/stefan-niedermann/nextcloud-deck/issues/455)
-* [Reply to comments](https://github.com/stefan-niedermann/nextcloud-deck/issues/454)
 * Further stabilization of the UI and bugfixes
 * [Improve synchronization speed](https://github.com/nextcloud/deck/issues/1650)
 
@@ -60,8 +59,8 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 
 ## 🔗 Requirements
 * [Nextcloud](https://nextcloud.com/) instance running
-* [Nextcloud Android](https://github.com/nextcloud/android) app installed (version 3.9.0 or later)
-* [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (version 0.6.4 or later)
+* [Nextcloud Android](https://github.com/nextcloud/android) app installed (≥ 3.9.0)
+* [Nextcloud Deck](https://github.com/nextcloud/deck) app enabled (≥ 0.6.4)
 
 ## 📓 License
 All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).

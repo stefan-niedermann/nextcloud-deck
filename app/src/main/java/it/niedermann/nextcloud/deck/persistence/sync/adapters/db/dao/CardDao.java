@@ -33,7 +33,7 @@ public interface CardDao extends GenericDao<Card> {
     FullCard getFullCardByLocalIdDirectly(final long accountId, final long localId);
 
     @Transaction                                                                                // v not deleted!
-    @Query("SELECT * FROM card WHERE accountId = :accountId AND stackId = :localStackId and archived = 0 and status<>3 order by `order`, createdAt asc")
+    @Query("SELECT * FROM card WHERE accountId = :accountId AND archived = 0 AND stackId = :localStackId and archived = 0 and status<>3 order by `order`, createdAt asc")
     LiveData<List<FullCard>> getFullCardsForStack(final long accountId, final long localStackId);
 
     @Transaction                                                                                // v not deleted!
@@ -75,4 +75,7 @@ public interface CardDao extends GenericDao<Card> {
 
     @Query("SELECT count(*) FROM card c WHERE accountId = :accountId and stackId = :localStackId and status <> 3")
     LiveData<Integer> countCardsInStack(long accountId, long localStackId);
+
+    @Query("SELECT coalesce(MAX(`order`), -1) FROM card c WHERE  stackId = :localStackId and status <> 3")
+    Integer getHighestOrderInStack(Long localStackId);
 }

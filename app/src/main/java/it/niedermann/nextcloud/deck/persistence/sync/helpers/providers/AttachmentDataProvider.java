@@ -3,11 +3,12 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import android.net.Uri;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
-import it.niedermann.nextcloud.deck.exceptions.HandledServerErrors;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
@@ -65,17 +66,25 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> responder, Attachment entity) {
-        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), entity.getType(), new File(entity.getLocalPath()), new IResponseCallback<Attachment>(responder.getAccount()) {
+        File file = new File(entity.getLocalPath());
+        serverAdapter.uploadAttachment(board.getId(), stack.getId(), card.getId(), entity.getType(), file, new IResponseCallback<Attachment>(responder.getAccount()) {
             @Override
             public void onResponse(Attachment response) {
-                responder.onResponse(response);
+                if (file.delete()) {
+                    responder.onResponse(response);
+                } else {
+                    responder.onError(new IOException("Could not delete local file after successful upload: " + file.getAbsolutePath()));
+                }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                if (HandledServerErrors.ATTACHMENTS_FILE_ALREADY_EXISTS == HandledServerErrors.fromThrowable(throwable)){
-                    dataBaseAdapter.deleteAttachment(accountId, entity, false);
+                if (!file.delete()) {
+                    DeckLog.error("Could not delete local file: " + file.getAbsolutePath());
                 }
+                // if (HandledServerErrors.ATTACHMENTS_FILE_ALREADY_EXISTS == HandledServerErrors.fromThrowable(throwable)) {
+                dataBaseAdapter.deleteAttachment(accountId, entity, false);
+                // }
                 responder.onError(throwable);
             }
         });
@@ -84,7 +93,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
     @Override
     public void updateOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<Attachment> callback, Attachment entity) {
         Uri uri = Uri.fromFile(new File(entity.getLocalPath()));
-        String type = Attachment.getMimetypeForUri(dataBaseAdapter.getContext(), uri);
+        String type = dataBaseAdapter.getContext().getContentResolver().getType(uri);
         serverAdapter.updateAttachment(board.getId(), stack.getId(), card.getId(), entity.getId(), type, uri, callback);
 
     }
@@ -104,7 +113,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
         List<Attachment> localAttachments = dataBaseAdapter.getAttachmentsForLocalCardIdDirectly(accountId, card.getLocalId());
         List<Attachment> delta = findDelta(entitiesFromServer, localAttachments);
         for (Attachment attachment : delta) {
-            if (attachment.getId() == null){
+            if (attachment.getId() == null) {
                 // not pushed up yet so:
                 continue;
             }
@@ -113,7 +122,7 @@ public class AttachmentDataProvider extends AbstractSyncDataProvider<Attachment>
         for (Attachment attachment : entitiesFromServer) {
             if (attachment.getDeletedAt() != null && attachment.getDeletedAt().getTime() != 0) {
                 Attachment toDelete = dataBaseAdapter.getAttachmentByRemoteIdDirectly(accountId, attachment.getId());
-                if (toDelete != null ) {
+                if (toDelete != null) {
                     dataBaseAdapter.deleteAttachment(accountId, toDelete, false);
                 }
             }

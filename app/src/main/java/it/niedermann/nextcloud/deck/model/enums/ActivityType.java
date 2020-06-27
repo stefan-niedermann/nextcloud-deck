@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.model.enums;
 
+import it.niedermann.nextcloud.deck.DeckLog;
+
 public enum ActivityType {
     DECK (1, "deck-dark.svg"),
     CHANGE (2, "change.svg"),
@@ -8,7 +10,8 @@ public enum ActivityType {
     ARCHIVE (5, "archive.svg"),
     HISTORY (6, "actions/history.svg"),
     FILES (7, "places/files.svg"),
-    COMMENT (8, "actions/comment.svg")
+    COMMENT (8, "actions/comment.svg"),
+    TAGGED_WITH_LABEL (9, "actions/tag.svg")
     ;
 
     int id;
@@ -40,7 +43,8 @@ public enum ActivityType {
                 return s;
             }
         }
-        throw new IllegalArgumentException("unknown ActivityType key");
+        DeckLog.error("unknown ActivityType path: " + id);
+        return CHANGE;
     }
 
     public static ActivityType findByPath(String path) {
@@ -52,6 +56,7 @@ public enum ActivityType {
                 return s;
             }
         }
-        throw new IllegalArgumentException("unknown ActivityType key");
+        DeckLog.error("unknown ActivityType path: " + path);
+        return CHANGE;
     }
 }

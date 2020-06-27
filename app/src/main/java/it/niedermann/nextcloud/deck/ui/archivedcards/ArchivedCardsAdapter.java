@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LifecycleOwner;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,8 +22,8 @@ import it.niedermann.nextcloud.deck.ui.card.ItemCardViewHolder;
 public class ArchivedCardsAdapter extends CardAdapter {
 
     @SuppressWarnings("WeakerAccess")
-    public ArchivedCardsAdapter(@NonNull Context context, @NonNull Account account, long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner) {
-        super(context, account, boardId, 0L, canEdit, syncManager, lifecycleOwner, null);
+    public ArchivedCardsAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull Account account, long boardId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner) {
+        super(context, fragmentManager, account, boardId, 0L, 0L, canEdit, syncManager, lifecycleOwner, null);
     }
 
     @Override

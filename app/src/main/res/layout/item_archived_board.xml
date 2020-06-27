@@ -20,7 +20,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="@dimen/spacer_1hx"
         android:layout_weight="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"

@@ -118,8 +118,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                 }
                                 assert error != null;
                                 setStatusText(error.getMessage());
-                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                runOnUiThread(() -> ExceptionDialogFragment.newInstance(error, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                 restoreWifiPref();
                             } else {
                                 // Remember last account - THIS HAS TO BE DONE SYNCHRONOUSLY
@@ -146,7 +145,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                                     public void onError(Throwable throwable) {
                                                         super.onError(throwable);
                                                         setStatusText(throwable.getMessage());
-                                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                                        runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                                         rollbackAccountCreation(syncManager, createdAccount.getId());
                                                     }
                                                 });
@@ -175,7 +174,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                                             setStatusText(R.string.you_have_to_be_connected_to_the_internet_in_order_to_add_an_account);
                                         } else {
                                             setStatusText(throwable.getMessage());
-                                            runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                                            runOnUiThread(() -> ExceptionDialogFragment.newInstance(throwable, createdAccount).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
                                         }
                                         rollbackAccountCreation(syncManager, createdAccount.getId());
                                     }

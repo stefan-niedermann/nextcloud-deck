@@ -37,6 +37,7 @@
     <string name="simple_comment">Iruzkina</string>
     <string name="simple_disabled">desgaituta</string>
     <string name="simple_copied">Kopiatuta</string>
+    <string name="simple_archive">Artxibatu</string>
 
     <string name="edit_board">Editatu mahaia</string>
     <string name="archive_board">Artxibatu mahaia</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Deskribapena</string>
     <string name="hint_assign_people">Esleitu erabiltzaileak</string>
     <string name="hint_due_date_date">Epe-muga</string>
+    <string name="card_not_found">Txartela ez da aurkitu</string>
+    <string name="card_not_found_message">Ezin izan da txartela aurkitu. Agian duela gutxi ezabatu da.</string>
+
     <string name="add_account">Gehitu kontua</string>
     <string name="choose_account">Aukeratu kontua</string>
     <string name="add_card">Gehitu txartel berria</string>
@@ -190,8 +194,12 @@
     <string name="tag_successfully_added">%1$s ondo gehitu da</string>
     <string name="edit_tag">Editatu %1$s</string>
     <string name="filter_tags_title">Etiketak</string>
-    <string name="filter_assignees_title">Esleitutako erabiltzaileak</string>
+    <string name="filter_user_title">Erabiltzaileak</string>
     <string name="filter_duedate_title">Epe-muga</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Desegin mahaiaren artxiboa</string>
+    <string name="archived_boards">Artxibatutako taulak</string>
 
     <!-- Errors -->
     <string name="error">Errore bat agertu da</string>
@@ -203,21 +211,27 @@
     <string name="server_misconfigured">Zerbitzaria gaizki konfiguratuta</string>
     <string name="server_error">Zerbitzari akatsa</string>
     <string name="shared_error">Hirugarrenen aplikazioetatik edukiak partekatzea ez da guztiz onartzen oraingoz. Saiatu lehenengo deskargatzen eta gero zure fitxategi kudeatzailetik edo galeriatik partekatzen.</string>
-
     <string name="error_dialog_title">Oh ez - Orain zer? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Saia zaitez aplikazioa itxi eta berrabiarazten. Agian Nextcloud aplikazioarekin gaizki konektatzea gertatu da.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Arazoak jarraitzen badu, saiatu bi aplikazioen biltegiak garbitzen: Nextcloud eta Nextcloud Sortak aplikazioenak arazoa konpontzeko.</string>
-    <string name="error_dialog_tip_clear_storage">Biltegiak garbitzeko androiden  ezarpenak → Aplikazioak → Nextcloud / Nextcloud Sortak → Biltegia → Garbitu biltegia.</string>
     <string name="error_dialog_tip_files_outdated">Daukazun Nextcloud aplikazioa zaharkituta dagoela dirudi. Zoaz Play Store edo F-Droidera azken bertsioa lortzeko.</string>
     <string name="error_dialog_tip_files_force_stop">Daukazun Nextcloud aplikazioan zerbait gaizki dabilela dirudi.  Saia zaitez Nextcloud aplikazioa eta Nextcloud Sortak geldiarazten. </string>
     <string name="error_dialog_tip_files_delete_storage">Geldiarazteak ez badu arazoa konpontzen, bi biltegiak garbitzen saia zaitezke.</string>
     <string name="error_dialog_timeout_instance">Ez da zerbitzariaren erantzunik jaso emandako denboran. Ziurta ezazu zure instantzia ondo dabilela.</string>
-    <string name="error_dialog_timeout_toggle">Egiaztatu sarera konexiorik duzun. Batzuetan, mugikorreko datuak edo Wi-Fia kendu eta berriro jartzeak laguntzen du.</string>
     <string name="error_dialog_check_server">Zerbitzariaren erantzuna ez da zuzena izan. Egiazta ezazu Sortak aplikazioa atzitu dezakezula web interfazearen bidez.</string>
     <string name="error_dialog_check_server_logs">Arazo bat dago zure Nextcloud ezarpenekin. Eman begiratu bat zerbitzariko egunkari-fitxategiei.</string>
     <string name="error_dialog_check_maintenance">Egiazta ezazu zure Nextcloud instantzia ez dagoela mantentze moduan une honetan.</string>
     <string name="error_dialog_insufficient_storage">Zure Nextcloud instantziak ez du biltegiratze leku libre gehiagorik. Ezabatu fitxategi batzuk, aldaketa lokalak hodeiarekin sinkroniza daitezen.</string>
-    <string name="error_dialog_contact_us">Mesedez, arazoak jarraitzen baldin badu ez izan zalantzarik gurekin harremanetan jartzeko. Alboko barran aurki dezakezu gurekin kontaktatzeko informazioa.</string>
     <string name="error_dialog_we_need_info">Zuri laguntzeko hurrengo informazio teknikoa behar dugu:</string>
     <string name="error_dialog_redirect">Zure zerbitzariak HTTP 302 egoera kodearekin erantzun du, honek esan nahi du ez duzula Sortak aplikazioa ez duzula zure zerbitzarian instalatu edo zerbait txarto konfiguratuta dagoela. Hau .htaccess fitxategi batean arau pertsonalizatuak daudelako edo OID Bezeroa izeneko aplikazioarengatik sortua izan daiteke. </string>
+    <string name="error_action_open_deck_info">Ireki aplikazioaren informazioa</string>
+    <string name="error_action_open_network">Sareko ezarpenak</string>
+    <string name="error_action_server_logs">Zerbitzariaren egunkariak</string>
+    <string name="error_action_install">Instalatu</string>
+    <string name="info_box_maintenance_mode">Zerbitzaria mantentze-lanen moduan</string>
+    <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
+    <string name="share_link">Partekatu esteka</string>
+    <string name="manage_accounts">Kudeatu kontuak</string>
+    <string name="simple_reply">Erantzun</string>
+    <string name="simple_report">Jakinarazi</string>
 </resources>

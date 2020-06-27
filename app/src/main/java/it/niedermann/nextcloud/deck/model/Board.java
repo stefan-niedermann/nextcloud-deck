@@ -8,18 +8,20 @@ import androidx.room.Index;
 import java.io.Serializable;
 import java.util.Date;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 @Entity(
         inheritSuperIndices = true,
         indices = {@Index("ownerId")},
         foreignKeys = {
-            @ForeignKey(
-                entity = User.class,
-                parentColumns = "localId",
-                childColumns = "ownerId", onDelete = ForeignKey.SET_NULL
-            )
+                @ForeignKey(
+                        entity = User.class,
+                        parentColumns = "localId",
+                        childColumns = "ownerId", onDelete = ForeignKey.SET_NULL
+                )
         }
 )
 public class Board extends AbstractRemoteEntity implements Serializable {
@@ -31,11 +33,14 @@ public class Board extends AbstractRemoteEntity implements Serializable {
     @Ignore
     public Board(String title, String color) {
         this.title = title;
-        this.color = color;
+        setColor(color);
     }
 
     private String title;
     private long ownerId;
+    /**
+     * Deck App sends color strings without leading # character
+     */
     private String color;
     private boolean archived;
     private int shared;
@@ -79,7 +84,14 @@ public class Board extends AbstractRemoteEntity implements Serializable {
     }
 
     public void setColor(String color) {
-        this.color = color;
+        try {
+            // Nextcloud might return color format #000 which cannot be parsed by Color.parseColor()
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/466
+            this.color = ColorUtil.formatColorToParsableHexString(color).substring(1);
+        } catch (Exception e) {
+            DeckLog.logError(e);
+            this.color = "757575";
+        }
     }
 
     public boolean isArchived() {

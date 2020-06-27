@@ -37,6 +37,7 @@
     <string name="simple_comment">Opomba</string>
     <string name="simple_disabled">onemogočeno</string>
     <string name="simple_copied">Kopirano!</string>
+    <string name="simple_archive">Arhiv</string>
 
     <string name="edit_board">Uredi zbirko</string>
     <string name="archive_board">Arhiviraj zbirko</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Dodeli uporabnike</string>
     <string name="hint_due_date_date">Datum preteka</string>
+    <string name="card_not_found">Naloge ni mogoče najti</string>
+    <string name="card_not_found_message">Naloge ni mogoče najti. Morda je bila pred kratkim izbrisana.</string>
+
     <string name="add_account">Dodaj račun</string>
     <string name="choose_account">Izbor računa</string>
     <string name="add_card">Dodaj novo nalogo</string>
@@ -108,18 +112,27 @@
     <string name="not_synced_yet">Še ni usklajeno</string>
     <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Ali želite arhivirati vse naloge %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">S tem boste trajno izbrisali %1$d nalogo tega seznama.</item>
         <item quantity="two">S tem boste trajno izbrisali %1$d nalogi tega seznama.</item>
         <item quantity="few">S tem boste trajno izbrisali %1$d naloge tega seznama.</item>
         <item quantity="other">S tem boste trajno izbrisali %1$d nalog tega seznama.</item>
     </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">S tem boste trajno izbrisali oznake %1$d naloge.</item>
+        <item quantity="two">S tem boste trajno izbrisali oznake %1$d nalog.</item>
+        <item quantity="few">S tem boste trajno izbrisali oznake %1$d nalog.</item>
+        <item quantity="other">S tem boste trajno izbrisali oznake %1$d nalog.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Nov seznam dodate s klikom na gumb +</string>
     <string name="add_a_new_card_using_the_button">Novo nalogo je mogoče dodati z gumbom +</string>
     <string name="update_deck">Posodobi zbirko</string>
     <string name="your_deck_version_is_too_old">Različica zbirke je prestara</string>
+    <string name="deck_outdated_please_update">Različica zbirke je prestara (%1$s). Za uporabo tega odjemalca je treba zbirko najprej posodobiti.</string>
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
     <string name="settings_theme_title">Temna tema</string>
+    <string name="settings_branding_title">Prilagajanje oblikovanja</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
@@ -144,6 +157,7 @@
     <string name="provide_at_least_a_title_or_description">Vpisati je treba vsaj naslov oziroma opis</string>
     <string name="welcome_text">Dobrodošli v %1$s</string>
     <string name="save_card_before_attachment">Nalogo je treba shraniti, preden je mogoče dodati prilogo.</string>
+    <string name="maintenance_mode_explanation">Strežnik %1$s je trenutno v načinu vzdrževanja. Stopite v stik s skrbnikom, ali pa poskusite kasneje.</string>
     <string name="share_add_to_card">Dodaj k nalogi</string>
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
     <string name="could_not_copy_to_clipboard">Predmeta ni mogoče kopirati v odložišče</string>
@@ -175,18 +189,62 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arhivirane naloge</string>
+    <string name="action_card_dearchive">Razveljavi arhiviranje naloge</string>
+    <string name="action_archived_cards">Prebrskaj med arhiviranimi nalogami</string>
+    <string name="attachment_already_exists">Priloga že obstaja</string>
+    <string name="pick_custom_color">Izbor barve po meri</string>
     <string name="manage_tags">Upravljanje oznak</string>
     <string name="add_tag">Dodaj oznako</string>
+    <string name="tag_already_exists">%1$s ne obstaja</string>
+    <string name="tag_successfully_added">%1$s je uspešno dodana</string>
+    <string name="edit_tag">Uredi %1$s</string>
     <string name="filter_tags_title">Oznake</string>
+    <string name="filter_user_title">Uporabniki</string>
     <string name="filter_duedate_title">Datum preteka</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Razveljavi arhiviranje zbirke</string>
+    <string name="archived_boards">Arhivirane zbirke</string>
 
     <!-- Errors -->
     <string name="error">Prišlo je do napake</string>
     <string name="synchronization_failed">Usklajevanje je spodletelo</string>
     <string name="operation_not_yet_supported">Možnost še ni podprta</string>
+    <string name="error_revoking_ac">Prišlo je do napake med obnavljanjem dostopa do %1$s.</string>
+    <string name="error_create_label">Prišlo je do napake med ustvarjanjem oznake %1$s.</string>
     <string name="maintenance_mode">Strežnik je v načinu vzdrževanja</string>
     <string name="server_misconfigured">Strežnik je napačno nastavljen</string>
     <string name="server_error">Napaka strežnika</string>
     <string name="shared_error">Souporaba vsebine prek programov iz tretje roke še ni povsem podprto. Datoteko najprej prejmite in omogočite souporabo prek datotek ali galerije.</string>
+    <string name="error_edit_activity_killed_by_android">Urejevalni način je bil sistemsko zaustavljen, ker druge naprave zahtevajo več virov.</string>
 
-    </resources>
+    <string name="error_dialog_title">Ojoj, kaj pa zdaj? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Poskusite vsiliti končanje programa in ga ponovno zagnati. Morda je težava v neustrezni povezavi z okoljem Nextcloud</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Nextcloud Deck.</string>
+    <string name="error_dialog_tip_clear_storage">Shrambo je mogoče počistiti med podrobnostmi programa Shramba → Počisti shrambo.</string>
+    <string name="error_dialog_tip_files_outdated">Program Nextcloud je očitno starejše različice. Posodobite jo prek Trgovine Play ali s posodabljalnikom F-Droid.</string>
+    <string name="error_dialog_tip_files_force_stop">Kaže, da je nekaj narobe s programom Nextcloud. Poskusite vsiljeno zaustaviti programa Nextcloud in Nextcloud Deck.</string>
+    <string name="error_dialog_tip_files_delete_storage">Vsiljeno zaustavljanje ni imelo ustreznega učinka. Poskusite lahko še počistiti podatke shrambe obeh programov.</string>
+    <string name="error_dialog_timeout_instance">V podanem času program ni pridobil ustreznega odziva strežnika. Prepričajte se, da program deluje pravilno.</string>
+    <string name="error_dialog_timeout_toggle">Preverite omrežno povezavo. Včasih preklapljanje med mobilnimi in Wi-Fi podatki razreši težavo.</string>
+    <string name="error_dialog_check_server">Prejet je napačen odziv s strežnika. Preverite, ali imate dostop do programa Deck prek spletnega vmesnika.</string>
+    <string name="error_dialog_check_server_logs">Prišlo je do napake z namestitvijo Nextcloud. Preverite zapis dnevnika na strežniku.</string>
+    <string name="error_dialog_check_maintenance">Preverite, ali je morda namestitev Nextcloud trenutno v vzdrževalnem načinu.</string>
+    <string name="error_dialog_insufficient_storage">Ni več prostora v shrambi. Izbrisati je treba nekaj datotek za nadaljevanje usklajevanja krajevnih datotek z oblakom.</string>
+    <string name="error_dialog_we_need_info">Z ustrezno pomoč potrebujemo nekaj tehničnih podrobnosti sistema:</string>
+    <string name="error_dialog_redirect">S strežnika je prejet odziv s kodo stanja HTTP 302, kar kaže na to, da program Deck ni nameščen, ali pa je napačno nastavljen. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID.</string>
+    <string name="error_dialog_version_not_parsable">Ni mogoče določiti različice strežnika, povezanega s programom Deck. Prepričajte se, da je nameščen in omogočen.</string>
+    <string name="error_dialog_capabilities_not_parsable">Ni mogoče pridobiti podatkov o zmožnostih strežnika. Prepričajte se, da strežnik teče in da imajo programi dostop do okolja Nextcloud.</string>
+    <string name="error_action_open_deck_info">Odpri podrobnosti programa</string>
+    <string name="error_action_open_network">Nastavitve omrežja</string>
+    <string name="error_action_server_logs">Dnevniki strežnika</string>
+    <string name="error_action_install">Namesti</string>
+    <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja</string>
+    <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
+    <string name="share_link">Povezava za souporabo</string>
+    <string name="archive_cards">Arhiviraj naloge</string>
+    <string name="manage_accounts">Upravljanje z računi</string>
+    <string name="manage_list">Upravljanje seznama</string>
+    <string name="simple_reply">Odgovori</string>
+    <string name="simple_report">Poročilo</string>
+</resources>

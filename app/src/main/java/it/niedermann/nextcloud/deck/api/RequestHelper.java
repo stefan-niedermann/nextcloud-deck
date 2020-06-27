@@ -4,9 +4,15 @@ import com.nextcloud.android.sso.api.NextcloudAPI;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
+import it.niedermann.nextcloud.deck.DeckLog;
 
 public class RequestHelper {
+
+    static {
+        RxJavaPlugins.setErrorHandler(DeckLog::logError);
+    }
 
     public static <T> void request(final ApiProvider provider, final ObservableProvider<T> call, final IResponseCallback<T> callback) {
 

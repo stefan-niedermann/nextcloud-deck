@@ -37,6 +37,7 @@
     <string name="simple_comment">Commento</string>
     <string name="simple_disabled">disabilitato</string>
     <string name="simple_copied">Copiato</string>
+    <string name="simple_archive">Archivio</string>
 
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Descrizione</string>
     <string name="hint_assign_people">Assegna utenti</string>
     <string name="hint_due_date_date">Data di scadenza</string>
+    <string name="card_not_found">Scheda non trovata</string>
+    <string name="card_not_found_message">Impossibile trovare la scheda. Forse è stata eliminata di recente.</string>
+
     <string name="add_account">Aggiungi account</string>
     <string name="choose_account">Scegli account</string>
     <string name="add_card">Aggiungi nuova scheda</string>
@@ -108,6 +112,7 @@
     <string name="not_synced_yet">Non ancora sincronizzata</string>
     <string name="no_lists_yet">Ancora nessun elenco</string>
     <string name="do_you_want_to_save_your_changes">Vuoi salvare le tue modifiche?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Vuoi archiviare tutte le schede di %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Questo eliminerà definitivamente %1$d scheda di questo elenco</item>
         <item quantity="other">Questo eliminerà definitivamente %1$d schede di questo elenco</item>
@@ -190,8 +195,12 @@
     <string name="tag_successfully_added">%1$s aggiunta correttamente</string>
     <string name="edit_tag">Modifica %1$s</string>
     <string name="filter_tags_title">Etichette</string>
-    <string name="filter_assignees_title">Assegnatari</string>
+    <string name="filter_user_title">Utenti</string>
     <string name="filter_duedate_title">Data di scadenza</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Annulla archiviazione della lavagna</string>
+    <string name="archived_boards">Lavagne archiviate</string>
 
     <!-- Errors -->
     <string name="error">Si è verificato un errore</string>
@@ -203,11 +212,12 @@
     <string name="server_misconfigured">Configurazione server non corretta</string>
     <string name="server_error">Errore del server</string>
     <string name="shared_error">La condivisione della condivisione di contenuti di applicazioni di terze parti non è ancora supportata. Prova a scaricarli prima e poi condividili dal gestore dei file nativo o dalla galleria.</string>
+    <string name="error_edit_activity_killed_by_android">Android ha terminato la modalità di modifica poiché richiedeva più risorse di sistema per le altre applicazioni.</string>
 
     <string name="error_dialog_title">Oh no - E adesso? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prova a forzare la chiusura dell\'applicazione e riavviarla nuovamente. Potrebbe essersi verificato un problema di connessione all\'applicazione Nextcloud. </string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Se il problema persiste, prova a cancellare l\'archiviazione di entrambe le applicazioni Nextcloud e Nextcloud Deck per risolvere il problema.</string>
-    <string name="error_dialog_tip_clear_storage">Puoi a cancellare l\'archiviazione aprendo le impostazioni di Android → App → Nextcloud / Nextcloud Deck → Archiviazione → Cancella archiviazione</string>
+    <string name="error_dialog_tip_clear_storage">Puoi a cancellare l\'archiviazione aprendo le informazioni dell\'applicazione e selezionando Archiviazione → Cancella archiviazione.</string>
     <string name="error_dialog_tip_files_outdated">La tua applicazione di Nextcloud sembra essere datata. Visita il Play Store o F-Droid per ottenere l\'ultima versione.</string>
     <string name="error_dialog_tip_files_force_stop">Sembra che ci sia un problema con la tua applicazione di Nextcloud. Prova a fermare entrambe le applicazioni Nextcloud e Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se fermarle non aiuta, puoi provare a cancellare l\'archiviazione di entrambe le applicazioni.</string>
@@ -217,7 +227,29 @@
     <string name="error_dialog_check_server_logs">Si è verificato un problema con la tua installazione di Nextcloud. Controlla nei file di registro del server.</string>
     <string name="error_dialog_check_maintenance">Controlla che la tua istanza di Nextcloud non sia attualmente in manutenzione.</string>
     <string name="error_dialog_insufficient_storage">La tua istanza di Nextcloud non ha più spazio libero. Elimina alcuni file per sincronizzare le modifiche locali con il tuo cloud.</string>
-    <string name="error_dialog_contact_us">Non esitare a contattarci se il problema persiste. Puoi trovare le nostre informazioni di contatto nella sezione Informazioni della barra laterale.</string>
     <string name="error_dialog_we_need_info">Ci servono le seguenti informazioni tecniche per aiutarti:</string>
     <string name="error_dialog_redirect">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causato da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client.</string>
+    <string name="error_dialog_version_not_parsable">Impossibile determinare la versione dell\'applicazione Deck lato server. Assicurati che sia installata e abilitata.</string>
+    <string name="error_dialog_capabilities_not_parsable">Non siamo riusciti a recuperare le funzionalità del tuo server. Assicurati che il server sia in esecuzione e che le altre applicazioni siano in grado di accedere a Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Un allegato non può essere caricato. Prova a condividerlo in un altro modo e informaci di questo problema.</string>
+    <string name="error_action_open_deck_info">Apri Informazioni applicazione</string>
+    <string name="error_action_open_network">Impostazioni di rete</string>
+    <string name="error_action_server_logs">Log del server</string>
+    <string name="error_action_install">Installa</string>
+    <string name="info_box_maintenance_mode">Server in manutenzione</string>
+    <string name="info_box_version_not_supported">Versione del server %1$s non supportata, aggiorna a %2$s</string>
+    <string name="share_link">Condividi collegamento</string>
+    <string name="archive_cards">Archivia schede</string>
+    <string name="manage_accounts">Gestisci account</string>
+    <string name="manage_list">Gestisci elenco</string>
+    <string name="simple_reply">Rispondi</string>
+    <string name="error_while_uploading_attachment">Errore durante il caricamento dell\'allegato: %1$s</string>
+    <string name="append_text_to_description">Aggiungi alla descrizione</string>
+    <string name="add_text_as_comment">Aggiungi come commento</string>
+    <string name="progress_count">%1$d di %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d errore durante il caricamento</item>
+        <item quantity="other">%1$d errori durante il caricamento</item>
+    </plurals>
+    <string name="simple_report">Segnala</string>
 </resources>

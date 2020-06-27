@@ -2,6 +2,8 @@
 
 -  📦 Archive boards (#472)
 - ☯️ Improved contrast ratio and design fine tuning
+- ❌ Display hint and disable synchronization when server version is incompatible (#423)
+- 🐞 Fix NullPointerExceptions on Board.getLocalId() after Android killed the app in background (#458, #477, #478)
 
 1.2.0
 

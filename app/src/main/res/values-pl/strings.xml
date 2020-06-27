@@ -37,6 +37,7 @@
     <string name="simple_comment">Komentarz</string>
     <string name="simple_disabled">wyłączony</string>
     <string name="simple_copied">Skopiowano</string>
+    <string name="simple_archive">Archiwizuj</string>
 
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
@@ -54,7 +55,7 @@
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_testers_title">Testerzy</string>
     <string name="about_source_title">Kod źródłowy</string>
-    <string name="about_source">Ten projekt jest hostowany na GitHub: %1$s</string>
+    <string name="about_source">Projekt jest hostowany na GitHub: %1$s</string>
     <string name="about_issues_title">Problemy</string>
     <string name="about_issues">Możesz zgłaszać błędy, propozycje ulepszeń i prośby o funkcje na GitHub: %1$s</string>
     <string name="about_translate_title">Tłumaczyć</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Opis</string>
     <string name="hint_assign_people">Przydziel użytkowników</string>
     <string name="hint_due_date_date">Data realizacji</string>
+    <string name="card_not_found">Nie znaleziono karty</string>
+    <string name="card_not_found_message">Nie można znaleźć karty. Być może została niedawno usunięta.</string>
+
     <string name="add_account">Dodaj konto</string>
     <string name="choose_account">Wybierz konto</string>
     <string name="add_card">Dodaj nową kartę</string>
@@ -108,6 +112,7 @@
     <string name="not_synced_yet">Jeszcze nie zsynchronizowane</string>
     <string name="no_lists_yet">Brak list</string>
     <string name="do_you_want_to_save_your_changes">Czy chcesz zachować zmiany?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Czy chcesz zarchiwizować wszystkie karty %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Spowoduje to trwałe usunięcie %1$d karty z tej listy.</item>
         <item quantity="few">Spowoduje to trwałe usunięcie wszystkich %1$d kart z tej listy.</item>
@@ -194,8 +199,12 @@
     <string name="tag_successfully_added">%1$s pomyślnie dodano</string>
     <string name="edit_tag">Edytuj %1$s</string>
     <string name="filter_tags_title">Etykiety</string>
-    <string name="filter_assignees_title">Przydzielony</string>
+    <string name="filter_user_title">Użytkownicy</string>
     <string name="filter_duedate_title">Data realizacji</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Cofnij archiwizację tablicy</string>
+    <string name="archived_boards">Zarchiwizowane tablice</string>
 
     <!-- Errors -->
     <string name="error">Wystąpił błąd</string>
@@ -207,11 +216,12 @@
     <string name="server_misconfigured">Serwer źle skonfigurowany</string>
     <string name="server_error">Błąd serwera</string>
     <string name="shared_error">Udostępnianie treści z aplikacji innych firm nie jest jeszcze w pełni obsługiwane. Spróbuj najpierw pobrać, a następnie udostępnić ją obecnemu menedżerowi plików lub galerii.</string>
+    <string name="error_edit_activity_killed_by_android">Android zakończył tryb edycji, ponieważ potrzebował więcej zasobów systemowych dla innych aplikacji.</string>
 
     <string name="error_dialog_title">O nie - co teraz? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Spróbuj wymusić zamknięcie aplikacji i uruchomić ją ponownie. Być może połączenie z aplikacją Nextcloud było nieprawidłowe.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Jeśli problem będzie się powtarzać, spróbuj wyczyścić pamięć obu aplikacji: Nextcloud i Nextcloud Deck, aby rozwiązać ten problem.</string>
-    <string name="error_dialog_tip_clear_storage">Możesz wyczyścić pamięć, otwierając ustawienia Androida → Aplikacje → Nextcloud/Nextcloud Deck → Pamięć → Wyczyść pamięć podręczną.</string>
+    <string name="error_dialog_tip_clear_storage">Możesz wyczyścić pamięć, otwierając informacje o aplikacji i wybierając Pamięć → Wyczyść pamięć podręczną.</string>
     <string name="error_dialog_tip_files_outdated">Twoja aplikacja Nextcloud wydaje się, że jest nieaktualna. Odwiedź Sklep Play lub F-Droid, aby pobrać najnowszą wersję.</string>
     <string name="error_dialog_tip_files_force_stop">Wydaje się, że coś jest nie tak z Twoją aplikacją Nextcloud. Spróbuj wymusić zatrzymanie aplikacji Nextcloud i Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Jeśli nie pomoże ich zatrzymanie, możesz spróbować wyczyścić pamięć obu aplikacji.</string>
@@ -221,7 +231,31 @@
     <string name="error_dialog_check_server_logs">Wystąpił problem z konfiguracją Nextcloud. Zajrzyj do plików dziennika serwera.</string>
     <string name="error_dialog_check_maintenance">Sprawdź, czy Twoja instancja Nextcloud nie jest obecnie w trybie konserwacji.</string>
     <string name="error_dialog_insufficient_storage">W Twojej instancji Nextcloud nie ma już wolnego miejsca. Usuń niektóre pliki, aby zsynchronizować lokalne zmiany w chmurze.</string>
-    <string name="error_dialog_contact_us">Jeśli problem będzie się powtarzał, skontaktuj się z nami. Nasze informacje kontaktowe można znaleźć w sekcji \"Informacje\" na pasku bocznym.</string>
     <string name="error_dialog_we_need_info">Potrzebujemy następujących informacji technicznych, aby Ci pomóc:</string>
     <string name="error_dialog_redirect">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client.</string>
+    <string name="error_dialog_version_not_parsable">Nie udało się ustalić wersji aplikacji Deck po stronie serwera. Upewnij się, że jest zainstalowany i włączony.</string>
+    <string name="error_dialog_capabilities_not_parsable">Nie udało się sprawdzić możliwości Twojego serwera. Upewnij się, że serwer działa poprawnie oraz czy inne aplikacje klienckie mają dostęp do Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Nie można wysłać załącznika. Spróbuj udostępnić go w inny sposób oraz powiadom nas o tym błędzie.</string>
+    <string name="error_action_open_deck_info">Otwórz informacje o aplikacji</string>
+    <string name="error_action_open_network">Ustawienia sieci</string>
+    <string name="error_action_server_logs">Logi serwera</string>
+    <string name="error_action_install">Zainstaluj</string>
+    <string name="info_box_maintenance_mode">Serwer w trybie konserwacji</string>
+    <string name="info_box_version_not_supported">Wersja serwera %1$s nie jest wspierana, zaktualizuj do wersji %2$s</string>
+    <string name="share_link">Udostępnij link</string>
+    <string name="archive_cards">Zarchiwizuj karty</string>
+    <string name="manage_accounts">Zarządzaj kontami</string>
+    <string name="manage_list">Zarządzaj listą</string>
+    <string name="simple_reply">Odpowiedz</string>
+    <string name="error_while_uploading_attachment">Błąd podczas przesyłania załącznika: %1$s</string>
+    <string name="append_text_to_description">Dołącz do opisu</string>
+    <string name="add_text_as_comment">Dodaj jako komentarz</string>
+    <string name="progress_count">%1$d z %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d błąd podczas wysyłania.</item>
+        <item quantity="few">%1$d błędy podczas wysyłania.</item>
+        <item quantity="many">%1$d błędów podczas wysyłania.</item>
+        <item quantity="other">%1$d błędów podczas wysyłania.</item>
+    </plurals>
+    <string name="simple_report">Raport</string>
 </resources>

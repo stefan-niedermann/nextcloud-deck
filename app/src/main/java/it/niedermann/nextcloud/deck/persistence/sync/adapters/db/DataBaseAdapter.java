@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -27,6 +28,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
@@ -34,8 +36,11 @@ import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
+import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
+import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
@@ -173,7 +178,7 @@ public class DataBaseAdapter {
             return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::filterRelationsForCard);
         }
 
-        List<Object> args = new ArrayList();
+        List<Object> args = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM card c " +
                 "WHERE accountId = ? AND stackId = ? ");
         args.add(accountId);
@@ -471,6 +476,10 @@ public class DataBaseAdapter {
         return db.getCardDao().insert(card);
     }
 
+    public int getHighestCardOrderInStack(long localStackId){
+        return db.getCardDao().getHighestOrderInStack(localStackId);
+    }
+
     public void deleteCard(Card card, boolean setStatus) {
         markAsDeletedIfNeeded(card, setStatus);
         if (setStatus) {
@@ -487,6 +496,10 @@ public class DataBaseAdapter {
     public void updateCard(Card card, boolean setStatus) {
         markAsEditedIfNeeded(card, setStatus);
         db.getCardDao().update(card);
+        if (db.getSingleCardWidgetModelDao().containsCardLocalId(card.getLocalId())) {
+            DeckLog.info("Notifying widget about card changes for \"" + card.getTitle() + "\"");
+            SingleCardWidget.notifyDatasetChanged(context);
+        }
     }
 
     public long createAccessControl(long accountId, AccessControl entity) {
@@ -736,6 +749,17 @@ public class DataBaseAdapter {
         });
     }
 
+    public LiveData<List<FullDeckComment>> getFullCommentsForLocalCardId(long localCardId) {
+        return LiveDataHelper.interceptLiveData(db.getCommentDao().getFullCommentByLocalCardId(localCardId), (list) -> {
+            for (FullDeckComment deckComment : list) {
+                deckComment.getComment().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getLocalId()));
+                if (deckComment.getParent() != null) {
+                    deckComment.getParent().setMentions(db.getMentionDao().getMentionsForCommentIdDirectly(deckComment.getComment().getParentId()));
+                }
+            }
+        });
+    }
+
     public DeckComment getCommentByRemoteIdDirectly(long accountId, Long remoteCommentId) {
         return db.getCommentDao().getCommentByRemoteIdDirectly(accountId, remoteCommentId);
     }
@@ -808,12 +832,45 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
-        return archived
-                ? db.getBoardDao().getArchivedFullBoards(accountId)
-                : db.getBoardDao().getNonArchivedFullBoards(accountId);
+        return db.getBoardDao().getArchivedFullBoards(accountId, (archived ? 1 : 0));
     }
 
     public LiveData<Boolean> hasArchivedBoards(long accountId) {
         return LiveDataHelper.postCustomValue(distinctUntilChanged(db.getBoardDao().countArchivedBoards(accountId)), data -> data != null && data > 0);
+    }
+
+    public Long getRemoteCommentIdForLocalIdDirectly(Long localCommentId) {
+        return db.getCommentDao().getRemoteCommentIdForLocalIdDirectly(localCommentId);
+    }
+    public Long getLocalCommentIdForRemoteIdDirectly(long accountId, Long remoteCommentId) {
+        return db.getCommentDao().getLocalCommentIdForRemoteIdDirectly(accountId, remoteCommentId);
+    }
+
+
+    // -------------------
+    // Widgets
+    // -------------------
+
+    public long createSingleCardWidget(int widgetId, long accountId, long boardLocalId, long cardLocalId) {
+        SingleCardWidgetModel model = new SingleCardWidgetModel();
+        model.setWidgetId(widgetId);
+        model.setAccountId(accountId);
+        model.setBoardId(boardLocalId);
+        model.setCardId(cardLocalId);
+        return db.getSingleCardWidgetModelDao().insert(model);
+    }
+
+    public FullSingleCardWidgetModel getFullSingleCardWidgetModel(int widgetId) {
+        FullSingleCardWidgetModel model = db.getSingleCardWidgetModelDao().getFullCardByRemoteIdDirectly(widgetId);
+        if (model != null) {
+            model.setFullCard(db.getCardDao().getFullCardByLocalIdDirectly(model.getAccount().getId(), model.getModel().getCardId()));
+        }
+        return model;
+    }
+
+    public void deleteSingleCardWidget(int widgetId) {
+        SingleCardWidgetModel model = new SingleCardWidgetModel();
+        model.setWidgetId(widgetId);
+        db.getSingleCardWidgetModelDao().delete(model);
     }
 }

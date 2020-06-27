@@ -5,19 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/spacer_2x">
+    android:padding="?attr/dialogPreferredPadding"
+    android:scrollbarStyle="insideInset">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/statusMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:maxLength="50"
-            tools:text="@tools:sample/lorem/random" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tips"
@@ -31,26 +25,26 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/error_dialog_contact_us" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_2x"
-            android:text="@string/error_dialog_we_need_info" />
+            android:text="@string/error_dialog_we_need_info"
+            android:textAppearance="?attr/textAppearanceBody2" />
 
-        <TextView
-            android:id="@+id/stacktrace"
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/spacer_2x"
             android:layout_marginBottom="@dimen/spacer_2x"
             android:layout_weight="1"
-            android:background="@color/bg_highlighted"
-            android:padding="8dp"
-            android:scrollbars="horizontal|vertical"
-            android:textIsSelectable="true"
-            android:typeface="monospace"
-            tools:text="@tools:sample/lorem/random" />
+            android:background="@color/bg_highlighted">
+
+            <TextView
+                android:id="@+id/stacktrace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacer_1x"
+                android:textIsSelectable="true"
+                android:typeface="monospace"
+                tools:text="@string/android_get_accounts_permission_not_granted_exception_message" />
+        </HorizontalScrollView>
     </LinearLayout>
 </ScrollView>

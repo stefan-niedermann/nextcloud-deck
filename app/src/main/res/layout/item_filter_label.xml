@@ -18,7 +18,6 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginStart="@dimen/spacer_1x"
-        android:layout_marginLeft="@dimen/spacer_1x"
         app:srcCompat="@drawable/selected"
         app:layout_alignSelf="center"
         app:layout_flexShrink="0"

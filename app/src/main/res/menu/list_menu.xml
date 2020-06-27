@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item
+        android:id="@+id/archive_cards"
+        android:title="@string/archive_cards"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/add_list"
+        android:title="@string/add_list"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/rename_list"
         android:title="@string/rename_list"
         app:showAsAction="never" />

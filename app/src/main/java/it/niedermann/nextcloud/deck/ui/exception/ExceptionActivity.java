@@ -37,7 +37,7 @@ public class ExceptionActivity extends AppCompatActivity {
         binding.toolbar.setTitle(R.string.error);
         binding.message.setText(throwable.getMessage());
 
-        final String debugInfo = ExceptionUtil.getDebugInfos(this, throwable);
+        final String debugInfo = ExceptionUtil.getDebugInfos(this, throwable, null);
 
         binding.stacktrace.setText(debugInfo);
 

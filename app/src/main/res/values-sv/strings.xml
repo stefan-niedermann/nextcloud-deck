@@ -37,6 +37,7 @@
     <string name="simple_comment">Kommentar</string>
     <string name="simple_disabled">inaktiverad</string>
     <string name="simple_copied">Kopierad</string>
+    <string name="simple_archive">Arkivera</string>
 
     <string name="edit_board">Ändra tavla</string>
     <string name="archive_board">Arkivera tavla</string>
@@ -78,8 +79,12 @@
     <string name="label_description">Beskrivning</string>
     <string name="hint_assign_people">Tilldela användare</string>
     <string name="hint_due_date_date">Slutdatum</string>
+    <string name="card_not_found">Kortet hittades inte</string>
+    <string name="card_not_found_message">Kortet kunde inte hittas. Kanske har det tagits bort nyligen.</string>
+
     <string name="add_account">Lägg till konto</string>
     <string name="choose_account">Välj konto</string>
+    <string name="add_card">Lägg till nytt kort</string>
     <string name="activity">Aktivitet</string>
     <string name="add_list">Lägg till lista...</string>
     <string name="rename_list">Byt namn på lista</string>
@@ -107,10 +112,20 @@
     <string name="not_synced_yet">Inte synkroniserad än</string>
     <string name="no_lists_yet">Inga listor än</string>
     <string name="do_you_want_to_save_your_changes">Vill du spara dina ändringar?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Vill du arkivera alla kort av %1$s?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Detta kommer att permanent radera %1$d kortet i denna lista.</item>
+        <item quantity="other">Detta kommer att permanent radera alla %1$d kort i denna lista.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Detta kommer att ta bort etiketten från %1$d kortet.</item>
+        <item quantity="other">Detta kommer att ta bort etiketten från %1$d korten.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Lägg till en ny lista med + knappen</string>
     <string name="add_a_new_card_using_the_button">Lägg till ett nytt kort med + knappen</string>
     <string name="update_deck">Uppdatera Deck</string>
     <string name="your_deck_version_is_too_old">Din version är för gammal</string>
+    <string name="deck_outdated_please_update">Din version av Deck är för gammal (%1$s). Uppdatera för att använda den här Android-appen som klient.</string>
     <string name="delete_board_message">Detta kommer att permanent radera denna tavla inklusive alla listor och kort.</string>
     <string name="settings_theme_title">Mörkt tema</string>
     <string name="settings_branding_title">Varumärke</string>
@@ -170,20 +185,44 @@
 
     <!-- Archived cards -->
     <string name="archived_cards">Arkiverade kort</string>
+    <string name="action_card_dearchive">Ångra kortarkivering</string>
+    <string name="action_archived_cards">Bläddra i arkiverade kort</string>
+    <string name="attachment_already_exists">Bilagan finns redan</string>
+    <string name="pick_custom_color">Välj anpassad färg</string>
+    <string name="manage_tags">Hantera taggar</string>
     <string name="add_tag">Lägg till tagg</string>
+    <string name="tag_already_exists">%1$s finns redan</string>
+    <string name="tag_successfully_added">%1$s tillagd</string>
+    <string name="edit_tag">Redigera %1$s</string>
     <string name="filter_tags_title">Taggar</string>
+    <string name="filter_user_title">Användare</string>
     <string name="filter_duedate_title">Slutdatum</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Ångra tavelarkivering</string>
+    <string name="archived_boards">Arkiverade tavlor</string>
 
     <!-- Errors -->
     <string name="error">Ett fel inträffade</string>
     <string name="synchronization_failed">Synkroniseringen misslyckades</string>
     <string name="operation_not_yet_supported">Stöds inte än</string>
     <string name="error_revoking_ac">Fel vid återkallande av åtkomst för %1$s</string>
+    <string name="error_create_label">Fel vid skapandet av etiketten %1$s</string>
     <string name="maintenance_mode">Server i underhållsläge</string>
     <string name="server_misconfigured">Server felkonfigurerad</string>
     <string name="server_error">Serverfel</string>
     <string name="shared_error">Delning av innehåll från appar från tredje part stöds ännu inte helt. Vänligen försök att hämta det först och dela det sedan från din ursprungliga filhanterare eller galleri.</string>
-
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
-    </resources>
+    <string name="error_action_open_deck_info">Öppna appinformation</string>
+    <string name="error_action_open_network">Nätverksinställningar</string>
+    <string name="error_action_server_logs">Serverloggar</string>
+    <string name="error_action_install">Installera</string>
+    <string name="info_box_maintenance_mode">Server i underhållsläge</string>
+    <string name="info_box_version_not_supported">Serverversion %1$s stöds inte, uppdatera till %2$s</string>
+    <string name="share_link">Dela länk</string>
+    <string name="archive_cards">Arkivera kort</string>
+    <string name="manage_accounts">Hantera konton</string>
+    <string name="simple_reply">Svara</string>
+    <string name="simple_report">Rapportera</string>
+</resources>

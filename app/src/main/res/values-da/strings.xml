@@ -36,6 +36,7 @@
     <string name="simple_comment">Kommentér</string>
     <string name="simple_disabled">slået fra</string>
     <string name="simple_copied">opieret</string>
+    <string name="simple_archive">Arkivér</string>
 
     <string name="edit_board">Rediger liste</string>
     <string name="archive_board">Arkivér liste</string>
@@ -161,7 +162,10 @@
     <string name="filter_today">I dag</string>
     <string name="add_tag">Tilføj Tag</string>
     <string name="filter_tags_title">Tags</string>
+    <string name="filter_user_title">Brugere</string>
     <string name="filter_duedate_title">Forfaldsdato</string>
+
+    <string name="archived_boards">Arkiverede lister</string>
 
     <!-- Errors -->
     <string name="error">Der skete en fejl</string>
@@ -172,16 +176,18 @@
     <string name="server_misconfigured">Server er forkert konfigureret </string>
     <string name="server_error">Serverfejl</string>
     <string name="shared_error">Deling af indhold fra 3. parts apps understøttes endnu ikke fuldt ud. Forsøg at hente det først, og dernæst dele det fra din indbyggede filhåndtering eller dit galleri.</string>
-
     <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
     <string name="error_dialog_tip_files_outdated">Din Nextcloud-app ser ud til at være forældet. Gå venligst til Play Butik eller F-Droid for at få seneste version.</string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjælper at stoppe begge, så kan du forsøge at rydde lagerpladsen for begge apps.</string>
     <string name="error_dialog_timeout_instance">Der var intet svar fra din server på nuværende tidspunkt. Sørg venligst for at sikre, at din instans kører rigtigt. </string>
-    <string name="error_dialog_timeout_toggle">Tjek din netværksforbindelse. Undertiden kan det hjælpe at slukke og tænde for mobildata eller wifi.</string>
     <string name="error_dialog_check_server_logs">Der er et problem med din opsætning af Nextcloud. Kig venligst i serverens logfiler. </string>
     <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
-    <string name="error_dialog_contact_us">Du er altid velkommen til at kontakte os, hvis problemet varer ved. Du kan finde vores kontaktoplysninger i sektionen Om i sidebjælken.</string>
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
-    </resources>
+    <string name="info_box_maintenance_mode">Server i vedligeholdelsestilstand</string>
+    <string name="share_link">Del link</string>
+    <string name="manage_accounts">Administrer konti</string>
+    <string name="simple_reply">Besvar</string>
+    <string name="simple_report">Rapporter</string>
+</resources>

@@ -37,6 +37,7 @@
     <string name="simple_comment">Comentario</string>
     <string name="simple_disabled">desactivado</string>
     <string name="simple_copied">Copiada</string>
+    <string name="simple_archive">Aquivar</string>
 
     <string name="edit_board">Editar taboleiro</string>
     <string name="archive_board">Arquivar taboleiro</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Descrición</string>
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Data de caducidade</string>
+    <string name="card_not_found">Non se atopou a tarxeta</string>
+    <string name="card_not_found_message">Non foi posíbel atopar a tarxeta. Quizais fora eliminada recentemente.</string>
+
     <string name="add_account">Engadir unha conta</string>
     <string name="choose_account">Escolla unha conta</string>
     <string name="add_card">Engadir unha nova tarxeta</string>
@@ -108,6 +112,7 @@
     <string name="not_synced_yet">Aínda non foi sincronizado</string>
     <string name="no_lists_yet">Non hai listas</string>
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Quere arquivar todas as tarxetas de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Isto eliminará permanentemente %1$d tarxeta desta lista.</item>
         <item quantity="other">Isto eliminará permanentemente as %1$d tarxetas desta lista.</item>
@@ -125,8 +130,8 @@
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Xestión da marca</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
-    <string name="pref_value_wifi_and_mobile">Sincronización con WiFi e con datos móbiles</string>
-    <string name="pref_value_wifi_only">Sincronizar só con WiFi</string>
+    <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
+    <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
     <string name="pref_value_theme_light">Claro</string>
     <string name="unassigned_user">Desasignado %1$s</string>
     <string name="no_activities">Non hai actividades nesta tarxeta. Para cargar e amosar actividades necesita estar conectado á Internet.</string>
@@ -190,8 +195,12 @@
     <string name="tag_successfully_added">%1$s foi engadido satisfactoriamente</string>
     <string name="edit_tag">Editar %1$s</string>
     <string name="filter_tags_title">Etiquetas</string>
-    <string name="filter_assignees_title">Asignados</string>
+    <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Data de caducidade</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Desfacer o arquivo de taboleiros</string>
+    <string name="archived_boards">Taboleiros arquivados</string>
 
     <!-- Errors -->
     <string name="error">Apareceu un erro</string>
@@ -203,21 +212,44 @@
     <string name="server_misconfigured">Configuración incorrecta do servidor</string>
     <string name="server_error">Produciuse un erro de servidor</string>
     <string name="shared_error">Aínda non se admite totalmente compartir contido de aplicacións de terceiros. Tente descargalo e compártao despois no xestor de ficheiros ou na galería.</string>
+    <string name="error_edit_activity_killed_by_android">Android rematou o modo de edición porque necesitaba máis recursos do sistema para outras aplicacións.</string>
 
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da apli e reiniciala de novo. Pode haber unha conexión incorrecta coa apli Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Se o problema continúa, tente limpar o almacenamento de ambas as aplis: Nextcloud e Nextcloud Deck para resolver este problema.</string>
-    <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo axustes de Android → Aplicacións → Nextcloud / Nextcloud Deck → Almacenamento → Limpar o almacenamento.</string>
+    <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da apli e seleccionando Almacenamento → Limpar o almacenamento.</string>
     <string name="error_dialog_tip_files_outdated">A súa apli Nextcloud semella estar desactualizada. Visite Play Store ou F-Droid para obter a última versión.</string>
     <string name="error_dialog_tip_files_force_stop">Semella que algo está mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se detelos pola forza non axuda, pode tentar limpar o almacenamento de ambas as aplicacións.</string>
     <string name="error_dialog_timeout_instance">Non houbo resposta do seu servidor no tempo dado. Asegúrese de que a súa instancia funciona correctamente.</string>
-    <string name="error_dialog_timeout_toggle">Comprobe a súa conexión de rede. Ás veces apagar e volver acender os datos móbiles ou a Wi-Fi pode axudar.</string>
+    <string name="error_dialog_timeout_toggle">Comprobe a súa conexión de rede. Ás veces apagar e volver acender os datos móbiles ou a wifi pode axudar.</string>
     <string name="error_dialog_check_server">A resposta do servidor non foi correcta. Comprobe se pode acceder a Deck a través de interface web.</string>
     <string name="error_dialog_check_server_logs">Hai un problema coa configuración do Nextcloud. Bótelle un ollo aos ficheiros de rexistro do servidor.</string>
     <string name="error_dialog_check_maintenance">Comprobe que a súa instancia Nextcloud non se atope en modo de mantemento.</string>
     <string name="error_dialog_insufficient_storage">A súa instancia Nextcloud non dispón de espazo de almacenamento libre. Elimine algúns ficheiros para sincronizar os seus cambios locais na súa nube.</string>
-    <string name="error_dialog_contact_us">Non dubide en poñerse en contacto con nós se os problemas persisten. Pode atopar a nosa información de contacto na sección sobre na barra lateral.</string>
     <string name="error_dialog_we_need_info">Necesitamos a seguinte información técnica para axudarlle:</string>
     <string name="error_dialog_redirect">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como Client OID.</string>
+    <string name="error_dialog_version_not_parsable">Non foi posíbel determinar a versión da apli Deck do lado do servidor. Asegúrese de que estea instalado e activado.</string>
+    <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplis de cliente poidan acceder ao Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Non foi posíbel enviar un arquivo anexo. Probe compartilo doutro xeito e infórmenos deste erro.</string>
+    <string name="error_action_open_deck_info">Abrir a info da apli</string>
+    <string name="error_action_open_network">Axustes da rede</string>
+    <string name="error_action_server_logs">Rexistros do servidor</string>
+    <string name="error_action_install">Instalar</string>
+    <string name="info_box_maintenance_mode">Servidor en modo de mantemento</string>
+    <string name="info_box_version_not_supported">A versión %1$s do servidor non é compatíbel, actualice a %2$s</string>
+    <string name="share_link">Compartir ligazón</string>
+    <string name="archive_cards">Arquivar as tarxetas</string>
+    <string name="manage_accounts">Administrar contas</string>
+    <string name="manage_list">Administrar a lista</string>
+    <string name="simple_reply">Responder</string>
+    <string name="error_while_uploading_attachment">Produciuse un erro ao enviar o anexo: %1$s</string>
+    <string name="append_text_to_description">Anexo á descrición</string>
+    <string name="add_text_as_comment">Engadir como comentario</string>
+    <string name="progress_count">%1$d de %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d  erros ao enviar.</item>
+        <item quantity="other">%1$d erros ao enviar.</item>
+    </plurals>
+    <string name="simple_report">Informe</string>
 </resources>

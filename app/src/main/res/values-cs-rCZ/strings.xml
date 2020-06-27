@@ -37,6 +37,7 @@
     <string name="simple_comment">Komentář</string>
     <string name="simple_disabled">vypnuto</string>
     <string name="simple_copied">Zkopírováno</string>
+    <string name="simple_archive">Archiv</string>
 
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Popis</string>
     <string name="hint_assign_people">Přiřadit uživatele</string>
     <string name="hint_due_date_date">Datum termínu</string>
+    <string name="card_not_found">Karta nenalezena</string>
+    <string name="card_not_found_message">Karta nebyla nalezena. Možná byla před okamžikem smazána.</string>
+
     <string name="add_account">Přidat účet</string>
     <string name="choose_account">Zvolte účet</string>
     <string name="add_card">Přidat novou kartu</string>
@@ -108,6 +112,7 @@
     <string name="not_synced_yet">Doposud nesynchronizováno</string>
     <string name="no_lists_yet">Zatím žádné seznamy</string>
     <string name="do_you_want_to_save_your_changes">Chcete vámi provedené změny uložit?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Chcete archivovat všechny karty %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Toto nadobro vymaže %1$d kartu z tohoto seznamu.</item>
         <item quantity="few">Toto nadobro vymaže obě %1$d karty z tohoto seznamu.</item>
@@ -194,8 +199,12 @@
     <string name="tag_successfully_added">%1$s úspěšně přidáno</string>
     <string name="edit_tag">Upravit %1$s</string>
     <string name="filter_tags_title">Štítky</string>
-    <string name="filter_assignees_title">Komu přiřazeno</string>
+    <string name="filter_user_title">Uživatelé</string>
     <string name="filter_duedate_title">Datum termínu</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Vzít zpět archivaci tabule</string>
+    <string name="archived_boards">Archivované tabule</string>
 
     <!-- Errors -->
     <string name="error">Objevila se chyba</string>
@@ -207,11 +216,12 @@
     <string name="server_misconfigured">Server není nastavený správně</string>
     <string name="server_error">Chyba serveru</string>
     <string name="shared_error">Sdílení obsahu z aplikací třetích stran není zatím plně podporováno. Zkuste si obsah nejprve stáhnout a sdílet ho ze správce souborů nebo obrázků.</string>
+    <string name="error_edit_activity_killed_by_android">Systém android ukončil režim úprav, protože potřeboval více systémových prostředků pro ostatní aplikace.</string>
 
     <string name="error_dialog_title">Ó ne– co teď? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prosím pokuste se vynutit ukončení aplikace a spusťte ji znovu. Možná se něco nepodařilo při spojení s aplikací Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Pokud problém přetrvává, zkuste problém vyřešit vyčištěním úložišť obou aplikací: Nextcloud a Nextcloud Deck.</string>
-    <string name="error_dialog_tip_clear_storage">Úložiště je možné vymazat otevření nastavení systému android → Aplikace → Nextcloud / Nextcloud Deck → Úložiště → Vyčistit úložiště.</string>
+    <string name="error_dialog_tip_clear_storage">Úložiště můžete vyčistit otevřením informací o aplikací a vybráním Úložiště → Vyčistit úložiště.</string>
     <string name="error_dialog_tip_files_outdated">Zdá se, že aplikace Nextcloud, nainstalovaná na vašem zařízení, je staré verze. Přejděte prosím do Play Store nebo F-Droid a nainstalujte si nejnovější verzi.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá se, že s vaší aplikací Nextcloud není něco v pořádku. Zkuste vynutit zastavení obojího – aplikace Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Pokud vynucení jejich zastavení nepomůže, můžete zkusit vyčistit úložiště obou aplikací.</string>
@@ -221,7 +231,21 @@
     <string name="error_dialog_check_server_logs">Je problém s nastavením vámi využívané instance Nextcloud. Podívejte se do souborů se záznamem událostí na serveru.</string>
     <string name="error_dialog_check_maintenance">Zkontrolujte, zda vámi využívaná instance Nextcloud právě není v tuto chvíli v režimu údržby.</string>
     <string name="error_dialog_insufficient_storage">Na vámi využívané instanci Nexcloud nezbývá žádné volné místo na úložišti. Aby bylo možné synchronizovat vaše místní změny do vámi využívaného cloudu, je třeba nejprve smazat nějaké soubory.</string>
-    <string name="error_dialog_contact_us">Pokud problémy přetrvávají, neváhejte se na nás obrátit. Kontaktní údaje naleznete v sekci „O aplikaci“ v postranním panelu.</string>
     <string name="error_dialog_we_need_info">Abychom vám mohli pomoci, potřebujeme následující technické údaje:</string>
     <string name="error_dialog_redirect">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient.</string>
+    <string name="error_dialog_version_not_parsable">Nepodařilo se zjistit verze aplikace Deck na straně serveru. Zajistěte, aby byla nainstalovaná a zapnutá.</string>
+    <string name="error_dialog_capabilities_not_parsable">Nepodařilo se zjistit schopnosti serveru, který využíváte. Ověřte, že server v pořádku běží a ostatní klientské aplikace mohou k Nextcloud přistupovat.</string>
+    <string name="error_dialog_attachment_upload_failed">Přílohu se nepodařilo nahrát. Zkuste ji nasdílet jiným způsobem a dejte nám o této chybě vědět.</string>
+    <string name="error_action_open_deck_info">Otevřít informace o aplikaci</string>
+    <string name="error_action_open_network">Nastavení sítě</string>
+    <string name="error_action_server_logs">Záznamy událostí na serveru</string>
+    <string name="error_action_install">Nainstalovat</string>
+    <string name="info_box_maintenance_mode">Na serveru probíhá údržba</string>
+    <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
+    <string name="share_link">Odkaz na sdílení</string>
+    <string name="archive_cards">Archivovat karty</string>
+    <string name="manage_accounts">Spravovat účty</string>
+    <string name="manage_list">Spravovat sloupec</string>
+    <string name="simple_reply">Odpovědět</string>
+    <string name="simple_report">Hlášení</string>
 </resources>

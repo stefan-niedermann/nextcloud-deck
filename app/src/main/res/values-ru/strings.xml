@@ -9,7 +9,7 @@
     <string name="drawer_manage_accounts">Управление аккаунтами</string>
 
     <!-- Simple values -->
-    <string name="simple_boards">Рабочие доски</string>
+    <string name="simple_boards">Доски</string>
     <string name="simple_add">Добавить</string>
     <string name="simple_save">Сохранить</string>
     <string name="simple_more">Больше</string>
@@ -37,6 +37,7 @@
     <string name="simple_comment">Коментарий</string>
     <string name="simple_disabled">отключено</string>
     <string name="simple_copied">Скопировано</string>
+    <string name="simple_archive">Переместить в архив</string>
 
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Описание</string>
     <string name="hint_assign_people">Назначить карточку пользователю</string>
     <string name="hint_due_date_date">Срок исполнения</string>
+    <string name="card_not_found">Карточка не найдена</string>
+    <string name="card_not_found_message">Не удалось найти карточку. Возможно, она была недавно удалена.</string>
+
     <string name="add_account">Добавить аккаунт</string>
     <string name="choose_account">Выбрать аккаунт</string>
     <string name="add_card">Создать карточку</string>
@@ -95,7 +99,7 @@
     <string name="label_clear_due_date">Удалить срок исполнения</string>
     <string name="label_add">Добавить %1$s </string>
 
-    <string name="card_edit_details">Подробности</string>
+    <string name="card_edit_details">Свойства</string>
     <string name="card_edit_attachments">Вложения</string>
     <string name="card_edit_activity">События</string>
     <string name="about_server_app_version_text">Версия приложения на сервере:</string>
@@ -108,10 +112,24 @@
     <string name="not_synced_yet">Ещё не синхронизировано</string>
     <string name="no_lists_yet">Нет ни одного списка</string>
     <string name="do_you_want_to_save_your_changes">Сохранить изменения?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Вы хотите архивировать все карточки из %1$s?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Это действие безвозвратно удалит %1$d карточку этого списка.</item>
+        <item quantity="few">Это действие безвозвратно удалит %1$d карточки этого списка.</item>
+        <item quantity="many">Это действие безвозвратно удалит %1$d карточек этого списка.</item>
+        <item quantity="other">Это действие безвозвратно удалит %1$d карточки этого списка.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Это действие удалит метку из %1$d карточки.</item>
+        <item quantity="few">Это действие удалит метку из %1$d карточек.</item>
+        <item quantity="many">Это действие удалит метку из %1$d карточек.</item>
+        <item quantity="other">Это действие удалит метку из %1$d карточек.</item>
+    </plurals>
     <string name="add_a_new_list_using_the_button">Нажмите кнопку «+» для добавления нового списка</string>
     <string name="add_a_new_card_using_the_button">Нажмите кнопку «+» для добавления новой карточки</string>
     <string name="update_deck">Обновление deck</string>
     <string name="your_deck_version_is_too_old">Версия приложения устарела</string>
+    <string name="deck_outdated_please_update">На сервере установлена устаревшая версия приложение Карточки (%1$s). Обновите приложение на сервере, чтобы использовать приложение для Android.</string>
     <string name="delete_board_message">Это действие приведёт к удалению этой рабочей доски, всех списков и карточек.</string>
     <string name="settings_theme_title">Тёмное оформление</string>
     <string name="settings_branding_title">Брендирование</string>
@@ -175,29 +193,55 @@
     <string name="action_archived_cards">Показать архив карточек</string>
     <string name="attachment_already_exists">Вложение уже существует</string>
     <string name="pick_custom_color">Выберите цвет</string>
+    <string name="manage_tags">Управление метками</string>
     <string name="add_tag">Добавить метку</string>
+    <string name="tag_already_exists">Метка %1$s уже существует</string>
+    <string name="tag_successfully_added">Метка %1$s добавлена</string>
+    <string name="edit_tag">Изменить %1$s</string>
     <string name="filter_tags_title">Метки</string>
+    <string name="filter_user_title">Пользователи</string>
     <string name="filter_duedate_title">Дата исполнения</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Отменить архивацию доски</string>
+    <string name="archived_boards">Архив досок</string>
 
     <!-- Errors -->
     <string name="error">Произошла ошибка</string>
     <string name="synchronization_failed">Сбой синхронизации</string>
     <string name="operation_not_yet_supported">Ещё не поддерживается</string>
     <string name="error_revoking_ac">Не удалось отозвать доступ %1$s</string>
+    <string name="error_create_label">Не удалось создать метку %1$s</string>
     <string name="maintenance_mode">Сервер находится в режиме обслуживания</string>
     <string name="server_misconfigured">Сервер не настроен</string>
     <string name="server_error">Ошибка сервера</string>
     <string name="shared_error">Публикация данных сторонних приложений пока не поддерживается полностью. Попробуйте загрузить эти данные, а после опубликовать их  из приложений Файлы или Фотографии.</string>
+    <string name="error_edit_activity_killed_by_android">Android прекратил режим редактирования так как ему понадобилось больше системных ресурсов для других приложений.</string>
 
     <string name="error_dialog_title">О нет, что теперь? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Попробуйте принудительно закрыть приложение и запустить его снова. Это могло быть связано с некорректным подключением к приложению Nextcloud.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Если проблема повторяется, попробуйте для её решения очистить хранилище приложений Nextcloud и Nextcloud Карточки.</string>
     <string name="error_dialog_tip_files_outdated">Ваше приложение Nextcloud устарело. Установите новую версию с Play Store или F-Droid.</string>
+    <string name="error_dialog_tip_files_force_stop">Похоже, что с приложением Nextcloud ведёт себя неожиданным образом. Попробуйте принудительно остановить приложения Nextcloud и Nextcloud Карточки. </string>
     <string name="error_dialog_tip_files_delete_storage">Если принудительная остановка не поможет, попробуйте очистить хранилище обоих приложений.</string>
     <string name="error_dialog_timeout_instance">Не получено сообщений от вашего сервера за указанное время. Пожалуйста убедитесь что все работает.</string>
-    <string name="error_dialog_timeout_toggle">Проверьте ваше сетевое соединение. В некоторых случаях может помочь отключение Wi-Fi и включение его вновь.</string>
+    <string name="error_dialog_timeout_toggle">Проверьте ваше сетевое соединение. Иногда переподключение к мобильной или Wi-Fi сети может решить проблему.</string>
+    <string name="error_dialog_check_server">Получен неверный ответ от сервера. Проверьте из браузера доступность приложения Карточки, установленного на сервере.</string>
     <string name="error_dialog_check_server_logs">Есть замечания по вашей установке Nextcloud. Пожалуйста проверьте журналы сервера.</string>
     <string name="error_dialog_check_maintenance">Пожалуйста убедитесь что ваш экземпляр Nextcloud не в режиме обслуживания.</string>
     <string name="error_dialog_insufficient_storage">На вашем экземпляре Nextcloud нет свободного места. Удалите ненужные файлы для синхронизации изменений в облако.</string>
-    <string name="error_dialog_contact_us">Пожалуйста не стесняйтесь присылать нам ваши пожелания. Вы можете найти нашу контактную информацию в разделе \"О нас\" на боковой панели.</string>
     <string name="error_dialog_we_need_info">Требуется следующая техническая информация от вас:</string>
-    </resources>
+    <string name="error_dialog_redirect">На запрос сервер вернул код состояния HTTP 302, что означает, что  приложение Карточки либо не установлено, либо сервер настроен неверно. Такое поведение может являться следствием замены стандартного файла .htaccess администратором сервера или приложением Nextcloud, таким как OID Client.</string>
+    <string name="error_action_open_deck_info">Открыть информацию о приложении</string>
+    <string name="error_action_open_network">Параметры сети</string>
+    <string name="error_action_server_logs">Журналы сервера</string>
+    <string name="error_action_install">Установить</string>
+    <string name="info_box_maintenance_mode">Сервер находится в режиме обслуживания</string>
+    <string name="info_box_version_not_supported">Версия сервера %1$s не поддерживается, необходимо выполнить обновление до версии %2$s</string>
+    <string name="share_link">Предоставление общего доступа по ссылке</string>
+    <string name="archive_cards">Архивировать карточки</string>
+    <string name="manage_accounts">Управление аккаунтами</string>
+    <string name="manage_list">Управлять списком</string>
+    <string name="simple_reply">Ответить</string>
+    <string name="simple_report">Сообщить</string>
+</resources>

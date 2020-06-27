@@ -16,6 +16,8 @@
 
 package it.niedermann.android.tablayouthelper;
 
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -304,8 +306,13 @@ public class TabLayoutHelper {
         // NOTE: slidingTabStrip.getMeasuredWidth() method does not return correct width!
         // Need to measure each tabs and calculate the sum of them.
 
-        int tabLayoutWidth = tabLayout.getMeasuredWidth() - tabLayout.getPaddingLeft() - tabLayout.getPaddingRight();
-        int tabLayoutHeight = tabLayout.getMeasuredHeight() - tabLayout.getPaddingTop() - tabLayout.getPaddingBottom();
+        final int tabLayoutWidth;
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
+            tabLayoutWidth = tabLayout.getMeasuredWidth() - tabLayout.getPaddingStart() - tabLayout.getPaddingEnd();
+        } else {
+            tabLayoutWidth = tabLayout.getMeasuredWidth() - tabLayout.getPaddingLeft() - tabLayout.getPaddingRight();
+        }
+        final int tabLayoutHeight = tabLayout.getMeasuredHeight() - tabLayout.getPaddingTop() - tabLayout.getPaddingBottom();
 
         if (childCount == 0) {
             return TabLayout.MODE_FIXED;

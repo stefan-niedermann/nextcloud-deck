@@ -37,6 +37,7 @@
     <string name="simple_comment">注释</string>
     <string name="simple_disabled">已禁用</string>
     <string name="simple_copied">已复制</string>
+    <string name="simple_archive">归档</string>
 
     <string name="edit_board">编辑面板</string>
     <string name="archive_board">归档面板</string>
@@ -78,6 +79,9 @@
     <string name="label_description">描述</string>
     <string name="hint_assign_people">指派用户</string>
     <string name="hint_due_date_date">截止日期</string>
+    <string name="card_not_found">未找到卡片</string>
+    <string name="card_not_found_message">无法找到此卡片，此卡片最近可能已被删除。</string>
+
     <string name="add_account">添加账号</string>
     <string name="choose_account">选择账号</string>
     <string name="add_card">添加新卡片</string>
@@ -108,6 +112,7 @@
     <string name="not_synced_yet">尚未同步</string>
     <string name="no_lists_yet">尚无名单</string>
     <string name="do_you_want_to_save_your_changes">您希望保存变更吗？</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">你是否想要归档%1$s的全部卡片？</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="other">这将会永久删除此列表中的 %1$d 个卡片。</item>
     </plurals>
@@ -187,7 +192,10 @@
     <string name="tag_successfully_added">%1$s 已成功添加</string>
     <string name="edit_tag">编辑 %1$s</string>
     <string name="filter_tags_title">标签</string>
+    <string name="filter_user_title">用户</string>
     <string name="filter_duedate_title">截止日期</string>
+
+    <string name="archived_boards">已归档面板</string>
 
     <!-- Errors -->
     <string name="error">发生了一个错误</string>
@@ -199,20 +207,21 @@
     <string name="server_misconfigured">配置错误的服务器</string>
     <string name="server_error">服务器错误</string>
     <string name="shared_error">目前还不完全支持从第三方应用程序中分享内容。请尝试先下载，然后从您的本地文件管理器或图库中分享。</string>
-
     <string name="error_dialog_title">哦，糟糕。所以会怎么样？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">请尝试强行关闭应用并重新打开。可能与 Nextcloud 应用的连接不正确。</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">如果问题持续存在，尝试通过清除 Nextcloud 和 Nextcloud 看板两个应用的存储空间来解决问题。</string>
-    <string name="error_dialog_tip_clear_storage">你可以通过这个方法来清除应用的存储空间：Android 设置 → 应用 → Nextcloud 或 Nextcloud 看板 → 存储空间 → 清除数据。</string>
     <string name="error_dialog_tip_files_outdated">您的 Nextcloud 应用似乎已经过时了。请访问 Play 商店或 F-Droid 以获取最新版本。</string>
     <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 应用似乎出现了问题。请尝试强行停止 Nextcloud 和 Nextcloud 看板两个应用。</string>
     <string name="error_dialog_tip_files_delete_storage">如果强行停止没有效果，您可以尝试清除两个应用的存储空间。</string>
     <string name="error_dialog_timeout_instance">服务器没有在规定的时间内回答。请确保您的服务器实例在正常运行。</string>
-    <string name="error_dialog_timeout_toggle">检查您的网络连接。有时候关闭并重新开启移动数据或 Wi-Fi 有帮助。</string>
     <string name="error_dialog_check_server">服务器的回答不正确。请检查您是否能通过网页访问看板应用。</string>
     <string name="error_dialog_check_server_logs">您的 Nextcloud 配置有一些问题。请查看服务器日志。</string>
     <string name="error_dialog_check_maintenance">请检查您的 Nextcloud 实例是否处于维护模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
-    <string name="error_dialog_contact_us">如果问题持续存在，请不要犹豫来联系我们。您可以在侧边栏的 “关于” 部分找到我们的联系信息。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
-    </resources>
+    <string name="info_box_maintenance_mode">服务器处于维护模式</string>
+    <string name="share_link">共享链接</string>
+    <string name="manage_accounts">管理账号</string>
+    <string name="simple_reply">回复</string>
+    <string name="simple_report">报告</string>
+</resources>

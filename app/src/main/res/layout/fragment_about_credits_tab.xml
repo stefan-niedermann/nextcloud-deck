@@ -31,7 +31,6 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:paddingEnd="0dp"
-                android:paddingRight="0dp"
                 android:text="@string/last_background_sync"
                 tools:ignore="RtlSymmetry" />
 
@@ -41,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:paddingStart="5dp"
-                android:paddingLeft="5dp"
                 tools:hint="20 seconds ago"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
@@ -69,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:paddingEnd="0dp"
-                android:paddingRight="0dp"
                 android:text="@string/about_server_app_version_text"
                 tools:ignore="RtlSymmetry" />
 
@@ -79,7 +76,6 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:paddingStart="5dp"
-                android:paddingLeft="5dp"
                 tools:hint="v0.6.5"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>

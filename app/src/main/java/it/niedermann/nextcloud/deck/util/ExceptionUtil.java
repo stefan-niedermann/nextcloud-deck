@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
@@ -13,12 +14,10 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.List;
 
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.model.Account;
 
 public class ExceptionUtil {
 
@@ -26,35 +25,32 @@ public class ExceptionUtil {
 
     }
 
-    public static String getDebugInfos(Context context, Throwable throwable) {
-        List<Throwable> throwables = new ArrayList<>();
-        throwables.add(throwable);
-        return getDebugInfos(context, throwables);
+    public static String getDebugInfos(@NonNull Context context, Throwable throwable, @Nullable Account account) {
+        return "" +
+                getAppVersions(context, account) +
+                "\n\n---\n" +
+                getDeviceInfos() +
+                "\n\n---" +
+                "\n\n" +
+                getStacktraceOf(throwable);
     }
 
-    public static String getDebugInfos(Context context, List<Throwable> throwables) {
-        StringBuilder debugInfos = new StringBuilder(""
-                + getAppVersions(context)
-                + "\n\n---\n"
-                + getDeviceInfos()
-                + "\n\n---"
-                + "\n\n");
-        for (Throwable throwable : throwables) {
-            debugInfos.append(getStacktraceOf(throwable));
-        }
-        return debugInfos.toString();
-    }
-
-    private static String getAppVersions(Context context) {
+    private static String getAppVersions(Context context, @Nullable Account account) {
         String versions = ""
                 + "App Version: " + BuildConfig.VERSION_NAME + "\n"
                 + "App Version Code: " + BuildConfig.VERSION_CODE + "\n"
                 + "App Flavor: " + BuildConfig.FLAVOR + "\n";
 
+        if (account != null) {
+            versions += "\n";
+            versions += "Deck Server Version: " + account.getServerDeckVersion() + "\n";
+        }
+
+        versions += "\n";
         try {
-            versions += "\nFiles App Version Code: " + VersionCheckHelper.getNextcloudFilesVersionCode(context);
+            versions += "Files App Version Code: " + VersionCheckHelper.getNextcloudFilesVersionCode(context);
         } catch (PackageManager.NameNotFoundException e) {
-            versions += "\nFiles App Version Code: " + e.getMessage();
+            versions += "Files App Version Code: " + e.getMessage();
             e.printStackTrace();
         }
         return versions;

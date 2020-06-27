@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.deck.model.ocs;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -10,10 +12,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
 public class Version implements Comparable<Version> {
     private static final Pattern NUMBER_EXTRACTION_PATTERN = Pattern.compile("[0-9]+");
     private static final Version VERSION_1_0_0 = new Version("1.0.0", 1, 0, 0);
+    private static final Version VERSION_1_0_3 = new Version("1.0.3", 1, 0, 3);
+    @Nullable
+    private static Version VERSION_MINIMUM_SUPPORTED;
 
     private String originalVersion = "?";
     private int major = 0;
@@ -31,28 +37,16 @@ public class Version implements Comparable<Version> {
         this.patch = patch;
     }
 
-    public int getMajor() {
+    private int getMajor() {
         return major;
     }
 
-    public void setMajor(int major) {
-        this.major = major;
-    }
-
-    public int getMinor() {
+    private int getMinor() {
         return minor;
     }
 
-    public void setMinor(int minor) {
-        this.minor = minor;
-    }
-
-    public int getPatch() {
+    private int getPatch() {
         return patch;
-    }
-
-    public void setPatch(int patch) {
-        this.patch = patch;
     }
 
     public boolean isGreaterOrEqualTo(Version v) {
@@ -89,14 +83,18 @@ public class Version implements Comparable<Version> {
         if (matcher.find()) {
             return Integer.parseInt(matcher.group());
         }
-        return 0;
+        throw new IllegalArgumentException("could not extract a number from following string: \"" + containsNumbers + "\"");
     }
 
+    @NonNull
     public static Version minimumSupported(@NonNull Context context) {
-        final int minimumServerAppMajor = context.getResources().getInteger(R.integer.minimum_server_app_major);
-        final int minimumServerAppMinor = context.getResources().getInteger(R.integer.minimum_server_app_minor);
-        final int minimumServerAppPatch = context.getResources().getInteger(R.integer.minimum_server_app_patch);
-        return new Version(minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch);
+        if (VERSION_MINIMUM_SUPPORTED == null) {
+            final int minimumServerAppMajor = context.getResources().getInteger(R.integer.minimum_server_app_major);
+            final int minimumServerAppMinor = context.getResources().getInteger(R.integer.minimum_server_app_minor);
+            final int minimumServerAppPatch = context.getResources().getInteger(R.integer.minimum_server_app_patch);
+            VERSION_MINIMUM_SUPPORTED = new Version(minimumServerAppMajor + "." + minimumServerAppMinor + "." + minimumServerAppPatch, minimumServerAppMajor, minimumServerAppMinor, minimumServerAppPatch);
+        }
+        return VERSION_MINIMUM_SUPPORTED;
     }
 
     public boolean isSupported(@NonNull Context context) {
@@ -105,9 +103,9 @@ public class Version implements Comparable<Version> {
 
     /**
      * @param compare another version object
-     * @return -1 if the compared version is <strong>higher</strong> than the current version
-     * 0 if the compared version is equal to the current version
-     * 1 if the compared version is <strong>lower</strong> than the current version
+     * @return -1 if the compared {@link Version} is <strong>higher</strong> than the current version
+     * 0 if the compared {@link Version} is equal to the current version
+     * 1 if the compared {@link Version} is <strong>lower</strong> than the current version
      */
     @Override
     public int compareTo(@NonNull Version compare) {
@@ -139,16 +137,27 @@ public class Version implements Comparable<Version> {
     }
 
     /**
-     * Comments API only available starting with version 1.0.0-alpha1
+     * {@link DeckComment} API only available starting with {@link Version} 1.0.0-alpha1
      *
-     * @return whether or not the server supports the Comments API
+     * @return whether or not the server supports the {@link DeckComment} API
      */
     public boolean supportsComments() {
         return isGreaterOrEqualTo(VERSION_1_0_0);
     }
 
     /**
-     * Title max length has been increased from 100 to 255 characters beginning with server version 1.0.0
+     * Replying to a {@link DeckComment} does cause synchronization errors because the API expected the
+     * <code>parentId</code> to be a {@link String} up until {@link Version} 1.0.3
+     * https://github.com/nextcloud/deck/issues/1831#issuecomment-627207849
+     *
+     * @return whether or not the server supports replying to comments
+     */
+    public boolean supportsCommentsReplys() {
+        return isGreaterOrEqualTo(VERSION_1_0_3);
+    }
+
+    /**
+     * Title max length has been increased from 100 to 255 characters beginning with server {@link Version} 1.0.0
      *
      * @return the number of characters that the title fields of cards allow
      * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/422">issue</a>
@@ -157,5 +166,17 @@ public class Version implements Comparable<Version> {
         return isGreaterOrEqualTo(VERSION_1_0_0)
                 ? 255
                 : 100;
+    }
+    /**
+     * URL to view a card in the web interface has been changed in {@link Version} 1.0.0
+     *
+     * @return the id of the string resource which contains the partial URL to open a card in the web UI
+     * @see <a href="https://github.com/nextcloud/deck/pull/1977">documentation in PR</a>
+     */
+    @StringRes
+    public int getShareLinkResource() {
+        return isGreaterOrEqualTo(VERSION_1_0_0)
+                ? R.string.url_fragment_share_card_since_1_0_0
+                : R.string.url_fragment_share_card_pre_1_0_0;
     }
 }

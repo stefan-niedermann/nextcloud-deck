@@ -2,7 +2,7 @@
     <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
 
-    <string name="drawer_header_background">Φωτογραφία φόντου επικεφαλίδας</string>
+    <string name="drawer_header_background">Φωτογραφία φόντου επικεφαλίδας συρταριού</string>
     <string name="drawer_current_account">Τρέχον λογαριασμός</string>
     <string name="drawer_middle_account">Μεσαίος λογαριασμός</string>
     <string name="drawer_end_account">Τελευταίος λογαριασμός</string>
@@ -37,6 +37,7 @@
     <string name="simple_comment">Σχόλιο</string>
     <string name="simple_disabled">απενεργοποιημένο</string>
     <string name="simple_copied">Αντιγράφτηκε</string>
+    <string name="simple_archive">Αρχειοθέτηση</string>
 
     <string name="edit_board">Επεξεργασία πίνακα</string>
     <string name="archive_board">Αρχειοθέτηση πίνακα</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Περιγραφή</string>
     <string name="hint_assign_people">Ορισμός χρηστών</string>
     <string name="hint_due_date_date">Προθεσμία</string>
+    <string name="card_not_found">Δεν βρέθηκε η καρτέλα</string>
+    <string name="card_not_found_message">Η καρτέλα δεν βρέθηκε. Ίσως διαγράφηκε πρόσφατα.</string>
+
     <string name="add_account"> Προσθήκη λογαριασμού </string>
     <string name="choose_account">Επιλογή λογαριασμού</string>
     <string name="add_card">Προσθήκη νέας καρτέλας</string>
@@ -108,6 +112,7 @@
     <string name="not_synced_yet">Δεν είναι ακόμα συγχρονισμένα</string>
     <string name="no_lists_yet">Χωρίς λίστες ακόμη</string>
     <string name="do_you_want_to_save_your_changes">Θέλετε να αποθηκεύσετε τις αλλαγές σας;</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Θέλετε να αρχειοθετήσετε όλες τις κάρτες του %1$s;</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Μόνιμη διαγραφή %1$dτης κάρτας της λίστας.</item>
         <item quantity="other">Μόνιμη διαγραφή όλων %1$d των καρτών της λίστας.</item>
@@ -190,8 +195,12 @@
     <string name="tag_successfully_added">%1$s προστέθηκε επιτυχώς</string>
     <string name="edit_tag">Επεξεργασία του %1$s</string>
     <string name="filter_tags_title">Ετικέτες</string>
-    <string name="filter_assignees_title">Εκχωρούμενοι</string>
+    <string name="filter_user_title">Χρήστες</string>
     <string name="filter_duedate_title">Προθεσμία</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Αναίρεση αρχειοθέτησης πίνακα</string>
+    <string name="archived_boards">Αρχειοθέτηση πινάκων </string>
 
     <!-- Errors -->
     <string name="error">Παρουσιάστηκε σφάλμα</string>
@@ -203,11 +212,12 @@
     <string name="server_misconfigured">Λάθος ρυθμίσεις διακομιστή</string>
     <string name="server_error">Σφάλμα διακομιστή</string>
     <string name="shared_error">Ο διαμοιρασμός περιεχομένου από εφαρμογές τρίτων δεν υποστηρίζεται πλήρως ακόμη. Παρακαλώ κάνετε λήψη πρώτα και στη συνέχεια διαμοιράστε από τον διαχειριστή αρχείων σας ή την συλλογή σας.</string>
+    <string name="error_edit_activity_killed_by_android">Το Android ολοκλήρωσε τη λειτουργία επεξεργασίας επειδή χρειαζόταν περισσότερους πόρους συστήματος για άλλες εφαρμογές.</string>
 
     <string name="error_dialog_title">Ωχ όχι - Τώρα τί; 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Δοκιμάστε τερματισμό της εφαρμογή και επανεκκίνηση. Ίσως υπάρχει λάθος σύνδεση.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Εάν το πρόβλημα παραμένει, προσπαθήστε να εκκαθαρίσετε τον χώρο αποθήκευσης και των δύο εφαρμογών: του Nextcloud και του Nextcloud Deck για επίλυση.</string>
-    <string name="error_dialog_tip_clear_storage">Μπορείτε να εκκαθαρίσετε τον χώρο αποθήκευσης από τις ρυθμίσεις του Android → Εφαρμογές → Nextcloud / Nextcloud Deck→ Αποθηκευτικός χώρος → Εκκαθάριση χώρου αποθήκευσης.</string>
+    <string name="error_dialog_tip_clear_storage">Μπορείτε να εκκαθαρίσετε τον χώρο αποθήκευσης από τις πληροφορίες εφαρμογής και επιλέγοντας Αποθηκευτικός χώρος → Εκκαθάριση χώρου αποθήκευσης.</string>
     <string name="error_dialog_tip_files_outdated">Η εφαρμογή Nextcloud δεν είναι ενημερωμένη. Παρακαλούμε επισκεφθείτε το Play Store ή το F-Groid για λήψη της τελευταίας έκδοσης.</string>
     <string name="error_dialog_tip_files_force_stop">Κάτι φαίνεται να πάει στραβά με την εφαρμογή Nextcloud. Προσπαθήστε να τερματίσετε την εφαρμογή Nextcloud και την εφαρμογή Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Εάν ο τερματισμός δεν βοηθήσει, μπορείτε να εκκαθαρίσετε τον αποθηκευτικό χώρο και των δύο εφαρμογών.</string>
@@ -217,7 +227,29 @@
     <string name="error_dialog_check_server_logs">Υπάρχει ένα πρόβλημα με τη ρύθμιση Nextcloud. Ελέγξτε τα αρχεία καταγραφής του διακομιστή.</string>
     <string name="error_dialog_check_maintenance">Παρακαλούμε ελέγξτε το Nextcloud οτι δεν βρίσκεται σε λειτουργία συντήρησης.</string>
     <string name="error_dialog_insufficient_storage">Δεν υπάρχει επαρκής χώρος αποθήκευσης στο Nextcloud. Διαγράψτε ορισμένα αρχεία για να συγχρονίσετε τις αλλαγές σας.</string>
-    <string name="error_dialog_contact_us">Μην διστάσετε να επικοινωνήσετε μαζί μας εάν τα προβλήματα παραμένουν. Μπορείτε να βρείτε τα στοιχεία επικοινωνίας μας στην ενότητα σχετικά στην πλευρική στήλη.</string>
     <string name="error_dialog_we_need_info">Χρειαζόμαστε τις ακόλουθες τεχνικές πληροφορίες για να σας βοηθήσουμε:</string>
     <string name="error_dialog_redirect">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client.</string>
+    <string name="error_dialog_version_not_parsable">Δεν μπορέσαμε να προσδιορίσουμε την έκδοση της εφαρμογής Deck του διακομιστή σας. Βεβαιωθείτε ότι είναι εγκατεστημένο και ενεργοποιημένο.</string>
+    <string name="error_dialog_capabilities_not_parsable">Δεν ήταν δυνατός ο έλεγχος των δυνατοτήτων του διακομιστή σας. Βεβαιωθείτε ότι ο διακομιστής σας λειτουργεί σωστά και οι εφαρμογές έχουν πρόσβαση στο Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Δεν ήταν δυνατή η μεταφόρτωση ενός συνημμένου. Προσπαθήστε να το διαμοιράσετε με άλλο τρόπο και ενημερώστε μας σχετικά με το σφάλμα.</string>
+    <string name="error_action_open_deck_info">Πληροφορίες εφαρμογής</string>
+    <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
+    <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
+    <string name="error_action_install">Εγκατάσταση</string>
+    <string name="info_box_maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
+    <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
+    <string name="share_link">Διαμοιρασμός συνδέσμου</string>
+    <string name="archive_cards">Αρχειοθετημένες κάρτες</string>
+    <string name="manage_accounts">Διαχείριση λογαριασμών</string>
+    <string name="manage_list">Διαχείριση λίστας</string>
+    <string name="simple_reply">Απάντηση</string>
+    <string name="error_while_uploading_attachment">Σφάλμα κατά την μεταφόρτωση του συνημμένου: %1$s</string>
+    <string name="append_text_to_description">Προσάρτηση στην περιγραφή</string>
+    <string name="add_text_as_comment">Προσθήκη ως σχόλιο</string>
+    <string name="progress_count">%1$d από %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d σφάλμα κατά την μεταφόρτωση</item>
+        <item quantity="other">%1$d σφάλματα κατά την μεταφόρτωση</item>
+    </plurals>
+    <string name="simple_report">Αναφορά</string>
 </resources>

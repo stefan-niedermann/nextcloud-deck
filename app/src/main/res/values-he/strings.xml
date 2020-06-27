@@ -10,12 +10,39 @@
 
     <!-- Simple values -->
     <string name="simple_boards">לוחות</string>
-    <string name="simple_add">יצירה</string>
+    <string name="simple_add">הוספה</string>
     <string name="simple_save">שמור</string>
+    <string name="simple_more">עוד</string>
+    <string name="simple_title">כותרת</string>
+    <string name="simple_copy">עותק</string>
+    <string name="simple_synchronization">סנכרון</string>
+    <string name="simple_appearance">מראה</string>
+    <string name="simple_error">שגיאה</string>
+    <string name="simple_exception">חריגה</string>
+    <string name="simple_close">סגירה</string>
+    <string name="simple_open">פתיחה</string>
+    <string name="simple_switch">החלפה</string>
+    <string name="simple_filter">מסנן</string>
+    <string name="simple_overdue">באיחור</string>
+    <string name="simple_clear">פינוי</string>
+    <string name="simple_discard">התעלמות</string>
+    <string name="simple_update">עדכון</string>
+    <string name="simple_delete">מחיקה</string>
+    <string name="simple_rename">שינוי שם</string>
+    <string name="simple_settings">הגדרות</string>
+    <string name="simple_undo">ביטול</string>
+    <string name="simple_manage">ניהול</string>
+    <string name="simple_share">שיתוף</string>
+    <string name="simple_select">בחירה</string>
+    <string name="simple_comment">הערה</string>
+    <string name="simple_disabled">מושבת</string>
+    <string name="simple_copied">הועתק</string>
+    <string name="simple_archive">לארכיון</string>
 
     <string name="edit_board">ערוך לוח</string>
     <string name="archive_board">לוח פעיל</string>
     <string name="delete_board">מחק לוח</string>
+    <string name="delete_something">מחיקת %1$s</string>
 
     <!-- About -->
     <string name="about">על אודות</string>
@@ -30,15 +57,21 @@
     <string name="about_source_title">קוד מקור</string>
     <string name="about_source">הפרוייקט מתארח ב GitHub %1$s</string>
     <string name="about_issues_title">תקלות</string>
+    <string name="about_issues">ניתן לדווח על תקלות, להציע שיפורים ותכונות במערכת מעקב התקלות שלנו שב־GitHub: %1$s</string>
     <string name="about_translate_title">תרגום</string>
+    <string name="about_translate">ניתן להצטרף לצוות של Nextcloud ב־Transifex ולסייע לנו לתרגם את היישומון הזה: %1$s</string>
     <string name="about_app_license_title">רישיון היישום</string>
     <string name="about_app_license">היישומון מוגן ברישיון הציבורי הכללי של GNU גרסה 3 ומעלה.</string>
     <string name="about_app_license_button">הצגת הרישיון</string>
     <string name="about_icons_disclaimer_title">סמלים</string>
+    <string name="about_icons_disclaimer_app_icon">לסמל המקורי יש לגשת אל %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">כל שאר הסמלים בהם נעשה שימוש ביישומון זה הם %1$s שנוצרו על ידי Google בע״מ ומוגשים תחת הרישוי Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">עיצוב צלמיות </string>
     <string name="about_credits_tab_title">תודות</string>
     <string name="about_contribution_tab_title">תרומה</string>
     <string name="about_license_tab_title">רישיון</string>
+
+    <string name="copied_to_clipboard">הועתק ללוח הגזירים</string>
 
     <string name="seconds_ago">לפני מספר שניות</string>
     <string name="edit">עריכה</string>
@@ -46,21 +79,153 @@
     <string name="label_description">תיאור</string>
     <string name="hint_assign_people">הקצאת משתמשים</string>
     <string name="hint_due_date_date">תאריך יעד</string>
-    <string name="activity">פעילות</string>
-    <string name="add_card">יצירת כרטיס</string>
-    <string name="add_list">יצירת חפיסה</string>
+    <string name="card_not_found">כרטיס לא נמצא</string>
+    <string name="card_not_found_message">לר ניתן למצוא את הכרטיס. אולי הוא נמחק לאחרונה.</string>
 
     <string name="add_account">הוספת חשבון</string>
-
+    <string name="choose_account">נא לבחור חשבון</string>
+    <string name="add_card">הוספת כרטיס חדש</string>
+    <string name="activity">פעילות</string>
+    <string name="add_list">הוספת רשימה</string>
+    <string name="rename_list">שינוי שם רשימה</string>
+    <string name="delete_list">מחיקת רשימה</string>
     <string name="label_menu">תפריט</string>
-    <string name="action_card_assign">הקצאת כרטיס אליך</string>
-    <string name="action_card_unassign">ביטול הקצאת כרטיס אליך</string>
+    <string name="action_card_assign">הקצאת כרטיס אלי</string>
+    <string name="action_card_unassign">ביטול הקצאת כרטיס אלי</string>
     <string name="action_card_archive">העברת כרטיס לארכיון</string>
     <string name="action_card_delete">מחיקת כרטיס לארכיון</string>
     <string name="add_board">הוספת לוח</string>
-    <string name="simple_title">כותרת</string>
 
     <string name="label_clear_due_date">הסרת מועד התפוגה</string>
+    <string name="label_add">הוספת %1$s</string>
 
-    <string name="label_add">יצירת %1$s</string>
-    </resources>
+    <string name="card_edit_details">פרטים</string>
+    <string name="card_edit_attachments">קבצים מצורפים</string>
+    <string name="card_edit_activity">פעילות</string>
+    <string name="about_server_app_version_text">גרסת יישום שרת:</string>
+    <string name="no_files_attached_to_this_card">לא מצורפים קבצים לכרטיס הזה.</string>
+    <string name="attachments">קבצים מצורפים</string>
+    <string name="no_cards">אין כרטיסים עדיין</string>
+    <string name="no_account">לא מוגדר חשבון</string>
+    <string name="account_already_added">כבר נוסף חשבון</string>
+    <string name="account_is_getting_imported">החשבון מיובא</string>
+    <string name="not_synced_yet">לא מסונכרן עדיין</string>
+    <string name="no_lists_yet">אין רשימות עדיין</string>
+    <string name="do_you_want_to_save_your_changes">לשמור את השינויים שלך?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">פעולה זו תמחק כרטיס %1$d מהרשימה הזאת.</item>
+        <item quantity="two">פעולה זו תמחק את כל %1$d הכרטיסים מהרשימה הזאת.</item>
+        <item quantity="many">פעולה זו תמחק את כל %1$d הכרטיסים מהרשימה הזאת.</item>
+        <item quantity="other">פעולה זו תמחק את כל %1$d הכרטיסים מהרשימה הזאת.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">פעולה זו תסיר את התווית מכרטיס %1$d.</item>
+        <item quantity="two">פעולה זו תסיר את התווית מ־%1$d כרטיסים.</item>
+        <item quantity="many">פעולה זו תסיר את התווית מ־%1$d כרטיסים.</item>
+        <item quantity="other">פעולה זו תסיר את התווית מ־%1$d כרטיסים.</item>
+    </plurals>
+    <string name="add_a_new_list_using_the_button">ניתן להוסיף רשימה חדשה עם הכפתור +</string>
+    <string name="add_a_new_card_using_the_button">ניתן להוסיף כרטיס חדש עם הכפתור +</string>
+    <string name="update_deck">עדכון החפיסה</string>
+    <string name="your_deck_version_is_too_old">גרסת החפיסה שלך ישנה מדי</string>
+    <string name="deck_outdated_please_update">גרסת החפיסה שלך ישנה מדי (%1$s). נא לעדכן כדי להשתמש ביישומון Android זה כלקוח.</string>
+    <string name="delete_board_message">פעולה זו תמחק את הלוח הזה על כל רשימותיו וכרטיסיו.</string>
+    <string name="settings_theme_title">ערכת עיצוב כהה</string>
+    <string name="settings_branding_title">מיתוג</string>
+    <string name="settings_background_sync">סנכרון ברקע</string>
+    <string name="pref_value_wifi_and_mobile">עדכון דרך רשת אלחוטית ונתונים סלולריים</string>
+    <string name="pref_value_wifi_only">סנכרון רק דרך רשת אלחוטית</string>
+    <string name="pref_value_theme_light">בהירה</string>
+    <string name="unassigned_user">ההקצאה אל %1$s בוטלה</string>
+    <string name="no_activities">אין פעילויות בכרטיס הזה. עליך להתחבר לאינטרנט כדי לטעון ולהציג פעילויות.</string>
+    <string name="share_board">שיתוף לוח</string>
+    <string name="you_are_currently_offline">אין לך חיבור לאינטרנט</string>
+    <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">על המכשיר שלך להיות מחובר לאינטרנט כדי שיתאפשר לך להוסיף חשבון.</string>
+    <string name="owner">בעלות</string>
+    <string name="attachment_delete_message">פעולה זו תמחק את הקובץ המצורף הזה לצמיתות.</string>
+    <string name="no_content">אין תוכן עדיין</string>
+    <string name="last_background_sync">עדכון רקע אחרון:</string>
+    <string name="simple_off">כבוי</string>
+    <string name="minutes_15">15 דקות</string>
+    <string name="hour_1">שעה אחת</string>
+    <string name="hours_6">6 שעות</string>
+    <string name="action_card_move">העברת כרטיס</string>
+    <string name="action_card_move_title">העברת %1$s</string>
+    <string name="please_add_an_account_first">נא להוסיף חשבון תחילה</string>
+    <string name="title_is_mandatory">חובה להוסיף כותרת</string>
+    <string name="provide_at_least_a_title_or_description">נא לספק לפחות כותרת או תיאור</string>
+    <string name="welcome_text">ברוך בואך אל %1$s</string>
+    <string name="save_card_before_attachment">יש לשמור את הכרטיס לפני שניתן יהיה לצרף קבצים.</string>
+    <string name="maintenance_mode_explanation">השרת %1$s נמצא במצב תחזוקה. נא ליצור קשר עם ההנהלה או לנסות מאוחר יותר.</string>
+    <string name="share_add_to_card">הוספה לכרטיס</string>
+    <string name="share_success">%1$s נוסף בהצלחה אל %2$s</string>
+    <string name="could_not_copy_to_clipboard">לא ניתן להעתיק ללוח הגזירים</string>
+    <string name="add_comment">הוספת הערה</string>
+    <string name="card_edit_comments">תגובות</string>
+    <string name="no_comments_yet">אין הערות עדיין</string>
+    <string name="no_boards">אין לוחות עדיין</string>
+    <string name="add_a_new_board_using_the_button">ניתן להוסיף לוח חדש עם הכפתור +</string>
+    <string name="choose_board">נא לבחור לוח</string>
+    <string name="choose_list">נא לבחור רשימה</string>
+    <string name="task_count">%1$s/%2$s</string>
+    <string name="open_in_browser">פתיחה בדפדפן</string>
+    <string name="updating_card">הכרטיס מעודכן…</string>
+
+    <!-- Move lists -->
+    <string name="move_list_right">העברת רשימה ימינה</string>
+    <string name="move_list_left">העברת רשימה שמאלה</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">הכול</string>
+    <string name="filter_overdue">באיחור</string>
+    <string name="filter_today">היום</string>
+    <string name="filter_week">ב־7 הימים הבאים</string>
+    <string name="filter_month">ב־30 הימים הבאים</string>
+    <string name="filter_no_due">ללא תאריך יעד</string>
+    <string name="filter_by_tag">סינון לפי תגית</string>
+    <string name="filter_by_assigned_user">סינון לפי משתמש מוקצה</string>
+    <string name="filter_by_duedate">סינון לפי תאריך יעד</string>
+
+    <!-- Archived cards -->
+    <string name="archived_cards">כרטיסים בארכיון</string>
+    <string name="action_card_dearchive">ביטול העברת כרטיס לארכיון</string>
+    <string name="action_archived_cards">עיון בכרטיסים בארכיון</string>
+    <string name="attachment_already_exists">הקובץ לצירוף כבר קיים</string>
+    <string name="pick_custom_color">נא לבחור צבע מותאם אישית</string>
+    <string name="manage_tags">ניהול תגיות</string>
+    <string name="add_tag">הוספת תגית</string>
+    <string name="tag_already_exists">%1$s כבר קיימת</string>
+    <string name="tag_successfully_added">%1$s נוספה בהצלחה</string>
+    <string name="edit_tag">עריכת %1$s</string>
+    <string name="filter_tags_title">תגיות</string>
+    <string name="filter_user_title">משתמשים</string>
+    <string name="filter_duedate_title">תאריך יעד</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">ביטול העברת הלוח לארכיון</string>
+    <string name="archived_boards">לוחות שנשמרו בארכיון</string>
+
+    <!-- Errors -->
+    <string name="error">הופיעה שגיאה</string>
+    <string name="synchronization_failed">הסנכרון נכשל</string>
+    <string name="operation_not_yet_supported">אין תמיכה עדיין</string>
+    <string name="error_revoking_ac">שגיאה בעת שלילת הגישה של %1$s</string>
+    <string name="error_create_label">שגיאה ביצירת התווית %1$s</string>
+    <string name="maintenance_mode">שרת במצב תחזוקה</string>
+    <string name="server_misconfigured">הגדרות השרת שגויות</string>
+    <string name="server_error">שגיאת שרת</string>
+    <string name="shared_error">שיתוף תוכן מיישומוני צד־שלישי עדיין לא נתמך לגמרי. נא לנסות להוריד תחילה ואז לשתף ממנהל הקבצים או הגלריה המובנים.</string>
+    <string name="error_dialog_title">שוד ושבר - מה עכשיו? 🙁</string>
+    <string name="error_dialog_check_maintenance">נא לבדוק שעותק ה־Nextcloud שלך אינו במצב תחזוקה כרגע.</string>
+    <string name="error_dialog_we_need_info">אנו זקוקים לפירוט הטכני הבא כדי לסייע לך:</string>
+    <string name="error_action_open_deck_info">פתיחת פרטי יישומון</string>
+    <string name="error_action_open_network">הגדרות רשת</string>
+    <string name="error_action_server_logs">יומני שרת</string>
+    <string name="error_action_install">התקנה</string>
+    <string name="info_box_maintenance_mode">שרת במצב תחזוקה</string>
+    <string name="info_box_version_not_supported">גרסת השרת %1$s אינה נתמכת, נא לעדכן לגרסה %2$s</string>
+    <string name="share_link">קישור שיתוף</string>
+    <string name="manage_accounts">ניהול חשבונות</string>
+    <string name="simple_reply">תגובה</string>
+    <string name="simple_report">דיווח</string>
+</resources>

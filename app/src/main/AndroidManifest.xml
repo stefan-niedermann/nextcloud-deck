@@ -45,12 +45,23 @@
         </activity>
 
         <activity
-            android:name=".ui.SelectCardActivity"
+            android:name=".ui.manageaccounts.ManageAccountsActivity"
+            android:label="@string/manage_accounts"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ui.sharetarget.ShareTargetActivity"
             android:label="@string/share_add_to_card"
             android:theme="@style/SplashTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
@@ -133,6 +144,25 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
-    </application>
 
+
+        <activity
+            android:name=".ui.widget.singlecard.SelectCardForWidgetActivity"
+            android:label="@string/share_add_to_card"
+            android:theme="@style/SplashTheme">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".ui.widget.singlecard.SingleCardWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_single_card_info" />
+        </receiver>
+    </application>
 </manifest>

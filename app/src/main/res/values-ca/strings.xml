@@ -13,6 +13,31 @@
     <string name="simple_add">Afegeix</string>
     <string name="simple_save">Desa</string>
     <string name="simple_more">Més</string>
+    <string name="simple_title">Títol</string>
+    <string name="simple_copy">copia</string>
+    <string name="simple_synchronization">Sincronització</string>
+    <string name="simple_appearance">Aparença</string>
+    <string name="simple_error">Error</string>
+    <string name="simple_exception">Excepció</string>
+    <string name="simple_close">tanca</string>
+    <string name="simple_open">Obert</string>
+    <string name="simple_switch">Canvia</string>
+    <string name="simple_filter">Filtre</string>
+    <string name="simple_overdue">Endarrerit</string>
+    <string name="simple_clear">Neteja</string>
+    <string name="simple_discard">descarta</string>
+    <string name="simple_update">Actualitza</string>
+    <string name="simple_delete">Eliminar</string>
+    <string name="simple_rename">Canvia\'n el nom</string>
+    <string name="simple_settings">Paràmetres</string>
+    <string name="simple_undo">Desfés</string>
+    <string name="simple_manage">gestiona</string>
+    <string name="simple_share">comparteix</string>
+    <string name="simple_select">Selecciona</string>
+    <string name="simple_comment">Comentari</string>
+    <string name="simple_disabled">Desactivat</string>
+    <string name="simple_copied">Copiat</string>
+    <string name="simple_archive">Arxiu</string>
 
     <string name="edit_board">Edita el tauler</string>
     <string name="archive_board">Arxiva el tauler</string>
@@ -39,10 +64,14 @@
     <string name="about_app_license">Aquesta aplicació està llicenciada sota la LLICÈNCIA PÚBLICA GENERAL DE GNU v3+.</string>
     <string name="about_app_license_button">Mostra la llicència</string>
     <string name="about_icons_disclaimer_title">Icones</string>
+    <string name="about_icons_disclaimer_app_icon">Per veure la icona original, mireu %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">La resta d\'icones que usa aquesta aplicació són %1$s fetes per Google Inc. amb llicència Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Icones Material Design</string>
     <string name="about_credits_tab_title">Crèdits</string>
     <string name="about_contribution_tab_title">Contribució</string>
     <string name="about_license_tab_title">Llicència</string>
+
+    <string name="copied_to_clipboard">S\'ha copiat al porta-retalls</string>
 
     <string name="seconds_ago">fa uns segons</string>
     <string name="edit">Edita</string>
@@ -50,32 +79,25 @@
     <string name="label_description">Descripció</string>
     <string name="hint_assign_people">Assigna usuaris</string>
     <string name="hint_due_date_date">Data de venciment</string>
+    <string name="card_not_found">Targeta no trobada</string>
+    <string name="card_not_found_message">No s\'ha pogut trobar la targeta. Potser s\'ha esborrat recentment.</string>
+
     <string name="add_account">Afegeix un compte</string>
     <string name="choose_account">Trieu un compte</string>
-
-    <string name="add_card">Afegeix una targeta</string>
-
+    <string name="add_card">Afegeix una nova targeta</string>
     <string name="activity">Activitat</string>
-
+    <string name="add_list">Afegeix una llista</string>
+    <string name="rename_list">Canvia el nom de la llista</string>
+    <string name="delete_list">Suprimeix la llista</string>
     <string name="label_menu">menú</string>
     <string name="action_card_assign">Assigna\'m la targeta</string>
     <string name="action_card_unassign">Desassigna\'m la targeta</string>
     <string name="action_card_archive">Arxiva la targeta</string>
     <string name="action_card_delete">Suprimeix targeta</string>
     <string name="add_board">Afegeix una taula</string>
-    <string name="simple_title">Títol</string>
 
     <string name="label_clear_due_date">Neteja la data de venciment</string>
     <string name="label_add">Afegeix %1$s</string>
-
-    <string name="error">S\'ha produït un error</string>
-    <string name="simple_copy">copia</string>
-    <string name="simple_synchronization">Sincronització</string>
-    <string name="simple_appearance">Aparença</string>
-    <string name="simple_error">Error</string>
-    <string name="simple_exception">Excepció</string>
-    <string name="copied_to_clipboard">S\'ha copiat al porta-retalls</string>
-    <string name="simple_close">tanca</string>
 
     <string name="card_edit_details">Detalls</string>
     <string name="card_edit_attachments">Adjunts</string>
@@ -88,32 +110,35 @@
     <string name="account_already_added">El compte ja s\'ha afegit.</string>
     <string name="account_is_getting_imported">S\'importa el compte.</string>
     <string name="not_synced_yet">No sincronitzat encara</string>
+    <string name="no_lists_yet">Encara no hi ha llistes</string>
     <string name="do_you_want_to_save_your_changes">Voleu desar els canvis?</string>
-    <string name="simple_discard">descarta</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Voleu arxivar totes les targetes de %1$s?</string>
+    <plurals name="do_you_want_to_delete_the_current_list">
+        <item quantity="one">Això suprimirà permanentment %1$d targeta d\'aquesta llista.</item>
+        <item quantity="other">Això suprimirà permanentment totes %1$d targetes d\'aquesta llista.</item>
+    </plurals>
+    <plurals name="do_you_want_to_delete_the_label">
+        <item quantity="one">Això suprimirà l\'etiqueta d\'%1$d targeta.</item>
+        <item quantity="other">Això suprimirà l\'etiqueta de %1$d targetes.</item>
+    </plurals>
+    <string name="add_a_new_list_using_the_button">Afegiu una nova llista usant el botó +</string>
     <string name="add_a_new_card_using_the_button">Afegiu una targeta nova mitjançant el botó +.</string>
     <string name="update_deck">Actualitza el tauler</string>
     <string name="your_deck_version_is_too_old">La versió del tauler és massa antiga.</string>
-    <string name="deck_outdated_please_update">La versió del tauler és massa antiga. Si us plau, actualitzeu-lo per usar aquesta aplicació d\'Android com a client.</string>
-    <string name="simple_update">Actualitza</string>
-    <string name="simple_delete">Eliminar</string>
-    <string name="simple_rename">Canvia\'n el nom</string>
-    <string name="simple_settings">Paràmetres</string>
+    <string name="deck_outdated_please_update">La vostra versió de tauler és massa antiga (%1$s). Si us plau, actualitzeu-lo per usar aquesta aplicació d\'Android com a client.</string>
+    <string name="delete_board_message">Això suprimirà permanentment aquest tauler, incloent-hi totes les llistes i targetes.</string>
     <string name="settings_theme_title">Tema fosc</string>
+    <string name="settings_branding_title">Marcatge</string>
     <string name="settings_background_sync">Sincronització en segon pla</string>
     <string name="pref_value_wifi_and_mobile">Sincronitza per Wi-Fi i dades mòbils</string>
     <string name="pref_value_wifi_only">Sincronitza només per Wi-Fi</string>
     <string name="pref_value_theme_light">Clar</string>
     <string name="unassigned_user">%1$s sense assignar</string>
-    <string name="simple_undo">Desfés</string>
     <string name="no_activities">No hi ha activitats en aquesta targeta. Per carregar i mostrar activitats, heu d’estar connectat a Internet.</string>
     <string name="share_board">Comparteix el tauler</string>
     <string name="you_are_currently_offline">Ara esteu fora de línia</string>
-    <string name="simple_manage">gestiona</string>
-    <string name="simple_share">comparteix</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Necessiteu estar connectat a internet per tal d\'afegir un compte</string>
-    <string name="simple_select">Selecciona</string>
     <string name="owner">Propietari</string>
-    <string name="simple_comment">Comentari</string>
     <string name="attachment_delete_message">Això eliminarà permanent l\'adjunció</string>
     <string name="no_content">No hi ha contingut encara</string>
     <string name="last_background_sync">Última sincronització en segon pla:</string>
@@ -123,10 +148,99 @@
     <string name="hours_6">6 hores</string>
     <string name="action_card_move">Mou la targeta</string>
     <string name="action_card_move_title">Mou %1$s</string>
-    <string name="simple_copied">Copiat</string>
-    <string name="server_error">Error del servidor</string>
+    <string name="please_add_an_account_first">Si us plau, afegiu primer un compte.</string>
+    <string name="title_is_mandatory">El títol és obligatori</string>
+    <string name="provide_at_least_a_title_or_description">Poseu-hi almenys un títol o descripció</string>
+    <string name="welcome_text">Benvingut a %1$s</string>
+    <string name="save_card_before_attachment">S\'ha de desar la targeta abans de poder afegir-hi adjuncions.</string>
+    <string name="maintenance_mode_explanation">El servidor %1$s és actualment en mode de manteniment. Si us plau, contacteu el vostre administrador o proveu de nou més tard.</string>
+    <string name="share_add_to_card">Afegeix a la targeta</string>
+    <string name="share_success">S\'ha afegit amb èxit %1$s a %2$s</string>
+    <string name="could_not_copy_to_clipboard">No s\'ha pogut copiar al porta-retalls</string>
+    <string name="add_comment">Afegeix un comentari</string>
     <string name="card_edit_comments">Comentaris</string>
+    <string name="no_comments_yet">Encara no hi ha comentaris</string>
+    <string name="no_boards">Encara no hi ha taulers</string>
+    <string name="add_a_new_board_using_the_button">Afegeix un nou tauler usant el botó +</string>
+    <string name="choose_board">Escull el tauler</string>
+    <string name="choose_list">Escull la llista</string>
+    <string name="task_count">%1$s/%2$s</string>
     <string name="open_in_browser">Obre al navegador</string>
-    <string name="simple_open">Obert</string>
+    <string name="updating_card">S\'està actualitzant la targeta...</string>
+
+    <!-- Move lists -->
+    <string name="move_list_right">Mou la llista a la dreta</string>
+    <string name="move_list_left">Mou la llista a l\'esquerra</string>
+
+    <!-- Filter -->
+    <string name="filter_no_filter">Totes</string>
+    <string name="filter_overdue">Endarrerit</string>
+    <string name="filter_today">Avui</string>
+    <string name="filter_week">Propers 7 dies</string>
+    <string name="filter_month">Propers 30 dies</string>
+    <string name="filter_no_due">Sense venciment</string>
+    <string name="filter_by_tag">Filtra per etiqueta</string>
+    <string name="filter_by_assigned_user">Filtra per usuari assignat</string>
+    <string name="filter_by_duedate">Filtra per data de venciment</string>
+
+    <!-- Archived cards -->
+    <string name="archived_cards">Targetes arxivades</string>
+    <string name="action_card_dearchive">Desfés l\'arxivament de la targeta</string>
+    <string name="action_archived_cards">Navega per les targetes arxivades</string>
+    <string name="attachment_already_exists">L\'adjunció ja existeix</string>
+    <string name="pick_custom_color">Escull un color personalitzat</string>
+    <string name="manage_tags">Gestiona les etiquetes</string>
+    <string name="add_tag">Afegeix etiqueta</string>
+    <string name="tag_already_exists">%1$s ja existeix</string>
+    <string name="tag_successfully_added">S\'ha afegit %1$s amb èxit</string>
+    <string name="edit_tag">Edita %1$s</string>
+    <string name="filter_tags_title">Etiquetes</string>
+    <string name="filter_user_title">Usuaris</string>
+    <string name="filter_duedate_title">Data de venciment</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Desfés l\'arxivament del tauler</string>
+    <string name="archived_boards">Taulers arxivats</string>
+
+    <!-- Errors -->
+    <string name="error">S\'ha produït un error</string>
+    <string name="synchronization_failed">Ha fallat la sincronització</string>
+    <string name="operation_not_yet_supported">Encara no està suportat</string>
+    <string name="error_revoking_ac">S\'ha produït un error revocant l\'accés per a %1$s</string>
+    <string name="error_create_label">S\'ha produït un error quan es creava l\'etiqueta %1$s</string>
     <string name="maintenance_mode">Servidor en mode de manteniment</string>
-    </resources>
+    <string name="server_misconfigured">El servidor no està ben configurat</string>
+    <string name="server_error">Error del servidor</string>
+    <string name="shared_error">La compartició de contingut de terceres parts encara no està plenament suportada. Si us plau, intenteu baixar-vos-el primer i després compartiu-lo amb el vostre gestor de fitxers nadiu o la galeria.</string>
+    <string name="error_edit_activity_killed_by_android">L\'Android ha tancat el mode d\'edició perquè necessitava més recursos del sistema per a altres aplicacions.</string>
+
+    <string name="error_dialog_title">Oh no! - I ara què? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Si us plau, mireu de forçar el tancament de l\'aplicació i reiniciar-la de nou. Hi deu haver hagut una connexió incorrecta a l\'aplicació Nextcloud.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Si el problema persisteix, mireu de netejar l\'emmagatzematge de totes dues aplicacions: Nextcloud i Nextcloud Deck per tal de resoldre el problema.</string>
+    <string name="error_dialog_tip_clear_storage">Podeu netejar l\'emmagatzematge obrint la informació de l\'aplicació i seleccionant Emmagatzematge → Neteja l\'emmagatzematge.</string>
+    <string name="error_dialog_tip_files_outdated">La vostra aplicació Nextcloud sembla que està obsoleta. Si us plau, visiteu la Play Store o l\'F-Droid per tal d\'aconseguir la darrera versió.</string>
+    <string name="error_dialog_tip_files_force_stop">Sembla que alguna cosa està malament a la vostra aplicació Nextcloud. Si us plau, intenteu forçar l\'aturada tant de l\'aplicació Nextcloud com de l\'aplicació Nextcloud Deck.</string>
+    <string name="error_dialog_tip_files_delete_storage">Si l\'aturada forçada no ajuda, podeu provar de netejar l\'emmagatzematge d\'ambdues aplicacions.</string>
+    <string name="error_dialog_timeout_instance">No hi ha hagut resposta del vostre servidor en el temps donat. Si us plau, assegureu-vos que la vostra instància funciona correctament.</string>
+    <string name="error_dialog_timeout_toggle">Comproveu la vostra connexió a xarxa. De vegades, apagar i encendre les dades mòbils o el wifi pot ajudar.</string>
+    <string name="error_dialog_check_server">La resposta del vostre servidor no ha estat correcta. Si us plau, comproveu que podeu accedir a l\'aplicació Deck des de la interfície web.</string>
+    <string name="error_dialog_check_server_logs">Hi ha un problema amb el vostre arranjament del Nextcloud. Si us plau, mireu-vos els fitxers de bitàcola del servidor.</string>
+    <string name="error_dialog_check_maintenance">Si us plau, comproveu que la vostra instància de Nextcloud no sigui en mode de manteniment.</string>
+    <string name="error_dialog_insufficient_storage">A la vostra instància de Nextcloud no li queda espai d\'emmagatzematge lliure. Si us plau, esborreu alguns fitxers per sincronitzar els canvis locals al vostre núvol.</string>
+    <string name="error_dialog_we_need_info">Ens cal la següent informació tècnica per poder-vos ajudar:</string>
+    <string name="error_dialog_redirect">El vostre servidor ha respost amb un codi d\'estat HTTP 302, que vol dir que no teniu instal·lada l\'aplicació Deck al vostre servidor o que alguna cosa està mal configurada. Això pot estar causat per una sobreescriptura a .htaccess-file o per aplicacions de Nextcloud com  OID Client.</string>
+    <string name="error_dialog_version_not_parsable">No hem pogut determinar la versió de l\'aplicació Deck de la part del servidor. Si us plau, assegureu-vos que està instal·lada i habilitada.</string>
+    <string name="error_dialog_capabilities_not_parsable">No podem recuperar les capacitats del vostre servidor. Si us plau, assegureu-vos que el servidor funciona bé i que altres aplicacions de client poden accedir al Nextcloud.</string>
+    <string name="error_action_open_deck_info">Obre la informació de l\'aplicació</string>
+    <string name="error_action_open_network">Arranjaments de xarxa</string>
+    <string name="error_action_server_logs">Bitàcoles del servidor</string>
+    <string name="error_action_install">Instal·lació</string>
+    <string name="info_box_maintenance_mode">Servidor en mode de manteniment</string>
+    <string name="info_box_version_not_supported">La versió del servidor %1$s no està suportada, si us plau, actualitzeu a %2$s.</string>
+    <string name="share_link">Enllaç de compartició</string>
+    <string name="archive_cards">Arxiva les targetes</string>
+    <string name="manage_accounts">Gestiona els comptes</string>
+    <string name="manage_list">Gestiona la llista</string>
+    <string name="simple_reply">Respon</string>
+    <string name="simple_report">Informar</string>
+</resources>

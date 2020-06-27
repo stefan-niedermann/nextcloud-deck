@@ -12,7 +12,7 @@
     <string name="simple_boards">Tableros</string>
     <string name="simple_add">Añadir</string>
     <string name="simple_save">Guardar</string>
-    <string name="simple_more">Mas</string>
+    <string name="simple_more">Más</string>
     <string name="simple_title">Título</string>
     <string name="simple_copy">copiar</string>
     <string name="simple_synchronization">Sincronización</string>
@@ -29,14 +29,15 @@
     <string name="simple_update">Actualizar</string>
     <string name="simple_delete">Eliminar</string>
     <string name="simple_rename">Renombrar</string>
-    <string name="simple_settings">Configuración</string>
+    <string name="simple_settings">Ajustes</string>
     <string name="simple_undo">Deshacer</string>
-    <string name="simple_manage">Organizar</string>
+    <string name="simple_manage">organizar</string>
     <string name="simple_share">Compartir</string>
     <string name="simple_select">Seleccionar</string>
     <string name="simple_comment">Comentario</string>
-    <string name="simple_disabled">Deshabilitado</string>
+    <string name="simple_disabled">deshabilitado</string>
     <string name="simple_copied">Copiado</string>
+    <string name="simple_archive">Archivar</string>
 
     <string name="edit_board">Editar tablero</string>
     <string name="archive_board">Archivar tablero</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Descripción</string>
     <string name="hint_assign_people">Asignar usuarios</string>
     <string name="hint_due_date_date">Fecha de fin</string>
+    <string name="card_not_found">Tarjeta no encontrada</string>
+    <string name="card_not_found_message">No se ha podido encontrar la tarjeta. Quizás se ha eliminado recientemente.</string>
+
     <string name="add_account">Añadir cuenta</string>
     <string name="choose_account">Elige una cuenta</string>
     <string name="add_card">Añadir nueva tarjeta</string>
@@ -108,6 +112,7 @@
     <string name="not_synced_yet">No sincronizado todavía</string>
     <string name="no_lists_yet">Aún no hay listas</string>
     <string name="do_you_want_to_save_your_changes">¿Desea guardar los cambios?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">¿Desea archivar todas las tarjetas de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Esto eliminará permanentemente %1$d tarjeta de esta lista.</item>
         <item quantity="other">Esto eliminará permanentemente todas las %1$d tarjetas de esta lista.</item>
@@ -138,12 +143,12 @@
     <string name="no_content">Aún no hay contenido</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_off">Off</string>
-    <string name="minutes_15">15 minutos</string>
-    <string name="hour_1">1 hora</string>
-    <string name="hours_6">6 horas</string>
+    <string name="minutes_15">15 Minutos</string>
+    <string name="hour_1">1 Hora</string>
+    <string name="hours_6">6 Horas</string>
     <string name="action_card_move">Mover tarjeta</string>
     <string name="action_card_move_title">Mover %1$s</string>
-    <string name="please_add_an_account_first">Por favor, añade primero una cuenta..</string>
+    <string name="please_add_an_account_first">Por favor, añade primero una cuenta</string>
     <string name="title_is_mandatory">El título es obligatorio</string>
     <string name="provide_at_least_a_title_or_description">Indique al menos un título o una descripción</string>
     <string name="welcome_text">Bienvenido a %1$s</string>
@@ -190,8 +195,12 @@
     <string name="tag_successfully_added">%1$s añadida con éxito</string>
     <string name="edit_tag">Editar %1$s</string>
     <string name="filter_tags_title">Etiquetas</string>
-    <string name="filter_assignees_title">Asignados</string>
+    <string name="filter_user_title">Usuarios</string>
     <string name="filter_duedate_title">Fecha de fin</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Deshacer archivado del tablero</string>
+    <string name="archived_boards">Tableros archivados</string>
 
     <!-- Errors -->
     <string name="error">Ha aparecido un error</string>
@@ -203,21 +212,35 @@
     <string name="server_misconfigured">Servidor mal configurado</string>
     <string name="server_error">Error en el servidor</string>
     <string name="shared_error">Compartir contenido desde apps de terceras partes no está totalmente soportado. Por favor, intente descargarlo antes y luego compartirlo a través de su administrador de archivos o su galería nativa.</string>
+    <string name="error_edit_activity_killed_by_android">Android finalizó el modo de edición debido a que se necesitaban más recursos del sistema para otras aplicaciones.</string>
 
     <string name="error_dialog_title">Oh no - ¿Ahora qué? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta forzar el cierre de la aplicación y vuelve a abrirla. Es posible que haya habido un problema de conexión con la aplicación Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Si el problema persiste, intenta limpiar borrar el almacenamiento de ambas apps, Nextcloud y Nextcloud Deck para solucionar este problema.</string>
-    <string name="error_dialog_tip_clear_storage">Puedes borrar el almacenamiento abriendo la configuración de Android → Nextcloud / Nextcloud Deck → Almacenamiento → Borrar almacenamiento</string>
+    <string name="error_dialog_tip_clear_storage">Puedes limpiar el almacenamiento abriendo la información de la app y seleccionando Almacenamiento → Eliminar datos.</string>
     <string name="error_dialog_tip_files_outdated">Su aplicación Nextcloud parece que está desactualizada. Por favor visite la Play Store o F-Droid para conseguir la versión más reciente.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece ir mal en tu app de Nextcloud. Por favor, intenta forzar el cierre de ambas, Nextcloud y Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si pararlas no ayuda, puede intentar borrar el almacenamiento de ambas aplicaciones.</string>
     <string name="error_dialog_timeout_instance">No hubo una respuesta de su servidor en un tiempo determinado. Por favor asegúrese de que su instancia está funcionando sin problemas.</string>
-    <string name="error_dialog_timeout_toggle">Compruebe su conexión de red. A veces alternando la activación de la conexión Wi-Fi o la conexión de datos a off y de nuevo a on puede ayudar.</string>
+    <string name="error_dialog_timeout_toggle">Comprueba tu conexión de red. A veces, desactivar y activar de nuevo los datos móviles o la Wi-Fi puede ayudar.</string>
     <string name="error_dialog_check_server">La respuesta de tu servidor no es correcta. Por favor, comprueba si puedes accede a la app de Deck mediante la interfaz web.</string>
     <string name="error_dialog_check_server_logs">Hay un problema con sus ajustes de Nextcloud. Por favor eche un vistazo a los archivos de registros del servidor.</string>
     <string name="error_dialog_check_maintenance">Por favor compruebe que su intancia Nextcloud no este actualmente en modo de mantenimiento.</string>
     <string name="error_dialog_insufficient_storage">Su instancia de Nextcloud no tiene espacio libre de almacenamiento. Por favor elimine algunos archivos para sincronizar sus cambios locales con su nube.</string>
-    <string name="error_dialog_contact_us">Por favor, no dude en contactar con nosotros si el problema persiste. Puede encontrar nuestra información de contacto en la sección acerca de en la barra lateral.</string>
     <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
     <string name="error_dialog_redirect">Tu servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Deck en su servidor o que algo está mal configurado. Esto puede estar causado por anulaciones personalizadas en un  archivo .htaccess o por aplicaciones de Nexcloud como OID Client. </string>
+    <string name="error_dialog_version_not_parsable">No se pudo determinar la versión de la aplicación Deck en el lado del servidor. Por favor, compruebe que está instalada y activada. </string>
+    <string name="error_dialog_capabilities_not_parsable">No se ha podido comprobar las capacidades de su servidor. Por favor compruebe que su servidor está funcionando bien y que otras aplicaciones de cliente son capaces de acceder a Nextcloud.</string>
+    <string name="error_action_open_deck_info">Abrir info de la app</string>
+    <string name="error_action_open_network">Configuración de red</string>
+    <string name="error_action_server_logs">Registros del servidor</string>
+    <string name="error_action_install">Instalar</string>
+    <string name="info_box_maintenance_mode">Servidor en modo de mantenimiento</string>
+    <string name="info_box_version_not_supported">La versión %1$s del servidor no está soportada. Por favor, actualiza a %2$s</string>
+    <string name="share_link">Compartir enlace</string>
+    <string name="archive_cards">Tarjetas archivadas</string>
+    <string name="manage_accounts">Gestionar cuentas</string>
+    <string name="manage_list">Administrar su lista</string>
+    <string name="simple_reply">Responder</string>
+    <string name="simple_report">Informe</string>
 </resources>

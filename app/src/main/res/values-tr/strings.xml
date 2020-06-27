@@ -37,6 +37,7 @@
     <string name="simple_comment">Açıklama</string>
     <string name="simple_disabled">devre dışı</string>
     <string name="simple_copied">Kopyalandı</string>
+    <string name="simple_archive">Arşivle</string>
 
     <string name="edit_board">Panoyu düzenle</string>
     <string name="archive_board">Panoyu arşivle</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Açıklama</string>
     <string name="hint_assign_people">Kullanıcı ata</string>
     <string name="hint_due_date_date">Bitiş tarihi</string>
+    <string name="card_not_found">Kart bulunamadı</string>
+    <string name="card_not_found_message">Kart bulunamadı. Yakın zamanda silinmiş olabilir.</string>
+
     <string name="add_account">Hesap ekle</string>
     <string name="choose_account">Hesap seçin</string>
     <string name="add_card">Yeni kart ekle</string>
@@ -108,6 +112,7 @@
     <string name="not_synced_yet">Henüz eşitlenmemiş</string>
     <string name="no_lists_yet">Henüz bir liste yok</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Tüm %1$s kartlarını arşivlemek ister misiniz?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Bu işlem, bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
         <item quantity="other">Bu işlem bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
@@ -120,7 +125,7 @@
     <string name="add_a_new_card_using_the_button">+ düğmesini kullanarak yeni bir kart ekleyebilirsiniz</string>
     <string name="update_deck">Tahtayı güncelle</string>
     <string name="your_deck_version_is_too_old">Tahta sürümünüz çok eski</string>
-    <string name="deck_outdated_please_update">Tahta sürümünüz çok eski (%1$s). Lütfen bu android uygulamasını istemci olarak kullanabilmek için deck sürümünü güncelleyin.</string>
+    <string name="deck_outdated_please_update">Tahta sürümünüz çok eski (%1$s). İstemci olarak kullanabilmek için bu android uygulamasını güncelleyin.</string>
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="settings_theme_title">Koyu tema</string>
     <string name="settings_branding_title">Markalama</string>
@@ -190,8 +195,12 @@
     <string name="tag_successfully_added">%1$s eklendi</string>
     <string name="edit_tag">%1$s düzenle</string>
     <string name="filter_tags_title">Etiketler</string>
-    <string name="filter_assignees_title">Atananlar</string>
+    <string name="filter_user_title">Kullanıcılar</string>
     <string name="filter_duedate_title">Bitiş tarihi</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Pano arşivlemeyi geri al</string>
+    <string name="archived_boards">Arşivlenmiş panolar</string>
 
     <!-- Errors -->
     <string name="error">Bir sorun çıktı</string>
@@ -203,21 +212,44 @@
     <string name="server_misconfigured">Sunucu yapılandırması hatalı</string>
     <string name="server_error">Sunucu sorunu</string>
     <string name="shared_error">Üçüncü taraf uygulamalardaki içeriklerin paylaşılması henüz tam olarak desteklenmiyor. Lütfen önce indirmeyi ve sonra dosya yöneticisi ya da galeri ile paylaşmayı deneyin.</string>
+    <string name="error_edit_activity_killed_by_android">Sistem kaynakları başka uygulamalar için gerektiğinden Android düzenleme kipini kapattı.</string>
 
     <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Lütfen uygulamayı kapanmaya zorlayıp yeniden başlatın. Yanlış bir Nextcloud uygulaması bağlantısı olmalı.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Sorun sürerse, çözmek için hem Nextcloud uygulamasının hem de Nextcloud Tahta uygulamasının depolamalarını temizlemeyi deneyin.</string>
-    <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için → Uygulamalar → Nextcloud / Nextcloud Tahta → Depolama (Hafıza) → Depolamayı temizle (Veriyi sil).</string>
+    <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için uygulama bilgilerini açın ve Depolama (Hafıza) → Depolamayı temizle (Veriyi sil) seçin.</string>
     <string name="error_dialog_tip_files_outdated">Nextcloud uygulamanız eski görünüyor. Lütfen son sürümü almak için Play Store ya da F-Droid mağazalarına gidin.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tahta uygulamasını zorla kapatmayı deneyin.</string>
     <string name="error_dialog_tip_files_delete_storage">Zorla durdurmak sorunu çözmediyse iki uygulamanın da depolamalarını temizlemeyi deneyebilirsiniz.</string>
     <string name="error_dialog_timeout_instance">Belirtilen sürede sunucunuzdan bir yanıt alınamadı. Lütfen kopyanızın düzgün çalıştığından emin olun.</string>
-    <string name="error_dialog_timeout_toggle">Ağ bağlantınızı denetleyin. Mobil veriye geçmek ya da Wi-Fi bağlantısını kapatıp açmak yardımcı olabilir.</string>
+    <string name="error_dialog_timeout_toggle">Ağ bağlantınızı denetleyin. Bazen mobil veriye geçmek ya da Wi-Fi bağlantısını kapatıp açmak yardımcı olabilir.</string>
     <string name="error_dialog_check_server">Sunucunuz doğru şekilde yanıt vermedi. Lütfen Tahta uygulamasına web arayüzü üzerinden erişebiliyor musunuz diye bakın.</string>
     <string name="error_dialog_check_server_logs">Nextcloud kurulumunuz ile ilgili bir sorun var. Lütfen sunucu günlük dosyalarını inceleyin.</string>
     <string name="error_dialog_check_maintenance">Nextcloud kopyanızın bakım kipinde olmadığından emin olun.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud kopyanızda boş depolama alanı kalmamış. Lütfen yerel değişikliklerinizi bulut ile eşitlemek için bazı dosyaları silerek yer açın.</string>
-    <string name="error_dialog_contact_us">Sorun sürerse lütfen bize sormaktan çekinmeyin. İletişim bilgilerimizi yan çubuktaki hakkında bölümünde bulabilirsiniz.</string>
     <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
     <string name="error_dialog_redirect">Sunucunuz, üzerine Tahta uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
+    <string name="error_dialog_version_not_parsable">Sunucu tarafındaki tahta uygulamasının sürümü belirlenemedi. Lütfen kurulmuş ve etkinleştirilmiş olduğundan emin olun.</string>
+    <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
+    <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
+    <string name="error_action_open_deck_info">Uygulama bilgilerini aç</string>
+    <string name="error_action_open_network">Ağ ayarları</string>
+    <string name="error_action_server_logs">Sunucu günlükleri</string>
+    <string name="error_action_install">Kur</string>
+    <string name="info_box_maintenance_mode">Sunucu bakım kipinde</string>
+    <string name="info_box_version_not_supported">%1$s sunucu sürümü desteklenmiyor. Lütfen %2$s sürümüne güncelleyin</string>
+    <string name="share_link">Bağlantıyı paylaş</string>
+    <string name="archive_cards">Kartları arşivle</string>
+    <string name="manage_accounts">Hesap yönetimi</string>
+    <string name="manage_list">Liste yönetimi</string>
+    <string name="simple_reply">Yanıtla</string>
+    <string name="error_while_uploading_attachment">Ek Dosyalara kaydedilirken hata: %1$s</string>
+    <string name="append_text_to_description">Açıklamaya ekle</string>
+    <string name="add_text_as_comment">Yorum olarak ekle</string>
+    <string name="progress_count">%1$d / %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">Yükleme sırasında %1$d sorun çıktı.</item>
+        <item quantity="other">Yükleme sırasında %1$d sorun çıktı.</item>
+    </plurals>
+    <string name="simple_report">Hata bildirin</string>
 </resources>

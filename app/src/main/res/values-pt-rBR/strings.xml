@@ -37,6 +37,7 @@
     <string name="simple_comment">Comentário</string>
     <string name="simple_disabled">desativado</string>
     <string name="simple_copied">Copiado</string>
+    <string name="simple_archive">Arquivados</string>
 
     <string name="edit_board">Editar painel</string>
     <string name="archive_board">Arquivar painel</string>
@@ -78,6 +79,9 @@
     <string name="label_description">Descrição</string>
     <string name="hint_assign_people">Atribuir usuários</string>
     <string name="hint_due_date_date">Data de vencimento</string>
+    <string name="card_not_found">Cartão não encontrado</string>
+    <string name="card_not_found_message">O cartão não foi encontrado. Talvez tenha sido recentemente excluído.</string>
+
     <string name="add_account">Adicionar conta</string>
     <string name="choose_account">Escolher conta</string>
     <string name="add_card">Adicionar novo cartão</string>
@@ -108,6 +112,7 @@
     <string name="not_synced_yet">Ainda não sincronizado</string>
     <string name="no_lists_yet">Ainda sem listas</string>
     <string name="do_you_want_to_save_your_changes">Deseja salvar suas alterações?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Deseja arquivar todos os cartões de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Isto excluirá permanentemente %1$d cartão desta lista.</item>
         <item quantity="other">Isto excluirá permanentemente todos os %1$d cartões desta lista.</item>
@@ -190,8 +195,12 @@
     <string name="tag_successfully_added">%1$s adicionado com sucesso</string>
     <string name="edit_tag">Editar %1$s</string>
     <string name="filter_tags_title">Marcações</string>
-    <string name="filter_assignees_title">Indicados</string>
+    <string name="filter_user_title">Usuários</string>
     <string name="filter_duedate_title">Data de vencimento</string>
+
+    <!-- Archived boards -->
+    <string name="action_board_dearchive">Desfazer arquivamento do painel</string>
+    <string name="archived_boards">Painéis arquivados</string>
 
     <!-- Errors -->
     <string name="error">Ocorreu um erro</string>
@@ -203,21 +212,44 @@
     <string name="server_misconfigured">Servidor mal configurado</string>
     <string name="server_error">Erro no servidor</string>
     <string name="shared_error">O compartilhamento de conteúdo de aplicativos de terceiros ainda não é totalmente suportado. Tente baixá-lo primeiro e depois compartilhá-lo do seu gerenciador de arquivos nativo ou galeria.</string>
+    <string name="error_edit_activity_killed_by_android">O Android terminou o modo de edição porque precisava de mais recursos do sistema para outros aplicativos.</string>
 
     <string name="error_dialog_title">Oh não - E agora? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Tente forçar o fechamento do aplicativo e reinicie-o novamente. Pode ter havido uma conexão incorreta com o aplicativo Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Se o problema persistir, tente limpar o armazenamento dos dois aplicativos: Nextcloud e Nextcloud Deck para resolver esse problema.</string>
-    <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as configurações do android → Aplicativos → Nextcloud / Nextcloud Deck → Armazenamento → Limpar armazenamento.</string>
+    <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar Armazenamento</string>
     <string name="error_dialog_tip_files_outdated">Seu aplicativo Nextcloud parece estar desatualizado. Visite a Play Store ou o F-Droid para obter a versão mais recente.</string>
     <string name="error_dialog_tip_files_force_stop">Parece que algo está errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Se forçar a parada deles não resolver, tente limpar o armazenamento dos dois aplicativos.</string>
     <string name="error_dialog_timeout_instance">Não houve resposta do seu servidor no tempo especificado. Verifique se sua instância está funcionando bem.</string>
-    <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, desativar e ativar os dados móveis ou o Wi-Fi pode ajudar.</string>
+    <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, ativar e desativar os dados móveis ou o Wi-Fi novamente pode ajudar.</string>
     <string name="error_dialog_check_server">A resposta do seu servidor não estava correta. Verifique se você pode acessar o aplicativo Deck pela interface web.</string>
     <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
     <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não possui mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
-    <string name="error_dialog_contact_us">Não hesite em nos contactar se os problemas persistirem. Você pode encontrar informações de contato na seção \"sobre\" na barra lateral.</string>
     <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudá-lo:</string>
     <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Deck no servidor ou que algo está configurado incorretamente. Isso pode ser causado por alterações no arquivo .htaccess ou por aplicativos Nextcloud como o Client OID.</string>
+    <string name="error_dialog_version_not_parsable">Não conseguimos determinar a versão do servidor do aplicativo Deck. Confirme se ele está instalado e ativo.</string>
+    <string name="error_dialog_capabilities_not_parsable">Não foi possível buscar os recursos do seu servidor. Verifique se o servidor está funcionando bem e se outros aplicativos clientes podem acessar o Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Não foi possível carregar um anexo. Tente compartilhá-lo de outra maneira e informe-nos sobre esse bug.</string>
+    <string name="error_action_open_deck_info">Abra as informações do Aplicativo</string>
+    <string name="error_action_open_network">Configurações da rede</string>
+    <string name="error_action_server_logs">Logs do servidor</string>
+    <string name="error_action_install">Instalar</string>
+    <string name="info_box_maintenance_mode">Servidor em modo de manutenção</string>
+    <string name="info_box_version_not_supported">A versão %1$s do servidor não é suportada, atualize para %2$s</string>
+    <string name="share_link">Link de compartilhamento</string>
+    <string name="archive_cards">Cartões arquivados</string>
+    <string name="manage_accounts">Gerenciar contas</string>
+    <string name="manage_list">Gerenciar lista</string>
+    <string name="simple_reply">Responder</string>
+    <string name="error_while_uploading_attachment">Erro ao enviar anexo: %1$s</string>
+    <string name="append_text_to_description">Anexar à descrição</string>
+    <string name="add_text_as_comment">Adicionar como comentário</string>
+    <string name="progress_count">%1$d de %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d erros durante o envio.</item>
+        <item quantity="other">%1$d erros durante o envio.</item>
+    </plurals>
+    <string name="simple_report">Reportar</string>
 </resources>

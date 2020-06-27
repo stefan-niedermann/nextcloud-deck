@@ -42,6 +42,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         List<FullCard> result = new ArrayList<>();
         if (stack.getCards() == null || stack.getCards().isEmpty()) {
             responder.onResponse(result);
+            return;
         }
         for (Card card : stack.getCards()) {
             serverAdapter.getCard(board.getId(), stack.getId(), card.getId(), new IResponseCallback<FullCard>(responder.getAccount()) {
