@@ -44,6 +44,8 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -340,6 +342,30 @@ public class SyncManager {
             } catch (OfflineException e) {
                 callback.onError(e);
             }
+
+            serverAdapter.getAllOcsUsers(new IResponseCallback<OcsUserList>(callback.getAccount()) {
+                @Override
+                public void onResponse(OcsUserList response) {
+                    Long accountId = callback.getAccount().getId();
+                    for (String ocsUserName : response) {
+                        User existingUser = dataBaseAdapter.getUserByUidDirectly(accountId, ocsUserName);
+                        if (existingUser == null) {
+                            // we don't know this user, lets get some details...
+                            serverAdapter.getOcsUserDetails(ocsUserName, new IResponseCallback<OcsUser>(callback.getAccount()) {
+                                @Override
+                                public void onResponse(OcsUser response) {
+                                    User newUser = new User();
+                                    newUser.setStatus(DBStatus.UP_TO_DATE.getId());
+                                    newUser.setPrimaryKey(ocsUserName);
+                                    newUser.setUid(ocsUserName);
+                                    newUser.setDisplayname(response.getDisplayName());
+                                    dataBaseAdapter.createUser(accountId, newUser);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
         });
     }
 
