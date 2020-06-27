@@ -2,6 +2,7 @@
 <resources>
     <color name="primary">#ffffff</color>
     <color name="accent">#000000</color>
+    <color name="defaultBrand">#0082C9</color>
     <color name="toolbarEditTextHighlightColor">#55ffffff</color>
     <color name="danger">#d40000</color>
     <color name="fg_accent">#fff</color>

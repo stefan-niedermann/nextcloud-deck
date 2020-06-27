@@ -58,7 +58,7 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.text.format.DateFormat.getDateFormat;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener {

@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 
 public class PrepareCreateActivity extends BrandedActivity {
 

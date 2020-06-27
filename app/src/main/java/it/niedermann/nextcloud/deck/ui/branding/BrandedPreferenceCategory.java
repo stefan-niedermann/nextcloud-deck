@@ -13,7 +13,7 @@ import androidx.preference.PreferenceViewHolder;
 import it.niedermann.nextcloud.deck.Application;
 
 import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 
 public class BrandedPreferenceCategory extends PreferenceCategory {
 

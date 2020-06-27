@@ -53,7 +53,7 @@ public final class ViewUtil {
         long diff = DateUtil.getDayDifference(new Date(), dueDate);
 
         int backgroundDrawable = 0;
-        int textColor = Application.getAppTheme(context) ? R.color.dark_fg_primary : R.color.grey600;
+        int textColor = Application.isDarkTheme(context) ? R.color.dark_fg_primary : R.color.grey600;
 
         if (diff == 1) {
             // due date: tomorrow

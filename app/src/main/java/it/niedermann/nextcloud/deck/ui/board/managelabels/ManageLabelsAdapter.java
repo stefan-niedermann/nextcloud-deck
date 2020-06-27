@@ -16,7 +16,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemManageLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 
 public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHolder> implements Branded {
 
@@ -76,7 +77,7 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
     @Override
     public void applyBrand(int mainColor) {
         if (Application.isBrandingEnabled(context)) {
-            this.mainColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(context, mainColor);
+            this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
             notifyDataSetChanged();
         }
     }

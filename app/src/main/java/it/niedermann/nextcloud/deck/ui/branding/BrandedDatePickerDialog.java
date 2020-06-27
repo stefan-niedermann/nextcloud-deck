@@ -16,13 +16,15 @@ import java.util.Calendar;
 
 import it.niedermann.nextcloud.deck.Application;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+
 public class BrandedDatePickerDialog extends DatePickerDialog implements Branded {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         @Nullable Context context = getContext();
         if (context != null) {
-            setThemeDark(Application.getAppTheme(context));
+            setThemeDark(Application.isDarkTheme(context));
             if (Application.isBrandingEnabled(context)) {
                 @ColorInt final int mainColor = Application.readBrandMainColor(context);
                 applyBrand(mainColor);
@@ -33,7 +35,7 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
 
     @Override
     public void applyBrand(int mainColor) {
-        @ColorInt final int buttonTextColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
+        @ColorInt final int buttonTextColor = getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
         // Text in picker title is always white
