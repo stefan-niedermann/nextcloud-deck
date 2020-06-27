@@ -585,6 +585,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 binding.emptyContentViewStacks.setVisibility(View.GONE);
                 currentBoardHasStacks = true;
             }
+            listMenu.findItem(R.id.archive_cards).setVisible(currentBoardHasStacks);
 
             int stackPositionInAdapter = 0;
             stackAdapter.setStacks(fullStacks);
