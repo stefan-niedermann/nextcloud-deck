@@ -66,7 +66,7 @@ public class ArchivedCardsActvitiy extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
-        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
+        // Nothing to do...
     }
 
     @NonNull

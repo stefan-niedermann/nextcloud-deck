@@ -225,7 +225,6 @@ public class PrepareCreateActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
-        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
         binding.submit.setBackgroundColor(mainColor);
         binding.submit.setTextColor(mainColor);
         binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));

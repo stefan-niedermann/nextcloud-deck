@@ -5,14 +5,12 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Menu;
 import android.widget.EditText;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +21,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.getForegroundColorForBackgroundColor;
 
 public abstract class BrandedActivity extends AppCompatActivity implements Branded {
 
@@ -50,41 +49,16 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        for (int i = 0; i < menu.size(); i++) {
-//            Drawable drawable = menu.getItem(i).getIcon();
-//            if (drawable != null) {
-//                drawable = DrawableCompat.wrap(drawable);
-//                DrawableCompat.setTint(drawable, colorAccent);
-//                menu.getItem(i).setIcon(drawable);
-//            }
-//        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public void applyBrandToPrimaryToolbar(@ColorInt int mainColor, @NonNull Toolbar toolbar) {
-//        final Drawable overflowDrawable = toolbar.getOverflowIcon();
-//        if (overflowDrawable != null) {
-//            overflowDrawable.setColorFilter(colorAccent, PorterDuff.Mode.SRC_ATOP);
-//            toolbar.setOverflowIcon(overflowDrawable);
-//        }
-//
-//        final Drawable navigationDrawable = toolbar.getNavigationIcon();
-//        if (navigationDrawable != null) {
-//            navigationDrawable.setColorFilter(colorAccent, PorterDuff.Mode.SRC_ATOP);
-//            toolbar.setNavigationIcon(navigationDrawable);
-//        }
-    }
-
     protected void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {
-        tabLayout.setTabTextColors(mainColor, mainColor);
-        tabLayout.setTabIconTint(ColorStateList.valueOf(mainColor));
-        tabLayout.setSelectedTabIndicatorColor(mainColor);
+        @ColorInt int finalMainColor = getSecondaryForegroundColorDependingOnTheme(this, mainColor);
+        tabLayout.setTabTextColors(finalMainColor, finalMainColor);
+        tabLayout.setTabIconTint(ColorStateList.valueOf(finalMainColor));
+        tabLayout.setSelectedTabIndicatorColor(finalMainColor);
     }
 
     public static void applyBrandToFAB(@ColorInt int mainColor, @NonNull FloatingActionButton fab) {
         fab.setSupportBackgroundTintList(ColorStateList.valueOf(mainColor));
+        fab.setColorFilter(getForegroundColorForBackgroundColor(mainColor));
     }
 
     public static void applyBrandToEditText(@ColorInt int mainColor, @NonNull EditText editText) {
