@@ -67,7 +67,7 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
                         newUser.setUid(user.getId());
                         newUser.setDisplayname(user.getDisplayName());
                         long newUserId = db.createUser(accountId, newUser);
-                        newUser.setId(newUserId);
+                        newUser.setLocalId(newUserId);
                         allFound.add(newUser);
                     }
                 }
