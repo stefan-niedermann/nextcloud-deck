@@ -171,10 +171,10 @@
                     android:id="@+id/list_menu_button"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/colorPrimary"
                     android:contentDescription="@string/add_list"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@android:color/white"
+                    android:tint="?attr/colorAccent"
                     android:tooltipText="@string/manage_list"
                     app:srcCompat="@drawable/ic_menu"
                     tools:ignore="UnusedAttribute" />

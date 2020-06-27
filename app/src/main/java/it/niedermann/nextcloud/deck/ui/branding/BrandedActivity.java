@@ -11,6 +11,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,6 +52,7 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
 
     protected void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {
         @ColorInt int finalMainColor = getSecondaryForegroundColorDependingOnTheme(this, mainColor);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
         tabLayout.setTabTextColors(finalMainColor, finalMainColor);
         tabLayout.setTabIconTint(ColorStateList.valueOf(finalMainColor));
         tabLayout.setSelectedTabIndicatorColor(finalMainColor);
