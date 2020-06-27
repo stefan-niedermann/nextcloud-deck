@@ -8,6 +8,7 @@ import android.widget.Filter;
 import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.List;
 
@@ -19,12 +20,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-
 public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
     @NonNull
     private Account account;
     private UserSearchLiveData liveSearchForACL;
+    private LiveData<List<User>> liveData;
+    private Observer<List<User>> observer;
 
     public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId) {
         this(activity, account, boardId, NO_CARD);
@@ -59,7 +60,6 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
                     activity.runOnUiThread(() -> {
-                        LiveData<List<User>> liveData;
                         final int constraintLength = constraint.toString().trim().length();
                         if (cardId == NO_CARD) {
                             liveData = constraintLength > 0
@@ -70,13 +70,14 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
                                     ? syncManager.searchUserByUidOrDisplayName(accountId, boardId, cardId, constraint.toString())
                                     : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, activity.getResources().getInteger(R.integer.max_users_suggested));
                         }
-                        //FIXME: @Stefan observeOnce isn't right anymore. for ACL, you reuse the the LiveData. Any else livedata is fine.
-                        observeOnce(liveData, activity, users -> {
+                        liveData.removeObservers(activity);
+                        observer = users -> {
                             users.removeAll(itemsToExclude);
                             filterResults.values = users;
                             filterResults.count = users.size();
                             publishResults(constraint, filterResults);
-                        });
+                        };
+                        liveData.observe(activity, observer);
                     });
                 }
                 return filterResults;
