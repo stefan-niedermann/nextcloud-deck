@@ -4,6 +4,11 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="toolbarStyle">@style/toolbarStyle</item>
+    </style>
+
+    <style name="toolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
     </style>
 
     <!-- Default is a light theme with the dark blue brand -->

@@ -415,14 +415,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void applyBrand(@ColorInt int mainColor) {
         applyBrandToPrimaryTabLayout(mainColor, binding.stackTitles);
         applyBrandToFAB(mainColor, binding.fab);
-
-
-        // Is null as soon as the avatar has been set
-//        @Nullable
-//        Drawable accountSwitcherDrawable = binding.accountSwitcher.getDrawable();
-//        if (accountSwitcherDrawable != null) {
-//            DrawableCompat.setTint(accountSwitcherDrawable, textColor);
-//        }
         DrawableCompat.setTint(headerBinding.logo.getDrawable(), ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK);
         headerBinding.headerView.setBackgroundColor(mainColor);
         headerBinding.appName.setTextColor(ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK);
