@@ -26,6 +26,7 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
@@ -121,7 +122,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     protected static final int ACTIVITY_SETTINGS = 2;
     public static final int ACTIVITY_MANAGE_ACCOUNTS = 4;
 
-    private ActionBarDrawerToggle toggle;
     @NonNull
     protected List<Account> accountsList = new ArrayList<>();
     protected SyncManager syncManager;
@@ -175,7 +175,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         setSupportActionBar(binding.toolbar);
 
-        toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.accent));
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -419,7 +420,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         applyBrandToFAB(mainColor, binding.fab);
 
 
-
         // Is null as soon as the avatar has been set
 //        @Nullable
 //        Drawable accountSwitcherDrawable = binding.accountSwitcher.getDrawable();
@@ -427,7 +427,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 //            DrawableCompat.setTint(accountSwitcherDrawable, textColor);
 //        }
         DrawableCompat.setTint(headerBinding.logo.getDrawable(), ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK);
-
         headerBinding.headerView.setBackgroundColor(mainColor);
         headerBinding.appName.setTextColor(ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK);
     }
