@@ -1,12 +1,13 @@
 <resources>
 
-    <!-- Default is a light theme with the dark blue brand -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
-        <item name="colorAccent">@color/primary</item>
-        <item name="colorControlNormal">?attr/colorAccent</item>
+        <item name="colorAccent">@color/accent</item>
     </style>
+
+    <!-- Default is a light theme with the dark blue brand -->
+    <style name="AppTheme" parent="BaseTheme" />
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>

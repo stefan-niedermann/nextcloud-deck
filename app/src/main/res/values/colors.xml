@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#ffffff</color>
-    <color name="accent">#121212</color>
+    <color name="accent">#000000</color>
     <color name="toolbarEditTextHighlightColor">#55ffffff</color>
     <color name="danger">#d40000</color>
     <color name="fg_accent">#fff</color>
