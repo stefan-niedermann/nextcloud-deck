@@ -95,7 +95,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        BrandedActivity.applyBrandToEditText(mainColor, textColor, binding.input);
+    public void applyBrand(int mainColor) {
+        BrandedActivity.applyBrandToEditText(mainColor, binding.input);
     }
 }

@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -89,7 +88,7 @@ public class EditActivity extends BrandedActivity {
         super.onNewIntent(intent);
         setIntent(intent);
         loadDataFromIntent();
-        applyBrand(parseColor(viewModel.getAccount().getColor()), parseColor(viewModel.getAccount().getTextColor()));
+        applyBrand(parseColor(viewModel.getAccount().getColor()));
     }
 
     private void loadDataFromIntent() {
@@ -290,12 +289,9 @@ public class EditActivity extends BrandedActivity {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
-        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
-        final int highlightColor = Color.argb(77, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
-        binding.title.setHighlightColor(highlightColor);
-        binding.title.setTextColor(textColor);
+    public void applyBrand(int mainColor) {
+        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
+        applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
     @NonNull

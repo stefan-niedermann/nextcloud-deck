@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -73,28 +72,14 @@ public class Application extends android.app.Application {
         }
     }
 
-    @ColorInt
-    public static int readBrandTextColor(@NonNull Context context) {
-        if (isBrandingEnabled(context)) {
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-            DeckLog.log("--- Read: shared_preference_theme_text");
-            return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_text), context.getApplicationContext().getResources().getColor(android.R.color.white));
-        } else {
-            return Color.WHITE;
-        }
-    }
-
-    public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
+    public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor) {
         if (isBrandingEnabled(context) && context instanceof BrandedActivity) {
             final BrandedActivity activity = (BrandedActivity) context;
-            activity.applyBrand(mainColor, textColor);
-            BrandedActivity.applyBrandToStatusbar(activity.getWindow(), mainColor, textColor);
+            activity.applyBrand(mainColor);
         }
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
-        DeckLog.log("--- Write: shared_preference_theme_text" + " | " + textColor);
         editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
-        editor.putInt(context.getString(R.string.shared_preference_theme_text), textColor);
         editor.apply();
     }
 

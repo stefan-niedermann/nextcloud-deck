@@ -142,9 +142,9 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToEditText(mainColor, textColor, binding.message);
-        applyBrandToFAB(mainColor, textColor, binding.fab);
+    public void applyBrand(int mainColor) {
+        applyBrandToEditText(mainColor, binding.message);
+        applyBrandToFAB(mainColor, binding.fab);
     }
 
     @Override

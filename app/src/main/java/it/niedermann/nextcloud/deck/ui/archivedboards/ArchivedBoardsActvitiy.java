@@ -67,8 +67,8 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+    public void applyBrand(int mainColor) {
+        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
     }
 
     @NonNull

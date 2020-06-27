@@ -20,7 +20,6 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:theme="@style/EditTextOnPrimaryBackground"
                     android:layout_marginEnd="16dp"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine"

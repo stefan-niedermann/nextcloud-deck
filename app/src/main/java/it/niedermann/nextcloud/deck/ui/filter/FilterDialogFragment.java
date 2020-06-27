@@ -101,7 +101,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
         @ColorInt int finalMainColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
         binding.tabLayout.setSelectedTabIndicatorColor(finalMainColor);
         indicator.setColorFilter(finalMainColor, PorterDuff.Mode.SRC_ATOP);

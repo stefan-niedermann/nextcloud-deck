@@ -74,7 +74,7 @@ public class ManageLabelsAdapter extends RecyclerView.Adapter<ManageLabelsViewHo
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
         if (Application.isBrandingEnabled(context)) {
             this.mainColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(context, mainColor);
             notifyDataSetChanged();

@@ -28,15 +28,14 @@ public class BrandedAlertDialogBuilder extends AlertDialog.Builder implements Br
 
         @NonNull Context context = getContext();
         @ColorInt final int mainColor = Application.readBrandMainColor(context);
-        @ColorInt final int textColor = Application.readBrandTextColor(context);
-        applyBrand(mainColor, textColor);
-        dialog.setOnShowListener(dialog -> applyBrand(mainColor, textColor));
+        applyBrand(mainColor);
+        dialog.setOnShowListener(dialog -> applyBrand(mainColor));
         return dialog;
     }
 
     @CallSuper
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
         final Button[] buttons = new Button[3];
         buttons[0] = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         buttons[1] = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);

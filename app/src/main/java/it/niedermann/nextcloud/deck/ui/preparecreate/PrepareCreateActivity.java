@@ -184,7 +184,7 @@ public class PrepareCreateActivity extends BrandedActivity {
             Application.saveCurrentAccountId(this, account.getId());
             Application.saveCurrentBoardId(this, account.getId(), boardId);
             Application.saveCurrentStackId(this, account.getId(), boardId, stackId);
-            applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
+            applyBrand(parseColor(account.getColor()));
 
             finish();
         } else {
@@ -216,7 +216,7 @@ public class PrepareCreateActivity extends BrandedActivity {
     private void applyTemporaryBrand(@Nullable Account account) {
         try {
             if (account != null && brandingEnabled) {
-                applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
+                applyBrand(parseColor(account.getColor()));
             }
         } catch (Throwable t) {
             DeckLog.logError(t);
@@ -224,10 +224,10 @@ public class PrepareCreateActivity extends BrandedActivity {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+    public void applyBrand(int mainColor) {
+        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
         binding.submit.setBackgroundColor(mainColor);
-        binding.submit.setTextColor(textColor);
+        binding.submit.setTextColor(mainColor);
         binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
     }
 }

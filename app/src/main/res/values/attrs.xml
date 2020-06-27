@@ -8,6 +8,4 @@
         <attr name="description" format="string" />
         <attr name="image" format="reference" />
     </declare-styleable>
-    <attr name="toolbarEditTextColor" format="reference" />
-    <attr name="toolbarEditTextHighlightColor" format="reference" />
 </resources>

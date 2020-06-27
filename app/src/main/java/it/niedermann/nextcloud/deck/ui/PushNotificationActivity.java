@@ -9,7 +9,6 @@ import android.view.View;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
@@ -19,17 +18,14 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToPrimaryToolbar;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToStatusbar;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
 
-public class PushNotificationActivity extends AppCompatActivity implements Branded {
+public class PushNotificationActivity extends BrandedActivity {
 
     private ActivityPushNotificationBinding binding;
 
@@ -84,7 +80,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
                         final SyncManager syncManager = new SyncManager(this);
                         try {
                             if (brandingEnabled) {
-                                applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
+                                applyBrand(parseColor(account.getColor()));
                             }
                         } catch (Throwable t) {
                             DeckLog.logError(t);
@@ -154,7 +150,7 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
     @UiThread
     private void launchEditActivity(@NonNull Account account, Long boardId, Long cardId) {
         try {
-            Application.saveBrandColors(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
+            Application.saveBrandColors(this, Color.parseColor(account.getColor()));
         } catch (Throwable t) {
             DeckLog.logError(t);
         }
@@ -170,10 +166,9 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
     }
 
     @Override
-    public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
+    public void applyBrand(@ColorInt int mainColor) {
         if (brandingEnabled) {
-            applyBrandToStatusbar(getWindow(), mainColor, textColor);
-            applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+            applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
             binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
         }
     }

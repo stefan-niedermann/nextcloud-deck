@@ -136,12 +136,12 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToEditText(mainColor, textColor, binding.labels);
-        applyBrandToEditText(mainColor, textColor, binding.dueDateDate);
-        applyBrandToEditText(mainColor, textColor, binding.dueDateTime);
-        applyBrandToEditText(mainColor, textColor, binding.people);
-        applyBrandToEditText(mainColor, textColor, binding.description);
+    public void applyBrand(int mainColor) {
+        applyBrandToEditText(mainColor, binding.labels);
+        applyBrandToEditText(mainColor, binding.dueDateDate);
+        applyBrandToEditText(mainColor, binding.dueDateTime);
+        applyBrandToEditText(mainColor, binding.people);
+        applyBrandToEditText(mainColor, binding.description);
     }
 
     private void setupDescription() {
