@@ -3,8 +3,6 @@ package it.niedermann.nextcloud.deck.ui.branding;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -54,29 +52,29 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        for (int i = 0; i < menu.size(); i++) {
-            Drawable drawable = menu.getItem(i).getIcon();
-            if (drawable != null) {
-                drawable = DrawableCompat.wrap(drawable);
-                DrawableCompat.setTint(drawable, colorAccent);
-                menu.getItem(i).setIcon(drawable);
-            }
-        }
+//        for (int i = 0; i < menu.size(); i++) {
+//            Drawable drawable = menu.getItem(i).getIcon();
+//            if (drawable != null) {
+//                drawable = DrawableCompat.wrap(drawable);
+//                DrawableCompat.setTint(drawable, colorAccent);
+//                menu.getItem(i).setIcon(drawable);
+//            }
+//        }
         return super.onCreateOptionsMenu(menu);
     }
 
     public void applyBrandToPrimaryToolbar(@ColorInt int mainColor, @NonNull Toolbar toolbar) {
-        final Drawable overflowDrawable = toolbar.getOverflowIcon();
-        if (overflowDrawable != null) {
-            overflowDrawable.setColorFilter(colorAccent, PorterDuff.Mode.SRC_ATOP);
-            toolbar.setOverflowIcon(overflowDrawable);
-        }
-
-        final Drawable navigationDrawable = toolbar.getNavigationIcon();
-        if (navigationDrawable != null) {
-            navigationDrawable.setColorFilter(colorAccent, PorterDuff.Mode.SRC_ATOP);
-            toolbar.setNavigationIcon(navigationDrawable);
-        }
+//        final Drawable overflowDrawable = toolbar.getOverflowIcon();
+//        if (overflowDrawable != null) {
+//            overflowDrawable.setColorFilter(colorAccent, PorterDuff.Mode.SRC_ATOP);
+//            toolbar.setOverflowIcon(overflowDrawable);
+//        }
+//
+//        final Drawable navigationDrawable = toolbar.getNavigationIcon();
+//        if (navigationDrawable != null) {
+//            navigationDrawable.setColorFilter(colorAccent, PorterDuff.Mode.SRC_ATOP);
+//            toolbar.setNavigationIcon(navigationDrawable);
+//        }
     }
 
     protected void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {
