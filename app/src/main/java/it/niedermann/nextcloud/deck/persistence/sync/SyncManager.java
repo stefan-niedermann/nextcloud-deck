@@ -1168,8 +1168,8 @@ public class SyncManager {
         return dataBaseAdapter.getUserByUidDirectly(accountId, uid);
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm) {
-        return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, notYetAssignedToLocalCardId, searchTerm);
+    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, final String searchTerm) {
+        return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, boardId, notYetAssignedToLocalCardId, searchTerm);
     }
 
     public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedInACL, final String searchTerm) {

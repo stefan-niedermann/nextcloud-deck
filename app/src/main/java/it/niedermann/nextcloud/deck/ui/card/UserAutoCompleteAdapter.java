@@ -64,7 +64,7 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
                                     : syncManager.findProposalsForUsersToAssignForACL(accountId, boardId, activity.getResources().getInteger(R.integer.max_users_suggested));
                         } else {
                             liveData = constraintLength > 0
-                                    ? syncManager.searchUserByUidOrDisplayName(accountId, cardId, constraint.toString())
+                                    ? syncManager.searchUserByUidOrDisplayName(accountId, boardId, cardId, constraint.toString())
                                     : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, activity.getResources().getInteger(R.integer.max_users_suggested));
                         }
                         observeOnce(liveData, activity, users -> {

@@ -551,9 +551,9 @@ public class DataBaseAdapter {
         return db.getUserDao().getUsersForAccount(accountId);
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm) {
+    public LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, final String searchTerm) {
         validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayName(accountId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%");
+        return db.getUserDao().searchUserByUidOrDisplayName(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%");
     }
 
     public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
