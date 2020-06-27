@@ -243,4 +243,13 @@
     <string name="manage_accounts">Gerenciar contas</string>
     <string name="manage_list">Gerenciar lista</string>
     <string name="simple_reply">Responder</string>
-    </resources>
+    <string name="error_while_uploading_attachment">Erro ao enviar anexo: %1$s</string>
+    <string name="append_text_to_description">Anexar à descrição</string>
+    <string name="add_text_as_comment">Adicionar como comentário</string>
+    <string name="progress_count">%1$d de %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d erros durante o envio.</item>
+        <item quantity="other">%1$d erros durante o envio.</item>
+    </plurals>
+    <string name="simple_report">Reportar</string>
+</resources>

@@ -224,4 +224,5 @@
     <string name="archive_cards">Arkivera kort</string>
     <string name="manage_accounts">Hantera konton</string>
     <string name="simple_reply">Svara</string>
-    </resources>
+    <string name="simple_report">Rapportera</string>
+</resources>

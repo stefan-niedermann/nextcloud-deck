@@ -242,4 +242,5 @@
     <string name="manage_accounts">Gestiona els comptes</string>
     <string name="manage_list">Gestiona la llista</string>
     <string name="simple_reply">Respon</string>
-    </resources>
+    <string name="simple_report">Informar</string>
+</resources>

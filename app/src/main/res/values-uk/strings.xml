@@ -227,4 +227,5 @@
     <string name="share_link">Поширити посилання</string>
     <string name="manage_accounts">Облікові записи</string>
     <string name="simple_reply">Відповісти</string>
-    </resources>
+    <string name="simple_report">Звіт</string>
+</resources>
