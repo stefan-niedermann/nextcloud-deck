@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
@@ -61,6 +62,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardPropa
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.DeckCommentsDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWitAclDownSyncDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
@@ -304,7 +306,23 @@ public class SyncManager {
      * - and have the permission to read the board with the given {@param boardRemoteId} (aka the {@link Board} is shared with this {@link User}).
      */
     public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        MediatorLiveData<List<Account>> liveData = new MediatorLiveData<>();
+        liveData.addSource(dataBaseAdapter.readAccountsForHostWithReadAccessToBoard(host, boardRemoteId), accounts -> {
+            liveData.postValue(accounts);
+            doAsync(() -> {
+                for (Account account : accounts) {
+                    new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                            .setResponseCallback(new IResponseCallback<Boolean>(account) {
+                                @Override
+                                public void onResponse(Boolean response) {
+                                    liveData.postValue(dataBaseAdapter.readAccountsForHostWithReadAccessToBoardDirectly(host, boardRemoteId));
+                                }
+                            }).doSyncFor(new BoardWitAclDownSyncDataProvider());
+                }
+            });
+        });
+
+        return liveData;
     }
 
     public void refreshCapabilities(IResponseCallback<Capabilities> callback) {

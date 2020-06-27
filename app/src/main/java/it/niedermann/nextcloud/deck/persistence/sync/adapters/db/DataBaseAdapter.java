@@ -869,4 +869,12 @@ public class DataBaseAdapter {
         model.setWidgetId(widgetId);
         db.getSingleCardWidgetModelDao().delete(model);
     }
+
+    public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {
+        return db.getAccountDao().readAccountsForHostWithReadAccessToBoard("%"+host+"%", boardRemoteId);
+    }
+
+    public List<Account> readAccountsForHostWithReadAccessToBoardDirectly(String host, long boardRemoteId) {
+        return db.getAccountDao().readAccountsForHostWithReadAccessToBoardDirectly("%"+host+"%", boardRemoteId);
+    }
 }
