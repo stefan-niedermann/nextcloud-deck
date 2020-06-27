@@ -289,6 +289,22 @@ public class SyncManager {
         return dataBaseAdapter.readAccounts();
     }
 
+    /**
+     * <p>
+     * Since the return value is a {@link LiveData}, it should immediately return the available values from the database
+     * and then perform a synchronization (not full but only for the needed data) to update the return value.
+     * <p>
+     * See https://github.com/stefan-niedermann/nextcloud-deck/issues/498#issuecomment-631615680
+     *
+     * @param host e. g. "example.com:4711"
+     * @return a {@link List<Account>} of {@link Account}s which are
+     * - located at the given {@param host}
+     * - and have the permission to read the board with the given {@param boardRemoteId} (aka the {@link Board} is shared with this {@link User}).
+     */
+    public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     public void refreshCapabilities(IResponseCallback<Capabilities> callback) {
         doAsync(() -> {
             try {
@@ -925,7 +941,7 @@ public class SyncManager {
      * a) If the {@link User} has at least view permission at the target {@link Board}, keep it (<strong>can</strong> be the case if the target {@link Account} is the same as the origin {@link Account} <strong>or</strong> the target {@link Account} is on the same Nextcloud instance as the origin {@link Account}
      * b) Else {@link #unassignUserFromCard(User, Card)} (will always be the case if the target {@link Account} is on another Nextcloud isntance as the origin {@link Account})
      * <p>
-     *
+     * <p>
      * https://github.com/stefan-niedermann/nextcloud-deck/issues/453
      */
     @SuppressWarnings("JavadocReference")
