@@ -243,4 +243,13 @@
     <string name="manage_accounts">Konten verwalten</string>
     <string name="manage_list">Liste verwalten</string>
     <string name="simple_reply">Antworten</string>
-    </resources>
+    <string name="error_while_uploading_attachment">Fehler beim Hochladen des Anhangs: %1$s</string>
+    <string name="append_text_to_description">An Beschreibung anhängen</string>
+    <string name="add_text_as_comment">Als Kommentar hinzufügen</string>
+    <string name="progress_count">%1$d von %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d Fehler beim Hochladen</item>
+        <item quantity="other">%1$d Fehler beim Hochladen</item>
+    </plurals>
+    <string name="simple_report">Melden</string>
+</resources>

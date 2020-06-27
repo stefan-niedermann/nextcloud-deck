@@ -233,4 +233,5 @@
     <string name="share_link">Partekatu esteka</string>
     <string name="manage_accounts">Kudeatu kontuak</string>
     <string name="simple_reply">Erantzun</string>
-    </resources>
+    <string name="simple_report">Jakinarazi</string>
+</resources>

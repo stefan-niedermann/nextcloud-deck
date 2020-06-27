@@ -243,4 +243,9 @@
     <string name="manage_accounts">Gérer les comptes</string>
     <string name="manage_list">Gérer la liste</string>
     <string name="simple_reply">Répondre</string>
-    </resources>
+    <string name="error_while_uploading_attachment">Erreur pendant l\'envoi de la pièce jointe : %1$s</string>
+    <string name="append_text_to_description">Ajouter à la description</string>
+    <string name="add_text_as_comment">Ajouter en commentaire</string>
+    <string name="progress_count">%1$d sur %2$d</string>
+    <string name="simple_report">Signaler</string>
+</resources>
