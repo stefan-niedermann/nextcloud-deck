@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
@@ -48,7 +49,10 @@ import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst.Debouncer;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst.UserSearchLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AbstractSyncDataProvider;
@@ -342,30 +346,6 @@ public class SyncManager {
             } catch (OfflineException e) {
                 callback.onError(e);
             }
-
-            serverAdapter.getAllOcsUsers(new IResponseCallback<OcsUserList>(callback.getAccount()) {
-                @Override
-                public void onResponse(OcsUserList response) {
-                    Long accountId = callback.getAccount().getId();
-                    for (String ocsUserName : response) {
-                        User existingUser = dataBaseAdapter.getUserByUidDirectly(accountId, ocsUserName);
-                        if (existingUser == null) {
-                            // we don't know this user, lets get some details...
-                            serverAdapter.getOcsUserDetails(ocsUserName, new IResponseCallback<OcsUser>(callback.getAccount()) {
-                                @Override
-                                public void onResponse(OcsUser response) {
-                                    User newUser = new User();
-                                    newUser.setStatus(DBStatus.UP_TO_DATE.getId());
-                                    newUser.setPrimaryKey(ocsUserName);
-                                    newUser.setUid(ocsUserName);
-                                    newUser.setDisplayname(response.getDisplayName());
-                                    dataBaseAdapter.createUser(accountId, newUser);
-                                }
-                            });
-                        }
-                    }
-                }
-            });
         });
     }
 
@@ -1146,14 +1126,8 @@ public class SyncManager {
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId) {
         return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId);
     }
-
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
         return findProposalsForLabelsToAssign(accountId, boardId, -1L);
-    }
-
-    // TODO Difference to getFullBoardByid() ??? I think those methods are equal, we should drop one of them.
-    public LiveData<FullBoard> getFullBoard(Long accountId, Long localId) {
-        return dataBaseAdapter.getFullBoardById(accountId, localId);
     }
 
     public LiveData<User> getUserByLocalId(long accountId, long localId) {
@@ -1172,8 +1146,8 @@ public class SyncManager {
         return dataBaseAdapter.searchUserByUidOrDisplayName(accountId, boardId, notYetAssignedToLocalCardId, searchTerm);
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedInACL, final String searchTerm) {
-        return dataBaseAdapter.searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedInACL, searchTerm);
+    public UserSearchLiveData searchUserByUidOrDisplayNameForACL() {
+        return new UserSearchLiveData(dataBaseAdapter, serverAdapter);
     }
 
     public LiveData<Board> getBoard(long accountId, long remoteId) {

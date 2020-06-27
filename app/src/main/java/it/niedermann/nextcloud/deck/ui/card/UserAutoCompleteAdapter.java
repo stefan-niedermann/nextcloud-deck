@@ -15,6 +15,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAutocompleteUserBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst.UserSearchLiveData;
 import it.niedermann.nextcloud.deck.util.AutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -23,6 +24,7 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
     @NonNull
     private Account account;
+    private UserSearchLiveData liveSearchForACL;
 
     public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId) {
         this(activity, account, boardId, NO_CARD);
@@ -31,6 +33,7 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
     public UserAutoCompleteAdapter(@NonNull ComponentActivity activity, @NonNull Account account, long boardId, long cardId) {
         super(activity, account.getId(), boardId, cardId);
         this.account = account;
+        this.liveSearchForACL = syncManager.searchUserByUidOrDisplayNameForACL();
     }
 
     @Override
@@ -60,13 +63,14 @@ public class UserAutoCompleteAdapter extends AutoCompleteAdapter<User> {
                         final int constraintLength = constraint.toString().trim().length();
                         if (cardId == NO_CARD) {
                             liveData = constraintLength > 0
-                                    ? syncManager.searchUserByUidOrDisplayNameForACL(accountId, boardId, constraint.toString())
+                                    ? liveSearchForACL.search(accountId, boardId, constraint.toString())
                                     : syncManager.findProposalsForUsersToAssignForACL(accountId, boardId, activity.getResources().getInteger(R.integer.max_users_suggested));
                         } else {
                             liveData = constraintLength > 0
                                     ? syncManager.searchUserByUidOrDisplayName(accountId, boardId, cardId, constraint.toString())
                                     : syncManager.findProposalsForUsersToAssign(accountId, boardId, cardId, activity.getResources().getInteger(R.integer.max_users_suggested));
                         }
+                        //FIXME: @Stefan observeOnce isn't right anymore. for ACL, you reuse the the LiveData. Any else livedata is fine.
                         observeOnce(liveData, activity, users -> {
                             users.removeAll(itemsToExclude);
                             filterResults.values = users;
