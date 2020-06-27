@@ -26,7 +26,6 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
@@ -176,7 +175,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         setSupportActionBar(binding.toolbar);
 
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.accent));
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
