@@ -416,9 +416,10 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void applyBrand(@ColorInt int mainColor) {
         applyBrandToPrimaryTabLayout(mainColor, binding.stackTitles);
         applyBrandToFAB(mainColor, binding.fab);
-        DrawableCompat.setTint(headerBinding.logo.getDrawable(), ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK);
         headerBinding.headerView.setBackgroundColor(mainColor);
-        headerBinding.appName.setTextColor(ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK);
+        @ColorInt final int finalTextColor = ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
+        DrawableCompat.setTint(headerBinding.logo.getDrawable(), finalTextColor);
+        headerBinding.appName.setTextColor(finalTextColor);
     }
 
     @Override
