@@ -36,4 +36,10 @@ public interface AccountDao extends GenericDao<Account> {
 
     @Query("SELECT * from account")
     List<Account> getAllAccountsDirectly();
+
+    @Query("SELECT * from account a where a.url like :hostLike and exists (select 1 from board b where b.id = :boardRemoteId and a.id = b.accountId)")
+    LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String hostLike, long boardRemoteId);
+
+    @Query("SELECT * from account a where a.url like :hostLike and exists (select 1 from board b where b.id = :boardRemoteId and a.id = b.accountId)")
+    List<Account> readAccountsForHostWithReadAccessToBoardDirectly(String hostLike, long boardRemoteId);
 }
