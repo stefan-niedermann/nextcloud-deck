@@ -11,9 +11,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 public class RequestHelper {
 
     static {
-        RxJavaPlugins.setErrorHandler(e -> {
-            DeckLog.logError(e);
-        });
+        RxJavaPlugins.setErrorHandler(DeckLog::logError);
     }
 
     public static <T> void request(final ApiProvider provider, final ObservableProvider<T> call, final IResponseCallback<T> callback) {
