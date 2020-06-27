@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 
@@ -472,7 +473,52 @@ public class SyncManager {
      */
     @AnyThread
     public LiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle, String targetBoardColor) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        MediatorLiveData<FullBoard> liveData = new MediatorLiveData<>();
+        doAsync(() -> {
+            Account originAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
+            User newOwner = dataBaseAdapter.getUserByUidDirectly(originAccountId, originAccount.getUserName());
+            FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(originAccountId, originBoardLocalId);
+            originalBoard.setAccountId(targetAccountId);
+            originalBoard.getBoard().setTitle(targetBoardTitle);
+            originalBoard.getBoard().setColor(targetBoardColor);
+            originalBoard.getBoard().setOwnerId(newOwner.getId());
+            originalBoard.setOwner(newOwner);
+            originalBoard.setId(null);
+            originalBoard.setLocalId(null);
+            long newBoardId = dataBaseAdapter.createBoardDirectly(originAccountId, originalBoard.getBoard());
+            originalBoard.setLocalId(newBoardId);
+
+            for (Stack stack : originalBoard.getStacks()) {
+                stack.setLocalId(null);
+                stack.setId(null);
+                stack.setAccountId(targetAccountId);
+                stack.setBoardId(newBoardId);
+                dataBaseAdapter.createStack(targetAccountId, stack);
+            }
+            for (Label label : originalBoard.getLabels()) {
+                label.setLocalId(null);
+                label.setId(null);
+                label.setAccountId(targetAccountId);
+                label.setBoardId(newBoardId);
+                dataBaseAdapter.createLabel(targetAccountId, label);
+            }
+            Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
+            new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                    .setResponseCallback(new IResponseCallback<Boolean>(targetAccount) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            liveData.postValue(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                            liveData.postValue(null);
+                        }
+                    }).doSyncFor(new BoardDataProvider());
+
+        });
+        return liveData;
     }
 
     @AnyThread
