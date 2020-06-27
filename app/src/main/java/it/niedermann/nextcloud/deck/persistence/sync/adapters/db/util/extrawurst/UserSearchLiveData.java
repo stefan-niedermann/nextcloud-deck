@@ -45,12 +45,7 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
         if (key!=notYetAssignedInACL){
             return;
         }
-        LiveData<List<User>> dbLiveData = db.searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedInACL, searchTerm);
-        addSource(dbLiveData, changedData -> {
-                    foundInDB = changedData;
-                    postValue(changedData);
-                }
-        );
+
 
         Account account = db.getAccountByIdDirectly(accountId);
         server.searchUser(searchTerm, new IResponseCallback<OcsUserList>(account) {
@@ -60,7 +55,9 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
                     return;
                 }
                 List<User> allFound = new ArrayList<>();
-                allFound.addAll(foundInDB);
+                if (foundInDB != null && !foundInDB.isEmpty()) {
+                    allFound.addAll(foundInDB);
+                }
                 for (OcsUser user : response.getUsers()) {
                     User existingUser = db.getUserByUidDirectly(accountId, user.getId());
                     if (existingUser == null) {
@@ -69,12 +66,25 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
                         newUser.setPrimaryKey(user.getId());
                         newUser.setUid(user.getId());
                         newUser.setDisplayname(user.getDisplayName());
-                        db.createUser(accountId, newUser);
+                        long newUserId = db.createUser(accountId, newUser);
+                        newUser.setId(newUserId);
                         allFound.add(newUser);
                     }
                 }
                 postValue(allFound);
             }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+            }
+        });
+
+        LiveData<List<User>> dbLiveData = db.searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedInACL, searchTerm);
+        addSource(dbLiveData, changedData -> {
+            foundInDB = changedData;
+            removeSource(dbLiveData);
+            postValue(changedData);
         });
     }
 }
