@@ -168,7 +168,6 @@ public class PushNotificationActivity extends BrandedActivity {
     @Override
     public void applyBrand(@ColorInt int mainColor) {
         if (brandingEnabled) {
-            applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
             binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
         }
     }

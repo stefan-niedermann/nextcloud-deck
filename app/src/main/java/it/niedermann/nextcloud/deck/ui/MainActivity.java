@@ -413,7 +413,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void applyBrand(@ColorInt int mainColor) {
-        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, binding.stackTitles);
         applyBrandToFAB(mainColor, binding.fab);
 

@@ -290,7 +290,6 @@ public class EditActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
-        applyBrandToPrimaryToolbar(mainColor, binding.toolbar);
         applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
