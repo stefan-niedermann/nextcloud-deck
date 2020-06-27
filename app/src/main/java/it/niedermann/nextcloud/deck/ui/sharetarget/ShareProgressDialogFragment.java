@@ -21,7 +21,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static android.graphics.PorterDuff.Mode;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.ExceptionUtil.getDebugInfos;
 
 public class ShareProgressDialogFragment extends BrandedDialogFragment {

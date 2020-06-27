@@ -11,9 +11,10 @@ import androidx.fragment.app.DialogFragment;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogTextColorInputBinding;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
+
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 
 public class EditLabelDialogFragment extends BrandedDialogFragment {
 
@@ -84,6 +85,6 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
 
     @Override
     public void applyBrand(int mainColor) {
-        BrandedActivity.applyBrandToEditText(mainColor, binding.input);
+        applyBrandToEditText(mainColor, binding.input);
     }
 }

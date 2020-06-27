@@ -25,10 +25,9 @@ import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 
 public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Branded {
 
@@ -161,7 +160,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void applyBrand(int mainColor) {
         if (Application.isBrandingEnabled(context)) {
-            this.mainColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(context, mainColor);
+            this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
             notifyDataSetChanged();
         }
     }

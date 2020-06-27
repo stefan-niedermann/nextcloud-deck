@@ -20,12 +20,13 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 
 public class ManageLabelsDialogFragment extends BrandedDialogFragment implements ManageLabelListener, EditLabelListener {
 
@@ -109,8 +110,8 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
 
     @Override
     public void applyBrand(int mainColor) {
-        BrandedActivity.applyBrandToFAB(mainColor, binding.fab);
-        BrandedActivity.applyBrandToEditText(mainColor, binding.addLabelTitle);
+        applyBrandToFAB(mainColor, binding.fab);
+        applyBrandToEditText(mainColor, binding.addLabelTitle);
     }
 
     public static DialogFragment newInstance(long boardLocalId) {

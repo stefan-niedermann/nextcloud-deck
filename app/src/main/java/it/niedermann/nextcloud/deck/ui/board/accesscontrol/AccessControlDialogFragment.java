@@ -25,7 +25,6 @@ import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
@@ -34,6 +33,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.board.accesscontrol.AccessControlAdapter.HEADER_ITEM_LOCAL_ID;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 
 public class AccessControlDialogFragment extends BrandedDialogFragment implements AccessControlChangedListener, OnItemClickListener {
 
@@ -136,7 +136,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
 
     @Override
     public void applyBrand(int mainColor) {
-        BrandedActivity.applyBrandToEditText(mainColor, binding.people);
+        applyBrandToEditText(mainColor, binding.people);
         this.adapter.applyBrand(mainColor);
     }
 

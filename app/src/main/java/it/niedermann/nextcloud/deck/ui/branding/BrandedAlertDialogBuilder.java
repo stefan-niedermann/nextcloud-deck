@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import it.niedermann.nextcloud.deck.Application;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+
 public class BrandedAlertDialogBuilder extends AlertDialog.Builder implements Branded {
 
     protected AlertDialog dialog;
@@ -42,7 +44,7 @@ public class BrandedAlertDialogBuilder extends AlertDialog.Builder implements Br
         buttons[2] = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
         for (Button button : buttons) {
             if (button != null) {
-                button.setTextColor(BrandedActivity.getSecondaryForegroundColorDependingOnTheme(button.getContext(), mainColor));
+                button.setTextColor(getSecondaryForegroundColorDependingOnTheme(button.getContext(), mainColor));
             }
         }
     }

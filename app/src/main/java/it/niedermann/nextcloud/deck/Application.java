@@ -24,7 +24,7 @@ public class Application extends android.app.Application {
 
     @Override
     public void onCreate() {
-        setAppTheme(getAppTheme(getApplicationContext()));
+        setAppTheme(isDarkTheme(getApplicationContext()));
         super.onCreate();
         AndroidThreeTen.init(this);
     }
@@ -47,7 +47,7 @@ public class Application extends android.app.Application {
         setDefaultNightMode(darkTheme ? MODE_NIGHT_YES : MODE_NIGHT_NO);
     }
 
-    public static boolean getAppTheme(@NonNull Context context) {
+    public static boolean isDarkTheme(@NonNull Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getBoolean(context.getString(R.string.pref_key_dark_theme), false);
     }
