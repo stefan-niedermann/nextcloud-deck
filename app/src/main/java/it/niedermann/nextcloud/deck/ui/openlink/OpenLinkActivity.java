@@ -1,9 +1,12 @@
 package it.niedermann.nextcloud.deck.ui.openlink;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,13 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -57,7 +63,7 @@ public class OpenLinkActivity extends AppCompatActivity implements Branded {
                         DeckLog.info("didn't find account");
                         // Link has set an explicit user, but we don't have this user
                         // TODO display account picker
-                        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                        openInBrowser();
                     } else {
                         DeckLog.info("found matching account: " + account.getUserName());
                         // TODO set this account as current account and start MainActivity
@@ -69,7 +75,7 @@ public class OpenLinkActivity extends AppCompatActivity implements Branded {
                 syncManager.readAccountsForHostWithReadAccessToBoard(uri.getHost(), boardRemoteId).observe(this, (accounts) -> {
                     if (accounts.size() == 0) {
                         DeckLog.info("found no account on host with read access to this board");
-                        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                        openInBrowser();
                     } else {
                         DeckLog.info("found " + accounts.size() + " matching account, using first: " + accounts.get(0).getUserName());
                         launchMainActivity(accounts.get(0), boardRemoteId);
@@ -80,7 +86,7 @@ public class OpenLinkActivity extends AppCompatActivity implements Branded {
             }
         } catch (IllegalArgumentException e) {
             DeckLog.logError(e);
-            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+            openInBrowser();
         }
     }
 
@@ -107,17 +113,28 @@ public class OpenLinkActivity extends AppCompatActivity implements Branded {
         });
     }
 
-    @UiThread
-    private void launchEditActivity(@NonNull Account account, Long boardId, Long cardId) {
-        try {
-            Application.saveBrandColors(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
-        } catch (Throwable t) {
-            DeckLog.logError(t);
+    private void openInBrowser() {
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.setDataAndType(getIntent().getData(), getIntent().getType());
+        List<ResolveInfo> activities = getPackageManager().queryIntentActivities(intent, 0);
+        ArrayList<Intent> targetIntents = new ArrayList<Intent>();
+        String thisPackageName = getApplicationContext().getPackageName();
+        for (ResolveInfo currentInfo : activities) {
+            String packageName = currentInfo.activityInfo.packageName;
+            if (!thisPackageName.equals(packageName)) {
+                Intent targetIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                targetIntent.setDataAndType(intent.getData(), intent.getType());
+                targetIntent.setPackage(intent.getPackage());
+                targetIntent.setComponent(new ComponentName(packageName, currentInfo.activityInfo.name));
+                targetIntents.add(targetIntent);
+            }
         }
-        SingleAccountHelper.setCurrentAccount(this, account.getName());
-        DeckLog.info("starting " + EditActivity.class.getSimpleName() + " with [" + account + ", " + boardId + ", " + cardId + "]");
-        startActivity(EditActivity.createEditCardIntent(this, account, boardId, cardId));
-        finish();
+        if (targetIntents.size() > 0) {
+            Intent chooserIntent = Intent.createChooser(targetIntents.remove(0), getString(R.string.open_in_browser));
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
+            startActivity(chooserIntent);
+            finish();
+        }
     }
-
 }
