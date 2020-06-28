@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -98,9 +99,32 @@ public class Application extends android.app.Application {
         editor.apply();
     }
 
+    @SuppressLint("ApplySharedPref")
+    public static void saveBrandColorsSynchronously(@NonNull Context context, @ColorInt int mainColor, @ColorInt int textColor) {
+        if (isBrandingEnabled(context) && context instanceof BrandedActivity) {
+            final BrandedActivity activity = (BrandedActivity) context;
+            activity.applyBrand(mainColor, textColor);
+            BrandedActivity.applyBrandToStatusbar(activity.getWindow(), mainColor, textColor);
+        }
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
+        DeckLog.log("--- Write: shared_preference_theme_text" + " | " + textColor);
+        editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
+        editor.putInt(context.getString(R.string.shared_preference_theme_text), textColor);
+        editor.commit();
+    }
+
     // --------------------------------------
     // Current account / board / stack states
     // --------------------------------------
+
+    @SuppressLint("ApplySharedPref")
+    public static void saveCurrentAccountIdSynchronously(@NonNull Context context, long accountId) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        DeckLog.log("--- Write: shared_preference_last_account" + " | " + accountId);
+        editor.putLong(context.getString(R.string.shared_preference_last_account), accountId);
+        editor.commit();
+    }
 
     public static void saveCurrentAccountId(@NonNull Context context, long accountId) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
@@ -114,6 +138,14 @@ public class Application extends android.app.Application {
         long accountId = sharedPreferences.getLong(context.getString(R.string.shared_preference_last_account), NO_ACCOUNT_ID);
         DeckLog.log("--- Read: shared_preference_last_account" + " | " + accountId);
         return accountId;
+    }
+
+    @SuppressLint("ApplySharedPref")
+    public static void saveCurrentBoardIdSynchronously(@NonNull Context context, long accountId, long boardId) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        DeckLog.log("--- Write: shared_preference_last_board_for_account_" + accountId + " | " + boardId);
+        editor.putLong(context.getString(R.string.shared_preference_last_board_for_account_) + accountId, boardId);
+        editor.commit();
     }
 
     public static void saveCurrentBoardId(@NonNull Context context, long accountId, long boardId) {

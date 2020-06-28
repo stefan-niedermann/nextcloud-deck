@@ -72,7 +72,7 @@ public class OpenLinkActivity extends AppCompatActivity implements Branded {
                 });
             } else {
                 DeckLog.info("uri does not have userinfo. Looking for accounts on host " + uri.getHost());
-                syncManager.readAccountsForHostWithReadAccessToBoard(uri.getHost(), boardRemoteId).observe(this, (accounts) -> {
+                observeOnce(syncManager.readAccountsForHostWithReadAccessToBoard(uri.getHost(), boardRemoteId), this, (accounts) -> {
                     if (accounts.size() == 0) {
                         DeckLog.info("found no account on host with read access to this board");
                         openInBrowser();
@@ -97,17 +97,19 @@ public class OpenLinkActivity extends AppCompatActivity implements Branded {
 
     @UiThread
     private void launchMainActivity(@NonNull Account account, Long boardRemoteId) {
+        SingleAccountHelper.setCurrentAccount(this, account.getName());
+        Application.saveCurrentAccountIdSynchronously(this, account.getId());
+        try {
+            Application.saveBrandColorsSynchronously(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
+        } catch (Throwable t) {
+            DeckLog.logError(t);
+        }
+        syncManager = new SyncManager(this);
         observeOnce(syncManager.getBoard(account.getId(), boardRemoteId), this, (board) -> {
-            try {
-                Application.saveBrandColors(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
-            } catch (Throwable t) {
-                DeckLog.logError(t);
-            }
-            Application.saveCurrentBoardId(this, account.getId(), board.getLocalId());
-            SingleAccountHelper.setCurrentAccount(this, account.getName());
+            Application.saveCurrentBoardIdSynchronously(this, account.getId(), board.getLocalId());
             DeckLog.info("starting " + MainActivity.class.getSimpleName() + " with [" + account + ", " + board.getLocalId() + "]");
             Intent intent = new Intent(this, MainActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         });
