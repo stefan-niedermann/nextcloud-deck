@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
@@ -21,6 +22,7 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
     private DataBaseAdapter db;
     private ServerAdapter server;
     private List<User> foundInDB;
+    private List<User> foundOnServer;
     long accountId;
     String searchTerm;
     long notYetAssignedInACL;
@@ -35,6 +37,7 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
         this.accountId = accountId;
         this.searchTerm = searchTerm;
         this.notYetAssignedInACL = notYetAssignedInACL;
+        DeckLog.info("###DeckUserSearch: starting search with term "+searchTerm);
         new Thread(() -> debouncer.call(notYetAssignedInACL)).start();
         return this;
     }
@@ -54,10 +57,7 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
                 if (response == null || response.getUsers().isEmpty()){
                     return;
                 }
-                List<User> allFound = new ArrayList<>();
-                if (foundInDB != null && !foundInDB.isEmpty()) {
-                    allFound.addAll(foundInDB);
-                }
+                List<User> allFound = foundInDB == null? new ArrayList<>() : new ArrayList<>(foundInDB);
                 for (OcsUser user : response.getUsers()) {
                     User existingUser = db.getUserByUidDirectly(accountId, user.getId());
                     if (existingUser == null) {
@@ -71,6 +71,8 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
                         allFound.add(newUser);
                     }
                 }
+                foundOnServer = allFound;
+                DeckLog.info("###DeckUserSearch: posted Server value: "+allFound);
                 postValue(allFound);
             }
 
@@ -84,7 +86,12 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
         addSource(dbLiveData, changedData -> {
             foundInDB = changedData;
             removeSource(dbLiveData);
-            postValue(changedData);
+            ArrayList<User> users = new ArrayList<>(foundInDB);
+            if (foundOnServer != null && !foundOnServer.isEmpty()) {
+                users.addAll(foundOnServer);
+            }
+            postValue(users);
+            DeckLog.info("###DeckUserSearch: posted db-value: "+foundInDB);
         });
     }
 }
