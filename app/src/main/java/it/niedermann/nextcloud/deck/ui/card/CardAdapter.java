@@ -41,7 +41,6 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
@@ -308,15 +307,17 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                         currentStackItem = i;
                     }
                 }
-                final FullCard newCard = fullCard;
                 new BrandedAlertDialogBuilder(context)
                         .setSingleChoiceItems(items, currentStackItem, (dialog, which) -> {
                             dialog.cancel();
-                            newCard.getCard().setStackId(availableStacks.get(which).getStack().getLocalId());
-                            LiveDataHelper.observeOnce(syncManager.updateCard(newCard), lifecycleOwner, (c) -> {
-                                // Nothing to do here...
+                            WrappedLiveData<Void> liveData = syncManager.moveCard(fullCard.getAccountId(), fullCard.getLocalId(), fullCard.getAccountId(), boardId, availableStacks.get(which).getStack().getLocalId());
+                            observeOnce(liveData, lifecycleOwner, (next) -> {
+                                if (liveData.hasError()) {
+                                    ExceptionDialogFragment.newInstance(liveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
+                                } else {
+                                    DeckLog.log("Moved card \"" + fullCard.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
+                                }
                             });
-                            DeckLog.log("Moved card \"" + fullCard.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
                         })
                         .setNeutralButton(android.R.string.cancel, null)
                         .setTitle(context.getString(R.string.action_card_move_title, fullCard.getCard().getTitle()))
