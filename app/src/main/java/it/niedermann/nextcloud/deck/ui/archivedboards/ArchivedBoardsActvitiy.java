@@ -92,4 +92,9 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
     public void onArchive(Board board) {
         syncManager.dearchiveBoard(board);
     }
+
+    @Override
+    public void onClone(Board board) {
+
+    }
 }

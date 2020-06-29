@@ -276,4 +276,7 @@
         <item quantity="other">%1$d errors while uploading</item>
     </plurals>
     <string name="simple_report">Report</string>
+    <string name="clone_board">Clone board</string>
+    <string name="cloned_board">%1$s (Copy)</string>
+    <string name="cloning_board">Cloning %1$s…</string>
 </resources>

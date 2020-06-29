@@ -969,4 +969,19 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void onArchive(@NonNull Board board) {
         syncManager.archiveBoard(board);
     }
+
+    @Override
+    public void onClone(Board board) {
+        final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
+        snackbar.show();
+        final WrappedLiveData<FullBoard> liveData = syncManager.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), getString(R.string.cloned_board, board.getTitle()), board.getColor());
+        observeOnce(liveData, this, (fullBoard -> {
+            snackbar.dismiss();
+            if (liveData.hasError()) {
+                ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            } else {
+                setCurrentBoard(fullBoard.getBoard());
+            }
+        }));
+    }
 }

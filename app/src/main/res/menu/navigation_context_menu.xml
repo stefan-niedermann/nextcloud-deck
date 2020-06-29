@@ -12,6 +12,11 @@
         android:title="@string/manage_tags"
         app:showAsAction="never" />
     <item
+        android:id="@+id/clone_board"
+        android:orderInCategory="10"
+        android:title="@string/clone_board"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/archive_board"
         android:orderInCategory="20"
         android:title="@string/archive_board"
