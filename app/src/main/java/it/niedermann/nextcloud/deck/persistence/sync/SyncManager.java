@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 
@@ -483,7 +482,7 @@ public class SyncManager {
             originalBoard.setAccountId(targetAccountId);
             originalBoard.getBoard().setTitle(targetBoardTitle);
             originalBoard.getBoard().setColor(targetBoardColor);
-            originalBoard.getBoard().setOwnerId(newOwner.getId());
+            originalBoard.getBoard().setOwnerId(newOwner.getLocalId());
             originalBoard.setStatusEnum(DBStatus.LOCAL_EDITED);
             originalBoard.setOwner(newOwner);
             originalBoard.setId(null);
