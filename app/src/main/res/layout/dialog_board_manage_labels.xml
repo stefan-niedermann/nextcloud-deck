@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/add_comment"
-            android:tint="@android:color/white"
+            app:backgroundTint="@color/defaultBrand"
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_send_white_24dp" />
     </LinearLayout>
