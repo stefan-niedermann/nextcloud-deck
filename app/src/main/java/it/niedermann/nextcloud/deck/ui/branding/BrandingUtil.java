@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,18 +29,12 @@ public abstract class BrandingUtil {
      * Since we may collide with dark theme in this area, we have to make sure that the color is visible depending on the background
      */
     @ColorInt
-    public static int
-    getSecondaryForegroundColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
-        final boolean isDarkTheme = Application.isDarkTheme(context);
-        if (isDarkTheme && !contrastRatioIsSufficient(mainColor, Color.BLACK)) {
-            DeckLog.verbose("Contrast ratio between brand color " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and dark theme is too low. Falling back to WHITE as brand color.");
-            return Color.WHITE;
-        } else if (!contrastRatioIsSufficient(mainColor, Color.WHITE)) {
-            DeckLog.verbose("Contrast ratio between brand color " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and light theme is too low. Falling back to BLACK as brand color.");
-            return Color.BLACK;
-        } else {
+    public static int getSecondaryForegroundColorDependingOnTheme(@NonNull Context context, @ColorInt int mainColor) {
+        if (contrastRatioIsSufficient(mainColor, ContextCompat.getColor(context, R.color.primary))) {
             return mainColor;
         }
+        DeckLog.verbose("Contrast ratio between brand color " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and primary theme background is too low. Falling back to WHITE/BLACK as brand color.");
+        return Application.isDarkTheme(context) ? Color.WHITE : Color.BLACK;
     }
 
     public static void applyBrandToFAB(@ColorInt int mainColor, @NonNull FloatingActionButton fab) {

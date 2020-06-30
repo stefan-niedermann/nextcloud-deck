@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/welcome_text"
             android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/defaultBrand"
             android:paddingStart="32dp"
             android:paddingTop="24dp"
             android:paddingEnd="32dp"
@@ -81,6 +82,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="@string/simple_update"
+            android:textColor="@color/defaultBrand"
             android:visibility="gone"
             tools:visibility="visible" />
     </RelativeLayout>
