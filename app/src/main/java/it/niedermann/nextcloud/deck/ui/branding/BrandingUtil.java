@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.deck.ui.branding;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import androidx.annotation.ColorInt;
@@ -60,5 +62,14 @@ public abstract class BrandingUtil {
                         editText.getContext().getResources().getColor(R.color.fg_secondary)
                 }
         ));
+    }
+
+    public static void tintMenuIcon(@NonNull MenuItem menuItem, @ColorInt int color) {
+        Drawable drawable = menuItem.getIcon();
+        if (drawable != null) {
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable, color);
+            menuItem.setIcon(drawable);
+        }
     }
 }

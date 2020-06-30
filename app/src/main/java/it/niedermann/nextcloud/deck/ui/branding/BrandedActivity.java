@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.branding;
 
 import android.content.res.ColorStateList;
 import android.util.TypedValue;
+import android.view.Menu;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.tintMenuIcon;
 
 public abstract class BrandedActivity extends AppCompatActivity implements Branded {
 
@@ -32,6 +34,14 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
             @ColorInt final int mainColor = Application.readBrandMainColor(this);
             applyBrand(mainColor);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        for (int i = 0; i < menu.size(); i++) {
+            tintMenuIcon(menu.getItem(i), colorAccent);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     protected void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {

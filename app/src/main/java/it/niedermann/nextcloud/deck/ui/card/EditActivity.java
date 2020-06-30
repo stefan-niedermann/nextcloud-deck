@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -14,11 +15,14 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -290,6 +294,12 @@ public class EditActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
+        final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
+        if (navigationIcon == null) {
+            DeckLog.error("Excpected navigationIcon to be present.");
+        } else {
+            DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.accent));
+        }
         applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
