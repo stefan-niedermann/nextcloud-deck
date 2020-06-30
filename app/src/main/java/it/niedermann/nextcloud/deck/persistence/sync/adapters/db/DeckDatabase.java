@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -205,7 +206,14 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(new Migration(14, 15) {
                     @Override
                     public void migrate(@NonNull SupportSQLiteDatabase database) {
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/570
                         SyncWorker.update(context);
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/525
+                        PreferenceManager
+                                .getDefaultSharedPreferences(context)
+                                .edit()
+                                .remove("it.niedermann.nextcloud.deck.theme_text")
+                                .apply();
                     }
                 })
                 .fallbackToDestructiveMigration()
