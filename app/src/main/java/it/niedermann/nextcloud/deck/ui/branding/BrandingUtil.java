@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.getContrastRatio;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.getForegroundColorForBackgroundColor;
 
 public abstract class BrandingUtil {
@@ -40,8 +41,11 @@ public abstract class BrandingUtil {
     }
 
     public static void applyBrandToFAB(@ColorInt int mainColor, @NonNull FloatingActionButton fab) {
-        fab.setSupportBackgroundTintList(ColorStateList.valueOf(mainColor));
-        fab.setColorFilter(getForegroundColorForBackgroundColor(mainColor));
+        final boolean contrastRatioIsSufficient = getContrastRatio(mainColor, ContextCompat.getColor(fab.getContext(), R.color.primary)) > 1.47d;
+        fab.setSupportBackgroundTintList(ColorStateList.valueOf(contrastRatioIsSufficient
+                ? mainColor
+                : ContextCompat.getColor(fab.getContext(), R.color.accent)));
+        fab.setColorFilter(contrastRatioIsSufficient ? getForegroundColorForBackgroundColor(mainColor) : mainColor);
     }
 
     public static void applyBrandToEditText(@ColorInt int mainColor, @NonNull EditText editText) {

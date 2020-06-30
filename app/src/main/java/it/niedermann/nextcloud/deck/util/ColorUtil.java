@@ -109,7 +109,7 @@ public final class ColorUtil {
         return ret;
     }
 
-    private static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
+    public static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
         final double lum1 = getLuminanace(colorOne);
         final double lum2 = getLuminanace(colorTwo);
         final double brightest = Math.max(lum1, lum2);
