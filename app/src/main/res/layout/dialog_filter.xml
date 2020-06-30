@@ -12,7 +12,7 @@
         app:tabIndicatorColor="@color/defaultBrand"
         app:tabInlineLabel="true"
         app:tabMode="fixed"
-        app:tabTextColor="@color/accent"
+        app:tabTextColor="?attr/colorAccent"
         app:tabUnboundedRipple="true" />
 
     <androidx.viewpager2.widget.ViewPager2

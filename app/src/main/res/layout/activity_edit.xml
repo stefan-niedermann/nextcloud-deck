@@ -33,11 +33,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            app:tabBackground="?attr/colorPrimary"
             app:tabGravity="center"
             app:tabIconTint="?attr/colorAccent"
             app:tabIndicatorColor="@color/defaultBrand"
             app:tabMode="fixed"
-            app:tabTextColor="@color/accent" />
+            app:tabTextColor="?attr/colorAccent" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2

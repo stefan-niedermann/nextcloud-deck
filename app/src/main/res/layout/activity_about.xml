@@ -21,9 +21,10 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabBackground="?attr/colorPrimary"
             app:tabIndicatorColor="@color/defaultBrand"
             app:tabMode="fixed"
-            app:tabTextColor="@color/accent" />
+            app:tabTextColor="?attr/colorAccent" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2

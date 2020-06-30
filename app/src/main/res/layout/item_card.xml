@@ -9,6 +9,7 @@
     android:layout_marginTop="@dimen/spacer_1x"
     android:layout_marginEnd="@dimen/spacer_2x"
     android:layout_marginBottom="@dimen/spacer_1x"
+    app:cardBackgroundColor="@color/bg_card"
     android:focusable="true">
 
     <LinearLayout
