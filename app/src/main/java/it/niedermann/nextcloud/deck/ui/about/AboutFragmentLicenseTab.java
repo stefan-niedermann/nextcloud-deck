@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.about;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,14 +11,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutLicenseTabBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
-import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 
+import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 
 public class AboutFragmentLicenseTab extends BrandedFragment {
@@ -35,7 +38,9 @@ public class AboutFragmentLicenseTab extends BrandedFragment {
 
     @Override
     public void applyBrand(int mainColor) {
-        @ColorInt final int finalMainColor = BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
+        @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(requireContext(), R.color.primary))
+                ? mainColor
+                : Application.isDarkTheme(requireContext()) ? Color.WHITE : Color.BLACK;
         DrawableCompat.setTintList(binding.aboutAppLicenseButton.getBackground(), ColorStateList.valueOf(finalMainColor));
         binding.aboutAppLicenseButton.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(finalMainColor));
     }

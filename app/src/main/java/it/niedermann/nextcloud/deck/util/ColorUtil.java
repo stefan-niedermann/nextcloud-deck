@@ -109,6 +109,17 @@ public final class ColorUtil {
         return ret;
     }
 
+    public static boolean contrastRatioIsSufficientBigAreas(@ColorInt int colorOne, @ColorInt int colorTwo) {
+        ColorPair key = new ColorPair(colorOne, colorTwo);
+        Boolean ret = CONTRAST_RATIO_SUFFICIENT_CACHE.get(key);
+        if (ret == null) {
+            ret = getContrastRatio(colorOne, colorTwo) > 1.47d;
+            CONTRAST_RATIO_SUFFICIENT_CACHE.put(key, ret);
+            return ret;
+        }
+        return ret;
+    }
+
     public static double getContrastRatio(@ColorInt int colorOne, @ColorInt int colorTwo) {
         final double lum1 = getLuminanace(colorOne);
         final double lum2 = getLuminanace(colorTwo);

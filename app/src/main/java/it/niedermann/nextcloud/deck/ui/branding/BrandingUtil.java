@@ -13,12 +13,14 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.getContrastRatio;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.getForegroundColorForBackgroundColor;
 
@@ -41,11 +43,19 @@ public abstract class BrandingUtil {
     }
 
     public static void applyBrandToFAB(@ColorInt int mainColor, @NonNull FloatingActionButton fab) {
-        final boolean contrastRatioIsSufficient = getContrastRatio(mainColor, ContextCompat.getColor(fab.getContext(), R.color.primary)) > 1.47d;
+        final boolean contrastRatioIsSufficient = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(fab.getContext(), R.color.primary));
         fab.setSupportBackgroundTintList(ColorStateList.valueOf(contrastRatioIsSufficient
                 ? mainColor
                 : ContextCompat.getColor(fab.getContext(), R.color.accent)));
         fab.setColorFilter(contrastRatioIsSufficient ? getForegroundColorForBackgroundColor(mainColor) : mainColor);
+    }
+
+    public static void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {
+        @ColorInt int finalMainColor = getSecondaryForegroundColorDependingOnTheme(tabLayout.getContext(), mainColor);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(tabLayout.getContext(), R.color.primary));
+        tabLayout.setTabIconTint(ColorStateList.valueOf(finalMainColor));
+        final boolean contrastRatioIsSufficient = getContrastRatio(mainColor, ContextCompat.getColor(tabLayout.getContext(), R.color.primary)) > 1.7d;
+        tabLayout.setSelectedTabIndicatorColor(contrastRatioIsSufficient ? mainColor : finalMainColor);
     }
 
     public static void applyBrandToEditText(@ColorInt int mainColor, @NonNull EditText editText) {
