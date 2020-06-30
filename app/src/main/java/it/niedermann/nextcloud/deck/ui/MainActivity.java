@@ -95,7 +95,6 @@ import it.niedermann.nextcloud.deck.ui.stack.EditStackListener;
 import it.niedermann.nextcloud.deck.ui.stack.OnScrollListener;
 import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
 import static android.graphics.Color.parseColor;
@@ -106,6 +105,7 @@ import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;
@@ -419,10 +419,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public void applyBrand(@ColorInt int mainColor) {
         applyBrandToPrimaryTabLayout(mainColor, binding.stackTitles);
         applyBrandToFAB(mainColor, binding.fab);
+        // TODO We assume, that the background of the spinner is always white
+        binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : colorAccent);
         headerBinding.headerView.setBackgroundColor(mainColor);
-        @ColorInt final int finalTextColor = ColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
-        DrawableCompat.setTint(headerBinding.logo.getDrawable(), finalTextColor);
-        headerBinding.appName.setTextColor(finalTextColor);
+        @ColorInt final int headerTextColor = contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
+        DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
+        headerBinding.appName.setTextColor(headerTextColor);
     }
 
     @Override
