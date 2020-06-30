@@ -25,6 +25,7 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
@@ -198,7 +199,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }).observe(this, (List<Account> accounts) -> {
             if (accounts == null || accounts.size() == 0) {
                 // Last account has been deleted. hasAccounts LiveData will handle this, but we make sure, that branding is reset.
-                saveBrandColors(this, colorAccent);
+                saveBrandColors(this, ContextCompat.getColor(this, R.color.defaultBrand));
                 return;
             }
 

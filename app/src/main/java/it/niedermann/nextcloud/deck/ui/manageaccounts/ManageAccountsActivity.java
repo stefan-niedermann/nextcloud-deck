@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.manageaccounts;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,13 +12,11 @@ import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.databinding.ActivityManageAccountsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 
 import static it.niedermann.nextcloud.deck.Application.saveCurrentAccountId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
 
-public class ManageAccountsActivity extends BrandedActivity {
+public class ManageAccountsActivity extends AppCompatActivity {
 
     private static final String TAG = ManageAccountsActivity.class.getSimpleName();
 
@@ -41,7 +38,6 @@ public class ManageAccountsActivity extends BrandedActivity {
         adapter = new ManageAccountAdapter((account) -> {
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.getName());
             syncManager = new SyncManager(this);
-            saveBrandColors(this, Color.parseColor(account.getColor()));
             saveCurrentAccountId(this, account.getId());
         }, (accountPair) -> {
             if (accountPair.first != null) {
@@ -52,7 +48,6 @@ public class ManageAccountsActivity extends BrandedActivity {
             Account newAccount = accountPair.second;
             if (newAccount != null) {
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), newAccount.getName());
-                saveBrandColors(this, Color.parseColor(newAccount.getColor()));
                 saveCurrentAccountId(this, newAccount.getId());
                 syncManager = new SyncManager(this);
             } else {
@@ -78,10 +73,5 @@ public class ManageAccountsActivity extends BrandedActivity {
     @Override
     public void onBackPressed() {
         onSupportNavigateUp();
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        // Nothing to do...
     }
 }
