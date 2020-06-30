@@ -15,7 +15,6 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -299,7 +298,7 @@ public class EditActivity extends BrandedActivity {
         if (navigationIcon == null) {
             DeckLog.error("Excpected navigationIcon to be present.");
         } else {
-            DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), ContextCompat.getColor(this, R.color.accent));
+            DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), colorAccent);
         }
         applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
