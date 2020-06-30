@@ -96,7 +96,6 @@ import it.niedermann.nextcloud.deck.ui.stack.StackAdapter;
 import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
-import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.Application.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
@@ -105,8 +104,10 @@ import static it.niedermann.nextcloud.deck.Application.saveCurrentAccountId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.clearBrandColors;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;
@@ -196,8 +197,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             }
         }).observe(this, (List<Account> accounts) -> {
             if (accounts == null || accounts.size() == 0) {
-                // Last account has been deleted.  hasAccounts LiveData will handle this, but we make sure, that branding is reset.
-                saveBrandColors(this, getResources().getColor(R.color.primary));
+                // Last account has been deleted. hasAccounts LiveData will handle this, but we make sure, that branding is reset.
+                saveBrandColors(this, colorAccent);
                 return;
             }
 
@@ -235,7 +236,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
                 syncManager = new SyncManager(this);
 
-                saveBrandColors(this, parseColor(mainViewModel.getCurrentAccount().getColor()));
                 saveCurrentAccountId(this, mainViewModel.getCurrentAccount().getId());
                 if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
                     refreshCapabilities(mainViewModel.getCurrentAccount());
@@ -268,6 +268,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                             setCurrentBoard(boardsList.get(0));
                         }
                     } else {
+                        clearBrandColors(this);
                         clearCurrentBoard();
                     }
 
@@ -421,7 +422,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         // TODO We assume, that the background of the spinner is always white
         binding.swipeRefreshLayout.setColorSchemeColors(contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : colorAccent);
         headerBinding.headerView.setBackgroundColor(mainColor);
-        @ColorInt final int headerTextColor = contrastRatioIsSufficient(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
+        @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
         DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
         headerBinding.appName.setTextColor(headerTextColor);
     }
@@ -518,8 +519,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     if (mainViewModel.getCurrentAccount().getServerDeckVersionAsObject().isSupported(MainActivity.this) && !response.getDeckVersion().isSupported(MainActivity.this)) {
                         recreate();
                     }
-                    @ColorInt final int mainColor = parseColor(response.getColor());
-                    runOnUiThread(() -> saveBrandColors(MainActivity.this, mainColor));
                 }
             }
 
@@ -546,6 +545,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         if (stacksLiveData != null) {
             stacksLiveData.removeObservers(this);
         }
+        saveBrandColors(this, Color.parseColor('#' + board.getColor()));
         mainViewModel.setCurrentBoard(board);
         filterViewModel.clearFilterInformation();
 
@@ -938,6 +938,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             } else if (this.boardsList.size() > 1) { // Select second board after deletion
                 setCurrentBoard(this.boardsList.get(1));
             } else { // No other board is available, open create dialog
+                clearBrandColors(this);
                 clearCurrentBoard();
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
             }
