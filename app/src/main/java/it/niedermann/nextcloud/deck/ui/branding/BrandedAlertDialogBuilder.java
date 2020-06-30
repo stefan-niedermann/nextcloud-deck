@@ -11,9 +11,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import org.jetbrains.annotations.NotNull;
 
-import it.niedermann.nextcloud.deck.Application;
-
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public class BrandedAlertDialogBuilder extends AlertDialog.Builder implements Branded {
 
@@ -29,7 +28,7 @@ public class BrandedAlertDialogBuilder extends AlertDialog.Builder implements Br
         this.dialog = super.create();
 
         @NonNull Context context = getContext();
-        @ColorInt final int mainColor = Application.readBrandMainColor(context);
+        @ColorInt final int mainColor = readBrandMainColor(context);
         applyBrand(mainColor);
         dialog.setOnShowListener(dialog -> applyBrand(mainColor));
         return dialog;

@@ -6,9 +6,10 @@ import android.view.Menu;
 import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.tintMenuIcon;
 
 public abstract class BrandedActivity extends AppCompatActivity implements Branded {
@@ -24,8 +25,8 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
         getTheme().resolveAttribute(R.attr.colorAccent, typedValue, true);
         colorAccent = typedValue.data;
 
-        if (Application.isBrandingEnabled(this)) {
-            @ColorInt final int mainColor = Application.readBrandMainColor(this);
+        if (isBrandingEnabled(this)) {
+            @ColorInt final int mainColor = readBrandMainColor(this);
             applyBrand(mainColor);
         }
     }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -16,6 +15,8 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference;
+
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Branded {
 
@@ -82,8 +83,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
         super.onStart();
         @Nullable Context context = getContext();
         if (context != null) {
-            @ColorInt final int mainColor = Application.readBrandMainColor(context);
-            applyBrand(mainColor);
+            applyBrand(readBrandMainColor(context));
         }
     }
 

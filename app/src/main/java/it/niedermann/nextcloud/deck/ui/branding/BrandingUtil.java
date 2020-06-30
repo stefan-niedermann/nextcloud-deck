@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -28,6 +30,37 @@ public abstract class BrandingUtil {
 
     private BrandingUtil() {
         // Util class
+    }
+
+    // --------
+    // Branding
+    // --------
+
+    public static boolean isBrandingEnabled(@NonNull Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.pref_key_branding), true);
+    }
+
+    @ColorInt
+    public static int readBrandMainColor(@NonNull Context context) {
+        if (isBrandingEnabled(context)) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+            DeckLog.log("--- Read: shared_preference_theme_main");
+            return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
+        } else {
+            return context.getResources().getColor(R.color.primary);
+        }
+    }
+
+    public static void saveBrandColors(@NonNull Context context, @ColorInt int mainColor) {
+        if (isBrandingEnabled(context) && context instanceof BrandedActivity) {
+            final BrandedActivity activity = (BrandedActivity) context;
+            activity.applyBrand(mainColor);
+        }
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        DeckLog.log("--- Write: shared_preference_theme_main" + " | " + mainColor);
+        editor.putInt(context.getString(R.string.shared_preference_theme_main), mainColor);
+        editor.apply();
     }
 
     /**

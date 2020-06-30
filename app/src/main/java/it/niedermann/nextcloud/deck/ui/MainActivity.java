@@ -101,9 +101,11 @@ import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.Application.NO_ACCOUNT_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
 import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
+import static it.niedermann.nextcloud.deck.Application.saveCurrentAccountId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
@@ -195,7 +197,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         }).observe(this, (List<Account> accounts) -> {
             if (accounts == null || accounts.size() == 0) {
                 // Last account has been deleted.  hasAccounts LiveData will handle this, but we make sure, that branding is reset.
-                Application.saveBrandColors(this, getResources().getColor(R.color.primary));
+                saveBrandColors(this, getResources().getColor(R.color.primary));
                 return;
             }
 
@@ -233,8 +235,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), mainViewModel.getCurrentAccount().getName());
                 syncManager = new SyncManager(this);
 
-                Application.saveBrandColors(this, parseColor(mainViewModel.getCurrentAccount().getColor()));
-                Application.saveCurrentAccountId(this, mainViewModel.getCurrentAccount().getId());
+                saveBrandColors(this, parseColor(mainViewModel.getCurrentAccount().getColor()));
+                saveCurrentAccountId(this, mainViewModel.getCurrentAccount().getId());
                 if (mainViewModel.getCurrentAccount().isMaintenanceEnabled()) {
                     refreshCapabilities(mainViewModel.getCurrentAccount());
                 }
@@ -517,7 +519,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         recreate();
                     }
                     @ColorInt final int mainColor = parseColor(response.getColor());
-                    runOnUiThread(() -> Application.saveBrandColors(MainActivity.this, mainColor));
+                    runOnUiThread(() -> saveBrandColors(MainActivity.this, mainColor));
                 }
             }
 

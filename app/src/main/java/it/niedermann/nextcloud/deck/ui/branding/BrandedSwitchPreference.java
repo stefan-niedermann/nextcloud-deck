@@ -13,10 +13,10 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SwitchPreference;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 
 public class BrandedSwitchPreference extends SwitchPreference implements Branded {
 
@@ -46,7 +46,7 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
-        if (Application.isBrandingEnabled(getContext()) && holder.itemView instanceof ViewGroup) {
+        if (isBrandingEnabled(getContext()) && holder.itemView instanceof ViewGroup) {
             switchView = findSwitchWidget(holder.itemView);
             if (mainColor != null) {
                 applyBrand();
@@ -58,7 +58,7 @@ public class BrandedSwitchPreference extends SwitchPreference implements Branded
     public void applyBrand(@ColorInt int mainColor) {
         this.mainColor = mainColor;
         // onBindViewHolder is called after applyBrand, therefore we have to store the given values and apply them later.
-        if (Application.isBrandingEnabled(getContext())) {
+        if (isBrandingEnabled(getContext())) {
             applyBrand();
         }
     }

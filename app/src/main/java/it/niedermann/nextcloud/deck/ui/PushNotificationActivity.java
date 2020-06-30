@@ -12,7 +12,6 @@ import androidx.annotation.UiThread;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
@@ -25,6 +24,8 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
 
 public class PushNotificationActivity extends BrandedActivity {
 
@@ -53,7 +54,7 @@ public class PushNotificationActivity extends BrandedActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        brandingEnabled = Application.isBrandingEnabled(this);
+        brandingEnabled = isBrandingEnabled(this);
 
         binding.subject.setText(getIntent().getStringExtra(KEY_SUBJECT));
 
@@ -151,7 +152,7 @@ public class PushNotificationActivity extends BrandedActivity {
     @UiThread
     private void launchEditActivity(@NonNull Account account, Long boardId, Long cardId) {
         try {
-            Application.saveBrandColors(this, Color.parseColor(account.getColor()));
+            saveBrandColors(this, Color.parseColor(account.getColor()));
         } catch (Throwable t) {
             DeckLog.logError(t);
         }

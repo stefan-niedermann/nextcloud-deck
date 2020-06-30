@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 
 public class PrepareCreateActivity extends BrandedActivity {
 
@@ -98,7 +99,7 @@ public class PrepareCreateActivity extends BrandedActivity {
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        brandingEnabled = Application.isBrandingEnabled(this);
+        brandingEnabled = isBrandingEnabled(this);
 
         binding = ActivityPrepareCreateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

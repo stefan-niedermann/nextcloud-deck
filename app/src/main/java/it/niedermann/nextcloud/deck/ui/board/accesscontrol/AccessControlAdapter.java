@@ -17,7 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccessControlBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemAccessControlOwnerBinding;
@@ -28,6 +27,7 @@ import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 
 public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Branded {
 
@@ -121,7 +121,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
                     accessControlChangedListener.updateAccessControl(ac);
                 });
 
-                if (Application.isBrandingEnabled(context)) {
+                if (isBrandingEnabled(context)) {
                     if (hasManagePermission) {
                         brandSwitch(context, acHolder.binding.permissionEdit, mainColor);
                         brandSwitch(context, acHolder.binding.permissionManage, mainColor);
@@ -159,7 +159,7 @@ public class AccessControlAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void applyBrand(int mainColor) {
-        if (Application.isBrandingEnabled(context)) {
+        if (isBrandingEnabled(context)) {
             this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
             notifyDataSetChanged();
         }
