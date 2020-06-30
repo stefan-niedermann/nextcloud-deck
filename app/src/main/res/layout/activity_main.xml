@@ -163,9 +163,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:tabGravity="center"
-                    app:tabIndicatorColor="@color/accent"
+                    app:tabIndicatorColor="@color/defaultBrand"
                     app:tabMode="fixed"
-                    app:tabTextColor="@android:color/white" />
+                    app:tabTextColor="@color/accent" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/list_menu_button"

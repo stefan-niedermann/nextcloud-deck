@@ -1,12 +1,10 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
 import android.content.res.ColorStateList;
-import android.os.Bundle;
 import android.util.TypedValue;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -21,13 +19,6 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
 
     @ColorInt
     protected int colorAccent;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        @ColorInt final int mainColor = Application.readBrandMainColor(this);
-        setTheme(R.style.AppTheme);
-    }
 
     @Override
     protected void onStart() {
@@ -46,7 +37,7 @@ public abstract class BrandedActivity extends AppCompatActivity implements Brand
     protected void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {
         @ColorInt int finalMainColor = getSecondaryForegroundColorDependingOnTheme(this, mainColor);
         tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
-        tabLayout.setTabTextColors(finalMainColor, finalMainColor);
+//        tabLayout.setTabTextColors(finalMainColor, finalMainColor);
         tabLayout.setTabIconTint(ColorStateList.valueOf(finalMainColor));
         tabLayout.setSelectedTabIndicatorColor(finalMainColor);
     }

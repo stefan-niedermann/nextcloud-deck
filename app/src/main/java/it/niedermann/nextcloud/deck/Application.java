@@ -66,7 +66,7 @@ public class Application extends android.app.Application {
         if (Application.isBrandingEnabled(context)) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
             DeckLog.log("--- Read: shared_preference_theme_main");
-            return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.primary));
+            return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
         } else {
             return context.getResources().getColor(R.color.primary);
         }
