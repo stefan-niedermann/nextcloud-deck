@@ -44,12 +44,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/welcome_text"
             android:layout_centerHorizontal="true"
-            android:backgroundTint="@color/defaultBrand"
             android:paddingStart="32dp"
             android:paddingTop="24dp"
             android:paddingEnd="32dp"
             android:paddingBottom="24dp"
-            android:text="@string/choose_account" />
+            android:text="@string/choose_account"
+            app:backgroundTint="@color/defaultBrand" />
 
         <TextView
             android:id="@+id/status"
