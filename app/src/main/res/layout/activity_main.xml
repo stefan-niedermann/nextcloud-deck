@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_card_wrapper"
     android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -129,7 +130,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/simple_filter"
                     android:padding="12dp"
-                    android:tint="@color/accent"
+                    android:tint="?attr/colorAccent"
                     android:tooltipText="@string/simple_filter"
                     android:translationX="6dp"
                     app:srcCompat="@drawable/ic_filter_list_white_24dp"
@@ -143,7 +144,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/action_archived_cards"
                     android:padding="12dp"
-                    android:tint="@color/accent"
+                    android:tint="?attr/colorAccent"
                     android:tooltipText="@string/action_archived_cards"
                     android:translationX="12dp"
                     android:visibility="gone"

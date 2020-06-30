@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#121212</color>
-    <color name="accent">#ffffff</color>
+    <color name="accent">@android:color/white</color>
     <color name="fg_secondary">#666</color>
     <color name="bg_highlighted">#2a2a2a</color>
     <color name="bg_info_box">#222222</color>
     <color name="bg_card">#2a2a2a</color>
+    <color name="bg_card_wrapper">@android:color/black</color>
 
     <color name="widget_background">#cc212121</color>
     <color name="widget_foreground">#ccf5f5f5</color>
