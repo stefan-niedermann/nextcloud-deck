@@ -53,7 +53,6 @@ public abstract class BrandingUtil {
     public static void applyBrandToPrimaryTabLayout(@ColorInt int mainColor, @NonNull TabLayout tabLayout) {
         @ColorInt int finalMainColor = getSecondaryForegroundColorDependingOnTheme(tabLayout.getContext(), mainColor);
         tabLayout.setBackgroundColor(ContextCompat.getColor(tabLayout.getContext(), R.color.primary));
-        tabLayout.setTabIconTint(ColorStateList.valueOf(finalMainColor));
         final boolean contrastRatioIsSufficient = getContrastRatio(mainColor, ContextCompat.getColor(tabLayout.getContext(), R.color.primary)) > 1.7d;
         tabLayout.setSelectedTabIndicatorColor(contrastRatioIsSufficient ? mainColor : finalMainColor);
     }
