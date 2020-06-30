@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -282,13 +281,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 };
                 boardsLiveData.observe(this, boardsLiveDataObserver);
 
-                final Drawable placeholderAvatar = getResources().getDrawable(R.drawable.ic_baseline_account_circle_24);
-                DrawableCompat.setTint(placeholderAvatar, parseColor(currentAccount.getTextColor()));
                 Glide
                         .with(binding.accountSwitcher.getContext())
                         .load(currentAccount.getAvatarUrl(64))
-                        .placeholder(placeholderAvatar)
-                        .error(placeholderAvatar)
+                        .placeholder(R.drawable.ic_baseline_account_circle_24)
+                        .error(R.drawable.ic_baseline_account_circle_24)
                         .apply(RequestOptions.circleCropTransform())
                         .into(binding.accountSwitcher);
 
