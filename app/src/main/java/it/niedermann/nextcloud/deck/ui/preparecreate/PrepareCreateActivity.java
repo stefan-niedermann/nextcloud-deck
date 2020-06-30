@@ -2,15 +2,18 @@ package it.niedermann.nextcloud.deck.ui.preparecreate;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
@@ -29,11 +32,13 @@ import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
 
 public class PrepareCreateActivity extends AppCompatActivity implements Branded {
 
@@ -226,8 +231,11 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
     public void applyBrand(int mainColor) {
         try {
             if (brandingEnabled) {
-                binding.submit.setBackgroundColor(mainColor);
-                binding.submit.setTextColor(mainColor);
+                @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(this, R.color.primary))
+                        ? mainColor
+                        : Application.isDarkTheme(this) ? Color.WHITE : Color.BLACK;
+                DrawableCompat.setTintList(binding.submit.getBackground(), ColorStateList.valueOf(finalMainColor));
+                binding.submit.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(finalMainColor));
                 binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
             }
         } catch (Throwable t) {
