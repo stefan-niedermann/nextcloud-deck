@@ -33,6 +33,7 @@
                 android:layout_marginTop="4sp"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:textColor="?attr/colorAccent"
                 tools:ignore="RtlSymmetry"
                 tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut l" />
 
