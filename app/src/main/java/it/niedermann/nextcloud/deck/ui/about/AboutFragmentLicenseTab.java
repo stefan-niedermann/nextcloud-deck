@@ -1,17 +1,22 @@
 package it.niedermann.nextcloud.deck.ui.about;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentAboutLicenseTabBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static it.niedermann.nextcloud.deck.util.SpannableUtil.setTextWithURL;
 
@@ -30,7 +35,8 @@ public class AboutFragmentLicenseTab extends BrandedFragment {
 
     @Override
     public void applyBrand(int mainColor) {
-        binding.aboutAppLicenseButton.setBackgroundColor(mainColor);
-        binding.aboutAppLicenseButton.setTextColor(mainColor);
+        @ColorInt final int finalMainColor = BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
+        DrawableCompat.setTintList(binding.aboutAppLicenseButton.getBackground(), ColorStateList.valueOf(finalMainColor));
+        binding.aboutAppLicenseButton.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(finalMainColor));
     }
 }
