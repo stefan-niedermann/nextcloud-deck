@@ -14,8 +14,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
-import it.niedermann.nextcloud.deck.Application;
-
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
@@ -26,7 +25,7 @@ public class BrandedTimePickerDialog extends TimePickerDialog implements Branded
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         @Nullable Context context = getContext();
         if (context != null) {
-            setThemeDark(Application.isDarkTheme(context));
+            setThemeDark(isDarkTheme(context));
             if (isBrandingEnabled(context)) {
                 applyBrand(readBrandMainColor(context));
             }

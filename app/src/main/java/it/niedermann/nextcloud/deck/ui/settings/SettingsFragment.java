@@ -9,13 +9,13 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.setAppTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Branded {
@@ -45,7 +45,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
             themePref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
                 final Boolean darkTheme = (Boolean) newValue;
                 DeckLog.log("darkTheme: " + darkTheme);
-                Application.setAppTheme(darkTheme);
+                setAppTheme(darkTheme);
                 requireActivity().setResult(Activity.RESULT_OK);
                 requireActivity().recreate();
                 return true;

@@ -19,7 +19,6 @@ import androidx.lifecycle.Observer;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPrepareCreateBinding;
@@ -36,6 +35,13 @@ import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
@@ -140,9 +146,9 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
                 throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null or has no entry");
             }
 
-            lastAccountId = Application.readCurrentAccountId(this);
-            lastBoardId = Application.readCurrentBoardId(this, lastAccountId);
-            lastStackId = Application.readCurrentStackId(this, lastAccountId, lastBoardId);
+            lastAccountId = readCurrentAccountId(this);
+            lastBoardId = readCurrentBoardId(this, lastAccountId);
+            lastStackId = readCurrentStackId(this, lastAccountId, lastBoardId);
 
             accountAdapter.clear();
             accountAdapter.addAll(accounts);
@@ -195,9 +201,9 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
                 startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId, receivedClipData));
             }
 
-            Application.saveCurrentAccountId(this, account.getId());
-            Application.saveCurrentBoardId(this, account.getId(), boardId);
-            Application.saveCurrentStackId(this, account.getId(), boardId, stackId);
+            saveCurrentAccountId(this, account.getId());
+            saveCurrentBoardId(this, account.getId(), boardId);
+            saveCurrentStackId(this, account.getId(), boardId, stackId);
             applyBrand(parseColor(account.getColor()));
 
             finish();
@@ -233,7 +239,7 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
             if (brandingEnabled) {
                 @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(this, R.color.primary))
                         ? mainColor
-                        : Application.isDarkTheme(this) ? Color.WHITE : Color.BLACK;
+                        : isDarkTheme(this) ? Color.WHITE : Color.BLACK;
                 DrawableCompat.setTintList(binding.submit.getBackground(), ColorStateList.valueOf(finalMainColor));
                 binding.submit.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(finalMainColor));
                 binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));

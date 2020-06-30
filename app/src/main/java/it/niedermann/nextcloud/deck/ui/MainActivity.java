@@ -53,7 +53,6 @@ import java.util.Objects;
 import it.niedermann.android.crosstabdnd.CrossTabDragAndDrop;
 import it.niedermann.android.tablayouthelper.TabLayoutHelper;
 import it.niedermann.android.tablayouthelper.TabTitleGenerator;
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -98,10 +97,15 @@ import it.niedermann.nextcloud.deck.ui.stack.StackFragment;
 import it.niedermann.nextcloud.deck.util.DrawerMenuUtil;
 
 import static androidx.lifecycle.Transformations.switchMap;
-import static it.niedermann.nextcloud.deck.Application.NO_ACCOUNT_ID;
-import static it.niedermann.nextcloud.deck.Application.NO_BOARD_ID;
-import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
-import static it.niedermann.nextcloud.deck.Application.saveCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.NO_ACCOUNT_ID;
+import static it.niedermann.nextcloud.deck.DeckApplication.NO_BOARD_ID;
+import static it.niedermann.nextcloud.deck.DeckApplication.NO_STACK_ID;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
@@ -205,7 +209,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             accountsList = accounts;
 
-            long lastAccountId = Application.readCurrentAccountId(this);
+            long lastAccountId = readCurrentAccountId(this);
 
             for (Account account : accountsList) {
                 if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNT_ID) {
@@ -242,7 +246,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     refreshCapabilities(mainViewModel.getCurrentAccount());
                 }
 
-                lastBoardId = Application.readCurrentBoardId(this, mainViewModel.getCurrentAccount().getId());
+                lastBoardId = readCurrentBoardId(this, mainViewModel.getCurrentAccount().getId());
 
                 if (boardsLiveData != null && boardsLiveDataObserver != null) {
                     boardsLiveData.removeObserver(boardsLiveDataObserver);
@@ -351,7 +355,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                     binding.viewPager.post(() -> {
                         // stackAdapter size might differ from position when an account has been deleted
                         if (stackAdapter.getItemCount() > position) {
-                            Application.saveCurrentStackId(getApplicationContext(), mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), stackAdapter.getItem(position).getLocalId());
+                            saveCurrentStackId(getApplicationContext(), mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId(), stackAdapter.getItem(position).getLocalId());
                         } else {
                             DeckLog.logError(new IllegalStateException("Tried to save current Stack which cannot be available (stackAdapter doesn't have this position)"));
                         }
@@ -551,7 +555,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         filterViewModel.clearFilterInformation();
 
         lastBoardId = board.getLocalId();
-        Application.saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
+        saveCurrentBoardId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
 
         binding.toolbar.setTitle(board.getTitle());
 
@@ -586,7 +590,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             int stackPositionInAdapter = 0;
             stackAdapter.setStacks(fullStacks);
 
-            long currentStackId = Application.readCurrentStackId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
+            long currentStackId = readCurrentStackId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
             for (int i = 0; i < currentBoardStacksCount; i++) {
                 if (fullStacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
                     stackPositionInAdapter = i;

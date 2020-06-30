@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -13,7 +14,7 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 import static androidx.multidex.MultiDex.install;
 
-public class Application extends android.app.Application {
+public class DeckApplication extends Application {
 
     public static final long NO_ACCOUNT_ID = -1L;
     public static final long NO_BOARD_ID = -1L;
