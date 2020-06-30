@@ -20,7 +20,7 @@ import it.niedermann.nextcloud.deck.databinding.DialogStackCreateBinding;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
-import static it.niedermann.nextcloud.deck.Application.NO_STACK_ID;
+import static it.niedermann.nextcloud.deck.DeckApplication.NO_STACK_ID;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 
 public class EditStackDialogFragment extends BrandedDialogFragment {

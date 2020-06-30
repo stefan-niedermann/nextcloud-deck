@@ -17,10 +17,10 @@ import androidx.preference.PreferenceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.getContrastRatio;
@@ -31,10 +31,6 @@ public abstract class BrandingUtil {
     private BrandingUtil() {
         // Util class
     }
-
-    // --------
-    // Branding
-    // --------
 
     public static boolean isBrandingEnabled(@NonNull Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -83,7 +79,7 @@ public abstract class BrandingUtil {
             return mainColor;
         }
         DeckLog.verbose("Contrast ratio between brand color " + String.format("#%06X", (0xFFFFFF & mainColor)) + " and primary theme background is too low. Falling back to WHITE/BLACK as brand color.");
-        return Application.isDarkTheme(context) ? Color.WHITE : Color.BLACK;
+        return isDarkTheme(context) ? Color.WHITE : Color.BLACK;
     }
 
     public static void applyBrandToFAB(@ColorInt int mainColor, @NonNull FloatingActionButton fab) {
