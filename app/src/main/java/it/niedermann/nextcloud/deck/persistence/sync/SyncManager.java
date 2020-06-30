@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 
@@ -378,29 +377,33 @@ public class SyncManager {
                 callback.onError(e);
             }
 
-            serverAdapter.getAllOcsUsers(new IResponseCallback<OcsUserList>(callback.getAccount()) {
-                @Override
-                public void onResponse(OcsUserList response) {
-                    Long accountId = callback.getAccount().getId();
-                    for (String ocsUserName : response) {
-                        User existingUser = dataBaseAdapter.getUserByUidDirectly(accountId, ocsUserName);
-                        if (existingUser == null) {
-                            // we don't know this user, lets get some details...
-                            serverAdapter.getOcsUserDetails(ocsUserName, new IResponseCallback<OcsUser>(callback.getAccount()) {
-                                @Override
-                                public void onResponse(OcsUser response) {
-                                    User newUser = new User();
-                                    newUser.setStatus(DBStatus.UP_TO_DATE.getId());
-                                    newUser.setPrimaryKey(ocsUserName);
-                                    newUser.setUid(ocsUserName);
-                                    newUser.setDisplayname(response.getDisplayName());
-                                    dataBaseAdapter.createUser(accountId, newUser);
-                                }
-                            });
+            try {
+                serverAdapter.getAllOcsUsers(new IResponseCallback<OcsUserList>(callback.getAccount()) {
+                    @Override
+                    public void onResponse(OcsUserList response) {
+                        Long accountId = callback.getAccount().getId();
+                        for (String ocsUserName : response) {
+                            User existingUser = dataBaseAdapter.getUserByUidDirectly(accountId, ocsUserName);
+                            if (existingUser == null) {
+                                // we don't know this user, lets get some details...
+                                serverAdapter.getOcsUserDetails(ocsUserName, new IResponseCallback<OcsUser>(callback.getAccount()) {
+                                    @Override
+                                    public void onResponse(OcsUser response) {
+                                        User newUser = new User();
+                                        newUser.setStatus(DBStatus.UP_TO_DATE.getId());
+                                        newUser.setPrimaryKey(ocsUserName);
+                                        newUser.setUid(ocsUserName);
+                                        newUser.setDisplayname(response.getDisplayName());
+                                        dataBaseAdapter.createUser(accountId, newUser);
+                                    }
+                                });
+                            }
                         }
                     }
-                }
-            });
+                });
+            } catch (OfflineException ignored) {
+                // Nothing to do here...
+            }
         });
     }
 
