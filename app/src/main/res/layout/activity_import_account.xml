@@ -71,6 +71,7 @@
             android:layout_below="@id/add_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"
+            android:indeterminateTint="@color/defaultBrand"
             android:visibility="gone" />
 
         <Button

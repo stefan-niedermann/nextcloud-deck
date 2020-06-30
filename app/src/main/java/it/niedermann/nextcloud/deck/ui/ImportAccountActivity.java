@@ -4,13 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.PreferenceManager;
 
 import com.nextcloud.android.sso.AccountImporter;
@@ -81,6 +85,12 @@ public class ImportAccountActivity extends AppCompatActivity {
                 AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
             }
         });
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrapDrawable = DrawableCompat.wrap(binding.progressCircular.getIndeterminateDrawable());
+            DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(this, R.color.defaultBrand));
+            binding.progressCircular.setIndeterminateDrawable(DrawableCompat.unwrap(wrapDrawable));
+        }
     }
 
     @Override
