@@ -46,7 +46,7 @@ public abstract class BrandingUtil {
         if (isBrandingEnabled(context)) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
             DeckLog.log("--- Read: shared_preference_theme_main");
-            return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.accent));
+            return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
         } else {
             return context.getResources().getColor(R.color.defaultBrand);
         }
@@ -66,7 +66,7 @@ public abstract class BrandingUtil {
     public static void clearBrandColors(@NonNull Context context) {
         if (isBrandingEnabled(context) && context instanceof BrandedActivity) {
             final BrandedActivity activity = (BrandedActivity) context;
-            activity.applyBrand(ContextCompat.getColor(context, R.color.accent));
+            activity.applyBrand(ContextCompat.getColor(context, R.color.defaultBrand));
         }
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         DeckLog.log("--- Write: Remove: shared_preference_theme_main" + " | ");
