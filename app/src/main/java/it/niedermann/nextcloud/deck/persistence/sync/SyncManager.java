@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 
@@ -50,6 +51,7 @@ import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -471,8 +473,57 @@ public class SyncManager {
      * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
      */
     @AnyThread
-    public LiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle, String targetBoardColor) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle, String targetBoardColor) {
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
+
+        doAsync(() -> {
+            Account originAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
+            User newOwner = dataBaseAdapter.getUserByUidDirectly(originAccountId, originAccount.getUserName());
+            FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(originAccountId, originBoardLocalId);
+            originalBoard.setAccountId(targetAccountId);
+            originalBoard.getBoard().setTitle(targetBoardTitle);
+            originalBoard.getBoard().setColor(targetBoardColor);
+            originalBoard.getBoard().setOwnerId(newOwner.getId());
+            originalBoard.setStatusEnum(DBStatus.LOCAL_EDITED);
+            originalBoard.setOwner(newOwner);
+            originalBoard.setId(null);
+            originalBoard.setLocalId(null);
+            long newBoardId = dataBaseAdapter.createBoardDirectly(originAccountId, originalBoard.getBoard());
+            originalBoard.setLocalId(newBoardId);
+
+            for (Stack stack : originalBoard.getStacks()) {
+                stack.setLocalId(null);
+                stack.setId(null);
+                stack.setStatusEnum(DBStatus.LOCAL_EDITED);
+                stack.setAccountId(targetAccountId);
+                stack.setBoardId(newBoardId);
+                dataBaseAdapter.createStack(targetAccountId, stack);
+            }
+            for (Label label : originalBoard.getLabels()) {
+                label.setLocalId(null);
+                label.setId(null);
+                label.setAccountId(targetAccountId);
+                label.setStatusEnum(DBStatus.LOCAL_EDITED);
+                label.setBoardId(newBoardId);
+                dataBaseAdapter.createLabel(targetAccountId, label);
+            }
+            Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
+            new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                    .setResponseCallback(new IResponseCallback<Boolean>(targetAccount) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            liveData.postValue(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                            liveData.postError(throwable);
+                        }
+                    }).doSyncFor(new BoardDataProvider());
+
+        });
+        return liveData;
     }
 
     @AnyThread
@@ -1015,6 +1066,7 @@ public class SyncManager {
     /**
      * Moves the given {@param originCardLocalId} to the new target coordinates specified by {@param targetAccountId}, {@param targetBoardLocalId} and {@param targetStackLocalId}.
      * If the {@param targetBoardLocalId} changes, this will apply some logic to make sure that we migrate as much data as possible without the risk of getting an illegal state.
+     * Attachments are not copied or anything.
      * <p>
      * 1) {@link FullCard#labels}
      * <p>
@@ -1034,7 +1086,125 @@ public class SyncManager {
     @SuppressWarnings("JavadocReference")
     @AnyThread
     public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return LiveDataHelper.wrapInLiveData(() -> {
+
+            FullCard originalCard = dataBaseAdapter.getFullCardByLocalIdDirectly(originAccountId, originCardLocalId);
+            int newIndex = dataBaseAdapter.getHighestCardOrderInStack(targetStackLocalId) + 1;
+            FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalCardIdDirectly(originCardLocalId);
+            // ### maybe shortcut possible? (just moved to another stack)
+            if (targetBoardLocalId == originalBoard.getLocalId()) {
+                reorder(originAccountId, originalCard, targetStackLocalId, newIndex);
+                return null;
+            }
+            // ### get rid of original card where it is now.
+            Card originalInnerCard = originalCard.getCard();
+            deleteCard(originalInnerCard);
+            // ### clone card itself
+            Card targetCard = originalInnerCard;
+            targetCard.setAccountId(targetAccountId);
+            targetCard.setId(null);
+            targetCard.setLocalId(null);
+            targetCard.setStatusEnum(DBStatus.LOCAL_EDITED);
+            targetCard.setStackId(targetStackLocalId);
+            targetCard.setOrder(newIndex);
+            //TODO: this needs to propagate to server as well, since anything else propagates as well (otherwise card isn't known on server)
+            FullCard fullCardForServerPropagation = new FullCard();
+            fullCardForServerPropagation.setCard(targetCard);
+
+            Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
+            FullBoard targetBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, targetBoardLocalId);
+            FullStack targetFullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(targetStackLocalId);
+            User userOfTargetAccount = dataBaseAdapter.getUserByUidDirectly(targetAccountId, targetAccount.getUserName());
+            CountDownLatch latch = new CountDownLatch(1);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new IResponseCallback<FullCard>(targetAccount) {
+                @Override
+                public void onResponse(FullCard response) {
+                    targetCard.setId(response.getId());
+                    targetCard.setLocalId(response.getLocalId());
+                    latch.countDown();
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    super.onError(throwable);
+                    throw new RuntimeException("unable to create card in moveCard target", throwable);
+                }
+            }, (FullCard entity, FullCard response) -> {
+                response.getCard().setUserId(entity.getCard().getUserId());
+                response.getCard().setStackId(targetFullStack.getLocalId());
+            });
+
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                DeckLog.logError(e);
+                throw new RuntimeException("error fulfilling countDownLatch", e);
+            }
+
+            long newCardId = targetCard.getLocalId();
+
+            // ### clone labels, assign them
+            // prepare
+            // has user of targetaccount manage permissions?
+            boolean hasManagePermission = targetBoard.getBoard().getOwnerId() == userOfTargetAccount.getLocalId();
+            List<AccessControl> aclOfTargetBoard = dataBaseAdapter.getAccessControlByLocalBoardIdDirectly(targetAccountId, targetBoard.getLocalId());
+            if (!hasManagePermission){
+                for (AccessControl accessControl : aclOfTargetBoard) {
+                    if (accessControl.getUserId() == userOfTargetAccount.getLocalId() && accessControl.isPermissionManage()){
+                        hasManagePermission = true;
+                        break;
+                    }
+                }
+            }
+
+            // actual doing
+            for (Label originalLabel : originalCard.getLabels()) {
+                // already exists?
+                Label existingMatch = null;
+                for (Label targetBoardLabel : targetBoard.getLabels()) {
+                    if (originalLabel.getTitle().trim().equalsIgnoreCase(targetBoardLabel.getTitle().trim())){
+                        existingMatch = targetBoardLabel;
+                        break;
+                    }
+                }
+                if (existingMatch == null) {
+                    if (hasManagePermission) {
+                        originalLabel.setBoardId(targetBoardLocalId);
+                        originalLabel.setId(null);
+                        originalLabel.setLocalId(null);
+                        originalLabel.setStatusEnum(DBStatus.LOCAL_EDITED);
+                        originalLabel.setAccountId(targetBoard.getAccountId());
+                        createAndAssignLabelToCard(originalBoard.getAccountId(), originalLabel, newCardId);
+                    }
+                } else {
+                    assignLabelToCard(existingMatch, targetCard);
+                }
+            }
+
+            // ### Clone assigned users
+            Account originalAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
+            // same instance? otherwise doesn't make sense
+            if (originalAccount.getUrl().equalsIgnoreCase(targetAccount.getUrl())){
+                for (User assignedUser : originalCard.getAssignedUsers()) {
+                    // has assignedUser at least view permissions?
+                    boolean hasViewPermission = targetBoard.getBoard().getOwnerId() == assignedUser.getLocalId();
+                    if (!hasViewPermission){
+                        for (AccessControl accessControl : aclOfTargetBoard) {
+                            if (accessControl.getUserId() == userOfTargetAccount.getLocalId()){
+                                // ACL exists, so viewing is granted
+                                hasViewPermission = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (hasViewPermission) {
+                        assignUserToCard(assignedUser, targetCard);
+                    }
+                }
+            }
+            // since this is LiveData<Void>
+            return null;
+        });
     }
 
     @AnyThread

@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.ActivityDao;
@@ -73,7 +74,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 SingleCardWidgetModel.class,
         },
         exportSchema = false,
-        version = 14
+        version = 15
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -201,6 +202,12 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_11_12)
                 .addMigrations(MIGRATION_12_13)
                 .addMigrations(MIGRATION_13_14)
+                .addMigrations(new Migration(14, 15) {
+                    @Override
+                    public void migrate(@NonNull SupportSQLiteDatabase database) {
+                        SyncWorker.update(context);
+                    }
+                })
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

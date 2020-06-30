@@ -17,6 +17,9 @@ public interface AccessControlDao extends GenericDao<AccessControl> {
     @Query("SELECT * FROM AccessControl WHERE accountId = :accountId and boardId = :localBoardId and status <> 3")
     LiveData<List<AccessControl>> getAccessControlByLocalBoardId(final long accountId, final long localBoardId);
 
+    @Query("SELECT * FROM AccessControl WHERE accountId = :accountId and boardId = :localBoardId and status <> 3")
+    List<AccessControl> getAccessControlByLocalBoardIdDirectly(final long accountId, final long localBoardId);
+
     @Query("SELECT * FROM AccessControl WHERE accountId = :accountId and id = :remoteId")
     AccessControl getAccessControlByRemoteIdDirectly(final long accountId, final long remoteId);
 

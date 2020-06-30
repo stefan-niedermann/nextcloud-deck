@@ -522,8 +522,12 @@ public class DataBaseAdapter {
         return db.getAccessControlDao().getAccessControlByRemoteIdDirectly(accountId, id);
     }
 
-    public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
-        return LiveDataHelper.interceptLiveData(db.getAccessControlDao().getAccessControlByLocalBoardId(accountId, id), this::readRelationsForACL);
+    public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long localBoardId) {
+        return LiveDataHelper.interceptLiveData(db.getAccessControlDao().getAccessControlByLocalBoardId(accountId, localBoardId), this::readRelationsForACL);
+    }
+
+    public List<AccessControl> getAccessControlByLocalBoardIdDirectly(long accountId, Long localBoardId) {
+        return db.getAccessControlDao().getAccessControlByLocalBoardIdDirectly(accountId, localBoardId);
     }
 
     public void updateAccessControl(AccessControl entity, boolean setStatus) {
@@ -696,6 +700,11 @@ public class DataBaseAdapter {
     @WorkerThread
     public Board getBoardByLocalCardIdDirectly(long localCardId) {
         return db.getBoardDao().getBoardByLocalCardIdDirectly(localCardId);
+    }
+
+    @WorkerThread
+    public FullBoard getFullBoardByLocalCardIdDirectly(long localCardId) {
+        return db.getBoardDao().getFullBoardByLocalCardIdDirectly(localCardId);
     }
 
     public JoinCardWithLabel getJoinCardWithLabel(Long localLabelId, Long localCardId) {
