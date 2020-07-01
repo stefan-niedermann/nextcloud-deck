@@ -85,6 +85,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         } else if (throwable instanceof NextcloudFilesAppNotSupportedException) {
             adapter.add(R.string.error_dialog_tip_files_outdated);
         } else if (throwable instanceof NextcloudApiNotRespondingException) {
+            adapter.add(R.string.error_dialog_tip_disable_battery_optimizations);
             adapter.add(R.string.error_dialog_tip_files_force_stop);
             adapter.add(R.string.error_dialog_tip_files_delete_storage);
         } else if (throwable instanceof SocketTimeoutException || throwable instanceof ConnectException) {
