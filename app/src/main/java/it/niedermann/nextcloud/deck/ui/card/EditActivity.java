@@ -34,6 +34,7 @@ import it.niedermann.nextcloud.deck.util.CardUtil;
 import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 
 public class EditActivity extends BrandedActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";
@@ -295,13 +296,15 @@ public class EditActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
-        final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
-        if (navigationIcon == null) {
-            DeckLog.error("Excpected navigationIcon to be present.");
-        } else {
-            DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), colorAccent);
+        if(isBrandingEnabled(this)) {
+            final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
+            if (navigationIcon == null) {
+                DeckLog.error("Excpected navigationIcon to be present.");
+            } else {
+                DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), colorAccent);
+            }
+            applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
         }
-        applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
     @NonNull
