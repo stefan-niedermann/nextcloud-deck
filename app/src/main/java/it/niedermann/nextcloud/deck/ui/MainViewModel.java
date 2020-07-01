@@ -1,21 +1,28 @@
 package it.niedermann.nextcloud.deck.ui;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 
 @SuppressWarnings("WeakerAccess")
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends AndroidViewModel {
 
     private MutableLiveData<Account> currentAccount = new MutableLiveData<>();
     private Board currentBoard;
     private boolean currentAccountHasArchivedBoards = false;
 
     private boolean currentAccountIsSupportedVersion = false;
+
+    public MainViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public Account getCurrentAccount() {
         return currentAccount.getValue();
@@ -25,9 +32,9 @@ public class MainViewModel extends ViewModel {
         return this.currentAccount;
     }
 
-    public void setCurrentAccount(Account currentAccount, boolean versionIsSupported) {
+    public void setCurrentAccount(Account currentAccount) {
         this.currentAccount.setValue(currentAccount);
-        this.currentAccountIsSupportedVersion = versionIsSupported;
+        this.currentAccountIsSupportedVersion = currentAccount.getServerDeckVersionAsObject().isSupported(getApplication().getApplicationContext());
     }
 
     public void setCurrentBoard(Board currentBoard) {

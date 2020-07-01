@@ -61,7 +61,7 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
         binding.accountLayout.setOnClickListener((v) -> dismiss());
 
         adapter = new AccountSwitcherAdapter((localAccount -> {
-            viewModel.setCurrentAccount(localAccount, localAccount.getServerDeckVersionAsObject().isSupported(requireContext()));
+            viewModel.setCurrentAccount(localAccount);
             dismiss();
         }));
 

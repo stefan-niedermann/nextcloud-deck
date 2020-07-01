@@ -213,7 +213,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
             for (Account account : accountsList) {
                 if (lastAccountId == account.getId() || lastAccountId == NO_ACCOUNT_ID) {
-                    mainViewModel.setCurrentAccount(account, account.getServerDeckVersionAsObject().isSupported(this));
+                    mainViewModel.setCurrentAccount(account);
                     if (!firstAccountAdded) {
                         DeckLog.info("Syncing the current account on app start");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -797,7 +797,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                                             if (response.getDeckVersion().isSupported(getApplicationContext())) {
                                                 runOnUiThread(() -> {
                                                     syncManager = importSyncManager;
-                                                    mainViewModel.setCurrentAccount(account, account.getServerDeckVersionAsObject().isSupported(MainActivity.this));
+                                                    mainViewModel.setCurrentAccount(account);
 
                                                     final Snackbar importSnackbar = BrandedSnackbar.make(binding.coordinatorLayout, R.string.account_is_getting_imported, Snackbar.LENGTH_INDEFINITE);
                                                     importSnackbar.show();
