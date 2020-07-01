@@ -203,6 +203,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="false"
         android:theme="@style/NavigationView"
+        android:background="?attr/colorPrimary"
         app:headerLayout="@layout/nav_header_main" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
