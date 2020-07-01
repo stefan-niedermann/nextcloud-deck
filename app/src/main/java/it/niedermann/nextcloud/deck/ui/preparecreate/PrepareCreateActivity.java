@@ -201,10 +201,10 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
                 startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId, receivedClipData));
             }
 
-            saveCurrentAccountId(this, account.getId());
-            saveCurrentBoardId(this, account.getId(), boardId);
-            saveCurrentStackId(this, account.getId(), boardId, stackId);
-            applyBrand(parseColor(account.getColor()));
+        saveCurrentAccountId(this, account.getId());
+        saveCurrentBoardId(this, account.getId(), boardId);
+        saveCurrentStackId(this, account.getId(), boardId, stackId);
+        applyBrand(parseColor(account.getColor()));
 
             finish();
         } else {
