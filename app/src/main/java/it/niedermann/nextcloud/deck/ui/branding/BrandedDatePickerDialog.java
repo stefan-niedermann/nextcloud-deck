@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.branding;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,14 @@ import android.view.ViewGroup;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
+
+import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
@@ -39,7 +44,7 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
         // Text in picker title is always white
-        setAccentColor(mainColor);
+        setAccentColor(ColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor) ? mainColor : ContextCompat.getColor(requireContext(), R.color.accent));
     }
 
     /**
