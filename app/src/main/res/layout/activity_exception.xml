@@ -50,10 +50,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/spacer_2x"
+                android:paddingStart="@dimen/spacer_2x"
+                android:paddingEnd="@dimen/spacer_2x"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_tip" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacer_2x"
+                android:text="@string/error_dialog_we_need_info"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
