@@ -12,7 +12,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.nextcloud.android.sso.exceptions.NextcloudApiNotRespondingException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
@@ -170,7 +169,6 @@ public class SyncManager {
                 responseCallback.getAccount().getId() == null) {
             throw new IllegalArgumentException("please provide an account ID.");
         }
-        responseCallback.onError(new NextcloudApiNotRespondingException());
         doAsync(() -> refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
             @Override
             public void onResponse(Capabilities response) {
