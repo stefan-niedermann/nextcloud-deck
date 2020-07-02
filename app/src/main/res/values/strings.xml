@@ -277,4 +277,5 @@
         <item quantity="other">%1$d errors while uploading</item>
     </plurals>
     <string name="simple_report">Report</string>
+    <string name="error_action_open_battery_settings">Battery settings</string>
 </resources>

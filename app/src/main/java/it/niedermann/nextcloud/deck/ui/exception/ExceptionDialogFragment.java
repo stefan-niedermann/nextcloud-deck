@@ -4,7 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -85,12 +88,16 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         } else if (throwable instanceof NextcloudFilesAppNotSupportedException) {
             adapter.add(R.string.error_dialog_tip_files_outdated);
         } else if (throwable instanceof NextcloudApiNotRespondingException) {
-            adapter.add(R.string.error_dialog_tip_disable_battery_optimizations);
+            if (VERSION.SDK_INT >= VERSION_CODES.M) {
+                adapter.add(R.string.error_dialog_tip_disable_battery_optimizations, new Intent().setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_battery_settings));
+            } else {
+                adapter.add(R.string.error_dialog_tip_disable_battery_optimizations);
+            }
             adapter.add(R.string.error_dialog_tip_files_force_stop);
             adapter.add(R.string.error_dialog_tip_files_delete_storage);
         } else if (throwable instanceof SocketTimeoutException || throwable instanceof ConnectException) {
             adapter.add(R.string.error_dialog_timeout_instance);
-            adapter.add(R.string.error_dialog_timeout_toggle, new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_network));
+            adapter.add(R.string.error_dialog_timeout_toggle, new Intent(Settings.ACTION_WIFI_SETTINGS).putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_network));
         } else if (throwable instanceof JSONException || throwable instanceof NullPointerException) {
             adapter.add(R.string.error_dialog_check_server);
         } else if (throwable instanceof NextcloudHttpRequestFailedException) {
