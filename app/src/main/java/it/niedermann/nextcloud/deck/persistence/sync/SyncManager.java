@@ -1151,9 +1151,9 @@ public class SyncManager {
             // has user of targetaccount manage permissions?
             boolean hasManagePermission = targetBoard.getBoard().getOwnerId() == userOfTargetAccount.getLocalId();
             List<AccessControl> aclOfTargetBoard = dataBaseAdapter.getAccessControlByLocalBoardIdDirectly(targetAccountId, targetBoard.getLocalId());
-            if (!hasManagePermission){
+            if (!hasManagePermission) {
                 for (AccessControl accessControl : aclOfTargetBoard) {
-                    if (accessControl.getUserId() == userOfTargetAccount.getLocalId() && accessControl.isPermissionManage()){
+                    if (accessControl.getUserId() == userOfTargetAccount.getLocalId() && accessControl.isPermissionManage()) {
                         hasManagePermission = true;
                         break;
                     }
@@ -1165,7 +1165,7 @@ public class SyncManager {
                 // already exists?
                 Label existingMatch = null;
                 for (Label targetBoardLabel : targetBoard.getLabels()) {
-                    if (originalLabel.getTitle().trim().equalsIgnoreCase(targetBoardLabel.getTitle().trim())){
+                    if (originalLabel.getTitle().trim().equalsIgnoreCase(targetBoardLabel.getTitle().trim())) {
                         existingMatch = targetBoardLabel;
                         break;
                     }
@@ -1187,13 +1187,13 @@ public class SyncManager {
             // ### Clone assigned users
             Account originalAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
             // same instance? otherwise doesn't make sense
-            if (originalAccount.getUrl().equalsIgnoreCase(targetAccount.getUrl())){
+            if (originalAccount.getUrl().equalsIgnoreCase(targetAccount.getUrl())) {
                 for (User assignedUser : originalCard.getAssignedUsers()) {
                     // has assignedUser at least view permissions?
                     boolean hasViewPermission = targetBoard.getBoard().getOwnerId() == assignedUser.getLocalId();
-                    if (!hasViewPermission){
+                    if (!hasViewPermission) {
                         for (AccessControl accessControl : aclOfTargetBoard) {
-                            if (accessControl.getUserId() == userOfTargetAccount.getLocalId()){
+                            if (accessControl.getUserId() == userOfTargetAccount.getLocalId()) {
                                 // ACL exists, so viewing is granted
                                 hasViewPermission = true;
                                 break;
