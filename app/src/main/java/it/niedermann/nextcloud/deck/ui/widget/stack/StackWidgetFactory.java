@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -14,10 +16,12 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
 public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
@@ -25,16 +29,19 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
     private final long accountId;
     private final long stackId;
 
+    private Account account;
     private FullStack stack;
     private List<FullCard> cardList;
 
     StackWidgetFactory(Context context, Intent intent) {
         this.context = context;
-
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
         accountId = intent.getLongExtra(StackWidget.ACCOUNT_ID_KEY + appWidgetId, -1);
         stackId = intent.getLongExtra(StackWidget.STACK_ID_KEY + appWidgetId, -1);
+        if (intent.hasExtra(StackWidget.BUNDLE_KEY + appWidgetId)) {
+            account = (Account) intent.getBundleExtra(StackWidget.BUNDLE_KEY + appWidgetId).getSerializable(StackWidget.ACCOUNT_KEY + appWidgetId);
+        }
     }
 
     @Override
@@ -48,7 +55,7 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
                 stack = fullStack;
                 views.setTextViewText(R.id.widget_stack_title_tv, stack.getStack().getTitle());
 
-                LiveData<FullBoard> fullBoardLiveData = syncManager.getFullBoard(accountId, stack.getStack().getBoardId());
+                LiveData<FullBoard> fullBoardLiveData = syncManager.getFullBoardById(accountId, stack.getStack().getBoardId());
                 fullBoardLiveData.observeForever((FullBoard fullBoard) -> {
                     if (fullBoard != null) {
                         final String boardColor = fullBoard.getBoard().getColor();
@@ -85,15 +92,24 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
         RemoteViews widget_entry;
 
         if (cardList == null || i > (cardList.size() - 1) || cardList.get(i) == null) {
-            DeckLog.log("Card not found at position " + i, DeckLog.Severity.ERROR);
+            DeckLog.error("Card not found at position " + i);
             return null;
         }
 
         FullCard card = cardList.get(i);
+        final Intent intent = new Intent();
+        final Bundle extras = new Bundle();
 
         widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
         widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.card.getTitle());
-//        widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, intent);
+
+        extras.putSerializable(EditActivity.BUNDLE_KEY_ACCOUNT, account);
+        extras.putLong(EditActivity.BUNDLE_KEY_BOARD_ID, stack.getStack().getBoardId());
+        extras.putLong(EditActivity.BUNDLE_KEY_STACK_ID, stack.getStack().getId());
+        extras.putLong(EditActivity.BUNDLE_KEY_CARD_ID, card.card.getLocalId());
+        intent.putExtra(StackWidget.BUNDLE_KEY, extras);
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+        widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, intent);
 
         return widget_entry;
     }

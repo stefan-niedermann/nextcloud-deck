@@ -37,10 +37,14 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
 
     @Override
     protected void onSubmit(Account account, long boardId, long stackId) {
+        final Bundle extras = new Bundle();
+
         syncManager.addStackWidget(appWidgetId, account.getId(), stackId, false);
         Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
-                getApplicationContext(), StackWidget.class);
-        updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                                    getApplicationContext(), StackWidget.class);
+        extras.putSerializable(StackWidget.ACCOUNT_KEY, account);
+        extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        updateIntent.putExtra(StackWidget.BUNDLE_KEY, extras);
         setResult(RESULT_OK, updateIntent);
         getApplicationContext().sendBroadcast(updateIntent);
 

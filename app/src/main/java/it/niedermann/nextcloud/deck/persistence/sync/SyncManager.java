@@ -1701,7 +1701,7 @@ public class SyncManager {
 
     @WorkerThread
     public StackWidgetModel getStackWidgetModelDirectly(int appWidgetId) throws NoSuchElementException {
-        final StackWidgetModel model = dataBaseAdapter.getStackWidgetModel(appWidgetId);
+        final StackWidgetModel model = dataBaseAdapter.getStackWidgetModelDirectly(appWidgetId);
         if (model == null) {
             throw new NoSuchElementException();
         }

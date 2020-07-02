@@ -923,8 +923,8 @@ public class DataBaseAdapter {
         return db.getStackWidgetModelDao().insert(model);
     }
 
-    public StackWidgetModel getStackWidgetModel(int appWidgetId) {
-        return db.getStackWidgetModelDao().getStackWidgetByRemoteId(appWidgetId);
+    public StackWidgetModel getStackWidgetModelDirectly(int appWidgetId) {
+        return db.getStackWidgetModelDao().getStackWidgetByAppWidgetIdDirectly(appWidgetId);
     }
 
     public void deleteStackWidget(int appWidgetId) {
