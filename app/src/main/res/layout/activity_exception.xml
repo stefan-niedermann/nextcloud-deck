@@ -35,23 +35,45 @@
 
     </LinearLayout>
 
-    <HorizontalScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/spacer_2x"
-        android:layout_marginEnd="@dimen/spacer_2x"
-        android:layout_weight="1"
-        android:background="@color/bg_highlighted">
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/stacktrace"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/spacer_1x"
-            android:textIsSelectable="true"
-            android:typeface="monospace"
-            tools:text="@string/android_get_accounts_permission_not_granted_exception_message" />
-    </HorizontalScrollView>
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacer_2x"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_tip" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/spacer_2x"
+                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_weight="1"
+                android:background="@color/bg_highlighted">
+
+                <TextView
+                    android:id="@+id/stacktrace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacer_1x"
+                    android:textIsSelectable="true"
+                    android:typeface="monospace"
+                    tools:text="@string/android_get_accounts_permission_not_granted_exception_message" />
+            </HorizontalScrollView>
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
