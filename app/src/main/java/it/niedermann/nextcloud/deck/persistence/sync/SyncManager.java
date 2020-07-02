@@ -164,10 +164,14 @@ public class SyncManager {
 
     @AnyThread
     public void synchronize(IResponseCallback<Boolean> responseCallback) {
-        if (responseCallback == null ||
-                responseCallback.getAccount() == null ||
-                responseCallback.getAccount().getId() == null) {
-            throw new IllegalArgumentException("please provide an account ID.");
+        if (responseCallback == null) {
+            throw new IllegalArgumentException(IResponseCallback.class.getSimpleName() + " must contain an " + Account.class.getSimpleName() + " object with a valid id but was null.");
+        }
+        if(responseCallback.getAccount() == null) {
+            throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
+        }
+        if(responseCallback.getAccount().getId() == null) {
+            throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
         doAsync(() -> refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
             @Override
