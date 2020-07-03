@@ -1,4 +1,4 @@
-name: Android CI
+name: Fastlane CI
 
 on: [push, pull_request]
 
