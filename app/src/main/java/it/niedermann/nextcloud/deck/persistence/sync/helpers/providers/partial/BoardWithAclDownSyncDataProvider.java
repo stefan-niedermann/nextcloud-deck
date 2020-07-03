@@ -11,7 +11,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.AccessControlDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.BoardDataProvider;
 
-public class BoardWitAclDownSyncDataProvider extends BoardDataProvider {
+public class BoardWithAclDownSyncDataProvider extends BoardDataProvider {
 
     @Override
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, IResponseCallback<Boolean> callback) {

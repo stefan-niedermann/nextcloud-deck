@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.GsonConfig;
@@ -64,7 +66,8 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardPropa
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.DeckCommentsDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWitAclDownSyncDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithAclDownSyncDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
@@ -332,7 +335,7 @@ public class SyncManager {
                                 public void onResponse(Boolean response) {
                                     liveData.postValue(dataBaseAdapter.readAccountsForHostWithReadAccessToBoardDirectly(host, boardRemoteId));
                                 }
-                            }).doSyncFor(new BoardWitAclDownSyncDataProvider());
+                            }).doSyncFor(new BoardWithAclDownSyncDataProvider());
                 }
             });
         });
@@ -472,21 +475,43 @@ public class SyncManager {
      * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
      */
     @AnyThread
-    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle, String targetBoardColor) {
+    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardColor) {
         WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
 
         doAsync(() -> {
             Account originAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
             User newOwner = dataBaseAdapter.getUserByUidDirectly(originAccountId, originAccount.getUserName());
             FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(originAccountId, originBoardLocalId);
+            String newBoardTitleBaseName = originalBoard.getBoard().getTitle().trim();
+            int newBoardTitleCopyIndex = 0;
+            //already a copy?
+            String regex = " \\(copy [0-9]+\\)$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(originalBoard.getBoard().getTitle());
+            if (matcher.find()) {
+                String found = matcher.group();
+                newBoardTitleBaseName = newBoardTitleBaseName.substring(0, newBoardTitleBaseName.length() - found.length());
+                Matcher indexMatcher = Pattern.compile("[0-9]+").matcher(found);
+                indexMatcher.find();
+                String oldIndexString = indexMatcher.group();
+                newBoardTitleCopyIndex = Integer.parseInt(oldIndexString);
+            }
+
+            String newBoardTitle;
+            do {
+                newBoardTitleCopyIndex++;
+                newBoardTitle = newBoardTitleBaseName + " (copy " + newBoardTitleCopyIndex + ")";
+
+            } while (dataBaseAdapter.getBoardForAccountByNameDirectly(targetAccountId, newBoardTitle) != null);
+
             originalBoard.setAccountId(targetAccountId);
-            originalBoard.getBoard().setTitle(targetBoardTitle);
+            originalBoard.setId(null);
+            originalBoard.setLocalId(null);
+            originalBoard.getBoard().setTitle(newBoardTitle);
             originalBoard.getBoard().setColor(targetBoardColor);
             originalBoard.getBoard().setOwnerId(newOwner.getLocalId());
             originalBoard.setStatusEnum(DBStatus.LOCAL_EDITED);
             originalBoard.setOwner(newOwner);
-            originalBoard.setId(null);
-            originalBoard.setLocalId(null);
             long newBoardId = dataBaseAdapter.createBoardDirectly(originAccountId, originalBoard.getBoard());
             originalBoard.setLocalId(newBoardId);
 
@@ -498,6 +523,7 @@ public class SyncManager {
                 stack.setBoardId(newBoardId);
                 dataBaseAdapter.createStack(targetAccountId, stack);
             }
+            originalBoard.setStacks(null);
             for (Label label : originalBoard.getLabels()) {
                 label.setLocalId(null);
                 label.setId(null);
@@ -506,21 +532,24 @@ public class SyncManager {
                 label.setBoardId(newBoardId);
                 dataBaseAdapter.createLabel(targetAccountId, label);
             }
-            Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
-            new SyncHelper(serverAdapter, dataBaseAdapter, null)
-                    .setResponseCallback(new IResponseCallback<Boolean>(targetAccount) {
-                        @Override
-                        public void onResponse(Boolean response) {
-                            liveData.postValue(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
-                        }
+            if (serverAdapter.hasInternetConnection()) {
+                Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
+                new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                        .setResponseCallback(new IResponseCallback<Boolean>(targetAccount) {
+                            @Override
+                            public void onResponse(Boolean response) {
+                                liveData.postValue(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
+                            }
 
-                        @Override
-                        public void onError(Throwable throwable) {
-                            super.onError(throwable);
-                            liveData.postError(throwable);
-                        }
-                    }).doSyncFor(new BoardDataProvider());
-
+                            @Override
+                            public void onError(Throwable throwable) {
+                                super.onError(throwable);
+                                liveData.postError(throwable);
+                            }
+                        }).doUpSyncFor(new BoardWithStacksAndLabelsUpSyncDataProvider(originalBoard));
+            } else {
+                liveData.postValue(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
+            }
         });
         return liveData;
     }

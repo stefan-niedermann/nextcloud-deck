@@ -916,4 +916,8 @@ public class DataBaseAdapter {
     public List<Account> readAccountsForHostWithReadAccessToBoardDirectly(String host, long boardRemoteId) {
         return db.getAccountDao().readAccountsForHostWithReadAccessToBoardDirectly("%"+host+"%", boardRemoteId);
     }
+
+    public Board getBoardForAccountByNameDirectly(long account, String title) {
+        return db.getBoardDao().getBoardForAccountByNameDirectly(account, title);
+    }
 }

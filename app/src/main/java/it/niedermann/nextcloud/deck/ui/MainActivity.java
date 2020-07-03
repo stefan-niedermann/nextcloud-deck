@@ -975,7 +975,8 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
-        final WrappedLiveData<FullBoard> liveData = syncManager.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), getString(R.string.cloned_board, board.getTitle()), board.getColor());
+        // FIXME: no need for this anymore: R.string.cloned_board
+        final WrappedLiveData<FullBoard> liveData = syncManager.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor());
         observeOnce(liveData, this, (fullBoard -> {
             snackbar.dismiss();
             if (liveData.hasError()) {

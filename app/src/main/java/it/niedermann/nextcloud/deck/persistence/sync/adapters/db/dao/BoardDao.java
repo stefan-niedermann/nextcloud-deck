@@ -72,4 +72,7 @@ public interface BoardDao extends GenericDao<Board> {
 
     @Query("SELECT count(*) FROM board WHERE accountId = :accountId and archived = 1 and (deletedAt = 0 or deletedAt is null) and status <> 3")
     LiveData<Integer> countArchivedBoards(long accountId);
+
+    @Query("SELECT * FROM board WHERE accountId = :accountId and title = :title")
+    Board getBoardForAccountByNameDirectly(long accountId, String title);
 }
