@@ -73,7 +73,7 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
                 }
                 foundOnServer = allFound;
                 DeckLog.info("###DeckUserSearch: posted Server value: "+allFound);
-                postValue(allFound);
+                postValue(eliminateDuplicates(allFound));
             }
 
             @Override
@@ -90,8 +90,18 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
             if (foundOnServer != null && !foundOnServer.isEmpty()) {
                 users.addAll(foundOnServer);
             }
-            postValue(users);
+            postValue(eliminateDuplicates(users));
             DeckLog.info("###DeckUserSearch: posted db-value: "+foundInDB);
         });
+    }
+    private List<User> eliminateDuplicates(List<User> source) {
+        List<User> retList = new ArrayList<>(source.size());
+        // should be enough like this, since the account doesn't matter here, always the same.
+        for (User user : source) {
+            if (!retList.contains(user)){
+                retList.add(user);
+            }
+        }
+        return retList;
     }
 }
