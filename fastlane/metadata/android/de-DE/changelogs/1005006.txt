@@ -1,0 +1,7 @@
+- ↩️ Antworten auf Kommentare - Erfordert Deck Server ≥ 1.0.3
+- 📦 Alle Karten in einer Liste archivieren
+- 📎 Verbesserte Unterstützung für Anhänge
+- 📥 Enhanced sharing from third party apps into Deck
+- 💬 Text als Kommentar teilen
+- 👥 Neue Benutzerkonto-Wechsel
+- 🐞 Behebt 7 Fehler

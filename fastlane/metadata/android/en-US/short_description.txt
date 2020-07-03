@@ -1,1 +1,1 @@
-Companion app for Nextcloud Deck
+Client for Nextcloud Deck

@@ -1,6 +1,5 @@
-An Android client for Nextcloud Deck App¹.
-
 🚀 Features
+
 * Multiple accounts 👥
 * Works offline 🔌
 * Manage cards, lists and boards 📝
@@ -9,14 +8,18 @@ An Android client for Nextcloud Deck App¹.
 * Dark mode 🌙
 * Translated in many languages 🌎
 
+
 🔗 Requirements
-* Nextcloud¹ instance running
-* Nextcloud Android² app installed (version 3.2.2 or later)
-* Nextcloud Deck³ app enabled (version 0.6.4 or later)
 
-📓 License
-All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).
+  * Nextcloud (https://nextcloud.com/)
+  * Nextcloud Deck app (https://apps.nextcloud.com/apps/deck)
+  * Nextcloud Android app (https://play.google.com/store/apps/details?id=com.nextcloud.client)
 
-¹ https://github.com/nextcloud/android
-² https://nextcloud.com/
-³ https://github.com/nextcloud/deck/
+
+🐞 Beta-Channel
+  * https://play.google.com/apps/testing/it.niedermann.nextcloud.deck.play
+
+
+👨‍👩‍👦 Contribute
+
+  * https://github.com/stefan-niedermann/nextcloud-deck#-join-the-team

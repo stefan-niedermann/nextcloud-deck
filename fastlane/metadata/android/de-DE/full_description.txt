@@ -1,0 +1,26 @@
+🚀 Funktionen
+
+  * Mehrere Konten 👥
+  * Funktioniert offline 🔌
+  * Verwalten von Karten, Spalten und Boards 📝
+  * Verwalten von Tags 🏷
+  * Unterstützung für Anhänge 📎, Aktivitäten ⚡ & Kommentare 💬
+  * Dark Mode 🌙
+  * Übersetzt in viele Sprachen 🌎
+
+
+🔗 Voraussetzungen
+
+  * Nextcloud (https://nextcloud.com/)
+  * Nextcloud Deck App (https://apps.nextcloud.com/apps/deck)
+  * Nextcloud Android App (https://play.google.com/store/apps/details?id=com.nextcloud.client)
+
+
+🐞 Beta-Kanal
+
+  * https://play.google.com/apps/testing/it.niedermann.nextcloud.deck.play
+
+
+👨‍👩‍👦 Mitwirken
+
+  * https://github.com/stefan-niedermann/nextcloud-deck#-join-the-team

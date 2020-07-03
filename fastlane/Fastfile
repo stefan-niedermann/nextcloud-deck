@@ -1,0 +1,45 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+opt_out_usage
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs Unit tests"
+  lane :unittests do
+    gradle(task: "testPlayReleaseUnitTest")
+  end
+
+  desc "Runs Instrumented tests"
+  lane :instrumentedtests do
+    gradle(task: "connectedDevDebugAndroidTest")
+  end
+
+  lane :beta do
+    # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
+    gradle(
+      task: 'assemble',
+      build_type: 'Release',
+      flavor: 'play'
+    )
+  end
+
+ #desc "Deploy a new version to the Google Play"
+ #lane :deploy do
+ #  gradle(task: "clean assembleRelease")
+ #  upload_to_play_store
+ #end
+end

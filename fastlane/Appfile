@@ -1,0 +1,2 @@
+json_key_file("~/.gradle/google-play-api-fastlane.json")
+package_name("it.niedermann.nextcloud.deck.play")
