@@ -29,7 +29,8 @@ platform :android do
   end
 
   lane :beta do
-    # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
+    unittests
+    instrumentedtests
     gradle(
       task: 'assemble',
       build_type: 'Release',

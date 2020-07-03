@@ -1,0 +1,65 @@
+name: Android CI
+
+on: [push, pull_request]
+
+jobs:
+  validation:
+    name: Validate Gradle Wrapper
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Fastlane
+        uses: maierj/fastlane-action@v1.4.0
+        with:
+          lane: unittests
+
+  instrumented:
+    name: Android instrumented tests
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Android instrumented tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectDevDebugAndroidTest --stacktrace
+
+  codeql:
+    name: CodeQL security scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: java
+      - name: Build debug APK
+        run: bash ./gradlew assembleDev --stacktrace
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
+  apk:
+    name: Generate APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build debug APK
+        run: bash ./gradlew assembleDev --stacktrace
+      - name: Upload APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-dev-debug
+          path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
