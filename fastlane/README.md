@@ -16,19 +16,9 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
-### android unittests
+### android release_beta
 ```
-fastlane android unittests
-```
-Runs Unit tests
-### android instrumentedtests
-```
-fastlane android instrumentedtests
-```
-Runs Instrumented tests
-### android beta
-```
-fastlane android beta
+fastlane android release_beta
 ```
 
 

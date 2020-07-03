@@ -19,18 +19,20 @@ default_platform(:android)
 
 platform :android do
   desc "Runs Unit tests"
-  lane :unittests do
+  private_lane :unittests do
     gradle(task: "testPlayReleaseUnitTest")
   end
 
   desc "Runs Instrumented tests"
-  lane :instrumentedtests do
+  private_lane :instrumentedtests do
     gradle(task: "connectedDevDebugAndroidTest")
   end
 
-  lane :beta do
+  lane :release_beta do
     unittests
     instrumentedtests
+    info = computeversion
+    tag(info)
     gradle(
       task: 'assemble',
       build_type: 'Release',
@@ -38,9 +40,51 @@ platform :android do
     )
   end
 
- #desc "Deploy a new version to the Google Play"
- #lane :deploy do
- #  gradle(task: "clean assembleRelease")
- #  upload_to_play_store
- #end
+  desc "compute version"
+  private_lane :computeversion do |options|
+      File.open("../app/build.gradle","r") do |f|
+          text = f.read
+
+          versionCode = text.match(/versionCode ([0-9]*)$/)
+          versionCodeInt = versionCode[1].to_i
+          versionName = text.match(/versionName "([0-9,\.]*)"$/)
+          versionNameString = versionName[1].to_s
+
+          print "VersionCode: " + versionCodeInt.to_s + "\n"
+          print "Name: " + versionNameString + "\n"
+
+          answer = prompt(text: "is this okay?", boolean: true)
+
+          if !answer
+              exit
+          end
+
+          { "versionCode" => versionCode.to_s, "versionName" => versionNameString }
+      end
+  end
+
+  desc "Adding git tag"
+  private_lane :tag do |options|
+      add_git_tag(
+          tag: options["versionName"],
+          sign: true
+      )
+      push_git_tags(
+          tag: options["versionName"])
+  end
+
+  private_lane :SignedRelease do |options|
+      gradle(
+          task: 'assemble',
+          flavor: 'play',
+          build_type: 'Release',
+          print_command: false,
+          properties: {
+                "android.injected.signing.store.file" => ENV["FASTLANE_NEXTCLOUD_STORE_FILE"],
+                "android.injected.signing.store.password" => ENV["FASTLANE_NEXTCLOUD_STORE_PASSWORD"],
+                "android.injected.signing.key.alias" => ENV["FASTLANE_NEXTCLOUD_DECK_KEY_ALIAS"],
+                "android.injected.signing.key.password" => ENV["FASTLANE_NEXTCLOUD_DECK_KEY_PASSWORD"],
+              }
+          )
+  end
 end
