@@ -16,11 +16,21 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
-### android release_beta
+### android release_fdroid
 ```
-fastlane android release_beta
+fastlane android release_fdroid
 ```
-
+Tags the current version and publish it on F-Droid
+### android release_play_store_beta
+```
+fastlane android release_play_store_beta
+```
+Publish on Google Play Store Beta channel
+### android release_play_store_prod
+```
+fastlane android release_play_store_prod
+```
+Publish on Google Play Store Production channel
 
 ----
 

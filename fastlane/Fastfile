@@ -18,17 +18,8 @@ opt_out_usage
 default_platform(:android)
 
 platform :android do
-  desc "Runs Unit tests"
-  private_lane :unittests do
-    gradle(task: "testPlayReleaseUnitTest")
-  end
-
-  desc "Runs Instrumented tests"
-  private_lane :instrumentedtests do
-    gradle(task: "connectedDevDebugAndroidTest")
-  end
-
-  lane :release_beta do
+  desc "Tags the current version and publish it on F-Droid"
+  lane :release_fdroid do
     unittests
     instrumentedtests
     info = computeversion
@@ -38,6 +29,26 @@ platform :android do
       build_type: 'Release',
       flavor: 'play'
     )
+  end
+
+  desc "Publish on Google Play Store Beta channel"
+  lane :release_play_store_beta do
+
+  end
+
+  desc "Publish on Google Play Store Production channel"
+  lane :release_play_store_prod do
+
+  end
+
+  desc "Runs Unit tests"
+  private_lane :unittests do
+    gradle(task: "testPlayReleaseUnitTest")
+  end
+
+  desc "Runs Instrumented tests"
+  private_lane :instrumentedtests do
+    gradle(task: "connectedDevDebugAndroidTest")
   end
 
   desc "compute version"
