@@ -30,7 +30,6 @@
         <item>#b6469d</item>
         <item>#bf678b</item>
         <item>#c98879</item>
-        <item>#d3a967</item>
         <item>#ddcb55</item>
         <item>#a5b872</item>
         <item>#6ea68f</item>
@@ -39,7 +38,6 @@
         <item>#2d73be</item>
         <item>#5b64b3</item>
         <item>#8855a8</item>
-        <item>#3A3B3D</item>
     </string-array>
 
     <color name="widget_background">#ccf5f5f5</color>

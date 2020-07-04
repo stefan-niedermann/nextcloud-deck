@@ -19,7 +19,9 @@
             android:id="@+id/customColorChooser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_1x"
             android:contentDescription="@string/pick_custom_color"
+            app:layout_flexBasisPercent="15%"
             app:srcCompat="@drawable/circle_alpha_colorize_36dp"
             tools:tint="@color/grey600" />
     </com.google.android.flexbox.FlexboxLayout>
