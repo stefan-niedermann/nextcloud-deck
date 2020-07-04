@@ -24,17 +24,22 @@
     <color name="overdue_text_color">#FFFFFF</color>
 
     <!-- board color picker colors -->
-    <color name="board_default_color">#31CC7C</color>
+    <color name="board_default_color">#b6469d</color>
     <color name="board_default_custom_color">#616161</color>
     <string-array name="board_default_colors">
-        <item>#31CC7C</item>
-        <item>#317CCC</item>
-        <item>#FF7A66</item>
-        <item>#F1DB50</item>
-        <item>#7C31CC</item>
-        <item>#CC317C</item>
+        <item>#b6469d</item>
+        <item>#bf678b</item>
+        <item>#c98879</item>
+        <item>#d3a967</item>
+        <item>#ddcb55</item>
+        <item>#a5b872</item>
+        <item>#6ea68f</item>
+        <item>#3794ac</item>
+        <item>#0082c9</item>
+        <item>#2d73be</item>
+        <item>#5b64b3</item>
+        <item>#8855a8</item>
         <item>#3A3B3D</item>
-        <!-- <item>#CACBCD</item> -->
     </string-array>
 
     <color name="widget_background">#ccf5f5f5</color>
