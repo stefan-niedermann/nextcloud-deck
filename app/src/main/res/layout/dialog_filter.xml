@@ -9,7 +9,10 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabIndicatorColor="@color/defaultBrand"
         app:tabInlineLabel="true"
+        app:tabMode="fixed"
+        app:tabTextColor="?attr/colorAccent"
         app:tabUnboundedRipple="true" />
 
     <androidx.viewpager2.widget.ViewPager2

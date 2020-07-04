@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,11 +13,15 @@
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacer_1x"
+        android:layout_marginBottom="@dimen/spacer_1x"
         android:clickable="false"
         android:ellipsize="middle"
         android:focusable="false"
+        android:padding="@dimen/spacer_1x"
+        app:ensureMinTouchTargetSize="false"
         tools:backgroundTint="@color/board_default_color"
-        tools:text="@tools:sample/lorem"
+        tools:text="@tools:sample/cities"
         tools:textColor="@android:color/white" />
 
 </LinearLayout>

@@ -19,6 +19,8 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
+
 public class AboutActivity extends BrandedActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";
 
@@ -82,9 +84,8 @@ public class AboutActivity extends BrandedActivity {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
-        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
+    public void applyBrand(int mainColor) {
+        applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
     }
 
     @NonNull

@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
@@ -124,7 +125,7 @@ public class DataBaseAdapter {
         return db.getCardDao().getFullCardByLocalIdDirectly(accountId, localId);
     }
 
-    public void filterRelationsForCard(FullCard card) {
+    public void filterRelationsForCard(@Nullable FullCard card) {
         if (card != null) {
             if (card.getLabels() != null && !card.getLabels().isEmpty()) {
                 List<Long> filteredIDs = db.getJoinCardWithLabelDao().filterDeleted(card.getLocalId(), getLocalIDs(card.getLabels()));
@@ -137,7 +138,7 @@ public class DataBaseAdapter {
         }
     }
 
-    private <T> List<Long> getLocalIDs(List<? extends AbstractRemoteEntity> remoteEntityList) {
+    private <T> List<Long> getLocalIDs(@NonNull List<? extends AbstractRemoteEntity> remoteEntityList) {
         ArrayList<Long> ids = new ArrayList<>(remoteEntityList.size());
         for (AbstractRemoteEntity entity : remoteEntityList) {
             ids.add(entity.getLocalId());
@@ -145,7 +146,7 @@ public class DataBaseAdapter {
         return ids;
     }
 
-    public void readRelationsForACL(List<AccessControl> acl) {
+    public void readRelationsForACL(@Nullable List<AccessControl> acl) {
         if (acl != null) {
             for (AccessControl accessControl : acl) {
                 readRelationsForACL(accessControl);
@@ -153,7 +154,7 @@ public class DataBaseAdapter {
         }
     }
 
-    public void readRelationsForACL(AccessControl acl) {
+    public void readRelationsForACL(@Nullable AccessControl acl) {
         if (acl != null) {
             if (acl.getUserId() != null) {
                 acl.setUser(db.getUserDao().getUserByLocalIdDirectly(acl.getUserId()));
@@ -161,7 +162,7 @@ public class DataBaseAdapter {
         }
     }
 
-    private void filterRelationsForCard(List<FullCard> card) {
+    private void filterRelationsForCard(@Nullable List<FullCard> card) {
         if (card == null) {
             return;
         }
@@ -223,7 +224,7 @@ public class DataBaseAdapter {
 
     }
 
-    private void fillSqlWithListValues(StringBuilder query, List<Object> args, List<? extends IRemoteEntity> entities) {
+    private void fillSqlWithListValues(StringBuilder query, List<Object> args, @NonNull List<? extends IRemoteEntity> entities) {
         for (int i = 0; i < entities.size(); i++) {
             if (i > 0) {
                 query.append(", ");
@@ -263,7 +264,7 @@ public class DataBaseAdapter {
         return db.getLabelDao().getLabelByRemoteIdDirectly(accountId, remoteId);
     }
 
-    public long createLabel(long accountId, Label label) {
+    public long createLabel(long accountId, @NonNull Label label) {
         label.setAccountId(accountId);
         return db.getLabelDao().insert(label);
     }
@@ -401,7 +402,7 @@ public class DataBaseAdapter {
         return distinctUntilChanged(db.getBoardDao().getBoardsWithEditPermissionsForAccount(accountId));
     }
 
-    public WrappedLiveData<Board> createBoard(long accountId, Board board) {
+    public WrappedLiveData<Board> createBoard(long accountId, @NonNull Board board) {
         return LiveDataHelper.wrapInLiveData(() -> {
             board.setAccountId(accountId);
             long id = db.getBoardDao().insert(board);
@@ -411,7 +412,7 @@ public class DataBaseAdapter {
     }
 
     @WorkerThread
-    public long createBoardDirectly(long accountId, Board board) {
+    public long createBoardDirectly(long accountId, @NonNull Board board) {
         board.setAccountId(accountId);
         return db.getBoardDao().insert(board);
     }
@@ -503,7 +504,7 @@ public class DataBaseAdapter {
         db.getCardDao().delete(card);
     }
 
-    public void updateCard(Card card, boolean setStatus) {
+    public void updateCard(@NonNull Card card, boolean setStatus) {
         markAsEditedIfNeeded(card, setStatus);
         db.getCardDao().update(card);
         if (db.getSingleCardWidgetModelDao().containsCardLocalId(card.getLocalId())) {
@@ -512,7 +513,7 @@ public class DataBaseAdapter {
         }
     }
 
-    public long createAccessControl(long accountId, AccessControl entity) {
+    public long createAccessControl(long accountId, @NonNull AccessControl entity) {
         entity.setAccountId(accountId);
         return db.getAccessControlDao().insert(entity);
     }
@@ -522,8 +523,12 @@ public class DataBaseAdapter {
         return db.getAccessControlDao().getAccessControlByRemoteIdDirectly(accountId, id);
     }
 
-    public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long id) {
-        return LiveDataHelper.interceptLiveData(db.getAccessControlDao().getAccessControlByLocalBoardId(accountId, id), this::readRelationsForACL);
+    public LiveData<List<AccessControl>> getAccessControlByLocalBoardId(long accountId, Long localBoardId) {
+        return LiveDataHelper.interceptLiveData(db.getAccessControlDao().getAccessControlByLocalBoardId(accountId, localBoardId), this::readRelationsForACL);
+    }
+
+    public List<AccessControl> getAccessControlByLocalBoardIdDirectly(long accountId, Long localBoardId) {
+        return db.getAccessControlDao().getAccessControlByLocalBoardIdDirectly(accountId, localBoardId);
     }
 
     public void updateAccessControl(AccessControl entity, boolean setStatus) {
@@ -613,13 +618,13 @@ public class DataBaseAdapter {
         return db.getAttachmentDao().getLocallyChangedAttachmentsDirectly(accountId);
     }
 
-    public long createAttachment(long accountId, Attachment attachment) {
+    public long createAttachment(long accountId, @NonNull Attachment attachment) {
         attachment.setAccountId(accountId);
         attachment.setCreatedAt(new Date());
         return db.getAttachmentDao().insert(attachment);
     }
 
-    public void updateAttachment(long accountId, Attachment attachment, boolean setStatus) {
+    public void updateAttachment(long accountId, @NonNull Attachment attachment, boolean setStatus) {
         markAsEditedIfNeeded(attachment, setStatus);
         attachment.setAccountId(accountId);
         db.getAttachmentDao().update(attachment);
@@ -635,7 +640,7 @@ public class DataBaseAdapter {
         }
     }
 
-    private void validateSearchTerm(String searchTerm) {
+    private void validateSearchTerm(@Nullable String searchTerm) {
         if (searchTerm == null || searchTerm.trim().length() < 1) {
             throw new IllegalArgumentException("please provide a proper search term! \"" + searchTerm + "\" doesn't seem right...");
         }

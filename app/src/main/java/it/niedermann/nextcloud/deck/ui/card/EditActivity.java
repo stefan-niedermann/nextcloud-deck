@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -15,11 +15,13 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityEditBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -31,6 +33,8 @@ import it.niedermann.nextcloud.deck.util.CardUtil;
 
 import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 
 public class EditActivity extends BrandedActivity {
     private static final String BUNDLE_KEY_ACCOUNT = "account";
@@ -87,9 +91,9 @@ public class EditActivity extends BrandedActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        applyBrand(colorAccent);
         setIntent(intent);
         loadDataFromIntent();
-        applyBrand(parseColor(viewModel.getAccount().getColor()), parseColor(viewModel.getAccount().getTextColor()));
     }
 
     private void loadDataFromIntent() {
@@ -117,6 +121,7 @@ public class EditActivity extends BrandedActivity {
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
         observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
+            applyBrand(parseColor('#' + fullBoard.getBoard().getColor()));
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
@@ -290,12 +295,16 @@ public class EditActivity extends BrandedActivity {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
-        applyBrandToPrimaryTabLayout(mainColor, textColor, binding.tabLayout);
-        final int highlightColor = Color.argb(77, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
-        binding.title.setHighlightColor(highlightColor);
-        binding.title.setTextColor(textColor);
+    public void applyBrand(int mainColor) {
+        if(isBrandingEnabled(this)) {
+            final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
+            if (navigationIcon == null) {
+                DeckLog.error("Excpected navigationIcon to be present.");
+            } else {
+                DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), colorAccent);
+            }
+            applyBrandToPrimaryTabLayout(mainColor, binding.tabLayout);
+        }
     }
 
     @NonNull

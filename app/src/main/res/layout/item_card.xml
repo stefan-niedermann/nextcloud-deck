@@ -9,6 +9,7 @@
     android:layout_marginTop="@dimen/spacer_1x"
     android:layout_marginEnd="@dimen/spacer_2x"
     android:layout_marginBottom="@dimen/spacer_1x"
+    app:cardBackgroundColor="@color/bg_card"
     android:focusable="true">
 
     <LinearLayout
@@ -32,6 +33,7 @@
                 android:layout_marginTop="4sp"
                 android:layout_weight="1"
                 android:textSize="18sp"
+                android:textColor="?attr/colorAccent"
                 tools:ignore="RtlSymmetry"
                 tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut l" />
 
@@ -146,6 +148,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/label_menu"
                     android:padding="@dimen/spacer_1hx"
+                    android:tint="?attr/colorAccent"
                     app:srcCompat="@drawable/ic_menu" />
             </LinearLayout>
         </LinearLayout>
