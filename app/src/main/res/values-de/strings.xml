@@ -231,6 +231,7 @@
     <string name="error_dialog_redirect">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID-Client verursacht werden.</string>
     <string name="error_dialog_version_not_parsable">Version der auf dem Server installierten Deck-App konnte nicht ermittelt werden. Bitte sicherstellen, dass die Deck-App intstalliert und aktiviert ist.</string>
     <string name="error_dialog_capabilities_not_parsable">Funktionsumfang Ihres Serves konnte nicht nicht abgerufen werden. Stellen Sie sicher, dass Ihr Server ordnungsgemäß funktioniert und Client-Apps auf Nextcloud zugreifen können.</string>
+    <string name="error_dialog_attachment_upload_failed">Ein Anhang konnte nicht hochgeladen werden. Bitte versuchen Sie es auf andere Weise zu teilen und teilen Sie uns diesen Fehler mit.</string>
     <string name="error_action_open_deck_info">App-Informationen öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
     <string name="error_action_server_logs">Server-Protokolle</string>
@@ -241,4 +242,14 @@
     <string name="archive_cards">Karten archivieren</string>
     <string name="manage_accounts">Konten verwalten</string>
     <string name="manage_list">Liste verwalten</string>
+    <string name="simple_reply">Antworten</string>
+    <string name="error_while_uploading_attachment">Fehler beim Hochladen des Anhangs: %1$s</string>
+    <string name="append_text_to_description">An Beschreibung anhängen</string>
+    <string name="add_text_as_comment">Als Kommentar hinzufügen</string>
+    <string name="progress_count">%1$d von %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d Fehler beim Hochladen</item>
+        <item quantity="other">%1$d Fehler beim Hochladen</item>
+    </plurals>
+    <string name="simple_report">Melden</string>
 </resources>

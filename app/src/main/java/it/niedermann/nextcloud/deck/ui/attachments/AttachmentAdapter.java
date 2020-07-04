@@ -24,10 +24,10 @@ import it.niedermann.nextcloud.deck.databinding.ItemAttachmentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
 
-    private static final String MIMETYPE_IMAGE_PREFIX = "image/";
     private final Account account;
     private final long cardRemoteId;
     @NonNull
@@ -53,7 +53,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         final Attachment attachment = attachments.get(position);
         final String uri = AttachmentUtil.getRemoteUrl(account.getUrl(), cardRemoteId, attachment.getId());
-        if (attachment.getMimetype() != null && attachment.getMimetype().startsWith(MIMETYPE_IMAGE_PREFIX)) {
+        if (MimeTypeUtil.isImage(attachment.getMimetype())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.binding.preview.setTransitionName(context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId())));
             }

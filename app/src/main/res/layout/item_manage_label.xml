@@ -17,7 +17,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="@dimen/spacer_1hx"
+            android:layout_marginTop="@dimen/spacer_1x"
+            android:layout_marginEnd="@dimen/spacer_1hx"
+            android:layout_marginBottom="@dimen/spacer_1x"
             android:ellipsize="middle"
+            app:ensureMinTouchTargetSize="false"
             tools:text="@tools:sample/cities" />
     </LinearLayout>
 

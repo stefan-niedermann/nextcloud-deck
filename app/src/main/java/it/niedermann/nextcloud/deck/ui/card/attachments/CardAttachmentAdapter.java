@@ -32,10 +32,9 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 @SuppressWarnings("WeakerAccess")
@@ -72,7 +71,6 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         this.attachmentClickedListener = attachmentClickedListener;
         this.account = account;
         this.cardLocalId = cardLocalId == null ? NO_ID : cardLocalId;
-        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, readBrandMainColor(context));
         setHasStableIds(true);
     }
 
@@ -123,6 +121,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                 holder.getPreview().setImageResource(R.drawable.ic_image_grey600_24dp);
                 Glide.with(context)
                         .load(uri)
+                        .placeholder(R.drawable.ic_image_grey600_24dp)
                         .error(R.drawable.ic_image_grey600_24dp)
                         .into(holder.getPreview());
                 holder.itemView.setOnClickListener((v) -> {
@@ -144,12 +143,16 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
             default: {
                 DefaultAttachmentViewHolder defaultHolder = (DefaultAttachmentViewHolder) holder;
 
-                if (attachment.getMimetype() != null) {
-                    if (attachment.getMimetype().startsWith("audio")) {
-                        holder.getPreview().setImageResource(R.drawable.ic_music_note_grey600_24dp);
-                    } else if (attachment.getMimetype().startsWith("video")) {
-                        holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
-                    }
+                if (MimeTypeUtil.isAudio(attachment.getMimetype())) {
+                    holder.getPreview().setImageResource(R.drawable.ic_music_note_grey600_24dp);
+                } else if (MimeTypeUtil.isVideo(attachment.getMimetype())) {
+                    holder.getPreview().setImageResource(R.drawable.ic_local_movies_grey600_24dp);
+                } else if (MimeTypeUtil.isPdf(attachment.getMimetype())) {
+                    holder.getPreview().setImageResource(R.drawable.ic_baseline_picture_as_pdf_24);
+                } else if (MimeTypeUtil.isContact(attachment.getMimetype())) {
+                    holder.getPreview().setImageResource(R.drawable.ic_baseline_contact_mail_24);
+                } else {
+                    holder.getPreview().setImageResource(R.drawable.ic_attach_file_grey600_24dp);
                 }
 
                 if (cardRemoteId != null) {
@@ -177,8 +180,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
 
     @Override
     public int getItemViewType(int position) {
-        String mimeType = attachments.get(position).getMimetype();
-        return (mimeType != null && mimeType.startsWith("image")) ? VIEW_TYPE_IMAGE : VIEW_TYPE_DEFAULT;
+        return MimeTypeUtil.isImage(attachments.get(position).getMimetype()) ? VIEW_TYPE_IMAGE : VIEW_TYPE_DEFAULT;
     }
 
     @Override

@@ -235,6 +235,7 @@
     <string name="error_dialog_redirect">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými zmenami v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nepodarilo sa určiť verziu aplikácie Deck na strane servera. Skontrolujte, či je nainštalovaný a povolený.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepodarilo sa načítať možnosti vášho servera. Uistite sa, že váš server funguje správne a že ďalšie klientske aplikácie majú prístup k serveru Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Prílohu nebolo možné nahrať. Skúste to zdieľať iným spôsobom a dajte nám vedieť o tejto chybe.</string>
     <string name="error_action_open_deck_info">Otvoriť informácie o aplikácii</string>
     <string name="error_action_open_network">Nastavenia siete</string>
     <string name="error_action_server_logs">Záznamy udalostí na serveri</string>
@@ -245,4 +246,16 @@
     <string name="archive_cards">Archivovať karty</string>
     <string name="manage_accounts">Spravovať účty</string>
     <string name="manage_list">Spravovať zoznam</string>
+    <string name="simple_reply">Odpoveď</string>
+    <string name="error_while_uploading_attachment">Chyba pri nahrávaní prílohy: %1$s</string>
+    <string name="append_text_to_description">Pripojiť k popisu</string>
+    <string name="add_text_as_comment">Pridať ako komentár</string>
+    <string name="progress_count">%1$d z %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d chyba pri nahrávaní</item>
+        <item quantity="few">%1$d chyby pri nahrávaní</item>
+        <item quantity="many">%1$d chyby pri nahrávaní</item>
+        <item quantity="other">%1$d chýb pri nahrávaní</item>
+    </plurals>
+    <string name="simple_report">Hlásenie</string>
 </resources>

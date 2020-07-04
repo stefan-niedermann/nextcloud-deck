@@ -36,11 +36,11 @@ public class SyncWorker extends Worker {
         SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
         SyncManager syncManager = new SyncManager(getApplicationContext(), null);
         if (syncManager.hasInternetConnection()) {
-            DeckLog.log("Starting background synchronization");
+            DeckLog.info("Starting background synchronization");
             sharedPreferencesEditor.putLong(getApplicationContext().getString(R.string.shared_preference_last_background_sync), System.currentTimeMillis());
             sharedPreferencesEditor.apply();
             boolean success = syncManager.synchronizeEverything();
-            DeckLog.log("Finishing background synchronization with result " + success);
+            DeckLog.info("Finishing background synchronization with result " + success);
             return success ? Result.failure() : Result.success();
         }
         return Result.success();
@@ -53,25 +53,30 @@ public class SyncWorker extends Worker {
 
     public static void update(@NonNull Context context, String preferenceValue) {
         deregister(context);
-        if (!context.getString(R.string.pref_value_background_sync_off).equals(preferenceValue)) {
-            int repeatInterval = 15;
-            TimeUnit unit = TimeUnit.MINUTES;
-            if (context.getString(R.string.pref_value_background_1_hour).equals(preferenceValue)) {
-                repeatInterval = 1;
-                unit = TimeUnit.HOURS;
-            } else if (context.getString(R.string.pref_value_background_6_hours).equals(preferenceValue)) {
-                repeatInterval = 6;
-                unit = TimeUnit.HOURS;
-            }
+        int repeatInterval = -1;
+        TimeUnit unit = null;
+        if (context.getString(R.string.pref_value_background_15_minutes).equals(preferenceValue)) {
+            repeatInterval = 15;
+            unit = TimeUnit.MINUTES;
+        } else if (context.getString(R.string.pref_value_background_1_hour).equals(preferenceValue)) {
+            repeatInterval = 1;
+            unit = TimeUnit.HOURS;
+        } else if (context.getString(R.string.pref_value_background_6_hours).equals(preferenceValue)) {
+            repeatInterval = 6;
+            unit = TimeUnit.HOURS;
+        }
+        if (unit == null) {
+            DeckLog.info("Do not register a new " + SyncWorker.class.getSimpleName() + " because setting " + preferenceValue + " is not a valid time frame");
+        } else {
             final PeriodicWorkRequest work = new PeriodicWorkRequest.Builder(SyncWorker.class, repeatInterval, unit)
                     .setConstraints(constraints).build();
-            DeckLog.log("Registering worker running each " + repeatInterval + " " + unit);
+            DeckLog.info("Registering " + SyncWorker.class.getSimpleName() + " running each " + repeatInterval + " " + unit);
             WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork(SyncWorker.WORKER_TAG, ExistingPeriodicWorkPolicy.REPLACE, work);
         }
     }
 
     private static void deregister(@NonNull Context context) {
-        DeckLog.log("Deregistering all workers with tag \"" + WORKER_TAG + "\"");
+        DeckLog.info("Deregistering all " + SyncWorker.class.getSimpleName() + " with tag \"" + WORKER_TAG + "\"");
         WorkManager.getInstance(context.getApplicationContext()).cancelAllWorkByTag(WORKER_TAG);
     }
 }

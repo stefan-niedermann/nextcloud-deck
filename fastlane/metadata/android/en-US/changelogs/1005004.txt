@@ -1,0 +1,27 @@
+1.5.4
+
+- ➕ Allow to share text as comment
+- 🐞 Fixed adding new lists
+
+1.5.3
+
+- 🐞 Delete attachments on failed uploads (#547)
+
+1.5.2
+
+- 🐞 Fix bug which prevented account imports
+- 🌎 Language updates
+
+1.5.1
+
+- 🐞 Activities do not load deterministically (#518)
+- 🐞 Card order not synced properly (#524)
+- 📎 Improve attachment handling (#516)
+
+1.5.0
+
+- ↩️ Reply to comments (#454)
+- 📦 Archive all cards of a stack (#495)
+- 🐞 List not synchronized list is emptied (#501)
+- 👥 Fix wrong avatars in multi account setup (#531)
+- 🐞 Fix NullPointerException when closing card immediately after opening before data has been loaded

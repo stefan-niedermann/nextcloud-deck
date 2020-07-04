@@ -1,37 +1,23 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <!-- Default is a light theme with the dark blue brand -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
-        <item name="colorAccent">@color/primary</item>
-        <item name="toolbarEditTextColor">@android:color/white</item>
-        <item name="toolbarEditTextHighlightColor">@color/toolbarEditTextHighlightColor</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:elevation" tools:targetApi="lollipop">@null</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="toolbarStyle">@style/toolbarStyle</item>
+        <item name="android:windowBackground">?attr/colorPrimary</item>
     </style>
 
-    <!-- This is a light theme with a bright brand color like yellow -->
-    <style name="AppThemeLightBrand" parent="AppTheme">
-        <item name="toolbarEditTextColor">@android:color/black</item>
+    <style name="toolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
     </style>
 
-    <!-- This styles an EditText which is on a primary background like in the toolbar -->
-    <style name="EditTextOnPrimaryBackground" parent="ThemeOverlay.MaterialComponents.Dark">
-        <item name="android:textColor">?toolbarEditTextColor</item>
-        <item name="android:textColorHighlight">?toolbarEditTextHighlightColor</item>
-        <item name="colorControlNormal">?toolbarEditTextColor</item>
-        <item name="colorControlActivated">?toolbarEditTextColor</item>
-        <item name="colorControlHighlight">?toolbarEditTextColor</item>
-    </style>
-
-    <style name="DarkTextView" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/dark_fg_primary</item>
-    </style>
+    <!-- Default is a light theme with the dark blue brand -->
+    <style name="AppTheme" parent="BaseTheme" />
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorPrimaryDark">@color/defaultBrand</item>
     </style>
 
     <style name="NavigationView">

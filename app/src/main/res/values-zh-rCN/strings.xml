@@ -222,4 +222,6 @@
     <string name="info_box_maintenance_mode">服务器处于维护模式</string>
     <string name="share_link">共享链接</string>
     <string name="manage_accounts">管理账号</string>
-    </resources>
+    <string name="simple_reply">回复</string>
+    <string name="simple_report">报告</string>
+</resources>

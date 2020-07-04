@@ -232,4 +232,6 @@
     <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
     <string name="share_link">Partekatu esteka</string>
     <string name="manage_accounts">Kudeatu kontuak</string>
-    </resources>
+    <string name="simple_reply">Erantzun</string>
+    <string name="simple_report">Jakinarazi</string>
+</resources>

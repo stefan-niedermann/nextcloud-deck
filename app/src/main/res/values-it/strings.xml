@@ -231,6 +231,7 @@
     <string name="error_dialog_redirect">Il tuo server ha risposto con un codice di stato HTTP 302, che implica che non hai installato l\'applicazione Deck sul tuo server o qualcosa non è configurato correttamente. Questo può essere causato da configurazioni personalizzate nel file .htaccess o da applicazioni di Nextcloud come OID Client.</string>
     <string name="error_dialog_version_not_parsable">Impossibile determinare la versione dell\'applicazione Deck lato server. Assicurati che sia installata e abilitata.</string>
     <string name="error_dialog_capabilities_not_parsable">Non siamo riusciti a recuperare le funzionalità del tuo server. Assicurati che il server sia in esecuzione e che le altre applicazioni siano in grado di accedere a Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Un allegato non può essere caricato. Prova a condividerlo in un altro modo e informaci di questo problema.</string>
     <string name="error_action_open_deck_info">Apri Informazioni applicazione</string>
     <string name="error_action_open_network">Impostazioni di rete</string>
     <string name="error_action_server_logs">Log del server</string>
@@ -241,4 +242,14 @@
     <string name="archive_cards">Archivia schede</string>
     <string name="manage_accounts">Gestisci account</string>
     <string name="manage_list">Gestisci elenco</string>
+    <string name="simple_reply">Rispondi</string>
+    <string name="error_while_uploading_attachment">Errore durante il caricamento dell\'allegato: %1$s</string>
+    <string name="append_text_to_description">Aggiungi alla descrizione</string>
+    <string name="add_text_as_comment">Aggiungi come commento</string>
+    <string name="progress_count">%1$d di %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d errore durante il caricamento</item>
+        <item quantity="other">%1$d errori durante il caricamento</item>
+    </plurals>
+    <string name="simple_report">Segnala</string>
 </resources>

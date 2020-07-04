@@ -29,8 +29,8 @@ import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToEditText;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class CardCommentsFragment extends BrandedFragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
@@ -100,9 +100,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                 if (!TextUtils.isEmpty(binding.message.getText().toString().trim())) {
                     binding.emptyContentView.setVisibility(GONE);
                     binding.comments.setVisibility(VISIBLE);
-                    final DeckComment comment = new DeckComment(binding.message.getText().toString().trim());
-                    comment.setActorDisplayName(mainViewModel.getAccount().getUserName());
-                    comment.setCreationDateTime(new Date());
+                    final DeckComment comment = new DeckComment(binding.message.getText().toString().trim(), mainViewModel.getAccount().getUserName(), new Date());
                     final FullDeckComment parent = commentsViewModel.getReplyToComment().getValue();
                     if (parent != null) {
                         comment.setParentId(parent.getId());
@@ -144,9 +142,9 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToEditText(mainColor, textColor, binding.message);
-        applyBrandToFAB(mainColor, textColor, binding.fab);
+    public void applyBrand(int mainColor) {
+        applyBrandToEditText(mainColor, binding.message);
+        applyBrandToFAB(mainColor, binding.fab);
     }
 
     @Override

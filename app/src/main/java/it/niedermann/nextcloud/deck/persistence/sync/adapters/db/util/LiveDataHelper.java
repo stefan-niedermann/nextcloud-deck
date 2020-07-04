@@ -85,7 +85,13 @@ public class LiveDataHelper {
     public static <T> WrappedLiveData<T> wrapInLiveData(final LiveDataWrapper<T> liveDataWrapper) {
         final WrappedLiveData<T> liveData = new WrappedLiveData<>();
 
-        doAsync(() -> liveDataWrapper.postResult(liveData));
+        doAsync(() -> {
+            try {
+                liveDataWrapper.postResult(liveData);
+            } catch (Throwable t) {
+                liveData.postError(t);
+            }
+        });
 
         return liveData;
     }

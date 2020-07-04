@@ -44,7 +44,7 @@ import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_DEFAULT;
 import static it.niedermann.nextcloud.deck.ui.card.attachments.CardAttachmentAdapter.VIEW_TYPE_IMAGE;
 import static it.niedermann.nextcloud.deck.util.AttachmentUtil.copyContentUriToTempFile;
@@ -181,7 +181,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             try {
                 DeckLog.verbose("---- so, now copy & upload: " + sourceUri.getPath());
                 fileToUpload = copyContentUriToTempFile(requireContext(), sourceUri, viewModel.getAccount().getId(), viewModel.getFullCard().getCard().getLocalId());
-            } catch (IOException e) {
+            } catch (IllegalArgumentException | IOException e) {
                 ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Could not copy content URI to temporary file", e), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 return;
             }
@@ -213,6 +213,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
                     if (liveData.hasError()) {
                         Throwable t = liveData.getError();
                         if (t instanceof NextcloudHttpRequestFailedException && ((NextcloudHttpRequestFailedException) t).getStatusCode() == HTTP_CONFLICT) {
+                            // https://github.com/stefan-niedermann/nextcloud-deck/issues/534
                             viewModel.getFullCard().getAttachments().remove(a);
                             adapter.removeAttachment(a);
                             BrandedSnackbar.make(binding.coordinatorLayout, R.string.attachment_already_exists, Snackbar.LENGTH_LONG).show();
@@ -274,7 +275,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToFAB(mainColor, textColor, binding.fab);
+    public void applyBrand(int mainColor) {
+        applyBrandToFAB(mainColor, binding.fab);
     }
 }

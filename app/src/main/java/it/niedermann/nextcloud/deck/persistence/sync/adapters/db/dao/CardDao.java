@@ -69,6 +69,6 @@ public interface CardDao extends GenericDao<Card> {
     @Query("SELECT count(*) FROM card c WHERE accountId = :accountId and stackId = :localStackId and status <> 3")
     LiveData<Integer> countCardsInStack(long accountId, long localStackId);
 
-    @Query("SELECT MAX(`order`) FROM card c WHERE  stackId = :localStackId and status <> 3")
+    @Query("SELECT coalesce(MAX(`order`), -1) FROM card c WHERE  stackId = :localStackId and status <> 3")
     Integer getHighestOrderInStack(Long localStackId);
 }

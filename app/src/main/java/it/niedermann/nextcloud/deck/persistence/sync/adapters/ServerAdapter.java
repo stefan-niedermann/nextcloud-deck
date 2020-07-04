@@ -41,6 +41,8 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
 import it.niedermann.nextcloud.deck.util.DateUtil;
@@ -48,6 +50,8 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 public class ServerAdapter {
 
@@ -150,6 +154,15 @@ public class ServerAdapter {
     public void getCapabilities(String eTag, IResponseCallback<ParsedResponse<Capabilities>> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> provider.getNextcloudAPI().getCapabilities(eTag), responseCallback);
+    }
+    public void getAllOcsUsers(IResponseCallback<OcsUserList> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getAllUsers(), responseCallback);
+    }
+
+    public void getOcsUserDetails(String ocsUserName, IResponseCallback<OcsUser> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getUserDetails(ocsUserName), responseCallback);
     }
 
     public void getActivitiesForCard(long cardId, IResponseCallback<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> responseCallback) {
@@ -280,7 +293,7 @@ public class ServerAdapter {
     public void uploadAttachment(Long remoteBoardId, long remoteStackId, long remoteCardId, String contentType, File attachment, IResponseCallback<Attachment> responseCallback) {
         ensureInternetConnection();
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(getMimeType(attachment)), attachment));
-        MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", null, RequestBody.create(MediaType.parse("text/plain"), "deck_file"));
+        MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", null, RequestBody.create(MediaType.parse(TEXT_PLAIN), "deck_file"));
         RequestHelper.request(provider, () -> provider.getDeckAPI().uploadAttachment(remoteBoardId, remoteStackId, remoteCardId, typePart, filePart), responseCallback);
     }
 
@@ -302,7 +315,7 @@ public class ServerAdapter {
         ensureInternetConnection();
         File attachment = new File(attachmentUri.getPath());
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", attachment.getName(), RequestBody.create(MediaType.parse(contentType), attachment));
-        MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", attachment.getName(), RequestBody.create(MediaType.parse("text/plain"), "deck_file"));
+        MultipartBody.Part typePart = MultipartBody.Part.createFormData("type", attachment.getName(), RequestBody.create(MediaType.parse(TEXT_PLAIN), "deck_file"));
         RequestHelper.request(provider, () -> provider.getDeckAPI().updateAttachment(remoteBoardId, remoteStackId, remoteCardId, remoteAttachmentId, typePart, filePart), responseCallback);
     }
 

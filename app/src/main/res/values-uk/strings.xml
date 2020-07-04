@@ -226,4 +226,6 @@
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
     <string name="share_link">Поширити посилання</string>
     <string name="manage_accounts">Облікові записи</string>
-    </resources>
+    <string name="simple_reply">Відповісти</string>
+    <string name="simple_report">Звіт</string>
+</resources>

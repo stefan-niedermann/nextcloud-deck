@@ -6,8 +6,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 1005001
-        versionName "1.5.1"
+        versionCode 1005006
+        versionName "1.5.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -17,6 +17,9 @@ android {
         }
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        viewBinding true
     }
     buildTypes {
         release {
@@ -31,9 +34,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-    viewBinding {
-        enabled = true
     }
     flavorDimensions "version"
     productFlavors {

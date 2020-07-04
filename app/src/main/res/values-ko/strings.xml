@@ -224,4 +224,6 @@
     <string name="info_box_version_not_supported">%1$s서버 버전은 지원되지 않습니다. %2$s로 업데이트 해주십시오.</string>
     <string name="share_link">링크 공유</string>
     <string name="manage_accounts">계정 관리</string>
-    </resources>
+    <string name="simple_reply">답장</string>
+    <string name="simple_report">보고</string>
+</resources>

@@ -244,4 +244,7 @@
     <string name="share_link">Povezava za souporabo</string>
     <string name="archive_cards">Arhiviraj naloge</string>
     <string name="manage_accounts">Upravljanje z računi</string>
-    </resources>
+    <string name="manage_list">Upravljanje seznama</string>
+    <string name="simple_reply">Odgovori</string>
+    <string name="simple_report">Poročilo</string>
+</resources>

@@ -223,4 +223,6 @@
     <string name="share_link">Dela länk</string>
     <string name="archive_cards">Arkivera kort</string>
     <string name="manage_accounts">Hantera konton</string>
-    </resources>
+    <string name="simple_reply">Svara</string>
+    <string name="simple_report">Rapportera</string>
+</resources>

@@ -23,14 +23,13 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 public class AttachmentsActivity extends AppCompatActivity {
 
     private static final String BUNDLE_KEY_ACCOUNT = "account";
     private static final String BUNDLE_KEY_CARD_ID = "cardId";
     private static final String BUNDLE_KEY_CURRENT_ATTACHMENT_LOCAL_ID = "currentAttachmenLocaltId";
-
-    private static final String MIMETYPE_IMAGE_PREFIX = "image/";
 
     private ActivityAttachmentsBinding binding;
     private ViewPager2.OnPageChangeCallback onPageChangeCallback;
@@ -63,7 +62,7 @@ public class AttachmentsActivity extends AppCompatActivity {
         syncManager.getCardByLocalId(account.getId(), cardId).observe(this, fullCard -> {
             final List<Attachment> attachments = new ArrayList<>();
             for (Attachment a : fullCard.getAttachments()) {
-                if (a.getMimetype().startsWith(MIMETYPE_IMAGE_PREFIX)) {
+                if (MimeTypeUtil.isImage(a.getMimetype())) {
                     attachments.add(a);
                 }
             }

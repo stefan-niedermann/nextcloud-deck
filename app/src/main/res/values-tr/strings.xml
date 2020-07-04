@@ -231,6 +231,7 @@
     <string name="error_dialog_redirect">Sunucunuz, üzerine Tahta uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
     <string name="error_dialog_version_not_parsable">Sunucu tarafındaki tahta uygulamasının sürümü belirlenemedi. Lütfen kurulmuş ve etkinleştirilmiş olduğundan emin olun.</string>
     <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
+    <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
     <string name="error_action_open_deck_info">Uygulama bilgilerini aç</string>
     <string name="error_action_open_network">Ağ ayarları</string>
     <string name="error_action_server_logs">Sunucu günlükleri</string>
@@ -240,4 +241,15 @@
     <string name="share_link">Bağlantıyı paylaş</string>
     <string name="archive_cards">Kartları arşivle</string>
     <string name="manage_accounts">Hesap yönetimi</string>
-    </resources>
+    <string name="manage_list">Liste yönetimi</string>
+    <string name="simple_reply">Yanıtla</string>
+    <string name="error_while_uploading_attachment">Ek Dosyalara kaydedilirken hata: %1$s</string>
+    <string name="append_text_to_description">Açıklamaya ekle</string>
+    <string name="add_text_as_comment">Yorum olarak ekle</string>
+    <string name="progress_count">%1$d / %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">Yükleme sırasında %1$d sorun çıktı.</item>
+        <item quantity="other">Yükleme sırasında %1$d sorun çıktı.</item>
+    </plurals>
+    <string name="simple_report">Hata bildirin</string>
+</resources>

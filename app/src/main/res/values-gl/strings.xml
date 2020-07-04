@@ -231,6 +231,7 @@
     <string name="error_dialog_redirect">O seu servidor respondeu cun código de estado HTTP 302, o que implica que non ten instalada a aplicación Deck no servidor ou que algo está mal configurado. Isto pode ser causado por substitucións personalizadas nun ficheiro .htaccess ou por aplicacións Nextcloud como Client OID.</string>
     <string name="error_dialog_version_not_parsable">Non foi posíbel determinar a versión da apli Deck do lado do servidor. Asegúrese de que estea instalado e activado.</string>
     <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplis de cliente poidan acceder ao Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Non foi posíbel enviar un arquivo anexo. Probe compartilo doutro xeito e infórmenos deste erro.</string>
     <string name="error_action_open_deck_info">Abrir a info da apli</string>
     <string name="error_action_open_network">Axustes da rede</string>
     <string name="error_action_server_logs">Rexistros do servidor</string>
@@ -241,4 +242,14 @@
     <string name="archive_cards">Arquivar as tarxetas</string>
     <string name="manage_accounts">Administrar contas</string>
     <string name="manage_list">Administrar a lista</string>
+    <string name="simple_reply">Responder</string>
+    <string name="error_while_uploading_attachment">Produciuse un erro ao enviar o anexo: %1$s</string>
+    <string name="append_text_to_description">Anexo á descrición</string>
+    <string name="add_text_as_comment">Engadir como comentario</string>
+    <string name="progress_count">%1$d de %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d  erros ao enviar.</item>
+        <item quantity="other">%1$d erros ao enviar.</item>
+    </plurals>
+    <string name="simple_report">Informe</string>
 </resources>

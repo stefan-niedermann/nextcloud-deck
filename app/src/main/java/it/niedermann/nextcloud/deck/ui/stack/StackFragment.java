@@ -138,9 +138,9 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
         if (this.adapter != null) {
-            this.adapter.applyBrand(mainColor, textColor);
+            this.adapter.applyBrand(mainColor);
         }
     }
 

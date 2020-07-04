@@ -44,13 +44,14 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard>, Branded {
 
@@ -283,7 +284,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             case R.id.share_link: {
                 Intent shareIntent = new Intent()
                         .setAction(Intent.ACTION_SEND)
-                        .setType("text/plain")
+                        .setType(TEXT_PLAIN)
                         .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
                         .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
                         .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, currentBoardRemoteId, fullCard.getCard().getId()));
@@ -345,8 +346,8 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        this.mainColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(context, mainColor);
+    public void applyBrand(int mainColor) {
+        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
         notifyDataSetChanged();
     }
 }
