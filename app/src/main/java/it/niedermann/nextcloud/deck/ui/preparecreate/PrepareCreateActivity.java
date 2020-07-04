@@ -2,34 +2,51 @@ package it.niedermann.nextcloud.deck.ui.preparecreate;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPrepareCreateBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentStackId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
+import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
 
-public class PrepareCreateActivity extends BrandedActivity {
+public class PrepareCreateActivity extends AppCompatActivity implements Branded {
 
     private ActivityPrepareCreateBinding binding;
 
@@ -59,10 +76,12 @@ public class PrepareCreateActivity extends BrandedActivity {
             for (Board board : boards) {
                 if (board.getLocalId() == lastBoardId) {
                     binding.boardSelect.setSelection(boardAdapter.getPosition(board));
+                    applyBrand(Color.parseColor('#' + board.getColor()));
                     break;
                 }
             }
         } else {
+            applyBrand(ContextCompat.getColor(this, R.color.defaultBrand));
             binding.boardSelect.setEnabled(false);
             binding.submit.setEnabled(false);
         }
@@ -97,7 +116,7 @@ public class PrepareCreateActivity extends BrandedActivity {
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        brandingEnabled = Application.isBrandingEnabled(this);
+        brandingEnabled = isBrandingEnabled(this);
 
         binding = ActivityPrepareCreateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -127,9 +146,9 @@ public class PrepareCreateActivity extends BrandedActivity {
                 throw new IllegalStateException("hasAccounts() returns true, but readAccounts() returns null or has no entry");
             }
 
-            lastAccountId = Application.readCurrentAccountId(this);
-            lastBoardId = Application.readCurrentBoardId(this, lastAccountId);
-            lastStackId = Application.readCurrentStackId(this, lastAccountId, lastBoardId);
+            lastAccountId = readCurrentAccountId(this);
+            lastBoardId = readCurrentBoardId(this, lastAccountId);
+            lastStackId = readCurrentStackId(this, lastAccountId, lastBoardId);
 
             accountAdapter.clear();
             accountAdapter.addAll(accounts);
@@ -144,12 +163,13 @@ public class PrepareCreateActivity extends BrandedActivity {
         });
 
         binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            applyTemporaryBrand(accountAdapter.getItem(position));
             updateLiveDataSource(boardsLiveData, boardsObserver, syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
         });
 
-        binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) ->
-                updateLiveDataSource(stacksLiveData, stacksObserver, syncManager.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId())));
+        binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
+            applyBrand(Color.parseColor('#' + ((Board) binding.boardSelect.getSelectedItem()).getColor()));
+            updateLiveDataSource(stacksLiveData, stacksObserver, syncManager.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId()));
+        });
 
         binding.cancel.setOnClickListener((v) -> finish());
         binding.submit.setOnClickListener((v) -> onSubmit());
@@ -181,10 +201,10 @@ public class PrepareCreateActivity extends BrandedActivity {
                 startActivity(EditActivity.createNewCardIntent(this, account, boardId, stackId, receivedClipData));
             }
 
-            Application.saveCurrentAccountId(this, account.getId());
-            Application.saveCurrentBoardId(this, account.getId(), boardId);
-            Application.saveCurrentStackId(this, account.getId(), boardId, stackId);
-            applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
+            saveCurrentAccountId(this, account.getId());
+            saveCurrentBoardId(this, account.getId(), boardId);
+            saveCurrentStackId(this, account.getId(), boardId, stackId);
+            applyBrand(parseColor(account.getColor()));
 
             finish();
         } else {
@@ -213,21 +233,19 @@ public class PrepareCreateActivity extends BrandedActivity {
         return TextUtils.isEmpty(text) ? null : text.toString();
     }
 
-    private void applyTemporaryBrand(@Nullable Account account) {
+    @Override
+    public void applyBrand(int mainColor) {
         try {
-            if (account != null && brandingEnabled) {
-                applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
+            if (brandingEnabled) {
+                @ColorInt final int finalMainColor = contrastRatioIsSufficientBigAreas(mainColor, ContextCompat.getColor(this, R.color.primary))
+                        ? mainColor
+                        : isDarkTheme(this) ? Color.WHITE : Color.BLACK;
+                DrawableCompat.setTintList(binding.submit.getBackground(), ColorStateList.valueOf(finalMainColor));
+                binding.submit.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(finalMainColor));
+                binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
             }
         } catch (Throwable t) {
             DeckLog.logError(t);
         }
-    }
-
-    @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
-        binding.submit.setBackgroundColor(mainColor);
-        binding.submit.setTextColor(textColor);
-        binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
     }
 }

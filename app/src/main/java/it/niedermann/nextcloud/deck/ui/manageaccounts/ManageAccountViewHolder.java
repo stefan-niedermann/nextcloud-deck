@@ -34,7 +34,8 @@ public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
         binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
         Glide.with(itemView.getContext())
                 .load(new SingleSignOnUrl(account.getName(), account.getAvatarUrl(dpToPx(binding.accountItemAvatar.getContext(), R.dimen.avatar_size))))
-                .error(R.drawable.ic_person_grey600_24dp)
+                .placeholder(R.drawable.ic_baseline_account_circle_24)
+                .error(R.drawable.ic_baseline_account_circle_24)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.accountItemAvatar);
         binding.currentAccountIndicator.setSelected(isCurrentAccount);

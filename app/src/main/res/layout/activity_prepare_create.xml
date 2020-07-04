@@ -15,8 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            app:title="@string/add_card"
-            app:titleTextColor="@android:color/white" />
+            app:title="@string/add_card" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -73,7 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacer_1x"
             android:layout_weight=".5"
-            android:text="@android:string/cancel" />
+            android:text="@android:string/cancel"
+            android:textColor="@color/defaultBrand" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submit"
@@ -82,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer_1x"
             android:layout_weight=".5"
-            android:text="@string/simple_add" />
+            android:text="@string/simple_add"
+            app:backgroundTint="@color/defaultBrand" />
     </LinearLayout>
 </RelativeLayout>

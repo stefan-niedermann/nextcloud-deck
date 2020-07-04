@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_card_wrapper"
     android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -107,9 +108,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:titleTextColor="@android:color/white"
                 tools:title="Deck">
 
                 <ImageView
@@ -124,18 +122,35 @@
                     app:srcCompat="@drawable/ic_baseline_account_circle_24"
                     tools:targetApi="o" />
 
-                <ImageView
-                    android:id="@+id/filter"
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|end"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/simple_filter"
-                    android:padding="12dp"
-                    android:tooltipText="@string/simple_filter"
-                    android:translationX="6dp"
-                    app:srcCompat="@drawable/ic_filter_list_white_24dp"
-                    tools:targetApi="o" />
+                    android:translationX="6dp">
+
+                    <ImageView
+                        android:id="@+id/filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/simple_filter"
+                        android:padding="12dp"
+                        android:tint="?attr/colorAccent"
+                        android:tooltipText="@string/simple_filter"
+                        app:srcCompat="@drawable/ic_filter_list_white_24dp"
+                        tools:targetApi="o" />
+
+                    <ImageView
+                        android:id="@+id/filter_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/circle_grey600_8dp"
+                        android:tint="@color/defaultBrand" />
+                </FrameLayout>
 
                 <ImageView
                     android:id="@+id/archivedCards"
@@ -145,6 +160,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/action_archived_cards"
                     android:padding="12dp"
+                    android:tint="?attr/colorAccent"
                     android:tooltipText="@string/action_archived_cards"
                     android:translationX="12dp"
                     android:visibility="gone"
@@ -163,19 +179,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    app:tabBackground="?attr/colorPrimary"
                     app:tabGravity="center"
-                    app:tabIndicatorColor="@color/accent"
+                    app:tabIndicatorColor="@color/defaultBrand"
                     app:tabMode="fixed"
-                    app:tabTextColor="@android:color/white" />
+                    app:tabTextColor="?attr/colorAccent" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/list_menu_button"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/colorPrimary"
                     android:contentDescription="@string/add_list"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@android:color/white"
+                    android:tint="?attr/colorAccent"
                     android:tooltipText="@string/manage_list"
                     app:srcCompat="@drawable/ic_menu"
                     tools:ignore="UnusedAttribute" />
@@ -190,7 +207,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:contentDescription="@string/add_card"
-            app:backgroundTint="@color/primary"
+            app:backgroundTint="@color/defaultBrand"
             app:srcCompat="@drawable/ic_add_white_24dp" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -200,6 +217,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="?attr/colorPrimary"
         android:fitsSystemWindows="false"
         android:theme="@style/NavigationView"
         app:headerLayout="@layout/nav_header_main" />

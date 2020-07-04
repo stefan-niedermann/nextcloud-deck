@@ -14,7 +14,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            app:titleTextColor="@android:color/white"
             tools:title="@string/simple_exception" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -36,23 +35,53 @@
 
     </LinearLayout>
 
-    <HorizontalScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/spacer_2x"
-        android:layout_marginEnd="@dimen/spacer_2x"
-        android:layout_weight="1"
-        android:background="@color/bg_highlighted">
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/stacktrace"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/spacer_1x"
-            android:textIsSelectable="true"
-            android:typeface="monospace"
-            tools:text="@string/android_get_accounts_permission_not_granted_exception_message" />
-    </HorizontalScrollView>
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/spacer_2x"
+                android:paddingEnd="@dimen/spacer_2x"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_tip" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacer_2x"
+                android:text="@string/error_dialog_we_need_info"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/spacer_2x"
+                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_weight="1"
+                android:background="@color/bg_highlighted">
+
+                <TextView
+                    android:id="@+id/stacktrace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacer_1x"
+                    android:textIsSelectable="true"
+                    android:typeface="monospace"
+                    tools:text="@string/android_get_accounts_permission_not_granted_exception_message" />
+            </HorizontalScrollView>
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,7 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacer_1x"
             android:layout_weight=".5"
-            android:text="@string/simple_close" />
+            android:text="@string/simple_close"
+            android:textColor="@color/defaultBrand" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/copy"
@@ -78,7 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer_1x"
             android:layout_weight=".5"
-            android:text="@string/simple_copy" />
+            android:text="@string/simple_copy"
+            app:backgroundTint="@color/defaultBrand" />
 
     </LinearLayout>
 </LinearLayout>

@@ -8,6 +8,8 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -21,6 +23,12 @@ public interface NextcloudServerAPI {
 
     @GET("cloud/capabilities?format=json")
     Observable<Capabilities> getCapabilities();
+
+    @GET("cloud/users?format=json")
+    Observable<OcsUserList> getAllUsers();
+
+    @GET("cloud/users/{uid}?format=json")
+    Observable<OcsUser> getUserDetails(@Path("uid") String uid);
 
     @GET("apps/activity/api/v2/activity/filter?format=json&object_type=deck_card&limit=50&since=-1&sort=asc")
     Observable<List<Activity>> getActivitiesForCard(@Query("object_id") long cardId);

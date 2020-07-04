@@ -26,8 +26,19 @@ public interface UserDao extends GenericDao<User> {
             "            where ju.userId = u.localId" +
             "            and ju.cardId = :notYetAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             "    )" +
+            "    AND" +
+            "            (" +
+            "                    EXISTS (" +
+            "                    select 1 from accesscontrol" +
+            "                    where userId = u.localId and boardId = :boardId" +
+            "            )" +
+            "    OR" +
+            "    EXISTS (" +
+            "            select 1 from board where localId = :boardId AND ownerId = u.localId" +
+            "    )" +
+            ")" +
             "and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm )")
-    LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long notYetAssignedToLocalCardId, final String searchTerm);
+    LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, final String searchTerm);
 
     @Query("SELECT u.* FROM user u WHERE accountId = :accountId " +
             "    AND NOT EXISTS (" +
