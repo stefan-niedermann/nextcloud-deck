@@ -917,7 +917,7 @@ public class SyncManager {
         doAsync(() -> {
             FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCard == null) {
-                throw new IllegalArgumentException("card to delete does not exist.");
+                throw new IllegalArgumentException("card with id " + card.getLocalId() + " to delete does not exist.");
             }
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
@@ -1670,15 +1670,14 @@ public class SyncManager {
 
     @AnyThread
     private static Attachment populateAttachmentEntityForFile(@NonNull Attachment target, long localCardId, @NonNull String mimeType, @NonNull File file) {
-        Attachment attachment = target;
-        attachment.setCardId(localCardId);
-        attachment.setMimetype(mimeType);
-        attachment.setData(file.getName());
-        attachment.setFilename(file.getName());
-        attachment.setBasename(file.getName());
-        attachment.setLocalPath(file.getAbsolutePath());
-        attachment.setFilesize(file.length());
-        return attachment;
+        target.setCardId(localCardId);
+        target.setMimetype(mimeType);
+        target.setData(file.getName());
+        target.setFilename(file.getName());
+        target.setBasename(file.getName());
+        target.setLocalPath(file.getAbsolutePath());
+        target.setFilesize(file.length());
+        return target;
     }
 
     @AnyThread

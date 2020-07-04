@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,12 +38,11 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
@@ -69,7 +67,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
     private final SelectCardListener selectCardListener;
     private List<FullCard> cardList = new LinkedList<>();
     private LifecycleOwner lifecycleOwner;
-    private List<FullStack> availableStacks = new ArrayList<>();
     private String counterMaxValue;
 
     private int mainColor;
@@ -89,10 +86,6 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         this.syncManager = syncManager;
         this.selectCardListener = selectCardListener;
         this.mainColor = context.getResources().getColor(R.color.primary);
-        syncManager.getStacksForBoard(account.getId(), boardId).observe(this.lifecycleOwner, (stacks) -> {
-            availableStacks.clear();
-            availableStacks.addAll(stacks);
-        });
         setHasStableIds(true);
     }
 
@@ -298,30 +291,8 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                 return true;
             }
             case R.id.action_card_move: {
-                int currentStackItem = 0;
-                CharSequence[] items = new CharSequence[availableStacks.size()];
-                for (int i = 0; i < availableStacks.size(); i++) {
-                    final Stack stack = availableStacks.get(i).getStack();
-                    items[i] = stack.getTitle();
-                    if (stack.getLocalId().equals(stackId)) {
-                        currentStackItem = i;
-                    }
-                }
-                new BrandedAlertDialogBuilder(context)
-                        .setSingleChoiceItems(items, currentStackItem, (dialog, which) -> {
-                            dialog.cancel();
-                            WrappedLiveData<Void> liveData = syncManager.moveCard(fullCard.getAccountId(), fullCard.getLocalId(), fullCard.getAccountId(), boardId, availableStacks.get(which).getStack().getLocalId());
-                            observeOnce(liveData, lifecycleOwner, (next) -> {
-                                if (liveData.hasError()) {
-                                    ExceptionDialogFragment.newInstance(liveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
-                                } else {
-                                    DeckLog.log("Moved card \"" + fullCard.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
-                                }
-                            });
-                        })
-                        .setNeutralButton(android.R.string.cancel, null)
-                        .setTitle(context.getString(R.string.action_card_move_title, fullCard.getCard().getTitle()))
-                        .show();
+                DeckLog.verbose("MOVE - Attempt to move " + Card.class.getSimpleName() + " " + fullCard.getCard() + " (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
+                MoveCardDialogFragment.newInstance(fullCard.getAccountId(), fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
                 return true;
             }
             case R.id.action_card_archive: {
