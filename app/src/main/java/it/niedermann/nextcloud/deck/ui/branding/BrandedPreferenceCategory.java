@@ -10,10 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceViewHolder;
 
-import it.niedermann.nextcloud.deck.Application;
-
-import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public class BrandedPreferenceCategory extends PreferenceCategory {
 
@@ -21,7 +20,7 @@ public class BrandedPreferenceCategory extends PreferenceCategory {
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
-        if (Application.isBrandingEnabled(getContext())) {
+        if (isBrandingEnabled(getContext())) {
             final View v = holder.itemView.findViewById(android.R.id.title);
             @Nullable final Context context = getContext();
             if (context != null && v instanceof TextView) {

@@ -240,4 +240,5 @@
     <string name="manage_accounts">アカウント管理</string>
     <string name="manage_list">リスト管理</string>
     <string name="simple_reply">返信</string>
-    </resources>
+    <string name="simple_report">報告</string>
+</resources>

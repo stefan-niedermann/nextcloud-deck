@@ -48,7 +48,8 @@
             android:paddingTop="24dp"
             android:paddingEnd="32dp"
             android:paddingBottom="24dp"
-            android:text="@string/choose_account" />
+            android:text="@string/choose_account"
+            app:backgroundTint="@color/defaultBrand" />
 
         <TextView
             android:id="@+id/status"
@@ -70,6 +71,7 @@
             android:layout_below="@id/add_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"
+            android:indeterminateTint="@color/defaultBrand"
             android:visibility="gone" />
 
         <Button
@@ -81,6 +83,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="@string/simple_update"
+            android:textColor="@color/defaultBrand"
             android:visibility="gone"
             tools:visibility="visible" />
     </RelativeLayout>

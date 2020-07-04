@@ -243,4 +243,5 @@
     <string name="manage_accounts">Управление аккаунтами</string>
     <string name="manage_list">Управлять списком</string>
     <string name="simple_reply">Ответить</string>
-    </resources>
+    <string name="simple_report">Сообщить</string>
+</resources>

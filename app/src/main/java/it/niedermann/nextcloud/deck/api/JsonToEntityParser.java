@@ -32,6 +32,8 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 
 import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
 
@@ -50,12 +52,53 @@ public class JsonToEntityParser {
             return (T) parseActivity(obj);
         } else if (mType == Capabilities.class) {
             return (T) parseCapabilities(obj);
+        } else if (mType == OcsUserList.class) {
+            return (T) parseOcsUserList(obj);
+        } else if (mType == OcsUser.class) {
+            return (T) parseOcsUser(obj);
         } else if (mType == Attachment.class) {
             return (T) parseAttachment(obj);
         } else if (mType == OcsComment.class) {
             return (T) parseOcsComment(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
+    }
+
+    private static OcsUser parseOcsUser(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        OcsUser ocsUser = new OcsUser();
+        TraceableException.makeTraceableIfFails(() -> {
+            JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+            if (!data.isJsonNull()) {
+                JsonObject jsonObject = data.getAsJsonObject();
+                if (jsonObject.has("id")) {
+                    ocsUser.setId(getNullAsEmptyString(jsonObject.get("id")));
+                }
+                if (jsonObject.has("displayname")) {
+                    ocsUser.setDisplayName(getNullAsEmptyString(jsonObject.get("displayname")));
+                }
+            }
+
+        }, obj);
+        return ocsUser;
+    }
+
+    private static OcsUserList parseOcsUserList(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        OcsUserList ocsUserList = new OcsUserList();
+        TraceableException.makeTraceableIfFails(() -> {
+            JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+            if (!data.isJsonNull() && data.getAsJsonObject().has("users")) {
+                JsonElement users = data.getAsJsonObject().get("users");
+                if (!users.isJsonNull() && users.isJsonArray()) {
+                    for (JsonElement userElement : users.getAsJsonArray()) {
+                        ocsUserList.add(userElement.getAsString());
+                    }
+                }
+            }
+
+        }, obj);
+        return ocsUserList;
     }
 
     private static OcsComment parseOcsComment(JsonObject obj) {

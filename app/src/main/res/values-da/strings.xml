@@ -189,4 +189,5 @@
     <string name="share_link">Del link</string>
     <string name="manage_accounts">Administrer konti</string>
     <string name="simple_reply">Besvar</string>
-    </resources>
+    <string name="simple_report">Rapporter</string>
+</resources>

@@ -114,6 +114,7 @@
     <string name="url_about_icon_author" translatable="false">https://github.com/nextcloud/deck/commit/8c04ea8dc99e9b392f4039e8e5e6964d5a6d3453#diff-f3716cc279904617b1a21078526b6bf1R1</string>
     <string name="url_source" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck</string>
     <string name="url_issues" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/issues/new/choose</string>
+    <string name="url_report_bug" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/issues/new?labels=bug&amp;template=bug_report.md</string>
     <string name="url_license" translatable="false">https://github.com/stefan-niedermann/nextcloud-deck/blob/master/LICENSE</string>
     <string name="url_translations" translatable="false">https://www.transifex.com/nextcloud/nextcloud/</string>
     <string name="url_about_icons_disclaimer_mdi" translatable="false">https://materialdesignicons.com/</string>
@@ -241,6 +242,7 @@
     <string name="error_dialog_title">Oh no - What now? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Please try to force close the app and restart it again. There might have been an incorrect connection to the Nextcloud app.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">The ugprade of the database failed. Please report the issue and clear the storage to use the app normally.</string>
     <string name="error_dialog_tip_clear_storage">You can clear the storage by opening the app info and selecting Storage → Clear storage.</string>
     <string name="error_dialog_tip_files_outdated">Your Nextcloud app seems to be outdated. Please visit the Play Store or F-Droid to get the latest version.</string>
     <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your Nextcloud app. Please try to force stop both, the Nextcloud app and the Nextcloud Deck app.</string>
@@ -256,10 +258,12 @@
     <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Deck app. Please make sure it is installed and enabled.</string>
     <string name="error_dialog_capabilities_not_parsable">We could not fetch the capabilities of your server. Please make sure your server is running well and other client apps are able to access Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">An attachment could not be uploaded. Please try to share it on another way and let us know about this bug.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Please disable all battery optimizations for Nextcloud and the Deck app.</string>
     <string name="error_action_open_deck_info">Open App info</string>
     <string name="error_action_open_network">Network settings</string>
     <string name="error_action_server_logs">Server logs</string>
     <string name="error_action_install">Install</string>
+    <string name="error_action_report_issue">Report</string>
     <string name="info_box_maintenance_mode">Server in maintenance mode</string>
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
     <string name="share_link">Share link</string>
@@ -276,6 +280,7 @@
         <item quantity="other">%1$d errors while uploading</item>
     </plurals>
     <string name="simple_report">Report</string>
+    <string name="error_action_open_battery_settings">Battery settings</string>
     <string name="simple_contact">Contact</string>
     <string name="simple_file">File</string>
     <string name="simple_camera">Camera</string>

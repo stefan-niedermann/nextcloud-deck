@@ -4,7 +4,6 @@
     <string name="shared_preference_last_background_sync" translatable="false">it.niedermann.nextcloud.deck.last_background_sync</string>
 
     <string name="shared_preference_theme_main" translatable="false">it.niedermann.nextcloud.deck.theme_main</string>
-    <string name="shared_preference_theme_text" translatable="false">it.niedermann.nextcloud.deck.theme_text</string>
 
     <string name="pref_key_wifi_only" translatable="false">wifiOnly</string>
     <string name="pref_key_dark_theme" translatable="false">darkTheme</string>

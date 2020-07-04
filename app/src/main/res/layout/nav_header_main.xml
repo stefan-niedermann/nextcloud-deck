@@ -4,7 +4,7 @@
     android:id="@+id/header_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/drawer_header_height"
-    android:background="@color/primary">
+    android:background="@color/defaultBrand">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/logo"
@@ -14,6 +14,7 @@
         android:layout_margin="@dimen/spacer_2x"
         android:gravity="center"
         android:padding="@dimen/spacer_1hx"
+        android:tint="@android:color/white"
         app:srcCompat="@drawable/ic_app_logo" />
 
     <TextView

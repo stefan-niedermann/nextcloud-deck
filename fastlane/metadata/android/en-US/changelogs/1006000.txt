@@ -1,0 +1,5 @@
+1.6.0
+
+- ✨ Adjust design to new style of Nextcloud app (#525)
+- 🎨 Offer the same colors as the server app
+- 🐞 "Archive cards" of list crashes the app when there is no list (#557)

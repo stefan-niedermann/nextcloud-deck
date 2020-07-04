@@ -5,20 +5,29 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.flexbox.FlexboxLayout;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.WidgetColorChooserBinding;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
+import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+
 public class ColorChooser extends LinearLayout {
 
     private WidgetColorChooserBinding binding;
+
+    private final FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+    );
 
     private Context context;
     private String[] colors;
@@ -32,6 +41,9 @@ public class ColorChooser extends LinearLayout {
         super(context, attrs);
         this.context = context;
 
+        params.setMargins(0, dpToPx(context, R.dimen.spacer_1x), 0, 0);
+        params.setFlexBasisPercent(.15f);
+
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ColorChooser, 0, 0);
         colors = getResources().getStringArray(a.getResourceId(R.styleable.ColorChooser_colors, 0));
@@ -40,6 +52,7 @@ public class ColorChooser extends LinearLayout {
         binding = WidgetColorChooserBinding.inflate(LayoutInflater.from(context), this, true);
         for (final String color : colors) {
             ImageView image = new ImageView(getContext());
+            image.setLayoutParams(params);
             image.setOnClickListener((imageView) -> {
                 if (previouslySelectedImageView != null) { // null when first selection
                     previouslySelectedImageView.setImageDrawable(ViewUtil.getTintedImageView(this.context, R.drawable.circle_grey600_36dp, previouslySelectedColor));

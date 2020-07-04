@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name="it.niedermann.nextcloud.deck.Application"
+        android:name="it.niedermann.nextcloud.deck.DeckApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
@@ -71,20 +71,17 @@
         <activity
             android:name=".ui.archivedcards.ArchivedCardsActvitiy"
             android:label="@string/archived_cards"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
         <activity
             android:name=".ui.archivedboards.ArchivedBoardsActvitiy"
             android:label="@string/archived_boards"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"  />
 
         <activity
             android:name=".ui.card.EditActivity"
             android:label="@string/edit"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
         <activity
             android:name=".ui.attachments.AttachmentsActivity"
@@ -95,19 +92,16 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/simple_settings"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
         <activity
             android:name=".ui.ImportAccountActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme" />
+            android:label="@string/app_name" />
 
         <activity
             android:name=".ui.preparecreate.PrepareCreateActivity"
             android:description="@string/add_a_new_card_using_the_button"
-            android:label="@string/add_card"
-            android:theme="@style/AppTheme">
+            android:label="@string/add_card" >
 
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -119,13 +113,11 @@
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about"
-            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName="it.niedermann.nextcloud.deck.ui.MainActivity" />
 
         <activity
             android:name=".ui.PushNotificationActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

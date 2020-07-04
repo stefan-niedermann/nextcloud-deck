@@ -239,4 +239,5 @@
     <string name="share_link">Delen link</string>
     <string name="manage_accounts">Accounts beheren </string>
     <string name="simple_reply">Antwoord</string>
-    </resources>
+    <string name="simple_report">Rapporteer</string>
+</resources>
