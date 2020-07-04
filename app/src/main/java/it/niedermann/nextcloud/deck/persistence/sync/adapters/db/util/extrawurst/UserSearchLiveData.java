@@ -37,7 +37,6 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
         this.accountId = accountId;
         this.searchTerm = searchTerm;
         this.notYetAssignedInACL = notYetAssignedInACL;
-        DeckLog.info("###DeckUserSearch: starting search with term "+searchTerm);
         new Thread(() -> debouncer.call(notYetAssignedInACL)).start();
         return this;
     }
@@ -49,9 +48,9 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
             return;
         }
 
-
+        final String term = searchTerm;
         Account account = db.getAccountByIdDirectly(accountId);
-        server.searchUser(searchTerm, new IResponseCallback<OcsUserList>(account) {
+        server.searchUser(term, new IResponseCallback<OcsUserList>(account) {
             @Override
             public void onResponse(OcsUserList response) {
                 if (response == null || response.getUsers().isEmpty()){
@@ -72,8 +71,9 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
                     }
                 }
                 foundOnServer = allFound;
-                DeckLog.info("###DeckUserSearch: posted Server value: "+allFound);
-                postValue(eliminateDuplicates(allFound));
+                List<User> distinctList = eliminateDuplicates(allFound);
+                DeckLog.info("###DeckUserSearch: posted Server value for term " + term + ":\n" + distinctList + " \n\n from Server: " + foundOnServer + " \n\n from DB: " + foundInDB);
+                postValue(distinctList);
             }
 
             @Override
@@ -82,7 +82,7 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
             }
         });
 
-        LiveData<List<User>> dbLiveData = db.searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedInACL, searchTerm);
+        LiveData<List<User>> dbLiveData = db.searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedInACL, term);
         addSource(dbLiveData, changedData -> {
             foundInDB = changedData;
             removeSource(dbLiveData);
@@ -90,8 +90,9 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
             if (foundOnServer != null && !foundOnServer.isEmpty()) {
                 users.addAll(foundOnServer);
             }
-            postValue(eliminateDuplicates(users));
-            DeckLog.info("###DeckUserSearch: posted db-value: "+foundInDB);
+            List<User> distinctList = eliminateDuplicates(users);
+            postValue(distinctList);
+            DeckLog.info("###DeckUserSearch: posted db-value for term " + term + ":\n" + distinctList + " \n\n from Server: " + foundOnServer + " \n\n from DB: " + foundInDB);
         });
     }
     private List<User> eliminateDuplicates(List<User> source) {
