@@ -18,7 +18,6 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -27,6 +26,9 @@ import it.niedermann.nextcloud.deck.ui.MainActivity;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.saveBrandColorsSynchronously;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccountIdSynchronously;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardIdSynchronously;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.util.UriUtils.parseBoardRemoteId;
 
@@ -91,22 +93,22 @@ public class OpenLinkActivity extends AppCompatActivity implements Branded {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
 
     }
 
     @UiThread
     private void launchMainActivity(@NonNull Account account, Long boardRemoteId) {
         SingleAccountHelper.setCurrentAccount(this, account.getName());
-        Application.saveCurrentAccountIdSynchronously(this, account.getId());
+        saveCurrentAccountIdSynchronously(this, account.getId());
         try {
-            Application.saveBrandColorsSynchronously(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
+            saveBrandColorsSynchronously(this, Color.parseColor(account.getColor()));
         } catch (Throwable t) {
             DeckLog.logError(t);
         }
         syncManager = new SyncManager(this);
         observeOnce(syncManager.getBoard(account.getId(), boardRemoteId), this, (board) -> {
-            Application.saveCurrentBoardIdSynchronously(this, account.getId(), board.getLocalId());
+            saveCurrentBoardIdSynchronously(this, account.getId(), board.getLocalId());
             DeckLog.info("starting " + MainActivity.class.getSimpleName() + " with [" + account + ", " + board.getLocalId() + "]");
             Intent intent = new Intent(this, MainActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
