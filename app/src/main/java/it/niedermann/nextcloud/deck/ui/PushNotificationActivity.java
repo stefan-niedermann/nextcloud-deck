@@ -1,39 +1,30 @@
 package it.niedermann.nextcloud.deck.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 
 import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToPrimaryToolbar;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToStatusbar;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
 
-public class PushNotificationActivity extends AppCompatActivity implements Branded {
+public class PushNotificationActivity extends AppCompatActivity {
 
     private ActivityPushNotificationBinding binding;
-
-    private boolean brandingEnabled;
 
     // Provided by Files app NotificationJob
     private static final String KEY_SUBJECT = "subject";
@@ -55,8 +46,6 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
         binding = ActivityPushNotificationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-
-        brandingEnabled = Application.isBrandingEnabled(this);
 
         binding.subject.setText(getIntent().getStringExtra(KEY_SUBJECT));
 
@@ -82,13 +71,6 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
                     if (account != null) {
                         SingleAccountHelper.setCurrentAccount(this, account.getName());
                         final SyncManager syncManager = new SyncManager(this);
-                        try {
-                            if (brandingEnabled) {
-                                applyBrand(parseColor(account.getColor()), parseColor(account.getTextColor()));
-                            }
-                        } catch (Throwable t) {
-                            DeckLog.logError(t);
-                        }
                         DeckLog.verbose("account: " + account);
                         observeOnce(syncManager.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account), PushNotificationActivity.this, (boardLocalId -> {
                             DeckLog.verbose("BoardLocalId " + boardLocalId);
@@ -153,11 +135,6 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
 
     @UiThread
     private void launchEditActivity(@NonNull Account account, Long boardId, Long cardId) {
-        try {
-            Application.saveBrandColors(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
-        } catch (Throwable t) {
-            DeckLog.logError(t);
-        }
         DeckLog.info("starting " + EditActivity.class.getSimpleName() + " with [" + account + ", " + boardId + ", " + cardId + "]");
         startActivity(EditActivity.createEditCardIntent(this, account, boardId, cardId));
         finish();
@@ -167,15 +144,6 @@ public class PushNotificationActivity extends AppCompatActivity implements Brand
     public boolean onSupportNavigateUp() {
         finish(); // close this activity as oppose to navigating up
         return true;
-    }
-
-    @Override
-    public void applyBrand(@ColorInt int mainColor, @ColorInt int textColor) {
-        if (brandingEnabled) {
-            applyBrandToStatusbar(getWindow(), mainColor, textColor);
-            applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
-            binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
-        }
     }
 
     public void applyBrandToSubmitButton(@NonNull Account account) {

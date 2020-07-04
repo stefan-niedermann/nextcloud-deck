@@ -256,6 +256,7 @@
     <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Deck app. Please make sure it is installed and enabled.</string>
     <string name="error_dialog_capabilities_not_parsable">We could not fetch the capabilities of your server. Please make sure your server is running well and other client apps are able to access Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">An attachment could not be uploaded. Please try to share it on another way and let us know about this bug.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Please disable all battery optimizations for Nextcloud and the Deck app.</string>
     <string name="error_action_open_deck_info">Open App info</string>
     <string name="error_action_open_network">Network settings</string>
     <string name="error_action_server_logs">Server logs</string>
@@ -276,4 +277,5 @@
         <item quantity="other">%1$d errors while uploading</item>
     </plurals>
     <string name="simple_report">Report</string>
+    <string name="error_action_open_battery_settings">Battery settings</string>
 </resources>

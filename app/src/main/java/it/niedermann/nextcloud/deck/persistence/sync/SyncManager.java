@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
@@ -65,6 +66,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.CardPropa
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.DeckCommentsDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.LabelDataProvider;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.StackDataProvider;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWitAclDownSyncDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
@@ -79,10 +81,12 @@ public class SyncManager {
     @NonNull
     private ServerAdapter serverAdapter;
 
+    @AnyThread
     public SyncManager(@NonNull Context context) {
         this(context, null);
     }
 
+    @AnyThread
     public SyncManager(@NonNull Context context, @Nullable String ssoAccountName) {
         appContext = context.getApplicationContext();
         LastSyncUtil.init(appContext);
@@ -90,11 +94,13 @@ public class SyncManager {
         this.serverAdapter = new ServerAdapter(appContext, ssoAccountName);
     }
 
-    private void doAsync(Runnable r) {
+    @AnyThread
+    private void doAsync(@NonNull Runnable r) {
         new Thread(r).start();
     }
 
-    public MutableLiveData<FullCard> synchronizeCardByRemoteId(long cardRemoteId, Account account) {
+    @AnyThread
+    public MutableLiveData<FullCard> synchronizeCardByRemoteId(long cardRemoteId, @NonNull Account account) {
         MutableLiveData<FullCard> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Long accountId = account.getId();
@@ -120,10 +126,12 @@ public class SyncManager {
     }
 
     // TODO if the card does not exist yet, try to synchronize it first, instead of directly returning null. If sync failed, return null.
-    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, Account account) {
+    @AnyThread
+    public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, @NonNull Account account) {
         return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, account.getId());
     }
 
+    @AnyThread
     public boolean synchronizeEverything() {
         List<Account> accounts = dataBaseAdapter.getAllAccountsDirectly();
         if (accounts.size() > 0) {
@@ -156,11 +164,13 @@ public class SyncManager {
         return true;
     }
 
-    public void synchronize(IResponseCallback<Boolean> responseCallback) {
-        if (responseCallback == null ||
-                responseCallback.getAccount() == null ||
-                responseCallback.getAccount().getId() == null) {
-            throw new IllegalArgumentException("please provide an account ID.");
+    @AnyThread
+    public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
+        if(responseCallback.getAccount() == null) {
+            throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
+        }
+        if(responseCallback.getAccount().getId() == null) {
+            throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
         doAsync(() -> refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
             @Override
@@ -260,11 +270,13 @@ public class SyncManager {
 //        return remoteEntity;
 //    }
 
+    @AnyThread
     public LiveData<Boolean> hasAccounts() {
         return dataBaseAdapter.hasAccounts();
     }
 
-    public WrappedLiveData<Account> createAccount(Account accout) {
+    @AnyThread
+    public WrappedLiveData<Account> createAccount(@NonNull Account accout) {
         return dataBaseAdapter.createAccount(accout);
     }
 
@@ -283,14 +295,17 @@ public class SyncManager {
         dataBaseAdapter.updateAccount(account);
     }
 
+    @AnyThread
     public LiveData<Account> readAccount(long id) {
         return dataBaseAdapter.readAccount(id);
     }
 
-    public LiveData<Account> readAccount(String name) {
+    @AnyThread
+    public LiveData<Account> readAccount(@Nullable String name) {
         return dataBaseAdapter.readAccount(name);
     }
 
+    @AnyThread
     public LiveData<List<Account>> readAccounts() {
         return dataBaseAdapter.readAccounts();
     }
@@ -307,11 +322,29 @@ public class SyncManager {
      * - located at the given {@param host}
      * - and have the permission to read the board with the given {@param boardRemoteId} (aka the {@link Board} is shared with this {@link User}).
      */
+    @AnyThread
     public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        MediatorLiveData<List<Account>> liveData = new MediatorLiveData<>();
+        liveData.addSource(dataBaseAdapter.readAccountsForHostWithReadAccessToBoard(host, boardRemoteId), accounts -> {
+            liveData.postValue(accounts);
+            doAsync(() -> {
+                for (Account account : accounts) {
+                    new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                            .setResponseCallback(new IResponseCallback<Boolean>(account) {
+                                @Override
+                                public void onResponse(Boolean response) {
+                                    liveData.postValue(dataBaseAdapter.readAccountsForHostWithReadAccessToBoardDirectly(host, boardRemoteId));
+                                }
+                            }).doSyncFor(new BoardWitAclDownSyncDataProvider());
+                }
+            });
+        });
+
+        return liveData;
     }
 
-    public void refreshCapabilities(IResponseCallback<Capabilities> callback) {
+    @AnyThread
+    public void refreshCapabilities(@NonNull IResponseCallback<Capabilities> callback) {
         doAsync(() -> {
             try {
                 serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(callback.getAccount()) {
@@ -354,6 +387,7 @@ public class SyncManager {
      * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
      * @return all archived or non-archived <code>Board</code>s depending on <code>archived</code> parameter
      */
+    @AnyThread
     public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
         return dataBaseAdapter.getBoards(accountId, archived);
     }
@@ -363,6 +397,7 @@ public class SyncManager {
      * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
      * @return all archived or non-archived <code>FullBoard</code>s depending on <code>archived</code> parameter
      */
+    @AnyThread
     public LiveData<List<FullBoard>> getFullBoards(long accountId, boolean archived) {
         return dataBaseAdapter.getFullBoards(accountId, archived);
     }
@@ -373,15 +408,18 @@ public class SyncManager {
      * @param accountId ID of the account
      * @return all non-archived <code>Board</code>s with edit permission
      */
+    @AnyThread
     public LiveData<List<Board>> getBoardsWithEditPermission(long accountId) {
         return dataBaseAdapter.getBoardsWithEditPermission(accountId);
     }
 
+    @AnyThread
     public LiveData<Boolean> hasArchivedBoards(long accountId) {
         return dataBaseAdapter.hasArchivedBoards(accountId);
     }
 
-    public LiveData<FullBoard> createBoard(long accountId, Board board) {
+    @AnyThread
+    public LiveData<FullBoard> createBoard(long accountId, @NonNull Board board) {
         MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
@@ -412,11 +450,62 @@ public class SyncManager {
      * Owner of the target {@link Board} will be the {@link User} with the {@link Account} of {@param targetAccountId}.
      * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
      */
-    public LiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle, String targetBoardColor) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    @AnyThread
+    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardTitle, String targetBoardColor) {
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
+
+        doAsync(() -> {
+            Account originAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
+            User newOwner = dataBaseAdapter.getUserByUidDirectly(originAccountId, originAccount.getUserName());
+            FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(originAccountId, originBoardLocalId);
+            originalBoard.setAccountId(targetAccountId);
+            originalBoard.getBoard().setTitle(targetBoardTitle);
+            originalBoard.getBoard().setColor(targetBoardColor);
+            originalBoard.getBoard().setOwnerId(newOwner.getId());
+            originalBoard.setStatusEnum(DBStatus.LOCAL_EDITED);
+            originalBoard.setOwner(newOwner);
+            originalBoard.setId(null);
+            originalBoard.setLocalId(null);
+            long newBoardId = dataBaseAdapter.createBoardDirectly(originAccountId, originalBoard.getBoard());
+            originalBoard.setLocalId(newBoardId);
+
+            for (Stack stack : originalBoard.getStacks()) {
+                stack.setLocalId(null);
+                stack.setId(null);
+                stack.setStatusEnum(DBStatus.LOCAL_EDITED);
+                stack.setAccountId(targetAccountId);
+                stack.setBoardId(newBoardId);
+                dataBaseAdapter.createStack(targetAccountId, stack);
+            }
+            for (Label label : originalBoard.getLabels()) {
+                label.setLocalId(null);
+                label.setId(null);
+                label.setAccountId(targetAccountId);
+                label.setStatusEnum(DBStatus.LOCAL_EDITED);
+                label.setBoardId(newBoardId);
+                dataBaseAdapter.createLabel(targetAccountId, label);
+            }
+            Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
+            new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                    .setResponseCallback(new IResponseCallback<Boolean>(targetAccount) {
+                        @Override
+                        public void onResponse(Boolean response) {
+                            liveData.postValue(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                            liveData.postError(throwable);
+                        }
+                    }).doSyncFor(new BoardDataProvider());
+
+        });
+        return liveData;
     }
 
-    public LiveData<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> syncActivitiesForCard(Card card) {
+    @AnyThread
+    public LiveData<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> syncActivitiesForCard(@NonNull Card card) {
         doAsync(() -> {
             if (serverAdapter.hasInternetConnection()) {
                 if (card.getId() != null) {
@@ -435,7 +524,8 @@ public class SyncManager {
         return dataBaseAdapter.getActivitiesForCard(card.getLocalId());
     }
 
-    public void addCommentToCard(long accountId, long cardId, DeckComment comment) {
+    @AnyThread
+    public void addCommentToCard(long accountId, long cardId, @NonNull DeckComment comment) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(accountId, cardId);
@@ -449,6 +539,7 @@ public class SyncManager {
         });
     }
 
+    @AnyThread
     public void updateComment(long accountId, long localCardId, long localCommentId, String comment) {
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
@@ -465,6 +556,7 @@ public class SyncManager {
         });
     }
 
+    @AnyThread
     public WrappedLiveData<Void> deleteComment(long accountId, long localCardId, long localCommentId) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
@@ -482,7 +574,8 @@ public class SyncManager {
         return dataBaseAdapter.getFullCommentsForLocalCardId(localCardId);
     }
 
-    public WrappedLiveData<Void> deleteBoard(Board board) {
+    @AnyThread
+    public WrappedLiveData<Void> deleteBoard(@NonNull Board board) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             long accountId = board.getAccountId();
@@ -493,7 +586,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public WrappedLiveData<FullBoard> updateBoard(FullBoard board) {
+    @AnyThread
+    public WrappedLiveData<FullBoard> updateBoard(@NonNull FullBoard board) {
         WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
         long accountId = board.getAccountId();
         doAsync(() -> {
@@ -521,6 +615,7 @@ public class SyncManager {
         return dataBaseAdapter.getStack(accountId, localStackId);
     }
 
+    @AnyThread
     public WrappedLiveData<AccessControl> createAccessControl(long accountId, AccessControl entity) {
         WrappedLiveData<AccessControl> liveData = new WrappedLiveData<>();
         doAsync(() -> {
@@ -537,6 +632,7 @@ public class SyncManager {
         return liveData;
     }
 
+    @WorkerThread
     public AccessControl getAccessControlByRemoteIdDirectly(long accountId, Long id) {
         return dataBaseAdapter.getAccessControlByRemoteIdDirectly(accountId, id);
     }
@@ -545,7 +641,8 @@ public class SyncManager {
         return dataBaseAdapter.getAccessControlByLocalBoardId(accountId, id);
     }
 
-    public WrappedLiveData<AccessControl> updateAccessControl(AccessControl entity) {
+    @AnyThread
+    public WrappedLiveData<AccessControl> updateAccessControl(@NonNull AccessControl entity) {
         WrappedLiveData<AccessControl> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
@@ -556,7 +653,8 @@ public class SyncManager {
         return liveData;
     }
 
-    private <T> IResponseCallback<T> getCallbackToLiveDataConverter(Account account, WrappedLiveData<T> liveData) {
+    @AnyThread
+    private <T> IResponseCallback<T> getCallbackToLiveDataConverter(Account account, @NonNull WrappedLiveData<T> liveData) {
         return new IResponseCallback<T>(account) {
             @Override
             public void onResponse(T response) {
@@ -570,7 +668,8 @@ public class SyncManager {
         };
     }
 
-    public WrappedLiveData<Void> deleteAccessControl(AccessControl entity) {
+    @AnyThread
+    public WrappedLiveData<Void> deleteAccessControl(@NonNull AccessControl entity) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(entity.getAccountId());
@@ -599,8 +698,8 @@ public class SyncManager {
         return dataBaseAdapter.getFullBoardById(accountId, localId);
     }
 
-
-    public WrappedLiveData<FullStack> createStack(long accountId, Stack stack) {
+    @AnyThread
+    public WrappedLiveData<FullStack> createStack(long accountId, @NonNull Stack stack) {
         WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
@@ -616,6 +715,7 @@ public class SyncManager {
         return liveData;
     }
 
+    @AnyThread
     public WrappedLiveData<Void> deleteStack(long accountId, long stackLocalId, long boardLocalId) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
@@ -627,7 +727,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public WrappedLiveData<FullStack> updateStack(FullStack stack) {
+    @AnyThread
+    public WrappedLiveData<FullStack> updateStack(@NonNull FullStack stack) {
         WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
@@ -638,6 +739,7 @@ public class SyncManager {
 
     }
 
+    @AnyThread
     private void updateStack(@NonNull Account account, @NonNull FullBoard board, @NonNull FullStack stack, @Nullable WrappedLiveData<FullStack> liveData) {
         doAsync(() -> {
             new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new StackDataProvider(null, board), stack, new IResponseCallback<FullStack>(account) {
@@ -663,6 +765,7 @@ public class SyncManager {
      *
      * @param stackLocalIds The first item of the pair will be updated first
      */
+    @AnyThread
     public void swapStackOrder(long accountId, long boardLocalId, @NonNull Pair<Long, Long> stackLocalIds) {
         if (stackLocalIds.first == null || stackLocalIds.second == null) {
             throw new IllegalArgumentException("Given stackLocalIds must not be null");
@@ -733,8 +836,8 @@ public class SyncManager {
 //        return liveData;
 //    }
 
-    public LiveData<FullCard> createFullCard(long accountId, long localBoardId, long localStackId, FullCard card) {
-
+    @AnyThread
+    public LiveData<FullCard> createFullCard(long accountId, long localBoardId, long localStackId, @NonNull FullCard card) {
         MutableLiveData<FullCard> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
@@ -782,7 +885,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public WrappedLiveData<Void> deleteCard(Card card) {
+    @AnyThread
+    public WrappedLiveData<Void> deleteCard(@NonNull Card card) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
@@ -797,7 +901,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public WrappedLiveData<FullCard> archiveCard(FullCard card) {
+    @AnyThread
+    public WrappedLiveData<FullCard> archiveCard(@NonNull FullCard card) {
         WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
@@ -809,11 +914,12 @@ public class SyncManager {
         return liveData;
     }
 
-    private void updateCardForArchive(Account account, FullStack stack, Board board, FullCard card, IResponseCallback<FullCard> callback) {
+    private void updateCardForArchive(Account account, FullStack stack, Board board, FullCard card, @NonNull IResponseCallback<FullCard> callback) {
         new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardDataProvider(null, board, stack), card, callback);
     }
 
-    public WrappedLiveData<FullCard> dearchiveCard(FullCard card) {
+    @AnyThread
+    public WrappedLiveData<FullCard> dearchiveCard(@NonNull FullCard card) {
         WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
@@ -825,6 +931,7 @@ public class SyncManager {
         return liveData;
     }
 
+    @AnyThread
     public WrappedLiveData<Void> archiveCardsInStack(long accountId, long stackLocalId) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
@@ -862,7 +969,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public void archiveBoard(Board board) {
+    @AnyThread
+    public void archiveBoard(@NonNull Board board) {
         doAsync(() -> {
             FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
             b.getBoard().setArchived(true);
@@ -870,7 +978,8 @@ public class SyncManager {
         });
     }
 
-    public void dearchiveBoard(Board board) {
+    @AnyThread
+    public void dearchiveBoard(@NonNull Board board) {
         doAsync(() -> {
             FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
             b.getBoard().setArchived(false);
@@ -878,7 +987,8 @@ public class SyncManager {
         });
     }
 
-    public WrappedLiveData<FullCard> updateCard(FullCard card) {
+    @AnyThread
+    public WrappedLiveData<FullCard> updateCard(@NonNull FullCard card) {
         WrappedLiveData<FullCard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             FullCard fullCardFromDB = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
@@ -934,6 +1044,7 @@ public class SyncManager {
     /**
      * Moves the given {@param originCardLocalId} to the new target coordinates specified by {@param targetAccountId}, {@param targetBoardLocalId} and {@param targetStackLocalId}.
      * If the {@param targetBoardLocalId} changes, this will apply some logic to make sure that we migrate as much data as possible without the risk of getting an illegal state.
+     * Attachments are not copied or anything.
      * <p>
      * 1) {@link FullCard#labels}
      * <p>
@@ -951,10 +1062,130 @@ public class SyncManager {
      * https://github.com/stefan-niedermann/nextcloud-deck/issues/453
      */
     @SuppressWarnings("JavadocReference")
+    @AnyThread
     public WrappedLiveData<Void> moveCard(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return LiveDataHelper.wrapInLiveData(() -> {
+
+            FullCard originalCard = dataBaseAdapter.getFullCardByLocalIdDirectly(originAccountId, originCardLocalId);
+            int newIndex = dataBaseAdapter.getHighestCardOrderInStack(targetStackLocalId) + 1;
+            FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalCardIdDirectly(originCardLocalId);
+            // ### maybe shortcut possible? (just moved to another stack)
+            if (targetBoardLocalId == originalBoard.getLocalId()) {
+                reorder(originAccountId, originalCard, targetStackLocalId, newIndex);
+                return null;
+            }
+            // ### get rid of original card where it is now.
+            Card originalInnerCard = originalCard.getCard();
+            deleteCard(originalInnerCard);
+            // ### clone card itself
+            Card targetCard = originalInnerCard;
+            targetCard.setAccountId(targetAccountId);
+            targetCard.setId(null);
+            targetCard.setLocalId(null);
+            targetCard.setStatusEnum(DBStatus.LOCAL_EDITED);
+            targetCard.setStackId(targetStackLocalId);
+            targetCard.setOrder(newIndex);
+            //TODO: this needs to propagate to server as well, since anything else propagates as well (otherwise card isn't known on server)
+            FullCard fullCardForServerPropagation = new FullCard();
+            fullCardForServerPropagation.setCard(targetCard);
+
+            Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
+            FullBoard targetBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, targetBoardLocalId);
+            FullStack targetFullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(targetStackLocalId);
+            User userOfTargetAccount = dataBaseAdapter.getUserByUidDirectly(targetAccountId, targetAccount.getUserName());
+            CountDownLatch latch = new CountDownLatch(1);
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new IResponseCallback<FullCard>(targetAccount) {
+                @Override
+                public void onResponse(FullCard response) {
+                    targetCard.setId(response.getId());
+                    targetCard.setLocalId(response.getLocalId());
+                    latch.countDown();
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    super.onError(throwable);
+                    throw new RuntimeException("unable to create card in moveCard target", throwable);
+                }
+            }, (FullCard entity, FullCard response) -> {
+                response.getCard().setUserId(entity.getCard().getUserId());
+                response.getCard().setStackId(targetFullStack.getLocalId());
+            });
+
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                DeckLog.logError(e);
+                throw new RuntimeException("error fulfilling countDownLatch", e);
+            }
+
+            long newCardId = targetCard.getLocalId();
+
+            // ### clone labels, assign them
+            // prepare
+            // has user of targetaccount manage permissions?
+            boolean hasManagePermission = targetBoard.getBoard().getOwnerId() == userOfTargetAccount.getLocalId();
+            List<AccessControl> aclOfTargetBoard = dataBaseAdapter.getAccessControlByLocalBoardIdDirectly(targetAccountId, targetBoard.getLocalId());
+            if (!hasManagePermission) {
+                for (AccessControl accessControl : aclOfTargetBoard) {
+                    if (accessControl.getUserId() == userOfTargetAccount.getLocalId() && accessControl.isPermissionManage()) {
+                        hasManagePermission = true;
+                        break;
+                    }
+                }
+            }
+
+            // actual doing
+            for (Label originalLabel : originalCard.getLabels()) {
+                // already exists?
+                Label existingMatch = null;
+                for (Label targetBoardLabel : targetBoard.getLabels()) {
+                    if (originalLabel.getTitle().trim().equalsIgnoreCase(targetBoardLabel.getTitle().trim())) {
+                        existingMatch = targetBoardLabel;
+                        break;
+                    }
+                }
+                if (existingMatch == null) {
+                    if (hasManagePermission) {
+                        originalLabel.setBoardId(targetBoardLocalId);
+                        originalLabel.setId(null);
+                        originalLabel.setLocalId(null);
+                        originalLabel.setStatusEnum(DBStatus.LOCAL_EDITED);
+                        originalLabel.setAccountId(targetBoard.getAccountId());
+                        createAndAssignLabelToCard(originalBoard.getAccountId(), originalLabel, newCardId);
+                    }
+                } else {
+                    assignLabelToCard(existingMatch, targetCard);
+                }
+            }
+
+            // ### Clone assigned users
+            Account originalAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
+            // same instance? otherwise doesn't make sense
+            if (originalAccount.getUrl().equalsIgnoreCase(targetAccount.getUrl())) {
+                for (User assignedUser : originalCard.getAssignedUsers()) {
+                    // has assignedUser at least view permissions?
+                    boolean hasViewPermission = targetBoard.getBoard().getOwnerId() == assignedUser.getLocalId();
+                    if (!hasViewPermission) {
+                        for (AccessControl accessControl : aclOfTargetBoard) {
+                            if (accessControl.getUserId() == userOfTargetAccount.getLocalId()) {
+                                // ACL exists, so viewing is granted
+                                hasViewPermission = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (hasViewPermission) {
+                        assignUserToCard(assignedUser, targetCard);
+                    }
+                }
+            }
+            // since this is LiveData<Void>
+            return null;
+        });
     }
 
+    @AnyThread
     public WrappedLiveData<Label> createLabel(long accountId, Label label, long localBoardId) {
         WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
@@ -983,7 +1214,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public MutableLiveData<Label> createAndAssignLabelToCard(long accountId, Label label, long localCardId) {
+    @AnyThread
+    public MutableLiveData<Label> createAndAssignLabelToCard(long accountId, @NonNull Label label, long localCardId) {
         MutableLiveData<Label> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
@@ -1008,7 +1240,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public WrappedLiveData<Void> deleteLabel(Label label) {
+    @AnyThread
+    public WrappedLiveData<Void> deleteLabel(@NonNull Label label) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
@@ -1019,7 +1252,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public WrappedLiveData<Label> updateLabel(Label label) {
+    @AnyThread
+    public WrappedLiveData<Label> updateLabel(@NonNull Label label) {
         WrappedLiveData<Label> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(label.getAccountId());
@@ -1030,7 +1264,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public void assignUserToCard(User user, Card card) {
+    @AnyThread
+    public void assignUserToCard(@NonNull User user, @NonNull Card card) {
         doAsync(() -> {
             final long localUserId = user.getLocalId();
             final long localCardId = card.getLocalId();
@@ -1054,7 +1289,8 @@ public class SyncManager {
         });
     }
 
-    public void assignLabelToCard(Label label, Card card) {
+    @AnyThread
+    public void assignLabelToCard(@NonNull Label label, @NonNull Card card) {
         doAsync(() -> {
             final long localLabelId = label.getLocalId();
             final long localCardId = card.getLocalId();
@@ -1077,7 +1313,8 @@ public class SyncManager {
         });
     }
 
-    public void unassignLabelFromCard(Label label, Card card) {
+    @AnyThread
+    public void unassignLabelFromCard(@NonNull Label label, @NonNull Card card) {
         doAsync(() -> {
             dataBaseAdapter.deleteJoinedLabelForCard(card.getLocalId(), label.getLocalId());
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
@@ -1094,7 +1331,8 @@ public class SyncManager {
         });
     }
 
-    public void unassignUserFromCard(User user, Card card) {
+    @AnyThread
+    public void unassignUserFromCard(@NonNull User user, @NonNull Card card) {
         doAsync(() -> {
             dataBaseAdapter.deleteJoinedUserForCard(card.getLocalId(), user.getLocalId());
             if (serverAdapter.hasInternetConnection()) {
@@ -1138,6 +1376,7 @@ public class SyncManager {
         return dataBaseAdapter.getUserByUid(accountId, uid);
     }
 
+    @WorkerThread
     public User getUserByUidDirectly(long accountId, String uid) {
         return dataBaseAdapter.getUserByUidDirectly(accountId, uid);
     }
@@ -1166,11 +1405,11 @@ public class SyncManager {
         return dataBaseAdapter.createUser(accountId, user);
     }
 
-    public void updateUser(long accountId, User user) {
+    public void updateUser(long accountId, @NonNull User user) {
         dataBaseAdapter.updateUser(accountId, user, true);
     }
 
-    public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm) {
+    public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, @NonNull String searchTerm) {
         return dataBaseAdapter.searchNotYetAssignedLabelsByTitle(accountId, boardId, notYetAssignedToLocalCardId, searchTerm);
     }
 
@@ -1181,7 +1420,8 @@ public class SyncManager {
     /**
      * @see <a href="https://github.com/stefan-niedermann/nextcloud-deck/issues/360">reenable reorder</a>
      */
-    public void reorder(long accountId, FullCard movedCard, long newStackId, int newIndex) {
+    @AnyThread
+    public void reorder(long accountId, @NonNull FullCard movedCard, long newStackId, int newIndex) {
         doAsync(() -> {
             // read cards of new stack
             List<FullCard> cardsOfNewStack = dataBaseAdapter.getFullCardsForStackDirectly(accountId, newStackId);
@@ -1266,7 +1506,7 @@ public class SyncManager {
     }
 
 
-    private void reorderLocally(List<FullCard> cardsOfNewStack, FullCard movedCard, long newStackId, int newOrder) {
+    private void reorderLocally(List<FullCard> cardsOfNewStack, @NonNull FullCard movedCard, long newStackId, int newOrder) {
         // set new stack and order
         Card movedInnerCard = movedCard.getCard();
         int oldOrder = movedInnerCard.getOrder();
@@ -1324,7 +1564,7 @@ public class SyncManager {
         reorderAscending(movedInnerCard, changedCards, startingAtOrder);
     }
 
-    private void reorderAscending(Card movedCard, List<Card> cardsToReorganize, int startingAtOrder) {
+    private void reorderAscending(@NonNull Card movedCard, @NonNull List<Card> cardsToReorganize, int startingAtOrder) {
         Date now = new Date();
         for (Card card : cardsToReorganize) {
             card.setOrder(startingAtOrder);
@@ -1348,6 +1588,7 @@ public class SyncManager {
      * The problem is, that the attachment is still in our local database and everytime one tries to sync, the log is spammed with 500 errors
      * Also this leads to the attachment being present in the card forever with a DBStatus.LOCAL_EDITED
      */
+    @AnyThread
     public WrappedLiveData<Attachment> addAttachmentToCard(long accountId, long localCardId, @NonNull String mimeType, @NonNull File file) {
         WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
@@ -1367,7 +1608,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public WrappedLiveData<Attachment> updateAttachmentForCard(long accountId, Attachment existing, @NonNull String mimeType, @NonNull File file) {
+    @AnyThread
+    public WrappedLiveData<Attachment> updateAttachmentForCard(long accountId, @NonNull Attachment existing, @NonNull String mimeType, @NonNull File file) {
         WrappedLiveData<Attachment> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Attachment attachment = populateAttachmentEntityForFile(existing, existing.getCardId(), mimeType, file);
@@ -1394,7 +1636,8 @@ public class SyncManager {
         return liveData;
     }
 
-    private Attachment populateAttachmentEntityForFile(Attachment target, long localCardId, @NonNull String mimeType, @NonNull File file) {
+    @AnyThread
+    private static Attachment populateAttachmentEntityForFile(@NonNull Attachment target, long localCardId, @NonNull String mimeType, @NonNull File file) {
         Attachment attachment = target;
         attachment.setCardId(localCardId);
         attachment.setMimetype(mimeType);
@@ -1406,6 +1649,7 @@ public class SyncManager {
         return attachment;
     }
 
+    @AnyThread
     public WrappedLiveData<Void> deleteAttachmentOfCard(long accountId, long localCardId, long localAttachmentId) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
@@ -1431,6 +1675,7 @@ public class SyncManager {
      * Can be called from a configuration screen or a picker.
      * Creates a new entry in the database, if row with given widgetId does not yet exist.
      */
+    @AnyThread
     public void addOrUpdateSingleCardWidget(int widgetId, long accountId, long boardId, long localCardId) {
         doAsync(() -> dataBaseAdapter.createSingleCardWidget(widgetId, accountId, boardId, localCardId));
     }
@@ -1444,6 +1689,7 @@ public class SyncManager {
         return model;
     }
 
+    @AnyThread
     public void deleteSingleCardWidgetModel(int widgetId) {
         doAsync(() -> dataBaseAdapter.deleteSingleCardWidget(widgetId));
     }

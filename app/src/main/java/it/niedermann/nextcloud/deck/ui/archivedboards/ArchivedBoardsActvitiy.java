@@ -53,7 +53,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
         setSupportActionBar(binding.toolbar);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        viewModel.setCurrentAccount(account, account.getServerDeckVersionAsObject().isSupported(this));
+        viewModel.setCurrentAccount(account);
         syncManager = new SyncManager(this);
 
         adapter = new ArchivedBoardsAdapter(viewModel.isCurrentAccountIsSupportedVersion(), getSupportFragmentManager(), (board) -> syncManager.dearchiveBoard(board));
@@ -67,8 +67,8 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+    public void applyBrand(int mainColor) {
+        // Nothing to do...
     }
 
     @NonNull

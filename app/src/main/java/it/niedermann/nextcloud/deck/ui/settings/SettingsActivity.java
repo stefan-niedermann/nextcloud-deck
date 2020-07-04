@@ -37,7 +37,7 @@ public class SettingsActivity extends BrandedActivity {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
+    public void applyBrand(int mainColor) {
+        // Nothing to do...
     }
 }
