@@ -34,6 +34,7 @@ public class UserSearchLiveData extends MediatorLiveData<List<User>> implements 
         this.accountId = accountId;
         this.searchTerm = searchTerm;
         this.notYetAssignedInACL = notYetAssignedInACL;
+        // TODO: remove log when stable
         DeckLog.info("###DeckUserSearch: UI triggered! term: " + searchTerm);
         new Thread(() -> debouncer.call(notYetAssignedInACL)).start();
         return this;
