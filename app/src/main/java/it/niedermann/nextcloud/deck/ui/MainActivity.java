@@ -110,6 +110,7 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.clearBrandColors;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
 import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
@@ -372,11 +373,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 }
             });
             filterViewModel.getFilterInformation().observe(this, (info) ->
-                    binding.filter.setImageDrawable(getResources().getDrawable(
-                            filterViewModel.getFilterInformation().getValue() == null
-                                    ? R.drawable.ic_filter_list_white_24dp
-                                    : R.drawable.ic_filter_list_active_white_24dp)
-                    ));
+                    binding.filterIndicator.setVisibility(filterViewModel.getFilterInformation().getValue() == null ? View.GONE : View.VISIBLE));
 
             binding.filter.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
             binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
@@ -430,6 +427,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         @ColorInt final int headerTextColor = contrastRatioIsSufficientBigAreas(mainColor, Color.WHITE) ? Color.WHITE : Color.BLACK;
         DrawableCompat.setTint(headerBinding.logo.getDrawable(), headerTextColor);
         headerBinding.appName.setTextColor(headerTextColor);
+        DrawableCompat.setTint(binding.filterIndicator.getDrawable(), getSecondaryForegroundColorDependingOnTheme(this, mainColor));
     }
 
     @Override

@@ -133,6 +133,16 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                         add(R.string.error_dialog_capabilities_not_parsable);
                     }
             }
+        } else if (throwable instanceof RuntimeException) {
+            if (throwable.getMessage() != null && throwable.getMessage().contains("database")) {
+                Intent reportIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.url_report_bug)))
+                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_report_issue);
+                add(R.string.error_dialog_tip_database_upgrade_failed, reportIntent);
+                Intent clearIntent = new Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+                        .setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
+                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_deck_info);
+                add(R.string.error_dialog_tip_clear_storage, clearIntent);
+            }
         }
     }
 
