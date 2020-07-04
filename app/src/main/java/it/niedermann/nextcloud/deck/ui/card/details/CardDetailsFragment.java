@@ -58,7 +58,7 @@ import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.text.format.DateFormat.getDateFormat;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener {
@@ -136,12 +136,12 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToEditText(mainColor, textColor, binding.labels);
-        applyBrandToEditText(mainColor, textColor, binding.dueDateDate);
-        applyBrandToEditText(mainColor, textColor, binding.dueDateTime);
-        applyBrandToEditText(mainColor, textColor, binding.people);
-        applyBrandToEditText(mainColor, textColor, binding.description);
+    public void applyBrand(int mainColor) {
+        applyBrandToEditText(mainColor, binding.labels);
+        applyBrandToEditText(mainColor, binding.dueDateDate);
+        applyBrandToEditText(mainColor, binding.dueDateTime);
+        applyBrandToEditText(mainColor, binding.people);
+        applyBrandToEditText(mainColor, binding.description);
     }
 
     private void setupDescription() {

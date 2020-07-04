@@ -10,13 +10,19 @@ import android.view.ViewGroup;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
 
-import it.niedermann.nextcloud.deck.Application;
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
+
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public class BrandedDatePickerDialog extends DatePickerDialog implements Branded {
 
@@ -24,23 +30,21 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         @Nullable Context context = getContext();
         if (context != null) {
-            setThemeDark(Application.getAppTheme(context));
-            if (Application.isBrandingEnabled(context)) {
-                @ColorInt final int mainColor = Application.readBrandMainColor(context);
-                @ColorInt final int textColor = Application.readBrandTextColor(context);
-                applyBrand(mainColor, textColor);
+            setThemeDark(isDarkTheme(context));
+            if (isBrandingEnabled(context)) {
+                applyBrand(readBrandMainColor(context));
             }
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        @ColorInt final int buttonTextColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
+    public void applyBrand(int mainColor) {
+        @ColorInt final int buttonTextColor = getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
         setOkColor(buttonTextColor);
         setCancelColor(buttonTextColor);
         // Text in picker title is always white
-        setAccentColor(ColorUtil.contrastRatioIsSufficient(Color.WHITE, mainColor) ? mainColor : textColor);
+        setAccentColor(ColorUtil.contrastRatioIsSufficientBigAreas(Color.WHITE, mainColor) ? mainColor : ContextCompat.getColor(requireContext(), R.color.accent));
     }
 
     /**

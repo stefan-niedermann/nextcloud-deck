@@ -21,8 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?android:actionBarSize"
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-                app:title="@string/app_name"
-                app:titleTextColor="@android:color/white" />
+                app:title="@string/app_name" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <ProgressBar

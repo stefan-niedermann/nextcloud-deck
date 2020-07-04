@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityExceptionBinding;
+import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
@@ -40,6 +41,11 @@ public class ExceptionActivity extends AppCompatActivity {
         final String debugInfo = ExceptionUtil.getDebugInfos(this, throwable, null);
 
         binding.stacktrace.setText(debugInfo);
+
+        final TipsAdapter adapter = new TipsAdapter(this::startActivity);
+        binding.tips.setAdapter(adapter);
+        binding.tips.setNestedScrollingEnabled(false);
+        adapter.setThrowable(this, null, throwable);
 
         binding.copy.setOnClickListener((v) -> copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
         binding.close.setOnClickListener((v) -> finish());

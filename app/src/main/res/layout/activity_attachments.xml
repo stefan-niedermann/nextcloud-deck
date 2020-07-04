@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-            app:titleTextColor="@android:color/white"
             tools:title="@string/attachments" />
     </com.google.android.material.appbar.AppBarLayout>
 

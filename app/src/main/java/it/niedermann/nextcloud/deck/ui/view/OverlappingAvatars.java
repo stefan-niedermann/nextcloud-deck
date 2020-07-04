@@ -48,7 +48,7 @@ public class OverlappingAvatars extends RelativeLayout {
         avatarSize = dpToPx(context, R.dimen.avatar_size_small) + avatarBorderSize * 2;
         overlapPx = dpToPx(context, R.dimen.avatar_size_small_overlapping);
         borderDrawable = getResources().getDrawable(R.drawable.avatar_border);
-        DrawableCompat.setTint(borderDrawable, getResources().getColor(R.color.avatars_overlapping_border_color));
+        DrawableCompat.setTint(borderDrawable, getResources().getColor(R.color.bg_card));
     }
 
     public void setAvatars(@NonNull Account account, @NonNull List<User> assignedUsers) {

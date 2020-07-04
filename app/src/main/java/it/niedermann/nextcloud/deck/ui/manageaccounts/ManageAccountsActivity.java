@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.manageaccounts;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -9,15 +8,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
-import it.niedermann.nextcloud.deck.Application;
 import it.niedermann.nextcloud.deck.databinding.ActivityManageAccountsBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 
+import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
+import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccountId;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
-public class ManageAccountsActivity extends BrandedActivity {
+public class ManageAccountsActivity extends AppCompatActivity {
 
     private static final String TAG = ManageAccountsActivity.class.getSimpleName();
 
@@ -39,8 +38,7 @@ public class ManageAccountsActivity extends BrandedActivity {
         adapter = new ManageAccountAdapter((account) -> {
             SingleAccountHelper.setCurrentAccount(getApplicationContext(), account.getName());
             syncManager = new SyncManager(this);
-            Application.saveBrandColors(this, Color.parseColor(account.getColor()), Color.parseColor(account.getTextColor()));
-            Application.saveCurrentAccountId(this, account.getId());
+            saveCurrentAccountId(this, account.getId());
         }, (accountPair) -> {
             if (accountPair.first != null) {
                 syncManager.deleteAccount(accountPair.first.getId());
@@ -50,8 +48,7 @@ public class ManageAccountsActivity extends BrandedActivity {
             Account newAccount = accountPair.second;
             if (newAccount != null) {
                 SingleAccountHelper.setCurrentAccount(getApplicationContext(), newAccount.getName());
-                Application.saveBrandColors(this, Color.parseColor(newAccount.getColor()), Color.parseColor(newAccount.getTextColor()));
-                Application.saveCurrentAccountId(this, newAccount.getId());
+                saveCurrentAccountId(this, newAccount.getId());
                 syncManager = new SyncManager(this);
             } else {
                 Log.i(TAG, "Got delete account request, but new account is null. Maybe last account has been deleted?");
@@ -59,7 +56,7 @@ public class ManageAccountsActivity extends BrandedActivity {
         });
         binding.accounts.setAdapter(adapter);
 
-        observeOnce(syncManager.readAccount(Application.readCurrentAccountId(this)), this, (account -> {
+        observeOnce(syncManager.readAccount(readCurrentAccountId(this)), this, (account -> {
             adapter.setCurrentAccount(account);
             syncManager.readAccounts().observe(this, (localAccounts -> {
                 if (localAccounts.size() == 0) {
@@ -76,10 +73,5 @@ public class ManageAccountsActivity extends BrandedActivity {
     @Override
     public void onBackPressed() {
         onSupportNavigateUp();
-    }
-
-    @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToPrimaryToolbar(mainColor, textColor, binding.toolbar);
     }
 }
