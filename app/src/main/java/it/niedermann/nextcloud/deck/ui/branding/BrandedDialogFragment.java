@@ -2,11 +2,11 @@ package it.niedermann.nextcloud.deck.ui.branding;
 
 import android.content.Context;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import it.niedermann.nextcloud.deck.Application;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
 public abstract class BrandedDialogFragment extends DialogFragment implements Branded {
 
@@ -16,10 +16,8 @@ public abstract class BrandedDialogFragment extends DialogFragment implements Br
 
         @Nullable Context context = getContext();
         if (context != null) {
-            if (Application.isBrandingEnabled(context)) {
-                @ColorInt final int mainColor = Application.readBrandMainColor(context);
-                @ColorInt final int textColor = Application.readBrandTextColor(context);
-                applyBrand(mainColor, textColor);
+            if (isBrandingEnabled(context)) {
+                applyBrand(readBrandMainColor(context));
             }
         }
     }

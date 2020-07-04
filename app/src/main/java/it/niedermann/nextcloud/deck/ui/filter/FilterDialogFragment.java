@@ -23,9 +23,10 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
+
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 
 public class FilterDialogFragment extends BrandedDialogFragment {
 
@@ -101,8 +102,8 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        @ColorInt int finalMainColor = BrandedActivity.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
+    public void applyBrand(int mainColor) {
+        @ColorInt int finalMainColor = getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor);
         binding.tabLayout.setSelectedTabIndicatorColor(finalMainColor);
         indicator.setColorFilter(finalMainColor, PorterDuff.Mode.SRC_ATOP);
     }

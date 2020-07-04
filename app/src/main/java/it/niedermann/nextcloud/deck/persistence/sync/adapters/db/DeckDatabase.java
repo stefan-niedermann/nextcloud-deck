@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -32,6 +33,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccountDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.ActivityDao;
@@ -73,7 +75,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 SingleCardWidgetModel.class,
         },
         exportSchema = false,
-        version = 14
+        version = 15
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -201,6 +203,19 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_11_12)
                 .addMigrations(MIGRATION_12_13)
                 .addMigrations(MIGRATION_13_14)
+                .addMigrations(new Migration(14, 15) {
+                    @Override
+                    public void migrate(@NonNull SupportSQLiteDatabase database) {
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/570
+                        SyncWorker.update(context);
+                        // https://github.com/stefan-niedermann/nextcloud-deck/issues/525
+                        PreferenceManager
+                                .getDefaultSharedPreferences(context)
+                                .edit()
+                                .remove("it.niedermann.nextcloud.deck.theme_text")
+                                .apply();
+                    }
+                })
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

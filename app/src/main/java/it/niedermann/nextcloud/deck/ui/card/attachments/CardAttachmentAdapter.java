@@ -35,8 +35,6 @@ import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-import static it.niedermann.nextcloud.deck.Application.readBrandMainColor;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 @SuppressWarnings("WeakerAccess")
@@ -73,7 +71,6 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         this.attachmentClickedListener = attachmentClickedListener;
         this.account = account;
         this.cardLocalId = cardLocalId == null ? NO_ID : cardLocalId;
-        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, readBrandMainColor(context));
         setHasStableIds(true);
     }
 

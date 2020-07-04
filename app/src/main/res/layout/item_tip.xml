@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="@dimen/spacer_1x"
+        android:textColor="@color/defaultBrand"
         android:visibility="visible"
         tools:text="@string/error_action_open_deck_info"
         tools:visibility="visible" />

@@ -53,14 +53,15 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
 
         Glide.with(requireContext())
                 .load(viewModel.getCurrentAccount().getAvatarUrl(dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
-                .error(R.drawable.ic_person_grey600_24dp)
+                .placeholder(R.drawable.ic_baseline_account_circle_24)
+                .error(R.drawable.ic_baseline_account_circle_24)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.currentAccountItemAvatar);
 
         binding.accountLayout.setOnClickListener((v) -> dismiss());
 
         adapter = new AccountSwitcherAdapter((localAccount -> {
-            viewModel.setCurrentAccount(localAccount, localAccount.getServerDeckVersionAsObject().isSupported(requireContext()));
+            viewModel.setCurrentAccount(localAccount);
             dismiss();
         }));
 
@@ -97,7 +98,7 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
+    public void applyBrand(int mainColor) {
 //        applyBrandToLayerDrawable((LayerDrawable) binding.check.getDrawable(), R.id.area, mainColor);
     }
 }

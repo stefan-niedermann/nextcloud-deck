@@ -29,8 +29,8 @@ import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToEditText;
-import static it.niedermann.nextcloud.deck.ui.branding.BrandedActivity.applyBrandToFAB;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
+import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class CardCommentsFragment extends BrandedFragment implements CommentEditedListener, CommentDeletedListener, CommentSelectAsReplyListener {
@@ -142,9 +142,9 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
     }
 
     @Override
-    public void applyBrand(int mainColor, int textColor) {
-        applyBrandToEditText(mainColor, textColor, binding.message);
-        applyBrandToFAB(mainColor, textColor, binding.fab);
+    public void applyBrand(int mainColor) {
+        applyBrandToEditText(mainColor, binding.message);
+        applyBrandToFAB(mainColor, binding.fab);
     }
 
     @Override
