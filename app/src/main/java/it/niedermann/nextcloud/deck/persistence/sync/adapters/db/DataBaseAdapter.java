@@ -560,6 +560,10 @@ public class DataBaseAdapter {
         validateSearchTerm(searchTerm);
         return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
     }
+    public List<User> searchUserByUidOrDisplayNameForACLDirectly(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
+        validateSearchTerm(searchTerm);
+        return db.getUserDao().searchUserByUidOrDisplayNameForACLDirectly(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
+    }
 
     public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm) {
         validateSearchTerm(searchTerm);
