@@ -1102,7 +1102,7 @@ public class SyncManager {
             }
             // ### get rid of original card where it is now.
             Card originalInnerCard = originalCard.getCard();
-            deleteCard(originalInnerCard);
+            deleteCard(new Card(originalInnerCard));
             // ### clone card itself
             Card targetCard = originalInnerCard;
             targetCard.setAccountId(targetAccountId);
