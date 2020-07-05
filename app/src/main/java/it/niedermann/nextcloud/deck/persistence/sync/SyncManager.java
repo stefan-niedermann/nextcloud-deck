@@ -1111,6 +1111,9 @@ public class SyncManager {
             targetCard.setStatusEnum(DBStatus.LOCAL_EDITED);
             targetCard.setStackId(targetStackLocalId);
             targetCard.setOrder(newIndex);
+            targetCard.setArchived(false);
+            targetCard.setAttachmentCount(0);
+            targetCard.setCommentsUnread(0);
             //TODO: this needs to propagate to server as well, since anything else propagates as well (otherwise card isn't known on server)
             FullCard fullCardForServerPropagation = new FullCard();
             fullCardForServerPropagation.setCard(targetCard);
@@ -1134,8 +1137,10 @@ public class SyncManager {
                     throw new RuntimeException("unable to create card in moveCard target", throwable);
                 }
             }, (FullCard entity, FullCard response) -> {
-                response.getCard().setUserId(entity.getCard().getUserId());
+                response.getCard().setUserId(userOfTargetAccount.getLocalId());
                 response.getCard().setStackId(targetFullStack.getLocalId());
+                entity.getCard().setUserId(userOfTargetAccount.getLocalId());
+                entity.getCard().setStackId(targetFullStack.getLocalId());
             });
 
             try {
