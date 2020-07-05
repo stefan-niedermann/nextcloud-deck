@@ -1114,7 +1114,6 @@ public class SyncManager {
             targetCard.setArchived(false);
             targetCard.setAttachmentCount(0);
             targetCard.setCommentsUnread(0);
-            //TODO: this needs to propagate to server as well, since anything else propagates as well (otherwise card isn't known on server)
             FullCard fullCardForServerPropagation = new FullCard();
             fullCardForServerPropagation.setCard(targetCard);
 
@@ -1123,7 +1122,11 @@ public class SyncManager {
             FullStack targetFullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(targetStackLocalId);
             User userOfTargetAccount = dataBaseAdapter.getUserByUidDirectly(targetAccountId, targetAccount.getUserName());
             CountDownLatch latch = new CountDownLatch(1);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new IResponseCallback<FullCard>(targetAccount) {
+            ServerAdapter serverToUse = serverAdapter;
+            if (originAccountId != targetAccountId) {
+                serverToUse = new ServerAdapter(appContext, targetAccount.getName());
+            }
+            new DataPropagationHelper(serverToUse, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new IResponseCallback<FullCard>(targetAccount) {
                 @Override
                 public void onResponse(FullCard response) {
                     targetCard.setId(response.getId());
