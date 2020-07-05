@@ -37,6 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacer_1x"
         android:orientation="horizontal"
+        android:paddingStart="@dimen/spacer_1x"
+        android:paddingEnd="@dimen/spacer_1x"
         app:justifyContent="space_between">
 
         <Button
