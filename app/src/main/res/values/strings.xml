@@ -281,4 +281,5 @@
     </plurals>
     <string name="simple_report">Report</string>
     <string name="error_action_open_battery_settings">Battery settings</string>
+    <string name="move_warning">Neither comments nor attachments can be transferred when moving the card to another board.</string>
 </resources>

@@ -23,12 +23,17 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class MoveCardDialogFragment extends BrandedDialogFragment implements PickStackListener {
 
-    private static final String KEY_ORIGIN_CARD_LOCAL_ID = "card_local_id";
     private static final String KEY_ORIGIN_ACCOUNT_ID = "account_id";
-    private Long originCardLocalId;
+    private static final String KEY_ORIGIN_BOARD_LOCAL_ID = "board_local_id";
+    private static final String KEY_ORIGIN_CARD_LOCAL_ID = "card_local_id";
     private Long originAccountId;
+    private Long originBoardLocalId;
+    private Long originCardLocalId;
 
     private DialogMoveCardBinding binding;
     private PickStackFragment fragment;
@@ -58,6 +63,10 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
         if (originCardLocalId < 0) {
             throw new IllegalArgumentException("Missing " + KEY_ORIGIN_CARD_LOCAL_ID);
         }
+        originBoardLocalId = args.getLong(KEY_ORIGIN_BOARD_LOCAL_ID, -1L);
+        if (originBoardLocalId < 0) {
+            throw new IllegalArgumentException("Missing " + KEY_ORIGIN_BOARD_LOCAL_ID);
+        }
     }
 
     @Nullable
@@ -69,6 +78,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
             this.moveCardListener.move(originAccountId, originCardLocalId, selectedAccount.getId(), selectedBoard.getLocalId(), selectedStack.getLocalId());
             dismiss();
         });
+        binding.cancel.setOnClickListener((v) -> dismiss());
         return binding.getRoot();
     }
 
@@ -89,20 +99,25 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
 //        DeckLog.log("MOVE - Stack changed to " + fullStack.getStack().getTitle());
         if (board == null || fullStack == null) {
             binding.submit.setEnabled(false);
+            binding.moveWarning.setVisibility(GONE);
         } else {
             binding.submit.setEnabled(true);
+            binding.moveWarning.setVisibility(board.getLocalId().equals(originBoardLocalId) ? GONE : VISIBLE);
         }
     }
 
     @Override
     public void applyBrand(int mainColor) {
-        binding.submit.setTextColor(ColorStateList.valueOf(BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor)));
+        final ColorStateList mainColorStateList = ColorStateList.valueOf(BrandingUtil.getSecondaryForegroundColorDependingOnTheme(requireContext(), mainColor));
+        binding.cancel.setTextColor(mainColorStateList);
+        binding.submit.setTextColor(mainColorStateList);
     }
 
-    public static DialogFragment newInstance(long originAccountId, Long originCardLocalId) {
+    public static DialogFragment newInstance(long originAccountId, long originBoardLocalId, Long originCardLocalId) {
         final DialogFragment dialogFragment = new MoveCardDialogFragment();
         final Bundle args = new Bundle();
         args.putLong(KEY_ORIGIN_ACCOUNT_ID, originAccountId);
+        args.putLong(KEY_ORIGIN_BOARD_LOCAL_ID, originBoardLocalId);
         args.putLong(KEY_ORIGIN_CARD_LOCAL_ID, originCardLocalId);
         dialogFragment.setArguments(args);
         return dialogFragment;
