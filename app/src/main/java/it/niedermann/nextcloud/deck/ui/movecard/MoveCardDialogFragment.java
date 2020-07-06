@@ -74,7 +74,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogMoveCardBinding.inflate(inflater);
         binding.submit.setOnClickListener((v) -> {
-            DeckLog.verbose("MOVE - Attempt to move to " + Stack.class.getSimpleName() + " #" + selectedStack.getLocalId());
+            DeckLog.verbose("[Move card] Attempt to move to " + Stack.class.getSimpleName() + " #" + selectedStack.getLocalId());
             this.moveCardListener.move(originAccountId, originCardLocalId, selectedAccount.getId(), selectedBoard.getLocalId(), selectedStack.getLocalId());
             dismiss();
         });
@@ -96,7 +96,6 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
         this.selectedAccount = account;
         this.selectedBoard = board;
         this.selectedStack = fullStack;
-//        DeckLog.log("MOVE - Stack changed to " + fullStack.getStack().getTitle());
         if (board == null || fullStack == null) {
             binding.submit.setEnabled(false);
             binding.moveWarning.setVisibility(GONE);

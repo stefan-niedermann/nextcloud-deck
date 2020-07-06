@@ -291,7 +291,7 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
                 return true;
             }
             case R.id.action_card_move: {
-                DeckLog.verbose("MOVE - Attempt to move " + Card.class.getSimpleName() + " " + fullCard.getCard() + " (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
+                DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
                 MoveCardDialogFragment.newInstance(fullCard.getAccountId(), boardId, fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
                 return true;
             }
