@@ -11,7 +11,7 @@ This is a list of permissions required and asked by the App in order to properly
 
 - `com.nextcloud.android.sso`
 
-  Used to connect to the main Nextcloud Android app via the Single Sign On mechanism. This is required not only to import an account but also to synchronize the account with the Nextcloud instance.
+  Used to connect to the [main Nextcloud Android app](https://github.com/nextcloud/android/) via the [Nextcloud Single Sign On](https://github.com/nextcloud/Android-SingleSignOn/) mechanism. This is required not only to import an account but also to synchronize the account with the Nextcloud instance.
 
 - `android.permission.ACCESS_NETWORK_STATE`
 
