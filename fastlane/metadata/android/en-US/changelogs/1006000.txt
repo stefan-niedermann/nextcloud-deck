@@ -2,4 +2,5 @@
 
 - ✨ Adjust design to new style of Nextcloud app (#525)
 - 🎨 Offer the same colors as the server app
+- 🔍 Display all available users as search results when sharing a board (#510)
 - 🐞 "Archive cards" of list crashes the app when there is no list (#557)
