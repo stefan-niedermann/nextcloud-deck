@@ -39,15 +39,15 @@ Used by [Material DateTime Picker](https://github.com/wdullaer/MaterialDateTimeP
 
 ### `android.permission.WAKE_LOCK`
 
-Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) to for background synchronization.
+Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) for background synchronization.
 
 ### `android.permission.RECEIVE_BOOT_COMPLETED`
 
-Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) to for background synchronization.
+Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) for background synchronization.
 
 ### `android.permission.FOREGROUND_SERVICE`
 
-Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) to for background synchronization.
+Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) for background synchronization.
 
 
 ## Nextcloud privacy policy
