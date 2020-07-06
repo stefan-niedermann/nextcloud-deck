@@ -9,46 +9,45 @@ The license of this project allows you to verify that no data is collected by th
 
 This is a list of permissions required and asked by the App in order to properly work on your device:
 
-### `com.nextcloud.android.sso`
+- `com.nextcloud.android.sso`
 
-Used to connect to the main Nextcloud Android app via the Single Sign On mechanism. This is required not only to import an account but also to synchronize the account with the Nextcloud instance.
+  Used to connect to the main Nextcloud Android app via the Single Sign On mechanism. This is required not only to import an account but also to synchronize the account with the Nextcloud instance.
 
-### `android.permission.ACCESS_NETWORK_STATE`
+- `android.permission.ACCESS_NETWORK_STATE`
 
-Used to provide offline support and make the "Sync only on Wi-Fi" option possible.
+  Used to provide offline support and make the "Sync only on Wi-Fi" option possible.
 
-### `android.permission.READ_EXTERNAL_STORAGE`
+- `android.permission.READ_EXTERNAL_STORAGE`
 
-Used for reading files to attach them to cards.
+  Used for reading files to attach them to cards.
 
-### `android.permission.WRITE_EXTERNAL_STORAGE`
+- `android.permission.WRITE_EXTERNAL_STORAGE`
 
-Used for caching attachments and other files on the disk.
+  Used for caching attachments and other files on the disk.
 
-### `android.permission.INTERNET`
+- `android.permission.INTERNET`
 
-Used by [Nextcloud Single Sign On library](https://github.com/nextcloud/Android-SingleSignOn/) to communicate with your Nextcloud instance and synchronize contents.
+  Used by [Nextcloud Single Sign On library](https://github.com/nextcloud/Android-SingleSignOn/) to communicate with your Nextcloud instance and synchronize contents.
 
-### `android.permission.GET_ACCOUNTS`
+- `android.permission.GET_ACCOUNTS`
 
-Used by [Nextcloud Single Sign On library](https://github.com/nextcloud/Android-SingleSignOn/) to read available accounts to import.
+  Used by [Nextcloud Single Sign On library](https://github.com/nextcloud/Android-SingleSignOn/) to read available accounts to import.
 
-### `android.permission.VIBRATE`
+- `android.permission.VIBRATE`
 
-Used by [Material DateTime Picker](https://github.com/wdullaer/MaterialDateTimePicker).
+  Used by [Material DateTime Picker](https://github.com/wdullaer/MaterialDateTimePicker).
 
-### `android.permission.WAKE_LOCK`
+- `android.permission.WAKE_LOCK`
 
-Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) for background synchronization.
+  Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) for background synchronization.
 
-### `android.permission.RECEIVE_BOOT_COMPLETED`
+- `android.permission.RECEIVE_BOOT_COMPLETED`
 
-Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) for background synchronization.
+  Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) for background synchronization.
 
-### `android.permission.FOREGROUND_SERVICE`
+- `android.permission.FOREGROUND_SERVICE`
 
-Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) for background synchronization.
-
+  Used by [AndroidX WorkManager](https://developer.android.com/jetpack/androidx/releases/work) for background synchronization.
 
 ## Nextcloud privacy policy
 
