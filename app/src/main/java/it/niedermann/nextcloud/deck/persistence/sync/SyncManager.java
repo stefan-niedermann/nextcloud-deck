@@ -1186,7 +1186,7 @@ public class SyncManager {
                         originalLabel.setLocalId(null);
                         originalLabel.setStatusEnum(DBStatus.LOCAL_EDITED);
                         originalLabel.setAccountId(targetBoard.getAccountId());
-                        createAndAssignLabelToCard(originalBoard.getAccountId(), originalLabel, newCardId);
+                        createAndAssignLabelToCard(targetBoard.getAccountId(), originalLabel, newCardId);
                     }
                 } else {
                     assignLabelToCard(existingMatch, targetCard);
