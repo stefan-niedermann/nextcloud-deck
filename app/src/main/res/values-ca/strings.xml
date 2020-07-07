@@ -235,6 +235,7 @@
     <string name="error_action_open_network">Arranjaments de xarxa</string>
     <string name="error_action_server_logs">Bitàcoles del servidor</string>
     <string name="error_action_install">Instal·lació</string>
+    <string name="error_action_report_issue">Informar</string>
     <string name="info_box_maintenance_mode">Servidor en mode de manteniment</string>
     <string name="info_box_version_not_supported">La versió del servidor %1$s no està suportada, si us plau, actualitzeu a %2$s.</string>
     <string name="share_link">Enllaç de compartició</string>
@@ -243,4 +244,5 @@
     <string name="manage_list">Gestiona la llista</string>
     <string name="simple_reply">Respon</string>
     <string name="simple_report">Informar</string>
+    <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
 </resources>

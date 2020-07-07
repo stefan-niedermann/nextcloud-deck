@@ -218,11 +218,21 @@
     <string name="error_action_open_network">Nätverksinställningar</string>
     <string name="error_action_server_logs">Serverloggar</string>
     <string name="error_action_install">Installera</string>
+    <string name="error_action_report_issue">Rapportera</string>
     <string name="info_box_maintenance_mode">Server i underhållsläge</string>
     <string name="info_box_version_not_supported">Serverversion %1$s stöds inte, uppdatera till %2$s</string>
     <string name="share_link">Dela länk</string>
     <string name="archive_cards">Arkivera kort</string>
     <string name="manage_accounts">Hantera konton</string>
+    <string name="manage_list">Hantera lista</string>
     <string name="simple_reply">Svara</string>
+    <string name="error_while_uploading_attachment">Fel vid uppladdning av bilaga: %1$s</string>
+    <string name="append_text_to_description">Lägg till beskrivning</string>
+    <string name="add_text_as_comment">Lägg till som kommentar</string>
+    <string name="progress_count">%1$d av %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d fel vid uppladdning.</item>
+        <item quantity="other">%1$d fel vid uppladdning</item>
+    </plurals>
     <string name="simple_report">Rapportera</string>
-</resources>
+    </resources>
