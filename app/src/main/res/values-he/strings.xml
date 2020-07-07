@@ -222,10 +222,11 @@
     <string name="error_action_open_network">הגדרות רשת</string>
     <string name="error_action_server_logs">יומני שרת</string>
     <string name="error_action_install">התקנה</string>
+    <string name="error_action_report_issue">דיווח</string>
     <string name="info_box_maintenance_mode">שרת במצב תחזוקה</string>
     <string name="info_box_version_not_supported">גרסת השרת %1$s אינה נתמכת, נא לעדכן לגרסה %2$s</string>
     <string name="share_link">קישור שיתוף</string>
     <string name="manage_accounts">ניהול חשבונות</string>
     <string name="simple_reply">תגובה</string>
     <string name="simple_report">דיווח</string>
-</resources>
+    </resources>

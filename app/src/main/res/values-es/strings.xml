@@ -217,12 +217,13 @@
     <string name="error_dialog_title">Oh no - ¿Ahora qué? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta forzar el cierre de la aplicación y vuelve a abrirla. Es posible que haya habido un problema de conexión con la aplicación Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Si el problema persiste, intenta limpiar borrar el almacenamiento de ambas apps, Nextcloud y Nextcloud Deck para solucionar este problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">La actualización de la base de datos falló. Por favor, informe del problema y limpie el almacenamiento para usar la aplicación de manera normal.</string>
     <string name="error_dialog_tip_clear_storage">Puedes limpiar el almacenamiento abriendo la información de la app y seleccionando Almacenamiento → Eliminar datos.</string>
     <string name="error_dialog_tip_files_outdated">Su aplicación Nextcloud parece que está desactualizada. Por favor visite la Play Store o F-Droid para conseguir la versión más reciente.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece ir mal en tu app de Nextcloud. Por favor, intenta forzar el cierre de ambas, Nextcloud y Nextcloud Deck.</string>
     <string name="error_dialog_tip_files_delete_storage">Si pararlas no ayuda, puede intentar borrar el almacenamiento de ambas aplicaciones.</string>
     <string name="error_dialog_timeout_instance">No hubo una respuesta de su servidor en un tiempo determinado. Por favor asegúrese de que su instancia está funcionando sin problemas.</string>
-    <string name="error_dialog_timeout_toggle">Comprueba tu conexión de red. A veces, desactivar y activar de nuevo los datos móviles o la Wi-Fi puede ayudar.</string>
+    <string name="error_dialog_timeout_toggle">Comprueba tu conexión de red. A veces, desactivar y activar de nuevo los datos móviles o el Wi-Fi puede ayudar.</string>
     <string name="error_dialog_check_server">La respuesta de tu servidor no es correcta. Por favor, comprueba si puedes accede a la app de Deck mediante la interfaz web.</string>
     <string name="error_dialog_check_server_logs">Hay un problema con sus ajustes de Nextcloud. Por favor eche un vistazo a los archivos de registros del servidor.</string>
     <string name="error_dialog_check_maintenance">Por favor compruebe que su intancia Nextcloud no este actualmente en modo de mantenimiento.</string>
@@ -231,10 +232,13 @@
     <string name="error_dialog_redirect">Tu servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Deck en su servidor o que algo está mal configurado. Esto puede estar causado por anulaciones personalizadas en un  archivo .htaccess o por aplicaciones de Nexcloud como OID Client. </string>
     <string name="error_dialog_version_not_parsable">No se pudo determinar la versión de la aplicación Deck en el lado del servidor. Por favor, compruebe que está instalada y activada. </string>
     <string name="error_dialog_capabilities_not_parsable">No se ha podido comprobar las capacidades de su servidor. Por favor compruebe que su servidor está funcionando bien y que otras aplicaciones de cliente son capaces de acceder a Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">No se ha podido subir un adjunto. Por favor, intenta compartirlo de otra forma y comunícanos este fallo.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Por favor, desactiva todas las optimizaciones de la batería para Nextcloud y la aplicación Deck.</string>
     <string name="error_action_open_deck_info">Abrir info de la app</string>
     <string name="error_action_open_network">Configuración de red</string>
     <string name="error_action_server_logs">Registros del servidor</string>
     <string name="error_action_install">Instalar</string>
+    <string name="error_action_report_issue">Informe</string>
     <string name="info_box_maintenance_mode">Servidor en modo de mantenimiento</string>
     <string name="info_box_version_not_supported">La versión %1$s del servidor no está soportada. Por favor, actualiza a %2$s</string>
     <string name="share_link">Compartir enlace</string>
@@ -242,5 +246,14 @@
     <string name="manage_accounts">Gestionar cuentas</string>
     <string name="manage_list">Administrar su lista</string>
     <string name="simple_reply">Responder</string>
+    <string name="error_while_uploading_attachment">Error al subir adjunto: %1$s</string>
+    <string name="append_text_to_description">Añadir a la descripción</string>
+    <string name="add_text_as_comment">Añadir como comentario</string>
+    <string name="progress_count">%1$d de %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d error al subir.</item>
+        <item quantity="other">%1$d errores al subir.</item>
+    </plurals>
     <string name="simple_report">Informe</string>
+    <string name="error_action_open_battery_settings">Ajustes de batería</string>
 </resources>

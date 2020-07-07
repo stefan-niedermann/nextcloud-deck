@@ -185,9 +185,10 @@
     <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
+    <string name="error_action_report_issue">Rapporter</string>
     <string name="info_box_maintenance_mode">Server i vedligeholdelsestilstand</string>
     <string name="share_link">Del link</string>
     <string name="manage_accounts">Administrer konti</string>
     <string name="simple_reply">Besvar</string>
     <string name="simple_report">Rapporter</string>
-</resources>
+    </resources>

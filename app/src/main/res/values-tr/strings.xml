@@ -217,6 +217,7 @@
     <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Lütfen uygulamayı kapanmaya zorlayıp yeniden başlatın. Yanlış bir Nextcloud uygulaması bağlantısı olmalı.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Sorun sürerse, çözmek için hem Nextcloud uygulamasının hem de Nextcloud Tahta uygulamasının depolamalarını temizlemeyi deneyin.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Veritabanı güncellenemedi. Lütfen sorunu bildirin ve uygulamayı normal şekilde kullanabilmek için depolamayı temizleyin.</string>
     <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için uygulama bilgilerini açın ve Depolama (Hafıza) → Depolamayı temizle (Veriyi sil) seçin.</string>
     <string name="error_dialog_tip_files_outdated">Nextcloud uygulamanız eski görünüyor. Lütfen son sürümü almak için Play Store ya da F-Droid mağazalarına gidin.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tahta uygulamasını zorla kapatmayı deneyin.</string>
@@ -232,10 +233,12 @@
     <string name="error_dialog_version_not_parsable">Sunucu tarafındaki tahta uygulamasının sürümü belirlenemedi. Lütfen kurulmuş ve etkinleştirilmiş olduğundan emin olun.</string>
     <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
     <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Lütfen Nextcloud ve Pano uygulaması için tüm pil iyileştirmelerini devre dışı bırakın.</string>
     <string name="error_action_open_deck_info">Uygulama bilgilerini aç</string>
     <string name="error_action_open_network">Ağ ayarları</string>
     <string name="error_action_server_logs">Sunucu günlükleri</string>
     <string name="error_action_install">Kur</string>
+    <string name="error_action_report_issue">Sorun bildirin</string>
     <string name="info_box_maintenance_mode">Sunucu bakım kipinde</string>
     <string name="info_box_version_not_supported">%1$s sunucu sürümü desteklenmiyor. Lütfen %2$s sürümüne güncelleyin</string>
     <string name="share_link">Bağlantıyı paylaş</string>
@@ -252,4 +255,5 @@
         <item quantity="other">Yükleme sırasında %1$d sorun çıktı.</item>
     </plurals>
     <string name="simple_report">Hata bildirin</string>
+    <string name="error_action_open_battery_settings">Pil ayarları</string>
 </resources>

@@ -234,10 +234,11 @@
     <string name="error_action_open_network">Netwerk instellingen</string>
     <string name="error_action_server_logs">Server logbestanden</string>
     <string name="error_action_install">Installeren</string>
+    <string name="error_action_report_issue">Rapporteer</string>
     <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
     <string name="info_box_version_not_supported">Server versie %1$s is niet ondersteund, werk bij naar %2$s</string>
     <string name="share_link">Delen link</string>
     <string name="manage_accounts">Accounts beheren </string>
     <string name="simple_reply">Antwoord</string>
     <string name="simple_report">Rapporteer</string>
-</resources>
+    </resources>
