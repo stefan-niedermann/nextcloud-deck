@@ -123,11 +123,11 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void bindCardClickListener(OnClickListener l) {
+    public void bindCardClickListener(@Nullable OnClickListener l) {
         binding.card.setOnClickListener(l);
     }
 
-    public void bindCardLongClickListener(OnLongClickListener l) {
+    public void bindCardLongClickListener(@Nullable OnLongClickListener l) {
         binding.card.setOnLongClickListener(l);
     }
 
