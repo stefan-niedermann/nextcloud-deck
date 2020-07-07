@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
-
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateStackBinding;
@@ -25,9 +23,9 @@ public class StackAdapter extends AbstractAdapter<FullStack> {
         return item.getLocalId();
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ItemPrepareCreateStackBinding binding;
         if (convertView == null) {
             binding = ItemPrepareCreateStackBinding.inflate(inflater, parent, false);
