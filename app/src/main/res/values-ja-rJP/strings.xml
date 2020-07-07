@@ -233,6 +233,7 @@
     <string name="error_action_open_network">ネットワーク設定</string>
     <string name="error_action_server_logs">サーバーログ</string>
     <string name="error_action_install">インストール</string>
+    <string name="error_action_report_issue">報告</string>
     <string name="info_box_maintenance_mode">サーバーはメンテナンスモードです。</string>
     <string name="info_box_version_not_supported">サーバーのバージョン%1$sはサポートしていませんので、%2$sにアップデートしてください。</string>
     <string name="share_link">URLで共有</string>
@@ -241,4 +242,4 @@
     <string name="manage_list">リスト管理</string>
     <string name="simple_reply">返信</string>
     <string name="simple_report">報告</string>
-</resources>
+    </resources>

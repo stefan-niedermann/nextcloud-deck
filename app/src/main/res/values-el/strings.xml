@@ -236,6 +236,7 @@
     <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
     <string name="error_action_server_logs">Αρχεία καταγραφής διακομιστή</string>
     <string name="error_action_install">Εγκατάσταση</string>
+    <string name="error_action_report_issue">Αναφορά</string>
     <string name="info_box_maintenance_mode">Ο διακομιστής είναι σε κατάσταση συντήρησης</string>
     <string name="info_box_version_not_supported">Η έκδοση του διακομιστή %1$s δεν υποστηρίζεται, παρακαλούμε αναβαθμίστε στην %2$s</string>
     <string name="share_link">Διαμοιρασμός συνδέσμου</string>
@@ -252,4 +253,4 @@
         <item quantity="other">%1$d σφάλματα κατά την μεταφόρτωση</item>
     </plurals>
     <string name="simple_report">Αναφορά</string>
-</resources>
+    </resources>

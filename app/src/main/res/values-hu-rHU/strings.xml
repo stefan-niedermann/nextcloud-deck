@@ -234,6 +234,7 @@
     <string name="error_action_open_network">Hálózati beállítások</string>
     <string name="error_action_server_logs">Kiszolgálónaplók</string>
     <string name="error_action_install">Telepítés</string>
+    <string name="error_action_report_issue">Jelentés</string>
     <string name="info_box_maintenance_mode">A kiszolgáló karbantartási módban van</string>
     <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
     <string name="share_link">Hivatkozás megosztása</string>
@@ -241,4 +242,4 @@
     <string name="manage_accounts">Fiókok kezelése</string>
     <string name="simple_reply">Válasz</string>
     <string name="simple_report">Jelentés</string>
-</resources>
+    </resources>

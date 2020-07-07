@@ -217,6 +217,7 @@
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da apli e reiniciala de novo. Pode haber unha conexión incorrecta coa apli Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Se o problema continúa, tente limpar o almacenamento de ambas as aplis: Nextcloud e Nextcloud Deck para resolver este problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Produciuse un fallo ao anovar a base de datos. Informe do problema e borre o almacenamento para usar a apli normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da apli e seleccionando Almacenamento → Limpar o almacenamento.</string>
     <string name="error_dialog_tip_files_outdated">A súa apli Nextcloud semella estar desactualizada. Visite Play Store ou F-Droid para obter a última versión.</string>
     <string name="error_dialog_tip_files_force_stop">Semella que algo está mal na súa apli Nextcloud. Tente forzar a parar ambas, a apli Nextcloud e a apli Nextcloud Deck.</string>
@@ -232,10 +233,12 @@
     <string name="error_dialog_version_not_parsable">Non foi posíbel determinar a versión da apli Deck do lado do servidor. Asegúrese de que estea instalado e activado.</string>
     <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplis de cliente poidan acceder ao Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Non foi posíbel enviar un arquivo anexo. Probe compartilo doutro xeito e infórmenos deste erro.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Desactive todas as optimizacións de batería para Nextcloud e a apli Deck.</string>
     <string name="error_action_open_deck_info">Abrir a info da apli</string>
     <string name="error_action_open_network">Axustes da rede</string>
     <string name="error_action_server_logs">Rexistros do servidor</string>
     <string name="error_action_install">Instalar</string>
+    <string name="error_action_report_issue">Informe</string>
     <string name="info_box_maintenance_mode">Servidor en modo de mantemento</string>
     <string name="info_box_version_not_supported">A versión %1$s do servidor non é compatíbel, actualice a %2$s</string>
     <string name="share_link">Compartir ligazón</string>
@@ -252,4 +255,5 @@
         <item quantity="other">%1$d erros ao enviar.</item>
     </plurals>
     <string name="simple_report">Informe</string>
+    <string name="error_action_open_battery_settings">Axustes da batería</string>
 </resources>

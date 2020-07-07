@@ -5,24 +5,18 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,11 +26,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Card;
-import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -50,42 +40,49 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
-public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implements DragAndDropAdapter<FullCard>, Branded {
+public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
 
     protected final SyncManager syncManager;
 
-    private final FragmentManager fragmentManager;
-    private final Account account;
+    protected final FragmentManager fragmentManager;
+    protected final Account account;
     @Nullable
-    private final Long currentBoardRemoteId;
-    private final long boardId;
+    protected final Long boardRemoteId;
+    private final long boardLocalId;
     private final long stackId;
-    private final boolean canEdit;
+    protected final boolean hasEditPermission;
     @NonNull
     private final Context context;
     @Nullable
     private final SelectCardListener selectCardListener;
-    private List<FullCard> cardList = new LinkedList<>();
-    private LifecycleOwner lifecycleOwner;
-    private String counterMaxValue;
+    protected List<FullCard> cardList = new LinkedList<>();
+    protected LifecycleOwner lifecycleOwner;
+    @NonNull
+    private final List<FullStack> availableStacks = new ArrayList<>();
+    protected String counterMaxValue;
 
-    private int mainColor;
+    protected int mainColor;
     @StringRes
     private int shareLinkRes;
 
-    public CardAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull Account account, long boardId, @Nullable Long currentBoardRemoteId, long stackId, boolean canEdit, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
+    public CardAdapter(@NonNull Context context, @NonNull FragmentManager fragmentManager, @NonNull Account account, long boardLocalId, @Nullable Long boardRemoteId, long stackId, boolean hasEditPermission, @NonNull SyncManager syncManager, @NonNull LifecycleOwner lifecycleOwner, @Nullable SelectCardListener selectCardListener) {
         this.context = context;
+        this.counterMaxValue = context.getString(R.string.counter_max_value);
         this.fragmentManager = fragmentManager;
         this.lifecycleOwner = lifecycleOwner;
         this.account = account;
         this.shareLinkRes = account.getServerDeckVersionAsObject().getShareLinkResource();
-        this.boardId = boardId;
-        this.currentBoardRemoteId = currentBoardRemoteId;
+        this.boardLocalId = boardLocalId;
+        this.boardRemoteId = boardRemoteId;
         this.stackId = stackId;
-        this.canEdit = canEdit;
+        this.hasEditPermission = hasEditPermission;
         this.syncManager = syncManager;
         this.selectCardListener = selectCardListener;
-        this.mainColor = context.getResources().getColor(R.color.primary);
+        this.mainColor = context.getResources().getColor(R.color.defaultBrand);
+        syncManager.getStacksForBoard(account.getId(), boardLocalId).observe(this.lifecycleOwner, (stacks) -> {
+            availableStacks.clear();
+            availableStacks.addAll(stacks);
+        });
         setHasStableIds(true);
     }
 
@@ -96,113 +93,37 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
 
     @NonNull
     @Override
-    public ItemCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        final Context context = viewGroup.getContext();
-        counterMaxValue = context.getString(R.string.counter_max_value);
-
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ItemCardBinding binding = ItemCardBinding.inflate(layoutInflater, viewGroup, false);
-        return new ItemCardViewHolder(binding);
+    public CardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+        return new CardViewHolder(ItemCardBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ItemCardViewHolder viewHolder, int position) {
-        final Context context = viewHolder.itemView.getContext();
-        final FullCard card = cardList.get(position);
+    public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
+        @NonNull FullCard fullCard = cardList.get(position);
+        viewHolder.bind(fullCard, account, boardRemoteId, hasEditPermission, R.menu.card_menu, this, counterMaxValue, mainColor);
 
-        viewHolder.binding.card.setOnClickListener((v) -> {
+        // Only enable details view if there is no one waiting for selecting a card.
+        viewHolder.bindCardClickListener((v) -> {
             if (selectCardListener == null) {
-                context.startActivity(EditActivity.createEditCardIntent(context, account, boardId, card.getLocalId()));
+                context.startActivity(EditActivity.createEditCardIntent(context, account, boardLocalId, fullCard.getLocalId()));
             } else {
-                selectCardListener.onCardSelected(card);
+                selectCardListener.onCardSelected(fullCard);
             }
         });
-        if (canEdit && selectCardListener == null) {
-            viewHolder.binding.card.setOnLongClickListener((v) -> {
+
+        // Only enable Drag and Drop if there is no one waiting for selecting a card.
+        if (selectCardListener == null) {
+            viewHolder.bindCardLongClickListener((v) -> {
                 DeckLog.log("Starting drag and drop");
-                v.startDrag(ClipData.newPlainText("cardid", String.valueOf(card.getLocalId())),
+                v.startDrag(ClipData.newPlainText("cardid", String.valueOf(fullCard.getLocalId())),
                         new View.DragShadowBuilder(v),
-                        new DraggedItemLocalState<>(card, viewHolder.binding.card, this, position),
+                        new DraggedItemLocalState<>(fullCard, viewHolder.getDraggable(), this, position),
                         0
                 );
                 return true;
             });
-        } else {
-            viewHolder.binding.cardMenu.setVisibility(View.GONE);
         }
-        viewHolder.binding.cardTitle.setText(card.getCard().getTitle().trim());
-
-        if (card.getAssignedUsers() != null && card.getAssignedUsers().size() > 0) {
-            viewHolder.binding.overlappingAvatars.setAvatars(account, card.getAssignedUsers());
-            viewHolder.binding.overlappingAvatars.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.binding.overlappingAvatars.setVisibility(View.GONE);
-        }
-
-        DrawableCompat.setTint(viewHolder.binding.notSyncedYet.getDrawable(), mainColor);
-        viewHolder.binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(card.getStatusEnum()) ? View.VISIBLE : View.GONE);
-
-        if (card.getCard().getDueDate() != null) {
-            setupDueDate(viewHolder.binding.cardDueDate, card.getCard());
-            viewHolder.binding.cardDueDate.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.binding.cardDueDate.setVisibility(View.GONE);
-        }
-
-        final int attachmentsCount = card.getAttachments().size();
-
-        if (attachmentsCount == 0) {
-            viewHolder.binding.cardCountAttachments.setVisibility(View.GONE);
-        } else {
-            setupCounter(viewHolder.binding.cardCountAttachments, attachmentsCount);
-            viewHolder.binding.cardCountAttachments.setVisibility(View.VISIBLE);
-        }
-
-        final int commentsCount = card.getCommentCount();
-
-        if (commentsCount == 0) {
-            viewHolder.binding.cardCountComments.setVisibility(View.GONE);
-        } else {
-            setupCounter(viewHolder.binding.cardCountComments, commentsCount);
-
-            viewHolder.binding.cardCountComments.setVisibility(View.VISIBLE);
-        }
-
-        List<Label> labels = card.getLabels();
-        if (labels != null && labels.size() > 0) {
-            viewHolder.binding.labels.updateLabels(labels);
-            viewHolder.binding.labels.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.binding.labels.removeAllViews();
-            viewHolder.binding.labels.setVisibility(View.GONE);
-        }
-
-        Card.TaskStatus taskStatus = card.getCard().getTaskStatus();
-        if (taskStatus.taskCount > 0) {
-            viewHolder.binding.cardCountTasks.setText(context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
-            viewHolder.binding.cardCountTasks.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.binding.cardCountTasks.setVisibility(View.GONE);
-        }
-
-        viewHolder.binding.cardMenu.setOnClickListener(v -> onOverflowIconClicked(v, card));
-    }
-
-    private void setupCounter(@NonNull TextView textView, int count) {
-        if (count > 99) {
-            textView.setText(counterMaxValue);
-        } else if (count > 1) {
-            textView.setText(String.valueOf(count));
-        } else if (count == 1) {
-            textView.setText("");
-        }
-    }
-
-    private void setupDueDate(@NonNull TextView cardDueDate, @NotNull Card card) {
-        final Context context = cardDueDate.getContext();
-        cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().getTime()));
-        ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate());
     }
 
     @Override
@@ -232,54 +153,28 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
         notifyItemRemoved(position);
     }
 
-    protected void onOverflowIconClicked(@NotNull View view, FullCard card) {
-        final Context context = view.getContext();
-        final PopupMenu popup = new PopupMenu(context, view);
-        popup.inflate(R.menu.card_menu);
-        prepareOptionsMenu(popup.getMenu(), card);
-
-        popup.setOnMenuItemClickListener(item -> optionsItemSelected(context, item, card));
-        popup.show();
-    }
-
-    protected void prepareOptionsMenu(Menu menu, @NotNull FullCard card) {
-        if (containsUser(card.getAssignedUsers(), account.getUserName())) {
-            menu.removeItem(menu.findItem(R.id.action_card_assign).getItemId());
-        } else {
-            menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
-        }
-        if (currentBoardRemoteId == null || card.getCard().getId() == null) {
-            menu.removeItem(R.id.share_link);
-        }
-    }
-
     public void setCardList(@NonNull List<FullCard> cardList) {
         this.cardList.clear();
         this.cardList.addAll(cardList);
         notifyDataSetChanged();
     }
 
-    @Contract("null, _ -> false")
-    private boolean containsUser(List<User> userList, String username) {
-        if (userList != null) {
-            for (User user : userList) {
-                if (user.getPrimaryKey().equals(username)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    @Override
+    public void applyBrand(int mainColor) {
+        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
+        notifyDataSetChanged();
     }
 
-    protected boolean optionsItemSelected(@NonNull Context context, @NotNull MenuItem item, FullCard fullCard) {
-        switch (item.getItemId()) {
+    @Override
+    public boolean onCardOptionsItemSelected(@NonNull MenuItem menuItem, @NonNull FullCard fullCard) {
+        switch (menuItem.getItemId()) {
             case R.id.share_link: {
                 Intent shareIntent = new Intent()
                         .setAction(Intent.ACTION_SEND)
                         .setType(TEXT_PLAIN)
                         .putExtra(Intent.EXTRA_SUBJECT, fullCard.getCard().getTitle())
                         .putExtra(Intent.EXTRA_TITLE, fullCard.getCard().getTitle())
-                        .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, currentBoardRemoteId, fullCard.getCard().getId()));
+                        .putExtra(Intent.EXTRA_TEXT, account.getUrl() + context.getString(shareLinkRes, boardRemoteId, fullCard.getCard().getId()));
                 context.startActivity(Intent.createChooser(shareIntent, fullCard.getCard().getTitle()));
             }
             case R.id.action_card_assign: {
@@ -315,11 +210,5 @@ public class CardAdapter extends RecyclerView.Adapter<ItemCardViewHolder> implem
             }
         }
         return true;
-    }
-
-    @Override
-    public void applyBrand(int mainColor) {
-        this.mainColor = getSecondaryForegroundColorDependingOnTheme(context, mainColor);
-        notifyDataSetChanged();
     }
 }
