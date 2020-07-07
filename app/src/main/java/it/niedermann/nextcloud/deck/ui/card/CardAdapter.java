@@ -1,10 +1,12 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
+import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
@@ -37,24 +40,25 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
-public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements DragAndDropAdapter<FullCard>, CardViewHolder.CardOptionsItemSelectedListener, Branded {
+public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
 
     protected final SyncManager syncManager;
 
-    private final FragmentManager fragmentManager;
+    protected final FragmentManager fragmentManager;
     protected final Account account;
     @Nullable
     protected final Long boardRemoteId;
-    protected final long boardLocalId;
-    protected final long stackId;
+    private final long boardLocalId;
+    private final long stackId;
     protected final boolean hasEditPermission;
     @NonNull
     private final Context context;
     @Nullable
     private final SelectCardListener selectCardListener;
     protected List<FullCard> cardList = new LinkedList<>();
-    private LifecycleOwner lifecycleOwner;
-    private List<FullStack> availableStacks;
+    protected LifecycleOwner lifecycleOwner;
+    @NonNull
+    final private List<FullStack> availableStacks = new ArrayList<>();
     protected String counterMaxValue;
 
     protected int mainColor;
@@ -76,12 +80,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
         this.selectCardListener = selectCardListener;
         this.mainColor = context.getResources().getColor(R.color.defaultBrand);
         syncManager.getStacksForBoard(account.getId(), boardLocalId).observe(this.lifecycleOwner, (stacks) -> {
-            if (stacks == null) {
-                availableStacks = new ArrayList<>(0);
-            } else {
-                availableStacks = new ArrayList<>(stacks.size());
-                availableStacks.addAll(stacks);
-            }
+            availableStacks.clear();
+            availableStacks.addAll(stacks);
         });
         setHasStableIds(true);
     }
@@ -100,7 +100,30 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
-        viewHolder.bind(cardList.get(position), this, position, account, boardLocalId, boardRemoteId, hasEditPermission, selectCardListener, R.menu.card_menu, this, counterMaxValue, mainColor);
+        @NonNull FullCard fullCard = cardList.get(position);
+        viewHolder.bind(fullCard, account, boardRemoteId, hasEditPermission, R.menu.card_menu, this, counterMaxValue, mainColor);
+
+        // Only enable details view if there is no one waiting for selecting a card.
+        viewHolder.bindCardClickListener((v) -> {
+            if (selectCardListener == null) {
+                context.startActivity(EditActivity.createEditCardIntent(context, account, boardLocalId, fullCard.getLocalId()));
+            } else {
+                selectCardListener.onCardSelected(fullCard);
+            }
+        });
+
+        // Only enable Drag and Drop if there is no one waiting for selecting a card.
+        if (selectCardListener == null) {
+            viewHolder.bindCardLongClickListener((v) -> {
+                DeckLog.log("Starting drag and drop");
+                v.startDrag(ClipData.newPlainText("cardid", String.valueOf(fullCard.getLocalId())),
+                        new View.DragShadowBuilder(v),
+                        new DraggedItemLocalState<>(fullCard, viewHolder.getDraggable(), this, position),
+                        0
+                );
+                return true;
+            });
+        }
     }
 
     @Override
