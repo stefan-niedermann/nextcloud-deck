@@ -226,10 +226,11 @@
     <string name="error_dialog_redirect">Vaš je poslužitelj vratio šifru statusa HTTP 302, što znači da aplikacija Deck nije instalirana na poslužitelju ili postoji pogreška u konfiguraciji. To mogu uzrokovati prilagođena prepisivanja u datoteci .htaccess ili određene aplikacije u Nextcloudu, kao što je OID Client.</string>
     <string name="error_action_open_network">Postavke mreže</string>
     <string name="error_action_install">Instaliraj</string>
+    <string name="error_action_report_issue">Prijavi</string>
     <string name="info_box_maintenance_mode">Poslužitelj u načinu održavanja</string>
     <string name="info_box_version_not_supported">Inačica poslužitelja %1$s nije podržana, ažurirajte poslužitelj na inačicu %2$s</string>
     <string name="share_link">Dijeli poveznicu</string>
     <string name="manage_accounts">Upravljaj računima</string>
     <string name="simple_reply">Odgovori</string>
     <string name="simple_report">Prijavi</string>
-</resources>
+    </resources>

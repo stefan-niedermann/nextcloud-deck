@@ -235,10 +235,12 @@
     <string name="error_dialog_redirect">S strežnika je prejet odziv s kodo stanja HTTP 302, kar kaže na to, da program Deck ni nameščen, ali pa je napačno nastavljen. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID.</string>
     <string name="error_dialog_version_not_parsable">Ni mogoče določiti različice strežnika, povezanega s programom Deck. Prepričajte se, da je nameščen in omogočen.</string>
     <string name="error_dialog_capabilities_not_parsable">Ni mogoče pridobiti podatkov o zmožnostih strežnika. Prepričajte se, da strežnik teče in da imajo programi dostop do okolja Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Priloge ni mogoče poslati. Souporabo omogočite na nek drug način, nam pa posredujte poročilo o hrošču.</string>
     <string name="error_action_open_deck_info">Odpri podrobnosti programa</string>
     <string name="error_action_open_network">Nastavitve omrežja</string>
     <string name="error_action_server_logs">Dnevniki strežnika</string>
     <string name="error_action_install">Namesti</string>
+    <string name="error_action_report_issue">Poročilo</string>
     <string name="info_box_maintenance_mode">Strežnik je v načinu vzdrževanja</string>
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
     <string name="share_link">Povezava za souporabo</string>
@@ -246,5 +248,15 @@
     <string name="manage_accounts">Upravljanje z računi</string>
     <string name="manage_list">Upravljanje seznama</string>
     <string name="simple_reply">Odgovori</string>
+    <string name="error_while_uploading_attachment">Prišlo je do napake med pošiljanjem priloge: %1$s</string>
+    <string name="append_text_to_description">Pripni k opisu</string>
+    <string name="add_text_as_comment">Dodaj opombo</string>
+    <string name="progress_count">%1$d od %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d napaka med pošiljanjem</item>
+        <item quantity="two">%1$d napaki med pošiljanjem</item>
+        <item quantity="few">%1$d napake med pošiljanjem</item>
+        <item quantity="other">%1$d napak med pošiljanjem</item>
+    </plurals>
     <string name="simple_report">Poročilo</string>
-</resources>
+    </resources>

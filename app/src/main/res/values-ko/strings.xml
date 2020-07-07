@@ -220,10 +220,11 @@
     <string name="error_action_open_network">네트워크 환경설정</string>
     <string name="error_action_server_logs">서버 기록</string>
     <string name="error_action_install">설치</string>
+    <string name="error_action_report_issue">보고</string>
     <string name="info_box_maintenance_mode">서버가 유지 관리 모드임</string>
     <string name="info_box_version_not_supported">%1$s서버 버전은 지원되지 않습니다. %2$s로 업데이트 해주십시오.</string>
     <string name="share_link">링크 공유</string>
     <string name="manage_accounts">계정 관리</string>
     <string name="simple_reply">답장</string>
     <string name="simple_report">보고</string>
-</resources>
+    </resources>

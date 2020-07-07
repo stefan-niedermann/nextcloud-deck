@@ -217,6 +217,7 @@
     <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Bitte versuchen Sie, das Schließen der App zu erzwingen und erneut zu starten. Möglicherweise bestand eine gestörte Verbindung zur Nextcloud-App.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Falls dieser Fehler weiterhin besteht können Sie versuchen den Speicherinhalt der beiden Apps Nextcloud und Nextcloud Deck zu löschen um das Problem zu beheben.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Die Aktualisierung der Datenbank ist fehlgeschlagen. Bitte melden Sie das Problem und löschen Sie den Speicher, um die App normal zu verwenden.</string>
     <string name="error_dialog_tip_clear_storage">Sie können den Speicherinhalt löschen indem Sie die App öffnen und Speicher → Speicherinhalt löschen auswählen.</string>
     <string name="error_dialog_tip_files_outdated">Sie scheinen eine alte Version der Nextcloud-App installiert zu haben. Bitte besuchen Sie den Play Store oder F-Droid, um die neueste Version zu installieren.</string>
     <string name="error_dialog_tip_files_force_stop">Etwas scheint bei der Nextcloud App nicht zu funktionieren. Bitte versuchen Sie sowohl die Nextcloud App als auch die Nextcloud Deck App zu stoppen.</string>
@@ -232,10 +233,12 @@
     <string name="error_dialog_version_not_parsable">Version der auf dem Server installierten Deck-App konnte nicht ermittelt werden. Bitte sicherstellen, dass die Deck-App intstalliert und aktiviert ist.</string>
     <string name="error_dialog_capabilities_not_parsable">Funktionsumfang Ihres Serves konnte nicht nicht abgerufen werden. Stellen Sie sicher, dass Ihr Server ordnungsgemäß funktioniert und Client-Apps auf Nextcloud zugreifen können.</string>
     <string name="error_dialog_attachment_upload_failed">Ein Anhang konnte nicht hochgeladen werden. Bitte versuchen Sie es auf andere Weise zu teilen und teilen Sie uns diesen Fehler mit.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Bitte alle Batterieoptimierungen für Nextcloud und die Deck-App deaktivieren.</string>
     <string name="error_action_open_deck_info">App-Informationen öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
     <string name="error_action_server_logs">Server-Protokolle</string>
     <string name="error_action_install">Installieren</string>
+    <string name="error_action_report_issue">Melden</string>
     <string name="info_box_maintenance_mode">Server befindet sich im Wartungsmodus</string>
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
     <string name="share_link">Link teilen</string>
@@ -252,4 +255,5 @@
         <item quantity="other">%1$d Fehler beim Hochladen</item>
     </plurals>
     <string name="simple_report">Melden</string>
+    <string name="error_action_open_battery_settings">Batterie-Einstellungen</string>
 </resources>

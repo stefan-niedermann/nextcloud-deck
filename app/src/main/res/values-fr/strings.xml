@@ -128,10 +128,10 @@
     <string name="deck_outdated_please_update">Votre version de deck est trop ancienne (%1$s). Veuillez mettre à jour pour utiliser cette application Android en tant que client.</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau incluant ses listes et ses cartes.</string>
     <string name="settings_theme_title">Thème sombre</string>
-    <string name="settings_branding_title">marque</string>
+    <string name="settings_branding_title">Marque</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
-    <string name="pref_value_wifi_only">Synchroniser uniquement en Wifi</string>
+    <string name="pref_value_wifi_only">Synchroniser uniquement en Wi-Fi</string>
     <string name="pref_value_theme_light">Clair</string>
     <string name="unassigned_user">%1$s non assigné</string>
     <string name="no_activities">Il n\'y a aucune activité sur cette carte. Vous devez être connectés à Internet pour charger et afficher les activités.</string>
@@ -232,10 +232,12 @@
     <string name="error_dialog_version_not_parsable">Nous n\'avons pas pu déterminer la version de l\'app Deck côté serveur. Veuillez vérifier qu\'elle est bien installé et activé.</string>
     <string name="error_dialog_capabilities_not_parsable">Nous n\'avons pas pu récupérer les capacités de votre serveur. Veuillez vous assurer que votre serveur fonctionne bien et que les autres apps client peuvent accéder à Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Une pièce jointe n’a pas pu être téléversée. Veuillez essayer de la partager d’une autre façon et faites-nous part de ce bogue.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Merci de bien vouloir désactiver toutes les optimisations de batterie pour Nextcloud et l\'application Deck.</string>
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_network">Paramètres réseau</string>
     <string name="error_action_server_logs">Journaux serveur</string>
     <string name="error_action_install">Installer</string>
+    <string name="error_action_report_issue">Signaler</string>
     <string name="info_box_maintenance_mode">Serveur en maintenance</string>
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour en  %2$s</string>
     <string name="share_link">Lien de partage</string>
@@ -247,5 +249,10 @@
     <string name="append_text_to_description">Ajouter à la description</string>
     <string name="add_text_as_comment">Ajouter en commentaire</string>
     <string name="progress_count">%1$d sur %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$derreur en mettant à jour.</item>
+        <item quantity="other">%1$derreurs en mettant à jour</item>
+    </plurals>
     <string name="simple_report">Signaler</string>
+    <string name="error_action_open_battery_settings">Paramètres de batterie</string>
 </resources>
