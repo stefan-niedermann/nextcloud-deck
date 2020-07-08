@@ -44,6 +44,10 @@ public class StackWidgetConfigurationActivity extends PickStackActivity {
                                     getApplicationContext(), StackWidget.class);
         extras.putSerializable(StackWidget.ACCOUNT_KEY, account);
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+
+        // The `extras` bundle is added to the intent this way because using putExtras(extras) 
+        // would have the OS attempt to reassemle the data and cause a crash 
+        // when it finds classes that are only known to this application.
         updateIntent.putExtra(StackWidget.BUNDLE_KEY, extras);
         setResult(RESULT_OK, updateIntent);
         getApplicationContext().sendBroadcast(updateIntent);
