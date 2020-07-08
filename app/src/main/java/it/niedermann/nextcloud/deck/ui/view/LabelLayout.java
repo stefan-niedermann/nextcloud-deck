@@ -20,7 +20,8 @@ import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 public class LabelLayout extends FlexboxLayout {
 
     @Px
-    private int gutter;
+    protected int gutter;
+    @NonNull
     private List<LabelChip> chipList = new LinkedList<>();
 
     public LabelLayout(Context context, AttributeSet attrs) {
@@ -82,9 +83,13 @@ public class LabelLayout extends FlexboxLayout {
                     continue labelList;
                 }
             }
-            LabelChip chip = new LabelChip(getContext(), label, gutter);
+            LabelChip chip = createLabelChip(label);
             addView(chip);
             chipList.add(chip);
         }
+    }
+
+    protected LabelChip createLabelChip(@NonNull Label label) {
+        return new LabelChip(getContext(), label, gutter);
     }
 }
