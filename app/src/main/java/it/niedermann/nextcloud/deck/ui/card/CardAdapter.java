@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,8 +24,9 @@ import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
 import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -80,7 +82,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         this.hasEditPermission = hasEditPermission;
         this.syncManager = syncManager;
         this.selectCardListener = selectCardListener;
-        this.mainColor = context.getResources().getColor(R.color.defaultBrand);
+        this.mainColor = ContextCompat.getColor(context, R.color.defaultBrand);
         this.compactMode = getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.pref_key_compact), false);
         syncManager.getStacksForBoard(account.getId(), boardLocalId).observe(this.lifecycleOwner, (stacks) -> {
             availableStacks.clear();
@@ -96,15 +98,35 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     @NonNull
     @Override
-    public AbstractCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        return compactMode
-                ? new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false))
-                : new CardViewHolder(ItemCardBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+    public AbstractCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        switch (viewType) {
+            case R.layout.item_card_compact:
+                return new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+            case R.layout.item_card_default_only_title:
+                return new DefaultCardOnlyTitleViewHolder(ItemCardDefaultOnlyTitleBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+            case R.layout.item_card_default:
+            default:
+                return new DefaultCardViewHolder(ItemCardDefaultBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AbstractCardViewHolder holder, int position) {
-        AbstractCardViewHolder viewHolder = (AbstractCardViewHolder) holder;
+    public int getItemViewType(int position) {
+        if (compactMode) {
+            return R.layout.item_card_compact;
+        } else {
+            final FullCard fullCard = cardList.get(position);
+            if (fullCard.getAttachments().size() == 0
+                    && fullCard.getAssignedUsers().size() == 0
+                    && fullCard.getCommentCount() == 0) {
+                return R.layout.item_card_default_only_title;
+            }
+            return R.layout.item_card_default;
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull AbstractCardViewHolder viewHolder, int position) {
         @NonNull FullCard fullCard = cardList.get(position);
         viewHolder.bind(fullCard, account, boardRemoteId, hasEditPermission, R.menu.card_menu, this, counterMaxValue, mainColor);
 
