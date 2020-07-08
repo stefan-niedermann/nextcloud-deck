@@ -32,7 +32,7 @@
             app:defaultValue="false" />
 
         <it.niedermann.nextcloud.deck.ui.branding.BrandedSwitchPreference
-            android:icon="@drawable/ic_format_paint_grey600_24dp"
+            android:icon="@drawable/ic_baseline_compact_24"
             android:key="@string/pref_key_compact"
             android:title="@string/settings_compact_title"
             app:defaultValue="false" />
