@@ -79,7 +79,7 @@
                 app:srcCompat="@drawable/ic_menu" />
         </LinearLayout>
 
-        <it.niedermann.nextcloud.deck.ui.view.CompactLabelLayout
+        <it.niedermann.nextcloud.deck.ui.view.labellayout.CompactLabelLayout
             android:id="@+id/labels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

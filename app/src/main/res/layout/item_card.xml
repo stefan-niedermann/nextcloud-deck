@@ -69,7 +69,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <it.niedermann.nextcloud.deck.ui.view.LabelLayout
+        <it.niedermann.nextcloud.deck.ui.view.labellayout.DefaultLabelLayout
             android:id="@+id/labels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

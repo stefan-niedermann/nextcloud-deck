@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.view;
+package it.niedermann.nextcloud.deck.ui.view.labellayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -14,15 +14,16 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
+import it.niedermann.nextcloud.deck.ui.view.labelchip.LabelChip;
 
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
-public class LabelLayout extends FlexboxLayout {
+public abstract class LabelLayout extends FlexboxLayout {
 
     @Px
-    protected int gutter;
+    final protected int gutter;
     @NonNull
-    private List<LabelChip> chipList = new LinkedList<>();
+    final private List<LabelChip> chipList = new LinkedList<>();
 
     public LabelLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -83,13 +84,11 @@ public class LabelLayout extends FlexboxLayout {
                     continue labelList;
                 }
             }
-            LabelChip chip = createLabelChip(label);
+            final LabelChip chip = createLabelChip(label);
             addView(chip);
             chipList.add(chip);
         }
     }
 
-    protected LabelChip createLabelChip(@NonNull Label label) {
-        return new LabelChip(getContext(), label, gutter);
-    }
+    protected abstract LabelChip createLabelChip(@NonNull Label label);
 }
