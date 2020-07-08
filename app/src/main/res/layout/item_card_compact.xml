@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingStart="@dimen/spacer_2x"
-            android:paddingEnd="0dp">
+            android:paddingEnd="@dimen/spacer_1x">
 
             <TextView
                 android:id="@+id/card_title"

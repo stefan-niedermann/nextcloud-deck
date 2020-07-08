@@ -19,18 +19,18 @@ import org.jetbrains.annotations.Contract;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 
-public class CardViewHolder extends AbstractCardViewHolder {
-    private ItemCardBinding binding;
+public class DefaultCardViewHolder extends AbstractCardViewHolder {
+    private ItemCardDefaultBinding binding;
 
     @SuppressWarnings("WeakerAccess")
-    public CardViewHolder(@NonNull ItemCardBinding binding) {
+    public DefaultCardViewHolder(@NonNull ItemCardDefaultBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }
