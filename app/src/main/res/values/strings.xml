@@ -154,7 +154,7 @@
     <string name="delete_board_message">This will permanently delete this board including all lists and cards.</string>
     <string name="settings_theme_title">Dark theme</string>
     <string name="settings_branding_title">Branding</string>
-    <string name="settings_compact_title">Compact mode</string>
+    <string name="settings_compact_title">Compact mode 🆕</string>
     <string name="settings_background_sync">Background synchronization</string>
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
