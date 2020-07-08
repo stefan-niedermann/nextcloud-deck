@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.view;
+package it.niedermann.nextcloud.deck.ui.view.labelchip;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,8 +15,6 @@ import com.google.android.material.chip.Chip;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
-
-import static android.text.TextUtils.TruncateAt.MIDDLE;
 
 @SuppressLint("ViewConstructor")
 public class LabelChip extends Chip {
@@ -42,9 +40,6 @@ public class LabelChip extends Chip {
         setTextStartPadding(gutter);
         setTextEndPadding(gutter);
         setChipEndPadding(gutter);
-
-        setText(label.getTitle());
-        setEllipsize(MIDDLE);
 
         try {
             int labelColor = Color.parseColor("#" + label.getColor());

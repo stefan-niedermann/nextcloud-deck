@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.deck.ui.view;
+package it.niedermann.nextcloud.deck.ui.view.labelchip;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,6 +18,5 @@ public class CompactLabelChip extends LabelChip {
         super(context, label, gutter);
         params.setFlexBasisPercent(1 / 6.5f);
         setHeight(dpToPx(context, R.dimen.compact_label_height));
-        setText("");
     }
 }
