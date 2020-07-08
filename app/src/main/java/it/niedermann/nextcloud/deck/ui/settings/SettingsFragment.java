@@ -23,6 +23,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
     private BrandedSwitchPreference wifiOnlyPref;
     private BrandedSwitchPreference themePref;
     private BrandedSwitchPreference brandingPref;
+    private BrandedSwitchPreference compactPref;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -67,6 +68,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
             DeckLog.error("Could not find preference with key: \"" + getString(R.string.pref_key_dark_theme) + "\"");
         }
 
+        compactPref = findPreference(getString(R.string.pref_key_compact));
+
         final ListPreference backgroundSyncPref = findPreference(getString(R.string.pref_key_background_sync));
         if (backgroundSyncPref != null) {
             backgroundSyncPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
@@ -92,5 +95,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Brande
         wifiOnlyPref.applyBrand(mainColor);
         themePref.applyBrand(mainColor);
         brandingPref.applyBrand(mainColor);
+        compactPref.applyBrand(mainColor);
     }
 }

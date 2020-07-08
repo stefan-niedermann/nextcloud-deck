@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +24,7 @@ import it.niedermann.android.crosstabdnd.DraggedItemLocalState;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -36,12 +36,14 @@ import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
-public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
+public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
 
+    private final boolean compactMode;
     protected final SyncManager syncManager;
 
     protected final FragmentManager fragmentManager;
@@ -79,6 +81,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
         this.syncManager = syncManager;
         this.selectCardListener = selectCardListener;
         this.mainColor = context.getResources().getColor(R.color.defaultBrand);
+        this.compactMode = getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.pref_key_compact), false);
         syncManager.getStacksForBoard(account.getId(), boardLocalId).observe(this.lifecycleOwner, (stacks) -> {
             availableStacks.clear();
             availableStacks.addAll(stacks);
@@ -93,13 +96,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
 
     @NonNull
     @Override
-    public CardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        return new CardViewHolder(ItemCardBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
+    public AbstractCardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+        return compactMode
+                ? new CompactCardViewHolder(ItemCardCompactBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false))
+                : new CardViewHolder(ItemCardBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false));
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull CardViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull AbstractCardViewHolder holder, int position) {
+        AbstractCardViewHolder viewHolder = (AbstractCardViewHolder) holder;
         @NonNull FullCard fullCard = cardList.get(position);
         viewHolder.bind(fullCard, account, boardRemoteId, hasEditPermission, R.menu.card_menu, this, counterMaxValue, mainColor);
 

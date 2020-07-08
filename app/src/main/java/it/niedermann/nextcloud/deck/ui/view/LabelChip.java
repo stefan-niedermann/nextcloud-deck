@@ -23,14 +23,14 @@ public class LabelChip extends Chip {
 
     private final Label label;
 
+    protected final FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+    );
+
     public LabelChip(@NonNull Context context, @NonNull Label label, @Px int gutter) {
         super(context);
         this.label = label;
-
-        FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
 
         params.setMargins(0, 0, gutter, 0);
         setLayoutParams(params);
