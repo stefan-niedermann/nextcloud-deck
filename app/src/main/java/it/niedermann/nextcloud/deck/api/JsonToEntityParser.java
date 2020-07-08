@@ -54,33 +54,12 @@ public class JsonToEntityParser {
             return (T) parseCapabilities(obj);
         } else if (mType == OcsUserList.class) {
             return (T) parseOcsUserList(obj);
-        } else if (mType == OcsUser.class) {
-            return (T) parseOcsUser(obj);
         } else if (mType == Attachment.class) {
             return (T) parseAttachment(obj);
         } else if (mType == OcsComment.class) {
             return (T) parseOcsComment(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
-    }
-
-    private static OcsUser parseOcsUser(JsonObject obj) {
-        DeckLog.verbose(obj.toString());
-        OcsUser ocsUser = new OcsUser();
-        TraceableException.makeTraceableIfFails(() -> {
-            JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
-            if (!data.isJsonNull()) {
-                JsonObject jsonObject = data.getAsJsonObject();
-                if (jsonObject.has("id")) {
-                    ocsUser.setId(getNullAsEmptyString(jsonObject.get("id")));
-                }
-                if (jsonObject.has("displayname")) {
-                    ocsUser.setDisplayName(getNullAsEmptyString(jsonObject.get("displayname")));
-                }
-            }
-
-        }, obj);
-        return ocsUser;
     }
 
     private static OcsUserList parseOcsUserList(JsonObject obj) {
@@ -92,7 +71,14 @@ public class JsonToEntityParser {
                 JsonElement users = data.getAsJsonObject().get("users");
                 if (!users.isJsonNull() && users.isJsonArray()) {
                     for (JsonElement userElement : users.getAsJsonArray()) {
-                        ocsUserList.add(userElement.getAsString());
+                        JsonObject singleUserElement = userElement.getAsJsonObject();
+                        OcsUser user = new OcsUser();
+                        user.setDisplayName(singleUserElement.get("label").getAsString());
+                        user.setId(
+                                singleUserElement.get("value").getAsJsonObject()
+                                        .get("shareWith").getAsString()
+                        );
+                        ocsUserList.addUser(user);
                     }
                 }
             }

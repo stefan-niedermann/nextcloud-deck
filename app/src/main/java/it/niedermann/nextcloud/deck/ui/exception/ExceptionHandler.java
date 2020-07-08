@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.deck.ui.exception;
 
 import android.app.Activity;
 
-import org.jetbrains.annotations.NotNull;
+import androidx.annotation.NonNull;
 
 public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
 
@@ -14,7 +14,7 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
     }
 
     @Override
-    public void uncaughtException(@NotNull Thread t, Throwable e) {
+    public void uncaughtException(@NonNull Thread t, Throwable e) {
         context.getApplicationContext().startActivity(ExceptionActivity.createIntent(context, e));
         context.finish();
         Runtime.getRuntime().exit(0);

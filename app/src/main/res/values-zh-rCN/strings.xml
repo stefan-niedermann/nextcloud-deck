@@ -219,9 +219,10 @@
     <string name="error_dialog_check_maintenance">请检查您的 Nextcloud 实例是否处于维护模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
+    <string name="error_action_report_issue">报告</string>
     <string name="info_box_maintenance_mode">服务器处于维护模式</string>
     <string name="share_link">共享链接</string>
     <string name="manage_accounts">管理账号</string>
     <string name="simple_reply">回复</string>
     <string name="simple_report">报告</string>
-</resources>
+    </resources>
