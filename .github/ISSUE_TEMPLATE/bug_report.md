@@ -8,7 +8,7 @@ labels: bug
 Guidelines for submitting bug reports:
 
 * Bug reports which do not fill the complete issue template will be closed.
-* Please have a look at the [FAQ in our wiki](https://github.com/stefan-niedermann/nextcloud-deck/wiki/FAQ)
+* Please have a look at our [FAQ](https://github.com/stefan-niedermann/nextcloud-deck/blob/master/FAQ.md)
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
 * This repository is *only* for issues within the Nextcloud Deck Android app
 -->
