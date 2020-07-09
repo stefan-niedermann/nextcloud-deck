@@ -30,12 +30,12 @@ Therefore it is extremely important for you to describe the **exact steps to rep
 
 Example for a bad description:
 
-> The app crashes when i save a card
+> 1. The app crashes when i save a card
 
 Example for a good description:
 
-> Open any existing card
-> Add text to the description
-> Click on the ✕ in the top left
-> Answer "Save" when asking to discard or save the changes
-> See app crash
+> 1. Open any existing card\
+> 2. Add text to the description\
+> 3. Click on the ✕ in the top left\
+> 4. Answer "Save" when asking to discard or save the changes\
+> 5. See app crash
