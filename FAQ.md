@@ -20,3 +20,22 @@ Android settings
 Often there is an issue with the state of the server app. Try to create a new test account at your Nextcloud instance and connect to it. If there are no errors, share the boards of your actual account one by one with your test account to find the "faulty" one.
 
 If the issue persists, [open a bug report in our issue tracker](https://github.com/stefan-niedermann/nextcloud-deck/issues/new?assignees=&labels=bug&template=bug_report.md&title=).
+
+## Why has my bug report been closed?
+
+As stated in the bug templates, we reserve to close issues which do not fill the **complete** issue template. The information we ask for is urgently needed, even if it might not seem to be important or relevant to you.
+
+We have very limited resources and capacity and we really want to help you fixing different bugs, but we can impossibly know your environment, your different software versions, the store you used.
+Therefore it is extremely important for you to describe the **exact steps to reproduce**. This includes information about your environment.
+
+Example for a bad description:
+
+> The app crashes when i save a card
+
+Example for a good description:
+
+> Open any existing card
+> Add text to the description
+> Click on the ✕ in the top left
+> Answer "Save" when asking to discard or save the changes
+> See app crash
