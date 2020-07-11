@@ -46,13 +46,10 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
-import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
-import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst.Debouncer;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst.UserSearchLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -625,8 +622,7 @@ public class SyncManager {
                     new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, getCallbackToLiveDataConverter(account, liveData), ((entity1, response) -> {
                         response.setBoardId(entity.getBoardId());
                         response.setUserId(entity.getUser().getLocalId());
-                    }
-                    )
+                    })
             );
         });
         return liveData;
@@ -969,6 +965,7 @@ public class SyncManager {
         return liveData;
     }
 
+    // TODO return WrappedLiveData for error handling
     @AnyThread
     public void archiveBoard(@NonNull Board board) {
         doAsync(() -> {
@@ -978,6 +975,7 @@ public class SyncManager {
         });
     }
 
+    // TODO return WrappedLiveData for error handling
     @AnyThread
     public void dearchiveBoard(@NonNull Board board) {
         doAsync(() -> {

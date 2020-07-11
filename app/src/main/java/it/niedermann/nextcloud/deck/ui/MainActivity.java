@@ -508,7 +508,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        syncManager.updateBoard(fullBoard);
+        final WrappedLiveData<FullBoard> updateLiveData = syncManager.updateBoard(fullBoard);
+        observeOnce(updateLiveData, this, (next) -> {
+            if (updateLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(updateLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     private void refreshCapabilities(final Account account) {
@@ -946,7 +951,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
             }
         }
-        syncManager.deleteBoard(board);
+
+        final WrappedLiveData<Void> deleteLiveData = syncManager.deleteBoard(board);
+        observeOnce(deleteLiveData, this, (next) -> {
+            if (deleteLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(deleteLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
+
         binding.drawerLayout.closeDrawer(GravityCompat.START);
     }
 

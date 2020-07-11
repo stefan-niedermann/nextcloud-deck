@@ -261,7 +261,12 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         adapter.removeAttachment(attachment);
         viewModel.getFullCard().getAttachments().remove(attachment);
         if (!viewModel.isCreateMode() && attachment.getLocalId() != null) {
-            syncManager.deleteAttachmentOfCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), attachment.getLocalId());
+            final WrappedLiveData<Void> deleteLiveData = syncManager.deleteAttachmentOfCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), attachment.getLocalId());
+            observeOnce(deleteLiveData, this, (next) -> {
+                if (deleteLiveData.hasError()) {
+                    ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
         }
         updateEmptyContentView();
     }
