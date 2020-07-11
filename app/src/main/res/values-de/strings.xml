@@ -129,6 +129,7 @@
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Listen und Karten löschen.</string>
     <string name="settings_theme_title">Dunkles Design</string>
     <string name="settings_branding_title">Branding</string>
+    <string name="settings_compact_title">Kompakt-Modus 🆕</string>
     <string name="settings_background_sync">Hintergrundsynchronisierung</string>
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>

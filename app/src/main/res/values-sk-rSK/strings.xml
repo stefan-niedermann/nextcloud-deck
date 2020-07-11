@@ -221,7 +221,6 @@
     <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Skúste vyinútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k chybnému pripojeniu k aplikácii Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Ak problém pretrváva, pokúste sa tento problém vyriešiť vymazaním úložiska oboch aplikácií: Nextcloud a Nextcloud Deck.</string>
-    <string name="error_dialog_tip_database_upgrade_failed">Aktualizácia databázy zlyhala. Nahláste problém a vymažte ukladací priestor, aby ste aplikáciu mohli normálne používať.</string>
     <string name="error_dialog_tip_clear_storage">Úložisko môžete vyčistiť otvorením informácii o aplikácii a výberom Úložisko → Vyčistiť úložisko.</string>
     <string name="error_dialog_tip_files_outdated">Váš Nextcloud vyzerá byť zastaralý. Navštívte Play Store alebo F-Droid pre získanie najnovšej verzie.</string>
     <string name="error_dialog_tip_files_force_stop">Zdá sa, že s Nextcloudom niečo nie je v poriadku. Pokúste sa vynútiť zastavenie aplikácie Nextcloud aj aplikácie Nextcloud Deck.</string>

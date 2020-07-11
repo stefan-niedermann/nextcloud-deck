@@ -114,8 +114,8 @@
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Quere arquivar todas as tarxetas de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
-        <item quantity="one">Isto eliminará permanentemente %1$d tarxeta desta lista.</item>
-        <item quantity="other">Isto eliminará permanentemente as %1$d tarxetas desta lista.</item>
+        <item quantity="one">Isto eliminará de xeito permanente %1$d tarxeta desta lista.</item>
+        <item quantity="other">Isto eliminará de xeito permanente as %1$d tarxetas desta lista.</item>
     </plurals>
     <plurals name="do_you_want_to_delete_the_label">
         <item quantity="one">Isto retirará a etiqueta de %1$d tarxeta.</item>
@@ -129,6 +129,7 @@
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Xestión da marca</string>
+    <string name="settings_compact_title">Modo compacto 🆕</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
