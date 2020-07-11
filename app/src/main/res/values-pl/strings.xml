@@ -133,6 +133,7 @@
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tej tablicy, w tym wszystkich list i kart.</string>
     <string name="settings_theme_title">Ciemny motyw</string>
     <string name="settings_branding_title">Motyw serwera</string>
+    <string name="settings_compact_title">Tryb kompaktowy 🆕</string>
     <string name="settings_background_sync">Synchronizacja w tle</string>
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
@@ -221,6 +222,7 @@
     <string name="error_dialog_title">O nie - co teraz? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Spróbuj wymusić zamknięcie aplikacji i uruchomić ją ponownie. Być może połączenie z aplikacją Nextcloud było nieprawidłowe.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Jeśli problem będzie się powtarzać, spróbuj wyczyścić pamięć obu aplikacji: Nextcloud i Nextcloud Deck, aby rozwiązać ten problem.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Aktualizacja bazy danych nie powiodła się. Zgłoś problem oraz wyczyść pamięć, aby ponownie korzystać z aplikacji.</string>
     <string name="error_dialog_tip_clear_storage">Możesz wyczyścić pamięć, otwierając informacje o aplikacji i wybierając Pamięć → Wyczyść pamięć podręczną.</string>
     <string name="error_dialog_tip_files_outdated">Twoja aplikacja Nextcloud wydaje się, że jest nieaktualna. Odwiedź Sklep Play lub F-Droid, aby pobrać najnowszą wersję.</string>
     <string name="error_dialog_tip_files_force_stop">Wydaje się, że coś jest nie tak z Twoją aplikacją Nextcloud. Spróbuj wymusić zatrzymanie aplikacji Nextcloud i Nextcloud Deck.</string>
