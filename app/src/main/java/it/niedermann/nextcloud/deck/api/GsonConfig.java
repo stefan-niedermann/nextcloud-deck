@@ -40,6 +40,7 @@ public class GsonConfig {
         Type capabilities = new TypeToken<Capabilities>() {}.getType();
         Type ocsUserList = new TypeToken<OcsUserList>() {}.getType();
         Type activity = new TypeToken<Activity>() {}.getType();
+        Type activityList = new TypeToken<List<Activity>>() {}.getType();
         Type attachment = new TypeToken<Attachment>() {}.getType();
         Type attachmentList = new TypeToken<List<Attachment>>() {}.getType();
         Type comment = new TypeToken<OcsComment>() {}.getType();
@@ -59,6 +60,7 @@ public class GsonConfig {
                 .registerTypeAdapter(capabilities,      new NextcloudDeserializer<>("capability", Capabilities.class))
                 .registerTypeAdapter(ocsUserList,       new NextcloudDeserializer<>("ocsUserList", OcsUserList.class))
                 .registerTypeAdapter(activity,          new NextcloudDeserializer<>("activity", Activity.class))
+                .registerTypeAdapter(activityList,      new NextcloudDeserializer<>("activityList", Activity.class))
                 .registerTypeAdapter(attachmentList,    new NextcloudArrayDeserializer<>("attachments", Attachment.class))
                 .registerTypeAdapter(attachment,        new NextcloudDeserializer<>("attachment", Attachment.class))
                 .registerTypeAdapter(comment,           new NextcloudDeserializer<>("comment", OcsComment.class))
