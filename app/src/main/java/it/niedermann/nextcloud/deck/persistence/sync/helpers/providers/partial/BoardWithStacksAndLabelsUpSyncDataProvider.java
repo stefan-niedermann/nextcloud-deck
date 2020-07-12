@@ -27,6 +27,7 @@ public class BoardWithStacksAndLabelsUpSyncDataProvider extends BoardDataProvide
     @Override
     public void goDeeper(SyncHelper syncHelper, FullBoard existingEntity, FullBoard entityFromServer, IResponseCallback<Boolean> callback) {
         // do nothing!
+
     }
 
     @Override
