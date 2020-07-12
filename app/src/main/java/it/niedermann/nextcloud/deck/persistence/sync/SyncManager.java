@@ -513,7 +513,11 @@ public class SyncManager {
             }
             if (serverAdapter.hasInternetConnection()) {
                 Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
-                new SyncHelper(serverAdapter, dataBaseAdapter, null)
+                ServerAdapter serverAdapterToUse = this.serverAdapter;
+                if (originAccountId != targetAccountId) {
+                    serverAdapterToUse = new ServerAdapter(appContext, targetAccount.getName());
+                }
+                new SyncHelper(serverAdapterToUse, dataBaseAdapter, null)
                         .setResponseCallback(new IResponseCallback<Boolean>(targetAccount) {
                             @Override
                             public void onResponse(Boolean response) {
