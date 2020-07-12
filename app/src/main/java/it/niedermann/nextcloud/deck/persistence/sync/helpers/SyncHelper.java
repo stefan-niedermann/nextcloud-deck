@@ -37,6 +37,9 @@ public class SyncHelper {
                 if (response != null) {
                     provider.goingDeeper();
                     for (T entityFromServer : response) {
+                        if (entityFromServer == null) {
+                            continue;
+                        }
                         entityFromServer.setAccountId(accountId);
                         T existingEntity = provider.getSingleFromDB(dataBaseAdapter, accountId, entityFromServer);
 
