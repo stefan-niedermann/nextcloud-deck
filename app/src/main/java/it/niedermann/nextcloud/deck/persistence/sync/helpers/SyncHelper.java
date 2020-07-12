@@ -38,6 +38,7 @@ public class SyncHelper {
                     provider.goingDeeper();
                     for (T entityFromServer : response) {
                         if (entityFromServer == null) {
+                            // see https://github.com/stefan-niedermann/nextcloud-deck/issues/574
                             DeckLog.error("Skipped null value from server for DataProvider: " + provider.getClass().getSimpleName());
                             continue;
                         }
