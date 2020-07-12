@@ -38,6 +38,7 @@ public class SyncHelper {
                     provider.goingDeeper();
                     for (T entityFromServer : response) {
                         if (entityFromServer == null) {
+                            DeckLog.error("Skipped null value from server for DataProvider: " + provider.getClass().getSimpleName());
                             continue;
                         }
                         entityFromServer.setAccountId(accountId);
