@@ -1,6 +1,7 @@
 1.8.0
 
-- 🔀 Move cards to other boards and accounts
+- 🔀 Move cards to other boards and accounts (#453)
+- ➕ Clone boards with existing stacks and labels (#455)
 
 1.7.0
 
