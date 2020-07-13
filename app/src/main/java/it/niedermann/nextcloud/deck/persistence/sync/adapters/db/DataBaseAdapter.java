@@ -8,8 +8,6 @@ import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +55,7 @@ public class DataBaseAdapter {
         this.db = DeckDatabase.getInstance(applicationContext);
     }
 
-    @NotNull
+    @NonNull
     public Context getContext() {
         return context;
     }
@@ -575,6 +573,10 @@ public class DataBaseAdapter {
         validateSearchTerm(searchTerm);
         return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
     }
+    public List<User> searchUserByUidOrDisplayNameForACLDirectly(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
+        validateSearchTerm(searchTerm);
+        return db.getUserDao().searchUserByUidOrDisplayNameForACLDirectly(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
+    }
 
     public LiveData<List<Label>> searchNotYetAssignedLabelsByTitle(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, String searchTerm) {
         validateSearchTerm(searchTerm);
@@ -916,5 +918,9 @@ public class DataBaseAdapter {
 
     public List<Account> readAccountsForHostWithReadAccessToBoardDirectly(String host, long boardRemoteId) {
         return db.getAccountDao().readAccountsForHostWithReadAccessToBoardDirectly("%"+host+"%", boardRemoteId);
+    }
+
+    public Board getBoardForAccountByNameDirectly(long account, String title) {
+        return db.getBoardDao().getBoardForAccountByNameDirectly(account, title);
     }
 }

@@ -12,21 +12,21 @@ public class TraceableException extends RuntimeException {
         try {
             runnable.run();
         } catch (Throwable t) {
-            String message = "Sorry, a wild error appeared!\n" +
-                    "### If you want to tell us about the following issue, " +
-                    "please make sure to censor sensitive data beforehand! ###\n" +
-                    "Failed to run traceable code";
+            final StringBuilder message = new StringBuilder("Sorry, a wild error appeared!\n\n" +
+                    "⚠️ If you want to tell us about the following issue, " +
+                    "please make sure to censor sensitive data beforehand! ⚠️\n\n" +
+                    "Failed to run traceable code");
             if (args != null && args.length > 0) {
-                message += " with arguments:\n";
+                message.append(" with arguments:\n");
                 for (Object arg : args) {
-                    message += (arg == null ? "null" : arg.toString())+"\n";
+                    message.append(arg == null ? "null" : arg.toString()).append("\n");
                 }
             } else {
-                message += ":\n";
+                message.append(":\n");
             }
 
-            message += "Cause: " + t.getLocalizedMessage();
-            TraceableException ex = new TraceableException(message, t);
+            message.append("Cause: ").append(t.getLocalizedMessage());
+            TraceableException ex = new TraceableException(message.toString(), t);
             DeckLog.logError(ex);
             throw ex;
         }

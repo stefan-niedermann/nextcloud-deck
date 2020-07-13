@@ -508,7 +508,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onUpdateBoard(FullBoard fullBoard) {
-        syncManager.updateBoard(fullBoard);
+        final WrappedLiveData<FullBoard> updateLiveData = syncManager.updateBoard(fullBoard);
+        observeOnce(updateLiveData, this, (next) -> {
+            if (updateLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(updateLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     private void refreshCapabilities(final Account account) {
@@ -946,7 +951,14 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 EditBoardDialogFragment.newInstance().show(getSupportFragmentManager(), addBoard);
             }
         }
-        syncManager.deleteBoard(board);
+
+        final WrappedLiveData<Void> deleteLiveData = syncManager.deleteBoard(board);
+        observeOnce(deleteLiveData, this, (next) -> {
+            if (deleteLiveData.hasError()) {
+                ExceptionDialogFragment.newInstance(deleteLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
+
         binding.drawerLayout.closeDrawer(GravityCompat.START);
     }
 
@@ -967,5 +979,24 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     @Override
     public void onArchive(@NonNull Board board) {
         syncManager.archiveBoard(board);
+    }
+
+    @Override
+    public void onClone(Board board) {
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
+        snackbar.show();
+        final WrappedLiveData<FullBoard> liveData = syncManager.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor());
+        observeOnce(liveData, this, (fullBoard -> {
+            snackbar.dismiss();
+            if (liveData.hasError()) {
+                ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            } else {
+                setCurrentBoard(fullBoard.getBoard());
+                BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, fullBoard.getBoard().getTitle()), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(fullBoard.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
+                        .show();
+            }
+        }));
     }
 }

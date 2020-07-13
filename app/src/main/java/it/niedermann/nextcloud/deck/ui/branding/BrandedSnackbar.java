@@ -27,7 +27,7 @@ public class BrandedSnackbar {
             @ColorInt final int color = readBrandMainColor(view.getContext());
             snackbar.setActionTextColor(ColorUtil.isColorDark(color) ? Color.WHITE : color);
         } else {
-            snackbar.setActionTextColor(ContextCompat.getColor(view.getContext(), R.color.primary));
+            snackbar.setActionTextColor(ContextCompat.getColor(view.getContext(), R.color.defaultBrand));
         }
         return snackbar;
     }

@@ -8,7 +8,7 @@ labels: enhancement
 Guidelines for submitting issues:
 
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
-* This repository is *only* for issues within the Nextcloud Notes Android app
+* This repository is *only* for issues within the Nextcloud Deck Android app
 -->
 
 <!-- Please keep this note for other contributors -->

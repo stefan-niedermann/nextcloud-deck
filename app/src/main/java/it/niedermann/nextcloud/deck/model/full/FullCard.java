@@ -6,8 +6,6 @@ import androidx.room.Ignore;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -130,7 +128,7 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
         return card;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String toString() {
         return "FullCard{" +

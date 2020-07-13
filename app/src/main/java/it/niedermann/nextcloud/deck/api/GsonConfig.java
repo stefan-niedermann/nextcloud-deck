@@ -16,7 +16,6 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
-import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 
 /**
@@ -40,8 +39,8 @@ public class GsonConfig {
         Type stack = new TypeToken<FullStack>() {}.getType();
         Type capabilities = new TypeToken<Capabilities>() {}.getType();
         Type ocsUserList = new TypeToken<OcsUserList>() {}.getType();
-        Type ocsUser = new TypeToken<OcsUser>() {}.getType();
         Type activity = new TypeToken<Activity>() {}.getType();
+        Type activityList = new TypeToken<List<Activity>>() {}.getType();
         Type attachment = new TypeToken<Attachment>() {}.getType();
         Type attachmentList = new TypeToken<List<Attachment>>() {}.getType();
         Type comment = new TypeToken<OcsComment>() {}.getType();
@@ -60,8 +59,8 @@ public class GsonConfig {
                 .registerTypeAdapter(stack,             new NextcloudDeserializer<>("stack", FullStack.class))
                 .registerTypeAdapter(capabilities,      new NextcloudDeserializer<>("capability", Capabilities.class))
                 .registerTypeAdapter(ocsUserList,       new NextcloudDeserializer<>("ocsUserList", OcsUserList.class))
-                .registerTypeAdapter(ocsUser,           new NextcloudDeserializer<>("ocsUser", OcsUser.class))
                 .registerTypeAdapter(activity,          new NextcloudDeserializer<>("activity", Activity.class))
+                .registerTypeAdapter(activityList,      new NextcloudDeserializer<>("activityList", Activity.class))
                 .registerTypeAdapter(attachmentList,    new NextcloudArrayDeserializer<>("attachments", Attachment.class))
                 .registerTypeAdapter(attachment,        new NextcloudDeserializer<>("attachment", Attachment.class))
                 .registerTypeAdapter(comment,           new NextcloudDeserializer<>("comment", OcsComment.class))

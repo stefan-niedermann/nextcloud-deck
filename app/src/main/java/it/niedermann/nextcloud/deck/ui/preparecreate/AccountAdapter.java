@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
-
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateAccountBinding;
@@ -27,9 +25,9 @@ public class AccountAdapter extends AbstractAdapter<Account> {
         return item.getId();
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ItemPrepareCreateAccountBinding binding;
         if (convertView == null) {
             binding = ItemPrepareCreateAccountBinding.inflate(inflater, parent, false);

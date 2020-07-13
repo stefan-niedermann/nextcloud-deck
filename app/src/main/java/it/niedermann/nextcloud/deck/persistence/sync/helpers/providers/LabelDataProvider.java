@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.exceptions.HandledServerErrors;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -63,9 +64,12 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
             @Override
             public void onError(Throwable throwable) {
                 if (HandledServerErrors.LABELS_TITLE_MUST_BE_UNIQUE == HandledServerErrors.fromThrowable(throwable)){
+                    DeckLog.log(throwable.getCause().getMessage() + ": " + entitiy.toString());
                     dataBaseAdapter.deleteLabelPhysically(entitiy);
+                    responder.onResponse(entitiy);
+                } else {
+                    responder.onError(throwable);
                 }
-                responder.onError(throwable);
             }
         };
     }

@@ -20,7 +20,7 @@
     <string name="simple_error">Erreur</string>
     <string name="simple_exception">Exception</string>
     <string name="simple_close">fermer</string>
-    <string name="simple_open">Ouvert</string>
+    <string name="simple_open">Ouvrir</string>
     <string name="simple_switch">Permuter</string>
     <string name="simple_filter">Filtre</string>
     <string name="simple_overdue">En retard</string>
@@ -128,10 +128,11 @@
     <string name="deck_outdated_please_update">Votre version de deck est trop ancienne (%1$s). Veuillez mettre à jour pour utiliser cette application Android en tant que client.</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau incluant ses listes et ses cartes.</string>
     <string name="settings_theme_title">Thème sombre</string>
-    <string name="settings_branding_title">marque</string>
+    <string name="settings_branding_title">Marque</string>
+    <string name="settings_compact_title">Mode compact</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
-    <string name="pref_value_wifi_only">Synchroniser uniquement en Wifi</string>
+    <string name="pref_value_wifi_only">Synchroniser uniquement en Wi-Fi</string>
     <string name="pref_value_theme_light">Clair</string>
     <string name="unassigned_user">%1$s non assigné</string>
     <string name="no_activities">Il n\'y a aucune activité sur cette carte. Vous devez être connectés à Internet pour charger et afficher les activités.</string>
@@ -217,6 +218,7 @@
     <string name="error_dialog_title">Oh non ! - Et maintenant ? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Essayez de forcer la fermeture de l\'application puis redémarrer la. Il y avait peut-être une mauvaise connexion à Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Si le problème persiste, essayez d\'effacer les données d\'application des deux applications: Nextcloud et Nextcloud Deck pour résoudre ce problème.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">La mise à jour de la base de données a échoué. Veuillez envoyer l\'erreur et supprimer les données pour utiliser l\'application</string>
     <string name="error_dialog_tip_clear_storage">Vous pouvez nettoyer l\'espace de stockage en ouvrant les paramètres de l\'application et en sélectionnant Stockage → Effacer le stockage.</string>
     <string name="error_dialog_tip_files_outdated">Votre application Nextcloud semble ancienne. Veuillez visiter le Play Store ou F-Droid pour installer la dernière version.</string>
     <string name="error_dialog_tip_files_force_stop">Quelque chose semble ne pas fonctionner avec votre application Nextcloud. Essayer de forcer l\'arrêt des applications Nextcloud et Nextcloud Notes.</string>
@@ -232,10 +234,12 @@
     <string name="error_dialog_version_not_parsable">Nous n\'avons pas pu déterminer la version de l\'app Deck côté serveur. Veuillez vérifier qu\'elle est bien installé et activé.</string>
     <string name="error_dialog_capabilities_not_parsable">Nous n\'avons pas pu récupérer les capacités de votre serveur. Veuillez vous assurer que votre serveur fonctionne bien et que les autres apps client peuvent accéder à Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Une pièce jointe n’a pas pu être téléversée. Veuillez essayer de la partager d’une autre façon et faites-nous part de ce bogue.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Merci de bien vouloir désactiver toutes les optimisations de batterie pour Nextcloud et l\'application Deck.</string>
     <string name="error_action_open_deck_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_network">Paramètres réseau</string>
     <string name="error_action_server_logs">Journaux serveur</string>
     <string name="error_action_install">Installer</string>
+    <string name="error_action_report_issue">Signaler</string>
     <string name="info_box_maintenance_mode">Serveur en maintenance</string>
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour en  %2$s</string>
     <string name="share_link">Lien de partage</string>
@@ -247,5 +251,10 @@
     <string name="append_text_to_description">Ajouter à la description</string>
     <string name="add_text_as_comment">Ajouter en commentaire</string>
     <string name="progress_count">%1$d sur %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$derreur en mettant à jour.</item>
+        <item quantity="other">%1$derreurs en mettant à jour</item>
+    </plurals>
     <string name="simple_report">Signaler</string>
+    <string name="error_action_open_battery_settings">Paramètres de batterie</string>
 </resources>
