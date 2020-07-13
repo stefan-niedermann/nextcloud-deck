@@ -92,7 +92,7 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
         }
 
         public void bindNotAssigned() {
-            binding.displayName.setText(itemView.getContext().getString(R.string.no_assigned_user));
+            binding.displayName.setText(itemView.getContext().getString(R.string.simple_unassigned));
             Glide.with(itemView.getContext())
                     .load(R.drawable.ic_baseline_block_24)
                     .into(binding.avatar);

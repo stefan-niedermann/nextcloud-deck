@@ -40,6 +40,7 @@
     <string name="simple_disabled">disabled</string>
     <string name="simple_copied">Copied</string>
     <string name="simple_archive">Archive</string>
+    <string name="simple_unassigned">Unassigned</string>
 
     <string name="edit_board">Edit board</string>
     <string name="archive_board">Archive board</string>
@@ -286,5 +287,4 @@
     <string name="clone_board">Clone board</string>
     <string name="cloning_board">Cloning %1$s…</string>
     <string name="successfully_cloned_board">Successfully cloned %1$s</string>
-    <string name="no_assigned_user">No assigned user</string>
 </resources>
