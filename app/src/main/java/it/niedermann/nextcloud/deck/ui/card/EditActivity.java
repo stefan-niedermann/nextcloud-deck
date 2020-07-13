@@ -83,7 +83,6 @@ public class EditActivity extends BrandedActivity {
         setSupportActionBar(binding.toolbar);
 
         viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
-        syncManager = new SyncManager(this);
 
         loadDataFromIntent();
     }
@@ -117,6 +116,7 @@ public class EditActivity extends BrandedActivity {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
         viewModel.setAccount(account);
+        syncManager = new SyncManager(this, viewModel.getAccount().getName());
 
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
