@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -17,7 +18,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import it.niedermann.android.crosstabdnd.DragAndDropAdapter;
@@ -28,15 +28,14 @@ import it.niedermann.nextcloud.deck.databinding.ItemCardCompactBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultOnlyTitleBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
-import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.deck.ui.movecard.MoveCardDialogFragment;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -46,9 +45,11 @@ import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> implements DragAndDropAdapter<FullCard>, CardOptionsItemSelectedListener, Branded {
 
     private final boolean compactMode;
+    @NonNull
     protected final SyncManager syncManager;
-
+    @NonNull
     protected final FragmentManager fragmentManager;
+    @NonNull
     protected final Account account;
     @Nullable
     protected final Long boardRemoteId;
@@ -59,12 +60,13 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
     private final Context context;
     @Nullable
     private final SelectCardListener selectCardListener;
-    protected List<FullCard> cardList = new LinkedList<>();
+    @NonNull
+    protected List<FullCard> cardList = new ArrayList<>();
+    @NonNull
     protected LifecycleOwner lifecycleOwner;
     @NonNull
-    final private List<FullStack> availableStacks = new ArrayList<>();
     protected String counterMaxValue;
-
+    @ColorInt
     protected int mainColor;
     @StringRes
     private int shareLinkRes;
@@ -84,10 +86,6 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         this.selectCardListener = selectCardListener;
         this.mainColor = ContextCompat.getColor(context, R.color.defaultBrand);
         this.compactMode = getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.pref_key_compact), false);
-        syncManager.getStacksForBoard(account.getId(), boardLocalId).observe(this.lifecycleOwner, (stacks) -> {
-            availableStacks.clear();
-            availableStacks.addAll(stacks);
-        });
         setHasStableIds(true);
     }
 
@@ -155,7 +153,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
 
     @Override
     public int getItemCount() {
-        return cardList == null ? 0 : cardList.size();
+        return cardList.size();
     }
 
     public void insertItem(FullCard fullCard, int position) {
@@ -163,6 +161,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
         notifyItemInserted(position);
     }
 
+    @NonNull
     @Override
     public List<FullCard> getItemList() {
         return this.cardList;
@@ -213,28 +212,8 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
                 return true;
             }
             case R.id.action_card_move: {
-                int currentStackItem = 0;
-                CharSequence[] items = new CharSequence[availableStacks.size()];
-                for (int i = 0; i < availableStacks.size(); i++) {
-                    final Stack stack = availableStacks.get(i).getStack();
-                    items[i] = stack.getTitle();
-                    if (stack.getLocalId().equals(stackId)) {
-                        currentStackItem = i;
-                    }
-                }
-                final FullCard newCard = fullCard;
-                new BrandedAlertDialogBuilder(context)
-                        .setSingleChoiceItems(items, currentStackItem, (dialog, which) -> {
-                            dialog.cancel();
-                            newCard.getCard().setStackId(availableStacks.get(which).getStack().getLocalId());
-                            LiveDataHelper.observeOnce(syncManager.updateCard(newCard), lifecycleOwner, (c) -> {
-                                // Nothing to do here...
-                            });
-                            DeckLog.log("Moved card \"" + fullCard.getCard().getTitle() + "\" to \"" + availableStacks.get(which).getStack().getTitle() + "\"");
-                        })
-                        .setNeutralButton(android.R.string.cancel, null)
-                        .setTitle(context.getString(R.string.action_card_move_title, fullCard.getCard().getTitle()))
-                        .show();
+                DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
+                MoveCardDialogFragment.newInstance(fullCard.getAccountId(), boardLocalId, fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
                 return true;
             }
             case R.id.action_card_archive: {

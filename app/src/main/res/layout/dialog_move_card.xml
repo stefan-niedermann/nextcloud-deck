@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/spacer_1x">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/move_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacer_2x"
+        android:drawableStart="@drawable/ic_warning_white_24dp"
+        android:drawablePadding="@dimen/spacer_3x"
+        android:paddingStart="@dimen/spacer_3x"
+        android:paddingEnd="@dimen/spacer_1x"
+        android:text="@string/move_warning"
+        android:textColor="@color/danger"
+        android:visibility="gone"
+        app:drawableTint="@color/danger"
+        tools:visibility="visible" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacer_1x"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/spacer_1x"
+        android:paddingEnd="@dimen/spacer_1x"
+        app:justifyContent="space_between">
+
+        <Button
+            android:id="@+id/cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginEnd="@dimen/spacer_1x"
+            android:text="@android:string/cancel"
+            android:textColor="@color/defaultBrand" />
+
+        <Button
+            android:id="@+id/submit"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/action_card_move"
+            android:textColor="@color/defaultBrand" />
+    </com.google.android.flexbox.FlexboxLayout>
+</LinearLayout>
