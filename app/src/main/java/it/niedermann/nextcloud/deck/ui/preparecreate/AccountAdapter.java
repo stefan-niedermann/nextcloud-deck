@@ -6,12 +6,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import it.niedermann.android.glidesso.SingleSignOnUrl;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateAccountBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.util.DimensionUtil;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
+
+import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class AccountAdapter extends AbstractAdapter<Account> {
 
@@ -39,7 +43,13 @@ public class AccountAdapter extends AbstractAdapter<Account> {
         if (item != null) {
             binding.username.setText(item.getUserName());
             binding.instance.setText(item.getUrl());
-            ViewUtil.addAvatar(binding.avatar, item.getUrl(), item.getUserName(), DimensionUtil.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+
+            Glide.with(getContext())
+                    .load(new SingleSignOnUrl(item.getName(), item.getAvatarUrl(dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details))))
+                    .placeholder(R.drawable.ic_baseline_account_circle_24)
+                    .error(R.drawable.ic_baseline_account_circle_24)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(binding.avatar);
         } else {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }
