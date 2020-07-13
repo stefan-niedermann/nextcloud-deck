@@ -129,6 +129,7 @@
     <string name="delete_board_message">Isso excluirá permanentemente este painel incluindo listas e cartões.</string>
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Marcação</string>
+    <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_background_sync">Sincronização em segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar com Wi-Fi e dados móveis</string>
     <string name="pref_value_wifi_only">Sincronizar apenas com Wi-Fi</string>

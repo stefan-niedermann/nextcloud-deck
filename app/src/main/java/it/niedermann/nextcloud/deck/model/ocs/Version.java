@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -125,7 +123,7 @@ public class Version implements Comparable<Version> {
         return 0;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String toString() {
         return "Version{" +

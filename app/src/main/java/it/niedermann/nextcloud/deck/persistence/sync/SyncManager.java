@@ -48,13 +48,10 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
-import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
-import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst.Debouncer;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.extrawurst.UserSearchLiveData;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.DataPropagationHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
@@ -658,8 +655,7 @@ public class SyncManager {
                     new AccessControlDataProvider(null, board, Collections.singletonList(entity)), entity, getCallbackToLiveDataConverter(account, liveData), ((entity1, response) -> {
                         response.setBoardId(entity.getBoardId());
                         response.setUserId(entity.getUser().getLocalId());
-                    }
-                    )
+                    })
             );
         });
         return liveData;
@@ -924,7 +920,7 @@ public class SyncManager {
         doAsync(() -> {
             FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId());
             if (fullCard == null) {
-                throw new IllegalArgumentException("card to delete does not exist.");
+                throw new IllegalArgumentException("card with id " + card.getLocalId() + " to delete does not exist.");
             }
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
@@ -1002,6 +998,7 @@ public class SyncManager {
         return liveData;
     }
 
+    // TODO return WrappedLiveData for error handling
     @AnyThread
     public void archiveBoard(@NonNull Board board) {
         doAsync(() -> {
@@ -1011,6 +1008,7 @@ public class SyncManager {
         });
     }
 
+    // TODO return WrappedLiveData for error handling
     @AnyThread
     public void dearchiveBoard(@NonNull Board board) {
         doAsync(() -> {
@@ -1109,7 +1107,7 @@ public class SyncManager {
             }
             // ### get rid of original card where it is now.
             Card originalInnerCard = originalCard.getCard();
-            deleteCard(originalInnerCard);
+            deleteCard(new Card(originalInnerCard));
             // ### clone card itself
             Card targetCard = originalInnerCard;
             targetCard.setAccountId(targetAccountId);
@@ -1118,7 +1116,9 @@ public class SyncManager {
             targetCard.setStatusEnum(DBStatus.LOCAL_EDITED);
             targetCard.setStackId(targetStackLocalId);
             targetCard.setOrder(newIndex);
-            //TODO: this needs to propagate to server as well, since anything else propagates as well (otherwise card isn't known on server)
+            targetCard.setArchived(false);
+            targetCard.setAttachmentCount(0);
+            targetCard.setCommentsUnread(0);
             FullCard fullCardForServerPropagation = new FullCard();
             fullCardForServerPropagation.setCard(targetCard);
 
@@ -1127,7 +1127,11 @@ public class SyncManager {
             FullStack targetFullStack = dataBaseAdapter.getFullStackByLocalIdDirectly(targetStackLocalId);
             User userOfTargetAccount = dataBaseAdapter.getUserByUidDirectly(targetAccountId, targetAccount.getUserName());
             CountDownLatch latch = new CountDownLatch(1);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new IResponseCallback<FullCard>(targetAccount) {
+            ServerAdapter serverToUse = serverAdapter;
+            if (originAccountId != targetAccountId) {
+                serverToUse = new ServerAdapter(appContext, targetAccount.getName());
+            }
+            new DataPropagationHelper(serverToUse, dataBaseAdapter).createEntity(new CardPropagationDataProvider(null, targetBoard.getBoard(), targetFullStack), fullCardForServerPropagation, new IResponseCallback<FullCard>(targetAccount) {
                 @Override
                 public void onResponse(FullCard response) {
                     targetCard.setId(response.getId());
@@ -1141,8 +1145,10 @@ public class SyncManager {
                     throw new RuntimeException("unable to create card in moveCard target", throwable);
                 }
             }, (FullCard entity, FullCard response) -> {
-                response.getCard().setUserId(entity.getCard().getUserId());
+                response.getCard().setUserId(userOfTargetAccount.getLocalId());
                 response.getCard().setStackId(targetFullStack.getLocalId());
+                entity.getCard().setUserId(userOfTargetAccount.getLocalId());
+                entity.getCard().setStackId(targetFullStack.getLocalId());
             });
 
             try {
@@ -1185,10 +1191,10 @@ public class SyncManager {
                         originalLabel.setLocalId(null);
                         originalLabel.setStatusEnum(DBStatus.LOCAL_EDITED);
                         originalLabel.setAccountId(targetBoard.getAccountId());
-                        createAndAssignLabelToCard(originalBoard.getAccountId(), originalLabel, newCardId);
+                        createAndAssignLabelToCard(targetBoard.getAccountId(), originalLabel, newCardId, serverToUse);
                     }
                 } else {
-                    assignLabelToCard(existingMatch, targetCard);
+                    assignLabelToCard(existingMatch, targetCard, serverToUse);
                 }
             }
 
@@ -1247,14 +1253,18 @@ public class SyncManager {
         return liveData;
     }
 
-    @AnyThread
     public MutableLiveData<Label> createAndAssignLabelToCard(long accountId, @NonNull Label label, long localCardId) {
+        return createAndAssignLabelToCard(accountId, label, localCardId, serverAdapter);
+    }
+
+    @AnyThread
+    private MutableLiveData<Label> createAndAssignLabelToCard(long accountId, @NonNull Label label, long localCardId, ServerAdapter serverAdapterToUse) {
         MutableLiveData<Label> liveData = new MutableLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             Board board = dataBaseAdapter.getBoardByLocalCardIdDirectly(localCardId);
             label.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null), label, new IResponseCallback<Label>(account) {
+            new DataPropagationHelper(serverAdapterToUse, dataBaseAdapter).createEntity(new LabelDataProvider(null, board, null), label, new IResponseCallback<Label>(account) {
                 @Override
                 public void onResponse(Label response) {
                     assignLabelToCard(response, dataBaseAdapter.getCardByLocalIdDirectly(accountId, localCardId));
@@ -1324,6 +1334,11 @@ public class SyncManager {
 
     @AnyThread
     public void assignLabelToCard(@NonNull Label label, @NonNull Card card) {
+        assignLabelToCard(label, card, serverAdapter);
+    }
+
+    @AnyThread
+    public void assignLabelToCard(@NonNull Label label, @NonNull Card card, ServerAdapter serverAdapterToUse) {
         doAsync(() -> {
             final long localLabelId = label.getLocalId();
             final long localCardId = card.getLocalId();
@@ -1334,8 +1349,8 @@ public class SyncManager {
             Stack stack = dataBaseAdapter.getStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(card.getAccountId());
-            if (serverAdapter.hasInternetConnection()) {
-                serverAdapter.assignLabelToCard(board.getId(), stack.getId(), card.getId(), label.getId(), new IResponseCallback<Void>(account) {
+            if (serverAdapterToUse.hasInternetConnection()) {
+                serverAdapterToUse.assignLabelToCard(board.getId(), stack.getId(), card.getId(), label.getId(), new IResponseCallback<Void>(account) {
 
                     @Override
                     public void onResponse(Void response) {
@@ -1671,15 +1686,14 @@ public class SyncManager {
 
     @AnyThread
     private static Attachment populateAttachmentEntityForFile(@NonNull Attachment target, long localCardId, @NonNull String mimeType, @NonNull File file) {
-        Attachment attachment = target;
-        attachment.setCardId(localCardId);
-        attachment.setMimetype(mimeType);
-        attachment.setData(file.getName());
-        attachment.setFilename(file.getName());
-        attachment.setBasename(file.getName());
-        attachment.setLocalPath(file.getAbsolutePath());
-        attachment.setFilesize(file.length());
-        return attachment;
+        target.setCardId(localCardId);
+        target.setMimetype(mimeType);
+        target.setData(file.getName());
+        target.setFilename(file.getName());
+        target.setBasename(file.getName());
+        target.setLocalPath(file.getAbsolutePath());
+        target.setFilesize(file.length());
+        return target;
     }
 
     @AnyThread

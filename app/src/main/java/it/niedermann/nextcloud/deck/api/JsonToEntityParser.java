@@ -14,7 +14,6 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.exceptions.DeckException;
-import it.niedermann.nextcloud.deck.exceptions.TraceableException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -36,6 +35,7 @@ import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 
 import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
+import static it.niedermann.nextcloud.deck.exceptions.TraceableException.makeTraceableIfFails;
 
 public class JsonToEntityParser {
 
@@ -65,7 +65,7 @@ public class JsonToEntityParser {
     private static OcsUserList parseOcsUserList(JsonObject obj) {
         DeckLog.verbose(obj.toString());
         OcsUserList ocsUserList = new OcsUserList();
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
             if (!data.isJsonNull() && data.getAsJsonObject().has("users")) {
                 JsonElement users = data.getAsJsonObject().get("users");
@@ -90,7 +90,7 @@ public class JsonToEntityParser {
     private static OcsComment parseOcsComment(JsonObject obj) {
         DeckLog.verbose(obj.toString());
         OcsComment comment = new OcsComment();
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
             if (data.isJsonArray()) {
                 for (JsonElement deckComment : data.getAsJsonArray()) {
@@ -107,7 +107,7 @@ public class JsonToEntityParser {
         DeckLog.verbose(data.toString());
         DeckComment deckComment = new DeckComment();
 
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             JsonObject commentJson = data.getAsJsonObject();
 
             deckComment.setId(commentJson.get("id").getAsLong());
@@ -138,7 +138,7 @@ public class JsonToEntityParser {
         DeckLog.verbose(mentionJson.toString());
 
 
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             JsonObject mentionObject = mentionJson.getAsJsonObject();
             mention.setMentionId(mentionObject.get("mentionId").getAsString());
             mention.setMentionType(mentionObject.get("mentionType").getAsString());
@@ -155,7 +155,7 @@ public class JsonToEntityParser {
         DeckLog.verbose(e.toString());
         Board board = new Board();
 
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             board.setTitle(getNullAsEmptyString(e.get("title")));
             board.setColor(getNullAsEmptyString(e.get("color")));
             board.setArchived(e.get("archived").getAsBoolean());
@@ -234,7 +234,7 @@ public class JsonToEntityParser {
         AccessControl acl = new AccessControl();
 
         if (aclJson.has("participant") && !aclJson.get("participant").isJsonNull()) {
-            TraceableException.makeTraceableIfFails(() -> {
+            makeTraceableIfFails(() -> {
                 User participant = parseUser(aclJson.get("participant").getAsJsonObject());
                 acl.setUser(participant);
                 acl.setType(aclJson.get("type").getAsLong());
@@ -257,7 +257,7 @@ public class JsonToEntityParser {
         FullCard fullCard = new FullCard();
         Card card = new Card();
         fullCard.setCard(card);
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             card.setId(e.get("id").getAsLong());
             card.setTitle(getNullAsEmptyString(e.get("title")));
             card.setDescription(getNullAsEmptyString(e.get("description")));
@@ -322,7 +322,7 @@ public class JsonToEntityParser {
     protected static Attachment parseAttachment(JsonObject e) {
         DeckLog.verbose(e.toString());
         Attachment a = new Attachment();
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             a.setId(e.get("id").getAsLong());
             a.setCardId(e.get("cardId").getAsLong());
             a.setType(e.get("type").getAsString());
@@ -353,7 +353,7 @@ public class JsonToEntityParser {
     protected static User parseUser(JsonObject e) {
         DeckLog.verbose(e.toString());
         User user = new User();
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             user.setDisplayname(getNullAsEmptyString(e.get("displayname")));
             user.setPrimaryKey(getNullAsEmptyString(e.get("primaryKey")));
             user.setUid(getNullAsEmptyString(e.get("uid")));
@@ -419,7 +419,7 @@ public class JsonToEntityParser {
         DeckLog.verbose(e.toString());
         List<Activity> activityList = new ArrayList<>();
 
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             if (e.has("ocs")) {
                 JsonObject ocs = e.getAsJsonObject("ocs");
                 if (ocs.has("data")) {
@@ -447,7 +447,7 @@ public class JsonToEntityParser {
         FullStack fullStack = new FullStack();
         Stack stack = new Stack();
         fullStack.setStack(stack);
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             stack.setTitle(getNullAsEmptyString(e.get("title")));
             stack.setBoardId(e.get("boardId").getAsLong());
             stack.setId(e.get("id").getAsLong());
@@ -474,7 +474,7 @@ public class JsonToEntityParser {
     protected static Label parseLabel(JsonObject e) {
         DeckLog.verbose(e.toString());
         Label label = new Label();
-        TraceableException.makeTraceableIfFails(() -> {
+        makeTraceableIfFails(() -> {
             label.setId(e.get("id").getAsLong());
             //todo: last modified!
 //          label.setLastModified(get);

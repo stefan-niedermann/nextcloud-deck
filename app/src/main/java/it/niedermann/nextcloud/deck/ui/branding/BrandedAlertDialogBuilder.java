@@ -9,8 +9,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-import org.jetbrains.annotations.NotNull;
-
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
@@ -22,7 +20,7 @@ public class BrandedAlertDialogBuilder extends AlertDialog.Builder implements Br
         super(context);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public AlertDialog create() {
         this.dialog = super.create();

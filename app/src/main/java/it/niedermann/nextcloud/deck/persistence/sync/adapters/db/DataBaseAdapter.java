@@ -8,8 +8,6 @@ import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +55,7 @@ public class DataBaseAdapter {
         this.db = DeckDatabase.getInstance(applicationContext);
     }
 
-    @NotNull
+    @NonNull
     public Context getContext() {
         return context;
     }

@@ -3,8 +3,6 @@ package it.niedermann.nextcloud.deck.model.internal;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +45,7 @@ public class FilterInformation implements Serializable {
         return users;
     }
 
-    @NotNull
+    @NonNull
     public List<Label> getLabels() {
         return labels;
     }
@@ -68,7 +66,7 @@ public class FilterInformation implements Serializable {
         users.remove(user);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String toString() {
         return "FilterInformation{" +
@@ -79,7 +77,7 @@ public class FilterInformation implements Serializable {
     }
 
     /**
-     * @return whether or not the given filterInformation has any actual filters set
+     * @return whether or not the given {@param filterInformation} has any actual filters set
      */
     public static boolean hasActiveFilter(@Nullable FilterInformation filterInformation) {
         if (filterInformation == null) {

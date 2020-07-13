@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
-
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateBoardBinding;
@@ -26,9 +24,9 @@ public class BoardAdapter extends AbstractAdapter<Board> {
         return item.getLocalId();
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ItemPrepareCreateBoardBinding binding;
         if (convertView == null) {
             binding = ItemPrepareCreateBoardBinding.inflate(inflater, parent, false);

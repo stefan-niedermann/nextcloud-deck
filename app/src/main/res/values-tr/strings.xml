@@ -129,6 +129,7 @@
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="settings_theme_title">Koyu tema</string>
     <string name="settings_branding_title">Markalama</string>
+    <string name="settings_compact_title">Sıkışık kip 🆕</string>
     <string name="settings_background_sync">Arka planda eşitleme</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
