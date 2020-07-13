@@ -35,19 +35,33 @@ public class FilterUserFragment extends Fragment implements SelectionListener<Us
 
         observeOnce(new SyncManager(requireContext()).findProposalsForUsersToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (users) -> {
             binding.users.setNestedScrollingEnabled(false);
-            binding.users.setAdapter(new FilterUserAdapter(dpToPx(requireContext(), R.dimen.avatar_size), mainViewModel.getCurrentAccount(), users, requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getUsers(), this));
+            binding.users.setAdapter(new FilterUserAdapter(
+                    dpToPx(requireContext(), R.dimen.avatar_size),
+                    mainViewModel.getCurrentAccount(),
+                    users,
+                    requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getUsers(),
+                    requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).isNoAssignedUser(),
+                    this));
         });
 
         return binding.getRoot();
     }
 
     @Override
-    public void onItemSelected(User item) {
-        filterViewModel.addFilterInformationUser(item);
+    public void onItemSelected(@Nullable User item) {
+        if (item == null) {
+            filterViewModel.setNotAssignedUser(true);
+        } else {
+            filterViewModel.addFilterInformationUser(item);
+        }
     }
 
     @Override
-    public void onItemDeselected(User item) {
-        filterViewModel.removeFilterInformationUser(item);
+    public void onItemDeselected(@Nullable User item) {
+        if (item == null) {
+            filterViewModel.setNotAssignedUser(false);
+        } else {
+            filterViewModel.removeFilterInformationUser(item);
+        }
     }
 }

@@ -1,9 +1,11 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
-public interface SelectionListener<T> {
-    void onItemSelected(T item);
+import androidx.annotation.Nullable;
 
-    default void onItemDeselected(T item) {
+public interface SelectionListener<T> {
+    void onItemSelected(@Nullable T item);
+
+    default void onItemDeselected(@Nullable T item) {
         // Deselecting is optional
     }
 }
