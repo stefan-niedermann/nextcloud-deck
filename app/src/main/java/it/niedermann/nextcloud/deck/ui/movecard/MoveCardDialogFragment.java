@@ -36,7 +36,6 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     private Long originCardLocalId;
 
     private DialogMoveCardBinding binding;
-    private PickStackFragment fragment;
     private MoveCardListener moveCardListener;
 
     private Account selectedAccount;
@@ -84,10 +83,9 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        fragment = new PickStackFragment();
         getChildFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .add(R.id.fragment_container, PickStackFragment.newInstance(false))
                 .commit();
     }
 

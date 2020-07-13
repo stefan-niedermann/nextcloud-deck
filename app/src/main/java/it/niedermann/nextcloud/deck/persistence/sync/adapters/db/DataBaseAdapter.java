@@ -390,6 +390,10 @@ public class DataBaseAdapter {
         return distinctUntilChanged(db.getAccountDao().getAllAccounts());
     }
 
+    public LiveData<List<Board>> getBoards(long accountId) {
+        return distinctUntilChanged(db.getBoardDao().getBoardsForAccount(accountId));
+    }
+
     public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
         return distinctUntilChanged(
                 archived

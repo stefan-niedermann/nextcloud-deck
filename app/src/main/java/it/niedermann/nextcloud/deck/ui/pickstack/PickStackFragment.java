@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -37,10 +36,13 @@ public class PickStackFragment extends Fragment {
 
     private FragmentPickStackBinding binding;
 
+    private static final String KEY_SHOW_BOARDS_WITHOUT_EDIT_PERMISSION = "show_boards_without_edit_permission";
+
     private SyncManager syncManager;
 
     private PickStackListener pickStackListener;
 
+    private boolean showBoardsWithoutEditPermission = false;
     private long lastAccountId;
     private long lastBoardId;
     private long lastStackId;
@@ -67,7 +69,7 @@ public class PickStackFragment extends Fragment {
                     break;
                 }
             }
-            if(boardToSelect == null) {
+            if (boardToSelect == null) {
                 boardToSelect = boards.get(0);
             }
             binding.boardSelect.setSelection(boardAdapter.getPosition(boardToSelect));
@@ -114,7 +116,10 @@ public class PickStackFragment extends Fragment {
         } else {
             throw new IllegalArgumentException("Caller must implement " + PickStackListener.class.getSimpleName());
         }
-        DeckLog.error("PICKSTACK: onAttach successful");
+        final Bundle args = getArguments();
+        if (args != null) {
+            this.showBoardsWithoutEditPermission = args.getBoolean(KEY_SHOW_BOARDS_WITHOUT_EDIT_PERMISSION, false);
+        }
     }
 
     @Override
@@ -164,7 +169,9 @@ public class PickStackFragment extends Fragment {
         });
 
         binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            updateLiveDataSource(boardsLiveData, boardsObserver, syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
+            updateLiveDataSource(boardsLiveData, boardsObserver, showBoardsWithoutEditPermission
+                    ? syncManager.getBoards(parent.getSelectedItemId())
+                    : syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
         });
 
         binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
@@ -189,7 +196,11 @@ public class PickStackFragment extends Fragment {
         liveData.observe(getViewLifecycleOwner(), observer);
     }
 
-    public static PickStackFragment newInstance() {
-        return new PickStackFragment();
+    public static PickStackFragment newInstance(boolean showBoardsWithoutEditPermission) {
+        final PickStackFragment fragment = new PickStackFragment();
+        final Bundle args = new Bundle();
+        args.putBoolean(KEY_SHOW_BOARDS_WITHOUT_EDIT_PERMISSION, showBoardsWithoutEditPermission);
+        fragment.setArguments(args);
+        return fragment;
     }
 }

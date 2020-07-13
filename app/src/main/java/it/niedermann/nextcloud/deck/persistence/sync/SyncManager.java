@@ -385,6 +385,16 @@ public class SyncManager {
 
     /**
      * @param accountId ID of the account
+     * @return all {@link Board}s no matter if {@link Board#archived} or not.
+     */
+    @SuppressWarnings("JavadocReference")
+    @AnyThread
+    public LiveData<List<Board>> getBoards(long accountId) {
+        return dataBaseAdapter.getBoards(accountId);
+    }
+
+    /**
+     * @param accountId ID of the account
      * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
      * @return all archived or non-archived <code>Board</code>s depending on <code>archived</code> parameter
      */
