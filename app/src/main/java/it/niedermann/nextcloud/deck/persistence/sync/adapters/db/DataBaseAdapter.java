@@ -500,6 +500,11 @@ public class DataBaseAdapter {
 
     public long createCard(long accountId, Card card) {
         card.setAccountId(accountId);
+
+        // TODO check with accountId and stackRemoteId from given card whether or not this card was in a stack which is in a StackWidgetModel
+        // DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about created card for \"" + stack.getTitle() + "\"");
+        // StackWidget.notifyDatasetChanged(context);
+
         return db.getCardDao().insert(card);
     }
 
@@ -514,6 +519,10 @@ public class DataBaseAdapter {
         } else {
             deleteCardPhysically(card);
         }
+
+        // TODO check with accountId and stackRemoteId from given card whether or not this card was in a stack which is in a StackWidgetModel
+        // DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about deleted card \"" + card.getTitle() + "\"");
+        // StackWidget.notifyDatasetChanged(context);
     }
 
     public void deleteCardPhysically(Card card) {
@@ -527,6 +536,7 @@ public class DataBaseAdapter {
             DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
             SingleCardWidget.notifyDatasetChanged(context);
         }
+
         // TODO only perform if there are stack widgets with this card, but what if card has been moved away or deleted?
         // DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
         // StackWidget.notifyDatasetChanged(context);

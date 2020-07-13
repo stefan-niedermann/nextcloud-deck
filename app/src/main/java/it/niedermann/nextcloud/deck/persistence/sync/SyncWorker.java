@@ -42,17 +42,21 @@ public class SyncWorker extends Worker {
             sharedPreferencesEditor.putLong(getApplicationContext().getString(R.string.shared_preference_last_background_sync), System.currentTimeMillis());
             sharedPreferencesEditor.apply();
             boolean success = syncManager.synchronizeEverything();
-
-            DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " after background synchronization");
-            SingleCardWidget.notifyDatasetChanged(getApplicationContext());
-
-            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " after background synchronization");
-            StackWidget.notifyDatasetChanged(getApplicationContext());
-
+            notifyWidgets(getApplicationContext());
             DeckLog.info("Finishing background synchronization with result " + success);
             return success ? Result.failure() : Result.success();
+        } else {
+            DeckLog.verbose("Skipping background synchronization because not internet connection is available");
+            notifyWidgets(getApplicationContext());
         }
         return Result.success();
+    }
+
+    private static void notifyWidgets(@NonNull Context appContext) {
+        DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " after background synchronization");
+        SingleCardWidget.notifyDatasetChanged(appContext);
+        DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " after background synchronization");
+        StackWidget.notifyDatasetChanged(appContext);
     }
 
     public static void update(@NonNull Context context) {
