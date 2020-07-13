@@ -15,6 +15,8 @@ public class FilterInformation implements Serializable {
     @NonNull
     private EDueType dueType = EDueType.NO_FILTER;
     @NonNull
+    private boolean noAssignedUser = false;
+    @NonNull
     private List<User> users = new ArrayList<>();
     @NonNull
     private List<Label> labels = new ArrayList<>();
@@ -28,6 +30,7 @@ public class FilterInformation implements Serializable {
             this.dueType = filterInformation.getDueType();
             this.users.addAll(filterInformation.getUsers());
             this.labels.addAll(filterInformation.getLabels());
+            this.noAssignedUser= filterInformation.isNoAssignedUser();
         }
     }
 
@@ -66,11 +69,20 @@ public class FilterInformation implements Serializable {
         users.remove(user);
     }
 
+    public boolean isNoAssignedUser() {
+        return noAssignedUser;
+    }
+
+    public void setNoAssignedUser(boolean noAssignedUser) {
+        this.noAssignedUser = noAssignedUser;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "FilterInformation{" +
                 "dueType=" + dueType +
+                ", noAssignedUser=" + noAssignedUser +
                 ", users=" + users +
                 ", labels=" + labels +
                 '}';
