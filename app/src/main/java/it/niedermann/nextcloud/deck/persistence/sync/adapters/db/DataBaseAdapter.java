@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetMode
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
+import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
@@ -196,7 +197,7 @@ public class DataBaseAdapter {
             query.append("and (exists(select 1 from joincardwithuser j where c.localId = cardId and userId in (");
             fillSqlWithListValues(query, args, filter.getUsers());
             query.append(") and j.status<>3) ");
-            if (filter.isNoAssignedUser()){
+            if (filter.isNoAssignedUser()) {
                 query.append("or not exists(select 1 from joincardwithuser j where c.localId = cardId and j.status<>3)) ");
             } else {
                 query.append(") ");
@@ -472,6 +473,10 @@ public class DataBaseAdapter {
     public void updateStack(Stack stack, boolean setStatus) {
         markAsEditedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
+        if (db.getStackWidgetModelDao().containsStackLocalId(stack.getLocalId())) {
+            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + stack.getTitle() + "\"");
+            StackWidget.notifyDatasetChanged(context);
+        }
     }
 
     @WorkerThread
@@ -498,7 +503,7 @@ public class DataBaseAdapter {
         return db.getCardDao().insert(card);
     }
 
-    public int getHighestCardOrderInStack(long localStackId){
+    public int getHighestCardOrderInStack(long localStackId) {
         return db.getCardDao().getHighestOrderInStack(localStackId);
     }
 
@@ -519,9 +524,12 @@ public class DataBaseAdapter {
         markAsEditedIfNeeded(card, setStatus);
         db.getCardDao().update(card);
         if (db.getSingleCardWidgetModelDao().containsCardLocalId(card.getLocalId())) {
-            DeckLog.info("Notifying widget about card changes for \"" + card.getTitle() + "\"");
+            DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
             SingleCardWidget.notifyDatasetChanged(context);
         }
+        // TODO only perform if there are stack widgets with this card, but what if card has been moved away or deleted?
+        // DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
+        // StackWidget.notifyDatasetChanged(context);
     }
 
     public long createAccessControl(long accountId, @NonNull AccessControl entity) {
@@ -586,6 +594,7 @@ public class DataBaseAdapter {
         validateSearchTerm(searchTerm);
         return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
     }
+
     public List<User> searchUserByUidOrDisplayNameForACLDirectly(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
         validateSearchTerm(searchTerm);
         return db.getUserDao().searchUserByUidOrDisplayNameForACLDirectly(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
@@ -946,11 +955,11 @@ public class DataBaseAdapter {
     }
 
     public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {
-        return db.getAccountDao().readAccountsForHostWithReadAccessToBoard("%"+host+"%", boardRemoteId);
+        return db.getAccountDao().readAccountsForHostWithReadAccessToBoard("%" + host + "%", boardRemoteId);
     }
 
     public List<Account> readAccountsForHostWithReadAccessToBoardDirectly(String host, long boardRemoteId) {
-        return db.getAccountDao().readAccountsForHostWithReadAccessToBoardDirectly("%"+host+"%", boardRemoteId);
+        return db.getAccountDao().readAccountsForHostWithReadAccessToBoardDirectly("%" + host + "%", boardRemoteId);
     }
 
     public Board getBoardForAccountByNameDirectly(long account, String title) {

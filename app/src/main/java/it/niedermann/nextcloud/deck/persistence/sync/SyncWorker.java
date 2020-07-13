@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
+import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
 
 public class SyncWorker extends Worker {
 
@@ -40,6 +42,13 @@ public class SyncWorker extends Worker {
             sharedPreferencesEditor.putLong(getApplicationContext().getString(R.string.shared_preference_last_background_sync), System.currentTimeMillis());
             sharedPreferencesEditor.apply();
             boolean success = syncManager.synchronizeEverything();
+
+            DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " after background synchronization");
+            SingleCardWidget.notifyDatasetChanged(getApplicationContext());
+
+            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " after background synchronization");
+            StackWidget.notifyDatasetChanged(getApplicationContext());
+
             DeckLog.info("Finishing background synchronization with result " + success);
             return success ? Result.failure() : Result.success();
         }

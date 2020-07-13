@@ -111,4 +111,11 @@ public class StackWidget extends AppWidgetProvider {
             syncManager.deleteStackWidgetModel(appWidgetId);
         }
     }
+
+    /**
+     * Updates UI data of all {@link StackWidget} instances
+     */
+    public static void notifyDatasetChanged(Context context) {
+        context.sendBroadcast(new Intent(context, StackWidget.class).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
+    }
 }
