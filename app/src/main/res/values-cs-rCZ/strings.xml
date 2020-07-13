@@ -133,6 +133,7 @@
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
     <string name="settings_theme_title">Tmavý motiv vzhledu</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
+    <string name="settings_compact_title">Kompaktní režim 🆕</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>

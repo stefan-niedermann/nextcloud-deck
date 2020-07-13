@@ -9,21 +9,9 @@ The license of this project allows you to verify that no data is collected by th
 
 This is a list of permissions required and asked by the App in order to properly work on your device:
 
-- `com.nextcloud.android.sso`
-
-  Used to connect to the [main Nextcloud Android app](https://github.com/nextcloud/android/) via the [Nextcloud Single Sign On](https://github.com/nextcloud/Android-SingleSignOn/) mechanism. This is required not only to import an account but also to synchronize the account with the Nextcloud instance.
-
 - `android.permission.ACCESS_NETWORK_STATE`
 
   Used to provide offline support and make the "Sync only on Wi-Fi" option possible.
-
-- `android.permission.READ_EXTERNAL_STORAGE`
-
-  Used for reading files to attach them to cards.
-
-- `android.permission.WRITE_EXTERNAL_STORAGE`
-
-  Used for caching attachments and other files on the disk.
 
 - `android.permission.INTERNET`
 

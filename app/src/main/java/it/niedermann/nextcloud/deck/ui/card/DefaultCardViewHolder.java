@@ -1,19 +1,16 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.Context;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 
@@ -22,21 +19,18 @@ import org.jetbrains.annotations.Contract;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemCardBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
-import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
-import it.niedermann.nextcloud.deck.util.DateUtil;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-public class CardViewHolder extends RecyclerView.ViewHolder {
-    private ItemCardBinding binding;
+public class DefaultCardViewHolder extends AbstractCardViewHolder {
+    private ItemCardDefaultBinding binding;
 
     @SuppressWarnings("WeakerAccess")
-    public CardViewHolder(@NonNull ItemCardBinding binding) {
+    public DefaultCardViewHolder(@NonNull ItemCardDefaultBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }
@@ -45,28 +39,15 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
      * Removes all {@link OnClickListener} and {@link OnLongClickListener}
      */
     public void bind(@NonNull FullCard fullCard, @NonNull Account account, @Nullable Long boardRemoteId, boolean hasEditPermission, @MenuRes int optionsMenu, @NonNull CardOptionsItemSelectedListener optionsItemsSelectedListener, @NonNull String counterMaxValue, @ColorInt int mainColor) {
-        final Context context = itemView.getContext();
+        super.bind(fullCard, account, boardRemoteId, hasEditPermission, optionsMenu, optionsItemsSelectedListener, counterMaxValue, mainColor);
 
-        bindCardClickListener(null);
-        bindCardLongClickListener(null);
-        binding.cardMenu.setVisibility(hasEditPermission ? View.VISIBLE : View.GONE);
-        binding.cardTitle.setText(fullCard.getCard().getTitle().trim());
+        final Context context = itemView.getContext();
 
         if (fullCard.getAssignedUsers() != null && fullCard.getAssignedUsers().size() > 0) {
             binding.overlappingAvatars.setAvatars(account, fullCard.getAssignedUsers());
             binding.overlappingAvatars.setVisibility(View.VISIBLE);
         } else {
             binding.overlappingAvatars.setVisibility(View.GONE);
-        }
-
-        DrawableCompat.setTint(binding.notSyncedYet.getDrawable(), mainColor);
-        binding.notSyncedYet.setVisibility(DBStatus.LOCAL_EDITED.equals(fullCard.getStatusEnum()) ? View.VISIBLE : View.GONE);
-
-        if (fullCard.getCard().getDueDate() != null) {
-            setupDueDate(binding.cardDueDate, fullCard.getCard());
-            binding.cardDueDate.setVisibility(View.VISIBLE);
-        } else {
-            binding.cardDueDate.setVisibility(View.GONE);
         }
 
         final int attachmentsCount = fullCard.getAttachments().size();
@@ -104,23 +85,31 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         } else {
             binding.cardCountTasks.setVisibility(View.GONE);
         }
+    }
 
-        binding.cardMenu.setOnClickListener(view -> {
-            final PopupMenu popup = new PopupMenu(context, view);
-            popup.inflate(optionsMenu);
-            final Menu menu = popup.getMenu();
-            if (containsUser(fullCard.getAssignedUsers(), account.getUserName())) {
-                menu.removeItem(menu.findItem(R.id.action_card_assign).getItemId());
-            } else {
-                menu.removeItem(menu.findItem(R.id.action_card_unassign).getItemId());
-            }
-            if (boardRemoteId == null || fullCard.getCard().getId() == null) {
-                menu.removeItem(R.id.share_link);
-            }
+    @Override
+    protected TextView getCardDueDate() {
+        return binding.cardDueDate;
+    }
 
-            popup.setOnMenuItemClickListener(item -> optionsItemsSelectedListener.onCardOptionsItemSelected(item, fullCard));
-            popup.show();
-        });
+    @Override
+    protected ImageView getNotSyncedYet() {
+        return binding.notSyncedYet;
+    }
+
+    @Override
+    protected TextView getCardTitle() {
+        return binding.cardTitle;
+    }
+
+    @Override
+    protected View getCardMenu() {
+        return binding.cardMenu;
+    }
+
+    @Override
+    protected MaterialCardView getCard() {
+        return binding.card;
     }
 
     public void bindCardClickListener(@Nullable OnClickListener l) {
@@ -135,11 +124,6 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         return binding.card;
     }
 
-    private static void setupDueDate(@NonNull TextView cardDueDate, @NonNull Card card) {
-        final Context context = cardDueDate.getContext();
-        cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().getTime()));
-        ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate());
-    }
 
     private static void setupCounter(@NonNull TextView textView, @NonNull String counterMaxValue, int count) {
         if (count > 99) {

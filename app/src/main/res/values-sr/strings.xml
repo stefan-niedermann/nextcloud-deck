@@ -112,6 +112,7 @@
     <string name="not_synced_yet">Још није синхронизовано</string>
     <string name="no_lists_yet">Нема још спискова</string>
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Да ли желите да архивирате све картице са %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Овим ћете заувек обрисати %1$d картицу са овог списка.</item>
         <item quantity="few">Овим ћете заувек обрисати %1$d картице са овог списка.</item>
@@ -240,7 +241,19 @@
     <string name="info_box_maintenance_mode">Сервер у режиму одржавања</string>
     <string name="info_box_version_not_supported">Серверска верзија %1$s није подржана, ажурирајте на %2$s</string>
     <string name="share_link">Веза дељења</string>
+    <string name="archive_cards">Архивирај картице</string>
     <string name="manage_accounts">Управљање налозима</string>
+    <string name="manage_list">Управљај списком</string>
     <string name="simple_reply">Одговори</string>
+    <string name="error_while_uploading_attachment">Грешка приликом отпремања прилога: %1$s</string>
+    <string name="append_text_to_description">Придодај на опис</string>
+    <string name="add_text_as_comment">Додај као коментар</string>
+    <string name="progress_count">%1$d од %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d грешка приликом отпремања.</item>
+        <item quantity="few">%1$d грешке приликом отпремања.</item>
+        <item quantity="other">%1$d грешака приликом отпремања.</item>
+    </plurals>
     <string name="simple_report">Пријави</string>
-    </resources>
+    <string name="error_action_open_battery_settings">Подешавања батерије</string>
+</resources>

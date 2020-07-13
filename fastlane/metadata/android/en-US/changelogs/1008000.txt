@@ -1,0 +1,16 @@
+1.8.0
+
+- 🔀 Move cards to other boards and accounts (#453)
+- ➕ Clone boards with existing stacks and labels (#455)
+
+1.7.0
+
+- 🆕 Compact mode (#579)
+
+1.6.0
+
+- ✨ Adjust design to new style of Nextcloud Android app (#525)
+- 🎨 Brand now uses board color to provide better context (#525)
+- 🎨 Offer the same default board colors as the server app
+- 🔍 Display all available users as search results when sharing a board (#510)
+- 🐞 "Archive cards" of list crashes the app when there is no list (#557)

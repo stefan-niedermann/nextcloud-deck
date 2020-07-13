@@ -77,7 +77,7 @@ public class FilterInformation implements Serializable {
     }
 
     /**
-     * @return whether or not the given filterInformation has any actual filters set
+     * @return whether or not the given {@param filterInformation} has any actual filters set
      */
     public static boolean hasActiveFilter(@Nullable FilterInformation filterInformation) {
         if (filterInformation == null) {

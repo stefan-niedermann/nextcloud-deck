@@ -4,6 +4,8 @@
     <dimen name="spacer_2x">16dp</dimen>
     <dimen name="spacer_3x">24dp</dimen>
 
+    <dimen name="compact_label_height">6dp</dimen>
+
     <!-- Drawer header -->
     <dimen name="drawer_header_height">100dp</dimen>
     <dimen name="drawer_header_logo_size">42dp</dimen>

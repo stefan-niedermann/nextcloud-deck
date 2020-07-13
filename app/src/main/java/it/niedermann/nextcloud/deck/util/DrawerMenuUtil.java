@@ -63,6 +63,9 @@ public class DrawerMenuUtil {
                                 case R.id.manage_labels:
                                     ManageLabelsDialogFragment.newInstance(board.getLocalId()).show(context.getSupportFragmentManager(), editBoard);
                                     return true;
+                                case R.id.clone_board:
+                                    context.onClone(board);
+                                    return true;
                                 case R.id.archive_board:
                                     context.onArchive(board);
                                     return true;
