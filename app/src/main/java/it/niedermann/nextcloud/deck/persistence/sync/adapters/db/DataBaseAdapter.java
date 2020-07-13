@@ -192,10 +192,18 @@ public class DataBaseAdapter {
         }
 
         if (!filter.getUsers().isEmpty()) {
-            query.append("and exists(select 1 from joincardwithuser j where c.localId = cardId and userId in (");
+            query.append("and (exists(select 1 from joincardwithuser j where c.localId = cardId and userId in (");
             fillSqlWithListValues(query, args, filter.getUsers());
             query.append(") and j.status<>3) ");
+            if (filter.isNoAssignedUser()){
+                query.append("or not exists(select 1 from joincardwithuser j where c.localId = cardId and j.status<>3)) ");
+            } else {
+                query.append(") ");
+            }
+        } else if (filter.isNoAssignedUser()) {
+            query.append("and not exists(select 1 from joincardwithuser j where c.localId = cardId and j.status<>3) ");
         }
+
         if (filter.getDueType() != EDueType.NO_FILTER) {
             switch (filter.getDueType()) {
                 case NO_DUE:
