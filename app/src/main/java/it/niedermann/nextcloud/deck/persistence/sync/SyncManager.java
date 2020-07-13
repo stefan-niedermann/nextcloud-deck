@@ -18,8 +18,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -80,6 +83,8 @@ public class SyncManager {
     private DataBaseAdapter dataBaseAdapter;
     @NonNull
     private ServerAdapter serverAdapter;
+
+    private static final Map<Long, List<IResponseCallback>> RUNNING_SYNCS = new ConcurrentHashMap<>();
 
     @AnyThread
     public SyncManager(@NonNull Context context) {
@@ -172,6 +177,13 @@ public class SyncManager {
         if(responseCallback.getAccount().getId() == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
+        List<IResponseCallback> queuedCallbacks = RUNNING_SYNCS.get(responseCallback.getAccount().getId());
+        if (queuedCallbacks != null){
+            queuedCallbacks.add(responseCallback);
+            return;
+        } else {
+            RUNNING_SYNCS.put(responseCallback.getAccount().getId(), new ArrayList<>());
+        }
         doAsync(() -> refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
             @Override
             public void onResponse(Capabilities response) {
@@ -192,12 +204,14 @@ public class SyncManager {
                                         // TODO deactivate for dev
                                         LastSyncUtil.setLastSyncDate(accountId, now);
                                         responseCallback.onResponse(response);
+                                        //TODO: queued callbacks! maybe start new sync?
                                     }
 
                                     @Override
                                     public void onError(Throwable throwable) {
                                         super.onError(throwable);
                                         responseCallback.onError(throwable);
+                                        //TODO: queued callbacks!
                                     }
                                 });
                                 doAsync(() -> {
@@ -206,6 +220,7 @@ public class SyncManager {
                                     } catch (Throwable e) {
                                         DeckLog.logError(e);
                                         responseCallback.onError(e);
+                                        //TODO: queued callbacks!
                                     }
                                 });
 
@@ -215,6 +230,7 @@ public class SyncManager {
                             public void onError(Throwable throwable) {
                                 super.onError(throwable);
                                 responseCallback.onError(throwable);
+                                //TODO: queued callbacks!
                             }
                         };
 
@@ -225,13 +241,16 @@ public class SyncManager {
                         } catch (Throwable e) {
                             DeckLog.logError(e);
                             responseCallback.onError(e);
+                            //TODO: queued callbacks!
                         }
                     } else {
                         responseCallback.onResponse(false);
+                        //TODO: queued callbacks!
                         DeckLog.warn("No sync. Server version not supported: " + response.getDeckVersion().getOriginalVersion());
                     }
                 } else {
                     responseCallback.onResponse(false);
+                    //TODO: queued callbacks!
                     DeckLog.warn("No sync. Status maintenance mode: " + response.isMaintenanceEnabled());
                 }
             }
