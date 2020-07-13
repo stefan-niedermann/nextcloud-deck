@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -97,17 +96,11 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
         }
 
         FullCard card = cardList.get(i);
-        final Intent intent = new Intent();
-        final Bundle extras = new Bundle();
 
         widget_entry = new RemoteViews(context.getPackageName(), R.layout.widget_stack_entry);
         widget_entry.setTextViewText(R.id.widget_entry_content_tv, card.card.getTitle());
 
-        extras.putSerializable(EditActivity.BUNDLE_KEY_ACCOUNT, account);
-        extras.putLong(EditActivity.BUNDLE_KEY_BOARD_ID, stack.getStack().getBoardId());
-        extras.putLong(EditActivity.BUNDLE_KEY_STACK_ID, stack.getStack().getId());
-        extras.putLong(EditActivity.BUNDLE_KEY_CARD_ID, card.card.getLocalId());
-        intent.putExtra(StackWidget.BUNDLE_KEY, extras);
+        final Intent intent = EditActivity.createEditCardIntent(context, account, stack.getStack().getBoardId(), card.getCard().getLocalId());
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         widget_entry.setOnClickFillInIntent(R.id.widget_stack_entry, intent);
 

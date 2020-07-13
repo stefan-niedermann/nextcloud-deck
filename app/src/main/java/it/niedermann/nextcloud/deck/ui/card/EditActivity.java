@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,7 +29,6 @@ import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedActivity;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
 import static android.graphics.Color.parseColor;
@@ -39,10 +37,10 @@ import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandTo
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 
 public class EditActivity extends BrandedActivity {
-    public static final String BUNDLE_KEY_ACCOUNT = "account";
-    public static final String BUNDLE_KEY_BOARD_ID = "boardId";
-    public static final String BUNDLE_KEY_CARD_ID = "cardId";
-    public static final String BUNDLE_KEY_STACK_ID = "stackId";
+    private static final String BUNDLE_KEY_ACCOUNT = "account";
+    private static final String BUNDLE_KEY_BOARD_ID = "boardId";
+    private static final String BUNDLE_KEY_STACK_ID = "stackId";
+    private static final String BUNDLE_KEY_CARD_ID = "cardId";
     private static final String BUNDLE_KEY_TITLE = "title";
 
     private ActivityEditBinding binding;
@@ -99,14 +97,7 @@ public class EditActivity extends BrandedActivity {
     }
 
     private void loadDataFromIntent() {
-        final Intent intent = getIntent();
-        final Bundle args;
-
-        if (intent.getBundleExtra(StackWidget.BUNDLE_KEY) != null) {
-            args = intent.getBundleExtra(StackWidget.BUNDLE_KEY);
-        } else {
-            args = intent.getExtras();
-        }
+        final Bundle args = getIntent().getExtras();
 
         if (args == null || !args.containsKey(BUNDLE_KEY_ACCOUNT) || !args.containsKey(BUNDLE_KEY_BOARD_ID)) {
             throw new IllegalArgumentException("Provide at least " + BUNDLE_KEY_ACCOUNT + " and " + BUNDLE_KEY_BOARD_ID + " of the card that should be edited or created.");
@@ -164,7 +155,7 @@ public class EditActivity extends BrandedActivity {
             }
         }));
 
-        Log.d("TAG", "finishLoadingIntent: dbtest " + viewModel.getAccount().getId() + " cardId: " + cardId);
+        DeckLog.verbose("Finished loading intent data: { accountId = " + viewModel.getAccount().getId() + " , cardId = " + cardId + " }");
     }
 
     @Override
@@ -307,7 +298,7 @@ public class EditActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
-        if(isBrandingEnabled(this)) {
+        if (isBrandingEnabled(this)) {
             final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
             if (navigationIcon == null) {
                 DeckLog.error("Expected navigationIcon to be present.");
