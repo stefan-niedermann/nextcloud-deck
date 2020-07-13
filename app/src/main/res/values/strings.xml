@@ -286,4 +286,5 @@
     <string name="clone_board">Clone board</string>
     <string name="cloning_board">Cloning %1$s…</string>
     <string name="successfully_cloned_board">Successfully cloned %1$s</string>
+    <string name="no_assigned_user">No assigned user</string>
 </resources>
