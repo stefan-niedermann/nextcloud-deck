@@ -94,7 +94,7 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
         public void bindNotAssigned() {
             binding.displayName.setText(itemView.getContext().getString(R.string.no_assigned_user));
             Glide.with(itemView.getContext())
-                    .load(R.drawable.ic_baseline_account_circle_24)
+                    .load(R.drawable.ic_baseline_block_24)
                     .into(binding.avatar);
             itemView.setSelected(selectedUsers.contains(NOT_ASSIGNED));
             bindClickListener(NOT_ASSIGNED);
