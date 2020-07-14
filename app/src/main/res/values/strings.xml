@@ -287,4 +287,6 @@
     <string name="clone_board">Clone board</string>
     <string name="cloning_board">Cloning %1$s…</string>
     <string name="successfully_cloned_board">Successfully cloned %1$s</string>
+    <string name="attachment_does_not_yet_exist">Attachment does not yet exist in Deck</string>
+    <string name="card_does_not_yet_exist">Card does not yet exist in Deck</string>
 </resources>

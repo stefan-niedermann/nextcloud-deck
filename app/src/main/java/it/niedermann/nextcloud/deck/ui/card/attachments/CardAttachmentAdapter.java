@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.card.attachments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
@@ -99,9 +98,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         final Attachment attachment = attachments.get(position);
         final int viewType = getItemViewType(position);
 
-        @Nullable final String uri = (attachment.getId() == null || cardRemoteId == null)
-                ? attachment.getLocalPath() :
-                AttachmentUtil.getRemoteUrl(account.getUrl(), cardRemoteId, attachment.getId());
+        @Nullable final String uri = AttachmentUtil.getRemoteOrLocalUrl(account.getUrl(), cardRemoteId, attachment);
         holder.setNotSyncedYetStatus(!DBStatus.LOCAL_EDITED.equals(attachment.getStatusEnum()), mainColor);
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menuInflater.inflate(R.menu.attachment_menu, menu);
@@ -109,9 +106,10 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                 DeleteAttachmentDialogFragment.newInstance(attachment).show(fragmentManager, DeleteAttachmentDialogFragment.class.getCanonicalName());
                 return false;
             });
-            if (uri == null) {
+            if (uri == null || attachment.getId() == null || cardRemoteId == null) {
                 menu.findItem(android.R.id.copyUrl).setVisible(false);
             } else {
+                menu.findItem(android.R.id.copyUrl).setVisible(true);
                 menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> copyToClipboard(context, attachment.getFilename(), uri));
             }
         });
@@ -155,13 +153,7 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
                     holder.getPreview().setImageResource(R.drawable.ic_attach_file_grey600_24dp);
                 }
 
-                if (cardRemoteId != null) {
-                    defaultHolder.itemView.setOnClickListener((event) -> {
-                        Intent openURL = new Intent(Intent.ACTION_VIEW);
-                        openURL.setData(Uri.parse(AttachmentUtil.getRemoteUrl(account.getUrl(), cardRemoteId, attachment.getId())));
-                        context.startActivity(openURL);
-                    });
-                }
+                defaultHolder.itemView.setOnClickListener((event) -> AttachmentUtil.openAttachmentInBrowser(context, account.getUrl(), cardRemoteId, attachment.getId()));
                 defaultHolder.binding.filename.setText(attachment.getBasename());
                 defaultHolder.binding.filesize.setText(Formatter.formatFileSize(context, attachment.getFilesize()));
                 if (attachment.getLastModifiedLocal() != null) {
