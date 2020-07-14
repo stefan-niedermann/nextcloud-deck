@@ -38,7 +38,6 @@
     <string name="simple_disabled">disabilitato</string>
     <string name="simple_copied">Copiato</string>
     <string name="simple_archive">Archivio</string>
-
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
     <string name="delete_board">Elimina lavagna</string>
@@ -257,4 +256,4 @@
     </plurals>
     <string name="simple_report">Segnala</string>
     <string name="error_action_open_battery_settings">Impostazioni batteria</string>
-</resources>
+    </resources>

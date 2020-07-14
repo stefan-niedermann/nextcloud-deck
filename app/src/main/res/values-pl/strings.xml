@@ -38,7 +38,6 @@
     <string name="simple_disabled">wyłączony</string>
     <string name="simple_copied">Skopiowano</string>
     <string name="simple_archive">Archiwizuj</string>
-
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
     <string name="delete_board">Usuń tablicę</string>
@@ -263,4 +262,4 @@
     </plurals>
     <string name="simple_report">Raport</string>
     <string name="error_action_open_battery_settings">Ustawienia baterii</string>
-</resources>
+    </resources>

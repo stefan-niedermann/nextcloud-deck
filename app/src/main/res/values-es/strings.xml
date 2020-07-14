@@ -38,7 +38,6 @@
     <string name="simple_disabled">deshabilitado</string>
     <string name="simple_copied">Copiado</string>
     <string name="simple_archive">Archivar</string>
-
     <string name="edit_board">Editar tablero</string>
     <string name="archive_board">Archivar tablero</string>
     <string name="delete_board">Eliminar tablero</string>
@@ -255,4 +254,5 @@
     </plurals>
     <string name="simple_report">Informe</string>
     <string name="error_action_open_battery_settings">Ajustes de batería</string>
-</resources>
+    <string name="clone_board">Clonar tablero</string>
+    </resources>

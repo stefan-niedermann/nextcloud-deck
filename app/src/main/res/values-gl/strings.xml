@@ -38,7 +38,6 @@
     <string name="simple_disabled">desactivado</string>
     <string name="simple_copied">Copiada</string>
     <string name="simple_archive">Aquivar</string>
-
     <string name="edit_board">Editar taboleiro</string>
     <string name="archive_board">Arquivar taboleiro</string>
     <string name="delete_board">Eliminar taboleiro</string>
@@ -257,4 +256,4 @@
     </plurals>
     <string name="simple_report">Informe</string>
     <string name="error_action_open_battery_settings">Axustes da batería</string>
-</resources>
+    </resources>

@@ -38,7 +38,6 @@
     <string name="simple_disabled">désactivé</string>
     <string name="simple_copied">Copié</string>
     <string name="simple_archive">Archiver</string>
-
     <string name="edit_board">Modifier le tableau</string>
     <string name="archive_board">Archiver le tableau</string>
     <string name="delete_board">Supprimer le tableau</string>
@@ -257,4 +256,4 @@
     </plurals>
     <string name="simple_report">Signaler</string>
     <string name="error_action_open_battery_settings">Paramètres de batterie</string>
-</resources>
+    </resources>

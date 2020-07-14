@@ -38,7 +38,6 @@
     <string name="simple_disabled">искључено</string>
     <string name="simple_copied">Копирано</string>
     <string name="simple_archive">Архива</string>
-
     <string name="edit_board">Измени таблу</string>
     <string name="archive_board">Архивирај таблу</string>
     <string name="delete_board">Избриши таблу</string>
@@ -256,4 +255,5 @@
     </plurals>
     <string name="simple_report">Пријави</string>
     <string name="error_action_open_battery_settings">Подешавања батерије</string>
-</resources>
+    <string name="clone_board">Клонирај таблу</string>
+    </resources>
