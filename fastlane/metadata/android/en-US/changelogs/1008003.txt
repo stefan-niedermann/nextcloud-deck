@@ -1,6 +1,7 @@
 1.8.3
 
 - 🐞 Fix opening not yet synchronized attachment (#599)
+- 🐞 Back arrow in attachments details has wrong color in light theme (#598)
 
 1.8.2
 
