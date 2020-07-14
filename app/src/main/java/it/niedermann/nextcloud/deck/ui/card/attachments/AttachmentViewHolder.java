@@ -5,7 +5,10 @@ import android.widget.ImageView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 
 public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
     AttachmentViewHolder(@NonNull View itemView) {
@@ -14,5 +17,11 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
 
     abstract protected ImageView getPreview();
 
-    abstract protected void setNotSyncedYetStatus(boolean synced, @ColorInt int color);
+    protected void setNotSyncedYetStatus(boolean synced, @ColorInt int mainColor) {
+        final ImageView notSyncedYet = getNotSyncedYetStatusIcon();
+        DrawableCompat.setTint(notSyncedYet.getDrawable(), BrandingUtil.getSecondaryForegroundColorDependingOnTheme(notSyncedYet.getContext(), mainColor));
+        notSyncedYet.setVisibility(synced ? View.GONE : View.VISIBLE);
+    }
+
+    abstract protected ImageView getNotSyncedYetStatusIcon();
 }

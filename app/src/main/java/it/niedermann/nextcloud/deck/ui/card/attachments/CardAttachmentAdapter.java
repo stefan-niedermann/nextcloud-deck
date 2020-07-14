@@ -29,6 +29,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.attachments.AttachmentsActivity;
+import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.MimeTypeUtil;
@@ -37,7 +38,7 @@ import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
 
 @SuppressWarnings("WeakerAccess")
-public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
+public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> implements Branded {
 
     public static final int VIEW_TYPE_DEFAULT = 2;
     public static final int VIEW_TYPE_IMAGE = 1;
@@ -57,7 +58,6 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
     private final AttachmentClickedListener attachmentClickedListener;
 
     CardAttachmentAdapter(
-            @NonNull Context context,
             @NonNull FragmentManager fragmentManager,
             @NonNull MenuInflater menuInflater,
             @Nullable AttachmentClickedListener attachmentClickedListener,
@@ -196,5 +196,11 @@ public class CardAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHo
         final int index = this.attachments.indexOf(a);
         this.attachments.remove(a);
         notifyItemRemoved(index);
+    }
+
+    @Override
+    public void applyBrand(@ColorInt int mainColor) {
+        this.mainColor = mainColor;
+        notifyDataSetChanged();
     }
 }
