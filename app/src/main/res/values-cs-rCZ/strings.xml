@@ -38,7 +38,6 @@
     <string name="simple_disabled">vypnuto</string>
     <string name="simple_copied">Zkopírováno</string>
     <string name="simple_archive">Archiv</string>
-
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
     <string name="delete_board">Smazat tabuli</string>
@@ -263,4 +262,4 @@
     </plurals>
     <string name="simple_report">Hlášení</string>
     <string name="error_action_open_battery_settings">Nastavení správy napájení</string>
-</resources>
+    </resources>

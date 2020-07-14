@@ -38,7 +38,6 @@
     <string name="simple_disabled">Deaktiviert</string>
     <string name="simple_copied">Kopiert</string>
     <string name="simple_archive">Archivieren</string>
-
     <string name="edit_board">Board bearbeiten</string>
     <string name="archive_board">Board archivieren</string>
     <string name="delete_board">Board löschen</string>
@@ -257,4 +256,5 @@
     </plurals>
     <string name="simple_report">Melden</string>
     <string name="error_action_open_battery_settings">Batterie-Einstellungen</string>
-</resources>
+    <string name="clone_board">Board klonen</string>
+    </resources>

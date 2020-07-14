@@ -38,7 +38,6 @@
     <string name="simple_disabled">letiltva</string>
     <string name="simple_copied">Másolva</string>
     <string name="simple_archive">Archívum</string>
-
     <string name="edit_board">Tábla szerkesztése</string>
     <string name="archive_board">Tábla archiválása</string>
     <string name="delete_board">Tábla törlése</string>
@@ -242,4 +241,5 @@
     <string name="manage_accounts">Fiókok kezelése</string>
     <string name="simple_reply">Válasz</string>
     <string name="simple_report">Jelentés</string>
+    <string name="clone_board">Tábla klónozása</string>
     </resources>
