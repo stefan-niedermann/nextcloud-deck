@@ -4,14 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it.niedermann.nextcloud.deck.R;
-import it.niedermann.nextcloud.deck.databinding.ItemProjectResourceBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemProjectBinding;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 
 public class CardProjectsViewHolder extends RecyclerView.ViewHolder {
 
-    private ItemProjectResourceBinding binding;
+    private ItemProjectBinding binding;
 
-    public CardProjectsViewHolder(@NonNull ItemProjectResourceBinding binding) {
+    public CardProjectsViewHolder(@NonNull ItemProjectBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }
