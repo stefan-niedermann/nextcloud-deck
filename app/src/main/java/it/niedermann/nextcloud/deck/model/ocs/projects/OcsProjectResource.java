@@ -2,9 +2,11 @@ package it.niedermann.nextcloud.deck.model.ocs.projects;
 
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
+
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
-public class OcsProjectResource implements IRemoteEntity {
+public class OcsProjectResource implements IRemoteEntity, Serializable {
     private String type;
     private String name;
     private String link;

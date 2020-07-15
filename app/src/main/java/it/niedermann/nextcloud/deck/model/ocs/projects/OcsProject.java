@@ -10,7 +10,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 public class OcsProject implements IRemoteEntity {
     private String name;
     @NonNull
-    private List<OcsProjectResource> resources = new ArrayList<>();
+    private ArrayList<OcsProjectResource> resources = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -21,7 +21,7 @@ public class OcsProject implements IRemoteEntity {
     }
 
     @NonNull
-    public List<OcsProjectResource> getResources() {
+    public ArrayList<OcsProjectResource> getResources() {
         return resources;
     }
 

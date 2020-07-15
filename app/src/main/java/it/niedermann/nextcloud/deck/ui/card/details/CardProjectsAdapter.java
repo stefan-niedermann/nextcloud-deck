@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.databinding.ItemProjectResourceBinding;
+import it.niedermann.nextcloud.deck.databinding.ItemProjectBinding;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 
 public class CardProjectsAdapter extends RecyclerView.Adapter<CardProjectsViewHolder> {
@@ -31,7 +31,7 @@ public class CardProjectsAdapter extends RecyclerView.Adapter<CardProjectsViewHo
     @NonNull
     @Override
     public CardProjectsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CardProjectsViewHolder(ItemProjectResourceBinding.inflate(LayoutInflater.from(parent.getContext())));
+        return new CardProjectsViewHolder(ItemProjectBinding.inflate(LayoutInflater.from(parent.getContext())));
     }
 
     @Override
