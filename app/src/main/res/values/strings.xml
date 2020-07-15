@@ -292,6 +292,7 @@
     <string name="project_type_deck_board">Deck board</string>
     <string name="project_type_deck_card">Deck card</string>
     <string name="project_type_file">File</string>
+    <string name="projects_title">Projects</string>
     <plurals name="resources_count">
         <item quantity="one">%1$d resource</item>
         <item quantity="other">%1$d resources</item>
