@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 
 public class FullCard implements IRemoteEntity, DragAndDropModel {
 
@@ -46,6 +47,9 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
     @Relation(entity = DeckComment.class, parentColumn = "localId", entityColumn = "objectId", projection = "localId")
     public List<Long> commentIDs;
 
+    @Ignore // TODO change to @Relation
+    @NonNull
+    private List<OcsProject> projects = new ArrayList<>();
 
     public FullCard() {
         super();
@@ -58,6 +62,7 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
         this.owner = copyList(fullCard.getOwner());
         this.attachments = copyList(fullCard.getAttachments());
         this.commentIDs = copyList(fullCard.getCommentIDs());
+        this.projects = copyList(fullCard.getProjects());
     }
 
     public Card getCard() {
@@ -120,6 +125,16 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    @NonNull
+    public List<OcsProject> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(@NonNull List<OcsProject> projects) {
+        this.projects.clear();
+        this.projects.addAll(projects);
     }
 
     @Ignore

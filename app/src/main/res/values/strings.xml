@@ -289,4 +289,8 @@
     <string name="successfully_cloned_board">Successfully cloned %1$s</string>
     <string name="attachment_does_not_yet_exist">Attachment does not yet exist in Deck</string>
     <string name="card_does_not_yet_exist">Card does not yet exist in Deck</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d resource</item>
+        <item quantity="other">%1$d resources</item>
+    </plurals>
 </resources>

@@ -113,11 +113,11 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         setupLabels();
         setupDueDate();
         setupDescription();
+        setupProjects();
         binding.description.setText(viewModel.getFullCard().getCard().getDescription());
 
         return binding.getRoot();
     }
-
 
     @Override
     public void onResume() {
@@ -379,7 +379,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     @Override
-    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
         int hourOfDay;
         int minute;
@@ -404,7 +404,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     @Override
-    public void onTimeSet(com.wdullaer.materialdatetimepicker.time.TimePickerDialog view, int hourOfDay, int minute, int second) {
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         if (this.viewModel.getFullCard().getCard().getDueDate() == null) {
             this.viewModel.getFullCard().getCard().setDueDate(new Date());
         }
@@ -416,5 +416,10 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         } else {
             binding.clearDueDate.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void setupProjects() {
+        final CardProjectsAdapter adapter = new CardProjectsAdapter(viewModel.getFullCard().getProjects());
+        binding.projects.setAdapter(adapter);
     }
 }
