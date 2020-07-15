@@ -30,7 +30,7 @@ public class ArchivedBoardViewHolder extends RecyclerView.ViewHolder {
 
     void bind(boolean isSupportedVersion, Board board, FragmentManager fragmentManager, Consumer<Board> dearchiveBoardListener) {
         final Context context = itemView.getContext();
-        binding.boardIcon.setImageDrawable(ViewUtil.getTintedImageView(binding.boardIcon.getContext(), R.drawable.circle_grey600_36dp, "#" + board.getColor()));
+        binding.boardIcon.setImageDrawable(ViewUtil.getTintedImageView(binding.boardIcon.getContext(), R.drawable.circle_grey600_36dp, String.format("#%06X", (0xFFFFFF & board.getColorInt()))));
         binding.boardMenu.setVisibility(View.GONE);
         binding.boardTitle.setText(board.getTitle());
         if (isSupportedVersion) {

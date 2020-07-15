@@ -33,7 +33,6 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 
-import static android.graphics.Color.parseColor;
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.DeckApplication.readCurrentAccountId;
@@ -76,7 +75,7 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
             for (Board board : boards) {
                 if (board.getLocalId() == lastBoardId) {
                     binding.boardSelect.setSelection(boardAdapter.getPosition(board));
-                    applyBrand(Color.parseColor('#' + board.getColor()));
+                    applyBrand(board.getColorInt());
                     break;
                 }
             }
@@ -167,7 +166,7 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
         });
 
         binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            applyBrand(Color.parseColor('#' + ((Board) binding.boardSelect.getSelectedItem()).getColor()));
+            applyBrand(((Board) binding.boardSelect.getSelectedItem()).getColorInt());
             updateLiveDataSource(stacksLiveData, stacksObserver, syncManager.getStacksForBoard(binding.accountSelect.getSelectedItemId(), parent.getSelectedItemId()));
         });
 
@@ -204,7 +203,7 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
             saveCurrentAccountId(this, account.getId());
             saveCurrentBoardId(this, account.getId(), boardId);
             saveCurrentStackId(this, account.getId(), boardId, stackId);
-            applyBrand(parseColor(account.getColor()));
+            applyBrand(account.getColorInt());
 
             finish();
         } else {

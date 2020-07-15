@@ -38,7 +38,7 @@ public class DrawerMenuUtil {
         SubMenu boardsMenu = menu.addSubMenu(R.string.simple_boards);
         int index = 0;
         for (Board board : boards) {
-            MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, "#" + board.getColor()));
+            MenuItem m = boardsMenu.add(Menu.NONE, index++, Menu.NONE, board.getTitle()).setIcon(ViewUtil.getTintedImageView(context, R.drawable.circle_grey600_36dp, String.format("#%06X", (0xFFFFFF & board.getColorInt()))));
             if (currentServerVersionIsSupported) {
                 if (board.isPermissionManage()) {
                     AppCompatImageButton contextMenu = new AppCompatImageButton(context);

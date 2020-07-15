@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.deck.ui.view.labelchip;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -42,7 +41,7 @@ public class LabelChip extends Chip {
         setChipEndPadding(gutter);
 
         try {
-            int labelColor = Color.parseColor("#" + label.getColor());
+            int labelColor = label.getColorInt();
             ColorStateList c = ColorStateList.valueOf(labelColor);
             setChipBackgroundColor(c);
             setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));

@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.model;
 
+import android.graphics.Color;
+
+import androidx.annotation.ColorInt;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
@@ -79,8 +82,14 @@ public class Board extends AbstractRemoteEntity implements Serializable {
         this.id = id;
     }
 
+    @Deprecated
     public String getColor() {
         return color;
+    }
+
+    @ColorInt
+    public int getColorInt() {
+        return Color.parseColor('#' + color);
     }
 
     public void setColor(String color) {

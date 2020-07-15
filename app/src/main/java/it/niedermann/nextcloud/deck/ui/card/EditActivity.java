@@ -31,7 +31,6 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.CardUtil;
 
-import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToPrimaryTabLayout;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
@@ -121,7 +120,7 @@ public class EditActivity extends BrandedActivity {
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
         observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
-            applyBrand(parseColor('#' + fullBoard.getBoard().getColor()));
+            applyBrand(fullBoard.getBoard().getColorInt());
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {
@@ -296,7 +295,7 @@ public class EditActivity extends BrandedActivity {
 
     @Override
     public void applyBrand(int mainColor) {
-        if(isBrandingEnabled(this)) {
+        if (isBrandingEnabled(this)) {
             final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
             if (navigationIcon == null) {
                 DeckLog.error("Excpected navigationIcon to be present.");

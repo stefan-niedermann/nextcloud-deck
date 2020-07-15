@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.model;
 
+import androidx.annotation.ColorInt;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -7,17 +8,20 @@ import androidx.room.Index;
 import java.io.Serializable;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
+
+import static android.graphics.Color.parseColor;
 
 @Entity(inheritSuperIndices = true,
         indices = {@Index("boardId"), @Index(value = {"boardId", "title"}, unique = true, name = "idx_label_title_unique")},
         foreignKeys = {
-        @ForeignKey(
-            entity = Board.class,
-            parentColumns = "localId",
-            childColumns = "boardId",
-            onDelete = ForeignKey.CASCADE
-        )
-    }
+                @ForeignKey(
+                        entity = Board.class,
+                        parentColumns = "localId",
+                        childColumns = "boardId",
+                        onDelete = ForeignKey.CASCADE
+                )
+        }
 )
 public class Label extends AbstractRemoteEntity implements Serializable {
     private String title;
@@ -42,8 +46,15 @@ public class Label extends AbstractRemoteEntity implements Serializable {
         this.title = title;
     }
 
+    @Deprecated
     public String getColor() {
         return color;
+    }
+
+    @ColorInt
+    public int getColorInt() {
+        // TODO should be fixed in database migration
+        return parseColor(ColorUtil.formatColorToParsableHexString(color));
     }
 
     public void setColor(String color) {

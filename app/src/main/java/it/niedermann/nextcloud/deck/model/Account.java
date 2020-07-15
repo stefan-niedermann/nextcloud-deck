@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.model;
 
 import android.net.Uri;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Px;
 import androidx.room.ColumnInfo;
@@ -19,6 +20,8 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.accountswitcher.AccountSwitcherDialog;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
+
+import static android.graphics.Color.parseColor;
 
 @Entity(indices = {@Index(value = "name", unique = true)})
 public class Account implements Serializable {
@@ -132,20 +135,28 @@ public class Account implements Serializable {
         return serialVersionUID;
     }
 
+    @Deprecated
     @NonNull
     public String getColor() {
         return color;
+    }
+
+    @ColorInt
+    public int getColorInt() {
+        return parseColor(color);
     }
 
     public void setColor(@NonNull String color) {
         this.color = color;
     }
 
+    @Deprecated
     @NonNull
     public String getTextColor() {
         return textColor;
     }
 
+    @Deprecated
     public void setTextColor(@NonNull String textColor) {
         this.textColor = textColor;
     }

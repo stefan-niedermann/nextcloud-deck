@@ -21,7 +21,6 @@ import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 
-import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class PushNotificationActivity extends AppCompatActivity {
@@ -151,7 +150,7 @@ public class PushNotificationActivity extends AppCompatActivity {
     // TODO implement Branded interface
     // TODO apply branding based on board color
     public void applyBrandToSubmitButton(@NonNull Account account) {
-        @ColorInt final int mainColor = parseColor(account.getColor());
+        @ColorInt final int mainColor = account.getColorInt();
         try {
             binding.submit.setBackgroundColor(mainColor);
             binding.submit.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(mainColor));

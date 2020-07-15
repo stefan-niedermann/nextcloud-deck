@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.filter;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -69,7 +68,7 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
 
         void bind(final Label label) {
             binding.label.setText(label.getTitle());
-            final int labelColor = Color.parseColor("#" + label.getColor());
+            final int labelColor = label.getColorInt();
             binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
             final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
             binding.label.setTextColor(color);

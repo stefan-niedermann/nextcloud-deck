@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.AnyThread;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
@@ -166,10 +167,10 @@ public class SyncManager {
 
     @AnyThread
     public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
-        if(responseCallback.getAccount() == null) {
+        if (responseCallback.getAccount() == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
         }
-        if(responseCallback.getAccount().getId() == null) {
+        if (responseCallback.getAccount().getId() == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
         doAsync(() -> refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
@@ -451,7 +452,7 @@ public class SyncManager {
      * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
      */
     @AnyThread
-    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardColor) {
+    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor) {
         WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
 
         doAsync(() -> {
@@ -484,7 +485,7 @@ public class SyncManager {
             originalBoard.setId(null);
             originalBoard.setLocalId(null);
             originalBoard.getBoard().setTitle(newBoardTitle);
-            originalBoard.getBoard().setColor(targetBoardColor);
+            originalBoard.getBoard().setColor(String.format("%06X", 0xFFFFFF & targetBoardColor));
             originalBoard.getBoard().setOwnerId(newOwner.getLocalId());
             originalBoard.setStatusEnum(DBStatus.LOCAL_EDITED);
             originalBoard.setOwner(newOwner);
@@ -1412,6 +1413,7 @@ public class SyncManager {
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId) {
         return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId);
     }
+
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
         return findProposalsForLabelsToAssign(accountId, boardId, -1L);
     }

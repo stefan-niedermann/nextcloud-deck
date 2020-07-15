@@ -553,7 +553,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         if (stacksLiveData != null) {
             stacksLiveData.removeObservers(this);
         }
-        saveBrandColors(this, Color.parseColor('#' + board.getColor()));
+        saveBrandColors(this, board.getColorInt());
         mainViewModel.setCurrentBoard(board);
         filterViewModel.clearFilterInformation();
 
@@ -986,7 +986,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
-        final WrappedLiveData<FullBoard> liveData = syncManager.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor());
+        final WrappedLiveData<FullBoard> liveData = syncManager.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColorInt());
         observeOnce(liveData, this, (fullBoard -> {
             snackbar.dismiss();
             if (liveData.hasError()) {

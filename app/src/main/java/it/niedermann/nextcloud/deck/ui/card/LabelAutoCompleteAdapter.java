@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +58,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
         }
 
         final Label label = getItem(position);
-        final int labelColor = Color.parseColor("#" + label.getColor());
+        final int labelColor = label.getColorInt();
         final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
 
         binding.label.setText(label.getTitle());
