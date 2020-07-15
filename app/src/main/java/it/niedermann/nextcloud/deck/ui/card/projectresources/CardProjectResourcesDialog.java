@@ -19,7 +19,6 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
-import it.niedermann.nextcloud.deck.ui.card.details.CardDetailsFragment;
 
 public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
@@ -53,14 +52,14 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
         // See https://github.com/stefan-niedermann/nextcloud-deck/issues/478
         if (viewModel.getFullCard() == null) {
-            DeckLog.logError(new IllegalStateException("Cannot populate " + CardDetailsFragment.class.getSimpleName() + " because viewModel.getFullCard() is null"));
+            DeckLog.logError(new IllegalStateException("Cannot populate " + CardProjectResourcesDialog.class.getSimpleName() + " because viewModel.getFullCard() is null"));
             return binding.getRoot();
         }
 
         syncManager = new SyncManager(requireContext());
 
         // TODO parameter needed
-        adapter = new CardProjectResourceAdapter(resources);
+        adapter = new CardProjectResourceAdapter(viewModel.getAccount(), resources);
         binding.getRoot().setAdapter(adapter);
         return binding.getRoot();
     }

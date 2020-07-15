@@ -10,14 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.databinding.ItemProjectResourceBinding;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 
 public class CardProjectResourceAdapter extends RecyclerView.Adapter<CardProjectResourceViewHolder> {
 
     @NonNull
+    private final Account account;
+    @NonNull
     private final List<OcsProjectResource> resources;
 
-    public CardProjectResourceAdapter(@NonNull List<OcsProjectResource> resources) {
+    public CardProjectResourceAdapter(@NonNull Account account, @NonNull List<OcsProjectResource> resources) {
+        this.account = account;
         this.resources = new ArrayList<>(resources.size());
         this.resources.addAll(resources);
         setHasStableIds(true);
@@ -36,7 +40,7 @@ public class CardProjectResourceAdapter extends RecyclerView.Adapter<CardProject
 
     @Override
     public void onBindViewHolder(@NonNull CardProjectResourceViewHolder holder, int position) {
-        holder.bind(resources.get(position));
+        holder.bind(account, resources.get(position));
     }
 
     @Override
