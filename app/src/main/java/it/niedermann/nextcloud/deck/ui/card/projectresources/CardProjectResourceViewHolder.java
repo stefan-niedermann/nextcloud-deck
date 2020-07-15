@@ -48,7 +48,7 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
                 break;
             }
             default: {
-                DeckLog.info("Unknown project type: " + resource.getType());
+                DeckLog.warn("Unknown project type: " + resource.getType());
                 binding.type.setVisibility(GONE);
                 break;
             }
