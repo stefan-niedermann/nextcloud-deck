@@ -8,7 +8,25 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
 public class OcsProject implements IRemoteEntity {
-    String name;
+    private String name;
     @NonNull
-    List<OcsProjectResource> resources = new ArrayList<>();
+    private List<OcsProjectResource> resources = new ArrayList<>();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @NonNull
+    public List<OcsProjectResource> getResources() {
+        return resources;
+    }
+
+    public void setResources(@NonNull List<OcsProjectResource> resources) {
+        this.resources.clear();
+        this.resources.addAll(resources);
+    }
 }
