@@ -166,10 +166,10 @@ public class SyncManager {
 
     @AnyThread
     public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
-        if (responseCallback.getAccount() == null) {
+        if(responseCallback.getAccount() == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
         }
-        if (responseCallback.getAccount().getId() == null) {
+        if(responseCallback.getAccount().getId() == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
         doAsync(() -> refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {

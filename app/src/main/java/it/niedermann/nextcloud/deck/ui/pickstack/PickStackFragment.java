@@ -88,17 +88,17 @@ public class PickStackFragment extends Fragment {
         if (stacks.size() > 0) {
             binding.stackSelect.setEnabled(true);
 
-            Stack stackWithCounterToSelect = null;
+            Stack stackToSelect = null;
             for (Stack stack : stacks) {
                 if (stack.getLocalId() == lastStackId) {
-                    stackWithCounterToSelect = stack;
+                    stackToSelect = stack;
                     break;
                 }
             }
-            if (stackWithCounterToSelect == null) {
-                stackWithCounterToSelect = stacks.get(0);
+            if (stackToSelect == null) {
+                stackToSelect = stacks.get(0);
             }
-            binding.stackSelect.setSelection(stackAdapter.getPosition(stackWithCounterToSelect));
+            binding.stackSelect.setSelection(stackAdapter.getPosition(stackToSelect));
         } else {
             binding.stackSelect.setEnabled(false);
             pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), null);

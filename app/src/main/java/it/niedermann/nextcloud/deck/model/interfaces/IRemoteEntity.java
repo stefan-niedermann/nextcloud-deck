@@ -60,21 +60,19 @@ public interface IRemoteEntity {
         getEntity().setLastModifiedLocal(lastModifiedLocal);
     }
 
-
     default DBStatus getStatusEnum() {
         return getEntity().getStatusEnum();
     }
-
 
     default void setStatusEnum(DBStatus status) {
         getEntity().setStatusEnum(status);
     }
 
-    default <U> List<U> copyList(List<U> listToCopy) {
+    default <T> List<T> copyList(List<T> listToCopy) {
         if (listToCopy == null) {
             return null;
         }
-        List<U> list = new ArrayList<>(listToCopy.size());
+        List<T> list = new ArrayList<>(listToCopy.size());
         list.addAll(listToCopy);
         return list;
     }
