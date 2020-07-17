@@ -61,7 +61,6 @@ import it.niedermann.nextcloud.deck.databinding.NavHeaderMainBinding;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
@@ -440,30 +439,18 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onCreateStack(String stackName) {
-        // TODO this outer call is only necessary to get the highest order. Move logic to SyncManager.
-        observeOnce(syncManager.getStacksForBoard(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), MainActivity.this, fullStacks -> {
-            final Stack s = new Stack(stackName, mainViewModel.getCurrentBoardLocalId());
-            int heighestOrder = 0;
-            for (FullStack fullStack : fullStacks) {
-                int currentStackOrder = fullStack.stack.getOrder();
-                if (currentStackOrder >= heighestOrder) {
-                    heighestOrder = currentStackOrder + 1;
-                }
+        DeckLog.info("Create Stack in account " + mainViewModel.getCurrentAccount().getName() + " on board " + mainViewModel.getCurrentBoardLocalId());
+        WrappedLiveData<FullStack> createLiveData = syncManager.createStack(mainViewModel.getCurrentAccount().getId(), stackName, mainViewModel.getCurrentBoardLocalId());
+        observeOnce(createLiveData, this, (fullStack) -> {
+            if (createLiveData.hasError()) {
+                final Throwable error = createLiveData.getError();
+                assert error != null;
+                BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+                        .show();
+            } else {
+                binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
             }
-            s.setOrder(heighestOrder);
-            DeckLog.info("Create Stack in account " + mainViewModel.getCurrentAccount().getName() + " on board " + mainViewModel.getCurrentBoardLocalId());
-            WrappedLiveData<FullStack> createLiveData = syncManager.createStack(mainViewModel.getCurrentAccount().getId(), s);
-            observeOnce(createLiveData, this, (fullStack) -> {
-                if (createLiveData.hasError()) {
-                    final Throwable error = createLiveData.getError();
-                    assert error != null;
-                    BrandedSnackbar.make(binding.coordinatorLayout, Objects.requireNonNull(error.getLocalizedMessage()), Snackbar.LENGTH_LONG)
-                            .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(error, mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
-                            .show();
-                } else {
-                    binding.viewPager.setCurrentItem(stackAdapter.getItemCount());
-                }
-            });
         });
     }
 

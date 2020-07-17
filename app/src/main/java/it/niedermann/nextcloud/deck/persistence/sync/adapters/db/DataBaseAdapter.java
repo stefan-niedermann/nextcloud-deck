@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
@@ -452,24 +453,29 @@ public class DataBaseAdapter {
         return db.getStackDao().getFullStacksForBoardDirectly(accountId, localBoardId);
     }
 
+    @AnyThread
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
         return distinctUntilChanged(db.getStackDao().getFullStack(accountId, localStackId));
     }
 
+    @WorkerThread
     public long createStack(long accountId, Stack stack) {
         stack.setAccountId(accountId);
         return db.getStackDao().insert(stack);
     }
 
+    @WorkerThread
     public void deleteStack(Stack stack, boolean setStatus) {
         markAsDeletedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
     }
 
+    @WorkerThread
     public void deleteStackPhysically(Stack stack) {
         db.getStackDao().delete(stack);
     }
 
+    @WorkerThread
     public void updateStack(Stack stack, boolean setStatus) {
         markAsEditedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
@@ -484,6 +490,7 @@ public class DataBaseAdapter {
         return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
     }
 
+    @AnyThread
     public LiveData<FullCard> getCardByLocalId(long accountId, long localCardId) {
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::filterRelationsForCard);
     }
@@ -498,6 +505,7 @@ public class DataBaseAdapter {
         return db.getCardDao().getLocallyChangedCardsByLocalStackIdDirectly(accountId, localStackId);
     }
 
+    @WorkerThread
     public long createCard(long accountId, Card card) {
         card.setAccountId(accountId);
 
@@ -508,14 +516,17 @@ public class DataBaseAdapter {
         return db.getCardDao().insert(card);
     }
 
+    @WorkerThread
     public int getHighestCardOrderInStack(long localStackId) {
         return db.getCardDao().getHighestOrderInStack(localStackId);
     }
 
+    @WorkerThread
     public int getHighestStackOrderInBoard(long localBoardId) {
         return db.getStackDao().getHighestStackOrderInBoard(localBoardId);
     }
 
+    @WorkerThread
     public void deleteCard(Card card, boolean setStatus) {
         markAsDeletedIfNeeded(card, setStatus);
         if (setStatus) {
@@ -529,10 +540,12 @@ public class DataBaseAdapter {
         // StackWidget.notifyDatasetChanged(context);
     }
 
+    @WorkerThread
     public void deleteCardPhysically(Card card) {
         db.getCardDao().delete(card);
     }
 
+    @WorkerThread
     public void updateCard(@NonNull Card card, boolean setStatus) {
         markAsEditedIfNeeded(card, setStatus);
         db.getCardDao().update(card);
@@ -546,6 +559,7 @@ public class DataBaseAdapter {
         // StackWidget.notifyDatasetChanged(context);
     }
 
+    @WorkerThread
     public long createAccessControl(long accountId, @NonNull AccessControl entity) {
         entity.setAccountId(accountId);
         return db.getAccessControlDao().insert(entity);
