@@ -66,7 +66,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
                         tab.setIcon(draft.getLabels().size() > 0 ? indicator : null);
                         break;
                     case 1:
-                        tab.setIcon(draft.getUsers().size() > 0 ? indicator : null);
+                        tab.setIcon(draft.getUsers().size() > 0 || draft.isNoAssignedUser() ? indicator : null);
                         break;
                     case 2:
                         tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null);
