@@ -756,6 +756,7 @@ public class SyncManager {
         return liveData;
     }
 
+    @Deprecated
     @AnyThread
     public WrappedLiveData<FullStack> updateStack(@NonNull FullStack stack) {
         WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
@@ -765,7 +766,16 @@ public class SyncManager {
             updateStack(account, board, stack, liveData);
         });
         return liveData;
+    }
 
+    @AnyThread
+    public WrappedLiveData<Void> updateStackTitle(long accountId, long localStackId, @NonNull String newTitle) {
+        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+        doAsync(() -> {
+            // TODO implement, replaces #updateStack(@NonNull FullStack stack)
+            liveData.postError(new UnsupportedOperationException("Not yet implemented."));
+        });
+        return liveData;
     }
 
     @AnyThread
@@ -1412,6 +1422,7 @@ public class SyncManager {
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId) {
         return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId);
     }
+
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
         return findProposalsForLabelsToAssign(accountId, boardId, -1L);
     }
