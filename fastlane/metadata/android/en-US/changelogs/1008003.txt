@@ -1,6 +1,6 @@
 1.8.3
 
-
+- 🎨 No filter indicator when branding disabled (#604)
 
 1.8.2
 
