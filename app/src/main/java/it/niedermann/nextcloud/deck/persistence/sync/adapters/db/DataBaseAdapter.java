@@ -512,6 +512,10 @@ public class DataBaseAdapter {
         return db.getCardDao().getHighestOrderInStack(localStackId);
     }
 
+    public int getHighestStackOrderInBoard(long localBoardId) {
+        return db.getStackDao().getHighestStackOrderInBoard(localBoardId);
+    }
+
     public void deleteCard(Card card, boolean setStatus) {
         markAsDeletedIfNeeded(card, setStatus);
         if (setStatus) {

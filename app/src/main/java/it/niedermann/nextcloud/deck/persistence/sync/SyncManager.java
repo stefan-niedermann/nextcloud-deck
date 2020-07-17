@@ -745,7 +745,7 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
             FullStack fullStack = new FullStack();
-            // TODO set stack order to (highest stack-order from board) + 1 and remove logic from caller
+            stack.setOrder(dataBaseAdapter.getHighestStackOrderInBoard(stack.getBoardId()) + 1);
             stack.setAccountId(accountId);
             stack.setBoardId(board.getLocalId());
             fullStack.setStack(stack);
@@ -1009,24 +1009,36 @@ public class SyncManager {
         return liveData;
     }
 
-    // TODO return WrappedLiveData for error handling
     @AnyThread
-    public void archiveBoard(@NonNull Board board) {
+    public WrappedLiveData<FullBoard> archiveBoard(@NonNull Board board) {
+        WrappedLiveData liveData = new WrappedLiveData();
         doAsync(() -> {
-            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
-            b.getBoard().setArchived(true);
-            updateBoard(b);
+            try {
+                FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+                b.getBoard().setArchived(true);
+                updateBoard(b);
+                liveData.postValue(b);
+            } catch (Throwable e) {
+                liveData.postError(e);
+            }
         });
+        return liveData;
     }
 
-    // TODO return WrappedLiveData for error handling
     @AnyThread
-    public void dearchiveBoard(@NonNull Board board) {
+    public WrappedLiveData dearchiveBoard(@NonNull Board board) {
+        WrappedLiveData liveData = new WrappedLiveData();
         doAsync(() -> {
-            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
-            b.getBoard().setArchived(false);
-            updateBoard(b);
+            try {
+                FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+                b.getBoard().setArchived(false);
+                updateBoard(b);
+                liveData.postValue(b);
+            } catch (Throwable e) {
+                liveData.postError(e);
+            }
         });
+        return liveData;
     }
 
     @AnyThread
