@@ -20,7 +20,7 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 
-public class FullCard implements IRemoteEntity<Card>, DragAndDropModel {
+public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Ignore
     private transient boolean isAttachmentsSorted = false;

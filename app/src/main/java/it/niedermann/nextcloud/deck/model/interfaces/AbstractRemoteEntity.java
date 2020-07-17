@@ -26,7 +26,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
         )
     }
 )
-public abstract class AbstractRemoteEntity implements IRemoteEntity<AbstractRemoteEntity> {
+public abstract class AbstractRemoteEntity implements IRemoteEntity{
     @PrimaryKey(autoGenerate = true)
     protected Long localId;
 
@@ -53,7 +53,7 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity<AbstractRemo
 
     @Ignore
     @Override
-    public AbstractRemoteEntity getEntity() {
+    public IRemoteEntity getEntity() {
         return this;
     }
 

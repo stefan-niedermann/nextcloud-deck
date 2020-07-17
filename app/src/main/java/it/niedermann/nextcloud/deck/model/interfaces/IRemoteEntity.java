@@ -6,10 +6,10 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 
-public interface IRemoteEntity<T extends IRemoteEntity<?>> {
+public interface IRemoteEntity {
 
-    default T getEntity() {
-        return (T) this;
+    default IRemoteEntity getEntity() {
+        return this;
     }
 
     default Long getLocalId() {

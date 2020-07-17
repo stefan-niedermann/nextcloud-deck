@@ -10,7 +10,7 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
-public class FullStack implements IRemoteEntity<Stack> {
+public class FullStack implements IRemoteEntity {
     @Embedded
     public Stack stack;
 

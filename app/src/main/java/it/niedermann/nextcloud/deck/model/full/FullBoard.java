@@ -14,7 +14,7 @@ import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
-public class FullBoard implements IRemoteEntity<Board> {
+public class FullBoard implements IRemoteEntity {
     @Embedded
     public Board board;
 
