@@ -10,11 +10,11 @@ import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 
-public class FullStack implements IRemoteEntity {
+public class FullStack implements IRemoteEntity<Stack> {
     @Embedded
     public Stack stack;
 
-    @Relation(entity =  Card.class, parentColumn = "localId", entityColumn = "stackId")
+    @Relation(entity = Card.class, parentColumn = "localId", entityColumn = "stackId")
     public List<Card> cards;
 
 
@@ -36,7 +36,7 @@ public class FullStack implements IRemoteEntity {
 
     @Ignore
     @Override
-    public IRemoteEntity getEntity() {
+    public Stack getEntity() {
         return stack;
     }
 

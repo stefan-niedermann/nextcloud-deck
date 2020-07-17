@@ -437,8 +437,8 @@ public class DataBaseAdapter {
         db.getBoardDao().update(board);
     }
 
-    public LiveData<List<FullStack>> getFullStacksForBoard(long accountId, long localBoardId) {
-        return distinctUntilChanged(db.getStackDao().getFullStacksForBoard(accountId, localBoardId));
+    public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
+        return distinctUntilChanged(db.getStackDao().getStacksForBoard(accountId, localBoardId));
     }
 
     @WorkerThread

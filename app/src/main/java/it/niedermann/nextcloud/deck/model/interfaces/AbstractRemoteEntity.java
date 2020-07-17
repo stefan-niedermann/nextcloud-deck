@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.model.interfaces;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
@@ -27,7 +26,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
         )
     }
 )
-public abstract class AbstractRemoteEntity implements IRemoteEntity {
+public abstract class AbstractRemoteEntity implements IRemoteEntity<AbstractRemoteEntity> {
     @PrimaryKey(autoGenerate = true)
     protected Long localId;
 
@@ -35,7 +34,6 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
 
     protected Long id;
 
-    @NonNull
     protected int status = DBStatus.UP_TO_DATE.getId();
 
     protected Date lastModified;
@@ -55,7 +53,7 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
 
     @Ignore
     @Override
-    public IRemoteEntity getEntity() {
+    public AbstractRemoteEntity getEntity() {
         return this;
     }
 
@@ -102,7 +100,7 @@ public abstract class AbstractRemoteEntity implements IRemoteEntity {
 
 
     @Override
-    public void setStatus(@NonNull int status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

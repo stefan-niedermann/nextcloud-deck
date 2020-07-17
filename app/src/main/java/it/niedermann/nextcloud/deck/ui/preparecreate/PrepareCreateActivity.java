@@ -24,7 +24,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPrepareCreateBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
@@ -60,7 +60,7 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
 
     private ArrayAdapter<Account> accountAdapter;
     private ArrayAdapter<Board> boardAdapter;
-    private ArrayAdapter<FullStack> stackAdapter;
+    private ArrayAdapter<Stack> stackAdapter;
 
     @Nullable
     private LiveData<List<Board>> boardsLiveData;
@@ -88,17 +88,17 @@ public class PrepareCreateActivity extends AppCompatActivity implements Branded 
     };
 
     @Nullable
-    private LiveData<List<FullStack>> stacksLiveData;
+    private LiveData<List<Stack>> stacksLiveData;
     @NonNull
-    private Observer<List<FullStack>> stacksObserver = (fullStacks) -> {
+    private Observer<List<Stack>> stacksObserver = (stacks) -> {
         stackAdapter.clear();
-        stackAdapter.addAll(fullStacks);
+        stackAdapter.addAll(stacks);
 
-        if (fullStacks.size() > 0) {
+        if (stacks.size() > 0) {
             binding.stackSelect.setEnabled(true);
             binding.submit.setEnabled(true);
 
-            for (FullStack fullStack : fullStacks) {
+            for (Stack fullStack : stacks) {
                 if (fullStack.getLocalId() == lastStackId) {
                     binding.stackSelect.setSelection(stackAdapter.getPosition(fullStack));
                     break;

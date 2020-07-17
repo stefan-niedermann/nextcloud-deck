@@ -166,10 +166,10 @@ public class SyncManager {
 
     @AnyThread
     public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
-        if(responseCallback.getAccount() == null) {
+        if (responseCallback.getAccount() == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
         }
-        if(responseCallback.getAccount().getId() == null) {
+        if (responseCallback.getAccount().getId() == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
         doAsync(() -> refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
@@ -637,8 +637,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
-        return dataBaseAdapter.getFullStacksForBoard(accountId, localBoardId);
+    public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
+        return dataBaseAdapter.getStacksForBoard(accountId, localBoardId);
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
@@ -1412,6 +1412,7 @@ public class SyncManager {
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId) {
         return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId);
     }
+
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
         return findProposalsForLabelsToAssign(accountId, boardId, -1L);
     }

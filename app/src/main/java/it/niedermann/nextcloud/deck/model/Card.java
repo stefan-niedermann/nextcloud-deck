@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
@@ -31,7 +30,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 public class Card extends AbstractRemoteEntity {
 
     private static Pattern PATTERN_MD_TASK = Pattern.compile("\\[([xX ])]");
-    public class TaskStatus {
+    public static class TaskStatus {
         public int taskCount;
         public int doneCount;
 
@@ -46,7 +45,6 @@ public class Card extends AbstractRemoteEntity {
 
     private String title;
     private String description;
-    @NonNull
     private Long stackId;
     private String type;
     private Date createdAt;
