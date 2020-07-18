@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Size;
 import androidx.annotation.WorkerThread;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
@@ -18,11 +19,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
@@ -174,8 +173,11 @@ public class SyncManager {
     public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
         synchronize(Collections.singletonList(responseCallback));
     }
-    private void synchronize(@NonNull List<IResponseCallback<Boolean>> responseCallbacks) {
-        IResponseCallback responseCallback = responseCallbacks.get(0);
+    private void synchronize(@NonNull @Size(min = 1) List<IResponseCallback<Boolean>> responseCallbacks) {
+        if (responseCallbacks == null || responseCallbacks.size() < 1) {
+            return;
+        }
+        IResponseCallback<Boolean> responseCallback = responseCallbacks.get(0);
         Account callbackAccount = responseCallback.getAccount();
         if(callbackAccount == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
@@ -189,19 +191,15 @@ public class SyncManager {
             queuedCallbacks.addAll(responseCallbacks);
             return;
         } else {
-            queuedCallbacks = new ArrayList<>();
-            queuedCallbacks.addAll(responseCallbacks);
-            RUNNING_SYNCS.put(callbackAccountId, queuedCallbacks);
+            RUNNING_SYNCS.put(callbackAccountId, new ArrayList<>(responseCallbacks));
         }
         doAsync(() -> {
-            List<IResponseCallback<Boolean>> callbacksQueueForSync = new ArrayList<>();
-            for (IResponseCallback<Boolean> cb : RUNNING_SYNCS.get(callbackAccountId)) {
-                callbacksQueueForSync.add(cb);
-            }
+            List<IResponseCallback<Boolean>> existingQueue = RUNNING_SYNCS.get(callbackAccountId);
+            List<IResponseCallback<Boolean>> callbacksQueueForSync = existingQueue == null ? new ArrayList<>() : new ArrayList<>(existingQueue);
             refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
                 @Override
                 public void onResponse(Capabilities response) {
-                    if (!response.isMaintenanceEnabled()) {
+                    if (response != null && !response.isMaintenanceEnabled()) {
                         if (response.getDeckVersion().isSupported(appContext)) {
                             long accountId = callbackAccountId;
                             Date lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
@@ -267,32 +265,38 @@ public class SyncManager {
     }
 
     private void respondCallbacksAfterSync(List<IResponseCallback<Boolean>> callbacksQueueForSync, Boolean response, Throwable throwable) {
-        List<IResponseCallback<Boolean>> callbacksQueue = new ArrayList<>();
-        for (IResponseCallback<Boolean> cb : callbacksQueueForSync) {
-            callbacksQueue.add(cb);
+        if (callbacksQueueForSync == null || callbacksQueueForSync.isEmpty()) {
+            return;
         }
-        IResponseCallback<Boolean> firstCallbackOfAccount = callbacksQueue.iterator().next();
+        // notify done callbacks
+        DeckLog.info("SyncQueue: responding sync for "+callbacksQueueForSync.size()+" queued callbacks!");
+        List<IResponseCallback<Boolean>> callbacksQueue = new ArrayList<>(callbacksQueueForSync);
         if (throwable == null) {
             //success:
-            for (IResponseCallback callback : callbacksQueue) {
-                callback.onResponse(response);
+            for (IResponseCallback<Boolean> callback : callbacksQueue) {
+                if (callback != null) callback.onResponse(response);
             }
         } else {
             // failure:
-            for (IResponseCallback callback : callbacksQueue) {
-                callback.onError(throwable);
+            for (IResponseCallback<Boolean> callback : callbacksQueue) {
+                if (callback != null) callback.onError(throwable);
             }
         }
-        for (IResponseCallback<Boolean> callback : callbacksQueue) {
-            RUNNING_SYNCS.get(firstCallbackOfAccount.getAccount().getId()).remove(callback);
-        }
-        if (RUNNING_SYNCS.get(firstCallbackOfAccount.getAccount().getId()).isEmpty()) {
-            RUNNING_SYNCS.remove(firstCallbackOfAccount.getAccount().getId());
+        // remove done callbacks from queue
+        IResponseCallback<Boolean> firstCallbackOfAccount = callbacksQueue.iterator().next();
+        List<IResponseCallback<Boolean>> queuedCallbacks = RUNNING_SYNCS.get(firstCallbackOfAccount.getAccount().getId());
+        if (queuedCallbacks == null) {
             return;
         }
-        List<IResponseCallback<Boolean>> queuedCallbacks = RUNNING_SYNCS.get(firstCallbackOfAccount.getAccount().getId());
-        if (queuedCallbacks != null && !queuedCallbacks.isEmpty()){
-            DeckLog.info("deck###: starting "+queuedCallbacks.size()+" callbacks!");
+        for (IResponseCallback<Boolean> callback : callbacksQueue) {
+            queuedCallbacks.remove(callback);
+        }
+        // cleanup if done, or proceed if not
+        if (queuedCallbacks.isEmpty()) {
+            RUNNING_SYNCS.remove(firstCallbackOfAccount.getAccount().getId());
+            return;
+        } else {
+            DeckLog.info("SyncQueue: starting sync for "+queuedCallbacks.size()+" queued callbacks!");
             RUNNING_SYNCS.remove(firstCallbackOfAccount.getAccount().getId());
             synchronize(queuedCallbacks);
         }
