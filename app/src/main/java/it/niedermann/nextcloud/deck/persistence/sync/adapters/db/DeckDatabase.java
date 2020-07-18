@@ -187,7 +187,7 @@ public abstract class DeckDatabase extends RoomDatabase {
     private static final Migration MIGRATION_15_16 = new Migration(15, 16) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("CREATE TABLE `OcsProject` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `name` TEXT NOT NULL, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER)");
+            database.execSQL("CREATE TABLE `OcsProject` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `name` TEXT NOT NULL, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER, UNIQUE (`accountId`, `id`))");
             database.execSQL("CREATE INDEX `index_project_accID` ON `OcsProject` (`accountId`)");
             database.execSQL("CREATE TABLE `OcsProjectResource` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `projectId` INTEGER NOT NULL REFERENCES OcsProject(localId) ON DELETE CASCADE, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `link` TEXT NOT NULL, `iconUrl` TEXT, `previewAvailable` BOOLEAN, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER)");
             database.execSQL("CREATE INDEX `index_projectResource_accID` ON `OcsProjectResource` (`accountId`)");
