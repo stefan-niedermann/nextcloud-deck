@@ -326,6 +326,8 @@ public class DataBaseAdapter {
             // readded!
             existing.setStatusEnum(DBStatus.LOCAL_EDITED);
             db.getJoinCardWithUserDao().update(existing);
+        } else if (existing != null) {
+            return;
         } else {
             JoinCardWithUser join = new JoinCardWithUser();
             join.setCardId(localCardId);

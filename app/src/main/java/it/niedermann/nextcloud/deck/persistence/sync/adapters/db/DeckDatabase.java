@@ -32,6 +32,9 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
+import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
@@ -52,6 +55,9 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionD
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.JoinCardWithOcsProjectDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectResourceDao;
 
 @Database(
         entities = {
@@ -73,9 +79,12 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 DeckComment.class,
                 Mention.class,
                 SingleCardWidgetModel.class,
+                OcsProject.class,
+                OcsProjectResource.class,
+                JoinCardWithProject.class,
         },
         exportSchema = false,
-        version = 15
+        version = 16
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -175,6 +184,17 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_15_16 = new Migration(15, 16) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `OcsProject` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `name` TEXT NOT NULL, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER)");
+            database.execSQL("CREATE INDEX `index_project_accID` ON `OcsProject` (`accountId`)");
+            database.execSQL("CREATE TABLE `OcsProjectResource` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `projectId` INTEGER NOT NULL REFERENCES OcsProject(localId) ON DELETE CASCADE, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `link` TEXT NOT NULL, `iconUrl` TEXT, `previewAvailable` BOOLEAN, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER)");
+            database.execSQL("CREATE INDEX `index_projectResource_accID` ON `OcsProjectResource` (`accountId`)");
+            database.execSQL("CREATE INDEX `index_projectResource_projectId` ON `OcsProjectResource` (`projectId`)");
+        }
+    };
+
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
 
         @Override
@@ -216,6 +236,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                                 .apply();
                     }
                 })
+                .addMigrations(MIGRATION_15_16)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
@@ -256,4 +277,10 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract MentionDao getMentionDao();
 
     public abstract SingleCardWidgetModelDao getSingleCardWidgetModelDao();
+
+    public abstract OcsProjectDao getOcsProjectDao();
+
+    public abstract OcsProjectResourceDao getOcsProjectResourceDao();
+
+    public abstract JoinCardWithOcsProjectDao getJoinCardWithOcsProjectDao();
 }

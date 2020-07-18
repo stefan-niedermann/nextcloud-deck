@@ -1,14 +1,26 @@
 package it.niedermann.nextcloud.deck.model.ocs.projects;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-public class OcsProject implements IRemoteEntity {
+@Entity(inheritSuperIndices = true,
+        indices = {
+                @Index(value = "accountId", name = "index_project_accID"),
+        },
+        foreignKeys = {
+        }
+)
+public class OcsProject extends AbstractRemoteEntity {
     private String name;
+
+    @Ignore
     @NonNull
     private ArrayList<OcsProjectResource> resources = new ArrayList<>();
 

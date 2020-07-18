@@ -1,12 +1,28 @@
 package it.niedermann.nextcloud.deck.model.ocs.projects;
 
 import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 import java.io.Serializable;
 
-import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
+import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-public class OcsProjectResource implements IRemoteEntity, Serializable {
+@Entity(inheritSuperIndices = true,
+        indices = {
+                @Index(value = "accountId", name = "index_projectResource_accID"),
+                @Index(value = "projectId", name = "index_projectResource_projectId"),
+        },
+        foreignKeys = {
+                @ForeignKey(
+                        entity = OcsProject.class,
+                        parentColumns = "localId",
+                        childColumns = "projectId", onDelete = ForeignKey.CASCADE
+                )
+        }
+)
+public class OcsProjectResource extends AbstractRemoteEntity implements Serializable {
     private String type;
     private String name;
     private String link;
@@ -15,6 +31,16 @@ public class OcsProjectResource implements IRemoteEntity, Serializable {
     private String mimetype;
     @Nullable
     private Boolean previewAvailable;
+
+    private Long projectId;
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
 
     public String getType() {
         return type;
