@@ -508,12 +508,11 @@ public class DataBaseAdapter {
     @WorkerThread
     public long createCard(long accountId, Card card) {
         card.setAccountId(accountId);
+        long newCardId = db.getCardDao().insert(card);
 
-        // TODO check with accountId and stackRemoteId from given card whether or not this card was in a stack which is in a StackWidgetModel
-        // DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about created card for \"" + stack.getTitle() + "\"");
-        // StackWidget.notifyDatasetChanged(context);
+        notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId());
 
-        return db.getCardDao().insert(card);
+        return newCardId;
     }
 
     @WorkerThread
@@ -535,9 +534,7 @@ public class DataBaseAdapter {
             deleteCardPhysically(card);
         }
 
-        // TODO check with accountId and stackRemoteId from given card whether or not this card was in a stack which is in a StackWidgetModel
-        // DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about deleted card \"" + card.getTitle() + "\"");
-        // StackWidget.notifyDatasetChanged(context);
+        notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId());
     }
 
     @WorkerThread
@@ -548,15 +545,20 @@ public class DataBaseAdapter {
     @WorkerThread
     public void updateCard(@NonNull Card card, boolean setStatus) {
         markAsEditedIfNeeded(card, setStatus);
+        Long originalStackLocalId = db.getCardDao().getLocalStackIdByLocalCardId(card.getLocalId());
         db.getCardDao().update(card);
         if (db.getSingleCardWidgetModelDao().containsCardLocalId(card.getLocalId())) {
             DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
             SingleCardWidget.notifyDatasetChanged(context);
         }
+        notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId(), originalStackLocalId);
+    }
 
-        // TODO only perform if there are stack widgets with this card, but what if card has been moved away or deleted?
-        // DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
-        // StackWidget.notifyDatasetChanged(context);
+    private void notifyStackWidgetsIfNeeded(String cardTitle, long... affectedStackIds) {
+        if (db.getStackWidgetModelDao().containsStackLocalId(affectedStackIds)){
+            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + cardTitle + "\"");
+            StackWidget.notifyDatasetChanged(context);
+        }
     }
 
     @WorkerThread
