@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.model.ocs.projects;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -23,15 +24,20 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
         }
 )
 public class OcsProjectResource extends AbstractRemoteEntity implements Serializable {
+    @NonNull
     private String type;
+    @NonNull
     private String name;
+    @NonNull
     private String link;
+    @NonNull
     private String iconUrl;
     @Nullable
     private String mimetype;
     @Nullable
     private Boolean previewAvailable;
 
+    @NonNull
     private Long projectId;
 
     public Long getProjectId() {

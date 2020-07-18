@@ -18,6 +18,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
         }
 )
 public class OcsProject extends AbstractRemoteEntity {
+    @NonNull
     private String name;
 
     @Ignore
