@@ -193,14 +193,14 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("CREATE INDEX `index_OcsProject_id` ON `OcsProject` (`id`)");
             database.execSQL("CREATE INDEX `index_OcsProject_lastModifiedLocal` ON `OcsProject` (`lastModifiedLocal`)");
 
-            database.execSQL("CREATE TABLE `OcsProjectResource` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `name` TEXT NOT NULL, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER, `projectId` INTEGER NOT NULL, `type` TEXT NOT NULL, `link` TEXT NOT NULL, `iconUrl` TEXT NOT NULL, `previewAvailable` INTEGER, `mimetype` TEXT, FOREIGN KEY(`projectId`) REFERENCES `OcsProject`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE `OcsProjectResource` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `name` TEXT NOT NULL, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER, `projectId` INTEGER NOT NULL, `type` TEXT NOT NULL, `link` TEXT NOT NULL, `path` TEXT, `iconUrl` TEXT NOT NULL, `previewAvailable` INTEGER, `mimetype` TEXT, FOREIGN KEY(`projectId`) REFERENCES `OcsProject`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE)");
             database.execSQL("CREATE INDEX `index_projectResource_accID` ON `OcsProjectResource` (`accountId`)");
             database.execSQL("CREATE INDEX `index_projectResource_projectId` ON `OcsProjectResource` (`projectId`)");
             database.execSQL("CREATE UNIQUE INDEX `index_OcsProjectResource_accountId_id` ON `OcsProjectResource` (`accountId`, `id`)");
             database.execSQL("CREATE INDEX `index_OcsProjectResource_id` ON `OcsProjectResource` (`id`)");
             database.execSQL("CREATE INDEX `index_OcsProjectResource_lastModifiedLocal` ON `OcsProjectResource` (`lastModifiedLocal`)");
 
-            database.execSQL("CREATE TABLE `JoinCardWithProject` (`status` INTEGER NOT NULL, `projectId` INTEGER NOT NULL, `cardId` INTEGER NOT NULL, PRIMARY KEY (`cardId`, `projectId`), FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`projectId`) REFERENCES `OcsProject`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE `JoinCardWithProject` (`status` INTEGER NOT NULL, `projectId` INTEGER NOT NULL, `cardId` INTEGER NOT NULL, PRIMARY KEY (`projectId`, `cardId`), FOREIGN KEY(`cardId`) REFERENCES `Card`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`projectId`) REFERENCES `OcsProject`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE)");
             database.execSQL("CREATE INDEX `index_JoinCardWithProject_projectId` ON `JoinCardWithProject` (`projectId`)");
             database.execSQL("CREATE INDEX `index_JoinCardWithProject_cardId` ON `JoinCardWithProject` (`cardId`)");
         }

@@ -30,6 +30,8 @@ public class OcsProjectResource extends AbstractRemoteEntity implements Serializ
     private String name;
     @NonNull
     private String link;
+    @Nullable
+    private String path;
     @NonNull
     private String iconUrl;
     @Nullable
@@ -78,6 +80,15 @@ public class OcsProjectResource extends AbstractRemoteEntity implements Serializ
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    @Nullable
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(@Nullable String path) {
+        this.path = path;
     }
 
     @Nullable

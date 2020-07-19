@@ -31,6 +31,9 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 
@@ -58,6 +61,8 @@ public class JsonToEntityParser {
             return (T) parseAttachment(obj);
         } else if (mType == OcsComment.class) {
             return (T) parseOcsComment(obj);
+        } else if (mType == OcsProjectList.class) {
+            return (T) parseOcsProjectList(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
     }
@@ -85,6 +90,64 @@ public class JsonToEntityParser {
 
         }, obj);
         return ocsUserList;
+    }
+    private static OcsProjectList parseOcsProjectList(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        OcsProjectList projectList = new OcsProjectList();
+        makeTraceableIfFails(() -> {
+            JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+            if (!data.isJsonNull() && data.isJsonArray()) {
+                JsonArray projectJsonArray = data.getAsJsonArray();
+                for (JsonElement jsonArrayElement : projectJsonArray) {
+                    if (jsonArrayElement.isJsonObject()) {
+                        JsonObject jsonObject = jsonArrayElement.getAsJsonObject();
+                        OcsProject project = new OcsProject();
+                        project.setId(jsonObject.get("id").getAsLong());
+                        project.setName(getNullAsEmptyString(jsonObject.get("name")));
+                        project.setResources(new ArrayList<>());
+                        JsonElement jsonResources = jsonObject.get("resources");
+                        if (jsonResources != null && jsonResources.isJsonArray()){
+                            JsonArray resourcesArray = jsonResources.getAsJsonArray();
+                            for (JsonElement resourceElement : resourcesArray) {
+                                if (resourceElement.isJsonObject()){
+                                    OcsProjectResource resource = parseOcsProjectResource(resourceElement.getAsJsonObject());
+                                    resource.setProjectId(project.getId());
+                                    project.getResources().add(resource);
+                                }
+                            }
+                        }
+                        projectList.add(project);
+                    }
+                }
+            }
+
+        }, obj);
+        return projectList;
+    }
+
+    private static OcsProjectResource parseOcsProjectResource(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        OcsProjectResource resource = new OcsProjectResource();
+        makeTraceableIfFails(() -> {
+            resource.setType(getNullAsEmptyString(obj.get("type")));
+            resource.setId(Long.parseLong(getNullAsEmptyString(obj.get("id"))));
+            resource.setName(getNullAsEmptyString(obj.get("name")));
+            resource.setLink(getNullAsEmptyString(obj.get("link")));
+            resource.setIconUrl(getNullAsEmptyString(obj.get("iconUrl")));
+            if (obj.has("path")) {
+               resource.setPath(obj.get("path").getAsString());
+            }
+            if (obj.has("mimetype")) {
+               resource.setMimetype(obj.get("mimetype").getAsString());
+            }
+            if (obj.has("preview-available")) {
+               resource.setPreviewAvailable(obj.get("ppreview-availableath").getAsBoolean());
+            } else {
+               resource.setPreviewAvailable(false);
+            }
+
+        }, obj);
+        return resource;
     }
 
     private static OcsComment parseOcsComment(JsonObject obj) {
