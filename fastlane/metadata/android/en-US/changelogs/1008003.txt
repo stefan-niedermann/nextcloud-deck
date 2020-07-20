@@ -1,0 +1,16 @@
+1.8.3
+
+- 🎨 No filter indicator when branding disabled (#604)
+- 🗒 Undo removal of "has description" icon for cards (nextcloud/deck/issues/1873)
+
+1.8.2
+
+- 🐞 Fix opening not yet synchronized attachment (#599)
+- 🐞 Back arrow in attachments details has wrong color in light theme (#598)
+- 🚫 Filter by unassigned cards
+
+1.8.1
+
+- 🔀 Move cards to other boards and accounts (#453)
+- ➕ Clone boards with existing stacks and labels (#455)
+- 🐞 Fix synchronization bug (#596)

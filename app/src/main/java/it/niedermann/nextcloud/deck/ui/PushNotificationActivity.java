@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -146,10 +148,13 @@ public class PushNotificationActivity extends AppCompatActivity {
         return true;
     }
 
+    // TODO implement Branded interface
+    // TODO apply branding based on board color
     public void applyBrandToSubmitButton(@NonNull Account account) {
+        @ColorInt final int mainColor = parseColor(account.getColor());
         try {
-            binding.submit.setBackgroundColor(parseColor(account.getColor()));
-            binding.submit.setTextColor(parseColor(account.getTextColor()));
+            binding.submit.setBackgroundColor(mainColor);
+            binding.submit.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(mainColor));
         } catch (Throwable t) {
             DeckLog.logError(t);
         }

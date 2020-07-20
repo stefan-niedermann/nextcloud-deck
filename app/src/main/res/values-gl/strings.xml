@@ -38,6 +38,7 @@
     <string name="simple_disabled">desactivado</string>
     <string name="simple_copied">Copiada</string>
     <string name="simple_archive">Aquivar</string>
+    <string name="simple_unassigned">Desasignado</string>
 
     <string name="edit_board">Editar taboleiro</string>
     <string name="archive_board">Arquivar taboleiro</string>
@@ -257,4 +258,10 @@
     </plurals>
     <string name="simple_report">Informe</string>
     <string name="error_action_open_battery_settings">Axustes da batería</string>
+    <string name="move_warning">Non é posíbel transferir nin comentarios nin ficheiros anexos ao mover a tarxeta a outro taboleiro.</string>
+    <string name="clone_board">Clonar taboleiro</string>
+    <string name="cloning_board">Clonando %1$s…</string>
+    <string name="successfully_cloned_board">%1$s foi clonado satisfactoriamente</string>
+    <string name="attachment_does_not_yet_exist">Aínda non existe o anexo no Deck</string>
+    <string name="card_does_not_yet_exist">Aínda non existe a tarxeta no Deck</string>
 </resources>
