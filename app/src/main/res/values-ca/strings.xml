@@ -244,4 +244,5 @@
     <string name="simple_reply">Respon</string>
     <string name="simple_report">Informar</string>
     <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
+    <string name="clone_board">Clonar tauler</string>
     </resources>

@@ -256,4 +256,5 @@
     </plurals>
     <string name="simple_report">Αναφορά</string>
     <string name="error_action_open_battery_settings">Ρυθμίσεις μπαταρίας</string>
+    <string name="clone_board">Κλωνοποίηση πίνακα</string>
     </resources>

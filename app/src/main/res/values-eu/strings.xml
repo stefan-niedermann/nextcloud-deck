@@ -249,4 +249,5 @@
     <string name="add_text_as_comment">Gehitu iruzkin gisa</string>
     <string name="simple_report">Jakinarazi</string>
     <string name="error_action_open_battery_settings">Bateria ezarpenak</string>
+    <string name="clone_board">Klonatu taula</string>
     </resources>
