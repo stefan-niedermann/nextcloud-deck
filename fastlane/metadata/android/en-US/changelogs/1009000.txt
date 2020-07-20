@@ -1,0 +1,2 @@
+- Stack Widget (#217)
+- Reduce amount of data which is queried by the database (#515)
