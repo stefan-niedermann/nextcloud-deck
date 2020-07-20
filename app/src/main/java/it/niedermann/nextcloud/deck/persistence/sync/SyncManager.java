@@ -648,8 +648,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
-        return dataBaseAdapter.getFullStacksForBoard(accountId, localBoardId);
+    public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
+        return dataBaseAdapter.getStacksForBoard(accountId, localBoardId);
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {

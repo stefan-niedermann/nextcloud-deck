@@ -19,6 +19,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.databinding.FragmentPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
@@ -49,7 +50,7 @@ public class PickStackFragment extends Fragment {
 
     private ArrayAdapter<Account> accountAdapter;
     private ArrayAdapter<Board> boardAdapter;
-    private ArrayAdapter<FullStack> stackAdapter;
+    private ArrayAdapter<Stack> stackAdapter;
 
     @Nullable
     private LiveData<List<Board>> boardsLiveData;
@@ -80,26 +81,26 @@ public class PickStackFragment extends Fragment {
     };
 
     @Nullable
-    private LiveData<List<FullStack>> stacksLiveData;
+    private LiveData<List<Stack>> stacksLiveData;
     @NonNull
-    private Observer<List<FullStack>> stacksObserver = (fullStacks) -> {
+    private Observer<List<Stack>> stacksObserver = (stacks) -> {
         stackAdapter.clear();
-        stackAdapter.addAll(fullStacks);
+        stackAdapter.addAll(stacks);
 
-        if (fullStacks.size() > 0) {
+        if (stacks.size() > 0) {
             binding.stackSelect.setEnabled(true);
 
-            FullStack fullStackToSelect = null;
-            for (FullStack fullStack : fullStacks) {
-                if (fullStack.getLocalId() == lastStackId) {
-                    fullStackToSelect = fullStack;
+            Stack stackToSelect = null;
+            for (Stack stack : stacks) {
+                if (stack.getLocalId() == lastStackId) {
+                    stackToSelect = stack;
                     break;
                 }
             }
-            if (fullStackToSelect == null) {
-                fullStackToSelect = fullStacks.get(0);
+            if (stackToSelect == null) {
+                stackToSelect = stacks.get(0);
             }
-            binding.stackSelect.setSelection(stackAdapter.getPosition(fullStackToSelect));
+            binding.stackSelect.setSelection(stackAdapter.getPosition(stackToSelect));
         } else {
             binding.stackSelect.setEnabled(false);
             pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), null);

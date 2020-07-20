@@ -142,7 +142,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     private Observer<List<Board>> boardsLiveDataObserver;
     private Menu listMenu;
 
-    private LiveData<List<FullStack>> stacksLiveData;
+    private LiveData<List<Stack>> stacksLiveData;
 
     private LiveData<Boolean> hasArchivedBoardsLiveData;
     private Observer<Boolean> hasArchivedBoardsLiveDataObserver;
@@ -562,11 +562,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
 
         stacksLiveData = syncManager.getStacksForBoard(mainViewModel.getCurrentAccount().getId(), board.getLocalId());
-        stacksLiveData.observe(this, (List<FullStack> fullStacks) -> {
-            if (fullStacks == null) {
+        stacksLiveData.observe(this, (List<Stack> stacks) -> {
+            if (stacks == null) {
                 throw new IllegalStateException("Given List<FullStack> must not be null");
             }
-            currentBoardStacksCount = fullStacks.size();
+            currentBoardStacksCount = stacks.size();
 
             if (currentBoardStacksCount == 0) {
                 binding.emptyContentViewStacks.setVisibility(View.VISIBLE);
@@ -578,19 +578,19 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             listMenu.findItem(R.id.archive_cards).setVisible(currentBoardHasStacks);
 
             int stackPositionInAdapter = 0;
-            stackAdapter.setStacks(fullStacks);
+            stackAdapter.setStacks(stacks);
 
             long currentStackId = readCurrentStackId(this, mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId());
             for (int i = 0; i < currentBoardStacksCount; i++) {
-                if (fullStacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
+                if (stacks.get(i).getLocalId() == currentStackId || currentStackId == NO_STACK_ID) {
                     stackPositionInAdapter = i;
                     break;
                 }
             }
             final int stackPositionInAdapterClone = stackPositionInAdapter;
             final TabTitleGenerator tabTitleGenerator = position -> {
-                if (fullStacks.size() > position) {
-                    return fullStacks.get(position).getStack().getTitle();
+                if (stacks.size() > position) {
+                    return stacks.get(position).getTitle();
                 } else {
                     DeckLog.logError(new IllegalStateException("Could not generate tab title for position " + position + " because list size is only " + currentBoardStacksCount));
                     return "ERROR";
@@ -665,12 +665,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.archive_cards: {
-                final FullStack fullStack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
-                final long stackLocalId = fullStack.getLocalId();
+                final Stack stack = stackAdapter.getItem(binding.viewPager.getCurrentItem());
+                final long stackLocalId = stack.getLocalId();
                 observeOnce(syncManager.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId), MainActivity.this, (numberOfCards) -> {
                     new BrandedAlertDialogBuilder(this)
                             .setTitle(R.string.archive_cards)
-                            .setMessage(getString(R.string.do_you_want_to_archive_all_cards_of_the_list, fullStack.getStack().getTitle()))
+                            .setMessage(getString(R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
                             .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
                                 final WrappedLiveData<Void> archiveStackLiveData = syncManager.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId);
                                 observeOnce(archiveStackLiveData, this, (result) -> {
