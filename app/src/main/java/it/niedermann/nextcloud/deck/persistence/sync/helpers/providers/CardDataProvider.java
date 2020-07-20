@@ -144,6 +144,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         } else {
             DeckLog.verbose("Comments - Version is too low, DONT SYNC");
         }
+        syncHelper.doSyncFor(new OcsProjectDataProvider(this, existingEntity.getCard()));
     }
 
     @Override

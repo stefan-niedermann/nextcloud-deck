@@ -37,6 +37,9 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
@@ -932,5 +935,47 @@ public class DataBaseAdapter {
 
     public Board getBoardForAccountByNameDirectly(long account, String title) {
         return db.getBoardDao().getBoardForAccountByNameDirectly(account, title);
+    }
+
+    public OcsProject getProjectByRemoteIdDirectly(long accountId, Long remoteId) {
+        return db.getOcsProjectDao().getProjectByRemoteIdDirectly(accountId, remoteId);
+    }
+
+    public Long createProjectDirectly(long accountId, OcsProject entity) {
+        entity.setAccountId(accountId);
+        return db.getOcsProjectDao().insert(entity);
+    }
+
+    public void deleteProjectResourcesForProjectIdDirectly(Long localProjectId) {
+        db.getOcsProjectResourceDao().deleteByProjectId(localProjectId);
+    }
+
+    public void updateProjectDirectly(long accountId, OcsProject entity) {
+        entity.setAccountId(accountId);
+        db.getOcsProjectDao().update(entity);
+    }
+
+    public void deleteProjectDirectly(OcsProject ocsProject) {
+        db.getOcsProjectResourceDao().deleteByProjectId(ocsProject.getLocalId());
+        db.getOcsProjectDao().delete(ocsProject);
+    }
+
+    public Long createProjectResourceDirectly(Long accountId, OcsProjectResource resource) {
+        resource.setAccountId(accountId);
+        return db.getOcsProjectResourceDao().insert(resource);
+    }
+
+    public void assignCardToProjectIfMissng(Long accountId, Long localProjectId, Long remoteCardId) {
+        Card card = db.getCardDao().getCardByRemoteIdDirectly(accountId, remoteCardId);
+        if (card != null) {
+            JoinCardWithProject existing = db.getJoinCardWithOcsProjectDao().getAssignmentByCardIdAndProjectIdDirectly(card.getLocalId(), localProjectId);
+            if (existing == null) {
+                JoinCardWithProject assignment = new JoinCardWithProject();
+                assignment.setStatus(DBStatus.UP_TO_DATE.getId());
+                assignment.setCardId(card.getLocalId());
+                assignment.setProjectId(localProjectId);
+                db.getJoinCardWithOcsProjectDao().insert(assignment);
+            }
+        }
     }
 }

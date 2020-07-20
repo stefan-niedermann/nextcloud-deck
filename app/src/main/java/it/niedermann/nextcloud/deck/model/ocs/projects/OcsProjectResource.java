@@ -66,6 +66,10 @@ public class OcsProjectResource extends AbstractRemoteEntity implements Serializ
         this.name = name;
     }
 
+    /**
+     * Caution: the Link might be a full url or only the relative path!
+     * @return The link to the Resource
+     */
     public String getLink() {
         return link;
     }
@@ -100,7 +104,7 @@ public class OcsProjectResource extends AbstractRemoteEntity implements Serializ
         this.mimetype = mimetype;
     }
 
-    public boolean getPreviewAvailable() {
+    public Boolean getPreviewAvailable() {
         return Boolean.TRUE.equals(previewAvailable);
     }
 
