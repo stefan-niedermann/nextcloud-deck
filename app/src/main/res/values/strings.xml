@@ -291,8 +291,8 @@
     <string name="attachment_does_not_yet_exist">Attachment does not yet exist in Deck</string>
     <string name="card_does_not_yet_exist">Card does not yet exist in Deck</string>
 
-    <string name="widget_stack_title">Stack</string>
+    <string name="widget_stack_title">List</string>
     <string name="widget_stack_header_icon">Widget header icon</string>
     <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
-    <string name="select_stack">Select stack</string>
+    <string name="select_stack">Select list</string>
 </resources>
