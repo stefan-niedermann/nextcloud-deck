@@ -50,10 +50,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWit
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.LabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.StackWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.SingleCardWidgetModelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.StackWidgetModelDao;
 
 @Database(
         entities = {
@@ -78,7 +78,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 StackWidgetModel.class,
         },
         exportSchema = false,
-        version = 16
+        version = 17
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {

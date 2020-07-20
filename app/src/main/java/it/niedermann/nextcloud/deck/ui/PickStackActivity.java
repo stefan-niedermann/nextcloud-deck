@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
@@ -43,7 +43,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
 
     private Account selectedAccount;
     private Board selectedBoard;
-    private FullStack selectedStack;
+    private Stack selectedStack;
 
 
     @Override
@@ -81,15 +81,15 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
     }
 
     @Override
-    public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable FullStack fullStack) {
+    public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         this.selectedAccount = account;
         this.selectedBoard = board;
-        this.selectedStack = fullStack;
+        this.selectedStack = stack;
         if (board == null) {
             binding.submit.setEnabled(false);
         } else {
             applyBrand(Color.parseColor('#' + board.getColor()));
-            if (fullStack == null) {
+            if (stack == null) {
                 binding.submit.setEnabled(false);
             } else {
                 binding.submit.setEnabled(true);

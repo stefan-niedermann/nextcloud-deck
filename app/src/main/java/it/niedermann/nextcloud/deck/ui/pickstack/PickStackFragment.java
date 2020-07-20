@@ -20,7 +20,6 @@ import it.niedermann.nextcloud.deck.databinding.FragmentPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.preparecreate.AccountAdapter;
@@ -180,7 +179,7 @@ public class PickStackFragment extends Fragment {
         });
 
         binding.stackSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), (FullStack) parent.getSelectedItem());
+            pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), (Stack) parent.getSelectedItem());
         });
 
         return binding.getRoot();

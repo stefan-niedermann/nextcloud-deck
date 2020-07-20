@@ -17,7 +17,6 @@ import it.niedermann.nextcloud.deck.databinding.DialogMoveCardBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Stack;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
@@ -40,7 +39,7 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
 
     private Account selectedAccount;
     private Board selectedBoard;
-    private FullStack selectedStack;
+    private Stack selectedStack;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -90,11 +89,11 @@ public class MoveCardDialogFragment extends BrandedDialogFragment implements Pic
     }
 
     @Override
-    public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable FullStack fullStack) {
+    public void onStackPicked(@NonNull Account account, @Nullable Board board, @Nullable Stack stack) {
         this.selectedAccount = account;
         this.selectedBoard = board;
-        this.selectedStack = fullStack;
-        if (board == null || fullStack == null) {
+        this.selectedStack = stack;
+        if (board == null || stack == null) {
             binding.submit.setEnabled(false);
             binding.moveWarning.setVisibility(GONE);
         } else {
