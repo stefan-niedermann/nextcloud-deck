@@ -38,6 +38,8 @@
     <string name="simple_disabled">zakázané</string>
     <string name="simple_copied">Skopírované</string>
     <string name="simple_archive">Archivovať</string>
+    <string name="simple_unassigned">Nepriradený</string>
+
     <string name="edit_board">Upraviť nástenku</string>
     <string name="archive_board">Archivovať nástenku</string>
     <string name="delete_board">Zmazať nástenku</string>
@@ -262,4 +264,8 @@
     </plurals>
     <string name="simple_report">Hlásenie</string>
     <string name="error_action_open_battery_settings">Nastavenia batérie.</string>
+    <string name="move_warning">Pri presúvaní karty na inú nástenku nie je možné prenášať komentáre ani prílohy.</string>
+    <string name="clone_board">Duplikovať nástenku</string>
+    <string name="cloning_board">Klonovanie %1$s…</string>
+    <string name="successfully_cloned_board">%1$s úspešne klonovaný</string>
     </resources>

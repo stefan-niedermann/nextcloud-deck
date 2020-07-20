@@ -38,6 +38,8 @@
     <string name="simple_disabled">deshabilitado</string>
     <string name="simple_copied">Copiado</string>
     <string name="simple_archive">Archivar</string>
+    <string name="simple_unassigned">No asignado</string>
+
     <string name="edit_board">Editar tablero</string>
     <string name="archive_board">Archivar tablero</string>
     <string name="delete_board">Eliminar tablero</string>
@@ -128,6 +130,7 @@
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las listas y tarjetas.</string>
     <string name="settings_theme_title">Tema oscuro</string>
     <string name="settings_branding_title">Branding</string>
+    <string name="settings_compact_title">Modo compacto 🆕</string>
     <string name="settings_background_sync">Sincronización en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar sobre Wi-Fi y datos móviles</string>
     <string name="pref_value_wifi_only">Sincronizar solo sobre Wi-Fi</string>
@@ -216,6 +219,7 @@
     <string name="error_dialog_title">Oh no - ¿Ahora qué? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta forzar el cierre de la aplicación y vuelve a abrirla. Es posible que haya habido un problema de conexión con la aplicación Nextcloud.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Si el problema persiste, intenta limpiar borrar el almacenamiento de ambas apps, Nextcloud y Nextcloud Deck para solucionar este problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Falló la actualización de la base de datos. Por favor, informe del problema y limpie el almacenamiento para usar la aplicación de manera normal.</string>
     <string name="error_dialog_tip_clear_storage">Puedes limpiar el almacenamiento abriendo la información de la app y seleccionando Almacenamiento → Eliminar datos.</string>
     <string name="error_dialog_tip_files_outdated">Su aplicación Nextcloud parece que está desactualizada. Por favor visite la Play Store o F-Droid para conseguir la versión más reciente.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece ir mal en tu app de Nextcloud. Por favor, intenta forzar el cierre de ambas, Nextcloud y Nextcloud Deck.</string>
@@ -254,5 +258,10 @@
     </plurals>
     <string name="simple_report">Informe</string>
     <string name="error_action_open_battery_settings">Ajustes de batería</string>
+    <string name="move_warning">No se pueden transferir cio los comentarios ni los adjuntos al mover una tarjeta a otro tablero.</string>
     <string name="clone_board">Clonar tablero</string>
-    </resources>
+    <string name="cloning_board">Clonando %1$s…</string>
+    <string name="successfully_cloned_board">Clonados con éxito %1$s</string>
+    <string name="attachment_does_not_yet_exist">El adjunto todavía no existe en Deck</string>
+    <string name="card_does_not_yet_exist">La tarjeta todavía no existe en Deck</string>
+</resources>

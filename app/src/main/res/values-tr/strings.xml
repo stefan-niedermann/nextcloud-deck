@@ -38,6 +38,8 @@
     <string name="simple_disabled">devre dışı</string>
     <string name="simple_copied">Kopyalandı</string>
     <string name="simple_archive">Arşivle</string>
+    <string name="simple_unassigned">Atanmamış</string>
+
     <string name="edit_board">Panoyu düzenle</string>
     <string name="archive_board">Panoyu arşivle</string>
     <string name="delete_board">Panoyu sil</string>
@@ -256,5 +258,8 @@
     </plurals>
     <string name="simple_report">Hata bildirin</string>
     <string name="error_action_open_battery_settings">Pil ayarları</string>
+    <string name="move_warning">Kart başka bir panoya taşınırken yorum ya da ek dosyalar aktarılamaz.</string>
     <string name="clone_board">Panoyu kopyala</string>
+    <string name="cloning_board">%1$s kopyalanıyor…</string>
+    <string name="successfully_cloned_board">%1$s kopyalandı</string>
     </resources>
