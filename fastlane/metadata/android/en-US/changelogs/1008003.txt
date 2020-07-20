@@ -1,6 +1,7 @@
 1.8.3
 
 - 🎨 No filter indicator when branding disabled (#604)
+- 🗒 Undo removal of "has description" icon for cards (nextcloud/deck/issues/1873)
 
 1.8.2
 
