@@ -260,4 +260,5 @@
     </plurals>
     <string name="simple_report">Сообщить</string>
     <string name="error_action_open_battery_settings">Настройки аккумулятора</string>
+    <string name="clone_board">Скопировать доску</string>
     </resources>

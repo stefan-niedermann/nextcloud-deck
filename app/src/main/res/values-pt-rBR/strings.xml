@@ -38,6 +38,8 @@
     <string name="simple_disabled">desativado</string>
     <string name="simple_copied">Copiado</string>
     <string name="simple_archive">Arquivados</string>
+    <string name="simple_unassigned">Não atribuído</string>
+
     <string name="edit_board">Editar painel</string>
     <string name="archive_board">Arquivar painel</string>
     <string name="delete_board">Excluir painel</string>
@@ -256,5 +258,10 @@
     </plurals>
     <string name="simple_report">Reportar</string>
     <string name="error_action_open_battery_settings">Configurações da bateria</string>
+    <string name="move_warning">Comentários ou anexos não podem ser transferidos ao mover o cartão para outra placa.</string>
     <string name="clone_board">Clonar painel</string>
-    </resources>
+    <string name="cloning_board">Clonando %1$s…</string>
+    <string name="successfully_cloned_board">%1$s clonado com sucesso</string>
+    <string name="attachment_does_not_yet_exist">O anexo ainda não existe no Deck</string>
+    <string name="card_does_not_yet_exist">O cartão ainda não existe no Deck</string>
+</resources>

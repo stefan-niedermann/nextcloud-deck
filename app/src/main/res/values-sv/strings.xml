@@ -234,4 +234,5 @@
         <item quantity="other">%1$d fel vid uppladdning</item>
     </plurals>
     <string name="simple_report">Rapportera</string>
+    <string name="clone_board">Kopiera tavla</string>
     </resources>
