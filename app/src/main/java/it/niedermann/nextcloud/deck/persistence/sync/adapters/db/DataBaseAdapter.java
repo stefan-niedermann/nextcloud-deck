@@ -30,6 +30,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
@@ -498,6 +499,11 @@ public class DataBaseAdapter {
     @AnyThread
     public LiveData<FullCard> getCardByLocalId(long accountId, long localCardId) {
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::filterRelationsForCard);
+    }
+
+    @AnyThread
+    public LiveData<FullCardWithProjects> getCardWithProjectsByLocalId(long accountId, long localCardId) {
+        return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardWithProjectsByLocalId(accountId, localCardId), this::filterRelationsForCard);
     }
 
     @WorkerThread
@@ -1027,6 +1033,15 @@ public class DataBaseAdapter {
     public Long createProjectResourceDirectly(Long accountId, OcsProjectResource resource) {
         resource.setAccountId(accountId);
         return db.getOcsProjectResourceDao().insert(resource);
+    }
+    public int countProjectResourcesInProjectDirectly(Long projectLocalId) {
+        return db.getOcsProjectResourceDao().countProjectResourcesInProjectDirectly(projectLocalId);
+    }
+    public LiveData<Integer> countProjectResourcesInProject(Long projectLocalId) {
+        return db.getOcsProjectResourceDao().countProjectResourcesInProject(projectLocalId);
+    }
+    public LiveData<List<OcsProjectResource>> getResourcesByLocalProjectId(Long projectLocalId) {
+        return db.getOcsProjectResourceDao().getResourcesByLocalProjectId(projectLocalId);
     }
 
     public void assignCardToProjectIfMissng(Long accountId, Long localProjectId, Long remoteCardId) {

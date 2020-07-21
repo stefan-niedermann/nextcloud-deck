@@ -45,6 +45,7 @@ import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
@@ -52,6 +53,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
@@ -456,6 +458,16 @@ public class SyncManager {
     @AnyThread
     public LiveData<List<Board>> getBoards(long accountId) {
         return dataBaseAdapter.getBoards(accountId);
+    }
+
+    /**
+     * @param localProjectId LocalId of the OcsProject
+     * @return all {@link OcsProjectResource}s of the Project
+     */
+    @SuppressWarnings("JavadocReference")
+    @AnyThread
+    public LiveData<List<OcsProjectResource>> getResourcesForProject(long localProjectId) {
+        return dataBaseAdapter.getResourcesByLocalProjectId(localProjectId);
     }
 
     /**
@@ -903,8 +915,8 @@ public class SyncManager {
         });
     }
 
-    public LiveData<FullCard> getCardByLocalId(long accountId, long cardLocalId) {
-        return dataBaseAdapter.getCardByLocalId(accountId, cardLocalId);
+    public LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(long accountId, long cardLocalId) {
+        return dataBaseAdapter.getCardWithProjectsByLocalId(accountId, cardLocalId);
     }
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, @Nullable FilterInformation filter) {

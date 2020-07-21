@@ -19,14 +19,11 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
-import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
-import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
-import it.niedermann.nextcloud.deck.model.ocs.projects.full.OcsProjectWithResources;
 
 public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Ignore
-    private transient boolean isAttachmentsSorted = false;
+    protected transient boolean isAttachmentsSorted = false;
 
     @Embedded
     public Card card;
@@ -49,12 +46,6 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
     @Relation(entity = DeckComment.class, parentColumn = "localId", entityColumn = "objectId", projection = "localId")
     public List<Long> commentIDs;
 
-    @NonNull
-    @Relation(entity = OcsProject.class, parentColumn = "localId", entityColumn = "localId",
-            associateBy = @Junction(value = JoinCardWithProject.class, parentColumn = "cardId", entityColumn = "projectId"))
-
-    private List<OcsProjectWithResources> projects = new ArrayList<>();
-
     public FullCard() {
         super();
     }
@@ -66,7 +57,6 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
         this.owner = copyList(fullCard.getOwner());
         this.attachments = copyList(fullCard.getAttachments());
         this.commentIDs = copyList(fullCard.getCommentIDs());
-        this.projects = copyList(fullCard.getProjects());
     }
 
     public Card getCard() {
@@ -129,16 +119,6 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
-    }
-
-    @NonNull
-    public List<OcsProjectWithResources> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(@NonNull List<OcsProjectWithResources> projects) {
-        this.projects.clear();
-        this.projects.addAll(projects);
     }
 
     @Ignore

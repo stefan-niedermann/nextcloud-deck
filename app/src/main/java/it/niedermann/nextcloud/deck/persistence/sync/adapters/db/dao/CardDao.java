@@ -11,6 +11,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 
 @Dao
 public interface CardDao extends GenericDao<Card> {
@@ -47,6 +48,9 @@ public interface CardDao extends GenericDao<Card> {
     @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId and localId = :localCardId")
     LiveData<FullCard> getFullCardByLocalId(final long accountId, final long localCardId);
+    @Transaction
+    @Query("SELECT * FROM card WHERE accountId = :accountId and localId = :localCardId")
+    LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(final long accountId, final long localCardId);
 
     @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId and id = :remoteId")
