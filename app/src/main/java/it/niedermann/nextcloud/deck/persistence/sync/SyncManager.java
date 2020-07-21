@@ -174,21 +174,22 @@ public class SyncManager {
     public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
         synchronize(Collections.singletonList(responseCallback));
     }
+
     private void synchronize(@NonNull @Size(min = 1) List<IResponseCallback<Boolean>> responseCallbacks) {
         if (responseCallbacks == null || responseCallbacks.size() < 1) {
             return;
         }
         IResponseCallback<Boolean> responseCallback = responseCallbacks.get(0);
         Account callbackAccount = responseCallback.getAccount();
-        if(callbackAccount == null) {
+        if (callbackAccount == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
         }
         Long callbackAccountId = callbackAccount.getId();
-        if(callbackAccountId == null) {
+        if (callbackAccountId == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
         List<IResponseCallback<Boolean>> queuedCallbacks = RUNNING_SYNCS.get(callbackAccountId);
-        if (queuedCallbacks != null){
+        if (queuedCallbacks != null) {
             queuedCallbacks.addAll(responseCallbacks);
             return;
         } else {
@@ -257,12 +258,13 @@ public class SyncManager {
                         }
                     } else {
                         respondCallbacksAfterSync(callbacksQueueForSync, Boolean.FALSE, null);
-                        DeckLog.warn("No sync. Status maintenance mode: " + response.isMaintenanceEnabled());
+                        if (response != null) {
+                            DeckLog.warn("No sync. Status maintenance mode: " + response.isMaintenanceEnabled());
+                        }
                     }
                 }
             });
-        }
-    );
+        });
     }
 
     private void respondCallbacksAfterSync(List<IResponseCallback<Boolean>> callbacksQueueForSync, Boolean response, Throwable throwable) {
@@ -270,7 +272,7 @@ public class SyncManager {
             return;
         }
         // notify done callbacks
-        DeckLog.info("SyncQueue: responding sync for "+callbacksQueueForSync.size()+" queued callbacks!");
+        DeckLog.info("SyncQueue: responding sync for " + callbacksQueueForSync.size() + " queued callbacks!");
         List<IResponseCallback<Boolean>> callbacksQueue = new ArrayList<>(callbacksQueueForSync);
         if (throwable == null) {
             //success:
@@ -295,9 +297,8 @@ public class SyncManager {
         // cleanup if done, or proceed if not
         if (queuedCallbacks.isEmpty()) {
             RUNNING_SYNCS.remove(firstCallbackOfAccount.getAccount().getId());
-            return;
         } else {
-            DeckLog.info("SyncQueue: starting sync for "+queuedCallbacks.size()+" queued callbacks!");
+            DeckLog.info("SyncQueue: starting sync for " + queuedCallbacks.size() + " queued callbacks!");
             RUNNING_SYNCS.remove(firstCallbackOfAccount.getAccount().getId());
             synchronize(queuedCallbacks);
         }
