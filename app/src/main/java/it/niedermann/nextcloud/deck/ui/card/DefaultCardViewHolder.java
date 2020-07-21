@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.deck.ui.card;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -21,7 +22,7 @@ import java.util.List;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCardDefaultBinding;
 import it.niedermann.nextcloud.deck.model.Account;
-import it.niedermann.nextcloud.deck.model.Card;
+import it.niedermann.nextcloud.deck.model.Card.TaskStatus;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -51,7 +52,6 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         }
 
         final int attachmentsCount = fullCard.getAttachments().size();
-
         if (attachmentsCount == 0) {
             binding.cardCountAttachments.setVisibility(View.GONE);
         } else {
@@ -60,7 +60,6 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         }
 
         final int commentsCount = fullCard.getCommentCount();
-
         if (commentsCount == 0) {
             binding.cardCountComments.setVisibility(View.GONE);
         } else {
@@ -69,7 +68,7 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
             binding.cardCountComments.setVisibility(View.VISIBLE);
         }
 
-        List<Label> labels = fullCard.getLabels();
+        final List<Label> labels = fullCard.getLabels();
         if (labels != null && labels.size() > 0) {
             binding.labels.updateLabels(labels);
             binding.labels.setVisibility(View.VISIBLE);
@@ -78,12 +77,20 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
             binding.labels.setVisibility(View.GONE);
         }
 
-        Card.TaskStatus taskStatus = fullCard.getCard().getTaskStatus();
+        final TaskStatus taskStatus = fullCard.getCard().getTaskStatus();
         if (taskStatus.taskCount > 0) {
             binding.cardCountTasks.setText(context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
+            binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_check_grey600_24dp), null, null, null);
             binding.cardCountTasks.setVisibility(View.VISIBLE);
         } else {
-            binding.cardCountTasks.setVisibility(View.GONE);
+            final String description = fullCard.getCard().getDescription();
+            if (!TextUtils.isEmpty(description)) {
+                binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_baseline_subject_24), null, null, null);
+                binding.cardCountTasks.setText(null);
+                binding.cardCountTasks.setVisibility(View.VISIBLE);
+            } else {
+                binding.cardCountTasks.setVisibility(View.GONE);
+            }
         }
     }
 

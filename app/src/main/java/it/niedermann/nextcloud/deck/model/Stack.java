@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
@@ -35,12 +34,10 @@ public class Stack extends AbstractRemoteEntity {
 
     private String title;
 
-    @NonNull
     private long boardId;
 
     private Date deletedAt;
 
-    @NonNull
     private int order;
 //
 //    @ToMany

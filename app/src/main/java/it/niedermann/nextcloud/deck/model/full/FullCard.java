@@ -142,7 +142,7 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Ignore
     @Override
-    public IRemoteEntity getEntity() {
+    public Card getEntity() {
         return card;
     }
 

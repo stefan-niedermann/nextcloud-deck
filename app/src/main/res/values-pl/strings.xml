@@ -38,6 +38,8 @@
     <string name="simple_disabled">wyłączony</string>
     <string name="simple_copied">Skopiowano</string>
     <string name="simple_archive">Archiwizuj</string>
+    <string name="simple_unassigned">Nieprzypisane</string>
+
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
     <string name="delete_board">Usuń tablicę</string>
@@ -262,4 +264,10 @@
     </plurals>
     <string name="simple_report">Raport</string>
     <string name="error_action_open_battery_settings">Ustawienia baterii</string>
-    </resources>
+    <string name="move_warning">Nie można przenosić komentarzy, ani załączników karty na inną tablicę.</string>
+    <string name="clone_board">Klonuj tablicę</string>
+    <string name="cloning_board">Klonowanie %1$s…</string>
+    <string name="successfully_cloned_board">Pomyślnie sklonowano %1$s</string>
+    <string name="attachment_does_not_yet_exist">Załącznik nie istnieje jeszcze w Deck</string>
+    <string name="card_does_not_yet_exist">Karta nie istnieje jeszcze w Deck</string>
+</resources>

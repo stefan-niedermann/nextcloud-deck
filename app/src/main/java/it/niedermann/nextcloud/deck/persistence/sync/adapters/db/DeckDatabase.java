@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -52,9 +53,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWit
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.LabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.SingleCardWidgetModelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.StackWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.JoinCardWithOcsProjectDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectResourceDao;
@@ -79,12 +81,13 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.Oc
                 DeckComment.class,
                 Mention.class,
                 SingleCardWidgetModel.class,
+                StackWidgetModel.class,
                 OcsProject.class,
                 OcsProjectResource.class,
                 JoinCardWithProject.class,
         },
         exportSchema = false,
-        version = 16
+        version = 18
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -187,6 +190,17 @@ public abstract class DeckDatabase extends RoomDatabase {
     private static final Migration MIGRATION_15_16 = new Migration(15, 16) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `StackWidgetModel` (`appWidgetId` INTEGER PRIMARY KEY, `accountId` INTEGER, `stackId` INTEGER, `darkTheme` INTEGER CHECK (`darkTheme` IN (0,1)) NOT NULL, " +
+                    "FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE, " +
+                    "FOREIGN KEY(`stackId`) REFERENCES `Stack`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE INDEX `index_StackWidgetModel_stackId` ON `StackWidgetModel` (`stackId`)");
+            database.execSQL("CREATE INDEX `index_StackWidgetModel_accountId` ON `StackWidgetModel` (`accountId`)");
+        }
+    };
+
+    private static final Migration MIGRATION_17_18 = new Migration(17, 18) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE `OcsProject` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `name` TEXT NOT NULL, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER)");
             database.execSQL("CREATE UNIQUE INDEX `index_OcsProject_accountId_id` ON `OcsProject` (`accountId`, `id`)");
             database.execSQL("CREATE INDEX `index_project_accID` ON `OcsProject` (`accountId`)");
@@ -248,6 +262,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                     }
                 })
                 .addMigrations(MIGRATION_15_16)
+                .addMigrations(MIGRATION_17_18)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
@@ -288,6 +303,8 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract MentionDao getMentionDao();
 
     public abstract SingleCardWidgetModelDao getSingleCardWidgetModelDao();
+
+    public abstract StackWidgetModelDao getStackWidgetModelDao();
 
     public abstract OcsProjectDao getOcsProjectDao();
 

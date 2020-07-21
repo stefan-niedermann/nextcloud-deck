@@ -141,13 +141,10 @@ public class SingleCardWidget extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
     }
 
-
     /**
      * Updates UI data of all {@link SingleCardWidget} instances
      */
     public static void notifyDatasetChanged(Context context) {
-        Intent intent = new Intent(context, SingleCardWidget.class);
-        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-        context.sendBroadcast(intent);
+        context.sendBroadcast(new Intent(context, SingleCardWidget.class).setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE));
     }
 }

@@ -270,6 +270,7 @@
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
     <string name="share_link">Share link</string>
     <string name="archive_cards">Archive cards</string>
+
     <string name="manage_accounts">Manage accounts</string>
     <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
@@ -289,6 +290,11 @@
     <string name="successfully_cloned_board">Successfully cloned %1$s</string>
     <string name="attachment_does_not_yet_exist">Attachment does not yet exist in Deck</string>
     <string name="card_does_not_yet_exist">Card does not yet exist in Deck</string>
+
+    <string name="widget_stack_title">List</string>
+    <string name="widget_stack_header_icon">Widget header icon</string>
+    <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
+    <string name="select_stack">Select list</string>
     <string name="project_type_deck_board">Deck board</string>
     <string name="project_type_deck_card">Deck card</string>
     <string name="project_type_file">File</string>
