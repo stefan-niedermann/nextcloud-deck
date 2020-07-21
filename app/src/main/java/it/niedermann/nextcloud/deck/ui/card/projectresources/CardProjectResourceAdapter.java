@@ -18,10 +18,12 @@ public class CardProjectResourceAdapter extends RecyclerView.Adapter<CardProject
     @NonNull
     private final Account account;
     @NonNull
-    private final List<OcsProjectResource> resources = new ArrayList<>();
+    private final List<OcsProjectResource> resources;
 
-    public CardProjectResourceAdapter(@NonNull Account account) {
+    public CardProjectResourceAdapter(@NonNull Account account, @NonNull List<OcsProjectResource> resources) {
         this.account = account;
+        this.resources = new ArrayList<>(resources.size());
+        this.resources.addAll(resources);
         setHasStableIds(true);
     }
 
@@ -39,12 +41,6 @@ public class CardProjectResourceAdapter extends RecyclerView.Adapter<CardProject
     @Override
     public void onBindViewHolder(@NonNull CardProjectResourceViewHolder holder, int position) {
         holder.bind(account, resources.get(position));
-    }
-
-    public void setResources(@NonNull List<OcsProjectResource> resources) {
-        this.resources.clear();
-        this.resources.addAll(resources);
-        notifyDataSetChanged();
     }
 
     @Override

@@ -10,34 +10,43 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.DialogProjectResourcesBinding;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 
 public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
-    private static final String KEY_PROJECT_LOCAL_ID = "projectLocalId";
+    private static final String KEY_RESOURCES = "resources";
+
+    private CardProjectResourceAdapter adapter;
     private SyncManager syncManager;
+    private DialogProjectResourcesBinding binding;
+    private EditCardViewModel viewModel;
+    @NonNull
+    private List<OcsProjectResource> resources = new ArrayList<>();
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         final Bundle args = requireArguments();
-        final long projectLocalId = args.getLong(KEY_PROJECT_LOCAL_ID, -1L);
-        if (projectLocalId < 0L) {
-            throw new IllegalArgumentException("Provide at least " + KEY_PROJECT_LOCAL_ID + " which must be a value greater than 0.");
+        if (!args.containsKey(KEY_RESOURCES)) {
+            throw new IllegalArgumentException("Provide at least " + KEY_RESOURCES);
         }
-        syncManager = new SyncManager(context);
+        this.resources.addAll((ArrayList<OcsProjectResource>) args.getSerializable(KEY_RESOURCES));
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        final DialogProjectResourcesBinding binding = DialogProjectResourcesBinding.inflate(inflater, container, false);
-        final EditCardViewModel viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
+        binding = DialogProjectResourcesBinding.inflate(inflater, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         // TODO check if necessary
         // This might be a zombie fragment with an empty EditCardViewModel after Android killed the activity (but not the fragment instance
@@ -47,10 +56,11 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
             return binding.getRoot();
         }
 
-        final CardProjectResourceAdapter adapter = new CardProjectResourceAdapter(viewModel.getAccount());
-        binding.getRoot().setAdapter(adapter);
+        syncManager = new SyncManager(requireContext());
 
-//        syncManager.getResourcesForProjectLocalId().observe((resources) -> adapter.setResources(resources));
+        // TODO parameter needed
+        adapter = new CardProjectResourceAdapter(viewModel.getAccount(), resources);
+        binding.getRoot().setAdapter(adapter);
         return binding.getRoot();
     }
 
@@ -59,10 +69,10 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
     }
 
-    public static DialogFragment newInstance(@NonNull Long projectLocalId) {
+    public static DialogFragment newInstance(@NonNull List<OcsProjectResource> resources) {
         final DialogFragment fragment = new CardProjectResourcesDialog();
         final Bundle args = new Bundle();
-        args.putSerializable(KEY_PROJECT_LOCAL_ID, projectLocalId);
+        args.putSerializable(KEY_RESOURCES, new ArrayList<>(resources));
         fragment.setArguments(args);
         return fragment;
     }
