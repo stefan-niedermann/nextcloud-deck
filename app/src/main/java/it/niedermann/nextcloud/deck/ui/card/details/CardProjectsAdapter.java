@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -11,15 +12,19 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.databinding.ItemProjectBinding;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
+import it.niedermann.nextcloud.deck.ui.card.projectresources.CardProjectResourcesDialog;
 
 public class CardProjectsAdapter extends RecyclerView.Adapter<CardProjectsViewHolder> {
 
     @NonNull
-    private List<OcsProject> projects;
+    private final List<OcsProject> projects;
+    @NonNull
+    private final FragmentManager fragmentManager;
 
-    public CardProjectsAdapter(@NonNull List<OcsProject> projects) {
+    public CardProjectsAdapter(@NonNull List<OcsProject> projects, @NonNull FragmentManager fragmentManager) {
         this.projects = new ArrayList<>(projects.size());
         this.projects.addAll(projects);
+        this.fragmentManager = fragmentManager;
         setHasStableIds(true);
     }
 
@@ -36,7 +41,8 @@ public class CardProjectsAdapter extends RecyclerView.Adapter<CardProjectsViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CardProjectsViewHolder holder, int position) {
-        holder.bind(projects.get(position));
+        final OcsProject project = projects.get(position);
+        holder.bind(project, (v) -> CardProjectResourcesDialog.newInstance(project.getResources()).show(fragmentManager, CardProjectResourcesDialog.class.getSimpleName()));
     }
 
     @Override

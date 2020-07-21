@@ -1,6 +1,9 @@
 package it.niedermann.nextcloud.deck.ui.card.details;
 
+import android.view.View.OnClickListener;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it.niedermann.nextcloud.deck.R;
@@ -16,9 +19,14 @@ public class CardProjectsViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull OcsProject project) {
+    public void bind(@NonNull OcsProject project, @Nullable OnClickListener onClickListener) {
         binding.projectName.setText(project.getName());
         final int resourcesCount = project.getResources().size();
         binding.resourcesCount.setText(itemView.getContext().getResources().getQuantityString(R.plurals.resources_count, resourcesCount, resourcesCount));
+        if (resourcesCount > 0) {
+            binding.getRoot().setOnClickListener(onClickListener);
+        } else {
+            binding.getRoot().setOnClickListener(null);
+        }
     }
 }

@@ -69,7 +69,7 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
     }
 
-    public DialogFragment newInstance(@NonNull ArrayList<OcsProjectResource> resources) {
+    public static DialogFragment newInstance(@NonNull ArrayList<OcsProjectResource> resources) {
         final DialogFragment fragment = new CardProjectResourcesDialog();
         final Bundle args = new Bundle();
         args.putSerializable(KEY_RESOURCES, resources);

@@ -423,7 +423,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         if (viewModel.getFullCard().getProjects().size() > 0) {
             binding.projectsTitle.setVisibility(VISIBLE);
             binding.projects.setNestedScrollingEnabled(false);
-            final CardProjectsAdapter adapter = new CardProjectsAdapter(viewModel.getFullCard().getProjects());
+            final CardProjectsAdapter adapter = new CardProjectsAdapter(viewModel.getFullCard().getProjects(), getChildFragmentManager());
             binding.projects.setAdapter(adapter);
             binding.projects.setVisibility(VISIBLE);
         } else {
