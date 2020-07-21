@@ -1087,7 +1087,7 @@ public class SyncManager {
 
     @AnyThread
     public WrappedLiveData<FullBoard> archiveBoard(@NonNull Board board) {
-        WrappedLiveData liveData = new WrappedLiveData();
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             try {
                 FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
@@ -1102,8 +1102,8 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData dearchiveBoard(@NonNull Board board) {
-        WrappedLiveData liveData = new WrappedLiveData();
+    public WrappedLiveData<FullBoard> dearchiveBoard(@NonNull Board board) {
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             try {
                 FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());

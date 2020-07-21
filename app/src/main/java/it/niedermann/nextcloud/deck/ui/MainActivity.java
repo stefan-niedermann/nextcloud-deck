@@ -966,7 +966,12 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onArchive(@NonNull Board board) {
-        syncManager.archiveBoard(board);
+        final WrappedLiveData<FullBoard> liveData = syncManager.archiveBoard(board);
+        observeOnce(liveData, this, (fullBoard) -> {
+            if (liveData.hasError()) {
+                ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override
