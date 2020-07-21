@@ -7,6 +7,8 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.URL;
+
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemProjectResourceBinding;
@@ -59,11 +61,13 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
     private static Uri getResourceUri(@NonNull Account account, @NonNull String link) throws IllegalArgumentException {
         try {
             // Assume link contains a fully qualified Uri including host
-            return Uri.parse(link);
+            final URL u = new URL(link);
+            return Uri.parse(u.toString());
         } catch (Throwable linkIsNotQualified) {
             try {
                 // Assume link is a absolute path that needs to be concatenated with account url for a complete Uri
-                return Uri.parse(account.getUrl() + link);
+                final URL u = new URL(account.getUrl() + link);
+                return Uri.parse(u.toString());
             } catch (Throwable throwable) {
                 throw new IllegalArgumentException("Could not parse " + Uri.class.getSimpleName() + ": " + link, throwable);
             }
