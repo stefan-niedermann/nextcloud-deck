@@ -10,8 +10,10 @@ import java.io.Serializable;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-@Entity(inheritSuperIndices = true,
-        indices = {
+@Entity(indices = {
+                @Index("id"),
+                @Index("lastModifiedLocal"),
+                @Index(value = {"accountId", "id", "projectId"}, unique = true),
                 @Index(value = "accountId", name = "index_projectResource_accID"),
                 @Index(value = "projectId", name = "index_projectResource_projectId"),
         },
