@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.model.ocs.projects.full;
 
+import androidx.annotation.NonNull;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
@@ -25,7 +26,7 @@ public class OcsProjectWithResources implements IRemoteEntity {
         this.project = project;
     }
 
-    @androidx.annotation.NonNull
+    @NonNull
     public List<OcsProjectResource> getResources() {
         return resources;
     }
