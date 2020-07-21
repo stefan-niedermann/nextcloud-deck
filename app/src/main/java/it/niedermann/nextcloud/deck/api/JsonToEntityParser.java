@@ -149,7 +149,7 @@ public class JsonToEntityParser {
                resource.setMimetype(obj.get("mimetype").getAsString());
             }
             if (obj.has("preview-available")) {
-               resource.setPreviewAvailable(obj.get("preview-availableath").getAsBoolean());
+               resource.setPreviewAvailable(obj.get("preview-available").getAsBoolean());
             } else {
                resource.setPreviewAvailable(false);
             }
