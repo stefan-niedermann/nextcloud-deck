@@ -63,7 +63,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             filterInformationDraft.observe(this, (draft) -> {
                 switch (position) {
                     case 0:
-                        tab.setIcon(draft.getLabels().size() > 0 ? indicator : null);
+                        tab.setIcon(draft.getLabels().size() > 0 || draft.isNoAssignedLabel() ? indicator : null);
                         break;
                     case 1:
                         tab.setIcon(draft.getUsers().size() > 0 || draft.isNoAssignedUser() ? indicator : null);

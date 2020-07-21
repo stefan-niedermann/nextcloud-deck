@@ -303,4 +303,5 @@
         <item quantity="one">%1$d resource</item>
         <item quantity="other">%1$d resources</item>
     </plurals>
+    <string name="no_assigned_label">No assigned label</string>
 </resources>

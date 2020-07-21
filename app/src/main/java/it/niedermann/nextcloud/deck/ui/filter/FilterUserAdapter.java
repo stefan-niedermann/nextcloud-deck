@@ -63,11 +63,10 @@ public class FilterUserAdapter extends RecyclerView.Adapter<FilterUserAdapter.Us
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder viewHolder, int position) {
-        final User user = users.get(position);
         if (position == 0) {
             viewHolder.bindNotAssigned();
         } else {
-            viewHolder.bind(user);
+            viewHolder.bind(users.get(position));
         }
     }
 

@@ -14,6 +14,7 @@ import it.niedermann.nextcloud.deck.model.enums.EDueType;
 public class FilterInformation implements Serializable {
     @NonNull
     private EDueType dueType = EDueType.NO_FILTER;
+    private boolean noAssignedLabel = false;
     private boolean noAssignedUser = false;
     @NonNull
     private List<User> users = new ArrayList<>();
@@ -30,6 +31,7 @@ public class FilterInformation implements Serializable {
             this.users.addAll(filterInformation.getUsers());
             this.labels.addAll(filterInformation.getLabels());
             this.noAssignedUser = filterInformation.isNoAssignedUser();
+            this.noAssignedLabel = filterInformation.isNoAssignedLabel();
         }
     }
 
@@ -76,12 +78,21 @@ public class FilterInformation implements Serializable {
         this.noAssignedUser = noAssignedUser;
     }
 
+    public boolean isNoAssignedLabel() {
+        return noAssignedLabel;
+    }
+
+    public void setNoAssignedLabel(boolean noAssignedLabel) {
+        this.noAssignedLabel = noAssignedLabel;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "FilterInformation{" +
                 "dueType=" + dueType +
                 ", noAssignedUser=" + noAssignedUser +
+                ", noAssignedLabel=" + noAssignedLabel +
                 ", users=" + users +
                 ", labels=" + labels +
                 '}';
@@ -97,6 +108,7 @@ public class FilterInformation implements Serializable {
         return filterInformation.getDueType() != EDueType.NO_FILTER
                 || filterInformation.getUsers().size() > 0
                 || filterInformation.getLabels().size() > 0
-                || filterInformation.noAssignedUser;
+                || filterInformation.noAssignedUser
+                || filterInformation.noAssignedLabel;
     }
 }
