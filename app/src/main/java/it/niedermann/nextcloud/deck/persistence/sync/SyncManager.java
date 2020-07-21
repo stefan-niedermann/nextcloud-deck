@@ -41,6 +41,7 @@ import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
@@ -448,6 +449,16 @@ public class SyncManager {
 
     /**
      * @param accountId ID of the account
+     * @return all {@link Board}s no matter if {@link Board#archived} or not.
+     */
+    @SuppressWarnings("JavadocReference")
+    @AnyThread
+    public LiveData<List<Board>> getBoards(long accountId) {
+        return dataBaseAdapter.getBoards(accountId);
+    }
+
+    /**
+     * @param accountId ID of the account
      * @param archived  Decides whether only archived or not-archived boards for the specified account will be returned
      * @return all archived or non-archived <code>Board</code>s depending on <code>archived</code> parameter
      */
@@ -701,8 +712,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
-        return dataBaseAdapter.getFullStacksForBoard(accountId, localBoardId);
+    public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
+        return dataBaseAdapter.getStacksForBoard(accountId, localBoardId);
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
@@ -792,13 +803,14 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<FullStack> createStack(long accountId, @NonNull Stack stack) {
+    public WrappedLiveData<FullStack> createStack(long accountId, @NonNull String title, long boardLocalId) {
         WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
         doAsync(() -> {
+            Stack stack = new Stack(title, boardLocalId);
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
             FullStack fullStack = new FullStack();
-            // TODO set stack order to (highest stack-order from board) + 1 and remove logic from caller
+            stack.setOrder(dataBaseAdapter.getHighestStackOrderInBoard(stack.getBoardId()) + 1);
             stack.setAccountId(accountId);
             stack.setBoardId(board.getLocalId());
             fullStack.setStack(stack);
@@ -820,6 +832,7 @@ public class SyncManager {
         return liveData;
     }
 
+    @Deprecated
     @AnyThread
     public WrappedLiveData<FullStack> updateStack(@NonNull FullStack stack) {
         WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
@@ -829,7 +842,16 @@ public class SyncManager {
             updateStack(account, board, stack, liveData);
         });
         return liveData;
+    }
 
+    @AnyThread
+    public WrappedLiveData<Void> updateStackTitle(long accountId, long localStackId, @NonNull String newTitle) {
+        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+        doAsync(() -> {
+            // TODO implement, replaces #updateStack(@NonNull FullStack stack)
+            liveData.postError(new UnsupportedOperationException("Not yet implemented."));
+        });
+        return liveData;
     }
 
     @AnyThread
@@ -1062,24 +1084,36 @@ public class SyncManager {
         return liveData;
     }
 
-    // TODO return WrappedLiveData for error handling
     @AnyThread
-    public void archiveBoard(@NonNull Board board) {
+    public WrappedLiveData<FullBoard> archiveBoard(@NonNull Board board) {
+        WrappedLiveData liveData = new WrappedLiveData();
         doAsync(() -> {
-            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
-            b.getBoard().setArchived(true);
-            updateBoard(b);
+            try {
+                FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+                b.getBoard().setArchived(true);
+                updateBoard(b);
+                liveData.postValue(b);
+            } catch (Throwable e) {
+                liveData.postError(e);
+            }
         });
+        return liveData;
     }
 
-    // TODO return WrappedLiveData for error handling
     @AnyThread
-    public void dearchiveBoard(@NonNull Board board) {
+    public WrappedLiveData dearchiveBoard(@NonNull Board board) {
+        WrappedLiveData liveData = new WrappedLiveData();
         doAsync(() -> {
-            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
-            b.getBoard().setArchived(false);
-            updateBoard(b);
+            try {
+                FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+                b.getBoard().setArchived(false);
+                updateBoard(b);
+                liveData.postValue(b);
+            } catch (Throwable e) {
+                liveData.postError(e);
+            }
         });
+        return liveData;
     }
 
     @AnyThread
@@ -1476,6 +1510,7 @@ public class SyncManager {
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId, long notAssignedToLocalCardId) {
         return dataBaseAdapter.findProposalsForLabelsToAssign(accountId, boardId, notAssignedToLocalCardId);
     }
+
     public LiveData<List<Label>> findProposalsForLabelsToAssign(final long accountId, final long boardId) {
         return findProposalsForLabelsToAssign(accountId, boardId, -1L);
     }
@@ -1803,6 +1838,23 @@ public class SyncManager {
     @AnyThread
     public void deleteSingleCardWidgetModel(int widgetId) {
         doAsync(() -> dataBaseAdapter.deleteSingleCardWidget(widgetId));
+    }
+
+    public void addStackWidget(int appWidgetId, long accountId, long stackId, boolean darkTheme) {
+        doAsync(() -> dataBaseAdapter.createStackWidget(appWidgetId, accountId, stackId, darkTheme));
+    }
+
+    @WorkerThread
+    public StackWidgetModel getStackWidgetModelDirectly(int appWidgetId) throws NoSuchElementException {
+        final StackWidgetModel model = dataBaseAdapter.getStackWidgetModelDirectly(appWidgetId);
+        if (model == null) {
+            throw new NoSuchElementException();
+        }
+        return model;
+    }
+
+    public void deleteStackWidgetModel(int appWidgetId) {
+        doAsync(() -> dataBaseAdapter.deleteStackWidget(appWidgetId));
     }
 
     private static class BooleanResultHolder {

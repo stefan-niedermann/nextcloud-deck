@@ -38,7 +38,6 @@
     <string name="simple_disabled">uitgeschakeld</string>
     <string name="simple_copied">Gekopieerd</string>
     <string name="simple_archive">Archiveer</string>
-
     <string name="edit_board">Pas bord aan</string>
     <string name="archive_board">Archiveer bord</string>
     <string name="delete_board">Bord verwijderen</string>
@@ -241,4 +240,5 @@
     <string name="manage_accounts">Accounts beheren </string>
     <string name="simple_reply">Antwoord</string>
     <string name="simple_report">Rapporteer</string>
+    <string name="clone_board">Dupliceer bord</string>
     </resources>

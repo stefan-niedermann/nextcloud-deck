@@ -38,6 +38,7 @@
     <string name="simple_disabled">vypnuto</string>
     <string name="simple_copied">Zkopírováno</string>
     <string name="simple_archive">Archiv</string>
+    <string name="simple_unassigned">Nepřiřazeno</string>
 
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
@@ -263,4 +264,10 @@
     </plurals>
     <string name="simple_report">Hlášení</string>
     <string name="error_action_open_battery_settings">Nastavení správy napájení</string>
+    <string name="move_warning">Při přesunutí karty na jinou tabuli není možné přenést také komentáře či přílohy.</string>
+    <string name="clone_board">Klonovat tabuli</string>
+    <string name="cloning_board">Klonování %1$s…</string>
+    <string name="successfully_cloned_board">%1$s úspěšně naklonováno</string>
+    <string name="attachment_does_not_yet_exist">Příloha ještě neexistuje v Deck</string>
+    <string name="card_does_not_yet_exist">Karta ještě neexistuje v Deck</string>
 </resources>

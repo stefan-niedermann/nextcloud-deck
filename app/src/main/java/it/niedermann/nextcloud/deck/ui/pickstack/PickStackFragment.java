@@ -16,11 +16,10 @@ import androidx.lifecycle.Observer;
 
 import java.util.List;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.databinding.FragmentPickStackBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Board;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.ImportAccountActivity;
 import it.niedermann.nextcloud.deck.ui.preparecreate.AccountAdapter;
@@ -37,17 +36,20 @@ public class PickStackFragment extends Fragment {
 
     private FragmentPickStackBinding binding;
 
+    private static final String KEY_SHOW_BOARDS_WITHOUT_EDIT_PERMISSION = "show_boards_without_edit_permission";
+
     private SyncManager syncManager;
 
     private PickStackListener pickStackListener;
 
+    private boolean showBoardsWithoutEditPermission = false;
     private long lastAccountId;
     private long lastBoardId;
     private long lastStackId;
 
     private ArrayAdapter<Account> accountAdapter;
     private ArrayAdapter<Board> boardAdapter;
-    private ArrayAdapter<FullStack> stackAdapter;
+    private ArrayAdapter<Stack> stackAdapter;
 
     @Nullable
     private LiveData<List<Board>> boardsLiveData;
@@ -67,7 +69,7 @@ public class PickStackFragment extends Fragment {
                     break;
                 }
             }
-            if(boardToSelect == null) {
+            if (boardToSelect == null) {
                 boardToSelect = boards.get(0);
             }
             binding.boardSelect.setSelection(boardAdapter.getPosition(boardToSelect));
@@ -78,26 +80,26 @@ public class PickStackFragment extends Fragment {
     };
 
     @Nullable
-    private LiveData<List<FullStack>> stacksLiveData;
+    private LiveData<List<Stack>> stacksLiveData;
     @NonNull
-    private Observer<List<FullStack>> stacksObserver = (fullStacks) -> {
+    private Observer<List<Stack>> stacksObserver = (stacks) -> {
         stackAdapter.clear();
-        stackAdapter.addAll(fullStacks);
+        stackAdapter.addAll(stacks);
 
-        if (fullStacks.size() > 0) {
+        if (stacks.size() > 0) {
             binding.stackSelect.setEnabled(true);
 
-            FullStack fullStackToSelect = null;
-            for (FullStack fullStack : fullStacks) {
-                if (fullStack.getLocalId() == lastStackId) {
-                    fullStackToSelect = fullStack;
+            Stack stackToSelect = null;
+            for (Stack stack : stacks) {
+                if (stack.getLocalId() == lastStackId) {
+                    stackToSelect = stack;
                     break;
                 }
             }
-            if (fullStackToSelect == null) {
-                fullStackToSelect = fullStacks.get(0);
+            if (stackToSelect == null) {
+                stackToSelect = stacks.get(0);
             }
-            binding.stackSelect.setSelection(stackAdapter.getPosition(fullStackToSelect));
+            binding.stackSelect.setSelection(stackAdapter.getPosition(stackToSelect));
         } else {
             binding.stackSelect.setEnabled(false);
             pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), null);
@@ -114,7 +116,10 @@ public class PickStackFragment extends Fragment {
         } else {
             throw new IllegalArgumentException("Caller must implement " + PickStackListener.class.getSimpleName());
         }
-        DeckLog.error("PICKSTACK: onAttach successful");
+        final Bundle args = getArguments();
+        if (args != null) {
+            this.showBoardsWithoutEditPermission = args.getBoolean(KEY_SHOW_BOARDS_WITHOUT_EDIT_PERMISSION, false);
+        }
     }
 
     @Override
@@ -164,7 +169,9 @@ public class PickStackFragment extends Fragment {
         });
 
         binding.accountSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            updateLiveDataSource(boardsLiveData, boardsObserver, syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
+            updateLiveDataSource(boardsLiveData, boardsObserver, showBoardsWithoutEditPermission
+                    ? syncManager.getBoards(parent.getSelectedItemId())
+                    : syncManager.getBoardsWithEditPermission(parent.getSelectedItemId()));
         });
 
         binding.boardSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
@@ -172,7 +179,7 @@ public class PickStackFragment extends Fragment {
         });
 
         binding.stackSelect.setOnItemSelectedListener((SelectedListener) (parent, view, position, id) -> {
-            pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), (FullStack) parent.getSelectedItem());
+            pickStackListener.onStackPicked((Account) binding.accountSelect.getSelectedItem(), (Board) binding.boardSelect.getSelectedItem(), (Stack) parent.getSelectedItem());
         });
 
         return binding.getRoot();
@@ -189,7 +196,11 @@ public class PickStackFragment extends Fragment {
         liveData.observe(getViewLifecycleOwner(), observer);
     }
 
-    public static PickStackFragment newInstance() {
-        return new PickStackFragment();
+    public static PickStackFragment newInstance(boolean showBoardsWithoutEditPermission) {
+        final PickStackFragment fragment = new PickStackFragment();
+        final Bundle args = new Bundle();
+        args.putBoolean(KEY_SHOW_BOARDS_WITHOUT_EDIT_PERMISSION, showBoardsWithoutEditPermission);
+        fragment.setArguments(args);
+        return fragment;
     }
 }

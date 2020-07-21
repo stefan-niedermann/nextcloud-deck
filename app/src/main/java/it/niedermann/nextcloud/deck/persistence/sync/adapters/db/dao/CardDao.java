@@ -71,4 +71,7 @@ public interface CardDao extends GenericDao<Card> {
 
     @Query("SELECT coalesce(MAX(`order`), -1) FROM card c WHERE  stackId = :localStackId and status <> 3")
     Integer getHighestOrderInStack(Long localStackId);
+
+    @Query("SELECT c.stackId FROM card c WHERE  localId = :localCardId")
+    Long getLocalStackIdByLocalCardId(Long localCardId);
 }

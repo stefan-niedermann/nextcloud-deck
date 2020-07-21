@@ -38,7 +38,6 @@
     <string name="simple_disabled">отключено</string>
     <string name="simple_copied">Скопировано</string>
     <string name="simple_archive">Переместить в архив</string>
-
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
     <string name="delete_board">Удалить доску</string>
@@ -261,4 +260,5 @@
     </plurals>
     <string name="simple_report">Сообщить</string>
     <string name="error_action_open_battery_settings">Настройки аккумулятора</string>
-</resources>
+    <string name="clone_board">Скопировать доску</string>
+    </resources>

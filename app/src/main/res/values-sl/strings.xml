@@ -38,6 +38,7 @@
     <string name="simple_disabled">onemogočeno</string>
     <string name="simple_copied">Kopirano!</string>
     <string name="simple_archive">Arhiv</string>
+    <string name="simple_unassigned">Nedodeljeno</string>
 
     <string name="edit_board">Uredi zbirko</string>
     <string name="archive_board">Arhiviraj zbirko</string>
@@ -133,6 +134,7 @@
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
     <string name="settings_theme_title">Temna tema</string>
     <string name="settings_branding_title">Prilagajanje oblikovanja</string>
+    <string name="settings_compact_title">Stisnjen pogled 🆕</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
@@ -221,6 +223,7 @@
     <string name="error_dialog_title">Ojoj, kaj pa zdaj? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Poskusite vsiliti končanje programa in ga ponovno zagnati. Morda je težava v neustrezni povezavi z okoljem Nextcloud</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Nextcloud Deck.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Nadgradnja podatkovne zbirke je spodletela. Pošljite poročilo o napaki in nato počistite shrambo za normalno uporabo programa.</string>
     <string name="error_dialog_tip_clear_storage">Shrambo je mogoče počistiti med podrobnostmi programa Shramba → Počisti shrambo.</string>
     <string name="error_dialog_tip_files_outdated">Program Nextcloud je očitno starejše različice. Posodobite jo prek Trgovine Play ali s posodabljalnikom F-Droid.</string>
     <string name="error_dialog_tip_files_force_stop">Kaže, da je nekaj narobe s programom Nextcloud. Poskusite vsiljeno zaustaviti programa Nextcloud in Nextcloud Deck.</string>
@@ -236,6 +239,7 @@
     <string name="error_dialog_version_not_parsable">Ni mogoče določiti različice strežnika, povezanega s programom Deck. Prepričajte se, da je nameščen in omogočen.</string>
     <string name="error_dialog_capabilities_not_parsable">Ni mogoče pridobiti podatkov o zmožnostih strežnika. Prepričajte se, da strežnik teče in da imajo programi dostop do okolja Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Priloge ni mogoče poslati. Souporabo omogočite na nek drug način, nam pa posredujte poročilo o hrošču.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Onemogočite vso optimizacijo porabe baterije za programa Nextcloud in Deck.</string>
     <string name="error_action_open_deck_info">Odpri podrobnosti programa</string>
     <string name="error_action_open_network">Nastavitve omrežja</string>
     <string name="error_action_server_logs">Dnevniki strežnika</string>
@@ -259,4 +263,11 @@
         <item quantity="other">%1$d napak med pošiljanjem</item>
     </plurals>
     <string name="simple_report">Poročilo</string>
-    </resources>
+    <string name="error_action_open_battery_settings">Nastavitve baterije</string>
+    <string name="move_warning">Ni mogoče prenesti ne opomb ne prilog med premikanjem naloge v drugo zbirko.</string>
+    <string name="clone_board">Kloniraj zbirko</string>
+    <string name="cloning_board">Poteka kloniranje %1$s…</string>
+    <string name="successfully_cloned_board">Kloniranje %1$s je uspešno končano</string>
+    <string name="attachment_does_not_yet_exist">Priloga v Deck še ne obstaja</string>
+    <string name="card_does_not_yet_exist">Naloga v Deck še ne obstaja</string>
+</resources>

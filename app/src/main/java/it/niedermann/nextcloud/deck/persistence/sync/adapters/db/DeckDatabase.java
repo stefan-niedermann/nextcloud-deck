@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Permission;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
@@ -49,9 +50,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.JoinCardWit
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.LabelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
-import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.SingleCardWidgetModelDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.SingleCardWidgetModelDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.StackWidgetModelDao;
 
 @Database(
         entities = {
@@ -73,9 +75,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
                 DeckComment.class,
                 Mention.class,
                 SingleCardWidgetModel.class,
+                StackWidgetModel.class,
         },
         exportSchema = false,
-        version = 15
+        version = 17
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -175,6 +178,17 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_15_16 = new Migration(15, 16) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `StackWidgetModel` (`appWidgetId` INTEGER PRIMARY KEY, `accountId` INTEGER, `stackId` INTEGER, `darkTheme` INTEGER CHECK (`darkTheme` IN (0,1)) NOT NULL, " +
+                    "FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE, " +
+                    "FOREIGN KEY(`stackId`) REFERENCES `Stack`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            database.execSQL("CREATE INDEX `index_StackWidgetModel_stackId` ON `StackWidgetModel` (`stackId`)");
+            database.execSQL("CREATE INDEX `index_StackWidgetModel_accountId` ON `StackWidgetModel` (`accountId`)");
+        }
+    };
+
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
 
         @Override
@@ -216,6 +230,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                                 .apply();
                     }
                 })
+                .addMigrations(MIGRATION_15_16)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
@@ -256,4 +271,6 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract MentionDao getMentionDao();
 
     public abstract SingleCardWidgetModelDao getSingleCardWidgetModelDao();
+
+    public abstract StackWidgetModelDao getStackWidgetModelDao();
 }

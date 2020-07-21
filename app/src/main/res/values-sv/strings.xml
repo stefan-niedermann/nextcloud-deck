@@ -38,7 +38,6 @@
     <string name="simple_disabled">inaktiverad</string>
     <string name="simple_copied">Kopierad</string>
     <string name="simple_archive">Arkivera</string>
-
     <string name="edit_board">Ändra tavla</string>
     <string name="archive_board">Arkivera tavla</string>
     <string name="delete_board">Radera tavla</string>
@@ -235,4 +234,5 @@
         <item quantity="other">%1$d fel vid uppladdning</item>
     </plurals>
     <string name="simple_report">Rapportera</string>
+    <string name="clone_board">Kopiera tavla</string>
     </resources>

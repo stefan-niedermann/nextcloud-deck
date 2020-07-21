@@ -52,7 +52,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
         final Attachment attachment = attachments.get(position);
-        final String uri = AttachmentUtil.getRemoteUrl(account.getUrl(), cardRemoteId, attachment.getId());
+        final String uri = AttachmentUtil.getRemoteOrLocalUrl(account.getUrl(), cardRemoteId, attachment);
         if (MimeTypeUtil.isImage(attachment.getMimetype())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.binding.preview.setTransitionName(context.getString(R.string.transition_attachment_preview, String.valueOf(attachment.getLocalId())));

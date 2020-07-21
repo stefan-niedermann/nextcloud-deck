@@ -38,7 +38,6 @@
     <string name="simple_disabled">無効</string>
     <string name="simple_copied">コピーしました</string>
     <string name="simple_archive">アーカイブ</string>
-
     <string name="edit_board">ボードを編集</string>
     <string name="archive_board">ボードをアーカイブ</string>
     <string name="delete_board">ボードを削除</string>

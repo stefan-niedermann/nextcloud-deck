@@ -82,7 +82,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
         syncManager = new SyncManager(requireContext());
         adapter = new CardAttachmentAdapter(
-                requireContext(),
                 getChildFragmentManager(),
                 requireActivity().getMenuInflater(),
                 this,
@@ -163,6 +162,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //noinspection SwitchStatementWithTooFewBranches
         switch (requestCode) {
             case REQUEST_CODE_ADD_FILE: {
                 if (resultCode == RESULT_OK) {
@@ -245,6 +245,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //noinspection SwitchStatementWithTooFewBranches
         switch (requestCode) {
             case REQUEST_CODE_ADD_FILE_PERMISSION:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -289,6 +290,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
     @Override
     public void applyBrand(int mainColor) {
         applyBrandToFAB(mainColor, binding.fab);
+        adapter.applyBrand(mainColor);
     }
 
     public static Fragment newInstance() {
