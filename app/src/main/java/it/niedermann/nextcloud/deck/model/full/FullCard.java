@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.IRemoteEntity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
+import it.niedermann.nextcloud.deck.model.ocs.projects.full.OcsProjectWithResources;
 
 public class FullCard implements IRemoteEntity, DragAndDropModel {
 
@@ -52,7 +53,7 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
     @Relation(entity = OcsProject.class, parentColumn = "localId", entityColumn = "localId",
             associateBy = @Junction(value = JoinCardWithProject.class, parentColumn = "cardId", entityColumn = "projectId"))
 
-    private List<OcsProject> projects = new ArrayList<>();
+    private List<OcsProjectWithResources> projects = new ArrayList<>();
 
     public FullCard() {
         super();
@@ -131,11 +132,11 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
     }
 
     @NonNull
-    public List<OcsProject> getProjects() {
+    public List<OcsProjectWithResources> getProjects() {
         return projects;
     }
 
-    public void setProjects(@NonNull List<OcsProject> projects) {
+    public void setProjects(@NonNull List<OcsProjectWithResources> projects) {
         this.projects.clear();
         this.projects.addAll(projects);
     }
