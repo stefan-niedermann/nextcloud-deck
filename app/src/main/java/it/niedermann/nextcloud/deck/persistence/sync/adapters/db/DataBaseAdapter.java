@@ -189,7 +189,7 @@ public class DataBaseAdapter {
         args.add(localStackId);
 
         if (!filter.getLabels().isEmpty()) {
-            query.append("and exists(select 1 from joincardwithlabel j where c.localId = cardId and labelId in (");
+            query.append("and (exists(select 1 from joincardwithlabel j where c.localId = cardId and labelId in (");
             fillSqlWithListValues(query, args, filter.getLabels());
             query.append(") and j.status<>3) ");
             if (filter.isNoAssignedLabel()) {
@@ -197,6 +197,8 @@ public class DataBaseAdapter {
             } else {
                 query.append(") ");
             }
+        } else if (filter.isNoAssignedLabel()) {
+            query.append("and not exists(select 1 from joincardwithlabel j where c.localId = cardId and j.status<>3) ");
         }
 
         if (!filter.getUsers().isEmpty()) {
