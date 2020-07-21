@@ -295,4 +295,5 @@
     <string name="widget_stack_header_icon">Widget header icon</string>
     <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
     <string name="select_stack">Select list</string>
+    <string name="no_assigned_label">No assigned label</string>
 </resources>

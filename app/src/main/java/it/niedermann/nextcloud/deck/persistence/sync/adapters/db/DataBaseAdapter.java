@@ -192,6 +192,11 @@ public class DataBaseAdapter {
             query.append("and exists(select 1 from joincardwithlabel j where c.localId = cardId and labelId in (");
             fillSqlWithListValues(query, args, filter.getLabels());
             query.append(") and j.status<>3) ");
+            if (filter.isNoAssignedLabel()) {
+                query.append("or not exists(select 1 from joincardwithlabel j where c.localId = cardId and j.status<>3)) ");
+            } else {
+                query.append(") ");
+            }
         }
 
         if (!filter.getUsers().isEmpty()) {
@@ -555,7 +560,7 @@ public class DataBaseAdapter {
     }
 
     private void notifyStackWidgetsIfNeeded(String cardTitle, long... affectedStackIds) {
-        if (db.getStackWidgetModelDao().containsStackLocalId(affectedStackIds)){
+        if (db.getStackWidgetModelDao().containsStackLocalId(affectedStackIds)) {
             DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + cardTitle + "\"");
             StackWidget.notifyDatasetChanged(context);
         }
