@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,11 +24,13 @@ import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
     private static final String KEY_RESOURCES = "resources";
+    private static final String KEY_PROJECT_NAME = "projectName";
 
     private CardProjectResourceAdapter adapter;
     private SyncManager syncManager;
     private DialogProjectResourcesBinding binding;
     private EditCardViewModel viewModel;
+    private String projectName;
     @NonNull
     private List<OcsProjectResource> resources = new ArrayList<>();
 
@@ -39,6 +42,7 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
             throw new IllegalArgumentException("Provide at least " + KEY_RESOURCES);
         }
         this.resources.addAll((ArrayList<OcsProjectResource>) args.getSerializable(KEY_RESOURCES));
+        this.projectName = args.getString(KEY_PROJECT_NAME);
     }
 
     @Override
@@ -60,7 +64,8 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
         // TODO parameter needed
         adapter = new CardProjectResourceAdapter(viewModel.getAccount(), resources);
-        binding.getRoot().setAdapter(adapter);
+        binding.recyclerView.setAdapter(adapter);
+        binding.projectName.setText(projectName);
         return binding.getRoot();
     }
 
@@ -69,9 +74,10 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
     }
 
-    public static DialogFragment newInstance(@NonNull List<OcsProjectResource> resources) {
+    public static DialogFragment newInstance(@Nullable String projectName, @NonNull List<OcsProjectResource> resources) {
         final DialogFragment fragment = new CardProjectResourcesDialog();
         final Bundle args = new Bundle();
+        args.putString(KEY_PROJECT_NAME, projectName);
         args.putSerializable(KEY_RESOURCES, new ArrayList<>(resources));
         fragment.setArguments(args);
         return fragment;

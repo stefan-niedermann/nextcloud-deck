@@ -42,7 +42,7 @@ public class CardProjectsAdapter extends RecyclerView.Adapter<CardProjectsViewHo
     @Override
     public void onBindViewHolder(@NonNull CardProjectsViewHolder holder, int position) {
         final OcsProjectWithResources project = projects.get(position);
-        holder.bind(project, (v) -> CardProjectResourcesDialog.newInstance(project.getResources()).show(fragmentManager, CardProjectResourcesDialog.class.getSimpleName()));
+        holder.bind(project, (v) -> CardProjectResourcesDialog.newInstance(project.getName(), project.getResources()).show(fragmentManager, CardProjectResourcesDialog.class.getSimpleName()));
     }
 
     @Override

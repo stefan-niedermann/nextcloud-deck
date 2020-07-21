@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    tools:listitem="@layout/item_project_resource" />
+    android:orientation="vertical"
+    android:padding="@dimen/spacer_2x">
+
+    <TextView
+        android:id="@+id/projectName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacer_3x"
+        android:layout_marginEnd="0dp"
+        android:paddingStart="@dimen/spacer_2x"
+        android:paddingEnd="0dp"
+        android:textAppearance="?attr/textAppearanceBody1"
+        tools:text="@tools:sample/lorem" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_project_resource" />
+</LinearLayout>
