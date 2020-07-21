@@ -72,6 +72,12 @@ public class FilterViewModel extends ViewModel {
         this.filterInformationDraft.postValue(newDraft);
     }
 
+    public void setNotAssignedLabel(boolean notAssignedLabel) {
+        FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
+        newDraft.setNoAssignedLabel(notAssignedLabel);
+        this.filterInformationDraft.postValue(newDraft);
+    }
+
     public void removeFilterInformationLabel(@NonNull Label label) {
         FilterInformation newDraft = new FilterInformation(filterInformationDraft.getValue());
         newDraft.removeLabel(label);
