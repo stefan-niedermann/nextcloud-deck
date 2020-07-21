@@ -87,7 +87,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.Oc
                 JoinCardWithProject.class,
         },
         exportSchema = false,
-        version = 18
+        version = 17
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -198,7 +198,7 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
-    private static final Migration MIGRATION_17_18 = new Migration(17, 18) {
+    private static final Migration MIGRATION_16_17 = new Migration(16, 17) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE `OcsProject` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `name` TEXT NOT NULL, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER)");
@@ -207,7 +207,7 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("CREATE INDEX `index_OcsProject_id` ON `OcsProject` (`id`)");
             database.execSQL("CREATE INDEX `index_OcsProject_lastModifiedLocal` ON `OcsProject` (`lastModifiedLocal`)");
 
-            database.execSQL("CREATE TABLE `OcsProjectResource` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `name` TEXT NOT NULL, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER, `projectId` INTEGER NOT NULL, `type` TEXT NOT NULL, `link` TEXT NOT NULL, `path` TEXT, `iconUrl` TEXT NOT NULL, `previewAvailable` INTEGER, `mimetype` TEXT, FOREIGN KEY(`projectId`) REFERENCES `OcsProject`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE `OcsProjectResource` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER NOT NULL, `id` INTEGER, `name` TEXT, `status` INTEGER NOT NULL, `lastModified` INTEGER, `lastModifiedLocal` INTEGER, `projectId` INTEGER NOT NULL, `type` TEXT , `link` TEXT , `path` TEXT, `iconUrl` TEXT , `previewAvailable` INTEGER, `mimetype` TEXT, FOREIGN KEY(`projectId`) REFERENCES `OcsProject`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE)");
             database.execSQL("CREATE INDEX `index_projectResource_accID` ON `OcsProjectResource` (`accountId`)");
             database.execSQL("CREATE INDEX `index_projectResource_projectId` ON `OcsProjectResource` (`projectId`)");
             database.execSQL("CREATE UNIQUE INDEX `index_OcsProjectResource_accountId_id` ON `OcsProjectResource` (`accountId`, `id`)");
@@ -262,7 +262,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                     }
                 })
                 .addMigrations(MIGRATION_15_16)
-                .addMigrations(MIGRATION_17_18)
+                .addMigrations(MIGRATION_16_17)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();

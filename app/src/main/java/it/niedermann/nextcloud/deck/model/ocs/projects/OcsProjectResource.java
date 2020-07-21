@@ -24,15 +24,15 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
         }
 )
 public class OcsProjectResource extends AbstractRemoteEntity implements Serializable {
-    @NonNull
+    @Nullable
     private String type;
-    @NonNull
+    @Nullable
     private String name;
-    @NonNull
+    @Nullable
     private String link;
     @Nullable
     private String path;
-    @NonNull
+    @Nullable
     private String iconUrl;
     @Nullable
     private String mimetype;
