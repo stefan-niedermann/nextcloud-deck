@@ -5,12 +5,26 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/spacer_1hx">
+    android:paddingStart="@dimen/spacer_2x"
+    android:paddingTop="@dimen/spacer_2x"
+    android:paddingEnd="@dimen/spacer_2x"
+    android:paddingBottom="@dimen/spacer_1x">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacer_1x"
+        android:layout_marginEnd="@dimen/spacer_1x"
+        tools:text="@string/action_card_move_title" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="@dimen/spacer_2x">
 
         <FrameLayout
             android:id="@+id/fragment_container"
@@ -44,7 +58,7 @@
 
         <Button
             android:id="@+id/cancel"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -54,7 +68,7 @@
 
         <Button
             android:id="@+id/submit"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

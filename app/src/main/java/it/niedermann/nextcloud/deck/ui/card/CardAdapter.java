@@ -214,7 +214,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             }
             case R.id.action_card_move: {
                 DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
-                MoveCardDialogFragment.newInstance(fullCard.getAccountId(), boardLocalId, fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
+                MoveCardDialogFragment.newInstance(fullCard.getAccountId(), boardLocalId, fullCard.getCard().getTitle(), fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
                 return true;
             }
             case R.id.action_card_archive: {

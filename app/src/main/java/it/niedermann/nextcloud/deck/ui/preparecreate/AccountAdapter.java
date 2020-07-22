@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.net.URL;
+
 import it.niedermann.android.glidesso.SingleSignOnUrl;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -42,7 +44,11 @@ public class AccountAdapter extends AbstractAdapter<Account> {
         final Account item = getItem(position);
         if (item != null) {
             binding.username.setText(item.getUserName());
-            binding.instance.setText(item.getUrl());
+            try {
+                binding.instance.setText(new URL(item.getUrl()).getHost());
+            } catch (Throwable t) {
+                binding.instance.setText(item.getUrl());
+            }
 
             Glide.with(getContext())
                     .load(new SingleSignOnUrl(item.getName(), item.getAvatarUrl(dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details))))
