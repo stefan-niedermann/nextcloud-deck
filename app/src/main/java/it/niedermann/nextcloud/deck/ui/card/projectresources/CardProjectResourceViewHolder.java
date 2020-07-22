@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.net.URL;
@@ -30,30 +31,38 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
     public void bind(@NonNull Account account, @NonNull OcsProjectResource resource) {
         final Resources resources = itemView.getResources();
         binding.name.setText(resource.getName());
-        try {
-            binding.getRoot().setOnClickListener((v) -> itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW).setData(getResourceUri(account, resource.getLink()))));
-        } catch (IllegalArgumentException e) {
-            DeckLog.logError(e);
+        final @Nullable String link = resource.getLink();
+        if (link != null) {
+            try {
+                binding.getRoot().setOnClickListener((v) -> itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW).setData(getResourceUri(account, resource.getLink()))));
+            } catch (IllegalArgumentException e) {
+                DeckLog.logError(e);
+            }
         }
         binding.type.setVisibility(VISIBLE);
-        switch (resource.getType()) {
-            case "deck-board": {
-                binding.type.setText(resources.getString(R.string.project_type_deck_board));
-                break;
+        if (resource.getType() != null) {
+            switch (resource.getType()) {
+                case "deck": {
+                    binding.type.setText(resources.getString(R.string.project_type_deck_board));
+                    break;
+                }
+                case "deck-card": {
+                    binding.type.setText(resources.getString(R.string.project_type_deck_card));
+                    break;
+                }
+                case "file": {
+                    binding.type.setText(resources.getString(R.string.project_type_file));
+                    break;
+                }
+                default: {
+                    DeckLog.info("Unknown resource type for " + resource.getName() + ": " + resource.getType());
+                    binding.type.setVisibility(GONE);
+                    break;
+                }
             }
-            case "deck-card": {
-                binding.type.setText(resources.getString(R.string.project_type_deck_card));
-                break;
-            }
-            case "file": {
-                binding.type.setText(resources.getString(R.string.project_type_file));
-                break;
-            }
-            default: {
-                DeckLog.warn("Unknown project type: " + resource.getType());
-                binding.type.setVisibility(GONE);
-                break;
-            }
+        } else {
+            DeckLog.warn("Resource type for " + resource.getName() + " is null");
+            binding.type.setVisibility(GONE);
         }
     }
 

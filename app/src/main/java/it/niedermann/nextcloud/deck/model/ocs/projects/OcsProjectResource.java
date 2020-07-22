@@ -53,19 +53,21 @@ public class OcsProjectResource extends AbstractRemoteEntity implements Serializ
         this.projectId = projectId;
     }
 
+    @Nullable
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(@Nullable String type) {
         this.type = type;
     }
 
+    @Nullable
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@Nullable String name) {
         this.name = name;
     }
 
@@ -73,19 +75,21 @@ public class OcsProjectResource extends AbstractRemoteEntity implements Serializ
      * Caution: the Link might be a full url or only the relative path!
      * @return The link to the Resource
      */
+    @Nullable
     public String getLink() {
         return link;
     }
 
-    public void setLink(String link) {
+    public void setLink(@Nullable String link) {
         this.link = link;
     }
 
+    @Nullable
     public String getIconUrl() {
         return iconUrl;
     }
 
-    public void setIconUrl(String iconUrl) {
+    public void setIconUrl(@Nullable String iconUrl) {
         this.iconUrl = iconUrl;
     }
 
