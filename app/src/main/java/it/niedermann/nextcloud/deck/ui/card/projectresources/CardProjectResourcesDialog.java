@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogProjectResourcesBinding;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
@@ -55,7 +56,7 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
         return dialogBuilder
                 .setTitle(projectName)
                 .setView(binding.getRoot())
-                .setNeutralButton(android.R.string.cancel, null)
+                .setNeutralButton(R.string.simple_close, null)
                 .create();
     }
 
