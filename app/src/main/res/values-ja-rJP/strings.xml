@@ -237,8 +237,10 @@
     <string name="info_box_version_not_supported">サーバーのバージョン%1$sはサポートしていませんので、%2$sにアップデートしてください。</string>
     <string name="share_link">URLで共有</string>
     <string name="archive_cards">カードをアーカイブ</string>
+
     <string name="manage_accounts">アカウント管理</string>
     <string name="manage_list">リスト管理</string>
     <string name="simple_reply">返信</string>
     <string name="simple_report">報告</string>
+    <string name="widget_stack_title">リスト</string>
     </resources>

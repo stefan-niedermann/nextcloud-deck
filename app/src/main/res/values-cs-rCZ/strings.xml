@@ -249,6 +249,7 @@
     <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
     <string name="share_link">Odkaz na sdílení</string>
     <string name="archive_cards">Archivovat karty</string>
+
     <string name="manage_accounts">Spravovat účty</string>
     <string name="manage_list">Spravovat sloupec</string>
     <string name="simple_reply">Odpovědět</string>
@@ -270,4 +271,6 @@
     <string name="successfully_cloned_board">%1$s úspěšně naklonováno</string>
     <string name="attachment_does_not_yet_exist">Příloha ještě neexistuje v Deck</string>
     <string name="card_does_not_yet_exist">Karta ještě neexistuje v Deck</string>
-</resources>
+
+    <string name="widget_stack_title">Seznam</string>
+    </resources>

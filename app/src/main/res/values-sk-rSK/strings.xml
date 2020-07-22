@@ -249,6 +249,7 @@
     <string name="info_box_version_not_supported">Verzia servera %1$s nie je podporovaná, aktualizujte ju na %2$s</string>
     <string name="share_link">Sprístupniť odkaz</string>
     <string name="archive_cards">Archivovať karty</string>
+
     <string name="manage_accounts">Spravovať účty</string>
     <string name="manage_list">Spravovať zoznam</string>
     <string name="simple_reply">Odpoveď</string>
@@ -268,4 +269,11 @@
     <string name="clone_board">Duplikovať nástenku</string>
     <string name="cloning_board">Klonovanie %1$s…</string>
     <string name="successfully_cloned_board">%1$s úspešne klonovaný</string>
+    <string name="attachment_does_not_yet_exist">Príloha ešte na nástenke neexistuje</string>
+    <string name="card_does_not_yet_exist">Karta ešte na nástenke neexistuje</string>
+
+    <string name="widget_stack_title">Zoznam</string>
+    <string name="widget_stack_header_icon">Ikona hlavičky miniaplikácie</string>
+    <string name="widget_stack_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
+    <string name="select_stack">Vyberte zoznam</string>
     </resources>

@@ -247,6 +247,7 @@
     <string name="info_box_version_not_supported">Серверска верзија %1$s није подржана, ажурирајте на %2$s</string>
     <string name="share_link">Веза дељења</string>
     <string name="archive_cards">Архивирај картице</string>
+
     <string name="manage_accounts">Управљање налозима</string>
     <string name="manage_list">Управљај списком</string>
     <string name="simple_reply">Одговори</string>
@@ -267,4 +268,6 @@
     <string name="successfully_cloned_board">Успешно клониран %1$s</string>
     <string name="attachment_does_not_yet_exist">Прилог још не постоји у Шпил апликацији</string>
     <string name="card_does_not_yet_exist">Картица још не постоји у Шпил апликацији</string>
-</resources>
+
+    <string name="widget_stack_title">Излистај</string>
+    </resources>

@@ -249,6 +249,7 @@
     <string name="info_box_version_not_supported">Različica strežnika %1$s ni podprta. Priporočljiva je posodobitev na različico %2$s.</string>
     <string name="share_link">Povezava za souporabo</string>
     <string name="archive_cards">Arhiviraj naloge</string>
+
     <string name="manage_accounts">Upravljanje z računi</string>
     <string name="manage_list">Upravljanje seznama</string>
     <string name="simple_reply">Odgovori</string>
@@ -270,4 +271,6 @@
     <string name="successfully_cloned_board">Kloniranje %1$s je uspešno končano</string>
     <string name="attachment_does_not_yet_exist">Priloga v Deck še ne obstaja</string>
     <string name="card_does_not_yet_exist">Naloga v Deck še ne obstaja</string>
-</resources>
+
+    <string name="widget_stack_title">Seznam</string>
+    </resources>

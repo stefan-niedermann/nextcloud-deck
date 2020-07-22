@@ -229,4 +229,5 @@
     <string name="simple_reply">תגובה</string>
     <string name="simple_report">דיווח</string>
     <string name="clone_board">שכפול לוח</string>
+    <string name="widget_stack_title">רשימה</string>
     </resources>

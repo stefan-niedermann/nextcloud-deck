@@ -239,10 +239,12 @@
     <string name="info_box_version_not_supported">La versió del servidor %1$s no està suportada, si us plau, actualitzeu a %2$s.</string>
     <string name="share_link">Enllaç de compartició</string>
     <string name="archive_cards">Arxiva les targetes</string>
+
     <string name="manage_accounts">Gestiona els comptes</string>
     <string name="manage_list">Gestiona la llista</string>
     <string name="simple_reply">Respon</string>
     <string name="simple_report">Informar</string>
     <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
     <string name="clone_board">Clonar tauler</string>
+    <string name="widget_stack_title">Llista</string>
     </resources>
