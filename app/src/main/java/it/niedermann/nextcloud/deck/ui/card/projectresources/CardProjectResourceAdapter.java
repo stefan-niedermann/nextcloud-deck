@@ -35,7 +35,7 @@ public class CardProjectResourceAdapter extends RecyclerView.Adapter<CardProject
     @NonNull
     @Override
     public CardProjectResourceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CardProjectResourceViewHolder(ItemProjectResourceBinding.inflate(LayoutInflater.from(parent.getContext())));
+        return new CardProjectResourceViewHolder(ItemProjectResourceBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override

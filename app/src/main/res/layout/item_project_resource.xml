@@ -7,8 +7,7 @@
     android:background="?attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingTop="@dimen/spacer_2x"
-    android:paddingBottom="@dimen/spacer_2x">
+    android:padding="@dimen/spacer_2x">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/icon_size_details"
