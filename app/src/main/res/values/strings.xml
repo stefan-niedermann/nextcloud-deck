@@ -305,4 +305,5 @@
     </plurals>
     <string name="no_assigned_label">No assigned tag</string>
     <string name="single_card">Singel card</string>
+    <string name="project_type_room">Talk room</string>
 </resources>

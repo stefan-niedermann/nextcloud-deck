@@ -54,6 +54,10 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
                     binding.type.setText(resources.getString(R.string.project_type_file));
                     break;
                 }
+                case "room": {
+                    binding.type.setText(resources.getString(R.string.project_type_room));
+                    break;
+                }
                 default: {
                     DeckLog.info("Unknown resource type for " + resource.getName() + ": " + resource.getType());
                     binding.type.setVisibility(GONE);
