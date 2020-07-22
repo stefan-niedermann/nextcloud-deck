@@ -226,4 +226,5 @@
     <string name="manage_accounts">계정 관리</string>
     <string name="simple_reply">답장</string>
     <string name="simple_report">보고</string>
+    <string name="widget_stack_title">목록</string>
     </resources>

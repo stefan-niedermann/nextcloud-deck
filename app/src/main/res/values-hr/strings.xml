@@ -233,4 +233,5 @@
     <string name="simple_reply">Odgovori</string>
     <string name="simple_report">Prijavi</string>
     <string name="clone_board">Kloniraj ploču</string>
+    <string name="widget_stack_title">Popis</string>
     </resources>

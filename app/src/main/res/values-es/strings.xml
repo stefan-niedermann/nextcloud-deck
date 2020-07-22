@@ -245,6 +245,7 @@
     <string name="info_box_version_not_supported">La versión %1$s del servidor no está soportada. Por favor, actualiza a %2$s</string>
     <string name="share_link">Compartir enlace</string>
     <string name="archive_cards">Tarjetas archivadas</string>
+
     <string name="manage_accounts">Gestionar cuentas</string>
     <string name="manage_list">Administrar su lista</string>
     <string name="simple_reply">Responder</string>
@@ -264,4 +265,6 @@
     <string name="successfully_cloned_board">Clonados con éxito %1$s</string>
     <string name="attachment_does_not_yet_exist">El adjunto todavía no existe en Deck</string>
     <string name="card_does_not_yet_exist">La tarjeta todavía no existe en Deck</string>
-</resources>
+
+    <string name="widget_stack_title">Lista</string>
+    </resources>

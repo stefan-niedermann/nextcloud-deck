@@ -245,6 +245,7 @@
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
     <string name="share_link">Link teilen</string>
     <string name="archive_cards">Karten archivieren</string>
+
     <string name="manage_accounts">Konten verwalten</string>
     <string name="manage_list">Liste verwalten</string>
     <string name="simple_reply">Antworten</string>
@@ -264,4 +265,9 @@
     <string name="successfully_cloned_board">%1$s erfolgreich geklont</string>
     <string name="attachment_does_not_yet_exist">Anhang existiert bislang nicht in Deck</string>
     <string name="card_does_not_yet_exist">Karte existiert bislang nicht in Deck</string>
-</resources>
+
+    <string name="widget_stack_title">Liste</string>
+    <string name="widget_stack_header_icon">Widget-Kopf-Icon</string>
+    <string name="widget_stack_placeholder_icon">Widget-Platzhalter-Icon</string>
+    <string name="select_stack">Liste auswählen</string>
+    </resources>

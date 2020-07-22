@@ -245,6 +245,7 @@
     <string name="info_box_version_not_supported">%1$s sunucu sürümü desteklenmiyor. Lütfen %2$s sürümüne güncelleyin</string>
     <string name="share_link">Bağlantıyı paylaş</string>
     <string name="archive_cards">Kartları arşivle</string>
+
     <string name="manage_accounts">Hesap yönetimi</string>
     <string name="manage_list">Liste yönetimi</string>
     <string name="simple_reply">Yanıtla</string>
@@ -262,4 +263,5 @@
     <string name="clone_board">Panoyu kopyala</string>
     <string name="cloning_board">%1$s kopyalanıyor…</string>
     <string name="successfully_cloned_board">%1$s kopyalandı</string>
+    <string name="widget_stack_title">Listele</string>
     </resources>

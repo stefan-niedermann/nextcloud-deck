@@ -245,6 +245,7 @@
     <string name="info_box_version_not_supported">A versión %1$s do servidor non é compatíbel, actualice a %2$s</string>
     <string name="share_link">Compartir ligazón</string>
     <string name="archive_cards">Arquivar as tarxetas</string>
+
     <string name="manage_accounts">Administrar contas</string>
     <string name="manage_list">Administrar a lista</string>
     <string name="simple_reply">Responder</string>
@@ -264,4 +265,9 @@
     <string name="successfully_cloned_board">%1$s foi clonado satisfactoriamente</string>
     <string name="attachment_does_not_yet_exist">Aínda non existe o anexo no Deck</string>
     <string name="card_does_not_yet_exist">Aínda non existe a tarxeta no Deck</string>
-</resources>
+
+    <string name="widget_stack_title">Lista</string>
+    <string name="widget_stack_header_icon">Icona de cabeceira do trebello</string>
+    <string name="widget_stack_placeholder_icon">Icona de marcador de posición do trebello</string>
+    <string name="select_stack">Seleccionar a lista</string>
+    </resources>

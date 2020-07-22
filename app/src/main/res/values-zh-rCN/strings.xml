@@ -225,4 +225,5 @@
     <string name="simple_reply">回复</string>
     <string name="simple_report">报告</string>
     <string name="clone_board">克隆面板</string>
+    <string name="widget_stack_title">列表</string>
     </resources>
