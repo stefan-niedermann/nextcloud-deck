@@ -23,7 +23,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Ignore
-    private transient boolean isAttachmentsSorted = false;
+    protected transient boolean isAttachmentsSorted = false;
 
     @Embedded
     public Card card;
@@ -45,7 +45,6 @@ public class FullCard implements IRemoteEntity, DragAndDropModel {
 
     @Relation(entity = DeckComment.class, parentColumn = "localId", entityColumn = "objectId", projection = "localId")
     public List<Long> commentIDs;
-
 
     public FullCard() {
         super();

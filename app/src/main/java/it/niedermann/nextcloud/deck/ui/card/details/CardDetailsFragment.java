@@ -57,6 +57,8 @@ import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.text.format.DateFormat.getDateFormat;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
@@ -113,11 +115,11 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         setupLabels();
         setupDueDate();
         setupDescription();
+        setupProjects();
         binding.description.setText(viewModel.getFullCard().getCard().getDescription());
 
         return binding.getRoot();
     }
-
 
     @Override
     public void onResume() {
@@ -213,9 +215,9 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         if (this.viewModel.getFullCard().getCard().getDueDate() != null) {
             binding.dueDateDate.setText(dateFormat.format(this.viewModel.getFullCard().getCard().getDueDate()));
             binding.dueDateTime.setText(dueTime.format(this.viewModel.getFullCard().getCard().getDueDate()));
-            binding.clearDueDate.setVisibility(View.VISIBLE);
+            binding.clearDueDate.setVisibility(VISIBLE);
         } else {
-            binding.clearDueDate.setVisibility(View.GONE);
+            binding.clearDueDate.setVisibility(GONE);
             binding.dueDateDate.setText(null);
             binding.dueDateTime.setText(null);
         }
@@ -242,12 +244,12 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 binding.dueDateDate.setText(null);
                 binding.dueDateTime.setText(null);
                 viewModel.getFullCard().getCard().setDueDate(null);
-                binding.clearDueDate.setVisibility(View.GONE);
+                binding.clearDueDate.setVisibility(GONE);
             });
         } else {
             binding.dueDateDate.setEnabled(false);
             binding.dueDateTime.setEnabled(false);
-            binding.clearDueDate.setVisibility(View.GONE);
+            binding.clearDueDate.setVisibility(GONE);
         }
     }
 
@@ -277,14 +279,14 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                             ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(createdLabel);
                             viewModel.getFullCard().getLabels().add(createdLabel);
                             binding.labelsGroup.addView(createChipFromLabel(newLabel));
-                            binding.labelsGroup.setVisibility(View.VISIBLE);
+                            binding.labelsGroup.setVisibility(VISIBLE);
                         }
                     });
                 } else {
                     ((LabelAutoCompleteAdapter) binding.labels.getAdapter()).exclude(label);
                     viewModel.getFullCard().getLabels().add(label);
                     binding.labelsGroup.addView(createChipFromLabel(label));
-                    binding.labelsGroup.setVisibility(View.VISIBLE);
+                    binding.labelsGroup.setVisibility(VISIBLE);
                 }
 
                 binding.labels.setText("");
@@ -296,12 +298,11 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             for (Label label : viewModel.getFullCard().getLabels()) {
                 binding.labelsGroup.addView(createChipFromLabel(label));
             }
-            binding.labelsGroup.setVisibility(View.VISIBLE);
+            binding.labelsGroup.setVisibility(VISIBLE);
         } else {
             binding.labelsGroup.setVisibility(View.INVISIBLE);
         }
     }
-
 
     private Chip createChipFromLabel(Label label) {
         final Chip chip = new Chip(activity);
@@ -379,7 +380,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     @Override
-    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
         int hourOfDay;
         int minute;
@@ -397,14 +398,14 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         binding.dueDateDate.setText(dateFormat.format(c.getTime()));
 
         if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().getTime() == 0) {
-            binding.clearDueDate.setVisibility(View.GONE);
+            binding.clearDueDate.setVisibility(GONE);
         } else {
-            binding.clearDueDate.setVisibility(View.VISIBLE);
+            binding.clearDueDate.setVisibility(VISIBLE);
         }
     }
 
     @Override
-    public void onTimeSet(com.wdullaer.materialdatetimepicker.time.TimePickerDialog view, int hourOfDay, int minute, int second) {
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         if (this.viewModel.getFullCard().getCard().getDueDate() == null) {
             this.viewModel.getFullCard().getCard().setDueDate(new Date());
         }
@@ -412,9 +413,22 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         this.viewModel.getFullCard().getCard().getDueDate().setMinutes(minute);
         binding.dueDateTime.setText(dueTime.format(this.viewModel.getFullCard().getCard().getDueDate().getTime()));
         if (this.viewModel.getFullCard().getCard().getDueDate() == null || this.viewModel.getFullCard().getCard().getDueDate().getTime() == 0) {
-            binding.clearDueDate.setVisibility(View.GONE);
+            binding.clearDueDate.setVisibility(GONE);
         } else {
-            binding.clearDueDate.setVisibility(View.VISIBLE);
+            binding.clearDueDate.setVisibility(VISIBLE);
+        }
+    }
+
+    private void setupProjects() {
+        if (viewModel.getFullCard().getProjects().size() > 0) {
+            binding.projectsTitle.setVisibility(VISIBLE);
+            binding.projects.setNestedScrollingEnabled(false);
+            final CardProjectsAdapter adapter = new CardProjectsAdapter(viewModel.getFullCard().getProjects(), getChildFragmentManager());
+            binding.projects.setAdapter(adapter);
+            binding.projects.setVisibility(VISIBLE);
+        } else {
+            binding.projectsTitle.setVisibility(GONE);
+            binding.projects.setVisibility(GONE);
         }
     }
 }

@@ -138,7 +138,7 @@ public class EditActivity extends BrandedActivity {
                 setupViewPager();
                 setupTitle();
             } else {
-                observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
+                observeOnce(syncManager.getFullCardWithProjectsByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
                     if (fullCard == null) {
                         new BrandedAlertDialogBuilder(this)
                                 .setTitle(R.string.card_not_found)

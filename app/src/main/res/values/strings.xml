@@ -295,5 +295,13 @@
     <string name="widget_stack_header_icon">Widget header icon</string>
     <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
     <string name="select_stack">Select list</string>
+    <string name="project_type_deck_board">Deck board</string>
+    <string name="project_type_deck_card">Deck card</string>
+    <string name="project_type_file">File</string>
+    <string name="projects_title">Projects</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d resource</item>
+        <item quantity="other">%1$d resources</item>
+    </plurals>
     <string name="no_assigned_label">No assigned label</string>
 </resources>

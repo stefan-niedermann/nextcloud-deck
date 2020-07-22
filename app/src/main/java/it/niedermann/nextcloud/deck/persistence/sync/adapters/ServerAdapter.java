@@ -39,6 +39,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
@@ -151,6 +152,11 @@ public class ServerAdapter {
     public void getCapabilities(IResponseCallback<Capabilities> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> provider.getNextcloudAPI().getCapabilities(), responseCallback);
+    }
+
+    public void getProjectsForCard(long remoteCardId, IResponseCallback<OcsProjectList> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getProjectsForCard(remoteCardId), responseCallback);
     }
     public void searchUser(String searchTerm, IResponseCallback<OcsUserList> responseCallback) {
         ensureInternetConnection();

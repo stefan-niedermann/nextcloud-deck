@@ -65,7 +65,7 @@ public class AttachmentsActivity extends AppCompatActivity {
         long cardId = args.getLong(BUNDLE_KEY_CARD_ID);
 
         final SyncManager syncManager = new SyncManager(this);
-        syncManager.getCardByLocalId(account.getId(), cardId).observe(this, fullCard -> {
+        syncManager.getFullCardWithProjectsByLocalId(account.getId(), cardId).observe(this, fullCard -> {
             final List<Attachment> attachments = new ArrayList<>();
             for (Attachment a : fullCard.getAttachments()) {
                 if (MimeTypeUtil.isImage(a.getMimetype())) {

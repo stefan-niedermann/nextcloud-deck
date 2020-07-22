@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/spacer_2x">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/icon_size_details"
+        android:layout_height="@dimen/icon_size_details"
+        android:contentDescription="@null"
+        android:focusable="false"
+        android:scaleType="center"
+        android:layout_marginEnd="@dimen/spacer_2x"
+        app:srcCompat="@drawable/ic_projects_24" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/projectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:text="@tools:sample/full_names" />
+
+        <TextView
+            android:id="@+id/resourcesCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:textAppearance="?attr/textAppearanceListItemSecondary"
+            tools:text="4 resources" />
+    </LinearLayout>
+</LinearLayout>
