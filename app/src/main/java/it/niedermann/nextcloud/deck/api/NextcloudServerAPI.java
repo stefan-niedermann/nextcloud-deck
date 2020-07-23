@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.api;
 
 
+import com.nextcloud.android.sso.api.ParsedResponse;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -13,6 +15,7 @@ import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -22,7 +25,7 @@ import retrofit2.http.Query;
 public interface NextcloudServerAPI {
 
     @GET("cloud/capabilities?format=json")
-    Observable<Capabilities> getCapabilities();
+    Observable<ParsedResponse<Capabilities>> getCapabilities(@Header("If-None-Match") String eTag);
 
     @GET("collaboration/resources/deck-card/{cardId}?format=json")
     Observable<OcsProjectList> getProjectsForCard(@Path("cardId") long cardId);

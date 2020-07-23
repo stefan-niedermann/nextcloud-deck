@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
@@ -75,6 +76,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.B
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
+import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
 @SuppressWarnings("WeakerAccess")
@@ -415,13 +417,14 @@ public class SyncManager {
     public void refreshCapabilities(@NonNull IResponseCallback<Capabilities> callback) {
         doAsync(() -> {
             try {
-                serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(callback.getAccount()) {
+                Account accountForEtag = dataBaseAdapter.getAccountByIdDirectly(callback.getAccount().getId());
+                serverAdapter.getCapabilities(accountForEtag.getEtag(), new IResponseCallback<ParsedResponse<Capabilities>>(callback.getAccount()) {
                     @Override
-                    public void onResponse(Capabilities response) {
+                    public void onResponse(ParsedResponse<Capabilities> response) {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                        acc.applyCapabilities(response);
+                        acc.applyCapabilities(response.getResponse(), response.getHeaders().get("ETag"));
                         dataBaseAdapter.updateAccount(acc);
-                        callback.onResponse(response);
+                        callback.onResponse(response.getResponse());
                     }
 
                     @Override
@@ -433,11 +436,26 @@ public class SyncManager {
                                 Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
                                 if (capabilities.isMaintenanceEnabled()) {
                                     doAsync(() -> {
-                                        onResponse(capabilities);
+                                        onResponse(ParsedResponse.of(capabilities));
                                     });
                                 } else {
                                     onError(throwable);
                                 }
+                            } else if (requestFailedException.getStatusCode() == HTTP_NOT_MODIFIED) {
+                                //could be after maintenance. so we have to at least revert the maintenance flag
+                                doAsync(() -> {
+                                    Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
+                                    if (acc.isMaintenanceEnabled()) {
+                                        acc.setMaintenanceEnabled(false);
+                                        dataBaseAdapter.updateAccount(acc);
+                                    }
+                                    Capabilities capabilities = new Capabilities();
+                                    capabilities.setMaintenanceEnabled(false);
+                                    capabilities.setDeckVersion(acc.getServerDeckVersionAsObject());
+                                    capabilities.setTextColor(acc.getTextColor());
+                                    capabilities.setColor(acc.getColor());
+                                    callback.onResponse(capabilities);
+                                });
                             }
                         } else {
                             callback.onError(throwable);

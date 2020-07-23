@@ -87,7 +87,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.Sta
                 JoinCardWithProject.class,
         },
         exportSchema = false,
-        version = 17
+        version = 18
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -220,8 +220,15 @@ public abstract class DeckDatabase extends RoomDatabase {
         }
     };
 
-    public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
+    private static final Migration MIGRATION_17_18 = new Migration(17, 18) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/435
+            database.execSQL("ALTER TABLE `Account` ADD `etag` TEXT");
+        }
+    };
 
+    public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
@@ -263,6 +270,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 })
                 .addMigrations(MIGRATION_15_16)
                 .addMigrations(MIGRATION_16_17)
+                .addMigrations(MIGRATION_17_18)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
