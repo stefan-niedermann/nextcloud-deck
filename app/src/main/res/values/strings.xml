@@ -304,7 +304,7 @@
         <item quantity="other">%1$d resources</item>
     </plurals>
     <string name="no_assigned_label">No assigned tag</string>
-    <string name="single_card">Singel card</string>
+    <string name="single_card">Single card</string>
     <string name="project_type_room">Talk room</string>
     <string name="simple_move">Move</string>
 </resources>
