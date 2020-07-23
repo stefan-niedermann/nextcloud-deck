@@ -29,7 +29,10 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
 
             @Override
             public void onError(Throwable throwable) {
-                responder.onError(throwable);
+                super.onError(throwable);
+                // dont break the sync!
+                responder.onResponse(Collections.emptyList());
+//                responder.onError(throwable);
             }
         });
     }
