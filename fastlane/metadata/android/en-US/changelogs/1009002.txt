@@ -1,0 +1,1 @@
+- ⚡️ Use ETags to speed up account synchronization and use less data (requires Nextcloud ≥ 19)
