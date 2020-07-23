@@ -53,8 +53,7 @@ android {
 
 dependencies {
     // Single-Sign-On
-    implementation 'com.github.nextcloud:Android-SingleSignOn:72778ed3f6'
-    //    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.1'
+    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.2'
 
     // --------------------
     // --- UI-Libraries ---
