@@ -28,6 +28,9 @@ public class DeckCommentsDataProvider extends AbstractSyncDataProvider<OcsCommen
         serverAdapter.getCommentsForRemoteCardId(card.getId(), new IResponseCallback<OcsComment>(responder.getAccount()) {
             @Override
             public void onResponse(OcsComment response) {
+                if (response == null) {
+                    response = new OcsComment();
+                }
                 List<OcsComment> comments = response.split();
                 Collections.sort(comments, (o1, o2) -> o1.getSingle().getCreationDateTime().compareTo(o2.getSingle().getCreationDateTime()));
                 verifyCommentListIntegrity(comments);

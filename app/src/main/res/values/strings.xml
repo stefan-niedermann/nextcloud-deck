@@ -40,6 +40,7 @@
     <string name="simple_disabled">disabled</string>
     <string name="simple_copied">Copied</string>
     <string name="simple_archive">Archive</string>
+    <string name="simple_unassigned">Unassigned</string>
 
     <string name="edit_board">Edit board</string>
     <string name="archive_board">Archive board</string>
@@ -154,7 +155,7 @@
     <string name="delete_board_message">This will permanently delete this board including all lists and cards.</string>
     <string name="settings_theme_title">Dark theme</string>
     <string name="settings_branding_title">Branding</string>
-    <string name="settings_compact_title">Compact mode 🆕</string>
+    <string name="settings_compact_title">Compact mode</string>
     <string name="settings_background_sync">Background synchronization</string>
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
@@ -269,6 +270,7 @@
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
     <string name="share_link">Share link</string>
     <string name="archive_cards">Archive cards</string>
+
     <string name="manage_accounts">Manage accounts</string>
     <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
@@ -286,4 +288,23 @@
     <string name="clone_board">Clone board</string>
     <string name="cloning_board">Cloning %1$s…</string>
     <string name="successfully_cloned_board">Successfully cloned %1$s</string>
+    <string name="attachment_does_not_yet_exist">Attachment does not yet exist in Deck</string>
+    <string name="card_does_not_yet_exist">Card does not yet exist in Deck</string>
+
+    <string name="widget_stack_title">List</string>
+    <string name="widget_stack_header_icon">Widget header icon</string>
+    <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
+    <string name="select_stack">Select list</string>
+    <string name="project_type_deck_board">Deck board</string>
+    <string name="project_type_deck_card">Deck card</string>
+    <string name="project_type_file">File</string>
+    <string name="projects_title">Projects</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d resource</item>
+        <item quantity="other">%1$d resources</item>
+    </plurals>
+    <string name="no_assigned_label">No assigned tag</string>
+    <string name="single_card">Singel card</string>
+    <string name="project_type_room">Talk room</string>
+    <string name="simple_move">Move</string>
 </resources>

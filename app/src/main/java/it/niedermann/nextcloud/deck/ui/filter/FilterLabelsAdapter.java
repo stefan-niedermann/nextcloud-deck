@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemFilterLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
@@ -23,11 +25,17 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
     @NonNull
     private final List<Label> selectedLabels = new ArrayList<>();
     @Nullable
+    private static final Label NOT_ASSIGNED = null;
+    @Nullable
     private final SelectionListener<Label> selectionListener;
 
-    public FilterLabelsAdapter(@NonNull List<Label> labels, @NonNull List<Label> selectedLabels, @Nullable SelectionListener<Label> selectionListener) {
+    public FilterLabelsAdapter(@NonNull List<Label> labels, @NonNull List<Label> selectedLabels, boolean noAssignedLabel, @Nullable SelectionListener<Label> selectionListener) {
         super();
+        this.labels.add(NOT_ASSIGNED);
         this.labels.addAll(labels);
+        if (noAssignedLabel) {
+            this.selectedLabels.add(NOT_ASSIGNED);
+        }
         this.selectedLabels.addAll(selectedLabels);
         this.selectionListener = selectionListener;
         setHasStableIds(true);
@@ -36,7 +44,8 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
 
     @Override
     public long getItemId(int position) {
-        return labels.get(position).getLocalId();
+        @Nullable final Label label = labels.get(position);
+        return label == null ? -1L : label.getLocalId();
     }
 
     @NonNull
@@ -47,16 +56,16 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull LabelViewHolder viewHolder, int position) {
-        viewHolder.bind(labels.get(position));
+        if (position == 0) {
+            viewHolder.bindNotAssigned();
+        } else {
+            viewHolder.bind(labels.get(position));
+        }
     }
 
     @Override
     public int getItemCount() {
         return labels.size();
-    }
-
-    public List<Label> getSelected() {
-        return selectedLabels;
     }
 
     class LabelViewHolder extends RecyclerView.ViewHolder {
@@ -74,7 +83,20 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
             final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
             binding.label.setTextColor(color);
             itemView.setSelected(selectedLabels.contains(label));
+            bindClickListener(label);
+        }
 
+        public void bindNotAssigned() {
+            binding.label.setText(itemView.getContext().getString(R.string.no_assigned_label));
+            binding.label.setTextColor(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.accent)));
+            binding.label.setChipIcon(ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_baseline_block_24));
+            binding.label.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(itemView.getContext(), R.color.primary)));
+            binding.label.setRippleColor(null);
+            itemView.setSelected(selectedLabels.contains(NOT_ASSIGNED));
+            bindClickListener(NOT_ASSIGNED);
+        }
+
+        private void bindClickListener(@Nullable Label label) {
             itemView.setOnClickListener(view -> {
                 if (selectedLabels.contains(label)) {
                     selectedLabels.remove(label);

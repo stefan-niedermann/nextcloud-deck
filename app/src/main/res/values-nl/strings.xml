@@ -38,6 +38,7 @@
     <string name="simple_disabled">uitgeschakeld</string>
     <string name="simple_copied">Gekopieerd</string>
     <string name="simple_archive">Archiveer</string>
+    <string name="simple_unassigned">Niet-toegewezen</string>
 
     <string name="edit_board">Pas bord aan</string>
     <string name="archive_board">Archiveer bord</string>
@@ -112,6 +113,7 @@
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_lists_yet">Nog geen stapels</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Wil je alle kaarten van %1$s archiveren?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Dit zal deze %1$dkaart permanent van de lijst verwijderen.</item>
         <item quantity="other">Dit zal alle %1$dkaarten definitief uit de stapel verwijderen.</item>
@@ -128,6 +130,7 @@
     <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
     <string name="settings_theme_title">Donker thema</string>
     <string name="settings_branding_title">Brandmerken</string>
+    <string name="settings_compact_title">Compacte modus</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
@@ -216,6 +219,7 @@
     <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probeer de app te sluiten en opnieuw te starten. Er was misschien een onjuiste verbinding met de Nextcloud-app.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Als het probleem blijft aanhouden, probeer dan de gegevensopslag van beide apps te wissen: zowel Nextcloud als Nextcloud Deck.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Het upgraden van de database is mislukt. Gelieve het probleem te melden en opslagruimte vrij te maken om de app naar behoren te kunnen gebruiken.</string>
     <string name="error_dialog_tip_clear_storage">Je kan de opslag leegmaken door in Android de app info te openen en kies dan Opslag →  Gegevens verwijderen.</string>
     <string name="error_dialog_tip_files_outdated">Je Nextcloud app lijkt te zijn verouderd. Download alstublieft de nieuwste versie in de Google Play Store of in F-Droid.</string>
     <string name="error_dialog_tip_files_force_stop">Er lijkt iets mis te zijn met je Nextcloud app. Probeer alstublieft beide apps geforceerd te sluiten, zowel de Nextcloud app als de Nextcloud Deck app.</string>
@@ -230,6 +234,8 @@
     <string name="error_dialog_redirect">Je server heeft gereageerd met een HTTP 302-statuscode, wat inhoudt dat je de Deck-app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dit kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud-apps zoals de OID Client.</string>
     <string name="error_dialog_version_not_parsable">We konden de versie van de Deck-app aan de serverzijde niet bepalen. Zorg ervoor dat de app is geïnstalleerd en ingeschakeld.</string>
     <string name="error_dialog_capabilities_not_parsable">We kunnen de mogelijkheden van je server niet vaststellen. Zorg ervoor dat je server goed werkt en dat andere client-apps toegang hebben tot Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Een bijlage kon niet worden opgeladen. Gelieve het op een andere manier te delen en ons in te lichten over deze fout.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Gelieve de batterijoptimalisatie uit te schakelen voor de Nextcloud en Deck applicatie.</string>
     <string name="error_action_open_deck_info">Open App informatie</string>
     <string name="error_action_open_network">Netwerk instellingen</string>
     <string name="error_action_server_logs">Server logbestanden</string>
@@ -238,7 +244,20 @@
     <string name="info_box_maintenance_mode">Server in onderhoudsmodus</string>
     <string name="info_box_version_not_supported">Server versie %1$s is niet ondersteund, werk bij naar %2$s</string>
     <string name="share_link">Delen link</string>
+    <string name="archive_cards">Archiveer kaarten</string>
+
     <string name="manage_accounts">Accounts beheren </string>
+    <string name="manage_list">Beheer lijst</string>
     <string name="simple_reply">Antwoord</string>
+    <string name="error_while_uploading_attachment">Fout tijdens het opladen van bijlage: %1$s</string>
+    <string name="append_text_to_description">Toevoegen aan beschrijving</string>
+    <string name="add_text_as_comment">Toevoegen als opmerking</string>
+    <string name="progress_count">%1$d op %2$d</string>
     <string name="simple_report">Rapporteer</string>
+    <string name="error_action_open_battery_settings">Batterij instellingen</string>
+    <string name="clone_board">Dupliceer bord</string>
+    <string name="cloning_board">Klonen %1$s ...</string>
+    <string name="successfully_cloned_board">Succesvol gekloond %1$s</string>
+    <string name="widget_stack_title">Lijst</string>
+    <string name="select_stack">Lijst selecteren</string>
     </resources>

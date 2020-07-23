@@ -38,6 +38,7 @@
     <string name="simple_disabled">désactivé</string>
     <string name="simple_copied">Copié</string>
     <string name="simple_archive">Archiver</string>
+    <string name="simple_unassigned">Non attribué</string>
 
     <string name="edit_board">Modifier le tableau</string>
     <string name="archive_board">Archiver le tableau</string>
@@ -244,6 +245,7 @@
     <string name="info_box_version_not_supported">Version du serveur %1$s non prise en charge, veuillez mettre à jour en  %2$s</string>
     <string name="share_link">Lien de partage</string>
     <string name="archive_cards">Archiver les cartes</string>
+
     <string name="manage_accounts">Gérer les comptes</string>
     <string name="manage_list">Gérer la liste</string>
     <string name="simple_reply">Répondre</string>
@@ -257,4 +259,12 @@
     </plurals>
     <string name="simple_report">Signaler</string>
     <string name="error_action_open_battery_settings">Paramètres de batterie</string>
-</resources>
+    <string name="move_warning">Ni les commentaires ni les pièces jointes ne peuvent être transférés lorsque la carte est déplacée sur un autre tableau.</string>
+    <string name="clone_board">Dupliquer le tableau</string>
+    <string name="cloning_board">Clonage de %1$s…</string>
+    <string name="successfully_cloned_board">Cloné avec succès %1$s</string>
+    <string name="attachment_does_not_yet_exist">Pièce jointe non encore présente dans le tableau</string>
+    <string name="card_does_not_yet_exist">Carte non encore présente dans le tableau</string>
+
+    <string name="widget_stack_title">Liste</string>
+    </resources>

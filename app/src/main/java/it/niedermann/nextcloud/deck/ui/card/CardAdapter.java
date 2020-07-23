@@ -116,6 +116,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             final FullCard fullCard = cardList.get(position);
             if (fullCard.getAttachments().size() == 0
                     && fullCard.getAssignedUsers().size() == 0
+                    && fullCard.getLabels().size() == 0
                     && fullCard.getCommentCount() == 0) {
                 return R.layout.item_card_default_only_title;
             }
@@ -213,7 +214,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             }
             case R.id.action_card_move: {
                 DeckLog.verbose("[Move card] Launch move dialog for " + Card.class.getSimpleName() + " \"" + fullCard.getCard().getTitle() + "\" (#" + fullCard.getLocalId() + ") from " + Stack.class.getSimpleName() + " #" + +stackId);
-                MoveCardDialogFragment.newInstance(fullCard.getAccountId(), boardLocalId, fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
+                MoveCardDialogFragment.newInstance(fullCard.getAccountId(), boardLocalId, fullCard.getCard().getTitle(), fullCard.getLocalId()).show(fragmentManager, MoveCardDialogFragment.class.getSimpleName());
                 return true;
             }
             case R.id.action_card_archive: {

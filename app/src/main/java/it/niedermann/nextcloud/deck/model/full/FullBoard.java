@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.model.full;
 
+import androidx.annotation.NonNull;
 import androidx.room.Embedded;
 import androidx.room.Ignore;
 import androidx.room.Relation;
@@ -56,7 +57,7 @@ public class FullBoard implements IRemoteEntity {
 
     @Ignore
     @Override
-    public IRemoteEntity getEntity() {
+    public Board getEntity() {
         return board;
     }
 
@@ -102,6 +103,7 @@ public class FullBoard implements IRemoteEntity {
         return result;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "FullBoard{" +

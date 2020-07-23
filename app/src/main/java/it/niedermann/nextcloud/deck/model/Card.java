@@ -31,7 +31,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 public class Card extends AbstractRemoteEntity {
 
     private static Pattern PATTERN_MD_TASK = Pattern.compile("\\[([xX ])]");
-    public class TaskStatus {
+    public static class TaskStatus {
         public int taskCount;
         public int doneCount;
 

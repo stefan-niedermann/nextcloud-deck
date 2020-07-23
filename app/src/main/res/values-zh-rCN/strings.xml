@@ -38,7 +38,6 @@
     <string name="simple_disabled">已禁用</string>
     <string name="simple_copied">已复制</string>
     <string name="simple_archive">归档</string>
-
     <string name="edit_board">编辑面板</string>
     <string name="archive_board">归档面板</string>
     <string name="delete_board">删除面板</string>
@@ -225,4 +224,6 @@
     <string name="manage_accounts">管理账号</string>
     <string name="simple_reply">回复</string>
     <string name="simple_report">报告</string>
+    <string name="clone_board">克隆面板</string>
+    <string name="widget_stack_title">列表</string>
     </resources>

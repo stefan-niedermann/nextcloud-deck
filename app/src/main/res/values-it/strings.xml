@@ -38,6 +38,7 @@
     <string name="simple_disabled">disabilitato</string>
     <string name="simple_copied">Copiato</string>
     <string name="simple_archive">Archivio</string>
+    <string name="simple_unassigned">Non assegnato</string>
 
     <string name="edit_board">Modifica lavagna</string>
     <string name="archive_board">Archivia lavagna</string>
@@ -244,6 +245,7 @@
     <string name="info_box_version_not_supported">Versione del server %1$s non supportata, aggiorna a %2$s</string>
     <string name="share_link">Condividi collegamento</string>
     <string name="archive_cards">Archivia schede</string>
+
     <string name="manage_accounts">Gestisci account</string>
     <string name="manage_list">Gestisci elenco</string>
     <string name="simple_reply">Rispondi</string>
@@ -257,4 +259,15 @@
     </plurals>
     <string name="simple_report">Segnala</string>
     <string name="error_action_open_battery_settings">Impostazioni batteria</string>
-</resources>
+    <string name="move_warning">Né i commenti, né gli allegati possono essere trasferiti quando si sposta la scheda su un\'altra lavagna.</string>
+    <string name="clone_board">Clona lavagna</string>
+    <string name="cloning_board">Clonazione di %1$s…</string>
+    <string name="successfully_cloned_board">%1$s clonato correttamente</string>
+    <string name="attachment_does_not_yet_exist">L\'allegato non esiste ancora in Deck</string>
+    <string name="card_does_not_yet_exist">La scheda non esiste ancora in Deck</string>
+
+    <string name="widget_stack_title">Elenco</string>
+    <string name="widget_stack_header_icon">Icona intestazione widget</string>
+    <string name="widget_stack_placeholder_icon">Icona segnaposto widget</string>
+    <string name="select_stack">Seleziona elenco</string>
+    </resources>

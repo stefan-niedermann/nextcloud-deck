@@ -38,7 +38,6 @@
     <string name="simple_disabled">onemogućeno</string>
     <string name="simple_copied">Kopirano</string>
     <string name="simple_archive">Arhiva</string>
-
     <string name="edit_board">Uredi ploču</string>
     <string name="archive_board">Arhiviraj ploču</string>
     <string name="delete_board">Izbriši ploču</string>
@@ -233,4 +232,6 @@
     <string name="manage_accounts">Upravljaj računima</string>
     <string name="simple_reply">Odgovori</string>
     <string name="simple_report">Prijavi</string>
+    <string name="clone_board">Kloniraj ploču</string>
+    <string name="widget_stack_title">Popis</string>
     </resources>

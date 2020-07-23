@@ -38,6 +38,7 @@
     <string name="simple_disabled">wyłączony</string>
     <string name="simple_copied">Skopiowano</string>
     <string name="simple_archive">Archiwizuj</string>
+    <string name="simple_unassigned">Nieprzypisane</string>
 
     <string name="edit_board">Edytuj tablicę</string>
     <string name="archive_board">Zarchiwizuj tablicę</string>
@@ -248,6 +249,7 @@
     <string name="info_box_version_not_supported">Wersja serwera %1$s nie jest wspierana, zaktualizuj do wersji %2$s</string>
     <string name="share_link">Udostępnij link</string>
     <string name="archive_cards">Zarchiwizuj karty</string>
+
     <string name="manage_accounts">Zarządzaj kontami</string>
     <string name="manage_list">Zarządzaj listą</string>
     <string name="simple_reply">Odpowiedz</string>
@@ -263,4 +265,15 @@
     </plurals>
     <string name="simple_report">Raport</string>
     <string name="error_action_open_battery_settings">Ustawienia baterii</string>
-</resources>
+    <string name="move_warning">Nie można przenosić komentarzy, ani załączników karty na inną tablicę.</string>
+    <string name="clone_board">Klonuj tablicę</string>
+    <string name="cloning_board">Klonowanie %1$s…</string>
+    <string name="successfully_cloned_board">Pomyślnie sklonowano %1$s</string>
+    <string name="attachment_does_not_yet_exist">Załącznik nie istnieje jeszcze w Deck</string>
+    <string name="card_does_not_yet_exist">Karta nie istnieje jeszcze w Deck</string>
+
+    <string name="widget_stack_title">Lista</string>
+    <string name="widget_stack_header_icon">Ikona nagłówka widżetu</string>
+    <string name="widget_stack_placeholder_icon">Ikona zastępcza widżetu</string>
+    <string name="select_stack">Wybierz listę</string>
+    </resources>

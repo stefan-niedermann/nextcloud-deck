@@ -77,6 +77,10 @@ public class Account implements Serializable {
     }
 
     public void applyCapabilities(Capabilities capabilities, String eTag) {
+        if (capabilities == null) {
+            maintenanceEnabled = true;
+            return;
+        }
         maintenanceEnabled = capabilities.isMaintenanceEnabled();
         if (!isMaintenanceEnabled()) {
             try {

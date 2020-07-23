@@ -38,7 +38,6 @@
     <string name="simple_disabled">отключено</string>
     <string name="simple_copied">Скопировано</string>
     <string name="simple_archive">Переместить в архив</string>
-
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
     <string name="delete_board">Удалить доску</string>
@@ -246,6 +245,7 @@
     <string name="info_box_version_not_supported">Версия сервера %1$s не поддерживается, необходимо выполнить обновление до версии %2$s</string>
     <string name="share_link">Предоставление общего доступа по ссылке</string>
     <string name="archive_cards">Архивировать карточки</string>
+
     <string name="manage_accounts">Управление аккаунтами</string>
     <string name="manage_list">Управлять списком</string>
     <string name="simple_reply">Ответить</string>
@@ -261,4 +261,6 @@
     </plurals>
     <string name="simple_report">Сообщить</string>
     <string name="error_action_open_battery_settings">Настройки аккумулятора</string>
-</resources>
+    <string name="clone_board">Скопировать доску</string>
+    <string name="widget_stack_title">Список</string>
+    </resources>

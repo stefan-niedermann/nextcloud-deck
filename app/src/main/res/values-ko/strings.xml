@@ -38,7 +38,6 @@
     <string name="simple_disabled">비활성화</string>
     <string name="simple_copied">복사됨</string>
     <string name="simple_archive">보관</string>
-
     <string name="edit_board">게시판 편집</string>
     <string name="archive_board">게시판 보관</string>
     <string name="delete_board">게시판 삭제</string>
@@ -227,4 +226,5 @@
     <string name="manage_accounts">계정 관리</string>
     <string name="simple_reply">답장</string>
     <string name="simple_report">보고</string>
+    <string name="widget_stack_title">목록</string>
     </resources>

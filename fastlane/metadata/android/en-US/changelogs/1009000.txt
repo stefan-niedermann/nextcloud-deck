@@ -1,0 +1,5 @@
+- 🆕 Stack Widget (#217)
+- ⚙️ Reduce amount of data which is queried by the database (#515)
+- 🚫 Filter by no tags
+- 🔗 Display linked projects and resources (#573)
+- 🐞 Fix tags being visible only on unassigned cards

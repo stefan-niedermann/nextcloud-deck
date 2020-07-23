@@ -38,6 +38,7 @@
     <string name="simple_disabled">вимкнено</string>
     <string name="simple_copied">Скопійовано</string>
     <string name="simple_archive">Архів</string>
+    <string name="simple_unassigned">Скасовано призначення</string>
 
     <string name="edit_board">Редагувати дошку</string>
     <string name="archive_board">Архівувати дошку</string>
@@ -112,6 +113,7 @@
     <string name="not_synced_yet">Поки не синхронізовано</string>
     <string name="no_lists_yet">Поки що відсутні списки</string>
     <string name="do_you_want_to_save_your_changes">Зберегти зміни?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Дійсно заархівувати всі картки з %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Це вилучіть %1$d картку з цього списку.</item>
         <item quantity="few">Це вилучіть усі %1$d карток з цього списку.</item>
@@ -132,6 +134,7 @@
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_theme_title">Темна тема</string>
     <string name="settings_branding_title">Оформлення</string>
+    <string name="settings_compact_title">Компактний стиль 🆕</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
     <string name="pref_value_wifi_and_mobile">Синхронізація за допомогою Wi-Fi та мобільних даних</string>
     <string name="pref_value_wifi_only">Синхронізація тільки за допомогою WI-Fi</string>
@@ -215,6 +218,8 @@
     <string name="server_misconfigured">Сервер налаштовано некоректно</string>
     <string name="server_error">Помилка серверу</string>
     <string name="shared_error">Спільний доступ до вмісту з інших застосунків ще не підтримується повністю. Будь ласка, спробуйте спочатку звантажити цей вміст, а потім поділитися ним через вбудований менеджер файлів або галерею.</string>
+    <string name="error_edit_activity_killed_by_android">Android вивантажив режим редагування через нестачу системних ресурсів.</string>
+
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
     <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка видаліть деякі файлі, щоб синхронізувати ваші локальні зміни з вашим хмарним сховищем.</string>
@@ -226,7 +231,32 @@
     <string name="info_box_maintenance_mode">Сервер у режимі обслуговування</string>
     <string name="info_box_version_not_supported">Версія сервера %1$s не підтримується, будь ласка, поновіться до %2$s</string>
     <string name="share_link">Поширити посилання</string>
+    <string name="archive_cards">Архівувати картки</string>
+
     <string name="manage_accounts">Облікові записи</string>
+    <string name="manage_list">Керувати списком</string>
     <string name="simple_reply">Відповісти</string>
+    <string name="error_while_uploading_attachment">Помилка під час завантаження вкладення: %1$s</string>
+    <string name="append_text_to_description">Додати до опису</string>
+    <string name="add_text_as_comment">Додати коментар</string>
+    <string name="progress_count">%1$d з %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">Помилка під час завантаження: %1$d</item>
+        <item quantity="few">Помилки під час завантаження: %1$d</item>
+        <item quantity="many">Помилок під час завантаження: %1$d</item>
+        <item quantity="other">Помилок під час завантаження: %1$d</item>
+    </plurals>
     <string name="simple_report">Звіт</string>
+    <string name="error_action_open_battery_settings">Налаштування батареї</string>
+    <string name="move_warning">У разі переміщення картки до іншої дошки коментарі та вкладення не буде перенесено.</string>
+    <string name="clone_board">Копіювати дошку</string>
+    <string name="cloning_board">Копіювання %1$s...</string>
+    <string name="successfully_cloned_board">Успішно скопійовано %1$s</string>
+    <string name="attachment_does_not_yet_exist">Вкладення поки відсутнє у застосунку</string>
+    <string name="card_does_not_yet_exist">Картка поки відсутня у застосунку</string>
+
+    <string name="widget_stack_title">Список</string>
+    <string name="widget_stack_header_icon">Піктограма заголовку віджету</string>
+    <string name="widget_stack_placeholder_icon">Піктограма поля віджету</string>
+    <string name="select_stack">Виберіть список</string>
     </resources>

@@ -38,7 +38,6 @@
     <string name="simple_disabled">desgaituta</string>
     <string name="simple_copied">Kopiatuta</string>
     <string name="simple_archive">Artxibatu</string>
-
     <string name="edit_board">Editatu mahaia</string>
     <string name="archive_board">Artxibatu mahaia</string>
     <string name="delete_board">Ezabatu mahaia</string>
@@ -242,6 +241,7 @@
     <string name="info_box_version_not_supported">Zerbitzariaren %1$s bertsioa ez dago onartuta, mesedez eguneratu %2$s(e)ra</string>
     <string name="share_link">Partekatu esteka</string>
     <string name="archive_cards">Artxibatu txartelak</string>
+
     <string name="manage_accounts">Kudeatu kontuak</string>
     <string name="manage_list">Kudeatu zerrenda</string>
     <string name="simple_reply">Erantzun</string>
@@ -250,4 +250,6 @@
     <string name="add_text_as_comment">Gehitu iruzkin gisa</string>
     <string name="simple_report">Jakinarazi</string>
     <string name="error_action_open_battery_settings">Bateria ezarpenak</string>
-</resources>
+    <string name="clone_board">Klonatu taula</string>
+    <string name="widget_stack_title">Zerrenda</string>
+    </resources>

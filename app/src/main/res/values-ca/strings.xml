@@ -38,7 +38,6 @@
     <string name="simple_disabled">Desactivat</string>
     <string name="simple_copied">Copiat</string>
     <string name="simple_archive">Arxiu</string>
-
     <string name="edit_board">Edita el tauler</string>
     <string name="archive_board">Arxiva el tauler</string>
     <string name="delete_board">Suprimeix el tauler</string>
@@ -240,9 +239,12 @@
     <string name="info_box_version_not_supported">La versió del servidor %1$s no està suportada, si us plau, actualitzeu a %2$s.</string>
     <string name="share_link">Enllaç de compartició</string>
     <string name="archive_cards">Arxiva les targetes</string>
+
     <string name="manage_accounts">Gestiona els comptes</string>
     <string name="manage_list">Gestiona la llista</string>
     <string name="simple_reply">Respon</string>
     <string name="simple_report">Informar</string>
     <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
-</resources>
+    <string name="clone_board">Clonar tauler</string>
+    <string name="widget_stack_title">Llista</string>
+    </resources>

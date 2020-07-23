@@ -24,7 +24,7 @@
     <string name="simple_switch">Wechseln</string>
     <string name="simple_filter">Filter</string>
     <string name="simple_overdue">Überfällig</string>
-    <string name="simple_clear">Löschen</string>
+    <string name="simple_clear">Leeren</string>
     <string name="simple_discard">Verwerfen</string>
     <string name="simple_update">Aktualisieren</string>
     <string name="simple_delete">Löschen</string>
@@ -38,6 +38,7 @@
     <string name="simple_disabled">Deaktiviert</string>
     <string name="simple_copied">Kopiert</string>
     <string name="simple_archive">Archivieren</string>
+    <string name="simple_unassigned">Nicht zugewiesen</string>
 
     <string name="edit_board">Board bearbeiten</string>
     <string name="archive_board">Board archivieren</string>
@@ -96,7 +97,7 @@
     <string name="action_card_delete">Karte löschen</string>
     <string name="add_board">Board hinzufügen</string>
 
-    <string name="label_clear_due_date">Fälligkeitsdatum löschen</string>
+    <string name="label_clear_due_date">Fälligkeitsdatum entfernen</string>
     <string name="label_add">%1$s hinzufügen</string>
 
     <string name="card_edit_details">Details</string>
@@ -217,12 +218,12 @@
 
     <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Bitte versuchen Sie, das Schließen der App zu erzwingen und erneut zu starten. Möglicherweise bestand eine gestörte Verbindung zur Nextcloud-App.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Falls dieser Fehler weiterhin besteht können Sie versuchen den Speicherinhalt der beiden Apps Nextcloud und Nextcloud Deck zu löschen um das Problem zu beheben.</string>
-    <string name="error_dialog_tip_database_upgrade_failed">Die Aktualisierung der Datenbank ist fehlgeschlagen. Bitte melden Sie das Problem und löschen Sie den Speicher, um die App normal zu verwenden.</string>
-    <string name="error_dialog_tip_clear_storage">Sie können den Speicherinhalt löschen indem Sie die App öffnen und Speicher → Speicherinhalt löschen auswählen.</string>
+    <string name="error_dialog_tip_token_mismatch_clear_storage">Falls dieser Fehler weiterhin besteht können Sie versuchen den Speicherinhalt der beiden Apps Nextcloud und Nextcloud Deck zu leeren um das Problem zu beheben.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Die Aktualisierung der Datenbank ist fehlgeschlagen. Bitte melden Sie das Problem und leeren Sie den Speicher, um die App normal zu verwenden.</string>
+    <string name="error_dialog_tip_clear_storage">Sie können den Speicherinhalt leeren indem Sie die App öffnen und Speicher → Speicherinhalt löschen auswählen.</string>
     <string name="error_dialog_tip_files_outdated">Sie scheinen eine alte Version der Nextcloud-App installiert zu haben. Bitte besuchen Sie den Play Store oder F-Droid, um die neueste Version zu installieren.</string>
     <string name="error_dialog_tip_files_force_stop">Etwas scheint bei der Nextcloud App nicht zu funktionieren. Bitte versuchen Sie sowohl die Nextcloud App als auch die Nextcloud Deck App zu stoppen.</string>
-    <string name="error_dialog_tip_files_delete_storage">Wenn das erzwungene Stoppen nicht hilft, können Sie versuchen, den Speicher beider Apps zu löschen.</string>
+    <string name="error_dialog_tip_files_delete_storage">Wenn das erzwungene Stoppen nicht hilft, können Sie versuchen, den Speicher beider Apps zu leeren .</string>
     <string name="error_dialog_timeout_instance">Der Server reagierte nicht in der üblichen Zeit. Bitte stellen Sie sicher, dass Ihre Instanz einwandfrei läuft.</string>
     <string name="error_dialog_timeout_toggle">Überprüfen Sie Ihre Netzwerkverbindung. Manchmal kann es hilfreich sein, die mobilen Daten oder das WLAN aus- und wieder einzuschalten.</string>
     <string name="error_dialog_check_server">Die Antwort des Servers war fehlerhaft. Bitte überprüfen Sie ob die Deck App über die Weboberfläche erreichbar ist.</string>
@@ -244,6 +245,7 @@
     <string name="info_box_version_not_supported">Serverversion %1$s wird nicht unterstützt. Bitte aktualisiere auf %2$s.</string>
     <string name="share_link">Link teilen</string>
     <string name="archive_cards">Karten archivieren</string>
+
     <string name="manage_accounts">Konten verwalten</string>
     <string name="manage_list">Liste verwalten</string>
     <string name="simple_reply">Antworten</string>
@@ -257,4 +259,15 @@
     </plurals>
     <string name="simple_report">Melden</string>
     <string name="error_action_open_battery_settings">Batterie-Einstellungen</string>
-</resources>
+    <string name="move_warning">Beim Verschieben einer Karte auf ein anderes Board werden weder Kommentare noch Anhänge transferriert.</string>
+    <string name="clone_board">Board klonen</string>
+    <string name="cloning_board">Klone %1$s…</string>
+    <string name="successfully_cloned_board">%1$s erfolgreich geklont</string>
+    <string name="attachment_does_not_yet_exist">Anhang existiert bislang nicht in Deck</string>
+    <string name="card_does_not_yet_exist">Karte existiert bislang nicht in Deck</string>
+
+    <string name="widget_stack_title">Liste</string>
+    <string name="widget_stack_header_icon">Widget-Kopf-Icon</string>
+    <string name="widget_stack_placeholder_icon">Widget-Platzhalter-Icon</string>
+    <string name="select_stack">Liste auswählen</string>
+    </resources>

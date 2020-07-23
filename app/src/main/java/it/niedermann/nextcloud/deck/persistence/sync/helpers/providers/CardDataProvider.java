@@ -144,6 +144,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         } else {
             DeckLog.verbose("Comments - Version is too low, DONT SYNC");
         }
+        syncHelper.doSyncFor(new OcsProjectDataProvider(this, existingEntity.getCard()));
     }
 
     @Override
@@ -233,7 +234,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
         for (JoinCardWithUser deletedUser : deletedUsers) {
             Card card = dataBaseAdapter.getCardByRemoteIdDirectly(account.getId(), deletedUser.getCardId());
             if (this.stack == null) {
-                stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getLocalId());
+                stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             } else {
                 stack = this.stack;
             }
