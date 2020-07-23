@@ -434,14 +434,14 @@ public class SyncManager {
                             if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
                                 String errorString = requestFailedException.getCause().getMessage();
                                 Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
+                                DeckLog.verbose("HTTP Status " + HTTP_UNAVAILABLE + ": This server seems to be in maintenance mode.");
                                 if (capabilities.isMaintenanceEnabled()) {
-                                    doAsync(() -> {
-                                        onResponse(ParsedResponse.of(capabilities));
-                                    });
+                                    doAsync(() -> onResponse(ParsedResponse.of(capabilities)));
                                 } else {
                                     onError(throwable);
                                 }
                             } else if (requestFailedException.getStatusCode() == HTTP_NOT_MODIFIED) {
+                                DeckLog.verbose("HTTP Status " + HTTP_NOT_MODIFIED + ": There haven't been any changes on the server side for this request.");
                                 //could be after maintenance. so we have to at least revert the maintenance flag
                                 doAsync(() -> {
                                     Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
