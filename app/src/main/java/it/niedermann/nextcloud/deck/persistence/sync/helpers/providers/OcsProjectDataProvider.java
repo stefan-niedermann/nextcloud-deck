@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Card;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
@@ -24,15 +25,15 @@ public class OcsProjectDataProvider extends AbstractSyncDataProvider<OcsProject>
         serverAdapter.getProjectsForCard(card.getId(), new IResponseCallback<OcsProjectList>(responder.getAccount()) {
             @Override
             public void onResponse(OcsProjectList response) {
-                    responder.onResponse(response.getProjects());
+                responder.onResponse(response.getProjects());
             }
 
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
                 // dont break the sync!
+                DeckLog.logError(throwable);
                 responder.onResponse(Collections.emptyList());
-//                responder.onError(throwable);
             }
         });
     }
