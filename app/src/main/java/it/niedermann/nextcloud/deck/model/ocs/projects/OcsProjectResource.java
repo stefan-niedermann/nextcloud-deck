@@ -16,7 +16,7 @@ import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
         indices = {
                 @Index(value = "id", name = "index_OcsProjectResource_id"),
                 @Index(value = "lastModifiedLocal", name = "index_OcsProjectResource_lastModifiedLocal"),
-                @Index(value = {"accountId", "id", "projectId"}, name = "index_OcsProjectResource_accountId_id", unique = true),
+                @Index(value = {"accountId", "id", "idString", "projectId"}, name = "index_OcsProjectResource_accountId_id", unique = true),
                 @Index(value = "accountId", name = "index_projectResource_accID"),
                 @Index(value = "projectId", name = "index_projectResource_projectId"),
         },
@@ -43,6 +43,9 @@ public class OcsProjectResource extends AbstractRemoteEntity implements Serializ
     private String mimetype;
     @Nullable
     private Boolean previewAvailable;
+    @Nullable
+    private String idString;
+
 
     @NonNull
     private Long projectId;
@@ -119,5 +122,14 @@ public class OcsProjectResource extends AbstractRemoteEntity implements Serializ
 
     public void setPreviewAvailable(@Nullable Boolean previewAvailable) {
         this.previewAvailable = previewAvailable;
+    }
+
+    @Nullable
+    public String getIdString() {
+        return idString;
+    }
+
+    public void setIdString(@Nullable String idString) {
+        this.idString = idString;
     }
 }
