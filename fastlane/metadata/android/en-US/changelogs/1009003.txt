@@ -1,0 +1,1 @@
+- 🐞 Handle project resources with a string id properly
