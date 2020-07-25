@@ -5,12 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
+import androidx.room.RoomWarnings;
 
 import java.io.Serializable;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
-@Entity(inheritSuperIndices = false,
+@SuppressWarnings(RoomWarnings.INDEX_FROM_PARENT_IS_DROPPED)
+@Entity(
         indices = {
                 @Index(value = "id", name = "index_OcsProjectResource_id"),
                 @Index(value = "lastModifiedLocal", name = "index_OcsProjectResource_lastModifiedLocal"),
