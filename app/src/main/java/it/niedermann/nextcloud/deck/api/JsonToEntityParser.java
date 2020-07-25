@@ -129,7 +129,16 @@ public class JsonToEntityParser {
         DeckLog.verbose(obj.toString());
         OcsProjectResource resource = new OcsProjectResource();
         makeTraceableIfFails(() -> {
-            resource.setId(Long.parseLong(getNullAsEmptyString(obj.get("id"))));
+            if (obj.has("id")) {
+                String idString = obj.get("id").getAsString();
+                if (idString != null && idString.trim().length() > 0) {
+                    if (idString.matches("[0-9]+")){
+                        resource.setId(Long.parseLong(idString.trim()));
+                    } else {
+                        resource.setIdString(idString);
+                    }
+                }
+            }
             if (obj.has("type")) {
                 resource.setType(getNullAsEmptyString(obj.get("type")));
             }

@@ -87,7 +87,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.Sta
                 JoinCardWithProject.class,
         },
         exportSchema = false,
-        version = 18
+        version = 19
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -227,6 +227,15 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `Account` ADD `etag` TEXT");
         }
     };
+    private static final Migration MIGRATION_18_19 = new Migration(18, 19) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/619
+            database.execSQL("DROP INDEX `index_OcsProjectResource_accountId_id`");
+            database.execSQL("ALTER TABLE `OcsProjectResource` ADD `idString` TEXT");
+            database.execSQL("CREATE UNIQUE INDEX `index_OcsProjectResource_accountId_id` ON `OcsProjectResource` (`accountId`, `id`, `idString`, `projectId`)");
+        }
+    };
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
         @Override
@@ -271,6 +280,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_15_16)
                 .addMigrations(MIGRATION_16_17)
                 .addMigrations(MIGRATION_17_18)
+                .addMigrations(MIGRATION_18_19)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
