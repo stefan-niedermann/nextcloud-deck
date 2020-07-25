@@ -134,7 +134,6 @@
     <string name="delete_board_message">Це безповоротно вилучіть дошку разом зі списками та картками</string>
     <string name="settings_theme_title">Темна тема</string>
     <string name="settings_branding_title">Оформлення</string>
-    <string name="settings_compact_title">Компактний стиль 🆕</string>
     <string name="settings_background_sync">Фонова синхронізація</string>
     <string name="pref_value_wifi_and_mobile">Синхронізація за допомогою Wi-Fi та мобільних даних</string>
     <string name="pref_value_wifi_only">Синхронізація тільки за допомогою WI-Fi</string>
@@ -259,4 +258,7 @@
     <string name="widget_stack_header_icon">Піктограма заголовку віджету</string>
     <string name="widget_stack_placeholder_icon">Піктограма поля віджету</string>
     <string name="select_stack">Виберіть список</string>
-    </resources>
+    <string name="project_type_file">Файл</string>
+    <string name="projects_title">Проєкти</string>
+    <string name="simple_move">Перемістити</string>
+</resources>

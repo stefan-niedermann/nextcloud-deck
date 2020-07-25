@@ -128,7 +128,6 @@
     <string name="delete_board_message">Μόνιμη διαγραφή πίνακα με όλες τις λίστες και κάρτες.</string>
     <string name="settings_theme_title">Σκούρο θέμα</string>
     <string name="settings_branding_title">Επωνυμία</string>
-    <string name="settings_compact_title">Συμπαγής προβολή 🆕</string>
     <string name="settings_background_sync">Συγχρονισμός στο παρασκήνιο</string>
     <string name="pref_value_wifi_and_mobile">Συγχρονισμός σε Wi-Fi και δεδομένα κινητού</string>
     <string name="pref_value_wifi_only">Συγχρονισμός μόνο σε Wi-Fi</string>
@@ -259,4 +258,7 @@
     <string name="error_action_open_battery_settings">Ρυθμίσεις μπαταρίας</string>
     <string name="clone_board">Κλωνοποίηση πίνακα</string>
     <string name="widget_stack_title">Λίστα</string>
-    </resources>
+    <string name="project_type_file">Αρχείο</string>
+    <string name="projects_title">Projects</string>
+    <string name="simple_move">Μετακίνηση</string>
+</resources>

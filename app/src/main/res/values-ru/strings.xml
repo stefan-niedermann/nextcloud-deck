@@ -263,4 +263,7 @@
     <string name="error_action_open_battery_settings">Настройки аккумулятора</string>
     <string name="clone_board">Скопировать доску</string>
     <string name="widget_stack_title">Список</string>
-    </resources>
+    <string name="project_type_file">Файл</string>
+    <string name="projects_title">Проекты</string>
+    <string name="simple_move">Переместить</string>
+</resources>

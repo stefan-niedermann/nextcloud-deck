@@ -9,7 +9,7 @@
     <string name="drawer_manage_accounts">Kudeatu kontuak</string>
 
     <!-- Simple values -->
-    <string name="simple_boards">Mahaiak</string>
+    <string name="simple_boards">Taulak</string>
     <string name="simple_add">Gehitu</string>
     <string name="simple_save">Gorde</string>
     <string name="simple_more">Gehiago</string>
@@ -38,9 +38,11 @@
     <string name="simple_disabled">desgaituta</string>
     <string name="simple_copied">Kopiatuta</string>
     <string name="simple_archive">Artxibatu</string>
-    <string name="edit_board">Editatu mahaia</string>
-    <string name="archive_board">Artxibatu mahaia</string>
-    <string name="delete_board">Ezabatu mahaia</string>
+    <string name="simple_unassigned">Esleitu gabea</string>
+
+    <string name="edit_board">Editatu taula</string>
+    <string name="archive_board">Artxibatu taula</string>
+    <string name="delete_board">Ezabatu taula</string>
     <string name="delete_something">Ezabatu %1$s</string>
 
     <!-- About -->
@@ -93,7 +95,7 @@
     <string name="action_card_unassign">Txartel hau niri esleitzeari utzi</string>
     <string name="action_card_archive">Artxibatu txartela</string>
     <string name="action_card_delete">Ezabatu txartela</string>
-    <string name="add_board">Gehitu mahaia</string>
+    <string name="add_board">Gehitu taula</string>
 
     <string name="label_clear_due_date">Ezabatu epe-muga</string>
     <string name="label_add">Gehitu %1$s</string>
@@ -125,16 +127,17 @@
     <string name="update_deck">Eguneratu sorta</string>
     <string name="your_deck_version_is_too_old">Zure sorta bertsioa zaharregia da</string>
     <string name="deck_outdated_please_update">Zure sorta bertsioa zaharregia da (%1$s). Mesedez eguneratu ezazu android aplikazio hau bezero gisa erabiltzeko.</string>
-    <string name="delete_board_message">Honek mahai hau eta bertako zerrenda eta txartel guztiak ezabatuko ditu.</string>
+    <string name="delete_board_message">Honek taula hau eta bertako zerrenda eta txartel guztiak ezabatuko ditu.</string>
     <string name="settings_theme_title">Gai iluna</string>
     <string name="settings_branding_title">Marka</string>
+    <string name="settings_compact_title">Modu trinkoa</string>
     <string name="settings_background_sync">Atzeko planoko sinkronizazioa</string>
     <string name="pref_value_wifi_and_mobile">Sinkronizatu Wi-Fi eta datu mugikorrekin</string>
     <string name="pref_value_wifi_only">Sinkronizatu Wi-Fiarekin soilik</string>
     <string name="pref_value_theme_light">Argia</string>
     <string name="unassigned_user">%1$s esleitu gabe</string>
     <string name="no_activities">Ez dago jarduerarik karta honetak. Internetera konektatuta egon behar zara jarduerak kargatzeko eta erakusteko.</string>
-    <string name="share_board">Partekatu mahaia</string>
+    <string name="share_board">Partekatu taula</string>
     <string name="you_are_currently_offline">Offline zaude momentu honetak</string>
     <string name="you_have_to_be_connected_to_the_internet_in_order_to_add_an_account">Kontu bat gehitzeko internetera konektatuta egon behar zara.</string>
     <string name="owner">Jabea</string>
@@ -159,9 +162,9 @@
     <string name="add_comment">Gehitu iruzkina</string>
     <string name="card_edit_comments">Iruzkinak</string>
     <string name="no_comments_yet">Iruzkinik ez oraindik</string>
-    <string name="no_boards">Ez dago mahairik oraindik</string>
-    <string name="add_a_new_board_using_the_button">Gehitu mahai berri bat + botoia erabiliz</string>
-    <string name="choose_board">Aukeratu mahaia</string>
+    <string name="no_boards">Ez dago taularik oraindik</string>
+    <string name="add_a_new_board_using_the_button">Gehitu taula berria + botoia erabiliz</string>
+    <string name="choose_board">Aukeratu taula</string>
     <string name="choose_list">Aukeratu zerrenda</string>
     <string name="task_count">%2$s(e)tik %1$s</string>
     <string name="open_in_browser">Ireki nabigatzailean</string>
@@ -198,7 +201,7 @@
     <string name="filter_duedate_title">Epe-muga</string>
 
     <!-- Archived boards -->
-    <string name="action_board_dearchive">Desegin mahaiaren artxiboa</string>
+    <string name="action_board_dearchive">Desegin taula artxibatzea</string>
     <string name="archived_boards">Artxibatutako taulak</string>
 
     <!-- Errors -->
@@ -216,6 +219,7 @@
     <string name="error_dialog_title">Oh ez - Orain zer? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Saia zaitez aplikazioa itxi eta berrabiarazten. Agian Nextcloud aplikazioarekin gaizki konektatzea gertatu da.</string>
     <string name="error_dialog_tip_token_mismatch_clear_storage">Arazoak jarraitzen badu, saiatu bi aplikazioen biltegiak garbitzen: Nextcloud eta Nextcloud Sortak aplikazioenak arazoa konpontzeko.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Datu-basearen bertsio-berritzeak huts egin du. Eman arazoaren berri eta biltegia garbitu aplikazioa normaltasunez erabiltzeko.</string>
     <string name="error_dialog_tip_clear_storage">Biltegia garbi dezakezu aplikazioaren informazioa ireki eta hautatuz: Biltegia → Garbitu biltegia.</string>
     <string name="error_dialog_tip_files_outdated">Daukazun Nextcloud aplikazioa zaharkituta dagoela dirudi. Zoaz Play Store edo F-Droidera azken bertsioa lortzeko.</string>
     <string name="error_dialog_tip_files_force_stop">Daukazun Nextcloud aplikazioan zerbait gaizki dabilela dirudi.  Saia zaitez Nextcloud aplikazioa eta Nextcloud Sortak geldiarazten. </string>
@@ -248,8 +252,25 @@
     <string name="error_while_uploading_attachment">Errorea eranskin hau igotzean: %1$s</string>
     <string name="append_text_to_description">Erantsi deskripzioari</string>
     <string name="add_text_as_comment">Gehitu iruzkin gisa</string>
+    <string name="progress_count">%2$dtik%1$d</string>
     <string name="simple_report">Jakinarazi</string>
     <string name="error_action_open_battery_settings">Bateria ezarpenak</string>
+    <string name="move_warning">Ez iruzkinak eta ez eranskinak ezin izan dira transferitu txartela beste taula batera mugitzean.</string>
     <string name="clone_board">Klonatu taula</string>
+    <string name="cloning_board">%1$sklonatzen...</string>
+    <string name="successfully_cloned_board">%1$sondo klonatu da</string>
+    <string name="attachment_does_not_yet_exist">Eranskina oraindik ez dago Deck-en</string>
+    <string name="card_does_not_yet_exist">Txartela oraindik ez dago Deck-en</string>
+
     <string name="widget_stack_title">Zerrenda</string>
-    </resources>
+    <string name="widget_stack_header_icon">Goiburu widgetaren ikonoa</string>
+    <string name="widget_stack_placeholder_icon">Leku-marka widgetaren ikonoa</string>
+    <string name="select_stack">Hautatu zerrenda</string>
+    <string name="project_type_deck_board">Deck taula</string>
+    <string name="project_type_deck_card">Deck txartela</string>
+    <string name="project_type_file">Fitxategia</string>
+    <string name="projects_title">Proiektuak</string>
+    <string name="no_assigned_label">Esleitutako etiketarik ez</string>
+    <string name="project_type_room">Hitz egiteko gela</string>
+    <string name="simple_move">Mugitu</string>
+</resources>

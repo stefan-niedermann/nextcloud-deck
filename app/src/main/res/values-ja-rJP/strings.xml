@@ -243,4 +243,7 @@
     <string name="simple_reply">返信</string>
     <string name="simple_report">報告</string>
     <string name="widget_stack_title">リスト</string>
-    </resources>
+    <string name="project_type_file">ファイル</string>
+    <string name="projects_title">プロジェクト</string>
+    <string name="simple_move">移動</string>
+</resources>

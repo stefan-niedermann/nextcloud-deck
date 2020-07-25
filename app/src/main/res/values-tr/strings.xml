@@ -130,7 +130,6 @@
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="settings_theme_title">Koyu tema</string>
     <string name="settings_branding_title">Markalama</string>
-    <string name="settings_compact_title">Sıkışık kip 🆕</string>
     <string name="settings_background_sync">Arka planda eşitleme</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
@@ -263,5 +262,14 @@
     <string name="clone_board">Panoyu kopyala</string>
     <string name="cloning_board">%1$s kopyalanıyor…</string>
     <string name="successfully_cloned_board">%1$s kopyalandı</string>
+    <string name="attachment_does_not_yet_exist">Ek dosya henüz panoda bulunmuyor</string>
+    <string name="card_does_not_yet_exist">Kart henüz panoda bulunmuyor</string>
+
     <string name="widget_stack_title">Listele</string>
-    </resources>
+    <string name="widget_stack_header_icon">Araç başlık simgesi</string>
+    <string name="widget_stack_placeholder_icon">Araç yer belirteci simgesi</string>
+    <string name="select_stack">Liste seçin</string>
+    <string name="project_type_file">Dosya</string>
+    <string name="projects_title">Projeler</string>
+    <string name="simple_move">Taşı</string>
+</resources>

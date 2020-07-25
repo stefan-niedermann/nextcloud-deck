@@ -134,7 +134,7 @@
     <string name="delete_board_message">Spowoduje to trwałe usunięcie tej tablicy, w tym wszystkich list i kart.</string>
     <string name="settings_theme_title">Ciemny motyw</string>
     <string name="settings_branding_title">Motyw serwera</string>
-    <string name="settings_compact_title">Tryb kompaktowy 🆕</string>
+    <string name="settings_compact_title">Tryb kompaktowy</string>
     <string name="settings_background_sync">Synchronizacja w tle</string>
     <string name="pref_value_wifi_and_mobile">Synchronizacja w sieci Wi-Fi i komórkowej transmisji danych</string>
     <string name="pref_value_wifi_only">Synchronizuj tylko przez Wi-Fi</string>
@@ -276,4 +276,18 @@
     <string name="widget_stack_header_icon">Ikona nagłówka widżetu</string>
     <string name="widget_stack_placeholder_icon">Ikona zastępcza widżetu</string>
     <string name="select_stack">Wybierz listę</string>
-    </resources>
+    <string name="project_type_deck_board">Tablica Deck</string>
+    <string name="project_type_deck_card">Karta Deck</string>
+    <string name="project_type_file">Plik</string>
+    <string name="projects_title">Projektowanie</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d zasób</item>
+        <item quantity="few">%1$d zasoby</item>
+        <item quantity="many">%1$d zasobów</item>
+        <item quantity="other">%1$d zasobów</item>
+    </plurals>
+    <string name="no_assigned_label">Brak przypisanej etykiety</string>
+    <string name="single_card">Pojedyncza karta</string>
+    <string name="project_type_room">Pokój rozmów</string>
+    <string name="simple_move">Przenieś</string>
+</resources>

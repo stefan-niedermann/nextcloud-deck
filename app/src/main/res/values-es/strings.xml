@@ -130,7 +130,6 @@
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las listas y tarjetas.</string>
     <string name="settings_theme_title">Tema oscuro</string>
     <string name="settings_branding_title">Branding</string>
-    <string name="settings_compact_title">Modo compacto 🆕</string>
     <string name="settings_background_sync">Sincronización en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar sobre Wi-Fi y datos móviles</string>
     <string name="pref_value_wifi_only">Sincronizar solo sobre Wi-Fi</string>
@@ -267,4 +266,10 @@
     <string name="card_does_not_yet_exist">La tarjeta todavía no existe en Deck</string>
 
     <string name="widget_stack_title">Lista</string>
-    </resources>
+    <string name="widget_stack_header_icon">Icono de la cabecera del widget</string>
+    <string name="widget_stack_placeholder_icon">Espacio para icono del widget</string>
+    <string name="select_stack">Seleccione lista</string>
+    <string name="project_type_file">Archivo</string>
+    <string name="projects_title">Proyectos</string>
+    <string name="simple_move">Mover</string>
+</resources>

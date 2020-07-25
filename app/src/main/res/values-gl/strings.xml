@@ -130,7 +130,7 @@
     <string name="delete_board_message">Isto eliminará este taboleiro de xeito permanente incluíndo todas as listas e tarxetas.</string>
     <string name="settings_theme_title">Tema escuro</string>
     <string name="settings_branding_title">Xestión da marca</string>
-    <string name="settings_compact_title">Modo compacto 🆕</string>
+    <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_background_sync">Sincronización do traballo en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronización con wifi e con datos móbiles</string>
     <string name="pref_value_wifi_only">Sincronizar só con wifi</string>
@@ -270,4 +270,15 @@
     <string name="widget_stack_header_icon">Icona de cabeceira do trebello</string>
     <string name="widget_stack_placeholder_icon">Icona de marcador de posición do trebello</string>
     <string name="select_stack">Seleccionar a lista</string>
-    </resources>
+    <string name="project_type_deck_board">Taboleiro do Deck</string>
+    <string name="project_type_deck_card">Tarxeta do Deck</string>
+    <string name="project_type_file">Ficheiro</string>
+    <string name="projects_title">Proxectos</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d recurso</item>
+        <item quantity="other">%1$d recursos</item>
+    </plurals>
+    <string name="no_assigned_label">Non hai etiqueta asignada</string>
+    <string name="project_type_room">Sala de conversas</string>
+    <string name="simple_move">Mover</string>
+</resources>

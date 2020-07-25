@@ -230,4 +230,7 @@
     <string name="simple_report">דיווח</string>
     <string name="clone_board">שכפול לוח</string>
     <string name="widget_stack_title">רשימה</string>
-    </resources>
+    <string name="project_type_file">קובץ</string>
+    <string name="projects_title">מיזמים</string>
+    <string name="simple_move">העברה</string>
+</resources>
