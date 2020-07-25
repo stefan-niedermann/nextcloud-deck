@@ -457,14 +457,11 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onUpdateStack(long localStackId, String stackName) {
-        observeOnce(syncManager.getStack(mainViewModel.getCurrentAccount().getId(), localStackId), MainActivity.this, fullStack -> {
-            fullStack.getStack().setTitle(stackName);
-            final WrappedLiveData<FullStack> archiveLiveData = syncManager.updateStack(fullStack);
-            observeOnce(archiveLiveData, this, (v) -> {
-                if (archiveLiveData.hasError()) {
-                    ExceptionDialogFragment.newInstance(archiveLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                }
-            });
+        final WrappedLiveData<FullStack> liveData = syncManager.updateStackTitle(localStackId, stackName);
+        observeOnce(liveData, this, (v) -> {
+            if (liveData.hasError()) {
+                ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
         });
     }
 

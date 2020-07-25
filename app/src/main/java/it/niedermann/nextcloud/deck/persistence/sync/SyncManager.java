@@ -863,18 +863,6 @@ public class SyncManager {
         return liveData;
     }
 
-    @Deprecated
-    @AnyThread
-    public WrappedLiveData<FullStack> updateStack(@NonNull FullStack stack) {
-        WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
-        doAsync(() -> {
-            Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
-            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
-            updateStack(account, board, stack, liveData);
-        });
-        return liveData;
-    }
-
     @AnyThread
     public WrappedLiveData<FullStack> updateStackTitle(long localStackId, @NonNull String newTitle) {
         WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
