@@ -130,7 +130,6 @@
     <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
     <string name="settings_theme_title">Donker thema</string>
     <string name="settings_branding_title">Brandmerken</string>
-    <string name="settings_compact_title">Compacte modus</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
@@ -260,4 +259,7 @@
     <string name="successfully_cloned_board">Succesvol gekloond %1$s</string>
     <string name="widget_stack_title">Lijst</string>
     <string name="select_stack">Lijst selecteren</string>
-    </resources>
+    <string name="project_type_file">Bestand</string>
+    <string name="projects_title">Projecten</string>
+    <string name="simple_move">Verplaatsen</string>
+</resources>

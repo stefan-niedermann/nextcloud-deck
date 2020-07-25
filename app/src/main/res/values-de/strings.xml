@@ -130,7 +130,7 @@
     <string name="delete_board_message">Dies wird dieses Board endgültig inklusive aller Listen und Karten löschen.</string>
     <string name="settings_theme_title">Dunkles Design</string>
     <string name="settings_branding_title">Branding</string>
-    <string name="settings_compact_title">Kompakt-Modus 🆕</string>
+    <string name="settings_compact_title">Kompakt-Modus</string>
     <string name="settings_background_sync">Hintergrundsynchronisierung</string>
     <string name="pref_value_wifi_and_mobile">Über WLAN und mobile Daten synchronisieren</string>
     <string name="pref_value_wifi_only">Nur über WLAN synchronisieren</string>
@@ -270,4 +270,16 @@
     <string name="widget_stack_header_icon">Widget-Kopf-Icon</string>
     <string name="widget_stack_placeholder_icon">Widget-Platzhalter-Icon</string>
     <string name="select_stack">Liste auswählen</string>
-    </resources>
+    <string name="project_type_deck_board">Deck Board</string>
+    <string name="project_type_deck_card">Deck Karte</string>
+    <string name="project_type_file">Datei</string>
+    <string name="projects_title">Projekte</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d Resource</item>
+        <item quantity="other">%1$d Resourcen</item>
+    </plurals>
+    <string name="no_assigned_label">Keine Schlagwort zugewiesen</string>
+    <string name="single_card">Einzelne Kare</string>
+    <string name="project_type_room">Talk-Raum</string>
+    <string name="simple_move">Verschieben</string>
+</resources>

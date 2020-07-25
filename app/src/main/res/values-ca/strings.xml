@@ -247,4 +247,7 @@
     <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
     <string name="clone_board">Clonar tauler</string>
     <string name="widget_stack_title">Llista</string>
-    </resources>
+    <string name="project_type_file">Fitxer</string>
+    <string name="projects_title">Projectes</string>
+    <string name="simple_move">Mou</string>
+</resources>

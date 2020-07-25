@@ -134,7 +134,7 @@
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
     <string name="settings_theme_title">Tmavý motív</string>
     <string name="settings_branding_title">Použitie vlastného loga</string>
-    <string name="settings_compact_title">Kompaktný režim 🆕</string>
+    <string name="settings_compact_title">Kompaktný režim</string>
     <string name="settings_background_sync">Synchronizácia na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchronizovať na Wi-Fi a mobilných dátach</string>
     <string name="pref_value_wifi_only">Synchronizovať len na Wi-Fi</string>
@@ -276,4 +276,18 @@
     <string name="widget_stack_header_icon">Ikona hlavičky miniaplikácie</string>
     <string name="widget_stack_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
     <string name="select_stack">Vyberte zoznam</string>
-    </resources>
+    <string name="project_type_deck_board">Palubná doska</string>
+    <string name="project_type_deck_card">Palubná karta</string>
+    <string name="project_type_file">Súbor</string>
+    <string name="projects_title">Projekty</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d zdroj</item>
+        <item quantity="few">%1$d zdroje</item>
+        <item quantity="many">%1$d zdroje</item>
+        <item quantity="other">%1$d zdrojov</item>
+    </plurals>
+    <string name="no_assigned_label">Žiadna priradená značka</string>
+    <string name="single_card">Jedna karta</string>
+    <string name="project_type_room">Diskusná miestnosť</string>
+    <string name="simple_move">Presunúť</string>
+</resources>

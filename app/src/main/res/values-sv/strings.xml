@@ -237,4 +237,7 @@
     <string name="simple_report">Rapportera</string>
     <string name="clone_board">Kopiera tavla</string>
     <string name="widget_stack_title">Lista</string>
-    </resources>
+    <string name="project_type_file">Fil</string>
+    <string name="projects_title">Projekt</string>
+    <string name="simple_move">Flytta</string>
+</resources>

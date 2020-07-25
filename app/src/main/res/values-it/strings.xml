@@ -130,7 +130,7 @@
     <string name="delete_board_message">Questo eliminerà definitivamente questa lavagna inclusi tutti gli elenchi e le schede.</string>
     <string name="settings_theme_title">Tema scuro</string>
     <string name="settings_branding_title">Marchio</string>
-    <string name="settings_compact_title">Modalità compatta 🆕</string>
+    <string name="settings_compact_title">Modalità compatta</string>
     <string name="settings_background_sync">Sincronizzazione in background</string>
     <string name="pref_value_wifi_and_mobile">Sincronizza su Wi-FI e dati mobili</string>
     <string name="pref_value_wifi_only">Sincronizza solo con Wi-Fi</string>
@@ -270,4 +270,16 @@
     <string name="widget_stack_header_icon">Icona intestazione widget</string>
     <string name="widget_stack_placeholder_icon">Icona segnaposto widget</string>
     <string name="select_stack">Seleziona elenco</string>
-    </resources>
+    <string name="project_type_deck_board">Lavagna di Deck</string>
+    <string name="project_type_deck_card">Scheda di Deck</string>
+    <string name="project_type_file">File</string>
+    <string name="projects_title">Progetti</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d risorsa</item>
+        <item quantity="other">%1$d risorse</item>
+    </plurals>
+    <string name="no_assigned_label">Nessuna etichetta assegnata</string>
+    <string name="single_card">Scheda singola</string>
+    <string name="project_type_room">Stanza di Talk</string>
+    <string name="simple_move">Sposta</string>
+</resources>

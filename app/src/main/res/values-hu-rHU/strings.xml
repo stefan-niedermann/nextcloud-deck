@@ -244,4 +244,7 @@
     <string name="simple_report">Jelentés</string>
     <string name="clone_board">Tábla klónozása</string>
     <string name="widget_stack_title">Lista</string>
-    </resources>
+    <string name="project_type_file">Fájl</string>
+    <string name="projects_title">Projektek</string>
+    <string name="simple_move">Áthelyezés</string>
+</resources>

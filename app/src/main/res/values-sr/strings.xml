@@ -132,7 +132,6 @@
     <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све спискове и картице.</string>
     <string name="settings_theme_title">Тамна тема</string>
     <string name="settings_branding_title">Брендирање</string>
-    <string name="settings_compact_title">Компактни режим 🆕</string>
     <string name="settings_background_sync">Позадинска синхронизација</string>
     <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
     <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
@@ -270,4 +269,7 @@
     <string name="card_does_not_yet_exist">Картица још не постоји у Шпил апликацији</string>
 
     <string name="widget_stack_title">Излистај</string>
-    </resources>
+    <string name="project_type_file">Фајл</string>
+    <string name="projects_title">Пројекти</string>
+    <string name="simple_move">Помери</string>
+</resources>

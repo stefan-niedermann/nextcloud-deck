@@ -270,4 +270,16 @@
     <string name="widget_stack_header_icon">Ícone do cabeçalho do widget</string>
     <string name="widget_stack_placeholder_icon">Ícone de marcador de posição do widget</string>
     <string name="select_stack">Selecionar lista</string>
-    </resources>
+    <string name="project_type_deck_board">Painel de deck</string>
+    <string name="project_type_deck_card">Cartão de deck</string>
+    <string name="project_type_file">Arquivo</string>
+    <string name="projects_title">Projetos</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d recurso</item>
+        <item quantity="other">%1$d recursos</item>
+    </plurals>
+    <string name="no_assigned_label">Nenhum rótulo atribuído</string>
+    <string name="single_card">Cartão único</string>
+    <string name="project_type_room">Sala de conversação</string>
+    <string name="simple_move">Mover</string>
+</resources>

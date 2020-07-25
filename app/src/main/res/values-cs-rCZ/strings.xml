@@ -134,7 +134,7 @@
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
     <string name="settings_theme_title">Tmavý motiv vzhledu</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
-    <string name="settings_compact_title">Kompaktní režim 🆕</string>
+    <string name="settings_compact_title">Kompaktní režim</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
@@ -273,4 +273,21 @@
     <string name="card_does_not_yet_exist">Karta ještě neexistuje v Deck</string>
 
     <string name="widget_stack_title">Seznam</string>
-    </resources>
+    <string name="widget_stack_header_icon">Ikona hlavičky ovládacího prvku</string>
+    <string name="widget_stack_placeholder_icon">Ikona výplně ovládacího prvku</string>
+    <string name="select_stack">Vybrat seznam</string>
+    <string name="project_type_deck_board">Tabule aplikace Deck</string>
+    <string name="project_type_deck_card">Karta aplikace Deck</string>
+    <string name="project_type_file">Soubor</string>
+    <string name="projects_title">Projekty</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d prostředek</item>
+        <item quantity="few">%1$d prostředky</item>
+        <item quantity="many">%1$d prostředků</item>
+        <item quantity="other">%1$d prostředky</item>
+    </plurals>
+    <string name="no_assigned_label">Nepřiřazena značka</string>
+    <string name="single_card">Jedna karta</string>
+    <string name="project_type_room">Diskuzní místnost</string>
+    <string name="simple_move">Přesunout</string>
+</resources>

@@ -134,7 +134,7 @@
     <string name="delete_board_message">S tem dejanjem bo zbirka z vsemi paketi nalog in nalogami trajno izbrisana.</string>
     <string name="settings_theme_title">Temna tema</string>
     <string name="settings_branding_title">Prilagajanje oblikovanja</string>
-    <string name="settings_compact_title">Stisnjen pogled 🆕</string>
+    <string name="settings_compact_title">Stisnjen pogled</string>
     <string name="settings_background_sync"> Usklajevanje v ozadju</string>
     <string name="pref_value_wifi_and_mobile">Usklajuj na Wi-Fi in mobilni povezavi</string>
     <string name="pref_value_wifi_only">Usklajuj le na Wi-Fi</string>
@@ -273,4 +273,20 @@
     <string name="card_does_not_yet_exist">Naloga v Deck še ne obstaja</string>
 
     <string name="widget_stack_title">Seznam</string>
-    </resources>
+    <string name="widget_stack_header_icon">Ikona glave gradnika</string>
+    <string name="widget_stack_placeholder_icon">Ikona ročnika gradnika</string>
+    <string name="select_stack">Izbor seznama</string>
+    <string name="project_type_deck_board">Zbirka Deck</string>
+    <string name="project_type_deck_card">Naloga Deck</string>
+    <string name="project_type_file">Datoteka</string>
+    <string name="projects_title">Projekti</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d  vir</item>
+        <item quantity="two">%1$d  vira</item>
+        <item quantity="few">%1$d  viri</item>
+        <item quantity="other">%1$d virov</item>
+    </plurals>
+    <string name="no_assigned_label">Ni dodeljene oznake</string>
+    <string name="project_type_room">Klepetalnica</string>
+    <string name="simple_move">Premakni</string>
+</resources>

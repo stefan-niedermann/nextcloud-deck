@@ -227,4 +227,6 @@
     <string name="simple_reply">답장</string>
     <string name="simple_report">보고</string>
     <string name="widget_stack_title">목록</string>
-    </resources>
+    <string name="project_type_file">파일</string>
+    <string name="simple_move">이동</string>
+</resources>
