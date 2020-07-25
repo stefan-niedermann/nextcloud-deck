@@ -876,11 +876,14 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<Void> updateStackTitle(long accountId, long localStackId, @NonNull String newTitle) {
-        WrappedLiveData<Void> liveData = new WrappedLiveData<>();
+    public WrappedLiveData<FullStack> updateStackTitle(long localStackId, @NonNull String newTitle) {
+        WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
         doAsync(() -> {
-            // TODO implement, replaces #updateStack(@NonNull FullStack stack)
-            liveData.postError(new UnsupportedOperationException("Not yet implemented."));
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(localStackId);
+            FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
+            Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
+            stack.getStack().setTitle(newTitle);
+            updateStack(account, fullBoard, stack, liveData);
         });
         return liveData;
     }
