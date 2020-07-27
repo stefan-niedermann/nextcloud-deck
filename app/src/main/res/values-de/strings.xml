@@ -270,16 +270,16 @@
     <string name="widget_stack_header_icon">Widget-Kopf-Icon</string>
     <string name="widget_stack_placeholder_icon">Widget-Platzhalter-Icon</string>
     <string name="select_stack">Liste auswählen</string>
-    <string name="project_type_deck_board">Deck Board</string>
-    <string name="project_type_deck_card">Deck Karte</string>
+    <string name="project_type_deck_board">Deck-Board</string>
+    <string name="project_type_deck_card">Deck-Karte</string>
     <string name="project_type_file">Datei</string>
     <string name="projects_title">Projekte</string>
     <plurals name="resources_count">
-        <item quantity="one">%1$d Resource</item>
-        <item quantity="other">%1$d Resourcen</item>
+        <item quantity="one">%1$d Ressource</item>
+        <item quantity="other">%1$d Ressourcen</item>
     </plurals>
     <string name="no_assigned_label">Keine Schlagwort zugewiesen</string>
-    <string name="single_card">Einzelne Kare</string>
+    <string name="single_card">Einzelne Karte</string>
     <string name="project_type_room">Talk-Raum</string>
     <string name="simple_move">Verschieben</string>
 </resources>

@@ -92,7 +92,7 @@
     <string name="delete_list">Stapel verwijderen</string>
     <string name="label_menu">menu</string>
     <string name="action_card_assign">Wijs kaart toe aan mij</string>
-    <string name="action_card_unassign">Kaart van mij afstoten</string>
+    <string name="action_card_unassign">Kaart van mij terughalen</string>
     <string name="action_card_archive">Archiveer kaart</string>
     <string name="action_card_delete">Verwijderen kaart</string>
     <string name="add_board">Toevoegen bord</string>
@@ -107,8 +107,8 @@
     <string name="no_files_attached_to_this_card">Er zijn geen bestanden gekoppeld aan deze kaart.</string>
     <string name="attachments">Bijlagen</string>
     <string name="no_cards">Nog geen kaarten</string>
-    <string name="no_account">Geen account geconfigureerd.</string>
-    <string name="account_already_added">Account al toegevoegd.</string>
+    <string name="no_account">Geen account geconfigureerd</string>
+    <string name="account_already_added">Account al toegevoegd</string>
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
     <string name="no_lists_yet">Nog geen stapels</string>
@@ -129,7 +129,8 @@
     <string name="deck_outdated_please_update">Je deck versie is te oud (%1$s). Update deze android app om de deck te kunnen gebruiken.</string>
     <string name="delete_board_message">Dit zal dit bord inclusief alle stapels en kaarten definitief verwijderen.</string>
     <string name="settings_theme_title">Donker thema</string>
-    <string name="settings_branding_title">Brandmerken</string>
+    <string name="settings_branding_title">Branding</string>
+    <string name="settings_compact_title">Compacte modus</string>
     <string name="settings_background_sync">Achtergrond synchronisatie</string>
     <string name="pref_value_wifi_and_mobile">Sync met Wi-Fi en mobiele data</string>
     <string name="pref_value_wifi_only">Sync alleen met Wi-Fi</string>
@@ -212,7 +213,7 @@
     <string name="maintenance_mode">Server in onderhoudsmodus</string>
     <string name="server_misconfigured">Server verkeerd geconfigureerd</string>
     <string name="server_error">Serverfout</string>
-    <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer jhet eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
+    <string name="shared_error">Het delen van content vanaf 3e-partij apps wordt nog niet volledig ondersteund. Probeer het eerst te downloaden en deel dan vanaf je eigen bestandsbeheerder of galerij.</string>
     <string name="error_edit_activity_killed_by_android">Android beëindigde de bewerkingsmodus omdat het meer systeembronnen nodig had voor andere apps.</string>
 
     <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
@@ -252,6 +253,10 @@
     <string name="append_text_to_description">Toevoegen aan beschrijving</string>
     <string name="add_text_as_comment">Toevoegen als opmerking</string>
     <string name="progress_count">%1$d op %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d fout bij uploaden.</item>
+        <item quantity="other">%1$d fouten bij uploaden</item>
+    </plurals>
     <string name="simple_report">Rapporteer</string>
     <string name="error_action_open_battery_settings">Batterij instellingen</string>
     <string name="clone_board">Dupliceer bord</string>
