@@ -130,6 +130,7 @@
     <string name="delete_board_message">Bu işlem içindeki tüm liste ve kartlarla birlikte bu panoyu silecek.</string>
     <string name="settings_theme_title">Koyu tema</string>
     <string name="settings_branding_title">Markalama</string>
+    <string name="settings_compact_title">Sıkışık kip</string>
     <string name="settings_background_sync">Arka planda eşitleme</string>
     <string name="pref_value_wifi_and_mobile">Wi-Fi ve mobil veri ile eşitlensin</string>
     <string name="pref_value_wifi_only">Yalnız Wi-Fi ile eşitlensin</string>
@@ -269,7 +270,16 @@
     <string name="widget_stack_header_icon">Araç başlık simgesi</string>
     <string name="widget_stack_placeholder_icon">Araç yer belirteci simgesi</string>
     <string name="select_stack">Liste seçin</string>
+    <string name="project_type_deck_board">Tahta panosu</string>
+    <string name="project_type_deck_card">Tahta kartı</string>
     <string name="project_type_file">Dosya</string>
     <string name="projects_title">Projeler</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d kaynak</item>
+        <item quantity="other">%1$d kaynak</item>
+    </plurals>
+    <string name="no_assigned_label">Henüz bir etiket atanmamış</string>
+    <string name="single_card">Tek kart</string>
+    <string name="project_type_room">Görüşme odası</string>
     <string name="simple_move">Taşı</string>
 </resources>

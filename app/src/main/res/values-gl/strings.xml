@@ -279,6 +279,7 @@
         <item quantity="other">%1$d recursos</item>
     </plurals>
     <string name="no_assigned_label">Non hai etiqueta asignada</string>
+    <string name="single_card">Terxeta única</string>
     <string name="project_type_room">Sala de conversas</string>
     <string name="simple_move">Mover</string>
 </resources>
