@@ -53,6 +53,6 @@ public interface StackDao extends GenericDao<Stack> {
     @Query("SELECT localId FROM stack s WHERE accountId = :accountId and id = :stackId")
     Long getLocalStackIdByRemoteStackIdDirectly(long accountId, Long stackId);
 
-    @Query("SELECT max(`order`) FROM stack s WHERE boardId = :localBoardId")
+    @Query("SELECT coalesce(MAX(`order`), -1) FROM stack s WHERE boardId = :localBoardId")
     Integer getHighestStackOrderInBoard(long localBoardId);
 }
