@@ -273,9 +273,13 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                         if (!currentBoardIdWasInList) {
                             setCurrentBoard(boardsList.get(0));
                         }
+
+                        binding.filter.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
                     } else {
                         clearBrandColors(this);
                         clearCurrentBoard();
+
+                        binding.filter.setOnClickListener(null);
                     }
 
                     if (hasArchivedBoardsLiveData != null && hasArchivedBoardsLiveDataObserver != null) {
@@ -374,8 +378,6 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
             });
             filterViewModel.getFilterInformation().observe(this, (info) ->
                     binding.filterIndicator.setVisibility(filterViewModel.getFilterInformation().getValue() == null ? View.GONE : View.VISIBLE));
-
-            binding.filter.setOnClickListener((v) -> FilterDialogFragment.newInstance().show(getSupportFragmentManager(), EditStackDialogFragment.class.getCanonicalName()));
             binding.archivedCards.setOnClickListener((v) -> startActivity(ArchivedCardsActvitiy.createIntent(this, mainViewModel.getCurrentAccount(), mainViewModel.getCurrentBoardLocalId(), mainViewModel.currentBoardHasEditPermission())));
 
 
