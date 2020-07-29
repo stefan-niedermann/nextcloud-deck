@@ -215,7 +215,7 @@
 
     <string name="error_dialog_title">Oh no! - I ara què? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Si us plau, mireu de forçar el tancament de l\'aplicació i reiniciar-la de nou. Hi deu haver hagut una connexió incorrecta a l\'aplicació Nextcloud.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Si el problema persisteix, mireu de netejar l\'emmagatzematge de totes dues aplicacions: Nextcloud i Nextcloud Deck per tal de resoldre el problema.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Si el problema persisteix, mireu de netejar l\'emmagatzematge de totes dues aplicacions: Nextcloud i Nextcloud Deck per tal de resoldre el problema.</string>
     <string name="error_dialog_tip_clear_storage">Podeu netejar l\'emmagatzematge obrint la informació de l\'aplicació i seleccionant Emmagatzematge → Neteja l\'emmagatzematge.</string>
     <string name="error_dialog_tip_files_outdated">La vostra aplicació Nextcloud sembla que està obsoleta. Si us plau, visiteu la Play Store o l\'F-Droid per tal d\'aconseguir la darrera versió.</string>
     <string name="error_dialog_tip_files_force_stop">Sembla que alguna cosa està malament a la vostra aplicació Nextcloud. Si us plau, intenteu forçar l\'aturada tant de l\'aplicació Nextcloud com de l\'aplicació Nextcloud Deck.</string>

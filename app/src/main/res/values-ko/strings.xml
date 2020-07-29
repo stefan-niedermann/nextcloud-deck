@@ -208,7 +208,7 @@
 
     <string name="error_dialog_title">세상에 - 무슨일이야?</string>
     <string name="error_dialog_tip_token_mismatch_retry">앱을 종료하고 다시 시작해주십시오.  아마 Nextcloud에 잘못된 연결이 있었을 것입니다.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">이슈가 지속되면 Nextcloud와 Nextcloud Deck라는 두 앱을 스토리지에서 지워 이 문제를 해결하십시오.ㅣ</string>
+    <string name="error_dialog_tip_clear_storage_might_help">이슈가 지속되면 Nextcloud와 Nextcloud Deck라는 두 앱을 스토리지에서 지워 이 문제를 해결하십시오.ㅣ</string>
     <string name="error_dialog_tip_clear_storage">저장공간을 비우기 위해  app info를 열고  Storage → Clear storage를 선택해주십시오.</string>
     <string name="error_dialog_tip_files_outdated">당신의 Nextcloud 앱은 예전 버전입니다.  Play Store나 F-Droid에 가서 최신 버전을 다운로드 하십시오.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud 앱에 문제가 생겼습니다. Nextcloud앱과 Nextcloud Deck앱 둘 다 강제종료 해보십시오.</string>
