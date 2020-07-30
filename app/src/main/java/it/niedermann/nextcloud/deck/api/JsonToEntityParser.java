@@ -303,7 +303,7 @@ public class JsonToEntityParser {
                 if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
                     DeckLog.verbose("owner is Primitive, skipping");
                 } else
-                    fullBoard.setOwner(parseUser(owner.getAsJsonObject()));
+                    fullBoard.setOwner(parseUser(owner));
             }
         }, e);
         return fullBoard;
@@ -315,7 +315,7 @@ public class JsonToEntityParser {
 
         if (aclJson.has("participant") && !aclJson.get("participant").isJsonNull()) {
             makeTraceableIfFails(() -> {
-                User participant = parseUser(aclJson.get("participant").getAsJsonObject());
+                User participant = parseUser(aclJson.get("participant"));
                 acl.setUser(participant);
                 acl.setType(aclJson.get("type").getAsLong());
                 acl.setBoardId(aclJson.get("boardId").getAsLong());
@@ -362,7 +362,7 @@ public class JsonToEntityParser {
                 for (JsonElement assignedUser : assignedUsers) {
                     JsonObject userJson = assignedUser.getAsJsonObject();
                     if (userJson.has("participant") && !userJson.get("participant").isJsonNull()) {
-                        users.add(parseUser(userJson.get("participant").getAsJsonObject()));
+                        users.add(parseUser(userJson.get("participant")));
                     }
                 }
                 fullCard.setAssignedUsers(users);
@@ -388,10 +388,7 @@ public class JsonToEntityParser {
             card.setCommentsUnread(e.get("commentsUnread").getAsInt());
             JsonElement owner = e.get("owner");
             if (owner != null) {
-                if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                    DeckLog.verbose("owner is Primitive, skipping");
-                } else
-                    fullCard.setOwner(parseUser(owner.getAsJsonObject()));
+                fullCard.setOwner(parseUser(owner));
             }
             card.setArchived(e.get("archived").getAsBoolean());
         }, e);
@@ -430,14 +427,27 @@ public class JsonToEntityParser {
         return a;
     }
 
-    protected static User parseUser(JsonObject e) {
-        DeckLog.verbose(e.toString());
+    protected static User parseUser(JsonElement userElement) {
+        DeckLog.verbose(userElement.toString());
+        if (userElement.isJsonNull()){
+            return null;
+        }
         User user = new User();
         makeTraceableIfFails(() -> {
-            user.setDisplayname(getNullAsEmptyString(e.get("displayname")));
-            user.setPrimaryKey(getNullAsEmptyString(e.get("primaryKey")));
-            user.setUid(getNullAsEmptyString(e.get("uid")));
-        }, e);
+
+            if (userElement.isJsonPrimitive()) {
+                String uid = userElement.getAsString();
+                user.setDisplayname(uid);
+                user.setPrimaryKey(uid);
+                user.setUid(uid);
+            } else {
+                JsonObject userJson = userElement.getAsJsonObject();
+                user.setDisplayname(getNullAsEmptyString(userJson.get("displayname")));
+                user.setPrimaryKey(getNullAsEmptyString(userJson.get("primaryKey")));
+                user.setUid(getNullAsEmptyString(userJson.get("uid")));
+            }
+
+        }, userElement);
         return user;
     }
 
