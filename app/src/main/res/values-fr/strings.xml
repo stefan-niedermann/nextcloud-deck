@@ -130,6 +130,7 @@
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau incluant ses listes et ses cartes.</string>
     <string name="settings_theme_title">Thème sombre</string>
     <string name="settings_branding_title">Marque</string>
+    <string name="settings_compact_title">Mode compact</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
     <string name="pref_value_wifi_only">Synchroniser uniquement en Wi-Fi</string>

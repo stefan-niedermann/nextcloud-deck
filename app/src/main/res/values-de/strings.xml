@@ -233,6 +233,8 @@
     <string name="error_dialog_we_need_info">Wir benötigen die folgenden technischen Informationen, um Ihnen helfen zu können:</string>
     <string name="error_dialog_redirect">Ihr Server hat mit einem HTTP 302-Statuscode geantwortet, was bedeutet, dass Sie die Deck-App nicht auf Ihrem Server installiert haben oder etwas falsch konfiguriert ist. Dies kann durch benutzerdefinierte Überschreibungen in einer .htaccess-Datei oder durch Nextcloud-Apps wie OID-Client verursacht werden.</string>
     <string name="error_dialog_version_not_parsable">Version der auf dem Server installierten Deck-App konnte nicht ermittelt werden. Bitte sicherstellen, dass die Deck-App intstalliert und aktiviert ist.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Das Konto Ihrer Nextcloud-App ist möglicherweise nicht mehr autorisiert.</string>
+    <string name="error_dialog_user_not_found_in_database">Der aktuelle Benutzer stimmt nicht mit dem Benutzer überein, den wir in unserer Datenbank haben. Wenn Sie LDAP in Ihrer Nextcloud-Instanz verwenden, hat Ihre Nextcloud-App möglicherweise eine alte Benutzer-ID gespeichert.</string>
     <string name="error_dialog_capabilities_not_parsable">Funktionsumfang Ihres Serves konnte nicht nicht abgerufen werden. Stellen Sie sicher, dass Ihr Server ordnungsgemäß funktioniert und Client-Apps auf Nextcloud zugreifen können.</string>
     <string name="error_dialog_attachment_upload_failed">Ein Anhang konnte nicht hochgeladen werden. Bitte versuchen Sie es auf andere Weise zu teilen und teilen Sie uns diesen Fehler mit.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Bitte alle Batterieoptimierungen für Nextcloud und die Deck-App deaktivieren.</string>
