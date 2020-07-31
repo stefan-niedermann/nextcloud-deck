@@ -237,6 +237,8 @@
     <string name="error_dialog_we_need_info">Potrzebujemy następujących informacji technicznych, aby Ci pomóc:</string>
     <string name="error_dialog_redirect">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Deck na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nie udało się ustalić wersji aplikacji Deck po stronie serwera. Upewnij się, że jest zainstalowany i włączony.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Konto Twojej aplikacji Nextcloud może nie być już autoryzowane.</string>
+    <string name="error_dialog_user_not_found_in_database">Bieżący użytkownik nie jest zgodny z użytkownikiem, którego mamy w naszej bazie danych. Jeśli używasz protokołu LDAP w swojej instancji Nextcloud, to Twoja aplikacja Nextcloud może przechowywać stary identyfikator użytkownika.</string>
     <string name="error_dialog_capabilities_not_parsable">Nie udało się sprawdzić możliwości Twojego serwera. Upewnij się, że serwer działa poprawnie oraz czy inne aplikacje klienckie mają dostęp do Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Nie można wysłać załącznika. Spróbuj udostępnić go w inny sposób oraz powiadom nas o tym błędzie.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Wyłącz wszystkie optymalizacje baterii dla aplikacji Nextcloud i aplikacji Deck.</string>

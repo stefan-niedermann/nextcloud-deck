@@ -242,6 +242,7 @@
     <string name="manage_list">リスト管理</string>
     <string name="simple_reply">返信</string>
     <string name="simple_report">報告</string>
+    <string name="error_action_open_battery_settings">バッテリー設定</string>
     <string name="widget_stack_title">リスト</string>
     <string name="project_type_file">ファイル</string>
     <string name="projects_title">プロジェクト</string>

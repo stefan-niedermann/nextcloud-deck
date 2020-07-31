@@ -237,6 +237,8 @@
     <string name="error_dialog_we_need_info">Abychom vám mohli pomoci, potřebujeme následující technické údaje:</string>
     <string name="error_dialog_redirect">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient.</string>
     <string name="error_dialog_version_not_parsable">Nepodařilo se zjistit verze aplikace Deck na straně serveru. Zajistěte, aby byla nainstalovaná a zapnutá.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Může být, že účet vaší Nextcloud aplikace už nemá potřebná pověření.</string>
+    <string name="error_dialog_user_not_found_in_database">Stávající uživatel se neshoduje s uživatelem, který je v databázi. Pokud na své instanci Nextcloud používáte LDAP, je možné, že Nextcloud aplikace má uložený starý identifikátor uživatele.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepodařilo se zjistit schopnosti serveru, který využíváte. Ověřte, že server v pořádku běží a ostatní klientské aplikace mohou k Nextcloud přistupovat.</string>
     <string name="error_dialog_attachment_upload_failed">Přílohu se nepodařilo nahrát. Zkuste ji nasdílet jiným způsobem a dejte nám o této chybě vědět.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">V nastavení systému prosím pro aplikace Nextcloud a Deck vypněte veškeré optimalizace spotřeby energie z akumulátoru.</string>

@@ -271,6 +271,7 @@
     <string name="project_type_file">Fitxategia</string>
     <string name="projects_title">Proiektuak</string>
     <string name="no_assigned_label">Esleitutako etiketarik ez</string>
+    <string name="single_card">Txartel bakana</string>
     <string name="project_type_room">Hitz egiteko gela</string>
     <string name="simple_move">Mugitu</string>
 </resources>
