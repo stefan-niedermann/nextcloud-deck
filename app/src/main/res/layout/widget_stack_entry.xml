@@ -18,6 +18,7 @@
             android:paddingEnd="@dimen/widget_stack_card_padding"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textSize="14sp"
+            android:textColor="@color/widget_foreground"
             tools:maxLength="60"
             tools:text="@tools:sample/lorem/random" />
 </LinearLayout>
