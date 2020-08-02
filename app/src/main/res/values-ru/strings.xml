@@ -38,6 +38,8 @@
     <string name="simple_disabled">отключено</string>
     <string name="simple_copied">Скопировано</string>
     <string name="simple_archive">Переместить в архив</string>
+    <string name="simple_unassigned">не назначен</string>
+
     <string name="edit_board">Редактировать доску</string>
     <string name="archive_board">Переместить доску в архив</string>
     <string name="delete_board">Удалить доску</string>
@@ -132,6 +134,7 @@
     <string name="delete_board_message">Это действие приведёт к удалению этой рабочей доски, всех списков и карточек.</string>
     <string name="settings_theme_title">Тёмное оформление</string>
     <string name="settings_branding_title">Брендирование</string>
+    <string name="settings_compact_title">компактный режим</string>
     <string name="settings_background_sync">Синхр. в фоновом режиме</string>
     <string name="pref_value_wifi_and_mobile">Синхр. по Wi-Fi и мобильной связи</string>
     <string name="pref_value_wifi_only">Синхр. только по Wi-Fi</string>
@@ -261,8 +264,15 @@
     </plurals>
     <string name="simple_report">Сообщить</string>
     <string name="error_action_open_battery_settings">Настройки аккумулятора</string>
+    <string name="move_warning">нет ни одного комментария или вложения, которые можно перенести при перемещении карточки на другую доску</string>
     <string name="clone_board">Скопировать доску</string>
+    <string name="cloning_board">Копирование %1$s...</string>
+    <string name="successfully_cloned_board">Успешно скопировано%1$s</string>
+    <string name="attachment_does_not_yet_exist">Вложение еще не создано в карточке</string>
+    <string name="card_does_not_yet_exist">Карточка не создана на доске</string>
+
     <string name="widget_stack_title">Список</string>
+    <string name="widget_stack_header_icon">иконка заголовка виджета</string>
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проекты</string>
     <string name="simple_move">Переместить</string>
