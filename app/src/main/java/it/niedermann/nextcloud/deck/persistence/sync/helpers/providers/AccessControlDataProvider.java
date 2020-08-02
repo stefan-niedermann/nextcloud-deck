@@ -14,7 +14,6 @@ import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
@@ -174,10 +173,5 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     @Override
     public List<AccessControl> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return dataBaseAdapter.getLocallyChangedAccessControl(accountId, board.getLocalId());
-    }
-
-    @Override
-    public void goDeeper(SyncHelper syncHelper, AccessControl existingEntity, AccessControl entityFromServer, IResponseCallback<Boolean> callback) {
-        super.goDeeper(syncHelper, existingEntity, entityFromServer, callback);
     }
 }
