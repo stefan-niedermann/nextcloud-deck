@@ -31,7 +31,7 @@ public class SyncHelper {
     // Sync Server -> App
     public <T extends IRemoteEntity> void  doSyncFor(final AbstractSyncDataProvider<T> provider){
         provider.registerChildInParent(provider);
-        provider.getAllFromServer(serverAdapter, accountId, new IResponseCallback<List<T>>(account) {
+        provider.getAllFromServer(serverAdapter, dataBaseAdapter, accountId, new IResponseCallback<List<T>>(account) {
             @Override
             public void onResponse(List<T> response) {
                 if (response != null) {

@@ -11,6 +11,8 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
+import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -32,6 +34,12 @@ public interface NextcloudServerAPI {
 
     @GET("apps/files_sharing/api/v1/sharees?format=json&perPage=20&itemType=0%2C1%2C7")
     Observable<OcsUserList> searchUser(@Query("search") String searchTerm);
+
+    @GET("cloud/groups/{search}?format=json")
+    Observable<GroupMemberUIDs> searchGroupMembers(@Path("search") String groupUid);
+
+    @GET("cloud/users/{search}?format=json")
+    Observable<OcsUser> getSingleUserData(@Path("search") String userUid);
 
     @GET("apps/activity/api/v2/activity/filter?format=json&object_type=deck_card&limit=50&since=-1&sort=asc")
     Observable<List<Activity>> getActivitiesForCard(@Query("object_id") long cardId);

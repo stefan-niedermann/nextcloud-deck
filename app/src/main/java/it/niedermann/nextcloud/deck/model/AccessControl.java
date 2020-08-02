@@ -8,6 +8,7 @@ import androidx.room.Index;
 import com.google.gson.annotations.SerializedName;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 
 @Entity(inheritSuperIndices = true,
     indices = {
@@ -35,6 +36,8 @@ public class AccessControl extends AbstractRemoteEntity {
     @Ignore
     @SerializedName("participant")
     private User user;
+    @Ignore
+    private GroupMemberUIDs groupMemberUIDs;
 
     public AccessControl() {
         super();
@@ -113,6 +116,14 @@ public class AccessControl extends AbstractRemoteEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public GroupMemberUIDs getGroupMemberUIDs() {
+        return groupMemberUIDs;
+    }
+
+    public void setGroupMemberUIDs(GroupMemberUIDs groupMemberUIDs) {
+        this.groupMemberUIDs = groupMemberUIDs;
     }
 
     @Override

@@ -2,16 +2,23 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
+import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
+import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 
 public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
+    private static final Long TYPE_GROUP = 1L;
     private List<AccessControl> acl;
     private FullBoard board;
 
@@ -22,8 +29,67 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     }
 
     @Override
-    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<AccessControl>> responder, Date lastSync) {
+    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<AccessControl>> responder, Date lastSync) {
+        CountDownLatch latch = new CountDownLatch(acl.size());
+        for (AccessControl accessControl : acl) {
+            if (accessControl.getType() == TYPE_GROUP) {
+                serverAdapter.searchGroupMembers(accessControl.getUser().getUid(), new IResponseCallback<GroupMemberUIDs>(responder.getAccount()) {
+                    @Override
+                    public void onResponse(GroupMemberUIDs response) {
+                        accessControl.setGroupMemberUIDs(response);
+                        if (response.getUids().size() > 0) {
+                            ensureGroupMembersInDB(getAccount(), dataBaseAdapter, serverAdapter, response);
+                        }
+                        latch.countDown();
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                        latch.countDown();
+                    }
+                });
+            } else latch.countDown();
+        }
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         responder.onResponse(acl);
+    }
+
+    private void ensureGroupMembersInDB(Account account, DataBaseAdapter dataBaseAdapter, ServerAdapter serverAdapter, GroupMemberUIDs response) {
+        CountDownLatch memberLatch = new CountDownLatch(response.getUids().size());
+        for (String uid : response.getUids()) {
+            User user = dataBaseAdapter.getUserByUidDirectly(account.getId(), uid);
+            if (user == null) {
+                // unknown user. fetch!
+                serverAdapter.getSingleUserData(uid, new IResponseCallback<OcsUser>(account) {
+                    @Override
+                    public void onResponse(OcsUser response) {
+                        DeckLog.log(response.toString());
+                        User user = new User();
+                        user.setUid(response.getId());
+                        user.setPrimaryKey(response.getId());
+                        user.setDisplayname(response.getDisplayName());
+                        dataBaseAdapter.createUser(account.getId(), user);
+                        memberLatch.countDown();
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                        memberLatch.countDown();
+                    }
+                });
+            } else memberLatch.countDown();
+        }
+        try {
+            memberLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -33,8 +99,10 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
+        //TODO delete members from relation table
         prepareUser(dataBaseAdapter, accountId, entity);
         return dataBaseAdapter.createAccessControl(accountId, entity);
+        //TODO add members to relation table
     }
 
     private void prepareUser(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
@@ -51,8 +119,10 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity, boolean setStatus) {
+        //TODO delete members from relation table
         prepareUser(dataBaseAdapter, accountId, entity);
         dataBaseAdapter.updateAccessControl(entity, setStatus);
+        //TODO delete members from relation table
     }
 
     @Override
@@ -90,5 +160,10 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     @Override
     public List<AccessControl> getAllChangedFromDB(DataBaseAdapter dataBaseAdapter, long accountId, Date lastSync) {
         return dataBaseAdapter.getLocallyChangedAccessControl(accountId, board.getLocalId());
+    }
+
+    @Override
+    public void goDeeper(SyncHelper syncHelper, AccessControl existingEntity, AccessControl entityFromServer, IResponseCallback<Boolean> callback) {
+        super.goDeeper(syncHelper, existingEntity, entityFromServer, callback);
     }
 }
