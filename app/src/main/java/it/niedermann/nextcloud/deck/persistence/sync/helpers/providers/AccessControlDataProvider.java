@@ -99,10 +99,24 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
-        //TODO delete members from relation table
         prepareUser(dataBaseAdapter, accountId, entity);
-        return dataBaseAdapter.createAccessControl(accountId, entity);
-        //TODO add members to relation table
+        long newId = dataBaseAdapter.createAccessControl(accountId, entity);
+        entity.setLocalId(newId);
+        handleGroupMemberships(dataBaseAdapter, entity);
+        return newId;
+    }
+
+    private void handleGroupMemberships(DataBaseAdapter dataBaseAdapter, AccessControl entity) {
+        if (entity.getType() != TYPE_GROUP) {
+            return;
+        }
+        dataBaseAdapter.deleteGroupMembershipsOfGroup(entity.getUser().getLocalId());
+        for (String groupMemberUID : entity.getGroupMemberUIDs().getUids()) {
+            User member = dataBaseAdapter.getUserByUidDirectly(entity.getAccountId(), groupMemberUID);
+            if (member != null) {
+                dataBaseAdapter.addUserToGroup(entity.getUserId(), member.getLocalId());
+            }
+        }
     }
 
     private void prepareUser(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity) {
@@ -119,10 +133,9 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity, boolean setStatus) {
-        //TODO delete members from relation table
         prepareUser(dataBaseAdapter, accountId, entity);
         dataBaseAdapter.updateAccessControl(entity, setStatus);
-        //TODO delete members from relation table
+        handleGroupMemberships(dataBaseAdapter, entity);
     }
 
     @Override
@@ -149,7 +162,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl accessControl) {
-        //TODO delete members from relation table
+        dataBaseAdapter.deleteGroupMembershipsOfGroup(accessControl.getUser().getLocalId());
         dataBaseAdapter.deleteAccessControl(accessControl, false);
     }
 
