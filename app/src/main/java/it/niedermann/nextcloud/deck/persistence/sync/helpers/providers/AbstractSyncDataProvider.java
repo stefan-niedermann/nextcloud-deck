@@ -67,7 +67,13 @@ public abstract class AbstractSyncDataProvider<T extends IRemoteEntity> {
         children.add(child);
     }
 
-    public abstract void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync);
+    public void getAllFromServer(ServerAdapter serverAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync) {
+        return;
+    }
+    public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<T>> responder, Date lastSync) {
+        // Overridden, because we also need the DB-Adapter at some points here (see ACL data provider)
+        getAllFromServer(serverAdapter, accountId, responder, lastSync);
+    }
 
     public abstract T getSingleFromDB(DataBaseAdapter dataBaseAdapter, long accountId, T entity);
 

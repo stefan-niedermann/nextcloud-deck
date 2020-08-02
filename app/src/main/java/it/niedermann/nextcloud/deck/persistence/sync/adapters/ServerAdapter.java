@@ -42,6 +42,8 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
+import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
+import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 import it.niedermann.nextcloud.deck.model.propagation.CardUpdate;
 import it.niedermann.nextcloud.deck.model.propagation.Reorder;
@@ -163,6 +165,15 @@ public class ServerAdapter {
     public void searchUser(String searchTerm, IResponseCallback<OcsUserList> responseCallback) {
         ensureInternetConnection();
         RequestHelper.request(provider, () -> provider.getNextcloudAPI().searchUser(searchTerm), responseCallback);
+    }
+    public void getSingleUserData(String userUid, IResponseCallback<OcsUser> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().getSingleUserData(userUid), responseCallback);
+    }
+
+     public void searchGroupMembers(String groupUID, IResponseCallback<GroupMemberUIDs> responseCallback) {
+        ensureInternetConnection();
+        RequestHelper.request(provider, () -> provider.getNextcloudAPI().searchGroupMembers(groupUID), responseCallback);
     }
 
     public void getActivitiesForCard(long cardId, IResponseCallback<List<it.niedermann.nextcloud.deck.model.ocs.Activity>> responseCallback) {

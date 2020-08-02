@@ -34,6 +34,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 
@@ -57,14 +58,36 @@ public class JsonToEntityParser {
             return (T) parseCapabilities(obj);
         } else if (mType == OcsUserList.class) {
             return (T) parseOcsUserList(obj);
+        } else if (mType == OcsUser.class) {
+            return (T) parseSingleOcsUser(obj);
         } else if (mType == Attachment.class) {
             return (T) parseAttachment(obj);
         } else if (mType == OcsComment.class) {
             return (T) parseOcsComment(obj);
+        } else if (mType == GroupMemberUIDs.class) {
+            return (T) parseGroupMemberUIDs(obj);
         } else if (mType == OcsProjectList.class) {
             return (T) parseOcsProjectList(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
+    }
+
+    private static GroupMemberUIDs parseGroupMemberUIDs(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        GroupMemberUIDs uids = new GroupMemberUIDs();
+        makeTraceableIfFails(() -> {
+            JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+            if (!data.isJsonNull() && data.getAsJsonObject().has("users")) {
+                JsonElement users = data.getAsJsonObject().get("users");
+                if (!users.isJsonNull() && users.isJsonArray()) {
+                    for (JsonElement userElement : users.getAsJsonArray()) {
+                        uids.add(userElement.getAsString());
+                    }
+                }
+            }
+
+        }, obj);
+        return uids;
     }
 
     private static OcsUserList parseOcsUserList(JsonObject obj) {
@@ -90,6 +113,24 @@ public class JsonToEntityParser {
 
         }, obj);
         return ocsUserList;
+    }
+    private static OcsUser parseSingleOcsUser(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        OcsUser ocsUser = new OcsUser();
+        makeTraceableIfFails(() -> {
+            JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+            if (!data.isJsonNull()) {
+                JsonObject user = data.getAsJsonObject();
+                if (user.has("id")){
+                    ocsUser.setId(user.get("id").getAsString());
+                }
+                if (user.has("displayname")){
+                    ocsUser.setDisplayName(user.get("displayname").getAsString());
+                }
+            }
+
+        }, obj);
+        return ocsUser;
     }
     private static OcsProjectList parseOcsProjectList(JsonObject obj) {
         DeckLog.verbose(obj.toString());
