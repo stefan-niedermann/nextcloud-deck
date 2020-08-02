@@ -54,7 +54,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
         try {
             latch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            DeckLog.logError(e);
         }
         responder.onResponse(acl);
     }
@@ -88,7 +88,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
         try {
             memberLatch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            DeckLog.logError(e);
         }
     }
 
@@ -149,6 +149,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public void deletePhysicallyInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl accessControl) {
+        //TODO delete members from relation table
         dataBaseAdapter.deleteAccessControl(accessControl, false);
     }
 

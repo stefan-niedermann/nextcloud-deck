@@ -36,6 +36,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.AccessControlDao;
@@ -85,9 +86,10 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.Sta
                 OcsProject.class,
                 OcsProjectResource.class,
                 JoinCardWithProject.class,
+                UserInGroup.class,
         },
         exportSchema = false,
-        version = 19
+        version = 20
 )
 @TypeConverters({DateTypeConverter.class})
 public abstract class DeckDatabase extends RoomDatabase {
@@ -236,6 +238,20 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("CREATE UNIQUE INDEX `index_OcsProjectResource_accountId_id` ON `OcsProjectResource` (`accountId`, `id`, `idString`, `projectId`)");
         }
     };
+    private static final Migration MIGRATION_19_20 = new Migration(19, 20) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/492
+            // https://github.com/stefan-niedermann/nextcloud-deck/issues/631
+            database.execSQL("CREATE TABLE `UserInGroup` (`groupId` INTEGER NOT NULL, `memberId` INTEGER NOT NULL, " +
+                    "primary KEY(`groupId`, `memberId`), " +
+                    "FOREIGN KEY(`groupId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE, " +
+                    "FOREIGN KEY(`memberId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE)");
+            database.execSQL("CREATE UNIQUE INDEX `unique_idx_group_member` ON `UserInGroup` (`groupId`, `memberId`)");
+            database.execSQL("CREATE INDEX `index_UserInGroup_groupId` ON `UserInGroup` (`groupId`)");
+            database.execSQL("CREATE INDEX `index_UserInGroup_memberId` ON `UserInGroup` (`memberId`)");
+        }
+    };
 
     public static final RoomDatabase.Callback ON_CREATE_CALLBACK = new RoomDatabase.Callback() {
         @Override
@@ -281,6 +297,7 @@ public abstract class DeckDatabase extends RoomDatabase {
                 .addMigrations(MIGRATION_16_17)
                 .addMigrations(MIGRATION_17_18)
                 .addMigrations(MIGRATION_18_19)
+                .addMigrations(MIGRATION_19_20)
                 .fallbackToDestructiveMigration()
                 .addCallback(ON_CREATE_CALLBACK)
                 .build();
