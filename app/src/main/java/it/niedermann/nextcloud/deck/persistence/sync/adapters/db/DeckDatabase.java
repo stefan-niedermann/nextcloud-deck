@@ -56,6 +56,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserInGroupDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.JoinCardWithOcsProjectDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectResourceDao;
@@ -346,4 +347,6 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract OcsProjectResourceDao getOcsProjectResourceDao();
 
     public abstract JoinCardWithOcsProjectDao getJoinCardWithOcsProjectDao();
+
+    public abstract UserInGroupDao getUserInGroupDao();
 }
