@@ -79,9 +79,9 @@ public interface UserDao extends GenericDao<User> {
             "    AND" +
             "            (" +
             "                    EXISTS (" +
-            "                    select 1 from accesscontrol" + //                          v GROUP!
-            "                    where userId = u.localId and boardId = :boardId " +
-            "                       OR (type = 1 and exists(select 1 from UserInGroup uig where uig.memberId = u.localId and uig.groupId = userId))" +
+            "                    select 1 from accesscontrol" + //  v GROUP!
+            "                    where (userId = u.localId OR (type = 1 and exists(select 1 from UserInGroup uig where uig.memberId = u.localId and uig.groupId = userId))) " +
+            "                       and boardId = :boardId" +
             "            )" +
             "    OR" +
             "    EXISTS (" +
