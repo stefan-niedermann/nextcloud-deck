@@ -233,6 +233,8 @@
     <string name="error_dialog_we_need_info">Nous avons besoin des informations techniques suivantes pour pouvoir vous aider :</string>
     <string name="error_dialog_redirect">Votre serveur a répondu avec le code d\'état HTTP 302, ce qui implique que vous n\'avez pas installé l\'application Deck sur votre serveur ou que quelque chose est mal configuré. Cela peut être dû à des modifications personnalisés du fichier .htaccess ou à des applications Nextcloud comme un client OID. Vous pouvez trouver nos coordonnées pour le support dans la section «À propos».</string>
     <string name="error_dialog_version_not_parsable">Nous n\'avons pas pu déterminer la version de l\'app Deck côté serveur. Veuillez vérifier qu\'elle est bien installé et activé.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Le compte de votre application Nextcloud peut ne plus être autorisé.</string>
+    <string name="error_dialog_user_not_found_in_database">L\'utilisateur actuel est différent de l\'utilisateur que nous avons dans notre base de données. Si vous utilisez LDAP sur votre instance Nextcloud, alors votre application Nextcloud peut avoir stocké un vieux identifiant utilisateur</string>
     <string name="error_dialog_capabilities_not_parsable">Nous n\'avons pas pu récupérer les capacités de votre serveur. Veuillez vous assurer que votre serveur fonctionne bien et que les autres apps client peuvent accéder à Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Une pièce jointe n’a pas pu être téléversée. Veuillez essayer de la partager d’une autre façon et faites-nous part de ce bogue.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Merci de bien vouloir désactiver toutes les optimisations de batterie pour Nextcloud et l\'application Deck.</string>
@@ -267,6 +269,7 @@
     <string name="card_does_not_yet_exist">Carte non encore présente dans le tableau</string>
 
     <string name="widget_stack_title">Liste</string>
+    <string name="select_stack">Sélectionner la liste</string>
     <string name="project_type_file">Fichier</string>
     <string name="projects_title">Projets</string>
     <string name="simple_move">Déplacer</string>
