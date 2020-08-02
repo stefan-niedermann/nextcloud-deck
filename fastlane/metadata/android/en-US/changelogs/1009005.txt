@@ -1,0 +1,2 @@
+- 🌗 Fixed list widget in system dark mode (#638)
+- 🌎 Language updates
