@@ -110,6 +110,9 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
             return;
         }
         dataBaseAdapter.deleteGroupMembershipsOfGroup(entity.getUser().getLocalId());
+        if (entity.getGroupMemberUIDs() == null) {
+            return;
+        }
         for (String groupMemberUID : entity.getGroupMemberUIDs().getUids()) {
             User member = dataBaseAdapter.getUserByUidDirectly(entity.getAccountId(), groupMemberUID);
             if (member != null) {
