@@ -123,6 +123,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
         if (user == null) {
             long userId = dataBaseAdapter.createUser(accountId, entity.getUser());
             entity.setUserId(userId);
+            entity.getUser().setLocalId(userId);
         } else {
             entity.setUserId(user.getLocalId());
             entity.getUser().setLocalId(user.getLocalId());
