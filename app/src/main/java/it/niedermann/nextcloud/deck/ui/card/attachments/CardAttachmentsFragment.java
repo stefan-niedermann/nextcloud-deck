@@ -264,7 +264,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         if (!viewModel.isCreateMode() && attachment.getLocalId() != null) {
             final WrappedLiveData<Void> deleteLiveData = syncManager.deleteAttachmentOfCard(viewModel.getAccount().getId(), viewModel.getFullCard().getLocalId(), attachment.getLocalId());
             observeOnce(deleteLiveData, this, (next) -> {
-                if (deleteLiveData.hasError()) {
+                if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                     ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             });

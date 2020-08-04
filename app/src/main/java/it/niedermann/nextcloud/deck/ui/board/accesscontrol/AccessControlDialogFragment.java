@@ -116,7 +116,7 @@ public class AccessControlDialogFragment extends BrandedDialogFragment implement
         final WrappedLiveData<Void> wrappedDeleteLiveData = syncManager.deleteAccessControl(ac);
         adapter.remove(ac);
         observeOnce(wrappedDeleteLiveData, this, (ignored) -> {
-            if (wrappedDeleteLiveData.hasError()) {
+            if (wrappedDeleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(wrappedDeleteLiveData.getError())) {
                 DeckLog.logError(wrappedDeleteLiveData.getError());
                 BrandedSnackbar.make(requireView(), getString(R.string.error_revoking_ac, ac.getUser().getDisplayname()), Snackbar.LENGTH_LONG)
                         .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(wrappedDeleteLiveData.getError(), viewModel.getCurrentAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))

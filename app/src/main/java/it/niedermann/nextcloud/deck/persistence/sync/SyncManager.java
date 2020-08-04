@@ -1887,4 +1887,11 @@ public class SyncManager {
     private static class BooleanResultHolder {
         public boolean result = true;
     }
+
+    /**
+     * FIXME https://github.com/stefan-niedermann/nextcloud-deck/issues/640
+     */
+    public static boolean ignoreExceptionOnVoidError(Throwable t) {
+        return t instanceof NullPointerException && "Attempt to invoke interface method 'void io.reactivex.disposables.Disposable.dispose()' on a null object reference".equals(t.getMessage());
+    }
 }
