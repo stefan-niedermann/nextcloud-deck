@@ -230,10 +230,6 @@
     <string name="append_text_to_description">Lägg till beskrivning</string>
     <string name="add_text_as_comment">Lägg till som kommentar</string>
     <string name="progress_count">%1$d av %2$d</string>
-    <plurals name="progress_error_count">
-        <item quantity="one">%1$d fel vid uppladdning.</item>
-        <item quantity="other">%1$d fel vid uppladdning</item>
-    </plurals>
     <string name="simple_report">Rapportera</string>
     <string name="clone_board">Kopiera tavla</string>
     <string name="widget_stack_title">Lista</string>

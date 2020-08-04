@@ -255,10 +255,6 @@
     <string name="append_text_to_description">Anexo á descrición</string>
     <string name="add_text_as_comment">Engadir como comentario</string>
     <string name="progress_count">%1$d de %2$d</string>
-    <plurals name="progress_error_count">
-        <item quantity="one">%1$d  erros ao enviar.</item>
-        <item quantity="other">%1$d erros ao enviar.</item>
-    </plurals>
     <string name="simple_report">Informe</string>
     <string name="error_action_open_battery_settings">Axustes da batería</string>
     <string name="move_warning">Non é posíbel transferir nin comentarios nin ficheiros anexos ao mover a tarxeta a outro taboleiro.</string>

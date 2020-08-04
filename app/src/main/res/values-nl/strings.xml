@@ -253,10 +253,6 @@
     <string name="append_text_to_description">Toevoegen aan beschrijving</string>
     <string name="add_text_as_comment">Toevoegen als opmerking</string>
     <string name="progress_count">%1$d op %2$d</string>
-    <plurals name="progress_error_count">
-        <item quantity="one">%1$d fout bij uploaden.</item>
-        <item quantity="other">%1$d fouten bij uploaden</item>
-    </plurals>
     <string name="simple_report">Rapporteer</string>
     <string name="error_action_open_battery_settings">Batterij instellingen</string>
     <string name="clone_board">Dupliceer bord</string>

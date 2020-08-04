@@ -237,6 +237,8 @@
     <string name="error_dialog_we_need_info">Aby sme vám pomohli, potrebujeme následovné technické informácie:</string>
     <string name="error_dialog_redirect">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými zmenami v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nepodarilo sa určiť verziu aplikácie Deck na strane servera. Skontrolujte, či je nainštalovaný a povolený.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Účet vašej aplikácie Nextcloud už nemusí byť autorizovaný.</string>
+    <string name="error_dialog_user_not_found_in_database">Aktuálny používateľ sa nezhoduje s používateľom, ktorý máme v našej databáze. Ak používate server LDAP vo vašej inštancii Nextcloud, vaša aplikácia Nextcloud pravdepodobne uložila staré ID používateľa.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepodarilo sa načítať možnosti vášho servera. Uistite sa, že váš server funguje správne a že ďalšie klientske aplikácie majú prístup k serveru Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Prílohu nebolo možné nahrať. Skúste to zdieľať iným spôsobom a dajte nám vedieť o tejto chybe.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vypnite všetky optimalizácie batérie pre aplikácie Nextcloud a Deck.</string>
@@ -257,12 +259,6 @@
     <string name="append_text_to_description">Pripojiť k popisu</string>
     <string name="add_text_as_comment">Pridať ako komentár</string>
     <string name="progress_count">%1$d z %2$d</string>
-    <plurals name="progress_error_count">
-        <item quantity="one">%1$d chyba pri nahrávaní</item>
-        <item quantity="few">%1$d chyby pri nahrávaní</item>
-        <item quantity="many">%1$d chyby pri nahrávaní</item>
-        <item quantity="other">%1$d chýb pri nahrávaní</item>
-    </plurals>
     <string name="simple_report">Hlásenie</string>
     <string name="error_action_open_battery_settings">Nastavenia batérie.</string>
     <string name="move_warning">Pri presúvaní karty na inú nástenku nie je možné prenášať komentáre ani prílohy.</string>
