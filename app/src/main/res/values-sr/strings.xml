@@ -126,12 +126,13 @@
     </plurals>
     <string name="add_a_new_list_using_the_button">Додај нови списак користећи + дугме</string>
     <string name="add_a_new_card_using_the_button">Додајте нову картицу на + дугме</string>
-    <string name="update_deck">Ажурирај шпил</string>
+    <string name="update_deck">Ажурирај Шпил</string>
     <string name="your_deck_version_is_too_old">Ваша верзија Шпила је превише стара</string>
     <string name="deck_outdated_please_update">Верзија апликације Шпил је стара (%1$s). Ажурирајте да бисте користили ову Андроид апликацију као клијента.</string>
     <string name="delete_board_message">Ово ће трајно да уклони ову таблу укључујући све спискове и картице.</string>
     <string name="settings_theme_title">Тамна тема</string>
     <string name="settings_branding_title">Брендирање</string>
+    <string name="settings_compact_title">Компактан режим</string>
     <string name="settings_background_sync">Позадинска синхронизација</string>
     <string name="pref_value_wifi_and_mobile">Синхронизуј и на бежичној и на мобилној вези</string>
     <string name="pref_value_wifi_only">Синхронизуј само преко бежичне везе</string>
@@ -234,6 +235,8 @@
     <string name="error_dialog_we_need_info">Потребне су нам следеће техничке информација да бисмо Вам помогли:</string>
     <string name="error_dialog_redirect">Сервер је одговорио са HTTP 302 кодом, што значи да немате инсталирану Deck апликацију или да Вам сервер није правилно конфигурисан. Ово може да буде проузорковано произвољним додавањима у .htaccess фајлу или другим Некстклауд апликацијама као што је OID Client.</string>
     <string name="error_dialog_version_not_parsable">Не можемо да одредимо серверску верзију апликације Шпила. Проверите да ли је инсталирана и укључена.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ваш налог од Некстклауд апликације можда више није ауторизован.</string>
+    <string name="error_dialog_user_not_found_in_database">Тренутни корисник се не поклапа са корисником у нашој бази података. Ако користите LDAP у тренутној Некстклауд сесији, вероватно Вам је Некстклауд апликација сачувала стари кориснички ИД.</string>
     <string name="error_dialog_capabilities_not_parsable">Не можемо да дохватимо могућности Вашег сервера. Проверите да Вам сервер ради добро и да ли друге клијентске апликације могу да му приступе.</string>
     <string name="error_dialog_attachment_upload_failed">Прилог није могао бити отпремљен. Молимо пробајте да га поделите на други начин и пријавите нам ову грешку.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Искључите све оптимизације батерије за Некстаклауд и Шпил апликације.</string>
@@ -254,11 +257,6 @@
     <string name="append_text_to_description">Придодај на опис</string>
     <string name="add_text_as_comment">Додај као коментар</string>
     <string name="progress_count">%1$d од %2$d</string>
-    <plurals name="progress_error_count">
-        <item quantity="one">%1$d грешка приликом отпремања.</item>
-        <item quantity="few">%1$d грешке приликом отпремања.</item>
-        <item quantity="other">%1$d грешака приликом отпремања.</item>
-    </plurals>
     <string name="simple_report">Пријави</string>
     <string name="error_action_open_battery_settings">Подешавања батерије</string>
     <string name="move_warning">Ни коментари ни прилози не могу да се пребаце када се картица помера на другу таблу.</string>
@@ -269,7 +267,20 @@
     <string name="card_does_not_yet_exist">Картица још не постоји у Шпил апликацији</string>
 
     <string name="widget_stack_title">Излистај</string>
+    <string name="widget_stack_header_icon">Заглавње иконице виџета</string>
+    <string name="widget_stack_placeholder_icon">Иконица виџета</string>
+    <string name="select_stack">Одабир списка</string>
+    <string name="project_type_deck_board">Табла Шпила</string>
+    <string name="project_type_deck_card">Картица Шпила</string>
     <string name="project_type_file">Фајл</string>
     <string name="projects_title">Пројекти</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d ресурс</item>
+        <item quantity="few">%1$d ресурси</item>
+        <item quantity="other">%1$d ресурси</item>
+    </plurals>
+    <string name="no_assigned_label">Нема додељене ознаке</string>
+    <string name="single_card">Засебна картица</string>
+    <string name="project_type_room">Причаоница</string>
     <string name="simple_move">Помери</string>
 </resources>

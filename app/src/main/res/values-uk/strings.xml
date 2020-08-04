@@ -239,12 +239,6 @@
     <string name="append_text_to_description">Додати до опису</string>
     <string name="add_text_as_comment">Додати коментар</string>
     <string name="progress_count">%1$d з %2$d</string>
-    <plurals name="progress_error_count">
-        <item quantity="one">Помилка під час завантаження: %1$d</item>
-        <item quantity="few">Помилки під час завантаження: %1$d</item>
-        <item quantity="many">Помилок під час завантаження: %1$d</item>
-        <item quantity="other">Помилок під час завантаження: %1$d</item>
-    </plurals>
     <string name="simple_report">Звіт</string>
     <string name="error_action_open_battery_settings">Налаштування батареї</string>
     <string name="move_warning">У разі переміщення картки до іншої дошки коментарі та вкладення не буде перенесено.</string>

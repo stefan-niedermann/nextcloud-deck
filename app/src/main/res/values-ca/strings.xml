@@ -253,10 +253,6 @@
     <string name="append_text_to_description">Apunteu a la descripció</string>
     <string name="add_text_as_comment">Afegir com a comentari</string>
     <string name="progress_count">%1$d de %2$d</string>
-    <plurals name="progress_error_count">
-        <item quantity="one">%1$d al moment de pujar</item>
-        <item quantity="other">%1$d errors al moment de pujar</item>
-    </plurals>
     <string name="simple_report">Informar</string>
     <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
     <string name="move_warning">Ni es poden transferir comentaris ni fitxers adjunts quan es mogui la targeta a un altre tauler.</string>
