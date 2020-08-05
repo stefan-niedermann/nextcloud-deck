@@ -76,13 +76,16 @@ public interface UserDao extends GenericDao<User> {
             "            where ju.userId = u.localId" +
             "            and ju.cardId = :notAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             "    )" +
-            "    AND" +
-            "            (" +
-            "                    EXISTS (" +
-            "                    select 1 from accesscontrol" + //  v GROUP!
-            "                    where (userId = u.localId OR (type = 1 and exists(select 1 from UserInGroup uig where uig.memberId = u.localId and uig.groupId = userId))) " +
-            "                       and boardId = :boardId" +
-            "            )" +
+            "  AND ( " +
+            "    EXISTS (" +
+            "            select 1 from userinboard where boardId = :boardId AND userId = u.localId" +
+            "    )" +
+            "    OR" +
+            "    EXISTS (" +
+            "       select 1 from accesscontrol" + //  v GROUP!
+            "       where (userId = u.localId OR (type = 1 and exists(select 1 from UserInGroup uig where uig.memberId = u.localId and uig.groupId = userId))) " +
+            "           and boardId = :boardId" +
+            "    )" +
             "    OR" +
             "    EXISTS (" +
             "            select 1 from board where localId = :boardId AND ownerId = u.localId" +

@@ -339,12 +339,19 @@ public class JsonToEntityParser {
                 }
             }
 
-            JsonElement owner = e.get("owner");
-            if (owner != null) {
-                if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                    DeckLog.verbose("owner is Primitive, skipping");
-                } else
-                    fullBoard.setOwner(parseUser(owner));
+            if (e.has("owner")) {
+                fullBoard.setOwner(parseUser(e.get("owner")));
+            }
+            if (e.has("users")) {
+                JsonElement users = e.get("users");
+                if (users != null && !users.isJsonNull() && users.isJsonArray()) {
+                    JsonArray usersArray = users.getAsJsonArray();
+                    List<User> usersList = new ArrayList<>();
+                    for (JsonElement userJson : usersArray) {
+                        usersList.add(parseUser(userJson));
+                    }
+                    fullBoard.setUsers(usersList);
+                }
             }
         }, e);
         return fullBoard;

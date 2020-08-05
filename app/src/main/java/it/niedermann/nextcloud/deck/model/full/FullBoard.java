@@ -30,6 +30,8 @@ public class FullBoard implements IRemoteEntity {
     @Relation(entity = Stack.class, parentColumn = "localId", entityColumn = "boardId")
     public List<Stack> stacks;
 
+    @Ignore
+    public List<User> users;
 
     public User getOwner() {
         return owner;
@@ -53,6 +55,14 @@ public class FullBoard implements IRemoteEntity {
 
     public void setLabels(List<Label> labels) {
         this.labels = labels;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Ignore
