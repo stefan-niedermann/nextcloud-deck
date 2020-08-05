@@ -43,6 +43,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
@@ -369,11 +370,21 @@ public class DataBaseAdapter {
     public void deleteGroupMembershipsOfGroup(Long localGroupUserId) {
         db.getUserInGroupDao().deleteByGroupId(localGroupUserId);
     }
+    public void deleteBoardMembershipsOfBoard(Long localBoardId) {
+        db.getUserInBoardDao().deleteByBoardId(localBoardId);
+    }
     public void addUserToGroup(Long localGroupUserId, Long localGroupMemberId) {
         UserInGroup relation = new UserInGroup();
         relation.setGroupId(localGroupUserId);
         relation.setMemberId(localGroupMemberId);
         db.getUserInGroupDao().insert(relation);
+    }
+
+    public void addUserToBoard(Long localUserId, Long localBoardId) {
+        UserInBoard relation = new UserInBoard();
+        relation.setBoardId(localBoardId);
+        relation.setUserId(localUserId);
+        db.getUserInBoardDao().insert(relation);
     }
 
     public void updateLabel(Label label, boolean setStatus) {

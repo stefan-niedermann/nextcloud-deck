@@ -36,6 +36,7 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
 import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncWorker;
@@ -56,6 +57,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.MentionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.PermissionDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.StackDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserDao;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserInBoardDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.UserInGroupDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.JoinCardWithOcsProjectDao;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.projects.OcsProjectDao;
@@ -88,6 +90,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.dao.widgets.Sta
                 OcsProjectResource.class,
                 JoinCardWithProject.class,
                 UserInGroup.class,
+                UserInBoard.class,
         },
         exportSchema = false,
         version = 20
@@ -251,6 +254,14 @@ public abstract class DeckDatabase extends RoomDatabase {
             database.execSQL("CREATE UNIQUE INDEX `unique_idx_group_member` ON `UserInGroup` (`groupId`, `memberId`)");
             database.execSQL("CREATE INDEX `index_UserInGroup_groupId` ON `UserInGroup` (`groupId`)");
             database.execSQL("CREATE INDEX `index_UserInGroup_memberId` ON `UserInGroup` (`memberId`)");
+
+            database.execSQL("CREATE TABLE `UserInBoard` (`userId` INTEGER NOT NULL, `boardId` INTEGER NOT NULL, " +
+                    "primary KEY(`userId`, `boardId`), " +
+                    "FOREIGN KEY(`userId`) REFERENCES `User`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE, " +
+                    "FOREIGN KEY(`boardId`) REFERENCES `Board`(`localId`) ON UPDATE NO ACTION ON DELETE CASCADE)");
+            database.execSQL("CREATE UNIQUE INDEX `unique_idx_user_board` ON `UserInBoard` (`userId`, `boardId`)");
+            database.execSQL("CREATE INDEX `index_UserInBoard_userId` ON `UserInBoard` (`userId`)");
+            database.execSQL("CREATE INDEX `index_UserInBoard_boardId` ON `UserInBoard` (`boardId`)");
         }
     };
 
@@ -349,4 +360,6 @@ public abstract class DeckDatabase extends RoomDatabase {
     public abstract JoinCardWithOcsProjectDao getJoinCardWithOcsProjectDao();
 
     public abstract UserInGroupDao getUserInGroupDao();
+
+    public abstract UserInBoardDao getUserInBoardDao();
 }

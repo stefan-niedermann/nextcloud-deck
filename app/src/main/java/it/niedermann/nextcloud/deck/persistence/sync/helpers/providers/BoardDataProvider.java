@@ -39,26 +39,44 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         handleOwner(dataBaseAdapter, accountId, entity);
+        handleUsers(dataBaseAdapter, accountId, entity);
         return dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
     }
 
     private void handleOwner(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         if (entity.getOwner()!=null) {
-            User remoteOwner = entity.getOwner();
-            User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
-            if (owner == null){
-                dataBaseAdapter.createUser(accountId, remoteOwner);
-            } else {
-                dataBaseAdapter.updateUser(accountId, remoteOwner, false);
-            }
-            owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteOwner.getUid());
+            User owner = createOrUpdateUser(dataBaseAdapter,accountId, entity.getOwner());
             entity.getBoard().setOwnerId(owner.getLocalId());
         }
+    }
+
+    private void handleUsers(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
+        dataBaseAdapter.deleteBoardMembershipsOfBoard(entity.getLocalId());
+        if (entity.getUsers()!=null && !entity.getUsers().isEmpty()) {
+            for (User user : entity.getUsers()) {
+                if (user == null) {
+                    continue;
+                }
+                User existing = createOrUpdateUser(dataBaseAdapter, accountId, user);
+                dataBaseAdapter.addUserToBoard(existing.getLocalId(), entity.getLocalId());
+            }
+        }
+    }
+
+    private User createOrUpdateUser(DataBaseAdapter dataBaseAdapter, long accountId, User remoteUser) {
+        User owner = dataBaseAdapter.getUserByUidDirectly(accountId, remoteUser.getUid());
+        if (owner == null){
+            dataBaseAdapter.createUser(accountId, remoteUser);
+        } else {
+            dataBaseAdapter.updateUser(accountId, remoteUser, false);
+        }
+        return dataBaseAdapter.getUserByUidDirectly(accountId, remoteUser.getUid());
     }
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity, boolean setStatus) {
         handleOwner(dataBaseAdapter, accountId, entity);
+        handleUsers(dataBaseAdapter, accountId, entity);
         dataBaseAdapter.updateBoard(entity.getBoard(), setStatus);
     }
 
