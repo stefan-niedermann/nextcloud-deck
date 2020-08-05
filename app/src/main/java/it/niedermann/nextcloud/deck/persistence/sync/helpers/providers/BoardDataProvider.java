@@ -39,8 +39,10 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
         handleOwner(dataBaseAdapter, accountId, entity);
+        Long localId = dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
+        entity.getBoard().setLocalId(localId);
         handleUsers(dataBaseAdapter, accountId, entity);
-        return dataBaseAdapter.createBoardDirectly(accountId, entity.getBoard());
+        return localId;
     }
 
     private void handleOwner(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity) {
@@ -76,8 +78,8 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity, boolean setStatus) {
         handleOwner(dataBaseAdapter, accountId, entity);
-        handleUsers(dataBaseAdapter, accountId, entity);
         dataBaseAdapter.updateBoard(entity.getBoard(), setStatus);
+        handleUsers(dataBaseAdapter, accountId, entity);
     }
 
     @Override
