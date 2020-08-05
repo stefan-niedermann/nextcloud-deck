@@ -674,7 +674,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                             .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
                                 final WrappedLiveData<Void> archiveStackLiveData = syncManager.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId);
                                 observeOnce(archiveStackLiveData, this, (result) -> {
-                                    if (archiveStackLiveData.hasError()) {
+                                    if (archiveStackLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(archiveStackLiveData.getError())) {
                                         ExceptionDialogFragment.newInstance(archiveStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                     }
                                 });
@@ -918,7 +918,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         long stackId = stackAdapter.getItem(binding.viewPager.getCurrentItem()).getLocalId();
         final WrappedLiveData<Void> deleteStackLiveData = syncManager.deleteStack(mainViewModel.getCurrentAccount().getId(), stackId, mainViewModel.getCurrentBoardLocalId());
         observeOnce(deleteStackLiveData, this, (v) -> {
-            if (deleteStackLiveData.hasError()) {
+            if (deleteStackLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteStackLiveData.getError())) {
                 ExceptionDialogFragment.newInstance(deleteStackLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });
@@ -941,7 +941,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
         final WrappedLiveData<Void> deleteLiveData = syncManager.deleteBoard(board);
         observeOnce(deleteLiveData, this, (next) -> {
-            if (deleteLiveData.hasError()) {
+            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                 ExceptionDialogFragment.newInstance(deleteLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });

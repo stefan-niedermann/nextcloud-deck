@@ -229,7 +229,7 @@ public class CardAdapter extends RecyclerView.Adapter<AbstractCardViewHolder> im
             case R.id.action_card_delete: {
                 final WrappedLiveData<Void> deleteLiveData = syncManager.deleteCard(fullCard.getCard());
                 observeOnce(deleteLiveData, lifecycleOwner, (v) -> {
-                    if (deleteLiveData.hasError()) {
+                    if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                         ExceptionDialogFragment.newInstance(deleteLiveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
                     }
                 });

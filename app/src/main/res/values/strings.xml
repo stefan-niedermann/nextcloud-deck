@@ -281,7 +281,7 @@
     <string name="add_text_as_comment">Add as comment</string>
     <string name="progress_count">%1$d of %2$d</string>
     <plurals name="progress_error_count">
-        <item quantity="one">%1$d error while uploading.</item>
+        <item quantity="one">%1$d error while uploading</item>
         <item quantity="other">%1$d errors while uploading</item>
     </plurals>
     <string name="simple_report">Report</string>

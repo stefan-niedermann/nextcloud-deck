@@ -93,7 +93,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
     public void onBoardDeleted(Board board) {
         final WrappedLiveData<Void> deleteLiveData = syncManager.deleteBoard(board);
         observeOnce(deleteLiveData, this, (next) -> {
-            if (deleteLiveData.hasError()) {
+            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                 ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });

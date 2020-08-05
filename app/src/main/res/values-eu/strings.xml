@@ -233,6 +233,8 @@
     <string name="error_dialog_we_need_info">Zuri laguntzeko hurrengo informazio teknikoa behar dugu:</string>
     <string name="error_dialog_redirect">Zure zerbitzariak HTTP 302 egoera kodearekin erantzun du, honek esan nahi du ez duzula Sortak aplikazioa ez duzula zure zerbitzarian instalatu edo zerbait txarto konfiguratuta dagoela. Hau .htaccess fitxategi batean arau pertsonalizatuak daudelako edo OID Bezeroa izeneko aplikazioarengatik sortua izan daiteke. </string>
     <string name="error_dialog_version_not_parsable">Ezin izan dugu zerbitzariaren Deck aplikazioaren bertsioa zehaztu. Ziurtatu instalatuta eta gaituta dagoela.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Baliteke Nextcloud aplikazioaren kontua baimenduta ez egotea.</string>
+    <string name="error_dialog_user_not_found_in_database">Egungo erabiltzailea ez dator bat gure datu-basean daukagun erabiltzailearekin. Zure Nextcloud instantzian LDAP erabiltzen ari bazara, baliteke zure Nextcloud aplikazioak erabiltzaile-ID zahar bat biltegiratu izana.</string>
     <string name="error_dialog_capabilities_not_parsable">Ezin izan ditugu zure zerbitzariko gaitasunak eskuratu. Ziurtatu zure zerbitzaria badabilela eta beste bezero aplikazioak Nexcloud atzitzeko gai direla.</string>
     <string name="error_dialog_attachment_upload_failed">Eranskin bat ezin izan da igo. Parteka ezazu beste bide batetik eta emaiguzu akats honen berri, mesedez.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desgaitu bateria optimizazio guztiak Nextcloudentzat eta Deck aplikazioarentzat.</string>
