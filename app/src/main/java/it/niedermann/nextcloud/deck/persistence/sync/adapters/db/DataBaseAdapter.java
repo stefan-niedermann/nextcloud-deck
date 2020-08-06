@@ -659,10 +659,10 @@ public class DataBaseAdapter {
         return db.getUserDao().searchUserByUidOrDisplayName(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%");
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
-        validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
-    }
+//    public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
+//        validateSearchTerm(searchTerm);
+//        return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
+//    }
 
     public List<User> searchUserByUidOrDisplayNameForACLDirectly(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
         validateSearchTerm(searchTerm);
