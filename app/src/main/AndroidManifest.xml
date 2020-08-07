@@ -4,6 +4,7 @@
     package="it.niedermann.nextcloud.deck">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="it.niedermann.nextcloud.deck.DeckApplication"

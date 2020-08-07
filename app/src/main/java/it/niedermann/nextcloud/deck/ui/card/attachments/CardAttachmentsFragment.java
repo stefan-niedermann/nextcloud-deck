@@ -1,21 +1,19 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.SharedElementCallback;
-import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -43,7 +41,12 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedSnackbar;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.M;
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
@@ -124,12 +127,8 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             updateEmptyContentView();
         }
 
-        if (viewModel.canEdit()) {
-            binding.fab.setOnClickListener(v -> {
-                startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT)
-                        .addCategory(Intent.CATEGORY_OPENABLE)
-                        .setType("*/*"), REQUEST_CODE_ADD_FILE);
-            });
+        if (viewModel.canEdit() && SDK_INT >= KITKAT) {
+            binding.fab.setOnClickListener(v -> pickFile());
             binding.fab.show();
             binding.attachmentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -147,16 +146,14 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         return binding.getRoot();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @RequiresApi(api = KITKAT)
     public void pickFile() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireActivity(), Manifest.permission.READ_CONTACTS) != PermissionChecker.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_CODE_ADD_FILE_PERMISSION);
+        if (SDK_INT >= M && checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
+            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_CODE_ADD_FILE_PERMISSION);
         } else {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+            startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT)
                     .addCategory(Intent.CATEGORY_OPENABLE)
-                    .setType("*/*");
-            startActivityForResult(intent, REQUEST_CODE_ADD_FILE);
+                    .setType("*/*"), REQUEST_CODE_ADD_FILE);
         }
     }
 
@@ -248,8 +245,10 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
         //noinspection SwitchStatementWithTooFewBranches
         switch (requestCode) {
             case REQUEST_CODE_ADD_FILE_PERMISSION:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (SDK_INT >= KITKAT && checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
                     pickFile();
+                } else {
+                    Toast.makeText(requireContext(), R.string.cannot_upload_files_without_permission, Toast.LENGTH_LONG).show();
                 }
                 break;
             default:
