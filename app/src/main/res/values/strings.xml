@@ -309,4 +309,5 @@
     <string name="single_card">Single card</string>
     <string name="project_type_room">Talk room</string>
     <string name="simple_move">Move</string>
+    <string name="cannot_upload_files_without_permission">Can not upload files without permission</string>
 </resources>
