@@ -237,6 +237,8 @@
     <string name="error_dialog_we_need_info">Z ustrezno pomoč potrebujemo nekaj tehničnih podrobnosti sistema:</string>
     <string name="error_dialog_redirect">S strežnika je prejet odziv s kodo stanja HTTP 302, kar kaže na to, da program Deck ni nameščen, ali pa je napačno nastavljen. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID.</string>
     <string name="error_dialog_version_not_parsable">Ni mogoče določiti različice strežnika, povezanega s programom Deck. Prepričajte se, da je nameščen in omogočen.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Račun v programu Nextcloud morda ni več overjen.</string>
+    <string name="error_dialog_user_not_found_in_database">Trenutno izbrani uporabnik nima ustreznih dovoljenj. Če uporabljate LDAP ima morda progam Nextcloud shranjen star ID uporabnika.</string>
     <string name="error_dialog_capabilities_not_parsable">Ni mogoče pridobiti podatkov o zmožnostih strežnika. Prepričajte se, da strežnik teče in da imajo programi dostop do okolja Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Priloge ni mogoče poslati. Souporabo omogočite na nek drug način, nam pa posredujte poročilo o hrošču.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Onemogočite vso optimizacijo porabe baterije za programa Nextcloud in Deck.</string>
@@ -257,6 +259,12 @@
     <string name="append_text_to_description">Pripni k opisu</string>
     <string name="add_text_as_comment">Dodaj opombo</string>
     <string name="progress_count">%1$d od %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d napaka med pošiljanjem</item>
+        <item quantity="two">%1$d napaki med pošiljanjem</item>
+        <item quantity="few">%1$d napake med pošiljanjem</item>
+        <item quantity="other">%1$d napak med pošiljanjem</item>
+    </plurals>
     <string name="simple_report">Poročilo</string>
     <string name="error_action_open_battery_settings">Nastavitve baterije</string>
     <string name="move_warning">Ni mogoče prenesti ne opomb ne prilog med premikanjem naloge v drugo zbirko.</string>
@@ -281,6 +289,7 @@
         <item quantity="other">%1$d virov</item>
     </plurals>
     <string name="no_assigned_label">Ni dodeljene oznake</string>
+    <string name="single_card">Enojna naloga</string>
     <string name="project_type_room">Klepetalnica</string>
     <string name="simple_move">Premakni</string>
 </resources>
