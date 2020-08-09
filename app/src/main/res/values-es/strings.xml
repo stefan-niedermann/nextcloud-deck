@@ -255,6 +255,10 @@
     <string name="append_text_to_description">Añadir a la descripción</string>
     <string name="add_text_as_comment">Añadir como comentario</string>
     <string name="progress_count">%1$d de %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d error al subir</item>
+        <item quantity="other">%1$d errores al subir</item>
+    </plurals>
     <string name="simple_report">Informe</string>
     <string name="error_action_open_battery_settings">Ajustes de batería</string>
     <string name="move_warning">No se pueden transferir cio los comentarios ni los adjuntos al mover una tarjeta a otro tablero.</string>

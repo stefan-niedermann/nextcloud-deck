@@ -255,6 +255,10 @@
     <string name="append_text_to_description">Aggiungi alla descrizione</string>
     <string name="add_text_as_comment">Aggiungi come commento</string>
     <string name="progress_count">%1$d di %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d errore durante il caricamento</item>
+        <item quantity="other">%1$d errori durante il caricamento</item>
+    </plurals>
     <string name="simple_report">Segnala</string>
     <string name="error_action_open_battery_settings">Impostazioni batteria</string>
     <string name="move_warning">Né i commenti, né gli allegati possono essere trasferiti quando si sposta la scheda su un\'altra lavagna.</string>

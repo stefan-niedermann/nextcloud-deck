@@ -259,6 +259,12 @@
     <string name="append_text_to_description">Připojit k popisu</string>
     <string name="add_text_as_comment">Přidat jako komentář</string>
     <string name="progress_count">%1$d z %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d chyba při nahrávání</item>
+        <item quantity="few">%1$d chyby při nahrávání</item>
+        <item quantity="many">%1$d chyb při nahrávání</item>
+        <item quantity="other">%1$d chyby při nahrávání</item>
+    </plurals>
     <string name="simple_report">Hlášení</string>
     <string name="error_action_open_battery_settings">Nastavení správy napájení</string>
     <string name="move_warning">Při přesunutí karty na jinou tabuli není možné přenést také komentáře či přílohy.</string>
