@@ -22,7 +22,7 @@
     <string name="simple_close">fermer</string>
     <string name="simple_open">Ouvrir</string>
     <string name="simple_switch">Permuter</string>
-    <string name="simple_filter">Filtre</string>
+    <string name="simple_filter">Filtrer</string>
     <string name="simple_overdue">En retard</string>
     <string name="simple_clear">Effacer</string>
     <string name="simple_discard">ignorer</string>
@@ -38,7 +38,7 @@
     <string name="simple_disabled">désactivé</string>
     <string name="simple_copied">Copié</string>
     <string name="simple_archive">Archiver</string>
-    <string name="simple_unassigned">Non assigné</string>
+    <string name="simple_unassigned">Non assigné(s)</string>
 
     <string name="edit_board">Modifier le tableau</string>
     <string name="archive_board">Archiver le tableau</string>
@@ -48,7 +48,7 @@
     <!-- About -->
     <string name="about">À propos de</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version">Vous utilisez actuellement %1$s</string>
+    <string name="about_version">Vous utilisez actuellement la version : %1$s</string>
     <string name="about_maintainer_title">Responsable</string>
     <string name="about_developers_title">Développeurs</string>
     <string name="about_translators_title">Traducteurs</string>
@@ -65,7 +65,7 @@
     <string name="about_app_license">Cette application est sous licence GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Voir la licence</string>
     <string name="about_icons_disclaimer_title">Icônes</string>
-    <string name="about_icons_disclaimer_app_icon">Pour l’icône original voir %1$s.</string>
+    <string name="about_icons_disclaimer_app_icon">Pour l’icône originale voir %1$s.</string>
     <string name="about_icons_disclaimer_mdi_icons">Les icônes suivantes utilisées dans cette applications sont %1$s réalisées par Google Inc. et sous licence Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Icônes Material Design</string>
     <string name="about_credits_tab_title">Crédits</string>
@@ -129,7 +129,7 @@
     <string name="deck_outdated_please_update">Votre version de l\'application Deck est trop ancienne (%1$s). Veuillez la mettre à jour afin de pouvoir utiliser cette application Android en tant que client.</string>
     <string name="delete_board_message">Cette action supprimera définitivement ce tableau, y compris la totalité de ses listes et de ses cartes.</string>
     <string name="settings_theme_title">Thème sombre</string>
-    <string name="settings_branding_title">Marque</string>
+    <string name="settings_branding_title">Thème du serveur</string>
     <string name="settings_compact_title">Mode compact</string>
     <string name="settings_background_sync">Synchronisation en tâche de fond</string>
     <string name="pref_value_wifi_and_mobile">Synchroniser en Wifi et données mobiles</string>
@@ -284,4 +284,5 @@
     <string name="single_card">Carte unique</string>
     <string name="project_type_room">Salon de discussion</string>
     <string name="simple_move">Déplacer</string>
+    <string name="cannot_upload_files_without_permission">Impossible de téléverser des fichiers sans permission</string>
 </resources>

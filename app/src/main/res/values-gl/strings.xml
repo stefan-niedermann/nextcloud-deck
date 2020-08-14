@@ -6,7 +6,7 @@
     <string name="drawer_current_account">Conta actual</string>
     <string name="drawer_middle_account">Conta media</string>
     <string name="drawer_end_account">Última conta</string>
-    <string name="drawer_manage_accounts">Administrar contas</string>
+    <string name="drawer_manage_accounts">Xestionar contas</string>
 
     <!-- Simple values -->
     <string name="simple_boards">Taboleiros</string>
@@ -248,8 +248,8 @@
     <string name="share_link">Compartir ligazón</string>
     <string name="archive_cards">Arquivar as tarxetas</string>
 
-    <string name="manage_accounts">Administrar contas</string>
-    <string name="manage_list">Administrar a lista</string>
+    <string name="manage_accounts">Xestionar contas</string>
+    <string name="manage_list">Xestionar a lista</string>
     <string name="simple_reply">Responder</string>
     <string name="error_while_uploading_attachment">Produciuse un erro ao enviar o anexo: %1$s</string>
     <string name="append_text_to_description">Anexo á descrición</string>
@@ -284,4 +284,5 @@
     <string name="single_card">Terxeta única</string>
     <string name="project_type_room">Sala de conversas</string>
     <string name="simple_move">Mover</string>
+    <string name="cannot_upload_files_without_permission">Non é posíbel enviar ficheiros sen permiso</string>
 </resources>

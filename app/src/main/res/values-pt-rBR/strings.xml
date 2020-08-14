@@ -255,6 +255,10 @@
     <string name="append_text_to_description">Anexar à descrição</string>
     <string name="add_text_as_comment">Adicionar como comentário</string>
     <string name="progress_count">%1$d de %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d erro ao fazer o upload</item>
+        <item quantity="other">%1$d erros ao fazer o upload</item>
+    </plurals>
     <string name="simple_report">Reportar</string>
     <string name="error_action_open_battery_settings">Configurações da bateria</string>
     <string name="move_warning">Comentários ou anexos não podem ser transferidos ao mover o cartão para outra placa.</string>
@@ -280,4 +284,5 @@
     <string name="single_card">Cartão único</string>
     <string name="project_type_room">Sala de conversação</string>
     <string name="simple_move">Mover</string>
+    <string name="cannot_upload_files_without_permission">Não é possível enviar arquivos sem permissão</string>
 </resources>
