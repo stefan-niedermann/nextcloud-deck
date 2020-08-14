@@ -270,7 +270,7 @@
 
     <string name="widget_stack_title">Liste</string>
     <string name="widget_stack_header_icon">Widget-Kopf-Icon</string>
-    <string name="widget_stack_placeholder_icon">Widget-Platzhalter-Icon</string>
+    <string name="widget_stack_placeholder_icon">Widget-Platzhalter-Symbol</string>
     <string name="select_stack">Liste auswählen</string>
     <string name="project_type_deck_board">Deck-Board</string>
     <string name="project_type_deck_card">Deck-Karte</string>
@@ -284,4 +284,5 @@
     <string name="single_card">Einzelne Karte</string>
     <string name="project_type_room">Talk-Raum</string>
     <string name="simple_move">Verschieben</string>
+    <string name="cannot_upload_files_without_permission">Dateien können nicht ohne Berechtigung hochgeladen werden</string>
 </resources>

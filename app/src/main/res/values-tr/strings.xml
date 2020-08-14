@@ -233,6 +233,8 @@
     <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
     <string name="error_dialog_redirect">Sunucunuz, üzerine Tahta uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
     <string name="error_dialog_version_not_parsable">Sunucu tarafındaki tahta uygulamasının sürümü belirlenemedi. Lütfen kurulmuş ve etkinleştirilmiş olduğundan emin olun.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Nextcloud uygulamanızın hesabına artık izin verilmiyor olabilir.</string>
+    <string name="error_dialog_user_not_found_in_database">Geçerli kullanıcı veritabanımızdaki kullanıcı ile eşleşmiyor. Nextcloud kopyanızda LDAP kullanıyorsanız, Nextcloud uygulamanızda eski bir kullanıcı kodu kayıtlı olabilir.</string>
     <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
     <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Lütfen Nextcloud ve Pano uygulaması için tüm pil iyileştirmelerini devre dışı bırakın.</string>
@@ -253,6 +255,10 @@
     <string name="append_text_to_description">Açıklamaya ekle</string>
     <string name="add_text_as_comment">Yorum olarak ekle</string>
     <string name="progress_count">%1$d / %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">Yükleme sırasında %1$d sorun çıktı</item>
+        <item quantity="other">Yükleme sırasında %1$d sorun çıktı</item>
+    </plurals>
     <string name="simple_report">Hata bildirin</string>
     <string name="error_action_open_battery_settings">Pil ayarları</string>
     <string name="move_warning">Kart başka bir panoya taşınırken yorum ya da ek dosyalar aktarılamaz.</string>
@@ -278,4 +284,5 @@
     <string name="single_card">Tek kart</string>
     <string name="project_type_room">Görüşme odası</string>
     <string name="simple_move">Taşı</string>
+    <string name="cannot_upload_files_without_permission">İzin olmadan dosya yüklenemez</string>
 </resources>
