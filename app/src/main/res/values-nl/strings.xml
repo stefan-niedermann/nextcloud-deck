@@ -111,7 +111,7 @@
     <string name="account_already_added">Account al toegevoegd</string>
     <string name="account_is_getting_imported">Account wordt geïmporteerd</string>
     <string name="not_synced_yet">Nog niet gesynchroniseerd</string>
-    <string name="no_lists_yet">Nog geen stapels</string>
+    <string name="no_lists_yet">Nog geen lijsten</string>
     <string name="do_you_want_to_save_your_changes">Wil je de wijzigingen opslaan?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Wil je alle kaarten van %1$s archiveren?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
@@ -155,7 +155,7 @@
     <string name="provide_at_least_a_title_or_description">Geef ten minste een titel of beschrijving op</string>
     <string name="welcome_text">Welkom bij %1$s</string>
     <string name="save_card_before_attachment">De kaart moet worden bewaard voordat er bijlagen aan kunnen worden toegevoegd.</string>
-    <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem a.u.b. contact op met de beheerder of probeer het later opnieuw</string>
+    <string name="maintenance_mode_explanation">De server %1$s is momenteel in onderhoud modus. Neem alstublieft contact op met de beheerder of probeer het later opnieuw</string>
     <string name="share_add_to_card">Toevoegen aan kaart</string>
     <string name="share_success">Succesvol %1$s toegevoegd aan %2$s</string>
     <string name="could_not_copy_to_clipboard">Kon niet kopiëren naar het klembord</string>
@@ -226,13 +226,15 @@
     <string name="error_dialog_tip_files_delete_storage">Als geforceerd afsluiten niet helpt, probeer dan van beide apps de gegevensopslag te wissen.</string>
     <string name="error_dialog_timeout_instance">Er was binnen de gestelde tijd geen reactie ontvangen van je server. Controleer alstublieft of je Nextcloud-instantie wel goed loopt.</string>
     <string name="error_dialog_timeout_toggle">Controleer je netwerk verbinding. Het kan ook helpen de dataverbinding of WIFI uit en weer aan te zetten.</string>
-    <string name="error_dialog_check_server">Je server gaf een onjuiste reactie. Controleer alstublieft of de Deck app in de web-interface wel goed werkt.</string>
+    <string name="error_dialog_check_server">Je server gaf een onjuiste reactie. Controleer alstublieft of je toegang krijgt tot de Deck app via de web-interface.</string>
     <string name="error_dialog_check_server_logs">Er is iets mis met je Nextcloud instellingen. Controleer alstublieft de server log bestanden.</string>
     <string name="error_dialog_check_maintenance">Controleer alstublieft of je Nextcloud instantie momenteel niet in onderhouds-modus draait.</string>
     <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alstublieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
     <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
     <string name="error_dialog_redirect">Je server heeft gereageerd met een HTTP 302-statuscode, wat inhoudt dat je de Deck-app niet op je server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dit kan worden veroorzaakt door maatwerk aanpassingen in een .htaccess-bestand of door Nextcloud-apps zoals de OID Client.</string>
     <string name="error_dialog_version_not_parsable">We konden de versie van de Deck-app aan de serverzijde niet bepalen. Zorg ervoor dat de app is geïnstalleerd en ingeschakeld.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Het account van uw Nextcloud-app is mogelijk niet langer geautoriseerd.</string>
+    <string name="error_dialog_user_not_found_in_database">De huidige gebruiker komt niet overeen met de gebruiker die we in onze database hebben. Als u LDAP gebruikt op uw Nextcloud-instantie, heeft uw Nextcloud-app mogelijk een oude gebruikers-ID opgeslagen.</string>
     <string name="error_dialog_capabilities_not_parsable">We kunnen de mogelijkheden van je server niet vaststellen. Zorg ervoor dat je server goed werkt en dat andere client-apps toegang hebben tot Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Een bijlage kon niet worden opgeladen. Gelieve het op een andere manier te delen en ons in te lichten over deze fout.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Gelieve de batterijoptimalisatie uit te schakelen voor de Nextcloud en Deck applicatie.</string>
@@ -253,14 +255,34 @@
     <string name="append_text_to_description">Toevoegen aan beschrijving</string>
     <string name="add_text_as_comment">Toevoegen als opmerking</string>
     <string name="progress_count">%1$d op %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d fouten tijdens het uploaden</item>
+        <item quantity="other">%1$d fouten tijdens het uploaden</item>
+    </plurals>
     <string name="simple_report">Rapporteer</string>
     <string name="error_action_open_battery_settings">Batterij instellingen</string>
+    <string name="move_warning">Bij het verplaatsen van de kaart naar een ander bord kunnen geen opmerkingen of bijlagen worden overgebracht.</string>
     <string name="clone_board">Dupliceer bord</string>
     <string name="cloning_board">Klonen %1$s ...</string>
     <string name="successfully_cloned_board">Succesvol gekloond %1$s</string>
+    <string name="attachment_does_not_yet_exist">Bijlage bestaat nog niet in Deck</string>
+    <string name="card_does_not_yet_exist">Kaart bestaat nog niet in Deck</string>
+
     <string name="widget_stack_title">Lijst</string>
+    <string name="widget_stack_header_icon">Widget koptekst icoon</string>
+    <string name="widget_stack_placeholder_icon">Widget placeholder icoon</string>
     <string name="select_stack">Lijst selecteren</string>
+    <string name="project_type_deck_board">Deck board</string>
+    <string name="project_type_deck_card">Deck kaart</string>
     <string name="project_type_file">Bestand</string>
     <string name="projects_title">Projecten</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d middelen</item>
+        <item quantity="other">%1$d middelen</item>
+    </plurals>
+    <string name="no_assigned_label">Geen toegewezen label</string>
+    <string name="single_card">Enkele kaart</string>
+    <string name="project_type_room">Praatruimte</string>
     <string name="simple_move">Verplaatsen</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Kan geen bestanden uploaden zonder toestemming</string>
+</resources>

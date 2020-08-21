@@ -185,7 +185,7 @@
     <string name="filter_week">Następne 7 dni</string>
     <string name="filter_month">Następne 30 dni</string>
     <string name="filter_no_due">Brak daty ważności</string>
-    <string name="filter_by_tag">Filtruj po tagu</string>
+    <string name="filter_by_tag">Filtruj według etykiety</string>
     <string name="filter_by_assigned_user">Filtruj według przypisanego użytkownika</string>
     <string name="filter_by_duedate">Filtruj według terminu</string>
 

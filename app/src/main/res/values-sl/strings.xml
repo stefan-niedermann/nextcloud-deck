@@ -292,4 +292,5 @@
     <string name="single_card">Enojna naloga</string>
     <string name="project_type_room">Klepetalnica</string>
     <string name="simple_move">Premakni</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Ne morem naložiti datoteke brez dovoljenja</string>
+</resources>
