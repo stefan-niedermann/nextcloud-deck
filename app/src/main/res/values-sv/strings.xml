@@ -38,6 +38,8 @@
     <string name="simple_disabled">inaktiverad</string>
     <string name="simple_copied">Kopierad</string>
     <string name="simple_archive">Arkivera</string>
+    <string name="simple_unassigned">Ej tilldelad</string>
+
     <string name="edit_board">Ändra tavla</string>
     <string name="archive_board">Arkivera tavla</string>
     <string name="delete_board">Radera tavla</string>

@@ -259,6 +259,12 @@
     <string name="append_text_to_description">Pripojiť k popisu</string>
     <string name="add_text_as_comment">Pridať ako komentár</string>
     <string name="progress_count">%1$d z %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d chyba počas nahrávania</item>
+        <item quantity="few">%1$d chyby počas nahrávania</item>
+        <item quantity="many">%1$d chyby počas nahrávania</item>
+        <item quantity="other">%1$d chýb počas nahrávania</item>
+    </plurals>
     <string name="simple_report">Hlásenie</string>
     <string name="error_action_open_battery_settings">Nastavenia batérie.</string>
     <string name="move_warning">Pri presúvaní karty na inú nástenku nie je možné prenášať komentáre ani prílohy.</string>
@@ -286,4 +292,5 @@
     <string name="single_card">Jedna karta</string>
     <string name="project_type_room">Diskusná miestnosť</string>
     <string name="simple_move">Presunúť</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Nie je možné nahrávať súbory bez povolenia</string>
+</resources>
