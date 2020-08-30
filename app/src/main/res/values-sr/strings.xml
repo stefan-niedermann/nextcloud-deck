@@ -288,4 +288,5 @@
     <string name="single_card">Засебна картица</string>
     <string name="project_type_room">Причаоница</string>
     <string name="simple_move">Помери</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Не могу да отпремим фајлове без дозвола</string>
+</resources>
