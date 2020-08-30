@@ -233,6 +233,8 @@
     <string name="error_dialog_we_need_info">Χρειαζόμαστε τις ακόλουθες τεχνικές πληροφορίες για να σας βοηθήσουμε:</string>
     <string name="error_dialog_redirect">Ο διακομιστής απάντησε με κωδικό κατάστασης HTTP 302, που σημαίνει, πως δεν έχετε εγκατεστημένη την εφαρμογή Deck στον διακομιστή σας ή υπάρχει λάθος ρύθμιση. Αυτό μπορεί να προκλήθηκε από λάθος καταχώρηση στο αρχείο .htaccess-file ή σε εφαρμογές του Nextcloud όπως την OID Client.</string>
     <string name="error_dialog_version_not_parsable">Δεν μπορέσαμε να προσδιορίσουμε την έκδοση της εφαρμογής Deck του διακομιστή σας. Βεβαιωθείτε ότι είναι εγκατεστημένο και ενεργοποιημένο.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ο λογαριασμός στην εφαρμογή σας Nextcloud, ίσως δεν έχει πλέον πιστοποίηση.</string>
+    <string name="error_dialog_user_not_found_in_database">Ο τρέχων χρήστης δεν είναι ίδιος με αυτόν που έχουμε καταχωρημένο στη βάση δεδομένων μας. Εάν χρησιμοποιείτε την λειτουρία LDAP στον διακομιστή σας Nextcloud, η εφαρμογή σας ενδέχεται να έχει αποθηκευμένο ένα παλιό αναγνωριστικό χρήστη.</string>
     <string name="error_dialog_capabilities_not_parsable">Δεν ήταν δυνατός ο έλεγχος των δυνατοτήτων του διακομιστή σας. Βεβαιωθείτε ότι ο διακομιστής σας λειτουργεί σωστά και οι εφαρμογές έχουν πρόσβαση στο Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Δεν ήταν δυνατή η μεταφόρτωση ενός συνημμένου. Προσπαθήστε να το διαμοιράσετε με άλλο τρόπο και ενημερώστε μας σχετικά με το σφάλμα.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Παρακαλούμε απενεργοποιήστε όλες τις βελτιστοποιήσεις μπαταρίας για το Nextcloud και την εφαρμογή Deck.</string>
@@ -259,9 +261,28 @@
     </plurals>
     <string name="simple_report">Αναφορά</string>
     <string name="error_action_open_battery_settings">Ρυθμίσεις μπαταρίας</string>
+    <string name="move_warning">Δεν μπορούν να μεταφερθούν τα σχόλια, ούτε τα συνημμένα κατά τη μετακίνηση της κάρτας σε άλλο πίνακα.</string>
     <string name="clone_board">Κλωνοποίηση πίνακα</string>
+    <string name="cloning_board">Κλωνοποίηση %1$s…</string>
+    <string name="successfully_cloned_board">Επιτυχής κλωνοποίηση %1$s</string>
+    <string name="attachment_does_not_yet_exist">Δεν υπάρχει ακόμα το συνημμένο στο Deck</string>
+    <string name="card_does_not_yet_exist">Η κάρτα δεν υπάρχει ακόμα στο Deck</string>
+
     <string name="widget_stack_title">Λίστα</string>
+    <string name="widget_stack_header_icon">Εικονίδιο επικεφαλίδας του γραφικού στοιχείου</string>
+    <string name="widget_stack_placeholder_icon">Εικονίδιο θέσης κράτησης του γραφικού στοιχείου</string>
+    <string name="select_stack">Επιλέξτε λίστα</string>
+    <string name="project_type_deck_board">Πίνακας του Deck</string>
+    <string name="project_type_deck_card">Κάρτα του Deck</string>
     <string name="project_type_file">Αρχείο</string>
     <string name="projects_title">Projects</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d πόρος</item>
+        <item quantity="other">%1$d πόροι</item>
+    </plurals>
+    <string name="no_assigned_label">Δεν καταχωρήθηκε ετικέτα</string>
+    <string name="single_card">Απλή καρτέλα</string>
+    <string name="project_type_room">Δωμάτιο του Talk </string>
     <string name="simple_move">Μετακίνηση</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Δεν μπορείτε να ανεβάσετε αρχεία χωρίς άδεια</string>
+</resources>

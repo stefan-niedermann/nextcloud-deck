@@ -255,6 +255,10 @@
     <string name="append_text_to_description">Erantsi deskripzioari</string>
     <string name="add_text_as_comment">Gehitu iruzkin gisa</string>
     <string name="progress_count">%2$dtik%1$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$derrore kargatzerakoan</item>
+        <item quantity="other">%1$derrore kargatzerakoan</item>
+    </plurals>
     <string name="simple_report">Jakinarazi</string>
     <string name="error_action_open_battery_settings">Bateria ezarpenak</string>
     <string name="move_warning">Ez iruzkinak eta ez eranskinak ezin izan dira transferitu txartela beste mahai batera mugitzean.</string>
@@ -272,6 +276,10 @@
     <string name="project_type_deck_card">Deck txartela</string>
     <string name="project_type_file">Fitxategia</string>
     <string name="projects_title">Proiektuak</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$dbaliabide</item>
+        <item quantity="other">%1$dbaliabide</item>
+    </plurals>
     <string name="no_assigned_label">Esleitutako etiketarik ez</string>
     <string name="single_card">Txartel bakana</string>
     <string name="project_type_room">Hitz egiteko gela</string>
