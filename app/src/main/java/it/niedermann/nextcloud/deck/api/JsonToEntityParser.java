@@ -31,6 +31,10 @@ import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectList;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
 
@@ -54,12 +58,36 @@ public class JsonToEntityParser {
             return (T) parseCapabilities(obj);
         } else if (mType == OcsUserList.class) {
             return (T) parseOcsUserList(obj);
+        } else if (mType == OcsUser.class) {
+            return (T) parseSingleOcsUser(obj);
         } else if (mType == Attachment.class) {
             return (T) parseAttachment(obj);
         } else if (mType == OcsComment.class) {
             return (T) parseOcsComment(obj);
+        } else if (mType == GroupMemberUIDs.class) {
+            return (T) parseGroupMemberUIDs(obj);
+        } else if (mType == OcsProjectList.class) {
+            return (T) parseOcsProjectList(obj);
         }
         throw new IllegalArgumentException("unregistered type: " + mType.getCanonicalName());
+    }
+
+    private static GroupMemberUIDs parseGroupMemberUIDs(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        GroupMemberUIDs uids = new GroupMemberUIDs();
+        makeTraceableIfFails(() -> {
+            JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+            if (!data.isJsonNull() && data.getAsJsonObject().has("users")) {
+                JsonElement users = data.getAsJsonObject().get("users");
+                if (!users.isJsonNull() && users.isJsonArray()) {
+                    for (JsonElement userElement : users.getAsJsonArray()) {
+                        uids.add(userElement.getAsString());
+                    }
+                }
+            }
+
+        }, obj);
+        return uids;
     }
 
     private static OcsUserList parseOcsUserList(JsonObject obj) {
@@ -85,6 +113,99 @@ public class JsonToEntityParser {
 
         }, obj);
         return ocsUserList;
+    }
+    private static OcsUser parseSingleOcsUser(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        OcsUser ocsUser = new OcsUser();
+        makeTraceableIfFails(() -> {
+            JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+            if (!data.isJsonNull()) {
+                JsonObject user = data.getAsJsonObject();
+                if (user.has("id")){
+                    ocsUser.setId(user.get("id").getAsString());
+                }
+                if (user.has("displayname")){
+                    ocsUser.setDisplayName(user.get("displayname").getAsString());
+                }
+            }
+
+        }, obj);
+        return ocsUser;
+    }
+    private static OcsProjectList parseOcsProjectList(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        OcsProjectList projectList = new OcsProjectList();
+        makeTraceableIfFails(() -> {
+            JsonElement data = obj.get("ocs").getAsJsonObject().get("data");
+            if (!data.isJsonNull() && data.isJsonArray()) {
+                JsonArray projectJsonArray = data.getAsJsonArray();
+                for (JsonElement jsonArrayElement : projectJsonArray) {
+                    if (jsonArrayElement.isJsonObject()) {
+                        JsonObject jsonObject = jsonArrayElement.getAsJsonObject();
+                        OcsProject project = new OcsProject();
+                        project.setId(jsonObject.get("id").getAsLong());
+                        project.setName(getNullAsEmptyString(jsonObject.get("name")));
+                        project.setResources(new ArrayList<>());
+                        JsonElement jsonResources = jsonObject.get("resources");
+                        if (jsonResources != null && jsonResources.isJsonArray()){
+                            JsonArray resourcesArray = jsonResources.getAsJsonArray();
+                            for (JsonElement resourceElement : resourcesArray) {
+                                if (resourceElement.isJsonObject()){
+                                    OcsProjectResource resource = parseOcsProjectResource(resourceElement.getAsJsonObject());
+                                    resource.setProjectId(project.getId());
+                                    project.getResources().add(resource);
+                                }
+                            }
+                        }
+                        projectList.add(project);
+                    }
+                }
+            }
+
+        }, obj);
+        return projectList;
+    }
+
+    private static OcsProjectResource parseOcsProjectResource(JsonObject obj) {
+        DeckLog.verbose(obj.toString());
+        OcsProjectResource resource = new OcsProjectResource();
+        makeTraceableIfFails(() -> {
+            if (obj.has("id")) {
+                String idString = obj.get("id").getAsString();
+                if (idString != null && idString.trim().length() > 0) {
+                    if (idString.matches("[0-9]+")){
+                        resource.setId(Long.parseLong(idString.trim()));
+                    } else {
+                        resource.setIdString(idString);
+                    }
+                }
+            }
+            if (obj.has("type")) {
+                resource.setType(getNullAsEmptyString(obj.get("type")));
+            }
+            if (obj.has("name")) {
+                resource.setName(getNullAsEmptyString(obj.get("name")));
+            }
+            if (obj.has("link")) {
+                resource.setLink(getNullAsEmptyString(obj.get("link")));
+            }
+            if (obj.has("iconUrl")) {
+                resource.setIconUrl(getNullAsEmptyString(obj.get("iconUrl")));
+            }
+            if (obj.has("path")) {
+               resource.setPath(obj.get("path").getAsString());
+            }
+            if (obj.has("mimetype")) {
+               resource.setMimetype(obj.get("mimetype").getAsString());
+            }
+            if (obj.has("preview-available")) {
+               resource.setPreviewAvailable(obj.get("preview-available").getAsBoolean());
+            } else {
+               resource.setPreviewAvailable(false);
+            }
+
+        }, obj);
+        return resource;
     }
 
     private static OcsComment parseOcsComment(JsonObject obj) {
@@ -218,12 +339,19 @@ public class JsonToEntityParser {
                 }
             }
 
-            JsonElement owner = e.get("owner");
-            if (owner != null) {
-                if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                    DeckLog.verbose("owner is Primitive, skipping");
-                } else
-                    fullBoard.setOwner(parseUser(owner.getAsJsonObject()));
+            if (e.has("owner")) {
+                fullBoard.setOwner(parseUser(e.get("owner")));
+            }
+            if (e.has("users")) {
+                JsonElement users = e.get("users");
+                if (users != null && !users.isJsonNull() && users.isJsonArray()) {
+                    JsonArray usersArray = users.getAsJsonArray();
+                    List<User> usersList = new ArrayList<>();
+                    for (JsonElement userJson : usersArray) {
+                        usersList.add(parseUser(userJson));
+                    }
+                    fullBoard.setUsers(usersList);
+                }
             }
         }, e);
         return fullBoard;
@@ -235,7 +363,7 @@ public class JsonToEntityParser {
 
         if (aclJson.has("participant") && !aclJson.get("participant").isJsonNull()) {
             makeTraceableIfFails(() -> {
-                User participant = parseUser(aclJson.get("participant").getAsJsonObject());
+                User participant = parseUser(aclJson.get("participant"));
                 acl.setUser(participant);
                 acl.setType(aclJson.get("type").getAsLong());
                 acl.setBoardId(aclJson.get("boardId").getAsLong());
@@ -282,7 +410,7 @@ public class JsonToEntityParser {
                 for (JsonElement assignedUser : assignedUsers) {
                     JsonObject userJson = assignedUser.getAsJsonObject();
                     if (userJson.has("participant") && !userJson.get("participant").isJsonNull()) {
-                        users.add(parseUser(userJson.get("participant").getAsJsonObject()));
+                        users.add(parseUser(userJson.get("participant")));
                     }
                 }
                 fullCard.setAssignedUsers(users);
@@ -308,10 +436,7 @@ public class JsonToEntityParser {
             card.setCommentsUnread(e.get("commentsUnread").getAsInt());
             JsonElement owner = e.get("owner");
             if (owner != null) {
-                if (owner.isJsonPrimitive()) {//TODO: remove if, let only else!
-                    DeckLog.verbose("owner is Primitive, skipping");
-                } else
-                    fullCard.setOwner(parseUser(owner.getAsJsonObject()));
+                fullCard.setOwner(parseUser(owner));
             }
             card.setArchived(e.get("archived").getAsBoolean());
         }, e);
@@ -350,14 +475,27 @@ public class JsonToEntityParser {
         return a;
     }
 
-    protected static User parseUser(JsonObject e) {
-        DeckLog.verbose(e.toString());
+    protected static User parseUser(JsonElement userElement) {
+        DeckLog.verbose(userElement.toString());
+        if (userElement.isJsonNull()){
+            return null;
+        }
         User user = new User();
         makeTraceableIfFails(() -> {
-            user.setDisplayname(getNullAsEmptyString(e.get("displayname")));
-            user.setPrimaryKey(getNullAsEmptyString(e.get("primaryKey")));
-            user.setUid(getNullAsEmptyString(e.get("uid")));
-        }, e);
+
+            if (userElement.isJsonPrimitive()) {
+                String uid = userElement.getAsString();
+                user.setDisplayname(uid);
+                user.setPrimaryKey(uid);
+                user.setUid(uid);
+            } else {
+                JsonObject userJson = userElement.getAsJsonObject();
+                user.setDisplayname(getNullAsEmptyString(userJson.get("displayname")));
+                user.setPrimaryKey(getNullAsEmptyString(userJson.get("primaryKey")));
+                user.setUid(getNullAsEmptyString(userJson.get("uid")));
+            }
+
+        }, userElement);
         return user;
     }
 

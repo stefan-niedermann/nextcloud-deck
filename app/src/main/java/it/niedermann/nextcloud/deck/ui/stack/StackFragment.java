@@ -165,7 +165,7 @@ public class StackFragment extends BrandedFragment implements DragAndDropTab<Car
     public void move(long originAccountId, long originCardLocalId, long targetAccountId, long targetBoardLocalId, long targetStackLocalId) {
         WrappedLiveData<Void> liveData = syncManager.moveCard(originAccountId, originCardLocalId, targetAccountId, targetBoardLocalId, targetStackLocalId);
         observeOnce(liveData, requireActivity(), (next) -> {
-            if (liveData.hasError()) {
+            if (liveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(liveData.getError())) {
                 ExceptionDialogFragment.newInstance(liveData.getError(), null).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             } else {
                 DeckLog.log("Moved " + Card.class.getSimpleName() + " \"" + originCardLocalId + "\" to " + Stack.class.getSimpleName() + " \"" + targetStackLocalId + "\"");

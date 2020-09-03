@@ -45,7 +45,6 @@ An Android client for [Nextcloud Deck App](https://github.com/nextcloud/deck/).
 * [Widgets](https://github.com/stefan-niedermann/nextcloud-deck/issues/217)
 * [Add more sources to upload attachments](https://github.com/stefan-niedermann/nextcloud-deck/issues/289)
 * [Move cards to other boards](https://github.com/stefan-niedermann/nextcloud-deck/issues/453)
-* [Clone boards](https://github.com/stefan-niedermann/nextcloud-deck/issues/455)
 * Further stabilization of the UI and bugfixes
 * [Improve synchronization speed](https://github.com/nextcloud/deck/issues/1650)
 

@@ -6,8 +6,8 @@ android {
         applicationId "it.niedermann.nextcloud.deck"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 1008002
-        versionName "1.8.2"
+        versionCode 1009007
+        versionName "1.9.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
@@ -53,7 +53,8 @@ android {
 
 dependencies {
     // Single-Sign-On
-    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.1'
+//    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.2'
+    implementation 'com.github.desperateCoder:Android-SingleSignOn:231-void-return-type-SNAPSHOT'
 
     // --------------------
     // --- UI-Libraries ---
@@ -70,12 +71,11 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Android X
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.work:work-runtime:2.3.4'
+    implementation 'androidx.work:work-runtime:2.4.0'
     implementation 'androidx.preference:preference:1.1.1'
 
     // Custom Date / Time Picker for branding support
@@ -101,7 +101,7 @@ dependencies {
     // --- Backend-Libraries ---
     // -------------------------
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.72'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.0'
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
@@ -127,7 +127,7 @@ dependencies {
 
     // Tests
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

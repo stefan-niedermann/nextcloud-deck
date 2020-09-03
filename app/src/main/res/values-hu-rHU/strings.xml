@@ -214,7 +214,7 @@
 
     <string name="error_dialog_title">Jaj ne – Most mi legyen? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Próbálja kényszeríteni az alkalmazás bezárását, és indítsa újra. Lehet, hogy hibás volt a kapcsolat a többi Nextcloud alkalmazással.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
     <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
     <string name="error_dialog_tip_files_outdated">A Nextcloud alkalmazása elavultnak tűnik. Keresse fel a Play Áruházat vagy az F-Droidot, hogy beszerezze a legfrissebb verziót.</string>
     <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>
@@ -238,8 +238,13 @@
     <string name="info_box_version_not_supported">A kiszolgálóverzió nem támogatott: %1$s, frissítsen erre: %2$s</string>
     <string name="share_link">Hivatkozás megosztása</string>
     <string name="archive_cards">Archív kártyák</string>
+
     <string name="manage_accounts">Fiókok kezelése</string>
     <string name="simple_reply">Válasz</string>
     <string name="simple_report">Jelentés</string>
     <string name="clone_board">Tábla klónozása</string>
+    <string name="widget_stack_title">Lista</string>
+    <string name="project_type_file">Fájl</string>
+    <string name="projects_title">Projektek</string>
+    <string name="simple_move">Áthelyezés</string>
     </resources>

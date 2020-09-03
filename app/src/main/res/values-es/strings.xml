@@ -38,6 +38,8 @@
     <string name="simple_disabled">deshabilitado</string>
     <string name="simple_copied">Copiado</string>
     <string name="simple_archive">Archivar</string>
+    <string name="simple_unassigned">No asignado</string>
+
     <string name="edit_board">Editar tablero</string>
     <string name="archive_board">Archivar tablero</string>
     <string name="delete_board">Eliminar tablero</string>
@@ -128,6 +130,7 @@
     <string name="delete_board_message">Esto borrará permanente el tablero, incluyendo todas las listas y tarjetas.</string>
     <string name="settings_theme_title">Tema oscuro</string>
     <string name="settings_branding_title">Branding</string>
+    <string name="settings_compact_title">Modo compacto</string>
     <string name="settings_background_sync">Sincronización en segundo plano</string>
     <string name="pref_value_wifi_and_mobile">Sincronizar sobre Wi-Fi y datos móviles</string>
     <string name="pref_value_wifi_only">Sincronizar solo sobre Wi-Fi</string>
@@ -215,7 +218,8 @@
 
     <string name="error_dialog_title">Oh no - ¿Ahora qué? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta forzar el cierre de la aplicación y vuelve a abrirla. Es posible que haya habido un problema de conexión con la aplicación Nextcloud.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Si el problema persiste, intenta limpiar borrar el almacenamiento de ambas apps, Nextcloud y Nextcloud Deck para solucionar este problema.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Si el problema persiste, intenta limpiar borrar el almacenamiento de ambas apps, Nextcloud y Nextcloud Deck para solucionar este problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Falló la actualización de la base de datos. Por favor, informe del problema y limpie el almacenamiento para usar la aplicación de manera normal.</string>
     <string name="error_dialog_tip_clear_storage">Puedes limpiar el almacenamiento abriendo la información de la app y seleccionando Almacenamiento → Eliminar datos.</string>
     <string name="error_dialog_tip_files_outdated">Su aplicación Nextcloud parece que está desactualizada. Por favor visite la Play Store o F-Droid para conseguir la versión más reciente.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece ir mal en tu app de Nextcloud. Por favor, intenta forzar el cierre de ambas, Nextcloud y Nextcloud Deck.</string>
@@ -229,6 +233,8 @@
     <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
     <string name="error_dialog_redirect">Tu servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Deck en su servidor o que algo está mal configurado. Esto puede estar causado por anulaciones personalizadas en un  archivo .htaccess o por aplicaciones de Nexcloud como OID Client. </string>
     <string name="error_dialog_version_not_parsable">No se pudo determinar la versión de la aplicación Deck en el lado del servidor. Por favor, compruebe que está instalada y activada. </string>
+    <string name="error_dialog_account_might_not_be_authorized">La cuenta de tu app Nextcloud puede ya no estar autorizada.</string>
+    <string name="error_dialog_user_not_found_in_database">El usuario actual no coincide con el usuario que tenemos en nuestra base de datos. Si estás usando LDAP en tu instancia de Nextcloud, tu app de Nextcloud puede haber almacenado una ID de usuario antigua.</string>
     <string name="error_dialog_capabilities_not_parsable">No se ha podido comprobar las capacidades de su servidor. Por favor compruebe que su servidor está funcionando bien y que otras aplicaciones de cliente son capaces de acceder a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">No se ha podido subir un adjunto. Por favor, intenta compartirlo de otra forma y comunícanos este fallo.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Por favor, desactiva todas las optimizaciones de la batería para Nextcloud y la aplicación Deck.</string>
@@ -241,6 +247,7 @@
     <string name="info_box_version_not_supported">La versión %1$s del servidor no está soportada. Por favor, actualiza a %2$s</string>
     <string name="share_link">Compartir enlace</string>
     <string name="archive_cards">Tarjetas archivadas</string>
+
     <string name="manage_accounts">Gestionar cuentas</string>
     <string name="manage_list">Administrar su lista</string>
     <string name="simple_reply">Responder</string>
@@ -249,10 +256,33 @@
     <string name="add_text_as_comment">Añadir como comentario</string>
     <string name="progress_count">%1$d de %2$d</string>
     <plurals name="progress_error_count">
-        <item quantity="one">%1$d error al subir.</item>
-        <item quantity="other">%1$d errores al subir.</item>
+        <item quantity="one">%1$d error al subir</item>
+        <item quantity="other">%1$d errores al subir</item>
     </plurals>
     <string name="simple_report">Informe</string>
     <string name="error_action_open_battery_settings">Ajustes de batería</string>
+    <string name="move_warning">No se pueden transferir cio los comentarios ni los adjuntos al mover una tarjeta a otro tablero.</string>
     <string name="clone_board">Clonar tablero</string>
-    </resources>
+    <string name="cloning_board">Clonando %1$s…</string>
+    <string name="successfully_cloned_board">Clonados con éxito %1$s</string>
+    <string name="attachment_does_not_yet_exist">El adjunto todavía no existe en Deck</string>
+    <string name="card_does_not_yet_exist">La tarjeta todavía no existe en Deck</string>
+
+    <string name="widget_stack_title">Lista</string>
+    <string name="widget_stack_header_icon">Icono de la cabecera del widget</string>
+    <string name="widget_stack_placeholder_icon">Espacio para icono del widget</string>
+    <string name="select_stack">Seleccione lista</string>
+    <string name="project_type_deck_board">Tablero Deck</string>
+    <string name="project_type_deck_card">Tarjeta Deck</string>
+    <string name="project_type_file">Archivo</string>
+    <string name="projects_title">Proyectos</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d recurso</item>
+        <item quantity="other">%1$d recursos</item>
+    </plurals>
+    <string name="no_assigned_label">Sin etiqueta asignada</string>
+    <string name="single_card">Carta única</string>
+    <string name="project_type_room">Sala de conversación</string>
+    <string name="simple_move">Mover</string>
+    <string name="cannot_upload_files_without_permission">No se puede subir archivos sin permiso</string>
+</resources>

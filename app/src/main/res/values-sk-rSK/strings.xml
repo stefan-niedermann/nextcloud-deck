@@ -38,6 +38,8 @@
     <string name="simple_disabled">zakázané</string>
     <string name="simple_copied">Skopírované</string>
     <string name="simple_archive">Archivovať</string>
+    <string name="simple_unassigned">Nepriradený</string>
+
     <string name="edit_board">Upraviť nástenku</string>
     <string name="archive_board">Archivovať nástenku</string>
     <string name="delete_board">Zmazať nástenku</string>
@@ -132,7 +134,7 @@
     <string name="delete_board_message">Táto nástenka sa natrvalo odstráni, vrátane všetkých zoznamov a kariet.</string>
     <string name="settings_theme_title">Tmavý motív</string>
     <string name="settings_branding_title">Použitie vlastného loga</string>
-    <string name="settings_compact_title">Kompaktný režim 🆕</string>
+    <string name="settings_compact_title">Kompaktný režim</string>
     <string name="settings_background_sync">Synchronizácia na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchronizovať na Wi-Fi a mobilných dátach</string>
     <string name="pref_value_wifi_only">Synchronizovať len na Wi-Fi</string>
@@ -220,7 +222,7 @@
 
     <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Skúste vyinútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k chybnému pripojeniu k aplikácii Nextcloud.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Ak problém pretrváva, pokúste sa tento problém vyriešiť vymazaním úložiska oboch aplikácií: Nextcloud a Nextcloud Deck.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ak problém pretrváva, pokúste sa tento problém vyriešiť vymazaním úložiska oboch aplikácií: Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Aktualizácia databázy zlyhala. Nahláste problém a vymažte ukladací priestor, aby ste aplikáciu mohli normálne používať.</string>
     <string name="error_dialog_tip_clear_storage">Úložisko môžete vyčistiť otvorením informácii o aplikácii a výberom Úložisko → Vyčistiť úložisko.</string>
     <string name="error_dialog_tip_files_outdated">Váš Nextcloud vyzerá byť zastaralý. Navštívte Play Store alebo F-Droid pre získanie najnovšej verzie.</string>
@@ -235,6 +237,8 @@
     <string name="error_dialog_we_need_info">Aby sme vám pomohli, potrebujeme následovné technické informácie:</string>
     <string name="error_dialog_redirect">Váš server odpovedal stavovým kódom HTTP 302, čo znamená, že na svojom serveri nemáte nainštalovanú aplikáciu Deck alebo je niečo nesprávne nastavené. Môže to byť spôsobené vlastnými zmenami v súbore .htaccess alebo aplikáciami Nextcloud, ako je OID Client.</string>
     <string name="error_dialog_version_not_parsable">Nepodarilo sa určiť verziu aplikácie Deck na strane servera. Skontrolujte, či je nainštalovaný a povolený.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Účet vašej aplikácie Nextcloud už nemusí byť autorizovaný.</string>
+    <string name="error_dialog_user_not_found_in_database">Aktuálny používateľ sa nezhoduje s používateľom, ktorý máme v našej databáze. Ak používate server LDAP vo vašej inštancii Nextcloud, vaša aplikácia Nextcloud pravdepodobne uložila staré ID používateľa.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepodarilo sa načítať možnosti vášho servera. Uistite sa, že váš server funguje správne a že ďalšie klientske aplikácie majú prístup k serveru Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Prílohu nebolo možné nahrať. Skúste to zdieľať iným spôsobom a dajte nám vedieť o tejto chybe.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Vypnite všetky optimalizácie batérie pre aplikácie Nextcloud a Deck.</string>
@@ -247,6 +251,7 @@
     <string name="info_box_version_not_supported">Verzia servera %1$s nie je podporovaná, aktualizujte ju na %2$s</string>
     <string name="share_link">Sprístupniť odkaz</string>
     <string name="archive_cards">Archivovať karty</string>
+
     <string name="manage_accounts">Spravovať účty</string>
     <string name="manage_list">Spravovať zoznam</string>
     <string name="simple_reply">Odpoveď</string>
@@ -255,11 +260,37 @@
     <string name="add_text_as_comment">Pridať ako komentár</string>
     <string name="progress_count">%1$d z %2$d</string>
     <plurals name="progress_error_count">
-        <item quantity="one">%1$d chyba pri nahrávaní</item>
-        <item quantity="few">%1$d chyby pri nahrávaní</item>
-        <item quantity="many">%1$d chyby pri nahrávaní</item>
-        <item quantity="other">%1$d chýb pri nahrávaní</item>
+        <item quantity="one">%1$d chyba počas nahrávania</item>
+        <item quantity="few">%1$d chyby počas nahrávania</item>
+        <item quantity="many">%1$d chyby počas nahrávania</item>
+        <item quantity="other">%1$d chýb počas nahrávania</item>
     </plurals>
     <string name="simple_report">Hlásenie</string>
     <string name="error_action_open_battery_settings">Nastavenia batérie.</string>
-    </resources>
+    <string name="move_warning">Pri presúvaní karty na inú nástenku nie je možné prenášať komentáre ani prílohy.</string>
+    <string name="clone_board">Duplikovať nástenku</string>
+    <string name="cloning_board">Klonovanie %1$s…</string>
+    <string name="successfully_cloned_board">%1$s úspešne klonovaný</string>
+    <string name="attachment_does_not_yet_exist">Príloha ešte na nástenke neexistuje</string>
+    <string name="card_does_not_yet_exist">Karta ešte na nástenke neexistuje</string>
+
+    <string name="widget_stack_title">Zoznam</string>
+    <string name="widget_stack_header_icon">Ikona hlavičky miniaplikácie</string>
+    <string name="widget_stack_placeholder_icon">Ikona zástupného symbolu miniaplikácie</string>
+    <string name="select_stack">Vyberte zoznam</string>
+    <string name="project_type_deck_board">Palubná doska</string>
+    <string name="project_type_deck_card">Palubná karta</string>
+    <string name="project_type_file">Súbor</string>
+    <string name="projects_title">Projekty</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d zdroj</item>
+        <item quantity="few">%1$d zdroje</item>
+        <item quantity="many">%1$d zdroje</item>
+        <item quantity="other">%1$d zdrojov</item>
+    </plurals>
+    <string name="no_assigned_label">Žiadna priradená značka</string>
+    <string name="single_card">Jedna karta</string>
+    <string name="project_type_room">Diskusná miestnosť</string>
+    <string name="simple_move">Presunúť</string>
+    <string name="cannot_upload_files_without_permission">Nie je možné nahrávať súbory bez povolenia</string>
+</resources>

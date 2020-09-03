@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_prepare_create">
+    tools:showIn="@layout/activity_pick_stack">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -25,35 +25,10 @@
         android:layout_below="@id/appBarLayout"
         android:padding="@dimen/spacer_2x">
 
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/account_select"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:prompt="@string/choose_account"
-                android:spinnerMode="dialog"
-                tools:listitem="@layout/item_prepare_create_account" />
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/board_select"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:prompt="@string/choose_board"
-                android:spinnerMode="dialog"
-                tools:listitem="@layout/item_board" />
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/stack_select"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:prompt="@string/choose_list"
-                android:spinnerMode="dialog"
-                tools:listitem="@layout/item_board" />
-        </LinearLayout>
+            android:layout_height="wrap_content" />
     </ScrollView>
 
     <LinearLayout

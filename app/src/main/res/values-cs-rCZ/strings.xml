@@ -38,6 +38,8 @@
     <string name="simple_disabled">vypnuto</string>
     <string name="simple_copied">Zkopírováno</string>
     <string name="simple_archive">Archiv</string>
+    <string name="simple_unassigned">Nepřiřazeno</string>
+
     <string name="edit_board">Upravit tabuli</string>
     <string name="archive_board">Archivovat tabuli</string>
     <string name="delete_board">Smazat tabuli</string>
@@ -132,7 +134,7 @@
     <string name="delete_board_message">Toto tabuli nadobro smaže, včetně všech seznamů a karet.</string>
     <string name="settings_theme_title">Tmavý motiv vzhledu</string>
     <string name="settings_branding_title">Opatření vlastním logem</string>
-    <string name="settings_compact_title">Kompaktní režim 🆕</string>
+    <string name="settings_compact_title">Kompaktní režim</string>
     <string name="settings_background_sync">Synchronizace na pozadí</string>
     <string name="pref_value_wifi_and_mobile">Synchr. přes Wi-Fi a mobilní data</string>
     <string name="pref_value_wifi_only">Synchr. pouze přes Wi-Fi</string>
@@ -220,7 +222,7 @@
 
     <string name="error_dialog_title">Ó ne– co teď? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prosím pokuste se vynutit ukončení aplikace a spusťte ji znovu. Možná se něco nepodařilo při spojení s aplikací Nextcloud.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">Pokud problém přetrvává, zkuste problém vyřešit vyčištěním úložišť obou aplikací: Nextcloud a Nextcloud Deck.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Pokud problém přetrvává, zkuste problém vyřešit vyčištěním úložišť obou aplikací: Nextcloud a Nextcloud Deck.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Přechod na novější verzi databáze se nezdařil. Prosíme nahlaste tento problém vývojářům a aby bylo možné aplikaci normálně používat, vyčistěte úložiště.</string>
     <string name="error_dialog_tip_clear_storage">Úložiště můžete vyčistit otevřením informací o aplikací a vybráním Úložiště → Vyčistit úložiště.</string>
     <string name="error_dialog_tip_files_outdated">Zdá se, že aplikace Nextcloud, nainstalovaná na vašem zařízení, je staré verze. Přejděte prosím do Play Store nebo F-Droid a nainstalujte si nejnovější verzi.</string>
@@ -235,6 +237,8 @@
     <string name="error_dialog_we_need_info">Abychom vám mohli pomoci, potřebujeme následující technické údaje:</string>
     <string name="error_dialog_redirect">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Deck, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient.</string>
     <string name="error_dialog_version_not_parsable">Nepodařilo se zjistit verze aplikace Deck na straně serveru. Zajistěte, aby byla nainstalovaná a zapnutá.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Může být, že účet vaší Nextcloud aplikace už nemá potřebná pověření.</string>
+    <string name="error_dialog_user_not_found_in_database">Stávající uživatel se neshoduje s uživatelem, který je v databázi. Pokud na své instanci Nextcloud používáte LDAP, je možné, že Nextcloud aplikace má uložený starý identifikátor uživatele.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepodařilo se zjistit schopnosti serveru, který využíváte. Ověřte, že server v pořádku běží a ostatní klientské aplikace mohou k Nextcloud přistupovat.</string>
     <string name="error_dialog_attachment_upload_failed">Přílohu se nepodařilo nahrát. Zkuste ji nasdílet jiným způsobem a dejte nám o této chybě vědět.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">V nastavení systému prosím pro aplikace Nextcloud a Deck vypněte veškeré optimalizace spotřeby energie z akumulátoru.</string>
@@ -247,6 +251,7 @@
     <string name="info_box_version_not_supported">Verze serveru %1$s není podporována, přejděte na verzi %2$s</string>
     <string name="share_link">Odkaz na sdílení</string>
     <string name="archive_cards">Archivovat karty</string>
+
     <string name="manage_accounts">Spravovat účty</string>
     <string name="manage_list">Spravovat sloupec</string>
     <string name="simple_reply">Odpovědět</string>
@@ -255,11 +260,37 @@
     <string name="add_text_as_comment">Přidat jako komentář</string>
     <string name="progress_count">%1$d z %2$d</string>
     <plurals name="progress_error_count">
-        <item quantity="one">%1$d chyba při nahrávání.</item>
-        <item quantity="few">%1$d chyby při nahrávání.</item>
-        <item quantity="many">%1$d chyb při nahrávání.</item>
-        <item quantity="other">%1$d chyby při nahrávání.</item>
+        <item quantity="one">%1$d chyba při nahrávání</item>
+        <item quantity="few">%1$d chyby při nahrávání</item>
+        <item quantity="many">%1$d chyb při nahrávání</item>
+        <item quantity="other">%1$d chyby při nahrávání</item>
     </plurals>
     <string name="simple_report">Hlášení</string>
     <string name="error_action_open_battery_settings">Nastavení správy napájení</string>
-    </resources>
+    <string name="move_warning">Při přesunutí karty na jinou tabuli není možné přenést také komentáře či přílohy.</string>
+    <string name="clone_board">Klonovat tabuli</string>
+    <string name="cloning_board">Klonování %1$s…</string>
+    <string name="successfully_cloned_board">%1$s úspěšně naklonováno</string>
+    <string name="attachment_does_not_yet_exist">Příloha ještě neexistuje v Deck</string>
+    <string name="card_does_not_yet_exist">Karta ještě neexistuje v Deck</string>
+
+    <string name="widget_stack_title">Seznam</string>
+    <string name="widget_stack_header_icon">Ikona hlavičky ovládacího prvku</string>
+    <string name="widget_stack_placeholder_icon">Ikona výplně ovládacího prvku</string>
+    <string name="select_stack">Vybrat seznam</string>
+    <string name="project_type_deck_board">Tabule aplikace Deck</string>
+    <string name="project_type_deck_card">Karta aplikace Deck</string>
+    <string name="project_type_file">Soubor</string>
+    <string name="projects_title">Projekty</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d prostředek</item>
+        <item quantity="few">%1$d prostředky</item>
+        <item quantity="many">%1$d prostředků</item>
+        <item quantity="other">%1$d prostředky</item>
+    </plurals>
+    <string name="no_assigned_label">Nepřiřazena značka</string>
+    <string name="single_card">Jedna karta</string>
+    <string name="project_type_room">Diskuzní místnost</string>
+    <string name="simple_move">Přesunout</string>
+    <string name="cannot_upload_files_without_permission">Není možné nahrávat soubory bez oprávnění</string>
+</resources>

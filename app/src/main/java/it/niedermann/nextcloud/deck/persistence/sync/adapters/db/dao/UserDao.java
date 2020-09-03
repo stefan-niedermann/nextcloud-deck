@@ -26,12 +26,16 @@ public interface UserDao extends GenericDao<User> {
             "            where ju.userId = u.localId" +
             "            and ju.cardId = :notYetAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             "    )" +
-            "    AND" +
-            "            (" +
-            "                    EXISTS (" +
-            "                    select 1 from accesscontrol" +
-            "                    where userId = u.localId and boardId = :boardId" +
-            "            )" +
+            "  AND ( " +
+            "    EXISTS (" +
+            "            select 1 from userinboard where boardId = :boardId AND userId = u.localId" +
+            "    )" +
+            "    OR" +
+            "    EXISTS (" +
+            "       select 1 from accesscontrol" + //  v GROUP!
+            "       where (userId = u.localId OR (type = 1 and exists(select 1 from UserInGroup uig where uig.memberId = u.localId and uig.groupId = userId))) " +
+            "           and boardId = :boardId and status <> 3" +
+            "    )" +
             "    OR" +
             "    EXISTS (" +
             "            select 1 from board where localId = :boardId AND ownerId = u.localId" +
@@ -39,16 +43,6 @@ public interface UserDao extends GenericDao<User> {
             ")" +
             "and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm )")
     LiveData<List<User>> searchUserByUidOrDisplayName(final long accountId, final long boardId, final long notYetAssignedToLocalCardId, final String searchTerm);
-
-    @Query("SELECT u.* FROM user u WHERE accountId = :accountId " +
-            "    AND NOT EXISTS (" +
-            "            select 1 from accesscontrol ju" +
-            "            where ju.userId = u.localId and ju.boardId = :boardId and status <> 3" + // not LOCAL_DELETED
-            "    ) " +
-            "and ( uid LIKE :searchTerm or displayname LIKE :searchTerm or primaryKey LIKE :searchTerm ) " +
-            "and u.localId <> (select b.ownerId from board b where localId = :boardId)" +
-            "ORDER BY u.displayname")
-    LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long boardId, final String searchTerm);
 
     @Query("SELECT u.* FROM user u WHERE accountId = :accountId " +
             "    AND NOT EXISTS (" +
@@ -76,12 +70,16 @@ public interface UserDao extends GenericDao<User> {
             "            where ju.userId = u.localId" +
             "            and ju.cardId = :notAssignedToLocalCardId AND status <> 3" + // not LOCAL_DELETED
             "    )" +
-            "    AND" +
-            "            (" +
-            "                    EXISTS (" +
-            "                    select 1 from accesscontrol" +
-            "                    where userId = u.localId and boardId = :boardId" +
-            "            )" +
+            "  AND ( " +
+            "    EXISTS (" +
+            "            select 1 from userinboard where boardId = :boardId AND userId = u.localId" +
+            "    )" +
+            "    OR" +
+            "    EXISTS (" +
+            "       select 1 from accesscontrol" + //  v GROUP!
+            "       where (userId = u.localId OR (type = 1 and exists(select 1 from UserInGroup uig where uig.memberId = u.localId and uig.groupId = userId))) " +
+            "           and boardId = :boardId and status <> 3" +
+            "    )" +
             "    OR" +
             "    EXISTS (" +
             "            select 1 from board where localId = :boardId AND ownerId = u.localId" +

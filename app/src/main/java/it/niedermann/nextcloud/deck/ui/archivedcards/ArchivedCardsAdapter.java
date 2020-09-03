@@ -45,7 +45,7 @@ public class ArchivedCardsAdapter extends CardAdapter {
             case R.id.action_card_delete: {
                 final WrappedLiveData<Void> liveData = syncManager.deleteCard(fullCard.getCard());
                 observeOnce(liveData, lifecycleOwner, (next) -> {
-                    if (liveData.hasError()) {
+                    if (liveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(liveData.getError())) {
                         ExceptionDialogFragment.newInstance(liveData.getError(), account).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName());
                     }
                 });

@@ -30,7 +30,6 @@
             android:layout_weight="1"
             android:hint="An error appeared."
             app:drawableEndCompat="@drawable/ic_bug_report_black_24dp"
-            app:drawableRightCompat="@drawable/ic_bug_report_black_24dp"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>

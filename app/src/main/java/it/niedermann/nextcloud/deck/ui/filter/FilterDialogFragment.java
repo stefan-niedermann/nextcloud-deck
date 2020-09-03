@@ -48,7 +48,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
         super.onCreate(savedInstanceState);
 
         indicator = getResources().getDrawable(R.drawable.circle_grey600_8dp);
-        indicator.setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.SRC_ATOP);
+        indicator.setColorFilter(getResources().getColor(R.color.defaultBrand), PorterDuff.Mode.SRC_ATOP);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
@@ -63,10 +63,10 @@ public class FilterDialogFragment extends BrandedDialogFragment {
             filterInformationDraft.observe(this, (draft) -> {
                 switch (position) {
                     case 0:
-                        tab.setIcon(draft.getLabels().size() > 0 ? indicator : null);
+                        tab.setIcon(draft.getLabels().size() > 0 || draft.isNoAssignedLabel() ? indicator : null);
                         break;
                     case 1:
-                        tab.setIcon(draft.getUsers().size() > 0 ? indicator : null);
+                        tab.setIcon(draft.getUsers().size() > 0 || draft.isNoAssignedUser() ? indicator : null);
                         break;
                     case 2:
                         tab.setIcon(draft.getDueType() != EDueType.NO_FILTER ? indicator : null);

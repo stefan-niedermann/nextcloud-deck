@@ -10,6 +10,7 @@
     android:layout_marginEnd="@dimen/spacer_2x"
     android:layout_marginBottom="@dimen/spacer_1x"
     android:focusable="true"
+    app:cardElevation="@dimen/spacer_1qx"
     app:cardBackgroundColor="@color/bg_card">
 
     <LinearLayout
@@ -62,6 +63,7 @@
                     android:drawablePadding="@dimen/spacer_1hx"
                     android:gravity="center"
                     android:padding="@dimen/spacer_1hx"
+                    android:paddingEnd="@dimen/spacer_1x"
                     android:textColor="@color/fg_secondary"
                     app:drawableStartCompat="@drawable/calendar_blank_grey600_24dp"
                     tools:text="tomorrow" />

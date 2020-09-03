@@ -1,0 +1,4 @@
+- 👥 Filter does not seem to work as expected (#492)
+- 🐞 Problem with uploading file (attachment) (#646)
+- 🐞 Enhanced Group-handling (#639)
+- 🌎 Language updates

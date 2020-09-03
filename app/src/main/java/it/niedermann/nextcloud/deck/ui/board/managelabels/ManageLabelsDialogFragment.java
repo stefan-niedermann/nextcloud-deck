@@ -143,7 +143,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
     private void deleteLabel(@NonNull Label label) {
         final WrappedLiveData<Void> deleteLiveData = syncManager.deleteLabel(label);
         observeOnce(deleteLiveData, this, (v) -> {
-            if (deleteLiveData.hasError()) {
+            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                 final Throwable error = deleteLiveData.getError();
                 assert error != null;
                 Toast.makeText(requireContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();

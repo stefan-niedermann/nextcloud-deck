@@ -82,7 +82,6 @@ public class EditActivity extends BrandedActivity {
         setSupportActionBar(binding.toolbar);
 
         viewModel = new ViewModelProvider(this).get(EditCardViewModel.class);
-        syncManager = new SyncManager(this);
 
         loadDataFromIntent();
     }
@@ -116,6 +115,7 @@ public class EditActivity extends BrandedActivity {
             throw new IllegalArgumentException(BUNDLE_KEY_ACCOUNT + " must not be null.");
         }
         viewModel.setAccount(account);
+        syncManager = new SyncManager(this, viewModel.getAccount().getName());
 
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
@@ -137,7 +137,7 @@ public class EditActivity extends BrandedActivity {
                 setupViewPager();
                 setupTitle();
             } else {
-                observeOnce(syncManager.getCardByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
+                observeOnce(syncManager.getFullCardWithProjectsByLocalId(account.getId(), cardId), EditActivity.this, (fullCard) -> {
                     if (fullCard == null) {
                         new BrandedAlertDialogBuilder(this)
                                 .setTitle(R.string.card_not_found)
@@ -153,6 +153,8 @@ public class EditActivity extends BrandedActivity {
                 });
             }
         }));
+
+        DeckLog.verbose("Finished loading intent data: { accountId = " + viewModel.getAccount().getId() + " , cardId = " + cardId + " }");
     }
 
     @Override
@@ -298,7 +300,7 @@ public class EditActivity extends BrandedActivity {
         if (isBrandingEnabled(this)) {
             final Drawable navigationIcon = binding.toolbar.getNavigationIcon();
             if (navigationIcon == null) {
-                DeckLog.error("Excpected navigationIcon to be present.");
+                DeckLog.error("Expected navigationIcon to be present.");
             } else {
                 DrawableCompat.setTint(binding.toolbar.getNavigationIcon(), colorAccent);
             }

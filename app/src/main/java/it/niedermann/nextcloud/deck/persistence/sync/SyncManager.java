@@ -7,12 +7,14 @@ import androidx.annotation.AnyThread;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Size;
 import androidx.annotation.WorkerThread;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.nextcloud.android.sso.api.ParsedResponse;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.File;
@@ -20,7 +22,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +33,7 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.GsonConfig;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.api.LastSyncUtil;
+import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -39,9 +44,11 @@ import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.internal.FilterInformation;
@@ -49,6 +56,7 @@ import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.OcsComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
@@ -70,6 +78,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.B
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.providers.partial.BoardWithStacksAndLabelsUpSyncDataProvider;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
+import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
 @SuppressWarnings("WeakerAccess")
@@ -81,6 +90,8 @@ public class SyncManager {
     private DataBaseAdapter dataBaseAdapter;
     @NonNull
     private ServerAdapter serverAdapter;
+
+    private static final Map<Long, List<IResponseCallback<Boolean>>> RUNNING_SYNCS = new ConcurrentHashMap<>();
 
     @AnyThread
     public SyncManager(@NonNull Context context) {
@@ -167,76 +178,136 @@ public class SyncManager {
 
     @AnyThread
     public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
-        if (responseCallback.getAccount() == null) {
+        synchronize(Collections.singletonList(responseCallback));
+    }
+
+    private void synchronize(@NonNull @Size(min = 1) List<IResponseCallback<Boolean>> responseCallbacks) {
+        if (responseCallbacks == null || responseCallbacks.size() < 1) {
+            return;
+        }
+        IResponseCallback<Boolean> responseCallback = responseCallbacks.get(0);
+        Account callbackAccount = responseCallback.getAccount();
+        if (callbackAccount == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must not be null.");
         }
-        if (responseCallback.getAccount().getId() == null) {
+        Long callbackAccountId = callbackAccount.getId();
+        if (callbackAccountId == null) {
             throw new IllegalArgumentException(Account.class.getSimpleName() + " object in given " + IResponseCallback.class.getSimpleName() + " must contain a valid id, but given id was null.");
         }
-        doAsync(() -> refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
-            @Override
-            public void onResponse(Capabilities response) {
-                if (!response.isMaintenanceEnabled()) {
-                    if (response.getDeckVersion().isSupported(appContext)) {
-                        long accountId = responseCallback.getAccount().getId();
-                        Date lastSyncDate = LastSyncUtil.getLastSyncDate(responseCallback.getAccount().getId());
-                        Date now = DateUtil.nowInGMT();
+        List<IResponseCallback<Boolean>> queuedCallbacks = RUNNING_SYNCS.get(callbackAccountId);
+        if (queuedCallbacks != null) {
+            queuedCallbacks.addAll(responseCallbacks);
+            return;
+        } else {
+            RUNNING_SYNCS.put(callbackAccountId, new ArrayList<>(responseCallbacks));
+        }
+        doAsync(() -> {
+            List<IResponseCallback<Boolean>> existingQueue = RUNNING_SYNCS.get(callbackAccountId);
+            List<IResponseCallback<Boolean>> callbacksQueueForSync = existingQueue == null ? new ArrayList<>() : new ArrayList<>(existingQueue);
+            refreshCapabilities(new IResponseCallback<Capabilities>(responseCallback.getAccount()) {
+                @Override
+                public void onResponse(Capabilities response) {
+                    if (response != null && !response.isMaintenanceEnabled()) {
+                        if (response.getDeckVersion().isSupported(appContext)) {
+                            long accountId = callbackAccountId;
+                            Date lastSyncDate = LastSyncUtil.getLastSyncDate(callbackAccountId);
+                            Date now = DateUtil.nowInGMT();
 
-                        final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
+                            final SyncHelper syncHelper = new SyncHelper(serverAdapter, dataBaseAdapter, lastSyncDate);
 
-                        IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(responseCallback.getAccount()) {
-                            @Override
-                            public void onResponse(Boolean response) {
-                                syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
-                                    @Override
-                                    public void onResponse(Boolean response) {
-                                        // TODO deactivate for dev
-                                        LastSyncUtil.setLastSyncDate(accountId, now);
-                                        responseCallback.onResponse(response);
-                                    }
+                            IResponseCallback<Boolean> callback = new IResponseCallback<Boolean>(callbackAccount) {
+                                @Override
+                                public void onResponse(Boolean response) {
+                                    syncHelper.setResponseCallback(new IResponseCallback<Boolean>(account) {
+                                        @Override
+                                        public void onResponse(Boolean response) {
+                                            // TODO deactivate for dev
+                                            LastSyncUtil.setLastSyncDate(accountId, now);
+                                            respondCallbacksAfterSync(callbacksQueueForSync, response, null);
+                                        }
 
-                                    @Override
-                                    public void onError(Throwable throwable) {
-                                        super.onError(throwable);
-                                        responseCallback.onError(throwable);
-                                    }
-                                });
-                                doAsync(() -> {
-                                    try {
-                                        syncHelper.doUpSyncFor(new BoardDataProvider());
-                                    } catch (Throwable e) {
-                                        DeckLog.logError(e);
-                                        responseCallback.onError(e);
-                                    }
-                                });
+                                        @Override
+                                        public void onError(Throwable throwable) {
+                                            super.onError(throwable);
+                                            respondCallbacksAfterSync(callbacksQueueForSync, null, throwable);
+                                        }
+                                    });
+                                    doAsync(() -> {
+                                        try {
+                                            syncHelper.doUpSyncFor(new BoardDataProvider());
+                                        } catch (Throwable e) {
+                                            DeckLog.logError(e);
+                                            respondCallbacksAfterSync(callbacksQueueForSync, null, e);
+                                        }
+                                    });
 
+                                }
+
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    super.onError(throwable);
+                                    respondCallbacksAfterSync(callbacksQueueForSync, null, throwable);
+                                }
+                            };
+
+                            syncHelper.setResponseCallback(callback);
+
+                            try {
+                                syncHelper.doSyncFor(new BoardDataProvider());
+                            } catch (Throwable e) {
+                                DeckLog.logError(e);
+                                respondCallbacksAfterSync(callbacksQueueForSync, null, e);
                             }
-
-                            @Override
-                            public void onError(Throwable throwable) {
-                                super.onError(throwable);
-                                responseCallback.onError(throwable);
-                            }
-                        };
-
-                        syncHelper.setResponseCallback(callback);
-
-                        try {
-                            syncHelper.doSyncFor(new BoardDataProvider());
-                        } catch (Throwable e) {
-                            DeckLog.logError(e);
-                            responseCallback.onError(e);
+                        } else {
+                            respondCallbacksAfterSync(callbacksQueueForSync, Boolean.FALSE, null);
+                            DeckLog.warn("No sync. Server version not supported: " + response.getDeckVersion().getOriginalVersion());
                         }
                     } else {
-                        responseCallback.onResponse(false);
-                        DeckLog.warn("No sync. Server version not supported: " + response.getDeckVersion().getOriginalVersion());
+                        respondCallbacksAfterSync(callbacksQueueForSync, Boolean.FALSE, null);
+                        if (response != null) {
+                            DeckLog.warn("No sync. Status maintenance mode: " + response.isMaintenanceEnabled());
+                        }
                     }
-                } else {
-                    responseCallback.onResponse(false);
-                    DeckLog.warn("No sync. Status maintenance mode: " + response.isMaintenanceEnabled());
                 }
+            });
+        });
+    }
+
+    private void respondCallbacksAfterSync(List<IResponseCallback<Boolean>> callbacksQueueForSync, Boolean response, Throwable throwable) {
+        if (callbacksQueueForSync == null || callbacksQueueForSync.isEmpty()) {
+            return;
+        }
+        // notify done callbacks
+        DeckLog.info("SyncQueue: responding sync for " + callbacksQueueForSync.size() + " queued callbacks!");
+        List<IResponseCallback<Boolean>> callbacksQueue = new ArrayList<>(callbacksQueueForSync);
+        if (throwable == null) {
+            //success:
+            for (IResponseCallback<Boolean> callback : callbacksQueue) {
+                if (callback != null) callback.onResponse(response);
             }
-        }));
+        } else {
+            // failure:
+            for (IResponseCallback<Boolean> callback : callbacksQueue) {
+                if (callback != null) callback.onError(throwable);
+            }
+        }
+        // remove done callbacks from queue
+        IResponseCallback<Boolean> firstCallbackOfAccount = callbacksQueue.iterator().next();
+        List<IResponseCallback<Boolean>> queuedCallbacks = RUNNING_SYNCS.get(firstCallbackOfAccount.getAccount().getId());
+        if (queuedCallbacks == null) {
+            return;
+        }
+        for (IResponseCallback<Boolean> callback : callbacksQueue) {
+            queuedCallbacks.remove(callback);
+        }
+        // cleanup if done, or proceed if not
+        if (queuedCallbacks.isEmpty()) {
+            RUNNING_SYNCS.remove(firstCallbackOfAccount.getAccount().getId());
+        } else {
+            DeckLog.info("SyncQueue: starting sync for " + queuedCallbacks.size() + " queued callbacks!");
+            RUNNING_SYNCS.remove(firstCallbackOfAccount.getAccount().getId());
+            synchronize(queuedCallbacks);
+        }
     }
 
 //
@@ -348,13 +419,14 @@ public class SyncManager {
     public void refreshCapabilities(@NonNull IResponseCallback<Capabilities> callback) {
         doAsync(() -> {
             try {
-                serverAdapter.getCapabilities(new IResponseCallback<Capabilities>(callback.getAccount()) {
+                Account accountForEtag = dataBaseAdapter.getAccountByIdDirectly(callback.getAccount().getId());
+                serverAdapter.getCapabilities(accountForEtag.getEtag(), new IResponseCallback<ParsedResponse<Capabilities>>(callback.getAccount()) {
                     @Override
-                    public void onResponse(Capabilities response) {
+                    public void onResponse(ParsedResponse<Capabilities> response) {
                         Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
-                        acc.applyCapabilities(response);
+                        acc.applyCapabilities(response.getResponse(), response.getHeaders().get("ETag"));
                         dataBaseAdapter.updateAccount(acc);
-                        callback.onResponse(response);
+                        callback.onResponse(response.getResponse());
                     }
 
                     @Override
@@ -364,13 +436,28 @@ public class SyncManager {
                             if (requestFailedException.getStatusCode() == HTTP_UNAVAILABLE && requestFailedException.getCause() != null) {
                                 String errorString = requestFailedException.getCause().getMessage();
                                 Capabilities capabilities = GsonConfig.getGson().fromJson(errorString, Capabilities.class);
+                                DeckLog.verbose("HTTP Status " + HTTP_UNAVAILABLE + ": This server seems to be in maintenance mode.");
                                 if (capabilities.isMaintenanceEnabled()) {
-                                    doAsync(() -> {
-                                        onResponse(capabilities);
-                                    });
+                                    doAsync(() -> onResponse(ParsedResponse.of(capabilities)));
                                 } else {
                                     onError(throwable);
                                 }
+                            } else if (requestFailedException.getStatusCode() == HTTP_NOT_MODIFIED) {
+                                DeckLog.verbose("HTTP Status " + HTTP_NOT_MODIFIED + ": There haven't been any changes on the server side for this request.");
+                                //could be after maintenance. so we have to at least revert the maintenance flag
+                                doAsync(() -> {
+                                    Account acc = dataBaseAdapter.getAccountByIdDirectly(account.getId());
+                                    if (acc.isMaintenanceEnabled()) {
+                                        acc.setMaintenanceEnabled(false);
+                                        dataBaseAdapter.updateAccount(acc);
+                                    }
+                                    Capabilities capabilities = new Capabilities();
+                                    capabilities.setMaintenanceEnabled(false);
+                                    capabilities.setDeckVersion(acc.getServerDeckVersionAsObject());
+                                    capabilities.setTextColor(acc.getTextColor());
+                                    capabilities.setColor(acc.getColor());
+                                    callback.onResponse(capabilities);
+                                });
                             }
                         } else {
                             callback.onError(throwable);
@@ -381,6 +468,26 @@ public class SyncManager {
                 callback.onError(e);
             }
         });
+    }
+
+    /**
+     * @param accountId ID of the account
+     * @return all {@link Board}s no matter if {@link Board#archived} or not.
+     */
+    @SuppressWarnings("JavadocReference")
+    @AnyThread
+    public LiveData<List<Board>> getBoards(long accountId) {
+        return dataBaseAdapter.getBoards(accountId);
+    }
+
+    /**
+     * @param localProjectId LocalId of the OcsProject
+     * @return all {@link OcsProjectResource}s of the Project
+     */
+    @SuppressWarnings("JavadocReference")
+    @AnyThread
+    public LiveData<List<OcsProjectResource>> getResourcesForProject(long localProjectId) {
+        return dataBaseAdapter.getResourcesByLocalProjectId(localProjectId);
     }
 
     /**
@@ -458,6 +565,10 @@ public class SyncManager {
         doAsync(() -> {
             Account originAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
             User newOwner = dataBaseAdapter.getUserByUidDirectly(originAccountId, originAccount.getUserName());
+            if (newOwner == null) {
+                liveData.postError(new DeckException(DeckException.Hint.UNKNOWN_ACCOUNT_USER_ID, "User with Account-UID \""+originAccount.getUserName()+"\" not found."));
+                return;
+            }
             FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(originAccountId, originBoardLocalId);
             String newBoardTitleBaseName = originalBoard.getBoard().getTitle().trim();
             int newBoardTitleCopyIndex = 0;
@@ -638,8 +749,8 @@ public class SyncManager {
         return liveData;
     }
 
-    public LiveData<List<FullStack>> getStacksForBoard(long accountId, long localBoardId) {
-        return dataBaseAdapter.getFullStacksForBoard(accountId, localBoardId);
+    public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
+        return dataBaseAdapter.getStacksForBoard(accountId, localBoardId);
     }
 
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
@@ -729,13 +840,14 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<FullStack> createStack(long accountId, @NonNull Stack stack) {
+    public WrappedLiveData<FullStack> createStack(long accountId, @NonNull String title, long boardLocalId) {
         WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
         doAsync(() -> {
+            Stack stack = new Stack(title, boardLocalId);
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, stack.getBoardId());
             FullStack fullStack = new FullStack();
-            // TODO set stack order to (highest stack-order from board) + 1 and remove logic from caller
+            stack.setOrder(dataBaseAdapter.getHighestStackOrderInBoard(stack.getBoardId()) + 1);
             stack.setAccountId(accountId);
             stack.setBoardId(board.getLocalId());
             fullStack.setStack(stack);
@@ -758,15 +870,16 @@ public class SyncManager {
     }
 
     @AnyThread
-    public WrappedLiveData<FullStack> updateStack(@NonNull FullStack stack) {
+    public WrappedLiveData<FullStack> updateStackTitle(long localStackId, @NonNull String newTitle) {
         WrappedLiveData<FullStack> liveData = new WrappedLiveData<>();
         doAsync(() -> {
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(localStackId);
+            FullBoard fullBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
             Account account = dataBaseAdapter.getAccountByIdDirectly(stack.getAccountId());
-            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(stack.getAccountId(), stack.getStack().getBoardId());
-            updateStack(account, board, stack, liveData);
+            stack.getStack().setTitle(newTitle);
+            updateStack(account, fullBoard, stack, liveData);
         });
         return liveData;
-
     }
 
     @AnyThread
@@ -817,8 +930,8 @@ public class SyncManager {
         });
     }
 
-    public LiveData<FullCard> getCardByLocalId(long accountId, long cardLocalId) {
-        return dataBaseAdapter.getCardByLocalId(accountId, cardLocalId);
+    public LiveData<FullCardWithProjects> getFullCardWithProjectsByLocalId(long accountId, long cardLocalId) {
+        return dataBaseAdapter.getCardWithProjectsByLocalId(accountId, cardLocalId);
     }
 
     public LiveData<List<FullCard>> getFullCardsForStack(long accountId, long localStackId, @Nullable FilterInformation filter) {
@@ -999,24 +1112,36 @@ public class SyncManager {
         return liveData;
     }
 
-    // TODO return WrappedLiveData for error handling
     @AnyThread
-    public void archiveBoard(@NonNull Board board) {
+    public WrappedLiveData<FullBoard> archiveBoard(@NonNull Board board) {
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
-            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
-            b.getBoard().setArchived(true);
-            updateBoard(b);
+            try {
+                FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+                b.getBoard().setArchived(true);
+                updateBoard(b);
+                liveData.postValue(b);
+            } catch (Throwable e) {
+                liveData.postError(e);
+            }
         });
+        return liveData;
     }
 
-    // TODO return WrappedLiveData for error handling
     @AnyThread
-    public void dearchiveBoard(@NonNull Board board) {
+    public WrappedLiveData<FullBoard> dearchiveBoard(@NonNull Board board) {
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
-            FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
-            b.getBoard().setArchived(false);
-            updateBoard(b);
+            try {
+                FullBoard b = dataBaseAdapter.getFullBoardByLocalIdDirectly(board.getAccountId(), board.getLocalId());
+                b.getBoard().setArchived(false);
+                updateBoard(b);
+                liveData.postValue(b);
+            } catch (Throwable e) {
+                liveData.postError(e);
+            }
         });
+        return liveData;
     }
 
     @AnyThread
@@ -1743,7 +1868,31 @@ public class SyncManager {
         doAsync(() -> dataBaseAdapter.deleteSingleCardWidget(widgetId));
     }
 
+    public void addStackWidget(int appWidgetId, long accountId, long stackId, boolean darkTheme) {
+        doAsync(() -> dataBaseAdapter.createStackWidget(appWidgetId, accountId, stackId, darkTheme));
+    }
+
+    @WorkerThread
+    public StackWidgetModel getStackWidgetModelDirectly(int appWidgetId) throws NoSuchElementException {
+        final StackWidgetModel model = dataBaseAdapter.getStackWidgetModelDirectly(appWidgetId);
+        if (model == null) {
+            throw new NoSuchElementException();
+        }
+        return model;
+    }
+
+    public void deleteStackWidgetModel(int appWidgetId) {
+        doAsync(() -> dataBaseAdapter.deleteStackWidget(appWidgetId));
+    }
+
     private static class BooleanResultHolder {
         public boolean result = true;
+    }
+
+    /**
+     * FIXME https://github.com/stefan-niedermann/nextcloud-deck/issues/640
+     */
+    public static boolean ignoreExceptionOnVoidError(Throwable t) {
+        return t instanceof NullPointerException && "Attempt to invoke interface method 'void io.reactivex.disposables.Disposable.dispose()' on a null object reference".equals(t.getMessage());
     }
 }

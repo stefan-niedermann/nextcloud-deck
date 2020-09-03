@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/spacer_1x">
+    android:paddingStart="@dimen/spacer_2x"
+    android:paddingTop="@dimen/spacer_2x"
+    android:paddingEnd="@dimen/spacer_2x"
+    android:paddingBottom="@dimen/spacer_1x">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacer_1x"
+        android:layout_marginEnd="@dimen/spacer_1x"
+        tools:text="@string/action_card_move_title" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="@dimen/spacer_2x">
 
         <FrameLayout
             android:id="@+id/fragment_container"
@@ -21,6 +36,7 @@
         android:id="@+id/move_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/scrollView"
         android:layout_marginTop="@dimen/spacer_2x"
         android:drawableStart="@drawable/ic_warning_white_24dp"
         android:drawablePadding="@dimen/spacer_3x"
@@ -35,15 +51,14 @@
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/move_warning"
         android:layout_marginTop="@dimen/spacer_1x"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/spacer_1x"
-        android:paddingEnd="@dimen/spacer_1x"
         app:justifyContent="space_between">
 
         <Button
             android:id="@+id/cancel"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -53,11 +68,11 @@
 
         <Button
             android:id="@+id/submit"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="@string/action_card_move"
+            android:text="@string/simple_move"
             android:textColor="@color/defaultBrand" />
     </com.google.android.flexbox.FlexboxLayout>
-</LinearLayout>
+</RelativeLayout>

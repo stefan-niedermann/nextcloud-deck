@@ -60,7 +60,14 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
         viewModel.setCurrentAccount(account);
         syncManager = new SyncManager(this);
 
-        adapter = new ArchivedBoardsAdapter(viewModel.isCurrentAccountIsSupportedVersion(), getSupportFragmentManager(), (board) -> syncManager.dearchiveBoard(board));
+        adapter = new ArchivedBoardsAdapter(viewModel.isCurrentAccountIsSupportedVersion(), getSupportFragmentManager(), (board) -> {
+            final WrappedLiveData<FullBoard> liveData = syncManager.dearchiveBoard(board);
+            observeOnce(liveData, this, (fullBoard) -> {
+                if (liveData.hasError()) {
+                    ExceptionDialogFragment.newInstance(liveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            });
+        });
         binding.recyclerView.setAdapter(adapter);
 
         syncManager.getBoards(account.getId(), true).observe(this, (boards) -> {
@@ -86,7 +93,7 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
     public void onBoardDeleted(Board board) {
         final WrappedLiveData<Void> deleteLiveData = syncManager.deleteBoard(board);
         observeOnce(deleteLiveData, this, (next) -> {
-            if (deleteLiveData.hasError()) {
+            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
                 ExceptionDialogFragment.newInstance(deleteLiveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         });
@@ -104,7 +111,12 @@ public class ArchivedBoardsActvitiy extends BrandedActivity implements DeleteBoa
 
     @Override
     public void onArchive(Board board) {
-        syncManager.dearchiveBoard(board);
+        final WrappedLiveData<FullBoard> liveData = syncManager.dearchiveBoard(board);
+        observeOnce(liveData, this, (fullBoard) -> {
+            if (liveData.hasError()) {
+                ExceptionDialogFragment.newInstance(liveData.getError(), viewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override

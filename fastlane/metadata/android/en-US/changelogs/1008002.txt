@@ -1,5 +1,7 @@
 1.8.2
 
+- 🐞 Fix opening not yet synchronized attachment (#599)
+- 🐞 Back arrow in attachments details has wrong color in light theme (#598)
 - 🚫 Filter by unassigned cards
 
 1.8.1

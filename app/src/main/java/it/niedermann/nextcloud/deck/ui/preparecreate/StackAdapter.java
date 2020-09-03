@@ -9,9 +9,9 @@ import androidx.annotation.NonNull;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateStackBinding;
-import it.niedermann.nextcloud.deck.model.full.FullStack;
+import it.niedermann.nextcloud.deck.model.Stack;
 
-public class StackAdapter extends AbstractAdapter<FullStack> {
+public class StackAdapter extends AbstractAdapter<Stack> {
 
     @SuppressWarnings("WeakerAccess")
     public StackAdapter(@NonNull Context context) {
@@ -19,7 +19,7 @@ public class StackAdapter extends AbstractAdapter<FullStack> {
     }
 
     @Override
-    protected long getItemId(@NonNull FullStack item) {
+    protected long getItemId(@NonNull Stack item) {
         return item.getLocalId();
     }
 
@@ -33,9 +33,9 @@ public class StackAdapter extends AbstractAdapter<FullStack> {
             binding = ItemPrepareCreateStackBinding.bind(convertView);
         }
 
-        final FullStack item = getItem(position);
+        final Stack item = getItem(position);
         if (item != null) {
-            binding.stackTitle.setText(item.getStack().getTitle());
+            binding.stackTitle.setText(item.getTitle());
         } else {
             DeckLog.logError(new IllegalArgumentException("No item for position " + position));
         }

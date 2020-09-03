@@ -6,9 +6,9 @@
     android:layout_height="wrap_content"
     android:ellipsize="middle"
     android:paddingStart="72dp"
-    android:paddingTop="@dimen/spacer_2x"
+    android:paddingTop="20dp"
     android:paddingEnd="@dimen/spacer_2x"
-    android:paddingBottom="@dimen/spacer_2x"
+    android:paddingBottom="20dp"
     android:singleLine="true"
     android:textAppearance="?attr/textAppearanceListItem"
     tools:text="@tools:sample/full_names" />

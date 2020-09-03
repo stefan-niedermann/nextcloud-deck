@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.persistence.sync.adapters.db;
 
 import android.content.Context;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
@@ -24,10 +25,12 @@ import it.niedermann.nextcloud.deck.model.JoinCardWithUser;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.model.Stack;
 import it.niedermann.nextcloud.deck.model.User;
+import it.niedermann.nextcloud.deck.model.appwidgets.StackWidgetModel;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 import it.niedermann.nextcloud.deck.model.full.FullBoard;
 import it.niedermann.nextcloud.deck.model.full.FullCard;
+import it.niedermann.nextcloud.deck.model.full.FullCardWithProjects;
 import it.niedermann.nextcloud.deck.model.full.FullSingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
@@ -37,10 +40,16 @@ import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
+import it.niedermann.nextcloud.deck.model.ocs.projects.JoinCardWithProject;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProject;
+import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.model.relations.UserInBoard;
+import it.niedermann.nextcloud.deck.model.relations.UserInGroup;
 import it.niedermann.nextcloud.deck.model.widget.singlecard.SingleCardWidgetModel;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.widget.singlecard.SingleCardWidget;
+import it.niedermann.nextcloud.deck.ui.widget.stack.StackWidget;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
 
@@ -186,16 +195,23 @@ public class DataBaseAdapter {
         args.add(localStackId);
 
         if (!filter.getLabels().isEmpty()) {
-            query.append("and exists(select 1 from joincardwithlabel j where c.localId = cardId and labelId in (");
+            query.append("and (exists(select 1 from joincardwithlabel j where c.localId = cardId and labelId in (");
             fillSqlWithListValues(query, args, filter.getLabels());
             query.append(") and j.status<>3) ");
+            if (filter.isNoAssignedLabel()) {
+                query.append("or not exists(select 1 from joincardwithlabel j where c.localId = cardId and j.status<>3)) ");
+            } else {
+                query.append(") ");
+            }
+        } else if (filter.isNoAssignedLabel()) {
+            query.append("and not exists(select 1 from joincardwithlabel j where c.localId = cardId and j.status<>3) ");
         }
 
         if (!filter.getUsers().isEmpty()) {
             query.append("and (exists(select 1 from joincardwithuser j where c.localId = cardId and userId in (");
             fillSqlWithListValues(query, args, filter.getUsers());
             query.append(") and j.status<>3) ");
-            if (filter.isNoAssignedUser()){
+            if (filter.isNoAssignedUser()) {
                 query.append("or not exists(select 1 from joincardwithuser j where c.localId = cardId and j.status<>3)) ");
             } else {
                 query.append(") ");
@@ -326,6 +342,8 @@ public class DataBaseAdapter {
             // readded!
             existing.setStatusEnum(DBStatus.LOCAL_EDITED);
             db.getJoinCardWithUserDao().update(existing);
+        } else if (existing != null) {
+            return;
         } else {
             JoinCardWithUser join = new JoinCardWithUser();
             join.setCardId(localCardId);
@@ -348,6 +366,25 @@ public class DataBaseAdapter {
 
     public void deleteJoinedLabelsForBoard(Long localBoardId) {
         db.getJoinBoardWithLabelDao().deleteByBoardId(localBoardId);
+    }
+    public void deleteGroupMembershipsOfGroup(Long localGroupUserId) {
+        db.getUserInGroupDao().deleteByGroupId(localGroupUserId);
+    }
+    public void deleteBoardMembershipsOfBoard(Long localBoardId) {
+        db.getUserInBoardDao().deleteByBoardId(localBoardId);
+    }
+    public void addUserToGroup(Long localGroupUserId, Long localGroupMemberId) {
+        UserInGroup relation = new UserInGroup();
+        relation.setGroupId(localGroupUserId);
+        relation.setMemberId(localGroupMemberId);
+        db.getUserInGroupDao().insert(relation);
+    }
+
+    public void addUserToBoard(Long localUserId, Long localBoardId) {
+        UserInBoard relation = new UserInBoard();
+        relation.setBoardId(localBoardId);
+        relation.setUserId(localUserId);
+        db.getUserInBoardDao().insert(relation);
     }
 
     public void updateLabel(Label label, boolean setStatus) {
@@ -397,6 +434,10 @@ public class DataBaseAdapter {
         return distinctUntilChanged(db.getAccountDao().getAllAccounts());
     }
 
+    public LiveData<List<Board>> getBoards(long accountId) {
+        return distinctUntilChanged(db.getBoardDao().getBoardsForAccount(accountId));
+    }
+
     public LiveData<List<Board>> getBoards(long accountId, boolean archived) {
         return distinctUntilChanged(
                 archived
@@ -437,8 +478,8 @@ public class DataBaseAdapter {
         db.getBoardDao().update(board);
     }
 
-    public LiveData<List<FullStack>> getFullStacksForBoard(long accountId, long localBoardId) {
-        return distinctUntilChanged(db.getStackDao().getFullStacksForBoard(accountId, localBoardId));
+    public LiveData<List<Stack>> getStacksForBoard(long accountId, long localBoardId) {
+        return distinctUntilChanged(db.getStackDao().getStacksForBoard(accountId, localBoardId));
     }
 
     @WorkerThread
@@ -446,27 +487,36 @@ public class DataBaseAdapter {
         return db.getStackDao().getFullStacksForBoardDirectly(accountId, localBoardId);
     }
 
+    @AnyThread
     public LiveData<FullStack> getStack(long accountId, long localStackId) {
         return distinctUntilChanged(db.getStackDao().getFullStack(accountId, localStackId));
     }
 
+    @WorkerThread
     public long createStack(long accountId, Stack stack) {
         stack.setAccountId(accountId);
         return db.getStackDao().insert(stack);
     }
 
+    @WorkerThread
     public void deleteStack(Stack stack, boolean setStatus) {
         markAsDeletedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
     }
 
+    @WorkerThread
     public void deleteStackPhysically(Stack stack) {
         db.getStackDao().delete(stack);
     }
 
+    @WorkerThread
     public void updateStack(Stack stack, boolean setStatus) {
         markAsEditedIfNeeded(stack, setStatus);
         db.getStackDao().update(stack);
+        if (db.getStackWidgetModelDao().containsStackLocalId(stack.getLocalId())) {
+            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + stack.getTitle() + "\"");
+            StackWidget.notifyDatasetChanged(context);
+        }
     }
 
     @WorkerThread
@@ -474,8 +524,14 @@ public class DataBaseAdapter {
         return db.getCardDao().getCardByLocalIdDirectly(accountId, localCardId);
     }
 
+    @AnyThread
     public LiveData<FullCard> getCardByLocalId(long accountId, long localCardId) {
         return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardByLocalId(accountId, localCardId), this::filterRelationsForCard);
+    }
+
+    @AnyThread
+    public LiveData<FullCardWithProjects> getCardWithProjectsByLocalId(long accountId, long localCardId) {
+        return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardWithProjectsByLocalId(accountId, localCardId), this::filterRelationsForCard);
     }
 
     @WorkerThread
@@ -488,15 +544,27 @@ public class DataBaseAdapter {
         return db.getCardDao().getLocallyChangedCardsByLocalStackIdDirectly(accountId, localStackId);
     }
 
+    @WorkerThread
     public long createCard(long accountId, Card card) {
         card.setAccountId(accountId);
-        return db.getCardDao().insert(card);
+        long newCardId = db.getCardDao().insert(card);
+
+        notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId());
+
+        return newCardId;
     }
 
-    public int getHighestCardOrderInStack(long localStackId){
+    @WorkerThread
+    public int getHighestCardOrderInStack(long localStackId) {
         return db.getCardDao().getHighestOrderInStack(localStackId);
     }
 
+    @WorkerThread
+    public int getHighestStackOrderInBoard(long localBoardId) {
+        return db.getStackDao().getHighestStackOrderInBoard(localBoardId);
+    }
+
+    @WorkerThread
     public void deleteCard(Card card, boolean setStatus) {
         markAsDeletedIfNeeded(card, setStatus);
         if (setStatus) {
@@ -504,21 +572,35 @@ public class DataBaseAdapter {
         } else {
             deleteCardPhysically(card);
         }
+
+        notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId());
     }
 
+    @WorkerThread
     public void deleteCardPhysically(Card card) {
         db.getCardDao().delete(card);
     }
 
+    @WorkerThread
     public void updateCard(@NonNull Card card, boolean setStatus) {
         markAsEditedIfNeeded(card, setStatus);
+        Long originalStackLocalId = db.getCardDao().getLocalStackIdByLocalCardId(card.getLocalId());
         db.getCardDao().update(card);
         if (db.getSingleCardWidgetModelDao().containsCardLocalId(card.getLocalId())) {
-            DeckLog.info("Notifying widget about card changes for \"" + card.getTitle() + "\"");
+            DeckLog.info("Notifying " + SingleCardWidget.class.getSimpleName() + " about card changes for \"" + card.getTitle() + "\"");
             SingleCardWidget.notifyDatasetChanged(context);
+        }
+        notifyStackWidgetsIfNeeded(card.getTitle(), card.getStackId(), originalStackLocalId);
+    }
+
+    private void notifyStackWidgetsIfNeeded(String cardTitle, long... affectedStackIds) {
+        if (db.getStackWidgetModelDao().containsStackLocalId(affectedStackIds)) {
+            DeckLog.info("Notifying " + StackWidget.class.getSimpleName() + " about card changes for \"" + cardTitle + "\"");
+            StackWidget.notifyDatasetChanged(context);
         }
     }
 
+    @WorkerThread
     public long createAccessControl(long accountId, @NonNull AccessControl entity) {
         entity.setAccountId(accountId);
         return db.getAccessControlDao().insert(entity);
@@ -577,10 +659,6 @@ public class DataBaseAdapter {
         return db.getUserDao().searchUserByUidOrDisplayName(accountId, boardId, notYetAssignedToLocalCardId, "%" + searchTerm.trim() + "%");
     }
 
-    public LiveData<List<User>> searchUserByUidOrDisplayNameForACL(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
-        validateSearchTerm(searchTerm);
-        return db.getUserDao().searchUserByUidOrDisplayNameForACL(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
-    }
     public List<User> searchUserByUidOrDisplayNameForACLDirectly(final long accountId, final long notYetAssignedToACL, final String searchTerm) {
         validateSearchTerm(searchTerm);
         return db.getUserDao().searchUserByUidOrDisplayNameForACLDirectly(accountId, notYetAssignedToACL, "%" + searchTerm.trim() + "%");
@@ -920,15 +998,86 @@ public class DataBaseAdapter {
         db.getSingleCardWidgetModelDao().delete(model);
     }
 
+    public long createStackWidget(int appWidgetId, long accountId, long stackId, boolean darkTheme) {
+        StackWidgetModel model = new StackWidgetModel();
+        model.setAppWidgetId(appWidgetId);
+        model.setAccountId(accountId);
+        model.setStackId(stackId);
+        model.setDarkTheme(darkTheme);
+
+        return db.getStackWidgetModelDao().insert(model);
+    }
+
+    public StackWidgetModel getStackWidgetModelDirectly(int appWidgetId) {
+        return db.getStackWidgetModelDao().getStackWidgetByAppWidgetIdDirectly(appWidgetId);
+    }
+
+    public void deleteStackWidget(int appWidgetId) {
+        StackWidgetModel model = new StackWidgetModel();
+        model.setAppWidgetId(appWidgetId);
+        db.getStackWidgetModelDao().delete(model);
+    }
+
     public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {
-        return db.getAccountDao().readAccountsForHostWithReadAccessToBoard("%"+host+"%", boardRemoteId);
+        return db.getAccountDao().readAccountsForHostWithReadAccessToBoard("%" + host + "%", boardRemoteId);
     }
 
     public List<Account> readAccountsForHostWithReadAccessToBoardDirectly(String host, long boardRemoteId) {
-        return db.getAccountDao().readAccountsForHostWithReadAccessToBoardDirectly("%"+host+"%", boardRemoteId);
+        return db.getAccountDao().readAccountsForHostWithReadAccessToBoardDirectly("%" + host + "%", boardRemoteId);
     }
 
     public Board getBoardForAccountByNameDirectly(long account, String title) {
         return db.getBoardDao().getBoardForAccountByNameDirectly(account, title);
+    }
+
+    public OcsProject getProjectByRemoteIdDirectly(long accountId, Long remoteId) {
+        return db.getOcsProjectDao().getProjectByRemoteIdDirectly(accountId, remoteId);
+    }
+
+    public Long createProjectDirectly(long accountId, OcsProject entity) {
+        entity.setAccountId(accountId);
+        return db.getOcsProjectDao().insert(entity);
+    }
+
+    public void deleteProjectResourcesForProjectIdDirectly(Long localProjectId) {
+        db.getOcsProjectResourceDao().deleteByProjectId(localProjectId);
+    }
+
+    public void updateProjectDirectly(long accountId, OcsProject entity) {
+        entity.setAccountId(accountId);
+        db.getOcsProjectDao().update(entity);
+    }
+
+    public void deleteProjectDirectly(OcsProject ocsProject) {
+        db.getOcsProjectResourceDao().deleteByProjectId(ocsProject.getLocalId());
+        db.getOcsProjectDao().delete(ocsProject);
+    }
+
+    public Long createProjectResourceDirectly(Long accountId, OcsProjectResource resource) {
+        resource.setAccountId(accountId);
+        return db.getOcsProjectResourceDao().insert(resource);
+    }
+    public int countProjectResourcesInProjectDirectly(Long projectLocalId) {
+        return db.getOcsProjectResourceDao().countProjectResourcesInProjectDirectly(projectLocalId);
+    }
+    public LiveData<Integer> countProjectResourcesInProject(Long projectLocalId) {
+        return db.getOcsProjectResourceDao().countProjectResourcesInProject(projectLocalId);
+    }
+    public LiveData<List<OcsProjectResource>> getResourcesByLocalProjectId(Long projectLocalId) {
+        return db.getOcsProjectResourceDao().getResourcesByLocalProjectId(projectLocalId);
+    }
+
+    public void assignCardToProjectIfMissng(Long accountId, Long localProjectId, Long remoteCardId) {
+        Card card = db.getCardDao().getCardByRemoteIdDirectly(accountId, remoteCardId);
+        if (card != null) {
+            JoinCardWithProject existing = db.getJoinCardWithOcsProjectDao().getAssignmentByCardIdAndProjectIdDirectly(card.getLocalId(), localProjectId);
+            if (existing == null) {
+                JoinCardWithProject assignment = new JoinCardWithProject();
+                assignment.setStatus(DBStatus.UP_TO_DATE.getId());
+                assignment.setCardId(card.getLocalId());
+                assignment.setProjectId(localProjectId);
+                db.getJoinCardWithOcsProjectDao().insert(assignment);
+            }
+        }
     }
 }

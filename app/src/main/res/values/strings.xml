@@ -155,7 +155,7 @@
     <string name="delete_board_message">This will permanently delete this board including all lists and cards.</string>
     <string name="settings_theme_title">Dark theme</string>
     <string name="settings_branding_title">Branding</string>
-    <string name="settings_compact_title">Compact mode 🆕</string>
+    <string name="settings_compact_title">Compact mode</string>
     <string name="settings_background_sync">Background synchronization</string>
     <string name="pref_value_wifi_and_mobile">Sync on Wi-Fi and mobile data</string>
     <string name="pref_value_wifi_only">Sync only on Wi-Fi</string>
@@ -243,7 +243,7 @@
 
     <string name="error_dialog_title">Oh no - What now? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Please try to force close the app and restart it again. There might have been an incorrect connection to the Nextcloud app.</string>
-    <string name="error_dialog_tip_token_mismatch_clear_storage">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Deck to solve this issue.</string>
     <string name="error_dialog_tip_database_upgrade_failed">The upgrade of the database failed. Please report the issue and clear the storage to use the app normally.</string>
     <string name="error_dialog_tip_clear_storage">You can clear the storage by opening the app info and selecting Storage → Clear storage.</string>
     <string name="error_dialog_tip_files_outdated">Your Nextcloud app seems to be outdated. Please visit the Play Store or F-Droid to get the latest version.</string>
@@ -258,6 +258,8 @@
     <string name="error_dialog_we_need_info">We need the following technical information to help you:</string>
     <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Deck app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
     <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Deck app. Please make sure it is installed and enabled.</string>
+    <string name="error_dialog_account_might_not_be_authorized">The account of your Nextcloud app might no longer be authorized.</string>
+    <string name="error_dialog_user_not_found_in_database">The current user does not match the user we have in our database. If you are using LDAP on your Nextcloud instance, your Nextcloud app might have stored an old user ID.</string>
     <string name="error_dialog_capabilities_not_parsable">We could not fetch the capabilities of your server. Please make sure your server is running well and other client apps are able to access Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">An attachment could not be uploaded. Please try to share it on another way and let us know about this bug.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Please disable all battery optimizations for Nextcloud and the Deck app.</string>
@@ -270,6 +272,7 @@
     <string name="info_box_version_not_supported">Server version %1$s not supported, please update to %2$s</string>
     <string name="share_link">Share link</string>
     <string name="archive_cards">Archive cards</string>
+
     <string name="manage_accounts">Manage accounts</string>
     <string name="manage_list">Manage list</string>
     <string name="simple_reply">Reply</string>
@@ -278,7 +281,7 @@
     <string name="add_text_as_comment">Add as comment</string>
     <string name="progress_count">%1$d of %2$d</string>
     <plurals name="progress_error_count">
-        <item quantity="one">%1$d error while uploading.</item>
+        <item quantity="one">%1$d error while uploading</item>
         <item quantity="other">%1$d errors while uploading</item>
     </plurals>
     <string name="simple_report">Report</string>
@@ -289,4 +292,22 @@
     <string name="successfully_cloned_board">Successfully cloned %1$s</string>
     <string name="attachment_does_not_yet_exist">Attachment does not yet exist in Deck</string>
     <string name="card_does_not_yet_exist">Card does not yet exist in Deck</string>
+
+    <string name="widget_stack_title">List</string>
+    <string name="widget_stack_header_icon">Widget header icon</string>
+    <string name="widget_stack_placeholder_icon">Widget placeholder icon</string>
+    <string name="select_stack">Select list</string>
+    <string name="project_type_deck_board">Deck board</string>
+    <string name="project_type_deck_card">Deck card</string>
+    <string name="project_type_file">File</string>
+    <string name="projects_title">Projects</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d resource</item>
+        <item quantity="other">%1$d resources</item>
+    </plurals>
+    <string name="no_assigned_label">No assigned tag</string>
+    <string name="single_card">Single card</string>
+    <string name="project_type_room">Talk room</string>
+    <string name="simple_move">Move</string>
+    <string name="cannot_upload_files_without_permission">Can not upload files without permission</string>
 </resources>
