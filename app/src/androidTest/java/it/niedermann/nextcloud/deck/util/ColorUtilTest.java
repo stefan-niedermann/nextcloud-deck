@@ -111,6 +111,11 @@ public class ColorUtilTest {
         validColors.add(new Pair<>("ccc", "#cccccc"));
         validColors.add(new Pair<>("af0", "#aaff00"));
         validColors.add(new Pair<>("#af0", "#aaff00"));
+        // Strip alpha channel (https://github.com/stefan-niedermann/nextcloud-deck/issues/674)
+        validColors.add(new Pair<>("af05", "#aaff00"));
+        validColors.add(new Pair<>("#af05", "#aaff00"));
+        validColors.add(new Pair<>("aaff0055", "#aaff00"));
+        validColors.add(new Pair<>("#aaff0055", "#aaff00"));
         for (Pair<String, String> color : validColors) {
             assertEquals("Expect " + color.first + " to be cleaned up to " + color.second, color.second, ColorUtil.formatColorToParsableHexString(color.first));
         }

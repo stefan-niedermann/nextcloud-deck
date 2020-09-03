@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,14 +48,30 @@ public final class ColorUtil {
         }
         final char[] chars = input.replaceAll("#", "").toCharArray();
         final StringBuilder sb = new StringBuilder(7).append("#");
-        if (chars.length == 6) {
-            sb.append(chars);
-        } else if (chars.length == 3) {
-            for (char c : chars) {
-                sb.append(c).append(c);
+        switch (chars.length) {
+            case 8: { // Strip alpha channel
+                sb.append(Arrays.copyOfRange(chars, 0, 6));
+                break;
             }
-        } else {
-            throw new IllegalArgumentException("unparsable color string: \"" + input + "\"");
+            case 6: { // Default long
+                sb.append(chars);
+                break;
+            }
+            case 4: { // Strip alpha channel
+                for (char c : Arrays.copyOfRange(chars, 0, 3)) {
+                    sb.append(c).append(c);
+                }
+                break;
+            }
+            case 3: { // Default short
+                for (char c : chars) {
+                    sb.append(c).append(c);
+                }
+                break;
+            }
+            default: {
+                throw new IllegalArgumentException("unparsable color string: \"" + input + "\"");
+            }
         }
         final String formattedHexColor = sb.toString();
         if (isParsableValidHexColorString(formattedHexColor)) {
