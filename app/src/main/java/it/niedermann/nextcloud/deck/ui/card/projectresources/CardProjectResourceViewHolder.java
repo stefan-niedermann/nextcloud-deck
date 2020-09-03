@@ -43,10 +43,12 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
         if (resource.getType() != null) {
             switch (resource.getType()) {
                 case "deck": {
+                    // TODO https://github.com/stefan-niedermann/nextcloud-deck/issues/671
                     binding.type.setText(resources.getString(R.string.project_type_deck_board));
                     break;
                 }
                 case "deck-card": {
+                    // TODO https://github.com/stefan-niedermann/nextcloud-deck/issues/671
                     binding.type.setText(resources.getString(R.string.project_type_deck_card));
                     break;
                 }
