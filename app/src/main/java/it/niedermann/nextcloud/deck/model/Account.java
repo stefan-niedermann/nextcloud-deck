@@ -65,7 +65,7 @@ public class Account implements Serializable {
     }
 
     @Ignore
-    public Account(String name, String userName, String url) {
+    public Account(@NonNull String name, @NonNull String userName, @NonNull String url) {
         this.name = name;
         this.userName = userName;
         this.url = url;
