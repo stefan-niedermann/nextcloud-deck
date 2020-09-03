@@ -555,11 +555,14 @@ public class SyncManager {
     /**
      * Creates a new {@link Board} and adds the same {@link Label} and {@link Stack} as in the origin {@link Board}.
      * Owner of the target {@link Board} will be the {@link User} with the {@link Account} of {@param targetAccountId}.
+     * @param cloneCards determines whether or not the cards in this {@link Board} shall be cloned or not
      * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
+     *
+     * TODO implement https://github.com/stefan-niedermann/nextcloud-deck/issues/608
      */
     @AnyThread
-    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardColor) {
-        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
+    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardColor, boolean cloneCards) {
+        final WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
 
         doAsync(() -> {
             Account originAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
