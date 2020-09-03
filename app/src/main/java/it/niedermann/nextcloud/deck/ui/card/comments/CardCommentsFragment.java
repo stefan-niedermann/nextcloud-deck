@@ -116,6 +116,7 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
                 }
                 return true;
             });
+            binding.message.addTextChangedListener(new CardCommentsMentionProposer(binding.mentionProposer));
         } else {
             binding.addCommentLayout.setVisibility(GONE);
         }
