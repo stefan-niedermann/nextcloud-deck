@@ -642,11 +642,13 @@ public class SyncManager {
                         newCard.setAccountId(targetAccountId);
                         newCard.setStatusEnum(DBStatus.LOCAL_EDITED);
                         long createdCardId = dataBaseAdapter.createCard(targetAccountId, newCard);
-                        for (Label oldLabel : oldCard.getLabels()) {
-                            Long newLabelId = isSameAccount ? oldLabel.getLocalId() : oldToNewLabelIdsDictionary.get(oldLabel.getLocalId());
-                            dataBaseAdapter.createJoinCardWithLabel(newLabelId, createdCardId, DBStatus.LOCAL_EDITED);
+                        if (oldCard.getLabels() != null) {
+                            for (Label oldLabel : oldCard.getLabels()) {
+                                Long newLabelId = isSameAccount ? oldLabel.getLocalId() : oldToNewLabelIdsDictionary.get(oldLabel.getLocalId());
+                                dataBaseAdapter.createJoinCardWithLabel(newLabelId, createdCardId, DBStatus.LOCAL_EDITED);
+                            }
                         }
-                        if (isSameAccount) {
+                        if (isSameAccount && oldCard.getAssignedUsers() != null) {
                             for (User assignedUser : oldCard.getAssignedUsers()) {
                                 dataBaseAdapter.createJoinCardWithUser(assignedUser.getLocalId(), createdCardId, DBStatus.LOCAL_EDITED);
                             }
