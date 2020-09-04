@@ -88,7 +88,8 @@
             <ImageView
                 android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_marginStart="@dimen/spacer_2x"
+                android:layout_marginEnd="@dimen/spacer_1x"
                 android:contentDescription="@null"
                 android:tint="@color/grey600"
                 app:srcCompat="@drawable/ic_comment_white_24dp" />
