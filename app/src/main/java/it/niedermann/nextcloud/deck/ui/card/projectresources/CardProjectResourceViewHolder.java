@@ -39,9 +39,10 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
         if (resource.getType() != null) {
             switch (resource.getType()) {
                 case "deck": {
-                    binding.type.setText(resources.getString(R.string.project_type_deck_board));
                     // TODO https://github.com/stefan-niedermann/nextcloud-deck/issues/671
                     linkifyViewHolder(account, link);
+                    binding.type.setText(resources.getString(R.string.project_type_deck_board));
+                    binding.image.setImageResource(R.drawable.project_deck_36dp);
                     break;
                 }
                 case "deck-card": {
@@ -69,16 +70,19 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
                         linkifyViewHolder(account, link);
                     }
                     binding.type.setText(resources.getString(R.string.project_type_deck_card));
+                    binding.image.setImageResource(R.drawable.project_deck_36dp);
                     break;
                 }
                 case "file": {
                     binding.type.setText(resources.getString(R.string.project_type_file));
                     linkifyViewHolder(account, link);
+                    binding.image.setImageResource(R.drawable.project_talk_36dp);
                     break;
                 }
                 case "room": {
                     binding.type.setText(resources.getString(R.string.project_type_room));
                     linkifyViewHolder(account, link);
+                    binding.image.setImageResource(R.drawable.project_talk_36dp);
                     break;
                 }
                 default: {
