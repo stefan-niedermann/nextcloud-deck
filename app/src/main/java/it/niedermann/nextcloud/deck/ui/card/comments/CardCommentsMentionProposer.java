@@ -65,7 +65,6 @@ public class CardCommentsMentionProposer implements TextWatcher {
 
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         final int selectionStart = editText.getSelectionStart();
@@ -111,6 +110,7 @@ public class CardCommentsMentionProposer implements TextWatcher {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateListenerOfView(View avatar, CharSequence s, Pair<String, Integer> mentionProposal, User user) {
         avatar.setOnClickListener((c) -> {
             editText.setText(
