@@ -83,15 +83,8 @@ public class CardCommentsMentionProposer implements TextWatcher {
                         for (User user : users) {
                             final ImageView avatar = new ImageView(mentionProposerLayout.getContext());
                             avatar.setLayoutParams(layoutParams);
-                            avatar.setOnClickListener((c) -> {
-                                editText.setText(
-                                        s.subSequence(0, mentionProposal.second) +
-                                                user.getUid() +
-                                                s.subSequence(mentionProposal.second + mentionProposal.first.length() + 1, s.length() - 1)
-                                );
-                                editText.setSelection(mentionProposal.second + user.getUid().length());
-                                mentionProposerLayout.setVisibility(View.GONE);
-                            });
+                            updateListenerOfView(avatar, s, mentionProposal, user);
+
                             mentionProposerLayout.addView(avatar);
 
                             Glide.with(avatar.getContext())
@@ -102,6 +95,12 @@ public class CardCommentsMentionProposer implements TextWatcher {
                         }
                         this.users.clear();
                         this.users.addAll(users);
+                    } else {
+                        int i = 0;
+                        for (User user : users) {
+                            updateListenerOfView(mentionProposerLayout.getChildAt(i), s, mentionProposal, user);
+                            i++;
+                        }
                     }
                 });
             } else {
@@ -110,6 +109,18 @@ public class CardCommentsMentionProposer implements TextWatcher {
             }
             mentionProposerLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void updateListenerOfView(View avatar, CharSequence s, Pair<String, Integer> mentionProposal, User user) {
+        avatar.setOnClickListener((c) -> {
+            editText.setText(
+                    s.subSequence(0, mentionProposal.second) +
+                            user.getUid() +
+                            s.subSequence(mentionProposal.second + mentionProposal.first.length(), s.length())
+            );
+            editText.setSelection(mentionProposal.second + user.getUid().length());
+            mentionProposerLayout.setVisibility(View.GONE);
+        });
     }
 
     @Override
