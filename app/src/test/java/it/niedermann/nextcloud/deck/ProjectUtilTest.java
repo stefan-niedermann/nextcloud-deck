@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.deck;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
@@ -8,7 +7,7 @@ import it.niedermann.nextcloud.deck.util.ProjectUtil;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThrows;
 
-@Ignore("Implementation fails")
+//@Ignore("Implementation fails")
 public class ProjectUtilTest {
     @Test
     public void extractBoardIdAndCardIdFromUrl() {
@@ -30,6 +29,7 @@ public class ProjectUtilTest {
         assertArrayEquals(ProjectUtil.extractBoardIdAndCardIdFromUrl("example.com/index.php/apps/deck/#/board/4/card/6"), new long[]{4, 6});
         assertArrayEquals(ProjectUtil.extractBoardIdAndCardIdFromUrl("http://example.com/index.php/apps/deck/#/board/4/card/6"), new long[]{4, 6});
         assertArrayEquals(ProjectUtil.extractBoardIdAndCardIdFromUrl("https://example.com/index.php/apps/deck/#/board/4/card/6"), new long[]{4, 6});
+        assertArrayEquals(ProjectUtil.extractBoardIdAndCardIdFromUrl("https://example.com/index.php/apps/deck/#/board/4/card/6/"), new long[]{4, 6});
         assertArrayEquals(ProjectUtil.extractBoardIdAndCardIdFromUrl("https://example.com/nextcloud/index.php/apps/deck/#/board/4/card/6"), new long[]{4, 6});
 
         // URLs to talk
