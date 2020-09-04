@@ -131,6 +131,7 @@ public class SyncHelper {
             public void onResponse(T response) {
                 response.setAccountId(this.account.getId());
                 T update = applyUpdatesFromRemote(provider, entity, response, accountId);
+                update.setId(response.getId());
                 update.setStatus(DBStatus.UP_TO_DATE.getId());
                 provider.updateInDB(dataBaseAdapter, accountId, update, false);
                 provider.goDeeperForUpSync(SyncHelper.this, serverAdapter, dataBaseAdapter, responseCallback);

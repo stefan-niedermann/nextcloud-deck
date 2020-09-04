@@ -595,6 +595,7 @@ public class SyncManager {
 
             } while (dataBaseAdapter.getBoardForAccountByNameDirectly(targetAccountId, newBoardTitle) != null);
 
+
             originalBoard.setAccountId(targetAccountId);
             originalBoard.setId(null);
             originalBoard.setLocalId(null);
@@ -607,6 +608,17 @@ public class SyncManager {
             originalBoard.setLocalId(newBoardId);
 
             boolean isSameAccount = targetAccountId == originAccountId;
+
+            if (isSameAccount) {
+                List<AccessControl> aclList = originalBoard.getParticipants();
+                for (AccessControl acl : aclList) {
+                    acl.setLocalId(null);
+                    acl.setBoardId(newBoardId);
+                    acl.setUserId(newOwner.getLocalId());
+                    dataBaseAdapter.createAccessControl(targetAccountId, acl);
+                }
+            }
+
             Map<Long, Long> oldToNewLabelIdsDictionary = isSameAccount ? null : new HashMap<>();
 
             for (Label label : originalBoard.getLabels()) {
@@ -656,7 +668,6 @@ public class SyncManager {
                     }
                 }
             }
-            originalBoard.setStacks(null);
 
             if (serverAdapter.hasInternetConnection()) {
                 Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
@@ -676,7 +687,7 @@ public class SyncManager {
                                 super.onError(throwable);
                                 liveData.postError(throwable);
                             }
-                        }).doUpSyncFor(new BoardWithStacksAndLabelsUpSyncDataProvider(originalBoard));
+                        }).doUpSyncFor(new BoardWithStacksAndLabelsUpSyncDataProvider(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId)));
             } else {
                 liveData.postValue(dataBaseAdapter.getFullBoardByLocalIdDirectly(targetAccountId, newBoardId));
             }
