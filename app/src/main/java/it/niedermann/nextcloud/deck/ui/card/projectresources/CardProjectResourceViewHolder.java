@@ -2,22 +2,24 @@ package it.niedermann.nextcloud.deck.ui.card.projectresources;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.net.URL;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemProjectResourceBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
+import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.ui.card.EditActivity;
+import it.niedermann.nextcloud.deck.util.ProjectUtil;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static it.niedermann.nextcloud.deck.util.ProjectUtil.getResourceUri;
 
 public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
     @NonNull
@@ -28,39 +30,61 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull Account account, @NonNull OcsProjectResource resource) {
+    public void bind(@NonNull Account account, @NonNull OcsProjectResource resource, @NonNull LifecycleOwner owner) {
         final Resources resources = itemView.getResources();
         binding.name.setText(resource.getName());
         final @Nullable String link = resource.getLink();
-        if (link != null) {
-            try {
-                binding.getRoot().setOnClickListener((v) -> itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW).setData(getResourceUri(account, resource.getLink()))));
-            } catch (IllegalArgumentException e) {
-                DeckLog.logError(e);
-            }
-        }
         binding.type.setVisibility(VISIBLE);
+        final SyncManager syncManager = new SyncManager(itemView.getContext());
         if (resource.getType() != null) {
             switch (resource.getType()) {
                 case "deck": {
                     binding.type.setText(resources.getString(R.string.project_type_deck_board));
+                    // TODO https://github.com/stefan-niedermann/nextcloud-deck/issues/671
+                    linkifyViewHolder(account, link);
                     break;
                 }
                 case "deck-card": {
+                    try {
+                        long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(link);
+                        if (ids.length == 2) {
+                            syncManager.synchronizeCardByRemoteId(ids[1], account).observe(owner, (fullCard) -> {
+                                if (fullCard != null) {
+                                    syncManager.getBoard(account.getId(), ids[0]).observe(owner, (board) -> {
+                                        if (board != null) {
+                                            binding.getRoot().setOnClickListener((v) -> itemView.getContext().startActivity(EditActivity.createEditCardIntent(itemView.getContext(), account, board.getLocalId(), fullCard.getLocalId())));
+                                        } else {
+                                            linkifyViewHolder(account, link);
+                                        }
+                                    });
+                                } else {
+                                    linkifyViewHolder(account, link);
+                                }
+                            });
+                        } else {
+                            linkifyViewHolder(account, link);
+                        }
+                    } catch (IllegalArgumentException e) {
+                        DeckLog.logError(e);
+                        linkifyViewHolder(account, link);
+                    }
                     binding.type.setText(resources.getString(R.string.project_type_deck_card));
                     break;
                 }
                 case "file": {
                     binding.type.setText(resources.getString(R.string.project_type_file));
+                    linkifyViewHolder(account, link);
                     break;
                 }
                 case "room": {
                     binding.type.setText(resources.getString(R.string.project_type_room));
+                    linkifyViewHolder(account, link);
                     break;
                 }
                 default: {
                     DeckLog.info("Unknown resource type for " + resource.getName() + ": " + resource.getType());
                     binding.type.setVisibility(GONE);
+                    linkifyViewHolder(account, link);
                     break;
                 }
             }
@@ -70,19 +94,12 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    @NonNull
-    private static Uri getResourceUri(@NonNull Account account, @NonNull String link) throws IllegalArgumentException {
-        try {
-            // Assume link contains a fully qualified Uri including host
-            final URL u = new URL(link);
-            return Uri.parse(u.toString());
-        } catch (Throwable linkIsNotQualified) {
+    private void linkifyViewHolder(@NonNull Account account, @Nullable String link) {
+        if (link != null) {
             try {
-                // Assume link is a absolute path that needs to be concatenated with account url for a complete Uri
-                final URL u = new URL(account.getUrl() + link);
-                return Uri.parse(u.toString());
-            } catch (Throwable throwable) {
-                throw new IllegalArgumentException("Could not parse " + Uri.class.getSimpleName() + ": " + link, throwable);
+                binding.getRoot().setOnClickListener((v) -> itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW).setData(getResourceUri(account, link))));
+            } catch (IllegalArgumentException e) {
+                DeckLog.logError(e);
             }
         }
     }

@@ -44,9 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginLeft="@dimen/spacer_1x"
                 android:layout_marginEnd="@dimen/spacer_1x"
-                android:layout_marginRight="@dimen/spacer_1x"
                 android:contentDescription="@string/simple_reply"
                 android:padding="@dimen/spacer_1x"
                 app:srcCompat="@drawable/ic_reply_grey600_24dp" />
@@ -57,7 +55,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginLeft="@dimen/spacer_1x"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="2"
