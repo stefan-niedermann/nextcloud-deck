@@ -7,7 +7,6 @@ import it.niedermann.nextcloud.deck.util.ProjectUtil;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThrows;
 
-//@Ignore("Implementation fails")
 public class ProjectUtilTest {
     @Test
     public void extractBoardIdAndCardIdFromUrl() {
