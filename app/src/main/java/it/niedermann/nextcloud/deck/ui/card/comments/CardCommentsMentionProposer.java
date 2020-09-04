@@ -43,21 +43,24 @@ public class CardCommentsMentionProposer implements TextWatcher {
     @NonNull
     private final EditText editText;
     @NonNull
-    private final LinearLayout mentionProposerLayout;
+    private final LinearLayout mentionProposer;
+    @NonNull
+    private final LinearLayout mentionProposerWrapper;
 
     @NonNull
     private final List<User> users = new ArrayList<>();
 
-    public CardCommentsMentionProposer(@NonNull LifecycleOwner owner, @NonNull Account account, long boardLocalId, @NonNull EditText editText, @NonNull LinearLayout avatarProposerLayout) {
+    public CardCommentsMentionProposer(@NonNull LifecycleOwner owner, @NonNull Account account, long boardLocalId, @NonNull EditText editText, LinearLayout mentionProposerWrapper, @NonNull LinearLayout avatarProposer) {
         this.owner = owner;
         this.account = account;
         this.boardLocalId = boardLocalId;
         this.editText = editText;
-        this.mentionProposerLayout = avatarProposerLayout;
+        this.mentionProposerWrapper = mentionProposerWrapper;
+        this.mentionProposer = avatarProposer;
         syncManager = new SyncManager(editText.getContext());
-        avatarSize = dpToPx(mentionProposerLayout.getContext(), R.dimen.avatar_size_small);
+        avatarSize = dpToPx(mentionProposer.getContext(), R.dimen.avatar_size_small);
         layoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
-        layoutParams.setMarginEnd(dpToPx(mentionProposerLayout.getContext(), R.dimen.spacer_1x));
+        layoutParams.setMarginEnd(dpToPx(mentionProposer.getContext(), R.dimen.spacer_1x));
     }
 
     @Override
@@ -71,20 +74,20 @@ public class CardCommentsMentionProposer implements TextWatcher {
         final int selectionEnd = editText.getSelectionEnd();
         final Pair<String, Integer> mentionProposal = CommentsUtil.getUserNameForMentionProposal(s.toString(), selectionStart);
         if (mentionProposal == null || (mentionProposal.first != null && mentionProposal.first.length() == 0) || selectionStart != selectionEnd) {
-            mentionProposerLayout.removeAllViews();
-            mentionProposerLayout.setVisibility(View.GONE);
+            mentionProposer.removeAllViews();
+            mentionProposerWrapper.setVisibility(View.GONE);
             this.users.clear();
         } else {
             if (mentionProposal.first != null && mentionProposal.second != null) {
                 observeOnce(syncManager.searchUserByUidOrDisplayName(account.getId(), boardLocalId, -1L, mentionProposal.first), owner, (users) -> {
                     if (!users.equals(this.users)) {
-                        mentionProposerLayout.removeAllViews();
+                        mentionProposer.removeAllViews();
                         for (User user : users) {
-                            final ImageView avatar = new ImageView(mentionProposerLayout.getContext());
+                            final ImageView avatar = new ImageView(mentionProposer.getContext());
                             avatar.setLayoutParams(layoutParams);
                             updateListenerOfView(avatar, s, mentionProposal, user);
 
-                            mentionProposerLayout.addView(avatar);
+                            mentionProposer.addView(avatar);
 
                             Glide.with(avatar.getContext())
                                     .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + avatarSize)
@@ -97,16 +100,16 @@ public class CardCommentsMentionProposer implements TextWatcher {
                     } else {
                         int i = 0;
                         for (User user : users) {
-                            updateListenerOfView(mentionProposerLayout.getChildAt(i), s, mentionProposal, user);
+                            updateListenerOfView(mentionProposer.getChildAt(i), s, mentionProposal, user);
                             i++;
                         }
                     }
                 });
             } else {
                 this.users.clear();
-                mentionProposerLayout.removeAllViews();
+                mentionProposer.removeAllViews();
             }
-            mentionProposerLayout.setVisibility(View.VISIBLE);
+            mentionProposerWrapper.setVisibility(View.VISIBLE);
         }
     }
 
@@ -119,7 +122,7 @@ public class CardCommentsMentionProposer implements TextWatcher {
                             s.subSequence(mentionProposal.second + mentionProposal.first.length(), s.length())
             );
             editText.setSelection(mentionProposal.second + user.getUid().length());
-            mentionProposerLayout.setVisibility(View.GONE);
+            mentionProposerWrapper.setVisibility(View.GONE);
         });
     }
 
