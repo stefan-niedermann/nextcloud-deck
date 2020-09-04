@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.card.comments;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -50,6 +51,7 @@ public class CardCommentsMentionProposer implements TextWatcher {
         syncManager = new SyncManager(editText.getContext());
         avatarSize = dpToPx(mentionProposerLayout.getContext(), R.dimen.avatar_size_small);
         layoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
+        layoutParams.setMarginEnd(dpToPx(mentionProposerLayout.getContext(), R.dimen.spacer_1x));
     }
 
     @Override
@@ -57,26 +59,38 @@ public class CardCommentsMentionProposer implements TextWatcher {
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        Pair<String, Integer> mentionProposal = CommentsUtil.getUserNameForMentionProposal(s.toString(), editText.getSelectionStart());
+        final int selectionStart = editText.getSelectionStart();
+        final int selectionEnd = editText.getSelectionEnd();
+        Pair<String, Integer> mentionProposal = CommentsUtil.getUserNameForMentionProposal(s.toString(), selectionStart);
         mentionProposerLayout.removeAllViews();
-        if (mentionProposal == null || mentionProposal.first.length() == 0) {
+        if (mentionProposal == null || (mentionProposal.first != null && mentionProposal.first.length() == 0) || selectionStart != selectionEnd) {
             mentionProposerLayout.setVisibility(View.GONE);
         } else {
-            LiveDataHelper.observeOnce(syncManager.searchUserByUidOrDisplayName(account.getId(), boardLocalId, -1L, mentionProposal.first), owner, (users) -> {
-                for (User user : users) {
-                    final ImageView avatar = new ImageView(mentionProposerLayout.getContext());
-                    avatar.setLayoutParams(layoutParams);
-                    mentionProposerLayout.addView(avatar);
+            if (mentionProposal.first != null && mentionProposal.second != null) {
+                LiveDataHelper.observeOnce(syncManager.searchUserByUidOrDisplayName(account.getId(), boardLocalId, -1L, mentionProposal.first), owner, (users) -> {
+                    for (User user : users) {
+                        final ImageView avatar = new ImageView(mentionProposerLayout.getContext());
+                        avatar.setLayoutParams(layoutParams);
+                        mentionProposerLayout.addView(avatar);
+                        avatar.setOnClickListener((c) -> {
+                            editText.setText(s.subSequence(0, mentionProposal.second).toString() +
+                                    user.getUid() +
+                                    s.subSequence(mentionProposal.second + mentionProposal.first.length(), s.length()).toString());
+                            editText.setSelection(mentionProposal.second + mentionProposal.first.length());
+                            mentionProposerLayout.setVisibility(View.GONE);
+                        });
 
-                    Glide.with(avatar.getContext())
-                            .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + avatarSize)
-                            .error(R.drawable.ic_person_grey600_24dp)
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(avatar);
-                }
-            });
+                        Glide.with(avatar.getContext())
+                                .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + avatarSize)
+                                .error(R.drawable.ic_person_grey600_24dp)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(avatar);
+                    }
+                });
+            }
             mentionProposerLayout.setVisibility(View.VISIBLE);
         }
     }
