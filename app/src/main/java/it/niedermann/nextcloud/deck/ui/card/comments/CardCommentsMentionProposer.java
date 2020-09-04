@@ -82,18 +82,23 @@ public class CardCommentsMentionProposer implements TextWatcher {
                 observeOnce(syncManager.searchUserByUidOrDisplayName(account.getId(), boardLocalId, -1L, mentionProposal.first), owner, (users) -> {
                     if (!users.equals(this.users)) {
                         mentionProposer.removeAllViews();
-                        for (User user : users) {
-                            final ImageView avatar = new ImageView(mentionProposer.getContext());
-                            avatar.setLayoutParams(layoutParams);
-                            updateListenerOfView(avatar, s, mentionProposal, user);
+                        if(users.size() > 0) {
+                            mentionProposerWrapper.setVisibility(View.VISIBLE);
+                            for (User user : users) {
+                                final ImageView avatar = new ImageView(mentionProposer.getContext());
+                                avatar.setLayoutParams(layoutParams);
+                                updateListenerOfView(avatar, s, mentionProposal, user);
 
-                            mentionProposer.addView(avatar);
+                                mentionProposer.addView(avatar);
 
-                            Glide.with(avatar.getContext())
-                                    .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + avatarSize)
-                                    .error(R.drawable.ic_person_grey600_24dp)
-                                    .apply(RequestOptions.circleCropTransform())
-                                    .into(avatar);
+                                Glide.with(avatar.getContext())
+                                        .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + avatarSize)
+                                        .error(R.drawable.ic_person_grey600_24dp)
+                                        .apply(RequestOptions.circleCropTransform())
+                                        .into(avatar);
+                            }
+                        } else {
+                            mentionProposerWrapper.setVisibility(View.GONE);
                         }
                         this.users.clear();
                         this.users.addAll(users);
@@ -108,8 +113,8 @@ public class CardCommentsMentionProposer implements TextWatcher {
             } else {
                 this.users.clear();
                 mentionProposer.removeAllViews();
+                mentionProposerWrapper.setVisibility(View.GONE);
             }
-            mentionProposerWrapper.setVisibility(View.VISIBLE);
         }
     }
 
