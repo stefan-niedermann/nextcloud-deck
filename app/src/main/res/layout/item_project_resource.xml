@@ -10,12 +10,13 @@
     android:padding="@dimen/spacer_2x">
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image"
         android:layout_width="@dimen/icon_size_details"
         android:layout_height="@dimen/icon_size_details"
+        android:layout_marginEnd="@dimen/spacer_2x"
         android:contentDescription="@null"
         android:focusable="false"
-        android:scaleType="center"
-        android:layout_marginEnd="@dimen/spacer_2x"
+        android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_projects_24" />
 
     <LinearLayout

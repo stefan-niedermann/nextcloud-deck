@@ -74,11 +74,13 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
                 case "file": {
                     binding.type.setText(resources.getString(R.string.project_type_file));
                     linkifyViewHolder(account, link);
+                    binding.image.setImageResource(R.drawable.project_talk_36dp);
                     break;
                 }
                 case "room": {
                     binding.type.setText(resources.getString(R.string.project_type_room));
                     linkifyViewHolder(account, link);
+                    binding.image.setImageResource(R.drawable.project_talk_36dp);
                     break;
                 }
                 default: {
