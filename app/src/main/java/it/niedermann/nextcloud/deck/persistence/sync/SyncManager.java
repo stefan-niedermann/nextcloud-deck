@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -605,23 +606,56 @@ public class SyncManager {
             long newBoardId = dataBaseAdapter.createBoardDirectly(originAccountId, originalBoard.getBoard());
             originalBoard.setLocalId(newBoardId);
 
-            for (Stack stack : originalBoard.getStacks()) {
-                stack.setLocalId(null);
-                stack.setId(null);
-                stack.setStatusEnum(DBStatus.LOCAL_EDITED);
-                stack.setAccountId(targetAccountId);
-                stack.setBoardId(newBoardId);
-                dataBaseAdapter.createStack(targetAccountId, stack);
-            }
-            originalBoard.setStacks(null);
+            boolean isSameAccount = targetAccountId == originAccountId;
+            Map<Long, Long> oldToNewLabelIdsDictionary = isSameAccount ? null : new HashMap<>();
+
             for (Label label : originalBoard.getLabels()) {
+                Long oldLocalId = label.getLocalId();
                 label.setLocalId(null);
                 label.setId(null);
                 label.setAccountId(targetAccountId);
                 label.setStatusEnum(DBStatus.LOCAL_EDITED);
                 label.setBoardId(newBoardId);
-                dataBaseAdapter.createLabel(targetAccountId, label);
+                long newLocalId = dataBaseAdapter.createLabel(targetAccountId, label);
+                if (!isSameAccount) {
+                    oldToNewLabelIdsDictionary.put(oldLocalId, newLocalId);
+                }
             }
+
+            List<Stack> oldStacks = originalBoard.getStacks();
+            for (Stack stack : oldStacks) {
+                Long oldStackId = stack.getLocalId();
+                stack.setLocalId(null);
+                stack.setId(null);
+                stack.setStatusEnum(DBStatus.LOCAL_EDITED);
+                stack.setAccountId(targetAccountId);
+                stack.setBoardId(newBoardId);
+                long createdStackId = dataBaseAdapter.createStack(targetAccountId, stack);
+                if (cloneCards) {
+                    List<FullCard> oldCards = dataBaseAdapter.getFullCardsForStackDirectly(originAccountId, oldStackId);
+                    for (FullCard oldCard : oldCards) {
+                        Card newCard = oldCard.getCard();
+                        newCard.setId(null);
+                        newCard.setUserId(newOwner.getLocalId());
+                        newCard.setLocalId(null);
+                        newCard.setStackId(createdStackId);
+                        newCard.setAccountId(targetAccountId);
+                        newCard.setStatusEnum(DBStatus.LOCAL_EDITED);
+                        long createdCardId = dataBaseAdapter.createCard(targetAccountId, newCard);
+                        for (Label oldLabel : oldCard.getLabels()) {
+                            Long newLabelId = isSameAccount ? oldLabel.getLocalId() : oldToNewLabelIdsDictionary.get(oldLabel.getLocalId());
+                            dataBaseAdapter.createJoinCardWithLabel(newLabelId, createdCardId, DBStatus.LOCAL_EDITED);
+                        }
+                        if (isSameAccount) {
+                            for (User assignedUser : oldCard.getAssignedUsers()) {
+                                dataBaseAdapter.createJoinCardWithUser(assignedUser.getLocalId(), createdCardId, DBStatus.LOCAL_EDITED);
+                            }
+                        }
+                    }
+                }
+            }
+            originalBoard.setStacks(null);
+
             if (serverAdapter.hasInternetConnection()) {
                 Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
                 ServerAdapter serverAdapterToUse = this.serverAdapter;
