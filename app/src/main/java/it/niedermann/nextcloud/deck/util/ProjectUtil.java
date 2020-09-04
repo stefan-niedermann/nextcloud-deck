@@ -41,7 +41,7 @@ public class ProjectUtil {
      * @param url to extract from
      * @return extracted and parsed values as long[] with length 1-2
      */
-    public static long[] extractBoardIdAndCardIdFromUrl(@Nullable String url) {
+    public static long[] extractBoardIdAndCardIdFromUrl(@Nullable String url) throws IllegalArgumentException {
         if (url == null) {
             throw new IllegalArgumentException("provided url is null");
         }
