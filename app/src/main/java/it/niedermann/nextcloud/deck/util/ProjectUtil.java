@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.util;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.net.URL;
 
@@ -40,7 +41,7 @@ public class ProjectUtil {
      * @param url to extract from
      * @return extracted and parsed values as long[] with length 1-2
      */
-    public static long[] extractBoardIdAndCardIdFromUrl(@NonNull String url) {
+    public static long[] extractBoardIdAndCardIdFromUrl(@Nullable String url) {
         if (url == null) {
             throw new IllegalArgumentException("provided url is null");
         }
@@ -48,7 +49,7 @@ public class ProjectUtil {
         // extract important part
         String[] splitByPrefix = url.split(".*index\\.php/apps/deck/#/board/");
         // split into board- and card part
-        if (splitByPrefix == null || splitByPrefix.length < 2) {
+        if (splitByPrefix.length < 2) {
             throw new IllegalArgumentException("this doesn't seem to be an URL containing the board ID");
         }
         String[] splitBySeparator = splitByPrefix[1].split("/card/");
@@ -61,7 +62,7 @@ public class ProjectUtil {
             splitBySeparator[0] = splitBySeparator[0].split("/")[0];
         }
 
-        if (splitBySeparator == null || splitBySeparator.length < 1) {
+        if (splitBySeparator.length < 1) {
             throw new IllegalArgumentException("this doesn't seem to be a valid URL containing the board ID");
         }
 
