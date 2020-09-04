@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -19,11 +20,14 @@ public class CardProjectResourceAdapter extends RecyclerView.Adapter<CardProject
     private final Account account;
     @NonNull
     private final List<OcsProjectResource> resources;
+    @NonNull
+    private final LifecycleOwner owner;
 
-    public CardProjectResourceAdapter(@NonNull Account account, @NonNull List<OcsProjectResource> resources) {
+    public CardProjectResourceAdapter(@NonNull Account account, @NonNull List<OcsProjectResource> resources, @NonNull LifecycleOwner owner) {
         this.account = account;
         this.resources = new ArrayList<>(resources.size());
         this.resources.addAll(resources);
+        this.owner = owner;
         setHasStableIds(true);
     }
 
@@ -40,7 +44,7 @@ public class CardProjectResourceAdapter extends RecyclerView.Adapter<CardProject
 
     @Override
     public void onBindViewHolder(@NonNull CardProjectResourceViewHolder holder, int position) {
-        holder.bind(account, resources.get(position));
+        holder.bind(account, resources.get(position), owner);
     }
 
     @Override

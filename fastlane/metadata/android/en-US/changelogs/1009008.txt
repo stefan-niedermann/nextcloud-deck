@@ -1,1 +1,2 @@
+- 🔗 Open cards of projects within the app (#671)
 - ⚙️ Parse colors with alpha channel (#674)
