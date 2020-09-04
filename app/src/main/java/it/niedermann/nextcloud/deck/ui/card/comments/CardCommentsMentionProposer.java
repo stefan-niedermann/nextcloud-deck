@@ -79,7 +79,7 @@ public class CardCommentsMentionProposer implements TextWatcher {
                             editText.setText(s.subSequence(0, mentionProposal.second).toString() +
                                     user.getUid() +
                                     s.subSequence(mentionProposal.second + mentionProposal.first.length(), s.length()).toString());
-                            editText.setSelection(mentionProposal.second + mentionProposal.first.length());
+                            editText.setSelection(mentionProposal.second + user.getUid().length());
                             mentionProposerLayout.setVisibility(View.GONE);
                         });
 
