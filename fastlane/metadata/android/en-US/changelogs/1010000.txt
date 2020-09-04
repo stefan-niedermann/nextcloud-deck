@@ -1,2 +1,3 @@
 - 🔗 Open cards of projects within the app (#671)
+- 💬 Allow mention users in the comments (#673)
 - ⚙️ Parse colors with alpha channel (#674)
