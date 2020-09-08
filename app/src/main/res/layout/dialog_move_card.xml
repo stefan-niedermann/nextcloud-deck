@@ -17,6 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacer_1x"
         android:layout_marginEnd="@dimen/spacer_1x"
+        android:ellipsize="end"
+        android:maxLines="5"
         tools:text="@string/action_card_move_title" />
 
     <ScrollView
@@ -38,13 +40,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/scrollView"
         android:layout_marginTop="@dimen/spacer_2x"
-        android:drawableStart="@drawable/ic_warning_white_24dp"
         android:drawablePadding="@dimen/spacer_3x"
         android:paddingStart="@dimen/spacer_3x"
         android:paddingEnd="@dimen/spacer_1x"
         android:text="@string/move_warning"
         android:textColor="@color/danger"
         android:visibility="gone"
+        app:drawableStartCompat="@drawable/ic_warning_white_24dp"
         app:drawableTint="@color/danger"
         tools:visibility="visible" />
 
