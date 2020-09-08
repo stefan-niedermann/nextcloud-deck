@@ -70,7 +70,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     @Override
     public long createInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullCard entity) {
         fixRelations(dataBaseAdapter, accountId, entity);
-        return dataBaseAdapter.createCard(accountId, entity.getCard());
+        return dataBaseAdapter.createCardDirectly(accountId, entity.getCard());
     }
 
     protected CardUpdate toCardUpdate(FullCard card) {
@@ -150,7 +150,9 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
         entity.getCard().setStackId(stack.getId());
-        serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
+//        if (board != null && stack != null && board.getId() != null && stack.getId() != null) {
+            serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
+//        } else DeckLog.error("Skipped card creation due to missing remote ID");
     }
 
     @Override
@@ -230,9 +232,14 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
             }
         }
-        List<JoinCardWithUser> deletedUsers = dataBaseAdapter.getAllDeletedUserJoinsWithRemoteIDs();
-        for (JoinCardWithUser deletedUser : deletedUsers) {
-            Card card = dataBaseAdapter.getCardByRemoteIdDirectly(account.getId(), deletedUser.getCardId());
+        List<JoinCardWithUser> changedUsers = dataBaseAdapter.getAllChangedUserJoinsWithRemoteIDs();
+        for (JoinCardWithUser changedUser : changedUsers) {
+            // not already known to server?
+            if (changedUser.getCardId() == null) {
+                //skip for now
+                continue;
+            }
+            Card card = dataBaseAdapter.getCardByRemoteIdDirectly(account.getId(), changedUser.getCardId());
             if (this.stack == null) {
                 stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             } else {
@@ -244,16 +251,16 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             } else {
                 board = this.board;
             }
-            User user = dataBaseAdapter.getUserByLocalIdDirectly(deletedUser.getUserId());
-            if (deletedUser.getStatusEnum() == DBStatus.LOCAL_DELETED) {
-                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), deletedUser.getCardId(), user.getUid(), new IResponseCallback<Void>(account) {
+            User user = dataBaseAdapter.getUserByLocalIdDirectly(changedUser.getUserId());
+            if (changedUser.getStatusEnum() == DBStatus.LOCAL_DELETED) {
+                serverAdapter.unassignUserFromCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new IResponseCallback<Void>(account) {
                     @Override
                     public void onResponse(Void response) {
-                        dataBaseAdapter.deleteJoinedUserForCardPhysicallyByRemoteIDs(account.getId(), deletedUser.getCardId(), user.getUid());
+                        dataBaseAdapter.deleteJoinedUserForCardPhysicallyByRemoteIDs(account.getId(), changedUser.getCardId(), user.getUid());
                     }
                 });
-            } else if (deletedUser.getStatusEnum() == DBStatus.LOCAL_EDITED) {
-                serverAdapter.assignUserToCard(board.getId(), stack.getId(), deletedUser.getCardId(), user.getUid(), new IResponseCallback<Void>(account) {
+            } else if (changedUser.getStatusEnum() == DBStatus.LOCAL_EDITED) {
+                serverAdapter.assignUserToCard(board.getId(), stack.getId(), changedUser.getCardId(), user.getUid(), new IResponseCallback<Void>(account) {
                     @Override
                     public void onResponse(Void response) {
                         dataBaseAdapter.setStatusForJoinCardWithUser(card.getLocalId(), user.getLocalId(), DBStatus.UP_TO_DATE.getId());

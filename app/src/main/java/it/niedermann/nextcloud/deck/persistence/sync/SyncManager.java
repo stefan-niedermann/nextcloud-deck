@@ -613,13 +613,13 @@ public class SyncManager {
                 List<AccessControl> aclList = originalBoard.getParticipants();
                 for (AccessControl acl : aclList) {
                     acl.setLocalId(null);
+                    acl.setId(null);
                     acl.setBoardId(newBoardId);
-                    acl.setUserId(newOwner.getLocalId());
                     dataBaseAdapter.createAccessControl(targetAccountId, acl);
                 }
             }
 
-            Map<Long, Long> oldToNewLabelIdsDictionary = isSameAccount ? null : new HashMap<>();
+            Map<Long, Long> oldToNewLabelIdsDictionary = new HashMap<>();
 
             for (Label label : originalBoard.getLabels()) {
                 Long oldLocalId = label.getLocalId();
@@ -628,10 +628,8 @@ public class SyncManager {
                 label.setAccountId(targetAccountId);
                 label.setStatusEnum(DBStatus.LOCAL_EDITED);
                 label.setBoardId(newBoardId);
-                long newLocalId = dataBaseAdapter.createLabel(targetAccountId, label);
-                if (!isSameAccount) {
-                    oldToNewLabelIdsDictionary.put(oldLocalId, newLocalId);
-                }
+                long newLocalId = dataBaseAdapter.createLabelDirectly(targetAccountId, label);
+                oldToNewLabelIdsDictionary.put(oldLocalId, newLocalId);
             }
 
             List<Stack> oldStacks = originalBoard.getStacks();
@@ -653,11 +651,13 @@ public class SyncManager {
                         newCard.setStackId(createdStackId);
                         newCard.setAccountId(targetAccountId);
                         newCard.setStatusEnum(DBStatus.LOCAL_EDITED);
-                        long createdCardId = dataBaseAdapter.createCard(targetAccountId, newCard);
+                        long createdCardId = dataBaseAdapter.createCardDirectly(targetAccountId, newCard);
                         if (oldCard.getLabels() != null) {
                             for (Label oldLabel : oldCard.getLabels()) {
-                                Long newLabelId = isSameAccount ? oldLabel.getLocalId() : oldToNewLabelIdsDictionary.get(oldLabel.getLocalId());
-                                dataBaseAdapter.createJoinCardWithLabel(newLabelId, createdCardId, DBStatus.LOCAL_EDITED);
+                                Long newLabelId = oldToNewLabelIdsDictionary.get(oldLabel.getLocalId());
+                                if (newLabelId != null) {
+                                    dataBaseAdapter.createJoinCardWithLabel(newLabelId, createdCardId, DBStatus.LOCAL_EDITED);
+                                } else DeckLog.error("ID of created Label is null! Skipping assignment of \"" + oldLabel.getTitle() + "\"...");
                             }
                         }
                         if (isSameAccount && oldCard.getAssignedUsers() != null) {
@@ -1041,7 +1041,7 @@ public class SyncManager {
             card.getCard().setAccountId(accountId);
             card.getCard().setStatusEnum(DBStatus.LOCAL_EDITED);
             card.getCard().setOrder(dataBaseAdapter.getHighestCardOrderInStack(localStackId) + 1);
-            long localCardId = dataBaseAdapter.createCard(accountId, card.getCard());
+            long localCardId = dataBaseAdapter.createCardDirectly(accountId, card.getCard());
             card.getCard().setLocalId(localCardId);
 
             List<User> assignedUsers = card.getAssignedUsers();

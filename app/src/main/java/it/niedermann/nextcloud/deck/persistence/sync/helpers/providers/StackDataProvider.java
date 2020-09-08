@@ -15,6 +15,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 
 public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     private FullBoard board;
@@ -110,9 +111,14 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
                 boolean added = syncedStacks.add(stackId);
                 if (added) {
                     FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackId);
-                    Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-                    changedCard.getCard().setStackId(stack.getId());
-                    syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack));
+                    // already synced and known to server?
+                    if (stack.getStack().getId() != null) {
+                        AsyncUtil.awaitAsyncWork(1, latch -> {
+                            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+                            changedCard.getCard().setStackId(stack.getId());
+                            syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack), latch);
+                        });
+                    }
                 }
             }
         } else {

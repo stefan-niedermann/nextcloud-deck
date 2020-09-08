@@ -6,9 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.AccessControl;
 import it.niedermann.nextcloud.deck.model.Board;
@@ -19,6 +17,7 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 
 public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
@@ -122,17 +121,13 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
     public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         Long accountId = callback.getAccount().getId();
         List<Label> locallyChangedLabels = dataBaseAdapter.getLocallyChangedLabels(accountId);
-        CountDownLatch countDownLatch = new CountDownLatch(locallyChangedLabels.size());
-        for (Label label : locallyChangedLabels) {
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
-            label.setBoardId(board.getId());
-            syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), countDownLatch);
-        }
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            DeckLog.logError(e);
-        }
+        AsyncUtil.awaitAsyncWork(locallyChangedLabels.size(), (countDownLatch) -> {
+            for (Label label : locallyChangedLabels) {
+                Board board = dataBaseAdapter.getBoardByLocalIdDirectly(label.getBoardId());
+                label.setBoardId(board.getId());
+                syncHelper.doUpSyncFor(new LabelDataProvider(this, board, Collections.singletonList(label)), countDownLatch);
+            }
+        });
 
         List<Long> localBoardIDsWithChangedACL = dataBaseAdapter.getBoardIDsOfLocallyChangedAccessControl(accountId);
         for (Long boardId : localBoardIDsWithChangedACL) {
@@ -151,7 +146,11 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                 if (added) {
                     FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId);
                     locallyChangedStack.getStack().setBoardId(board.getId());
-                    syncHelper.doUpSyncFor(new StackDataProvider(this, board));
+                    //TODO: maybe better with waits? shouldn't change anything, since the added flag should prevent concurrency...
+//                    AsyncUtil.awaitAsyncWork(1, (countDownLatch) -> {
+//                        syncHelper.doUpSyncFor(new StackDataProvider(this, board), countDownLatch);
+                        syncHelper.doUpSyncFor(new StackDataProvider(this, board));
+//                    });
                 }
             }
         }

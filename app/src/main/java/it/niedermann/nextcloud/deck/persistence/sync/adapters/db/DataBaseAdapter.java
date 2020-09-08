@@ -266,17 +266,20 @@ public class DataBaseAdapter {
         return db.getUserDao().getUserByUidDirectly(accountId, uid);
     }
 
+    @WorkerThread
     public long createUser(long accountId, User user) {
         user.setAccountId(accountId);
         return db.getUserDao().insert(user);
     }
 
+    @WorkerThread
     public void updateUser(long accountId, User user, boolean setStatus) {
         markAsEditedIfNeeded(user, setStatus);
         user.setAccountId(accountId);
         db.getUserDao().update(user);
     }
 
+    @AnyThread
     public LiveData<Label> getLabelByRemoteId(long accountId, long remoteId) {
         return distinctUntilChanged(db.getLabelDao().getLabelByRemoteId(accountId, remoteId));
     }
@@ -286,7 +289,8 @@ public class DataBaseAdapter {
         return db.getLabelDao().getLabelByRemoteIdDirectly(accountId, remoteId);
     }
 
-    public long createLabel(long accountId, @NonNull Label label) {
+    @WorkerThread
+    public long createLabelDirectly(long accountId, @NonNull Label label) {
         label.setAccountId(accountId);
         return db.getLabelDao().insert(label);
     }
@@ -545,7 +549,7 @@ public class DataBaseAdapter {
     }
 
     @WorkerThread
-    public long createCard(long accountId, Card card) {
+    public long createCardDirectly(long accountId, Card card) {
         card.setAccountId(accountId);
         long newCardId = db.getCardDao().insert(card);
 
@@ -816,8 +820,8 @@ public class DataBaseAdapter {
         return db.getJoinCardWithLabelDao().getRemoteIdsForJoin(localCardId, localLabelId);
     }
 
-    public List<JoinCardWithUser> getAllDeletedUserJoinsWithRemoteIDs() {
-        return db.getJoinCardWithUserDao().getDeletedJoinsWithRemoteIDs();
+    public List<JoinCardWithUser> getAllChangedUserJoinsWithRemoteIDs() {
+        return db.getJoinCardWithUserDao().getChangedJoinsWithRemoteIDs();
     }
 
     public void deleteJoinedLabelForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, Long remoteLabelId) {
