@@ -76,9 +76,27 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
 
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, FullBoard entity, boolean setStatus) {
+        handleDefaultLabels(dataBaseAdapter, entity);
         handleOwner(dataBaseAdapter, accountId, entity);
         dataBaseAdapter.updateBoard(entity.getBoard(), setStatus);
         handleUsers(dataBaseAdapter, accountId, entity);
+    }
+
+    private void handleDefaultLabels(DataBaseAdapter dataBaseAdapter, FullBoard entity) {
+        // ## merge labels (created at board creation):
+        // the server creates four default labels. if a board is copied, they will also be copied. At sync, after creating the board, the labels are already there.
+        // this merges the created default ones with the ones i already have.
+        if (entity!= null && entity.getLabels() != null) {
+            for (Label label : entity.getLabels()) {
+                // does this label exist and unknown to server yet?
+                Label existing = dataBaseAdapter.getLabelByBoardIdAndTitleDirectly(entity.getLocalId(), label.getTitle());
+                if (existing != null && existing.getId() == null) {
+                    // take our label and lets say it IS the same as on server (but use the local color, no matter what the server says)
+                    existing.setId(label.getId());
+                    dataBaseAdapter.updateLabel(existing, false);
+                }
+            }
+        }
     }
 
     @Override
