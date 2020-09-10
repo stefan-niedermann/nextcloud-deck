@@ -101,7 +101,7 @@ dependencies {
     // --- Backend-Libraries ---
     // -------------------------
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.10'
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
