@@ -2,9 +2,9 @@ package it.niedermann.nextcloud.deck.persistence.sync.helpers.providers;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -16,10 +16,18 @@ import it.niedermann.nextcloud.deck.model.full.FullStack;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
-import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 
 public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     private FullBoard board;
+
+    private Set<Long> syncedStacks = new ConcurrentSkipListSet<Long>(){
+        @Override
+        public boolean add(Long o) {
+            boolean add = super.add(o);
+            DeckLog.error("SyncedStacks for "+o+" added: "+add);
+            return add;
+        }
+    };
 
     public StackDataProvider(AbstractSyncDataProvider<?> parent, FullBoard board) {
         super(parent);
@@ -105,21 +113,19 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     @Override
     public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         List<FullCard> changedCards = dataBaseAdapter.getLocallyChangedCardsDirectly(callback.getAccount().getId());
-        Set<Long> syncedStacks = new HashSet<>();
         if (changedCards != null && !changedCards.isEmpty()){
             for (FullCard changedCard : changedCards) {
                 long stackId = changedCard.getCard().getStackId();
-                boolean added = syncedStacks.add(stackId);
-                if (added) {
+                boolean alreadySynced = syncedStacks.contains(stackId);
+                if (!alreadySynced) {
                     FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackId);
                     // already synced and known to server?
                     if (stack.getStack().getId() != null) {
-                        AsyncUtil.awaitAsyncWork(1, latch -> {
-                            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-                            changedCard.getCard().setStackId(stack.getId());
-                            DeckLog.error("syncing stack with localID "+stack.getLocalId());
-                            syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack), latch);
-                        });
+                        syncedStacks.add(stackId);
+                        Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+                        changedCard.getCard().setStackId(stack.getId());
+                        DeckLog.error("syncing stack with localID "+stack.getLocalId());
+                        syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack));
                     }
                 }
             }
