@@ -668,8 +668,9 @@ public class SyncManager {
                     }
                 }
             }
-
-            if (serverAdapter.hasInternetConnection()) {
+            // dont trigger concurrent syncs!
+            List<IResponseCallback<Boolean>> queuedSync = RUNNING_SYNCS.get(targetAccountId);
+            if ((queuedSync == null || queuedSync.isEmpty()) && serverAdapter.hasInternetConnection()) {
                 Account targetAccount = dataBaseAdapter.getAccountByIdDirectly(targetAccountId);
                 ServerAdapter serverAdapterToUse = this.serverAdapter;
                 if (originAccountId != targetAccountId) {

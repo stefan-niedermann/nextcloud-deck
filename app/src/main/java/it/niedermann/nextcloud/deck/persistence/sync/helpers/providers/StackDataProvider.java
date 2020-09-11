@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -105,7 +106,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         List<FullCard> changedCards = dataBaseAdapter.getLocallyChangedCardsDirectly(callback.getAccount().getId());
         Set<Long> syncedStacks = new HashSet<>();
-        if (changedCards != null && changedCards.size() > 0){
+        if (changedCards != null && !changedCards.isEmpty()){
             for (FullCard changedCard : changedCards) {
                 long stackId = changedCard.getCard().getStackId();
                 boolean added = syncedStacks.add(stackId);
@@ -116,6 +117,7 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
                         AsyncUtil.awaitAsyncWork(1, latch -> {
                             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
                             changedCard.getCard().setStackId(stack.getId());
+                            DeckLog.error("syncing stack with localID "+stack.getLocalId());
                             syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack), latch);
                         });
                     }

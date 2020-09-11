@@ -164,11 +164,7 @@ public class BoardDataProvider extends AbstractSyncDataProvider<FullBoard> {
                 if (added) {
                     FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(accountId, boardId);
                     locallyChangedStack.getStack().setBoardId(board.getId());
-                    //TODO: maybe better with waits? shouldn't change anything, since the added flag should prevent concurrency...
-//                    AsyncUtil.awaitAsyncWork(1, (countDownLatch) -> {
-//                        syncHelper.doUpSyncFor(new StackDataProvider(this, board), countDownLatch);
-                        syncHelper.doUpSyncFor(new StackDataProvider(this, board));
-//                    });
+                    syncHelper.doUpSyncFor(new StackDataProvider(this, board));
                 }
             }
         }
