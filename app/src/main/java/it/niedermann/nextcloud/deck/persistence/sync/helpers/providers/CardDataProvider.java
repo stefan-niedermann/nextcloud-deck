@@ -187,8 +187,13 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
     public void goDeeperForUpSync(SyncHelper syncHelper, ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, IResponseCallback<Boolean> callback) {
         FullStack stack;
         Board board;
+        List<JoinCardWithLabel> changedLabels;
+        if (this.stack == null) {
+            changedLabels = dataBaseAdapter.getAllChangedLabelJoins();
+        } else {
+            changedLabels = dataBaseAdapter.getAllChangedLabelJoinsForStack(this.stack.getLocalId());
+        }
 
-        List<JoinCardWithLabel> changedLabels = dataBaseAdapter.getAllChangedJoins();
         Account account = callback.getAccount();
         for (JoinCardWithLabel changedLabelLocal : changedLabels) {
             Card card = dataBaseAdapter.getCardByLocalIdDirectly(account.getId(), changedLabelLocal.getCardId());
@@ -204,7 +209,7 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
                 board = this.board;
             }
 
-            JoinCardWithLabel changedLabel = dataBaseAdapter.getRemoteIdsForJoin(changedLabelLocal.getCardId(), changedLabelLocal.getLabelId());
+            JoinCardWithLabel changedLabel = dataBaseAdapter.getAllChangedLabelJoinsWithRemoteIDs(changedLabelLocal.getCardId(), changedLabelLocal.getLabelId());
             if (changedLabel.getStatusEnum() == DBStatus.LOCAL_DELETED) {
                 if (changedLabel.getLabelId() == null || changedLabel.getCardId() == null) {
                     dataBaseAdapter.deleteJoinedLabelForCardPhysicallyByRemoteIDs(account.getId(), changedLabel.getCardId(), changedLabel.getLabelId());
@@ -232,7 +237,13 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
             }
         }
-        List<JoinCardWithUser> changedUsers = dataBaseAdapter.getAllChangedUserJoinsWithRemoteIDs();
+
+        List<JoinCardWithUser> changedUsers;
+        if (this.stack == null) {
+            changedUsers = dataBaseAdapter.getAllChangedUserJoinsWithRemoteIDs();
+        } else {
+            changedUsers = dataBaseAdapter.getAllChangedUserJoinsWithRemoteIDsForStack(this.stack.getLocalId());
+        }
         for (JoinCardWithUser changedUser : changedUsers) {
             // not already known to server?
             if (changedUser.getCardId() == null) {
@@ -269,7 +280,12 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             }
         }
 
-        List<Attachment> attachments = dataBaseAdapter.getLocallyChangedAttachmentsDirectly(account.getId());
+        List<Attachment> attachments;
+        if (this.stack == null) {
+            attachments = dataBaseAdapter.getLocallyChangedAttachmentsDirectly(account.getId());
+        } else {
+            attachments = dataBaseAdapter.getLocallyChangedAttachmentsForStackDirectly(this.stack.getLocalId());
+        }
         for (Attachment attachment : attachments) {
             FullCard card = dataBaseAdapter.getFullCardByLocalIdDirectly(account.getId(), attachment.getCardId());
             stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
@@ -277,7 +293,12 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
             syncHelper.doUpSyncFor(new AttachmentDataProvider(this, board, stack.getStack(), card, Collections.singletonList(attachment)));
         }
 
-        List<Card> cardsWithChangedComments = dataBaseAdapter.getCardsWithLocallyChangedCommentsDirectly(account.getId());
+        List<Card> cardsWithChangedComments;
+        if (this.stack == null) {
+            cardsWithChangedComments = dataBaseAdapter.getCardsWithLocallyChangedCommentsDirectly(account.getId());
+        } else {
+            cardsWithChangedComments = dataBaseAdapter.getCardsWithLocallyChangedCommentsForStackDirectly(this.stack.getLocalId());
+        }
         for (Card card : cardsWithChangedComments) {
             syncHelper.doUpSyncFor(new DeckCommentsDataProvider(this, card));
         }

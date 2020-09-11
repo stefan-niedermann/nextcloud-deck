@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.model.Board;
 import it.niedermann.nextcloud.deck.model.Card;
@@ -20,14 +19,7 @@ import it.niedermann.nextcloud.deck.persistence.sync.helpers.SyncHelper;
 public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
     private FullBoard board;
 
-    private Set<Long> syncedStacks = new ConcurrentSkipListSet<Long>(){
-        @Override
-        public boolean add(Long o) {
-            boolean add = super.add(o);
-            DeckLog.error("SyncedStacks for "+o+" added: "+add);
-            return add;
-        }
-    };
+    private Set<Long> syncedStacks = new ConcurrentSkipListSet<>();
 
     public StackDataProvider(AbstractSyncDataProvider<?> parent, FullBoard board) {
         super(parent);
@@ -124,7 +116,6 @@ public class StackDataProvider extends AbstractSyncDataProvider<FullStack> {
                         syncedStacks.add(stackId);
                         Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
                         changedCard.getCard().setStackId(stack.getId());
-                        DeckLog.error("syncing stack with localID "+stack.getLocalId());
                         syncHelper.doUpSyncFor(new CardDataProvider(this, board, stack));
                     }
                 }

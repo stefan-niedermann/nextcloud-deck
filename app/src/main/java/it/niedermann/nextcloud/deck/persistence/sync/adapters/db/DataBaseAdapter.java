@@ -710,6 +710,11 @@ public class DataBaseAdapter {
         return db.getAttachmentDao().getLocallyChangedAttachmentsDirectly(accountId);
     }
 
+    @WorkerThread
+    public List<Attachment> getLocallyChangedAttachmentsForStackDirectly(long localStackId) {
+        return db.getAttachmentDao().getLocallyChangedAttachmentsForStackDirectly(localStackId);
+    }
+
     public long createAttachment(long accountId, @NonNull Attachment attachment) {
         attachment.setAccountId(accountId);
         attachment.setCreatedAt(new Date());
@@ -812,16 +817,24 @@ public class DataBaseAdapter {
         return db.getJoinCardWithLabelDao().getAllDeletedJoinsWithRemoteIDs();
     }
 
-    public List<JoinCardWithLabel> getAllChangedJoins() {
+    public List<JoinCardWithLabel> getAllChangedLabelJoins() {
         return db.getJoinCardWithLabelDao().getAllChangedJoins();
     }
 
-    public JoinCardWithLabel getRemoteIdsForJoin(Long localCardId, Long localLabelId) {
+    public List<JoinCardWithLabel> getAllChangedLabelJoinsForStack(Long localStackId) {
+        return db.getJoinCardWithLabelDao().getAllChangedJoinsForStack(localStackId);
+    }
+
+    public JoinCardWithLabel getAllChangedLabelJoinsWithRemoteIDs(Long localCardId, Long localLabelId) {
         return db.getJoinCardWithLabelDao().getRemoteIdsForJoin(localCardId, localLabelId);
     }
 
     public List<JoinCardWithUser> getAllChangedUserJoinsWithRemoteIDs() {
         return db.getJoinCardWithUserDao().getChangedJoinsWithRemoteIDs();
+    }
+
+    public List<JoinCardWithUser> getAllChangedUserJoinsWithRemoteIDsForStack(Long localStackId) {
+        return db.getJoinCardWithUserDao().getChangedJoinsWithRemoteIDsForStack(localStackId);
     }
 
     public void deleteJoinedLabelForCardPhysicallyByRemoteIDs(Long accountId, Long remoteCardId, Long remoteLabelId) {
@@ -929,8 +942,14 @@ public class DataBaseAdapter {
         return db.getCommentDao().getCommentByLocalCardIdDirectly(localCardId);
     }
 
+    @WorkerThread
     public List<Card> getCardsWithLocallyChangedCommentsDirectly(Long accountId) {
         return db.getCardDao().getCardsWithLocallyChangedCommentsDirectly(accountId);
+    }
+
+    @WorkerThread
+    public List<Card> getCardsWithLocallyChangedCommentsForStackDirectly(Long localStackId) {
+        return db.getCardDao().getCardsWithLocallyChangedCommentsForStackDirectly(localStackId);
     }
 
     @WorkerThread

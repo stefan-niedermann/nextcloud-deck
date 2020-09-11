@@ -27,6 +27,13 @@ public interface JoinCardWithUserDao extends GenericDao<JoinCardWithUser> {
             "WHERE j.status <> 1") // not UP_TO_DATE
     List<JoinCardWithUser> getChangedJoinsWithRemoteIDs();
 
+    @Query("select u.localId as userId, c.id as cardId, j.status from joincardwithuser j " +
+            "inner join card c on j.cardId = c.localId " +
+            "inner join user u on j.userId = u.localId " +
+            "WHERE c.stackId = :localStackId " +
+            "AND j.status <> 1") // not UP_TO_DATE
+    List<JoinCardWithUser> getChangedJoinsWithRemoteIDsForStack(Long localStackId);
+
     @Query("delete from joincardwithuser " +
             "where cardId = (select c.localId from card c where c.accountId = :accountId and c.id = :remoteCardId) " +
             "and userId = (select u.localId from user u where u.accountId = :accountId and u.uid = :userUid)")
