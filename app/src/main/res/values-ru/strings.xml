@@ -24,7 +24,7 @@
     <string name="simple_switch">Переключить</string>
     <string name="simple_filter">Фильтр</string>
     <string name="simple_overdue">Просроченные</string>
-    <string name="simple_clear">Отчистить</string>
+    <string name="simple_clear">Очистить</string>
     <string name="simple_discard">Отменить</string>
     <string name="simple_update">Обновить</string>
     <string name="simple_delete">Удалить</string>
@@ -34,7 +34,7 @@
     <string name="simple_manage">Управлять</string>
     <string name="simple_share">общий ресурс</string>
     <string name="simple_select">Выбрать</string>
-    <string name="simple_comment">Коментарий</string>
+    <string name="simple_comment">Комментарий</string>
     <string name="simple_disabled">отключено</string>
     <string name="simple_copied">Скопировано</string>
     <string name="simple_archive">Переместить в архив</string>
@@ -267,7 +267,18 @@
 
     <string name="widget_stack_title">Список</string>
     <string name="widget_stack_header_icon">иконка заголовка виджета</string>
+    <string name="select_stack">Выберите список</string>
+    <string name="project_type_deck_board">Доска</string>
+    <string name="project_type_deck_card">Карточка</string>
     <string name="project_type_file">Файл</string>
     <string name="projects_title">Проекты</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d ресурс</item>
+        <item quantity="few">%1$d ресурса</item>
+        <item quantity="many">%1$d ресурсов</item>
+        <item quantity="other">%1$d ресурса</item>
+    </plurals>
+    <string name="no_assigned_label">Метки не присвоены</string>
+    <string name="single_card">Отдельная карточка</string>
     <string name="simple_move">Переместить</string>
     </resources>
