@@ -233,6 +233,8 @@
     <string name="error_dialog_we_need_info">Ens cal la següent informació tècnica per poder-vos ajudar:</string>
     <string name="error_dialog_redirect">El vostre servidor ha respost amb un codi d\'estat HTTP 302, que vol dir que no teniu instal·lada l\'aplicació Deck al vostre servidor o que alguna cosa està mal configurada. Això pot estar causat per una sobreescriptura a .htaccess-file o per aplicacions de Nextcloud com  OID Client.</string>
     <string name="error_dialog_version_not_parsable">No hem pogut determinar la versió de l\'aplicació Deck de la part del servidor. Si us plau, assegureu-vos que està instal·lada i habilitada.</string>
+    <string name="error_dialog_account_might_not_be_authorized">És possible que el compte de la vostra aplicació Nextcloud ja no estigui autoritzat.</string>
+    <string name="error_dialog_user_not_found_in_database">L’usuari actual no coincideix amb l’usuari que tenim a la nostra base de dades. Si feu servir LDAP a la vostra instància de Nextcloud, és possible que l\'aplicació Nextcloud hagi emmagatzemat un ID d\'usuari antic.</string>
     <string name="error_dialog_capabilities_not_parsable">No podem recuperar les capacitats del vostre servidor. Si us plau, assegureu-vos que el servidor funciona bé i que altres aplicacions de client poden accedir al Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">No s\'ha pogut carregar un fitxer adjunt. Proveu de compartir-ho d’una altra manera i informeu-nos d’aquest error.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desactiveu totes les optimitzacions de bateries de Nextcloud i l\'aplicació Deck.</string>
@@ -253,6 +255,10 @@
     <string name="append_text_to_description">Apunteu a la descripció</string>
     <string name="add_text_as_comment">Afegir com a comentari</string>
     <string name="progress_count">%1$d de %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d error durant la càrrega</item>
+        <item quantity="other">%1$d errors durant la càrrega</item>
+    </plurals>
     <string name="simple_report">Informar</string>
     <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
     <string name="move_warning">Ni es poden transferir comentaris ni fitxers adjunts quan es mogui la targeta a un altre tauler.</string>
@@ -278,4 +284,5 @@
     <string name="single_card">Targeta única</string>
     <string name="project_type_room">Sala de xerrades</string>
     <string name="simple_move">Mou</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">No es poden pujar fitxers sense permís</string>
+</resources>
