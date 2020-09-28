@@ -38,6 +38,8 @@
     <string name="simple_disabled">letiltva</string>
     <string name="simple_copied">Másolva</string>
     <string name="simple_archive">Archívum</string>
+    <string name="simple_unassigned">Nem hozzárendelt</string>
+
     <string name="edit_board">Tábla szerkesztése</string>
     <string name="archive_board">Tábla archiválása</string>
     <string name="delete_board">Tábla törlése</string>
@@ -111,6 +113,7 @@
     <string name="not_synced_yet">Még nincs szinkronizálva</string>
     <string name="no_lists_yet">Még nincsenek listák</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_list">Biztos, hogy archiválja a(z) %1$s összes kártyáját?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Ez véglegesen töröl %1$d kártyát a listából.</item>
         <item quantity="other">Ez véglegesen törli mind a(z) %1$d kártyát a listából.</item>
@@ -127,6 +130,7 @@
     <string name="delete_board_message">Ez véglegesen törli ezt a táblát az összes listával és kártyával együtt.</string>
     <string name="settings_theme_title">Sötét téma</string>
     <string name="settings_branding_title">Márkázas</string>
+    <string name="settings_compact_title">Kompakt mód</string>
     <string name="settings_background_sync">Háttér-szinkronizálás</string>
     <string name="pref_value_wifi_and_mobile">Szinkronizálás Wi-Fin és mobil adatkapcsolaton</string>
     <string name="pref_value_wifi_only">Szinkronizálás csak Wi-Fin</string>
@@ -215,6 +219,7 @@
     <string name="error_dialog_title">Jaj ne – Most mi legyen? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Próbálja kényszeríteni az alkalmazás bezárását, és indítsa újra. Lehet, hogy hibás volt a kapcsolat a többi Nextcloud alkalmazással.</string>
     <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Kártyákét.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Az adatbázis frissítése sikertelen. Jelentse a problémát és az alkalmazás normális használatához törölje a tárolót.</string>
     <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
     <string name="error_dialog_tip_files_outdated">A Nextcloud alkalmazása elavultnak tűnik. Keresse fel a Play Áruházat vagy az F-Droidot, hogy beszerezze a legfrissebb verziót.</string>
     <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Kártyák alkalmazást is.</string>
@@ -228,7 +233,11 @@
     <string name="error_dialog_we_need_info">A következő műszaki információkra van szükségünk, hogy segíthessünk:</string>
     <string name="error_dialog_redirect">A kiszolgálója 302-es HTTP állapotkóddal válaszolt, amely arra utal, hogy nincs telepítve a Kártyák alkalmazás a kiszolgálón, vagy valami hibásan van beállítva. Ezt egyéni felülírások is okozhatják, mint egy .htaccess-fájl vagy az OID klienshez hasonló Nextcloud alkalmazások.</string>
     <string name="error_dialog_version_not_parsable">Nem sikerült meghatározni a kiszolgálóoldali Kártyák alkalmazás verzióját. Győződjön meg róla, hogy telepítve és engedélyezve van.</string>
+    <string name="error_dialog_account_might_not_be_authorized">A Nextcloud alkalmazáshoz tartozó fiókja lehet hogy már lehet, hogy nincs hitelesítve.</string>
+    <string name="error_dialog_user_not_found_in_database">A jelenlegi felhasználó nem egyezik az adatbázisban tárolttal. Ha LDAP-ot használt a Nextcloud példányán, akkor lehet, hogy a Nextcloud alkalmazás még egy régebbi felhasználóazonosítót tárol.</string>
     <string name="error_dialog_capabilities_not_parsable">A képességek lekérése a kiszolgálójáról sikertelen. Győződjön meg róla, hogy a kiszolgálója rendesen fut-e, és hogy más kliensalkalmazások elérik-e a Nextcloudod.</string>
+    <string name="error_dialog_attachment_upload_failed">A melléklet nem tölthető fel. Próbálja meg máshogy megosztani, és tájékoztasson minket a hibáról.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Kapcsoljon ki minden energiatakarékossági beállítást a Nextcloud valamint a Kártyák alkalmazáshoz. </string>
     <string name="error_action_open_deck_info">Alkalmazásinformációk megnyitása</string>
     <string name="error_action_open_network">Hálózati beállítások</string>
     <string name="error_action_server_logs">Kiszolgálónaplók</string>
@@ -240,11 +249,40 @@
     <string name="archive_cards">Archív kártyák</string>
 
     <string name="manage_accounts">Fiókok kezelése</string>
+    <string name="manage_list">Lista kezelése</string>
     <string name="simple_reply">Válasz</string>
+    <string name="error_while_uploading_attachment">Hiba a melléklet feltöltésekor: %1$s</string>
+    <string name="append_text_to_description">Hozzáfűzés a leíráshoz</string>
+    <string name="add_text_as_comment">Hozzáadás megjegyzésként</string>
+    <string name="progress_count">%1$d / %2$d</string>
+    <plurals name="progress_error_count">
+        <item quantity="one">%1$d hiba történt feltöltéskor</item>
+        <item quantity="other">%1$d hiba történt feltöltéskor</item>
+    </plurals>
     <string name="simple_report">Jelentés</string>
+    <string name="error_action_open_battery_settings">Akkumulátorbeállítások</string>
+    <string name="move_warning">Sem a megjegyzések, sem a mellékletek nem vihetők át, ha másik táblára helyezi át a kártyát.</string>
     <string name="clone_board">Tábla klónozása</string>
+    <string name="cloning_board">%1$s klónozása…</string>
+    <string name="successfully_cloned_board">%1$s sikeresen klónozva.</string>
+    <string name="attachment_does_not_yet_exist">A melléklet még nem létezik a Kártyákban</string>
+    <string name="card_does_not_yet_exist">A kártya még nem létezik a Kártyákban</string>
+
     <string name="widget_stack_title">Lista</string>
+    <string name="widget_stack_header_icon">Modul fejlécikonja</string>
+    <string name="widget_stack_placeholder_icon">Modul helykitöltő ikonja</string>
+    <string name="select_stack">Válasszon listát</string>
+    <string name="project_type_deck_board">Kártyatábla</string>
+    <string name="project_type_deck_card">Kártya</string>
     <string name="project_type_file">Fájl</string>
     <string name="projects_title">Projektek</string>
+    <plurals name="resources_count">
+        <item quantity="one">%1$d erőforrás</item>
+        <item quantity="other">%1$d erőforrás</item>
+    </plurals>
+    <string name="no_assigned_label">Nincs címke hozzárendelve</string>
+    <string name="single_card">Egyetlen kártya</string>
+    <string name="project_type_room">Beszélgetés szoba</string>
     <string name="simple_move">Áthelyezés</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Engedély nélkül nem tölthetők fel fájlok</string>
+</resources>
