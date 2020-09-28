@@ -282,7 +282,7 @@
     </plurals>
     <string name="no_assigned_label">Henüz bir etiket atanmamış</string>
     <string name="single_card">Tek kart</string>
-    <string name="project_type_room">Görüşme odası</string>
+    <string name="project_type_room">Talk odası</string>
     <string name="simple_move">Taşı</string>
     <string name="cannot_upload_files_without_permission">İzin olmadan dosya yüklenemez</string>
 </resources>

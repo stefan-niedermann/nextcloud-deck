@@ -81,7 +81,7 @@
     <string name="hint_assign_people">Toewijzen gebruikers</string>
     <string name="hint_due_date_date">Vervaldatum</string>
     <string name="card_not_found">Kaart niet gevonden</string>
-    <string name="card_not_found_message">De kaart kon niet gevonden worden. Misschien is deze recent verwijderd.</string>
+    <string name="card_not_found_message">De kaart kon niet worden gevonden. Misschien is die recent verwijderd.</string>
 
     <string name="add_account">Account toevoegen</string>
     <string name="choose_account">Kies account</string>
