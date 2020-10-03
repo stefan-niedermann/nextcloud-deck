@@ -34,7 +34,7 @@ public class Label extends AbstractRemoteEntity implements Serializable {
     public Label(Label labelToCopy) {
         super(labelToCopy);
         this.title = labelToCopy.getTitle();
-        this.color = labelToCopy.getColor();
+        this.color = String.format("#%06X", (0xFFFFFF & labelToCopy.getColorInt()));
         this.boardId = labelToCopy.getBoardId();
     }
 
