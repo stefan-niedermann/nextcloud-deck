@@ -23,12 +23,15 @@ import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabCommentsBindi
 import it.niedermann.nextcloud.deck.model.ocs.comment.DeckComment;
 import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
+import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.WrappedLiveData;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
+import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToFAB;
 import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
@@ -139,7 +142,12 @@ public class CardCommentsFragment extends BrandedFragment implements CommentEdit
 
     @Override
     public void onCommentDeleted(Long localId) {
-        syncManager.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId);
+        final WrappedLiveData<Void> deleteLiveData = syncManager.deleteComment(mainViewModel.getAccount().getId(), mainViewModel.getFullCard().getLocalId(), localId);
+        observeOnce(deleteLiveData, this, (next) -> {
+            if (deleteLiveData.hasError() && !SyncManager.ignoreExceptionOnVoidError(deleteLiveData.getError())) {
+                ExceptionDialogFragment.newInstance(deleteLiveData.getError(), mainViewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override

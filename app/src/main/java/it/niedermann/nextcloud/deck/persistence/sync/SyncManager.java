@@ -1,9 +1,11 @@
 package it.niedermann.nextcloud.deck.persistence.sync;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.AnyThread;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Size;
@@ -127,6 +129,7 @@ public class SyncManager {
                     liveData.postValue(fullCard);
                 }
 
+                @SuppressLint("MissingSuperCall")
                 @Override
                 public void onError(Throwable throwable) {
                     liveData.postValue(null);
@@ -393,7 +396,7 @@ public class SyncManager {
      * - located at the given {@param host}
      * - and have the permission to read the board with the given {@param boardRemoteId} (aka the {@link Board} is shared with this {@link User}).
      */
-    @AnyThread
+    @MainThread
     public LiveData<List<Account>> readAccountsForHostWithReadAccessToBoard(String host, long boardRemoteId) {
         MediatorLiveData<List<Account>> liveData = new MediatorLiveData<>();
         liveData.addSource(dataBaseAdapter.readAccountsForHostWithReadAccessToBoard(host, boardRemoteId), accounts -> {
@@ -428,6 +431,7 @@ public class SyncManager {
                         callback.onResponse(response.getResponse());
                     }
 
+                    @SuppressLint("MissingSuperCall")
                     @Override
                     public void onError(Throwable throwable) {
                         if (throwable instanceof NextcloudHttpRequestFailedException) {
@@ -483,7 +487,6 @@ public class SyncManager {
      * @param localProjectId LocalId of the OcsProject
      * @return all {@link OcsProjectResource}s of the Project
      */
-    @SuppressWarnings("JavadocReference")
     @AnyThread
     public LiveData<List<OcsProjectResource>> getResourcesForProject(long localProjectId) {
         return dataBaseAdapter.getResourcesByLocalProjectId(localProjectId);
@@ -739,6 +742,7 @@ public class SyncManager {
                     liveData.postValue(response);
                 }
 
+                @SuppressLint("MissingSuperCall")
                 @Override
                 public void onError(Throwable throwable) {
                     liveData.postError(throwable);
@@ -801,6 +805,7 @@ public class SyncManager {
                 liveData.postValue(response);
             }
 
+            @SuppressLint("MissingSuperCall")
             @Override
             public void onError(Throwable throwable) {
                 liveData.postError(throwable);
@@ -825,6 +830,7 @@ public class SyncManager {
                             liveData.postValue(response);
                         }
 
+                        @SuppressLint("MissingSuperCall")
                         @Override
                         public void onError(Throwable throwable) {
                             liveData.postError(throwable);
@@ -892,6 +898,7 @@ public class SyncManager {
                     }
                 }
 
+                @SuppressLint("MissingSuperCall")
                 @Override
                 public void onError(Throwable throwable) {
                     if (liveData != null) {
@@ -1051,12 +1058,12 @@ public class SyncManager {
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             card.getCard().setArchived(true);
-            updateCardForArchive(account, stack, board, card, getCallbackToLiveDataConverter(account, liveData));
+            updateCardForArchive(stack, board, card, getCallbackToLiveDataConverter(account, liveData));
         });
         return liveData;
     }
 
-    private void updateCardForArchive(Account account, FullStack stack, Board board, FullCard card, @NonNull IResponseCallback<FullCard> callback) {
+    private void updateCardForArchive(FullStack stack, Board board, FullCard card, @NonNull IResponseCallback<FullCard> callback) {
         new DataPropagationHelper(serverAdapter, dataBaseAdapter).updateEntity(new CardDataProvider(null, board, stack), card, callback);
     }
 
@@ -1068,7 +1075,7 @@ public class SyncManager {
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             card.getCard().setArchived(false);
-            updateCardForArchive(account, stack, board, card, getCallbackToLiveDataConverter(account, liveData));
+            updateCardForArchive(stack, board, card, getCallbackToLiveDataConverter(account, liveData));
         });
         return liveData;
     }
@@ -1085,12 +1092,13 @@ public class SyncManager {
                 CountDownLatch latch = new CountDownLatch(cards.size());
                 for (FullCard card : cards) {
                     card.getCard().setArchived(true);
-                    updateCardForArchive(account, stack, board, card, new IResponseCallback<FullCard>(account) {
+                    updateCardForArchive(stack, board, card, new IResponseCallback<FullCard>(account) {
                         @Override
                         public void onResponse(FullCard response) {
                             latch.countDown();
                         }
 
+                        @SuppressLint("MissingSuperCall")
                         @Override
                         public void onError(Throwable throwable) {
                             latch.countDown();
@@ -1185,6 +1193,7 @@ public class SyncManager {
                                 liveData.postValue(dataBaseAdapter.getFullCardByLocalIdDirectly(card.getAccountId(), card.getLocalId()));
                             }
 
+                            @SuppressLint("MissingSuperCall")
                             @Override
                             public void onError(Throwable throwable) {
                                 liveData.postError(throwable);
@@ -1367,6 +1376,7 @@ public class SyncManager {
                     liveData.postValue(response);
                 }
 
+                @SuppressLint("MissingSuperCall")
                 @Override
                 public void onError(Throwable throwable) {
                     liveData.postError(throwable);
@@ -1800,6 +1810,7 @@ public class SyncManager {
                                 liveData.postValue(response);
                             }
 
+                            @SuppressLint("MissingSuperCall")
                             @Override
                             public void onError(Throwable throwable) {
                                 liveData.postError(throwable);
