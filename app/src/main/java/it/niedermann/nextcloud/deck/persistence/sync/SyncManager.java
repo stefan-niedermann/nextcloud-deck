@@ -1128,8 +1128,9 @@ public class SyncManager {
         return liveData;
     }
 
+    // TODO use filterInformation https://github.com/stefan-niedermann/nextcloud-deck/issues/663
     @AnyThread
-    public WrappedLiveData<Void> archiveCardsInStack(long accountId, long stackLocalId) {
+    public WrappedLiveData<Void> archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
