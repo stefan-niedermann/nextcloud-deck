@@ -183,6 +183,14 @@ public class SyncManager {
         synchronize(Collections.singletonList(responseCallback));
     }
 
+    @AnyThread
+    public void synchronizeBoard(@NonNull IResponseCallback<Boolean> responseCallback) {
+    }
+
+    @AnyThread
+    public void synchronizeCard(@NonNull IResponseCallback<Boolean> responseCallback) {
+    }
+
     private void synchronize(@NonNull @Size(min = 1) List<IResponseCallback<Boolean>> responseCallbacks) {
         if (responseCallbacks == null || responseCallbacks.size() < 1) {
             return;

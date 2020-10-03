@@ -14,6 +14,7 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
+import it.niedermann.nextcloud.deck.api.IResponseCallback;
 import it.niedermann.nextcloud.deck.databinding.ActivityPushNotificationBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
@@ -77,20 +78,64 @@ public class PushNotificationActivity extends AppCompatActivity {
                         observeOnce(syncManager.getLocalBoardIdByCardRemoteIdAndAccount(cardRemoteId, account), PushNotificationActivity.this, (boardLocalId -> {
                             DeckLog.verbose("BoardLocalId " + boardLocalId);
                             if (boardLocalId != null) {
-                                observeOnce(syncManager.synchronizeCardByRemoteId(cardRemoteId, account), PushNotificationActivity.this, (fullCard -> {
+                                observeOnce(syncManager.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (fullCard -> {
                                     DeckLog.verbose("FullCard: " + fullCard);
                                     if (fullCard != null) {
-                                        runOnUiThread(() -> {
-                                            binding.submit.setOnClickListener((v) -> launchEditActivity(account, boardLocalId, fullCard.getLocalId()));
-                                            binding.submit.setText(R.string.simple_open);
-                                            applyBrandToSubmitButton(account);
-                                            binding.submit.setEnabled(true);
-                                            binding.progress.setVisibility(View.INVISIBLE);
+                                        syncManager.synchronizeCard(new IResponseCallback<Boolean>(account) {
+                                            @Override
+                                            public void onResponse(Boolean response) {
+                                                finish();
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable throwable) {
+                                                super.onError(throwable);
+                                                finish();
+                                            }
+
+                                            private void finish() {
+                                                runOnUiThread(() -> {
+                                                    binding.submit.setOnClickListener((v) -> launchEditActivity(account, boardLocalId, fullCard.getLocalId()));
+                                                    binding.submit.setText(R.string.simple_open);
+                                                    applyBrandToSubmitButton(account);
+                                                    binding.submit.setEnabled(true);
+                                                    binding.progress.setVisibility(View.INVISIBLE);
+                                                });
+                                            }
                                         });
                                     } else {
-                                        DeckLog.warn("Something went wrong while synchronizing the card " + cardRemoteId + " (cardRemoteId). Given fullCard is null.");
-                                        applyBrandToSubmitButton(account);
-                                        fallbackToBrowser(link);
+                                        // TODO synchronize board
+                                        DeckLog.warn("Card is not yet available locally.");
+
+                                        syncManager.synchronizeBoard(new IResponseCallback<Boolean>(account) {
+                                            @Override
+                                            public void onResponse(Boolean response) {
+                                                observeOnce(syncManager.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (fullCard -> {
+                                                    DeckLog.verbose("FullCard: " + fullCard);
+                                                    if (fullCard != null) {
+                                                        runOnUiThread(() -> {
+                                                            binding.submit.setOnClickListener((v) -> launchEditActivity(account, boardLocalId, fullCard.getLocalId()));
+                                                            binding.submit.setText(R.string.simple_open);
+                                                            applyBrandToSubmitButton(account);
+                                                            binding.submit.setEnabled(true);
+                                                            binding.progress.setVisibility(View.INVISIBLE);
+                                                        });
+                                                    } else {
+                                                        DeckLog.warn("Something went wrong while synchronizing the card " + cardRemoteId + " (cardRemoteId). Given fullCard is null.");
+                                                        applyBrandToSubmitButton(account);
+                                                        fallbackToBrowser(link);
+                                                    }
+                                                }));
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable throwable) {
+                                                super.onError(throwable);
+                                                DeckLog.warn("Something went wrong while synchronizing the card " + cardRemoteId + " (cardRemoteId). Given fullCard is null.");
+                                                applyBrandToSubmitButton(account);
+                                                fallbackToBrowser(link);
+                                            }
+                                        });
                                     }
                                 }));
                             } else {
