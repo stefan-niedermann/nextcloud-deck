@@ -44,9 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginLeft="@dimen/spacer_1x"
                 android:layout_marginEnd="@dimen/spacer_1x"
-                android:layout_marginRight="@dimen/spacer_1x"
                 android:contentDescription="@string/simple_reply"
                 android:padding="@dimen/spacer_1x"
                 app:srcCompat="@drawable/ic_reply_grey600_24dp" />
@@ -57,7 +55,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/spacer_1x"
-                android:layout_marginLeft="@dimen/spacer_1x"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="2"
@@ -75,6 +72,38 @@
                 app:srcCompat="@drawable/ic_close_circle_grey600" />
         </LinearLayout>
 
+
+        <LinearLayout
+            android:id="@+id/mentionProposerWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/spacer_2x"
+            android:paddingTop="@dimen/spacer_1x"
+            android:paddingEnd="@dimen/spacer_2x"
+            android:paddingBottom="@dimen/spacer_1x"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacer_1x"
+                android:layout_marginEnd="@dimen/spacer_1x"
+                android:contentDescription="@string/simple_reply"
+                android:padding="@dimen/spacer_1x"
+                app:srcCompat="@drawable/ic_baseline_mention_24" />
+
+            <LinearLayout
+                android:id="@+id/mention_proposer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/avatar_size_small"
+                android:layout_marginStart="@dimen/spacer_1x"
+                android:layout_marginEnd="@dimen/spacer_1x"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,10 +114,11 @@
             <ImageView
                 android:layout_width="@dimen/icon_size_details"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/spacer_2x"
+                android:layout_marginStart="@dimen/spacer_2x"
+                android:layout_marginEnd="@dimen/spacer_1x"
                 android:contentDescription="@null"
-                android:tint="@color/grey600"
-                app:srcCompat="@drawable/ic_comment_white_24dp" />
+                app:srcCompat="@drawable/ic_comment_white_24dp"
+                app:tint="@color/grey600" />
 
             <EditText
                 android:id="@+id/message"

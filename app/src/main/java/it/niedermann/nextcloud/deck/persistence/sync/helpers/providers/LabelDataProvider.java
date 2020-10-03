@@ -45,7 +45,7 @@ public class LabelDataProvider extends AbstractSyncDataProvider<Label> {
             updateInDB(dataBaseAdapter, accountId, entity, false);
             return entity.getLocalId();
         } else {
-            return dataBaseAdapter.createLabel(accountId, entity);
+            return dataBaseAdapter.createLabelDirectly(accountId, entity);
         }
     }
 

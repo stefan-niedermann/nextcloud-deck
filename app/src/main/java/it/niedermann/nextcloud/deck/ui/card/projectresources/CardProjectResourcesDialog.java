@@ -26,6 +26,8 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
 
     private static final String KEY_RESOURCES = "resources";
     private static final String KEY_PROJECT_NAME = "projectName";
+    private DialogProjectResourcesBinding binding;
+    private EditCardViewModel viewModel;
 
     private String projectName;
     @NonNull
@@ -46,18 +48,23 @@ public class CardProjectResourcesDialog extends BrandedDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final DialogProjectResourcesBinding binding = DialogProjectResourcesBinding.inflate(LayoutInflater.from(requireContext()));
-        final EditCardViewModel viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
-        final CardProjectResourceAdapter adapter = new CardProjectResourceAdapter(viewModel.getAccount(), resources);
+        binding = DialogProjectResourcesBinding.inflate(LayoutInflater.from(requireContext()));
+        viewModel = new ViewModelProvider(requireActivity()).get(EditCardViewModel.class);
 
         AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
-        binding.getRoot().setAdapter(adapter);
         return dialogBuilder
                 .setTitle(projectName)
                 .setView(binding.getRoot())
                 .setNeutralButton(R.string.simple_close, null)
                 .create();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        final CardProjectResourceAdapter adapter = new CardProjectResourceAdapter(viewModel.getAccount(), resources, requireActivity());
+        binding.getRoot().setAdapter(adapter);
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
