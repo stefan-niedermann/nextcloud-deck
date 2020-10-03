@@ -159,7 +159,11 @@ public class SyncManager {
     public void synchronizeBoard(@NonNull IResponseCallback<Boolean> responseCallback, long localBoadId) {
         doAsync(() -> {
             FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(responseCallback.getAccount().getId(), localBoadId);
-            new SyncHelper(serverAdapter, dataBaseAdapter, null).setResponseCallback(responseCallback).doSyncFor(new StackDataProvider(null, board));
+            try {
+                new SyncHelper(serverAdapter, dataBaseAdapter, null).setResponseCallback(responseCallback).doSyncFor(new StackDataProvider(null, board));
+            } catch (OfflineException e) {
+                responseCallback.onError(e);
+            }
         });
     }
 
@@ -168,7 +172,11 @@ public class SyncManager {
         doAsync(() -> {
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            new SyncHelper(serverAdapter, dataBaseAdapter, null).setResponseCallback(responseCallback).doSyncFor(new CardDataProvider(null, board, stack));
+            try {
+                new SyncHelper(serverAdapter, dataBaseAdapter, null).setResponseCallback(responseCallback).doSyncFor(new CardDataProvider(null, board, stack));
+            } catch (OfflineException e) {
+                responseCallback.onError(e);
+            }
         });
     }
 
