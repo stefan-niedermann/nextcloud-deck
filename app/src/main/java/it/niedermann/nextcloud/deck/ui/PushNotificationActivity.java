@@ -102,16 +102,18 @@ public class PushNotificationActivity extends AppCompatActivity {
                                             syncManager.synchronizeBoard(new IResponseCallback<Boolean>(account) {
                                                 @Override
                                                 public void onResponse(Boolean response) {
-                                                    observeOnce(syncManager.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
-                                                        DeckLog.verbose("Card: " + card);
-                                                        if (card != null) {
-                                                            openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
-                                                        } else {
-                                                            DeckLog.warn("Something went wrong while synchronizing the card " + cardRemoteId + " (cardRemoteId). Given fullCard is null.");
-                                                            applyBrandToSubmitButton(account);
-                                                            fallbackToBrowser(link);
-                                                        }
-                                                    }));
+                                                    runOnUiThread(() -> {
+                                                        observeOnce(syncManager.getCardByRemoteID(account.getId(), cardRemoteId), PushNotificationActivity.this, (card -> {
+                                                            DeckLog.verbose("Card: " + card);
+                                                            if (card != null) {
+                                                                openCardOnSubmit(account, board.getLocalId(), card.getLocalId());
+                                                            } else {
+                                                                DeckLog.warn("Something went wrong while synchronizing the card " + cardRemoteId + " (cardRemoteId). Given fullCard is null.");
+                                                                applyBrandToSubmitButton(account);
+                                                                fallbackToBrowser(link);
+                                                            }
+                                                        }));
+                                                    });
                                                 }
 
                                                 @Override
