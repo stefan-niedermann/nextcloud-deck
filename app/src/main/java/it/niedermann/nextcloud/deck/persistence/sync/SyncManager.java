@@ -184,11 +184,20 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void synchronizeBoard(@NonNull IResponseCallback<Boolean> responseCallback) {
+    public void synchronizeBoard(@NonNull IResponseCallback<Boolean> responseCallback, long localBoadId) {
+        doAsync(() -> {
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(responseCallback.getAccount().getId(), localBoadId);
+            new SyncHelper(serverAdapter, dataBaseAdapter, null).setResponseCallback(responseCallback).doSyncFor(new StackDataProvider(null, board));
+        });
     }
 
     @AnyThread
-    public void synchronizeCard(@NonNull IResponseCallback<Boolean> responseCallback) {
+    public void synchronizeCard(@NonNull IResponseCallback<Boolean> responseCallback, FullCard card) {
+        doAsync(() -> {
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            new SyncHelper(serverAdapter, dataBaseAdapter, null).setResponseCallback(responseCallback).doSyncFor(new CardDataProvider(null, board, stack));
+        });
     }
 
     private void synchronize(@NonNull @Size(min = 1) List<IResponseCallback<Boolean>> responseCallbacks) {
