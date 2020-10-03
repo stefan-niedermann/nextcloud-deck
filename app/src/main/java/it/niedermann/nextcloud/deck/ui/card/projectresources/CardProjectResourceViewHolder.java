@@ -49,7 +49,7 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
                     try {
                         long[] ids = ProjectUtil.extractBoardIdAndCardIdFromUrl(link);
                         if (ids.length == 2) {
-                            syncManager.synchronizeCardByRemoteId(ids[1], account).observe(owner, (fullCard) -> {
+                            syncManager.getCardByRemoteID(account.getId(), ids[1]).observe(owner, (fullCard) -> {
                                 if (fullCard != null) {
                                     syncManager.getBoard(account.getId(), ids[0]).observe(owner, (board) -> {
                                         if (board != null) {

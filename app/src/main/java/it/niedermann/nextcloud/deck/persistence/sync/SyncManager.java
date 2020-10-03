@@ -113,34 +113,6 @@ public class SyncManager {
     }
 
     @AnyThread
-    public MutableLiveData<FullCard> synchronizeCardByRemoteId(long cardRemoteId, @NonNull Account account) {
-        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
-        doAsync(() -> {
-            Long accountId = account.getId();
-            Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, cardRemoteId);
-            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
-            // only sync this one card.
-            stack.setCards(Collections.singletonList(card));
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
-                @Override
-                public void onResponse(Boolean response) {
-                    FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, card.getLocalId());
-                    liveData.postValue(fullCard);
-                }
-
-                @SuppressLint("MissingSuperCall")
-                @Override
-                public void onError(Throwable throwable) {
-                    liveData.postValue(null);
-                }
-            }).doSyncFor(new CardDataProvider(null, board, stack));
-        });
-        return liveData;
-    }
-
-    // TODO if the card does not exist yet, try to synchronize it first, instead of directly returning null. If sync failed, return null.
-    @AnyThread
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, @NonNull Account account) {
         return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, account.getId());
     }
