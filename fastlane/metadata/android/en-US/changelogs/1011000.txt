@@ -1,0 +1,1 @@
+- ⚙️ Store colors as integer in database (#556)
