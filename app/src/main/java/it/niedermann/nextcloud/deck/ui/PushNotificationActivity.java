@@ -142,7 +142,7 @@ public class PushNotificationActivity extends AppCompatActivity {
         }
     }
 
-    private void openCardOnSubmit(Account account, Long boardLocalId, Long cardlocalId) {
+    private void openCardOnSubmit(@NonNull Account account, long boardLocalId, long cardlocalId) {
         runOnUiThread(() -> {
             binding.submit.setOnClickListener((v) -> launchEditActivity(account, boardLocalId, cardlocalId));
             binding.submit.setText(R.string.simple_open);
