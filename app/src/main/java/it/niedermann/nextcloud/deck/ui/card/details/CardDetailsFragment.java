@@ -316,7 +316,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             });
         }
         try {
-            final int labelColor = label.getColorInt();
+            final int labelColor = label.getColor();
             chip.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
             final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
             chip.setTextColor(color);

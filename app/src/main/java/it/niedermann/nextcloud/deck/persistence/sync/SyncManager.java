@@ -456,8 +456,8 @@ public class SyncManager {
                                     Capabilities capabilities = new Capabilities();
                                     capabilities.setMaintenanceEnabled(false);
                                     capabilities.setDeckVersion(acc.getServerDeckVersionAsObject());
-                                    capabilities.setTextColor(String.format("#%06X", 0xFFFFFF & acc.getTextColorInt()));
-                                    capabilities.setColor(String.format("#%06X", 0xFFFFFF & acc.getColorInt()));
+                                    capabilities.setTextColor(acc.getTextColor());
+                                    capabilities.setColor(acc.getColor());
                                     callback.onResponse(capabilities);
                                 });
                             }

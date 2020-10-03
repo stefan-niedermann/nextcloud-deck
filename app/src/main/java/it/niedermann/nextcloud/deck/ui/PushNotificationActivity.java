@@ -197,7 +197,7 @@ public class PushNotificationActivity extends AppCompatActivity {
     // TODO implement Branded interface
     // TODO apply branding based on board color
     public void applyBrandToSubmitButton(@NonNull Account account) {
-        @ColorInt final int mainColor = account.getColorInt();
+        @ColorInt final int mainColor = account.getColor();
         try {
             binding.submit.setBackgroundColor(mainColor);
             binding.submit.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(mainColor));

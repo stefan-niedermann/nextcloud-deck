@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.deck.model;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -8,9 +10,6 @@ import androidx.room.Index;
 import java.io.Serializable;
 
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
-
-import static android.graphics.Color.parseColor;
 
 @Entity(inheritSuperIndices = true,
         indices = {@Index("boardId"), @Index(value = {"boardId", "title"}, unique = true, name = "idx_label_title_unique")},
@@ -25,7 +24,10 @@ import static android.graphics.Color.parseColor;
 )
 public class Label extends AbstractRemoteEntity implements Serializable {
     private String title;
-    private String color;
+
+    @NonNull
+    @ColumnInfo(defaultValue = "0")
+    private Integer color;
     private long boardId;
 
     public Label() {
@@ -34,7 +36,7 @@ public class Label extends AbstractRemoteEntity implements Serializable {
     public Label(Label labelToCopy) {
         super(labelToCopy);
         this.title = labelToCopy.getTitle();
-        this.color = String.format("#%06X", (0xFFFFFF & labelToCopy.getColorInt()));
+        this.color = labelToCopy.getColor();
         this.boardId = labelToCopy.getBoardId();
     }
 
@@ -46,18 +48,12 @@ public class Label extends AbstractRemoteEntity implements Serializable {
         this.title = title;
     }
 
-    @Deprecated
-    public String getColor() {
+    @ColorInt
+    public Integer getColor() {
         return color;
     }
 
-    @ColorInt
-    public int getColorInt() {
-        // TODO should be fixed in database migration
-        return parseColor(ColorUtil.formatColorToParsableHexString(color));
-    }
-
-    public void setColor(String color) {
+    public void setColor(Integer color) {
         this.color = color;
     }
 
@@ -73,18 +69,20 @@ public class Label extends AbstractRemoteEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         Label label = (Label) o;
 
         if (boardId != label.boardId) return false;
         if (title != null ? !title.equals(label.title) : label.title != null) return false;
-        return color != null ? color.equals(label.color) : label.color == null;
+        return color.equals(label.color);
     }
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
-        result = 31 * result + (color != null ? color.hashCode() : 0);
+        int result = super.hashCode();
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + color.hashCode();
         result = 31 * result + (int) (boardId ^ (boardId >>> 32));
         return result;
     }

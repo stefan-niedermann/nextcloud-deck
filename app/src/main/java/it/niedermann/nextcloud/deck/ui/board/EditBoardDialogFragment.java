@@ -65,7 +65,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
                     String title = this.fullBoard.getBoard().getTitle();
                     binding.input.setText(title);
                     binding.input.setSelection(title.length());
-                    binding.colorChooser.selectColor(String.format("#%06X", (0xFFFFFF & fullBoard.getBoard().getColorInt())));
+                    binding.colorChooser.selectColor(String.format("#%06X", (0xFFFFFF & fullBoard.getBoard().getColor())));
                 }
             });
         } else {

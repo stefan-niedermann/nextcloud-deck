@@ -19,9 +19,6 @@ import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.ocs.Capabilities;
 import it.niedermann.nextcloud.deck.model.ocs.Version;
 import it.niedermann.nextcloud.deck.ui.accountswitcher.AccountSwitcherDialog;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
-
-import static android.graphics.Color.parseColor;
 
 @Entity(indices = {@Index(value = "name", unique = true)})
 public class Account implements Serializable {
@@ -41,12 +38,12 @@ public class Account implements Serializable {
     private String url;
 
     @NonNull
-    @ColumnInfo(defaultValue = "#0082c9")
-    private String color = "#0082c9";
+    @ColumnInfo(defaultValue = "0")
+    private Integer color = 0;
 
     @NonNull
-    @ColumnInfo(defaultValue = "#ffffff")
-    private String textColor = "#ffffff";
+    @ColumnInfo(defaultValue = "0")
+    private Integer textColor = 0;
 
     @NonNull
     @ColumnInfo(defaultValue = "0.6.4")
@@ -89,12 +86,12 @@ public class Account implements Serializable {
             try {
                 // Nextcloud might return color format #000 which cannot be parsed by Color.parseColor()
                 // https://github.com/stefan-niedermann/nextcloud-deck/issues/466
-                color = ColorUtil.formatColorToParsableHexString(capabilities.getColor());
-                textColor = ColorUtil.formatColorToParsableHexString(capabilities.getTextColor());
+                color = capabilities.getColor();
+                textColor = capabilities.getTextColor();
             } catch (Exception e) {
                 DeckLog.logError(e);
-                color = "#0082c9";
-                color = "#ffffff";
+                color = 0;
+                color = 0;
             }
             if (capabilities.getDeckVersion() != null) {
                 serverDeckVersion = capabilities.getDeckVersion().getOriginalVersion();
@@ -144,34 +141,23 @@ public class Account implements Serializable {
         return serialVersionUID;
     }
 
-    @Deprecated
+    @ColorInt
     @NonNull
-    public String getColor() {
+    public Integer getColor() {
         return color;
     }
 
-    @ColorInt
-    public int getColorInt() {
-        return parseColor(color);
-    }
-
-    public void setColor(@NonNull String color) {
+    public void setColor(@NonNull Integer color) {
         this.color = color;
     }
 
-    @Deprecated
     @NonNull
-    public String getTextColor() {
+    public Integer getTextColor() {
         return textColor;
     }
 
-    @ColorInt
-    public int getTextColorInt() {
-        return parseColor(textColor);
-    }
-
     @Deprecated
-    public void setTextColor(@NonNull String textColor) {
+    public void setTextColor(@NonNull Integer textColor) {
         this.textColor = textColor;
     }
 
@@ -204,6 +190,15 @@ public class Account implements Serializable {
         this.etag = etag;
     }
 
+    /**
+     * A cache buster parameter is added for duplicate account names on different hosts which shall be fetched from the same {@link SingleSignOnAccount} (e. g. {@link AccountSwitcherDialog})
+     *
+     * @return an {@link String} to fetch the avatar for this account.
+     */
+    public String getAvatarUrl(@Px int size) {
+        return getUrl() + "/index.php/avatar/" + Uri.encode(getUserName()) + "/" + size;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -220,15 +215,6 @@ public class Account implements Serializable {
         if (!textColor.equals(account.textColor)) return false;
         if (!serverDeckVersion.equals(account.serverDeckVersion)) return false;
         return etag != null ? etag.equals(account.etag) : account.etag == null;
-    }
-
-    /**
-     * A cache buster parameter is added for duplicate account names on different hosts which shall be fetched from the same {@link SingleSignOnAccount} (e. g. {@link AccountSwitcherDialog})
-     *
-     * @return an {@link String} to fetch the avatar for this account.
-     */
-    public String getAvatarUrl(@Px int size) {
-        return getUrl() + "/index.php/avatar/" + Uri.encode(getUserName()) + "/" + size;
     }
 
     @Override

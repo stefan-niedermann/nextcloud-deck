@@ -120,7 +120,7 @@ public class EditActivity extends BrandedActivity {
         final long boardId = args.getLong(BUNDLE_KEY_BOARD_ID);
 
         observeOnce(syncManager.getFullBoardById(account.getId(), boardId), EditActivity.this, (fullBoard -> {
-            applyBrand(fullBoard.getBoard().getColorInt());
+            applyBrand(fullBoard.getBoard().getColor());
             viewModel.setCanEdit(fullBoard.getBoard().isPermissionEdit());
             invalidateOptionsMenu();
             if (viewModel.isCreateMode()) {

@@ -56,7 +56,7 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
                 LiveData<FullBoard> fullBoardLiveData = syncManager.getFullBoardById(accountId, stack.getStack().getBoardId());
                 fullBoardLiveData.observeForever((FullBoard fullBoard) -> {
                     if (fullBoard != null) {
-                        views.setInt(R.id.widget_stack_header_icon, "setColorFilter", fullBoard.getBoard().getColorInt());
+                        views.setInt(R.id.widget_stack_header_icon, "setColorFilter", fullBoard.getBoard().getColor());
                         notifyAppWidgetUpdate(views);
                     }
                 });

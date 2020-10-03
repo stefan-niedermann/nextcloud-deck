@@ -41,7 +41,7 @@ public class LabelChip extends Chip {
         setChipEndPadding(gutter);
 
         try {
-            int labelColor = label.getColorInt();
+            int labelColor = label.getColor();
             ColorStateList c = ColorStateList.valueOf(labelColor);
             setChipBackgroundColor(c);
             setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));

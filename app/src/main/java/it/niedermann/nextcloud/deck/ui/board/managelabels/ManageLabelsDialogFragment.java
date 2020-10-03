@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.deck.ui.board.managelabels;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -80,7 +81,7 @@ public class ManageLabelsDialogFragment extends BrandedDialogFragment implements
             final Label label = new Label();
             label.setBoardId(boardId);
             label.setTitle(binding.addLabelTitle.getText().toString());
-            label.setColor(colors[new Random().nextInt(colors.length)].substring(1));
+            label.setColor(Color.parseColor(colors[new Random().nextInt(colors.length)].substring(1)));
 
             WrappedLiveData<Label> createLiveData = syncManager.createLabel(viewModel.getCurrentAccount().getId(), label, boardId);
             observeOnce(createLiveData, this, (createdLabel) -> {
