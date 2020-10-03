@@ -192,9 +192,9 @@ public class SyncManager {
     }
 
     @AnyThread
-    public void synchronizeCard(@NonNull IResponseCallback<Boolean> responseCallback, FullCard card) {
+    public void synchronizeCard(@NonNull IResponseCallback<Boolean> responseCallback, Card card) {
         doAsync(() -> {
-            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getCard().getStackId());
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
             new SyncHelper(serverAdapter, dataBaseAdapter, null).setResponseCallback(responseCallback).doSyncFor(new CardDataProvider(null, board, stack));
         });
