@@ -51,7 +51,7 @@ public class CardProjectResourceViewHolder extends RecyclerView.ViewHolder {
                         if (ids.length == 2) {
                             syncManager.getCardByRemoteID(account.getId(), ids[1]).observe(owner, (fullCard) -> {
                                 if (fullCard != null) {
-                                    syncManager.getBoard(account.getId(), ids[0]).observe(owner, (board) -> {
+                                    syncManager.getBoardByRemoteId(account.getId(), ids[0]).observe(owner, (board) -> {
                                         if (board != null) {
                                             binding.getRoot().setOnClickListener((v) -> itemView.getContext().startActivity(EditActivity.createEditCardIntent(itemView.getContext(), account, board.getLocalId(), fullCard.getLocalId())));
                                         } else {

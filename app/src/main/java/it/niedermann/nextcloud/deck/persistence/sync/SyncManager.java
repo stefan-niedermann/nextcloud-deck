@@ -1562,8 +1562,8 @@ public class SyncManager {
         return new UserSearchLiveData(dataBaseAdapter, serverAdapter);
     }
 
-    public LiveData<Board> getBoard(long accountId, long remoteId) {
-        return dataBaseAdapter.getBoard(accountId, remoteId);
+    public LiveData<Board> getBoardByRemoteId(long accountId, long remoteId) {
+        return dataBaseAdapter.getBoardByRemoteId(accountId, remoteId);
     }
 
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
