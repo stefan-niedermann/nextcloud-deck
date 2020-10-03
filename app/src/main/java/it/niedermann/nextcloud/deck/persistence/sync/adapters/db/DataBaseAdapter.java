@@ -85,7 +85,7 @@ public class DataBaseAdapter {
         return LiveDataHelper.postCustomValue(db.getAccountDao().countAccounts(), data -> data != null && data > 0);
     }
 
-    public LiveData<Board> getBoard(long accountId, long remoteId) {
+    public LiveData<Board> getBoardByRemoteId(long accountId, long remoteId) {
         return distinctUntilChanged(db.getBoardDao().getBoardByRemoteId(accountId, remoteId));
     }
 

@@ -113,34 +113,6 @@ public class SyncManager {
     }
 
     @AnyThread
-    public MutableLiveData<FullCard> synchronizeCardByRemoteId(long cardRemoteId, @NonNull Account account) {
-        MutableLiveData<FullCard> liveData = new MutableLiveData<>();
-        doAsync(() -> {
-            Long accountId = account.getId();
-            Card card = dataBaseAdapter.getCardByRemoteIdDirectly(accountId, cardRemoteId);
-            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
-            // only sync this one card.
-            stack.setCards(Collections.singletonList(card));
-            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            new SyncHelper(serverAdapter, dataBaseAdapter, new Date()).setResponseCallback(new IResponseCallback<Boolean>(account) {
-                @Override
-                public void onResponse(Boolean response) {
-                    FullCard fullCard = dataBaseAdapter.getFullCardByLocalIdDirectly(accountId, card.getLocalId());
-                    liveData.postValue(fullCard);
-                }
-
-                @SuppressLint("MissingSuperCall")
-                @Override
-                public void onError(Throwable throwable) {
-                    liveData.postValue(null);
-                }
-            }).doSyncFor(new CardDataProvider(null, board, stack));
-        });
-        return liveData;
-    }
-
-    // TODO if the card does not exist yet, try to synchronize it first, instead of directly returning null. If sync failed, return null.
-    @AnyThread
     public LiveData<Long> getLocalBoardIdByCardRemoteIdAndAccount(long cardRemoteId, @NonNull Account account) {
         return dataBaseAdapter.getLocalBoardIdByCardRemoteIdAndAccountId(cardRemoteId, account.getId());
     }
@@ -181,6 +153,31 @@ public class SyncManager {
     @AnyThread
     public void synchronize(@NonNull IResponseCallback<Boolean> responseCallback) {
         synchronize(Collections.singletonList(responseCallback));
+    }
+
+    @AnyThread
+    public void synchronizeBoard(@NonNull IResponseCallback<Boolean> responseCallback, long localBoadId) {
+        doAsync(() -> {
+            FullBoard board = dataBaseAdapter.getFullBoardByLocalIdDirectly(responseCallback.getAccount().getId(), localBoadId);
+            try {
+                new SyncHelper(serverAdapter, dataBaseAdapter, null).setResponseCallback(responseCallback).doSyncFor(new StackDataProvider(null, board));
+            } catch (OfflineException e) {
+                responseCallback.onError(e);
+            }
+        });
+    }
+
+    @AnyThread
+    public void synchronizeCard(@NonNull IResponseCallback<Boolean> responseCallback, Card card) {
+        doAsync(() -> {
+            FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(card.getStackId());
+            Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
+            try {
+                new SyncHelper(serverAdapter, dataBaseAdapter, null).setResponseCallback(responseCallback).doSyncFor(new CardDataProvider(null, board, stack));
+            } catch (OfflineException e) {
+                responseCallback.onError(e);
+            }
+        });
     }
 
     private void synchronize(@NonNull @Size(min = 1) List<IResponseCallback<Boolean>> responseCallbacks) {
@@ -1573,8 +1570,8 @@ public class SyncManager {
         return new UserSearchLiveData(dataBaseAdapter, serverAdapter);
     }
 
-    public LiveData<Board> getBoard(long accountId, long remoteId) {
-        return dataBaseAdapter.getBoard(accountId, remoteId);
+    public LiveData<Board> getBoardByRemoteId(long accountId, long remoteId) {
+        return dataBaseAdapter.getBoardByRemoteId(accountId, remoteId);
     }
 
     public LiveData<Stack> getStackByRemoteId(long accountId, long localBoardId, long remoteId) {
