@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -70,7 +71,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
         } else {
             dialogBuilder.setTitle(R.string.add_board);
             dialogBuilder.setPositiveButton(R.string.simple_add, (dialog, which) -> editBoardListener.onCreateBoard(binding.input.getText().toString(), binding.colorChooser.getSelectedColor()));
-            binding.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & getResources().getColor(R.color.board_default_color)));
+            binding.colorChooser.selectColor(String.format("#%06X", 0xFFFFFF & ContextCompat.getColor(requireContext(), R.color.board_default_color)));
         }
 
         return dialogBuilder

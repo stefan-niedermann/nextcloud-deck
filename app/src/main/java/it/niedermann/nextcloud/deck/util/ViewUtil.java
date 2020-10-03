@@ -16,6 +16,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.TextViewCompat;
 
@@ -69,12 +70,13 @@ public final class ViewUtil {
         }
 
         cardDueDate.setBackgroundResource(backgroundDrawable);
-        cardDueDate.setTextColor(context.getResources().getColor(textColor));
-        TextViewCompat.setCompoundDrawableTintList(cardDueDate, ColorStateList.valueOf(context.getResources().getColor(textColor)));
+        cardDueDate.setTextColor(ContextCompat.getColor(context, textColor));
+        TextViewCompat.setCompoundDrawableTintList(cardDueDate, ColorStateList.valueOf(ContextCompat.getColor(context, textColor)));
     }
 
     public static Drawable getTintedImageView(@NonNull Context context, @DrawableRes int imageId, @NonNull String color) {
-        final Drawable drawable = context.getResources().getDrawable(imageId);
+        final Drawable drawable = ContextCompat.getDrawable(context, imageId);
+        assert drawable != null;
         final Drawable wrapped = DrawableCompat.wrap(drawable).mutate();
         DrawableCompat.setTint(wrapped, Color.parseColor(color));
         return drawable;

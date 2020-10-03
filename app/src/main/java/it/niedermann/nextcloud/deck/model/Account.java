@@ -165,6 +165,11 @@ public class Account implements Serializable {
         return textColor;
     }
 
+    @ColorInt
+    public int getTextColorInt() {
+        return parseColor(textColor);
+    }
+
     @Deprecated
     public void setTextColor(@NonNull String textColor) {
         this.textColor = textColor;
