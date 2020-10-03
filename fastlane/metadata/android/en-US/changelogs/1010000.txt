@@ -4,3 +4,4 @@
 - 🐞 Move dialog: Cancel / Move buttons are hidden on long titles (#681)
 - 📢 Fix push notifications (#569)
 - 🆕 Clone lists and cards when cloning boards (#608)
+- 👥 show more than 7 assigned users (#679)

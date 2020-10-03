@@ -110,7 +110,7 @@ public class AttachmentsActivity extends AppCompatActivity {
                     long currentAttachmentLocalId = attachments.get(binding.viewPager.getCurrentItem()).getLocalId();
                     String transitionKey = getString(R.string.transition_attachment_preview, String.valueOf(currentAttachmentLocalId));
                     if (transitionKey.equals(names.get(0))) {
-                        sharedElements.put(transitionKey, binding.viewPager.getRootView().findViewById(R.id.preview)
+                        sharedElements.put(transitionKey, binding.viewPager.getRootView().findViewById(R.id.avatar)
                         );
                     }
 

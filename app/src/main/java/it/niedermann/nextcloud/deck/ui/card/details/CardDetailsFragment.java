@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -21,6 +20,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
@@ -54,7 +54,6 @@ import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
-import it.niedermann.nextcloud.deck.util.ViewUtil;
 
 import static android.text.format.DateFormat.getDateFormat;
 import static android.view.View.GONE;
@@ -68,6 +67,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private FragmentCardEditTabDetailsBinding binding;
     private EditCardViewModel viewModel;
     private SyncManager syncManager;
+    private AssigneeAdapter adapter;
     private DateFormat dateFormat;
     private DateFormat dueTime = new SimpleDateFormat("HH:mm", Locale.ROOT);
     @Px
@@ -111,7 +111,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
         avatarLayoutParams.setMargins(0, 0, dpToPx(requireContext(), R.dimen.spacer_1x), 0);
 
-        setupPeople();
+        setupAssignees();
         setupLabels();
         setupDueDate();
         setupDescription();
@@ -332,7 +332,29 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         return chip;
     }
 
-    private void setupPeople() {
+    private void setupAssignees() {
+        adapter = new AssigneeAdapter((user) -> {
+            if (viewModel.canEdit()) {
+                viewModel.getFullCard().getAssignedUsers().remove(user);
+                adapter.removeUser(user);
+                ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
+                BrandedSnackbar.make(
+                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
+                        Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_undo, v1 -> {
+                            viewModel.getFullCard().getAssignedUsers().add(user);
+                            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
+                            adapter.addUser(user);
+                        }).show();
+            }
+        }, viewModel.getAccount());
+        binding.assignees.setAdapter(adapter);
+        binding.assignees.post(() -> {
+            @Px final int gutter = dpToPx(requireContext(), R.dimen.spacer_1x);
+            final int spanCount = (int) (float) binding.assignees.getWidth() / (dpToPx(requireContext(), R.dimen.avatar_size) + gutter);
+            binding.assignees.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
+            binding.assignees.addItemDecoration(new AssigneeDecoration(gutter));
+        });
         if (viewModel.canEdit()) {
             Long localCardId = viewModel.getFullCard().getCard().getLocalId();
             localCardId = localCardId == null ? -1 : localCardId;
@@ -341,42 +363,16 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
                 User user = (User) adapterView.getItemAtPosition(position);
                 viewModel.getFullCard().getAssignedUsers().add(user);
                 ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-                addAvatar(viewModel.getAccount().getUrl(), user);
+                adapter.addUser(user);
                 binding.people.setText("");
             });
 
             if (this.viewModel.getFullCard().getAssignedUsers() != null) {
-                binding.peopleList.removeAllViews();
-                for (User user : this.viewModel.getFullCard().getAssignedUsers()) {
-                    addAvatar(viewModel.getAccount().getUrl(), user);
-                }
+                adapter.setUsers(this.viewModel.getFullCard().getAssignedUsers());
             }
         } else {
             binding.people.setEnabled(false);
         }
-    }
-
-    private void addAvatar(String baseUrl, User user) {
-        ImageView avatar = new ImageView(activity);
-        avatar.setLayoutParams(avatarLayoutParams);
-        if (viewModel.canEdit()) {
-            avatar.setOnClickListener(v -> {
-                viewModel.getFullCard().getAssignedUsers().remove(user);
-                binding.peopleList.removeView(avatar);
-                ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
-                BrandedSnackbar.make(
-                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
-                        Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_undo, v1 -> {
-                            viewModel.getFullCard().getAssignedUsers().add(user);
-                            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-                            addAvatar(baseUrl, user);
-                        }).show();
-            });
-        }
-        binding.peopleList.addView(avatar);
-        avatar.requestLayout();
-        ViewUtil.addAvatar(avatar, baseUrl, user.getUid(), avatarSize, R.drawable.ic_person_grey600_24dp);
     }
 
     @Override
