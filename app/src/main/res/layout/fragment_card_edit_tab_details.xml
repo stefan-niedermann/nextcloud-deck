@@ -140,7 +140,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="@dimen/spacer_2x"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_format_align_left_black_24dp" />
+                    app:srcCompat="@drawable/ic_baseline_subject_24" />
 
                 <com.yydcdut.markdown.MarkdownEditText
                     android:id="@+id/description"

@@ -12,6 +12,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.card.MaterialCardView;
 
@@ -80,12 +81,12 @@ public class DefaultCardViewHolder extends AbstractCardViewHolder {
         final TaskStatus taskStatus = fullCard.getCard().getTaskStatus();
         if (taskStatus.taskCount > 0) {
             binding.cardCountTasks.setText(context.getResources().getString(R.string.task_count, String.valueOf(taskStatus.doneCount), String.valueOf(taskStatus.taskCount)));
-            binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_check_grey600_24dp), null, null, null);
+            binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_check_grey600_24dp), null, null, null);
             binding.cardCountTasks.setVisibility(View.VISIBLE);
         } else {
             final String description = fullCard.getCard().getDescription();
             if (!TextUtils.isEmpty(description)) {
-                binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_baseline_subject_24), null, null, null);
+                binding.cardCountTasks.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_baseline_subject_24), null, null, null);
                 binding.cardCountTasks.setText(null);
                 binding.cardCountTasks.setVisibility(View.VISIBLE);
             } else {
