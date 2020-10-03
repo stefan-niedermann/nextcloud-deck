@@ -14,6 +14,7 @@ import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.ServerAdapter;
 import it.niedermann.nextcloud.deck.persistence.sync.adapters.db.DataBaseAdapter;
+import it.niedermann.nextcloud.deck.persistence.sync.helpers.util.AsyncUtil;
 
 public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessControl> {
 
@@ -29,32 +30,29 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
 
     @Override
     public void getAllFromServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<List<AccessControl>> responder, Date lastSync) {
-        CountDownLatch latch = new CountDownLatch(acl.size());
-        for (AccessControl accessControl : acl) {
-            if (accessControl.getType() == TYPE_GROUP) {
-                serverAdapter.searchGroupMembers(accessControl.getUser().getUid(), new IResponseCallback<GroupMemberUIDs>(responder.getAccount()) {
-                    @Override
-                    public void onResponse(GroupMemberUIDs response) {
-                        accessControl.setGroupMemberUIDs(response);
-                        if (response.getUids().size() > 0) {
-                            ensureGroupMembersInDB(getAccount(), dataBaseAdapter, serverAdapter, response);
+        AsyncUtil.awaitAsyncWork(acl.size(), latch -> {
+            for (AccessControl accessControl : acl) {
+                if (accessControl.getType() == TYPE_GROUP) {
+                    serverAdapter.searchGroupMembers(accessControl.getUser().getUid(), new IResponseCallback<GroupMemberUIDs>(responder.getAccount()) {
+                        @Override
+                        public void onResponse(GroupMemberUIDs response) {
+                            accessControl.setGroupMemberUIDs(response);
+                            if (response.getUids().size() > 0) {
+                                ensureGroupMembersInDB(getAccount(), dataBaseAdapter, serverAdapter, response);
+                            }
+                            latch.countDown();
                         }
-                        latch.countDown();
-                    }
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        super.onError(throwable);
-                        latch.countDown();
-                    }
-                });
-            } else latch.countDown();
-        }
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            DeckLog.logError(e);
-        }
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                            latch.countDown();
+                        }
+                    });
+                } else latch.countDown();
+            }
+        });
+
         responder.onResponse(acl);
     }
 
@@ -137,6 +135,7 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     @Override
     public void updateInDB(DataBaseAdapter dataBaseAdapter, long accountId, AccessControl entity, boolean setStatus) {
         prepareUser(dataBaseAdapter, accountId, entity);
+        entity.setBoardId(board.getLocalId());
         dataBaseAdapter.updateAccessControl(entity, setStatus);
         handleGroupMemberships(dataBaseAdapter, entity);
     }
@@ -150,6 +149,9 @@ public class AccessControlDataProvider extends AbstractSyncDataProvider<AccessCo
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<AccessControl> responder, AccessControl entity) {
         AccessControl acl = new AccessControl(entity);
         acl.setBoardId(board.getBoard().getId());
+        if (acl.getUser() == null && acl.getUserId() != null) {
+            acl.setUser(dataBaseAdapter.getUserByLocalIdDirectly(acl.getUserId()));
+        }
         serverAdapter.createAccessControl(board.getBoard().getId(), acl, responder);
     }
 

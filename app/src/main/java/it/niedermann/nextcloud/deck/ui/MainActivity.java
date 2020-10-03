@@ -975,20 +975,29 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
 
     @Override
     public void onClone(Board board) {
-        binding.drawerLayout.closeDrawer(GravityCompat.START);
-        final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
-        snackbar.show();
-        final WrappedLiveData<FullBoard> liveData = syncManager.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor());
-        observeOnce(liveData, this, (fullBoard -> {
-            snackbar.dismiss();
-            if (liveData.hasError()) {
-                ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-            } else {
-                setCurrentBoard(fullBoard.getBoard());
-                BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, fullBoard.getBoard().getTitle()), Snackbar.LENGTH_LONG)
-                        .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(fullBoard.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
-                        .show();
-            }
-        }));
+        final String[] animals = {getString(R.string.clone_cards)};
+        final boolean[] checkedItems = {false};
+        new BrandedAlertDialogBuilder(this)
+                .setTitle(R.string.clone_board)
+                .setMultiChoiceItems(animals, checkedItems, (dialog, which, isChecked) -> checkedItems[0] = isChecked)
+                .setPositiveButton(R.string.simple_clone, (dialog, which) -> {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                    final Snackbar snackbar = BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.cloning_board, board.getTitle()), Snackbar.LENGTH_INDEFINITE);
+                    snackbar.show();
+                    final WrappedLiveData<FullBoard> liveData = syncManager.cloneBoard(board.getAccountId(), board.getLocalId(), board.getAccountId(), board.getColor(), checkedItems[0]);
+                    observeOnce(liveData, this, (fullBoard -> {
+                        snackbar.dismiss();
+                        if (liveData.hasError()) {
+                            ExceptionDialogFragment.newInstance(liveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        } else {
+                            setCurrentBoard(fullBoard.getBoard());
+                            BrandedSnackbar.make(binding.coordinatorLayout, getString(R.string.successfully_cloned_board, fullBoard.getBoard().getTitle()), Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.edit, v -> EditBoardDialogFragment.newInstance(fullBoard.getLocalId()).show(getSupportFragmentManager(), EditBoardDialogFragment.class.getSimpleName()))
+                                    .show();
+                        }
+                    }));
+                })
+                .setNeutralButton(android.R.string.cancel, null)
+                .show();
     }
 }

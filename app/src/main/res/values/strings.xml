@@ -310,4 +310,6 @@
     <string name="project_type_room">Talk room</string>
     <string name="simple_move">Move</string>
     <string name="cannot_upload_files_without_permission">Can not upload files without permission</string>
+    <string name="clone_cards">Clone cards</string>
+    <string name="simple_clone">Clone</string>
 </resources>
