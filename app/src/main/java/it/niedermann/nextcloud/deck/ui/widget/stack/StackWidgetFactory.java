@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -57,8 +56,7 @@ public class StackWidgetFactory implements RemoteViewsService.RemoteViewsFactory
                 LiveData<FullBoard> fullBoardLiveData = syncManager.getFullBoardById(accountId, stack.getStack().getBoardId());
                 fullBoardLiveData.observeForever((FullBoard fullBoard) -> {
                     if (fullBoard != null) {
-                        final String boardColor = fullBoard.getBoard().getColor();
-                        views.setInt(R.id.widget_stack_header_icon, "setColorFilter", Color.parseColor("#" + boardColor));
+                        views.setInt(R.id.widget_stack_header_icon, "setColorFilter", fullBoard.getBoard().getColor());
                         notifyAppWidgetUpdate(views);
                     }
                 });

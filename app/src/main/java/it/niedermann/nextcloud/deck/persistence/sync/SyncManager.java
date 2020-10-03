@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.AnyThread;
+import androidx.annotation.ColorInt;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -556,20 +557,21 @@ public class SyncManager {
     /**
      * Creates a new {@link Board} and adds the same {@link Label} and {@link Stack} as in the origin {@link Board}.
      * Owner of the target {@link Board} will be the {@link User} with the {@link Account} of {@param targetAccountId}.
-     * @param cloneCards determines whether or not the cards in this {@link Board} shall be cloned or not
-     * Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
      *
-     * TODO implement https://github.com/stefan-niedermann/nextcloud-deck/issues/608
+     * @param cloneCards determines whether or not the cards in this {@link Board} shall be cloned or not
+     *                   Does <strong>not</strong> clone any {@link Card} or {@link AccessControl} from the origin {@link Board}.
+     *                   <p>
+     *                   TODO implement https://github.com/stefan-niedermann/nextcloud-deck/issues/608
      */
     @AnyThread
-    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, String targetBoardColor, boolean cloneCards) {
+    public WrappedLiveData<FullBoard> cloneBoard(long originAccountId, long originBoardLocalId, long targetAccountId, @ColorInt int targetBoardColor, boolean cloneCards) {
         final WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
 
         doAsync(() -> {
             Account originAccount = dataBaseAdapter.getAccountByIdDirectly(originAccountId);
             User newOwner = dataBaseAdapter.getUserByUidDirectly(originAccountId, originAccount.getUserName());
             if (newOwner == null) {
-                liveData.postError(new DeckException(DeckException.Hint.UNKNOWN_ACCOUNT_USER_ID, "User with Account-UID \""+originAccount.getUserName()+"\" not found."));
+                liveData.postError(new DeckException(DeckException.Hint.UNKNOWN_ACCOUNT_USER_ID, "User with Account-UID \"" + originAccount.getUserName() + "\" not found."));
                 return;
             }
             FullBoard originalBoard = dataBaseAdapter.getFullBoardByLocalIdDirectly(originAccountId, originBoardLocalId);
@@ -600,7 +602,7 @@ public class SyncManager {
             originalBoard.setId(null);
             originalBoard.setLocalId(null);
             originalBoard.getBoard().setTitle(newBoardTitle);
-            originalBoard.getBoard().setColor(targetBoardColor);
+            originalBoard.getBoard().setColor(String.format("%06X", 0xFFFFFF & targetBoardColor));
             originalBoard.getBoard().setOwnerId(newOwner.getLocalId());
             originalBoard.setStatusEnum(DBStatus.LOCAL_EDITED);
             originalBoard.setOwner(newOwner);
@@ -657,7 +659,8 @@ public class SyncManager {
                                 Long newLabelId = oldToNewLabelIdsDictionary.get(oldLabel.getLocalId());
                                 if (newLabelId != null) {
                                     dataBaseAdapter.createJoinCardWithLabel(newLabelId, createdCardId, DBStatus.LOCAL_EDITED);
-                                } else DeckLog.error("ID of created Label is null! Skipping assignment of \"" + oldLabel.getTitle() + "\"...");
+                                } else
+                                    DeckLog.error("ID of created Label is null! Skipping assignment of \"" + oldLabel.getTitle() + "\"...");
                             }
                         }
                         if (isSameAccount && oldCard.getAssignedUsers() != null) {

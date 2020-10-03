@@ -1,5 +1,8 @@
 package it.niedermann.nextcloud.deck.model;
 
+import android.graphics.Color;
+
+import androidx.annotation.ColorInt;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
@@ -38,10 +41,7 @@ public class Board extends AbstractRemoteEntity implements Serializable {
 
     private String title;
     private long ownerId;
-    /**
-     * Deck App sends color strings without leading # character
-     */
-    private String color;
+    private Integer color;
     private boolean archived;
     private int shared;
     private Date deletedAt;
@@ -79,19 +79,25 @@ public class Board extends AbstractRemoteEntity implements Serializable {
         this.id = id;
     }
 
-    public String getColor() {
+    @ColorInt
+    public Integer getColor() {
         return color;
     }
+
 
     public void setColor(String color) {
         try {
             // Nextcloud might return color format #000 which cannot be parsed by Color.parseColor()
             // https://github.com/stefan-niedermann/nextcloud-deck/issues/466
-            this.color = ColorUtil.formatColorToParsableHexString(color).substring(1);
+            this.color = Color.parseColor(ColorUtil.formatColorToParsableHexString(color));
         } catch (Exception e) {
             DeckLog.logError(e);
-            this.color = "757575";
+            this.color = 0;
         }
+    }
+
+    public void setColor(Integer color) {
+        this.color = color;
     }
 
     public boolean isArchived() {

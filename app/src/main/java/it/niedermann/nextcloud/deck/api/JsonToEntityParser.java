@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.api;
 
+import android.graphics.Color;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -37,6 +39,7 @@ import it.niedermann.nextcloud.deck.model.ocs.projects.OcsProjectResource;
 import it.niedermann.nextcloud.deck.model.ocs.user.GroupMemberUIDs;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUser;
 import it.niedermann.nextcloud.deck.model.ocs.user.OcsUserList;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static it.niedermann.nextcloud.deck.exceptions.DeckException.Hint.CAPABILITIES_VERSION_NOT_PARSABLE;
 import static it.niedermann.nextcloud.deck.exceptions.TraceableException.makeTraceableIfFails;
@@ -543,14 +546,27 @@ public class JsonToEntityParser {
                     }
                     if (caps.has("theming")) {
                         JsonObject theming = caps.getAsJsonObject("theming");
-                        capabilities.setColor(theming.get("color").getAsString());
-                        capabilities.setTextColor(theming.get("color-text").getAsString());
+                        capabilities.setColor(getColorAsInt(theming, "color"));
+                        capabilities.setTextColor(getColorAsInt(theming, "color-text"));
                     }
                 }
                 capabilities.setDeckVersion(Version.of(version));
             }
         }
         return capabilities;
+    }
+
+    private static int getColorAsInt(JsonObject element, String field) {
+        String rawString = getNullAsEmptyString(element.get(field));
+        try {
+            if (!rawString.trim().isEmpty()) {
+                String colorAsString = ColorUtil.formatColorToParsableHexString(rawString);
+                return Color.parseColor(colorAsString);
+            }
+        } catch (Exception e) {
+            // Do mostly nothing, return default value
+        }
+        return Color.parseColor("#757575");
     }
 
     protected static List<Activity> parseActivity(JsonObject e) {
@@ -617,7 +633,7 @@ public class JsonToEntityParser {
             //todo: last modified!
 //          label.setLastModified(get);
             label.setTitle(getNullAsEmptyString(e.get("title")));
-            label.setColor(getNullAsEmptyString(e.get("color")));
+            label.setColor(getColorAsInt(e, "color"));
         }, e);
         return label;
     }

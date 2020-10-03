@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Px;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.bumptech.glide.Glide;
@@ -47,8 +48,9 @@ public class OverlappingAvatars extends RelativeLayout {
         avatarBorderSize = dpToPx(context, R.dimen.avatar_size_small_overlapping_border);
         avatarSize = dpToPx(context, R.dimen.avatar_size_small) + avatarBorderSize * 2;
         overlapPx = dpToPx(context, R.dimen.avatar_size_small_overlapping);
-        borderDrawable = getResources().getDrawable(R.drawable.avatar_border);
-        DrawableCompat.setTint(borderDrawable, getResources().getColor(R.color.bg_card));
+        borderDrawable = ContextCompat.getDrawable(context, R.drawable.avatar_border);
+        assert borderDrawable != null;
+        DrawableCompat.setTint(borderDrawable, ContextCompat.getColor(context, R.color.bg_card));
     }
 
     public void setAvatars(@NonNull Account account, @NonNull List<User> assignedUsers) {

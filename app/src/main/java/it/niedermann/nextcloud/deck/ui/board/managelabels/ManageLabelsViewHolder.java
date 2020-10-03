@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.deck.ui.board.managelabels;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +20,7 @@ public class ManageLabelsViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull Label label, @NonNull ManageLabelListener listener) {
         binding.label.setText(label.getTitle());
-        final int labelColor = Color.parseColor("#" + label.getColor());
+        final int labelColor = label.getColor();
         binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
         final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
         binding.label.setTextColor(color);

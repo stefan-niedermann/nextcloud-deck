@@ -5,8 +5,8 @@ public class Capabilities {
     private Version deckVersion;
     private Version nextcloudVersion;
 
-    private String color = "#0082c9";
-    private String textColor = "#ffffff";
+    private int color = 0;
+    private int textColor = 0;
     private boolean maintenanceEnabled = false;
 
     public Capabilities() {
@@ -28,19 +28,19 @@ public class Capabilities {
         this.nextcloudVersion = nextcloudVersion;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 
-    public String getTextColor() {
+    public int getTextColor() {
         return textColor;
     }
 
-    public void setTextColor(String textColor) {
+    public void setTextColor(int textColor) {
         this.textColor = textColor;
     }
 

@@ -44,7 +44,7 @@ public abstract class BrandingUtil {
             DeckLog.log("--- Read: shared_preference_theme_main");
             return sharedPreferences.getInt(context.getString(R.string.shared_preference_theme_main), context.getApplicationContext().getResources().getColor(R.color.defaultBrand));
         } else {
-            return context.getResources().getColor(R.color.defaultBrand);
+            return ContextCompat.getColor(context, R.color.defaultBrand);
         }
     }
 
@@ -112,7 +112,7 @@ public abstract class BrandingUtil {
                         finalMainColor,
                         finalMainColor,
                         finalMainColor,
-                        editText.getContext().getResources().getColor(R.color.fg_secondary)
+                        ContextCompat.getColor(editText.getContext(), R.color.fg_secondary)
                 }
         ));
     }

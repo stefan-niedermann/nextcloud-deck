@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.card.details;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -317,7 +316,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             });
         }
         try {
-            final int labelColor = Color.parseColor("#" + label.getColor());
+            final int labelColor = label.getColor();
             chip.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
             final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
             chip.setTextColor(color);

@@ -88,7 +88,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
         if (board == null) {
             binding.submit.setEnabled(false);
         } else {
-            applyBrand(Color.parseColor('#' + board.getColor()));
+            applyBrand(board.getColor());
             if (stack == null) {
                 binding.submit.setEnabled(false);
             } else {

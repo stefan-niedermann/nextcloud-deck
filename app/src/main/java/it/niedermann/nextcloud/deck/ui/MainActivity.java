@@ -541,7 +541,7 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         if (stacksLiveData != null) {
             stacksLiveData.removeObservers(this);
         }
-        saveBrandColors(this, Color.parseColor('#' + board.getColor()));
+        saveBrandColors(this, board.getColor());
         mainViewModel.setCurrentBoard(board);
         filterViewModel.clearFilterInformation();
 

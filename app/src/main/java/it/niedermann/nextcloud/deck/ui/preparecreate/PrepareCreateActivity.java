@@ -13,7 +13,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.PickStackActivity;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 
-import static android.graphics.Color.parseColor;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentAccountId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentBoardId;
 import static it.niedermann.nextcloud.deck.DeckApplication.saveCurrentStackId;
@@ -41,7 +40,7 @@ public class PrepareCreateActivity extends PickStackActivity {
         saveCurrentAccountId(this, account.getId());
         saveCurrentBoardId(this, account.getId(), boardId);
         saveCurrentStackId(this, account.getId(), boardId, stackId);
-        applyBrand(parseColor(account.getColor()));
+        applyBrand(account.getColor());
 
         finish();
     }
