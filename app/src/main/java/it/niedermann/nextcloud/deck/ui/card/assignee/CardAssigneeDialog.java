@@ -79,7 +79,7 @@ public class CardAssigneeDialog extends BrandedDialogFragment {
         super.onActivityCreated(savedInstanceState);
         binding.avatar.post(() -> Glide.with(binding.avatar.getContext())
                 .load(viewModel.getAccount().getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + binding.avatar.getWidth())
-                .placeholder(R.drawable.ic_person_grey600_24dp)
+                .placeholder(android.R.color.darker_gray)
                 .error(R.drawable.ic_person_grey600_24dp)
                 .into(binding.avatar));
         binding.displayName.setText(user.getDisplayname());
