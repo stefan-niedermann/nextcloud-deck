@@ -549,9 +549,10 @@ public class SyncManager {
                         liveData.postValue(response);
                     }
 
+                    @SuppressLint("MissingSuperCall")
                     @Override
                     public void onError(Throwable throwable) {
-                        liveData.postError(throwable);
+                        liveData.postError(throwable, fullBoard);
                     }
                 });
             }
