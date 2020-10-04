@@ -566,7 +566,7 @@ public class JsonToEntityParser {
         } catch (Exception e) {
             // Do mostly nothing, return default value
         }
-        return Color.parseColor("#757575");
+        return Color.GRAY;
     }
 
     protected static List<Activity> parseActivity(JsonObject e) {
