@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 
@@ -77,9 +78,17 @@ public class CardAssigneeDialog extends BrandedDialogFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        final Context context = requireContext();
+
+        final CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+
         binding.avatar.post(() -> Glide.with(binding.avatar.getContext())
                 .load(viewModel.getAccount().getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + binding.avatar.getWidth())
-                .placeholder(android.R.color.darker_gray)
+                .placeholder(circularProgressDrawable)
                 .error(R.drawable.ic_person_grey600_24dp)
                 .into(binding.avatar));
         binding.displayName.setText(user.getDisplayname());
