@@ -9,9 +9,12 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
+import com.google.gson.annotations.JsonAdapter;
+
 import java.io.Serializable;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.json.JsonColorSerializer;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 
@@ -29,6 +32,7 @@ import it.niedermann.nextcloud.deck.util.ColorUtil;
 public class Label extends AbstractRemoteEntity implements Serializable {
     private String title;
 
+    @JsonAdapter(JsonColorSerializer.class)
     @NonNull
     @ColumnInfo(defaultValue = "0")
     private Integer color;

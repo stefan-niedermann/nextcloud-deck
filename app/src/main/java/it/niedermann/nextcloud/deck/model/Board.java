@@ -8,10 +8,13 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import com.google.gson.annotations.JsonAdapter;
+
 import java.io.Serializable;
 import java.util.Date;
 
 import it.niedermann.nextcloud.deck.DeckLog;
+import it.niedermann.nextcloud.deck.api.json.JsonColorSerializer;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
@@ -41,6 +44,7 @@ public class Board extends AbstractRemoteEntity implements Serializable {
 
     private String title;
     private long ownerId;
+    @JsonAdapter(JsonColorSerializer.class)
     private Integer color;
     private boolean archived;
     private int shared;

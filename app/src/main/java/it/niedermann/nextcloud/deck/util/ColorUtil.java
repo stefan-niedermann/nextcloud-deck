@@ -179,4 +179,8 @@ public final class ColorUtil {
             return result;
         }
     }
+
+    public static String intColorToHexString(int color) {
+        return String.format("%06X", (0xFFFFFF & color));
+    }
 }
