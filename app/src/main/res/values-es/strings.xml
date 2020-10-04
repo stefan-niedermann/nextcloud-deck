@@ -285,4 +285,4 @@
     <string name="project_type_room">Sala de conversación</string>
     <string name="simple_move">Mover</string>
     <string name="cannot_upload_files_without_permission">No se puede subir archivos sin permiso</string>
-</resources>
+    </resources>
