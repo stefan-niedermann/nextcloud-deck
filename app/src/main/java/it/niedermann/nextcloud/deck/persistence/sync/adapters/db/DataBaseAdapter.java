@@ -187,12 +187,39 @@ public class DataBaseAdapter {
         if (filter == null) {
             return LiveDataHelper.interceptLiveData(db.getCardDao().getFullCardsForStack(accountId, localStackId), this::filterRelationsForCard);
         }
+        return LiveDataHelper.interceptLiveData(db.getCardDao().getFilteredFullCardsForStack(getQueryForFilter(filter, accountId, localStackId)), this::filterRelationsForCard);
 
+    }
+
+    private void fillSqlWithListValues(StringBuilder query, List<Object> args, @NonNull List<? extends IRemoteEntity> entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            if (i > 0) {
+                query.append(", ");
+            }
+            query.append("?");
+            args.add(entities.get(i).getLocalId());
+        }
+    }
+
+    @WorkerThread
+    public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId, FilterInformation filter) {
+        if (filter == null) {
+            return db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId);
+        }
         List<Object> args = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT * FROM card c " +
-                "WHERE accountId = ? AND stackId = ? ");
         args.add(accountId);
         args.add(localStackId);
+
+        return db.getCardDao().getFilteredFullCardsForStackDirectly(getQueryForFilter(filter, accountId, localStackId));
+    }
+
+    @AnyThread
+    private SimpleSQLiteQuery getQueryForFilter(FilterInformation filter, long accountId, long localStackId) {
+        List<Object> args = new ArrayList<>();
+        args.add(accountId);
+        args.add(localStackId);
+        StringBuilder query = new StringBuilder("SELECT * FROM card c " +
+                "WHERE accountId = ? AND stackId = ? ");
 
         if (!filter.getLabels().isEmpty()) {
             query.append("and (exists(select 1 from joincardwithlabel j where c.localId = cardId and labelId in (");
@@ -241,24 +268,11 @@ public class DataBaseAdapter {
                     throw new IllegalArgumentException("Xou need to add your new EDueType value\"" + filter.getDueType() + "\" here!");
             }
         }
-        query.append(" and status<>3 order by `order`, createdAt asc;");
-        return LiveDataHelper.interceptLiveData(db.getCardDao().getFilteredFullCardsForStack(new SimpleSQLiteQuery(query.toString(), args.toArray())), this::filterRelationsForCard);
-
-    }
-
-    private void fillSqlWithListValues(StringBuilder query, List<Object> args, @NonNull List<? extends IRemoteEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            if (i > 0) {
-                query.append(", ");
-            }
-            query.append("?");
-            args.add(entities.get(i).getLocalId());
+        if (filter.getArchiveStatus() != FilterInformation.EArchiveStatus.ALL) {
+            query.append(" and c.archived = "+(filter.getArchiveStatus() == FilterInformation.EArchiveStatus.ARCHIVED ? 1 : 0));
         }
-    }
-
-    @WorkerThread
-    public List<FullCard> getFullCardsForStackDirectly(long accountId, long localStackId) {
-        return db.getCardDao().getFullCardsForStackDirectly(accountId, localStackId);
+        query.append(" and status<>3 order by `order`, createdAt asc;");
+        return new SimpleSQLiteQuery(query.toString(), args.toArray());
     }
 
     @WorkerThread

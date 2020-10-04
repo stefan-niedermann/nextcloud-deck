@@ -644,7 +644,7 @@ public class SyncManager {
                 stack.setBoardId(newBoardId);
                 long createdStackId = dataBaseAdapter.createStack(targetAccountId, stack);
                 if (cloneCards) {
-                    List<FullCard> oldCards = dataBaseAdapter.getFullCardsForStackDirectly(originAccountId, oldStackId);
+                    List<FullCard> oldCards = dataBaseAdapter.getFullCardsForStackDirectly(originAccountId, oldStackId, null);
                     for (FullCard oldCard : oldCards) {
                         Card newCard = oldCard.getCard();
                         newCard.setId(null);
@@ -1131,7 +1131,6 @@ public class SyncManager {
         return liveData;
     }
 
-    // TODO use filterInformation https://github.com/stefan-niedermann/nextcloud-deck/issues/663
     @AnyThread
     public WrappedLiveData<Void> archiveCardsInStack(long accountId, long stackLocalId, @NonNull FilterInformation filterInformation) {
         WrappedLiveData<Void> liveData = new WrappedLiveData<>();
@@ -1139,7 +1138,7 @@ public class SyncManager {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             FullStack stack = dataBaseAdapter.getFullStackByLocalIdDirectly(stackLocalId);
             Board board = dataBaseAdapter.getBoardByLocalIdDirectly(stack.getStack().getBoardId());
-            List<FullCard> cards = dataBaseAdapter.getFullCardsForStackDirectly(accountId, stackLocalId);
+            List<FullCard> cards = dataBaseAdapter.getFullCardsForStackDirectly(accountId, stackLocalId, filterInformation);
             if (cards.size() > 0) {
                 CountDownLatch latch = new CountDownLatch(cards.size());
                 for (FullCard card : cards) {
@@ -1660,7 +1659,7 @@ public class SyncManager {
     public void reorder(long accountId, @NonNull FullCard movedCard, long newStackId, int newIndex) {
         doAsync(() -> {
             // read cards of new stack
-            List<FullCard> cardsOfNewStack = dataBaseAdapter.getFullCardsForStackDirectly(accountId, newStackId);
+            List<FullCard> cardsOfNewStack = dataBaseAdapter.getFullCardsForStackDirectly(accountId, newStackId, null);
             int newOrder = newIndex;
             if (cardsOfNewStack.size() > newIndex) {
                 newOrder = cardsOfNewStack.get(newIndex).getCard().getOrder();

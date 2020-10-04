@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.deck.model;
 
+import android.graphics.Color;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -9,7 +11,9 @@ import androidx.room.Index;
 
 import java.io.Serializable;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
+import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 @Entity(inheritSuperIndices = true,
         indices = {@Index("boardId"), @Index(value = {"boardId", "title"}, unique = true, name = "idx_label_title_unique")},
@@ -48,13 +52,23 @@ public class Label extends AbstractRemoteEntity implements Serializable {
         this.title = title;
     }
 
+    @NonNull
     @ColorInt
     public Integer getColor() {
         return color;
     }
 
-    public void setColor(Integer color) {
+    public void setColor(@NonNull @ColorInt Integer color) {
         this.color = color;
+    }
+
+    public void setColor(String color) {
+        try {
+            setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(color)));
+        } catch (Exception e) {
+            DeckLog.logError(e);
+            setColor(Color.GRAY);
+        }
     }
 
     public long getBoardId() {

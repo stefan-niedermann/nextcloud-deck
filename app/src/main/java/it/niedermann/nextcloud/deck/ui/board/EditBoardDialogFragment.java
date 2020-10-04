@@ -54,7 +54,7 @@ public class EditBoardDialogFragment extends BrandedDialogFragment {
         if (args != null && args.containsKey(KEY_BOARD_ID)) {
             dialogBuilder.setTitle(R.string.edit_board);
             dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
-                this.fullBoard.board.setColor(binding.colorChooser.getSelectedColor().substring(1));
+                this.fullBoard.board.setColor(binding.colorChooser.getSelectedColor());
                 this.fullBoard.board.setTitle(binding.input.getText().toString());
                 editBoardListener.onUpdateBoard(fullBoard);
             });

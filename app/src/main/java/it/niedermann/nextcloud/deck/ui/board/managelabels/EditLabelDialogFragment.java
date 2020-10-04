@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.deck.ui.board.managelabels;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -59,7 +58,7 @@ public class EditLabelDialogFragment extends BrandedDialogFragment {
 
         dialogBuilder.setTitle(getString(R.string.edit_tag, label.getTitle()));
         dialogBuilder.setPositiveButton(R.string.simple_save, (dialog, which) -> {
-            this.label.setColor(Color.parseColor(binding.colorChooser.getSelectedColor().substring(1)));
+            this.label.setColor(binding.colorChooser.getSelectedColor());
             this.label.setTitle(binding.input.getText().toString());
             listener.onLabelUpdated(this.label);
         });
