@@ -37,9 +37,13 @@ public interface CardDao extends GenericDao<Card> {
     @Query("SELECT * FROM card WHERE accountId = :accountId AND archived = 0 AND stackId = :localStackId and status<>3 order by `order`, createdAt asc")
     LiveData<List<FullCard>> getFullCardsForStack(final long accountId, final long localStackId);
 
-    @Transaction                                                                                // v not deleted!
+    @Transaction
     @RawQuery(observedEntities = Card.class)
     LiveData<List<FullCard>> getFilteredFullCardsForStack(SupportSQLiteQuery query);
+
+    @Transaction
+    @RawQuery(observedEntities = Card.class)
+    List<FullCard> getFilteredFullCardsForStackDirectly(SupportSQLiteQuery query);
 
     @Transaction
     @Query("SELECT * FROM card WHERE accountId = :accountId AND stackId = :localStackId order by `order`, createdAt asc")
