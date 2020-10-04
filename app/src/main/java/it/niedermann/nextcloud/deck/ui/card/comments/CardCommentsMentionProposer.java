@@ -93,6 +93,7 @@ public class CardCommentsMentionProposer implements TextWatcher {
 
                                 Glide.with(avatar.getContext())
                                         .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + avatarSize)
+                                        .placeholder(R.drawable.ic_person_grey600_24dp)
                                         .error(R.drawable.ic_person_grey600_24dp)
                                         .apply(RequestOptions.circleCropTransform())
                                         .into(avatar);
