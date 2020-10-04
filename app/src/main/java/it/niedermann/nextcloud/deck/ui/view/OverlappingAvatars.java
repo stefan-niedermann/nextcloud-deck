@@ -72,6 +72,7 @@ public class OverlappingAvatars extends RelativeLayout {
             avatar.requestLayout();
             Glide.with(context)
                     .load(account.getUrl() + "/index.php/avatar/" + Uri.encode(assignedUsers.get(avatarCount).getUid()) + "/" + avatarSize)
+                    .placeholder(R.drawable.ic_person_grey600_24dp)
                     .error(R.drawable.ic_person_grey600_24dp)
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatar);
