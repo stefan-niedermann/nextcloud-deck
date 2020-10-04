@@ -12,6 +12,11 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
 
 public class FilterInformation implements Serializable {
+
+    public enum EArchiveStatus{
+        ALL, ARCHIVED, NON_ARCHIVED
+    }
+
     @NonNull
     private EDueType dueType = EDueType.NO_FILTER;
     private boolean noAssignedLabel = false;
@@ -20,6 +25,9 @@ public class FilterInformation implements Serializable {
     private List<User> users = new ArrayList<>();
     @NonNull
     private List<Label> labels = new ArrayList<>();
+
+    @NonNull
+    private EArchiveStatus archiveStatus = EArchiveStatus.ALL;
 
     public FilterInformation() {
         // Default constructor
@@ -32,6 +40,7 @@ public class FilterInformation implements Serializable {
             this.labels.addAll(filterInformation.getLabels());
             this.noAssignedUser = filterInformation.isNoAssignedUser();
             this.noAssignedLabel = filterInformation.isNoAssignedLabel();
+            this.archiveStatus = filterInformation.getArchiveStatus();
         }
     }
 
@@ -86,15 +95,23 @@ public class FilterInformation implements Serializable {
         this.noAssignedLabel = noAssignedLabel;
     }
 
-    @NonNull
+    public void setArchiveStatus(EArchiveStatus archiveStatus) {
+        this.archiveStatus = archiveStatus;
+    }
+
+    public EArchiveStatus getArchiveStatus() {
+        return archiveStatus;
+    }
+
     @Override
     public String toString() {
         return "FilterInformation{" +
                 "dueType=" + dueType +
-                ", noAssignedUser=" + noAssignedUser +
                 ", noAssignedLabel=" + noAssignedLabel +
+                ", noAssignedUser=" + noAssignedUser +
                 ", users=" + users +
                 ", labels=" + labels +
+                ", archiveStatus=" + archiveStatus +
                 '}';
     }
 
