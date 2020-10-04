@@ -7,6 +7,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
+import it.niedermann.nextcloud.deck.exceptions.DeckException;
 import it.niedermann.nextcloud.deck.exceptions.OfflineException;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
@@ -149,6 +150,9 @@ public class CardDataProvider extends AbstractSyncDataProvider<FullCard> {
 
     @Override
     public void createOnServer(ServerAdapter serverAdapter, DataBaseAdapter dataBaseAdapter, long accountId, IResponseCallback<FullCard> responder, FullCard entity) {
+        if (stack.getId() == null) {
+            throw new DeckException(DeckException.Hint.DEPENDENCY_NOT_SYNCED_YET, "Stack for this Card is not synced yet. Perform a full sync (pull to referesh) as soon as you are online again.");
+        }
         entity.getCard().setStackId(stack.getId());
 //        if (board != null && stack != null && board.getId() != null && stack.getId() != null) {
             serverAdapter.createCard(board.getId(), stack.getId(), entity.getCard(), responder);
