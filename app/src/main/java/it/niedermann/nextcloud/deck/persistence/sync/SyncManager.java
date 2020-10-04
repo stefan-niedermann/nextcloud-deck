@@ -551,8 +551,8 @@ public class SyncManager {
 
                     @SuppressLint("MissingSuperCall")
                     @Override
-                    public void onError(Throwable throwable) {
-                        liveData.postError(throwable, fullBoard);
+                    public void onError(Throwable throwable, FullBoard entity) {
+                        liveData.postError(throwable, entity);
                     }
                 });
             }

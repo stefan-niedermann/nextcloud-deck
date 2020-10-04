@@ -85,7 +85,7 @@ public class DataPropagationHelper {
                 public void onError(Throwable throwable) {
                     super.onError(throwable);
                     new Thread(() -> {
-                        callback.onError(throwable);
+                        callback.onError(throwable, entity);
                     }).start();
                 }
             }, entity);
