@@ -25,9 +25,8 @@ public class FilterInformation implements Serializable {
     private List<User> users = new ArrayList<>();
     @NonNull
     private List<Label> labels = new ArrayList<>();
-
     @NonNull
-    private EArchiveStatus archiveStatus = EArchiveStatus.ALL;
+    private EArchiveStatus archiveStatus = EArchiveStatus.NON_ARCHIVED;
 
     public FilterInformation() {
         // Default constructor
@@ -36,6 +35,7 @@ public class FilterInformation implements Serializable {
     public FilterInformation(@Nullable FilterInformation filterInformation) {
         if (filterInformation != null) {
             this.dueType = filterInformation.getDueType();
+            this.archiveStatus = filterInformation.getArchiveStatus();
             this.users.addAll(filterInformation.getUsers());
             this.labels.addAll(filterInformation.getLabels());
             this.noAssignedUser = filterInformation.isNoAssignedUser();
@@ -95,14 +95,16 @@ public class FilterInformation implements Serializable {
         this.noAssignedLabel = noAssignedLabel;
     }
 
-    public void setArchiveStatus(EArchiveStatus archiveStatus) {
+    public void setArchiveStatus(@NonNull EArchiveStatus archiveStatus) {
         this.archiveStatus = archiveStatus;
     }
 
+    @NonNull
     public EArchiveStatus getArchiveStatus() {
         return archiveStatus;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "FilterInformation{" +
