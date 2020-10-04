@@ -106,23 +106,28 @@ public class DataPropagationHelper {
         provider.deleteInDB(dataBaseAdapter, accountId, entity);
         boolean connected = serverAdapter.hasInternetConnection();
         if (entity.getId() != null && connected) {
-            provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(new Account(accountId)) {
-                @Override
-                public void onResponse(Void response) {
-                    new Thread(() -> {
-                        provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
-                        callback.onResponse(null);
-                    }).start();
-                }
+            try {
+                provider.deleteOnServer(serverAdapter, accountId, new IResponseCallback<Void>(new Account(accountId)) {
+                    @Override
+                    public void onResponse(Void response) {
+                        new Thread(() -> {
+                            provider.deletePhysicallyInDB(dataBaseAdapter, accountId, entity);
+                            callback.onResponse(null);
+                        }).start();
+                    }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    super.onError(throwable);
-                    new Thread(() -> {
-                        callback.onError(throwable);
-                    }).start();
-                }
-            }, entity, dataBaseAdapter);
+                    @Override
+                    public void onError(Throwable throwable) {
+                        super.onError(throwable);
+                        new Thread(() -> {
+                            callback.onError(throwable);
+                        }).start();
+                    }
+                }, entity, dataBaseAdapter);
+            } catch (Throwable t) {
+                callback.onError(t);
+            }
+
         } else {
             callback.onResponse(null);
         }
