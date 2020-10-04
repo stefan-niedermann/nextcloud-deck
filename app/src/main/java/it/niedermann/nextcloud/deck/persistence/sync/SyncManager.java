@@ -528,8 +528,8 @@ public class SyncManager {
     }
 
     @AnyThread
-    public LiveData<FullBoard> createBoard(long accountId, @NonNull Board board) {
-        MutableLiveData<FullBoard> liveData = new MutableLiveData<>();
+    public WrappedLiveData<FullBoard> createBoard(long accountId, @NonNull Board board) {
+        WrappedLiveData<FullBoard> liveData = new WrappedLiveData<>();
         doAsync(() -> {
             Account account = dataBaseAdapter.getAccountByIdDirectly(accountId);
             User owner = dataBaseAdapter.getUserByUidDirectly(accountId, account.getUserName());
@@ -547,6 +547,11 @@ public class SyncManager {
                     @Override
                     public void onResponse(FullBoard response) {
                         liveData.postValue(response);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        liveData.postError(throwable);
                     }
                 });
             }
