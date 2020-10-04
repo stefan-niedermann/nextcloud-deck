@@ -50,6 +50,7 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedTimePickerDialog;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
+import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeDialog;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
@@ -334,17 +335,18 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     private void setupAssignees() {
         adapter = new AssigneeAdapter((user) -> {
             if (viewModel.canEdit()) {
-                viewModel.getFullCard().getAssignedUsers().remove(user);
-                adapter.removeUser(user);
-                ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
-                BrandedSnackbar.make(
-                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
-                        Snackbar.LENGTH_LONG)
-                        .setAction(R.string.simple_undo, v1 -> {
-                            viewModel.getFullCard().getAssignedUsers().add(user);
-                            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-                            adapter.addUser(user);
-                        }).show();
+                CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName());
+//                viewModel.getFullCard().getAssignedUsers().remove(user);
+//                adapter.removeUser(user);
+//                ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
+//                BrandedSnackbar.make(
+//                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
+//                        Snackbar.LENGTH_LONG)
+//                        .setAction(R.string.simple_undo, v1 -> {
+//                            viewModel.getFullCard().getAssignedUsers().add(user);
+//                            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
+//                            adapter.addUser(user);
+//                        }).show();
             }
         }, viewModel.getAccount());
         binding.assignees.setAdapter(adapter);
