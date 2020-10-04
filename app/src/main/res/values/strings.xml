@@ -139,6 +139,7 @@
     <string name="no_lists_yet">No lists yet</string>
     <string name="do_you_want_to_save_your_changes">Do you want to save your changes?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Do you want to archive all cards of %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Do you want to archive all filtered cards of %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">This will permanently delete %1$d card of this list.</item>
         <item quantity="other">This will permanently delete all %1$d cards of this list.</item>

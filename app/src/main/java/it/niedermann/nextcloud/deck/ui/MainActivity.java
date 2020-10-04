@@ -671,7 +671,9 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
                 observeOnce(syncManager.countCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId), MainActivity.this, (numberOfCards) -> {
                     new BrandedAlertDialogBuilder(this)
                             .setTitle(R.string.archive_cards)
-                            .setMessage(getString(R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
+                            .setMessage(getString(FilterInformation.hasActiveFilter(filterViewModel.getFilterInformation().getValue())
+                                    ? R.string.do_you_want_to_archive_all_cards_of_the_filtered_list
+                                    : R.string.do_you_want_to_archive_all_cards_of_the_list, stack.getTitle()))
                             .setPositiveButton(R.string.simple_archive, (dialog, whichButton) -> {
                                 final FilterInformation filterInformation = filterViewModel.getFilterInformation().getValue();
                                 final WrappedLiveData<Void> archiveStackLiveData = syncManager.archiveCardsInStack(mainViewModel.getCurrentAccount().getId(), stackLocalId, filterInformation == null ? new FilterInformation() : filterInformation);
