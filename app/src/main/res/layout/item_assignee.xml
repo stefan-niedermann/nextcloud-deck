@@ -11,6 +11,7 @@
         android:layout_height="@dimen/avatar_size"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_image_grey600_24dp"/>
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_person_grey600_24dp"/>
 
 </FrameLayout>
