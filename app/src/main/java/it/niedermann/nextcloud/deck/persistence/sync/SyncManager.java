@@ -914,9 +914,18 @@ public class SyncManager {
             stack.setBoardId(board.getLocalId());
             fullStack.setStack(stack);
             fullStack.setAccountId(accountId);
-            if (board.getBoard().getId() != null) {
-                new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, getCallbackToLiveDataConverter(account, liveData));
-            }
+            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, new IResponseCallback<FullStack>(account) {
+                @Override
+                public void onResponse(FullStack response) {
+                    liveData.postValue(response);
+                }
+
+                @SuppressLint("MissingSuperCall")
+                @Override
+                public void onError(Throwable throwable, FullStack entity) {
+                    liveData.postError(throwable, entity);
+                }
+            });
         });
         return liveData;
     }

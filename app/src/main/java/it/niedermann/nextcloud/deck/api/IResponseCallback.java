@@ -21,6 +21,11 @@ public abstract class IResponseCallback<T> {
 
     @CallSuper
     public void onError(Throwable throwable) {
+        this.onError(throwable, null);
+    }
+
+    @CallSuper
+    public void onError(Throwable throwable, T locallyCreatedEntity) {
         DeckLog.logError(throwable);
     }
 

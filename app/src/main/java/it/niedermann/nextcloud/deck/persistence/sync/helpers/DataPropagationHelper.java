@@ -52,7 +52,7 @@ public class DataPropagationHelper {
                 @Override
                 public void onError(Throwable throwable) {
                     super.onError(throwable);
-                    new Thread(() -> callback.onError(throwable)).start();
+                    new Thread(() -> callback.onError(throwable, entity)).start();
                 }
             }, entity);
         } else {
