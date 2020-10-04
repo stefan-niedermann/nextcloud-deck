@@ -21,12 +21,12 @@ public abstract class IResponseCallback<T> {
 
     @CallSuper
     public void onError(Throwable throwable) {
-        this.onError(throwable, null);
+        DeckLog.logError(throwable);
     }
 
     @CallSuper
     public void onError(Throwable throwable, T locallyCreatedEntity) {
-        DeckLog.logError(throwable);
+        onError(throwable);
     }
 
     public static <T> IResponseCallback<T> getDefaultResponseCallback(Account account) {
