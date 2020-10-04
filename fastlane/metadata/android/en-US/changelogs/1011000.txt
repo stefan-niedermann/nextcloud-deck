@@ -1,1 +1,2 @@
 - ⚙️ Store colors as integer in database (#556)
+- 📦 Allow archiving cards from filtered results only (#663)
