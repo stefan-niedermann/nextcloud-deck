@@ -36,7 +36,7 @@ public class LabelAutoCompleteAdapter extends AutoCompleteAdapter<Label> {
     public LabelAutoCompleteAdapter(@NonNull ComponentActivity activity, long accountId, long boardId, long cardId) {
         super(activity, accountId, boardId, cardId);
         final String[] colors = activity.getResources().getStringArray(R.array.board_default_colors);
-        @ColorInt int createLabelColor = Color.parseColor(colors[new Random().nextInt(colors.length)].substring(1));
+        @ColorInt int createLabelColor = Color.parseColor(colors[new Random().nextInt(colors.length)]);
         observeOnce(syncManager.getFullBoardById(accountId, boardId), activity, (fullBoard) -> {
             if (fullBoard.getBoard().isPermissionManage()) {
                 canManage = true;
