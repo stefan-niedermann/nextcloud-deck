@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
+
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAssigneeBinding;
 import it.niedermann.nextcloud.deck.model.User;
@@ -27,16 +29,31 @@ public class CardAssigneeDialog extends BrandedDialogFragment {
     private DialogAssigneeBinding binding;
     private EditCardViewModel viewModel;
 
+    @Nullable
+    private CardAssigneeListener cardAssigneeListener = null;
+    @SuppressWarnings("NotNullFieldNotInitialized")
+    @NonNull
     private User user;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
+        if (getParentFragment() instanceof CardAssigneeListener) {
+            this.cardAssigneeListener = (CardAssigneeListener) getParentFragment();
+        } else if (context instanceof CardAssigneeListener) {
+            this.cardAssigneeListener = (CardAssigneeListener) context;
+        }
+
         final Bundle args = requireArguments();
         if (!args.containsKey(KEY_USER)) {
             throw new IllegalArgumentException("Provide at least " + KEY_USER);
         }
-        this.user = (User) args.getSerializable(KEY_USER);
+        final Serializable user = args.getSerializable(KEY_USER);
+        if (user == null) {
+            throw new IllegalArgumentException(KEY_USER + " must not be null.");
+        }
+        this.user = (User) user;
     }
 
     @NonNull
@@ -47,23 +64,25 @@ public class CardAssigneeDialog extends BrandedDialogFragment {
 
         AlertDialog.Builder dialogBuilder = new BrandedAlertDialogBuilder(requireContext());
 
+        if (viewModel.canEdit() && cardAssigneeListener != null) {
+            dialogBuilder.setPositiveButton(R.string.simple_unassign, (d, w) -> cardAssigneeListener.onUnassignUser(user));
+        }
+
         return dialogBuilder
                 .setView(binding.getRoot())
                 .setNeutralButton(R.string.simple_close, null)
-                .setPositiveButton(R.string.simple_unassign, null)
                 .create();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        binding.avatar.post(() -> {
-            Glide.with(binding.avatar.getContext())
-                    .load(viewModel.getAccount().getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + binding.avatar.getWidth())
-                    .placeholder(R.drawable.ic_person_grey600_24dp)
-                    .error(R.drawable.ic_person_grey600_24dp)
-                    .into(binding.avatar);
-        });
+        binding.avatar.post(() -> Glide.with(binding.avatar.getContext())
+                .load(viewModel.getAccount().getUrl() + "/index.php/avatar/" + Uri.encode(user.getUid()) + "/" + binding.avatar.getWidth())
+                .placeholder(R.drawable.ic_person_grey600_24dp)
+                .error(R.drawable.ic_person_grey600_24dp)
+                .into(binding.avatar));
+        binding.displayName.setText(user.getDisplayname());
     }
 
     @Override

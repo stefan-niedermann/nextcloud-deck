@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
@@ -51,6 +52,7 @@ import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
 import it.niedermann.nextcloud.deck.ui.card.LabelAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeDialog;
+import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
@@ -62,7 +64,7 @@ import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.Liv
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
-public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener {
+public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
 
     private FragmentCardEditTabDetailsBinding binding;
     private EditCardViewModel viewModel;
@@ -308,7 +310,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         final Chip chip = new Chip(activity);
         chip.setText(label.getTitle());
         if (viewModel.canEdit()) {
-            chip.setCloseIcon(getResources().getDrawable(R.drawable.ic_close_circle_grey600));
+            chip.setCloseIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_close_circle_grey600));
             chip.setCloseIconVisible(true);
             chip.setOnCloseIconClickListener(v -> {
                 binding.labelsGroup.removeView(chip);
@@ -333,22 +335,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
     }
 
     private void setupAssignees() {
-        adapter = new AssigneeAdapter((user) -> {
-            if (viewModel.canEdit()) {
-                CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName());
-//                viewModel.getFullCard().getAssignedUsers().remove(user);
-//                adapter.removeUser(user);
-//                ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
-//                BrandedSnackbar.make(
-//                        requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
-//                        Snackbar.LENGTH_LONG)
-//                        .setAction(R.string.simple_undo, v1 -> {
-//                            viewModel.getFullCard().getAssignedUsers().add(user);
-//                            ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
-//                            adapter.addUser(user);
-//                        }).show();
-            }
-        }, viewModel.getAccount());
+        adapter = new AssigneeAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
         binding.assignees.setAdapter(adapter);
         binding.assignees.post(() -> {
             @Px final int gutter = dpToPx(requireContext(), R.dimen.spacer_1x);
@@ -427,5 +414,20 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
             binding.projectsTitle.setVisibility(GONE);
             binding.projects.setVisibility(GONE);
         }
+    }
+
+    @Override
+    public void onUnassignUser(@NonNull User user) {
+        viewModel.getFullCard().getAssignedUsers().remove(user);
+        adapter.removeUser(user);
+        ((UserAutoCompleteAdapter) binding.people.getAdapter()).include(user);
+        BrandedSnackbar.make(
+                requireView(), getString(R.string.unassigned_user, user.getDisplayname()),
+                Snackbar.LENGTH_LONG)
+                .setAction(R.string.simple_undo, v1 -> {
+                    viewModel.getFullCard().getAssignedUsers().add(user);
+                    ((UserAutoCompleteAdapter) binding.people.getAdapter()).exclude(user);
+                    adapter.addUser(user);
+                }).show();
     }
 }
