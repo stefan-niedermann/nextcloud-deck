@@ -914,7 +914,9 @@ public class SyncManager {
             stack.setBoardId(board.getLocalId());
             fullStack.setStack(stack);
             fullStack.setAccountId(accountId);
-            new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, getCallbackToLiveDataConverter(account, liveData));
+            if (board.getBoard().getId() != null) {
+                new DataPropagationHelper(serverAdapter, dataBaseAdapter).createEntity(new StackDataProvider(null, board), fullStack, getCallbackToLiveDataConverter(account, liveData));
+            }
         });
         return liveData;
     }
