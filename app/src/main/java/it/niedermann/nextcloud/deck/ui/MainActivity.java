@@ -478,13 +478,15 @@ public class MainActivity extends BrandedActivity implements DeleteStackListener
         final Board boardToCreate = new Board(title, color.startsWith("#") ? color.substring(1) : color);
         boardToCreate.setPermissionEdit(true);
         boardToCreate.setPermissionManage(true);
-        observeOnce(syncManager.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate), this, createdBoard -> {
-            if (createdBoard == null) {
-                BrandedSnackbar.make(binding.coordinatorLayout, "Open Deck in web interface first!", Snackbar.LENGTH_LONG)
-                        // TODO implement action!
-                        // .setAction(R.string.simple_open, v -> ExceptionDialogFragment.newInstance(throwable).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
+
+        final WrappedLiveData<FullBoard> createLiveData = syncManager.createBoard(mainViewModel.getCurrentAccount().getId(), boardToCreate);
+        observeOnce(createLiveData, this, (createdBoard) -> {
+            if (createLiveData.hasError()) {
+                BrandedSnackbar.make(binding.coordinatorLayout, R.string.synchronization_failed, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.simple_more, v -> ExceptionDialogFragment.newInstance(createLiveData.getError(), mainViewModel.getCurrentAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()))
                         .show();
-            } else {
+            }
+            if (createdBoard != null && !createLiveData.hasError()) {
                 boardsList.add(createdBoard.getBoard());
                 setCurrentBoard(createdBoard.getBoard());
 
