@@ -21,7 +21,7 @@ public class AssigneeViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull Account account, @NonNull User user, @Nullable Consumer<User> onClickListener) {
-        ViewUtil.addAvatar(binding.avatar, account.getUrl(), user.getUid(), R.drawable.ic_image_grey600_24dp);
+        ViewUtil.addAvatar(binding.avatar, account.getUrl(), user.getUid(), R.drawable.ic_person_grey600_24dp);
         if(onClickListener != null) {
             itemView.setOnClickListener((v) -> onClickListener.accept(user));
         }

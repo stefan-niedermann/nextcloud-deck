@@ -46,6 +46,7 @@ public final class ViewUtil {
         final String uri = baseUrl + "/index.php/avatar/" + Uri.encode(userId) + "/" + avatarSizeInPx;
         Glide.with(avatar.getContext())
                 .load(uri)
+                .placeholder(errorResource)
                 .error(errorResource)
                 .apply(RequestOptions.circleCropTransform())
                 .into(avatar);
