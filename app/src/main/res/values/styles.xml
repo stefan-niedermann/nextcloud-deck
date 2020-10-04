@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/accent</item>
         <item name="toolbarStyle">@style/toolbarStyle</item>
         <item name="android:windowBackground">?attr/colorPrimary</item>
+        <item name="textAppearanceHeadline1">@style/Deck.TextAppearance.Headline1</item>
     </style>
 
     <style name="toolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
@@ -31,5 +32,9 @@
         <item name="android:windowBackground">@android:color/background_dark</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="Deck.TextAppearance.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">36sp</item>
     </style>
 </resources>

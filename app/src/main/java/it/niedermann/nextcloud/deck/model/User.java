@@ -4,10 +4,12 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+import java.io.Serializable;
+
 import it.niedermann.nextcloud.deck.model.interfaces.AbstractRemoteEntity;
 
 @Entity(inheritSuperIndices = true, indices = {@Index(value = "uid", name = "user_uid")})
-public class User extends AbstractRemoteEntity {
+public class User extends AbstractRemoteEntity implements Serializable {
 
 
     private String primaryKey;

@@ -312,4 +312,6 @@
     <string name="cannot_upload_files_without_permission">Can not upload files without permission</string>
     <string name="clone_cards">Clone cards</string>
     <string name="simple_clone">Clone</string>
+    <string name="user_avatar">User avatar</string>
+    <string name="simple_unassign">Unassign</string>
 </resources>
