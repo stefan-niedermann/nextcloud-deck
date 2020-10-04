@@ -11,7 +11,7 @@
         android:layout_height="200dp"
         android:contentDescription="@string/user_avatar"
         android:scaleType="centerCrop"
-        android:background="@color/bg_assignee" />
+        android:background="@color/bg_info_box" />
 
     <TextView
         android:padding="?dialogPreferredPadding"

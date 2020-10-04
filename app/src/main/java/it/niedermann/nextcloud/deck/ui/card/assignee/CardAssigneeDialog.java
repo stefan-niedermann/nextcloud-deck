@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.deck.ui.card.assignee;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDeleteAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.card.EditCardViewModel;
+
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 
 public class CardAssigneeDialog extends BrandedDialogFragment {
 
@@ -84,6 +87,7 @@ public class CardAssigneeDialog extends BrandedDialogFragment {
         final CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.setColorSchemeColors(isDarkTheme(context) ? Color.LTGRAY : Color.DKGRAY);
         circularProgressDrawable.start();
 
         binding.avatar.post(() -> Glide.with(binding.avatar.getContext())
