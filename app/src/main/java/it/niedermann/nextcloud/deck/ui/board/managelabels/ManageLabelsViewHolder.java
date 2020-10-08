@@ -16,6 +16,7 @@ public class ManageLabelsViewHolder extends RecyclerView.ViewHolder {
     public ManageLabelsViewHolder(ItemManageLabelBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
+        this.binding.label.setClickable(false);
     }
 
     public void bind(@NonNull Label label, @NonNull ManageLabelListener listener) {

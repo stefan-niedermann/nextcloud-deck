@@ -73,6 +73,7 @@ public class FilterLabelsAdapter extends RecyclerView.Adapter<FilterLabelsAdapte
         LabelViewHolder(@NonNull ItemFilterLabelBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.label.setClickable(false);
         }
 
         void bind(final Label label) {

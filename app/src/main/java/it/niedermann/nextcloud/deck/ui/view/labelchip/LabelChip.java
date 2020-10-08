@@ -39,6 +39,7 @@ public class LabelChip extends Chip {
         setTextStartPadding(gutter);
         setTextEndPadding(gutter);
         setChipEndPadding(gutter);
+        setClickable(false);
 
         try {
             int labelColor = label.getColor();

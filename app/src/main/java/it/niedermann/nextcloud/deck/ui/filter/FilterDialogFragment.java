@@ -47,7 +47,8 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        indicator = getResources().getDrawable(R.drawable.circle_grey600_8dp);
+        indicator = ContextCompat.getDrawable(requireContext(), R.drawable.circle_grey600_8dp);
+        assert indicator != null;
         indicator.setColorFilter(getResources().getColor(R.color.defaultBrand), PorterDuff.Mode.SRC_ATOP);
 
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
