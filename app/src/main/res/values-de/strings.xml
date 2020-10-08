@@ -114,6 +114,7 @@
     <string name="no_lists_yet">Noch keine Listen vorhanden</string>
     <string name="do_you_want_to_save_your_changes">Möchten Sie Ihre Änderungen speichern?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Möchten Sie alle Karten von %1$s archivieren?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Möchten Sie alle gefilterten Karten von %1$s archivieren?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Dies wird %1$d Karte permanent aus dieser Liste löschen.</item>
         <item quantity="other">Dies wird %1$d Karten permanent aus dieser Liste löschen.</item>
@@ -285,4 +286,8 @@
     <string name="project_type_room">Talk-Raum</string>
     <string name="simple_move">Verschieben</string>
     <string name="cannot_upload_files_without_permission">Dateien können nicht ohne Berechtigung hochgeladen werden</string>
-    </resources>
+    <string name="clone_cards">Karten klonen</string>
+    <string name="simple_clone">Klonen</string>
+    <string name="user_avatar"> Benutzer-Avatar</string>
+    <string name="simple_unassign">Zuordnung</string>
+</resources>

@@ -114,6 +114,7 @@
     <string name="no_lists_yet">Ni še dodanega seznama</string>
     <string name="do_you_want_to_save_your_changes">Ali želite shraniti spremembe?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Ali želite arhivirati vse naloge %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Ali želite arhivirati vse filtrirane naloge %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">S tem boste trajno izbrisali %1$d nalogo tega seznama.</item>
         <item quantity="two">S tem boste trajno izbrisali %1$d nalogi tega seznama.</item>
@@ -292,5 +293,9 @@
     <string name="single_card">Enojna naloga</string>
     <string name="project_type_room">Klepetalnica</string>
     <string name="simple_move">Premakni</string>
-    <string name="cannot_upload_files_without_permission">Ne morem naložiti datoteke brez dovoljenja</string>
-    </resources>
+    <string name="cannot_upload_files_without_permission">Brez ustreznih dovoljenj ni mogoče naložiti datoteke</string>
+    <string name="clone_cards">Kloniraj nalogo</string>
+    <string name="simple_clone">Kloniraj</string>
+    <string name="user_avatar">Podoba uporabnika</string>
+    <string name="simple_unassign">Odstrani</string>
+</resources>

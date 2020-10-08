@@ -57,7 +57,7 @@
     <string name="about_testers_title">Probadores</string>
     <string name="about_source_title">Código fonte</string>
     <string name="about_source">Este proxecto está aloxado en GitHub: %1$s</string>
-    <string name="about_issues_title">Incidentes</string>
+    <string name="about_issues_title">Incidencias</string>
     <string name="about_issues">Vostede pode informar de fallos, propoñer melloras e solicitar funcionalidades na ferramenta de seguimento de erros do GitHub: %1$s</string>
     <string name="about_translate_title">Traducir</string>
     <string name="about_translate">Únase ao equipo Nextcloud en Transifex e axúdenos a traducir esta aplicación: %1$s</string>
@@ -114,6 +114,7 @@
     <string name="no_lists_yet">Non hai listas</string>
     <string name="do_you_want_to_save_your_changes">Confirma que quere gardar os cambios?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Quere arquivar todas as tarxetas de %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Quere arquivar todas as tarxetas filtradas de %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Isto eliminará de xeito permanente %1$d tarxeta desta lista.</item>
         <item quantity="other">Isto eliminará de xeito permanente as %1$d tarxetas desta lista.</item>
@@ -285,4 +286,8 @@
     <string name="project_type_room">Sala de conversas</string>
     <string name="simple_move">Mover</string>
     <string name="cannot_upload_files_without_permission">Non é posíbel enviar ficheiros sen permiso</string>
-    </resources>
+    <string name="clone_cards">Clonar tarxetas</string>
+    <string name="simple_clone">Clonar</string>
+    <string name="user_avatar">Avatar do usuario</string>
+    <string name="simple_unassign">Desasignar</string>
+</resources>
