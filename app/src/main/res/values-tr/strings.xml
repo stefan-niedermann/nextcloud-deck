@@ -285,4 +285,5 @@
     <string name="project_type_room">Talk odası</string>
     <string name="simple_move">Taşı</string>
     <string name="cannot_upload_files_without_permission">İzin olmadan dosya yüklenemez</string>
-    </resources>
+    <string name="simple_unassign">Atamayı kaldır</string>
+</resources>

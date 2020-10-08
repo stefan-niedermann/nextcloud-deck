@@ -231,4 +231,5 @@
     <string name="project_type_file">文件</string>
     <string name="projects_title">项目</string>
     <string name="simple_move">移动</string>
-    </resources>
+    <string name="simple_unassign">取消分配</string>
+</resources>

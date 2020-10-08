@@ -114,6 +114,7 @@
     <string name="no_lists_yet">Ancora nessun elenco</string>
     <string name="do_you_want_to_save_your_changes">Vuoi salvare le tue modifiche?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Vuoi archiviare tutte le schede di %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Vuoi archiviare tutte le schede filtrate di %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Questo eliminerà definitivamente %1$d scheda di questo elenco</item>
         <item quantity="other">Questo eliminerà definitivamente %1$d schede di questo elenco</item>
@@ -285,4 +286,8 @@
     <string name="project_type_room">Stanza di Talk</string>
     <string name="simple_move">Sposta</string>
     <string name="cannot_upload_files_without_permission">Impossible caricare file senza permesso</string>
-    </resources>
+    <string name="clone_cards">Clona schede</string>
+    <string name="simple_clone">Clona</string>
+    <string name="user_avatar">Avatar dell\'utente</string>
+    <string name="simple_unassign">Rimuovi assegnazione</string>
+</resources>

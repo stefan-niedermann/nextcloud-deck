@@ -257,4 +257,5 @@
     <string name="project_type_file">Fil</string>
     <string name="projects_title">Projekt</string>
     <string name="simple_move">Flytta</string>
-    </resources>
+    <string name="simple_unassign">Ta bort tilldelning</string>
+</resources>
