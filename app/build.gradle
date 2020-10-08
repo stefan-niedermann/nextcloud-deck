@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "it.niedermann.nextcloud.deck"
-        minSdkVersion 17
+        minSdkVersion 18
         targetSdkVersion 29
         versionCode 1011000
         versionName "1.11.0"
