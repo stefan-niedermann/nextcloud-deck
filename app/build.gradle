@@ -53,8 +53,8 @@ android {
 
 dependencies {
     // Single-Sign-On
-//    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.2'
-    implementation 'com.github.desperateCoder:Android-SingleSignOn:231-void-return-type-SNAPSHOT'
+    implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.3'
+    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:0.0.5'
 
     // --------------------
     // --- UI-Libraries ---
@@ -63,7 +63,6 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-    implementation project(path: ':glide-sso-integration')
 
     // Markdown
     implementation 'com.yydcdut:markdown-processor:0.1.3'

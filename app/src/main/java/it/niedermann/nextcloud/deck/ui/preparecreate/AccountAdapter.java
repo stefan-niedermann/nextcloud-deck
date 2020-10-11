@@ -11,11 +11,11 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.net.URL;
 
-import it.niedermann.android.glidesso.SingleSignOnUrl;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateAccountBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 

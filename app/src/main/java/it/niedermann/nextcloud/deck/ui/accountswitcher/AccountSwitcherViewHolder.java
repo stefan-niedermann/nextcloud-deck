@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import it.niedermann.android.glidesso.SingleSignOnUrl;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemAccountChooseBinding;
 import it.niedermann.nextcloud.deck.model.Account;
+import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
