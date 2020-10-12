@@ -9,7 +9,7 @@ import androidx.annotation.Px;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
 
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 
 @SuppressLint("ViewConstructor")
 public class CompactLabelChip extends LabelChip {

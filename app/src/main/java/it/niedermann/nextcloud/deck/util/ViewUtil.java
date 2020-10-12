@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.ocs.comment.Mention;
 
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 
 public final class ViewUtil {
@@ -39,7 +40,7 @@ public final class ViewUtil {
     }
 
     public static void addAvatar(@NonNull ImageView avatar, @NonNull String baseUrl, @NonNull String userId, @DrawableRes int errorResource) {
-        addAvatar(avatar, baseUrl, userId, DimensionUtil.dpToPx(avatar.getContext(), R.dimen.avatar_size), errorResource);
+        addAvatar(avatar, baseUrl, userId, dpToPx(avatar.getContext(), R.dimen.avatar_size), errorResource);
     }
 
     public static void addAvatar(@NonNull ImageView avatar, @NonNull String baseUrl, @NonNull String userId, @Px int avatarSizeInPx, @DrawableRes int errorResource) {
@@ -121,7 +122,7 @@ public final class ViewUtil {
             Glide.with(context)
                     .asBitmap()
                     .placeholder(R.drawable.ic_person_grey600_24dp)
-                    .load(account.getUrl() + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/" + DimensionUtil.dpToPx(context, R.dimen.icon_size_details))
+                    .load(account.getUrl() + "/index.php/avatar/" + messageBuilder.subSequence(spanStart + 1, spanEnd).toString() + "/" + dpToPx(context, R.dimen.icon_size_details))
                     .apply(RequestOptions.circleCropTransform())
                     .into(new CustomTarget<Bitmap>() {
                         @Override

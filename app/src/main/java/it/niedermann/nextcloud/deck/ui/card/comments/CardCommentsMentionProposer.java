@@ -25,8 +25,8 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.comments.util.CommentsUtil;
 
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class CardCommentsMentionProposer implements TextWatcher {
 

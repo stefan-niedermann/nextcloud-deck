@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
 
-import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
+import static it.niedermann.android.util.ClipboardUtil.copyToClipboard;
 
 public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
     AttachmentViewHolder(@NonNull View itemView) {

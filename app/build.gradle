@@ -54,7 +54,8 @@ android {
 dependencies {
     // Single-Sign-On
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.5.3'
-    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:0.0.5'
+    implementation 'com.github.stefan-niedermann.nextcloud-commons:sso-glide:0.0.7'
+    implementation 'com.github.stefan-niedermann:android-commons:0.0.4'
 
     // --------------------
     // --- UI-Libraries ---

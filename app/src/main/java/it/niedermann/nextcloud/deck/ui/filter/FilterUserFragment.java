@@ -16,8 +16,8 @@ import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 import static java.util.Objects.requireNonNull;
 
 public class FilterUserFragment extends Fragment implements SelectionListener<User> {

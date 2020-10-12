@@ -16,7 +16,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Label;
 import it.niedermann.nextcloud.deck.ui.view.labelchip.LabelChip;
 
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 
 public abstract class LabelLayout extends FlexboxLayout {
 

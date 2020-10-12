@@ -22,7 +22,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 
 public class OverlappingAvatars extends RelativeLayout {
     final int maxAvatarCount;

@@ -60,9 +60,9 @@ import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 import static android.text.format.DateFormat.getDateFormat;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class CardDetailsFragment extends BrandedFragment implements OnDateSetListener, OnTimeSetListener, CardAssigneeListener {
 

@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.deck.model.enums.ActivityType;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 
-import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
+import static it.niedermann.android.util.ClipboardUtil.copyToClipboard;
 
 public class CardActivityViewHolder extends RecyclerView.ViewHolder {
     public ItemActivityBinding binding;

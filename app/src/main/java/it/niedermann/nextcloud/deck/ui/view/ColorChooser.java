@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.WidgetColorChooserBinding;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 
 public class ColorChooser extends LinearLayout {
 

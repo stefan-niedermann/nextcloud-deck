@@ -15,7 +15,7 @@ import it.niedermann.nextcloud.deck.databinding.ItemAccountChooseBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 
 public class AccountSwitcherViewHolder extends RecyclerView.ViewHolder {
 

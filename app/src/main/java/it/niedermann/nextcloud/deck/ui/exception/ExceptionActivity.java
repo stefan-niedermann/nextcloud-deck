@@ -14,7 +14,7 @@ import it.niedermann.nextcloud.deck.databinding.ActivityExceptionBinding;
 import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
-import static it.niedermann.nextcloud.deck.util.ClipboardUtil.copyToClipboard;
+import static it.niedermann.android.util.ClipboardUtil.copyToClipboard;
 
 public class ExceptionActivity extends AppCompatActivity {
 

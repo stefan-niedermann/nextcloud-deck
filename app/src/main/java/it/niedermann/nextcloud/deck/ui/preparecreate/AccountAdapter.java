@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.deck.databinding.ItemPrepareCreateAccountBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 
 public class AccountAdapter extends AbstractAdapter<Account> {
 

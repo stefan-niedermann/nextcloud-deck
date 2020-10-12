@@ -25,9 +25,9 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
 import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.MainActivity.ACTIVITY_MANAGE_ACCOUNTS;
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
 
 public class AccountSwitcherDialog extends BrandedDialogFragment {
 

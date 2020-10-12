@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.nextcloud.deck.util.DimensionUtil.dpToPx;
+import static it.niedermann.android.util.DimensionUtil.dpToPx;
 
 public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
 
