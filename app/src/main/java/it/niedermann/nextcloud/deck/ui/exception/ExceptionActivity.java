@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityExceptionBinding;
 import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
@@ -35,7 +36,7 @@ public class ExceptionActivity extends AppCompatActivity {
         }
 
         final TipsAdapter adapter = new TipsAdapter(this::startActivity);
-        final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.getDebugInfos(this, throwable);
+        final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
 
         binding.tips.setAdapter(adapter);
         binding.tips.setNestedScrollingEnabled(false);

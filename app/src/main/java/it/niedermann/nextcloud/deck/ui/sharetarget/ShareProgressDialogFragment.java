@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
+import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogShareProgressBinding;
 import it.niedermann.nextcloud.deck.exceptions.UploadAttachmentFailedException;
@@ -70,7 +71,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
                 binding.errorReportButton.setOnClickListener((v) -> {
                     final StringBuilder debugInfos = new StringBuilder(exceptionsCount + " attachments failed to upload:");
                     for (Throwable t : exceptions) {
-                        debugInfos.append(getDebugInfos(requireContext(), t));
+                        debugInfos.append(getDebugInfos(requireContext(), t, BuildConfig.FLAVOR));
                     }
                     ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException(debugInfos.toString()), null)
                             .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());

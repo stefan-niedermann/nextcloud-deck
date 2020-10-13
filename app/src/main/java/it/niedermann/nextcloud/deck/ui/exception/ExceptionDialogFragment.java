@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 
+import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogExceptionBinding;
@@ -52,7 +53,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
         final TipsAdapter adapter = new TipsAdapter((actionIntent) -> requireActivity().startActivity(actionIntent));
 
-        final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), throwable, account == null ? null : account.getServerDeckVersion());
+        final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), throwable, BuildConfig.FLAVOR, account == null ? null : account.getServerDeckVersion());
 
         binding.tips.setAdapter(adapter);
         binding.stacktrace.setText(debugInfos);
