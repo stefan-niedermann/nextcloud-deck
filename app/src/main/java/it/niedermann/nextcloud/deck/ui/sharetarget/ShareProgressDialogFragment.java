@@ -22,7 +22,7 @@ import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
 
 import static android.graphics.PorterDuff.Mode;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.util.ExceptionUtil.getDebugInfos;
+import static it.niedermann.nextcloud.exception.ExceptionUtil.getDebugInfos;
 
 public class ShareProgressDialogFragment extends BrandedDialogFragment {
 
@@ -70,7 +70,7 @@ public class ShareProgressDialogFragment extends BrandedDialogFragment {
                 binding.errorReportButton.setOnClickListener((v) -> {
                     final StringBuilder debugInfos = new StringBuilder(exceptionsCount + " attachments failed to upload:");
                     for (Throwable t : exceptions) {
-                        debugInfos.append(getDebugInfos(requireContext(), t, null));
+                        debugInfos.append(getDebugInfos(requireContext(), t));
                     }
                     ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException(debugInfos.toString()), null)
                             .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());

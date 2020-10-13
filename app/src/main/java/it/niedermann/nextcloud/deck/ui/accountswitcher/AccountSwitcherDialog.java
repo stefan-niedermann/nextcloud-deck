@@ -16,14 +16,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
+import com.nextcloud.android.sso.ui.UiExceptionManager;
 
+import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
-import it.niedermann.nextcloud.deck.util.ExceptionUtil;
 
 import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -76,7 +77,10 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
             try {
                 AccountImporter.pickNewAccount(requireActivity());
             } catch (NextcloudFilesAppNotInstalledException e) {
-                ExceptionUtil.handleNextcloudFilesAppNotInstalledException(requireContext(), e);
+                UiExceptionManager.showDialogForException(requireContext(), e);
+                DeckLog.warn("=============================================================");
+                DeckLog.warn("Nextcloud app is not installed. Cannot choose account");
+                DeckLog.logError(e);
             } catch (AndroidGetAccountsPermissionNotGranted e) {
                 AccountImporter.requestAndroidAccountPermissionsAndPickAccount(requireActivity());
             }
