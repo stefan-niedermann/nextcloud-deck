@@ -36,7 +36,7 @@ public class ExceptionActivity extends AppCompatActivity {
         }
 
         final TipsAdapter adapter = new TipsAdapter(this::startActivity);
-        final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
+        final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.INSTANCE.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
 
         binding.tips.setAdapter(adapter);
         binding.tips.setNestedScrollingEnabled(false);
