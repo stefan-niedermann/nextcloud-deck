@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">致谢</string>
     <string name="about_contribution_tab_title">贡献</string>
     <string name="about_license_tab_title">授权</string>
-
-    <string name="copied_to_clipboard">复制到剪贴板</string>
-
     <string name="seconds_ago">几秒前</string>
     <string name="edit">编辑</string>
     <string name="label_labels">选择标签</string>
@@ -154,7 +151,6 @@
     <string name="maintenance_mode_explanation">服务器 %1$s 正处于维护模式。请联系你的管理员或稍后再试。</string>
     <string name="share_add_to_card">添加到卡片</string>
     <string name="share_success">成功将 %1$s 添加到 %2$s</string>
-    <string name="could_not_copy_to_clipboard">无法复制到剪贴板</string>
     <string name="add_comment">添加评论</string>
     <string name="card_edit_comments">评论</string>
     <string name="no_comments_yet">还没有评论</string>

@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Заслуге</string>
     <string name="about_contribution_tab_title">Допринос</string>
     <string name="about_license_tab_title">Лиценца</string>
-
-    <string name="copied_to_clipboard">Копирано у клипборд</string>
-
     <string name="seconds_ago">пре неколико секунди</string>
     <string name="edit">Измени</string>
     <string name="label_labels">Одаберите ознаке</string>
@@ -114,6 +111,7 @@
     <string name="no_lists_yet">Нема још спискова</string>
     <string name="do_you_want_to_save_your_changes">Да ли желите да сачувате измене?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Да ли желите да архивирате све картице са %1$s?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Да ли желите да архивирате све филтриране картице са %1$s?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Овим ћете заувек обрисати %1$d картицу са овог списка.</item>
         <item quantity="few">Овим ћете заувек обрисати %1$d картице са овог списка.</item>
@@ -160,7 +158,6 @@
     <string name="maintenance_mode_explanation">Сервер %1$s је тренутно у режиму одржавања. Контактирајте администратора или покушајте касније.</string>
     <string name="share_add_to_card">Додај на картицу</string>
     <string name="share_success">Успешно додат %1$s на %2$s</string>
-    <string name="could_not_copy_to_clipboard">Не могу да копирам у оставу</string>
     <string name="add_comment">Додај коментар</string>
     <string name="card_edit_comments">Коментари</string>
     <string name="no_comments_yet">Још нема коментара</string>
@@ -289,5 +286,8 @@
     <string name="project_type_room">Причаоница</string>
     <string name="simple_move">Помери</string>
     <string name="cannot_upload_files_without_permission">Не могу да отпремим фајлове без дозвола</string>
+    <string name="clone_cards">Клонирај картице</string>
+    <string name="simple_clone">Клонирај</string>
+    <string name="user_avatar">Кориснички аватар</string>
     <string name="simple_unassign">Уклони доделу</string>
 </resources>

@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Zásluhy</string>
     <string name="about_contribution_tab_title">Príspevok</string>
     <string name="about_license_tab_title">Licencia</string>
-
-    <string name="copied_to_clipboard">Skopírované do schránky</string>
-
     <string name="seconds_ago">pred niekoľkými sekundami</string>
     <string name="edit">Upraviť</string>
     <string name="label_labels">Vybrať štítky</string>
@@ -162,7 +159,6 @@
     <string name="maintenance_mode_explanation">Server %1$s je v móde údržby. Kontaktujte svojho správcu alebo to skúste znova neskôr.</string>
     <string name="share_add_to_card">Pridať do košíka</string>
     <string name="share_success">%1$s úspešne pridané do %2$s</string>
-    <string name="could_not_copy_to_clipboard">Nepodarilo sa skopírovať do schránky</string>
     <string name="add_comment">Pridať komentár</string>
     <string name="card_edit_comments">Komentáre</string>
     <string name="no_comments_yet">Zatiaľ žiadne komentáre</string>

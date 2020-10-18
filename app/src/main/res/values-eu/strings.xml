@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Kredituak</string>
     <string name="about_contribution_tab_title">Lagundu!</string>
     <string name="about_license_tab_title">Lizentzia</string>
-
-    <string name="copied_to_clipboard">Kopiatu arbelera</string>
-
     <string name="seconds_ago">segundo lehenago</string>
     <string name="edit">Editatu</string>
     <string name="label_labels">Hautatu etiketak</string>
@@ -158,7 +155,6 @@
     <string name="maintenance_mode_explanation">%1$s zerbitzaria mantentze moduan dago. Mesedez jarri harremanetan zure administratzailearekin edo saiatu berriro.</string>
     <string name="share_add_to_card">Gehitu txartelera</string>
     <string name="share_success">%1$s ondo gehitu da %2$s -ra</string>
-    <string name="could_not_copy_to_clipboard">Ezin izan da arbelera kopiatu</string>
     <string name="add_comment">Gehitu iruzkina</string>
     <string name="card_edit_comments">Iruzkinak</string>
     <string name="no_comments_yet">Iruzkinik ez oraindik</string>

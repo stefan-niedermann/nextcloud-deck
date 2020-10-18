@@ -69,9 +69,6 @@
     <string name="about_credits_tab_title">תודות</string>
     <string name="about_contribution_tab_title">תרומה</string>
     <string name="about_license_tab_title">רישיון</string>
-
-    <string name="copied_to_clipboard">הועתק ללוח הגזירים</string>
-
     <string name="seconds_ago">לפני מספר שניות</string>
     <string name="edit">עריכה</string>
     <string name="label_labels">בחירת תגיות</string>
@@ -158,7 +155,6 @@
     <string name="maintenance_mode_explanation">השרת %1$s נמצא במצב תחזוקה. נא ליצור קשר עם ההנהלה או לנסות מאוחר יותר.</string>
     <string name="share_add_to_card">הוספה לכרטיס</string>
     <string name="share_success">%1$s נוסף בהצלחה אל %2$s</string>
-    <string name="could_not_copy_to_clipboard">לא ניתן להעתיק ללוח הגזירים</string>
     <string name="add_comment">הוספת הערה</string>
     <string name="card_edit_comments">תגובות</string>
     <string name="no_comments_yet">אין הערות עדיין</string>

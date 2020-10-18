@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">クレジット</string>
     <string name="about_contribution_tab_title">貢献</string>
     <string name="about_license_tab_title">ライセンス</string>
-
-    <string name="copied_to_clipboard">クリップボードにコピーされました</string>
-
     <string name="seconds_ago">数秒前</string>
     <string name="edit">編集</string>
     <string name="label_labels">タグを選択..</string>
@@ -156,7 +153,6 @@
     <string name="maintenance_mode_explanation">サーバー%1$sは現在メンテナンスモードです。管理者に問い合わせるか後で試してください。</string>
     <string name="share_add_to_card">カードに追加</string>
     <string name="share_success">%1$sを%2$sに追加できました</string>
-    <string name="could_not_copy_to_clipboard">クリップボードにコピーできませんでした</string>
     <string name="add_comment">コメントを追加</string>
     <string name="card_edit_comments">コメント</string>
     <string name="no_comments_yet">コメントはまだありません</string>

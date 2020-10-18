@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Credits</string>
     <string name="about_contribution_tab_title">Beitrag</string>
     <string name="about_license_tab_title">Lizenz</string>
-
-    <string name="copied_to_clipboard">In die Zwischenablage kopiert</string>
-
     <string name="seconds_ago">Gerade eben</string>
     <string name="edit">Bearbeiten</string>
     <string name="label_labels">Schlagworte auswählen</string>
@@ -159,7 +156,6 @@
     <string name="maintenance_mode_explanation">Der Server %1$s ist momentan im Wartungsmodus. Bitte nehmen Sie Kontakt mit Ihrem Administrator auf oder versuchen Sie es später nochmal!</string>
     <string name="share_add_to_card">Zur Karte hinzufügen</string>
     <string name="share_success">%1$s erfolgreich zu %2$s hinzugefügt</string>
-    <string name="could_not_copy_to_clipboard">Konnte nicht in die Zwischenablage kopieren</string>
     <string name="add_comment">Kommentar hinzufügen</string>
     <string name="card_edit_comments">Kommentare</string>
     <string name="no_comments_yet">Noch keine Kommentare vorhanden</string>
@@ -288,6 +284,6 @@
     <string name="cannot_upload_files_without_permission">Dateien können nicht ohne Berechtigung hochgeladen werden</string>
     <string name="clone_cards">Karten klonen</string>
     <string name="simple_clone">Klonen</string>
-    <string name="user_avatar"> Benutzer-Avatar</string>
-    <string name="simple_unassign">Zuordnung</string>
+    <string name="user_avatar">Benutzer-Avatar</string>
+    <string name="simple_unassign">Zuordnung aufheben</string>
 </resources>

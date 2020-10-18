@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Autorzy</string>
     <string name="about_contribution_tab_title">Wkład</string>
     <string name="about_license_tab_title">Licencja</string>
-
-    <string name="copied_to_clipboard">Skopiowano do schowka</string>
-
     <string name="seconds_ago">przed chwilą</string>
     <string name="edit">Edytuj</string>
     <string name="label_labels">Wybierz etykietę</string>
@@ -163,7 +160,6 @@
     <string name="maintenance_mode_explanation">Serwer %1$s jest obecnie w trybie konserwacji. Skontaktuj się z administratorem lub spróbuj ponownie później.</string>
     <string name="share_add_to_card">Dodaj do karty</string>
     <string name="share_success">Pomyślnie dodano %1$s do %2$s</string>
-    <string name="could_not_copy_to_clipboard">Nie można skopiować do schowka</string>
     <string name="add_comment">Dodaj komentarz</string>
     <string name="card_edit_comments">Komentarze</string>
     <string name="no_comments_yet">Brak komentarzy</string>
