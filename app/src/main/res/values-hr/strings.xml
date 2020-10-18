@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Zasluge</string>
     <string name="about_contribution_tab_title">Doprinos</string>
     <string name="about_license_tab_title">Licenca</string>
-
-    <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
-
     <string name="seconds_ago">prije nekoliko sekundi</string>
     <string name="edit">Uredi</string>
     <string name="label_labels">Odaberite oznake</string>
@@ -160,7 +157,6 @@
     <string name="maintenance_mode_explanation">Poslužitelj %1$s trenutno je u načinu održavanja. Obratite se svom administratoru ili pokušajte kasnije.</string>
     <string name="share_add_to_card">Dodaj kartici</string>
     <string name="share_success">%1$s uspješno dodano %2$s</string>
-    <string name="could_not_copy_to_clipboard">Kopiranje u međuspremnik nije uspjelo</string>
     <string name="add_comment">Dodaj komentar</string>
     <string name="card_edit_comments">Komentari</string>
     <string name="no_comments_yet">Još nema komentara</string>

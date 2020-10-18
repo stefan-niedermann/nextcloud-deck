@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Сообщество</string>
     <string name="about_contribution_tab_title">Участие</string>
     <string name="about_license_tab_title">Лицензия</string>
-
-    <string name="copied_to_clipboard">Скопировано в буфер</string>
-
     <string name="seconds_ago">менее минуты</string>
     <string name="edit">Править</string>
     <string name="label_labels">Выбор меток</string>
@@ -162,7 +159,6 @@
     <string name="maintenance_mode_explanation">Сервер %1$s в режиме обслуживания. Свяжитесь с вашим администратором или повторите попытку позже.</string>
     <string name="share_add_to_card">Добавить в карточку</string>
     <string name="share_success">%1$s добавлено в %2$s</string>
-    <string name="could_not_copy_to_clipboard">Не удалось скопировать в буфер обмена.</string>
     <string name="add_comment">Добавить комментарий</string>
     <string name="card_edit_comments">Комментарии</string>
     <string name="no_comments_yet">Пока никто не прокомментировал</string>

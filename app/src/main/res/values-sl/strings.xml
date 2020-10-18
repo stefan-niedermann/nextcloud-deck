@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Zasluge</string>
     <string name="about_contribution_tab_title">Skupnost</string>
     <string name="about_license_tab_title">Dovoljenje</string>
-
-    <string name="copied_to_clipboard">Kopirano v odložišče</string>
-
     <string name="seconds_ago">pred nekaj sekundami</string>
     <string name="edit">Uredi</string>
     <string name="label_labels">Izbor oznak</string>
@@ -163,7 +160,6 @@
     <string name="maintenance_mode_explanation">Strežnik %1$s je trenutno v načinu vzdrževanja. Stopite v stik s skrbnikom, ali pa poskusite kasneje.</string>
     <string name="share_add_to_card">Dodaj k nalogi</string>
     <string name="share_success">Uspešno dodano %1$s v %2$s</string>
-    <string name="could_not_copy_to_clipboard">Predmeta ni mogoče kopirati v odložišče</string>
     <string name="add_comment">Dodaj opombo</string>
     <string name="card_edit_comments">Opombe</string>
     <string name="no_comments_yet">Ni še dodane nobene opombe</string>

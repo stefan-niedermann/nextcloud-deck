@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Emeği Geçenler</string>
     <string name="about_contribution_tab_title">Katkıda Bulunanlar</string>
     <string name="about_license_tab_title">Lisans</string>
-
-    <string name="copied_to_clipboard">Panoya kopyalandı</string>
-
     <string name="seconds_ago">saniye önce</string>
     <string name="edit">Düzenle</string>
     <string name="label_labels">Etiketleri Seçin</string>
@@ -114,6 +111,7 @@
     <string name="no_lists_yet">Henüz bir liste yok</string>
     <string name="do_you_want_to_save_your_changes">Değişiklikleri kaydetmek ister misiniz?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Tüm %1$s kartlarını arşivlemek ister misiniz?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Tüm %1$s süzülmüş kartlarını arşivlemek ister misiniz?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Bu işlem, bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
         <item quantity="other">Bu işlem bu listedeki tüm %1$d kartı kalıcı olarak silecek.</item>
@@ -158,7 +156,6 @@
     <string name="maintenance_mode_explanation">%1$s sunucusu şu anda bakım kipinde. Lütfen yöneticinizle görüşün ya da daha sonra yeniden deneyin.</string>
     <string name="share_add_to_card">Karta ekle</string>
     <string name="share_success">%1$s, %2$s üzerine eklendi</string>
-    <string name="could_not_copy_to_clipboard">Panoya kopyalanamadı</string>
     <string name="add_comment">Yorum ekle</string>
     <string name="card_edit_comments">Yorumlar</string>
     <string name="no_comments_yet">Henüz bir yorum yok</string>
@@ -285,5 +282,8 @@
     <string name="project_type_room">Talk odası</string>
     <string name="simple_move">Taşı</string>
     <string name="cannot_upload_files_without_permission">İzin olmadan dosya yüklenemez</string>
+    <string name="clone_cards">Kartları kopyala</string>
+    <string name="simple_clone">Kopyala</string>
+    <string name="user_avatar">Kullanıcı avatarı</string>
     <string name="simple_unassign">Atamayı kaldır</string>
 </resources>

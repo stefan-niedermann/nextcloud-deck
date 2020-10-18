@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Zásluhy</string>
     <string name="about_contribution_tab_title">Zapojení se</string>
     <string name="about_license_tab_title">Licence</string>
-
-    <string name="copied_to_clipboard">Zkopírováno do schránky</string>
-
     <string name="seconds_ago">před několika sekundami</string>
     <string name="edit">Upravit</string>
     <string name="label_labels">Vybrat štítky</string>
@@ -163,7 +160,6 @@
     <string name="maintenance_mode_explanation">Na serveru %1$s v tuto chvíli probíhá údržba. Obraťte se na jeho správce nebo to zkuste později znovu.</string>
     <string name="share_add_to_card">Přidat do karty</string>
     <string name="share_success">%1$s úspěšně přidáno do %2$s</string>
-    <string name="could_not_copy_to_clipboard">Nedaří se zkopírovat do schránky</string>
     <string name="add_comment">Přidat komentář</string>
     <string name="card_edit_comments">Komentáře</string>
     <string name="no_comments_yet">Zatím žádné komentáře</string>

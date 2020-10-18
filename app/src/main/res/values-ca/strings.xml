@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Crèdits</string>
     <string name="about_contribution_tab_title">Contribució</string>
     <string name="about_license_tab_title">Llicència</string>
-
-    <string name="copied_to_clipboard">S\'ha copiat al porta-retalls</string>
-
     <string name="seconds_ago">fa uns segons</string>
     <string name="edit">Edita</string>
     <string name="label_labels">Selecciona etiquetes</string>
@@ -158,7 +155,6 @@
     <string name="maintenance_mode_explanation">El servidor %1$s és actualment en mode de manteniment. Si us plau, contacteu el vostre administrador o proveu de nou més tard.</string>
     <string name="share_add_to_card">Afegeix a la targeta</string>
     <string name="share_success">S\'ha afegit amb èxit %1$s a %2$s</string>
-    <string name="could_not_copy_to_clipboard">No s\'ha pogut copiar al porta-retalls</string>
     <string name="add_comment">Afegeix un comentari</string>
     <string name="card_edit_comments">Comentaris</string>
     <string name="no_comments_yet">Encara no hi ha comentaris</string>

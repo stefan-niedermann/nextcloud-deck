@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Crédits</string>
     <string name="about_contribution_tab_title">Contribution</string>
     <string name="about_license_tab_title">Licence</string>
-
-    <string name="copied_to_clipboard">Copié dans le presse-papier</string>
-
     <string name="seconds_ago">à l\'instant</string>
     <string name="edit">Modifier</string>
     <string name="label_labels">Sélectionner les étiquettes</string>
@@ -158,7 +155,6 @@
     <string name="maintenance_mode_explanation">Le serveur %1$s est actuellement en maintenance. Veuillez contacter votre administrateur ou réessayer plus tard.</string>
     <string name="share_add_to_card">Ajouter à la carte</string>
     <string name="share_success">Ajout de %1$s à %2$s réussi</string>
-    <string name="could_not_copy_to_clipboard">Impossible de copier dans le presse-papiers</string>
     <string name="add_comment">Ajouter un commentaire</string>
     <string name="card_edit_comments">Commentaires</string>
     <string name="no_comments_yet">Aucun commentaire pour l\'instant</string>

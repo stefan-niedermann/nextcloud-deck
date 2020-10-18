@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Köszönet</string>
     <string name="about_contribution_tab_title">Közreműködés</string>
     <string name="about_license_tab_title">Licenc</string>
-
-    <string name="copied_to_clipboard">Vágólapra másolva</string>
-
     <string name="seconds_ago">pár másodperce</string>
     <string name="edit">Szerkesztés</string>
     <string name="label_labels">Címkék kiválasztása</string>
@@ -114,6 +111,7 @@
     <string name="no_lists_yet">Még nincsenek listák</string>
     <string name="do_you_want_to_save_your_changes">Biztos, hogy menti a változásokat?</string>
     <string name="do_you_want_to_archive_all_cards_of_the_list">Biztos, hogy archiválja a(z) %1$s összes kártyáját?</string>
+    <string name="do_you_want_to_archive_all_cards_of_the_filtered_list">Kívánja a %1$s minden szűrt kártyáját arhiválni?</string>
     <plurals name="do_you_want_to_delete_the_current_list">
         <item quantity="one">Ez véglegesen töröl %1$d kártyát a listából.</item>
         <item quantity="other">Ez véglegesen törli mind a(z) %1$d kártyát a listából.</item>
@@ -158,7 +156,6 @@
     <string name="maintenance_mode_explanation">A(z) %1$s kiszolgáló jelenleg karbantartási módban van. Lépjen kapcsolatba a rendszergazdával vagy próbálja újra.</string>
     <string name="share_add_to_card">Kártyához adás</string>
     <string name="share_success">%1$s sikeresen hozzáadva ehhez: %2$s</string>
-    <string name="could_not_copy_to_clipboard">Nem sikerült a vágólapra másolni</string>
     <string name="add_comment">Hozzászólás hozzáadása</string>
     <string name="card_edit_comments">Hozzászólások</string>
     <string name="no_comments_yet">Még nincsenek hozzászólások</string>
@@ -285,4 +282,8 @@
     <string name="project_type_room">Beszélgetés szoba</string>
     <string name="simple_move">Áthelyezés</string>
     <string name="cannot_upload_files_without_permission">Engedély nélkül nem tölthetők fel fájlok</string>
-    </resources>
+    <string name="clone_cards">Kártyák klónozása</string>
+    <string name="simple_clone">Klónozás</string>
+    <string name="user_avatar">Felhasználói avatar</string>
+    <string name="simple_unassign">Elvétel</string>
+</resources>

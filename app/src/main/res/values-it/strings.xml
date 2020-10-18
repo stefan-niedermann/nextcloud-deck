@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Riconoscimenti</string>
     <string name="about_contribution_tab_title">Contributi</string>
     <string name="about_license_tab_title">Licenza</string>
-
-    <string name="copied_to_clipboard">Copiato negli appunti</string>
-
     <string name="seconds_ago">secondi fa</string>
     <string name="edit">Modifica</string>
     <string name="label_labels">Seleziona etichette</string>
@@ -159,7 +156,6 @@
     <string name="maintenance_mode_explanation">Il server %1$s attualmente è in manutenzione. Contatta l\'amministratore o riprova più tardi.</string>
     <string name="share_add_to_card">Aggiungi a scheda</string>
     <string name="share_success">Aggiunto %1$s a %2$s correttamente</string>
-    <string name="could_not_copy_to_clipboard">Impossibile copiare negli appunti</string>
     <string name="add_comment">Aggiungi commento</string>
     <string name="card_edit_comments">Commenti</string>
     <string name="no_comments_yet">Ancora nessun commento</string>

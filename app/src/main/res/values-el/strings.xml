@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Μνεία</string>
     <string name="about_contribution_tab_title">Συνεισφορά</string>
     <string name="about_license_tab_title"> Άδεια χρήσης </string>
-
-    <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
-
     <string name="seconds_ago"> δευτερόλεπτα πριν </string>
     <string name="edit">Επεξεργασία</string>
     <string name="label_labels">Επιλογή Ετικετών</string>
@@ -158,7 +155,6 @@
     <string name="maintenance_mode_explanation">Ο διακομιστής %1$s είναι σε κατάσταση συντήρησης. Επικοινωνήστε με τον διαχειριστή ή δοκιμάστε αργότερα.</string>
     <string name="share_add_to_card">Προσθήκη στην κάρτα</string>
     <string name="share_success">Επιτυχής προσθήκη %1$s από %2$s</string>
-    <string name="could_not_copy_to_clipboard">Δεν μπορεί να αντιγραφή στο πρόχειρο</string>
     <string name="add_comment">Προσθήκη σχολίου</string>
     <string name="card_edit_comments">Σχόλια</string>
     <string name="no_comments_yet">Δεν υπάρχουν ακόμα σχόλια</string>

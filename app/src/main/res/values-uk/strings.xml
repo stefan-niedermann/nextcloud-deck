@@ -71,9 +71,6 @@
     <string name="about_credits_tab_title">Подяки</string>
     <string name="about_contribution_tab_title">Внесок</string>
     <string name="about_license_tab_title">Ліцензія</string>
-
-    <string name="copied_to_clipboard">Скопійовано</string>
-
     <string name="seconds_ago">секунд тому</string>
     <string name="edit">Редагувати</string>
     <string name="label_labels">Вибрати позначки</string>
@@ -161,7 +158,6 @@
     <string name="maintenance_mode_explanation">Зараз сервер %1$s у режимі технічного обслуговування. Будь ласка, сконтактуйте з вашим адміністратором або спробуйте пізніше.</string>
     <string name="share_add_to_card">Додати до картки</string>
     <string name="share_success">Успішно додано %1$s до %2$s</string>
-    <string name="could_not_copy_to_clipboard">Неможливо скопіювати</string>
     <string name="add_comment">Додати коментар</string>
     <string name="card_edit_comments">Коментарі</string>
     <string name="no_comments_yet">Коментарі відсутні</string>
