@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
 
+import it.niedermann.android.util.ClipboardUtil;
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemCommentBinding;
 import it.niedermann.nextcloud.deck.model.Account;
@@ -21,8 +23,6 @@ import it.niedermann.nextcloud.deck.model.ocs.comment.full.FullDeckComment;
 import it.niedermann.nextcloud.deck.util.DateUtil;
 import it.niedermann.nextcloud.deck.util.ViewUtil;
 
-import static it.niedermann.android.util.ClipboardUtil.copyToClipboard;
-import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.util.ViewUtil.setupMentions;
 
 public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
@@ -35,7 +35,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(@NonNull FullDeckComment comment, @NonNull Account account, @ColorInt int mainColor, @NonNull MenuInflater inflater, @NonNull CommentDeletedListener deletedListener, @NonNull CommentSelectAsReplyListener selectAsReplyListener, @NonNull FragmentManager fragmentManager) {
-        ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
+        ViewUtil.addAvatar(binding.avatar, account.getUrl(), comment.getComment().getActorId(), DimensionUtil.INSTANCE.dpToPx(binding.avatar.getContext(), R.dimen.icon_size_details), R.drawable.ic_person_grey600_24dp);
         binding.message.setText(comment.getComment().getMessage());
         binding.actorDisplayName.setText(comment.getComment().getActorDisplayName());
         binding.creationDateTime.setText(DateUtil.getRelativeDateTimeString(binding.creationDateTime.getContext(), comment.getComment().getCreationDateTime().getTime()));
@@ -43,7 +43,7 @@ public class ItemCommentViewHolder extends RecyclerView.ViewHolder {
 
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             inflater.inflate(R.menu.comment_menu, menu);
-            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(itemView.getContext(), comment.getComment().getMessage()));
+            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> ClipboardUtil.INSTANCE.copyToClipboard(itemView.getContext(), comment.getComment().getMessage()));
             final MenuItem replyMenuItem = menu.findItem(R.id.reply);
             if (comment.getStatusEnum() != DBStatus.LOCAL_EDITED && account.getServerDeckVersionAsObject().supportsCommentsReplys()) {
                 replyMenuItem.setOnMenuItemClickListener(item -> {

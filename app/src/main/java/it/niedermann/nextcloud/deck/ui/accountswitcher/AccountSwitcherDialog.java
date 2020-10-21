@@ -18,6 +18,7 @@ import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGrant
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogAccountSwitcherBinding;
@@ -26,7 +27,6 @@ import it.niedermann.nextcloud.deck.ui.MainViewModel;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 import it.niedermann.nextcloud.deck.ui.manageaccounts.ManageAccountsActivity;
 
-import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.MainActivity.ACTIVITY_MANAGE_ACCOUNTS;
 
@@ -53,7 +53,7 @@ public class AccountSwitcherDialog extends BrandedDialogFragment {
         binding.check.setSelected(true);
 
         Glide.with(requireContext())
-                .load(viewModel.getCurrentAccount().getAvatarUrl(dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
+                .load(viewModel.getCurrentAccount().getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
                 .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .error(R.drawable.ic_baseline_account_circle_24)
                 .apply(RequestOptions.circleCropTransform())

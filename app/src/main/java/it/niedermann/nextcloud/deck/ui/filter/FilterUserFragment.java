@@ -10,13 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterAssigneesBinding;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.MainViewModel;
 
-import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static java.util.Objects.requireNonNull;
 
@@ -36,7 +36,7 @@ public class FilterUserFragment extends Fragment implements SelectionListener<Us
         observeOnce(new SyncManager(requireContext()).findProposalsForUsersToAssign(mainViewModel.getCurrentAccount().getId(), mainViewModel.getCurrentBoardLocalId()), requireActivity(), (users) -> {
             binding.users.setNestedScrollingEnabled(false);
             binding.users.setAdapter(new FilterUserAdapter(
-                    dpToPx(requireContext(), R.dimen.avatar_size),
+                    DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size),
                     mainViewModel.getCurrentAccount(),
                     users,
                     requireNonNull(filterViewModel.getFilterInformationDraft().getValue()).getUsers(),

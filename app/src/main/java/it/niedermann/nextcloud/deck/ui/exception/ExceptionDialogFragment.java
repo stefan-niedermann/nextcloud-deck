@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 
+import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -18,8 +19,6 @@ import it.niedermann.nextcloud.deck.databinding.DialogExceptionBinding;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
 import it.niedermann.nextcloud.exception.ExceptionUtil;
-
-import static it.niedermann.android.util.ClipboardUtil.copyToClipboard;
 
 public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
@@ -66,7 +65,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
                 .setView(binding.getRoot())
                 .setTitle(R.string.error_dialog_title)
                 .setPositiveButton(android.R.string.copy, (a, b) -> {
-                    copyToClipboard(requireContext(), getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
+                    ClipboardUtil.INSTANCE.copyToClipboard(requireContext(), getString(R.string.simple_exception), "```\n" + debugInfos + "\n```");
                     a.dismiss();
                 })
                 .setNegativeButton(R.string.simple_close, null)

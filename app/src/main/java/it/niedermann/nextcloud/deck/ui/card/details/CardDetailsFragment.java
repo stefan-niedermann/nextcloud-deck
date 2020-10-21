@@ -37,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.FragmentCardEditTabDetailsBinding;
@@ -60,7 +61,6 @@ import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 import static android.text.format.DateFormat.getDateFormat;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandToEditText;
 
@@ -109,9 +109,9 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
 
         syncManager = new SyncManager(requireContext());
 
-        avatarSize = dpToPx(requireContext(), R.dimen.avatar_size);
+        avatarSize = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size);
         avatarLayoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
-        avatarLayoutParams.setMargins(0, 0, dpToPx(requireContext(), R.dimen.spacer_1x), 0);
+        avatarLayoutParams.setMargins(0, 0, DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x), 0);
 
         setupAssignees();
         setupLabels();
@@ -338,8 +338,8 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         adapter = new AssigneeAdapter((user) -> CardAssigneeDialog.newInstance(user).show(getChildFragmentManager(), CardAssigneeDialog.class.getSimpleName()), viewModel.getAccount());
         binding.assignees.setAdapter(adapter);
         binding.assignees.post(() -> {
-            @Px final int gutter = dpToPx(requireContext(), R.dimen.spacer_1x);
-            final int spanCount = (int) (float) binding.assignees.getWidth() / (dpToPx(requireContext(), R.dimen.avatar_size) + gutter);
+            @Px final int gutter = DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.spacer_1x);
+            final int spanCount = (int) (float) binding.assignees.getWidth() / (DimensionUtil.INSTANCE.dpToPx(requireContext(), R.dimen.avatar_size) + gutter);
             binding.assignees.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
             binding.assignees.addItemDecoration(new AssigneeDecoration(gutter));
         });

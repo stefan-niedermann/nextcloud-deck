@@ -8,13 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.BuildConfig;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityExceptionBinding;
 import it.niedermann.nextcloud.deck.ui.exception.tips.TipsAdapter;
 import it.niedermann.nextcloud.exception.ExceptionUtil;
-
-import static it.niedermann.android.util.ClipboardUtil.copyToClipboard;
 
 public class ExceptionActivity extends AppCompatActivity {
 
@@ -43,7 +42,7 @@ public class ExceptionActivity extends AppCompatActivity {
         binding.toolbar.setTitle(R.string.error);
         binding.message.setText(throwable.getMessage());
         binding.stacktrace.setText(debugInfo);
-        binding.copy.setOnClickListener((v) -> copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
+        binding.copy.setOnClickListener((v) -> ClipboardUtil.INSTANCE.copyToClipboard(this, getString(R.string.simple_exception), "```\n" + debugInfo + "\n```"));
         binding.close.setOnClickListener((v) -> finish());
 
         adapter.setThrowable(this, null, throwable);

@@ -12,14 +12,13 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.Attachment;
 import it.niedermann.nextcloud.deck.model.enums.DBStatus;
 import it.niedermann.nextcloud.deck.ui.branding.BrandingUtil;
 import it.niedermann.nextcloud.deck.util.AttachmentUtil;
-
-import static it.niedermann.android.util.ClipboardUtil.copyToClipboard;
 
 public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
     AttachmentViewHolder(@NonNull View itemView) {
@@ -43,7 +42,7 @@ public abstract class AttachmentViewHolder extends RecyclerView.ViewHolder {
                 menu.findItem(android.R.id.copyUrl).setVisible(false);
             } else {
                 menu.findItem(android.R.id.copyUrl).setVisible(true);
-                menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> copyToClipboard(itemView.getContext(), attachment.getFilename(), attachmentUri));
+                menu.findItem(android.R.id.copyUrl).setOnMenuItemClickListener(item -> ClipboardUtil.INSTANCE.copyToClipboard(itemView.getContext(), attachment.getFilename(), attachmentUri));
             }
         });
     }

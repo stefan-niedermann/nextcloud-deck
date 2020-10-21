@@ -19,13 +19,13 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.model.User;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.comments.util.CommentsUtil;
 
-import static it.niedermann.android.util.DimensionUtil.dpToPx;
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
 
 public class CardCommentsMentionProposer implements TextWatcher {
@@ -58,9 +58,9 @@ public class CardCommentsMentionProposer implements TextWatcher {
         this.mentionProposerWrapper = mentionProposerWrapper;
         this.mentionProposer = avatarProposer;
         syncManager = new SyncManager(editText.getContext());
-        avatarSize = dpToPx(mentionProposer.getContext(), R.dimen.avatar_size_small);
+        avatarSize = DimensionUtil.INSTANCE.dpToPx(mentionProposer.getContext(), R.dimen.avatar_size_small);
         layoutParams = new LinearLayout.LayoutParams(avatarSize, avatarSize);
-        layoutParams.setMarginEnd(dpToPx(mentionProposer.getContext(), R.dimen.spacer_1x));
+        layoutParams.setMarginEnd(DimensionUtil.INSTANCE.dpToPx(mentionProposer.getContext(), R.dimen.spacer_1x));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class CardCommentsMentionProposer implements TextWatcher {
                 observeOnce(syncManager.searchUserByUidOrDisplayName(account.getId(), boardLocalId, -1L, mentionProposal.first), owner, (users) -> {
                     if (!users.equals(this.users)) {
                         mentionProposer.removeAllViews();
-                        if(users.size() > 0) {
+                        if (users.size() > 0) {
                             mentionProposerWrapper.setVisibility(View.VISIBLE);
                             for (User user : users) {
                                 final ImageView avatar = new ImageView(mentionProposer.getContext());

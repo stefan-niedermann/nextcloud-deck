@@ -7,13 +7,12 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ItemActivityBinding;
 import it.niedermann.nextcloud.deck.model.enums.ActivityType;
 import it.niedermann.nextcloud.deck.model.ocs.Activity;
 import it.niedermann.nextcloud.deck.util.DateUtil;
-
-import static it.niedermann.android.util.ClipboardUtil.copyToClipboard;
 
 public class CardActivityViewHolder extends RecyclerView.ViewHolder {
     public ItemActivityBinding binding;
@@ -31,7 +30,7 @@ public class CardActivityViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(View::showContextMenu);
         itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             inflater.inflate(R.menu.activity_menu, menu);
-            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> copyToClipboard(context, activity.getSubject()));
+            menu.findItem(android.R.id.copy).setOnMenuItemClickListener(item -> ClipboardUtil.INSTANCE.copyToClipboard(context, activity.getSubject()));
         });
         switch (ActivityType.findById(activity.getType())) {
             case CHANGE:
