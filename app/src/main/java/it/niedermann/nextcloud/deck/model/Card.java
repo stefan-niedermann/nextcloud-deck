@@ -8,6 +8,8 @@ import androidx.room.Index;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -204,8 +206,18 @@ public class Card extends AbstractRemoteEntity {
         return dueDate;
     }
 
+    @Ignore
+    public LocalDateTime getDueDateLocalDateTime() {
+        return LocalDateTime.ofInstant(getDueDate().toInstant(), ZoneId.systemDefault());
+    }
+
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    @Ignore
+    public void setDueDateLocalDateTime(@NonNull LocalDateTime dateTime) {
+        this.dueDate = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public int getOverdue() {
