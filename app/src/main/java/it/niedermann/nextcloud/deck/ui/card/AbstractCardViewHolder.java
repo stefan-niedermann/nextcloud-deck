@@ -21,6 +21,7 @@ import com.google.android.material.card.MaterialCardView;
 
 import org.jetbrains.annotations.Contract;
 
+import java.time.ZoneId;
 import java.util.List;
 
 import it.niedermann.nextcloud.deck.R;
@@ -104,7 +105,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
     private static void setupDueDate(@NonNull TextView cardDueDate, @NonNull Card card) {
         final Context context = cardDueDate.getContext();
         cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().getTime()));
-        ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate());
+        ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     }
 
     @Contract("null, _ -> false")
