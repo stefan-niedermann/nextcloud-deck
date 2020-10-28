@@ -52,13 +52,13 @@ public class BrandedDatePickerDialog extends DatePickerDialog implements Branded
      *
      * @param callBack    How the parent is notified that the date is set.
      * @param year        The initial year of the dialog.
-     * @param monthOfYear The initial month of the dialog.
+     * @param monthOfYear The initial month of the dialog. [0 - 11]
      * @param dayOfMonth  The initial day of the dialog.
      * @return a new DatePickerDialog instance.
      */
     public static DatePickerDialog newInstance(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth) {
         DatePickerDialog ret = new BrandedDatePickerDialog();
-        ret.initialize(callBack, year, monthOfYear, dayOfMonth);
+        ret.initialize(callBack, year, monthOfYear - 1, dayOfMonth);
         return ret;
     }
 

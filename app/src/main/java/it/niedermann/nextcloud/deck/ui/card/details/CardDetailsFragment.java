@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -33,6 +32,10 @@ import com.yydcdut.markdown.syntax.edit.EditFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -177,42 +180,6 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         }
     }
 
-    private TimePickerDialog createTimePickerDialogFromDate(
-            @Nullable OnTimeSetListener listener,
-            @Nullable Date date
-    ) {
-        int hourOfDay = 0;
-        int minutes = 0;
-
-        if (date != null) {
-            hourOfDay = date.getHours();
-            minutes = date.getMinutes();
-        }
-        return BrandedTimePickerDialog.newInstance(listener, hourOfDay, minutes, true);
-    }
-
-    private DatePickerDialog createDatePickerDialogFromDate(
-            @Nullable OnDateSetListener listener,
-            @Nullable Date date
-    ) {
-        int year;
-        int month;
-        int day;
-
-        Calendar cal = Calendar.getInstance();
-        if (date != null) {
-            cal.setTime(date);
-            year = cal.get(Calendar.YEAR);
-            month = cal.get(Calendar.MONTH);
-            day = cal.get(Calendar.DAY_OF_MONTH);
-        } else {
-            year = cal.get(Calendar.YEAR);
-            month = cal.get(Calendar.MONTH);
-            day = cal.get(Calendar.DAY_OF_MONTH);
-        }
-        return BrandedDatePickerDialog.newInstance(listener, year, month, day);
-    }
-
     private void setupDueDate() {
         if (this.viewModel.getFullCard().getCard().getDueDate() != null) {
             binding.dueDateDate.setText(dateFormat.format(this.viewModel.getFullCard().getCard().getDueDate()));
@@ -227,19 +194,25 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         if (viewModel.canEdit()) {
 
             binding.dueDateDate.setOnClickListener(v -> {
+                final LocalDate date;
                 if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null) {
-                    createDatePickerDialogFromDate(this, viewModel.getFullCard().getCard().getDueDate()).show(getChildFragmentManager(), BrandedDatePickerDialog.class.getCanonicalName());
+                    date = LocalDateTime.ofInstant(viewModel.getFullCard().getCard().getDueDate().toInstant(), ZoneId.systemDefault()).toLocalDate();
                 } else {
-                    createDatePickerDialogFromDate(this, null).show(getChildFragmentManager(), BrandedDatePickerDialog.class.getCanonicalName());
+                    date = LocalDate.now();
                 }
+                BrandedDatePickerDialog.newInstance(this, date.getYear(), date.getMonthValue(), date.getDayOfMonth())
+                        .show(getChildFragmentManager(), BrandedDatePickerDialog.class.getCanonicalName());
             });
 
             binding.dueDateTime.setOnClickListener(v -> {
+                final LocalTime time;
                 if (viewModel.getFullCard() != null && viewModel.getFullCard().getCard() != null) {
-                    createTimePickerDialogFromDate(this, viewModel.getFullCard().getCard().getDueDate()).show(getChildFragmentManager(), BrandedTimePickerDialog.class.getCanonicalName());
+                    time = LocalDateTime.ofInstant(viewModel.getFullCard().getCard().getDueDate().toInstant(), ZoneId.systemDefault()).toLocalTime();
                 } else {
-                    createTimePickerDialogFromDate(this, null).show(getChildFragmentManager(), BrandedTimePickerDialog.class.getCanonicalName());
+                    time = LocalTime.now();
                 }
+                BrandedTimePickerDialog.newInstance(this, time.getHour(), time.getMinute(), true)
+                        .show(getChildFragmentManager(), BrandedTimePickerDialog.class.getCanonicalName());
             });
 
             binding.clearDueDate.setOnClickListener(v -> {
