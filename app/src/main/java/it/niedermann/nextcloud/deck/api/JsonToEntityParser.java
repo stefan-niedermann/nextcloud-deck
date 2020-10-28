@@ -6,10 +6,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import org.threeten.bp.DateTimeUtils;
-import org.threeten.bp.ZonedDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
-
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -650,7 +648,7 @@ public class JsonToEntityParser {
             return null;
         } else {
             String dateAsString = jsonElement.getAsString();
-            return DateTimeUtils.toDate(ZonedDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(dateAsString)).toInstant());
+            return new Date(ZonedDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(dateAsString)).toInstant().toEpochMilli());
         }
     }
 
