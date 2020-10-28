@@ -11,9 +11,9 @@ import androidx.annotation.Px;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.chip.Chip;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 @SuppressLint("ViewConstructor")
 public class LabelChip extends Chip {
@@ -45,7 +45,7 @@ public class LabelChip extends Chip {
             int labelColor = label.getColor();
             ColorStateList c = ColorStateList.valueOf(labelColor);
             setChipBackgroundColor(c);
-            setTextColor(ColorUtil.getForegroundColorForBackgroundColor(labelColor));
+            setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor));
         } catch (IllegalArgumentException e) {
             DeckLog.logError(e);
         }

@@ -37,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
@@ -55,7 +56,6 @@ import it.niedermann.nextcloud.deck.ui.card.UserAutoCompleteAdapter;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeDialog;
 import it.niedermann.nextcloud.deck.ui.card.assignee.CardAssigneeListener;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionDialogFragment;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.MarkDownUtil;
 
 import static android.text.format.DateFormat.getDateFormat;
@@ -321,7 +321,7 @@ public class CardDetailsFragment extends BrandedFragment implements OnDateSetLis
         try {
             final int labelColor = label.getColor();
             chip.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
-            final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
+            final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
             chip.setTextColor(color);
 
             if (chip.getCloseIcon() != null) {

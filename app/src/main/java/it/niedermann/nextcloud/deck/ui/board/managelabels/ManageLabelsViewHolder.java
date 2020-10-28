@@ -5,9 +5,9 @@ import android.content.res.ColorStateList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.databinding.ItemManageLabelBinding;
 import it.niedermann.nextcloud.deck.model.Label;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 public class ManageLabelsViewHolder extends RecyclerView.ViewHolder {
     private ItemManageLabelBinding binding;
@@ -23,7 +23,7 @@ public class ManageLabelsViewHolder extends RecyclerView.ViewHolder {
         binding.label.setText(label.getTitle());
         final int labelColor = label.getColor();
         binding.label.setChipBackgroundColor(ColorStateList.valueOf(labelColor));
-        final int color = ColorUtil.getForegroundColorForBackgroundColor(labelColor);
+        final int color = ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(labelColor);
         binding.label.setTextColor(color);
         binding.delete.setOnClickListener((v) -> listener.requestDelete(label));
         binding.editText.setOnClickListener((v) -> listener.requestEdit(label));

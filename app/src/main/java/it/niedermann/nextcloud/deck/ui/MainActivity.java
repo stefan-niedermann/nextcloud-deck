@@ -114,8 +114,8 @@ import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.applyBrandTo
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.clearBrandColors;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.saveBrandColors;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficient;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficient;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ABOUT;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ADD_BOARD;
 import static it.niedermann.nextcloud.deck.util.DrawerMenuUtil.MENU_ID_ARCHIVED_BOARDS;

@@ -20,6 +20,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.DialogFilterBinding;
 import it.niedermann.nextcloud.deck.model.enums.EDueType;
@@ -28,7 +29,6 @@ import it.niedermann.nextcloud.deck.ui.branding.BrandedAlertDialogBuilder;
 import it.niedermann.nextcloud.deck.ui.branding.BrandedDialogFragment;
 
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.getContrastRatio;
 
 public class FilterDialogFragment extends BrandedDialogFragment {
 
@@ -107,7 +107,7 @@ public class FilterDialogFragment extends BrandedDialogFragment {
     @Override
     public void applyBrand(int mainColor) {
         @ColorInt final int finalMainColor = getSecondaryForegroundColorDependingOnTheme(binding.tabLayout.getContext(), mainColor);
-        final boolean contrastRatioIsSufficient = getContrastRatio(mainColor, ContextCompat.getColor(binding.tabLayout.getContext(), R.color.primary)) > 1.7d;
+        final boolean contrastRatioIsSufficient = ColorUtil.INSTANCE.getContrastRatio(mainColor, ContextCompat.getColor(binding.tabLayout.getContext(), R.color.primary)) > 1.7d;
         binding.tabLayout.setSelectedTabIndicatorColor(contrastRatioIsSufficient ? mainColor : finalMainColor);
         indicator.setColorFilter(contrastRatioIsSufficient ? mainColor : finalMainColor, PorterDuff.Mode.SRC_ATOP);
     }

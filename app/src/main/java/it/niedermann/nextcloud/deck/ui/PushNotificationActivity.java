@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.IResponseCallback;
@@ -20,7 +21,6 @@ import it.niedermann.nextcloud.deck.model.Account;
 import it.niedermann.nextcloud.deck.persistence.sync.SyncManager;
 import it.niedermann.nextcloud.deck.ui.card.EditActivity;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 import it.niedermann.nextcloud.deck.util.ProjectUtil;
 
 import static it.niedermann.nextcloud.deck.persistence.sync.adapters.db.util.LiveDataHelper.observeOnce;
@@ -200,7 +200,7 @@ public class PushNotificationActivity extends AppCompatActivity {
         @ColorInt final int mainColor = account.getColor();
         try {
             binding.submit.setBackgroundColor(mainColor);
-            binding.submit.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(mainColor));
+            binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(mainColor));
         } catch (Throwable t) {
             DeckLog.logError(t);
         }

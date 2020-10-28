@@ -14,6 +14,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import java.util.List;
 
+import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.deck.DeckLog;
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.databinding.ActivityPickStackBinding;
@@ -25,13 +26,12 @@ import it.niedermann.nextcloud.deck.ui.branding.Branded;
 import it.niedermann.nextcloud.deck.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackFragment;
 import it.niedermann.nextcloud.deck.ui.pickstack.PickStackListener;
-import it.niedermann.nextcloud.deck.util.ColorUtil;
 
 import static androidx.lifecycle.Transformations.switchMap;
 import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.getSecondaryForegroundColorDependingOnTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
-import static it.niedermann.nextcloud.deck.util.ColorUtil.contrastRatioIsSufficientBigAreas;
+import static it.niedermann.nextcloud.deck.util.DeckColorUtil.contrastRatioIsSufficientBigAreas;
 
 public abstract class PickStackActivity extends AppCompatActivity implements Branded, PickStackListener {
 
@@ -105,7 +105,7 @@ public abstract class PickStackActivity extends AppCompatActivity implements Bra
                         ? mainColor
                         : isDarkTheme(this) ? Color.WHITE : Color.BLACK;
                 DrawableCompat.setTintList(binding.submit.getBackground(), ColorStateList.valueOf(finalMainColor));
-                binding.submit.setTextColor(ColorUtil.getForegroundColorForBackgroundColor(finalMainColor));
+                binding.submit.setTextColor(ColorUtil.INSTANCE.getForegroundColorForBackgroundColor(finalMainColor));
                 binding.cancel.setTextColor(getSecondaryForegroundColorDependingOnTheme(this, mainColor));
             }
         } catch (Throwable t) {
