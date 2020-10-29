@@ -210,7 +210,7 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             case REQUEST_CODE_PICK_CONTACT: {
                 if (resultCode == RESULT_OK) {
                     try {
-                        uploadNewAttachment(VCardUtil.getVCardContentUri(requireContext()));
+                        uploadNewAttachment(VCardUtil.getVCardContentUri(requireContext(), Uri.parse(data.getDataString())));
                     } catch (Exception e) {
                         ExceptionDialogFragment.newInstance(e, viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     }
@@ -220,10 +220,6 @@ public class CardAttachmentsFragment extends BrandedFragment implements Attachme
             case REQUEST_CODE_CAPTURE_IMAGE:
             case REQUEST_CODE_ADD_FILE: {
                 if (resultCode == RESULT_OK) {
-                    if (data == null) {
-                        ExceptionDialogFragment.newInstance(new UploadAttachmentFailedException("Intent data is null"), viewModel.getAccount()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                        return;
-                    }
                     try {
                         uploadNewAttachment(data.getData());
                     } catch (Exception e) {

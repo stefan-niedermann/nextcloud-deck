@@ -16,9 +16,9 @@ public class VCardUtil {
         // You shall not pass
     }
 
-    public static Uri getVCardContentUri(@NonNull Context context) throws NoSuchElementException {
+    public static Uri getVCardContentUri(@NonNull Context context, @NonNull Uri contactUri) throws NoSuchElementException {
         final ContentResolver cr = context.getContentResolver();
-        try (final Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)) {
+        try (final Cursor cursor = cr.query(contactUri, null, null, null, null)) {
             if (cursor.moveToFirst()) {
                 final String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
                 return Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_VCARD_URI, lookupKey);
