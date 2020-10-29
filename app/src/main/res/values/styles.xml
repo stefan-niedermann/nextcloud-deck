@@ -7,6 +7,15 @@
         <item name="toolbarStyle">@style/toolbarStyle</item>
         <item name="android:windowBackground">?attr/colorPrimary</item>
         <item name="textAppearanceHeadline1">@style/Deck.TextAppearance.Headline1</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_rounded</item>
     </style>
 
     <style name="toolbarStyle" parent="@style/Widget.AppCompat.Toolbar">

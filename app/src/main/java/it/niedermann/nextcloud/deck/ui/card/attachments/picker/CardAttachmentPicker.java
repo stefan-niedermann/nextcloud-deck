@@ -1,15 +1,23 @@
 package it.niedermann.nextcloud.deck.ui.card.attachments.picker;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -18,9 +26,11 @@ import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.deck.databinding.DialogAttachmentPickerBinding;
 import it.niedermann.nextcloud.deck.ui.branding.Branded;
+import it.niedermann.nextcloud.deck.util.DeckColorUtil;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static it.niedermann.nextcloud.deck.DeckApplication.isDarkTheme;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.isBrandingEnabled;
 import static it.niedermann.nextcloud.deck.ui.branding.BrandingUtil.readBrandMainColor;
 
@@ -44,25 +54,31 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
         }
     }
 
+    @NonNull
     @Override
-    public void onStart() {
-        super.onStart();
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
 
-        @Nullable Context context = getContext();
-        if (context != null && isBrandingEnabled(context)) {
-            applyBrand(readBrandMainColor(context));
+        if (SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            if (!isDarkTheme(requireContext())) {
+                setWhiteNavigationBar(dialog);
+            }
         }
+
+        return dialog;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogAttachmentPickerBinding.inflate(inflater, container, false);
+
+        @Nullable Context context = getContext();
+        if (context != null && isBrandingEnabled(context)) {
+            applyBrand(readBrandMainColor(context));
+        }
+
         return binding.getRoot();
     }
 
@@ -99,7 +115,38 @@ public class CardAttachmentPicker extends BottomSheetDialogFragment implements B
                     binding.pickCameraIamge,
                     binding.pickContactIamge,
                     binding.pickFileIamge
-            ).forEach(image -> image.setBackgroundTintList(ColorStateList.valueOf(mainColor)));
+            ).forEach(image -> {
+                image.setBackgroundTintList(ColorStateList.valueOf(mainColor));
+                image.setImageTintList(ColorStateList.valueOf(
+                        DeckColorUtil.contrastRatioIsSufficient(mainColor, Color.WHITE)
+                                ? Color.WHITE
+                                : Color.BLACK
+                ));
+            });
         }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void setWhiteNavigationBar(@NonNull Dialog dialog) {
+        Window window = dialog.getWindow();
+        if (window != null) {
+            DisplayMetrics metrics = new DisplayMetrics();
+            window.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+            GradientDrawable dimDrawable = new GradientDrawable();
+            // ...customize your dim effect here
+
+            GradientDrawable navigationBarDrawable = new GradientDrawable();
+            navigationBarDrawable.setShape(GradientDrawable.RECTANGLE);
+            navigationBarDrawable.setColor(Color.WHITE);
+
+            Drawable[] layers = {dimDrawable, navigationBarDrawable};
+
+            LayerDrawable windowBackground = new LayerDrawable(layers);
+            windowBackground.setLayerInsetTop(1, metrics.heightPixels);
+
+            window.setBackgroundDrawable(windowBackground);
+        }
+    }
+
 }
