@@ -105,7 +105,7 @@ public abstract class AbstractCardViewHolder extends RecyclerView.ViewHolder {
     private static void setupDueDate(@NonNull TextView cardDueDate, @NonNull Card card) {
         final Context context = cardDueDate.getContext();
         cardDueDate.setText(DateUtil.getRelativeDateTimeString(context, card.getDueDate().getTime()));
-        ViewUtil.themeDueDate(context, cardDueDate, card.getDueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        ViewUtil.themeDueDate(context, cardDueDate, card.getDueDateInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     }
 
     @Contract("null, _ -> false")
