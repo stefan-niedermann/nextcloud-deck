@@ -16,11 +16,7 @@ import androidx.preference.PreferenceManager;
 import com.nextcloud.android.sso.api.ParsedResponse;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import it.niedermann.nextcloud.deck.R;
 import it.niedermann.nextcloud.deck.api.ApiProvider;
@@ -54,18 +50,11 @@ import static it.niedermann.nextcloud.deck.util.MimeTypeUtil.TEXT_PLAIN;
 
 public class ServerAdapter {
 
-    private String prefKeyWifiOnly;
-
-    private static final DateFormat API_FORMAT =
-            new SimpleDateFormat("E, dd MMM yyyy hh:mm:ss z", Locale.US);
-
-    static {
-        API_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
-    }
+    private final String prefKeyWifiOnly;
 
     @NonNull
-    private Context applicationContext;
-    private ApiProvider provider;
+    private final Context applicationContext;
+    private final ApiProvider provider;
 
     public ServerAdapter(@NonNull Context applicationContext) {
         this(applicationContext, null);
